@@ -46,6 +46,33 @@ class GeneralFunctionsPage {
     };
   };
 
+  updateTGSuggestedName = (response, name) => {
+    return {
+      ...response,
+      data: [
+        {
+          ...response.data[0],
+          attributes: {
+            ...response.data[0].attributes,
+            suggestedNameDisplay: name,
+          },
+        },
+        ...response.data.slice(1),
+      ],
+    };
+  };
+
+  formatToReadableDate = isoString => {
+    const date = new Date(isoString);
+
+    return new Intl.DateTimeFormat('en-US', {
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(date);
+  };
+
   getDateFormat = (date = new Date()) => {
     const options = {
       year: 'numeric',
@@ -62,7 +89,9 @@ class GeneralFunctionsPage {
   };
 
   verifyPageHeader = text => {
-    cy.get(`h1`).should(`have.text`, text);
+    cy.get(`h1`)
+      .should(`be.visible`)
+      .and(`include.text`, text);
   };
 
   verifyHeaderFocused = () => {

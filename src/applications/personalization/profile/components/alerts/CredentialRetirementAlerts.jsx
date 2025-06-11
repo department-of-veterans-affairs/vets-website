@@ -74,6 +74,7 @@ export const SignInEmailAlert = () => {
       visible={dismissed !== 'true'}
       uswds
       class={!dismissed && 'vads-u-margin-bottom--3'}
+      closeBtnAriaLabel="Close notification"
       closeable
     >
       <div>

@@ -37,6 +37,8 @@ export default {
   lighthouseBenefitsIntake: 'lighthouse_benefits_intake',
   // Login.gov, identity provider
   logingov: 'logingov',
+  // Lighthouse Education Benefits API
+  lighthouseBenefitsEducation: 'lighthouse_benefits_education',
   // Master Veteran Index (source of veteran profile info)
   mvi: 'mvi',
   // My HealtheVet
@@ -57,6 +59,8 @@ export default {
   search: 'search',
   // The Image Management System (education forms)
   tims: 'tims',
+  // Travel Pay API
+  travelPay: 'travel_pay',
   // Online appointment scheduling
   vaos: 'vaos',
   // Online appointment scheduling warning message

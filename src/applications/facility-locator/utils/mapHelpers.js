@@ -6,8 +6,6 @@ import {
   isPostcode,
 } from 'platform/utilities/facilities-and-mapbox';
 
-import { BOUNDING_RADIUS } from '../constants';
-
 const mbxClient = mbxGeo(mapboxClient);
 
 /** ****************************************************
@@ -44,6 +42,25 @@ export const getBoxCenter = bounds => {
   return {};
 };
 
+// Separated out for unit testing
+export const getPlaceName = response => {
+  if (
+    response.body &&
+    response.body.features &&
+    response.body.features.length > 0
+  ) {
+    const {
+      features: {
+        0: { place_name: placeName },
+      },
+    } = response.body;
+
+    return placeName;
+  }
+
+  return null;
+};
+
 /**
  * Performs a reverse lookup of a geographic coordinate to
  * determine what address exists at the given location.
@@ -60,21 +77,8 @@ export const reverseGeocode = async (lon, lat, types) => {
     .reverseGeocode({ query: [lon, lat], types })
     .send()
     .catch();
-  if (
-    response.body &&
-    response.body.features &&
-    response.body.features.length > 0
-  ) {
-    const {
-      features: {
-        0: { place_name: placeName },
-      },
-    } = response.body;
 
-    return placeName;
-  }
-
-  return null;
+  return getPlaceName(response);
 };
 
 /**
@@ -99,35 +103,9 @@ export const reverseGeocodeBox = (
   return reverseGeocode(lon, lat, types.split(','));
 };
 
-/**
- * Generates search criteria from lat/long geocoordinates.
- */
-export const searchCriteraFromCoords = async (longitude, latitude) => {
-  const response = await mbxClient
-    .reverseGeocode({
-      query: [longitude, latitude],
-      types: ['address'],
-    })
-    .send();
-
-  const { features } = response.body;
-  const placeName = features[0].place_name;
-  const coordinates = features[0].center;
-
-  return {
-    bounds: features[0].bbox || [
-      coordinates[0] - BOUNDING_RADIUS,
-      coordinates[1] - BOUNDING_RADIUS,
-      coordinates[0] + BOUNDING_RADIUS,
-      coordinates[1] + BOUNDING_RADIUS,
-    ],
-    searchString: placeName,
-    position: { longitude, latitude },
-  };
-};
-
 export const searchAddresses = async addressTerm => {
   let types = MAPBOX_QUERY_TYPES;
+
   if (isPostcode(addressTerm?.trim() || '')) {
     types = ['postcode'];
   }
@@ -141,5 +119,6 @@ export const searchAddresses = async addressTerm => {
       proximity: 'ip',
     })
     .send();
+
   return response?.body?.features ?? [];
 };

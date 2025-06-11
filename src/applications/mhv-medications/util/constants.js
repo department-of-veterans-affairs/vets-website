@@ -53,7 +53,7 @@ export const filterOptions = {
     name: 'filter option',
     description: 'Active prescriptions and non-VA medications',
     url:
-      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On hold,Active: Parked,Active: Submitted',
+      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On Hold,Active: Parked,Active: Submitted',
     showingContentDisplayName: ' active',
   },
   [RECENTLY_REQUESTED_FILTER_KEY]: {
@@ -76,7 +76,7 @@ export const filterOptions = {
     label: 'Non-active',
     name: 'filter option',
     description:
-      'Prescriptions that are discontinued, expired, or have an unkown status',
+      'Prescriptions that are discontinued, expired, or have an unknown status',
     url: '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
     showingContentDisplayName: ' non-active',
   },
@@ -183,10 +183,7 @@ export const pdfStatusDefinitions = {
 
 export const pdfDefaultStatusDefinition = [
   {
-    value: `There’s a problem with our system. You can’t manage this prescription online right now.`,
-  },
-  {
-    value: `If you need this prescription now, call your VA pharmacy.`,
+    value: `We can’t access information about this prescription right now.`,
   },
 ];
 
@@ -243,7 +240,8 @@ export const allergyTypes = {
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
 };
 
-export const EMPTY_FIELD = 'None noted';
+export const FIELD_NONE_NOTED = 'None noted';
+export const FIELD_NOT_AVAILABLE = 'Not available';
 
 export const trackingConfig = {
   dhl: {
@@ -262,5 +260,16 @@ export const trackingConfig = {
   usps: {
     label: 'USPS',
     url: 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=',
+  },
+};
+
+export const tooltipNames = {
+  mhvMedicationsTooltipFilterAccordion:
+    'mhv_medications_tooltip_filter_accordion',
+};
+
+export const tooltipHintContent = {
+  filterAccordion: {
+    HINT: 'Filter your list to find a specific medication.',
   },
 };

@@ -43,9 +43,9 @@ const UpcomingAppointmentsList = props => {
     window.scrollTo(0, 0);
     return (
       <div data-testid="no-upcoming-appointments">
-        <h3 className="vads-u-margin-top--0">
+        <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
           {t('we-cant-find-any-upcoming-appointments')}
-        </h3>
+        </h2>
         <p>{t('our-online-check-in-tool-doesnt-include-all')}</p>
         <p>
           <va-link
@@ -72,9 +72,12 @@ const UpcomingAppointmentsList = props => {
         const monthDate = new Date(firstAppointmentStartTime);
         return (
           <div key={firstAppointmentStartTime}>
-            <h3 data-testid="appointments-list-monthyear-heading">
+            <h2
+              data-testid="appointments-list-monthyear-heading"
+              className="vads-u-font-size--h3"
+            >
               {t('date-month-and-year', { date: monthDate })}
-            </h3>
+            </h2>
             {days.map((day, index) => {
               const { appointments } = day;
               const dayStartTime = new Date(appointments[0].startTime);
@@ -85,8 +88,8 @@ const UpcomingAppointmentsList = props => {
                 >
                   <div className="vads-l-row">
                     <div className="vads-l-col--2 vads-u-border-top--1px vads-u-border-color--gray-light">
-                      <h4
-                        className="vads-u-text-align--center vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1p5"
+                      <h3
+                        className="vads-u-text-align--center vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1p5 vads-u-font-size--h4"
                         data-testid="day-label"
                       >
                         <span className="vads-u-font-size--lg vads-u-font-family--serif vads-u-font-weight--bold vads-u-line-height--3">
@@ -94,7 +97,7 @@ const UpcomingAppointmentsList = props => {
                         </span>
                         <br />
                         {t('date-day-of-week', { date: dayStartTime })}
-                      </h4>
+                      </h3>
                     </div>
                     <div className="vads-l-col--10 vads-u-border-top--1px vads-u-border-color--gray-light">
                       <ListWrapper

@@ -1,6 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 
 import {
   ssnOrVaFileNumberNoHintSchema,
@@ -14,6 +15,8 @@ import {
   addressSchema,
   emailUI,
   emailSchema,
+  phoneUI,
+  phoneSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -31,9 +34,9 @@ import {
   CustomSSNReviewPage,
 } from '../helpers/CustomSSN';
 import {
-  internationalPhoneSchema,
-  internationalPhoneUI,
-} from '../../shared/components/InternationalPhone';
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -99,6 +102,10 @@ const formConfig = {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
+            'ui:validations': [
+              (errors, formData) =>
+                validObjectCharsOnly(errors, null, formData, 'veteranFullName'),
+            ],
           },
           messageAriaDescribedby: 'Name and date of birth',
           schema: {
@@ -153,11 +160,17 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               "We'll send any important information about your application to this address.",
-            veteranAddress: addressUI({
-              required: {
-                state: () => true,
+            veteranAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
+                },
               },
             }),
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(errors, null, formData, 'veteranAddress'),
+            ],
           },
           schema: {
             type: 'object',
@@ -201,13 +214,22 @@ const formConfig = {
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(`Home address`),
-            physicalAddress: {
-              ...addressUI({
-                required: {
-                  state: () => true,
+            physicalAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
                 },
-              }),
-            },
+              },
+            }),
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(
+                  errors,
+                  null,
+                  formData,
+                  'physicalAddress',
+                ),
+            ],
           },
           schema: {
             type: 'object',
@@ -233,7 +255,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: internationalPhoneUI(),
+            veteranPhoneNumber: phoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
@@ -241,7 +263,7 @@ const formConfig = {
             required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: internationalPhoneSchema,
+              veteranPhoneNumber: phoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },

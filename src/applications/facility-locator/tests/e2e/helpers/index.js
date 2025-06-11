@@ -91,7 +91,7 @@ export const findSelectInVaSelect = dropdownName =>
     .find('select');
 
 export const vaSelectSelect = (value, dropdownName) =>
-  findSelectInVaSelect(dropdownName).select(value);
+  findSelectInVaSelect(dropdownName).select(value, { force: true });
 
 export const selectFacilityTypeInDropdown = value =>
   vaSelectSelect(value, FACILITY_TYPE_DROPDOWN);

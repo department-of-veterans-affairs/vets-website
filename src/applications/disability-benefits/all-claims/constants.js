@@ -23,6 +23,11 @@ export const START_TEXT = {
   BDD: 'Start the Benefits Disability at Discharge Application',
 };
 
+export const ITF_NOTICE_TEXT = `By clicking the button to start the disability application, you’ll declare
+  your intent to file. This will reserve a potential effective date for when
+  you could start getting benefits. You have 1 year from the day you submit
+  your intent to file to complete your application.`;
+
 export const itfStatuses = {
   active: 'active',
   expired: 'expired',
@@ -414,6 +419,7 @@ export const OFFICIAL_REPORT_TYPES_SUBTITLES = Object.freeze({
   military: 'Military incident reports',
   other: 'Other reporting options',
   none: 'No reports to include',
+  unlisted: 'Other official report type not listed here:',
 });
 
 export const MILITARY_REPORT_TYPES = Object.freeze({
@@ -433,6 +439,21 @@ export const NO_REPORT_TYPE = Object.freeze({
   none: 'I don’t have official reports to include.',
 });
 
+export const OFFICIAL_REPORT_TYPES_HINTS = Object.freeze({
+  military: 'Select any military incident reports filed for this event.',
+  other: 'Select any other types of reports filed for this event.',
+  none:
+    'Select this option if you didn’t have any reports filed, don’t know about any official reports, or prefer not to include them.',
+});
+
+export const POLICE_REPORT_LOCATION_FIELDS = [
+  'agency',
+  'city',
+  'state',
+  'township',
+  'country',
+];
+
 export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
   reassignment: 'workBehaviors',
   absences: 'workBehaviors',
@@ -450,6 +471,12 @@ export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
   misconduct: 'otherBehaviors',
 });
 
+export const ALL_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
+  ...LISTED_BEHAVIOR_TYPES_WITH_SECTION,
+  unlisted: 'otherBehaviors',
+  noChange: 'noBehavioralChange',
+});
+
 export const MH_0781_URL_PREFIX = 'mental-health-form-0781';
 
 export const BEHAVIOR_LIST_SECTION_SUBTITLES = Object.freeze({
@@ -457,13 +484,22 @@ export const BEHAVIOR_LIST_SECTION_SUBTITLES = Object.freeze({
   health: 'Behavioral changes related to health',
   other: 'Other behavioral changes',
   unlisted: 'Other behavioral changes not listed here:',
-  none: 'None',
+  none: 'No behavioral changes to include',
 });
 
 export const TREATMENT_RECEIVED_SUBTITLES = Object.freeze({
   va: 'VA or military treatment providers',
   nonVa: 'Non-VA treatment providers or Vet Centers',
-  none: 'None',
+  none: 'No treatment providers to include',
+});
+
+export const TREATMENT_RECEIVED_HINTS = Object.freeze({
+  va:
+    'Select any VA or military medical provider types where you received treatment for traumatic events.',
+  nonVa:
+    'Select any Non-VA provider types where you received treatment for traumatic events.',
+  none:
+    'Select this option if you didn’t seek treatment for traumatic events with any provider, or prefer not to report them.',
 });
 
 export const TREATMENT_RECEIVED_VA = Object.freeze({
@@ -512,13 +548,24 @@ export const ALL_BEHAVIOR_CHANGE_DESCRIPTIONS = {
   ...BEHAVIOR_CHANGES_OTHER,
 };
 
+export const BEHAVIOR_LIST_HINTS = Object.freeze({
+  work:
+    'Select any work related behavioral changes you experienced after your traumatic events.',
+  health:
+    'Select any health related behavioral changes you experienced after your traumatic events.',
+  other:
+    'Select any other types of behavioral changes you experienced after your traumatic events.',
+  none:
+    'Select this option if you didn’t experience any behavioral changes after your traumatic events, or prefer not to report them.',
+});
+
 export const SUPPORTING_EVIDENCE_SUBTITLES = Object.freeze({
-  reports: 'Reports about your traumatic events',
+  reports: 'Official reports about traumatic events',
   records: 'Records of receiving care after your traumatic events',
   witness: 'Lay or witness statements (also called buddy statements)',
   other: 'Other supporting documents',
   unlisted: 'Other supporting documents not listed here:',
-  none: 'None',
+  none: 'No supporting documents to include',
 });
 
 export const SUPPORTING_EVIDENCE_REPORT = Object.freeze({
@@ -542,4 +589,17 @@ export const SUPPORTING_EVIDENCE_WITNESS = Object.freeze({
 
 export const SUPPORTING_EVIDENCE_OTHER = Object.freeze({
   personal: 'Personal diaries or journals',
+});
+
+export const SUPPORTING_EVIDENCE_HINTS = Object.freeze({
+  reports: 'Select to include official reports about your traumatic events.',
+  records:
+    'Select to include records of receiving care for your traumatic events.',
+  witness:
+    'Select to include lay or witness statements about your traumatic events.',
+  other:
+    'Select to include other supporting documents about your traumatic events.',
+  unlisted: 'Other supporting documents not listed here:',
+  none:
+    'Select this option if you don’t have any supporting documents to include, or prefer not to include them.',
 });

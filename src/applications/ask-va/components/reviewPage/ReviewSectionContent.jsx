@@ -14,7 +14,7 @@ const ReviewSectionContent = ({
 
   return (
     <div
-      className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0 vads-u-margin-bottom--2"
+      className="schemaform-chapter-accordion-content vads-u-padding-top--0 vads-u-margin-bottom--2"
       aria-hidden="false"
     >
       <div className="form-review-panel-page vads-u-margin-bottom--0">
@@ -33,14 +33,12 @@ const ReviewSectionContent = ({
             </div>
           </div>
           <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-            <dl className="vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
-              {removeNullitems.map(item => (
-                <div className="review-row" key={item.name}>
-                  <dt className="">{item.name}</dt>
-                  <dd className="">{item.data}</dd>
-                </div>
-              ))}
-            </dl>
+            {removeNullitems.map(item => (
+              <div className="review-row" key={item.name}>
+                <dt className="">{item.name}</dt>
+                <dd className="">{item.data}</dd>
+              </div>
+            ))}
           </dl>
         </form>
       </div>

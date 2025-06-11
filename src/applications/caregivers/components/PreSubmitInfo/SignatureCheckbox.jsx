@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from 'platform/monitoring/record-event';
 import { normalizeFullName, replaceStrValues } from '../../utils/helpers';
+import { VaCheckbox } from '../../utils/imports';
 import SignatureInput from './SignatureInput';
 import content from '../../locales/en/content.json';
 
@@ -34,12 +33,10 @@ const SignatureCheckbox = props => {
   const handleCheck = event => {
     const value = event.target.checked;
     setIsChecked(value);
-    recordEvent({
-      'caregivers-poa-certification-checkbox-checked': value,
-      fullName,
-      label,
-      isRepresentative,
-    });
+    setSignatures(prev => ({
+      ...prev,
+      [label]: { ...prev[label], checked: value },
+    }));
   };
 
   useEffect(

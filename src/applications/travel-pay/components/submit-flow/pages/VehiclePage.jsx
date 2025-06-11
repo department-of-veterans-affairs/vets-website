@@ -2,10 +2,18 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
+
+const title = 'Did you travel in your own vehicle?';
 
 const VehiclePage = ({
   pageIndex,
@@ -15,14 +23,18 @@ const VehiclePage = ({
   setIsUnsupportedClaimType,
 }) => {
   useEffect(() => {
+    recordSmocPageview('vehicle');
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
+
+  useSetPageTitle(title);
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 
   const handlers = {
     onNext: () => {
+      recordSmocButtonClick('vehicle', 'continue');
       if (!yesNo.vehicle) {
         setRequiredAlert(true);
       } else if (yesNo.vehicle !== 'yes') {
@@ -33,6 +45,7 @@ const VehiclePage = ({
       }
     },
     onBack: () => {
+      recordSmocButtonClick('vehicle', 'back');
       setPageIndex(pageIndex - 1);
     },
   };
@@ -42,7 +55,7 @@ const VehiclePage = ({
       <SmocRadio
         name="vehicle"
         value={yesNo.vehicle}
-        label="Did you travel in your own vehicle?"
+        label={title}
         error={requiredAlert}
         onValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
       />
@@ -53,6 +66,7 @@ const VehiclePage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={e => handlers.onNext(e)}
         onSecondaryClick={e => handlers.onBack(e)}
       />

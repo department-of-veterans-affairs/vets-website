@@ -16,7 +16,6 @@ import {
   POLICY_TYPES,
   SIGNUP_TYPES,
   API_SESSION_URL,
-  EBENEFITS_DEFAULT_PATH,
   AUTH_PARAMS,
   IDME_TYPES,
 } from './constants';
@@ -136,12 +135,6 @@ export const createExternalApplicationUrl = () => {
     case EXTERNAL_APPS.VA_OCC_MOBILE:
       URL = sanitizeUrl(`${externalRedirectUrl}${window.location.search}`);
       break;
-    case EXTERNAL_APPS.EBENEFITS:
-      URL = sanitizeUrl(
-        `${externalRedirectUrl}`,
-        `${!to ? EBENEFITS_DEFAULT_PATH : sanitizePath(to)}`,
-      );
-      break;
     case EXTERNAL_APPS.MHV:
       URL = sanitizeUrl(
         `${externalRedirectUrl}`,
@@ -197,7 +190,7 @@ export const createAndStoreReturnUrl = () => {
     returnUrl = window.location.toString();
   }
   if (window.location.pathname === '/verify/') {
-    returnUrl = '/';
+    returnUrl = '/my-va';
   }
 
   sessionStorage.setItem(
@@ -247,9 +240,12 @@ export function sessionTypeUrl({
   // 2. The outbound application is one of the mobile apps
   // 3. The generated link type is for signup, and login only
   const requireVerification =
-    allowVerification ||
-    forceVerify === 'required' ||
-    (externalRedirect && (isLogin || isSignup) && config.requiresVerification)
+    type !== POLICY_TYPES.SLO &&
+    (allowVerification ||
+      forceVerify === 'required' ||
+      (externalRedirect &&
+        (isLogin || isSignup) &&
+        config.requiresVerification))
       ? '_verified'
       : '';
 
@@ -360,12 +356,13 @@ export async function login({
   version = API_VERSION,
   queryParams = {},
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
+  isLink = false,
 }) {
   const url = await sessionTypeUrl({ type: policy, version, queryParams });
   if (!isExternalRedirect()) {
     setLoginAttempted();
   }
-  return redirect(url, clickedEvent);
+  return isLink ? url : redirect(url, clickedEvent);
 }
 
 export function mfa(version = API_VERSION) {

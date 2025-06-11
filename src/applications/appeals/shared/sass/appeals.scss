@@ -121,6 +121,14 @@ article[data-location="review-and-submit"] {
   }
 }
 
+/* Save in progress renders a div with a single br in it at the bottom of the
+ * introduction page when you have an in in progress form; without this CSS, an
+ * extra 56 pixels of whitespace is rendered below the process list
+ */
+.sip-wrapper br:only-child {
+  display: none;
+}
+
 @media screen and (max-width: $small-screen) {
   dl.review .review-row > dd {
     text-align: left;

@@ -104,7 +104,7 @@ const generateTitleSection = (doc, parent, data) => {
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          "This report includes health information you entered yourself in My HealtheVet. Your VA health care team can't access this self-entered information. To share this information with your care team, print this report and bring it to your next appointment.",
+          'This report includes health information you entered yourself in the past. You can no longer enter or edit health information in My HealtheVet.',
           config.margins.left,
           doc.y,
           { ...subTitleOptions, paragraphGap: 12 },
@@ -117,7 +117,7 @@ const generateTitleSection = (doc, parent, data) => {
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          'If you want to add or edit self-entered health information, go to www.myhealth.va.gov',
+          'Your VA health care team can’t access this self-entered information. To share this information with your care team, print this report and bring it to your next appointment.',
           config.margins.left,
           doc.y,
           { ...subTitleOptions, paragraphGap: 12 },
@@ -173,7 +173,8 @@ const generateContentsSection = (doc, parent, data) => {
     title: 'Information',
   });
   const missingRecordSets = Object.values(selfEnteredTypes).filter(
-    type => !data.recordSets.find(set => set.type === type),
+    type =>
+      !data.recordSets.find(set => set.type === type && set.records.length),
   );
   const listOptions = {
     lineGap: -2,
@@ -225,7 +226,9 @@ const generateContentsSection = (doc, parent, data) => {
           .font(config.text.font)
           .fontSize(config.text.size)
           .list(
-            data.recordSets.map(item => capitalize(item.type)),
+            data.recordSets
+              .filter(item => item.records.length)
+              .map(item => capitalize(item.type)),
             listOptions,
           );
       }),
@@ -338,7 +341,7 @@ const generateDetailsContentSets = async (doc, parent, data) => {
         details.add(struct);
       }
     }
-    doc.moveDown(0.5);
+    doc.moveDown(data.moveDown ?? 0.5);
   }
 
   doc.moveDown();
@@ -465,7 +468,7 @@ const generate = async data => {
   generateInitialHeaderContent(doc, wrapper, data, config);
   await generateCoverPage(doc, wrapper, data);
 
-  for (const recordSet of data.recordSets) {
+  for (const recordSet of data.recordSets.filter(set => set.records.length)) {
     doc.addPage({ margins: config.margins });
     generateRecordSetIntroduction(doc, wrapper, recordSet);
 

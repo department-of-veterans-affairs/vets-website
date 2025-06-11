@@ -3,7 +3,7 @@ import { AXE_CONTEXT, Locators, Data, Alerts, Paths } from '../utils/constants';
 import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockFacilityBlockedRecipients from '../fixtures/recipientsResponse/all-TG-blocked-recipients-response.json';
 

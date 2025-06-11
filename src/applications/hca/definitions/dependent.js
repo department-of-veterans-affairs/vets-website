@@ -3,7 +3,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency, validateDependentDate } from '../utils/validation';
-import { LAST_YEAR } from '../utils/constants';
+import { LAST_YEAR } from '../utils/helpers';
 import { FULL_SCHEMA } from '../utils/imports';
 import {
   DependentEducationExpensesDescription,

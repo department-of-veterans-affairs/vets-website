@@ -1,11 +1,11 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators, Alerts, Paths } from '../utils/constants';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
-// import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
+// import mockDraftsResponse from '../fixtures/draftPageResponses/draft-threads-response.json';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 
 describe('Verify drafts - No association with particular Triage Group', () => {
@@ -164,9 +164,9 @@ describe('Verify drafts - No association with particular Triage Group', () => {
             senderId: 251391,
             senderName: 'MHVDAYMARK, MARK',
             recipientId: 2416527,
-            recipientName: '###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###',
+            recipientName: '###ABC_XYZ_TRIAGE_TEAM###',
             readReceipt: null,
-            triageGroupName: '###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###',
+            triageGroupName: '###ABC_XYZ_TRIAGE_TEAM###',
             proxySenderName: null,
             threadId: 4016874,
             folderId: -2,

@@ -44,7 +44,7 @@ const ItemList = props => {
       </span>
     );
   }
-  return <p className="vads-u-margin-top--0">None noted</p>;
+  return <p className="vads-u-margin-top--0">None recorded</p>;
 };
 
 export default ItemList;

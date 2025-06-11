@@ -10,7 +10,7 @@ import prescriptions from '../fixtures/prescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
-import { DOWNLOAD_FORMAT, EMPTY_FIELD } from '../../util/constants';
+import { DOWNLOAD_FORMAT, FIELD_NONE_NOTED } from '../../util/constants';
 import { convertHtmlForDownload } from '../../util/helpers';
 
 describe('Prescriptions List Config', () => {
@@ -26,7 +26,7 @@ describe('Prescriptions List Config', () => {
       },
     ];
     const pdfList = buildPrescriptionsPDFList(blankPrescriptions);
-    expect(pdfList[0].sections[0].items[2].value).to.equal(EMPTY_FIELD);
+    expect(pdfList[0].sections[0].items[2].value).to.equal(FIELD_NONE_NOTED);
   });
 });
 
@@ -73,9 +73,9 @@ describe('Non VA prescription Config', () => {
 });
 
 describe('Medication Information Config', () => {
-  it('should create PDF config using HTML string', () => {
+  it('should create PDF config using HTML string', async () => {
     const htmlContent = `<div><h2>Test</h2><ul><li>Item 1</li><li>Item 2</li></ul><h2>Test 2</h2><p>Paragraph</p></div>`;
-    const txt = convertHtmlForDownload(htmlContent, DOWNLOAD_FORMAT.PDF);
+    const txt = await convertHtmlForDownload(htmlContent, DOWNLOAD_FORMAT.PDF);
     const pdfData = buildMedicationInformationPDF(txt);
     expect(pdfData.sections.length).to.equal(2);
     expect(pdfData.sections[0].header).to.equal('Test');

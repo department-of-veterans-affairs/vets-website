@@ -2,11 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { buildAddressArray } from 'platform/utilities/facilities-and-mapbox';
 
-function LocationDirectionsLink({ location, query = null }) {
+function LocationDirectionsLink({ location }) {
   let address = buildAddressArray(location);
-  const searchString = location?.searchString
-    ? location.searchString
-    : query?.searchString;
 
   if (address.length !== 0) {
     address = address.join(', ');
@@ -19,7 +16,7 @@ function LocationDirectionsLink({ location, query = null }) {
   return (
     <p>
       <va-link
-        href={`https://maps.google.com?saddr=${searchString}&daddr=${address}`}
+        href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
         text="Get directions on Google Maps"
         label={`Get directions on Google Maps to ${location.attributes.name}`}
       />

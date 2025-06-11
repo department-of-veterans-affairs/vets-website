@@ -12,6 +12,7 @@ import {
 const initialState = {
   controlInformation: null,
   paymentAccount: null,
+  veteranStatus: null,
   loadError: null,
   saveError: null,
   ui: {
@@ -27,6 +28,7 @@ function directDeposit(state = initialState, action) {
       return {
         controlInformation: action.response?.controlInformation ?? null,
         paymentAccount: action.response?.paymentAccount ?? null,
+        veteranStatus: action.response?.veteranStatus ?? null,
         loadError: null,
         saveError: null,
         ui: {

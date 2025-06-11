@@ -59,6 +59,36 @@ describe('<UserInfoSection>', () => {
       expect(tree.subTree(currentHeadingSelector)).to.be.false;
     });
   });
+  describe('UserInfoSection default props', () => {
+    it('should default enrollmentData to an empty object when not provided', () => {
+      // Render the component without an enrollmentData prop.
+      const tree = SkinDeep.shallowRender(
+        <UserInfoSection showCurrentAsOfAlert={false} />,
+      );
+
+      // Since enrollmentData is undefined, the default {} will be used.
+      // Therefore, firstName and lastName are undefined and the full name will be "undefined undefined".
+      const nameInfoPair = tree
+        .everySubTree('InfoPair')
+        .find(pair => pair.props.label === 'Name');
+      expect(nameInfoPair).to.exist;
+      expect(nameInfoPair.props.value).to.equal('undefined undefined');
+
+      // The Date of birth should default to "Unavailable"
+      const dobInfoPair = tree
+        .everySubTree('InfoPair')
+        .find(pair => pair.props.label === 'Date of birth');
+      expect(dobInfoPair).to.exist;
+      expect(dobInfoPair.props.value).to.equal('Unavailable');
+
+      // The Regional Processing Office value will be undefined
+      const rpoInfoPair = tree
+        .everySubTree('InfoPair')
+        .find(pair => pair.props.label === 'Regional Processing Office');
+      expect(rpoInfoPair).to.exist;
+      expect(rpoInfoPair.props.value).to.be.undefined;
+    });
+  });
 
   describe('showCurrentAsOfAlert is truthy', () => {
     it('should display the "current as of" date', () => {

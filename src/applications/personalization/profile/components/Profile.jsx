@@ -144,7 +144,14 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const routes = getRoutes();
+    let routes = getRoutes();
+
+    // feature toggled route
+    if (!this.props.shouldShowAccreditedRepTab) {
+      routes = routes.filter(
+        item => item.name !== 'Accredited representative or VSO',
+      );
+    }
 
     return (
       <BrowserRouter>
@@ -242,6 +249,7 @@ Profile.propTypes = {
   profileToggles: PropTypes.object.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
+  shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
@@ -266,6 +274,8 @@ const mapStateToProps = state => {
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
+  const shouldShowAccreditedRepTab =
+    profileToggles?.representativeStatusEnableV2Features;
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
@@ -321,6 +331,7 @@ const mapStateToProps = state => {
     isInMVI,
     isLOA3,
     shouldFetchDirectDeposit,
+    shouldShowAccreditedRepTab,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',

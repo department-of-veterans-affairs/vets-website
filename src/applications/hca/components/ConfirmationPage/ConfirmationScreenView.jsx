@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import ApplicationDownloadLink from '../ApplicationDownloadLink';
 
@@ -52,7 +52,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         <h4>Confirmation for your records</h4>
         <p>You can print this confirmation page for your records.</p>
 
-        <div className="vads-u-margin-top--2">
+        <div className="vads-u-margin-y--2">
           <va-button
             text="Print this page"
             onClick={() => window.print()}

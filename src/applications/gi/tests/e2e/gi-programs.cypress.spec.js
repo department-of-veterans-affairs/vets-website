@@ -21,6 +21,9 @@ describe('GI Bill Comparison Tool - Programs List', () => {
         ],
       },
     }).as('featureToggles');
+    cy.window().then(win => {
+      win.localStorage.setItem('institutionName', 'My Test Institution');
+    });
     cy.intercept('GET', '**/v0/gi/institution_programs/search*', {
       statusCode: 200,
       body: programsListMockdata,

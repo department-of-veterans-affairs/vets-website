@@ -1,34 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import environment from 'platform/utilities/environment';
 import './components/LogoRow/styles.scss';
 import './components/OfficialGovtWebsite/styles.scss';
 import './components/Search/styles.scss';
 import './containers/Menu/styles.scss';
 import App from './components/App';
 import { createShouldShowMinimal } from './helpers';
-
-const setSessionStorage = (headerMinimal, excludePathsString) => {
-  if (!environment.isUnitTest()) {
-    // Set this manually if you want to unit test it - otherwise session
-    // storage could potentially leak to other tests
-    if (headerMinimal) {
-      sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
-    } else {
-      sessionStorage.removeItem('MINIMAL_HEADER_APPLICABLE');
-    }
-
-    if (excludePathsString) {
-      sessionStorage.setItem(
-        'MINIMAL_HEADER_EXCLUDE_PATHS',
-        excludePathsString,
-      );
-    } else {
-      sessionStorage.removeItem('MINIMAL_HEADER_EXCLUDE_PATHS');
-    }
-  }
-};
 
 const setupMinimalHeader = () => {
   // #header-minimal will not be in the DOM unless specified in content-build
@@ -42,12 +20,8 @@ const setupMinimalHeader = () => {
     if (headerMinimal.dataset?.excludePaths) {
       excludePathsString = headerMinimal.dataset.excludePaths;
       excludePaths = JSON.parse(excludePathsString);
-      // Remove the data attribute from the DOM since it's no longer needed
-      headerMinimal.removeAttribute('data-exclude-paths');
     }
   }
-
-  setSessionStorage(enabled, excludePathsString);
 
   return createShouldShowMinimal({
     enabled,

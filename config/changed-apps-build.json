@@ -1,7 +1,7 @@
 {
   "apps": [
     {
-      "rootFolder": "686c-674",
+      "rootFolder": "dependents",
       "slackGroup": "<@U022GNYPJ1L>"
     },
     {
@@ -215,8 +215,7 @@
     },
     {
       "rootFolder": "pensions",
-      "slackGroup": "<@C0667PCPVLM>",
-      "continuousDeployment": false
+      "slackGroup": "<@C0667PCPVLM>"
     },
     {
       "rootFolder": "personalization",
@@ -292,13 +291,11 @@
       "slackGroup": "<@U022GNYPJ1L>"
     },
     {
-      "rootFolder": "terms-of-use",
-      "continuousDeployment": false
+      "rootFolder": "terms-of-use"
     },
     {
       "rootFolder": "toe",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
-      "continuousDeployment": false
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
     },
     {
       "rootFolder": "travel-pay",

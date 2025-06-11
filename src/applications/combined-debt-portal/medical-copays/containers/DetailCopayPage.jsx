@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import Modals from '../components/Modals';
 import Alert from '../../combined/components/MCPAlerts';
 import StatementTable from '../components/StatementTable';
@@ -15,21 +17,33 @@ import {
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const DetailCopayPage = ({ match }) => {
-  const selectedId = match.params.id;
   const [alert, setAlert] = useState('status');
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showVHAPaymentHistory = useToggleValue(
+    TOGGLE_NAMES.showVHAPaymentHistory,
+  );
+
+  // Get the selected copay statement ID from the URL
+  //  and the selected copay statement data from Redux
+  const selectedId = match.params.id;
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
-  const userFullName = useSelector(({ user }) => user.profile.userFullName);
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
+
+  // Get selected copay statement data
   const title = `Copay bill for ${selectedCopay?.station.facilityName}`;
-  const fullName = userFullName?.middle
-    ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
-    : `${userFullName.first} ${userFullName.last}`;
+  const statementDate = formatDate(selectedCopay?.pSStatementDateOutput);
   const isCurrentBalance = verifyCurrentBalance(
     selectedCopay?.pSStatementDateOutput,
   );
   const acctNum =
     selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
+
+  // get veteran name
+  const userFullName = useSelector(({ user }) => user.profile.userFullName);
+  const fullName = userFullName?.middle
+    ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
+    : `${userFullName.first} ${userFullName.last}`;
 
   const getPaymentDueDate = () => {
     if (!selectedCopay?.pSStatementDateOutput) return null;
@@ -57,19 +71,6 @@ const DetailCopayPage = ({ match }) => {
       style: 'currency',
       currency: 'USD',
     }).format(amount);
-  };
-
-  const getStatementDateRange = () => {
-    if (
-      !selectedCopay?.statementStartDate ||
-      !selectedCopay?.statementEndDate
-    ) {
-      return 'This statement shows your current charges.';
-    }
-
-    const startDate = formatDate(selectedCopay.statementStartDate);
-    const endDate = formatDate(selectedCopay.statementEndDate);
-    return `This statement shows charges you received between ${startDate} and ${endDate}.`;
   };
 
   useHeaderPageTitle(title);
@@ -115,10 +116,16 @@ const DetailCopayPage = ({ match }) => {
         <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
           {title}
         </h1>
+        {showVHAPaymentHistory ? null : (
+          <p className="va-introtext">
+            Updated on {statementDate}. Payments after this date will not be
+            reflected here.
+          </p>
+        )}
 
         <Alert type={alert} copay={selectedCopay} />
 
-        <div className="vads-u-margin-y--3">
+        <div className="vads-u-margin-y--4">
           <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
             Copay details
           </h2>
@@ -147,22 +154,30 @@ const DetailCopayPage = ({ match }) => {
           </h2>
           <p className="vads-u-margin--0">{acctNum}</p>
         </div>
+        <div className="vads-u-margin-y--4">
+          <h2
+            id="current-statement"
+            className="vads-u-margin-bottom--0 vads-u-margin-top--4"
+          >
+            Current statement
+          </h2>
+          {/* TODO
+            - This page will be enabled for both, but the table will be different for OTPP and VHA payment history 
+            - OTPP (show_cdp_one_thing_per_page / showCDPOneThingPerPage)
+              - Show statement charges like we do on one debt letter
+            - VHA Payment History (vha_show_payment_history / showVHAPaymentHistory)
+              - Show payment history charges from lighthouse 
+          */}
+          {showVHAPaymentHistory ? (
+            <StatementTable
+              charges={charges}
+              formatCurrency={formatCurrency}
+              selectedCopay={selectedCopay}
+            />
+          ) : (
+            <p>Show statement table</p>
+          )}
 
-        <h2
-          id="current-statement"
-          className="vads-u-margin-bottom--2 vads-u-margin-top--4"
-        >
-          Current statement
-        </h2>
-        <p>{getStatementDateRange()}</p>
-
-        <StatementTable
-          charges={charges}
-          formatCurrency={formatCurrency}
-          selectedCopay={selectedCopay}
-        />
-
-        <div className="vads-u-margin-y--3">
           <DownloadStatement
             key={selectedId}
             statementId={selectedId}
@@ -170,28 +185,33 @@ const DetailCopayPage = ({ match }) => {
             fullName={fullName}
           />
         </div>
+        <div className="vads-u-margin-y--4">
+          <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--4">
+            Previous statements
+          </h2>
+          <p>
+            Review your charges and download your mailed statements from the
+            past 6 months for this facility.
+          </p>
+          {statements
+            ?.filter(statement => statement.id !== selectedId)
+            ?.map(statement => (
+              <div key={statement.id} className="vads-u-margin-y--2">
+                <DownloadStatement
+                  key={statement.id}
+                  statementId={statement.id}
+                  statementDate={statement.pSStatementDate}
+                  fullName={fullName}
+                />
+              </div>
+            ))}
+        </div>
+        <div className="vads-u-margin-y--4">
+          <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--4">
+            Statement addresses
+          </h2>
 
-        <h2 className="vads-u-margin-y--4">Previous statements</h2>
-        <p>
-          Review your charges and download your mailed statements from the past
-          6 months for this facility.
-        </p>
-        {statements
-          ?.filter(statement => statement.id !== selectedId)
-          ?.map(statement => (
-            <div key={statement.id} className="vads-u-margin-y--2">
-              <DownloadStatement
-                key={statement.id}
-                statementId={statement.id}
-                statementDate={statement.pSStatementDate}
-                fullName={fullName}
-              />
-            </div>
-          ))}
-
-        <h2 className="vads-u-margin-y--4">Statement addresses</h2>
-        <div>
-          <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
+          <h3 className="vads-u-font-size--h4 vads-u-margin-top--2">
             Sender address
           </h3>
           <p className="vads-u-margin-top--0">
@@ -204,7 +224,7 @@ const DetailCopayPage = ({ match }) => {
             }`}
           </p>
 
-          <h3 className="vads-u-font-size--h4 vads-u-margin-top--4">
+          <h3 className="vads-u-font-size--h4 vads-u-margin-top--2">
             Recipient address
           </h3>
           <p className="vads-u-margin-top--0">
@@ -213,11 +233,12 @@ const DetailCopayPage = ({ match }) => {
             {selectedCopay?.pHCity}, {selectedCopay?.pHState}{' '}
             {selectedCopay?.pHZipCdeOutput}
           </p>
+          <p>
+            <strong>Note:</strong> If your address has changed, call{' '}
+            <va-telephone contact="8662602614" />.
+          </p>
         </div>
-        <p className="vads-u-margin-top--2">
-          <strong>Note:</strong> If your address has changed, call{' '}
-          <va-telephone contact="8662602614" />.
-        </p>
+
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>
@@ -226,8 +247,9 @@ const DetailCopayPage = ({ match }) => {
             <p>
               You can contact us online through{' '}
               <va-link text="Ask VA" href="https://ask.va.gov" /> or call the VA
-              Health Resource Center at <va-telephone contact="8664001238" />.
-              We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+              Health Resource Center at{' '}
+              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />. We’re
+              here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           </div>
         </va-need-help>

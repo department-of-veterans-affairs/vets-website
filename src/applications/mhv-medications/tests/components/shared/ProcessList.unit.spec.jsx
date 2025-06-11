@@ -99,6 +99,7 @@ describe('ProcessList Component', () => {
             completeDateTime: shippedToday,
           },
         ],
+        rxRfRecords: [],
       },
       showTrackingAlert: true,
       pharmacyPhone: '123-456-7890',
@@ -114,7 +115,7 @@ describe('ProcessList Component', () => {
       prescription: {
         prescriptionName: 'testRx',
         refillDate: '2025-02-24T03:39:11Z',
-        refillSubmitDate: '2025-02-24T03:39:11Z',
+        refillSubmitDate: '2025-02-24T12:00:00Z',
         dispStatus: 'Active: Submitted',
         trackingList: [],
       },
@@ -124,7 +125,7 @@ describe('ProcessList Component', () => {
     };
 
     const screen = renderProcessList(stepGuideProps(options));
-    const checkBackText = screen.getByText('Check back for updates.');
+    const checkBackText = screen.getByText('Completed on February 24, 2025');
     expect(checkBackText).to.exist;
   });
 
@@ -160,6 +161,7 @@ describe('ProcessList Component', () => {
         refillSubmitDate: '2025-02-24T03:39:11Z',
         dispStatus: 'Active',
         trackingList: [],
+        rxRfRecords: [],
       },
       showTrackingAlert: true,
       pharmacyPhone: '123-456-7890',

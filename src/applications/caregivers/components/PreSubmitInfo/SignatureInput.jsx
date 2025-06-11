@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '../../utils/imports';
 import { replaceStrValues } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
@@ -46,7 +45,10 @@ const SignatureInput = props => {
   const isSignatureComplete = signatureMatches && isChecked;
 
   const handleChange = value => {
-    setSignatures(prevState => ({ ...prevState, [label]: value }));
+    setSignatures(prev => ({
+      ...prev,
+      [label]: { ...prev[label], value },
+    }));
   };
 
   const handleBlur = useCallback(

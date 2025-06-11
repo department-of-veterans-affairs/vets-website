@@ -161,7 +161,7 @@
  * @property {({formData, formContext, router, setFormData}) => JSX.Element} [ContentBeforeButtons] React element that appears after the form but before save in progress and the navigation buttons
  * @property {(props: any) => JSX.Element} [CustomPage]
  * @property {(props: any) => JSX.Element} [CustomPageReview]
- * @property {((formData: Object) => boolean, index: number) | {}} [depends] optional condition when page should be shown or not. Index provided for arrays.
+ * @property {((formData: Object) => boolean, index: number, context: any) | {}} [depends] optional condition when page should be shown or not. Index provided for arrays.
  * @property {Object} [initialData]
  * @property {boolean} [customPageUsesPagePerItemData] Used with `CustomPage` and arrays. If true, will treat `data` (`formData`) and `setFormData` at the array level instead of the entire `formData` level, which matches how default pages work.
  * @property {boolean} [hideNavButtons] Used to hide the 'Continue' and 'Back' buttons
@@ -400,7 +400,7 @@
 
 /**
  * @typedef {{
- *   getItemName: (itemData: any, index: number) => string,
+ *   getItemName: (itemData: any, index: number, fullData: any) => string,
  *   itemData: any,
  *   nounPlural: string,
  *   nounSingular: string,
@@ -428,7 +428,7 @@
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
- *   getItemName?: (itemData: any, index: number) => string,
+ *   getItemName?: (itemData: any, index: number, fullData: any) => string,
  *   deleteDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNo?: (props: ArrayBuilderTextProps) => string,

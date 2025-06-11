@@ -40,7 +40,7 @@ describe('Accessibility', () => {
     // Tab to 'Program approval information' links
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'WEAMS Institution Search');
-    cy.repeatKey('Tab', 9);
+    cy.repeatKey('Tab', 12);
     cy.focused().should(
       'contain.text',
       'State Approving Agency contact information',
@@ -52,22 +52,13 @@ describe('Accessibility', () => {
     cy.focused().should('contain.text', 'Expand all +');
     cy.realPress('Enter');
     cy.focused().should('contain.text', 'Collapse all -');
+    cy.realPress('Enter');
     cy.realPress('Tab');
     cy.focused().should(
       'contain.text',
       'Forms library and other accepted documents',
     );
-    cy.realPress('Tab');
-    cy.focused().should(
-      'contain.text',
-      'Designation of Certifying Official(s) - VA Form 22-8794 (PDF, 3 pages)',
-    );
-    cy.repeatKey('Tab', 4);
-    cy.focused().should(
-      'contain.text',
-      'Conflicting Interests Certification for Proprietary Schools - VA Form 22-1919 (PDF, 1 page)',
-    );
-    // // Tab to 'Other resources for schools' section
+    // Tab to 'Other resources for schools' section
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Expand all +');
     cy.realPress('Enter');
@@ -111,6 +102,6 @@ describe('Accessibility', () => {
     // Tab to 'Connect with us' section
     cy.focused().should('contain.text', 'Connect with us');
     cy.repeatKey('Tab', 5);
-    cy.focused().should('contain.text', 'VBA on YouTube');
+    cy.focused().should('contain.text', 'X');
   });
 });

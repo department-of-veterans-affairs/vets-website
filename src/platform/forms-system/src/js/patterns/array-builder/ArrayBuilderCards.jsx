@@ -13,7 +13,10 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { focusElement } from 'platform/utilities/ui';
-import { createArrayBuilderItemEditPath } from './helpers';
+import {
+  arrayBuilderContextObject,
+  createArrayBuilderItemEditPath,
+} from './helpers';
 
 const EditLink = ({ to, srText }) => (
   <Link to={to} data-action="edit" aria-label={srText}>
@@ -50,7 +53,7 @@ const IncompleteLabel = () => (
 /**
  * @param {{
  *   arrayPath: string,
- *   getEditItemPathUrl: (formData: any, index: number) => string,
+ *   getEditItemPathUrl: (formData: any, index: number, context) => string,
  *   formData: any,
  *   isIncomplete: (itemData: any) => boolean,
  *   nounSingular: string,
@@ -124,6 +127,9 @@ const ArrayBuilderCards = ({
       (_, index) => index !== currentIndex,
     );
     const newData = set(arrayPath, arrayWithRemovedItem, formData);
+    if (!required(newData) && !arrayWithRemovedItem?.length) {
+      delete newData[arrayPath];
+    }
     setFormData(newData);
     hideRemoveConfirmationModal({
       focusRemoveButton: false,
@@ -134,7 +140,7 @@ const ArrayBuilderCards = ({
     // change of URL
     forceRerender(newData);
     if (arrayWithRemovedItem.length === 0) {
-      onRemoveAll();
+      onRemoveAll(newData);
     }
   }
 
@@ -180,7 +186,8 @@ const ArrayBuilderCards = ({
                     <div>
                       {isIncomplete(itemData) && <IncompleteLabel />}
                       <CardTitle
-                        className={`vads-u-margin-top--0${cardHeadingStyling}`}
+                        className={`vads-u-margin-top--0${cardHeadingStyling} dd-privacy-mask`}
+                        data-dd-action-name="Card title"
                       >
                         {itemName}
                       </CardTitle>
@@ -199,7 +206,14 @@ const ArrayBuilderCards = ({
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
                         to={createArrayBuilderItemEditPath({
-                          path: getEditItemPathUrl(formData, index),
+                          path: getEditItemPathUrl(
+                            formData,
+                            index,
+                            arrayBuilderContextObject({
+                              edit: true,
+                              review: isReview,
+                            }),
+                          ),
                           index,
                           isReview,
                         })}

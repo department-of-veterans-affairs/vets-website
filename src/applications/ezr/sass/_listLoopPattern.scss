@@ -8,3 +8,7 @@ legend.schemaform-block-title:focus { outline: none !important; }
  * expenses page
  */
  va-radio[name="root_attendedSchoolLastYear"] { margin-bottom: 32px !important; }
+
+ // Hack to hide the contact type field, because we only allow Primary Next of Kin and
+// the forms pattern forces display of the field
+va-select[name$="_contactType"] { display: none; }

@@ -1,6 +1,9 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     mhvLandingPagePersonalization = true,
+    mhvBypassDowntimeNotification = false,
+
+    // medications
     mhvMedicationsToVaGovRelease = true,
     mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
@@ -10,6 +13,8 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayRefillProgress = true,
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
+    mhvMedicationsDontIncrementIpeCount,
+    mhvMedicationsRemoveLandingPage = true,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -23,14 +28,15 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
-    mhvSecureMessagingEditContactList = true,
-    mhvSecureMessagingTriageGroupPlainLanguage = false,
-    mhvSecureMessagingRecipientOptGroups = true,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
-    mhvIntegrationMedicalRecordsToPhase1 = true,
-    mhvMedicationsRemoveLandingPage = true,
+    mhvMedicalRecordsMilestoneTwo = false,
+
+    // secure messaging
+    mhvSecureMessagingTriageGroupPlainLanguage = false,
+    mhvSecureMessagingRecipientOptGroups = true,
+    mhvSecureMessagingRecipientCombobox = true,
   } = toggles;
 
   return {
@@ -40,6 +46,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv-mock-session',
           value: true,
+        },
+        {
+          name: 'mhv_bypass_downtime_notification',
+          value: mhvBypassDowntimeNotification,
         },
         {
           name: 'mhv_accelerated_delivery_enabled',
@@ -97,12 +107,12 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_medications_partial_fill_content',
           value: mhvMedicationsPartialFillContent,
         },
+        {
+          name: 'mhv_medications_dont_increment_ipe_count',
+          value: mhvMedicationsDontIncrementIpeCount,
+        },
 
         // medical records
-        {
-          name: 'mhv_integration_medical_records_to_phase_1',
-          value: mhvIntegrationMedicalRecordsToPhase1,
-        },
         {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
@@ -152,9 +162,11 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsMarch17Updates,
         },
         {
-          name: 'mhv_secure_messaging_edit_contact_list',
-          value: mhvSecureMessagingEditContactList,
+          name: 'mhv_medical_records_milestone_two',
+          value: mhvMedicalRecordsMilestoneTwo,
         },
+
+        // secure messaging
         {
           name: 'mhv_secure_messaging_triage_group_plain_language',
           value: mhvSecureMessagingTriageGroupPlainLanguage,
@@ -162,6 +174,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_recipient_opt_groups',
           value: mhvSecureMessagingRecipientOptGroups,
+        },
+        {
+          name: 'mhv_secure_messaging_recipient_combobox',
+          value: mhvSecureMessagingRecipientCombobox,
         },
       ],
     },

@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import content from '../../locales/en/content.json';
 
-const FacilityReview = props => {
-  const { data, goToPath } = props;
+const FacilityReview = ({ data, goToPath }) => {
   const plannedClinic = data['view:plannedClinic'];
   const veteranSelectedFacility = plannedClinic.veteranSelected;
   const selectedCaregiverSupportFacility = plannedClinic.caregiverSupport;
-  const hasAssignedFacility =
-    veteranSelectedFacility?.id !== selectedCaregiverSupportFacility?.id;
+
+  const hasAssignedFacility = useMemo(
+    () => veteranSelectedFacility?.id !== selectedCaregiverSupportFacility?.id,
+    [selectedCaregiverSupportFacility?.id, veteranSelectedFacility?.id],
+  );
+
+  const handleEditClick = useCallback(
+    () =>
+      goToPath('/veteran-information/va-medical-center/locator?review=true'),
+    [goToPath],
+  );
 
   return (
     <div className="form-review-panel-page">
@@ -18,25 +26,20 @@ const FacilityReview = props => {
             {content['vet-med-center-search-description']}
           </h4>
           <va-button
-            text="Edit"
-            label="Edit facility"
-            onClick={() =>
-              goToPath(
-                '/veteran-information/va-medical-center/locator?review=true',
-              )
-            }
+            text={content['button-edit']}
+            label={content['facilities-review--edit-aria-label']}
+            onClick={handleEditClick}
             secondary
-            uswds
           />
         </div>
         <dl className="review">
           <div className="review-row">
-            <dt>The Veteran’s facility you selected</dt>
+            <dt>{content['facilities-review--selected-row-title']}</dt>
             <dd>{veteranSelectedFacility.name}</dd>
           </div>
           {hasAssignedFacility && (
             <div className="review-row">
-              <dt>Your assigned caregiver support facility</dt>
+              <dt>{content['facilities-review--assigned-row-title']}</dt>
               <dd>{selectedCaregiverSupportFacility.name}</dd>
             </div>
           )}

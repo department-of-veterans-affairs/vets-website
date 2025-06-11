@@ -1,10 +1,14 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .arp-container {
-  max-width: 1000px;
+  max-width: 960px;
   width: 100%;
-  margin: $units-5 auto;
-  padding: 0 16px;
+  padding: 0 $vads-spacing-2;
+  margin: 0 auto $vads-spacing-6;
+
+  &:has(.poa-request) {
+    margin: 0 auto 32px;
+  }
 }
 
 .status {
@@ -40,11 +44,11 @@
   width: 100%;
 
   &__container {
-    max-width: 1000px;
+    max-width: 960px;
     margin: 0 auto 20px;
   }
 
-  h3 {
+  h3,h2 {
     margin: 0 0 16px 0;
   }
 
@@ -76,7 +80,7 @@
   -webkit-font-smoothing: antialiased;
 
   &__container {
-    max-width: 1000px;
+    max-width: 960px;
     margin: 0 auto;
 
     .home__full-width--portal & {
@@ -102,7 +106,7 @@
     background-position: center;
 
     &-container {
-      max-width: 1000px;
+      max-width: 960px;
       margin: 0 auto;
       color: $vads-color-base-lightest;
       padding: 30px 16px;
@@ -208,6 +212,12 @@
       height: 340px;
     }
   }
+
+  &__banner {
+    &-email {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .arp-full-width-alert {
@@ -257,4 +267,36 @@
   @media (max-width: $medium-screen) {
     display: none !important;
   }
+}
+
+#poa-request__search-form {
+  .poa-request-search__form-buttons-container {
+    display: inline-block;
+    margin-top: 30px;
+  }
+  .poa-request-search__form-submit {
+    height: 40px;
+  }
+  .poa-request-search__form-reset {
+    padding-top: 7px;
+    height: 40px;
+  }
+}
+.poa-search {
+  max-width: 627px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.yellow-warning {
+  color: var(--vads-color-yellow);
+}
+hr.claimant-search {
+  margin-top: 28px;
+  margin-bottom: 20px;
+}
+h2.claimant-name {
+  margin-bottom: 5px;
+}
+.poa-status-cta {
+  margin-bottom: 10px;
 }

@@ -33,6 +33,30 @@ export class AppointmentListPageObject extends PageObject {
 
     return this;
   }
+
+  navigateToReferralsAndRequests() {
+    // Check if we're on the appointments page
+    cy.findByRole('heading', { level: 1, name: 'Appointments' }).should(
+      'exist',
+    );
+
+    // Click the "Review requests and referrals" link
+    cy.findByTestId('review-requests-and-referrals')
+      .should('exist')
+      .click({ waitForAnimations: true });
+
+    return this;
+  }
+
+  validateViewReferralsLink({ exist = true } = {}) {
+    if (exist) {
+      cy.findByTestId('review-requests-and-referrals').should('exist');
+    } else {
+      cy.findByTestId('review-requests-and-referrals').should('not.exist');
+    }
+
+    return this;
+  }
 }
 
 export default new AppointmentListPageObject();

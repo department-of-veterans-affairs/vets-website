@@ -1,23 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
+import { API_ENDPOINTS } from '../utils/constants';
 import submitTransformer from '../config/submit-transformer';
 import { ensureValidCSRFToken } from '../actions/ensureValidCSRFToken';
 import content from '../locales/en/content.json';
 
-const apiURL = `${
-  environment.API_URL
-}/v0/caregivers_assistance_claims/download_pdf`;
-
 const ApplicationDownloadLink = ({ formConfig }) => {
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   // define local use variables
   const form = useSelector(state => state.form);
@@ -25,16 +19,13 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     formConfig,
     form,
   ]);
-  const { veteranFullName: name } = form.data;
-
-  // fetch a custom error message based on status code
-  const errorMessage = useMemo(
+  const name = useMemo(
     () => {
-      if (!errors.length) return null;
-      const code = errors[0].status[0];
-      return DOWNLOAD_ERRORS_BY_CODE[code] || DOWNLOAD_ERRORS_BY_CODE.generic;
+      const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
+        form.data ?? {};
+      return veteranFullName;
     },
-    [errors],
+    [form.data],
   );
 
   const handlePdfDownload = useCallback(
@@ -57,22 +48,26 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     async event => {
       event.preventDefault();
       setLoading(true);
-      setErrors([]);
+      setErrorMessage(null);
 
       try {
         await ensureValidCSRFToken('fetchPdf');
-        const response = await apiRequest(apiURL, {
+        const response = await apiRequest(API_ENDPOINTS.downloadPdf, {
           method: 'POST',
           body: formData,
           headers: { 'Content-Type': 'application/json' },
         });
+
+        if (!response.ok) {
+          throw new Error();
+        }
+
         const blob = await response.blob();
         handlePdfDownload(blob);
-        recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
+        recordEvent({ event: 'caregivers-pdf-download--success' });
       } catch (error) {
-        setErrors(error.errors || []);
-        recordEvent({ event: 'caregivers-10-10cg-pdf-download--failure' });
-        Sentry.withScope(scope => scope.setExtra('error', error));
+        setErrorMessage(content['alert-download-message--generic']);
+        recordEvent({ event: 'caregivers-pdf-download--failure' });
       } finally {
         setLoading(false);
       }
@@ -102,10 +97,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   if (errorMessage) {
     return (
       <div className="caregiver-download-error">
-        <va-alert status="error">
-          <h4 slot="headline">{content['alert-heading--generic']}</h4>
-          {errorMessage}
-        </va-alert>
+        <va-alert status="error">{errorMessage}</va-alert>
       </div>
     );
   }

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
-  EMPTY_FIELD,
+  FIELD_NONE_NOTED,
 } from '../../util/constants';
 import {
   validateField,
@@ -11,11 +12,13 @@ import {
   pharmacyPhoneNumber,
 } from '../../util/helpers';
 import VaPharmacyText from '../shared/VaPharmacyText';
+import { selectPendingMedsFlag } from '../../util/selectors';
 
 const PrescriptionPrintOnly = props => {
   const { rx, refillHistory, isDetailsRx } = props;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const latestTrackingStatus = rx?.trackingList?.[0];
+  const showPendingMedsContent = useSelector(selectPendingMedsFlag);
 
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
@@ -60,7 +63,7 @@ const PrescriptionPrintOnly = props => {
         <strong>Documented by: </strong>
         {pres.providerLastName
           ? `${pres.providerLastName}, ${pres.providerFirstName || ''}`
-          : EMPTY_FIELD}
+          : FIELD_NONE_NOTED}
       </p>
       <p>
         <strong>Documented at this facility: </strong>
@@ -135,12 +138,15 @@ const PrescriptionPrintOnly = props => {
             <p>
               <strong>Refills left:</strong> {validateField(rx.refillRemaining)}
             </p>
-            <p>
-              <strong>
-                Request refills by this prescription expiration date:
-              </strong>{' '}
-              {dateFormat(rx.expirationDate, 'MMMM D, YYYY')}
-            </p>
+            {!showPendingMedsContent && (
+              <p>
+                <strong>
+                  Request refills by this prescription expiration date:
+                </strong>{' '}
+                {dateFormat(rx.expirationDate, 'MMMM D, YYYY')}
+              </p>
+            )}
+
             <p>
               <strong>Facility:</strong> {validateField(rx.facilityName)}
             </p>
@@ -152,7 +158,7 @@ const PrescriptionPrintOnly = props => {
                   <va-telephone tty contact="711" not-clickable />)
                 </>
               ) : (
-                EMPTY_FIELD
+                FIELD_NONE_NOTED
               )}
             </p>
             <p>
@@ -310,7 +316,7 @@ const PrescriptionPrintOnly = props => {
                             <strong>Prescribed by:</strong>{' '}
                             {(entry.providerFirstName &&
                               entry.providerLastName) ||
-                              EMPTY_FIELD}
+                              FIELD_NONE_NOTED}
                           </p>
                         </div>
                       );

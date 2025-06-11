@@ -1,5 +1,5 @@
 import { objDiff, onReviewPage } from './utilities';
-import { makeHumanReadable, validateText } from '../../shared/utilities';
+import { makeHumanReadable } from '../../shared/utilities';
 
 /* 
 This validation checks if the `certProp` value matches the corresponding
@@ -98,42 +98,47 @@ export const certifierEmailValidation = (errors, page, formData) => {
   );
 };
 
+export function noDash(str) {
+  return str?.replace(/-/g, '');
+}
+
 /**
- * Runs `validateText` against all properties in an address object
- * to make sure they don't contain illegal characters (as defined in `validateText`).
- *
- * @param {Object} errors Formlib error objects corresponding to the address fields
- * @param {Object} page Form data accessible on the current page
- * @param {Object} formData All form fields and their data, or the current list loop item data
- * @param {String} addressProp keyname for the address property in
- * `formData` we want to access - can be omitted when checking an address prop in
- * a list loop item (see /applicant-mailing-address for example)
+ * Validates the sponsor's SSN does not match any others in the form.
+ * @param {Object} errors - The errors object for the current page
+ * @param {Object} page - The current page data
  */
-export const validAddressCharsOnly = (errors, page, formData, addressProp) => {
-  // Get address fields we want to check
-  const addressFields = addressProp ? formData[addressProp] : page; // if in list loop, page is just the address fields
-  // Iterate over all address properties and check all string values
-  // to make sure they don't violate our list of acceptable characters:
-  Object.keys(addressFields || {}).forEach(key => {
-    const val = addressFields[key];
-    if (typeof val === 'string') {
-      const res = validateText(addressFields[key]);
-      if (res) {
-        const targetErr = addressProp ? errors[addressProp][key] : errors[key];
-        targetErr.addError(res);
-      }
-    }
-  });
+export const validateSponsorSsnIsUnique = (errors, page) => {
+  const sponsorSSN = page?.ssn;
+  const match = page?.applicants?.find(
+    el => noDash(el?.applicantSSN) === noDash(sponsorSSN),
+  );
+
+  if (match) {
+    errors?.ssn?.addError(
+      'This Social Security number is in use elsewhere in the form. SSNs must be unique.',
+    );
+  }
 };
 
-export const sponsorAddressCleanValidation = (errors, page, formData) => {
-  return validAddressCharsOnly(errors, page, formData, 'sponsorAddress');
-};
+/**
+ * Validates that an applicant's SSN does not match any others in the form.
+ * @param {Object} errors - The errors object for the current page
+ * @param {Object} page - The current page data
+ */
+export const validateApplicantSsnIsUnique = (errors, page) => {
+  const idx = page?.['view:pagePerItemIndex'];
+  const sponsorMatch =
+    noDash(page?.applicantSSN) === noDash(page?.['view:sponsorSSN']);
 
-export const certifierAddressCleanValidation = (errors, page, formData) => {
-  return validAddressCharsOnly(errors, page, formData, 'certifierAddress');
-};
+  let applicants = page?.['view:applicantSSNArray'];
+  applicants = [...applicants.slice(0, idx), ...applicants.slice(idx + 1)];
+  const applicantMatch = applicants?.some(
+    app => noDash(app) === noDash(page?.applicantSSN),
+  );
 
-export const applicantAddressCleanValidation = (errors, page, formData) => {
-  return validAddressCharsOnly(errors, page, formData);
+  if (sponsorMatch || applicantMatch) {
+    errors.applicantSSN.addError(
+      'This Social Security number is in use elsewhere in the form. SSNs must be unique.',
+    );
+  }
 };

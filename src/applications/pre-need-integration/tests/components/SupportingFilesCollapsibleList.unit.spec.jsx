@@ -16,26 +16,14 @@ describe('Pre-need SupportingFilesCollapsibleList component', () => {
   });
 
   it('should render a collapsible list', () => {
-    const collapsibleList = wrapper.find('CollapsibleList');
+    const collapsibleList = wrapper.find('va-accordion');
     expect(collapsibleList.exists()).to.be.true;
     wrapper.unmount();
   });
 
   it('the collapsible list renders collapsible panels', () => {
-    const collapsiblePanels = wrapper.find('CollapsiblePanel');
+    const collapsiblePanels = wrapper.find('va-accordion-item');
     expect(collapsiblePanels).to.have.length(3);
-    wrapper.unmount();
-  });
-
-  it('each collapsible panel should expand when clicked', () => {
-    const panels = wrapper.find('CollapsiblePanel');
-    expect(wrapper.find('#collapsible-3').exists()).to.be.false;
-    panels.forEach(panel => {
-      const button = panel.find('#collapsibleButton3');
-      button.simulate('click');
-    });
-    expect(wrapper.find('#collapsible-3').exists()).to.be.true;
-    expect(wrapper.find('#collapsible-3')).to.have.length(3);
     wrapper.unmount();
   });
 });

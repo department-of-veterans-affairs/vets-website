@@ -31,7 +31,7 @@ function validatePostalCodes(errors, address) {
   }
 }
 
-function validateNotAllWhiteSpaces(
+export function validateNotAllWhiteSpaces(
   errorsLocation,
   addressField,
   requiredArray,

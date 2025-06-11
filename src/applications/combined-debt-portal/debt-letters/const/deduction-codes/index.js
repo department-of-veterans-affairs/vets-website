@@ -1,6 +1,9 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
+// GH docs source:
+// https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/benefits-memorials-2/engineering/front-end/architecture/static-codes.md
+// let's try and keep these values updated there so it's easier for stakeholders to check them
 export const deductionCodes = Object.freeze({
   '11': 'Post-9/11 GI Bill debt for books and supplies',
   '12': 'Post-9/11 GI Bill debt for books and supplies',

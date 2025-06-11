@@ -1,6 +1,0 @@
-{
-  "appName": "eFolders",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "my-documents",
-  "rootUrl": "/my-documents"
-}

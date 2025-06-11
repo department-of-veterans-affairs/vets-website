@@ -27,7 +27,7 @@ const mockApi = {
       throw new Error(`Unexpected status: ${status}`);
     });
 
-    return apiFetch(filteredPoaRequests);
+    return apiFetch({ data: filteredPoaRequests });
   },
 
   getPOARequest(id) {

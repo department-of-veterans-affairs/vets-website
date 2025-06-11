@@ -1,25 +1,37 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { within, waitFor } from '@testing-library/react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import ClaimDetailLayout from '../../components/ClaimDetailLayout';
 import { renderWithRouter } from '../utils';
 
+const getStore = () => createStore(() => ({}));
 describe('<ClaimDetailLayout>', () => {
   it('should render loading indicator', () => {
-    const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);
+    const { container } = renderWithRouter(
+      <Provider store={getStore()}>
+        <ClaimDetailLayout loading />
+      </Provider>,
+    );
 
-    expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
+    expect($('va-loading-indicator', container)).to.exist;
   });
 
   it('should render unavailable warning', () => {
     const claim = null;
 
-    const tree = SkinDeep.shallowRender(<ClaimDetailLayout claim={claim} />);
-    expect(tree.everySubTree('ClaimsUnavailable')).to.have.lengthOf(1);
+    const container = renderWithRouter(
+      <Provider store={getStore()}>
+        <ClaimDetailLayout claim={claim} />
+      </Provider>,
+    );
+    expect(container.getByRole('heading', { level: 2 })).to.contain.text(
+      'Claim status is unavailable',
+    );
   });
 
   it('should render when the claim was submitted', () => {
@@ -31,9 +43,13 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const screen = renderWithRouter(<ClaimDetailLayout claim={claim} />);
+    const container = renderWithRouter(
+      <Provider store={getStore()}>
+        <ClaimDetailLayout claim={claim} />
+      </Provider>,
+    );
 
-    expect(screen.getByRole('heading', { level: 1 })).to.contain.text(
+    expect(container.getByRole('heading', { level: 1 })).to.contain.text(
       'Received on November 23, 2023',
     );
   });
@@ -48,7 +64,9 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { getByText, container } = renderWithRouter(
-      <ClaimDetailLayout currentTab="Status" claim={claim} />,
+      <Provider store={getStore()}>
+        <ClaimDetailLayout currentTab="Status" claim={claim} />
+      </Provider>,
     );
 
     expect($('va-alert', container)).to.exist;
@@ -66,11 +84,13 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimDetailLayout currentTab="Status" claim={claim} />,
+    const { container } = renderWithRouter(
+      <Provider store={getStore()}>
+        <ClaimDetailLayout currentTab="Status" claim={claim} />
+      </Provider>,
     );
 
-    expect(tree.everySubTree('AddingDetails')).to.be.empty;
+    expect($('[data-test-id="adding-details"]', container)).to.not.exist;
   });
 
   it('should render 3 tabs', () => {
@@ -83,7 +103,9 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { container } = renderWithRouter(
-      <ClaimDetailLayout currentTab="Files" claim={claim} />,
+      <Provider store={getStore()}>
+        <ClaimDetailLayout currentTab="Files" claim={claim} />
+      </Provider>,
     );
 
     const tabList = $('.tabs', container);
@@ -99,14 +121,16 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimDetailLayout currentTab="Status" claim={claim}>
-        <div className="child-content" />
-      </ClaimDetailLayout>,
+    const { container } = renderWithRouter(
+      <Provider store={getStore()}>
+        <ClaimDetailLayout currentTab="Status" claim={claim}>
+          <div className="child-content" />
+        </ClaimDetailLayout>
+      </Provider>,
     );
 
-    expect(tree.everySubTree('AddingDetails')).to.be.empty;
-    expect(tree.everySubTree('.child-content')).not.to.be.empty;
+    expect($('[data-test-id="adding-details"]', container)).to.not.exist;
+    expect($('.child-content', container)).to.exist;
   });
 
   it('should render message', () => {
@@ -120,11 +144,13 @@ describe('<ClaimDetailLayout>', () => {
       body: 'Testing',
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimDetailLayout message={message} claim={claim} />,
+    const { container } = renderWithRouter(
+      <Provider store={getStore()}>
+        <ClaimDetailLayout message={message} claim={claim} />
+      </Provider>,
     );
 
-    expect(tree.subTree('Notification')).not.to.be.false;
+    expect($('.claims-alert', container)).to.exist;
   });
 
   it('should render Notification and set focus on it', async () => {
@@ -140,7 +166,9 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { container } = renderWithRouter(
-      <ClaimDetailLayout currentTab="Files" claim={claim} message={message} />,
+      <Provider store={getStore()}>
+        <ClaimDetailLayout currentTab="Files" claim={claim} message={message} />
+      </Provider>,
     );
 
     const selector = container.querySelector('va-alert');
@@ -152,9 +180,12 @@ describe('<ClaimDetailLayout>', () => {
 
   describe('<ClaimsBreadcrumbs>', () => {
     it('should render default breadcrumbs for the Your Claims list page while loading', () => {
-      const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);
-      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.be.an('array')
-        .that.is.empty;
+      const { container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimDetailLayout loading />
+        </Provider>,
+      );
+      expect($('va-breadcrumbs', container)).to.exist;
     });
     it('should render breadcrumbs specific to the claim once loaded', () => {
       const claim = {
@@ -164,10 +195,19 @@ describe('<ClaimDetailLayout>', () => {
           claimTypeCode: '130PSA',
         },
       };
-      const tree = SkinDeep.shallowRender(
-        <ClaimDetailLayout claim={claim} currentTab="Status" />,
+      const { container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimDetailLayout claim={claim} currentTab="Status" />
+        </Provider>,
       );
-      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.deep.equal([
+
+      expect($('va-breadcrumbs', container).breadcrumbList).to.eql([
+        { href: '/', label: 'VA.gov home' },
+        {
+          href: '/your-claims',
+          label: 'Check your claims and appeals',
+          isRouterLink: true,
+        },
         {
           href: '../status',
           label: 'Status of your request to add or remove a dependent',
@@ -176,10 +216,18 @@ describe('<ClaimDetailLayout>', () => {
       ]);
     });
     it('should render a default breadcrumb if the claim fails to load', () => {
-      const tree = SkinDeep.shallowRender(
-        <ClaimDetailLayout claim={null} currentTab="Status" />,
+      const { container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimDetailLayout claim={null} currentTab="Status" />
+        </Provider>,
       );
-      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.deep.equal([
+      expect($('va-breadcrumbs', container).breadcrumbList).to.eql([
+        { href: '/', label: 'VA.gov home' },
+        {
+          href: '/your-claims',
+          label: 'Check your claims and appeals',
+          isRouterLink: true,
+        },
         {
           href: '../status',
           label: 'Status of your claim',

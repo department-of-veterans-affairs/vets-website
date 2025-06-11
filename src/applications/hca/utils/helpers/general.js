@@ -1,6 +1,9 @@
 import { format, parseISO, isValid } from 'date-fns';
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
+// declare previous year for form questions and content
+export const LAST_YEAR = new Date().getFullYear() - 1;
+
 /**
  * Helper that maps an array to an object literal to allow for multiple keys to
  * have the same value

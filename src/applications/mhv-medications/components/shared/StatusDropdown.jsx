@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dispStatusObj } from '../../util/constants';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const StatusDropdown = props => {
   const { status } = props;
@@ -40,6 +41,9 @@ const StatusDropdown = props => {
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -83,6 +87,9 @@ const StatusDropdown = props => {
               data-testid="status-dropdown"
               uswds
               trigger="What does this status mean?"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -128,6 +135,9 @@ const StatusDropdown = props => {
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -162,6 +172,9 @@ const StatusDropdown = props => {
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -181,7 +194,13 @@ const StatusDropdown = props => {
         return (
           <>
             {displayStatus('Active: Refill in process')}
-            <va-additional-info uswds trigger="What does this status mean?">
+            <va-additional-info
+              uswds
+              trigger="What does this status mean?"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
+            >
               {dropdownContent()}
             </va-additional-info>
           </>
@@ -221,6 +240,9 @@ const StatusDropdown = props => {
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -249,6 +271,9 @@ const StatusDropdown = props => {
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -284,6 +309,9 @@ const StatusDropdown = props => {
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -305,6 +333,9 @@ const StatusDropdown = props => {
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -330,6 +361,9 @@ const StatusDropdown = props => {
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>

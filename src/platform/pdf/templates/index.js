@@ -24,4 +24,12 @@ templates.selfEnteredInfo = () => {
   return require('./self_entered_info');
 };
 
+templates.oneDebtLetter = () => {
+  return require('./one_debt_letter');
+};
+
+templates.militaryService = () => {
+  return require('./military_service');
+};
+
 export { templates };

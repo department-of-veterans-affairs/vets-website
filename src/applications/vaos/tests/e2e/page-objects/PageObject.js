@@ -12,7 +12,18 @@ export default class PageObject {
     return this;
   }
 
-  assertButton({ label, exist = true, isEnabled = true } = {}) {
+  /**
+   * Method to assert a button.
+   *
+   * @param {Object} params
+   * @param {string|RegExp} [params.label] Button label
+   * @param {boolean} [params.exist=true] Assert on existence or non-existence
+   * @param {boolean} [params.isEnabled=true] Assert if button is enabled or not
+   *
+   * @returns
+   * @memberof PageObject
+   */
+  assertButton({ label, exist = true, isEnabled = true }) {
     if (exist) {
       cy.contains('button', label)
         .as('button')
@@ -53,8 +64,27 @@ export default class PageObject {
     return this;
   }
 
-  assertLink({ name, exist = true } = {}) {
-    cy.findByRole('link', { name }).should(exist ? 'exist' : 'not.exist');
+  /**
+   * @param {Object} props - Properties used to determine what type of mock appointment to create.
+   * @param {Object=} props.name - Name of the link.
+   * @param {Object=} props.exist - Assert if the link exists or not.
+   * @param {Object=} props.useShadowDOM - Search shadow DOM for the link.
+   *
+   * @returns
+   * @memberof PageObject
+   */
+  assertLink({ name, exist = true, useShadowDOM = false } = {}) {
+    if (useShadowDOM) {
+      cy.get('va-link')
+        .as('link')
+        .shadow();
+      cy.get('@link')
+        .contains(name)
+        .should(exist ? 'exist' : 'not.exist');
+    } else {
+      cy.findByRole('link', { name }).should(exist ? 'exist' : 'not.exist');
+    }
+
     return this;
   }
 

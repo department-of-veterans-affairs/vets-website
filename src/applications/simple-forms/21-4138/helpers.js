@@ -22,7 +22,7 @@ export const isEligibleForDecisionReview = decisionDate => {
 
 export const isEligibleToSubmitStatement = formData => {
   if (!formData?.statementType) {
-    return false;
+    return true;
   }
 
   return [

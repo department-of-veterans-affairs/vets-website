@@ -24,6 +24,7 @@ import setUpCommonFunctionality from './setup';
  * to true, the maintenance_windows API request is made without having to wait for the
  * DowntimeNotification component to mount. This can improve startup time for applications
  * that use the DowntimeNotification component.
+ * @param {array} appInfo.additionalMiddlewares Array of additional Redux middlewares to include.
  */
 export default function startApp({
   router,
@@ -32,6 +33,7 @@ export default function startApp({
   analyticsEvents,
   entryName = 'unknown',
   preloadScheduledDowntimes = false,
+  additionalMiddlewares = [],
 }) {
   const store = setUpCommonFunctionality({
     entryName,
@@ -39,6 +41,7 @@ export default function startApp({
     reducer,
     analyticsEvents,
     preloadScheduledDowntimes,
+    additionalMiddlewares,
   });
 
   startReactApp(<Provider store={store}>{router}</Provider>);

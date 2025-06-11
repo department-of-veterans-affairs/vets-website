@@ -23,6 +23,7 @@ export const formatPages = chapter => {
     case 'digital_form_custom_step':
       return customStepPages(chapter);
     case 'digital_form_list_loop':
+    case 'list_loop_employment_history':
       return listLoopPages(chapter);
     case 'digital_form_phone_and_email':
       return phoneAndEmailPages(chapter);
@@ -53,11 +54,23 @@ export const statementOfTruthBody =
   'I confirm that the identifying information in this form is accurate and ' +
   'has been represented correctly.';
 
-/** @returns {FormConfig} */
+/**
+ * @param {NormalizedForm} form
+ * @param {Object} options
+ * @returns {FormConfig}
+ */
 export const createFormConfig = (form, options) => {
-  const { chapters, formId, ombInfo, title } = form;
+  const {
+    chapters,
+    formId,
+    introParagraph,
+    ombInfo,
+    title,
+    plainLanguageHeader,
+    whatToKnowBullets,
+  } = form;
   const { rootUrl, trackingPrefix } = options;
-  const subTitle = `VA Form ${formId}`;
+  const subTitle = `${title} (VA Form ${formId})`;
 
   return {
     preSubmitInfo: {
@@ -68,7 +81,14 @@ export const createFormConfig = (form, options) => {
       },
     },
     rootUrl,
-    introduction: props => <IntroductionPage {...props} ombInfo={ombInfo} />,
+    introduction: props => (
+      <IntroductionPage
+        {...props}
+        introParagraph={introParagraph}
+        ombInfo={ombInfo}
+        whatToKnow={whatToKnowBullets}
+      />
+    ),
     confirmation: ConfirmationPage,
     formId,
     saveInProgress: {},
@@ -81,9 +101,9 @@ export const createFormConfig = (form, options) => {
       notFound: `${subTitle} NOT FOUND`,
       noAuth: `Please sign in again to continue ${subTitle}.`,
     },
-    title,
-    defaultDefinitions: {},
+    title: plainLanguageHeader,
     subTitle,
+    defaultDefinitions: {},
     chapters: formatChapters(chapters),
   };
 };

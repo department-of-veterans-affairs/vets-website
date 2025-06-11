@@ -4,10 +4,12 @@ import { redirect } from 'react-router-dom';
 import App from './containers/App';
 import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
+import ClaimantSearchPage from './containers/ClaimantSearchPage';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
+import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
-import ErrorBoundary from './components/ErrorBoundary';
-
+import ErrorBoundary from './components/Error/ErrorBoundary';
+import GetHelpPage from './containers/GetHelpPage';
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
 
@@ -57,19 +59,29 @@ const routes = [
     children: [
       {
         index: true,
-        element: <LandingPage />,
+        element: (
+          <LandingPage title="Accredited Representative Portal | Veterans Affairs" />
+        ),
       },
       forEachRoute(addSignInRedirection, {
         element: <SignedInLayout />,
         children: [
           {
             path: 'poa-requests',
-            element: <POARequestSearchPage />,
+            element: (
+              <POARequestSearchPage title="Representation requests | Veterans Affairs" />
+            ),
             loader: POARequestSearchPage.loader,
           },
           {
+            path: 'claimant-search',
+            element: <ClaimantSearchPage />,
+          },
+          {
             path: 'poa-requests/:id',
-            element: <POARequestDetailsPage />,
+            element: (
+              <POARequestDetailsPage title="POA request | Veterans Affairs" />
+            ),
             loader: POARequestDetailsPage.loader,
             children: [
               {
@@ -77,6 +89,19 @@ const routes = [
                 action: POARequestDetailsPage.createDecisionAction,
               },
             ],
+          },
+          {
+            path: 'get-help',
+            element: (
+              <GetHelpPage title="Get help using the portal | Veterans Affairs" />
+            ),
+          },
+          {
+            path: 'submissions',
+            element: (
+              <SubmissionsPage title="Form Submissions | Veterans Affairs" />
+            ),
+            loader: SubmissionsPage.loader,
           },
         ],
       }),

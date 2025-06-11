@@ -92,7 +92,6 @@ const formConfig = {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: 'You’re applying for education benefits',
-          depends: formData => formData?.meb160630Automation,
           uiSchema: benefitSelection.uiSchema,
           schema: benefitSelection.schema,
           CustomPageReview: BenefitSelectionReviewPage,

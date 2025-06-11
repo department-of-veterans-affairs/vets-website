@@ -24,13 +24,72 @@ const getFiles = files => {
   });
 };
 
+const transformAddress = formData => {
+  const { address } = formData;
+  if (formData.address) {
+    return {
+      onBaseOutsideUS: address?.isMilitary,
+      country: address?.country,
+      address: {
+        ...address,
+        militaryAddress: {
+          militaryPostOffice: address.isMilitary ? address?.city : null,
+          militaryState: address.isMilitary ? address?.state : null,
+        },
+      },
+    };
+  }
+  return {
+    address: null,
+  };
+};
+
 export default function submitTransformer(formData, uploadFiles) {
+  /* eslint-disable no-param-reassign */
+  const { stateOrResidency } = formData;
+
+  let schoolName;
+  let schoolCode;
+
+  if (formData?.emailAddress) {
+    if (!formData?.businessEmail) {
+      formData.businessEmail = formData.emailAddress;
+    }
+  } else {
+    formData.emailAddress = formData.businessEmail;
+  }
+
+  if (formData?.phoneNumber) {
+    if (!formData?.businessPhone) {
+      formData.businessPhone = formData.phoneNumber;
+    }
+  } else {
+    formData.phoneNumber = formData.businessPhone;
+  }
+
+  if (stateOrResidency?.schoolState || stateOrResidency?.residencyState) {
+    stateOrResidency.schoolState = stateOrResidency?.schoolState || null;
+    stateOrResidency.residencyState = stateOrResidency?.residencyState || null;
+  }
+
+  if (formData?.school) {
+    const schoolInfo = getSchoolInfo(formData.school);
+    if (schoolInfo) {
+      schoolName = schoolInfo.name;
+      schoolCode = schoolInfo.code;
+    }
+  } else {
+    schoolName = formData?.schoolInfo?.schoolName || null;
+    schoolCode = formData?.schoolInfo?.schoolFacilityCode || null;
+  }
+
   return {
     ...formData,
+    ...transformAddress(formData),
     files: getFiles(uploadFiles),
     SchoolObj: {
-      InstitutionName: getSchoolInfo(formData.school)?.name,
-      SchoolFacilityCode: getSchoolInfo(formData.school)?.code,
+      InstitutionName: schoolName,
+      SchoolFacilityCode: schoolCode,
       StateAbbreviation:
         formData.stateOfTheSchool ||
         formData.stateOfTheFacility ||

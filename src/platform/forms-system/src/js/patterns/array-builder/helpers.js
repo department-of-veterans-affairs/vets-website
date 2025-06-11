@@ -2,12 +2,8 @@ import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
-import {
-  focusByOrder,
-  focusElement,
-  scrollTo,
-  scrollToTop,
-} from 'platform/utilities/ui';
+import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
+import { scrollTo, scrollToTop } from 'platform/utilities/scroll';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
@@ -339,4 +335,31 @@ export const replaceItemInFormData = ({
   }
 
   return newFormData;
+};
+
+export const arrayBuilderContextObject = ({
+  add = false,
+  edit = false,
+  review = false,
+}) => {
+  return { add, edit, review };
+};
+
+export const arrayBuilderDependsContextWrapper = contextObject => {
+  let add = false;
+  let edit = false;
+  let review = false;
+
+  if (contextObject) {
+    add = contextObject.add;
+    edit = contextObject.edit;
+    review = contextObject.review;
+  } else {
+    const urlParams = getArrayUrlSearchParams();
+    add = urlParams.get('add') === 'true';
+    edit = urlParams.get('edit') === 'true';
+    review = urlParams.get('review') === 'true';
+  }
+
+  return { add, edit, review };
 };

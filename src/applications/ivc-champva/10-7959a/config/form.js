@@ -7,15 +7,18 @@ import IntroductionPage from '../containers/IntroductionPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submitTransformer';
-import { nameWording } from '../../shared/utilities';
+import { nameWording, privWrapper } from '../../shared/utilities';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import {
   certifierRoleSchema,
+  certifierReceivedPacketSchema,
+  certifierNotEnrolledChampvaSchema,
   certifierNameSchema,
   certifierAddressSchema,
   certifierContactSchema,
   certifierRelationshipSchema,
 } from '../chapters/signerInformation';
+import { NotEnrolledChampvaPage } from '../chapters/NotEnrolledChampvaPage';
 import {
   insuranceStatusSchema,
   insurancePages,
@@ -117,6 +120,19 @@ const formConfig = {
           // Placeholder data so that we display "beneficiary" in title when `fnp` is used
           ...certifierRoleSchema,
         },
+        page1a1: {
+          path: 'enrolled-champva',
+          title: 'Your CHAMPVA benefit status',
+          ...certifierReceivedPacketSchema,
+        },
+        page1a2: {
+          path: 'not-enrolled-champva',
+          title: 'Wait until you receive CHAMPVA packet',
+          depends: formData => !get('certifierReceivedPacket', formData),
+          CustomPage: NotEnrolledChampvaPage,
+          CustomPageReview: null,
+          ...certifierNotEnrolledChampvaSchema,
+        },
         page1a: {
           path: 'signer-info',
           title: 'Your name',
@@ -175,12 +191,13 @@ const formConfig = {
         },
         page2b: {
           path: 'beneficiary-identification-info',
-          title: formData => `${fnp(formData)} CHAMPVA member number`,
+          title: formData =>
+            privWrapper(`${fnp(formData)} CHAMPVA member number`),
           ...applicantMemberNumberSchema,
         },
         page2c: {
           path: 'beneficiary-address',
-          title: formData => `${fnp(formData)} address`,
+          title: formData => privWrapper(`${fnp(formData)} address`),
           // Only show if we have addresses to pull from:
           depends: formData =>
             get('certifierRole', formData) !== 'applicant' &&
@@ -189,7 +206,7 @@ const formConfig = {
           CustomPage: props => {
             const extraProps = {
               ...props,
-              customTitle: `${fnp(props.data)} address`,
+              customTitle: privWrapper(`${fnp(props.data)} address`),
               customDescription:
                 'We’ll send any important information about this form to this address.',
               customSelectText: `Does ${nameWording(
@@ -209,12 +226,12 @@ const formConfig = {
         },
         page2d: {
           path: 'beneficiary-mailing-address',
-          title: formData => `${fnp(formData)} mailing address`,
+          title: formData => privWrapper(`${fnp(formData)} mailing address`),
           ...applicantAddressSchema,
         },
         page2e: {
           path: 'beneficiary-contact-info',
-          title: formData => `${fnp(formData)} phone number`,
+          title: formData => privWrapper(`${fnp(formData)} phone number`),
           ...applicantContactSchema,
         },
       },
@@ -224,7 +241,11 @@ const formConfig = {
       pages: {
         page3: {
           path: 'insurance-status',
-          title: formData => `${fnp(formData)} health insurance status`,
+          title: props => {
+            return privWrapper(
+              `${fnp(props.formData ?? props)} health insurance status`,
+            );
+          },
           ...insuranceStatusSchema,
         },
         ...insurancePages, // Array builder/list loop pages

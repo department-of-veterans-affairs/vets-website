@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { selectFeatureToggles } from '../utils/selectors/feature-toggles';
+import { selectFeatureToggles } from '../utils/selectors';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { useDefaultFormData } from '../hooks/useDefaultFormData';
 import formConfig from '../config/form';
 import content from '../locales/en/content.json';
 
-const App = props => {
-  const { location, children } = props;
+const App = ({ location, children }) => {
   const { isLoadingFeatureFlags: loading } = useSelector(selectFeatureToggles);
 
   // Set default view fields within the form data
@@ -32,8 +31,8 @@ const App = props => {
 };
 
 App.propTypes = {
-  children: PropTypes.any,
-  location: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  location: PropTypes.object.isRequired,
+  children: PropTypes.node,
 };
 
 export default App;

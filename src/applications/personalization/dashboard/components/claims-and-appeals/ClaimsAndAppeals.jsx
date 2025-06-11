@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   selectProfile,
@@ -61,6 +64,12 @@ const ClaimsAndAppealsError = () => {
 };
 
 const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const showAccreditedRepresentative = useToggleValue(
+    TOGGLE_NAMES.representativeStatusEnableV2Features,
+  );
+
   return (
     <>
       <IconCTALink
@@ -90,6 +99,22 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
           }}
         />
       )}
+      {showAccreditedRepresentative &&
+        !isLOA1 && (
+          <IconCTALink
+            text="Get help from your accredited representative or VSO"
+            href="/profile/accredited-representative/"
+            icon="account_circle"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header':
+                  'Get help from your accredited representative or VSO',
+                'links-list-section-header': 'Claims and appeals',
+              });
+            }}
+          />
+        )}
     </>
   );
 };
@@ -163,7 +188,13 @@ const ClaimsAndAppeals = ({
               ) : (
                 <>
                   {!isLOA1 && <NoClaimsOrAppealsText />}
-                  <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
+                  <Toggler
+                    toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+                  >
+                    <Toggler.Disabled>
+                      <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
+                    </Toggler.Disabled>
+                  </Toggler>
                 </>
               )}
             </>
@@ -173,7 +204,13 @@ const ClaimsAndAppeals = ({
           !hasAPIError &&
           !isLOA1 && (
             <DashboardWidgetWrapper>
-              <PopularActionsForClaimsAndAppeals />
+              <Toggler
+                toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+              >
+                <Toggler.Disabled>
+                  <PopularActionsForClaimsAndAppeals />
+                </Toggler.Disabled>
+              </Toggler>
             </DashboardWidgetWrapper>
           )}
       </div>

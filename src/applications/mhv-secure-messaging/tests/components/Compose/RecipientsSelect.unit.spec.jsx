@@ -144,19 +144,12 @@ describe('RecipientsSelect', () => {
     );
     expect(cantFindYourTeam).to.exist;
 
-    const editPreferencesLink = getByText(
-      'Edit your message preferences on the previous version of secure messaging (opens in new tab)',
-    );
-    expect(editPreferencesLink).to.exist;
-    expect(editPreferencesLink)
-      .to.have.attribute('href')
-      .to.contain(`mhv-portal-web/eauth?deeplinking=preferences`);
+    const showMoreTeamsLink = getByText('Show more teams in your contact list');
 
-    const contactFacilityLink = getByText('Find your VA health facility');
-    expect(contactFacilityLink).to.exist;
-    expect(contactFacilityLink)
+    expect(showMoreTeamsLink).to.exist;
+    expect(showMoreTeamsLink)
       .to.have.attribute('href')
-      .to.contain('/find-locations/');
+      .to.contain(Constants.Paths.CONTACT_LIST);
   });
 
   it('displays the correct number of optgroups', async () => {

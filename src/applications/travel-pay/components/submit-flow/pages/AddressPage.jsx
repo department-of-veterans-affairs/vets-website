@@ -3,15 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
-import {
-  HelpTextOptions,
-  HelpTextGeneral,
-  HelpTextModalities,
-} from '../../HelpText';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import { HelpTextOptions, HelpTextModalities } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const AddressPage = ({
   address,
@@ -21,8 +24,15 @@ const AddressPage = ({
   setYesNo,
   setIsUnsupportedClaimType,
 }) => {
+  const title = !address
+    ? 'We can’t file this claim in this tool at this time'
+    : 'Did you travel from your home address?';
+
+  useSetPageTitle(title);
+
   useEffect(
     () => {
+      recordSmocPageview('address');
       scrollToTop('topScrollElement');
       if (!address) {
         focusElement('h1');
@@ -37,6 +47,7 @@ const AddressPage = ({
 
   const handlers = {
     onNext: () => {
+      recordSmocButtonClick('address', 'continue');
       if (!yesNo.address) {
         setRequiredAlert(true);
       } else if (yesNo.address !== 'yes') {
@@ -47,6 +58,7 @@ const AddressPage = ({
       }
     },
     onBack: () => {
+      recordSmocButtonClick('address', 'back');
       setPageIndex(pageIndex - 1);
     },
   };
@@ -54,9 +66,7 @@ const AddressPage = ({
   if (!address) {
     return (
       <>
-        <h1 className="vads-u-margin-bottom--2">
-          We can’t file this claim in this tool at this time
-        </h1>
+        <h1 className="vads-u-margin-bottom--2">{title}</h1>
         <va-alert
           close-btn-aria-label="Close notification"
           status="warning"
@@ -73,12 +83,13 @@ const AddressPage = ({
           />
         </va-alert>
         <HelpTextModalities />
-        <h2 className="vads-u-font-size--h4">
-          How can I get help with my claim?
-        </h2>
-        <HelpTextGeneral />
         <br />
-        <va-button back onClick={handlers.onBack} class="vads-u-margin-y--2" />
+        <va-button
+          back
+          disable-analytics
+          onClick={handlers.onBack}
+          class="vads-u-margin-y--2"
+        />
       </>
     );
   }
@@ -89,7 +100,12 @@ const AddressPage = ({
         name="address"
         value={yesNo.address}
         error={requiredAlert}
-        label="Did you travel from your home address?"
+        label={title}
+        description={`Answer “yes” if you traveled from the address listed here and you confirm that it’s not a Post Office box. Home address. ${
+          address.addressLine1
+        } ${address.addressLine2 ?? ''} ${address.addressLine3 ?? ''} ${
+          address.city
+        }, ${address.stateCode} ${address.zipCode}`}
         onValueChange={e => {
           setYesNo({ ...yesNo, address: e.detail.value });
         }}
@@ -100,26 +116,27 @@ const AddressPage = ({
             confirm that it’s not a Post Office box.
           </p>
           <hr aria-hidden="true" className="vads-u-margin-y--0" />
-          <p className="vads-u-margin-top--2">
+          <div className="vads-u-margin-y--2">
             <strong>Home address</strong>
-            <br />
-            {address.addressLine1}
-            <br />
-            {address.addressLine2 && (
-              <>
-                {address.addressLine2}
-                <br />
-              </>
-            )}
-            {address.addressLine3 && (
-              <>
-                {address.addressLine3}
-                <br />
-              </>
-            )}
-            {`${address.city}, ${address.stateCode} ${address.zipCode}`}
-            <br />
-          </p>
+            <div data-dd-privacy="mask">
+              {address.addressLine1}
+              <br />
+              {address.addressLine2 && (
+                <>
+                  {address.addressLine2}
+                  <br />
+                </>
+              )}
+              {address.addressLine3 && (
+                <>
+                  {address.addressLine3}
+                  <br />
+                </>
+              )}
+              {`${address.city}, ${address.stateCode} ${address.zipCode}`}
+              <br />
+            </div>
+          </div>
           <hr aria-hidden="true" className="vads-u-margin-y--0" />
         </div>
       </SmocRadio>
@@ -130,6 +147,7 @@ const AddressPage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={handlers.onNext}
         onSecondaryClick={handlers.onBack}
       />

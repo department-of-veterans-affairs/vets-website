@@ -92,31 +92,31 @@ describe('isEligibleForDecisionReview', () => {
 describe('isEligibleToSubmitStatement', () => {
   let formData = { statementType: STATEMENT_TYPES.NOT_LISTED };
 
-  it('returns true when statementType is NOT_LISTED', () => {
+  it('returns true when statementType is specified and is NOT_LISTED', () => {
     expect(isEligibleToSubmitStatement(formData)).to.equal(true);
   });
 
-  it('returns true when statementType is PRIORITY_PROCESSING', () => {
+  it('returns true when statementType is specified and is PRIORITY_PROCESSING', () => {
     formData = { statementType: STATEMENT_TYPES.PRIORITY_PROCESSING };
     expect(isEligibleToSubmitStatement(formData)).to.equal(true);
   });
 
-  it('returns false when statementType is not in the allowed list', () => {
+  it('is ineligible when statementType is specified and not in the allowed list', () => {
     formData = { statementType: 'OTHER_TYPE' };
     expect(isEligibleToSubmitStatement(formData)).to.equal(false);
   });
 
-  it('returns false when statementType is missing', () => {
+  it('is not ineligible if statementType is not specified - user may have been redirected', () => {
     formData = {};
-    expect(isEligibleToSubmitStatement(formData)).to.equal(false);
+    expect(isEligibleToSubmitStatement(formData)).to.equal(true);
   });
 
-  it('returns false when formData is null', () => {
+  it('is not ineligible if formData is null - user may have been redirected', () => {
     formData = null;
-    expect(isEligibleToSubmitStatement(formData)).to.equal(false);
+    expect(isEligibleToSubmitStatement(formData)).to.equal(true);
   });
-  it('returns false when formData is undefined', () => {
+  it('is not ineligible if formData is undefined - user may have been redirected', () => {
     formData = undefined;
-    expect(isEligibleToSubmitStatement(formData)).to.equal(false);
+    expect(isEligibleToSubmitStatement(formData)).to.equal(true);
   });
 });

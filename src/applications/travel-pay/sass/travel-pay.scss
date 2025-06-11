@@ -22,6 +22,10 @@
   max-width: 35rem;
 }
 
+.travel-pay-claim-download-link-icon {
+  vertical-align: middle;
+}
+
 h2#pagination-info {
   font-size: 1.06rem;
   font-weight: normal;
@@ -62,5 +66,30 @@ h2#pagination-info {
     .back-arrow {
       padding-bottom: 48px;
     }
+  }
+}
+
+.travel-pay-download-error {
+  padding-bottom: 0.25rem;
+  padding-top: 0.25rem;
+  color: rgb(181, 9, 9);
+  display: block;
+  font-weight: 700;
+
+  va-icon {
+    margin-right: 0.2rem;
+    vertical-align: middle;
+  }
+}
+
+.travel-pay-download-loading-icon {
+  animation: spin 1.5s linear infinite;
+  margin: 0 0.2rem 0 0;
+  vertical-align: middle;
+}
+
+@media (prefers-reduced-motion) {
+  .travel-pay-download-loading-icon {
+    animation: none;
   }
 }

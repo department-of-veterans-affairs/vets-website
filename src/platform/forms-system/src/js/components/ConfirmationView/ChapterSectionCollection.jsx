@@ -68,7 +68,7 @@ const generateReviewEntryKey = (key, label, data) => {
   return keyString;
 };
 
-const reviewEntry = (description, key, uiSchema, label, data) => {
+export const reviewEntry = (description, key, uiSchema, label, data) => {
   if (!data) return null;
 
   const keyString = generateReviewEntryKey(key, label, data);
@@ -224,6 +224,19 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
 export const buildFields = (chapter, formData, pagesFromState) => {
   return chapter.expandedPages.flatMap(page => {
+    // page level ui:confirmationField
+    const ConfirmationField = page.uiSchema['ui:confirmationField'];
+
+    if (ConfirmationField) {
+      if (isReactComponent(ConfirmationField)) {
+        return <ConfirmationField formData={formData} />;
+      }
+
+      throw new Error(
+        'Page level ui:confirmationField must be a React component',
+      );
+    }
+
     return Object.entries(page.uiSchema).flatMap(
       ([uiSchemaKey, uiSchemaValue]) => {
         const data = formData[uiSchemaKey];

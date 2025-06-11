@@ -12,7 +12,7 @@ const SaveCancelButtons = ({ closeSection, keys, title, scroll }) => {
         }}
         buttonText="Save"
         buttonClass="usa-button-primary vads-u-width--auto"
-        ariaLabel={`Update ${title}`}
+        ariaLabel={`Save ${title}`}
       />
       <button
         aria-label="Cancel"

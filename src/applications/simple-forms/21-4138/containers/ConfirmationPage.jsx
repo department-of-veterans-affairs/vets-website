@@ -9,6 +9,13 @@ export const ConfirmationPage = props => {
   const submitDate = submission?.timestamp || '';
   const confirmationNumber = submission?.response?.confirmationNumber || '';
 
+  const item1Content = (
+    <p>
+      We will contact you when we have received your submission. This can take
+      up to 30 days.
+    </p>
+  );
+
   return (
     <ConfirmationView
       formConfig={props.route?.formConfig}
@@ -23,7 +30,10 @@ export const ConfirmationPage = props => {
       <ConfirmationView.SavePdfDownload />
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
-      <ConfirmationView.WhatsNextProcessList item1Actions={null} />
+      <ConfirmationView.WhatsNextProcessList
+        item1Actions={null}
+        item1Content={item1Content}
+      />
       <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />
       <ConfirmationView.NeedHelp />

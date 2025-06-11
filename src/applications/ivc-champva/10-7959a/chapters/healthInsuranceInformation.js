@@ -18,7 +18,8 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { nameWording } from '../../shared/utilities';
+import { nameWording, privWrapper } from '../../shared/utilities';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 const radioLabels = {
   group: 'Employer sponsored insurance (group)',
@@ -42,7 +43,7 @@ const yesNoContent = {
 };
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const insuranceOptions = {
   arrayPath: 'policies',
   nounSingular: 'policy',
   nounPlural: 'policies',
@@ -56,8 +57,10 @@ const options = {
         ? `${item?.otherType}`
         : `${radioLabels[(item?.type)]}`,
     summaryTitle: item => {
-      return `${nameWording(item?.formData, true, true, true) ||
-        'Beneficiary’s'} health insurance review`;
+      return privWrapper(
+        `${nameWording(item?.formData, true, true, true) ||
+          'Beneficiary’s'} health insurance review`,
+      );
     },
     summaryDescription: '',
     cancelAddButtonText: 'Cancel adding this insurance',
@@ -67,12 +70,9 @@ const options = {
 export const insuranceStatusSchema = {
   uiSchema: {
     ...titleUI(({ formData }) => {
-      return `${nameWording(
-        formData,
-        true,
-        true,
-        true,
-      )} health insurance status`;
+      return privWrapper(
+        `${nameWording(formData, true, true, true)} health insurance status`,
+      );
     }),
     hasOhi: {
       ...yesNoUI({
@@ -88,11 +88,15 @@ export const insuranceStatusSchema = {
               true,
             )} have health insurance coverage that isn’t through CHAMPVA?`,
             'ui:options': {
+              classNames: ['dd-privacy-hidden'],
               hint: hintText,
             },
           };
         },
       }),
+    },
+    'ui:options': {
+      itemAriaLabel: () => 'health insurance status',
     },
   },
   schema: {
@@ -109,11 +113,17 @@ const policyPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Policy information',
-      nounSingular: options.nounSingular,
+      nounSingular: insuranceOptions.nounSingular,
     }),
     name: textUI('Name of insurance provider'),
     policyNum: textUI('Policy number'),
     providerPhone: phoneUI('Insurance provider phone number'),
+    'ui:validations': [
+      (errors, page, formData) =>
+        validFieldCharsOnly(errors, page, formData, 'name'),
+      (errors, page, formData) =>
+        validFieldCharsOnly(errors, page, formData, 'policyNum'),
+    ],
   },
   schema: {
     type: 'object',
@@ -181,7 +191,7 @@ const insuranceProviderPage = {
 const summaryPage = {
   uiSchema: {
     'view:hasPolicies': arrayBuilderYesNoUI(
-      options,
+      insuranceOptions,
       yesNoContent,
       yesNoContent,
     ),
@@ -196,45 +206,49 @@ const summaryPage = {
 };
 
 // Main pages object
-export const insurancePages = arrayBuilderPages(options, pageBuilder => ({
-  insuranceIntro: pageBuilder.introPage({
-    path: 'insurance-intro',
-    title: '[noun plural]',
-    depends: formData => get('hasOhi', formData),
-    uiSchema: {
-      ...titleUI('Health insurance information', ({ formData }) => (
-        <p>
-          Next we’ll ask you to enter information about{' '}
-          {nameWording(formData, true, false, true)} health insurance.
-          <br />
-          <br />
-          You can add up to two health insurances, but do not include CHAMPVA.
-        </p>
-      )),
-    },
-    schema: {
-      type: 'object',
-      properties: {
-        titleSchema,
+export const insurancePages = arrayBuilderPages(
+  insuranceOptions,
+  pageBuilder => ({
+    insuranceIntro: pageBuilder.introPage({
+      path: 'insurance-intro',
+      title: '[noun plural]',
+      depends: formData => get('hasOhi', formData),
+      uiSchema: {
+        ...titleUI('Health insurance information', ({ formData }) => (
+          <p>
+            Next we’ll ask you to enter information about{' '}
+            {privWrapper(nameWording(formData, true, false, true))} health
+            insurance.
+            <br />
+            <br />
+            You can add up to two health insurances, but do not include CHAMPVA.
+          </p>
+        )),
       },
-    },
+      schema: {
+        type: 'object',
+        properties: {
+          titleSchema,
+        },
+      },
+    }),
+    insuranceSummary: pageBuilder.summaryPage({
+      title: 'Review your [noun plural]',
+      path: 'insurance-review',
+      depends: formData => get('hasOhi', formData),
+      ...summaryPage,
+    }),
+    insurancePolicy: pageBuilder.itemPage({
+      title: 'Policy information',
+      path: 'policy-info/:index',
+      depends: formData => get('hasOhi', formData),
+      ...policyPage,
+    }),
+    insuranceType: pageBuilder.itemPage({
+      title: 'Type',
+      path: 'insurance-type/:index',
+      depends: formData => get('hasOhi', formData),
+      ...insuranceProviderPage,
+    }),
   }),
-  insuranceSummary: pageBuilder.summaryPage({
-    title: 'Review your [noun plural]',
-    path: 'insurance-review',
-    depends: formData => get('hasOhi', formData),
-    ...summaryPage,
-  }),
-  insurancePolicy: pageBuilder.itemPage({
-    title: 'Policy information',
-    path: 'policy-info/:index',
-    depends: formData => get('hasOhi', formData),
-    ...policyPage,
-  }),
-  insuranceType: pageBuilder.itemPage({
-    title: 'Type',
-    path: 'insurance-type/:index',
-    depends: formData => get('hasOhi', formData),
-    ...insuranceProviderPage,
-  }),
-}));
+);

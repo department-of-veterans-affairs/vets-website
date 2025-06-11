@@ -16,9 +16,9 @@ describe('SM TRASH ADVANCED CATEGORY SEARCH', () => {
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
     FolderLoadPage.loadDeletedMessages();
-    PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectAdvancedSearchCategory('Medication');
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.openAdditionalFilter();
+    PatientFilterPage.selectAdvancedSearchCategory('Medication');
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
   });
 
   it('verify all messages contain the searched category', () => {
@@ -45,7 +45,7 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
     FolderLoadPage.loadDeletedMessages();
-    PatientInboxPage.openAdvancedSearch();
+    PatientFilterPage.openAdditionalFilter();
   });
 
   it('verify filter by last 3 month', () => {
@@ -55,8 +55,8 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
       mockTrashMessages,
     );
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.THREE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.THREE_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(3);
@@ -76,8 +76,8 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
       mockTrashMessages,
     );
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.SIX_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.SIX_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(6);
@@ -97,8 +97,8 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
       mockTrashMessages,
     );
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.TWELVE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.TWELVE_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(12);

@@ -10,7 +10,7 @@ import mockDraftMessages from './fixtures/draftsResponse/drafts-messages-respons
 describe('SM DRAFT FOLDER VERIFICATION', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(mockDraftMessages);
     FolderLoadPage.loadFolders();
     FolderLoadPage.loadDraftMessages();
   });
@@ -18,7 +18,7 @@ describe('SM DRAFT FOLDER VERIFICATION', () => {
   it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    GeneralFunctionsPage.verifyPageHeader(`Drafts`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Drafts`);
     PatientMessagesSentPage.verifyResponseBodyLength();
   });
 
@@ -58,5 +58,29 @@ describe('SM DRAFT FOLDER VERIFICATION', () => {
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+  });
+});
+
+describe('TG PLAIN NAMES', () => {
+  const updatedThreadResponse = GeneralFunctionsPage.updateTGSuggestedName(
+    mockDraftMessages,
+    'TG | Type | Name',
+  );
+  beforeEach(() => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(updatedThreadResponse);
+    FolderLoadPage.loadFolders();
+    FolderLoadPage.loadDraftMessages(updatedThreadResponse);
+  });
+
+  it('verify TG plain name in thread', () => {
+    cy.findAllByTestId('thread-list-item')
+      .first()
+      .should(
+        'contain.text',
+        updatedThreadResponse.data[0].attributes.suggestedNameDisplay,
+      );
+
+    cy.injectAxeThenAxeCheck();
   });
 });

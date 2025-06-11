@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { normalizeFullName } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
 const ConfirmationPrintView = ({ name, timestamp }) => {
+  const veteranFullName = useMemo(() => normalizeFullName(name, true), [name]);
+  const submissionDate = useMemo(
+    () => (timestamp ? format(new Date(timestamp), 'MMM. d, yyyy') : null),
+    [timestamp],
+  );
+
   return (
     <>
       <img
@@ -35,18 +41,14 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
           <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
             {content['confirmation--info-vet-label']}
           </dt>
-          <dd data-testid="cg-veteranfullname">
-            {normalizeFullName(name, true)}
-          </dd>
+          <dd data-testid="cg-veteranfullname">{veteranFullName}</dd>
         </div>
-        {!!timestamp && (
+        {submissionDate && (
           <div>
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
               {content['confirmation--info-timestamp-label']}
             </dt>
-            <dd data-testid="cg-timestamp">
-              {format(new Date(timestamp), 'MMM. d, yyyy')}
-            </dd>
+            <dd data-testid="cg-timestamp">{submissionDate}</dd>
           </div>
         )}
       </dl>
@@ -57,7 +59,12 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
 };
 
 ConfirmationPrintView.propTypes = {
-  name: PropTypes.object,
+  name: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+    suffix: PropTypes.string,
+  }),
   timestamp: PropTypes.number,
 };
 

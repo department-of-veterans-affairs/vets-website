@@ -31,6 +31,7 @@ export const downloadsReducer = (state = initialState, action) => {
       return {
         ...state,
         generatingCCD: false,
+        ccdDownloadSuccess: true,
         timestampCCD: action.response,
       };
     }
@@ -58,6 +59,12 @@ export const downloadsReducer = (state = initialState, action) => {
       return {
         ...state,
         recordFilter: action.response,
+      };
+    }
+    case Actions.Downloads.SET_FILE_TYPE_FILTER: {
+      return {
+        ...state,
+        fileTypeFilter: action.response,
       };
     }
     case Actions.Downloads.BB_SUCCESS: {

@@ -25,11 +25,11 @@ const payload = {
   },
 };
 
-const createStore = () =>
+const createStore = (formData = payload) =>
   mockStore({
     form: {
       data: {
-        application: payload,
+        application: formData.application || payload.application,
       },
     },
   });
@@ -120,6 +120,47 @@ describe('Preparer Suggested Address', () => {
     expect(wrapper.find('va-loading-indicator').length).to.equal(0);
     expect(wrapper.find('SuggestedAddressRadio').length).to.equal(0);
     expect(wrapper.find('AddressConfirmation').length).to.equal(1);
+
+    wrapper.unmount();
+  });
+
+  it('should handle undefined address', async () => {
+    const formData = {};
+    const store = createStore(formData);
+    const wrapper = await renderComponent(store);
+
+    // Check the component's behavior when address is undefined
+    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
+    expect(wrapper.find('SuggestedAddressRadio').length).to.equal(0);
+    expect(wrapper.find('AddressConfirmation').length).to.equal(0);
+
+    wrapper.unmount();
+  });
+
+  it('should handle null address', async () => {
+    const formData = { application: { applicant: { address: null } } };
+    const store = createStore(formData);
+    const wrapper = await renderComponent(store);
+
+    // Check the component's behavior when address is null
+    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
+    expect(wrapper.find('SuggestedAddressRadio').length).to.equal(0);
+    expect(wrapper.find('AddressConfirmation').length).to.equal(0);
+
+    wrapper.unmount();
+  });
+
+  it('should handle defined address', async () => {
+    const formData = {
+      application: { applicant: { address: payload.applicant.address } },
+    };
+    const store = createStore(formData);
+    const wrapper = await renderComponent(store);
+
+    // Check the component's behavior when address is defined
+    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
+    expect(wrapper.find('SuggestedAddressRadio').length).to.equal(0);
+    expect(wrapper.find('AddressConfirmation').length).to.equal(0);
 
     wrapper.unmount();
   });

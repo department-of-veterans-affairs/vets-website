@@ -3,8 +3,11 @@ import { Provider } from 'react-redux';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
-import { setupServer } from 'msw/node';
-import { rest } from 'msw';
+import {
+  createGetHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import App from './index';
 
@@ -19,14 +22,9 @@ const emptyAvailableFormsResponse = {
 
 const setupAvailableFormsResponse = (server, status, responsePayload) => {
   server.use(
-    rest.get(
+    createGetHandler(
       'https://dev-api.va.gov/v0/form1095_bs/available_forms',
-      (_, res, ctx) => {
-        if (responsePayload) {
-          return res(ctx.status(status), ctx.json(responsePayload));
-        }
-        return res(ctx.status(status));
-      },
+      () => jsonResponse(responsePayload || {}, { status }),
     ),
   );
 };
@@ -43,10 +41,6 @@ describe('App component', () => {
   setupAvailableFormsResponse(server, 200, goodAvailableFormsResponse);
 
   const unauthenticatedState = {
-    featureToggles: {
-      loading: false,
-      showDigitalForm1095b: true,
-    },
     user: {
       login: {
         currentlyLoggedIn: false,
@@ -59,10 +53,6 @@ describe('App component', () => {
     },
   };
   const unverifiedState = {
-    featureToggles: {
-      loading: false,
-      showDigitalForm1095b: true,
-    },
     user: {
       login: {
         currentlyLoggedIn: true,
@@ -78,10 +68,6 @@ describe('App component', () => {
     },
   };
   const authedAndVerifiedState = {
-    featureToggles: {
-      loading: false,
-      showDigitalForm1095b: true,
-    },
     user: {
       login: {
         currentlyLoggedIn: true,
@@ -146,6 +132,7 @@ describe('App component', () => {
       });
     });
   });
+
   describe('when authenticated and verified', () => {
     it('renders the loading message', async () => {
       const testState = {
@@ -175,11 +162,14 @@ describe('App component', () => {
       await waitFor(() => {
         expect(queryByText('Loading')).not.to.exist;
       });
-      expect(
-        container.querySelector(
-          'va-link[text="Download PDF (best for printing)"]',
-        ),
-      ).to.exist;
+      await waitFor(() => {
+        expect(
+          container.querySelector(
+            'va-link[text="Download PDF (best for printing)"]',
+          ),
+        ).to.exist;
+      });
+
       expect(
         container.querySelector(
           'va-link[text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"]',
@@ -198,7 +188,9 @@ describe('App component', () => {
         expect(getByTestId('downloadError')).to.exist;
       });
       const target = getByTestId('downloadError');
-      expect(document.activeElement).to.eq(target);
+      await waitFor(() => {
+        expect(document.activeElement).to.eq(target);
+      });
     });
 
     describe('when the forms endpoint fails', () => {
@@ -210,29 +202,6 @@ describe('App component', () => {
         });
         await waitFor(() => {
           expect(queryByText('System error')).to.exist;
-        });
-      });
-    });
-
-    describe('when the feature flag is off', () => {
-      it('renders an "unavailable" messsage', async () => {
-        const testState = {
-          ...authedAndVerifiedState,
-          featureToggles: {
-            ...authedAndVerifiedState.featureToggles,
-            showDigitalForm1095b: false,
-          },
-        };
-        const { queryByText } = renderWithProvider(testState);
-        await waitFor(() => {
-          expect(queryByText('Loading')).not.to.exist;
-        });
-        await waitFor(() => {
-          expect(
-            queryByText(
-              'Your 1095-B form isn’t available to download right now',
-            ),
-          ).to.exist;
         });
       });
     });

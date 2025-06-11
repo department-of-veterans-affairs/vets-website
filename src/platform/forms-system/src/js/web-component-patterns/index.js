@@ -3,6 +3,7 @@ export * from './arnPattern';
 export * from './arrayBuilderPatterns';
 export * from './bankPattern';
 export * from './checkboxGroupPattern';
+export * from './currencyPattern';
 export * from './datePatterns';
 export * from './emailPattern';
 export * from './fileInputPattern';

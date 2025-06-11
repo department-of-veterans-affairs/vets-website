@@ -16,6 +16,9 @@ export const uiSchema = {
       },
     },
   },
+  'ui:options': {
+    itemName: 'Applicant sponsor',
+  },
 };
 
 export const schema = {

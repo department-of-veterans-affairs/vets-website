@@ -24,14 +24,14 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
     sandbox.restore();
   });
 
-  it.skip('should render Breadcrumbs component when breadcrumb does not start with "Back"', () => {
+  it('should render Breadcrumbs component when breadcrumb does not start with "Back"', () => {
     sandbox.stub(flow, 'getReferralUrlLabel').returns('Label');
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralBreadcrumbs />, {
       store,
     });
 
-    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const crumb =
       navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
@@ -49,8 +49,7 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
       '/schedule-referral?id=1234&referrer=referrals-requests',
     );
 
-    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
-
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const hasReferralBreadcrumbs = navigation.breadcrumbList.some(
       breadcrumb => breadcrumb.label === 'Referrals and requests',

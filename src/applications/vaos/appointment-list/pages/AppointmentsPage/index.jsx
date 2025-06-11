@@ -8,16 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import CernerAlert from '../../../components/CernerAlert';
 import WarningNotification from '../../../components/WarningNotification';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectPendingAppointments,
-} from '../../../redux/selectors';
+import { selectPendingAppointments } from '../../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedAppointmentsPage';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
-import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
+// import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { routeToCCPage } from '../../../referral-appointments/flow';
 import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPilot';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
@@ -47,15 +44,13 @@ export default function AppointmentsPage() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
-  let [pageTitle] = useState('VA online scheduling');
+  let [pageTitle] = useState('VA appointments');
   const { isInCCPilot } = useIsInCCPilot();
 
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
   );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+
   // const featureBookingExclusion = useSelector(state =>
   //   selectFeatureBookingExclusion(state),
   // );
@@ -98,15 +93,10 @@ export default function AppointmentsPage() {
 
   useEffect(
     () => {
-      if (featureBreadcrumbUrlUpdate) {
-        document.title = `${pageTitle} | Veterans Affairs`;
-        scrollAndFocus('h1');
-      } else {
-        document.title = `${pageTitle} | VA online scheduling | Veterans Affairs`;
-        scrollAndFocus('h1');
-      }
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus('h1');
     },
-    [location.pathname, prefix, pageTitle, featureBreadcrumbUrlUpdate],
+    [location.pathname, prefix, pageTitle],
   );
 
   const [count, setCount] = useState(0);
@@ -143,7 +133,6 @@ export default function AppointmentsPage() {
       >
         {pageTitle}
       </h1>
-      {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
       <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
       {/* {featureBookingExclusion && (
         <CernerTransitionAlert
@@ -152,14 +141,18 @@ export default function AppointmentsPage() {
         />
       )} */}
       <DowntimeNotification
-        appTitle="VA online scheduling tool"
+        appTitle="appointments tool"
         isReady
         dependencies={[externalServices.vaosWarning]}
         render={renderWarningNotification()}
       />
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
-      {isInCCPilot && <ReferralTaskCardWithReferral />}
+
+      {/* TODO: Add this back in when VeText adds support for a
+      referral id in the url sent to the veteran  */}
+      {/* {isInCCPilot && <ReferralTaskCardWithReferral />} */}
+
       {isInCCPilot && (
         <div
           className={classNames(

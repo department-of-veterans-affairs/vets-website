@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -15,6 +15,7 @@ import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
+  ITF_NOTICE_TEXT,
   WIZARD_STATUS,
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
@@ -59,6 +60,7 @@ class IntroductionPage extends React.Component {
       downtime: formConfig.downtime,
       retentionPeriod: '1 year',
       ariaDescribedby: 'main-content',
+      buttonAriaDescribedby: ITF_NOTICE_TEXT,
     };
 
     return (
