@@ -22,7 +22,7 @@ import { API_NAMES } from '../../../common/constants';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import useHighlightedClaimOrAppeal from './hooks/useHighlightedClaimOrAppeal';
 import HighlightedClaimAppeal from './HighlightedClaimAppeal';
-import CombinedDisabilityRatingWidget from './CombinedDisabilityRatingCard';
+import CombinedDisabilityRatingCard from './CombinedDisabilityRatingCard';
 
 const NoClaimsOrAppealsText = () => {
   return (
@@ -221,7 +221,7 @@ const ClaimsAndAppeals = ({
             Combined disability rating
           </h3>
           <DashboardWidgetWrapper>
-            <CombinedDisabilityRatingWidget />
+            <CombinedDisabilityRatingCard />
           </DashboardWidgetWrapper>
         </Toggler.Enabled>
       </Toggler>
