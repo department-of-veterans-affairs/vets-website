@@ -10,37 +10,18 @@ const mockStore = configureMockStore();
 describe('CombinedDisabilityRatingCard', () => {
   let store;
 
-  const renderWithTotalRatingData = (
-    totalDisabilityRating,
-    totalDisabilityRatingServerError = false,
-  ) => {
-    if (totalDisabilityRatingServerError) {
-      store = mockStore({
-        totalRating: {
-          totalDisabilityRating: null,
-          error: {
-            // Fake the error object following the props checked by helpers
-            code: 500,
-          },
-        },
-      });
-    } else {
-      store = mockStore({
-        totalRating: {
-          totalDisabilityRating,
-        },
-      });
-    }
+  it('renders the disability rating at 0%', () => {
+    store = mockStore({
+      totalRating: {
+        totalDisabilityRating: 0,
+      },
+    });
 
-    return render(
+    const screen = render(
       <Provider store={store}>
         <CombinedDisabilityRatingCard />
       </Provider>,
     );
-  };
-
-  it('renders the disability rating at 0%', () => {
-    const screen = renderWithTotalRatingData(0);
 
     expect(screen.getByText('Your combined disability rating is 0%')).to.exist;
     expect(
@@ -49,7 +30,17 @@ describe('CombinedDisabilityRatingCard', () => {
   });
 
   it('renders the disability rating at 70%', () => {
-    const screen = renderWithTotalRatingData(70);
+    store = mockStore({
+      totalRating: {
+        totalDisabilityRating: 70,
+      },
+    });
+
+    const screen = render(
+      <Provider store={store}>
+        <CombinedDisabilityRatingCard />
+      </Provider>,
+    );
 
     expect(screen.getByText('Your combined disability rating is 70%')).to.exist;
     expect(
@@ -58,7 +49,21 @@ describe('CombinedDisabilityRatingCard', () => {
   });
 
   it('renders the error state on server error', () => {
-    const screen = renderWithTotalRatingData(null, true);
+    // Fake the error object following the props that helpers check
+    store = mockStore({
+      totalRating: {
+        totalDisabilityRating: null,
+        error: {
+          code: 500,
+        },
+      },
+    });
+
+    const screen = render(
+      <Provider store={store}>
+        <CombinedDisabilityRatingCard />
+      </Provider>,
+    );
 
     expect(screen.queryByText(/Your combined disability rating is \d+%/)).to.not
       .exist;

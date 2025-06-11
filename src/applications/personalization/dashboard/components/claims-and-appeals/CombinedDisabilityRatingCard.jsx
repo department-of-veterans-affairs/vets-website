@@ -26,12 +26,6 @@ const CombinedDisabilityRatingCard = ({
           className="vads-u-font-weight--bold"
           showArrow
         />
-        {/*
-        <va-link
-          href="/disability/view-disability-rating"
-          text="Review your VA disability rating"
-        />
-        */}
       </p>
     </va-card>
   );
