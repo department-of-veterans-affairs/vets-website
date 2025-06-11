@@ -23,7 +23,7 @@ import {
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
-  selectFeatureConvertSlotsToUTC,
+  selectFeatureConvertSlotsToUtc,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -639,7 +639,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
-    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
+    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
     const startDateMonth = format(new Date(startDate), 'yyyy-MM');
     const endDateMonth = format(new Date(endDate), 'yyyy-MM');
