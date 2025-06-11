@@ -41,18 +41,24 @@ import { isOutsideForm } from '../../shared/utils/helpers';
 import { data995 } from '../../shared/props';
 
 export const App = ({
-  loggedIn,
-  location,
-  children,
-  formData,
-  setFormData,
-  router,
-  getContestableIssues,
-  contestableIssues,
-  legacyCount,
   accountUuid,
+  children,
+  contestableIssues,
+  formData,
+  getContestableIssues,
   inProgressFormId,
+  legacyCount,
+  location,
+  loggedIn,
+  router,
+  savedForms,
+  setFormData,
 }) => {
+  const saved0995 = savedForms?.filter(
+    savedForm => savedForm.form === '20-0995',
+  );
+
+  
   const { pathname } = location || {};
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
@@ -207,12 +213,12 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
-  inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
-  loggedIn: isLoggedIn(state),
-  formData: state.form?.data || {},
-  savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
+  formData: state.form?.data || {},
+  inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   legacyCount: state.legacyCount || 0,
+  loggedIn: isLoggedIn(state),
+  savedForms: state.user?.profile?.savedForms || [],
 });
 
 const mapDispatchToProps = {
