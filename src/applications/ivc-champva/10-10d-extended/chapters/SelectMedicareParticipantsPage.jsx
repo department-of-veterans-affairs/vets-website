@@ -11,6 +11,11 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording, toHash, getAgeInYears } from '../../shared/utilities';
 
+// similar to `toSpliced`, but simpler and actually works in testing framework
+function dropItem(arr, targetIdx) {
+  return arr.filter((_i, idx) => idx !== targetIdx);
+}
+
 /**
  * Gets applicants eligible for Medicare selection
  * @param {Object} data Form data
@@ -29,7 +34,7 @@ function getEligibleApplicants(data, idx) {
   }
 
   // Get Medicare entries excluding current one
-  const otherMedicareEntries = medicareData.toSpliced(idx, 1) ?? [];
+  const otherMedicareEntries = dropItem(medicareData, idx) ?? [];
 
   // Return applicants not already selected for Medicare
   return applicants.filter(applicant => {
