@@ -22,7 +22,7 @@ import { API_NAMES } from '../../../common/constants';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import useHighlightedClaimOrAppeal from './hooks/useHighlightedClaimOrAppeal';
 import HighlightedClaimAppeal from './HighlightedClaimAppeal';
-import CombinedDisabilityRatingWidget from '../CombinedDisabilityRatingWidget';
+import CombinedDisabilityRatingWidget from './CombinedDisabilityRatingCard';
 
 const NoClaimsOrAppealsText = () => {
   return (

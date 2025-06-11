@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import CTALink from './CTALink';
-import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
+import CTALink from '../CTALink';
+import { hasTotalDisabilityServerError } from '../../../common/selectors/ratedDisabilities';
 
-const CombinedDisabilityRatingWidget = ({
+const CombinedDisabilityRatingCard = ({
   totalDisabilityRating,
   totalDisabilityRatingServerError,
 }) => {
@@ -33,7 +33,7 @@ const CombinedDisabilityRatingWidget = ({
   );
 };
 
-CombinedDisabilityRatingWidget.propTypes = {
+CombinedDisabilityRatingCard.propTypes = {
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingServerError: PropTypes.bool,
 };
@@ -43,4 +43,4 @@ const mapStateToProps = state => ({
   totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
 });
 
-export default connect(mapStateToProps)(CombinedDisabilityRatingWidget);
+export default connect(mapStateToProps)(CombinedDisabilityRatingCard);
