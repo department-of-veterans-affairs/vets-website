@@ -35,7 +35,7 @@ const MessageThreadHeader = props => {
     subject,
     sentDate,
     recipientId,
-    isOhMessage,
+    isOhMessage = false,
   } = message;
 
   const { customFoldersRedesignEnabled } = useFeatureToggles();

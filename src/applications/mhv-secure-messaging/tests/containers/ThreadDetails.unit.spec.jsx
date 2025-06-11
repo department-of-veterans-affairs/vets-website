@@ -8,6 +8,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import moment from 'moment';
+import { subDays } from 'date-fns';
 import ThreadDetails from '../../containers/ThreadDetails';
 import { Alerts, PageTitles } from '../../util/constants';
 import reducer from '../../reducers';
@@ -273,9 +274,7 @@ describe('Thread Details container', () => {
           messages: [
             {
               ...replyMessage,
-              sentDate: moment()
-                .subtract(46, 'days')
-                .format(),
+              sentDate: subDays(new Date(), 46).toISOString(),
             },
             olderMessage,
           ],
@@ -342,9 +341,7 @@ describe('Thread Details container', () => {
             {
               ...replyMessage,
               isOhMessage: true,
-              sentDate: moment()
-                .subtract(46, 'days')
-                .format(),
+              sentDate: subDays(new Date(), 46).toISOString(),
             },
             olderMessage,
           ],
@@ -355,12 +352,16 @@ describe('Thread Details container', () => {
         },
       },
     };
+
     const screen = setup(state);
 
     expect(await screen.queryByText('Continue to reply')).to.not.exist;
 
-    expect(await screen.findByText(`${category}: ${subject}`, { exact: false }))
-      .to.exist;
+    expect(
+      await screen.findByText(`Messages: ${category} - ${subject}`, {
+        exact: false,
+      }),
+    ).to.exist;
 
     expect(global.document.title).to.equal(
       `Messages: ${PageTitles.CONVERSATION_TITLE_TAG}`,
@@ -381,8 +382,7 @@ describe('Thread Details container', () => {
     );
     expect(screen.getByText('Find your VA health facility', { selector: 'a' }))
       .to.exist;
-    expect(screen.getByText(Alerts.Message.CANNOT_REPLY_BODY.OH_PILOT)).to
-      .exist;
+    expect(screen.getByText(Alerts.Message.CANNOT_REPLY_BODY.OH)).to.exist;
     expect(
       screen.getByTestId(`message-body-${olderMessage.messageId}`).textContent,
     ).to.contain(olderMessage.body);

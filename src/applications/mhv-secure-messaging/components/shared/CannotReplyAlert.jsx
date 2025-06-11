@@ -22,7 +22,7 @@ const CannotReplyAlert = props => {
           ) : (
             <>
               <p>{Alerts.Message.CANNOT_REPLY_BODY.MAIN}</p>
-              <p>{Alerts.Message.CANNOT_REPLY_BODY.OH_PILOT}</p>
+              <p>{Alerts.Message.CANNOT_REPLY_BODY.OH}</p>
               <p>
                 <a
                   href="/find-locations"
@@ -32,7 +32,7 @@ const CannotReplyAlert = props => {
                   Find your VA health facility
                 </a>
               </p>
-              <p>{Alerts.Message.CANNOT_REPLY_BODY.OH_PILOT_CONTACT}</p>
+              <p>{Alerts.Message.CANNOT_REPLY_BODY.OH_CONTACT}</p>
             </>
           )}
           <p className="vads-u-margin-top--neg1 vads-u-margin-bottom--1 vads-u-font-weight--bold">

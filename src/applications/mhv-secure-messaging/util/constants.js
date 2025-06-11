@@ -155,9 +155,9 @@ export const Alerts = {
       MAIN: 'The last message in this conversation is more than 45 days old.',
       VISTA:
         "If you want to continue this conversation, you'll need to start a new message.",
-      OH_PILOT:
+      OH:
         'If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.',
-      OH_PILOT_CONTACT:
+      OH_CONTACT:
         'Or you can send a message to other care teams in your contact list.',
     },
     CANNOT_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
