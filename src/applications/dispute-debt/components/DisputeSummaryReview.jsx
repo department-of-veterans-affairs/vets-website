@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/browser';
 import { currency } from '../utils';
 import { deductionCodes } from '../constants';
 
@@ -7,6 +8,15 @@ const DisputeSummaryReview = ({ data }) => {
   const { selectedDebts = [] } = data;
 
   if (!selectedDebts.length) {
+    // Log to Sentry when user reaches review page without selecting debts
+    Sentry.withScope(scope => {
+      scope.setLevel('info');
+      scope.setExtra('data', data);
+      Sentry.captureMessage(
+        'Dispute Debt - Veteran reached review page without selecting any debts',
+      );
+    });
+
     return (
       <div className="dispute-summary-review">
         <p>No debts selected for dispute.</p>
