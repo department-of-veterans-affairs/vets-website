@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { format, fromUnixTime } from 'date-fns';
 import {
   VaCheckbox,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { scrollTo } from 'platform/utilities/scroll';
@@ -27,6 +30,18 @@ const Authorization = ({
 }) => {
   const [hasError, setHasError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const appLastUpdated = useSelector(
+    state => state?.form?.loadedData?.metadata?.lastUpdated,
+  );
+
+  console.log('appLastUpdated', appLastUpdated);
+
+  if (appLastUpdated) {
+    console.log(format(fromUnixTime(appLastUpdated), 'yyyy-MM-dd HH:mm:ss'));
+  }
+
+  const CUTOFF_DATE_4142 = '2025-06-30 19:00:00';
 
   const toggle4142PrivacyModal = () => {
     setModalVisible(!modalVisible);
@@ -105,6 +120,10 @@ const Authorization = ({
     />
   );
 
+  const shouldShowLegaleseBanner = () => {
+    return true;
+  };
+
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
@@ -115,6 +134,25 @@ const Authorization = ({
           />
         )}
         <h3>{title4142}</h3>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.decisionReviews4142Banner}>
+          <Toggler.Enabled>
+            <va-banner
+              class="vads-u-display--block vads-u-margin-y--3"
+              headline="Action needed: Review authorization"
+              role="alert"
+              type="warning"
+              visible={shouldShowLegaleseBanner}
+            >
+              <p className="vads-u-margin-bottom--0">
+                We’ve updated the legal statement on this page. You previously
+                gave us permission to request your non-VA medical records.
+                Review this page and, if you still want us to contact your
+                provider for your records, check the box at the bottom to
+                authorize.
+              </p>
+            </va-banner>
+          </Toggler.Enabled>
+        </Toggler>
         <p>
           Only provide this authorization if you want The Department of Veterans
           Affairs (VA) to obtain non-VA medical records on your behalf. If
