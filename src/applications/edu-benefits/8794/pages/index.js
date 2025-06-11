@@ -1,5 +1,5 @@
 import * as designatingOfficial from './designatingOfficial';
-import * as primaryOfficial from './primaryOfficial';
+import * as primaryOfficialDetails from './primaryOfficialDetails';
 import * as institutionDetails from './institutionDetails';
 import * as institutionDetailsFacility from './institutionDetailsFacility';
 import * as primaryOfficialTraining from './primaryOfficialTraining';
@@ -9,7 +9,7 @@ import * as institutionNameAndAddress from './institutionNameAndAddress';
 
 export {
   designatingOfficial,
-  primaryOfficial,
+  primaryOfficialDetails,
   primaryOfficialTraining,
   institutionDetails,
   institutionDetailsFacility,

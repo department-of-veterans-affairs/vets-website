@@ -25,7 +25,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import {
   designatingOfficial,
-  primaryOfficial,
+  primaryOfficialDetails,
   institutionDetails,
   institutionDetailsFacility,
   primaryOfficialTraining,
@@ -128,8 +128,8 @@ const formConfig = {
         primaryOfficialDetails: {
           path: 'primary-certifying-official',
           title: 'Tell us about your primary certifying official',
-          uiSchema: primaryOfficial.uiSchema,
-          schema: primaryOfficial.schema,
+          uiSchema: primaryOfficialDetails.uiSchema,
+          schema: primaryOfficialDetails.schema,
         },
         primaryOfficialTraining: {
           path: 'primary-certifying-official-1',

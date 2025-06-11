@@ -21,7 +21,7 @@ const phoneLabels = {
 };
 
 const uiSchema = {
-  primaryOfficial: {
+  primaryOfficialDetails: {
     ...titleUI('Tell us about your primary certifying official'),
     'ui:description': (
       <>
@@ -99,13 +99,13 @@ const uiSchema = {
     }),
     'ui:options': {
       updateSchema: (formData, formSchema) => {
-        if (formData.primaryOfficial?.phoneType === 'us') {
+        if (formData.primaryOfficialDetails?.phoneType === 'us') {
           return {
             ...formSchema,
             required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
           };
         }
-        if (formData.primaryOfficial?.phoneType === 'intl') {
+        if (formData.primaryOfficialDetails?.phoneType === 'intl') {
           return {
             ...formSchema,
             required: [
@@ -126,7 +126,7 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    primaryOfficial: {
+    primaryOfficialDetails: {
       type: 'object',
       properties: {
         fullName: fullNameNoSuffixSchema,

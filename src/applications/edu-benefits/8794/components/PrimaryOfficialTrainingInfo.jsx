@@ -7,10 +7,10 @@ const PrimaryOfficialTrainingInfo = () => {
   return (
     <>
       <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-        {formState?.primaryOfficial.fullName.first &&
-        formState?.primaryOfficial.fullName.last
-          ? `${formState?.primaryOfficial.fullName.first} ${
-              formState?.primaryOfficial.fullName.last
+        {formState?.primaryOfficialDetails.fullName.first &&
+        formState?.primaryOfficialDetails.fullName.last
+          ? `${formState?.primaryOfficialDetails.fullName.first} ${
+              formState?.primaryOfficialDetails.fullName.last
             }'s Section 305 training`
           : 'Section 305 Training'}
       </h3>
