@@ -52,13 +52,17 @@ export default function submitTransformer(formData, uploadFiles) {
   let schoolCode;
 
   if (formData?.emailAddress) {
-    formData.businessEmail = formData.emailAddress;
+    if (!formData?.businessEmail) {
+      formData.businessEmail = formData.emailAddress;
+    }
   } else {
     formData.emailAddress = formData.businessEmail;
   }
 
   if (formData?.phoneNumber) {
-    formData.businessPhone = formData.phoneNumber;
+    if (!formData?.businessPhone) {
+      formData.businessPhone = formData.phoneNumber;
+    }
   } else {
     formData.phoneNumber = formData.businessPhone;
   }

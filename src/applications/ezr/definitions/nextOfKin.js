@@ -119,7 +119,6 @@ export const nextOfKinSummaryPage = (options = {}) => ({
   uiSchema: {
     'view:hasNextOfKin': arrayBuilderYesNoUI(options, {
       title: content['next-of-kin-add-contacts-label'],
-      titleHeaderLevel: 'h2',
       hint: content['next-of-kin-hint-text'],
     }),
   },
