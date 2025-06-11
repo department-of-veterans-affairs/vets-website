@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
 
 // 'Manually' generating PDF instead of using generatePdf so we can
@@ -20,28 +21,65 @@ const getPdfBlob = async (templateId, data) => {
   });
 };
 
+const pdfDataSplitter = pdfData => {
+  const educationDebts = pdfData.selectedDebts.filter(
+    debt => debt.deductionCode !== '30',
+  );
+  const compAndPenDebts = pdfData.selectedDebts.filter(
+    debt => debt.deductionCode === '30',
+  );
+
+  return {
+    education: educationDebts.length
+      ? { ...pdfData, selectedDebts: educationDebts }
+      : null,
+    compAndPen: compAndPenDebts.length
+      ? { ...pdfData, selectedDebts: compAndPenDebts }
+      : null,
+  };
+};
+
 export const handlePdfGeneration = async pdfData => {
   try {
-    // TODO: Split selectedDebts into individual PDFs if needed
-    const pdfResponseA = await getPdfBlob('disputeDebt', pdfData);
-    const pdfResponseB = await getPdfBlob('disputeDebt', pdfData);
-
-    // testing
-    const filename = `dispute-debt.pdf`;
-    const url = URL.createObjectURL(pdfResponseA);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename;
-    link.click();
-    URL.revokeObjectURL(url);
-    // end testing
-
+    const splitPdfData = pdfDataSplitter(pdfData);
     const formData = new FormData();
-    formData.append('files[]', pdfResponseA);
-    formData.append('files[]', pdfResponseB);
 
+    // Generate the PDF for education debts if present
+    if (splitPdfData.education) {
+      const educationPdfData = await getPdfBlob(
+        'disputeDebt',
+        splitPdfData.education,
+      );
+      formData.append('files[]', educationPdfData);
+    }
+
+    // Generate the PDF for comp and pen debts if present
+    if (splitPdfData.compAndPen) {
+      const compAndPenPdfData = await getPdfBlob(
+        'disputeDebt',
+        splitPdfData.compAndPen,
+      );
+      formData.append('files[]', compAndPenPdfData);
+    }
+
+    // shouldn't happen, but just in case
+    if (!splitPdfData.compAndPen && !splitPdfData.education) {
+      throw new Error(
+        '`Dispute Debt pdf generation failed: No debts to generate PDF for.',
+      );
+    }
+
+    // Returning FormData to be used in the API request
     return formData;
   } catch (error) {
-    throw new Error('PDF generation failed', error);
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(
+        `Dispute Debt pdf generation failed in handlePdfGeneration: ${
+          error.detail
+        }`,
+      );
+    });
+    return null;
   }
 };
