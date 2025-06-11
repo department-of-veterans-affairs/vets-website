@@ -57,8 +57,8 @@ export default function submitTransformer(formData, uploadFiles) {
   const isWorkRelated =
     formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK;
 
-  // vets-api looks for the field emailAddress always. Therefore send businessEmail
-  // and businessPhone as emailAddress and phoneNumber if this is a work-related inquiry.
+  // vets-api always looks for the field emailAddress or phoneNumber. 
+  // Therefore send businessEmail and businessPhone if this is a work-related inquiry.
   // Otherwise the emailAddress and phoneNumber fields will already be filled with
   // the correct information from their profile.
   if (isWorkRelated) {

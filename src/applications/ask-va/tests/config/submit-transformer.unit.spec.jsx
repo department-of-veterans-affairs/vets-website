@@ -2,8 +2,6 @@ import { expect } from 'chai';
 import submitTransformer from '../../config/submit-transformer';
 
 describe('Ask VA submit transformer', () => {
-  // const buildFormData = () => {};
-
   it('should transform data correctly with file(s)', () => {
     const formData = {
       school: '333 - Midvale School for the Gifted',
