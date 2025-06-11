@@ -20,7 +20,7 @@ export default function FacilitiesNotShown() {
         <va-additional-info
           data-testid="facility-not-listed"
           trigger="If you can't find your facility on the list"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(true)}
           uswds
         >
           <p className="vads-u-margin-top--0">
