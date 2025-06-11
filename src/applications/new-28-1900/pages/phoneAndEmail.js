@@ -1,8 +1,8 @@
 import {
   emailToSendNotificationsSchema,
   emailToSendNotificationsUI,
-  internationalPhoneSchema,
-  internationalPhoneUI,
+  internationalPhoneDeprecatedSchema,
+  internationalPhoneDeprecatedUI,
   phoneSchema,
   phoneUI,
   titleUI,
@@ -15,7 +15,9 @@ export default {
     ...titleUI(CONTACT_INFORMATION_CHAPTER_CONSTANTS.phoneAndEmailPageTitle),
     mainPhone: phoneUI('Phone number'),
     cellPhone: phoneUI('Cell phone number'),
-    internationalPhone: internationalPhoneUI('International phone number'),
+    internationalPhone: internationalPhoneDeprecatedUI(
+      'International phone number',
+    ),
     email: emailToSendNotificationsUI('Email address'),
   },
   schema: {
@@ -23,7 +25,7 @@ export default {
     properties: {
       mainPhone: phoneSchema,
       cellPhone: phoneSchema,
-      internationalPhone: internationalPhoneSchema,
+      internationalPhone: internationalPhoneDeprecatedSchema,
       email: emailToSendNotificationsSchema,
     },
     required: ['email'],
