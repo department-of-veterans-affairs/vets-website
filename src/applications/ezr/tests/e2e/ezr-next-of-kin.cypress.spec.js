@@ -8,6 +8,7 @@ import {
   goToNextPage,
   selectDropdownWebComponent,
   fillNameWithKeyboard,
+  selectYesNoWebComponent,
 } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import { advanceToNextOfKin } from './helpers/next-of-kin';
@@ -36,6 +37,8 @@ describe('EZR Next Of Kin flow', () => {
 
     advanceToNextOfKin();
 
+    selectYesNoWebComponent('view:hasNextOfKin', true);
+
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/next-of-kin/0/contact',
     );
@@ -50,8 +53,7 @@ describe('EZR Next Of Kin flow', () => {
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/next-of-kin/0/contact-address',
     );
-    cy.tabToElement(`[name="root_address_country"]`);
-    cy.chooseSelectOptionUsingValue(contact.address.country);
+    cy.selectVaSelect(`root_address_country`, contact.address.country);
     fillTextWebComponent('address_street', contact.address.street);
     fillTextWebComponent('address_city', contact.address.city);
     selectDropdownWebComponent('address_state', contact.address.state);
