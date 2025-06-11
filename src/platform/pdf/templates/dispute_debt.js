@@ -94,7 +94,13 @@ const generate = async (data = {}, config = defaultConfig) => {
 
   doc.moveDown(3);
 
-  const dmcRoutingTitle = 'DMC Routing: TBD';
+  const useCompAndPenTitle = selectedDebts.some(
+    debt => debt.deductionCode === '30',
+  );
+
+  const dmcRoutingTitle = useCompAndPenTitle
+    ? 'DMC Routing: C&P Dispute'
+    : 'DMC Routing: Education Dispute';
   titleSection.add(
     createHeading(doc, 'H2', config, dmcRoutingTitle, {
       x: config.margins.left,
@@ -294,6 +300,8 @@ const generate = async (data = {}, config = defaultConfig) => {
   // =====================================
   // * Veteran identification information *
   // =====================================
+  const { ssnLastFour } = veteran;
+
   const veteranIdentificationInformation = doc.struct('Sect', {
     title: "Veteran's identification information",
   });
@@ -310,7 +318,7 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('Social Security number');
-      doc.font(config.text.font).text('add masking thingy');
+      doc.font(config.text.font).text(ssnLastFour || '');
     }),
   );
 
