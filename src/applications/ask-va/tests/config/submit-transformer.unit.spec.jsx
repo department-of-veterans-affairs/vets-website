@@ -135,7 +135,31 @@ describe('Ask VA submit transformer', () => {
     expect(result.businessPhone).to.equal('123-456-7890');
   });
 
-  it('should preserve businessEmail when both email fields exist', () => {
+  it('should update businessEmail when it does not exist but emailAddress does', () => {
+    const formData = {
+      school: null,
+      stateOfTheFacility: 'NY',
+      emailAddress: 'personal@test.com',
+      businessEmail: undefined,
+    };
+    const result = submitTransformer(formData);
+    expect(result.emailAddress).to.equal('personal@test.com');
+    expect(result.businessEmail).to.equal('personal@test.com');
+  });
+
+  it('should update emailAddress when it does not exist but businessEmail does', () => {
+    const formData = {
+      school: null,
+      stateOfTheFacility: 'NY',
+      emailAddress: undefined,
+      businessEmail: 'business@test.com',
+    };
+    const result = submitTransformer(formData);
+    expect(result.emailAddress).to.equal('business@test.com');
+    expect(result.businessEmail).to.equal('business@test.com');
+  });
+
+  it('should prioritize businessEmail when both email fields exist', () => {
     const formData = {
       school: null,
       stateOfTheFacility: 'NY',
@@ -143,11 +167,35 @@ describe('Ask VA submit transformer', () => {
       businessEmail: 'business@test.com',
     };
     const result = submitTransformer(formData);
-    expect(result.emailAddress).to.equal('personal@test.com');
+    expect(result.emailAddress).to.equal('business@test.com');
     expect(result.businessEmail).to.equal('business@test.com');
   });
 
-  it('should preserve businessPhone when both phone fields exist', () => {
+  it('should update businessPhone when it does not exist but phoneNumber does', () => {
+    const formData = {
+      phoneNumber: '111-222-3333',
+      school: null,
+      stateOfTheFacility: 'NY',
+      businessPhone: undefined,
+    };
+    const result = submitTransformer(formData);
+    expect(result.phoneNumber).to.equal('111-222-3333');
+    expect(result.businessPhone).to.equal('111-222-3333');
+  });
+
+  it('should update phoneNumber when it does not exist but businessPhone does', () => {
+    const formData = {
+      phoneNumber: undefined,
+      school: null,
+      stateOfTheFacility: 'NY',
+      businessPhone: '123-456-7890',
+    };
+    const result = submitTransformer(formData);
+    expect(result.phoneNumber).to.equal('123-456-7890');
+    expect(result.businessPhone).to.equal('123-456-7890');
+  });
+
+  it('should prioritize businessPhone when both phone fields exist', () => {
     const formData = {
       phoneNumber: '111-222-3333',
       school: null,
@@ -155,8 +203,22 @@ describe('Ask VA submit transformer', () => {
       businessPhone: '123-456-7890',
     };
     const result = submitTransformer(formData);
-    expect(result.phoneNumber).to.equal('111-222-3333');
+    expect(result.phoneNumber).to.equal('123-456-7890');
     expect(result.businessPhone).to.equal('123-456-7890');
+  });
+
+  it('should ensure both business and personal email and phone exist if only one is present', () => {
+    const formData = {
+      phoneNumber: '111-222-3333',
+      businessEmail: 'business@test.com',
+      school: null,
+      stateOfTheFacility: 'NY',
+    };
+    const result = submitTransformer(formData);
+    expect(result.emailAddress).to.equal('business@test.com');
+    expect(result.businessEmail).to.equal('business@test.com');
+    expect(result.phoneNumber).to.equal('111-222-3333');
+    expect(result.businessPhone).to.equal('111-222-3333');
   });
 
   it('should handle missing email and phone fields', () => {

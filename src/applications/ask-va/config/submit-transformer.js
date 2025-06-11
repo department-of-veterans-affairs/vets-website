@@ -51,20 +51,16 @@ export default function submitTransformer(formData, uploadFiles) {
   let schoolName;
   let schoolCode;
 
-  if (formData?.emailAddress) {
-    if (!formData?.businessEmail) {
-      formData.businessEmail = formData.emailAddress;
-    }
-  } else {
+  if (formData?.businessEmail) {
     formData.emailAddress = formData.businessEmail;
+  } else if (formData?.emailAddress) {
+    formData.businessEmail = formData.emailAddress;
   }
 
-  if (formData?.phoneNumber) {
-    if (!formData?.businessPhone) {
-      formData.businessPhone = formData.phoneNumber;
-    }
-  } else {
+  if (formData?.businessPhone) {
     formData.phoneNumber = formData.businessPhone;
+  } else if (formData?.phoneNumber) {
+    formData.businessPhone = formData.phoneNumber;
   }
 
   if (stateOrResidency?.schoolState || stateOrResidency?.residencyState) {
