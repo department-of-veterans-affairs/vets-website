@@ -187,7 +187,7 @@ const ReviewAndConfirm = props => {
           <div className="vads-l-row">
             <div className="vads-l-col">
               <h2 className={headingStyles}>
-                {`${titleCase(currentReferral.categoryOfCare)} Provider`}
+                {`${titleCase(currentReferral.categoryOfCare)} provider`}
               </h2>
             </div>
           </div>
