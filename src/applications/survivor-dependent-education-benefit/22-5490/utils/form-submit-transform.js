@@ -323,10 +323,10 @@ export function getAddressType(mailingAddress) {
 
 export function transform5490Form(_formConfig, form) {
   const formFieldUserFullName =
-    form?.data?.claimantFullName || form?.data?.relativeFullName;
+    form?.data?.relativeFullName || form?.data?.claimantFullName;
   const viewComponentUserFullName =
-    form?.loadedData?.formData?.claimantFullName ||
-    form?.loadedData?.formData?.relativeFullName;
+    form?.loadedData?.formData?.relativeFullName ||
+    form?.loadedData?.formData?.claimantFullName;
 
   const userFullName =
     formFieldUserFullName !== undefined &&
@@ -344,8 +344,8 @@ export function transform5490Form(_formConfig, form) {
       lastName: userFullName?.last,
       suffix: userFullName?.suffix,
       dateOfBirth:
-        form?.data?.claimantDateOfBirth ||
-        form?.loadedData?.formData?.relativeDateOfBirth,
+        form?.loadedData?.formData?.relativeDateOfBirth ||
+        form?.data?.claimantDateOfBirth,
       notificationMethod: getNotificationMethod(form?.data?.notificationMethod),
       contactInfo: {
         addressLine1: form?.data?.mailingAddressInput?.address?.street,

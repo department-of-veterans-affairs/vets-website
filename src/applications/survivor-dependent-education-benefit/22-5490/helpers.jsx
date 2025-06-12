@@ -105,14 +105,15 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let middleName;
   let lastName;
   let suffix;
-  if (profile?.userFullName?.first && profile?.userFullName?.last) {
-    firstName = profile.userFullName.first;
-    middleName = profile.userFullName.middle;
-    lastName = profile.userFullName.last;
-  } else if (formData?.relativeFullName) {
+
+  if (formData?.relativeFullName?.first && formData?.relativeFullName?.last) {
     firstName = formData?.relativeFullName.first;
     middleName = formData?.relativeFullName.middle;
     lastName = formData?.relativeFullName.last;
+  } else if (profile?.userFullName?.first && profile?.userFullName?.last) {
+    firstName = profile.userFullName.first;
+    middleName = profile.userFullName.middle;
+    lastName = profile.userFullName.last;
   } else {
     firstName = claimant.firstName;
     middleName = claimant.middleName;
