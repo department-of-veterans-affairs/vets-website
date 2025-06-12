@@ -189,9 +189,10 @@ describe('Toxic exposure date handling when reverting condition association', ()
     ).type('1992');
     cy.get(
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    )
-      .type('1992')
-      .blur();
+    ).type('1992');
+    cy.get(
+      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
+    ).blur();
     cy.get(
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
     ).clear();
