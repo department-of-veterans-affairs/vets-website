@@ -95,29 +95,24 @@ const formConfig = {
           uiSchema: isProprietaryProfit.uiSchema,
           schema: isProprietaryProfit.schema,
         },
-        proprietaryProfitConflicts: {
-          pages: {
-            ...arrayBuilderPages(
-              affiliatedIndividualsArrayOptions,
-
-              pageBuilder => ({
-                affiliatedIndividualsSummary: pageBuilder.summaryPage({
-                  title: 'Individuals with a potential conflict of interest',
-                  path: 'proprietary-profit-1',
-                  uiSchema: affiliatedIndividualsSummary.uiSchema,
-                  schema: affiliatedIndividualsSummary.schema,
-                }),
-                affiliatedIndividualsAssociation: pageBuilder.itemPage({
-                  title:
-                    'Individuals affiliated with both your institution and VA or SAA',
-                  path: 'proprietary-profit-1/:index/details',
-                  uiSchema: affiliatedIndividualsAssociation.uiSchema,
-                  schema: affiliatedIndividualsAssociation.schema,
-                }),
-              }),
-            ),
-          },
-        },
+        ...arrayBuilderPages(
+          affiliatedIndividualsArrayOptions,
+          pageBuilder => ({
+            affiliatedIndividualsSummary: pageBuilder.summaryPage({
+              title: 'Individuals with a potential conflict of interest',
+              path: 'proprietary-profit-1',
+              uiSchema: affiliatedIndividualsSummary.uiSchema,
+              schema: affiliatedIndividualsSummary.schema,
+            }),
+            affiliatedIndividualsAssociation: pageBuilder.itemPage({
+              title:
+                'Individuals affiliated with both your institution and VA or SAA',
+              path: 'proprietary-profit-1/:index/details',
+              uiSchema: affiliatedIndividualsAssociation.uiSchema,
+              schema: affiliatedIndividualsAssociation.schema,
+            }),
+          }),
+        ),
       },
     },
     conflictOfInterestChapter: {

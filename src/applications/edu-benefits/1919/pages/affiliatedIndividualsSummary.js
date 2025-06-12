@@ -34,7 +34,7 @@ const summaryPage = {
         </>
       ),
       'ui:options': {
-        hideIf: formData => formData?.affiliatedIndividuals?.length > 0,
+        hideIf: formData => formData?.proprietaryProfitConflicts?.length > 0,
       },
     },
     isProfitConflictOfInterest: arrayBuilderYesNoUI(
