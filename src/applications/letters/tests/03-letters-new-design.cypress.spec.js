@@ -15,7 +15,7 @@ describe('New letters page design', () => {
   beforeEach(() => {
     cy.fixture(
       './applications/letters/tests/e2e/fixtures/PDFs/test.txt',
-      'utf-8',
+      'binary',
     ).as('letterPDFBlob');
 
     cy.injectAxeThenAxeCheck();
