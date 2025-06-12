@@ -99,9 +99,6 @@ export const selectFeatureFeSourceOfTruthModality = state =>
 export const selectFeatureFeSourceOfTruthTelehealth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruthTelehealth;
 
-export const selectFeatureDirectScheduleAppointmentConflict = state =>
-  toggleValues(state).vaOnlineSchedulingDirectScheduleAppointmentConflict;
-
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;
 

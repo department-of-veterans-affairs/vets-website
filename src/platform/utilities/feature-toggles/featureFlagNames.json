@@ -311,7 +311,6 @@
   "vaOnlineSchedulingFeSourceOfTruthTelehealth": "va_online_scheduling_fe_source_of_truth_telehealth",
   "vaOnlineSchedulingMHVRouteGuards": "va_online_scheduling_mhv_route_guards",
   "vaOnlineSchedulingConvertSlotsToUtc": "va_online_scheduling_convert_slots_to_utc",
-  "vaOnlineSchedulingDirectScheduleAppointmentConflict": "va_online_scheduling_direct_schedule_appointment_conflict",
   "vetStatusStage1": "vet_status_stage_1",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "vetStatusPdfLogging": "vet_status_pdf_logging",
