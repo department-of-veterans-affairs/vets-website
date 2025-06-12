@@ -41,24 +41,19 @@ export const removeChildStoppedAttendingSchoolOptions = {
 
 export const removeChildStoppedAttendingSchoolIntroPage = {
   uiSchema: {
-    ...titleUI({
-      title: 'Your children',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your children
-              between ages 18 and 23 who left school. You must add at least one
-              child.
-            </p>
-            <CancelButton
-              dependentType="children who left school"
-              isAddChapter={false}
-            />
-          </>
-        );
-      },
-    }),
+    ...titleUI('Your children'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your children between
+          ages 18 and 23 who left school. You must add at least one child.
+        </p>
+        <CancelButton
+          dependentType="children who left school"
+          isAddChapter={false}
+        />
+      </>
+    ),
   },
   schema: {
     type: 'object',
