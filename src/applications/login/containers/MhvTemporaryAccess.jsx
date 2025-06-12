@@ -1,10 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { login } from 'platform/user/authentication/utilities';
 import { AUTHN_SETTINGS } from 'platform/user/authentication/constants';
 
 export default function MhvTemporaryAccess() {
+  const [manageAcctUrl, setAcctUrl] = useState();
   useEffect(() => {
     document.title = 'Access the My HealtheVet sign-in option';
+
+    async function createHref() {
+      const url = await login({
+        policy: 'mhv',
+        queryParams: { operation: 'mhv_exception' },
+        isLink: true,
+      });
+      setAcctUrl(url);
+    }
+    createHref();
   }, []);
   return (
     <section className="container row login vads-u-padding--3">
@@ -47,32 +58,16 @@ export default function MhvTemporaryAccess() {
         <va-link-action
           text="Manage your account"
           type="secondary"
-          onClick={e => {
-            e.preventDefault();
+          href={manageAcctUrl}
+          onClick={() => {
             sessionStorage.setItem(
               AUTHN_SETTINGS.RETURN_URL,
-              'https://eauth.va.gov/mhv-portal-web/eauth',
+              'https://eauth.va.gov/mhv-portal-web/eauth?deeplinking=account-information',
             );
-            login({
-              policy: 'mhv',
-              queryParams: { operation: 'mhv_exception' },
-            });
           }}
           data-testid="updateMhvBtn"
         />
         <h2>Help and support</h2>
-        <h3 className="vads-u-margin-top--0">Recover forgotten password</h3>
-        <p className="vads-u-measure--4 vads-u-margin-bottom--0">
-          If you forgot your My HealtheVet password, you can submit personal
-          information to recover it.
-        </p>
-        <va-link-action
-          text="Recover your password"
-          type="secondary"
-          href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/forgot-password?action=new"
-          data-testid="recoverMhvBtn"
-        />
-        <h3>Get support</h3>
         <p>
           For all other questions, contact the administrator who gave you access
           to this page.

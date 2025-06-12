@@ -180,4 +180,49 @@ describe('letters reducer', () => {
 
     expect(state.letterDownloadStatus.foo).to.equal(DOWNLOAD_STATUSES.failure);
   });
+  it('should handle a letter with an empty address', () => {
+    const state = reduce({ type: 'LETTER_HAS_EMPTY_ADDRESS' });
+
+    expect(state.lettersAvailability).to.equal(
+      AVAILABILITY_STATUSES.hasEmptyAddress,
+    );
+    expect(state.addressAvailability).to.equal(
+      AVAILABILITY_STATUSES.hasEmptyAddress,
+    );
+  });
+  it('should handle downloading an enhanced letter', () => {
+    const state = reduce({
+      type: 'GET_ENHANCED_LETTERS_DOWNLOADING',
+      letterType: 'letterType',
+    });
+
+    expect(state.enhancedLetterStatus.letterType).to.equal(
+      DOWNLOAD_STATUSES.downloading,
+    );
+  });
+  it('should handle successfully fetching enhanced letters', () => {
+    const enhancedLetters = [
+      { letterType: 'one', name: 'Enhanced One Letter' },
+      { letterType: 'two', name: 'Enhanced Two Letter' },
+    ];
+
+    const state = reduce({
+      type: 'GET_ENHANCED_LETTERS_SUCCESS',
+      data: enhancedLetters,
+    });
+
+    expect(state.enhancedLetters).to.deep.equal(enhancedLetters);
+    expect(state.enhancedLetterStatus.one).to.equal(DOWNLOAD_STATUSES.success);
+    expect(state.enhancedLetterStatus.two).to.equal(DOWNLOAD_STATUSES.success);
+  });
+  it('should handle failing to fetch enhanced letters', () => {
+    const state = reduce({
+      type: 'GET_ENHANCED_LETTERS_FAILURE',
+      letterType: 'letterType',
+    });
+
+    expect(state.enhancedLetterStatus.letterType).to.equal(
+      DOWNLOAD_STATUSES.failure,
+    );
+  });
 });
