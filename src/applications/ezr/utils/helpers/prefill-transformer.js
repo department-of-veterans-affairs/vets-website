@@ -90,18 +90,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = { ...newData, veteranHomeAddress };
   }
 
-  if (newData.emergencyContacts && newData.emergencyContacts.length > 0) {
-    newData.emergencyContacts = newData.emergencyContacts.map(contact => {
-      return contact;
-    });
-  }
-
-  if (newData.nextOfKins && newData.nextOfKins.length > 0) {
-    newData.nextOfKins = newData.nextOfKins.map(contact => {
-      return contact;
-    });
-  }
-
   return {
     metadata,
     formData: newData,
