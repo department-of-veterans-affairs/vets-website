@@ -1,5 +1,6 @@
 import VaInputTelephoneField from '../web-component-fields/VaInputTelephoneField';
-import InternationalPhoneNumberWidget from '../review/InternationalPhoneNumberWidget';
+import internationalPhoneNumberWidget from '../review/InternationalPhoneNumberWidget';
+import { validateInputTelephone } from '../validation';
 
 /**
  * Web component v3 uiSchema for an international phone number
@@ -26,10 +27,11 @@ const internationalPhoneUI = options => {
     typeof options === 'object' ? options : { title: options };
 
   return {
-    'ui:title': title ?? 'Phone number',
+    'ui:title': title ?? 'Home phone number',
     'ui:webComponentField': VaInputTelephoneField,
-    'ui:reviewWidget': InternationalPhoneNumberWidget,
+    'ui:reviewField': internationalPhoneNumberWidget,
     'ui:options': uiOptions,
+    'ui:validations': [validateInputTelephone],
   };
 };
 
@@ -39,7 +41,11 @@ const internationalPhoneSchema = {
     callingCode: { type: 'number', title: 'Calling code' },
     countryCode: { type: 'string', title: 'Country code' },
     contact: { type: 'string', title: 'Contact' },
-    isValid: { type: 'boolean', title: 'Is valid' },
+    isValid: {
+      type: 'boolean',
+      title: 'Is valid',
+      enum: [true],
+    },
   },
   required: ['callingCode', 'countryCode', 'contact', 'isValid'],
 };

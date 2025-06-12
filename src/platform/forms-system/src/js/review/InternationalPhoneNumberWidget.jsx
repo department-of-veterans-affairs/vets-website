@@ -1,17 +1,17 @@
 import React from 'react';
 
-// When coming from a PhoneNumberWidget (not review), value will be only numbers
-export default function InternationalPhoneNumberWidget({ value }) {
-  if (!value) {
-    return <span>No phone number provided</span>;
+export default function InternationalPhoneNumberWidget({ children }) {
+  const data = children?.props?.formData;
+  if (data) {
+    const { callingCode, contact, countryCode } = data;
+    if ((callingCode, contact, countryCode)) {
+      return (
+        <div className="review-row">
+          <dt>Contact</dt>
+          <dd>{`+${callingCode} ${contact} (${countryCode})`}</dd>
+        </div>
+      );
+    }
   }
-
-  const { callingCode, countryCode, contact } = value;
-  const formattedNumber = `+${callingCode || ''} ${contact || ''}`;
-
-  return (
-    <span className="dd-privacy-hidden" data-dd-action-name="phone number">
-      {formattedNumber} ({countryCode || ''})
-    </span>
-  );
+  return <div>No phone number provided.</div>;
 }

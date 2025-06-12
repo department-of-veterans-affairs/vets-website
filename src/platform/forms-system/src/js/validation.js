@@ -652,3 +652,23 @@ export function validateAutosuggestOption(errors, formData) {
     errors.addError('Please select an option from the suggestions');
   }
 }
+
+export function validateInputTelephone(errors, value) {
+  const badContact =
+    value.contact &&
+    value.contactLength &&
+    value.contact.length >= value.contactLength;
+  const missingContact = value.contact === '';
+  const missingCountry = value.countryCode === '';
+  const missingValues = !value.countryCode && !value.contact;
+  if (
+    !value.isValid &&
+    (badContact || missingContact || missingCountry || missingValues)
+  ) {
+    if (value.error) {
+      errors.addError(value.error);
+    } else {
+      errors.addError('Please enter a complete phone number.');
+    }
+  }
+}

@@ -19,12 +19,13 @@ export default function VaInputTelephoneFieldMapping(props) {
     country: childrenProps?.formData?.countryCode || '',
     onVaContact: (event, value) => {
       const contact = value || event.detail || {};
-
       childrenProps.onChange({
         callingCode: parseInt(contact.callingCode, 10) || null,
         countryCode: contact.countryCode || '',
         contact: contact.contact || '',
+        contactLength: contact.contactLength || null,
         isValid: !!contact.isValid || false,
+        error: contact.error,
       });
     },
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
