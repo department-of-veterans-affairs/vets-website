@@ -1,6 +1,7 @@
 // use this file to mock api responses for local development
 // yarn mock-api --responses src/applications/new-28-1900/tests/fixtures/mocks/local-mock-responses.js
 const mockUser = require('./user.json');
+// const mockSipUser = require('./user-sip.json');
 const mockFeatureToggles = require('./featureToggles.json');
 const mockSipPut = require('./sip-put.json');
 const mockSipGet = require('./sip-get.json');
@@ -8,6 +9,7 @@ const submissionStatues = require('./submission-statuses.json');
 
 const responses = {
   'GET /v0/user': mockUser,
+  // 'GET /v0/user': mockSipUser,
 
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': mockFeatureToggles,
