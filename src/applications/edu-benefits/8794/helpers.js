@@ -33,8 +33,8 @@ export const getCardTitle = item => {
 
 export const additionalOfficialArrayOptions = {
   arrayPath: 'additional-certifying-official',
-  nounSingular: 'official',
-  nounPlural: 'officials',
+  nounSingular: 'certifying official',
+  nounPlural: 'certifying officials',
   required: false,
   text: {
     getItemName: item => getCardTitle(item),

@@ -74,25 +74,35 @@ const uiSchema = {
       },
     }),
     'ui:options': {
-      updateSchema: (formData, formSchema, index) => {
-        if (formData.additionalOfficialDetails[index]?.phoneType === 'us') {
-          return {
-            ...formSchema,
-            required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
-          };
+      updateSchema: (formData, formSchema, ui, index) => {
+        if (
+          Array.isArray(formData['additional-certifying-official']) &&
+          formData['additional-certifying-official'][index]
+        ) {
+          if (
+            formData['additional-certifying-official'][index]
+              .additionalOfficialDetails.phoneType === 'us'
+          ) {
+            return {
+              ...formSchema,
+              required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
+            };
+          }
+          if (
+            formData['additional-certifying-official'][index]
+              .additionalOfficialDetails.phoneType === 'intl'
+          ) {
+            return {
+              ...formSchema,
+              required: [
+                'title',
+                'phoneType',
+                'internationalPhoneNumber',
+                'emailAddress',
+              ],
+            };
+          }
         }
-        if (formData.additionalOfficialDetails[index]?.phoneType === 'intl') {
-          return {
-            ...formSchema,
-            required: [
-              'title',
-              'phoneType',
-              'internationalPhoneNumber',
-              'emailAddress',
-            ],
-          };
-        }
-
         return { ...formSchema };
       },
     },
