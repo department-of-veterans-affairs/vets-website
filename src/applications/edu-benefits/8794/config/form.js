@@ -28,6 +28,7 @@ import {
   institutionNameAndAddress,
   additionalOfficialSummary,
   additionalOfficialDetails,
+  additionalOfficialTraining,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -157,14 +158,13 @@ const formConfig = {
             uiSchema: additionalOfficialDetails.uiSchema,
             schema: additionalOfficialDetails.schema,
           }),
-          // conflictOfInterestFileNumber: pageBuilder.itemPage({
-          //   path: 'conflict-of-interest/:index/file-number',
-          //   title:
-          //     'Information on an individual with a potential conflict of interest who receives VA educational benefits',
-          //   showPagePerItem: true,
-          //   uiSchema: conflictOfInterestFileNumber.uiSchema,
-          //   schema: conflictOfInterestFileNumber.schema,
-          // }),
+          additionalOfficialTraining: pageBuilder.itemPage({
+            path: 'additional-certifying-officials-1/:index',
+            title: 'Section 305 training',
+            showPagePerItem: true,
+            uiSchema: additionalOfficialTraining.uiSchema,
+            schema: additionalOfficialTraining.schema,
+          }),
           // conflictOfInterestEnrollmentPeriod: pageBuilder.itemPage({
           //   path: 'conflict-of-interest/:index/enrollment-period',
           //   title:

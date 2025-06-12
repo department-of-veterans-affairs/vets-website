@@ -6,29 +6,14 @@ import AdditionalOfficialIntro from './AdditionalOfficialIntro';
 
 export const arrayBuilderOptions = {
   arrayPath: 'additional-certifying-official',
-  nounSingular: 'additional certifying official',
-  nounPlural: 'additional certifying officials',
+  nounSingular: 'certifying official',
+  nounPlural: 'certifying officials',
   required: false,
-  // text: {
-  //   getItemName: item => item.fullName,
-  //   cardDescription: item => {
-  //     return item.fullName;
-  //   },
-  //   summaryTitle: props =>
-  //     `Review your ${
-  //       props?.formData?.programs.length > 1
-  //         ? 'additional certifying officials's
-  //         : 'additional certifying official'
-  //     }`,
-  // },
 };
 
 const additionalOfficialSummary = {
   uiSchema: {
-    // 'ui:title':'Add additional certifying officials',
-    // 'ui:description': additionalOfficialSummaryDescription,
     'view:introduction': {
-      // ...titleUI('Add additional certifying officials'),
       'ui:description': AdditionalOfficialIntro,
     },
     'view:additionalOfficialSummary': arrayBuilderYesNoUI(arrayBuilderOptions, {

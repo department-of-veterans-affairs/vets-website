@@ -8,6 +8,7 @@ import { institutionDetailsNoFacilityDescription } from './institutionDetailsNoF
 import * as institutionNameAndAddress from './institutionNameAndAddress';
 import { additionalOfficialSummary } from './additionalOfficialSummary';
 import * as additionalOfficialDetails from './additionalOfficialDetails';
+import * as additionalOfficialTraining from './additionalOfficialTraining';
 
 export {
   designatingOfficial,
@@ -20,4 +21,5 @@ export {
   institutionNameAndAddress,
   additionalOfficialSummary,
   additionalOfficialDetails,
+  additionalOfficialTraining,
 };

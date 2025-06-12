@@ -81,7 +81,7 @@ const uiSchema = {
         ) {
           if (
             formData['additional-certifying-official'][index]
-              .additionalOfficialDetails.phoneType === 'us'
+              .additionalOfficialDetails?.phoneType === 'us'
           ) {
             return {
               ...formSchema,
@@ -90,7 +90,7 @@ const uiSchema = {
           }
           if (
             formData['additional-certifying-official'][index]
-              .additionalOfficialDetails.phoneType === 'intl'
+              .additionalOfficialDetails?.phoneType === 'intl'
           ) {
             return {
               ...formSchema,
