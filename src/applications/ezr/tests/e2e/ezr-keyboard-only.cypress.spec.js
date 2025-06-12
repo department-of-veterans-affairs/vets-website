@@ -94,16 +94,10 @@ describe('Form 10-10EZR Keyboard Only', () => {
 
       // Fill in primary phone number
       fillPhoneNumberWithKeyboard('primaryPhone', contact.primaryPhone);
+      cy.tabToContinueForm();
 
-      // Indicate whether the contact has an address
-      if (contact.address) {
-        selectRadioWithKeyboard('view:hasEmergencyContactAddress', 'Y');
-        cy.tabToContinueForm();
-        fillAddressWithKeyboard('address', contact.address);
-      } else {
-        selectRadioWithKeyboard('view:hasEmergencyContactAddress', 'N');
-        cy.tabToElementAndPressSpace('.usa-button-primary'); // Proceed without address
-      }
+      // Fill in address
+      fillAddressWithKeyboard('address', contact.address);
 
       // Save the contact
       cy.tabToElementAndPressSpace('.usa-button-primary'); // Save contact
@@ -124,16 +118,10 @@ describe('Form 10-10EZR Keyboard Only', () => {
 
       // Fill in primary phone number
       fillPhoneNumberWithKeyboard('primaryPhone', contact.primaryPhone);
+      cy.tabToContinueForm();
 
-      // Indicate whether the contact has an address
-      if (contact.address) {
-        selectRadioWithKeyboard('view:hasNextOfKinAddress', 'Y');
-        cy.tabToContinueForm();
-        fillAddressWithKeyboard('address', contact.address);
-      } else {
-        selectRadioWithKeyboard('view:hasNextOfKinAddress', 'N');
-        cy.tabToElementAndPressSpace('.usa-button-primary'); // Proceed without address
-      }
+      // Fill in address
+      fillAddressWithKeyboard('address', contact.address);
 
       // Save the contact
       cy.tabToElementAndPressSpace('.usa-button-primary'); // Save contact
