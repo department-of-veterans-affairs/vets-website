@@ -22,6 +22,7 @@ import { API_NAMES } from '../../../common/constants';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import useHighlightedClaimOrAppeal from './hooks/useHighlightedClaimOrAppeal';
 import HighlightedClaimAppeal from './HighlightedClaimAppeal';
+import CombinedDisabilityRatingCard from './CombinedDisabilityRatingCard';
 
 const NoClaimsOrAppealsText = () => {
   return (
@@ -214,6 +215,16 @@ const ClaimsAndAppeals = ({
             </DashboardWidgetWrapper>
           )}
       </div>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Enabled>
+          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Combined disability rating
+          </h3>
+          <DashboardWidgetWrapper>
+            <CombinedDisabilityRatingCard />
+          </DashboardWidgetWrapper>
+        </Toggler.Enabled>
+      </Toggler>
     </div>
   );
 };
