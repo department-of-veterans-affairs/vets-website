@@ -3,7 +3,7 @@ import React from 'react';
 import { MhvSimpleSigninCallToAction } from 'applications/static-pages/mhv-simple-signin-cta';
 
 export const linkText = 'Order hearing aid and CPAP supplies online';
-export const linkUrl = '/health-care/order-hearing-aid-or-CPAP-supplies-form';
+export const linkUrl = '/my-health/order-medical-supplies';
 
 export const App = () => {
   return (

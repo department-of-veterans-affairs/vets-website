@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
-import { Element } from 'platform/utilities/scroll';
+import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
 
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
@@ -162,6 +160,7 @@ class AdditionalEvidencePage extends React.Component {
                 onFieldChange={this.props.updateField}
                 onCancel={this.props.cancelUpload}
                 onDirtyFields={this.props.setFieldsDirty}
+                fileTab
               />
             </>
           ) : (

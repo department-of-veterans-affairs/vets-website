@@ -478,15 +478,6 @@ export const applicantRemarriageCertConfig = uploadWithInfoComponent(
   'remarriage certificates',
 );
 
-// When in list loop, formData is just the list element's data, but when editing
-// a list item's data on review-and-submit `formData` may be the complete form
-// data object. This provides a consistent interface via formContext.
-export function getTopLevelFormData(formContext) {
-  return formContext.contentAfterButtons === undefined
-    ? formContext.data
-    : formContext.contentAfterButtons.props.form.data;
-}
-
 // If the beneficiary remarried, collect proof of that remarriage
 // and any other marital docs they want to include
 export const applicantRemarriageCertUploadUiSchema = {
@@ -507,7 +498,7 @@ export const applicantRemarriageCertUploadUiSchema = {
           const nonPosessive = applicantWording(formData, false, false);
           // Inside list loop this lets us grab form data outside the scope of
           // current list element:
-          const vetName = getTopLevelFormData(formContext)?.veteransFullName;
+          const vetName = formContext?.fullData?.veteransFullName;
           return (
             <>
               If <span className="dd-privacy-hidden">{nonPosessive}</span>{' '}

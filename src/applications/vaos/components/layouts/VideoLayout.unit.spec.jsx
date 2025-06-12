@@ -43,6 +43,8 @@ describe('VAOS Component: VideoLayout', () => {
         type: 'VA',
         modality: 'vaVideoCareAtHome',
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: null,
@@ -71,6 +73,9 @@ describe('VAOS Component: VideoLayout', () => {
         type: 'VA',
         modality: 'vaVideoCareAtHome',
         isCerner: false,
+        'fields-load-success': '',
+        'fields-load-fail':
+          'type-of-care,provider,clinic-phone,facility-details,facility-phone',
       };
 
       // Act
@@ -107,45 +112,7 @@ describe('VAOS Component: VideoLayout', () => {
       expect(screen.getByText(/Facility not available/i));
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-any',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
         ...nullAttributes,
       });
     });
@@ -157,6 +124,8 @@ describe('VAOS Component: VideoLayout', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -196,6 +165,8 @@ describe('VAOS Component: VideoLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -236,6 +207,8 @@ describe('VAOS Component: VideoLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
+        type: 'VA',
+        modality: 'vaVideoCareAtHome',
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -243,6 +216,8 @@ describe('VAOS Component: VideoLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -267,11 +242,20 @@ describe('VAOS Component: VideoLayout', () => {
           isPendingAppointment: false,
           isUpcomingAppointment: true,
           isVideo: true,
+          isCerner: false,
           apiData: {
             serviceType: 'primaryCare',
           },
         },
         status: 'booked',
+      };
+      const nullAttributes = {
+        type: 'VA',
+        modality: 'vaVideoCareAtHome',
+        isCerner: false,
+        'fields-load-success':
+          'type-of-care,provider,clinic-phone,facility-details,facility-phone',
+        'fields-load-fail': '',
       };
 
       // Act
@@ -378,40 +362,8 @@ describe('VAOS Component: VideoLayout', () => {
       ).to.be.ok;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-any',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
+        ...nullAttributes,
       });
     });
   });

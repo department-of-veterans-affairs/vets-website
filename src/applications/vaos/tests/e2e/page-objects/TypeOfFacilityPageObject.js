@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class TypeOfFacilityPageObject extends PageObject {
+class TypeOfFacilityPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/facility-type', { timeout: 5000 });
     cy.axeCheckBestPractice();

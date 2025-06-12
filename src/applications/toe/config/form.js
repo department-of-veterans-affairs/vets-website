@@ -24,8 +24,7 @@ import manifest from '../manifest.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-
-import ApplicantIdentityView from '../components/ApplicantIdentityView';
+import ApplicantIdentityWithModal from '../components/ApplicantIdentityWithModal';
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
 import CustomEmailField from '../components/CustomEmailField';
 import DirectDepositViewField from '../components/DirectDepositViewField';
@@ -143,11 +142,7 @@ const formConfig = {
             'This is the personal information we have on file for you.',
           uiSchema: {
             'view:applicantInformation': {
-              'ui:description': (
-                <>
-                  <ApplicantIdentityView />
-                </>
-              ),
+              'ui:description': ApplicantIdentityWithModal,
             },
             'view:dateOfBirthUnder18Alert': {
               'ui:description': (
@@ -289,7 +284,7 @@ const formConfig = {
       title: 'Sponsor information',
       pages: {
         sponsorSelection: {
-          title: 'Choose your sponsors',
+          title: 'Choose your sponsor',
           path: 'sponsor-selection',
           CustomPageReview: SelectedSponsorsReviewPage,
           depends: formData => formData.sponsors?.sponsors?.length,
@@ -1151,9 +1146,7 @@ const formConfig = {
                   );
 
                   // Return true if isNo is false OR noDuplicates is not false
-                  return (
-                    !formData?.toeDupContactInfoCall || (!isNo || noDuplicates)
-                  );
+                  return !isNo || noDuplicates;
                 },
               },
             },
@@ -1195,10 +1188,7 @@ const formConfig = {
                     ]?.phone;
 
                   // Return true if isYes is false, noDuplicates is true, or mobilePhone is undefined
-                  return (
-                    !formData?.toeDupContactInfoCall ||
-                    (!isYes || noDuplicates || !mobilePhone)
-                  );
+                  return !isYes || noDuplicates || !mobilePhone;
                 },
               },
             },

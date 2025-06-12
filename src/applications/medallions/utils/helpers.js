@@ -1,7 +1,10 @@
 import React from 'react';
+import moment from 'moment';
+import { isValidSSN } from 'platform/forms-system/src/js/utilities/validations';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { focusElement } from 'platform/utilities/ui';
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const applicantRelationToVetRadio = {
   relationToVetRadio: radioUI({
@@ -168,4 +171,67 @@ export function parseResponse({ data }) {
     name,
     confirmationCode: data.attributes.confirmationCode,
   };
+}
+
+export function isUserSignedIn(formData) {
+  return formData?.isLoggedIn;
+}
+
+export const ApplicantNameHeader = () => {
+  return (
+    <h3 className="vads-u-margin-bottom--3">
+      Confirm the personal information we have on file for you
+    </h3>
+  );
+};
+
+export const ApplicantNameNote = () => {
+  return (
+    <div className="vads-u-margin-bottom--4" data-testid="default-note">
+      <p>
+        <strong>Note:</strong> To protect your personal information, we don’t
+        allow online changes to your name, Social Security number, or date of
+        birth. If you need to change this information, call us at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact="711" tty />
+        ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m. ET.
+        We’ll give you instructions for how to change your information. Or you
+        can learn how to change your legal name on file with VA.{' '}
+      </p>
+      <va-link
+        external
+        href="https://www.va.gov/resources/how-to-change-your-legal-name-on-file-with-va/"
+        text="Learn how to change your legal name"
+      />
+    </div>
+  );
+};
+
+export function dateOfDeathValidation(errors, fields) {
+  const { veteranDateOfBirth, veteranDateOfDeath } = fields;
+  // dob = date of birth | dod = date of death
+  const dob = moment(veteranDateOfBirth);
+  const dod = moment(veteranDateOfDeath);
+
+  // Check if the dates entered are after the date of birth
+  if (dod.isBefore(dob)) {
+    errors.veteranDateOfDeath.addError(
+      'The Veteran’s date of death must be after the Veteran’s date of birth.',
+    );
+  }
+
+  // Check if dates have 16 or more years between them
+  if (dod.diff(dob, 'years') < 16) {
+    errors.veteranDateOfDeath.addError(
+      'From date of birth to date of death must be at least 16 years.',
+    );
+  }
+}
+
+export function validateSSN(errors, ssn) {
+  if (ssn && !isValidSSN(ssn)) {
+    errors.addError(
+      'Please enter a valid 9 digit Social Security number (dashes allowed)',
+    );
+  }
 }

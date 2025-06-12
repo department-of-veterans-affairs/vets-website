@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   VaAccordion,
@@ -9,13 +9,14 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import {
+  dateFormat,
+  getImageUri,
+  getRefillHistory,
+  hasCmopNdcNumber,
+  isRefillTakingLongerThanExpected,
+  pharmacyPhoneNumber,
   validateField,
   validateIfAvailable,
-  getImageUri,
-  dateFormat,
-  createOriginalFillRecord,
-  pharmacyPhoneNumber,
-  isRefillTakingLongerThanExpected,
 } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
@@ -28,11 +29,12 @@ import {
   selectRefillProgressFlag,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
-import { EMPTY_FIELD } from '../../util/constants';
+import { FIELD_NONE_NOTED } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import GroupedMedications from './GroupedMedications';
 import CallPharmacyPhone from '../shared/CallPharmacyPhone';
 import ProcessList from '../shared/ProcessList';
+import { landMedicationDetailsAal } from '../../api/rxApi';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
@@ -45,8 +47,7 @@ const VaPrescription = prescription => {
         FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
       ],
   );
-  const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = createOriginalFillRecord(prescription);
+  const refillHistory = getRefillHistory(prescription);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
     prescription?.prescriptionSource === 'PD' &&
@@ -54,15 +55,35 @@ const VaPrescription = prescription => {
   const pendingRenewal =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
-  refillHistory.push(originalFill);
   const hasBeenDispensed =
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
   const latestTrackingStatus = prescription?.trackingList?.[0];
+  const fourteenDaysAgoDate = new Date().setDate(new Date().getDate() - 14);
   const showTrackingAlert =
-    prescription?.trackingList?.[0] &&
-    prescription?.dispStatus === 'Active: Submitted';
+    latestTrackingStatus?.completeDateTime &&
+    Date.parse(latestTrackingStatus?.completeDateTime) > fourteenDaysAgoDate;
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
+
+  useEffect(() => {
+    const userLanded = async () => {
+      if (prescription) {
+        try {
+          await landMedicationDetailsAal(prescription);
+        } catch (e) {
+          if (window.DD_RUM) {
+            const error = new Error(
+              `Error submitting AAL on Medication Details landing. ${e
+                ?.errors?.[0] && JSON.stringify(e?.errors?.[0])}`,
+            );
+            window.DD_RUM.addError(error);
+          }
+        }
+      }
+    };
+
+    userLanded();
+  }, []);
 
   const determineStatus = () => {
     if (pendingRenewal) {
@@ -164,6 +185,8 @@ const VaPrescription = prescription => {
                 ? 'vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 '
                 : ''
             }medication-details-div vads-u-margin-bottom--3`}
+            data-testid="va-prescription-container"
+            data-dd-privacy="mask"
           >
             {/* TODO: clean after grouping flag is gone */}
             {!showGroupingContent && (
@@ -184,7 +207,7 @@ const VaPrescription = prescription => {
                     className={`${
                       !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
                     }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
-                    to="/refill"
+                    to="refill"
                     data-testid="refill-nav-link"
                     data-dd-action-name={
                       dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
@@ -212,6 +235,7 @@ const VaPrescription = prescription => {
                   <h2
                     className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
                     data-testid="check-status-text"
+                    data-dd-privacy="mask"
                   >
                     {getPrescriptionStatusHeading()}
                   </h2>
@@ -360,7 +384,7 @@ const VaPrescription = prescription => {
                           prescription.providerFirstName
                         }`,
                       )
-                    : EMPTY_FIELD}
+                    : FIELD_NONE_NOTED}
                 </p>
               </>
             )}
@@ -456,7 +480,7 @@ const VaPrescription = prescription => {
                 <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
                 {isDisplayingDocumentation &&
                   // Any of the Rx's NDC's will work here. They should all show the same information
-                  refillHistory.some(p => p.cmopNdcNumber) && (
+                  hasCmopNdcNumber(refillHistory) && (
                     <Link
                       to={`/prescription/${
                         prescription.prescriptionId
@@ -480,7 +504,7 @@ const VaPrescription = prescription => {
               <div className="medication-details-div vads-u-margin-bottom--3">
                 {isDisplayingDocumentation &&
                   // Any of the Rx's NDC's will work here. They should all show the same information
-                  refillHistory.some(p => p.cmopNdcNumber) && (
+                  hasCmopNdcNumber(refillHistory) && (
                     <Link
                       to={`/prescription/${
                         prescription.prescriptionId
@@ -522,7 +546,7 @@ const VaPrescription = prescription => {
                     </h3>
                   )}
                   {refillHistory?.length > 1 &&
-                    refillHistory.some(rx => rx.cmopNdcNumber) && (
+                    hasCmopNdcNumber(refillHistory) && (
                       <p className="vads-u-margin--0">
                         <strong>Note:</strong> Images on this page are for
                         identification purposes only. They don’t mean that this
@@ -688,7 +712,7 @@ const VaPrescription = prescription => {
                       }))}
                   {showGroupingContent &&
                     (refillHistory?.length > 1 ||
-                      refillHistory[0].dispensedDate !== undefined) && (
+                      refillHistory[0]?.dispensedDate !== undefined) && (
                       <>
                         <p
                           className="vads-u-margin-top--2 vads-u-margin-bottom--0"
@@ -700,7 +724,7 @@ const VaPrescription = prescription => {
                               : ''
                           }`}
                         </p>
-                        <VaAccordion //
+                        <VaAccordion
                           bordered
                           data-testid="refill-history-accordion"
                           uswds
@@ -725,6 +749,7 @@ const VaPrescription = prescription => {
                             );
                             return (
                               <va-accordion-item
+                                data-testid="accordion-fill-date-info"
                                 bordered="true"
                                 key={i}
                                 subHeader={dateFormat(
@@ -777,8 +802,8 @@ const VaPrescription = prescription => {
                                       data-testid="shipped-on"
                                     >
                                       {dateFormat(
-                                        entry?.trackingList
-                                          ? entry.trackingList[0]
+                                        prescription?.trackingList
+                                          ? prescription.trackingList[0]
                                               ?.completeDateTime
                                           : null,
                                         'MMMM D, YYYY',
@@ -887,7 +912,7 @@ const VaPrescription = prescription => {
                       </>
                     )}
                   {refillHistory?.length <= 1 &&
-                    refillHistory[0].dispensedDate === undefined && (
+                    refillHistory[0]?.dispensedDate === undefined && (
                       <p>You haven’t filled this prescription yet.</p>
                     )}
                 </>

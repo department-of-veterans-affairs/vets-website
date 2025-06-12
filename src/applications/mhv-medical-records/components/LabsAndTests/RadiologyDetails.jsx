@@ -10,6 +10,9 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  formatNameFirstLast,
+  getNameDateAndTime,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -26,11 +29,8 @@ import {
   radiologyErrors,
 } from '../../util/constants';
 import {
-  formatNameFirstLast,
   generateTextFile,
-  getNameDateAndTime,
   formatDateAndTime,
-  formatUserDob,
   sendDataDogAction,
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
@@ -44,6 +44,7 @@ import {
 import useAlerts from '../../hooks/use-alerts';
 import HeaderSection from '../shared/HeaderSection';
 import LabelValue from '../shared/LabelValue';
+import TrackedSpinner from '../shared/TrackedSpinner';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -424,7 +425,8 @@ ${record.results}`;
     if (radiologyDetails.studyId) {
       if (processingRequest) {
         return (
-          <va-loading-indicator
+          <TrackedSpinner
+            id="radiology-images-requested-spinner"
             message="Loading..."
             setFocus
             data-testid="loading-indicator"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import PrescriptionPrintOnly from '../../../components/PrescriptionDetails/PrescriptionPrintOnly';
@@ -10,12 +10,12 @@ describe('Prescription print only container', () => {
       ...rxDetailsResponse.data.attributes,
       ...(!params.va && { prescriptionSource: 'NV' }),
     };
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <PrescriptionPrintOnly rx={rx} isDetailsRx={params.isDetailsRx} />,
       {
         initialState: {},
         reducers: {},
-        path: '/prescriptions/1234567891',
+        initialEntries: ['/prescriptions/1234567891'],
       },
     );
   };

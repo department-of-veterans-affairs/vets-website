@@ -97,7 +97,7 @@ export default function ClaimPhaseStepper({
               phaseCanRepeat(claimPhase.phase) && (
                 <div className="repeat-phase">
                   <va-icon icon="autorenew" size={3} />
-                  <span>Step may repeat if we need more information</span>
+                  <span>Step may repeat if we need more information.</span>
                 </div>
               )}
             <span className="vads-u-margin-y--0">{claimPhase.description}</span>

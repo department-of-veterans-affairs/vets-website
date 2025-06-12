@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../constants';
 
 const OMB_RES_BURDEN = 30;
@@ -53,11 +53,8 @@ const ProcessList = () => {
 };
 
 export const IntroductionPage = props => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
   const { route } = props;
   const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
     scrollToTop();
@@ -72,20 +69,16 @@ export const IntroductionPage = props => {
         10-7959c).
       </h2>
       <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
-      )}
+      <SaveInProgressIntro
+        headingLevel={2}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        pageList={pageList}
+        startText="Start the application"
+        devOnly={{
+          forceShowFormControls: true,
+        }}
+      />
       <p />
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
@@ -109,4 +102,10 @@ IntroductionPage.propTypes = {
   }),
 };
 
-export default IntroductionPage;
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.user.login.currentlyLoggedIn,
+  };
+};
+
+export default connect(mapStateToProps)(IntroductionPage);

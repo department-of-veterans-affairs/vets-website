@@ -1,26 +1,24 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-import {
-  mockFetch,
-  setFetchJSONFailure,
-  setFetchJSONResponse,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
-import sinon from 'sinon';
 
 import { addDays, format, subDays } from 'date-fns';
 import {
-  FUTURE_APPOINTMENTS_HIDDEN_SET,
   fetchBookedAppointment,
+  FUTURE_APPOINTMENTS_HIDDEN_SET,
   getAppointmentRequests,
   getLongTermAppointmentHistoryV2,
   getVAAppointmentLocationId,
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
 } from '.';
-import { createMockAppointment } from '../../tests/mocks/data';
-import { getDateRanges, mockAppointmentsApi } from '../../tests/mocks/mockApis';
-import { generateAppointmentUrl } from '../../utils/appointment';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import {
+  getDateRanges,
+  mockAppointmentApi,
+  mockAppointmentsApi,
+} from '../../tests/mocks/mockApis';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -44,49 +42,30 @@ describe('VAOS Services: Appointment ', () => {
     beforeEach(() => mockFetch());
 
     it('should return data for an in person VA appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        kind: 'clinic',
-        locationId: '552GA',
-        clinic: '5544',
-        clinicFriendlyName: 'Friendly clinic name',
-        serviceType: 'primaryCare',
-        status: 'booked',
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: MockAppointmentResponse.createVAResponse(),
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1',
         useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
+      expect(v2Result.vaos.apiData.modality).to.equal('vaInPerson');
     });
 
     it('should return data for a cancelled VA appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        kind: 'clinic',
-        locationId: '552GA',
-        clinic: '5544',
-        status: 'cancelled',
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: new MockAppointmentResponse({
+          localStartTime: addDays(new Date(), 3),
+        }),
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1',
         useFeSourceOfTruth: true,
       });
 
@@ -94,23 +73,15 @@ describe('VAOS Services: Appointment ', () => {
     });
 
     it('should return data for a past VA appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        kind: 'clinic',
-        locationId: '552GA',
-        clinic: '5544',
-        status: 'booked',
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: new MockAppointmentResponse({
+          localStartTime: addDays(new Date(), 3),
+        }),
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1',
         useFeSourceOfTruth: true,
       });
 
@@ -118,23 +89,15 @@ describe('VAOS Services: Appointment ', () => {
     });
 
     it('should return data for a VA phone appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        kind: 'phone',
-        locationId: '552GA',
-        clinic: '5544',
-        status: 'booked',
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: new MockAppointmentResponse({
+          localStartTime: addDays(new Date(), 3),
+        }),
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1',
         useFeSourceOfTruth: true,
       });
 
@@ -142,24 +105,15 @@ describe('VAOS Services: Appointment ', () => {
     });
 
     it('should return data for a VA covid vaccine appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        kind: 'clinic',
-        locationId: '552GA',
-        clinic: '5544',
-        status: 'booked',
-        serviceType: 'covid',
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: new MockAppointmentResponse({
+          localStartTime: addDays(new Date(), 3),
+        }),
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1',
         useFeSourceOfTruth: true,
       });
 
@@ -167,35 +121,15 @@ describe('VAOS Services: Appointment ', () => {
     });
 
     it('should return data for a VVC at home video appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        kind: 'telehealth',
-        locationId: '552',
-        status: 'booked',
-        minutesDuration: 60,
-        telehealth: {
-          vvsKind: VIDEO_TYPES.adhoc,
-          url: 'testing',
-        },
-        practitioners: [
-          {
-            name: {
-              family: 'Doe',
-              given: ['Meg'],
-            },
-          },
-        ],
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: MockAppointmentResponse.createGfeResponses({
+          localStartTime: addDays(new Date(), 3),
+        })[0],
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1',
         useFeSourceOfTruth: true,
       });
 
@@ -203,48 +137,15 @@ describe('VAOS Services: Appointment ', () => {
     });
 
     it('should return data for an ATLAS video appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        kind: 'telehealth',
-        locationId: '552',
-        status: 'booked',
-        minutesDuration: 60,
-        telehealth: {
-          vvsKind: VIDEO_TYPES.adhoc,
-          url: 'testing',
-          atlas: {
-            siteCode: '1234',
-            confirmationCode: 'A523',
-            address: {
-              streetAddress: '114 Dewey Ave',
-              city: 'Eureka',
-              state: 'MT',
-              zipCode: '59917',
-              country: 'USA',
-              longitude: -115.1,
-              latitude: 48.8,
-            },
-          },
-        },
-        practitioners: [
-          {
-            name: {
-              family: 'Doe',
-              given: ['Meg'],
-            },
-          },
-        ],
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: MockAppointmentResponse.createAtlasResponses({
+          localStartTime: addDays(new Date(), 3),
+        })[0],
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1',
         useFeSourceOfTruth: true,
       });
 
@@ -252,27 +153,15 @@ describe('VAOS Services: Appointment ', () => {
     });
 
     it('should return data for a clinic based video appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        kind: 'telehealth',
-        locationId: '552',
-        clinicId: '5544',
-        status: 'booked',
-        minutesDuration: 60,
-        telehealth: {
-          vvsKind: VIDEO_TYPES.clinic,
-        },
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: MockAppointmentResponse.createClinicResponses({
+          localStartTime: addDays(new Date(), 3),
+        })[0],
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1',
         useFeSourceOfTruth: true,
       });
 
@@ -280,27 +169,15 @@ describe('VAOS Services: Appointment ', () => {
     });
 
     it('should return data for a store forward video appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        kind: 'telehealth',
-        locationId: '552',
-        clinicId: '5544',
-        status: 'booked',
-        minutesDuration: 60,
-        telehealth: {
-          vvsKind: VIDEO_TYPES.storeForward,
-        },
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: MockAppointmentResponse.createStoreForwardResponses({
+          localStartTime: addDays(new Date(), 3),
+        })[0],
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1',
         useFeSourceOfTruth: true,
       });
 
@@ -308,25 +185,15 @@ describe('VAOS Services: Appointment ', () => {
     });
 
     it('should return data for a mobile any video appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        kind: 'telehealth',
-        status: 'booked',
-        minutesDuration: 60,
-        telehealth: {
-          vvsKind: VIDEO_TYPES.mobile,
-        },
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: MockAppointmentResponse.createMobileResponses({
+          localStartTime: addDays(new Date(), 3),
+        })[0],
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1',
         useFeSourceOfTruth: true,
       });
 
@@ -334,36 +201,15 @@ describe('VAOS Services: Appointment ', () => {
     });
 
     it('should return data for a community care appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        kind: 'cc',
-        status: 'booked',
-        minutesDuration: 60,
-        communityCareProvider: {
-          address: {
-            line: ['1012 14TH ST NW STE 700'],
-            city: 'WASHINGTON',
-            state: 'DC',
-            postalCode: '20005-3477',
-          },
-          providers: {
-            name: {
-              firstName: 'WILLIAM',
-              lastName: 'CAMPBELL',
-            },
-          },
-          treatmentSpecialty: 'Optometry',
-        },
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: MockAppointmentResponse.createCCResponse({
+          localStartTime: addDays(new Date(), 3),
+        }),
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1',
         useFeSourceOfTruth: true,
       });
 
@@ -371,18 +217,11 @@ describe('VAOS Services: Appointment ', () => {
     });
 
     it('should return data for an error fetching appointments', async () => {
-      const error = {
-        code: 'VAOS_504',
-        title: 'Gateway error',
-        status: 504,
-        source: 'stack trace',
-      };
-      setFetchJSONFailure(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/1234`)),
-        {
-          errors: [error],
-        },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: new MockAppointmentResponse(),
+        responseCode: 404,
+      });
 
       let v2Result = null;
       try {
@@ -403,45 +242,17 @@ describe('VAOS Services: Appointment ', () => {
 
     it('should return data for a VA appointment request', async () => {
       // Given VA appointment request
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        phone: '2125551212',
-        kind: 'clinic',
-        locationId: '552GA',
-        clinicFriendlyName: 'Friendly clinic name',
-        requestedPeriods: [
-          {
-            start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00.000`,
-            end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59.999`,
-          },
-        ],
-        serviceType: 'primaryCare',
-        status: 'proposed',
-        visitType: 'Office Visit',
-      };
-      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
-      const endDate = format(addDays(new Date(), 30, 'days'), 'yyyy-MM-dd');
+      const start = subDays(new Date(), 30);
+      const end = addDays(new Date(), 30);
+      const startDate = format(start, 'yyyy-MM-dd');
+      const endDate = format(end, 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 APIs
-      const url = generateAppointmentUrl(startDate, endDate, [
-        'proposed',
-        'cancelled',
-      ]);
-
-      setFetchJSONResponse(global.fetch.withArgs(sinon.match(url)), {
-        data: [
-          createMockAppointment({
-            ...data,
-            requestedPeriods: [
-              {
-                start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00Z`,
-                end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59Z`,
-              },
-            ],
-          }),
-        ],
+      mockAppointmentsApi({
+        start,
+        end,
+        statuses: ['proposed', 'cancelled'],
+        response: MockAppointmentResponse.createVAResponses(),
       });
 
       const v2Result = await getAppointmentRequests({
@@ -456,47 +267,17 @@ describe('VAOS Services: Appointment ', () => {
 
     it('should return data for a CC appointment request', async () => {
       // Given CC appointment request
-      const data = {
-        id: '1234',
-        email: 'test@va.gov',
-        phone: '2125551212',
-        kind: 'cc',
-        clinicFriendlyName: 'Friendly clinic name',
-        requestedPeriods: [
-          {
-            start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00.000`,
-            end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59.999`,
-          },
-        ],
-        serviceType: 'primaryCare',
-        status: 'proposed',
-        typeOfCareId: 'CCPRMYRTNE',
-        visitType: 'Office Visit',
-      };
-      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
-      const endDate = format(addDays(new Date(), 30), 'yyyy-MM-dd');
+      const start = subDays(new Date(), 30);
+      const end = addDays(new Date(), 30);
+      const startDate = format(start, 'yyyy-MM-dd');
+      const endDate = format(end, 'yyyy-MM-dd');
 
-      // And the developer fetched that request through both the v2 and v0 APIs
-      setFetchJSONResponse(
-        global.fetch.withArgs(
-          sinon.match(
-            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
-          ),
-        ),
-        {
-          data: [
-            createMockAppointment({
-              ...data,
-              requestedPeriods: [
-                {
-                  start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00Z`,
-                  end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59Z`,
-                },
-              ],
-            }),
-          ],
-        },
-      );
+      mockAppointmentsApi({
+        start,
+        end,
+        statuses: ['proposed', 'cancelled'],
+        response: MockAppointmentResponse.createCCResponses(),
+      });
 
       const v2Result = await getAppointmentRequests({
         startDate,
@@ -510,42 +291,18 @@ describe('VAOS Services: Appointment ', () => {
 
     it('should return data for a cancelled appointment request', async () => {
       // Given cancelled VA appointment request
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        phone: '2125551212',
-        kind: 'clinic',
-        locationId: '552GA',
-        clinicFriendlyName: 'Friendly clinic name',
-        requestedPeriods: [
-          {
-            start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00.000`,
-            end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59.999`,
-          },
-        ],
-        serviceType: 'primaryCare',
-        status: 'cancelled',
-        visitType: 'Office Visit',
-      };
-      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
-      const endDate = format(addDays(new Date(), 30), 'yyyy-MM-dd');
+      const start = subDays(new Date(), 30);
+      const end = addDays(new Date(), 30);
+      const startDate = format(start, 'yyyy-MM-dd');
+      const endDate = format(end, 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 and v0 APIs
-      setFetchJSONResponse(
-        global.fetch.withArgs(
-          sinon.match(
-            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
-          ),
-        ),
-        {
-          data: [
-            createMockAppointment({
-              ...data,
-            }),
-          ],
-        },
-      );
+      mockAppointmentsApi({
+        start,
+        end,
+        statuses: ['proposed', 'cancelled'],
+        response: MockAppointmentResponse.createCCResponses(),
+      });
 
       const v2Result = await getAppointmentRequests({
         startDate,
@@ -565,21 +322,19 @@ describe('VAOS Services: Appointment ', () => {
         status: 504,
         source: 'stack trace',
       };
-
-      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
-      const endDate = format(addDays(new Date(), 30), 'yyyy-MM-dd');
+      const start = subDays(new Date(), 30);
+      const end = addDays(new Date(), 30);
+      const startDate = format(start, 'yyyy-MM-dd');
+      const endDate = format(end, 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 and v0 APIs
-      setFetchJSONFailure(
-        global.fetch.withArgs(
-          sinon.match(
-            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
-          ),
-        ),
-        {
-          errors: [error],
-        },
-      );
+      mockAppointmentsApi({
+        start,
+        end,
+        statuses: ['proposed', 'cancelled'],
+        response: error,
+        responseCode: 504,
+      });
 
       let v2Result = null;
 

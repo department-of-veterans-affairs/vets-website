@@ -31,6 +31,7 @@ export const Paths = {
   THREAD: '/thread',
   CONTACT_LIST: '/contact-list',
   NEW_MESSAGE: '/my-health/secure-messages/new-message/',
+  AAL: '/my_health/v1/aal',
   INTERCEPT: {
     MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
     MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
@@ -86,6 +87,7 @@ export const Locators = {
   FILTER_INPUT: '#filter-input',
   ADDITIONAL_FILTER: '#additional-filter-accordion',
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
+  ACCORDION_ITEM_OPEN: 'va-accordion-item[open]:not([open="false"])',
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
   BACK_TO: '.sm-breadcrumb-list-item > a',
@@ -93,6 +95,7 @@ export const Locators = {
   INBOX_FOOTER: `[data-testid="inbox-footer"]`,
   COMBO_BOX: '.usa-combo-box',
   SEARCH_RESULT: `[data-testid="search-messages"]`,
+  PAGE_NOT_FOUND: `mhv-page-not-found`,
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -119,7 +122,7 @@ export const Locators = {
     // check if below are duplicates
     REPLY_BTN: '#reply-button',
     REPLY: '[data-testid="reply-button-body"]',
-    CONTINUE: '[data-testid="continue-button"]',
+    CONTINUE: 'continue-button',
     TEST2: '[data-testid=radiobutton-TEST2]',
     TESTAGAIN: '[data-testid=radiobutton-TESTAGAIN]',
     NEW_FOLDER_RADIOBTN: '[data-testid=folder-list-radio-button]',
@@ -146,7 +149,6 @@ export const Locators = {
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
     CREATE_FOLDER: '[data-testid="create-folder-button"]',
     REMOVE_FOLDER: '[data-testid="remove-folder-button"]',
-    PREFERENCES: '[data-testid="edit-preferences-button"]',
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
@@ -158,14 +160,15 @@ export const Locators = {
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
-    PREFER_LINK: '[data-testid="edit-preferences-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
+    CRUMB_BACK: '[data-testid="sm-breadcrumbs-back"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
     CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
+    REPLY: `reply-to-message-link`,
   },
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
@@ -371,13 +374,14 @@ export const Data = {
   IS_ACTIVE: 'is-active',
   END_CONVERSATION_IN_FOLDER: 'End of conversations in this folder',
   SAVE_MEG_AS_DRAFT: 'If you save this message as a draft',
-  EDIT_YOUR_MSG_PREFRENCES: 'Edit your message preferences',
   NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
   WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
   REMOVE_FOLDER: 'Remove folder',
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
+  HCS_SELECT: `Which VA health care system do you want to send a message to?`,
+  REPLY_HEADER: `Only use messages for non-urgent needs`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',
@@ -386,6 +390,8 @@ export const Data = {
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   EDIT_SIGNATURE: `Edit signature for all messages`,
+  READ_RECEIPT: `Opened by your care team`,
+  UNREAD_RECEIPT: `Not yet opened by your care team`,
   BUTTONS: {
     ATTACH_FILE: 'Attach file',
     SEND: `Send`,
@@ -404,7 +410,6 @@ export const Data = {
   },
   LINKS: {
     PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
-    LEGACY_PREFERENCES: 'mhv-portal-web/preferences',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {
@@ -438,7 +443,17 @@ export const Data = {
     LINK_1: `Learn more about messages`,
     LINK_2: `Find your VA health facility`,
   },
+
+  NOT_FOUND: {
+    H2: `Or try these other health resources`,
+    P_O: `If you typed or copied the web address, check that it’s correct.`,
+    P_1: `If you still can’t find what you’re looking for, try visiting the My HealtheVet homepage.`,
+    LINK_0: `Go to our My HealtheVet on VA.gov homepage`,
+    LINK_1: `Chat live with a health professional on VA health chat`,
+    LINK_2: `Find a VA facility`,
+  },
 };
+
 export const Assertions = {
   MESSAGES: 'Messages',
   FOLDER_RENAMED_SUCCESS: 'Folder was successfully renamed.',

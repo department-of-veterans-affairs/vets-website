@@ -8,12 +8,14 @@ import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
 import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
-import { getSlotByDate, getSlotById, hasConflict } from '../utils/provider';
+import { getSlotByDate, hasConflict } from '../utils/provider';
+import { getDriveTimeString } from '../../utils/appointment';
 import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
 } from '../../utils/timezone';
 import { getReferralSlotKey } from '../utils/referrals';
+import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
 
 export const DateAndTimeContent = props => {
@@ -26,13 +28,13 @@ export const DateAndTimeContent = props => {
   const [error, setError] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacilityInfo.code,
+    currentReferral.referringFacility.code,
   );
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   const latestAvailableSlot = new Date(
     Math.max.apply(
       null,
-      draftAppointmentInfo.slots.slots.map(slot => {
+      draftAppointmentInfo.attributes.slots.map(slot => {
         return new Date(slot.start);
       }),
     ),
@@ -41,37 +43,41 @@ export const DateAndTimeContent = props => {
     () => {
       if (selectedSlot) {
         setSelectedDate(
-          getSlotById(draftAppointmentInfo.slots.slots, selectedSlot).start,
+          getSlotByDate(draftAppointmentInfo.attributes.slots, selectedSlot)
+            .start,
         );
       }
     },
-    [draftAppointmentInfo.slots.slots, selectedSlot],
+    [draftAppointmentInfo.attributes.slots, selectedSlot],
   );
   useEffect(
     () => {
       const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
-      const savedSlot = getSlotById(
-        draftAppointmentInfo.slots.slots,
+      const savedSlot = getSlotByDate(
+        draftAppointmentInfo.attributes.slots,
         savedSelectedSlot,
       );
       if (!savedSlot) {
         return;
       }
-      dispatch(setSelectedSlot(savedSlot.id));
+      dispatch(setSelectedSlot(savedSlot.start));
     },
-    [dispatch, selectedSlotKey, draftAppointmentInfo.slots],
+    [dispatch, selectedSlotKey, draftAppointmentInfo.attributes.slots],
   );
   const onChange = useCallback(
     value => {
-      const newSlot = getSlotByDate(draftAppointmentInfo.slots.slots, value[0]);
+      const newSlot = getSlotByDate(
+        draftAppointmentInfo.attributes.slots,
+        value[0],
+      );
       if (newSlot) {
         setError('');
-        dispatch(setSelectedSlot(newSlot.id));
+        dispatch(setSelectedSlot(newSlot.start));
         setSelectedDate(newSlot.start);
-        sessionStorage.setItem(selectedSlotKey, newSlot.id);
+        sessionStorage.setItem(selectedSlotKey, newSlot.start);
       }
     },
-    [dispatch, draftAppointmentInfo.slots.slots, selectedSlotKey],
+    [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
   );
   const onBack = () => {
     routeToPreviousReferralPage(history, currentPage, currentReferral.uuid);
@@ -98,48 +104,60 @@ export const DateAndTimeContent = props => {
     routeToNextReferralPage(history, currentPage, currentReferral.uuid);
   };
 
-  const noSlotsAvailable = !draftAppointmentInfo.slots.slots.length;
+  const noSlotsAvailable = !draftAppointmentInfo.attributes.slots.length;
 
-  const driveTimeMinutes = Math.floor(
-    draftAppointmentInfo.drivetime.destination
-      .driveTimeInSecondsWithoutTraffic / 60,
-  );
+  // Get the drive time string
+  const driveTimeInSeconds =
+    draftAppointmentInfo?.attributes?.drivetime?.destination
+      ?.driveTimeInSecondsWithoutTraffic;
   const driveTimeDistance =
-    draftAppointmentInfo.drivetime.destination.distanceInMiles;
+    draftAppointmentInfo?.attributes?.drivetime?.destination?.distanceInMiles;
+  const driveTimeString = getDriveTimeString(
+    driveTimeInSeconds,
+    driveTimeDistance,
+  );
 
-  const driveTimeString =
-    driveTimeMinutes && driveTimeDistance
-      ? `${driveTimeMinutes}-minute drive (${driveTimeDistance} miles)`
-      : null;
+  const disabledMessage = (
+    <va-loading-indicator
+      data-testid="loadingIndicator"
+      set-focus
+      message="Finding appointment availability..."
+    />
+  );
 
   return (
     <>
       <div>
-        <p>
-          You or your referring VA facility selected to schedule an appointment
-          online with this provider:
-        </p>
         <p className="vads-u-font-weight--bold vads-u-margin--0">
-          {draftAppointmentInfo.provider.name}
+          {currentReferral.provider.name}
         </p>
-        <p className="vads-u-margin-top--0">{currentReferral.categoryOfCare}</p>
+        <p className="vads-u-margin-top--0">
+          {titleCase(currentReferral.categoryOfCare)}
+        </p>
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
-          {draftAppointmentInfo.provider.providerOrganization.name}
+          {draftAppointmentInfo.attributes.provider.providerOrganization.name}
         </p>
         <ProviderAddress
-          address={currentReferral.referringFacilityInfo.address}
+          address={draftAppointmentInfo.attributes.provider.location.address}
           showDirections
-          directionsName={currentReferral.referringFacilityInfo.name}
-          phone={currentReferral.referringFacilityInfo.phone}
+          directionsName={
+            draftAppointmentInfo.attributes.provider.providerOrganization.name
+          }
+          phone={currentReferral.provider.phone}
         />
         {driveTimeString && <p>{driveTimeString}</p>}
+        <p>
+          <strong>Note:</strong> You or your VA facility chose this provider for
+          this referral. If you want a different provider, you’ll need to
+          request a new referral.
+        </p>
         <h2>Choose a date and time</h2>
         {!noSlotsAvailable && (
           <p>
             Select an available date and time from the calendar below.
             Appointment times are displayed in{' '}
             {`${getTimezoneDescByFacilityId(
-              currentReferral.referringFacilityInfo.code,
+              currentReferral.referringFacility.code,
             )}`}
             .
           </p>
@@ -155,7 +173,7 @@ export const DateAndTimeContent = props => {
             We’re sorry. We couldn’t find any open time slots.
           </h2>
           <p>Please call this provider to schedule an appointment</p>
-          <va-telephone contact={currentReferral.referringFacilityInfo.phone} />
+          <va-telephone contact={currentReferral.provider.telephone} />
         </va-alert>
       )}
       {!noSlotsAvailable && (
@@ -163,7 +181,7 @@ export const DateAndTimeContent = props => {
           <div data-testid="cal-widget">
             <CalendarWidget
               maxSelections={1}
-              availableSlots={draftAppointmentInfo.slots.slots}
+              availableSlots={draftAppointmentInfo.attributes.slots}
               value={[selectedDate]}
               id="dateTime"
               timezone={facilityTimeZone}
@@ -171,13 +189,7 @@ export const DateAndTimeContent = props => {
                 required: true,
               }}
               // disabled={loadingSlots}
-              disabledMessage={
-                <va-loading-indicator
-                  data-testid="loadingIndicator"
-                  set-focus
-                  message="Finding appointment availability..."
-                />
-              }
+              disabledMessage={disabledMessage}
               onChange={onChange}
               onNextMonth={null}
               onPreviousMonth={null}
@@ -203,9 +215,9 @@ export const DateAndTimeContent = props => {
 };
 
 DateAndTimeContent.propTypes = {
-  appointmentsByMonth: PropTypes.object.isRequired,
   currentReferral: PropTypes.object.isRequired,
   draftAppointmentInfo: PropTypes.object.isRequired,
+  appointmentsByMonth: PropTypes.object,
 };
 
 export default DateAndTimeContent;

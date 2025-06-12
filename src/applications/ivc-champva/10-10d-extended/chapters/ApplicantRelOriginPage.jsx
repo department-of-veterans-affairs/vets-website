@@ -1,5 +1,4 @@
 import ApplicantRelationshipPage, {
-  ApplicantRelationshipReviewPage,
   appRelBoilerplate,
 } from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
@@ -37,6 +36,8 @@ function generateOptions({ data, pagePerItemIndex }) {
     relativeBeingVerb,
     keyname: KEYNAME,
     customTitle,
+    customHint:
+      'Depending on your response, you may need to submit proof of dependent status with this application.',
     description: `What’s ${customTitle}?`,
   };
 }
@@ -48,12 +49,4 @@ export function ApplicantRelOriginPage(props) {
     genOp: generateOptions,
   };
   return ApplicantRelationshipPage(newProps);
-}
-export function ApplicantRelOriginReviewPage(props) {
-  const newProps = {
-    ...props,
-    keyname: KEYNAME,
-    genOp: generateOptions,
-  };
-  return ApplicantRelationshipReviewPage(newProps);
 }

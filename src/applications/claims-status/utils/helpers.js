@@ -3,9 +3,10 @@ import { format, isValid, parseISO } from 'date-fns';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { scrollAndFocus, scrollToTop } from 'platform/utilities/ui';
+import { scrollAndFocus, scrollToTop } from 'platform/utilities/scroll';
 import titleCase from 'platform/utilities/data/titleCase';
 import { setUpPage, isTab } from './page';
+import { evidenceDictionary } from './evidenceDictionary';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
@@ -1285,4 +1286,15 @@ export const getTrackedItemDateFromStatus = item => {
     default:
       return item.requestedDate;
   }
+};
+
+export const getDisplayFriendlyName = item => {
+  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
+    let updatedFriendlyName = item.friendlyName;
+    updatedFriendlyName =
+      updatedFriendlyName.charAt(0).toLowerCase() +
+      updatedFriendlyName.slice(1);
+    return updatedFriendlyName;
+  }
+  return item.friendlyName;
 };

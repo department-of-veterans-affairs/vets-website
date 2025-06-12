@@ -1,17 +1,20 @@
-import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment';
+import React from 'react';
+import { MockAppointment } from '../../tests/fixtures/MockAppointment';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockFacility from '../../tests/fixtures/MockFacility';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import ClaimExamLayout from './ClaimExamLayout';
 
 describe('VAOS Component: ClaimExamLayout', () => {
   const initialState = {
     appointments: {
       facilityData: {
-        '983': {
+        983: {
           address: {
             line: ['2360 East Pershing Boulevard'],
             city: 'Cheyenne',
@@ -51,6 +54,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
           stationId: '983',
           clinicName: 'CHY PC VAR2',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -103,6 +108,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -148,6 +155,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
       const appointment = {
         type: 'VA',
         modality: 'claimExamAppointment',
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -164,6 +173,9 @@ describe('VAOS Component: ClaimExamLayout', () => {
         type: 'VA',
         modality: 'claimExamAppointment',
         isCerner: false,
+        'fields-load-success': '',
+        'fields-load-fail':
+          'type-of-care,clinic-phone,facility-id,facility-details,facility-phone',
       };
 
       // Act
@@ -186,47 +198,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
           );
         }),
       );
-
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-any',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-id',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-id',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
         ...nullAttributes,
       });
     });
@@ -238,6 +211,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -268,6 +243,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -299,6 +276,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
+        type: 'VA',
+        modality: 'claimExamAppointment',
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -306,6 +285,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         practitioners: [
           {
             name: {
@@ -321,6 +302,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
+          isCerner: false,
           apiData: {
             serviceCategory: [
               {
@@ -330,6 +312,14 @@ describe('VAOS Component: ClaimExamLayout', () => {
           },
         },
         status: 'booked',
+      };
+      const nullAttributes = {
+        type: 'VA',
+        modality: 'claimExamAppointment',
+        isCerner: false,
+        'fields-load-success':
+          'type-of-care,clinic-phone,facility-id,facility-details,facility-phone',
+        'fields-load-fail': '',
       };
 
       // Act
@@ -424,40 +414,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
       ).to.not.exist;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-any',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-id',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-id',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
+        ...nullAttributes,
       });
     });
   });
@@ -466,27 +424,11 @@ describe('VAOS Component: ClaimExamLayout', () => {
     it('should display claim exam layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isCompAndPenAppointment: true,
-          isPastAppointment: true,
-          apiData: {
-            localStartTime: moment()
-              .subtract(1, 'day')
-              .format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
+      const appointment = new MockAppointment()
+        .setApiData(new MockAppointmentResponse())
+        .setIsCompAndPenAppointment(true)
+        .setIsPastAppointment(true)
+        .setLocation(new MockFacility());
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -565,25 +507,13 @@ describe('VAOS Component: ClaimExamLayout', () => {
     it('should display claim exam layout when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isCompAndPenAppointment: true,
-          isUpcomingAppointment: true,
-          apiData: {
-            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-      };
+      const appointment = new MockAppointment({
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(new MockAppointmentResponse())
+        .setIsCompAndPenAppointment(true)
+        .setIsUpcomingAppointment(true)
+        .setLocation(new MockFacility());
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -681,27 +611,13 @@ describe('VAOS Component: ClaimExamLayout', () => {
     it('should display claim exam layout when in the past', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isCompAndPenAppointment: true,
-          isPastAppointment: true,
-          apiData: {
-            localStartTime: moment()
-              .subtract(2, 'day')
-              .format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-      };
+      const appointment = new MockAppointment({
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(new MockAppointmentResponse())
+        .setIsCompAndPenAppointment(true)
+        .setIsPastAppointment(true)
+        .setLocation(new MockFacility());
 
       // Act
       const screen = renderWithStoreAndRouter(

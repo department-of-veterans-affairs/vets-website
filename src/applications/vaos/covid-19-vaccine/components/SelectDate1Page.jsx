@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { addDays, addMonths, startOfMonth, endOfMonth, format } from 'date-fns';
+
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
@@ -12,7 +13,6 @@ import { getRealFacilityId } from '../../utils/appointment';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 import useIsInitialLoad from '../../hooks/useIsInitialLoad';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 import { getAppointmentSlots, onCalendarChange } from '../redux/actions';
 import {
@@ -79,7 +79,7 @@ function goForward({
   }
 }
 
-export default function SelectDate1Page({ changeCrumb }) {
+export default function SelectDate1Page() {
   const {
     appointmentSlotsStatus,
     availableSlots,
@@ -99,28 +99,17 @@ export default function SelectDate1Page({ changeCrumb }) {
     appointmentSlotsStatus === FETCH_STATUS.loading ||
     appointmentSlotsStatus === FETCH_STATUS.notStarted;
   const isInitialLoad = useIsInitialLoad(loadingSlots);
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
 
-  useEffect(() => {
-    dispatch(
-      getAppointmentSlots(
-        moment()
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment()
-          .add(1, 'months')
-          .endOf('month')
-          .format('YYYY-MM-DD'),
-        true,
-      ),
-    );
-    document.title = `${pageTitle} | Veterans Affairs`;
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-  }, []);
+  useEffect(
+    () => {
+      const now = new Date();
+      const startDateObj = startOfMonth(now);
+      const endDateObj = endOfMonth(addMonths(now, 1));
+      dispatch(getAppointmentSlots(startDateObj, endDateObj, true));
+      document.title = `${pageTitle} | Veterans Affairs`;
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -139,7 +128,7 @@ export default function SelectDate1Page({ changeCrumb }) {
     },
     // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
     // determines which update is made
-    [loadingSlots, appointmentSlotsStatus],
+    [loadingSlots, appointmentSlotsStatus, isInitialLoad],
   );
 
   useEffect(
@@ -186,6 +175,7 @@ export default function SelectDate1Page({ changeCrumb }) {
             timezone={timezone}
             disabled={loadingSlots}
             disabledMessage={
+              // eslint-disable-next-line react/jsx-wrap-multilines
               <va-loading-indicator
                 data-testid="loadingIndicator"
                 set-focus
@@ -200,12 +190,8 @@ export default function SelectDate1Page({ changeCrumb }) {
             onPreviousMonth={(...args) =>
               dispatch(getAppointmentSlots(...args))
             }
-            minDate={moment()
-              .add(1, 'days')
-              .format('YYYY-MM-DD')}
-            maxDate={moment()
-              .add(395, 'days')
-              .format('YYYY-MM-DD')}
+            minDate={format(addDays(new Date(), 1), 'yyyy-MM-dd')}
+            maxDate={format(addDays(new Date(), 395), 'yyyy-MM-dd')}
             validationError={submitted ? validationError : null}
             required
             requiredMessage="Please choose your preferred date and time for your appointment"
@@ -236,7 +222,3 @@ export default function SelectDate1Page({ changeCrumb }) {
     </div>
   );
 }
-
-SelectDate1Page.propTypes = {
-  changeCrumb: PropTypes.func,
-};

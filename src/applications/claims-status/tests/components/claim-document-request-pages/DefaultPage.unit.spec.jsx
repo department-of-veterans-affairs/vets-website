@@ -70,8 +70,7 @@ describe('<DefaultPage>', () => {
       );
       expect($('#default-page', container)).to.exist;
       expect($('.add-files-form', container)).to.exist;
-      const formattedClaimDate = formatDate(item.suspenseDate);
-      getByText(`Respond by ${formattedClaimDate}`);
+      getByText(`Respond by ${formatDate(item.suspenseDate)}`);
       getByText('What we need from you');
       getByText('Learn about this request in your claim letter');
       expect($('va-link', container)).to.exist;
@@ -108,22 +107,20 @@ describe('<DefaultPage>', () => {
       );
       expect($('#default-page', container)).to.exist;
       expect($('.add-files-form', container)).to.exist;
-      const formattedClaimDate = formatDate(item.suspenseDate);
       getByText('Authorization to Disclose Information');
-      getByText(`Respond by ${formattedClaimDate}`);
+      getByText(`Respond by ${formatDate(item.suspenseDate)}`);
       getByText('What we need from you');
       getByText('Learn about this request in your claim letter');
-      getByText('Next Steps');
+      getByText('Next steps');
       expect($('va-link', container)).to.exist;
       expect($('.optional-upload', container)).to.not.exist;
       expect($('va-additional-info', container)).to.exist;
       expect($('va-file-input', container)).to.exist;
     });
-    it('should render updated UI  when status is NEEDED_FROM_OTHERS', () => {
+    it('should render updated default UI  when status is NEEDED_FROM_OTHERS', () => {
       const item = {
         closedDate: null,
         description: 'Buddy statement text',
-        friendlyName: 'Friendly name',
         displayName: 'Submit buddy statement(s)',
         id: 467558,
         overdue: true,
@@ -144,12 +141,14 @@ describe('<DefaultPage>', () => {
       expect($('#default-page', container)).to.exist;
       expect($('.add-files-form', container)).to.exist;
       expect($('.due-date-header', container)).to.not.exist;
-      const formattedRequestedDate = formatDate(item.requestedDate);
       getByText(
-        new RegExp(`Requested to others on\\s+${formattedRequestedDate}`, 'i'),
+        new RegExp(
+          `Requested from outside VA on\\s+${formatDate(item.requestedDate)}`,
+          'i',
+        ),
       );
       expect($('.optional-upload', container)).to.exist;
-      getByText('Friendly name');
+      getByText('Submit buddy statement(s)');
       getByText('This is just a notice. No action is needed by you.');
       getByText(
         'But, if you have documents related to this request, uploading them on this page may help speed up the evidence review for your claim.',
@@ -181,10 +180,39 @@ describe('<DefaultPage>', () => {
           <DefaultPage {...defaultProps} item={item} />
         </Provider>,
       );
-      getByText('Friendly RV1 name');
+      getByText('Your friendly RV1 name');
       getByText(
         'For your benefits claim, we’ve requested your service records or treatment records from your reserve unit.',
       );
+      getByText(
+        new RegExp(
+          `Requested from outside VA on\\s+${formatDate(item.requestedDate)}`,
+          'i',
+        ),
+      );
+    });
+    it(`should render Requested from examiner's office on when the track item is a DBQ`, () => {
+      const item = {
+        closedDate: null,
+        description: 'old description',
+        friendlyName: 'Friendly DBQ name',
+        displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-25',
+        status: 'NEEDED_FROM_OTHERS',
+        suspenseDate: nineMonthsAgoSuspenseDate,
+        canUploadFile: false,
+        documents: [],
+        date: '2024-03-21',
+      };
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      getByText(`Requested from examiner's office on March 25, 2024`);
     });
   });
 
@@ -216,9 +244,10 @@ describe('<DefaultPage>', () => {
     expect($('#default-page', container)).to.exist;
     expect($('.add-files-form', container)).to.exist;
     expect($('.due-date-header', container)).to.exist;
-    const formattedClaimDate = formatDate(item.suspenseDate);
     getByText(
-      `Needed from you by ${formattedClaimDate} - Due ${monthsDue} ago`,
+      `Needed from you by ${formatDate(
+        item.suspenseDate,
+      )} - Due ${monthsDue} ago`,
     );
     expect($('.optional-upload', container)).to.not.exist;
     getByText('Submit buddy statement(s)');

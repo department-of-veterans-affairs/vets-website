@@ -54,7 +54,6 @@ export {
 export {
   default as DowntimeBanners,
 } from './authentication/components/DowntimeBanner';
-export { default as IDMeSVG } from './authentication/components/IDMeSVG';
 export {
   default as LoginActions,
 } from './authentication/components/LoginActions';
@@ -66,9 +65,6 @@ export {
   logoSrc,
   default as LoginContainer,
 } from './authentication/components/LoginContainer';
-export {
-  default as LoginGovSVG,
-} from './authentication/components/LoginGovSVG';
 export {
   default as LoginHeader,
 } from './authentication/components/LoginHeader';

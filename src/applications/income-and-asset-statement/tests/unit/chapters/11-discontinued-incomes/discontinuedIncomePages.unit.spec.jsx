@@ -1,10 +1,8 @@
-import { expect } from 'chai';
 import formConfig from '../../../../config/form';
 import {
   discontinuedIncomePages,
   options,
-} from '../../../../config/chapters/11-discontinued-incomes/discontinuedIncomePages';
-import { relationshipLabels } from '../../../../labels';
+} from '../../../../config/chapters/10-discontinued-incomes/discontinuedIncomePages';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
@@ -12,6 +10,7 @@ import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json
 import {
   testOptionsIsItemIncomplete,
   testOptionsIsItemIncompleteWithZeroes,
+  testOptionsTextGetItemNameRecurringIncome,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -35,9 +34,7 @@ describe('discontinued income list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return text', () => {
-      expect(options.text.getItemName()).to.equal('Discontinued income');
-    });
+    testOptionsTextGetItemNameRecurringIncome(options);
   });
 
   describe('text cardDescription function', () => {
@@ -46,10 +43,12 @@ describe('discontinued income list and loop pages', () => {
       payer,
       incomeFrequency,
       incomeLastReceivedDate,
+      recipientRelationship,
+      recipientName,
       ...baseItem
     } = testData.data.discontinuedIncomes[0];
     /* eslint-enable no-unused-vars */
-    testOptionsTextCardDescription(options, baseItem, relationshipLabels);
+    testOptionsTextCardDescription(options, baseItem);
   });
 
   describe('text cardDescription function with zero values', () => {
@@ -58,10 +57,12 @@ describe('discontinued income list and loop pages', () => {
       payer,
       incomeFrequency,
       incomeLastReceivedDate,
+      recipientRelationship,
+      recipientName,
       ...baseItem
     } = testDataZeroes.data.discontinuedIncomes[0];
     /* eslint-enable no-unused-vars */
-    testOptionsTextCardDescription(options, baseItem, relationshipLabels);
+    testOptionsTextCardDescription(options, baseItem);
   });
 
   describe('summary page', () => {
@@ -141,14 +142,14 @@ describe('discontinued income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 1 },
+      { 'va-text-input': 3 },
       'recipient',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -156,9 +157,7 @@ describe('discontinued income list and loop pages', () => {
       schema,
       uiSchema,
       'recipient',
-      {
-        recipientName: 'Jane Doe',
-      },
+      testData.data.discontinuedIncomes[0],
       { loggedIn: true },
     );
   });

@@ -1,17 +1,21 @@
-import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment';
+import { subDays } from 'date-fns';
+import React from 'react';
+import { MockAppointment } from '../../tests/fixtures/MockAppointment';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockFacility from '../../tests/fixtures/MockFacility';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import InPersonLayout from './InPersonLayout';
 
 describe('VAOS Component: InPersonLayout', () => {
   const initialState = {
     appointments: {
       facilityData: {
-        '983': {
+        983: {
           address: {
             line: ['2360 East Pershing Boulevard'],
             city: 'Cheyenne',
@@ -50,6 +54,8 @@ describe('VAOS Component: InPersonLayout', () => {
           stationId: '983',
           clinicName: 'CHY PC VAR2',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -95,6 +101,8 @@ describe('VAOS Component: InPersonLayout', () => {
 
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -134,6 +142,8 @@ describe('VAOS Component: InPersonLayout', () => {
       const appointment = {
         type: 'VA',
         modality: 'vaInPerson',
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -150,6 +160,9 @@ describe('VAOS Component: InPersonLayout', () => {
         type: 'VA',
         modality: 'vaInPerson',
         isCerner: false,
+        'fields-load-success': '',
+        'fields-load-fail':
+          'type-of-care,provider,clinic-phone,facility-id,facility-details,facility-phone',
       };
 
       // Act
@@ -189,54 +202,8 @@ describe('VAOS Component: InPersonLayout', () => {
           );
         }),
       );
-
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-any',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-id',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-id',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
         ...nullAttributes,
       });
     });
@@ -248,6 +215,8 @@ describe('VAOS Component: InPersonLayout', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -277,6 +246,8 @@ describe('VAOS Component: InPersonLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -308,6 +279,8 @@ describe('VAOS Component: InPersonLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
+        type: 'VA',
+        modality: 'vaInPerson',
         reasonForAppointment: 'This is a test',
         patientComments: 'Additional information:colon',
         practitioners: [
@@ -325,6 +298,8 @@ describe('VAOS Component: InPersonLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -333,11 +308,20 @@ describe('VAOS Component: InPersonLayout', () => {
           isPendingAppointment: false,
           isUpcomingAppointment: true,
           isCancellable: true,
+          isCerner: false,
           apiData: {
             serviceType: 'primaryCare',
           },
         },
         status: 'booked',
+      };
+      const nullAttributes = {
+        type: 'VA',
+        modality: 'vaInPerson',
+        isCerner: false,
+        'fields-load-success':
+          'type-of-care,provider,clinic-phone,facility-id,facility-details,facility-phone',
+        'fields-load-fail': '',
       };
 
       // Act
@@ -429,46 +413,8 @@ describe('VAOS Component: InPersonLayout', () => {
       ).to.be.ok;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-any',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-id',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-id',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
+        ...nullAttributes,
       });
     });
 
@@ -483,6 +429,8 @@ describe('VAOS Component: InPersonLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -582,29 +530,15 @@ describe('VAOS Component: InPersonLayout', () => {
     it('should display past in-person layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isPastAppointment: true,
-          isCancellable: true,
-          apiData: {
-            localStartTime: moment()
-              .subtract(1, 'day')
-              .format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
+      const appointment = new MockAppointment()
+        .setApiData(
+          new MockAppointmentResponse({
+            localStartTime: subDays(new Date(), 1),
+          }),
+        )
+        .setIsPastAppointment(true)
+        .setLocation(new MockFacility())
+        .setPatientComments('Other details: Additional information:colon');
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -675,26 +609,17 @@ describe('VAOS Component: InPersonLayout', () => {
     it('should display in-person when appointment is in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isUpcomingAppointment: true,
-          apiData: {
-            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-      };
+      const appointment = new MockAppointment({
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(
+          new MockAppointmentResponse({
+            localStartTime: new Date(),
+          }),
+        )
+        .setIsUpcomingAppointment(true)
+        .setLocation(new MockFacility())
+        .setPatientComments('Other details: Additional information:colon');
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -784,29 +709,19 @@ describe('VAOS Component: InPersonLayout', () => {
       ).not.exist;
     });
     it('should display in-person when appointment is in the past', async () => {
+      // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isPastAppointment: true,
-          apiData: {
-            localStartTime: moment()
-              .subtract(2, 'day')
-              .format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-      };
+      const appointment = new MockAppointment({
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(
+          new MockAppointmentResponse({
+            localStartTime: subDays(new Date(), 2),
+          }),
+        )
+        .setIsPastAppointment(true)
+        .setLocation(new MockFacility())
+        .setPatientComments('Other details: Additional information:colon');
 
       // Act
       const screen = renderWithStoreAndRouter(

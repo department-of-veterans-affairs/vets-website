@@ -17,9 +17,9 @@ const TrackingInfo = ({ carrier, trackingNumber, prescriptionName }) => {
         <span>Track the shipment of your most recent refill</span>
       </h2>
 
-      <h4 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-bottom--1 vads-u-margin-top--1">
+      <p className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-font-weight--bold vads-u-margin-bottom--1 vads-u-margin-top--1">
         Tracking number:
-      </h4>
+      </p>
       <p data-testid="tracking-number" className="vads-u-line-height--1">
         {trackingNumber}
       </p>

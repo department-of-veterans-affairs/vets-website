@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import OmbInfo from '../components/OmbInfo';
 
@@ -16,7 +16,7 @@ const IntroductionPage = ({ route }) => {
 
   return (
     <article className="schemaform-intro">
-      <FormTitle title="Report 85/15 Rule enrollment ratios" />
+      <FormTitle title="Report 85/15 rule enrollment ratios" />
       <p className="vads-u-margin-y--2">
         Statement of Assurance of Compliance with 85% Enrollment Ratios (VA Form
         22-10215)
@@ -53,7 +53,7 @@ const IntroductionPage = ({ route }) => {
         By regulation 38 CFR 21.4201(f)(2), schools WITHOUT an approved 35
         percent exemption are obligated to report all 85/15 calculations to the
         VA. To find due dates for submitting your calculations each term, please
-        review the "More information about reporting your 85/15 Rule enrollment
+        review the "More information about reporting your 85/15 rule enrollment
         ratios" section of this page.
       </p>
       <p>

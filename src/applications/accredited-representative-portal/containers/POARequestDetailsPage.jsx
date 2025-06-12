@@ -6,6 +6,7 @@ import {
   VaLoadingIndicator,
   VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
 import {
   expiresSoon,
@@ -15,6 +16,7 @@ import {
   DETAILS_BC_LABEL,
   poaDetailsBreadcrumbs,
 } from '../utilities/poaRequests';
+import { recordDatalayerEvent } from '../utilities/analytics';
 import api from '../utilities/api';
 import ProcessingBanner from '../components/ProcessingBanner';
 
@@ -47,12 +49,29 @@ const DECLINATION_OPTIONS = {
   },
 };
 
+const DECLINATION_OPTIONS_UPDATE = {
+  DECLINATION_LIMITED_AUTH: {
+    type: DECISION_TYPES.DECLINATION,
+    reason: 'Decline, because authorization is limited',
+  },
+  DECLINATION_OUTSIDE_SERVICE_TERRITORY: {
+    type: DECISION_TYPES.DECLINATION,
+    reason:
+      'Decline, because the claimant is outside of the organization’s service territory',
+  },
+  DECLINATION_OTHER: {
+    type: DECISION_TYPES.DECLINATION,
+    reason: 'Decline, because of another reason',
+  },
+};
+
 const DECISION_OPTIONS = {
   ACCEPTANCE: {
     type: DECISION_TYPES.ACCEPTANCE,
     reason: null,
   },
   ...DECLINATION_OPTIONS,
+  ...DECLINATION_OPTIONS_UPDATE,
 };
 
 const PROCESSING_BANNER = {
@@ -178,6 +197,10 @@ const POARequestDetailsPage = title => {
         .querySelector('va-radio')
         .shadowRoot?.querySelector('h2')
         .setAttribute('style', 'font-size:1.0625rem;');
+      document
+        .querySelector('va-radio')
+        .shadowRoot?.querySelector('legend')
+        .setAttribute('style', 'max-width:100%;');
     }
   }, '1000');
 
@@ -213,7 +236,7 @@ const POARequestDetailsPage = title => {
             </p>
           </h1>
 
-          <ul className="poa-request-details__list">
+          <ul className="poa-request-details__list poa-request-details__list--col">
             <li className="poa-request-details__list-item">
               <p className="poa-request-details__title">
                 Requested representative
@@ -321,7 +344,7 @@ const POARequestDetailsPage = title => {
               />
             )}
 
-            <h2>Claimant information</h2>
+            <h2 className="poa-request-details__h2">Claimant information</h2>
             <ul className="poa-request-details__list poa-request-details__list--info">
               <li>
                 <p>Relationship to Veteran</p>
@@ -336,7 +359,7 @@ const POARequestDetailsPage = title => {
               <li>
                 <p>Phone</p>
                 <p>
-                  <va-telephone contact={formattedPhone} />
+                  <va-telephone contact={formattedPhone} not-clickable />
                 </p>
               </li>
               <li>
@@ -363,7 +386,9 @@ const POARequestDetailsPage = title => {
         and the veteran information will show up here. if the veteran is filing themselves, they will appear as the claimant */}
             {poaRequest.powerOfAttorneyForm.veteran && (
               <>
-                <h2>Veteran identification information</h2>
+                <h2 className="poa-request-details__h2">
+                  Veteran identification information
+                </h2>
                 <ul className="poa-request-details__list poa-request-details__list--info">
                   <li>
                     <p>Name</p>
@@ -386,7 +411,9 @@ const POARequestDetailsPage = title => {
               </>
             )}
 
-            <h2>Authorization information</h2>
+            <h2 className="poa-request-details__h2">
+              Authorization information
+            </h2>
             <ul className="poa-request-details__list poa-request-details__list--info">
               <li>
                 <p>Change of address</p>
@@ -433,55 +460,128 @@ const POARequestDetailsPage = title => {
             </ul>
 
             {poaStatus === 'Pending' && (
-              <Form
-                method="post"
-                action="decision"
-                onSubmit={handleSubmit}
-                className={
-                  error
-                    ? `poa-request-details__form poa-request-details__form--error`
-                    : `poa-request-details__form`
+              <Toggler
+                toggleName={
+                  Toggler.TOGGLE_NAMES.accreditedRepresentativePortalForm
                 }
               >
-                <VaRadio
-                  header-aria-describedby={null}
-                  label="Do you accept or decline this POA request?"
-                  label-header-level={2}
-                  class="poa-request-details__form-label"
-                  onVaValueChange={handleChange}
-                  required
-                  error={error}
-                >
-                  <p>
-                    We’ll send the claimant an email letting them know your
-                    decision.
-                  </p>
-                  <VaRadioOption
-                    label="Accept"
-                    value="ACCEPTANCE"
-                    name="decision"
-                  />
-
-                  {Object.entries(DECLINATION_OPTIONS).map(
-                    ([value, decision]) => (
+                <Toggler.Enabled>
+                  <Form
+                    method="post"
+                    action="decision"
+                    onSubmit={handleSubmit}
+                    className={
+                      error
+                        ? `poa-request-details__form poa-request-details__form--error`
+                        : `poa-request-details__form`
+                    }
+                  >
+                    <VaRadio
+                      header-aria-describedby={null}
+                      label="Do you accept or decline this representation request?"
+                      label-header-level={2}
+                      class="poa-request-details__form-label"
+                      onVaValueChange={handleChange}
+                      required
+                      error={error}
+                      onRadioOptionSelected={recordDatalayerEvent}
+                      enable-analytics="false"
+                    >
+                      <p>
+                        <strong>Note:</strong> If you’d like the claimant to
+                        make changes to their request, ask them to resubmit
+                        online VA Form 21-22 with those changes. Their new
+                        request will replace this one in the portal.
+                      </p>
+                      <p>
+                        If you accept or decline, we’ll send the claimant an
+                        email letting them know your decision.
+                      </p>
                       <VaRadioOption
-                        key={value}
-                        label={decision.reason}
-                        value={value}
+                        label="Accept"
+                        value="ACCEPTANCE"
                         name="decision"
+                        data-eventname="int-radio-button-option-click"
                       />
-                    ),
-                  )}
-                </VaRadio>
 
-                {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
-                <button
-                  type="submit"
-                  className="usa-button poa-request-details__form-submit"
-                >
-                  Submit decision
-                </button>
-              </Form>
+                      {Object.entries(DECLINATION_OPTIONS_UPDATE).map(
+                        ([value, decision]) => (
+                          <VaRadioOption
+                            key={value}
+                            label={decision.reason}
+                            value={value}
+                            name="decision"
+                            data-eventname="int-radio-button-option-click"
+                          />
+                        ),
+                      )}
+                    </VaRadio>
+
+                    {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+                    <button
+                      type="submit"
+                      className="usa-button poa-request-details__form-submit"
+                    >
+                      Submit response
+                    </button>
+                  </Form>
+                </Toggler.Enabled>
+                <Toggler.Disabled>
+                  <Form
+                    method="post"
+                    action="decision"
+                    onSubmit={handleSubmit}
+                    className={
+                      error
+                        ? `poa-request-details__form poa-request-details__form--error`
+                        : `poa-request-details__form`
+                    }
+                  >
+                    <VaRadio
+                      header-aria-describedby={null}
+                      label="Do you accept or decline this POA request?"
+                      label-header-level={2}
+                      class="poa-request-details__form-label"
+                      onVaValueChange={handleChange}
+                      required
+                      error={error}
+                      onRadioOptionSelected={recordDatalayerEvent}
+                      enable-analytics="false"
+                    >
+                      <p>
+                        We’ll send the claimant an email letting them know your
+                        decision.
+                      </p>
+                      <VaRadioOption
+                        label="Accept"
+                        value="ACCEPTANCE"
+                        name="decision"
+                        data-eventname="int-radio-button-option-click"
+                      />
+
+                      {Object.entries(DECLINATION_OPTIONS).map(
+                        ([value, decision]) => (
+                          <VaRadioOption
+                            key={value}
+                            label={decision.reason}
+                            value={value}
+                            name="decision"
+                            data-eventname="int-radio-button-option-click"
+                          />
+                        ),
+                      )}
+                    </VaRadio>
+
+                    {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+                    <button
+                      type="submit"
+                      className="usa-button poa-request-details__form-submit"
+                    >
+                      Submit decision
+                    </button>
+                  </Form>
+                </Toggler.Disabled>
+              </Toggler>
             )}
           </div>
         </section>

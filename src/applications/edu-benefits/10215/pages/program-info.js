@@ -8,6 +8,7 @@ import {
   arrayBuilderItemFirstPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import Calcs from './calcs';
+import { decimalSchema } from '../helpers';
 
 /**
  * On the review page, the *formData* contains a single *program*
@@ -18,7 +19,7 @@ const getSupportedStudents = (formData, index) =>
     formData?.programs?.[index]?.supportedStudents ||
       formData?.supportedStudents,
   );
-
+const noSpaceOnlyPattern = '^(?!\\s*$).+';
 const programInfo = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
@@ -37,6 +38,7 @@ const programInfo = {
       title: 'Program name',
       errorMessages: {
         required: 'Please enter a program name',
+        pattern: 'You must provide a response',
       },
     }),
     studentsEnrolled: numberUI({
@@ -95,14 +97,14 @@ const programInfo = {
   schema: {
     type: 'object',
     properties: {
-      programName: textSchema,
+      programName: { ...textSchema, pattern: noSpaceOnlyPattern },
       studentsEnrolled: numberSchema,
       supportedStudents: numberSchema,
       fte: {
         type: 'object',
         properties: {
-          supported: numberSchema,
-          nonSupported: numberSchema,
+          supported: decimalSchema,
+          nonSupported: decimalSchema,
         },
       },
       'view:calcs': { type: 'object', properties: {} },

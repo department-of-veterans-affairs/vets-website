@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import withRouter from '../utils/withRouter';
 
 import {
@@ -25,6 +25,7 @@ import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import FeaturesWarning from '../components/FeaturesWarning';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
+import TravelClaimsSection from '../components/TravelClaimsSection';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
@@ -256,7 +257,6 @@ class YourClaimsPageV2 extends React.Component {
             </va-additional-info>
             {content}
             <ClaimLetterSection />
-            <FeaturesWarning />
             <h2 id="what-if-i-dont-see-my-appeal">
               What if I can't find my claim, decision review, or appeal?
             </h2>
@@ -265,6 +265,8 @@ class YourClaimsPageV2 extends React.Component {
               Review or Board appeal, we might still be processing it. Check
               back for updates.
             </p>
+            <TravelClaimsSection />
+            <FeaturesWarning />
             <NeedHelp />
           </div>
         </article>

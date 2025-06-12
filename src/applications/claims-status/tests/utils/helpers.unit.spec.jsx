@@ -1,9 +1,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
-import * as scroll from 'platform/utilities/ui/scroll';
+import {
+  createGetHandler,
+  networkError,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
+import * as scrollUtils from 'platform/utilities/scroll/scroll';
 import * as page from '../../utils/page';
 
 import {
@@ -788,10 +792,10 @@ describe('Disability benefits helpers: ', () => {
 
     it('should make an apiRequest request', done => {
       server.use(
-        rest.get(
+        createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json({}));
+          () => {
+            return jsonResponse({}, { status: 200 });
           },
         ),
       );
@@ -811,9 +815,9 @@ describe('Disability benefits helpers: ', () => {
 
     it('should reject promise when there is an error', done => {
       server.use(
-        rest.get(
+        createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          (req, res) => res.networkError('Claims Status Failed'),
+          networkError('Claims Status Failed'),
         ),
       );
 
@@ -837,9 +841,9 @@ describe('Disability benefits helpers: ', () => {
 
     it('should dispatch auth error', done => {
       server.use(
-        rest.get(
+        createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          (req, res, ctx) => res(ctx.status(401), ctx.json({ status: 401 })),
+          () => jsonResponse({ status: 401 }, { status: 401 }),
         ),
       );
       const onError = sinon.spy();
@@ -1333,7 +1337,7 @@ describe('Disability benefits helpers: ', () => {
     });
     context('when last page was not a tab and loading is true', () => {
       it('should run scrollToTop', () => {
-        const scrollToTop = sinon.spy(scroll, 'scrollToTop');
+        const scrollToTop = sinon.spy(scrollUtils, 'scrollToTop');
         setPageFocus('/test', true);
 
         expect(scrollToTop.called).to.be.true;
@@ -1341,7 +1345,7 @@ describe('Disability benefits helpers: ', () => {
     });
     context('when last page was a tab', () => {
       it('should run scrollAndFocus', () => {
-        const scrollAndFocus = sinon.spy(scroll, 'scrollAndFocus');
+        const scrollAndFocus = sinon.spy(scrollUtils, 'scrollAndFocus');
         setPageFocus('/status', false);
 
         expect(scrollAndFocus.called).to.be.true;

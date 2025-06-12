@@ -64,15 +64,6 @@ export const selectHasVAPResidentialAddress = state =>
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
-export const selectFeatureClinicFilter = state =>
-  toggleValues(state).vaOnlineSchedulingClinicFilter;
-
-export const selectFeatureBreadcrumbUrlUpdate = state =>
-  toggleValues(state).vaOnlineSchedulingBreadcrumbUrlUpdate;
-
-export const selectFeatureStaticLandingPage = state =>
-  toggleValues(state).vaOnlineSchedulingStaticLandingPage;
-
 export const selectFeatureBookingExclusion = state =>
   toggleValues(state).vaOnlineSchedulingBookingExclusion;
 
@@ -93,9 +84,6 @@ export const selectFeatureOHRequest = state =>
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
 
-export const selectFeatureUseVaDate = state =>
-  toggleValues(state).vaosOnlineSchedulingUseVADate;
-
 export const selectFeatureFeSourceOfTruth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
 
@@ -110,18 +98,6 @@ export const selectFeatureFeSourceOfTruthModality = state =>
 
 export const selectFeatureFeSourceOfTruthTelehealth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruthTelehealth;
-
-export const selectFeatureMhvRouteGuards = state =>
-  toggleValues(state).vaOnlineSchedulingMHVRouteGuards;
-
-export const selectFeatureDirectScheduleAppointmentConflict = state =>
-  toggleValues(state).vaOnlineSchedulingDirectScheduleAppointmentConflict;
-
-export const selectFeatureDisplayPastCancelledAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingDisplayPastCancelledAppointments;
-
-export const selectFeaturePatientHistoryFutureAppts = state =>
-  toggleValues(state).vaOnlineSchedulingPatientHistoryFutureAppts;
 
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;
@@ -146,3 +122,5 @@ export function getRequestedAppointmentListInfo(state) {
     showScheduleButton: selectFeatureRequests(state),
   };
 }
+export const selectFeatureConvertSlotsToUTC = state =>
+  toggleValues(state).vaOnlineSchedulingConvertSlotsToUTC;
