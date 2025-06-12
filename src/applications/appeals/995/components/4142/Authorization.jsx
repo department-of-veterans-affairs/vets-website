@@ -20,6 +20,17 @@ import AuthorizationAlert from './AuthorizationAlert';
 import { customPageProps995 } from '../../../shared/props';
 import { PrivacyActStatementContent } from './PrivacyActStatementContent';
 
+export const lastUpdatedIsBeforeCutoff = lastUpdated => {
+  const formattedLastUpdated = format(
+    fromUnixTime(lastUpdated),
+    'yyyy-MM-dd HH:mm:ss',
+  );
+
+  const CUTOFF_DATE_4142 = '2025-06-30 19:00:00';
+
+  return formattedLastUpdated < CUTOFF_DATE_4142;
+};
+
 const Authorization = ({
   data = {},
   goBack,
@@ -30,18 +41,15 @@ const Authorization = ({
 }) => {
   const [hasError, setHasError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [showLegaleseBanner, setShowLegaleseBanner] = useState(false);
 
-  const appLastUpdated = useSelector(
+  const lastUpdated = useSelector(
     state => state?.form?.loadedData?.metadata?.lastUpdated,
   );
 
-  console.log('appLastUpdated', appLastUpdated);
-
-  if (appLastUpdated) {
-    console.log(format(fromUnixTime(appLastUpdated), 'yyyy-MM-dd HH:mm:ss'));
+  if (lastUpdated) {
+    setShowLegaleseBanner(lastUpdatedIsBeforeCutoff(lastUpdated));
   }
-
-  const CUTOFF_DATE_4142 = '2025-06-30 19:00:00';
 
   const toggle4142PrivacyModal = () => {
     setModalVisible(!modalVisible);
@@ -141,7 +149,7 @@ const Authorization = ({
               headline="Action needed: Review authorization"
               role="alert"
               type="warning"
-              visible={shouldShowLegaleseBanner}
+              visible={showLegaleseBanner}
             >
               <p className="vads-u-margin-bottom--0">
                 We’ve updated the legal statement on this page. You previously
