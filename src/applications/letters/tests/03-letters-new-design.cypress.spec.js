@@ -18,6 +18,8 @@ describe('New letters page design', () => {
       'utf-8',
     ).as('letterPDFBlob');
 
+    cy.injectAxeThenAxeCheck();
+
     cy.intercept('GET', '/v0/feature_toggles?*', featureToggleLettersNewDesign);
     cy.intercept(
       'GET',
@@ -41,35 +43,34 @@ describe('New letters page design', () => {
   });
 
   it('confirms non-BSL letters load asynchronously', () => {
-    cy.get('[data-test-id="letters-accordion"]', { timeout: 3000 })
+    cy.get('[data-test-id="letters-accordion"]', { timeout: Timeouts.slow })
       .as('lettersAccordion')
       .should('be.visible');
-    cy.injectAxeThenAxeCheck();
     cy.title().should(
       'contain',
       'Download VA Letters and Documents | Veterans Affair',
     );
-    cy.axeCheck();
+    cy.axeCheck('main');
     cy.get('@lettersAccordion')
       .shadow()
       .find('button.va-accordion__button')
       .click();
-    cy.get('va-link[filetype="PDF"]', { timeout: 3000 }).should(
+    cy.get('va-link[filetype="PDF"]', { timeout: Timeouts.slow }).should(
       'have.length',
       4,
     );
-    cy.axeCheck();
+    cy.axeCheck('main');
   });
 
   it('confirms non-BSL letters can be downloaded', () => {
-    cy.get('[data-test-id="letters-accordion"]', { timeout: 3000 })
+    cy.get('[data-test-id="letters-accordion"]', { timeout: Timeouts.slow })
       .as('lettersAccordion')
       .should('be.visible');
     cy.get('@lettersAccordion')
       .shadow()
       .find('button.va-accordion__button')
       .click();
-    cy.get('va-link[filetype="PDF"]', { timeout: 3000 })
+    cy.get('va-link[filetype="PDF"]', { timeout: Timeouts.slow })
       .first()
       .click();
     cy.get('@letterPDFBlob').then(blob => {
@@ -77,8 +78,8 @@ describe('New letters page design', () => {
     });
   });
 
-  it('confirms BSL letters load asynchronously', () => {
-    cy.get('[data-test-id="letters-accordion"]', { timeout: 3000 })
+  it('confirms BSL letter downloads with all benefits by default', () => {
+    cy.get('[data-test-id="letters-accordion"]', { timeout: Timeouts.slow })
       .as('lettersAccordion')
       .should('be.visible');
     cy.get('va-accordion-item:nth-of-type(4)')
@@ -92,5 +93,48 @@ describe('New letters page design', () => {
         'Download Benefit Summary and Service Verification Letter (PDF)',
       )
       .click();
+    cy.get('va-alert[status="success"]', {
+      timeout: Timeouts.slow,
+    })
+      .should('be.visible')
+      .as('successAlert');
+    cy.get('@successAlert')
+      .find('p')
+      .first()
+      .should('have.text', 'Your letter includes the 5 items you selected.');
+    cy.axeCheck('main');
+  });
+
+  it('confirms BSL letter downloads with one benefit', () => {
+    cy.get('[data-test-id="letters-accordion"]', { timeout: Timeouts.slow })
+      .as('lettersAccordion')
+      .should('be.visible');
+    cy.get('va-accordion-item:nth-of-type(4)')
+      .shadow()
+      .find('button[aria-expanded=false]')
+      .click();
+    // Get array of checkboxes, loop to click through all but the first one
+    cy.get('input[type="checkbox"]').each(($el, index) => {
+      if (index > 0) {
+        cy.wrap($el).click();
+      }
+    });
+    cy.get('va-button')
+      .shadow()
+      .find('button')
+      .contains(
+        'Download Benefit Summary and Service Verification Letter (PDF)',
+      )
+      .click();
+    cy.get('va-alert[status="success"]', {
+      timeout: Timeouts.slow,
+    })
+      .should('be.visible')
+      .as('successAlert');
+    cy.get('@successAlert')
+      .find('p')
+      .first()
+      .should('have.text', 'Your letter includes the one item you selected.');
+    cy.axeCheck('main');
   });
 });

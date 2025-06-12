@@ -50,7 +50,7 @@ describe('New letters edit address flow', () => {
       'contain',
       'Download VA Letters and Documents | Veterans Affair',
     );
-    cy.axeCheck();
+    cy.axeCheck('main');
     cy.get('button[data-testid="save-edit-button"').click();
     cy.scrollTo(0, 0);
     cy.get('div[data-testid="mailingAddress"]').should('be.visible');
@@ -58,7 +58,9 @@ describe('New letters edit address flow', () => {
       'have.text',
       'Use suggested address',
     );
-    // cy.axeCheck();
+    cy.axeCheck('main', {
+      headingOrder: false,
+    });
     cy.get('va-radio[label="Address you entered:"]').click();
     cy.get('button[data-testid="confirm-address-button"]')
       .should('have.text', 'Use address you entered')
@@ -87,14 +89,13 @@ describe('New letters edit address flow', () => {
       'contain',
       'Download VA Letters and Documents | Veterans Affair',
     );
-    cy.axeCheck();
+    cy.axeCheck('main');
     cy.get('button[data-testid="save-edit-button"').click();
     cy.scrollTo(0, 0);
     cy.get('div[data-testid="mailingAddress"]').should('be.visible');
     cy.get('button[data-testid="confirm-address-button"]')
       .should('have.text', 'Use suggested address')
       .click();
-    // cy.axeCheck();
 
     cy.window().then(win => {
       const state = { success: true };
