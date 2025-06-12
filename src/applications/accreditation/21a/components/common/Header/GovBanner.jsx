@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import recordEvent from '~/platform/monitoring/record-event';
 
-export const MobileOfficialGovtWebsite = () => {
+export const GovBanner = () => {
   const [expanded, setExpanded] = useState(false);
 
   const onToggle = () => {
@@ -15,47 +15,56 @@ export const MobileOfficialGovtWebsite = () => {
   };
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column">
-      {/* Banner */}
-      <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
+    <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column">
+      <div className="header__govt-site vads-u-display--flex">
         <img
           alt="U.S. flag"
-          className="header-us-flag vads-u-margin-right--1"
+          className="header__flag"
           src="https://www.va.gov/img/tiny-usa-flag.png"
+          aria-hidden="true"
+          z-index="-1"
         />
         {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
         <button
-          data-testid="official-govt-website-toggle-mobile"
+          data-testid="official-govt-site-toggle"
           aria-controls="official-govt-site-explanation"
           aria-expanded={expanded ? 'true' : 'false'}
-          className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center"
+          className="header__govt-site-explanation va-button-link vads-u-text-decoration--none vads-u-display--flex"
           onClick={onToggle}
           type="button"
         >
-          An official website of the United States government.
-          <svg
-            aria-hidden="true"
-            className={`vads-u-margin-left--0p5${
-              expanded ? ' govt-expanded-arrow' : ''
-            }`}
-            focusable="false"
-            width="12"
-            viewBox="6 6 12 12"
-            xmlns="http://www.w3.org/2000/svg"
+          <span
+            className="vads-u-color--black"
+            data-testid="official-govt-site-text"
           >
-            <path
-              fill="#005ea2"
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M16.59 8.59L12 13.17L7.41 8.59L6 10L12 16L18 10L16.59 8.59Z"
-            />
-          </svg>
+            An official website of the United States government.
+          </span>
+          <span className="header__govt-site-explanation-sub-text">
+            Here’s how you know
+            <svg
+              aria-hidden="true"
+              className={`vads-u-margin-left--0p5${
+                expanded ? ' govt-expanded-arrow' : ''
+              }`}
+              focusable="false"
+              width="12"
+              viewBox="6 6 12 12"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="#005ea2"
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M16.59 8.59L12 13.17L7.41 8.59L6 10L12 16L18 10L16.59 8.59Z"
+              />
+            </svg>
+          </span>
         </button>
       </div>
       {/* Expanded section */}
       {expanded && (
         <div
-          data-testid="official-govt-website-content-mobile"
+          data-testid="official-govt-site-content"
           aria-hidden={expanded ? 'false' : 'true'}
           className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--1p5 vads-u-padding-y--2"
           id="official-govt-site-explanation"
@@ -93,4 +102,4 @@ export const MobileOfficialGovtWebsite = () => {
   );
 };
 
-export default MobileOfficialGovtWebsite;
+export default GovBanner;
