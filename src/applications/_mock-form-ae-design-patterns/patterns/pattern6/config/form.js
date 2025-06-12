@@ -1,6 +1,5 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
-import ConfirmationPage from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
 import IntroductionPage from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/components/IntroductionPage';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
 import { arrayBuilderPages } from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/array-builder/arrayBuilder';
@@ -51,7 +50,10 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'marital-information',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: ({ router }) => {
+    router.push('/6/marital-information/introduction');
+    return null;
+  },
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
   saveInProgress,
@@ -69,8 +71,8 @@ const formConfig = {
     };
   },
   prefillEnabled: true,
-  title: 'Marital Status Form Pattern',
-  subTitle: 'Pattern 6 - Marital Status',
+  title: 'Marital Information Pattern',
+  subTitle: 'Pattern 6 - Marital Information',
   // Disable the review page
   hideFromReview: [
     'formSpouseName',
@@ -354,13 +356,21 @@ const formConfig = {
               'veteran-marriage-history/:index/reason-previous-marriage-ended',
             uiSchema: veteranPreviousMarriageEndReason.uiSchema,
             schema: veteranPreviousMarriageEndReason.schema,
-            depends: (formData, index, context) => {
+            depends: (formData, index) => {
+              const marriageItem = formData?.veteranMarriageHistory?.[index];
               return (
-                formData['view:completedVeteranFormerMarriage'] ||
+                !marriageItem?.['view:previousSpouseIsDeceased'] ||
                 context?.edit === true ||
                 context?.add === true
               );
             },
+            // depends: (formData, index, context) => {
+            //   return (
+            //     formData['view:completedVeteranFormerMarriage'] ||
+            //     context?.edit === true ||
+            //     context?.add === true
+            //   );
+            // },
           }),
           veteranMarriageHistoryPartSeven: pageBuilder.itemPage({
             title: 'Place and date of previous marriage termination',
@@ -382,13 +392,23 @@ const formConfig = {
             uiSchema: divorceDocuments.uiSchema,
             schema: divorceDocuments.schema,
             depends: (formData, index, context) => {
+              const marriageItem = formData?.veteranMarriageHistory?.[index];
               return (
-                (formData['view:completedVeteranFormerMarriage'] &&
-                  formData?.maritalStatus === 'DIVORCED') ||
+                marriageItem?.reasonMarriageEnded === 'Divorce' ||
+                (formData?.maritalStatus === 'DIVORCED' &&
+                  formData?.veteranMarriageHistory?.length > 1) ||
                 context?.edit === true ||
                 (context?.add === true && formData?.maritalStatus !== 'MARRIED')
               );
             },
+            // depends: (formData, index, context) => {
+            //   return (
+            //     (formData['view:completedVeteranFormerMarriage'] &&
+            //       formData?.maritalStatus === 'DIVORCED') ||
+            //     context?.edit === true ||
+            //     (context?.add === true && formData?.maritalStatus !== 'MARRIED')
+            //   );
+            // },
           }),
         })),
       },

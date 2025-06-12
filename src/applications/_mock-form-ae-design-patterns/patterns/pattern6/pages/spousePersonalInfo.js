@@ -24,11 +24,7 @@ export default {
       const statusKey = formData?.maritalStatus?.toLowerCase();
       const title = titles[statusKey] || "Spouse's name and date of birth";
 
-      return (
-        <>
-          <h3 className="vads-u-color--black">{title}</h3>
-        </>
-      );
+      return <>{title}</>;
     }),
     // ...titleUI('Spouse’s name and date of birth'),
     spouseFullName: {

@@ -40,10 +40,15 @@ export default {
     'view:previousSpouseIsDeceased': {
       'ui:title': 'My previous spouse is deceased.',
       'ui:webComponentField': VaCheckboxField,
+      // 'ui:options': {
+      //   hideIf: formData =>
+      //     formData.maritalStatus !== 'DIVORCED' &&
+      //     formData['view:completedVeteranFormerMarriage'] !== true,
+      // },
       'ui:options': {
         hideIf: formData =>
-          formData.maritalStatus !== 'DIVORCED' &&
-          formData['view:completedVeteranFormerMarriage'] !== true,
+          formData.maritalStatus === 'DIVORCED' &&
+          formData.veteranMarriageHistory.length < 2,
       },
     },
   },

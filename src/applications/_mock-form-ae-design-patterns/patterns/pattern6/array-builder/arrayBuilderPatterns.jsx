@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import {

@@ -141,7 +141,7 @@ padding-left: 0;
 }
 }
 
-[data-location="6/marital-information/current-spouse-marriage-history/0/reason-former-marriage-ended"] {
+[data-location*="/reason-former-marriage-ended"] {
   va-radio::part(legend) {
     display: none;
   }
@@ -159,6 +159,26 @@ padding-left: 0;
     padding-left: 0 !important;
   }
 }
+}
+
+[data-location*="/current-spouse-marriage-history"] {
+  .rjsf-object-field {
+    margin-top: 0 !important;
+  }
+}
+
+[data-location*="/veteran-marriage-history"] {
+  .rjsf-object-field {
+    margin-top: 0 !important;
+  }
+}
+
+[label="Has your spouse been married before?"]{
+  margin-top: 0 !important;
+}
+
+[label="Do you have any previous marriages?"]{
+  margin-top: 0 !important;
 }
 
 [name="root_view:previousSpouseIsDeceased"]{

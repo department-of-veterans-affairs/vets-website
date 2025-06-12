@@ -159,7 +159,7 @@ class IntroductionPage extends React.Component {
               <Link
                 to={`${
                   formConfig.urlPrefix
-                }veteran-marriage-history/:index/former-spouse-information?add=true`}
+                }veteran-marriage-history/0/former-spouse-information?add=true`}
               >
                 Previous Spouse Personal Info
               </Link>
@@ -168,7 +168,7 @@ class IntroductionPage extends React.Component {
               <Link
                 to={`${
                   formConfig.urlPrefix
-                }veteran-marriage-history/:index/previous-spouse-identity?add=true`}
+                }veteran-marriage-history/0/previous-spouse-identity?add=true`}
               >
                 Previous spouse's identification information
               </Link>
@@ -177,7 +177,7 @@ class IntroductionPage extends React.Component {
               <Link
                 to={`${
                   formConfig.urlPrefix
-                }veteran-marriage-history/:index/previous-spouse-contact-information?add=true`}
+                }veteran-marriage-history/0/previous-spouse-contact-information?add=true`}
               >
                 Previous spouse's address and phone number
               </Link>
@@ -186,7 +186,7 @@ class IntroductionPage extends React.Component {
               <Link
                 to={`${
                   formConfig.urlPrefix
-                }veteran-marriage-history/:index/previous-marriage-date-location?add=true`}
+                }veteran-marriage-history/0/previous-marriage-date-location?add=true`}
               >
                 Place and date of previous marriage
               </Link>
@@ -195,7 +195,7 @@ class IntroductionPage extends React.Component {
               <Link
                 to={`${
                   formConfig.urlPrefix
-                }veteran-marriage-history/:index/previous-marriage-type?add=true`}
+                }veteran-marriage-history/0/previous-marriage-type?add=true`}
               >
                 Type of marriage-How did you get married?
               </Link>
@@ -204,7 +204,7 @@ class IntroductionPage extends React.Component {
               <Link
                 to={`${
                   formConfig.urlPrefix
-                }veteran-marriage-history/:index/reason-previous-marriage-ended?add=true`}
+                }veteran-marriage-history/0/reason-previous-marriage-ended?add=true`}
               >
                 Reason previous marriage ended
               </Link>
@@ -213,7 +213,7 @@ class IntroductionPage extends React.Component {
               <Link
                 to={`${
                   formConfig.urlPrefix
-                }veteran-marriage-history/:index/former-marriage-end-date-location?add=true`}
+                }veteran-marriage-history/0/former-marriage-end-date-location?add=true`}
               >
                 Place and date the previous marriage ended
               </Link>

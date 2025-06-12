@@ -16,8 +16,8 @@ const formatDate = dateStr => {
  */
 export const veteranMarriageHistoryOptions = {
   arrayPath: 'veteranMarriageHistory',
-  nounSingular: 'former marriage',
-  nounPlural: 'former marriages',
+  nounSingular: 'previous marriage',
+  nounPlural: 'previous marriages',
   required: false,
   isItemIncomplete: item =>
     !item?.spouseFullName ||
@@ -57,8 +57,8 @@ export const veteranMarriageHistoryOptions = {
 export const spouseMarriageHistoryOptions = {
   arrayPath: 'spouseMarriageHistory',
   hint: '',
-  nounSingular: 'former marriage',
-  nounPlural: 'former marriages',
+  nounSingular: 'previous marriage',
+  nounPlural: 'previous marriages',
   required: false,
   isItemIncomplete: item =>
     !item?.spouseFormerSpouseFullName ||
@@ -76,7 +76,7 @@ export const spouseMarriageHistoryOptions = {
     (item?.['view:marriageEndedOutsideUS'] === true &&
       !item?.marriageEndLocation?.country),
   text: {
-    summaryTitle: "Review your spouse's past marriages",
+    summaryTitle: "Review your spouse's past marriage information",
     getItemName: item =>
       `${capitalize(item?.spouseFormerSpouseFullName?.first) ||
         ''} ${capitalize(item?.spouseFormerSpouseFullName?.last) || ''} `,
