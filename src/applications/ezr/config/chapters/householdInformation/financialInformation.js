@@ -1,5 +1,6 @@
-import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import React from 'react';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import content from '../../../locales/en/content.json';
 import { includeSpousalInformation } from '../../../utils/helpers/form-config';
 import FinancialInformationReviewWarning from '../../../components/FormAlerts/FinancialInformationReviewWarning';
 import { LAST_YEAR } from '../../../utils/constants';
@@ -63,26 +64,28 @@ const spouseAnnualIncomePageSchemas = SpouseAnnualIncomePage();
  */
 const FinancialInformationPages = arrayBuilderPages(options, pageBuilder => ({
   financialInformationIntroduction: pageBuilder.introPage({
-    title: 'Your income and deductible',
+    title: content['household-financial-information-introduction-title'],
     path: 'household-information/financial-information-introduction',
     uiSchema: FinancialIntroductionPage.uiSchema,
     schema: FinancialIntroductionPage.schema,
   }),
   financialInformationSummary: pageBuilder.summaryPage({
-    title: 'Your income and deductible',
+    title: content['household-financial-information-summary-title'],
     path: 'household-information/financial-information',
     uiSchema: summaryPageSchemas.uiSchema,
     schema: summaryPageSchemas.schema,
   }),
   veteranAnnualIncome: pageBuilder.itemPage({
-    title: 'Your annual income',
+    title:
+      content['household-financial-information-veteran-annual-income-title'],
     path:
       'household-information/financial-information/:index/veteran-annual-income',
     uiSchema: annualIncomePageSchemas.uiSchema,
     schema: annualIncomePageSchemas.schema,
   }),
   spouseAnnualIncome: pageBuilder.itemPage({
-    title: 'Spouse annual income',
+    title:
+      content['household-financial-information-spouse-annual-income-title'],
     path:
       'household-information/financial-information/:index/spouse-annual-income',
     depends: includeSpousalInformation,
@@ -90,7 +93,7 @@ const FinancialInformationPages = arrayBuilderPages(options, pageBuilder => ({
     schema: spouseAnnualIncomePageSchemas.schema,
   }),
   veteranDeductible: pageBuilder.itemPage({
-    title: 'Deductible expenses',
+    title: content['household-financial-information-deductible-expenses-title'],
     path:
       'household-information/financial-information/:index/deductible-expenses',
     uiSchema: deductiblePageSchemas.uiSchema,

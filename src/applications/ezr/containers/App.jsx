@@ -69,7 +69,7 @@ const App = props => {
           'view:householdEnabled': !!canSubmitFinancialInfo,
           'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
           'view:isNextOfKinEnabled': !!isNextOfKinEnabled,
-          'view:isProvidersAndDependentsPrefillEnabled': isProvidersAndDependentsPrefillEnabled,
+          'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
         };
 
         setFormData({

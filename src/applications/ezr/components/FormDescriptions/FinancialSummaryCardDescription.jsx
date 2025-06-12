@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { LAST_YEAR } from '../../utils/constants';
@@ -33,16 +33,6 @@ SpousalFinancialInformation.propTypes = {
 
 const FinancialSummaryCardDescription = item => {
   const { data: formData } = useSelector(state => state.form);
-  // Hide the 'Delete' button within the summary card (per design - 03/18/25)
-  useEffect(() => {
-    const deleteButton = document.querySelector(
-      'va-card va-button-icon[data-action="remove"]',
-    );
-
-    if (deleteButton) {
-      deleteButton.style.display = 'none';
-    }
-  }, []);
 
   const { spouseGrossIncome } = item?.['view:spouseGrossIncome'] || '';
   const { spouseNetIncome } = item?.['view:spouseNetIncome'] || '';
