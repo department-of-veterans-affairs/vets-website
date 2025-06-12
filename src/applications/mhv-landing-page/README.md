@@ -41,3 +41,43 @@ $ open http://localhost:8080
 2. Run `yarn tsc`, address errors, repeat until you have a clean build.
 3. Run `yarn test:unit --app-folder [application-name]` or one file `run yarn test:unit ./src/applications/[application-name]/path/to/Component.unit.spec.jsx` to verify tests are passing. Add `--log-level trace` and/or `node --trace-warnings` for more detail.
 4. Add .jsx file to `./src/applications/[application-name]/.gitignore`, delete the .jsx and commit your changes!
+
+
+## Develop
+
+Every application folder within `vets-website/src/applications` defines a `manifest.json` which defines object properties for `entryName`, the name of your bundled/transpiled app, and `entryFile`, the root of your React application.
+
+```json
+// manifest.json
+{
+  "appName": "My HealtheVet on VA.gov",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "mhv-landing-page",
+  "rootUrl": "/my-health",
+  "productId": "4d8b0801-dd86-4728-9609-9d794c923e03"
+}
+```
+
+The `yarn watch` command uses webpack to bundle and serve your application when developing.
+
+`yarn watch --env entry=[manifest.entryName]` ->
+  `node ./script/watch.js` ->
+  `webpack serve --config config/webpack.config.js --env scaffold`
+
+The `--env scaffold` option informs webpack to execute `generateHtmlFiles()`, creating the necessary `index.html` which loads assets on the client and contains the `div#react-root` placeholder element.
+
+webpack is configured to transform matching source files and output to `./build/[environment]/generated/[manifest.entryName].entry.js`.
+
+- `/.jsx?$/` matching filenames are processed by `babel-loader`
+- `/.tsx?$/` matching filenames are processed by `babel-loader` and `ts-loader` -- Q: Do we need both of these loaders?
+
+babel is configured (via `babel.config.json`) to use the following presets
+
+- [`@babel/env`](https://babeljs.io/docs/babel-preset-env)
+- [`@babel/react`](https://babeljs.io/docs/babel-preset-react)
+
+
+## Questions
+
+- When does an `app-entry.jsx` file transform?
+- What if we used `index.d.ts` files for defining types, migrating away from prop-types?
