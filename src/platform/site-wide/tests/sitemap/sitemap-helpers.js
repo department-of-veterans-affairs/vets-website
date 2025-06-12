@@ -1,4 +1,4 @@
-const libxmljs = require('libxmljs');
+const { XmlDocument } = require('libxml2-wasm');
 const fetch = require('node-fetch');
 const E2eHelpers = require('../../../testing/e2e/helpers');
 
@@ -22,7 +22,11 @@ const shouldIgnore = url => {
 function sitemapURLs() {
   return fetch(SITEMAP_URL)
     .then(res => res.text())
-    .then(body => libxmljs.parseXml(body))
+    .then(body => {
+      const doc = XmlDocument.fromString(body);
+      doc.dispose();
+      return doc;
+    })
     .then(doc =>
       doc
         .find('//xmlns:loc', SITEMAP_LOC_NS)

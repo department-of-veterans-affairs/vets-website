@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const libxmljs = require('libxmljs');
+const { XmlDocument } = require('libxml2-wasm');
 const fetch = require('node-fetch');
 
 const SITEMAP_URL = `http://${process.env.WEB_HOST || 'localhost'}:${process.env
@@ -28,7 +28,9 @@ const parseNonEnglishContent = () => {
       return res.text();
     })
     .then(body => {
-      return libxmljs.parseXmlString(body);
+      const doc = XmlDocument.fromString(body);
+      doc.dispose();
+      return doc;
     })
 
     .then(doc => {
