@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./types",
+    "jsx": "preserve",
+    "esModuleInterop": true
+  },
+  "include": ["./**/*.jsx"],
+  "exclude": ["node_modules"]
+}

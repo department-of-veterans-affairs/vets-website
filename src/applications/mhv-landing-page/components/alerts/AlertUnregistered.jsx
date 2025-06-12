@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
+
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
@@ -10,7 +11,28 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 
-const AlertUnregistered = ({ headline, recordEvent, ssoe, testId }) => {
+export const defaultProps = {
+  headline: 'Our records don’t show any VA health data for you right now',
+  recordEvent: recordEventFn,
+  ssoe: false,
+  testId: 'mhv-alert--unregistered',
+};
+
+/**
+ * AlertUnregistered component
+ * @param {object} props
+ * @param {string} props.headline
+ * @param {function} [props.recordEvent=recordEventFn]
+ * @param {boolean} props.ssoe
+ * @param {string} [props.testId]
+ * @returns {JSX.Element}
+ */
+const AlertUnregistered = ({
+  headline = defaultProps.headline,
+  recordEvent = defaultProps.recordEventFn,
+  ssoe = defaultProps.ssoe,
+  testId = defaultProps.testId,
+}) => {
   const mhvHomeUrl = mhvUrl(ssoe, 'home');
 
   useEffect(
@@ -65,20 +87,6 @@ const AlertUnregistered = ({ headline, recordEvent, ssoe, testId }) => {
       </div>
     </VaAlert>
   );
-};
-
-AlertUnregistered.defaultProps = {
-  headline: 'Our records don’t show any VA health data for you right now',
-  recordEvent: recordEventFn,
-  ssoe: false,
-  testId: 'mhv-alert--unregistered',
-};
-
-AlertUnregistered.propTypes = {
-  headline: PropTypes.string,
-  recordEvent: PropTypes.func,
-  ssoe: PropTypes.bool,
-  testId: PropTypes.string,
 };
 
 export default AlertUnregistered;
