@@ -37,11 +37,7 @@ export const uiSchema = {
     }),
     'view:cancelDivorce': {
       'ui:description': (
-        <CancelButton
-          dependentType="divorced spouse"
-          isAddChapter={false}
-          altMessage
-        />
+        <CancelButton dependentType="divorced spouse" isAddChapter={false} />
       ),
     },
   },
