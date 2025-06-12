@@ -18,8 +18,6 @@ import movingYesNoPage from '../pages/movingYesNo';
 import newMailingAddressPage from '../pages/newMailingAddress';
 import personalInformationPage from '../pages/personalInformation';
 import phoneAndEmailPage from '../pages/phoneAndEmail';
-import yearsOfCollegeStudiesPage from '../pages/yearsOfCollegeStudies';
-import yearsOfGraduateStudiesPage from '../pages/yearsOfGraduateStudies';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -35,21 +33,22 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  formId: VA_FORM_IDS.FORM_28_1900,
+  formId: VA_FORM_IDS.FORM_28_1900_V2,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your VR&amp;E Chapter 31 benefits application application (28-1900) is in progress.',
-    //   expired: 'Your saved VR&amp;E Chapter 31 benefits application application (28-1900) has expired. If you want to apply for VR&amp;E Chapter 31 benefits application, please start a new application.',
-    //   saved: 'Your VR&amp;E Chapter 31 benefits application application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your VR&E Chapter 31 benefits application (28-1900) is in progress.',
+      expired:
+        'Your saved VR&E Chapter 31 benefits application (28-1900) has expired. If you want to apply for Chapter 31 benefits, start a new application.',
+      saved: 'Your Chapter 31 benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound:
-      'Please start over to apply for VR&amp;E Chapter 31 benefits application.',
+    notFound: 'Start over to apply for Veteran Readiness and Employment.',
     noAuth:
-      'Please sign in again to continue your application for VR&amp;E Chapter 31 benefits application.',
+      'Sign in again to continue your application for Vocational Readiness and Employment.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
@@ -70,24 +69,6 @@ const formConfig = {
           title: YOUR_INFORMATION_CHAPTER_CONSTANTS.educationPageTitle,
           uiSchema: educationPage.uiSchema,
           schema: educationPage.schema,
-        },
-        yearsOfCollegeStudiesPage: {
-          depends: formData =>
-            formData.yearsOfEducation === 'someOrAllOfCollege',
-          path: 'years-of-college-studies',
-          title:
-            YOUR_INFORMATION_CHAPTER_CONSTANTS.yearsOfCollegeOrGraduateStudiesPageTitle,
-          uiSchema: yearsOfCollegeStudiesPage.uiSchema,
-          schema: yearsOfCollegeStudiesPage.schema,
-        },
-        yearsOfGraduateStudiesPage: {
-          depends: formData =>
-            formData.yearsOfEducation === 'someOrAllOfGraduateSchool',
-          path: 'years-of-graduate-studies',
-          title:
-            YOUR_INFORMATION_CHAPTER_CONSTANTS.yearsOfCollegeOrGraduateStudiesPageTitle,
-          uiSchema: yearsOfGraduateStudiesPage.uiSchema,
-          schema: yearsOfGraduateStudiesPage.schema,
         },
       },
     },

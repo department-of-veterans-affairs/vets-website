@@ -6,8 +6,9 @@ import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
 import POARequestIndividualSearchPage from './containers/POARequestIndividualSearchPage';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
+import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
-import ErrorBoundary from './components/ErrorBoundary';
+import ErrorBoundary from './components/Error/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
@@ -94,6 +95,13 @@ const routes = [
             element: (
               <GetHelpPage title="Get help using the portal | Veterans Affairs" />
             ),
+          },
+          {
+            path: 'submissions',
+            element: (
+              <SubmissionsPage title="Form Submissions | Veterans Affairs" />
+            ),
+            loader: SubmissionsPage.loader,
           },
         ],
       }),

@@ -15,7 +15,7 @@ import {
   titleSchema,
   ssnUI,
   ssnSchema,
-  arrayBuilderItemFirstPageTitleUI,
+  withEditTitle,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -32,7 +32,11 @@ import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUpload
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
-import { applicantWording, getAgeInYears } from '../../shared/utilities';
+import {
+  applicantWording,
+  getAgeInYears,
+  fmtDate,
+} from '../../shared/utilities';
 
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
@@ -45,15 +49,11 @@ import {
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
-import { depends18f3 } from '../../10-10D/pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantMedicareStatusPage } from '../../10-10D/pages/ApplicantMedicareStatusPage';
 import { ApplicantMedicareStatusContinuedPage } from '../../10-10D/pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantOhiStatusPage from '../../10-10D/pages/ApplicantOhiStatusPage';
 
-/*
-// TODO: get the custom prefill stuff working with array builder
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-*/
 
 /*
 // TODO: re-add this custom validation + the same for normal text fields
@@ -65,13 +65,36 @@ import { applicantAddressCleanValidation } from '../../shared/validations';
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
+/**
+ * Wraps array builder function withEditTitle and calls the result
+ * after passing in a custom title string. Result will be the string
+ * + a prefix of "edit" if we're on an array builder edit page.
+ * @param {string} title Title string to display on page
+ * @returns
+ */
+function editTitleWrapper(title) {
+  // Array builder helper `withEditTitle` returns a function, which we
+  // always want to call, so just do that:
+  return withEditTitle(title)(title);
+}
+
 const applicantOptions = {
   arrayPath: 'applicants',
   nounSingular: 'applicant',
   nounPlural: 'applicants',
   required: true,
   isItemIncomplete: item => {
-    return !item?.applicantName?.first;
+    return !(
+      item.applicantName?.first &&
+      item.applicantDob &&
+      item.applicantSSN &&
+      item.applicantGender &&
+      item.applicantPhone &&
+      item.applicantAddress &&
+      item.applicantRelationshipToSponsor &&
+      item.applicantMedicareStatus &&
+      item.applicantHasOhi
+    );
   }, // TODO: include more required fields here
   maxItems: MAX_APPLICANTS,
   text: {
@@ -79,7 +102,8 @@ const applicantOptions = {
     cardDescription: item => (
       <ul className="no-bullets">
         <li>
-          <b>Date of Birth:</b> {item?.applicantName?.first}
+          <b>Date of Birth:</b>{' '}
+          {item?.applicantDob ? fmtDate(item?.applicantDob) : ''}
         </li>
         <li>
           <b>Address:</b> {item?.applicantAddress?.street}{' '}
@@ -102,16 +126,31 @@ const applicantOptions = {
 
 const applicantIntroPage = {
   uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Applicant information',
-      nounSingular: applicantOptions.nounSingular,
-    }),
+    // Using standard titleUI so we can update the content based on certifierRole
+    ...titleUI(
+      () => editTitleWrapper('Applicant information'),
+      ({ formData, formContext }) => {
+        // Prefill message conditionally displays based on `certifierRole`
+        return formContext.pagePerItemIndex === '0' ? (
+          <>
+            <p>
+              Enter your information and the information for any other
+              applicants you want to enroll in CHAMPVA benefits.
+            </p>
+            {CustomPrefillMessage(formData, 'applicant')}
+          </>
+        ) : (
+          <p>Enter the information for the applicant you’re applying for.</p>
+        );
+      },
+    ),
     applicantName: fullNameUI(),
     applicantDob: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
       applicantName: fullNameSchema,
       applicantDob: dateOfBirthSchema,
     },
@@ -142,8 +181,26 @@ const applicantAddressSelectionPage = {
 
 const applicantMailingAddressPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `${applicantWording(formData)} mailing address`,
+    ...titleUI(
+      ({ formData }) => {
+        const txt = `${applicantWording(formData)} mailing address`;
+        return editTitleWrapper(txt);
+      },
+      ({ formData, formContext }) => {
+        const txt =
+          'We’ll send any important information about this application to this address.';
+        // Prefill message conditionally displays based on `certifierRole`
+        return formContext.pagePerItemIndex === '0' ? (
+          <>
+            {txt}
+            <br />
+            <br />
+            {CustomPrefillMessage(formData, 'applicant')}
+          </>
+        ) : (
+          txt
+        );
+      },
     ),
     applicantAddress: addressUI({
       labels: {
@@ -155,6 +212,7 @@ const applicantMailingAddressPage = {
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
       applicantAddress: addressSchema(),
     },
     required: ['applicantAddress'],
@@ -163,15 +221,28 @@ const applicantMailingAddressPage = {
 
 const applicantContactInfoPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `${applicantWording(formData)} contact information`,
+    ...titleUI(
       ({ formData }) =>
-        `We’ll use this information to contact ${applicantWording(
+        editTitleWrapper(`${applicantWording(formData)} contact information`),
+      ({ formData, formContext }) => {
+        const txt = `We will use this information to contact ${applicantWording(
           formData,
           false,
           false,
           true,
-        )} if we have more questions`,
+        )} if we have more questions`;
+        // Prefill message conditionally displays based on `certifierRole`
+        return formContext.pagePerItemIndex === '0' ? (
+          <>
+            {txt}
+            <br />
+            <br />
+            {CustomPrefillMessage(formData, 'applicant')}
+          </>
+        ) : (
+          <>{txt}</>
+        );
+      },
     ),
     applicantPhone: phoneUI(),
     applicantEmailAddress: emailUI(),
@@ -179,6 +250,7 @@ const applicantContactInfoPage = {
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
       applicantPhone: phoneSchema,
       applicantEmailAddress: emailSchema,
     },
@@ -662,147 +734,116 @@ export const applicantPages = arrayBuilderPages(
     page18c: pageBuilder.itemPage({
       path: 'applicant-relationship-child/:index',
       title: item => `${applicantWording(item)} dependent status`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantRelationshipToSponsor.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'child'
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'child',
       ...applicantRelationshipOriginPage,
       CustomPage: ApplicantRelOriginPage,
     }),
     page18a: pageBuilder.itemPage({
       path: 'applicant-relationship-child-upload/:index',
       title: item => `${applicantWording(item)} birth certificate`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantRelationshipToSponsor.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'child'
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'child',
       CustomPage: FileFieldCustom,
       ...applicantBirthCertUploadPage,
     }),
     page18d: pageBuilder.itemPage({
       path: 'applicant-child-adoption-file/:index',
       title: item => `${applicantWording(item)} adoption documents`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantRelationshipToSponsor.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'child' &&
-          get(
-            'applicantRelationshipOrigin.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'adoption'
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'child' &&
+        get(
+          'applicantRelationshipOrigin.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'adoption',
       CustomPage: FileFieldCustom,
       ...applicantAdoptionUploadPage,
     }),
     page18e: pageBuilder.itemPage({
       path: 'applicant-child-marriage-file/:index',
       title: item => `${applicantWording(item)} parental marriage documents`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantRelationshipToSponsor.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'child' &&
-          get(
-            'applicantRelationshipOrigin.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'step'
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'child' &&
+        get(
+          'applicantRelationshipOrigin.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'step',
       CustomPage: FileFieldCustom,
       ...applicantStepChildUploadPage,
     }),
     page18b1: pageBuilder.itemPage({
       path: 'applicant-dependent-status/:index',
       title: item => `${applicantWording(item)} dependent status`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          formData.applicants[index]?.applicantRelationshipToSponsor
-            ?.relationshipToVeteran === 'child' &&
-          isInRange(
-            getAgeInYears(formData.applicants[index]?.applicantDob),
-            18,
-            23,
-          )
-        );
-      },
+      depends: (formData, index) =>
+        formData.applicants[index]?.applicantRelationshipToSponsor
+          ?.relationshipToVeteran === 'child' &&
+        isInRange(
+          getAgeInYears(formData.applicants[index]?.applicantDob),
+          18,
+          23,
+        ),
       CustomPage: ApplicantDependentStatusPage,
       ...applicantDependentStatusPage,
     }),
     page18b: pageBuilder.itemPage({
       path: 'applicant-child-school-upload/:index',
       title: item => `${applicantWording(item)} school documents`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          formData.applicants[index]?.applicantRelationshipToSponsor
-            ?.relationshipToVeteran === 'child' &&
-          isInRange(
-            getAgeInYears(formData.applicants[index]?.applicantDob),
-            18,
-            23,
-          ) &&
-          ['enrolled', 'intendsToEnroll'].includes(
-            formData.applicants[index]?.applicantDependentStatus?.status,
-          )
-        );
-      },
+      depends: (formData, index) =>
+        formData.applicants[index]?.applicantRelationshipToSponsor
+          ?.relationshipToVeteran === 'child' &&
+        isInRange(
+          getAgeInYears(formData.applicants[index]?.applicantDob),
+          18,
+          23,
+        ) &&
+        ['enrolled', 'intendsToEnroll'].includes(
+          formData.applicants[index]?.applicantDependentStatus?.status,
+        ),
       CustomPage: FileFieldCustom,
       ...applicantSchoolCertUploadPage,
     }),
     page18b2: pageBuilder.itemPage({
       path: 'applicant-dependent-upload/:index',
       title: item => `${applicantWording(item)} helpless child documents`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          formData.applicants[index]?.applicantRelationshipToSponsor
-            ?.relationshipToVeteran === 'child' &&
-          getAgeInYears(formData.applicants[index]?.applicantDob) >= 18 &&
-          formData.applicants[index]?.applicantDependentStatus?.status ===
-            'over18HelplessChild'
-        );
-      },
+      depends: (formData, index) =>
+        formData.applicants[index]?.applicantRelationshipToSponsor
+          ?.relationshipToVeteran === 'child' &&
+        getAgeInYears(formData.applicants[index]?.applicantDob) >= 18 &&
+        formData.applicants[index]?.applicantDependentStatus?.status ===
+          'over18HelplessChild',
       CustomPage: FileFieldCustom,
       ...applicantHelplessChildUploadPage,
     }),
     page18f3: pageBuilder.itemPage({
       path: 'applicant-marriage-date/:index',
       title: item => `${applicantWording(item)} marriage dates`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return depends18f3(formData, index);
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'spouse',
       ...applicantMarriageDatesPage,
     }),
     page18f: pageBuilder.itemPage({
       path: 'applicant-marriage-upload/:index',
       title: item => `${applicantWording(item)} marriage documents`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantRelationshipToSponsor.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'spouse' && get('sponsorIsDeceased', formData)
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'spouse' && get('sponsorIsDeceased', formData),
       CustomPage: FileFieldCustom,
       ...applicantMarriageCertUploadPage,
     }),
@@ -815,15 +856,11 @@ export const applicantPages = arrayBuilderPages(
     page20: pageBuilder.itemPage({
       path: 'applicant-medicare-continued/:index',
       title: item => `${applicantWording(item)} Medicare Part D status`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantMedicareStatus.eligibility',
-            formData?.applicants?.[index],
-          ) === 'enrolled'
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantMedicareStatus.eligibility',
+          formData?.applicants?.[index],
+        ) === 'enrolled',
       ...applicantMedicarePartDStatusPage,
       CustomPage: ApplicantMedicareStatusContinuedPage,
     }),
