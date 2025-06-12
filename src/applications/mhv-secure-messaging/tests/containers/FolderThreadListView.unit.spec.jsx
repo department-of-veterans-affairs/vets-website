@@ -184,9 +184,19 @@ describe('Folder Thread List View container', () => {
         .to.equal('error');
       expect(screen.getByText(Alerts.Message.SERVER_ERROR_500_MESSAGES_HEADING))
         .to.exist;
-      expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
+      expect(ariaLabel.textContent).to.contain(`You are in message thread.`);
       expect(alert).to.have.attribute('closeable', 'false');
     });
+
+    const pageHeader = document.querySelector('h1');
+    expect(pageHeader.textContent).to.equal(
+      Alerts.Message.SERVER_ERROR_500_MESSAGES_HEADING,
+    );
+    const pageTitle = screen.queryByText('Messages: Inbox', {
+      selector: 'h1',
+      exact: true,
+    });
+    expect(pageTitle).to.not.exist;
   });
 
   describe(`verifies page title tag for 'Custom Folder' FolderThreadListView page`, () => {

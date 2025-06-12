@@ -2,7 +2,10 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { waitFor, fireEvent } from '@testing-library/react';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockApiRequest,
+  mockFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import allTriageGroupsBlocked from '../fixtures/json-triage-mocks/triage-teams-all-blocked-mock.json';
 import triageTeams from '../fixtures/recipients.json';
@@ -10,7 +13,7 @@ import categories from '../fixtures/categories-response.json';
 import draftMessage from '../fixtures/message-draft-response.json';
 import reducer from '../../reducers';
 import Compose from '../../containers/Compose';
-import { Paths, BlockedTriageAlertText } from '../../util/constants';
+import { Paths, BlockedTriageAlertText, Alerts } from '../../util/constants';
 import {
   inputVaTextInput,
   selectVaRadio,
@@ -265,5 +268,42 @@ describe('Compose container', () => {
     expect(findLocationsLink)
       .to.have.attribute('href')
       .to.contain('/find-locations');
+  });
+
+  it('validate alert banner is displayed when folder call responds with an error', async () => {
+    const res = {
+      errors: [
+        {
+          title: 'Service unavailable',
+          detail: 'Backend Service Outage',
+          code: '503',
+          status: '503',
+        },
+      ],
+    };
+    mockFetch(res, false);
+    const screen = setup({ sm: {} });
+
+    await waitFor(() => {
+      const alert = document.querySelector('va-alert');
+      const ariaLabel = document.querySelector('span');
+      expect(alert)
+        .to.have.attribute('status')
+        .to.equal('error');
+      expect(screen.getByText(Alerts.Message.SERVER_ERROR_500_MESSAGES_HEADING))
+        .to.exist;
+      expect(ariaLabel.textContent).to.contain(`You are in New-message.`);
+      expect(alert).to.have.attribute('closeable', 'false');
+    });
+
+    const pageHeader = document.querySelector('h1');
+    expect(pageHeader.textContent).to.equal(
+      Alerts.Message.SERVER_ERROR_500_MESSAGES_HEADING,
+    );
+    const pageTitle = screen.queryByText('Start a new message', {
+      selector: 'h1',
+      exact: true,
+    });
+    expect(pageTitle).to.not.exist;
   });
 });

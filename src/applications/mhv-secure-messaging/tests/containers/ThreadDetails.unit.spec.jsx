@@ -5,11 +5,12 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import {
   mockApiRequest,
   mockMultipleApiRequests,
+  mockFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import moment from 'moment';
 import ThreadDetails from '../../containers/ThreadDetails';
-import { PageTitles } from '../../util/constants';
+import { Alerts, PageTitles, Paths } from '../../util/constants';
 import reducer from '../../reducers';
 import { inbox } from '../fixtures/folder-inbox-response.json';
 import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.json';
@@ -805,5 +806,42 @@ describe('Thread Details container', () => {
       'blocked-triage-group-alert',
     );
     expect(blockedTriageGroupAlert).not.to.exist;
+  });
+
+  it('validate alert banner is displayed when threads call responds with an error', async () => {
+    const res = {
+      errors: [
+        {
+          title: 'Service unavailable',
+          detail: 'Backend Service Outage',
+          code: '503',
+          status: '503',
+        },
+      ],
+    };
+    mockFetch(res, false);
+    const screen = setup({ sm: {} });
+
+    screen;
+    await waitFor(() => {
+      const alert = document.querySelector('va-alert');
+      expect(alert)
+        .to.have.attribute('status')
+        .to.equal('error');
+      expect(screen.getByText(Alerts.Message.SERVER_ERROR_500_MESSAGES_HEADING))
+        .to.exist;
+      expect(screen.history.location.pathname).to.include(Paths.MESSAGE_THREAD);
+      expect(alert).to.have.attribute('closeable', 'false');
+    });
+
+    const pageHeader = document.querySelector('h1');
+    expect(pageHeader.textContent).to.equal(
+      Alerts.Message.SERVER_ERROR_500_MESSAGES_HEADING,
+    );
+    const pageTitle = screen.queryByText('Messages: Inbox', {
+      selector: 'h1',
+      exact: true,
+    });
+    expect(pageTitle).to.not.exist;
   });
 });
