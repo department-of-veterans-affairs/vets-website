@@ -18,8 +18,6 @@ describe('New letters page design', () => {
       'binary',
     ).as('letterPDFBlob');
 
-    cy.injectAxeThenAxeCheck();
-
     cy.intercept('GET', '/v0/feature_toggles?*', featureToggleLettersNewDesign);
     cy.intercept(
       'GET',
@@ -43,6 +41,7 @@ describe('New letters page design', () => {
   });
 
   it('confirms non-BSL letters load asynchronously', () => {
+    cy.injectAxeThenAxeCheck();
     cy.get('[data-test-id="letters-accordion"]', { timeout: Timeouts.slow })
       .as('lettersAccordion')
       .should('be.visible');
@@ -63,6 +62,7 @@ describe('New letters page design', () => {
   });
 
   it('confirms non-BSL letters can be downloaded', () => {
+    cy.injectAxeThenAxeCheck();
     cy.get('[data-test-id="letters-accordion"]', { timeout: Timeouts.slow })
       .as('lettersAccordion')
       .should('be.visible');
@@ -79,6 +79,7 @@ describe('New letters page design', () => {
   });
 
   it('confirms BSL letter downloads with all benefits by default', () => {
+    cy.injectAxeThenAxeCheck();
     cy.get('[data-test-id="letters-accordion"]', { timeout: Timeouts.slow })
       .as('lettersAccordion')
       .should('be.visible');
@@ -106,6 +107,7 @@ describe('New letters page design', () => {
   });
 
   it('confirms BSL letter downloads with one benefit', () => {
+    cy.injectAxeThenAxeCheck();
     cy.get('[data-test-id="letters-accordion"]', { timeout: Timeouts.slow })
       .as('lettersAccordion')
       .should('be.visible');
