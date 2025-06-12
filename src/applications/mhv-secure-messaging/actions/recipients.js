@@ -65,12 +65,24 @@ export const updateTriageTeamRecipients = recipients => async dispatch => {
   }
 };
 
-export const setActiveFacility = (recipients, selectedFacility) => dispatch => {
+export const setActiveCareSystem = (
+  recipients,
+  selectedFacility,
+) => dispatch => {
   dispatch({
     type: Actions.AllRecipients.SELECT_HEALTH_CARE_SYSTEM,
     payload: {
       facility: selectedFacility,
       recipients,
+    },
+  });
+};
+
+export const setActiveCareTeam = selectedCareTeam => dispatch => {
+  dispatch({
+    type: Actions.AllRecipients.SELECT_CARE_TEAM,
+    payload: {
+      careTeam: selectedCareTeam,
     },
   });
 };

@@ -24,7 +24,7 @@ import {
   scrollToTop,
 } from '../util/helpers';
 import MessageThreadForPrint from '../components/MessageThread/MessageThreadForPrint';
-import { setActiveFacility } from '../actions/recipients';
+import { setActiveCareSystem } from '../actions/recipients';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 import MessageActionButtons from '../components/MessageActionButtons';
 
@@ -135,7 +135,7 @@ const ThreadDetails = props => {
         );
 
         dispatch(
-          setActiveFacility(recipients?.allRecipients, activeDraftFacility),
+          setActiveCareSystem(recipients?.allRecipients, activeDraftFacility),
         );
       }
     },

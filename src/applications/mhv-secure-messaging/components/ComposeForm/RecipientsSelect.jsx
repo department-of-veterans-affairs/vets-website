@@ -56,7 +56,7 @@ const RecipientsSelect = ({
   error,
   isSignatureRequired,
   setCheckboxMarked,
-  setElectronicSignature,
+  setElectronicSignature = () => {},
   setComboBoxInputValue,
 }) => {
   const alertRef = useRef(null);
@@ -228,8 +228,10 @@ const RecipientsSelect = ({
         <VaComboBox
           required
           label={`${
-            isPilot ? 'Choose' : 'Select'
-          } a care team to send your message to`}
+            isPilot
+              ? 'Select a care team'
+              : 'Select a care team to send your message to'
+          }`}
           name="to"
           hint={
             isPilot

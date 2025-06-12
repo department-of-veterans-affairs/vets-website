@@ -62,12 +62,22 @@ const ComposeForm = props => {
 
   const { isComboBoxEnabled } = useFeatureToggles();
   const { isPilot } = useSelector(state => state.sm.app);
+  const { activeCareSystem, activeCareTeam } = useSelector(
+    state => state.sm.recipients,
+  );
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
   const [attachFileError, setAttachFileError] = useState(null);
+
+  useEffect(
+    () => {
+      if (activeCareTeam) setSelectedRecipientId(activeCareTeam.id.toString());
+    },
+    [activeCareTeam],
+  );
 
   useEffect(
     () => {
@@ -110,7 +120,6 @@ const ComposeForm = props => {
   const categories = useSelector(state => state.sm.categories?.categories);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
-  const { activeFacility } = useSelector(state => state.sm.recipients);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const debouncedCategory = useDebounce(category, draftAutoSaveTimeout);
@@ -874,7 +883,8 @@ const ComposeForm = props => {
             <div className="vads-u-margin-top--3">
               <p className="vads-u-margin-bottom--0">To</p>
               <p className="vads-u-font-weight--bold vads-u-margin-y--0">
-                {activeFacility?.vamcSystemName}
+                {activeCareSystem?.vamcSystemName} -{' '}
+                {activeCareTeam?.suggestedNameDisplay || activeCareTeam?.name}
               </p>
               <Link
                 to="select-care-team"
