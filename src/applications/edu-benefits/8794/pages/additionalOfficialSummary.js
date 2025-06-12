@@ -1,5 +1,4 @@
 import {
-  titleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -29,7 +28,7 @@ const additionalOfficialSummary = {
     // 'ui:title':'Add additional certifying officials',
     // 'ui:description': additionalOfficialSummaryDescription,
     'view:introduction': {
-      ...titleUI('Add additional certifying officials'),
+      // ...titleUI('Add additional certifying officials'),
       'ui:description': AdditionalOfficialIntro,
     },
     'view:additionalOfficialSummary': arrayBuilderYesNoUI(arrayBuilderOptions, {
@@ -38,6 +37,7 @@ const additionalOfficialSummary = {
         Y: 'Yes',
         N: 'No',
       },
+      hint: () => null,
     }),
   },
   schema: {

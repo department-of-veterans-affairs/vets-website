@@ -9,7 +9,10 @@ const AdditionalOfficialIntro = () => {
 
   return !additionalOfficial ? (
     <div>
-      <p>
+      <h3 className="vads-u-color--gray-dark vads-u-margin-top--neg3">
+        Add additional certifying officials
+      </h3>
+      <p className="vads-u-margin-top--4">
         In this next section of the form, please list any additional certifying
         officials at your institution. Officials listed in this section of the
         form are designated to sign VA Enrollment Certifications, Certifications
