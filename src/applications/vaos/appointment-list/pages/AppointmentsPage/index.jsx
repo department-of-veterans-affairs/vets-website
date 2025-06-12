@@ -168,7 +168,7 @@ export default function AppointmentsPage() {
           <va-link
             calendar
             href="/my-health/appointments/referrals-requests"
-            text="Review requests and referrals"
+            text="Review referrals and requests"
             data-testid="review-requests-and-referrals"
             onClick={handleCCLinkClick}
           />
