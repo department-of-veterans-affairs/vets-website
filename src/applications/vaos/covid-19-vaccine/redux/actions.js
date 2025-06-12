@@ -14,7 +14,7 @@ import {
   selectFeatureFeSourceOfTruthVA,
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
-  selectFeatureConvertSlotsToUTC,
+  selectFeatureConvertSlotsToUtc,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -268,7 +268,7 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
     );
     const newBooking = selectCovid19VaccineNewBooking(state);
     const { data } = newBooking;
-    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
+    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
     const startDateMonth = format(new Date(startDate), 'yyyy-MM');
     const endDateMonth = format(new Date(endDate), 'yyyy-MM');
