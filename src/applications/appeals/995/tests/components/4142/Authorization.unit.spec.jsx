@@ -2,23 +2,18 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import Authorization from '../../../components/4142/Authorization';
 
-import EvidencePrivateRecordsAuthorization from '../../components/EvidencePrivateRecordsAuthorization';
-
-describe('<EvidencePrivateRecordsAuthorization>', () => {
+describe('<Authorization>', () => {
   it('should render', () => {
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsAuthorization />
+        <Authorization />
       </div>,
     );
 
-    const alert = $('va-alert', container);
     const checkbox = $('va-checkbox', container);
-    expect(alert).to.exist;
-    expect(alert.getAttribute('visible')).to.eq('false');
     expect(checkbox).to.exist;
   });
 
@@ -27,10 +22,7 @@ describe('<EvidencePrivateRecordsAuthorization>', () => {
     const setFormDataSpy = sinon.spy();
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsAuthorization
-          goForward={goSpy}
-          setFormData={setFormDataSpy}
-        />
+        <Authorization goForward={goSpy} setFormData={setFormDataSpy} />
       </div>,
     );
 
@@ -55,7 +47,7 @@ describe('<EvidencePrivateRecordsAuthorization>', () => {
     const data = { privacyAgreementAccepted: true };
     const { container, rerender } = render(
       <div>
-        <EvidencePrivateRecordsAuthorization
+        <Authorization
           goForward={goSpy}
           data={{}}
           setFormData={setFormDataSpy}
@@ -69,7 +61,7 @@ describe('<EvidencePrivateRecordsAuthorization>', () => {
 
     rerender(
       <div>
-        <EvidencePrivateRecordsAuthorization
+        <Authorization
           goForward={goSpy}
           data={data}
           setFormData={setFormDataSpy}
@@ -80,7 +72,6 @@ describe('<EvidencePrivateRecordsAuthorization>', () => {
     fireEvent.click($('button.usa-button-primary', container));
 
     await waitFor(() => {
-      expect($('va-alert[visible="false"]', container)).to.exist;
       expect(goSpy.called).to.be.true;
     });
   });
@@ -92,12 +83,11 @@ describe('<EvidencePrivateRecordsAuthorization>', () => {
     };
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsAuthorization goForward={goSpy} data={data} />
+        <Authorization goForward={goSpy} data={data} />
       </div>,
     );
 
     fireEvent.click($('button.usa-button-primary', container));
-    expect($('va-alert[visible="false"]', container)).to.exist;
     expect(goSpy.called).to.be.true;
   });
 });
