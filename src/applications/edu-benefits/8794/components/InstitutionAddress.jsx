@@ -3,32 +3,50 @@ import { useSelector } from 'react-redux';
 
 const InstitutionAddress = () => {
   const formData = useSelector(state => state.form?.data);
-  const address = formData?.institutionDetails?.address || {};
+  const institutionAddress =
+    formData?.institutionDetails?.institutionAddress || {};
 
-  const hasAddress = Object.values(address).some(Boolean);
+  const {
+    street,
+    street2,
+    street3,
+    city,
+    state,
+    postalCode,
+    country,
+  } = institutionAddress;
+  const hasAddress = [
+    street,
+    street2,
+    street3,
+    city,
+    state,
+    postalCode,
+    country,
+  ].some(Boolean);
 
   return (
     <div aria-live="polite">
       {hasAddress ? (
         <>
           <p className="va-address-block" id="institutionAddress">
-            {address.address1}
-            {address.address2 && (
+            {street}
+            {street2 && (
               <>
                 <br />
-                {address.address2}
+                {street2}
               </>
             )}
-            {address.address3 && (
+            {street3 && (
               <>
                 <br />
-                {address.address3}
+                {street3}
               </>
             )}
             <br />
-            {address.city}, {address.state} {address.zip}
+            {city}, {state} {postalCode}
             <br />
-            {address.country}
+            {country}
           </p>
 
           <va-additional-info trigger="What to do if this name or address looks incorrect">
@@ -48,14 +66,12 @@ const InstitutionAddress = () => {
           </va-additional-info>
         </>
       ) : (
-        <>
-          <span
-            aria-hidden="true"
-            className="vads-u-font-weight--normal vads-u-font-size--h4 vads-u-margin-top--0p5"
-          >
-            --
-          </span>
-        </>
+        <span
+          aria-hidden="true"
+          className="vads-u-font-weight--normal vads-u-font-size--h4 vads-u-margin-top--0p5"
+        >
+          --
+        </span>
       )}
     </div>
   );

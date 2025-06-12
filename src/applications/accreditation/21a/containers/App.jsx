@@ -13,6 +13,8 @@ import { selectIsUserLoading } from '../selectors/user';
 import { selectShouldGoToSignIn } from '../selectors/navigation';
 import { removeDefaultHeaders } from '../utilities/helpers';
 
+import { wrapWithBreadcrumb } from '../components/common/Breadcrumbs/Breadcrumbs';
+
 const App = ({ children }) => {
   const {
     TOGGLE_NAMES,
@@ -70,7 +72,7 @@ const App = ({ children }) => {
   return (
     <div className="container">
       <Header />
-      {content}
+      {wrapWithBreadcrumb(content)}
       <Footer />
     </div>
   );
