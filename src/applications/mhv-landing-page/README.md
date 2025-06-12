@@ -35,12 +35,14 @@ $ npx http-server
 $ open http://localhost:8080
 ```
 
-## Migration to TypeScript
+## Migrate a component to TypeScript
 
 1. Rename a component to .tsx, `import * as React from 'react';`, create `interface YourComponentProps`. Add input and return types to your component. Remove prop-types.
 2. Run `yarn tsc`, address errors, repeat until you have a clean build.
 3. Run `yarn test:unit --app-folder [application-name]` or one file `run yarn test:unit ./src/applications/[application-name]/path/to/Component.unit.spec.jsx` to verify tests are passing. Add `--log-level trace` and/or `node --trace-warnings` for more detail.
 4. Add .jsx file to `./src/applications/[application-name]/.gitignore`, delete the .jsx and commit your changes!
+
+**TODO**: Determine where `yarn tsc` command should be executed within the build.
 
 
 ## Develop
@@ -66,7 +68,16 @@ The `yarn watch` command uses webpack to bundle and serve your application when 
 
 The `--env scaffold` option informs webpack to execute `generateHtmlFiles()`, creating the necessary `index.html` which loads assets on the client and contains the `div#react-root` placeholder element.
 
-webpack is configured to transform matching source files and output to `./build/[environment]/generated/[manifest.entryName].entry.js`.
+webpack is configured to transform matching source files and output to `./build/[environment]/generated/[manifest.entryName].entry.js`. Open `http://localhost:3000/[manifest.rootUrl]/index.html` to view the client application.
+
+
+### Questions
+
+- When does an `app-entry.jsx` file transform?
+- What if we used `index.d.ts` files for defining types, migrating away from prop-types?
+
+
+### build configuration
 
 - `/.jsx?$/` matching filenames are processed by `babel-loader`
 - `/.tsx?$/` matching filenames are processed by `babel-loader` and `ts-loader` -- Q: Do we need both of these loaders?
@@ -77,7 +88,36 @@ babel is configured (via `babel.config.json`) to use the following presets
 - [`@babel/react`](https://babeljs.io/docs/babel-preset-react)
 
 
-## Questions
+## Test
 
-- When does an `app-entry.jsx` file transform?
-- What if we used `index.d.ts` files for defining types, migrating away from prop-types?
+`yarn test:unit --app-folder [application-name]` ->
+  `node ./script/run-unit-test-local.js` ->
+  `BABEL_ENV=test NODE_ENV=test mocha --config config/mocha.json "src/applications/${application-name}/**/*.unit.spec.js?(x)"`
+
+Configuration for mocha test runner:
+
+```json
+{
+  "require": [
+    "@babel/register",
+    "core-js/stable",
+    "regenerator-runtime/runtime",
+    "blob-polyfill",
+    "isomorphic-fetch",
+    "mocha-snapshots",
+    "src/platform/testing/unit/mocha-setup.js",
+    "src/platform/testing/unit/enzyme-setup.js",
+    "dd-trace/ci/init"
+  ],
+  "reporter": "progress",
+  "timeout": 10000,
+  "slow": 0
+}
+```
+
+- [`@babel/register`](babeljs.io/docs/babel-register) -- binds to node `require`, transforms required file extensions `es6, es, jsx, mjs, js`.
+
+**TODO**: Investigate the following configuration files
+
+  - "src/platform/testing/unit/mocha-setup.js"
+  - "src/platform/testing/unit/enzyme-setup.js"
