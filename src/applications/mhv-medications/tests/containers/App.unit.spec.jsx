@@ -129,7 +129,7 @@ describe('Medications <App>', () => {
             globalDowntime: true,
             isReady: true,
             isPending: false,
-            serviceMap: downtime([]),
+            serviceMap: downtime(['global']),
             dismissedDowntimeWarnings: [],
           },
         },
@@ -190,7 +190,7 @@ describe('Medications <App>', () => {
       );
     });
     expect(
-      screen.getByText('We’re working on Medications right now', {
+      screen.getByText('We’re working on this medications tool right now', {
         exact: false,
       }),
     );
@@ -278,7 +278,7 @@ describe('Medications <App>', () => {
       );
     });
     expect(
-      screen.getByText('We’re working on Medications right now', {
+      screen.getByText('We’re working on this medications tool right now', {
         exact: false,
       }),
     );
@@ -324,7 +324,7 @@ describe('Medications <App>', () => {
       );
     });
     expect(
-      screen.getByText('We’re working on Medications right now', {
+      screen.getByText('We’re working on this medications tool right now', {
         exact: false,
       }),
     );

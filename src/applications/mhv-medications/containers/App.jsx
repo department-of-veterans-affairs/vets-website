@@ -48,6 +48,10 @@ const App = ({ children }) => {
     state => state.featureToggles,
   );
 
+  const globalDowntime = useSelector(
+    state => state.scheduledDowntime?.globalDowntime,
+  );
+
   const scheduledDownTimeIsReady = useSelector(
     state => state.scheduledDowntime?.isReady,
   );
@@ -70,12 +74,14 @@ const App = ({ children }) => {
       if (scheduledDowntimes.size > 0) {
         return (
           scheduledDowntimes?.get(externalServices.mhvMeds)?.status ||
-          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status
+          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status ||
+          scheduledDowntimes?.get(externalServices.global)?.status ||
+          globalDowntime
         );
       }
       return 'downtime status: ok';
     },
-    [scheduledDowntimes],
+    [scheduledDowntimes, globalDowntime],
   );
 
   const datadogRumConfig = {
@@ -140,12 +146,13 @@ const App = ({ children }) => {
                   dependencies={[
                     externalServices.mhvPlatform,
                     externalServices.mhvMeds,
+                    externalServices.global,
                   ]}
                   render={renderMHVDowntime}
                 />
               </>
             ) : (
-              { children }
+              children
             )}
             <va-back-to-top
               class="no-print"
