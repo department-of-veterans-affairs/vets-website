@@ -15,8 +15,6 @@ import {
   aboutYourInstitution,
   institutionDetails,
   isProprietaryProfit,
-  // isProfitConflictOfInterest,
-  // proprietaryProfitConflicts,
   conflictOfInterestCertifyingOfficial,
   conflictOfInterestSummary,
   conflictOfInterestFileNumber,
@@ -97,40 +95,18 @@ const formConfig = {
           uiSchema: isProprietaryProfit.uiSchema,
           schema: isProprietaryProfit.schema,
         },
-        // isProfitConflictOfInterest: {
-        //   path: 'proprietary-profit-1',
-        //   title: 'Individuals with a potential conflict of interest',
-        //   uiSchema: isProfitConflictOfInterest.uiSchema,
-        //   schema: isProfitConflictOfInterest.schema,
-        //   onNavForward: ({ formData, goPath }) => {
-        //     if (formData?.hasConflictOfInterest) {
-        //       goPath('/proprietary-profit-2');
-        //     } else {
-        //       goPath('/conflict-of-interest-summary');
-        //     }
-        //   },
-        // },
-        // proprietaryProfitConflicts: {
-        //   path: 'proprietary-profit-2',
-        //   title:
-        //     'Individuals affiliated with both your institution and VA or SAA',
-        //   uiSchema: proprietaryProfitConflicts.uiSchema,
-        //   schema: proprietaryProfitConflicts.schema,
-        // },
         proprietaryProfitConflicts: {
           pages: {
             ...arrayBuilderPages(
               affiliatedIndividualsArrayOptions,
 
               pageBuilder => ({
-                // consider rename to proprietaryProfitConflictsSummary -- ok to keep as is if proprietaryProfitConflicts is the page name?
                 affiliatedIndividualsSummary: pageBuilder.summaryPage({
                   title: 'Individuals with a potential conflict of interest',
                   path: 'proprietary-profit-1',
                   uiSchema: affiliatedIndividualsSummary.uiSchema,
                   schema: affiliatedIndividualsSummary.schema,
                 }),
-                // consider rename to proprietaryProfitConflictsAssociation -- ok to keep as is if proprietaryProfitConflicts is the page name?
                 affiliatedIndividualsAssociation: pageBuilder.itemPage({
                   title:
                     'Individuals affiliated with both your institution and VA or SAA',

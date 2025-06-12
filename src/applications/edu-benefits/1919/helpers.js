@@ -72,7 +72,7 @@ export const conflictOfInterestArrayOptions = {
 };
 
 export const affiliatedIndividualsArrayOptions = {
-  arrayPath: 'affiliatedIndividuals',
+  arrayPath: 'proprietaryProfitConflicts',
   nounSingular: 'individual',
   nounPlural: 'individuals',
   required: false,
