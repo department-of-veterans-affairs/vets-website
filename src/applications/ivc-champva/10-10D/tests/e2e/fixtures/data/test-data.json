@@ -33,9 +33,7 @@
         "applicantHasOhi": { "hasOhi": "yes" }
       }
     ],
-    "ssn": {
-      "ssn": "123123123"
-    },
+    "ssn": "345345345",
     "veteransFullName": {
       "first": "Joe",
       "last": "Johnson"
