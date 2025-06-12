@@ -52,9 +52,10 @@ export default function InterstitialChanges() {
       <p
         className="vads-u-font-size--base section-content vads-u-measure--5"
         id="interstitialP"
+        data-testid="interstitialP"
       >
-        After September 30, 2025, we'll remove the <strong>DS Logon</strong>{' '}
-        sign-in option. You’ll need to sign in using a{' '}
+        After <strong>September 30, 2025</strong>, we'll remove the{' '}
+        <strong>DS Logon</strong> sign-in option. You’ll need to sign in using a{' '}
         <strong>Login.gov</strong> or <strong>ID.me</strong> account.
       </p>
       {showAccount ? (

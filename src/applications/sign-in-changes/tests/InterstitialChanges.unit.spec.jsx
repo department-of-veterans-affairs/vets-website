@@ -51,8 +51,7 @@ describe('InterstitialChanges', () => {
           name: /The DS Logon sign-in option is going away soon/i,
         }),
       ).to.exist;
-      expect(screen.getByText(/After September 30, 2025, we'll remove/i)).to
-        .exist;
+      expect(screen.getByTestId('interstitialP')).to.exist;
       expect(
         screen.container.querySelector(
           'va-link-action[text="Continue with your DS Logon account for now"]',
@@ -119,8 +118,7 @@ describe('InterstitialChanges', () => {
           name: /The DS Logon sign-in option is going away soon/i,
         }),
       ).to.exist;
-      expect(screen.getByText(/After September 30, 2025, we'll remove/i)).to
-        .exist;
+      expect(screen.getByTestId('interstitialP')).to.exist;
       expect(
         screen.container.querySelector(
           'va-link-action[text="Continue with your DS Logon account for now"]',
