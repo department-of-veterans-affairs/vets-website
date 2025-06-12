@@ -54,7 +54,7 @@ export default function InterstitialChanges() {
         id="interstitialP"
         data-testid="interstitialP"
       >
-        After <strong>September 30, 2025</strong>, we'll remove the{' '}
+        After <strong>September 30, 2025</strong>, we’ll remove the{' '}
         <strong>DS Logon</strong> sign-in option. You’ll need to sign in using a{' '}
         <strong>Login.gov</strong> or <strong>ID.me</strong> account.
       </p>
