@@ -12,7 +12,7 @@ import numberInput from '../pages/mockNumberInput';
 import fullName from '../pages/mockFullName';
 import address from '../pages/mockAddress';
 import ssn from '../pages/mockSsn';
-import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
+import checkbox from '../pages/mockCheckbox';
 import checkboxGroup from '../pages/mockCheckboxGroup';
 import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
@@ -193,11 +193,11 @@ const formConfig = {
     checkbox: {
       title: 'Checkbox',
       pages: {
-        checkboxAndTextInput: {
+        checkbox: {
           title: 'Checkbox and text input', // for review page (has to be more than one word)
-          path: 'checkbox-and-text-input',
-          uiSchema: checkboxAndTextInput.uiSchema,
-          schema: checkboxAndTextInput.schema,
+          path: 'checkbox',
+          uiSchema: checkbox.uiSchema,
+          schema: checkbox.schema,
           depends: includeChapter('checkbox'),
         },
         checkboxGroup: {

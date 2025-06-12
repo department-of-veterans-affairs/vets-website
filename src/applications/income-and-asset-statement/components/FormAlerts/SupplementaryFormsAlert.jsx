@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const assetTypeAllowlist = ['BUSINESS', 'FARM'];
@@ -81,7 +80,7 @@ const getBodyText = (assets, assetTypes) => {
 };
 
 // SupplementaryFormsAlert component
-export const SupplementaryFormsAlert = ({ formData }) => {
+export default function SupplementaryFormsAlert({ formData }) {
   const assets = formData?.ownedAssets || [];
 
   const assetTypes = getAssetTypes(assets);
@@ -107,19 +106,10 @@ export const SupplementaryFormsAlert = ({ formData }) => {
       ))}
     </va-alert>
   );
-};
+}
 
 SupplementaryFormsAlert.propTypes = {
   formData: PropTypes.shape({
     ownedAssets: PropTypes.array,
   }),
 };
-
-const mapStateToProps = state => ({
-  formData: state.form?.data,
-});
-
-export default connect(
-  mapStateToProps,
-  null,
-)(SupplementaryFormsAlert);

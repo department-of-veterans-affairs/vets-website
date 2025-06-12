@@ -9,10 +9,7 @@ import featureToggles from '../fixtures/mocks/featureToggles.json';
 import minimalFlow from '../fixtures/data/minimalFlow.json';
 import maximalFlow from '../fixtures/data/maximalFlow.json';
 import militaryAddressFlow from '../fixtures/data/militaryAddressFlow.json';
-import {
-  fillAddressWebComponentPattern,
-  selectCheckboxWebComponent,
-} from './utilities';
+import { selectCheckboxWebComponent } from './utilities';
 
 const testConfig = createTestConfig(
   {
@@ -30,7 +27,7 @@ const testConfig = createTestConfig(
           cy.get('a.vads-c-action-link--green').click();
         });
       },
-      'main-mailing-address': ({ afterHook }) => {
+      'veteran-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             if (data.checkBoxGroup?.checkForMailingAddress) {
@@ -39,22 +36,19 @@ const testConfig = createTestConfig(
                 data.checkBoxGroup.checkForMailingAddress,
               );
             } else {
-              fillAddressWebComponentPattern(
-                'mainMailingAddress',
-                data.mainMailingAddress,
+              cy.fillAddressWebComponentPattern(
+                'veteranAddress',
+                data.veteranAddress,
               );
             }
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
-      'new-mailing-address': ({ afterHook }) => {
+      'new-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
-              'newMailingAddress',
-              data.newMailingAddress,
-            );
+            cy.fillAddressWebComponentPattern('newAddress', data.newAddress);
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });

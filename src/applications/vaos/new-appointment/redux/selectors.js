@@ -21,7 +21,6 @@ import {
   selectFeatureDirectScheduling,
   selectRegisteredCernerFacilityIds,
   selectFeatureRemovePodiatry,
-  selectFeatureDirectScheduleAppointmentConflict,
 } from '../../redux/selectors';
 import { removeDuplicateId } from '../../utils/data';
 
@@ -49,8 +48,6 @@ export function getFormPageInfo(state, pageKey) {
   };
 }
 
-const AUDIOLOGY = '203';
-
 export function getTypeOfCare(data) {
   if (data.typeOfCareId === TYPE_OF_CARE_IDS.SLEEP_MEDICINE_ID) {
     return TYPES_OF_SLEEP_CARE.find(care => care.id === data.typeOfSleepCareId);
@@ -61,7 +58,7 @@ export function getTypeOfCare(data) {
   }
 
   if (
-    data.typeOfCareId === AUDIOLOGY &&
+    data.typeOfCareId === TYPE_OF_CARE_IDS.AUDIOLOGY_ID &&
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
   ) {
     return AUDIOLOGY_TYPES_OF_CARE.find(
@@ -139,9 +136,6 @@ export function getChosenSlot(state) {
 }
 
 export function getDateTimeSelect(state, pageKey) {
-  const featureDirectScheduleAppointmentConflict = selectFeatureDirectScheduleAppointmentConflict(
-    state,
-  );
   const newAppointment = getNewAppointment(state);
   const {
     appointmentSlotsStatus,
@@ -166,9 +160,7 @@ export function getDateTimeSelect(state, pageKey) {
     timezone,
     timezoneDescription,
     typeOfCareId,
-    isAppointmentSelectionError: featureDirectScheduleAppointmentConflict
-      ? isAppointmentSelectionError
-      : false,
+    isAppointmentSelectionError,
   };
 }
 
@@ -239,10 +231,6 @@ export function selectRecentLocationsStatus(state) {
   return getNewAppointment(state).fetchRecentLocationStatus;
 }
 
-export function selectRecentLocations(state) {
-  return getNewAppointment(state).recentLocations;
-}
-
 export function getFacilityPageV2Info(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);
@@ -279,7 +267,6 @@ export function getFacilityPageV2Info(state) {
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
     fetchRecentLocationStatus: selectRecentLocationsStatus(state),
-    recentLocations: selectRecentLocations(state),
   };
 }
 

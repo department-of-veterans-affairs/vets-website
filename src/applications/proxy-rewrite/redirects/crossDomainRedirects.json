@@ -2019,5 +2019,42 @@
   "src": "/Compensation/resources_comp0499.asp",
   "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
   "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/waco",
+  "dest": "/waco-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rowaco",
+  "dest": "/waco-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/claims-postservice-questionnaire-claimherbicide.asp",
+  "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/mailingaddresses.asp",
+  "dest": "/disability/how-to-file-claim/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/camp-lejeune.asp",
+  "dest": "/disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/resources-advisor_program.asp",
+  "dest": "/disability/",
+  "catchAll": true
 }
 ]
+

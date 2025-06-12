@@ -38,13 +38,12 @@ import {
 } from './redux/actions';
 import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
-const AUDIOLOGY = '203';
 const VA_FACILITY_V2_KEY = 'vaFacilityV2';
 
 function isCCAudiology(state) {
   return (
     getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
-    getFormData(state).typeOfCareId === AUDIOLOGY
+    getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.AUDIOLOGY_ID
   );
 }
 

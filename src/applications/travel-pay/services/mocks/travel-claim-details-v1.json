@@ -8,8 +8,8 @@
   "claimStatus": "Approved for payment",
   "appointmentDate": "2024-01-01T16:45:34.465Z",
   "facilityName": "Cheyenne VA Medical Center",
-  "totalCostRequested": 20.0,
-  "reimbursementAmount": 14.52,
+  "totalCostRequested": 20.05,
+  "reimbursementAmount": 14.05,
   "createdOn": "2025-03-12T20:27:14.088Z",
   "modifiedOn": "2025-03-12T20:27:14.088Z",
   "appointment": {
