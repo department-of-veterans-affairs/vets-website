@@ -206,7 +206,6 @@
     "isomorphic-fetch": "^2.2.1",
     "jsdoc": "4.0.2",
     "just-diff": "^3.1.1",
-    "libxmljs": "^1.0.11",
     "lint-staged": "^11.1.2",
     "mini-css-extract-plugin": "^2.4.4",
     "minimist": "^1.2.6",
@@ -297,6 +296,7 @@
     "js-cookie": "^2.2.1",
     "jsonschema": "^1.4.0",
     "leaflet": "^1.7.1",
+    "libxml2-wasm": "^0.5.0",
     "local-storage-fallback": "^4.1.2",
     "lodash": "^4.17.21",
     "mapbox-gl": "^1.12.0",
@@ -344,7 +344,7 @@
     "web-vitals": "^4.2.4"
   },
   "resolutions": {
-    "**/cheerio":"1.0.0-rc.12",
+    "**/cheerio": "1.0.0-rc.12",
     "**/lodash": "4.17.21",
     "**/nanoid": "^3.1.31",
     "**/js-yaml": "^3.13.1",
