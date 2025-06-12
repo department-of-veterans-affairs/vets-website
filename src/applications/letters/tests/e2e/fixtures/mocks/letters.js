@@ -244,8 +244,6 @@ const mockUserData = {
   meta: { errors: null },
 };
 
-const benefitSummaryLetter = {};
-
 module.exports = {
   letters,
   benefitSummaryOptions,
@@ -254,5 +252,4 @@ module.exports = {
   countries,
   states,
   mockUserData,
-  benefitSummaryLetter,
 };
