@@ -114,7 +114,7 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
         // got this from the fetch polyfill, keeping it to be safe
         const responseBody =
           'response' in req ? req.response : req.responseText;
-        const results = JSON.parse(responseBody);
+        const results = JSON.parse(responseBody || '{}');
         resolve(results);
       } else {
         let error;

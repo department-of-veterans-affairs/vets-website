@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 
 import ServiceProvidersText, {
@@ -102,8 +102,8 @@ export class ConfirmationPage extends React.Component {
           </p>
           <p>
             Please don’t apply again. Instead, please call our toll-free hotline
-            at <va-telephone contact="877-222-8387" />. We’re here Monday
-            through Friday, 8:00 am to 8:00 pm ET.
+            at <va-telephone contact="8772228387" />. We’re here Monday through
+            Friday, 8:00 am to 8:00 pm ET.
           </p>
           <h4 className="confirmation-guidance-heading">
             How can I check the status of my application?
@@ -170,7 +170,7 @@ export class ConfirmationPage extends React.Component {
             What if I have more questions?
           </h4>
           <p className="confirmation-guidance-message">
-            Please call <va-telephone contact="877-222-8387" /> and select 2.
+            Please call <va-telephone contact="8772228387" /> and select 2.
             We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </div>

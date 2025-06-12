@@ -142,6 +142,30 @@ const openClaimStep3WithNeededFromOthersItem = {
     ],
   },
 };
+const openClaimStep3WithDBQItem = {
+  attributes: {
+    claimDate: '2024-05-02',
+    claimPhaseDates: {
+      phaseChangeDate: '2024-05-22',
+      currentPhaseBack: false,
+      latestPhaseType: 'GATHERING_OF_EVIDENCE',
+      previousPhases: {
+        phase1CompleteDate: '2024-05-10',
+        phase2CompleteDate: '2024-05-22',
+      },
+    },
+    claimTypeCode: '110LCMP7IDES',
+    trackedItems: [
+      {
+        id: 1,
+        requestedDate: '2024-05-12',
+        status: 'NEEDED_FROM_OTHERS',
+        displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
+        friendlyName: 'DBQ friendly name',
+      },
+    ],
+  },
+};
 
 const openClaimStep3WithNeededFromOthersItemwithActivityDescription = {
   attributes: {
@@ -1406,6 +1430,14 @@ describe('<RecentActivity>', () => {
       getByText(
         `We asked someone outside VA for documents related to your claim.`,
       );
+    });
+    it('should render update message if track item is a DBQ', () => {
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false, false, true)}>
+          <RecentActivity claim={openClaimStep3WithDBQItem} />
+        </Provider>,
+      );
+      getByText(`We made a request: “DBQ friendly name.”`);
     });
     it('should render friendly display name, updated activity message and activity description with NEEDED_FROM_OTHERS record with activity description', () => {
       const { getByText, queryByText } = renderWithRouter(

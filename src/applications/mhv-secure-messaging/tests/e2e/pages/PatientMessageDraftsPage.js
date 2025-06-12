@@ -5,12 +5,12 @@ import { Alerts } from '../../../util/constants';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 import mockMessages from '../fixtures/threads-response.json';
 import FolderLoadPage from './FolderLoadPage';
-import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
+import mockDraftsResponse from '../fixtures/draftPageResponses/draft-threads-response.json';
 import mockReplyDraftResponse from '../fixtures/draftPageResponses/single-reply-draft-response.json';
 import mockSavedDraftResponse from '../fixtures/draftPageResponses/single-draft-response.json';
 
 class PatientMessageDraftsPage {
-  loadDrafts = (messagesResponse = mockDraftsRespone) => {
+  loadDrafts = (messagesResponse = mockDraftsResponse) => {
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
@@ -27,7 +27,7 @@ class PatientMessageDraftsPage {
   };
 
   loadSingleDraft = (
-    mockThread = mockDraftsRespone,
+    mockThread = mockDraftsResponse,
     singleDraftThread = mockSavedDraftResponse,
   ) => {
     cy.intercept(
@@ -45,12 +45,12 @@ class PatientMessageDraftsPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${
-        mockDraftsRespone.data[0].attributes.messageId
+        mockDraftsResponse.data[0].attributes.messageId
       }/thread*`,
       singleReplyDraftThread,
     ).as('full-thread');
 
-    cy.contains(mockDraftsRespone.data[0].attributes.subject).click({
+    cy.contains(mockDraftsResponse.data[0].attributes.subject).click({
       waitForAnimations: true,
     });
     cy.get(`[subheader]`)

@@ -108,7 +108,6 @@ export const emergencyContactsAddressPage = () => ({
         properties: address.properties,
       }),
     },
-    required: ['address'],
   },
 });
 
@@ -120,7 +119,6 @@ export const emergencyContactsSummaryPage = (options = {}) => ({
   uiSchema: {
     'view:hasEmergencyContacts': arrayBuilderYesNoUI(options, {
       title: content['emergency-contact-add-contacts-label'],
-      titleHeaderLevel: 'h2',
       hint: content['emergency-contact-hint-text'],
     }),
   },

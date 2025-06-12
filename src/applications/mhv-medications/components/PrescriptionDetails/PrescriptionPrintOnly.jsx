@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
-  EMPTY_FIELD,
+  FIELD_NONE_NOTED,
 } from '../../util/constants';
 import {
   validateField,
@@ -63,7 +63,7 @@ const PrescriptionPrintOnly = props => {
         <strong>Documented by: </strong>
         {pres.providerLastName
           ? `${pres.providerLastName}, ${pres.providerFirstName || ''}`
-          : EMPTY_FIELD}
+          : FIELD_NONE_NOTED}
       </p>
       <p>
         <strong>Documented at this facility: </strong>
@@ -158,7 +158,7 @@ const PrescriptionPrintOnly = props => {
                   <va-telephone tty contact="711" not-clickable />)
                 </>
               ) : (
-                EMPTY_FIELD
+                FIELD_NONE_NOTED
               )}
             </p>
             <p>
@@ -316,7 +316,7 @@ const PrescriptionPrintOnly = props => {
                             <strong>Prescribed by:</strong>{' '}
                             {(entry.providerFirstName &&
                               entry.providerLastName) ||
-                              EMPTY_FIELD}
+                              FIELD_NONE_NOTED}
                           </p>
                         </div>
                       );
