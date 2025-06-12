@@ -11,8 +11,12 @@ import { SET_UNAUTHORIZED } from '../actions/types';
 import {
   DATE_FORMATS,
   disabilityCompensationClaimTypeCodes,
+  pensionClaimTypeCodes,
   addOrRemoveDependentClaimTypeCodes,
   standard5103Item,
+  survivorsPensionClaimTypeCodes,
+  DICClaimTypeCodes,
+  veteransPensionClaimTypeCodes,
 } from '../constants';
 
 // Adding !! so that we convert this to a boolean
@@ -130,6 +134,19 @@ export function getClaimStatusDescription(status) {
 
 export function isDisabilityCompensationClaim(claimTypeCode) {
   return disabilityCompensationClaimTypeCodes.includes(claimTypeCode);
+}
+export function isPensionClaim(claimTypeCode) {
+  return pensionClaimTypeCodes.includes(claimTypeCode);
+}
+// When feature flag cstClaimPhases is enabled and claim type code is for a disability
+// compensation claim we show 8 phases instead of 5 with updated description, link text
+// and statuses, we are also showing 8 phases for pension claim
+export function getShowEightPhases(claimTypeCode, cstClaimPhasesEnabled) {
+  return (
+    cstClaimPhasesEnabled &&
+    (isDisabilityCompensationClaim(claimTypeCode) ||
+      isPensionClaim(claimTypeCode))
+  );
 }
 
 export function isClaimOpen(status, closeDate) {
@@ -1165,11 +1182,32 @@ export const generateClaimTitle = (claim, placement, tab) => {
   const baseClaimTitle = isRequestToAddOrRemoveDependent
     ? addOrRemoveDependentClaimTitle
     : `${claimType} claim`;
+  const renderTitle = () => {
+    if (isRequestToAddOrRemoveDependent) {
+      return sentenceCase(addOrRemoveDependentClaimTitle);
+    }
+
+    if (isPensionClaim(claim?.attributes?.claimTypeCode)) {
+      const { claimTypeCode } = claim.attributes;
+      if (survivorsPensionClaimTypeCodes.includes(claimTypeCode)) {
+        return 'Claim for Survivors Pension';
+      }
+      if (DICClaimTypeCodes.includes(claimTypeCode)) {
+        return 'Claim for Dependency and Indemnity Compensation';
+      }
+      if (veteransPensionClaimTypeCodes.includes(claimTypeCode)) {
+        return 'Claim for Veterans Pension';
+      }
+      return 'Claim for pension';
+    }
+    return `Claim for ${claimType}`;
+  };
+
   // This switch may not scale well; it might be better to create a map of the strings instead.
   // For examples of output given different parameters, see the unit tests.
   switch (placement) {
     case 'detail':
-      return `Your ${baseClaimTitle}`;
+      return renderTitle();
     case 'breadcrumb':
       if (claimAvailable(claim)) {
         return `${tabPrefix} your ${baseClaimTitle}`;
@@ -1184,9 +1222,7 @@ export const generateClaimTitle = (claim, placement, tab) => {
       // Default message if claim fails to load.
       return `${tabPrefix} Your Claim`;
     default:
-      return isRequestToAddOrRemoveDependent
-        ? sentenceCase(addOrRemoveDependentClaimTitle)
-        : `Claim for ${claimType}`;
+      return renderTitle();
   }
 };
 
