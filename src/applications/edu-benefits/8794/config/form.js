@@ -67,6 +67,15 @@ const formConfig = {
       Designation of certifying official(s) (VA Form 22-8794)
     </p>
   ),
+  customText: {
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    finishAppLaterMessage: 'Finish this form later',
+    startNewAppButtonText: 'Start a new form',
+  },
   useCustomScrollAndFocus: true,
   defaultDefinitions: {
     fullName,
