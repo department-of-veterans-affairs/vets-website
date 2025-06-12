@@ -11,6 +11,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import { additionalOfficialArrayOptions } from '../helpers';
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
@@ -30,25 +31,6 @@ import {
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
-
-export const arrayBuilderOptions = {
-  arrayPath: 'additional certifying official',
-  nounSingular: 'additional certifying official',
-  nounPlural: 'additional certifying officials',
-  required: true,
-  text: {
-    getItemName: item => item.fullName,
-    cardDescription: item => {
-      return item.fullName;
-    },
-    summaryTitle: props =>
-      `Review your ${
-        props?.formData?.programs.length > 1
-          ? 'additional certifying officials'
-          : 'additional certifying official'
-      }`,
-  },
-};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -161,7 +143,7 @@ const formConfig = {
     additionalOfficialChapter: {
       title: 'Add additional certifying officials',
       pages: {
-        ...arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
+        ...arrayBuilderPages(additionalOfficialArrayOptions, pageBuilder => ({
           additionalOfficialSummary: pageBuilder.summaryPage({
             path: 'additional-certifying-officials',
             title: 'Add additional certifying officials',
@@ -169,7 +151,7 @@ const formConfig = {
             schema: additionalOfficialSummary.schema,
           }),
           additionalOfficialDetails: pageBuilder.itemPage({
-            path: 'additional-certifying-officials/:index?add=true',
+            path: 'additional-certifying-officials/:index',
             title: 'Tell us about your certifying official',
             showPagePerItem: true,
             uiSchema: additionalOfficialDetails.uiSchema,

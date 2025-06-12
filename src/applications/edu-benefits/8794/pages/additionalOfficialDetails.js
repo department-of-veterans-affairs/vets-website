@@ -1,5 +1,4 @@
 import {
-  titleUI,
   radioSchema,
   radioUI,
   textUI,
@@ -11,6 +10,7 @@ import {
   emailSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
+  arrayBuilderItemFirstPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
@@ -21,7 +21,9 @@ const phoneLabels = {
 
 const uiSchema = {
   additionalOfficialDetails: {
-    ...titleUI('Tell us about your certifying official'),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Tell us about your certifying official',
+    }),
     fullName: fullNameNoSuffixUI(
       title =>
         `${title.charAt(0).toUpperCase() +
