@@ -40,14 +40,12 @@ const defaultConfig = {
 };
 
 // TODO:
-// Data validation
 // handle page breaks, so H3 sections don't break across pages
 
-// NOTES:
+// Generation notes:
 // Header spacing - paragraphGap to set spacing after the header
 // Content spacing - lineGap to set spacing after the text before each label item in bold
 // bullets - indent is the prop used to move the bullet point over, bulletIndent is just for nested lists
-//
 
 const generate = async (data = {}, config = defaultConfig) => {
   const doc = createAccessibleDoc(
@@ -92,7 +90,7 @@ const generate = async (data = {}, config = defaultConfig) => {
 
   doc.moveDown(3);
 
-  const useCompAndPenTitle = selectedDebts.some(
+  const useCompAndPenTitle = selectedDebts?.some(
     debt => debt.deductionCode === '30',
   );
 
@@ -145,7 +143,9 @@ const generate = async (data = {}, config = defaultConfig) => {
         .fontSize(config.text.size)
         .font(config.text.font)
         .list(
-          selectedDebts.map(debt => `${debt.deductionCode} - ${debt.label}`),
+          selectedDebts?.map(
+            debt => `${debt?.deductionCode || ''} - ${debt?.label || ''}`,
+          ),
           listOptions,
         );
     }),
@@ -356,15 +356,15 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('Street address', config.margins.left, doc.y);
-      doc.font(config.text.font).text(addressLine1, {
+      doc.font(config.text.font).text(addressLine1 || '', {
         lineGap: 8,
       });
       if (addressLine2)
-        doc.text(addressLine2, {
+        doc.text(addressLine2 || '', {
           lineGap: 8,
         });
       if (addressLine3)
-        doc.text(addressLine3, {
+        doc.text(addressLine3 || '', {
           lineGap: 8,
         });
     }),
@@ -388,7 +388,7 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('State', config.margins.left, doc.y);
-      doc.font(config.text.font).text(stateCode, {
+      doc.font(config.text.font).text(stateCode || '', {
         lineGap: 8,
       });
     }),
@@ -400,7 +400,7 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('Postal code');
-      doc.font(config.text.font).text(zipCode, {
+      doc.font(config.text.font).text(zipCode || '', {
         lineGap: 8,
       });
     }),
@@ -447,7 +447,7 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('Email');
-      doc.font(config.text.font).text(email, {
+      doc.font(config.text.font).text(email || '', {
         lineGap: 8,
       });
     }),
@@ -461,8 +461,9 @@ const generate = async (data = {}, config = defaultConfig) => {
   // * Selected debts *
   // =====================================
   selectedDebts.forEach(debt => {
+    const { disputeReason, supportStatement } = debt;
     const selectedDebtsSection = doc.struct('Sect', {
-      title: debt.label,
+      title: debt?.label || '',
     });
     selectedDebtsSection.add(
       createHeading(doc, 'H3', config, debt.label, {
@@ -476,7 +477,7 @@ const generate = async (data = {}, config = defaultConfig) => {
           .font(config.text.boldFont)
           .fontSize(config.text.size)
           .text('Dispute reason');
-        doc.font(config.text.font).text(debt.disputeReason, {
+        doc.font(config.text.font).text(disputeReason || '', {
           lineGap: 8,
         });
       }),
@@ -490,7 +491,7 @@ const generate = async (data = {}, config = defaultConfig) => {
           .font(config.text.boldFont)
           .fontSize(config.text.size)
           .text('Dispute statement');
-        doc.font(config.text.font).text(debt.supportStatement, {
+        doc.font(config.text.font).text(supportStatement || '', {
           lineGap: 8,
         });
       }),

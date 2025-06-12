@@ -3,10 +3,13 @@ import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { handlePdfGeneration } from '../utils/pdfHelpers';
 
-export const buildEventData = formData => {
-  const debtCount = formData?.selectedDebts?.length;
+// only capturing counts here, no PII
+const buildEventData = ({ education = {}, compAndPen = {} }) => {
+  const educationDebtCount = education?.selectedDebts?.length;
+  const compAndPenDebtCount = compAndPen?.selectedDebts?.length;
   return {
-    'debt-count': debtCount,
+    'dispute-education-count': educationDebtCount,
+    'dispute-compAndPen-count': compAndPenDebtCount,
   };
 };
 
@@ -22,7 +25,6 @@ const submitForm = (form, formConfig) => {
         method: 'POST',
         body: response,
       }).then(apiResponse => {
-        // let's find a cleaner way to send the success event
         if (apiResponse.errors) {
           throw new Error('API submission failed', apiResponse.errors);
         }
@@ -36,11 +38,27 @@ const submitForm = (form, formConfig) => {
       });
     })
     .catch(error => {
+      // Log the unsuccessful submission event
+      recordEvent({
+        event: `${trackingPrefix}-submit-failure`,
+        ...eventData,
+      });
+
       Sentry.withScope(scope => {
         scope.setExtra('error', error);
-        Sentry.captureMessage(
-          `Dispute Debt pdf generation failed in submitForm: ${error.detail}`,
-        );
+
+        // Capturing specific error messages for better debugging
+        if (error?.errors?.files) {
+          Sentry.captureMessage(
+            `Dispute Debt pdf - handlePdfGeneration files failed: ${
+              error.errors.files[0]
+            }`,
+          );
+        } else {
+          Sentry.captureMessage(
+            `Dispute Debt pdf - generation failed in submitForm: ${error}`,
+          );
+        }
       });
     });
 };
