@@ -21,7 +21,7 @@ export function isLocalhost() {
 
 const mockData = testData.data;
 const { title, subTitle, formNumber } = getFormContent();
-const formId = `${formNumber.toUpperCase()}-UPLOAD`;
+const formId = `${formNumber.toUpperCase()}-BENEFITS-INTAKE`;
 const trackingPrefix = `form-${formNumber.toLowerCase()}-upload-`;
 
 const {
