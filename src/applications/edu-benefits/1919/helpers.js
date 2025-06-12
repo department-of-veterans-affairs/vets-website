@@ -56,7 +56,7 @@ export const getCardDescription = item => {
   ) : null;
 };
 
-export const conflictOfInterestArrayOptions = {
+export const allProprietaryProfitConflictsArrayOptions = {
   arrayPath: 'allProprietaryProfitConflicts',
   nounSingular: 'individual',
   nounPlural: 'individuals',
@@ -71,7 +71,7 @@ export const conflictOfInterestArrayOptions = {
   },
 };
 
-export const affiliatedIndividualsArrayOptions = {
+export const proprietaryProfitConflictsArrayOptions = {
   arrayPath: 'proprietaryProfitConflicts',
   nounSingular: 'individual',
   nounPlural: 'individuals',
@@ -88,6 +88,8 @@ export const affiliatedIndividualsArrayOptions = {
         </div>
       </>
     ),
+    cancelAddYes: 'Yes, cancel',
+    cancelAddNo: 'No, continue adding information',
     summaryTitle:
       'Review the individuals with a potential conflict of interest',
   },

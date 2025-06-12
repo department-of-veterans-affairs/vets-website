@@ -6,7 +6,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import { affiliatedIndividualsArrayOptions, alert } from '../helpers';
+import { proprietaryProfitConflictsArrayOptions, alert } from '../helpers';
 
 const summaryPage = {
   uiSchema: {
@@ -38,7 +38,7 @@ const summaryPage = {
       },
     },
     isProfitConflictOfInterest: arrayBuilderYesNoUI(
-      affiliatedIndividualsArrayOptions,
+      proprietaryProfitConflictsArrayOptions,
       {
         title:
           'Do you need to report any VA or SAA employees at your institution who may have a potential conflict of interest under this law?',

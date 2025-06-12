@@ -8,7 +8,7 @@ import {
   radioSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import { affiliatedIndividualsArrayOptions } from '../helpers';
+import { proprietaryProfitConflictsArrayOptions } from '../helpers';
 
 const associationLabels = {
   vaEmployee:
@@ -23,7 +23,7 @@ const individualPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Individuals affiliated with both your institution and VA or SAA',
-      nounSingular: affiliatedIndividualsArrayOptions.nounSingular,
+      nounSingular: proprietaryProfitConflictsArrayOptions.nounSingular,
       description: (
         <>
           <p>

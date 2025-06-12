@@ -5,8 +5,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  conflictOfInterestArrayOptions,
-  affiliatedIndividualsArrayOptions,
+  allProprietaryProfitConflictsArrayOptions,
+  proprietaryProfitConflictsArrayOptions,
 } from '../helpers';
 
 // pages
@@ -96,7 +96,7 @@ const formConfig = {
           schema: isProprietaryProfit.schema,
         },
         ...arrayBuilderPages(
-          affiliatedIndividualsArrayOptions,
+          proprietaryProfitConflictsArrayOptions,
           pageBuilder => ({
             affiliatedIndividualsSummary: pageBuilder.summaryPage({
               title: 'Individuals with a potential conflict of interest',
@@ -115,42 +115,45 @@ const formConfig = {
         ),
       },
     },
-    conflictOfInterestChapter: {
+    allProprietaryProfitChapter: {
       title: 'All proprietary schools',
       pages: {
-        ...arrayBuilderPages(conflictOfInterestArrayOptions, pageBuilder => ({
-          conflictOfInterestSummary: pageBuilder.summaryPage({
-            path: 'conflict-of-interest-summary',
-            title:
-              'Review the individuals with a potential conflict of interest that receive VA educational benefits',
-            uiSchema: conflictOfInterestSummary.uiSchema,
-            schema: conflictOfInterestSummary.schema,
+        ...arrayBuilderPages(
+          allProprietaryProfitConflictsArrayOptions,
+          pageBuilder => ({
+            conflictOfInterestSummary: pageBuilder.summaryPage({
+              path: 'conflict-of-interest-summary',
+              title:
+                'Review the individuals with a potential conflict of interest that receive VA educational benefits',
+              uiSchema: conflictOfInterestSummary.uiSchema,
+              schema: conflictOfInterestSummary.schema,
+            }),
+            conflictOfInterestCertifyingOfficial: pageBuilder.itemPage({
+              path: 'conflict-of-interest/:index/certifying-official',
+              title:
+                'Individuals with a potential conflict of interest who receive VA educational benefits',
+              showPagePerItem: true,
+              uiSchema: conflictOfInterestCertifyingOfficial.uiSchema,
+              schema: conflictOfInterestCertifyingOfficial.schema,
+            }),
+            conflictOfInterestFileNumber: pageBuilder.itemPage({
+              path: 'conflict-of-interest/:index/file-number',
+              title:
+                'Information on an individual with a potential conflict of interest who receives VA educational benefits',
+              showPagePerItem: true,
+              uiSchema: conflictOfInterestFileNumber.uiSchema,
+              schema: conflictOfInterestFileNumber.schema,
+            }),
+            conflictOfInterestEnrollmentPeriod: pageBuilder.itemPage({
+              path: 'conflict-of-interest/:index/enrollment-period',
+              title:
+                'Information on an individual with a potential conflict of interest who receives VA educational benefits',
+              showPagePerItem: true,
+              uiSchema: conflictOfInterestEnrollmentPeriod.uiSchema,
+              schema: conflictOfInterestEnrollmentPeriod.schema,
+            }),
           }),
-          conflictOfInterestCertifyingOfficial: pageBuilder.itemPage({
-            path: 'conflict-of-interest/:index/certifying-official',
-            title:
-              'Individuals with a potential conflict of interest who receive VA educational benefits',
-            showPagePerItem: true,
-            uiSchema: conflictOfInterestCertifyingOfficial.uiSchema,
-            schema: conflictOfInterestCertifyingOfficial.schema,
-          }),
-          conflictOfInterestFileNumber: pageBuilder.itemPage({
-            path: 'conflict-of-interest/:index/file-number',
-            title:
-              'Information on an individual with a potential conflict of interest who receives VA educational benefits',
-            showPagePerItem: true,
-            uiSchema: conflictOfInterestFileNumber.uiSchema,
-            schema: conflictOfInterestFileNumber.schema,
-          }),
-          conflictOfInterestEnrollmentPeriod: pageBuilder.itemPage({
-            path: 'conflict-of-interest/:index/enrollment-period',
-            title:
-              'Information on an individual with a potential conflict of interest who receives VA educational benefits',
-            showPagePerItem: true,
-            uiSchema: conflictOfInterestEnrollmentPeriod.uiSchema,
-            schema: conflictOfInterestEnrollmentPeriod.schema,
-          }),
-        })),
+        ),
       },
     },
   },
