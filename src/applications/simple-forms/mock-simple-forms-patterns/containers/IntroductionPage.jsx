@@ -60,7 +60,7 @@ class IntroductionPage extends React.Component {
               <Link to="/ssn-pattern">Ssn pattern</Link>
             </li>
             <li>
-              <Link to="/checkbox-and-text-input">Checkbox and text input</Link>
+              <Link to="/checkbox">Checkbox</Link>
             </li>
             <li>
               <Link to="/checkbox-group">Checkbox group</Link>
