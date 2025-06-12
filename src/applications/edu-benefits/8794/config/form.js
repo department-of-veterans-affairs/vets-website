@@ -2,14 +2,7 @@ import React from 'react';
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';
-
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../22-8794-schema.json';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
 // import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';
 
@@ -32,10 +25,30 @@ import {
   primaryOfficialBenefitStatus,
   institutionDetailsNoFacilityDescription,
   institutionNameAndAddress,
+  additionalOfficialSummary,
+  additionalOfficialDetails,
 } from '../pages';
-import directDeposit from '../pages/directDeposit';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+
+export const arrayBuilderOptions = {
+  arrayPath: 'additional certifying official',
+  nounSingular: 'additional certifying official',
+  nounPlural: 'additional certifying officials',
+  required: true,
+  text: {
+    getItemName: item => item.fullName,
+    cardDescription: item => {
+      return item.fullName;
+    },
+    summaryTitle: props =>
+      `Review your ${
+        props?.formData?.programs.length > 1
+          ? 'additional certifying officials'
+          : 'additional certifying official'
+      }`,
+  },
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -145,44 +158,40 @@ const formConfig = {
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    additionalOfficialChapter: {
+      title: 'Add additional certifying officials',
       pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
-          },
-        },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
-        },
+        ...arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
+          additionalOfficialSummary: pageBuilder.summaryPage({
+            path: 'additional-certifying-officials',
+            title: 'Add additional certifying officials',
+            uiSchema: additionalOfficialSummary.uiSchema,
+            schema: additionalOfficialSummary.schema,
+          }),
+          additionalOfficialDetails: pageBuilder.itemPage({
+            path: 'additional-certifying-officials/:index?add=true',
+            title: 'Tell us about your certifying official',
+            showPagePerItem: true,
+            uiSchema: additionalOfficialDetails.uiSchema,
+            schema: additionalOfficialDetails.schema,
+          }),
+          // conflictOfInterestFileNumber: pageBuilder.itemPage({
+          //   path: 'conflict-of-interest/:index/file-number',
+          //   title:
+          //     'Information on an individual with a potential conflict of interest who receives VA educational benefits',
+          //   showPagePerItem: true,
+          //   uiSchema: conflictOfInterestFileNumber.uiSchema,
+          //   schema: conflictOfInterestFileNumber.schema,
+          // }),
+          // conflictOfInterestEnrollmentPeriod: pageBuilder.itemPage({
+          //   path: 'conflict-of-interest/:index/enrollment-period',
+          //   title:
+          //     'Information on an individual with a potential conflict of interest who receives VA educational benefits',
+          //   showPagePerItem: true,
+          //   uiSchema: conflictOfInterestEnrollmentPeriod.uiSchema,
+          //   schema: conflictOfInterestEnrollmentPeriod.schema,
+          // }),
+        })),
       },
     },
   },

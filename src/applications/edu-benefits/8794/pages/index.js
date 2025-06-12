@@ -6,6 +6,8 @@ import * as primaryOfficialTraining from './primaryOfficialTraining';
 import * as primaryOfficialBenefitStatus from './primaryOfficialBenefitStatus';
 import { institutionDetailsNoFacilityDescription } from './institutionDetailsNoFacilityDescription';
 import * as institutionNameAndAddress from './institutionNameAndAddress';
+import { additionalOfficialSummary } from './additionalOfficialSummary';
+import * as additionalOfficialDetails from './additionalOfficialDetails';
 
 export {
   designatingOfficial,
@@ -16,4 +18,6 @@ export {
   primaryOfficialBenefitStatus,
   institutionDetailsNoFacilityDescription,
   institutionNameAndAddress,
+  additionalOfficialSummary,
+  additionalOfficialDetails,
 };
