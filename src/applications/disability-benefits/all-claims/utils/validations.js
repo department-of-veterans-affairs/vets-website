@@ -2,6 +2,22 @@ import moment from 'moment';
 import { convertToDateField } from '~/platform/forms-system/src/js/validation';
 import { isValidDateRange } from '~/platform/forms/validations';
 
+const messages = {
+  range: 'Enter a service start date that’s before your end date.',
+  enddate1990: 'Enter a service end date after August 2, 1990.',
+  enddate2001: 'Enter a service end date after September 11, 2001.',
+  // This is largely redundant because the component validation already prevents
+  // inputting dates in the future. However, this is in place just in case, because...
+  // TODO: The current schema validation says that the Veteran can input a year
+  // up to 100 years in the future. That is incorrect and should be corrected/removed.
+  futuredate: 'Enter a service year that’s before or during the current year.',
+  // Schema validations will display an error when a value is missing, however it
+  // will not properly prevent the Veteran from progressing, necessitating this.
+  // TODO: The error message here can be made more specific, but that will somewhat
+  // depend on what decisions (and schema updates) are made in regards to partial dates.
+  missingvalue: 'Enter a service date that includes the month, day, and year.',
+};
+
 /* The particular field used for the Toxic Exposure date inputs properly executes
 * validateCurrentOrPastDate, however schema validations against the individual fields
 * (day, month, year) do not properly block the Veteran from progressing.
@@ -18,21 +34,6 @@ export function validateToxicExposureGulfWar1990Dates(
   // We will validate around this fact.
   const startDateApproximate = convertToDateField(startDate);
   const endDateApproximate = convertToDateField(endDate);
-
-  const messages = {
-    range: 'Your service start date must be before your end date',
-    enddate: 'Service end date must be after August 2, 1990',
-    // This is largely redundant because the component validation already prevents
-    // inputting dates in the future. However, this is in place just in case, because...
-    // TODO: The current schema validation says that the Veteran can input a year
-    // up to 100 years in the future. That is incorrect and should be corrected/removed.
-    futuredate: 'Service date can not be in the future',
-    // Schema validations will display an error when a value is missing, however it
-    // will not properly prevent the Veteran from progressing, necessitating this.
-    // TODO: The error message here can be made more specific, but that will somewhat
-    // depend on what decisions (and schema updates) are made in regards to partial dates.
-    missingvalue: 'Service date missing month, day, or year',
-  };
 
   // Range validations
   if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
@@ -81,21 +82,6 @@ export function validateToxicExposureGulfWar2001Dates(
   const startDateApproximate = convertToDateField(startDate);
   const endDateApproximate = convertToDateField(endDate);
 
-  const messages = {
-    range: 'Your service start date must be before your end date',
-    enddate: 'Service end date must be after September 11, 2001',
-    // This is largely redundant because the component validation already prevents
-    // inputting dates in the future. However, this is in place just in case, because...
-    // TODO: The current schema validation says that the Veteran can input a year
-    // up to 100 years in the future. That is incorrect and should be corrected/removed.
-    futuredate: 'Service date can not be in the future',
-    // Schema validations will display an error when a value is missing, however it
-    // will not properly prevent the Veteran from progressing, necessitating this.
-    // TODO: The error message here can be made more specific, but that will somewhat
-    // depend on what decisions (and schema updates) are made in regards to partial dates.
-    missingvalue: 'Service date missing month, day, or year',
-  };
-
   // Range validations
   if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
     errors.endDate.addError(messages.range);
@@ -143,20 +129,6 @@ export function validateToxicExposureHerbicideDates(
   const startDateApproximate = convertToDateField(startDate);
   const endDateApproximate = convertToDateField(endDate);
 
-  const messages = {
-    range: 'Your service start date must be before your end date',
-    // This is largely redundant because the component validation already prevents
-    // inputting dates in the future. However, this is in place just in case, because...
-    // TODO: The current schema validation says that the Veteran can input a year
-    // up to 100 years in the future. That is incorrect and should be corrected/removed.
-    futuredate: 'Service date can not be in the future',
-    // Schema validations will display an error when a value is missing, however it
-    // will not properly prevent the Veteran from progressing, necessitating this.
-    // TODO: The error message here can be made more specific, but that will somewhat
-    // depend on what decisions (and schema updates) are made in regards to partial dates.
-    missingvalue: 'Service date missing month, day, or year',
-  };
-
   // Range validations
   if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
     errors.endDate.addError(messages.range);
@@ -194,20 +166,6 @@ export function validateToxicExposureAdditionalExposuresDates(
 ) {
   const startDateApproximate = convertToDateField(startDate);
   const endDateApproximate = convertToDateField(endDate);
-
-  const messages = {
-    range: 'Your service start date must be before your end date',
-    // This is largely redundant because the component validation already prevents
-    // inputting dates in the future. However, this is in place just in case, because...
-    // TODO: The current schema validation says that the Veteran can input a year
-    // up to 100 years in the future. That is incorrect and should be corrected/removed.
-    futuredate: 'Service date can not be in the future',
-    // Schema validations will display an error when a value is missing, however it
-    // will not properly prevent the Veteran from progressing, necessitating this.
-    // TODO: The error message here can be made more specific, but that will somewhat
-    // depend on what decisions (and schema updates) are made in regards to partial dates.
-    missingvalue: 'Service date missing month, day, or year',
-  };
 
   // Range validations
   if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
