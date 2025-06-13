@@ -83,7 +83,7 @@ class AddressValidationModal extends React.Component {
     }
 
     if (suggestedAddressSelected) {
-      this.props.updateValidationKeyAndSave(
+      this.props.createTransaction(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
