@@ -19,6 +19,7 @@ import {
   SystemErrorAlert,
 } from './VeteranStatusAlerts';
 import LoadFail from '../alerts/LoadFail';
+import '../../sass/veteran-status-card.scss';
 
 const VeteranStatus = ({
   militaryInformation = {},
