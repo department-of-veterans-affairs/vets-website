@@ -100,7 +100,7 @@ describe('ReferralAppointments', () => {
 
     await waitFor(() => {
       // Looking for elements that would be in ScheduleReferral component
-      expect(screen.getByText('schedule-appointment-button')).to.exist;
+      expect(screen.getByTestId('schedule-appointment-button')).to.exist;
     });
   });
 
