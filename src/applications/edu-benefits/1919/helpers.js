@@ -92,6 +92,7 @@ export const proprietaryProfitConflictsArrayOptions = {
     cancelAddNo: 'No, continue adding information',
     summaryTitle:
       'Review the individuals with a potential conflict of interest',
+    cancelAddButtonText: "Cancel adding this individual's information",
   },
 };
 
