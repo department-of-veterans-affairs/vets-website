@@ -56,18 +56,18 @@ function App({
 
   const shouldUseV2 = hasV2Form || (flipperV2 && !hasV1Form);
   if (!shouldUseV2) {
-    window.location.href = '/view-change-dependents/add-remove-form-21-686c/';
+    window.location.href = '/manage-dependents/add-remove-form-21-686c/';
     return <></>;
   }
 
   const breadcrumbs = [
     { href: '/', label: 'Home' },
     {
-      href: '/view-change-dependents',
+      href: '/manage-dependents',
       label: 'View or change dependents on your VA disability benefits',
     },
     {
-      href: '/view-change-dependents/add-remove-form-21-686c-674/introduction',
+      href: '/manage-dependents/add-remove-form-21-686c-674/introduction',
       label: 'Add or remove dependents on VA benefits',
     },
   ];

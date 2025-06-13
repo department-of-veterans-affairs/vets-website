@@ -44,13 +44,13 @@ export const breadcrumbLinks = [
     Home
   </a>,
   <a
-    href="/view-change-dependents/"
+    href="/manage-dependents/"
     aria-label="Back to the Add or remove dependents page"
     key="3"
   >
     Add or remove dependents
   </a>,
-  <a href="/view-change-dependents/view" key="4">
+  <a href="/manage-dependents/view" key="4">
     Your Dependents
   </a>,
 ];
