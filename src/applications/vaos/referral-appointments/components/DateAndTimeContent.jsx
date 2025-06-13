@@ -113,7 +113,7 @@ export const DateAndTimeContent = props => {
   // Effect to focus on validation message whenever error state changes
   useEffect(
     () => {
-      scrollAndFocus('.vaos-calendar__validation-msg');
+      scrollAndFocus('.vaos-input-error-message');
     },
     [error, focusTrigger],
   );
