@@ -9,6 +9,7 @@ import * as institutionNameAndAddress from './institutionNameAndAddress';
 import { additionalOfficialSummary } from './additionalOfficialSummary';
 import * as additionalOfficialDetails from './additionalOfficialDetails';
 import * as additionalOfficialTraining from './additionalOfficialTraining';
+import * as additionalOfficialBenefitStatus from './additionalOfficialBenefitStatus';
 
 export {
   designatingOfficial,
@@ -22,4 +23,5 @@ export {
   additionalOfficialSummary,
   additionalOfficialDetails,
   additionalOfficialTraining,
+  additionalOfficialBenefitStatus,
 };

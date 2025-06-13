@@ -29,6 +29,7 @@ import {
   additionalOfficialSummary,
   additionalOfficialDetails,
   additionalOfficialTraining,
+  additionalOfficialBenefitStatus,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -165,14 +166,13 @@ const formConfig = {
             uiSchema: additionalOfficialTraining.uiSchema,
             schema: additionalOfficialTraining.schema,
           }),
-          // conflictOfInterestEnrollmentPeriod: pageBuilder.itemPage({
-          //   path: 'conflict-of-interest/:index/enrollment-period',
-          //   title:
-          //     'Information on an individual with a potential conflict of interest who receives VA educational benefits',
-          //   showPagePerItem: true,
-          //   uiSchema: conflictOfInterestEnrollmentPeriod.uiSchema,
-          //   schema: conflictOfInterestEnrollmentPeriod.schema,
-          // }),
+          additionalOfficialBenefitStatus: pageBuilder.itemPage({
+            path: 'additional-certifying-officials-2/:index',
+            title: 'Benefit status',
+            showPagePerItem: true,
+            uiSchema: additionalOfficialBenefitStatus.uiSchema,
+            schema: additionalOfficialBenefitStatus.schema,
+          }),
         })),
       },
     },
