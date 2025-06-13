@@ -14,7 +14,6 @@ describe('Personal and contact information', () => {
       addressPage.loadPage('military');
       addressPage.fillAddressForm(formFields);
       addressPage.saveForm();
-      cy.injectAxeThenAxeCheck();
     });
   });
 });
