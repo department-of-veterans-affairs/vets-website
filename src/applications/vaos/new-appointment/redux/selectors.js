@@ -21,7 +21,6 @@ import {
   selectFeatureDirectScheduling,
   selectRegisteredCernerFacilityIds,
   selectFeatureRemovePodiatry,
-  selectFeatureDirectScheduleAppointmentConflict,
 } from '../../redux/selectors';
 import { removeDuplicateId } from '../../utils/data';
 
@@ -137,9 +136,6 @@ export function getChosenSlot(state) {
 }
 
 export function getDateTimeSelect(state, pageKey) {
-  const featureDirectScheduleAppointmentConflict = selectFeatureDirectScheduleAppointmentConflict(
-    state,
-  );
   const newAppointment = getNewAppointment(state);
   const {
     appointmentSlotsStatus,
@@ -164,9 +160,7 @@ export function getDateTimeSelect(state, pageKey) {
     timezone,
     timezoneDescription,
     typeOfCareId,
-    isAppointmentSelectionError: featureDirectScheduleAppointmentConflict
-      ? isAppointmentSelectionError
-      : false,
+    isAppointmentSelectionError,
   };
 }
 

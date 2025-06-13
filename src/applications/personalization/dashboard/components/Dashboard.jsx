@@ -307,16 +307,22 @@ const Dashboard = ({
         {showLoader && <RequiredLoginLoader />}
         {!showLoader && (
           <div className="dashboard">
-            {showNameTag && (
-              <div id="name-tag">
-                <NameTag
-                  totalDisabilityRating={props.totalDisabilityRating}
-                  totalDisabilityRatingServerError={
-                    props.totalDisabilityRatingServerError
-                  }
-                />
-              </div>
-            )}
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                {showNameTag && (
+                  <div id="name-tag">
+                    <NameTag
+                      totalDisabilityRating={props.totalDisabilityRating}
+                      totalDisabilityRatingServerError={
+                        props.totalDisabilityRatingServerError
+                      }
+                    />
+                  </div>
+                )}
+              </Toggler.Disabled>
+            </Toggler>
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <DashboardHeader
                 isLOA3={isLOA3}
