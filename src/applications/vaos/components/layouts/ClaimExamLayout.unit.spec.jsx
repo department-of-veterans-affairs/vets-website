@@ -379,11 +379,11 @@ describe('VAOS Component: ClaimExamLayout', () => {
         }),
       );
       expect(
-        screen.getByText(/You don't need to bring anything to your exam./i),
+        screen.getByText(/You don.t need to bring anything to your exam/i),
       );
       expect(
         screen.getByText(
-          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
+          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment/i,
         ),
       );
       expect(
@@ -582,11 +582,11 @@ describe('VAOS Component: ClaimExamLayout', () => {
         }),
       );
       expect(
-        screen.getByText(/You don't need to bring anything to your exam./i),
+        screen.getByText(/You don.t need to bring anything to your exam/i),
       );
       expect(
         screen.getByText(
-          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
+          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment/i,
         ),
       );
       expect(

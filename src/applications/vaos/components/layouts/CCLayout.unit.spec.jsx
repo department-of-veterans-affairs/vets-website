@@ -196,7 +196,7 @@ describe('VAOS Component: CCLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -206,7 +206,7 @@ describe('VAOS Component: CCLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -395,7 +395,7 @@ describe('VAOS Component: CCLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -405,7 +405,7 @@ describe('VAOS Component: CCLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
 
