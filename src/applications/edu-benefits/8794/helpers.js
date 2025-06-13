@@ -1,34 +1,99 @@
 import React from 'react';
+import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+
+export const formatPhoneNumber = num => {
+  if (num.length === 10)
+    return `${num.substring(0, 3)}-${num.substring(3, 6)}-${num.substring(
+      6,
+      10,
+    )}`;
+  return num;
+};
 
 export const getCardDescription = item => {
   return item ? (
     <>
-      {/* <p className="vads-u-margin-top--0" data-testid="card-title">
-        {item.additionalOfficialDetails?.title || 'Title'}
+      {item.additionalOfficialDetails?.phoneType === 'us' ? (
+        <p>
+          <va-icon
+            icon="phone"
+            size={2}
+            style={{
+              position: 'relative',
+              top: '-5px',
+              left: '-1px',
+              marginRight: '5px',
+            }}
+          />
+          <span data-testid="card-phone-number">
+            {formatPhoneNumber(item.additionalOfficialDetails?.phoneNumber)}
+          </span>
+        </p>
+      ) : (
+        <p>
+          <va-icon
+            icon="phone"
+            size={2}
+            style={{
+              position: 'relative',
+              top: '-5px',
+              left: '-1px',
+              marginRight: '5px',
+            }}
+          />
+          <span data-testid="card-phone-number">
+            {item.additionalOfficialDetails?.internationalPhoneNumber}
+          </span>
+        </p>
+      )}
+      <p>
+        <va-icon
+          icon="mail"
+          size={2}
+          style={{
+            position: 'relative',
+            top: '-5px',
+            left: '-1px',
+            marginRight: '5px',
+          }}
+        />
+        <span data-testid="card-email">
+          {item.additionalOfficialDetails?.emailAddress}
+        </span>
       </p>
-      <p data-testid="card-file-number">{item.fileNumber || 'File number'}</p>
-      {item.enrollmentPeriod?.from && (
-        <p data-testid="card-enrollment-period">
-          {formatReviewDate(item.enrollmentPeriod.from)}
-          {item.enrollmentPeriod?.to &&
-            ` - ${formatReviewDate(item.enrollmentPeriod.to)}`}
-        </p> */}
-      {/* )} */}
-      <p>hello meeee</p>
+      <p data-testid="card-training-date">
+        <strong>Section 305 Training Date: </strong>
+        {item.additionalOfficialTraining?.trainingCompletionDate
+          ? formatReviewDate(
+              item.additionalOfficialTraining?.trainingCompletionDate,
+            )
+          : 'Exempt'}
+      </p>
+      <p data-testid="card-has-va-benefits">
+        <strong>In receipt of VA Education benefits: </strong>
+        {item.additionalOfficialBenefitStatus?.hasVaEducationBenefits
+          ? 'Yes'
+          : 'No'}
+      </p>
     </>
   ) : null;
 };
 
 export const getCardTitle = item => {
-  let title = null;
+  let cardTitle = null;
 
   if (item) {
-    // const first = item.additionalOfficialDetails?.title || 'Certifying';
-    // const last = item.certifyingOfficial?.last || 'Official';
-    title = `${title}`;
+    const first = item.additionalOfficialDetails?.fullName?.first || '';
+    const middle = item.additionalOfficialDetails?.fullName?.middle || '';
+    const last = item.additionalOfficialDetails?.fullName?.last || '';
+    const title = item.additionalOfficialDetails?.title || '';
+
+    cardTitle = `${first} ${middle} ${last}, ${title}`;
+
+    // cardTitle = (<p><strong>{first} {middle} {last},</strong> {title}</p>)
   }
 
-  return title;
+  return cardTitle;
 };
 
 export const additionalOfficialArrayOptions = {
@@ -41,35 +106,14 @@ export const additionalOfficialArrayOptions = {
     cardDescription: item => getCardDescription(item),
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
-    // summaryTitle:
-    //   'Review the individuals with a potential conflict of interest that receive VA educational benefits',
     summaryTitle: props =>
       `Review your ${
-        props?.formData['additional-certifying-official'].length > 1
+        props?.formData['additional-certifying-official']?.length > 1
           ? 'additional certifying officials'
           : 'additional certifying official'
       }`,
   },
 };
-
-// export const additionalOfficialArrayOptions = {
-//   arrayPath: 'additionalOfficialDetails',
-//   nounSingular: 'official',
-//   nounPlural: 'officials',
-//   required: true,
-//   text: {
-//     getItemName: item => item?.fullName,
-//     cardDescription: item => {
-//       return item?.fullName;
-//     },
-//     summaryTitle: props =>
-//       `Review your ${
-//         props?.formData?.additionalOfficialDetails.length > 1
-//           ? 'additional certifying officials'
-//           : 'additional certifying official'
-//       }`,
-//   },
-// };
 
 export const certifyingOfficialInfoAlert = (
   <va-alert status="info" visible>
