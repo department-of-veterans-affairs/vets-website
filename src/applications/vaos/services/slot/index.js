@@ -30,13 +30,20 @@ import { transformV2Slots } from './transformers';
  * @param {boolean} slotsRequest.convertToUtc check if flag to convert the start and end dates to UTC is set to true
  * @returns {Array<Slot>} A list of Slot resources
  */
-export async function getSlots({ siteId, clinicId, startDate, endDate }) {
+export async function getSlots({
+  siteId,
+  clinicId,
+  startDate,
+  endDate,
+  convertToUtc,
+}) {
   try {
     const data = await getAvailableV2Slots(
       siteId,
       clinicId.split('_')[1],
       startDate,
       endDate,
+      convertToUtc,
     );
 
     return transformV2Slots(data || []);

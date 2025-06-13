@@ -50,6 +50,7 @@ export const removeMarriedChildIntroPage = {
         </p>
         <CancelButton
           dependentType="children who got married"
+          dependentButtonType="children"
           isAddChapter={false}
         />
       </>

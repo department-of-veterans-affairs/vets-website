@@ -95,6 +95,7 @@ const formConfig = {
           title: 'Institution details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
+          updateFormData: institutionDetails.updateFormData,
         },
         institutionDetailsFacility: {
           path: 'institution-details-3',

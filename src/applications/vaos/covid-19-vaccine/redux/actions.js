@@ -14,10 +14,11 @@ import {
   startOfMonth,
 } from 'date-fns';
 import {
-  selectFeatureConvertSlotsToUTC,
+  selectFeatureConvertSlotsToUtc,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthModality,
+  selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureFeSourceOfTruthVA,
   selectSystemIds,
 } from '../../redux/selectors';
@@ -284,7 +285,7 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
     );
     const newBooking = selectCovid19VaccineNewBooking(state);
     const { data } = newBooking;
-    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
+    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -407,6 +408,9 @@ export function confirmAppointment(history) {
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
 
     dispatch({
       type: FORM_SUBMIT,
@@ -429,6 +433,7 @@ export function confirmAppointment(history) {
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
       });
 
       const data = selectCovid19VaccineFormData(getState());
