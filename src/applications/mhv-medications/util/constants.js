@@ -242,6 +242,10 @@ export const allergyTypes = {
 export const FIELD_NONE_NOTED = 'None noted';
 export const FIELD_NOT_AVAILABLE = 'Not available';
 
+export const downtimeNotificationParams = {
+  appTitle: 'this medications tool',
+};
+
 export const trackingConfig = {
   dhl: {
     label: 'DHL',
