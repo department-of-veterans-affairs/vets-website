@@ -40,11 +40,12 @@ describe('28-1900 submit-transformer', () => {
 
     expect(resultString).to.be.a('string');
 
-    const result = JSON.parse(resultString);
+    const result = JSON.parse(
+      JSON.parse(resultString).veteranReadinessEmploymentClaim.form,
+    );
 
-    expect(result).to.have.property('form');
-    expect(result.form).to.have.property('veteranInformation');
-    expect(result.form.veteranInformation).to.deep.equal({
+    expect(result).to.have.property('veteranInformation');
+    expect(result.veteranInformation).to.deep.equal({
       fullName: mockFormData.fullName,
       dob: mockFormData.dob,
     });
