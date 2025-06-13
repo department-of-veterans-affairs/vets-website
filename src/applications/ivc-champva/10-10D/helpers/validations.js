@@ -122,15 +122,19 @@ export const validateSponsorSsnIsUnique = (errors, page) => {
 
 /**
  * Validates that an applicant's SSN does not match any others in the form.
+ * Relies on `view:` properties set from the applicant SSN page since full
+ * form data isn't available to list loop v1 pages outside a custom page.
  * @param {Object} errors - The errors object for the current page
  * @param {Object} page - The current page data
  */
 export const validateApplicantSsnIsUnique = (errors, page) => {
   const idx = page?.['view:pagePerItemIndex'];
+  if (idx === undefined) return; // We can't process without this
   const sponsorMatch =
     noDash(page?.applicantSSN) === noDash(page?.['view:sponsorSSN']);
 
   let applicants = page?.['view:applicantSSNArray'];
+  if (applicants === undefined) return; // We can't process without this
   applicants = [...applicants.slice(0, idx), ...applicants.slice(idx + 1)];
   const applicantMatch = applicants?.some(
     app => noDash(app) === noDash(page?.applicantSSN),

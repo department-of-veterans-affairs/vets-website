@@ -37,9 +37,7 @@
     "sponsorDOD": "2000-04-05",
     "sponsorDeathConditions": true,
     "sponsorIsDeceased": true,
-    "ssn": {
-      "ssn": "123123123"
-    },
+    "ssn": "123123123",
     "veteransFullName": {
       "first": "Sponsor",
       "last": "Jones"

@@ -87,8 +87,7 @@ export default function transformForSubmit(formConfig, form) {
   const dataPostTransform = {
     veteran: {
       fullName: transformedData?.veteransFullName || {},
-      ssnOrTin: transformedData?.ssn?.ssn || '',
-      vaClaimNumber: transformedData?.ssn?.vaFileNumber || '',
+      ssnOrTin: transformedData?.ssn || '',
       dateOfBirth: fmtDate(transformedData?.sponsorDob) || '',
       phoneNumber: transformedData?.sponsorPhone || '',
       address: transformedData?.sponsorAddress || {},
