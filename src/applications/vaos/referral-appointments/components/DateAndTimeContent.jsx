@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
-import { focusElement } from 'platform/utilities/ui';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
 import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
@@ -18,12 +17,12 @@ import {
 import { getReferralSlotKey } from '../utils/referrals';
 import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
   const dispatch = useDispatch();
   const history = useHistory();
-  const validationMsgRef = useRef(null);
 
   // Add a counter state to trigger focusing
   const [focusTrigger, setFocusTrigger] = useState(0);
@@ -114,9 +113,7 @@ export const DateAndTimeContent = props => {
   // Effect to focus on validation message whenever error state changes
   useEffect(
     () => {
-      if (error && validationMsgRef.current) {
-        focusElement(validationMsgRef.current);
-      }
+      scrollAndFocus('.vaos-calendar__validation-msg');
     },
     [error, focusTrigger],
   );
@@ -218,7 +215,6 @@ export const DateAndTimeContent = props => {
               showValidation={error.length > 0}
               showWeekends
               overrideMaxDays
-              validationRef={validationMsgRef}
             />
           </div>
           <FormButtons
