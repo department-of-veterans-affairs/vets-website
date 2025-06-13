@@ -136,7 +136,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             draftApppointmentId: draftAppointmentInfo.id,
-            referralNumber: 'VA0000009880-default',
+            referralNumber: 'test-referral-number',
             slotId: draftAppointmentInfo.attributes.slots[0].id,
             networkId: draftAppointmentInfo.attributes.provider.networkIds[0],
             providerServiceId: draftAppointmentInfo.attributes.provider.id,
@@ -172,7 +172,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             draftApppointmentId: draftAppointmentInfo.id,
-            referralNumber: 'VA0000009880-default',
+            referralNumber: 'test-referral-number',
             slotId: draftAppointmentInfo.attributes.slots.slots[0].id,
             networkId: draftAppointmentInfo.attributes.provider.networkIds[0],
             providerServiceId: draftAppointmentInfo.attributes.provider.id,
