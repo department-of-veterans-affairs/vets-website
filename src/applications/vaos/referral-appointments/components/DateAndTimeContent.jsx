@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
+import { focusElement } from 'platform/utilities/ui';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
 import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
@@ -22,6 +23,10 @@ export const DateAndTimeContent = props => {
   const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
   const dispatch = useDispatch();
   const history = useHistory();
+  const validationMsgRef = useRef(null);
+
+  // Add a counter state to trigger focusing
+  const [focusTrigger, setFocusTrigger] = useState(0);
 
   const selectedSlot = useSelector(state => getSelectedSlot(state));
   const currentPage = useSelector(selectCurrentPage);
@@ -84,6 +89,8 @@ export const DateAndTimeContent = props => {
   };
   const onSubmit = () => {
     if (error) {
+      // Increment the focus trigger to force re-focusing the validation message
+      setFocusTrigger(prev => prev + 1);
       return;
     }
     if (!selectedSlot) {
@@ -103,6 +110,16 @@ export const DateAndTimeContent = props => {
     }
     routeToNextReferralPage(history, currentPage, currentReferral.uuid);
   };
+
+  // Effect to focus on validation message whenever error state changes
+  useEffect(
+    () => {
+      if (error && validationMsgRef.current) {
+        focusElement(validationMsgRef.current);
+      }
+    },
+    [error, focusTrigger],
+  );
 
   const noSlotsAvailable = !draftAppointmentInfo.attributes.slots.length;
 
@@ -201,6 +218,7 @@ export const DateAndTimeContent = props => {
               showValidation={error.length > 0}
               showWeekends
               overrideMaxDays
+              validationRef={validationMsgRef}
             />
           </div>
           <FormButtons
