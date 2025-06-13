@@ -157,7 +157,7 @@ export default function InPersonLayout({ data: appointment }) {
             </p>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
               <va-link
-                text="Find a full list of things to bring to your appointment"
+                text="Find out what to bring to your appointment"
                 href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
               />
             </p>
