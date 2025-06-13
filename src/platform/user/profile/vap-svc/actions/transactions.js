@@ -390,6 +390,7 @@ export const validateAddress = (
     });
 
     // when only validating, we don't want to create a transaction to update the profile
+    // but we still want to include the validation key
     if (onlyValidate) {
       return {
         onlyValidate,
@@ -398,6 +399,11 @@ export const validateAddress = (
           attributes: {
             transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS,
           },
+        },
+        validationKey,
+        payload: {
+          ...userEnteredAddress,
+          validationKey,
         },
       };
     }

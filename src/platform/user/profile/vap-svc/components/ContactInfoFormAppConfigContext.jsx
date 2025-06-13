@@ -27,6 +27,8 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
 
   const updateContactInfoForFormApp = useCallback(
     async (fieldName, payload, saveOption) => {
+      // (fieldName, payload, updateProfileChoice) => {
+
       // using the existing timestamp to make sure the conditional logic on the
       // ContactInfo page doesn't override the 'form only' update
       const existingUpdatedAt = formData?.[wrapperKey][fieldName]?.updatedAt;
@@ -54,6 +56,7 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
               updateProfileChoice: saveOption,
               updatedAt,
               countryName,
+              validationKey: payload.validationKey,
             },
           },
         };
