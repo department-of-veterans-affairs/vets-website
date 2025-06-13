@@ -21,9 +21,18 @@ const uiSchema = {
     trainingExempt: {
       'ui:field': AdditionalOfficialExemptInfo,
     },
+    // 'view:trainingExemptLabel': {
+    //   'ui:description': <div><strong>This individual is exempt</strong></div>,
+    //   'ui:options': {
+    //    hideIf: formData => !formData?.trainingExempt,
+    //   },
+    // },
     'ui:options': {
-      updateSchema: (formData, formSchema) => {
-        if (formData.primaryOfficialTraining?.trainingExempt) {
+      updateSchema: (formData, formSchema, ui, index) => {
+        if (
+          formData['additional-certifying-official'][index]
+            ?.additionalOfficialTraining?.trainingExempt
+        ) {
           return {
             ...formSchema,
             required: [],
@@ -49,6 +58,9 @@ const schema = {
         trainingExempt: {
           type: 'boolean',
         },
+        // 'view:trainingExemptLabel': {
+        //   type: 'object',
+        // },
       },
       required: ['trainingCompletionDate'],
     },

@@ -6,7 +6,6 @@ import { setData } from 'platform/forms-system/src/js/actions';
 const AdditionalOfficialExemptInfo = props => {
   const formState = useSelector(state => state?.form?.data);
   const dispatch = useDispatch();
-  // console.log('formState', formState);
 
   return (
     <div className="vads-u-border-color--primary-alt-light vads-u-border--1px vads-u-margin-top--5 info ">
@@ -39,10 +38,20 @@ const AdditionalOfficialExemptInfo = props => {
           dispatch(
             setData({
               ...formState,
-              primaryOfficialTraining: {
-                ...formState.primaryOfficialTraining,
-                trainingExempt: event.target.checked,
-              },
+              'additional-certifying-official': formState[
+                'additional-certifying-official'
+              ].map((official, index) => {
+                if (index !== Number(props.formContext.pagePerItemIndex)) {
+                  return official;
+                }
+                return {
+                  ...official,
+                  additionalOfficialTraining: {
+                    ...official.additionalOfficialTraining,
+                    trainingExempt: event.target.checked,
+                  },
+                };
+              }),
             }),
           );
         }}
