@@ -40,7 +40,6 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
-  oldFlowNonPTSD,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
@@ -344,11 +343,7 @@ const formConfig = {
         followUpDesc: {
           // we want this to show only for any new non-BDD condition that is either: old 0781 flow and non-PTSD, or any new 0781 flow condition
           title: 'Follow-up questions',
-          depends: formData =>
-            oldFlowNonPTSD(formData) ||
-            (formData?.syncModern0781Flow &&
-              claimingNew(formData) &&
-              !isBDD(formData)),
+          depends: formData => claimingNew(formData) && !isBDD(formData),
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -357,7 +352,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         newDisabilityFollowUp: {
-          // show for: old flow non-PTSD and new flow any condition
+          // show for modern 0781 flow
           title: formData =>
             typeof formData.condition === 'string'
               ? capitalizeEachWord(formData.condition)
@@ -366,13 +361,8 @@ const formConfig = {
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: (item, formData) => {
-            if (
-              oldFlowNonPTSD(formData) ||
-              (formData?.syncModern0781Flow &&
-                claimingNew(formData) &&
-                !isBDD(formData))
-            ) {
-              return item.condition;
+            if (formData?.syncModern0781Flow === true) {
+              return !!item.condition;
             }
             return !isDisabilityPtsd(item.condition);
           },
