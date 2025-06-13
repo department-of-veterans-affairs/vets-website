@@ -3,11 +3,11 @@ import { /* screen, */ render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import configureMockStore from 'redux-mock-store';
-import CombinedDisabilityRatingCard from '../../../components/claims-and-appeals/CombinedDisabilityRatingCard';
+import DisabilityRatingCard from '../../../components/claims-and-appeals/DisabilityRatingCard';
 
 const mockStore = configureMockStore();
 
-describe('CombinedDisabilityRatingCard', () => {
+describe('DisabilityRatingCard', () => {
   let store;
 
   it('renders the disability rating at 0%', () => {
@@ -19,7 +19,7 @@ describe('CombinedDisabilityRatingCard', () => {
 
     const screen = render(
       <Provider store={store}>
-        <CombinedDisabilityRatingCard />
+        <DisabilityRatingCard />
       </Provider>,
     );
 
@@ -38,7 +38,7 @@ describe('CombinedDisabilityRatingCard', () => {
 
     const screen = render(
       <Provider store={store}>
-        <CombinedDisabilityRatingCard />
+        <DisabilityRatingCard />
       </Provider>,
     );
 
@@ -61,7 +61,7 @@ describe('CombinedDisabilityRatingCard', () => {
 
     const screen = render(
       <Provider store={store}>
-        <CombinedDisabilityRatingCard />
+        <DisabilityRatingCard />
       </Provider>,
     );
 

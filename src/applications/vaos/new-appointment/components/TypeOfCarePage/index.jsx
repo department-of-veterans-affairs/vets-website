@@ -21,6 +21,7 @@ import {
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthModality,
+  selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureFeSourceOfTruthVA,
 } from '../../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
@@ -46,6 +47,9 @@ export default function TypeOfCarePage() {
   );
   const useFeSourceOfTruthModality = useSelector(state =>
     selectFeatureFeSourceOfTruthModality(state),
+  );
+  const useFeSourceOfTruthTelehealth = useSelector(state =>
+    selectFeatureFeSourceOfTruthTelehealth(state),
   );
 
   const dispatch = useDispatch();
@@ -163,6 +167,7 @@ export default function TypeOfCarePage() {
                 useFeSourceOfTruthCC,
                 useFeSourceOfTruthVA,
                 useFeSourceOfTruthModality,
+                useFeSourceOfTruthTelehealth,
               );
             }
 
