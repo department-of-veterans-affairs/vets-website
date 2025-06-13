@@ -12,120 +12,95 @@ const DEFAULT_FORM_DATA = {
 };
 
 describe('CG `useSignaturesSync` hook', () => {
+  const subject = ({ formData = DEFAULT_FORM_DATA, isRep = false } = {}) => {
+    const { result, rerender } = renderHook(props => useSignaturesSync(props), {
+      initialProps: { formData, isRep },
+    });
+
+    const updateSignature = (label, updates) =>
+      act(() => {
+        result.current.setSignatures(prev => ({
+          ...prev,
+          [label]: {
+            ...prev[label],
+            ...updates,
+          },
+        }));
+      });
+
+    const updateProps = props => act(() => rerender(props));
+
+    return { result, updateProps, updateSignature };
+  };
+
   it('should return correct default state based on formData', () => {
-    const { result } = renderHook(() =>
-      useSignaturesSync({ formData: DEFAULT_FORM_DATA, isRep: false }),
-    );
+    const { result } = subject();
     const { requiredElements, signatures } = result.current;
-
-    expect(requiredElements.map(r => r.label)).to.include.members([
-      LABELS.veteran,
-      LABELS.primary,
-    ]);
-
-    expect(Object.keys(signatures)).to.have.members([
-      LABELS.veteran,
-      LABELS.primary,
-    ]);
-
+    const expectedKeys = [LABELS.veteran, LABELS.primary];
+    expect(requiredElements.map(r => r.label)).to.include.members(expectedKeys);
+    expect(Object.keys(signatures)).to.have.members(expectedKeys);
     expect(signatures[LABELS.veteran]).to.deep.equal(DEFAULT_SIGNATURE_STATE);
   });
 
-  it('should update signatures when `requiredElements` change', () => {
+  it('should update signatures when required fields change', () => {
     const initFormData = {
       ...DEFAULT_FORM_DATA,
       'view:hasPrimaryCaregiver': true,
       'view:hasSecondaryCaregiverOne': false,
     };
-    const { result, rerender } = renderHook(
-      ({ formData, isRep }) => useSignaturesSync({ formData, isRep }),
-      {
-        initialProps: { formData: initFormData, isRep: false },
-      },
+    const { result, updateProps } = subject({ formData: initFormData });
+
+    const expectedKeys = [LABELS.veteran, LABELS.primary];
+    expect(Object.keys(result.current.signatures)).to.have.members(
+      expectedKeys,
     );
 
-    expect(result.current.signatures).to.have.all.keys([
-      LABELS.veteran,
-      LABELS.primary,
-    ]);
-
-    // add secondary caregiver to form data, result should still include prior
-    // values + new one with default
-    const updatedFormData = {
-      ...initFormData,
-      'view:hasSecondaryCaregiverOne': true,
-      secondaryOneFullName: MOCK_FULL_NAME,
-    };
-
-    act(() => {
-      rerender({ formData: updatedFormData, isRep: false });
+    // add secondary caregiver to form data
+    const updatedExpectedKeys = [...expectedKeys, LABELS.secondaryOne];
+    updateProps({
+      formData: {
+        ...initFormData,
+        'view:hasSecondaryCaregiverOne': true,
+        secondaryOneFullName: MOCK_FULL_NAME,
+      },
     });
-
-    expect(result.current.signatures).to.have.all.keys([
-      LABELS.veteran,
-      LABELS.primary,
-      LABELS.secondaryOne,
-    ]);
-
+    expect(Object.keys(result.current.signatures)).to.have.members(
+      updatedExpectedKeys,
+    );
     expect(result.current.signatures[LABELS.secondaryOne]).to.deep.equal(
       DEFAULT_SIGNATURE_STATE,
     );
   });
 
   it('should correctly switch between Veteran and representative signature', () => {
-    const { result, rerender } = renderHook(
-      ({ formData, isRep }) => useSignaturesSync({ formData, isRep }),
-      {
-        initialProps: { formData: DEFAULT_FORM_DATA, isRep: false },
-      },
+    const { result, updateProps } = subject();
+
+    const expectedKeys = [LABELS.veteran, LABELS.primary];
+    expect(Object.keys(result.current.signatures)).to.have.members(
+      expectedKeys,
     );
 
-    expect(result.current.signatures).to.have.all.keys([
-      LABELS.veteran,
-      LABELS.primary,
-    ]);
-
     // toggle to Veteran's representative signature
-    const updatedFormData = {
-      ...DEFAULT_FORM_DATA,
-      signAsRepresentativeYesNo: 'yes',
-    };
-
-    act(() => {
-      rerender({ formData: updatedFormData, isRep: true });
+    const updatedExpectedKeys = [LABELS.representative, LABELS.primary];
+    updateProps({
+      formData: {
+        ...DEFAULT_FORM_DATA,
+        signAsRepresentativeYesNo: 'yes',
+      },
+      isRep: true,
     });
-
-    expect(result.current.signatures).to.have.all.keys([
-      LABELS.representative,
-      LABELS.primary,
-    ]);
+    expect(Object.keys(result.current.signatures)).to.have.members(
+      updatedExpectedKeys,
+    );
   });
 
   it('should preserve existing signature values when labels stay the same', () => {
-    const { result, rerender } = renderHook(
-      ({ formData, isRep }) => useSignaturesSync({ formData, isRep }),
-      {
-        initialProps: { formData: DEFAULT_FORM_DATA, isRep: false },
-      },
-    );
+    const { result, updateProps, updateSignature } = subject();
 
     // simulate a filled signature & re-render with same labels
-    act(() => {
-      result.current.setSignatures(prev => ({
-        ...prev,
-        [LABELS.veteran]: {
-          ...prev[LABELS.veteran],
-          value: 'John Smith',
-        },
-      }));
-    });
+    updateSignature(LABELS.veteran, { value: 'John Smith' });
+    updateProps({ formData: { ...DEFAULT_FORM_DATA } });
 
-    act(() => {
-      rerender({ formData: { ...DEFAULT_FORM_DATA }, isRep: false });
-    });
-
-    expect(result.current.signatures[LABELS.veteran].value).to.equal(
-      'John Smith',
-    );
+    expect(result.current.signatures[LABELS.veteran].value).to.eq('John Smith');
   });
 });
