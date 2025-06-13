@@ -73,6 +73,7 @@ export default function ScheduleReferral(props) {
           }`}
           text="Schedule your appointment"
           onClick={handleClick()}
+          data-testid="schedule-appointment-button"
         />
         <h2>Details about your referral</h2>
         <p data-testid="referral-details">
