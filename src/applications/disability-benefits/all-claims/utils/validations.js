@@ -17,11 +17,10 @@ const messages = {
   missingValue: 'Enter a service date that includes the month, day, and year.',
 };
 
-export function validateRange(
-  errors,
-  startDateApproximate,
-  endDateApproximate,
-) {
+export function validateRange(errors, startDate, endDate) {
+  const startDateApproximate = convertToDateField(startDate);
+  const endDateApproximate = convertToDateField(endDate);
+
   if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
     errors.startDate.addError(messages.invalidRange);
   }
@@ -35,11 +34,14 @@ export function validateRange(
   }
 }
 
-export function validateMissingValues(
-  errors,
-  startDateApproximate,
-  endDateApproximate,
-) {
+export function validateMissingValues(errors, startDate, endDate) {
+  // With these fields in particular, a missing value will convert to
+  // a date format with 'XX' e.g. 01-XX-1990.
+  // Calling convertToDateField on a partial date will return an empty date object.
+  // We will validate around this fact.
+  const startDateApproximate = convertToDateField(startDate);
+  const endDateApproximate = convertToDateField(endDate);
+
   if (
     !startDateApproximate.day.value ||
     !startDateApproximate.month.value ||
@@ -67,58 +69,42 @@ export function validateToxicExposureGulfWar1990Dates(
   errors,
   { startDate, endDate },
 ) {
-  // With these fields in particular, a missing value will convert to
-  // a date format with 'XX' e.g. 01-XX-1990.
-  // Calling convertToDateField on a partial date will return an empty date object.
-  // We will validate around this fact.
-  const startDateApproximate = convertToDateField(startDate);
-  const endDateApproximate = convertToDateField(endDate);
-
-  validateRange(errors, startDateApproximate, endDateApproximate);
+  validateRange(errors, startDate, endDate);
 
   if (new Date(endDate ?? '') <= new Date('1990-08-02')) {
     errors.endDate.addError(messages.endDate1990);
   }
 
-  validateMissingValues(errors, startDateApproximate, endDateApproximate);
+  validateMissingValues(errors, startDate, endDate);
 }
 
 export function validateToxicExposureGulfWar2001Dates(
   errors,
   { startDate, endDate },
 ) {
-  const startDateApproximate = convertToDateField(startDate);
-  const endDateApproximate = convertToDateField(endDate);
-
-  validateRange(errors, startDateApproximate, endDateApproximate);
+  validateRange(errors, startDate, endDate);
 
   if (new Date(endDate ?? '') <= new Date('2001-09-11')) {
     errors.endDate.addError(messages.endDate2001);
   }
 
-  validateMissingValues(errors, startDateApproximate, endDateApproximate);
+  validateMissingValues(errors, startDate, endDate);
 }
 
 export function validateToxicExposureHerbicideDates(
   errors,
   { startDate, endDate },
 ) {
-  const startDateApproximate = convertToDateField(startDate);
-  const endDateApproximate = convertToDateField(endDate);
+  validateRange(errors, startDate, endDate);
 
-  validateRange(errors, startDateApproximate, endDateApproximate);
-
-  validateMissingValues(errors, startDateApproximate, endDateApproximate);
+  validateMissingValues(errors, startDate, endDate);
 }
 
 export function validateToxicExposureAdditionalExposuresDates(
   errors,
   { startDate, endDate },
 ) {
-  const startDateApproximate = convertToDateField(startDate);
-  const endDateApproximate = convertToDateField(endDate);
+  validateRange(errors, startDate, endDate);
 
-  validateRange(errors, startDateApproximate, endDateApproximate);
-
-  validateMissingValues(errors, startDateApproximate, endDateApproximate);
+  validateMissingValues(errors, startDate, endDate);
 }
