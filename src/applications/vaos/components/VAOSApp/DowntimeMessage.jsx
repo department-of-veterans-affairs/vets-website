@@ -82,8 +82,8 @@ export default function DowntimeMessage({
           ) : (
             <p>
               We’re doing work on the VA appointments tool on{' '}
-              {startTime.format('MMMM Do')} between {startTime.format('LT')} and{' '}
-              {endTime.format('LT')}. If you need to request or confirm an
+              {startTimeM.format('MMMM Do')} between {startTimeM.format('LT')}{' '}
+              and {endTimeM.format('LT')}. If you need to request or confirm an
               appointment during this time, please call your local VA medical
               center. Use the <a href="/find-locations">VA facility locator</a>{' '}
               to find contact information for your medical center.
