@@ -49,6 +49,10 @@ class AddressValidationModal extends React.Component {
       analyticsSectionName,
     } = this.props;
 
+    const suggestedAddresspayload = {
+      ...selectedAddress,
+    };
+
     const payload = {
       ...selectedAddress,
       validationKey,
@@ -83,7 +87,7 @@ class AddressValidationModal extends React.Component {
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
-        payload,
+        suggestedAddresspayload,
         analyticsSectionName,
       );
     } else {
