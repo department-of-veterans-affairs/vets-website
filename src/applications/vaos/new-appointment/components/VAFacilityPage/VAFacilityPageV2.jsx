@@ -51,7 +51,6 @@ export default function VAFacilityPageV2() {
   const {
     address,
     canScheduleAtChosenFacility,
-    cernerSiteIds,
     childFacilitiesStatus,
     data,
     eligibility,
@@ -256,12 +255,7 @@ export default function VAFacilityPageV2() {
           sortMethod={sortMethod}
           typeOfCareName={typeOfCare.name}
         />
-        <FacilitiesNotShown
-          facilities={facilities}
-          sortMethod={sortMethod}
-          typeOfCareId={typeOfCare?.id}
-          cernerSiteIds={cernerSiteIds}
-        />
+        <FacilitiesNotShown />
         <FormButtons
           onBack={() =>
             dispatch(routeToPreviousAppointmentPage(history, pageKey))
@@ -311,12 +305,7 @@ export default function VAFacilityPageV2() {
             }}
             data={data}
           >
-            <FacilitiesNotShown
-              facilities={facilities}
-              sortMethod={sortMethod}
-              typeOfCareId={typeOfCare?.id}
-              cernerSiteIds={cernerSiteIds}
-            />
+            <FacilitiesNotShown />
             <FormButtons
               continueLabel=""
               pageChangeInProgress={pageChangeInProgress}
