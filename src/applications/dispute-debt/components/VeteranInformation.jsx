@@ -22,7 +22,7 @@ const mask = value => {
 };
 
 const VeteranInformation = ({ formData }) => {
-  const { ssnLastFour } = formData?.veteranInformation || {};
+  const { ssn } = formData?.veteran || {};
   const { dob, userFullName = {} } = useSelector(selectProfile);
   const { first, middle, last, suffix } = userFullName;
 
@@ -45,14 +45,14 @@ const VeteranInformation = ({ formData }) => {
             {`${first || ''} ${middle || ''} ${last || ''}`}
             {suffix ? `, ${suffix}` : null}
           </p>
-          {ssnLastFour ? (
+          {ssn ? (
             <p className="ssn">
               <strong>Last 4 digits of Social Security number: </strong>{' '}
               <span
                 className="dd-privacy-mask"
                 data-dd-action-name="Veteran's SSN"
               >
-                {mask(ssnLastFour)}
+                {mask(ssn)}
               </span>
             </p>
           ) : null}
@@ -90,8 +90,8 @@ const VeteranInformation = ({ formData }) => {
 
 VeteranInformation.propTypes = {
   formData: PropTypes.shape({
-    veteranInformation: PropTypes.shape({
-      ssnLastFour: PropTypes.string,
+    veteran: PropTypes.shape({
+      ssn: PropTypes.string,
       vaFileLastFour: PropTypes.string,
     }),
   }),
