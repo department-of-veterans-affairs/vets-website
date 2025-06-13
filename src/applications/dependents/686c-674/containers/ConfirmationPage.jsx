@@ -51,7 +51,7 @@ export default function ConfirmationPage() {
         <p>
           <strong>Your name</strong>
         </p>
-        <p>
+        <p className="dd-privacy-hidden" data-dd-action-name="Veteran's name">
           {veteranFirstName} {veteranLastName}
         </p>
         <p>
