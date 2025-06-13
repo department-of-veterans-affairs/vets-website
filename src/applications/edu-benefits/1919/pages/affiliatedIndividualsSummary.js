@@ -47,15 +47,21 @@ const summaryPage = {
           N: 'No',
         },
         hint: () => '',
+        errorMessages: {
+          required: 'Please make a selection',
+        },
       },
       {
         title:
           'Do you have another individual with a potential conflict of interest to add?',
         labels: {
-          Y: 'Yes, I have another individual to report',
-          N: "No, I don't have another individual to report",
+          Y: 'Yes',
+          N: 'No',
         },
         hint: () => '',
+        errorMessages: {
+          required: 'Please make a selection',
+        },
       },
     ),
   },

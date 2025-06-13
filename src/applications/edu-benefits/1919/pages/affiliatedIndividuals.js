@@ -77,6 +77,9 @@ const summaryPage = {
           N: 'No',
         },
         hint: () => '',
+        errorMessages: {
+          required: 'Please make a selection',
+        },
       },
       {
         title:
@@ -86,6 +89,9 @@ const summaryPage = {
           N: "No, I don't have another individual to report",
         },
         hint: () => '',
+        errorMessages: {
+          required: 'Please make a selection',
+        },
       },
     ),
   },
