@@ -166,6 +166,7 @@ const BlockedTriageGroupAlert = props => {
       noAssociations,
       parentComponent,
       handleShowBlockedTriageGroupAlert,
+      isOhMessage,
     ],
   );
 

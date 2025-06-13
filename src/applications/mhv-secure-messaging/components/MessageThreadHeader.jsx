@@ -26,7 +26,6 @@ const MessageThreadHeader = props => {
     cannotReply,
     isCreateNewModalVisible,
     setIsCreateNewModalVisible,
-    recipients,
   } = props;
 
   const {
@@ -71,7 +70,7 @@ const MessageThreadHeader = props => {
 
       // The Blocked Triage Group alert should stay visible until the user navigates away
     },
-    [message, recipients],
+    [message, messages, recipientId],
   );
 
   useEffect(
@@ -161,7 +160,6 @@ MessageThreadHeader.propTypes = {
   cannotReply: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   message: PropTypes.object,
-  recipients: PropTypes.object,
   setIsCreateNewModalVisible: PropTypes.func,
   onReply: PropTypes.func,
 };
