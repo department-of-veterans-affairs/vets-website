@@ -17,6 +17,46 @@ const messages = {
   missingValue: 'Enter a service date that includes the month, day, and year.',
 };
 
+export function validateRange(
+  errors,
+  startDateApproximate,
+  endDateApproximate,
+) {
+  if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
+    errors.startDate.addError(messages.invalidRange);
+  }
+
+  if (startDateApproximate > Date.now()) {
+    errors.startDate.addError(messages.futureDate);
+  }
+
+  if (endDateApproximate > Date.now()) {
+    errors.endDate.addError(messages.futureDate);
+  }
+}
+
+export function validateMissingValues(
+  errors,
+  startDateApproximate,
+  endDateApproximate,
+) {
+  if (
+    !startDateApproximate.day.value ||
+    !startDateApproximate.month.value ||
+    !startDateApproximate.year.value
+  ) {
+    errors.startDate.addError(messages.missingValue);
+  }
+
+  if (
+    !endDateApproximate.day.value ||
+    !endDateApproximate.month.value ||
+    !endDateApproximate.year.value
+  ) {
+    errors.endDate.addError(messages.missingValue);
+  }
+}
+
 /* The particular field used for the Toxic Exposure date inputs properly executes
 * validateCurrentOrPastDate, however schema validations against the individual fields
 * (day, month, year) do not properly block the Veteran from progressing.
@@ -34,39 +74,13 @@ export function validateToxicExposureGulfWar1990Dates(
   const startDateApproximate = convertToDateField(startDate);
   const endDateApproximate = convertToDateField(endDate);
 
-  // Range validations
-  if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
-    errors.startDate.addError(messages.invalidRange);
-  }
+  validateRange(errors, startDateApproximate, endDateApproximate);
 
-  if (Date(endDate ?? '') <= Date('1990-08-02')) {
+  if (new Date(endDate ?? '') <= new Date('1990-08-02')) {
     errors.endDate.addError(messages.endDate1990);
   }
 
-  if (startDateApproximate > Date.now()) {
-    errors.startDate.addError(messages.futureDate);
-  }
-
-  if (endDateApproximate > Date.now()) {
-    errors.endDate.addError(messages.futureDate);
-  }
-
-  // Validations against empty date object due to missing value
-  if (
-    !startDateApproximate.day.value ||
-    !startDateApproximate.month.value ||
-    !startDateApproximate.year.value
-  ) {
-    errors.startDate.addError(messages.missingValue);
-  }
-
-  if (
-    !endDateApproximate.day.value ||
-    !endDateApproximate.month.value ||
-    !endDateApproximate.year.value
-  ) {
-    errors.endDate.addError(messages.missingValue);
-  }
+  validateMissingValues(errors, startDateApproximate, endDateApproximate);
 }
 
 export function validateToxicExposureGulfWar2001Dates(
@@ -76,39 +90,13 @@ export function validateToxicExposureGulfWar2001Dates(
   const startDateApproximate = convertToDateField(startDate);
   const endDateApproximate = convertToDateField(endDate);
 
-  // Range validations
-  if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
-    errors.startDate.addError(messages.invalidRange);
-  }
+  validateRange(errors, startDateApproximate, endDateApproximate);
 
-  if (Date(endDate ?? '') <= Date('2001-09-11')) {
+  if (new Date(endDate ?? '') <= new Date('2001-09-11')) {
     errors.endDate.addError(messages.endDate2001);
   }
 
-  if (startDateApproximate > Date.now()) {
-    errors.startDate.addError(messages.futureDate);
-  }
-
-  if (endDateApproximate > Date.now()) {
-    errors.endDate.addError(messages.futureDate);
-  }
-
-  // Validations against empty date object due to missing value
-  if (
-    !startDateApproximate.day.value ||
-    !startDateApproximate.month.value ||
-    !startDateApproximate.year.value
-  ) {
-    errors.startDate.addError(messages.missingValue);
-  }
-
-  if (
-    !endDateApproximate.day.value ||
-    !endDateApproximate.month.value ||
-    !endDateApproximate.year.value
-  ) {
-    errors.endDate.addError(messages.missingValue);
-  }
+  validateMissingValues(errors, startDateApproximate, endDateApproximate);
 }
 
 export function validateToxicExposureHerbicideDates(
@@ -118,35 +106,9 @@ export function validateToxicExposureHerbicideDates(
   const startDateApproximate = convertToDateField(startDate);
   const endDateApproximate = convertToDateField(endDate);
 
-  // Range validations
-  if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
-    errors.startDate.addError(messages.invalidRange);
-  }
+  validateRange(errors, startDateApproximate, endDateApproximate);
 
-  if (startDateApproximate > Date.now()) {
-    errors.startDate.addError(messages.futureDate);
-  }
-
-  if (endDateApproximate > Date.now()) {
-    errors.endDate.addError(messages.futureDate);
-  }
-
-  // Validations against empty date object due to missing value
-  if (
-    !startDateApproximate.day.value ||
-    !startDateApproximate.month.value ||
-    !startDateApproximate.year.value
-  ) {
-    errors.startDate.addError(messages.missingValue);
-  }
-
-  if (
-    !endDateApproximate.day.value ||
-    !endDateApproximate.month.value ||
-    !endDateApproximate.year.value
-  ) {
-    errors.endDate.addError(messages.missingValue);
-  }
+  validateMissingValues(errors, startDateApproximate, endDateApproximate);
 }
 
 export function validateToxicExposureAdditionalExposuresDates(
@@ -156,33 +118,7 @@ export function validateToxicExposureAdditionalExposuresDates(
   const startDateApproximate = convertToDateField(startDate);
   const endDateApproximate = convertToDateField(endDate);
 
-  // Range validations
-  if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
-    errors.startDate.addError(messages.invalidRange);
-  }
+  validateRange(errors, startDateApproximate, endDateApproximate);
 
-  if (startDateApproximate > Date.now()) {
-    errors.startDate.addError(messages.futureDate);
-  }
-
-  if (endDateApproximate > Date.now()) {
-    errors.endDate.addError(messages.futureDate);
-  }
-
-  // Validations against empty date object due to missing value
-  if (
-    !startDateApproximate.day.value ||
-    !startDateApproximate.month.value ||
-    !startDateApproximate.year.value
-  ) {
-    errors.startDate.addError(messages.missingValue);
-  }
-
-  if (
-    !endDateApproximate.day.value ||
-    !endDateApproximate.month.value ||
-    !endDateApproximate.year.value
-  ) {
-    errors.endDate.addError(messages.missingValue);
-  }
+  validateMissingValues(errors, startDateApproximate, endDateApproximate);
 }
