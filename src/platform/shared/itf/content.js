@@ -72,7 +72,7 @@ export const ItfSearchSpinner = () =>
 
 export const ItfCreateSpinner = () =>
   showLoading(
-    'Please wait while we create your Intent to File.',
+    'Please wait while we create your intent to file.',
     'creating an intent to file',
   );
 
