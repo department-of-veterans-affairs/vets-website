@@ -48,13 +48,13 @@ describe('InterstitialChanges', () => {
     await waitFor(() => {
       expect(
         screen.getByRole('heading', {
-          name: /You’ll need to sign in with a different account after September 30, 2025/i,
+          name: /The DS Logon sign-in option is going away soon/i,
         }),
       ).to.exist;
-      expect(screen.getByText(/After this date, we'll remove/i)).to.exist;
+      expect(screen.getByTestId('interstitialP')).to.exist;
       expect(
         screen.container.querySelector(
-          'va-link[text="Continue with your DS Logon account for now"]',
+          'va-link-action[text="Continue with your DS Logon account for now"]',
         ),
       ).to.have.attribute('href', expectedReturnUrl);
     });
@@ -115,13 +115,13 @@ describe('InterstitialChanges', () => {
     await waitFor(() => {
       expect(
         screen.getByRole('heading', {
-          name: /You’ll need to sign in with a different account after/i,
+          name: /The DS Logon sign-in option is going away soon/i,
         }),
       ).to.exist;
-      expect(screen.getByText(/After this date, we'll remove/i)).to.exist;
+      expect(screen.getByTestId('interstitialP')).to.exist;
       expect(
         screen.container.querySelector(
-          'va-link[text="Continue with your DS Logon account for now"]',
+          'va-link-action[text="Continue with your DS Logon account for now"]',
         ),
       ).to.have.attribute('href', expectedReturnUrl);
       sessionStorage.clear();
