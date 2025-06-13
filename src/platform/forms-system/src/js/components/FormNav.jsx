@@ -80,11 +80,14 @@ export default function FormNav(props) {
   // skip introduction page at index 0
   if (isLoggedIn && index === 0 && pageIndex === 1) {
     inProgressMessage = (
-      <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-        We&rsquo;ll save your application on every change.{' '}
-        {inProgressFormId &&
-          `Your in-progress ID number is ${inProgressFormId}.`}
-      </span>
+      <va-alert status="info" uswds visible slim>
+        <div className="usa-alert-body">
+          We&rsquo;ll save your request on every change. You can stop anytime,
+          and come back later to finish.{' '}
+          {inProgressFormId &&
+            `Your in-progress ID number is ${inProgressFormId}.`}
+        </div>
+      </va-alert>
     );
   }
 

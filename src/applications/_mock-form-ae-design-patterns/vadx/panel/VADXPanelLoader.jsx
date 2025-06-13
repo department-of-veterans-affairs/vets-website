@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import environment from 'platform/utilities/environment';
 
 import { PluginProvider } from '../context/plugin';
@@ -17,11 +16,9 @@ const LazyPanel = React.lazy(() => import('./Panel'));
  * @param {string} featureToggleName - The feature toggle name to check if the panel should be shown
  * @returns {React.ReactNode | null} The VADX panel or null if the panel should not be shown
  */
-export const VADXPanelLoader = ({ plugin = null, featureToggleName }) => {
-  const { useToggleValue } = useFeatureToggle();
-
+export const VADXPanelLoader = ({ plugin = null }) => {
   try {
-    const shouldShowViaToggle = useToggleValue(featureToggleName);
+    const shouldShowViaToggle = false;
     const shouldShowViaEnv = environment.isLocalhost();
 
     return shouldShowViaToggle && shouldShowViaEnv ? (
