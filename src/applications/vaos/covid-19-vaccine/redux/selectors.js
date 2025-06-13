@@ -81,11 +81,6 @@ export function getDateTimeSelect(state, pageKey) {
         ),
       };
     });
-    // availableSlots[0].start = formatInTimeZone(
-    //   toDate(availableSlots[0].start),
-    //   timezone,
-    //   "yyyy-MM-dd'T'HH:mm:ssXXX",
-    // );
   }
 
   return {
