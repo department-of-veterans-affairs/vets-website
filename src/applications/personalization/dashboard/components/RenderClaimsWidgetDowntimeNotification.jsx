@@ -29,7 +29,7 @@ const RenderClaimsWidgetDowntimeNotification = (
                     We’re sorry. We’re working to fix some problems with the
                     claims or appeals tool right now and cannot display your
                     information on this page. Please check back after{' '}
-                    {format(endTime.toDate(), 'PPPp')}
+                    {format(endTime, 'PPPp')}
                   </p>
                 </div>
               </va-alert>

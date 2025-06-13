@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import moment from 'moment';
+import { subDays, subHours, subMinutes, addDays, addMinutes } from 'date-fns';
 
 import {
   mockFetch,
@@ -11,89 +11,76 @@ import externalServiceStatus from '../config/externalServiceStatus';
 import defaultExternalServices from '../config/externalServices';
 import * as downtimeHelpers from '../util/helpers';
 
-const pastDowntime = {
-  attributes: {
-    externalService: 'dslogon',
-    startTime: moment()
-      .subtract(1, 'hour')
-      .toISOString(),
-    endTime: moment()
-      .subtract(1, 'minute')
-      .toISOString(),
-  },
-};
+function generateDowntimeWindows() {
+  const now = new Date();
 
-const futureDowntimeForSameService = {
-  attributes: {
-    externalService: 'evss',
-    startTime: moment()
-      .add(1, 'day')
-      .toISOString(),
-    endTime: moment()
-      .add(2, 'day')
-      .toISOString(),
-  },
-};
+  const pastDowntime = {
+    attributes: {
+      externalService: 'dslogon',
+      startTime: subHours(now, 1)?.toISOString(),
+      endTime: subMinutes(now, 1)?.toISOString(),
+    },
+  };
 
-const activeDowntime = {
-  attributes: {
-    externalService: 'evss',
-    startTime: moment()
-      .subtract(1, 'day')
-      .toISOString(),
-    endTime: moment()
-      .add(1, 'day')
-      .toISOString(),
-  },
-};
+  const futureDowntimeForSameService = {
+    attributes: {
+      externalService: 'evss',
+      startTime: addDays(now, 1)?.toISOString(),
+      endTime: addDays(now, 2)?.toISOString(),
+    },
+  };
 
-const distantFutureDowntime = {
-  attributes: {
-    externalService: 'vic',
-    startTime: moment()
-      .add(1, 'day')
-      .toISOString(),
-    endTime: moment()
-      .add(2, 'day')
-      .toISOString(),
-  },
-};
+  const activeDowntime = {
+    attributes: {
+      externalService: 'evss',
+      startTime: subDays(now, 1)?.toISOString(),
+      endTime: addDays(now, 1)?.toISOString(),
+    },
+  };
 
-const approachingDowntime = {
-  attributes: {
-    externalService: 'mvi',
-    startTime: moment()
-      .add(10, 'minute')
-      .toISOString(),
-    endTime: moment()
-      .add(1, 'day')
-      .toISOString(),
-  },
-};
+  const distantFutureDowntime = {
+    attributes: {
+      externalService: 'vic',
+      startTime: addDays(now, 1)?.toISOString(),
+      endTime: addDays(now, 2)?.toISOString(),
+    },
+  };
 
-const lessUrgentApproachingDowntime = {
-  attributes: {
-    externalService: 'appeals',
-    startTime: moment()
-      .add(15, 'minute')
-      .toISOString(),
-    endTime: moment()
-      .add(1, 'day')
-      .toISOString(),
-  },
-};
+  const approachingDowntime = {
+    attributes: {
+      externalService: 'mvi',
+      startTime: addMinutes(now, 20)?.toISOString(),
+      endTime: addDays(now, 1)?.toISOString(),
+    },
+  };
 
-const maintenanceWindows = [
-  pastDowntime,
-  activeDowntime,
-  futureDowntimeForSameService,
-  distantFutureDowntime,
-  approachingDowntime,
-  lessUrgentApproachingDowntime,
-];
+  const lessUrgentApproachingDowntime = {
+    attributes: {
+      externalService: 'appeals',
+      startTime: addMinutes(now, 45)?.toISOString(),
+      endTime: addDays(now, 1)?.toISOString(),
+    },
+  };
+
+  return {
+    pastDowntime,
+    activeDowntime,
+    futureDowntimeForSameService,
+    distantFutureDowntime,
+    approachingDowntime,
+    lessUrgentApproachingDowntime,
+  };
+}
 
 describe('getStatusForTimeframe', () => {
   it('assigns a status according to timeframe', () => {
+    const {
+      pastDowntime,
+      activeDowntime,
+      distantFutureDowntime,
+      approachingDowntime,
+      lessUrgentApproachingDowntime,
+    } = generateDowntimeWindows();
     expect(
       downtimeHelpers.getStatusForTimeframe(
         pastDowntime.attributes.startTime,
@@ -170,8 +157,14 @@ describe('createGlobalMaintenanceWindow', () => {
 });
 
 describe('createServiceMap', () => {
+  let serviceMap;
+
+  before(() => {
+    const maintenanceWindows = Object.values(generateDowntimeWindows());
+    serviceMap = downtimeHelpers.createServiceMap(maintenanceWindows);
+  });
+
   it('creates a map using the attributes.externalService property as keys', () => {
-    const serviceMap = downtimeHelpers.createServiceMap(maintenanceWindows);
     const evss = serviceMap.get('evss');
     const vic = serviceMap.get('vic');
     const mvi = serviceMap.get('mvi');
@@ -188,6 +181,7 @@ describe('getMostUrgentDowntime', () => {
   let serviceMap = null;
 
   before(() => {
+    const maintenanceWindows = Object.values(generateDowntimeWindows());
     serviceMap = downtimeHelpers.createServiceMap(maintenanceWindows);
   });
 
@@ -231,6 +225,11 @@ describe('getCurrentGlobalDowntime', () => {
   });
 
   it('returns downtime when in the middle of a downtime', async () => {
+    const {
+      pastDowntime,
+      activeDowntime,
+      distantFutureDowntime,
+    } = generateDowntimeWindows();
     const response = [
       {
         startTime: pastDowntime.attributes.startTime,
@@ -253,6 +252,7 @@ describe('getCurrentGlobalDowntime', () => {
   });
 
   it('returns null when not within any downtimes', async () => {
+    const { pastDowntime, distantFutureDowntime } = generateDowntimeWindows();
     const response = [
       {
         startTime: pastDowntime.attributes.startTime,
