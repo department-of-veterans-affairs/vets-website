@@ -25,7 +25,7 @@ export function getPageFlow(referralId, appointmentId) {
     },
     scheduleReferral: {
       url: `/schedule-referral?id=${referralId}`,
-      label: 'Referral for {{ categoryOfCare }}',
+      label: 'Appointment Referral',
       next: 'scheduleAppointment',
       previous: 'referralsAndRequests',
     },
