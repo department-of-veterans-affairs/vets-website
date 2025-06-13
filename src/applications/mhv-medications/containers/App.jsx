@@ -111,11 +111,13 @@ const App = ({ children }) => {
     return (
       <div className="main-content vads-u-max-width--100">
         <MhvSecondaryNav />
-        <va-loading-indicator
-          message="Loading..."
-          setFocus
-          data-testid="rx-feature-flag-loading-indicator"
-        />
+        <div className="vads-u-margin-y--6">
+          <va-loading-indicator
+            message="Loading..."
+            setFocus
+            data-testid="rx-feature-flag-loading-indicator"
+          />
+        </div>
       </div>
     );
   }
@@ -140,7 +142,7 @@ const App = ({ children }) => {
           <div className={`${contentClasses}`}>
             {mhvRxDown === externalServiceStatus.down && !isBypassDowntime ? (
               <>
-                <h1>Medications</h1>
+                <h1 className="vads-u-margin-top--3">Medications</h1>
                 <DowntimeNotification
                   appTitle={downtimeNotificationParams.appTitle}
                   dependencies={[
