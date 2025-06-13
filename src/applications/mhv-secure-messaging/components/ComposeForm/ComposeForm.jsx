@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DowntimeNotification,
@@ -61,12 +61,23 @@ const ComposeForm = props => {
   const history = useHistory();
 
   const { isComboBoxEnabled } = useFeatureToggles();
+  const { isPilot } = useSelector(state => state.sm.app);
+  const { activeCareSystem, activeCareTeam } = useSelector(
+    state => state.sm.recipients,
+  );
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
   const [attachFileError, setAttachFileError] = useState(null);
+
+  useEffect(
+    () => {
+      if (activeCareTeam) setSelectedRecipientId(activeCareTeam.id.toString());
+    },
+    [activeCareTeam],
+  );
 
   useEffect(
     () => {
@@ -835,7 +846,8 @@ const ComposeForm = props => {
           }
         />
         <div>
-          {!noAssociations &&
+          {!isPilot &&
+            !noAssociations &&
             !allTriageGroupsBlocked && (
               <div
                 className={`vads-u-border-top--1px vads-u-padding-top--3 vads-u-margin-top--3 ${
@@ -851,7 +863,8 @@ const ComposeForm = props => {
                 />
               </div>
             )}
-          {recipientsList &&
+          {!isPilot &&
+            recipientsList &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
               <RecipientsSelect
@@ -863,8 +876,24 @@ const ComposeForm = props => {
                 setCheckboxMarked={setCheckboxMarked}
                 setElectronicSignature={setElectronicSignature}
                 setComboBoxInputValue={setComboBoxInputValue}
+                currentRecipient={currentRecipient}
               />
             )}
+          {isPilot && (
+            <div className="vads-u-margin-top--3">
+              <p className="vads-u-margin-bottom--0">To</p>
+              <p className="vads-u-font-weight--bold vads-u-margin-y--0">
+                {activeCareSystem?.vamcSystemName} -{' '}
+                {activeCareTeam?.suggestedNameDisplay || activeCareTeam?.name}
+              </p>
+              <Link
+                to="select-care-team"
+                data-dd-action-name="Select a different care team link"
+              >
+                Select a different care team
+              </Link>
+            </div>
+          )}
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection

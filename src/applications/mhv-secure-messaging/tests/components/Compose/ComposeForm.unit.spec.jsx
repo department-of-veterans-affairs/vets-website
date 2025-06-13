@@ -1256,4 +1256,65 @@ describe('Compose form component', () => {
     expect(subjectInputError).to.equal('Subject cannot be blank.');
     expect(messageInputError).to.equal('Message body cannot be blank.');
   });
+
+  it('renders correct headings in pilot environment', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: { loading: false },
+      sm: {
+        ...initialState.sm,
+        app: { isPilot: true },
+        recipients: {
+          ...initialState.sm.recipients,
+          activeFacility: {
+            ehr: 'vista',
+            vamcSystemName: 'Test Vista Facility Health Care',
+          },
+        },
+      },
+    };
+
+    const screen = setup(customState, Paths.COMPOSE, {
+      pageTitle: 'Start your message',
+    });
+    screen.debug(undefined, 20000);
+    expect(
+      screen.getByText('Start your message', {
+        selector: 'h1',
+      }),
+    ).to.exist;
+
+    expect(
+      screen.getByText(
+        'You’re sending a message to Test Vista Facility Health Care teams.',
+        {
+          selector: 'h2',
+        },
+      ),
+    ).to.exist;
+
+    expect(
+      screen.getByText('Choose a care team', {
+        selector: 'h3',
+      }),
+    ).to.exist;
+
+    expect(
+      screen.getByText('Choose a topic for your message', {
+        selector: 'h3',
+      }),
+    ).to.exist;
+
+    expect(
+      screen.getByText('Write your message', {
+        selector: 'h3',
+      }),
+    ).to.exist;
+
+    expect(
+      screen.getByText('Add files to your message', {
+        selector: 'h3',
+      }),
+    ).to.exist;
+  });
 });
