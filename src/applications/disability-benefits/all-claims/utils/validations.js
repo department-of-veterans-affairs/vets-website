@@ -1,21 +1,20 @@
-import moment from 'moment';
 import { convertToDateField } from '~/platform/forms-system/src/js/validation';
 import { isValidDateRange } from '~/platform/forms/validations';
 
 const messages = {
-  range: 'Enter a service start date that’s before your end date.',
-  enddate1990: 'Enter a service end date after August 2, 1990.',
-  enddate2001: 'Enter a service end date after September 11, 2001.',
+  invalidRange: 'Enter a service start date that’s before your end date.',
+  endDate1990: 'Enter a service end date after August 2, 1990.',
+  endDate2001: 'Enter a service end date after September 11, 2001.',
   // This is largely redundant because the component validation already prevents
   // inputting dates in the future. However, this is in place just in case, because...
   // TODO: The current schema validation says that the Veteran can input a year
   // up to 100 years in the future. That is incorrect and should be corrected/removed.
-  futuredate: 'Enter a service year that’s before or during the current year.',
+  futureDate: 'Enter a service year that’s before or during the current year.',
   // Schema validations will display an error when a value is missing, however it
   // will not properly prevent the Veteran from progressing, necessitating this.
   // TODO: The error message here can be made more specific, but that will somewhat
   // depend on what decisions (and schema updates) are made in regards to partial dates.
-  missingvalue: 'Enter a service date that includes the month, day, and year.',
+  missingValue: 'Enter a service date that includes the month, day, and year.',
 };
 
 /* The particular field used for the Toxic Exposure date inputs properly executes
@@ -37,24 +36,19 @@ export function validateToxicExposureGulfWar1990Dates(
 
   // Range validations
   if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
-    errors.endDate.addError(messages.range);
+    errors.startDate.addError(messages.invalidRange);
   }
 
-  if (
-    endDateApproximate.year.value < 1990 ||
-    (endDateApproximate.year.value === 1990 &&
-      endDateApproximate.day.value < 8 &&
-      endDateApproximate.month.value < 2)
-  ) {
-    errors.endDate.addError(messages.enddate);
+  if (Date(endDate ?? '') <= Date('1990-08-02')) {
+    errors.endDate.addError(messages.endDate1990);
   }
 
-  if (startDateApproximate > moment()) {
-    errors.startDate.addError(messages.futuredate);
+  if (startDateApproximate > Date.now()) {
+    errors.startDate.addError(messages.futureDate);
   }
 
-  if (endDateApproximate > moment()) {
-    errors.endDate.addError(messages.futuredate);
+  if (endDateApproximate > Date.now()) {
+    errors.endDate.addError(messages.futureDate);
   }
 
   // Validations against empty date object due to missing value
@@ -63,7 +57,7 @@ export function validateToxicExposureGulfWar1990Dates(
     !startDateApproximate.month.value ||
     !startDateApproximate.year.value
   ) {
-    errors.startDate.addError(messages.missingvalue);
+    errors.startDate.addError(messages.missingValue);
   }
 
   if (
@@ -71,7 +65,7 @@ export function validateToxicExposureGulfWar1990Dates(
     !endDateApproximate.month.value ||
     !endDateApproximate.year.value
   ) {
-    errors.endDate.addError(messages.missingvalue);
+    errors.endDate.addError(messages.missingValue);
   }
 }
 
@@ -84,24 +78,19 @@ export function validateToxicExposureGulfWar2001Dates(
 
   // Range validations
   if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
-    errors.endDate.addError(messages.range);
+    errors.startDate.addError(messages.invalidRange);
   }
 
-  if (
-    endDateApproximate.year.value < 2001 ||
-    (endDateApproximate.year.value === 2001 &&
-      endDateApproximate.day.value < 11 &&
-      endDateApproximate.month.value < 9)
-  ) {
-    errors.endDate.addError(messages.enddate);
+  if (Date(endDate ?? '') <= Date('2001-09-11')) {
+    errors.endDate.addError(messages.endDate2001);
   }
 
-  if (startDateApproximate < moment()) {
-    errors.startDate.addError(messages.futuredate);
+  if (startDateApproximate > Date.now()) {
+    errors.startDate.addError(messages.futureDate);
   }
 
-  if (endDateApproximate < moment()) {
-    errors.endDate.addError(messages.futuredate);
+  if (endDateApproximate > Date.now()) {
+    errors.endDate.addError(messages.futureDate);
   }
 
   // Validations against empty date object due to missing value
@@ -110,7 +99,7 @@ export function validateToxicExposureGulfWar2001Dates(
     !startDateApproximate.month.value ||
     !startDateApproximate.year.value
   ) {
-    errors.startDate.addError(messages.missingvalue);
+    errors.startDate.addError(messages.missingValue);
   }
 
   if (
@@ -118,7 +107,7 @@ export function validateToxicExposureGulfWar2001Dates(
     !endDateApproximate.month.value ||
     !endDateApproximate.year.value
   ) {
-    errors.endDate.addError(messages.missingvalue);
+    errors.endDate.addError(messages.missingValue);
   }
 }
 
@@ -131,15 +120,15 @@ export function validateToxicExposureHerbicideDates(
 
   // Range validations
   if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
-    errors.endDate.addError(messages.range);
+    errors.startDate.addError(messages.invalidRange);
   }
 
-  if (startDateApproximate < moment()) {
-    errors.startDate.addError(messages.futuredate);
+  if (startDateApproximate > Date.now()) {
+    errors.startDate.addError(messages.futureDate);
   }
 
-  if (endDateApproximate > moment()) {
-    errors.endDate.addError(messages.futuredate);
+  if (endDateApproximate > Date.now()) {
+    errors.endDate.addError(messages.futureDate);
   }
 
   // Validations against empty date object due to missing value
@@ -148,7 +137,7 @@ export function validateToxicExposureHerbicideDates(
     !startDateApproximate.month.value ||
     !startDateApproximate.year.value
   ) {
-    errors.startDate.addError(messages.missingvalue);
+    errors.startDate.addError(messages.missingValue);
   }
 
   if (
@@ -156,7 +145,7 @@ export function validateToxicExposureHerbicideDates(
     !endDateApproximate.month.value ||
     !endDateApproximate.year.value
   ) {
-    errors.endDate.addError(messages.missingvalue);
+    errors.endDate.addError(messages.missingValue);
   }
 }
 
@@ -169,15 +158,15 @@ export function validateToxicExposureAdditionalExposuresDates(
 
   // Range validations
   if (!isValidDateRange(startDateApproximate, endDateApproximate)) {
-    errors.endDate.addError(messages.range);
+    errors.startDate.addError(messages.invalidRange);
   }
 
-  if (startDateApproximate > moment()) {
-    errors.startDate.addError(messages.futuredate);
+  if (startDateApproximate > Date.now()) {
+    errors.startDate.addError(messages.futureDate);
   }
 
-  if (endDateApproximate.year > moment()) {
-    errors.endDate.addError(messages.futuredate);
+  if (endDateApproximate > Date.now()) {
+    errors.endDate.addError(messages.futureDate);
   }
 
   // Validations against empty date object due to missing value
@@ -186,7 +175,7 @@ export function validateToxicExposureAdditionalExposuresDates(
     !startDateApproximate.month.value ||
     !startDateApproximate.year.value
   ) {
-    errors.startDate.addError(messages.missingvalue);
+    errors.startDate.addError(messages.missingValue);
   }
 
   if (
@@ -194,6 +183,6 @@ export function validateToxicExposureAdditionalExposuresDates(
     !endDateApproximate.month.value ||
     !endDateApproximate.year.value
   ) {
-    errors.endDate.addError(messages.missingvalue);
+    errors.endDate.addError(messages.missingValue);
   }
 }
