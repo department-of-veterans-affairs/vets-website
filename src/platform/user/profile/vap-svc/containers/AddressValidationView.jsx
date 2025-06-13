@@ -92,7 +92,6 @@ class AddressValidationView extends React.Component {
 
     const payload = {
       ...selectedAddress,
-      validationKey,
     };
 
     if (this.context?.prefillPatternEnabled) {
@@ -150,6 +149,7 @@ class AddressValidationView extends React.Component {
         analyticsSectionName,
       );
     } else {
+      payload.validationKey = validationKey;
       await this.props.createTransaction(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
