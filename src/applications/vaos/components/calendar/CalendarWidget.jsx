@@ -264,7 +264,6 @@ function CalendarWidget({
   showWeekends = false,
   upcomingAppointments = [],
   isAppointmentSelectionError,
-  validationRef,
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
     if (value.length > 0) {
@@ -310,7 +309,6 @@ function CalendarWidget({
         <div className={calendarCss}>
           {hasError && (
             <span
-              ref={validationRef}
               className="vaos-calendar__validation-msg usa-input-error-message"
               role="alert"
             >
@@ -434,7 +432,6 @@ CalendarWidget.propTypes = {
   startMonth: PropTypes.string,
   timezone: PropTypes.string,
   upcomingAppointments: PropTypes.object,
-  validationRef: PropTypes.object,
   value: PropTypes.array,
   onChange: PropTypes.func,
   onNextMonth: PropTypes.func,
