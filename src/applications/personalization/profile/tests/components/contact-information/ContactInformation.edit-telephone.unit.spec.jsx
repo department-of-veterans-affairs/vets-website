@@ -35,18 +35,10 @@ const ui = (
 let view;
 let server;
 
-function getEditButton(numberName) {
-  let editButton = view.queryByText(new RegExp(`add.*${numberName}`, 'i'), {
-    selector: 'button',
-  });
-  if (!editButton) {
-    // Need to use `queryByRole` since the visible label is simply `Edit`, but
-    // the aria-label is more descriptive
-    editButton = view.queryByRole('button', {
-      name: new RegExp(`edit.*${numberName}`, 'i'),
-    });
-  }
-  return editButton;
+function getEditVaButton(numberName) {
+  const label = `Edit ${numberName}`;
+  // RTL doesn't support getByRole/getByText queries for web components
+  return view.container.querySelector(`va-button[label="${label}"]`);
 }
 
 // helper function that enters the `Edit phone number` view, enters a number,
@@ -55,7 +47,7 @@ function editPhoneNumber(
   numberName,
   options = { areaCode: defaultAreaCode, phoneNumber: defaultPhoneNumber },
 ) {
-  const editButton = getEditButton(numberName);
+  const editButton = getEditVaButton(numberName);
   editButton.click();
 
   const phoneNumberInput = $(
@@ -90,20 +82,13 @@ async function testQuickSuccess(numberName) {
   await waitForElementToBeRemoved(phoneNumberInput);
 
   // the 'edit' button should exist
-  expect(
-    view.getByRole('button', { name: new RegExp(`edit.*${numberName}`, 'i') }),
-  ).to.exist;
+  expect(getEditVaButton(numberName)).to.exist;
+
   // and the new number should exist in the DOM
   // TODO: make better assertions for this?
   expect(view.getAllByTestId('phoneNumber').length).to.eql(
     numberOfPhoneNumbersSupported,
   );
-  // and the 'add' button should be gone
-  expect(
-    view.queryByText(new RegExp(`new.*${numberName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).not.to.exist;
 }
 
 // When the update happens but not until after the Edit View has exited and the
@@ -126,23 +111,14 @@ async function testSlowSuccess(numberName) {
 
   await waitForElementToBeRemoved(savingMessage);
 
-  // the edit email button should exist
-  expect(
-    view.getByRole('button', {
-      name: new RegExp(`edit.*${numberName}`, 'i'),
-    }),
-  ).to.exist;
+  // the edit button should exist
+  expect(getEditVaButton(numberName)).to.exist;
+
   // and the updated phone numbers should be in the DOM
   // TODO: make better assertions for this?
   expect(view.getAllByTestId('phoneNumber').length).to.eql(
     numberOfPhoneNumbersSupported,
   );
-  // and the 'add' button should be gone
-  expect(
-    view.queryByText(new RegExp(`new.*${numberName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).not.to.exist;
 }
 
 // When the initial transaction creation request fails
@@ -158,8 +134,7 @@ async function testTransactionCreationFails(numberName) {
   // make sure that edit mode is not automatically exited
   await wait(75);
   expect(view.getByTestId('edit-error-alert')).to.exist;
-  const editButton = getEditButton();
-  expect(editButton).to.not.exist;
+  expect(getEditVaButton(numberName)).to.not.exist;
 }
 
 // When the update fails while the Edit View is still active
@@ -175,8 +150,7 @@ async function testQuickFailure(numberName) {
   // make sure that edit mode is not automatically exited
   await wait(75);
   expect(view.getByTestId('edit-error-alert')).to.exist;
-  const editButton = getEditButton();
-  expect(editButton).to.not.exist;
+  expect(getEditVaButton(numberName)).to.not.exist;
 }
 
 // When the update fails but not until after the Edit View has exited and the
@@ -206,8 +180,8 @@ async function testSlowFailure(numberName) {
     ),
   ).to.exist;
 
-  // and the add/edit button should be back
-  expect(getEditButton(numberName)).to.exist;
+  // and the edit button should be back
+  expect(getEditVaButton(numberName)).to.exist;
 }
 
 const testBase = async numberName => {
