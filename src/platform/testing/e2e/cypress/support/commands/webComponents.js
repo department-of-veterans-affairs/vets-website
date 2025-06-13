@@ -389,7 +389,16 @@ Cypress.Commands.add(
 
     if (addressObject.city) {
       if (addressObject.isMilitary) {
-        cy.selectVaSelect(`root_${fieldName}_city`, addressObject.city);
+        cy.get('body').then(body => {
+          if (body.find(`va-radio[name="root_${fieldName}_city"]`).length > 0) {
+            cy.selectVaRadioOption(
+              `root_${fieldName}_city`,
+              addressObject.city,
+            );
+          } else {
+            cy.selectVaSelect(`root_${fieldName}_city`, addressObject.city);
+          }
+        });
       } else {
         cy.fillVaTextInput(`root_${fieldName}_city`, addressObject.city);
       }
@@ -401,10 +410,18 @@ Cypress.Commands.add(
     cy.fillVaTextInput(`root_${fieldName}_street3`, addressObject.street3);
 
     cy.get('body').then(body => {
-      if (body.find(`va-select[name="root_${fieldName}_state"]`).length > 0)
-        cy.selectVaSelect(`root_${fieldName}_state`, addressObject.state);
-      if (body.find(`va-text-input[name="root_${fieldName}_state"]`).length > 0)
-        cy.fillVaTextInput(`root_${fieldName}_state`, addressObject.state);
+      const stateField = `root_${fieldName}_state`;
+
+      if (
+        addressObject.isMilitary &&
+        body.find(`va-radio[name="${stateField}"]`).length
+      ) {
+        cy.selectVaRadioOption(stateField, addressObject.state);
+      } else if (body.find(`va-select[name="${stateField}"]`).length) {
+        cy.selectVaSelect(stateField, addressObject.state);
+      } else if (body.find(`va-text-input[name="${stateField}"]`).length) {
+        cy.fillVaTextInput(stateField, addressObject.state);
+      }
     });
 
     cy.fillVaTextInput(

@@ -144,6 +144,7 @@
           "country": "USA",
           "street": "street",
           "city": "city",
+          "state": "AL",
           "postalCode": "11111"
         },
         "fullName": {
