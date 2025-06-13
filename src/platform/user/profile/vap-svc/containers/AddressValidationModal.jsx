@@ -51,7 +51,6 @@ class AddressValidationModal extends React.Component {
 
     const payload = {
       ...selectedAddress,
-      validationKey,
     };
 
     const suggestedAddressSelected = selectedAddressId !== 'userEntered';
@@ -87,6 +86,7 @@ class AddressValidationModal extends React.Component {
         analyticsSectionName,
       );
     } else {
+      payload.validationKey = validationKey;
       this.props.createTransaction(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
