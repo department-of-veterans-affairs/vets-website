@@ -37,31 +37,31 @@ describe('ezr submit transformer', () => {
                 isEnrolledMedicarePartA: true,
               },
               'view:deductibleMedicalExpenses': {
-                deductibleMedicalExpenses: 234,
+                deductibleMedicalExpenses: 78634,
               },
               'view:deductibleFuneralExpenses': {
-                deductibleFuneralExpenses: 11,
+                deductibleFuneralExpenses: 92743,
               },
               'view:deductibleEducationExpenses': {
-                deductibleEducationExpenses: 0,
+                deductibleEducationExpenses: 7547,
               },
               'view:veteranGrossIncome': {
-                veteranGrossIncome: 234234,
+                veteranGrossIncome: 75665,
               },
               'view:veteranNetIncome': {
-                veteranNetIncome: 234234,
+                veteranNetIncome: 78663,
               },
               'view:veteranOtherIncome': {
-                veteranOtherIncome: 3454,
+                veteranOtherIncome: 7657,
               },
               'view:spouseGrossIncome': {
-                spouseGrossIncome: 75454,
+                spouseGrossIncome: 98746,
               },
               'view:spouseNetIncome': {
-                spouseNetIncome: 2656,
+                spouseNetIncome: 77463,
               },
               'view:spouseOtherIncome': {
-                spouseOtherIncome: 324,
+                spouseOtherIncome: 86657,
               },
               'view:isProvidersAndDependentsPrefillEnabled': true,
               financialInformation: [
