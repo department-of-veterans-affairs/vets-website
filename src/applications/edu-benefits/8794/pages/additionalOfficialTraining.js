@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -17,16 +18,27 @@ const uiSchema = {
           required: 'Please select a date',
         },
       }),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          formData['additional-certifying-official'][index]
+            ?.additionalOfficialTraining?.trainingExempt,
+      },
+    },
+    'view:trainingExemptLabel': {
+      'ui:description': (
+        <p className="vads-u-margin-top--4">
+          <strong>This individual is exempt</strong>
+        </p>
+      ),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !formData['additional-certifying-official'][index]
+            ?.additionalOfficialTraining?.trainingExempt,
+      },
     },
     trainingExempt: {
       'ui:field': AdditionalOfficialExemptInfo,
     },
-    // 'view:trainingExemptLabel': {
-    //   'ui:description': <div><strong>This individual is exempt</strong></div>,
-    //   'ui:options': {
-    //    hideIf: formData => !formData?.trainingExempt,
-    //   },
-    // },
     'ui:options': {
       updateSchema: (formData, formSchema, ui, index) => {
         if (
@@ -55,12 +67,13 @@ const schema = {
       type: 'object',
       properties: {
         trainingCompletionDate: currentOrPastDateSchema,
+        'view:trainingExemptLabel': {
+          type: 'object',
+          properties: {},
+        },
         trainingExempt: {
           type: 'boolean',
         },
-        // 'view:trainingExemptLabel': {
-        //   type: 'object',
-        // },
       },
       required: ['trainingCompletionDate'],
     },
