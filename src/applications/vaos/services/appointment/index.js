@@ -325,7 +325,7 @@ export function isClinicVideoAppointment(appointment) {
  * @returns {boolean} True if appointment is a video appointment at ATLAS location
  */
 export function isAtlasVideoAppointment(appointment) {
-  return appointment?.videoData.isAtlas;
+  return appointment?.vaos?.isAtlas;
 }
 
 /**
@@ -723,7 +723,7 @@ export function isInPersonVisit(appointment) {
  */
 export function getCalendarData({ appointment, facility }) {
   let data = {};
-  const isAtlas = appointment?.videoData.isAtlas;
+  const isAtlas = isAtlasVideoAppointment(appointment);
   const isHome = isVideoAtHome(appointment);
   const isVideo = appointment?.vaos.isVideo;
   const isCommunityCare = appointment?.vaos.isCommunityCare;
@@ -973,7 +973,7 @@ export function getPractitionerName(appointment) {
 }
 
 export function getVideoAppointmentLocationText(appointment) {
-  const { isAtlas } = appointment.videoData;
+  const isAtlas = isAtlasVideoAppointment(appointment);
   let desc = 'Video appointment at home';
 
   if (isAtlas) {

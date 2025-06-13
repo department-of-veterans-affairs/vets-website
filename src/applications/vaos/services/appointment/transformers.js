@@ -147,7 +147,6 @@ export function transformVAOSAppointment(
   );
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
-  const isAtlas = !!appt.telehealth?.atlas;
   const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
   const isRequest = useFeSourceOfTruth
     ? appt.pending
@@ -164,6 +163,7 @@ export function transformVAOSAppointment(
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   const vvsKind = appt.telehealth?.vvsKind;
   let isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
+  let isAtlas = !!appt.telehealth?.atlas;
   let isVideoAtHome =
     !isAtlas &&
     (vvsKind === VIDEO_TYPES.mobile || vvsKind === VIDEO_TYPES.adhoc);
@@ -183,6 +183,7 @@ export function transformVAOSAppointment(
       appt.modality === 'vaVideoCareAtAnAtlasLocation' ||
       appt.modality === 'vaVideoCareAtAVaLocation';
     isVideoAtHome = appt.modality === 'vaVideoCareAtHome';
+    isAtlas = appt.modality === 'vaVideoCareAtAnAtlasLocation';
   }
 
   const isCancellable = appt.cancellable;
@@ -209,7 +210,6 @@ export function transformVAOSAppointment(
           };
         })
         .filter(Boolean),
-      isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
       extension: appt.extension,
@@ -347,6 +347,7 @@ export function transformVAOSAppointment(
       isPendingAppointment: isRequest,
       isUpcomingAppointment: isUpcoming,
       isVideo,
+      isAtlas,
       isPastAppointment: isPast,
       isCompAndPenAppointment: isCompAndPen,
       isCancellable,

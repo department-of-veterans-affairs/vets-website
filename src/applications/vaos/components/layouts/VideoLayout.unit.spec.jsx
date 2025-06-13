@@ -51,13 +51,13 @@ describe('VAOS Component: VideoLayout', () => {
           kind: 'ADHOC',
           duration: 30,
           providers: [],
-          isAtlas: false,
           atlasLocation: null,
           extension: {
             patientHasMobileGfe: false,
           },
         },
         vaos: {
+          isAtlas: false,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,

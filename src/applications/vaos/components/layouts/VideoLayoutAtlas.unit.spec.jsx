@@ -60,13 +60,13 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
           },
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -151,7 +151,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -167,6 +166,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: true,
           isCOVIDVaccine: false,
@@ -209,7 +209,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -225,6 +224,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: true,
           isCOVIDVaccine: false,
@@ -277,7 +277,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -293,6 +292,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -469,7 +469,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -485,6 +484,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -609,7 +609,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -625,6 +624,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -775,7 +775,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -791,6 +790,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,

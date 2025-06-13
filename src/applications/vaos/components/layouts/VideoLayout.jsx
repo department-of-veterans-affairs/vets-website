@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { shallowEqual } from 'recompose';
 import VideoLayoutAtlas from './VideoLayoutAtlas';
-import {
-  selectConfirmedAppointmentData,
-  selectIsAtlasVideo,
-} from '../../appointment-list/redux/selectors';
+import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import VideoLayoutVA from './VideoLayoutVA';
-import { isClinicVideoAppointment } from '../../services/appointment';
+import {
+  isClinicVideoAppointment,
+  isAtlasVideoAppointment,
+} from '../../services/appointment';
 import DetailPageLayout, {
   What,
   When,
@@ -50,7 +50,7 @@ export default function VideoLayout({ data: appointment }) {
     shallowEqual,
   );
 
-  const isAtlasVideo = useSelector(() => selectIsAtlasVideo(appointment));
+  const isAtlasVideo = useSelector(() => isAtlasVideoAppointment(appointment));
   const isClinicVideo = isClinicVideoAppointment(appointment);
 
   if (isAtlasVideo) return <VideoLayoutAtlas data={appointment} />;
