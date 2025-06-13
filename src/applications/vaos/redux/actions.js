@@ -11,6 +11,7 @@ import {
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
   selectFeatureFeSourceOfTruthModality,
+  selectFeatureFeSourceOfTruthTelehealth,
 } from './selectors';
 import { getIsInCCPilot } from '../referral-appointments/utils/pilot';
 
@@ -51,6 +52,9 @@ export function fetchPendingAppointments() {
       const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
         state,
       );
+      const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+        state,
+      );
       const patientFacilities = selectPatientFacilities(state);
       const includeEPS = getIsInCCPilot(
         featureCCDirectScheduling,
@@ -69,6 +73,7 @@ export function fetchPendingAppointments() {
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
       });
 
       const data = pendingAppointments?.filter(

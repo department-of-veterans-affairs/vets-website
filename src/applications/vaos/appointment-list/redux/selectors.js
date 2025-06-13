@@ -23,6 +23,7 @@ import {
   getAppointmentTimezone,
   isClinicVideoAppointment,
   isInPersonVisit,
+  isVideoAtHome,
   getPatientTelecom,
 } from '../../services/appointment';
 import {
@@ -440,21 +441,13 @@ export function selectIsAtlasVideo(appointment) {
   return isAtlas;
 }
 
-export function selectIsHomeVideo(appointment) {
-  return (
-    selectIsVideo(appointment) &&
-    !selectIsClinicVideo(appointment) &&
-    !selectIsAtlasVideo(appointment)
-  );
-}
-
 export function selectModalityText(appointment, isPendingAppointment = false) {
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
-  const isVideoHome = selectIsHomeVideo(appointment);
+  const isVideoHome = isVideoAtHome(appointment);
   const { name: facilityName } = appointment.vaos.facilityData || {
     name: '',
   };
@@ -555,7 +548,7 @@ export function selectModalityIcon(appointment) {
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
-  const isVideoHome = selectIsHomeVideo(appointment);
+  const isVideoHome = isVideoAtHome(appointment);
 
   let icon = '';
 

@@ -35,7 +35,6 @@ function ToeApp({
   sponsorsSavedState,
   user,
   showMeb1990ER6MaintenanceMessage,
-  toeDupContactInfoCall,
   toeHighSchoolInfoChange,
   toeLightHouseDgiDirectDeposit,
 }) {
@@ -103,19 +102,11 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (toeDupContactInfoCall !== formData.toeDupContactInfoCall) {
-        setFormData({
-          ...formData,
-          toeDupContactInfoCall,
-        });
-      }
-
       if (
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
         formData?.email?.email &&
         !formData?.duplicateEmail &&
-        !formData?.duplicatePhone &&
-        formData?.toeDupContactInfoCall
+        !formData?.duplicatePhone
       ) {
         getDuplicateContactInfo(
           [{ value: formData?.email?.email, dupe: '' }],
@@ -151,7 +142,6 @@ function ToeApp({
     [
       formData,
       setFormData,
-      toeDupContactInfoCall,
       duplicateEmail,
       duplicatePhone,
       getDuplicateContactInfo,
@@ -286,7 +276,6 @@ ToeApp.propTypes = {
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
-  toeDupContactInfoCall: PropTypes.bool,
   toeHighSchoolInfoChange: PropTypes.bool,
   toeLightHouseDgiDirectDeposit: PropTypes.bool,
   user: PropTypes.object,

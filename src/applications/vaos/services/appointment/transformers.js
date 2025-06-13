@@ -6,6 +6,7 @@ import {
   TYPE_OF_CARE_IDS,
   PURPOSE_TEXT_V2,
   TYPE_OF_VISIT,
+  VIDEO_TYPES,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
@@ -137,6 +138,7 @@ export function transformVAOSAppointment(
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
+  useFeSourceOfTruthTelehealth,
 ) {
   const appointmentType = getAppointmentType(
     appt,
@@ -145,7 +147,6 @@ export function transformVAOSAppointment(
   );
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
-  const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
   const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
   const isRequest = useFeSourceOfTruth
@@ -161,6 +162,11 @@ export function transformVAOSAppointment(
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
+  const vvsKind = appt.telehealth?.vvsKind;
+  let isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
+  let isVideoAtHome =
+    !isAtlas &&
+    (vvsKind === VIDEO_TYPES.mobile || vvsKind === VIDEO_TYPES.adhoc);
   let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
   let isPhone = appt.kind === 'phone';
   let isCovid = appt.serviceType === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
@@ -170,6 +176,13 @@ export function transformVAOSAppointment(
     isPhone = appt.modality === 'vaPhone';
     isCovid = appt.modality === 'vaInPersonVaccine';
     isInPersonVisit = isCompAndPen || isCovid || appt.modality === 'vaInPerson';
+  }
+  if (useFeSourceOfTruthTelehealth) {
+    isVideo =
+      appt.modality === 'vaVideoCareAtHome' ||
+      appt.modality === 'vaVideoCareAtAnAtlasLocation' ||
+      appt.modality === 'vaVideoCareAtAVaLocation';
+    isVideoAtHome = appt.modality === 'vaVideoCareAtHome';
   }
 
   const isCancellable = appt.cancellable;
@@ -274,6 +287,7 @@ export function transformVAOSAppointment(
     modality: appt.modality,
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
+    showScheduleLink: appt.showScheduleLink,
     avsPath: isPast ? appt.avsPath : null,
     // NOTE: Timezone will be converted to the local timezone when using 'format()'.
     // So use format without the timezone information.
@@ -342,6 +356,7 @@ export function transformVAOSAppointment(
       isPhoneAppointment: isPhone,
       isCOVIDVaccine: isCovid,
       isInPersonVisit,
+      isVideoAtHome,
       isCerner,
       apiData: appt,
       timeZone: appointmentTZ,
@@ -357,6 +372,7 @@ export function transformVAOSAppointments(
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
+  useFeSourceOfTruthTelehealth,
 ) {
   return appts.map(appt =>
     transformVAOSAppointment(
@@ -365,6 +381,7 @@ export function transformVAOSAppointments(
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
       useFeSourceOfTruthModality,
+      useFeSourceOfTruthTelehealth,
     ),
   );
 }

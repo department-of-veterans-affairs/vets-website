@@ -68,7 +68,7 @@ function generateOptions({ data, pagePerItemIndex, customWording }) {
     {
       label: `${
         data.sponsorIsDeceased ? 'Surviving s' : 'S'
-      }pouse or partner from a legal union (including a civil union or common-law marriage`,
+      }pouse or partner from a legal union (including a civil union or common-law marriage)`,
       value: 'spouse',
     },
     {
