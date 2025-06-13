@@ -143,7 +143,6 @@ const IntroductionPage = props => {
             external="true"
             href="/resources/your-intent-to-file-a-va-claim/"
             text="Learn more about intent to file"
-            class="hydrated"
           />
           <p>
             We’ll take you through each step of the process. The time it takes

@@ -12,14 +12,12 @@ const FormSavedPage = props => {
   const date = itf.currentITF?.expirationDate;
   const itfExpirationDate = date ? formatDateParsedZoneLong(date) : null;
   const expirationMessage = itfExpirationDate ? (
-    <>
-      <p className="expires-container">
-        Submit your application by{' '}
-        <strong className="expires">{itfExpirationDate}</strong>. If you don’t
-        submit your application by this date, you can start a new application.
-        But you may have a later effective date for benefits.
-      </p>
-    </>
+    <p className="expires-container">
+      Submit your application by{' '}
+      <strong className="expires">{itfExpirationDate}</strong>. If you don’t
+      submit your application by this date, you can start a new application. But
+      you may have a later effective date for benefits.
+    </p>
   ) : (
     <>
       <p>
