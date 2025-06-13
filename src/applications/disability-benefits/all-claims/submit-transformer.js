@@ -27,6 +27,7 @@ import {
   addForm0781,
   addForm0781V2,
   addForm8940,
+  addToxicExposure,
   addFileAttachments,
 } from './utils/submit';
 
@@ -279,6 +280,7 @@ export function transform(formConfig, form) {
     addForm0781,
     addForm0781V2,
     addForm8940,
+    addToxicExposure,
     addFileAttachments,
     fullyDevelopedClaim,
   ].reduce(
