@@ -22,7 +22,7 @@ import activeDuty from '../pages/activeDuty';
 import militaryBranch from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
 import titleTenServiceTime from '../pages/titleTenTimeServed';
-// import militaryServiceCompleted from '../pages/militaryServiceCompleted';
+import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
 import characterOfDischarge from '../pages/characterOfDischarge';
 
@@ -151,26 +151,29 @@ export const formConfig = {
             }
           },
         },
-        // Hide this question incase we need it later. The previous question skips this, but the 'depends' statement makes it show up on the review page even if
-        // the question doesn't show up in the questionnaire.
-        // militaryServiceCompleted: {
-        //   path: 'service/completed',
-        //   title: 'Military Service Completed',
-        //   uiSchema: militaryServiceCompleted.uiSchema,
-        //   schema: militaryServiceCompleted.schema,
-        //   depends: formData => {
-        //     return formData.militaryServiceCurrentlyServing === true;
-        //   },
-        //   onNavForward: ({ formData, goPath }) => {
-        //     if (formData.militaryServiceCurrentlyServing === true) {
-        //       goPath(
-        //         formConfig.chapters.chapter4.pages.characterOfDischarge.path,
-        //       );
-        //     } else {
-        //       goPath(formConfig.chapters.chapter3.pages.separation.path);
-        //     }
-        //   },
-        // },
+        militaryServiceCompleted: {
+          path: 'service/completed',
+          title: 'Military Service Completed',
+          uiSchema: militaryServiceCompleted.uiSchema,
+          schema: militaryServiceCompleted.schema,
+          // Hide this question incase we need it later. The previous question skips this, but the 'depends' statement makes it show up on the review page even if
+          // the question doesn't show up in the questionnaire.
+          depends: formData => {
+            return (
+              environment.isTest() &&
+              formData.militaryServiceCurrentlyServing === true
+            );
+          },
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.militaryServiceCurrentlyServing === true) {
+              goPath(
+                formConfig.chapters.chapter4.pages.characterOfDischarge.path,
+              );
+            } else {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
+        },
       },
     },
     chapter3: {
