@@ -48,6 +48,7 @@ export const spouseMarriageHistoryOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your spouse’s marital history',
+    summaryTitleWithoutItems: 'Spouse’s former marriages',
     getItemName: item => getFullName(item.fullName),
   },
 };
@@ -56,25 +57,16 @@ export const spouseMarriageHistoryOptions = {
 export const spouseMarriageHistorySummaryPage = {
   uiSchema: {
     'view:completedSpouseFormerMarriage': {
-      ...arrayBuilderYesNoUI(
-        spouseMarriageHistoryOptions,
-        {
-          title: 'Does your spouse have any former marriages to add?',
-          hint:
-            'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
-          labels: {
-            Y: 'Yes',
-            N: 'No',
-          },
+      ...arrayBuilderYesNoUI(spouseMarriageHistoryOptions, {
+        title: 'Has your spouse been married before?',
+        hint:
+          'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
         },
-        {
-          title: 'Does your spouse have any other marriages to add?',
-          labels: {
-            Y: 'Yes',
-            N: 'No',
-          },
-        },
-      ),
+        labelHeaderLevel: 4,
+      }),
     },
   },
   schema: {
