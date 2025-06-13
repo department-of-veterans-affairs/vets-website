@@ -206,6 +206,7 @@ describe('VAOS Component: AppointmentCardIcon', () => {
         ...appointmentData,
         vaos: {
           isVideo: true,
+          isVideoAtHome: true,
         },
         videoData: {
           isAtlas: false,
@@ -234,6 +235,7 @@ describe('VAOS Component: AppointmentCardIcon', () => {
         ...appointmentData,
         vaos: {
           isVideo: true,
+          isVideoAtHome: true,
         },
         videoData: {
           isAtlas: false,
