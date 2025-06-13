@@ -40,7 +40,6 @@ const uiSchema = {
               required: ['hasVaEducationBenefits', 'view:benefitsDisclaimer'],
             };
           }
-
           return {
             ...formSchema,
             required: ['hasVaEducationBenefits'],
@@ -53,7 +52,6 @@ const uiSchema = {
             required: ['hasVaEducationBenefits', 'view:benefitsDisclaimer'],
           };
         }
-
         return {
           ...formSchema,
           required: ['hasVaEducationBenefits'],

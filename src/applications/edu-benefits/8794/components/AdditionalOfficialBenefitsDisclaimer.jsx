@@ -49,7 +49,7 @@ const AdditionalOfficialBenefitsDisclaimer = ({ required, ...props }) => {
                 return {
                   ...official,
                   additionalOfficialBenefitStatus: {
-                    ...official.additionalOfficialBenefitStatus,
+                    hasVaEducationBenefits: true,
                     'view:benefitsDisclaimer': event.target.checked
                       ? true
                       : undefined,
