@@ -152,8 +152,8 @@ export default function InPersonLayout({ data: appointment }) {
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Bring your insurance cards. And bring a list of your medications
-              and other information to share with your provider.
+              Bring your insurance cards, a list of your medications, and other
+              things to share with your provider
             </p>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
               <va-link

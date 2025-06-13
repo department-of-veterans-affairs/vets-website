@@ -24,7 +24,6 @@ import {
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
 import AddToCalendarButton from '../AddToCalendarButton';
-import VideoInstructions from '../VideoInstructions';
 import State from '../State';
 import {
   NULL_STATE_FIELD,
@@ -134,17 +133,21 @@ export default function VideoLayout({ data: appointment }) {
           <Prepare>
             <ul className="vads-u-margin-top--0">
               <li>
-                Bring your insurance cards. And bring a list of your medications
-                and other information to share with your provider.
+                Bring your insurance cards, a list of your medications, and
+                other things to share with your provider
                 <br />
                 <va-link
-                  text="Find a full list of things to bring to your appointment"
+                  text="Find out what to bring to your appointment"
                   href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
                 />
               </li>
               <li>
-                Get your device ready to join.
-                <VideoInstructions />
+                Get your device ready to join
+                <br />
+                <va-link
+                  text="Learn how to prepare for your video appointment"
+                  href="https://www.va.gov/resources/how-should-i-prepare-for-a-video-health-appointment/"
+                />
               </li>
             </ul>
           </Prepare>
