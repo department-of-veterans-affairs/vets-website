@@ -392,7 +392,10 @@
 //       if (validationResult?.onlyValidate) {
 //         contactInfoFormAppConfig.updateContactInfoForFormApp(
 //           fieldName,
-//           payload,
+//           validationResult.payload || {
+//             ...payload,
+//             validationKey: validationResult.validationKey,
+//           },
 //           field.value?.updateProfileChoice,
 //         );
 //         successCallback();
@@ -985,7 +988,10 @@ export const ProfileInformationEditViewFc = ({
       if (validationResult?.onlyValidate) {
         contactInfoFormAppConfig.updateContactInfoForFormApp(
           fieldName,
-          payload,
+          validationResult.payload || {
+            ...payload,
+            validationKey: validationResult.validationKey,
+          },
           field.value?.updateProfileChoice,
         );
         successCallback();
