@@ -13,8 +13,8 @@ const initialState = {
   allFacilities: [],
   allowedVistaFacilities: [],
   allowedOhFacilities: [],
-  activeCareSystem: undefined,
-  activeCareTeam: undefined,
+  activeCareSystem: null,
+  activeCareTeam: null,
   associatedTriageGroupsQty: undefined,
   associatedBlockedTriageGroupsQty: undefined,
   noAssociations: undefined,
@@ -53,8 +53,8 @@ export const recipientsReducer = (state = initialState, action) => {
             recipient =>
               recipient.blockedStatus === false &&
               recipient.preferredTeam === true &&
-              (state.activeFacility?.vhaId === undefined ||
-                state.activeFacility?.vhaId === recipient.stationNumber),
+              (state.activeCareSystem?.vhaId === undefined ||
+                state.activeCareSystem?.vhaId === recipient.stationNumber),
           )
           .map(recipient => formatRecipient(recipient)),
 
@@ -74,20 +74,20 @@ export const recipientsReducer = (state = initialState, action) => {
     case Actions.AllRecipients.SELECT_HEALTH_CARE_SYSTEM: {
       return {
         ...state,
-        activeCareSystem: action.payload.facility,
+        activeCareSystem: action.payload.careSystem,
         allowedRecipients: action.payload.recipients
           .filter(
             recipient =>
               recipient.blockedStatus === false &&
               recipient.preferredTeam === true &&
-              action.payload.facility?.vhaId === recipient?.stationNumber,
+              action.payload.careSystem?.vhaId === recipient?.stationNumber,
           )
           .map(recipient => formatRecipient(recipient)),
 
         blockedRecipients: action.payload.recipients
           .filter(
             recipient =>
-              action.payload.facility?.vhaId === recipient?.stationNumber &&
+              action.payload.careSystem?.vhaId === recipient?.stationNumber &&
               recipient?.blockedStatus === true,
           )
           .map(recipient => formatRecipient(recipient)),

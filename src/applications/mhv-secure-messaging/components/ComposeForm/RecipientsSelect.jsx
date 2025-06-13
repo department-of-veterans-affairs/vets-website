@@ -55,7 +55,7 @@ const RecipientsSelect = ({
   defaultValue,
   error,
   isSignatureRequired,
-  setCheckboxMarked,
+  setCheckboxMarked = () => {},
   setElectronicSignature = () => {},
   setComboBoxInputValue,
 }) => {

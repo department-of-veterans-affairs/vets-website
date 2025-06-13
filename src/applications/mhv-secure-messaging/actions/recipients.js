@@ -67,12 +67,12 @@ export const updateTriageTeamRecipients = recipients => async dispatch => {
 
 export const setActiveCareSystem = (
   recipients,
-  selectedFacility,
+  selectedCareSystem,
 ) => dispatch => {
   dispatch({
     type: Actions.AllRecipients.SELECT_HEALTH_CARE_SYSTEM,
     payload: {
-      facility: selectedFacility,
+      careSystem: selectedCareSystem,
       recipients,
     },
   });

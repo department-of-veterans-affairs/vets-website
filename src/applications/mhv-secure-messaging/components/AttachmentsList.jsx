@@ -161,7 +161,7 @@ const AttachmentsList = props => {
       <div className="message-body-attachments-label vads-u-margin-bottom--1 vads-u-margin-top--3">
         {isPilot ? (
           <h3 className="vads-u-margin-top--4 vads-u-margin-bottom--0">
-            Add files to your message
+            Attachments
           </h3>
         ) : (
           'Attachments'
