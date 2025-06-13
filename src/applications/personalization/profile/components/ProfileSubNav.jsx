@@ -14,7 +14,10 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes }) => {
   return (
     <nav className="va-subnav" aria-labelledby="subnav-header">
       <div>
-        <h2 id="subnav-header" className="vads-u-font-size--h4">
+        <h2
+          id="subnav-header"
+          className="vads-u-font-size--h4 vads-u-margin-top--2"
+        >
           Profile <span className="sr-only">menu</span>
         </h2>
         <ProfileSubNavItems routes={routes} isLOA3={isLOA3} isInMVI={isInMVI} />
