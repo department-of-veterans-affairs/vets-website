@@ -19,9 +19,13 @@ const uiSchema = {
         },
       }),
       'ui:options': {
-        hideIf: (formData, index) =>
-          formData['additional-certifying-official'][index]
-            ?.additionalOfficialTraining?.trainingExempt,
+        hideIf: (formData, index) => {
+          if (formData['additional-certifying-official']) {
+            return formData['additional-certifying-official'][index]
+              ?.additionalOfficialTraining?.trainingExempt;
+          }
+          return formData?.additionalOfficialTraining?.trainingExempt;
+        },
       },
     },
     'view:trainingExemptLabel': {
@@ -31,9 +35,13 @@ const uiSchema = {
         </p>
       ),
       'ui:options': {
-        hideIf: (formData, index) =>
-          !formData['additional-certifying-official'][index]
-            ?.additionalOfficialTraining?.trainingExempt,
+        hideIf: (formData, index) => {
+          if (formData['additional-certifying-official']) {
+            return !formData['additional-certifying-official'][index]
+              ?.additionalOfficialTraining?.trainingExempt;
+          }
+          return !formData?.additionalOfficialTraining?.trainingExempt;
+        },
       },
     },
     trainingExempt: {
@@ -41,16 +49,28 @@ const uiSchema = {
     },
     'ui:options': {
       updateSchema: (formData, formSchema, ui, index) => {
-        if (
-          formData['additional-certifying-official'][index]
-            ?.additionalOfficialTraining?.trainingExempt
-        ) {
+        if (formData['additional-certifying-official']) {
+          if (
+            formData['additional-certifying-official'][index]
+              ?.additionalOfficialTraining?.trainingExempt
+          ) {
+            return {
+              ...formSchema,
+              required: [],
+            };
+          }
+          return {
+            ...formSchema,
+            required: ['trainingCompletionDate'],
+          };
+        }
+
+        if (formData?.additionalOfficialTraining?.trainingExempt) {
           return {
             ...formSchema,
             required: [],
           };
         }
-
         return {
           ...formSchema,
           required: ['trainingCompletionDate'],

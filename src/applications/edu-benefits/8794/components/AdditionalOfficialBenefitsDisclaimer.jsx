@@ -56,12 +56,6 @@ const AdditionalOfficialBenefitsDisclaimer = ({ required, ...props }) => {
                   },
                 };
               }),
-              //   primaryOfficialBenefitStatus: {
-              //     ...formState.primaryOfficialBenefitStatus,
-              //     'view:benefitsDisclaimer': event.target.checked
-              //       ? true
-              //       : undefined,
-              //   },
             }),
           );
         }}

@@ -18,17 +18,36 @@ const uiSchema = {
     'view:benefitsDisclaimer': {
       'ui:field': AdditionalOfficialBenefitsDisclaimer,
       'ui:options': {
-        hideIf: (formData, index) =>
-          !formData['additional-certifying-official'][index]
-            ?.additionalOfficialBenefitStatus?.hasVaEducationBenefits,
+        hideIf: (formData, index) => {
+          if (formData['additional-certifying-official']) {
+            return !formData['additional-certifying-official'][index]
+              ?.additionalOfficialBenefitStatus?.hasVaEducationBenefits;
+          }
+          return !formData?.additionalOfficialBenefitStatus
+            ?.hasVaEducationBenefits;
+        },
       },
     },
     'ui:options': {
       updateSchema: (formData, formSchema, ui, index) => {
-        if (
-          formData['additional-certifying-official'][index]
-            ?.additionalOfficialBenefitStatus?.hasVaEducationBenefits
-        ) {
+        if (formData['additional-certifying-official']) {
+          if (
+            formData['additional-certifying-official'][index]
+              ?.additionalOfficialBenefitStatus?.hasVaEducationBenefits
+          ) {
+            return {
+              ...formSchema,
+              required: ['hasVaEducationBenefits', 'view:benefitsDisclaimer'],
+            };
+          }
+
+          return {
+            ...formSchema,
+            required: ['hasVaEducationBenefits'],
+          };
+        }
+
+        if (formData?.additionalOfficialBenefitStatus?.hasVaEducationBenefits) {
           return {
             ...formSchema,
             required: ['hasVaEducationBenefits', 'view:benefitsDisclaimer'],
