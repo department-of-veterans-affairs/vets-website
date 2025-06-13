@@ -41,13 +41,11 @@ const internationalPhoneSchema = {
     callingCode: { type: 'number', title: 'Calling code' },
     countryCode: { type: 'string', title: 'Country code' },
     contact: { type: 'string', title: 'Contact' },
-    isValid: {
-      type: 'boolean',
-      title: 'Is valid',
-      enum: [true],
+    _error: {
+      type: 'string',
+      title: 'Error',
     },
   },
-  required: ['callingCode', 'countryCode', 'contact', 'isValid'],
 };
 
 export { internationalPhoneSchema, internationalPhoneUI };

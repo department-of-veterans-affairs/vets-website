@@ -19,13 +19,15 @@ export default function VaInputTelephoneFieldMapping(props) {
     country: childrenProps?.formData?.countryCode || '',
     onVaContact: (event, value) => {
       const contact = value || event.detail || {};
+      // untouched component that is not required should pass validation
+      const isValid =
+        !childrenProps.required && !contact.contact ? true : contact.isValid;
+      const _error = !isValid ? contact.error : '';
       childrenProps.onChange({
         callingCode: parseInt(contact.callingCode, 10) || null,
         countryCode: contact.countryCode || '',
         contact: contact.contact || '',
-        contactLength: contact.contactLength || null,
-        isValid: !!contact.isValid || false,
-        error: contact.error,
+        _error,
       });
     },
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),

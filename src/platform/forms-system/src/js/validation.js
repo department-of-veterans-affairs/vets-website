@@ -653,22 +653,8 @@ export function validateAutosuggestOption(errors, formData) {
   }
 }
 
-export function validateInputTelephone(errors, value) {
-  const badContact =
-    value.contact &&
-    value.contactLength &&
-    value.contact.length >= value.contactLength;
-  const missingContact = value.contact === '';
-  const missingCountry = value.countryCode === '';
-  const missingValues = !value.countryCode && !value.contact;
-  if (
-    !value.isValid &&
-    (badContact || missingContact || missingCountry || missingValues)
-  ) {
-    if (value.error) {
-      errors.addError(value.error);
-    } else {
-      errors.addError('Please enter a complete phone number.');
-    }
+export function validateInputTelephone(errors, { _error }) {
+  if (_error !== '') {
+    errors.addError(_error);
   }
 }
