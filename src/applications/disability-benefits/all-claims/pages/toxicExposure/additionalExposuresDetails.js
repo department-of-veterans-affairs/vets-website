@@ -14,6 +14,7 @@ import {
   teSubtitle,
 } from '../../content/toxicExposure';
 import { ADDITIONAL_EXPOSURES, TE_URL_PREFIX } from '../../constants';
+import { validateToxicExposureAdditionalExposuresDates } from '../../utils/validations';
 
 /**
  * Make the uiSchema for each additional exposures details page
@@ -36,12 +37,17 @@ function makeUiSchema(itemId) {
     toxicExposure: {
       otherExposuresDetails: {
         [itemId]: {
-          startDate: currentOrPastDateUI({
-            title: exposureStartDateApproximate,
-          }),
-          endDate: currentOrPastDateUI({
-            title: exposureEndDateApproximate,
-          }),
+          startDate: {
+            ...currentOrPastDateUI({
+              title: exposureStartDateApproximate,
+            }),
+          },
+          endDate: {
+            ...currentOrPastDateUI({
+              title: exposureEndDateApproximate,
+            }),
+          },
+          'ui:validations': [validateToxicExposureAdditionalExposuresDates],
           'view:notSure': {
             'ui:title': notSureHazardDetails,
             'ui:webComponentField': VaCheckboxField,
