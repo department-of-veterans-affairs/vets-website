@@ -1,4 +1,5 @@
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { formatInTimeZone, toDate } from 'date-fns-tz';
 import { FETCH_STATUS, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import {
   getTimezoneByFacilityId,
@@ -59,10 +60,33 @@ export function getDateTimeSelect(state, pageKey) {
   const { appointmentSlotsStatus } = newBooking;
   const data = selectCovid19VaccineFormData(state);
   const formInfo = getCovid19VaccineFormPageInfo(state, pageKey);
-  const { availableSlots } = newBooking;
+  let { availableSlots } = newBooking;
 
   const timezoneDescription = getTimezoneDescByFacilityId(data.vaFacility);
   const timezone = getTimezoneByFacilityId(data.vaFacility);
+
+  if (availableSlots && availableSlots.length > 0) {
+    availableSlots = availableSlots.map(element => {
+      return {
+        ...element,
+        start: formatInTimeZone(
+          toDate(element.start),
+          timezone,
+          "yyyy-MM-dd'T'HH:mm:ssXXX",
+        ),
+        end: formatInTimeZone(
+          toDate(element.end),
+          timezone,
+          "yyyy-MM-dd'T'HH:mm:ssXXX",
+        ),
+      };
+    });
+    // availableSlots[0].start = formatInTimeZone(
+    //   toDate(availableSlots[0].start),
+    //   timezone,
+    //   "yyyy-MM-dd'T'HH:mm:ssXXX",
+    // );
+  }
 
   return {
     ...formInfo,

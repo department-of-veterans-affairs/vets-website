@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { addDays, addMonths, startOfMonth, endOfMonth, format } from 'date-fns';
 
+import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
+import InfoAlert from '../../components/InfoAlert';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import useIsInitialLoad from '../../hooks/useIsInitialLoad';
+import { getRealFacilityId } from '../../utils/appointment';
 import { FETCH_STATUS } from '../../utils/constants';
 import { getDateTimeSelect } from '../redux/selectors';
-import { getRealFacilityId } from '../../utils/appointment';
-import NewTabAnchor from '../../components/NewTabAnchor';
-import InfoAlert from '../../components/InfoAlert';
-import useIsInitialLoad from '../../hooks/useIsInitialLoad';
 
-import { getAppointmentSlots, onCalendarChange } from '../redux/actions';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../flow';
+import { getAppointmentSlots, onCalendarChange } from '../redux/actions';
 
 const pageKey = 'selectDate1';
 const pageTitle = 'Choose a date and time';
@@ -186,7 +186,9 @@ export default function SelectDate1Page() {
               validate({ dates, setValidationError });
               dispatch(onCalendarChange(dates, pageKey));
             }}
-            onNextMonth={(...args) => dispatch(getAppointmentSlots(...args))}
+            onNextMonth={(...args) => {
+              dispatch(getAppointmentSlots(...args));
+            }}
             onPreviousMonth={(...args) =>
               dispatch(getAppointmentSlots(...args))
             }
