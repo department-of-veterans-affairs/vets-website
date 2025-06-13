@@ -23,7 +23,7 @@ import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
-import { Alerts, Categories, Errors } from '../../util/constants';
+import { Alerts, Categories, Errors, Paths } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
@@ -32,7 +32,9 @@ const AlertBackgroundBox = props => {
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
+  const [alertHeader, setAlertHeader] = useState('');
   const [alertContent, setAlertContent] = useState('');
+  const [closeableAlert, setCloseableAlert] = useState(true);
   const alertRef = useRef();
   const [activeAlert, setActiveAlert] = useState(null);
   const [alertAriaLabel, setAlertAriaLabel] = useState('');
@@ -41,7 +43,11 @@ const AlertBackgroundBox = props => {
   );
 
   const {
-    Message: { SERVER_ERROR_503 },
+    Message: {
+      SERVER_ERROR_503,
+      SERVER_ERROR_500_MESSAGES_HEADING,
+      SERVER_ERROR_500_MESSAGES_CONTENT,
+    },
   } = Alerts;
 
   const {
@@ -136,27 +142,60 @@ const AlertBackgroundBox = props => {
     () => {
       const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
       const isErrorAlert = activeAlert?.alertType === 'error';
+      const { INBOX, SENT, MESSAGE_THREAD, COMPOSE } = Paths;
       let content = activeAlert?.content;
+      let header = activeAlert?.header;
+      let { closeable } = props;
 
-      if (
+      const isGeneralAlert =
         lastPathName !== 'Messages' &&
         !foldersViewPage &&
         !threadViewPage &&
         !contactListPage &&
-        (isServiceOutage || isErrorAlert)
-      ) {
+        (isServiceOutage || isErrorAlert);
+
+      const isMessagesAlertWithHeader =
+        (isServiceOutage || isErrorAlert) &&
+        (location.pathname === INBOX ||
+          location.pathname === SENT ||
+          location.pathname.includes(MESSAGE_THREAD) ||
+          location.pathname === COMPOSE ||
+          foldersViewPage);
+
+      const filteredSortedAlerts = alertList
+        .filter(alert => alert?.isActive)
+        .sort((a, b) => {
+          // Sort chronologically descending.
+          return b.datestamp - a.datestamp;
+        });
+
+      if (isMessagesAlertWithHeader) {
+        header = SERVER_ERROR_500_MESSAGES_HEADING;
+        content = SERVER_ERROR_500_MESSAGES_CONTENT;
+        closeable = false; // removes closing alert option on thread-list view pages
+      } else if (isGeneralAlert) {
+        header = null;
         content = SERVER_ERROR_503;
+        closeable = true; // always allow closing the alert on folder view pages
       }
+      setAlertHeader(header);
       setAlertContent(content);
+      setCloseableAlert(closeable);
+      setActiveAlert(filteredSortedAlerts[0] || null);
     },
     [
+      SERVER_ERROR_500_MESSAGES_CONTENT,
+      SERVER_ERROR_500_MESSAGES_HEADING,
       SERVER_ERROR_503,
       SERVICE_OUTAGE,
       activeAlert,
+      alertList,
       contactListPage,
       foldersViewPage,
       lastPathName,
       location.pathname,
+      props,
+      props.closeable,
       threadViewPage,
     ],
   );
@@ -193,7 +232,7 @@ const AlertBackgroundBox = props => {
             uswds
             ref={alertRef}
             background-only
-            closeable={props.closeable}
+            closeable={closeableAlert}
             className="vads-u-margin-bottom--1 va-alert"
             close-btn-aria-label="Close notification"
             disable-analytics="false"
@@ -205,6 +244,7 @@ const AlertBackgroundBox = props => {
             }
             onVa-component-did-load={handleAlertFocus}
           >
+            {alertHeader && <h1 data-testid="alert-heading">{alertHeader}</h1>}
             <div>
               <p className="vads-u-margin-y--0" data-testid="alert-text">
                 {alertContent}
