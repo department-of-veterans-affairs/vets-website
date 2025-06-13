@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { Element, scrollTo, scrollAndFocus } from 'platform/utilities/scroll';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 
 import {
   selectProfile,
@@ -228,7 +228,19 @@ const ContactInfo = ({
     </va-alert>
   );
 
-  const editText = content.edit.toLowerCase();
+  // const editText = content.edit.toLowerCase();
+  const editText = content.edit;
+
+  const handleClick = (url, text, label) => {
+    recordEvent({
+      // prettier-ignore
+      'event': 'edit-link-click',
+      // prettier-ignore
+      'custom_string_2': text,
+      'link-destination': url,
+      'link-origin': label,
+    });
+  };
 
   // Loop to separate pages when editing
   // Each Link includes an ID for focus management on the review & submit page
@@ -247,13 +259,20 @@ const ContactInfo = ({
         </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
-            <Link
+            <va-link
               id="edit-home-phone"
-              to={`/${contactPath}/edit-home-phone`}
+              href={`/${contactPath}/edit-home-phone`}
               aria-label={content.editHomePhone}
-            >
-              {editText}
-            </Link>
+              text={editText}
+              disable-analytics
+              onClick={() =>
+                handleClick(
+                  `/${contactPath}/edit-home-phone`,
+                  editText,
+                  'home-phone',
+                )
+              }
+            />
           </p>
         )}
       </React.Fragment>
@@ -270,13 +289,20 @@ const ContactInfo = ({
         </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
-            <Link
+            <va-link
               id="edit-mobile-phone"
-              to={`/${contactPath}/edit-mobile-phone`}
+              href={`/${contactPath}/edit-mobile-phone`}
               aria-label={content.editMobilePhone}
-            >
-              {editText}
-            </Link>
+              text={editText}
+              disable-analytics
+              onClick={() =>
+                handleClick(
+                  `/${contactPath}/edit-mobile-phone`,
+                  editText,
+                  'mobile-phone',
+                )
+              }
+            />
           </p>
         )}
       </React.Fragment>
@@ -293,13 +319,20 @@ const ContactInfo = ({
         </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
-            <Link
+            <va-link
               id="edit-email"
-              to={`/${contactPath}/edit-email-address`}
+              href={`/${contactPath}/edit-email-address`}
               aria-label={content.editEmail}
-            >
-              {editText}
-            </Link>
+              text={editText}
+              disable-analytics
+              onClick={() =>
+                handleClick(
+                  `/${contactPath}/edit-email-address`,
+                  editText,
+                  'email',
+                )
+              }
+            />
           </p>
         )}
       </React.Fragment>
@@ -314,13 +347,20 @@ const ContactInfo = ({
         <AddressView data={dataWrap[keys.address]} />
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
-            <Link
+            <va-link
               id="edit-address"
-              to={`/${contactPath}/edit-mailing-address`}
+              href={`/${contactPath}/edit-mailing-address`}
               aria-label={content.editMailingAddress}
-            >
-              {editText}
-            </Link>
+              text={editText}
+              disable-analytics
+              onClick={() =>
+                handleClick(
+                  `/${contactPath}/edit-mailing-address`,
+                  editText,
+                  'mailing-address',
+                )
+              }
+            />
           </p>
         )}
       </React.Fragment>

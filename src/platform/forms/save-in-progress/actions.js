@@ -362,6 +362,11 @@ export function fetchInProgressForm(
               metadata,
               getState(),
             ));
+
+            // Track that prefill was available
+            recordEvent({
+              event: `${trackingPrefix}sip-form-prefill-success`,
+            });
           }
 
           dispatch(setInProgressForm({ formData, metadata }, pages));
