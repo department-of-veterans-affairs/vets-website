@@ -5,8 +5,6 @@ import {
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import vaFileNumberUI from 'platform/forms-system/src/js/definitions/vaFileNumber';
-// import { capitalize } from 'lodash';
-// import { SpouseIdentificationTitle } from '../helpers/dynamicSpouseNameTitles';
 
 const titles = {
   married: "Spouse's identification information",
@@ -18,20 +16,13 @@ const titles = {
 export default {
   title: "Spouse's identification information",
   path: 'spouse-identity',
-  // depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
   uiSchema: {
-    // 'ui:title': SpouseIdentificationTitle,
     ...titleUI(({ formData }) => {
       const statusKey = formData?.maritalStatus?.toLowerCase();
       const title = titles[statusKey] || "Spouse's identification information";
 
-      return (
-        <>
-          <h3 className="vads-u-color--black">{title}</h3>
-        </>
-      );
+      return <>{title}</>;
     }),
-    // ...titleUI('Spouse’s identification information'),
     spouseSsn: ssnUI('Social Security Number'),
     isSpouseVeteran: {
       'ui:title': 'Is your spouse also a Veteran?',

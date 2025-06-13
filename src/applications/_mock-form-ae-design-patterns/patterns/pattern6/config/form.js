@@ -3,7 +3,7 @@ import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 import IntroductionPage from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/components/IntroductionPage';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
 import { arrayBuilderPages } from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/array-builder/arrayBuilder';
-// Import marital status chapter pages
+
 import currentMaritalStatus from '../pages/currentMaritalStatus';
 import currentMaritalStatusSimple from '../pages/currentMaritalStatusSimple';
 import marriageType from '../pages/marriageType';
@@ -12,7 +12,6 @@ import marriageCertificate from '../pages/marriageDocuments';
 import spouseDeathInfo from '../pages/widowed/spouseDeathDateLocation';
 import divorceDocuments from '../pages/divorced/divorceDocuments';
 
-// Import spouse information chapter pages
 import spousePersonalInfo from '../pages/spousePersonalInfo';
 import previousSpousePersonalInfo from '../pages/divorced/previousSpousePersonalInfo';
 import spouseIdentity from '../pages/spouseIdentity';
@@ -101,7 +100,7 @@ const formConfig = {
               formData?.maritalStatus === 'SEPARATED' ||
               formData?.maritalStatus === 'WIDOWED'
             ) {
-              // Users with current/former spouses go to spouse info first
+              // Users with current/deceased spouses go to spouse info first
               goPath('/6/marital-information/spouse-personal-information');
             } else if (formData?.maritalStatus === 'NEVER_MARRIED') {
               // Never married users skip everything and go to review
@@ -120,16 +119,12 @@ const formConfig = {
           title: "Spouse's Personal Information",
           path: 'spouse-personal-information',
           depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
-          // formData?.maritalStatus === 'MARRIED' ||
-          // formData?.maritalStatus === 'SEPARATED',
           ...spousePersonalInfo,
         },
         spouseIdentity: {
           title: "Spouse's identification information",
           path: 'spouse-identity',
           depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
-          // formData?.maritalStatus === 'MARRIED' ||
-          // formData?.maritalStatus === 'SEPARATED',
           ...spouseIdentity,
         },
         spouseMilitaryIdentification: {
@@ -156,7 +151,6 @@ const formConfig = {
           depends: formData =>
             (formData?.maritalStatus === 'MARRIED' ||
               formData?.maritalStatus === 'SEPARATED') &&
-            // formData?.maritalStatus !== 'NEVER_MARRIED' &&
             !formData?.currentlyLiveWithSpouse,
           ...spouseContactInfo,
         },
@@ -364,13 +358,6 @@ const formConfig = {
                 context?.add === true
               );
             },
-            // depends: (formData, index, context) => {
-            //   return (
-            //     formData['view:completedVeteranFormerMarriage'] ||
-            //     context?.edit === true ||
-            //     context?.add === true
-            //   );
-            // },
           }),
           veteranMarriageHistoryPartSeven: pageBuilder.itemPage({
             title: 'Place and date of previous marriage termination',
@@ -401,14 +388,6 @@ const formConfig = {
                 (context?.add === true && formData?.maritalStatus !== 'MARRIED')
               );
             },
-            // depends: (formData, index, context) => {
-            //   return (
-            //     (formData['view:completedVeteranFormerMarriage'] &&
-            //       formData?.maritalStatus === 'DIVORCED') ||
-            //     context?.edit === true ||
-            //     (context?.add === true && formData?.maritalStatus !== 'MARRIED')
-            //   );
-            // },
           }),
         })),
       },
