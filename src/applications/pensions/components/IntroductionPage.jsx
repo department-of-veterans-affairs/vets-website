@@ -130,8 +130,8 @@ const IntroductionPage = props => {
         </va-process-list-item>
         <va-process-list-item header="Start your application">
           <p>
-            When you start the pension this application, we automatically record
-            your intent to file for pension benefits.
+            When you start this application, we automatically record your intent
+            to file for pension benefits.
           </p>
           <p>
             We use your intent to file date to help set a start date (or
