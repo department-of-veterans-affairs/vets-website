@@ -47,7 +47,7 @@ const VeteranInformation = ({ formData }) => {
           </p>
           {ssnLastFour ? (
             <p className="ssn">
-              Last 4 digits of Social Security number{' '}
+              <strong>Last 4 digits of Social Security number: </strong>{' '}
               <span
                 className="dd-privacy-mask"
                 data-dd-action-name="Veteran's SSN"
