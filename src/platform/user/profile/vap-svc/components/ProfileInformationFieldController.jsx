@@ -133,12 +133,22 @@ class ProfileInformationFieldController extends React.Component {
         );
       } else if (!forceEditView) {
         if (prevProps.showRemoveModal && !this.props.showRemoveModal) {
-          waitForRenderThenFocus(
-            `#${getRemoveButtonId(fieldName)}`,
-            document,
-            50,
-            'button',
-          );
+          // Focus on the remove button if it exists, otherwise focus on the edit button
+          if (document.querySelector(`#${getRemoveButtonId(fieldName)}`)) {
+            waitForRenderThenFocus(
+              `#${getRemoveButtonId(fieldName)}`,
+              document,
+              50,
+              'button',
+            );
+          } else {
+            waitForRenderThenFocus(
+              `#${getEditButtonId(fieldName)}`,
+              document,
+              50,
+              'button',
+            );
+          }
         } else {
           // forcesEditView will result in now standard edit button being rendered, so we don't want to focus on it
           // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
