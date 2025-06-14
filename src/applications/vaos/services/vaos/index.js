@@ -1,9 +1,10 @@
 import appendQuery from 'append-query';
+import { format } from 'date-fns';
 import { getTestFacilityId } from '../../utils/appointment';
 import {
   apiRequestWithUrl,
-  parseApiListWithErrors,
   parseApiList,
+  parseApiListWithErrors,
   parseApiObject,
 } from '../utils';
 
@@ -146,9 +147,24 @@ export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
   ).then(parseApiList);
 }
 
-export function getAvailableV2Slots(facilityId, clinicId, startDate, endDate) {
+export function getAvailableV2Slots(
+  facilityId,
+  clinicId,
+  startDate,
+  endDate,
+  convertToUtc = false,
+) {
+  const start = convertToUtc
+    ? startDate.toISOString()
+    : format(startDate, "yyyy-MM-dd'T'HH:mm:ssXXX");
+  const end = convertToUtc
+    ? endDate.toISOString()
+    : format(endDate, "yyyy-MM-dd'T'HH:mm:ssXXX");
+
   return apiRequestWithUrl(
-    `/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${startDate}&end=${endDate}`,
+    `/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${encodeURIComponent(
+      start,
+    )}&end=${encodeURIComponent(end)}`,
   ).then(parseApiList);
 }
 
