@@ -31,7 +31,7 @@ Follow the standard directions to run the app. Vets API needs to be running in o
 
 ### VA Forms
 
-We are using version 1 of the forms library, Formation. This is a straight forward standard form. We are using [the vets-json-scheam](https://github.com/department-of-veterans-affairs/vets-json-schema) to validate the shape of the data.
+We are using version 1 of the forms library, Formation. This is a straight forward standard form. We are using [the vets-json-schema](https://github.com/department-of-veterans-affairs/vets-json-schema) to validate the shape of the data.
 
 ### What API(s) does this use?
 
