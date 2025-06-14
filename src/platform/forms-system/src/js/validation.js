@@ -652,3 +652,9 @@ export function validateAutosuggestOption(errors, formData) {
     errors.addError('Please select an option from the suggestions');
   }
 }
+
+export function validateInputTelephone(errors, { _error }) {
+  if (_error !== '') {
+    errors.addError(_error);
+  }
+}

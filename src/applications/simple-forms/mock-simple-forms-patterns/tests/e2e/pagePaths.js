@@ -15,6 +15,8 @@ export default {
   radioRelationshipToVeteran:
     formChapters.radio.pages.radioRelationshipToVeteran.path,
   date: formChapters.date.pages.date.path,
+  internationalPhone:
+    formChapters.internationalPhone.pages.internationalPhone.path,
   fileInput: formChapters.fileInput.pages.fileInput.path,
   arraySinglePage: formChapters.arraySinglePage.pages.arraySinglePage.path,
   arrayMultiPageAggregate:
