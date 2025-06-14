@@ -23,6 +23,9 @@ const additionalOfficialSummary = {
         N: 'No',
       },
       hint: () => null,
+      errorMessages: {
+        required: 'Please provide a response',
+      },
     }),
   },
   schema: {
