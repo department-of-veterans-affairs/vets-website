@@ -62,6 +62,7 @@ export const ChooseDateAndTime = props => {
       }
     },
     [
+      currentReferral.referralConsultId,
       currentReferral.referralNumber,
       currentReferral.uuid,
       dispatch,

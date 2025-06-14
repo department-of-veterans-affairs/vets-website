@@ -17,11 +17,15 @@ import {
 import { getReferralSlotKey } from '../utils/referrals';
 import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
   const dispatch = useDispatch();
   const history = useHistory();
+
+  // Add a counter state to trigger focusing
+  const [focusTrigger, setFocusTrigger] = useState(0);
 
   const selectedSlot = useSelector(state => getSelectedSlot(state));
   const currentPage = useSelector(selectCurrentPage);
@@ -84,6 +88,8 @@ export const DateAndTimeContent = props => {
   };
   const onSubmit = () => {
     if (error) {
+      // Increment the focus trigger to force re-focusing the validation message
+      setFocusTrigger(prev => prev + 1);
       return;
     }
     if (!selectedSlot) {
@@ -103,6 +109,14 @@ export const DateAndTimeContent = props => {
     }
     routeToNextReferralPage(history, currentPage, currentReferral.uuid);
   };
+
+  // Effect to focus on validation message whenever error state changes
+  useEffect(
+    () => {
+      scrollAndFocus('.vaos-input-error-message');
+    },
+    [error, focusTrigger],
+  );
 
   const noSlotsAvailable = !draftAppointmentInfo.attributes.slots.length;
 
