@@ -67,11 +67,11 @@ SignatureCheckbox.propTypes = {
     PropTypes.node,
   ]).isRequired,
   fullName: PropTypes.object.isRequired,
-  setIsStatementOfTruthSigned: PropTypes.func.isRequired,
+  isRequired: PropTypes.bool,
   setIsStatementOfTruthCertified: PropTypes.func.isRequired,
+  setIsStatementOfTruthSigned: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   submission: PropTypes.object.isRequired,
-  isRequired: PropTypes.bool,
 };
 
 export default SignatureCheckbox;

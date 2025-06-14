@@ -60,10 +60,7 @@ const testConfig = createTestConfig(
             cy.selectVaCheckbox($el, true),
           );
           cy.get('.signature-input').then($el => {
-            cy.fillVaTextInput(
-              $el,
-              normalizeFullName(testData.veteranFullName, true),
-            );
+            cy.fillVaTextInput($el, normalizeFullName(testData.fullName, true));
           });
           cy.get('.signature-checkbox').then($el =>
             cy.selectVaCheckbox($el, true),

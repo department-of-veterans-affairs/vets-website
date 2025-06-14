@@ -93,9 +93,9 @@ const ProtectionOfPrivacyStatement = props => {
 ProtectionOfPrivacyStatement.propTypes = {
   hasSubmittedForm: PropTypes.bool.isRequired,
   isChecked: PropTypes.bool.isRequired,
-  onSectionComplete: PropTypes.func.isRequired,
   setIsChecked: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
+  onSectionComplete: PropTypes.func.isRequired,
 };
 
 export default ProtectionOfPrivacyStatement;

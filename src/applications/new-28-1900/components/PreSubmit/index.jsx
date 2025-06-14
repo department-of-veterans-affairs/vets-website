@@ -58,7 +58,14 @@ const PreSubmit = ({ formData, showError, onSectionComplete }) => {
         />
       );
     },
-    [isChecked, setIsChecked, showError],
+    [
+      formData,
+      hasSubmittedForm,
+      isChecked,
+      onSectionComplete,
+      setIsChecked,
+      showError,
+    ],
   );
 
   // Mark the review page as complete when the Statement of Truth and Privacy Agreement are both complete
