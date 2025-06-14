@@ -30,11 +30,13 @@ const uiSchema = {
     },
     'ui:options': {
       updateSchema: (formData, formSchema, ui, index) => {
-        if (formData['additional-certifying-official']) {
-          if (
+        const isAdding = !!formData['additional-certifying-official'];
+
+        if (isAdding) {
+          const addingBenefitStatus =
             formData['additional-certifying-official'][index]
-              ?.additionalOfficialBenefitStatus?.hasVaEducationBenefits
-          ) {
+              ?.additionalOfficialBenefitStatus;
+          if (addingBenefitStatus?.hasVaEducationBenefits) {
             return {
               ...formSchema,
               required: ['hasVaEducationBenefits', 'view:benefitsDisclaimer'],
@@ -46,7 +48,8 @@ const uiSchema = {
           };
         }
 
-        if (formData?.additionalOfficialBenefitStatus?.hasVaEducationBenefits) {
+        const editingBenefitStatus = formData?.additionalOfficialBenefitStatus;
+        if (editingBenefitStatus?.hasVaEducationBenefits) {
           return {
             ...formSchema,
             required: ['hasVaEducationBenefits', 'view:benefitsDisclaimer'],

@@ -75,20 +75,20 @@ const uiSchema = {
     }),
     'ui:options': {
       updateSchema: (formData, formSchema, ui, index) => {
-        if (formData['additional-certifying-official']) {
-          if (
+        const isAdding = !!formData['additional-certifying-official'];
+
+        if (isAdding) {
+          const addingDetails =
             formData['additional-certifying-official'][index]
-              .additionalOfficialDetails?.phoneType === 'us'
-          ) {
+              .additionalOfficialDetails;
+
+          if (addingDetails?.phoneType === 'us') {
             return {
               ...formSchema,
               required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
             };
           }
-          if (
-            formData['additional-certifying-official'][index]
-              .additionalOfficialDetails?.phoneType === 'intl'
-          ) {
+          if (addingDetails?.phoneType === 'intl') {
             return {
               ...formSchema,
               required: [
@@ -102,13 +102,15 @@ const uiSchema = {
           return { ...formSchema };
         }
 
-        if (formData?.additionalOfficialDetails?.phoneType === 'us') {
+        const editingDetails = formData.additionalOfficialDetails;
+
+        if (editingDetails.phoneType === 'us') {
           return {
             ...formSchema,
             required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
           };
         }
-        if (formData?.additionalOfficialDetails?.phoneType === 'intl') {
+        if (editingDetails.phoneType === 'intl') {
           return {
             ...formSchema,
             required: [

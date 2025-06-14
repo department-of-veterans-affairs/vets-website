@@ -49,11 +49,13 @@ const uiSchema = {
     },
     'ui:options': {
       updateSchema: (formData, formSchema, ui, index) => {
-        if (formData['additional-certifying-official']) {
-          if (
+        const isAdding = !!formData['additional-certifying-official'];
+
+        if (isAdding) {
+          const addingTraining =
             formData['additional-certifying-official'][index]
-              ?.additionalOfficialTraining?.trainingExempt
-          ) {
+              .additionalOfficialTraining;
+          if (addingTraining?.trainingExempt) {
             return {
               ...formSchema,
               required: [],
@@ -65,7 +67,8 @@ const uiSchema = {
           };
         }
 
-        if (formData?.additionalOfficialTraining?.trainingExempt) {
+        const editingTraining = formData.additionalOfficialTraining;
+        if (editingTraining?.trainingExempt) {
           return {
             ...formSchema,
             required: [],
