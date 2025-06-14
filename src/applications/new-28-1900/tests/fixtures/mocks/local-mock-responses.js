@@ -32,6 +32,7 @@ const responses = {
   'GET /v0/health_care_applications/enrollment_status': {},
   'GET /v0/medical_copays': { data: [] },
   'GET /v0/my_va/submission_statuses': submissionStatues,
+  'POST /v0/veteran_readiness_employment_claims': { data: [] },
 };
 
 module.exports = responses;
