@@ -22,20 +22,16 @@ const ui = (
 let view;
 let server;
 
-function getEditButton(numberName) {
-  // Need to use `queryByRole` since the visible label is simply `Edit`, but
-  // the aria-label is more descriptive
-  return view.queryByRole('button', {
-    name: new RegExp(`edit.*${numberName}`, 'i'),
-  });
+function getEditVaButton(numberName) {
+  const label = `Edit ${numberName}`;
+  // RTL doesn't support getByRole/getByText for web components
+  return view.container.querySelector(`va-button[label="${label}"]`);
 }
 
 function deletePhoneNumber(numberName) {
   // delete
-  view
-    .getByLabelText(new RegExp(`remove ${numberName}`, 'i'), {
-      selector: 'button',
-    })
+  view.container
+    .querySelector(`va-button[label="Remove ${numberName}"]`)
     .click();
   const confirmDeleteButton = view.getByText('Yes, remove my information', {
     selector: 'button',
@@ -67,9 +63,9 @@ async function testSuccess(numberName, shortNumberName) {
   await view.findByText('Update saved.');
 
   // the edit phone number button should still exist
-  view.getByRole('button', { name: new RegExp(`edit.*${numberName}`, 'i') });
+  expect(getEditVaButton(numberName)).to.exist;
   // and the add phone number text should exist
-  view.getByText(new RegExp(`add.*${shortNumberName}`, 'i'));
+  expect(view.getByText(new RegExp(`add.*${shortNumberName}`, 'i'))).to.exist;
 }
 
 // When the initial transaction creation request fails
@@ -84,8 +80,7 @@ async function testTransactionCreationFails(numberName) {
     { exact: false },
   );
 
-  const editButton = getEditButton(numberName);
-  expect(editButton).to.exist;
+  expect(getEditVaButton(numberName)).to.exist;
 }
 
 // When the update fails but not until after the Delete Modal has exited and the
@@ -116,7 +111,7 @@ async function testSlowFailure(numberName) {
   ).to.exist;
 
   // and the add/edit button should be back
-  expect(getEditButton(numberName)).to.exist;
+  expect(getEditVaButton(numberName)).to.exist;
 }
 
 describe('Deleting', () => {

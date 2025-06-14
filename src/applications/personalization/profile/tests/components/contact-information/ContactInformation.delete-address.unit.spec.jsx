@@ -22,20 +22,17 @@ const ui = (
 let view;
 let server;
 
-function getEditButton(addressName) {
-  // Need to use `queryByRole` since the visible label is simply `Edit`, but
-  // the aria-label is more descriptive
-  return view.queryByRole('button', {
-    name: new RegExp(`edit.*${addressName}`, 'i'),
-  });
+function getEditVaButton(addressName) {
+  const label = `Edit ${addressName}`;
+  // use querySelector because <va-button> is a web component and doesn't
+  // work with getByRole/getByText queries
+  return view.container.querySelector(`va-button[label="${label}"]`);
 }
 
 function deleteAddress(addressName) {
   // delete
-  view
-    .getByLabelText(new RegExp(`remove ${addressName}`, 'i'), {
-      selector: 'button',
-    })
+  view.container
+    .querySelector(`va-button[label="Remove ${addressName}"]`)
     .click();
   const confirmDeleteButton = view.getByText('Yes, remove my information', {
     selector: 'button',
@@ -72,9 +69,7 @@ async function testSlowSuccess(addressName) {
   await view.findByText('Update saved.');
 
   // the edit button should exist
-  view.getByRole('button', { name: new RegExp(`edit.*${addressName}`, 'i') });
-  // and the add address text should exist
-  expect(view.getByText(new RegExp(`add.*${addressName}`, 'i'))).to.exist;
+  expect(getEditVaButton(addressName)).to.exist;
 }
 
 // When the initial transaction creation request fails
@@ -89,8 +84,7 @@ async function testTransactionCreationFails(addressName) {
     { exact: false },
   );
 
-  const editButton = getEditButton(addressName);
-  expect(editButton).to.exist;
+  expect(getEditVaButton(addressName)).to.exist;
 }
 
 // When the update fails but not until after the Delete Modal has exited and the
@@ -120,8 +114,8 @@ async function testSlowFailure(addressName) {
     ),
   ).to.exist;
 
-  // and the add/edit button should be back
-  expect(getEditButton(addressName)).to.exist;
+  // and the edit button should be back
+  expect(getEditVaButton(addressName)).to.exist;
 }
 
 describe('Deleting', () => {
@@ -163,12 +157,10 @@ describe('Deleting', () => {
 
   it('should not be supported for mailing address', () => {
     const addressName = FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS];
-    getEditButton(addressName).click();
+    getEditVaButton(addressName).click();
 
     expect(
-      view.queryByText(new RegExp(`remove ${addressName}`, 'i'), {
-        selector: 'button',
-      }),
+      view.container.querySelector(`va-button[label="Remove ${addressName}"]`),
     ).to.not.exist;
   });
 });

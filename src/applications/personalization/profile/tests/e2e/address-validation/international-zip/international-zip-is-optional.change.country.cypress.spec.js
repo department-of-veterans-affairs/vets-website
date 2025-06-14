@@ -24,8 +24,7 @@ describe('Personal and contact information', () => {
       cy.login(mockUser);
       cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
       cy.injectAxe();
-
-      cy.findByRole('button', { name: /edit mailing address/i }).click({
+      cy.get(`va-button[label="Edit Mailing address"]`).click({
         force: true,
       });
       cy.intercept('POST', '/v0/profile/address_validation', {
