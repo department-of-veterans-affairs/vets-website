@@ -1,8 +1,11 @@
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  checkboxRequiredSchema,
+  checkboxUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import environment from 'platform/utilities/environment';
-import { VaCheckboxField } from 'platform/forms-system/src/js/web-component-fields';
 import { schemaFields } from '../definitions/constants';
 
 /** @type {PageSchema} */
@@ -223,16 +226,15 @@ export default {
             </>
           ),
         }),
-        [schemaFields.acknowledgeToReleaseInformation]: {
-          'ui:title': 'I acknowledge and authorize this release of information',
-          'ui:webComponentField': VaCheckboxField,
-          'ui:errorMessages': {
+        [schemaFields.acknowledgeToReleaseInformation]: checkboxUI({
+          title: 'I acknowledge and authorize this release of information',
+          errorMessages: {
             enum:
               'Please authorize the release so we can request your private medical records from your non-VA provider or hospital.',
             required:
               'Please authorize the release so we can request your private medical records from your non-VA provider or hospital.',
           },
-        },
+        }),
       },
   schema: environment.isProduction()
     ? {
@@ -246,10 +248,7 @@ export default {
     : {
         type: 'object',
         properties: {
-          [schemaFields.acknowledgeToReleaseInformation]: {
-            type: 'boolean',
-            enum: [true],
-          },
+          [schemaFields.acknowledgeToReleaseInformation]: checkboxRequiredSchema,
         },
         required: [schemaFields.acknowledgeToReleaseInformation],
       },
