@@ -104,13 +104,13 @@ const uiSchema = {
 
         const editingDetails = formData.additionalOfficialDetails;
 
-        if (editingDetails.phoneType === 'us') {
+        if (editingDetails?.phoneType === 'us') {
           return {
             ...formSchema,
             required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
           };
         }
-        if (editingDetails.phoneType === 'intl') {
+        if (editingDetails?.phoneType === 'intl') {
           return {
             ...formSchema,
             required: [
