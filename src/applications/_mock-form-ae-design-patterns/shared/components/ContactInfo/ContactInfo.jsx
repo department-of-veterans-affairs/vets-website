@@ -1,13 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
-import {
-  focusElement,
-  scrollTo,
-  scrollAndFocus,
-} from '@department-of-veterans-affairs/platform-utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { Element, scrollTo, scrollAndFocus } from 'platform/utilities/scroll';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
@@ -15,17 +13,8 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { Element } from 'platform/utilities/scroll';
-
 import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
-
-// import { AddressView } from '@department-of-veterans-affairs/platform-user/exports';
-// import AddressView from '@@vap-svc/components/AddressField/AddressView';
 import AddressView from 'platform/user/profile/vap-svc/components/AddressField/AddressView';
-
-// import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
-// import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
@@ -38,11 +27,12 @@ import {
   REVIEW_CONTACT,
   convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
+  getPhoneString,
 } from 'platform/forms-system/src/js/utilities/data/profile';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { ContactInfoLoader } from './ContactInfoLoader';
-import { ContactInfoSuccessAlerts } from './ContactInfoSuccessAlerts';
+import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
+import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 
 /**
  * Render contact info page
@@ -60,7 +50,7 @@ import { ContactInfoSuccessAlerts } from './ContactInfoSuccessAlerts';
  * @param {String[]} requiredKeys - list of keys of required fields
  * @returns
  */
-const ContactInfoBase = ({
+export const ContactInfoBase = ({
   data,
   goBack,
   goForward,
@@ -70,7 +60,6 @@ const ContactInfoBase = ({
   contentAfterButtons,
   setFormData,
   content,
-  contactPath,
   keys,
   requiredKeys,
   uiSchema,
@@ -78,15 +67,18 @@ const ContactInfoBase = ({
   contactInfoPageKey,
   disableMockContactInfo = false,
   contactSectionHeadingLevel,
-  prefillPatternEnabled,
+  contactPath,
   ...rest
 }) => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const aedpPrefillToggleEnabled = useToggleValue(TOGGLE_NAMES.aedpPrefill);
-
   const { router } = rest;
 
-  const { pathname } = router.location;
+  let urlPrefix = '';
+
+  if (router && router?.routes && router?.routes?.length > 0) {
+    urlPrefix = router?.routes?.[1]?.formConfig?.urlPrefix || '';
+  }
+
+  const baseEditPath = `${urlPrefix}${contactPath}`;
 
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
@@ -105,10 +97,6 @@ const ContactInfoBase = ({
       : profile.vapContactInfo || {};
 
   const dataWrap = data[keys.wrapper] || {};
-  const email = dataWrap[keys.email] || '';
-  const homePhone = dataWrap[keys.homePhone] || {};
-  const mobilePhone = dataWrap[keys.mobilePhone] || {};
-  const address = dataWrap[keys.address] || {};
 
   const missingInfo = getMissingInfo({
     data: dataWrap,
@@ -123,6 +111,24 @@ const ContactInfoBase = ({
   const validationErrors = uiSchema?.['ui:required']?.(data)
     ? getValidationErrors(uiSchema?.['ui:validations'] || [], {}, data)
     : [];
+
+  // Get the fieldTransactionMap from Redux store
+  const { fieldTransactionMap } = useSelector(state => state.vapService) || {};
+
+  // Map editState field names to actual field names
+  const fieldNameMap = {
+    address: FIELD_NAMES.MAILING_ADDRESS,
+    'home-phone': FIELD_NAMES.HOME_PHONE,
+    'mobile-phone': FIELD_NAMES.MOBILE_PHONE,
+    email: FIELD_NAMES.EMAIL,
+  };
+
+  // Check if we have a form-only update for the current field
+  const [editField] = editState?.split(',') || [];
+  const fieldName = fieldNameMap[editField];
+  const hasFormOnlyUpdate = fieldName
+    ? fieldTransactionMap?.[fieldName]?.formOnlyUpdate
+    : false;
 
   const handlers = {
     onSubmit: event => {
@@ -154,76 +160,97 @@ const ContactInfoBase = ({
     },
   };
 
-  useEffect(
-    () => {
+  const lastSyncedData = useRef({});
+
+  const syncProfileData = () => {
+    const wrapper = { ...data[keys.wrapper] };
+    const updatedWrapper = { ...wrapper };
+    let needsUpdate = false;
+
+    const fields = [
+      { key: keys.email, path: 'email' },
+      { key: keys.homePhone, path: 'homePhone' },
+      { key: keys.mobilePhone, path: 'mobilePhone' },
+      { key: keys.address, path: 'mailingAddress' },
+    ];
+
+    fields.forEach(({ key, path }) => {
+      const profileValue = contactInfo?.[path];
+      const formValue = wrapper?.[key];
+
+      const profileUpdated = profileValue?.updatedAt || '';
+      const formUpdated = formValue?.updatedAt || '';
+
+      // Prefer the more recent value between profile and form
+      const isFormNewer = formUpdated && formUpdated > profileUpdated;
+      const selectedValue = isFormNewer ? formValue : profileValue;
+
       if (
-        (keys.email && (contactInfo.email?.emailAddress || '') !== email) ||
-        (keys.homePhone &&
-          contactInfo.homePhone?.updatedAt !== homePhone?.updatedAt) ||
-        (keys.mobilePhone &&
-          contactInfo.mobilePhone?.updatedAt !== mobilePhone?.updatedAt) ||
-        (keys.address &&
-          contactInfo.mailingAddress?.updatedAt !== address?.updatedAt)
+        selectedValue &&
+        JSON.stringify(lastSyncedData.current[key]) !==
+          JSON.stringify(selectedValue)
       ) {
-        const wrapper = { ...data[keys.wrapper] };
-        if (keys.address) {
-          wrapper[keys.address] = convertNullishObjectValuesToEmptyString(
-            contactInfo.mailingAddress,
-          );
-        }
-        if (keys.homePhone) {
-          wrapper[keys.homePhone] = convertNullishObjectValuesToEmptyString(
-            contactInfo.homePhone,
-          );
-        }
-        if (keys.mobilePhone) {
-          wrapper[keys.mobilePhone] = convertNullishObjectValuesToEmptyString(
-            contactInfo.mobilePhone,
-          );
-        }
-        if (keys.email) {
-          wrapper[keys.email] = contactInfo.email?.emailAddress;
-        }
-        setFormData({ ...data, [keys.wrapper]: wrapper });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [contactInfo, setFormData, data, keys],
-  );
+        const cleanedValue =
+          path === 'email'
+            ? {
+                ...selectedValue,
+                emailAddress: selectedValue?.emailAddress || '',
+              }
+            : convertNullishObjectValuesToEmptyString(selectedValue);
 
-  useEffect(
-    () => {
-      if (editState) {
-        const [lastEdited, returnState] = editState.split(',');
-        setTimeout(() => {
-          const target =
-            returnState === 'canceled'
-              ? `#edit-${lastEdited}`
-              : `#updated-${lastEdited}`;
-          scrollTo(
-            onReviewPage
-              ? `${contactInfoPageKey}ScrollElement`
-              : `header-${lastEdited}`,
-          );
-          focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
-        });
+        updatedWrapper[key] = cleanedValue;
+        lastSyncedData.current[key] = selectedValue;
+        needsUpdate = true;
       }
-    },
-    [contactInfoPageKey, editState, onReviewPage],
-  );
+    });
 
-  useEffect(
-    () => {
-      if ((hasInitialized && missingInfo.length) || testContinueAlert) {
-        // page had an error flag, so we know when to show a success alert
-        setHadError(true);
-      }
+    if (needsUpdate) {
+      setFormData({ ...data, [keys.wrapper]: updatedWrapper });
+    }
+  };
+
+  const handleEditStateScroll = () => {
+    if (editState) {
+      const [lastEdited, returnState] = editState.split(',');
       setTimeout(() => {
-        setHasInitialized(true);
+        const target =
+          returnState === 'canceled'
+            ? `#edit-${lastEdited}`
+            : `#updated-${lastEdited}`;
+        scrollTo(
+          onReviewPage
+            ? `${contactInfoPageKey}ScrollElement`
+            : `header-${lastEdited}`,
+        );
+        focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
+        setTimeout(() => {
+          clearReturnState();
+        }, 1000);
       });
-    },
-    [missingInfo, hasInitialized, testContinueAlert],
-  );
+    }
+  };
+
+  const handleInitialErrorState = () => {
+    if ((hasInitialized && missingInfo.length) || testContinueAlert) {
+      // page had an error flag, so we know when to show a success alert
+      setHadError(true);
+    }
+    setTimeout(() => {
+      setHasInitialized(true);
+    });
+  };
+
+  useEffect(() => syncProfileData(), [contactInfo, data, keys, setFormData]);
+  useEffect(() => handleEditStateScroll(), [
+    contactInfoPageKey,
+    editState,
+    onReviewPage,
+  ]);
+  useEffect(() => handleInitialErrorState(), [
+    missingInfo,
+    hasInitialized,
+    testContinueAlert,
+  ]);
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
@@ -233,46 +260,90 @@ const ContactInfoBase = ({
     'vads-u-margin-top--0',
   ].join(' ');
 
-  // keep alerts in DOM, so we don't have to delay focus; but keep the 100ms
-  // delay to move focus away from the h3
-  const showSuccessAlertInField = (id, text) => {
-    if (prefillPatternEnabled && aedpPrefillToggleEnabled) {
-      return null;
-    }
-    return (
-      <va-alert
-        id={`updated-${id}`}
-        visible={editState === `${id},updated`}
-        class="vads-u-margin-y--1"
-        status="success"
-        slim
-      >
-        {`${text} ${content.updated}`}
-      </va-alert>
-    );
+  // Extract alert rendering functions
+  const showSuccessAlertInField = (id, text) => (
+    <va-alert
+      id={`updated-${id}`}
+      visible={editState === `${id},updated` && !hasFormOnlyUpdate}
+      class="vads-u-margin-y--1"
+      status="success"
+      slim
+    >
+      {`${text} ${content.updated}`}
+    </va-alert>
+  );
+
+  const showFormOnlyAlert = id => (
+    <va-alert
+      id="form-only-update-alert"
+      visible={
+        hasFormOnlyUpdate &&
+        editState?.includes(`${id}`) &&
+        editState?.includes('updated')
+      }
+      class="vads-u-margin-y--1"
+      status="error"
+      uswds
+      slim
+    >
+      <p>
+        <strong>
+          We couldn’t update your VA.gov profile, but your changes were saved to
+          this form.{' '}
+        </strong>
+        You can try again later to update your profile, or continue with the
+        form using the information you entered.
+      </p>
+    </va-alert>
+  );
+
+  // Helper function to render email addresses consistently
+  const renderEmail = emailData => {
+    if (!emailData) return '';
+    return typeof emailData === 'object'
+      ? emailData.emailAddress || ''
+      : emailData || '';
   };
 
-  // Loop to separate pages when editing
-  // Each Link includes an ID for focus management on the review & submit page
+  // Extract contact section rendering
+  const renderAddressSection = () => {
+    if (!keys.address) return null;
 
-  const contactSection = [
-    keys.address ? (
+    return (
       <React.Fragment key="mailing">
         <va-card class="vads-u-margin-bottom--3">
           <Headers name="header-address" className={headerClassNames}>
             {content.mailingAddress}
+            {!requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS) &&
+              ' (optional)'}
           </Headers>
-          {showSuccessAlertInField('address', content.mailingAddress)}
+          {hasFormOnlyUpdate
+            ? showFormOnlyAlert('address')
+            : showSuccessAlertInField('address', content.mailingAddress)}
           <AddressView data={dataWrap[keys.address]} />
           {loggedIn && (
             <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
               <VaLink
-                href={`${pathname}/edit-mailing-address`}
+                href={`${baseEditPath}/edit-mailing-address`}
                 label={content.editMailingAddress}
-                text={content.edit}
+                text={
+                  isFieldEmpty(
+                    dataWrap[keys.address],
+                    FIELD_NAMES.MAILING_ADDRESS,
+                  )
+                    ? content.add
+                    : content.edit
+                }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${pathname}/edit-mailing-address`);
+                  // router.push(`${baseEditPath}/edit-mailing-address`);
+                  router.push({
+                    pathname: `${baseEditPath}/edit-mailing-address`,
+                    state: {
+                      formKey: keys.address,
+                      keys: { wrapper: keys.wrapper },
+                    },
+                  });
                 }}
                 active
               />
@@ -280,9 +351,13 @@ const ContactInfoBase = ({
           )}
         </va-card>
       </React.Fragment>
-    ) : null,
+    );
+  };
 
-    keys.homePhone ? (
+  const renderHomePhoneSection = () => {
+    if (!keys.homePhone) return null;
+
+    return (
       <React.Fragment key="home">
         <va-card class="vads-u-margin-bottom--3">
           <Headers
@@ -290,20 +365,33 @@ const ContactInfoBase = ({
             className={`${headerClassNames} vads-u-margin-top--0p5`}
           >
             {content.homePhone}
+            {!requiredKeys.includes(FIELD_NAMES.HOME_PHONE) && ' (optional)'}
           </Headers>
-          {showSuccessAlertInField('home-phone', content.homePhone)}
+          {hasFormOnlyUpdate
+            ? showFormOnlyAlert('home-phone')
+            : showSuccessAlertInField('home-phone', content.homePhone)}
           <span className="dd-privacy-hidden" data-dd-action-name="home phone">
             {renderTelephone(dataWrap[keys.homePhone])}
           </span>
           {loggedIn && (
             <p className="vads-u-margin-top--0p5">
               <VaLink
-                href={`${pathname}/edit-home-phone`}
+                href={`${baseEditPath}/edit-home-phone`}
                 label={content.editHomePhone}
-                text={content.edit}
+                text={
+                  getPhoneString(dataWrap[keys.homePhone])
+                    ? content.edit
+                    : content.add
+                }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${pathname}/edit-home-phone`);
+                  router.push({
+                    pathname: `${baseEditPath}/edit-home-phone`,
+                    state: {
+                      formKey: keys.homePhone,
+                      keys: { wrapper: keys.wrapper },
+                    },
+                  });
                 }}
                 active
               />
@@ -311,15 +399,25 @@ const ContactInfoBase = ({
           )}
         </va-card>
       </React.Fragment>
-    ) : null,
+    );
+  };
 
-    keys.mobilePhone ? (
+  const renderMobilePhoneSection = () => {
+    if (!keys.mobilePhone) return null;
+
+    return (
       <React.Fragment key="mobile">
         <va-card class="vads-u-margin-bottom--3">
-          <Headers name="header-mobile-phone" className={headerClassNames}>
+          <Headers
+            name="header-mobile-phone"
+            className={`${headerClassNames} vads-u-margin-top--0p5`}
+          >
             {content.mobilePhone}
+            {!requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && ' (optional)'}
           </Headers>
-          {showSuccessAlertInField('mobile-phone', content.mobilePhone)}
+          {hasFormOnlyUpdate
+            ? showFormOnlyAlert('mobile-phone')
+            : showSuccessAlertInField('mobile-phone', content.mobilePhone)}
           <span
             className="dd-privacy-hidden"
             data-dd-action-name="mobile phone"
@@ -329,12 +427,22 @@ const ContactInfoBase = ({
           {loggedIn && (
             <p className="vads-u-margin-top--0p5">
               <VaLink
-                href={`${pathname}/edit-mobile-phone`}
+                href={`${baseEditPath}/edit-mobile-phone`}
                 label={content.editMobilePhone}
-                text={content.edit}
+                text={
+                  getPhoneString(dataWrap[keys.mobilePhone])
+                    ? content.edit
+                    : content.add
+                }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${pathname}/edit-mobile-phone`);
+                  router.push({
+                    pathname: `${baseEditPath}/edit-mobile-phone`,
+                    state: {
+                      formKey: keys.mobilePhone,
+                      keys: { wrapper: keys.wrapper },
+                    },
+                  });
                 }}
                 active
               />
@@ -342,27 +450,44 @@ const ContactInfoBase = ({
           )}
         </va-card>
       </React.Fragment>
-    ) : null,
+    );
+  };
 
-    keys.email ? (
+  const renderEmailSection = () => {
+    if (!keys.email) return null;
+
+    return (
       <React.Fragment key="email">
         <va-card>
           <Headers name="header-email" className={headerClassNames}>
             {content.email}
+            {!requiredKeys.includes(FIELD_NAMES.EMAIL) && ' (optional)'}
           </Headers>
-          {showSuccessAlertInField('email', content.email)}
+          {hasFormOnlyUpdate
+            ? showFormOnlyAlert('email')
+            : showSuccessAlertInField('email', content.email)}
           <span className="dd-privacy-hidden" data-dd-action-name="email">
-            {dataWrap[keys.email] || ''}
+            {renderEmail(dataWrap[keys.email])}
           </span>
           {loggedIn && (
             <p className="vads-u-margin-top--0p5">
               <VaLink
-                href={`${pathname}/edit-email-address`}
+                href={`${baseEditPath}/edit-email-address`}
                 label={content.editEmail}
-                text={content.edit}
+                text={
+                  isFieldEmpty(dataWrap[keys.email], FIELD_NAMES.EMAIL)
+                    ? content.add
+                    : content.edit
+                }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${pathname}/edit-email-address`);
+                  router.push({
+                    pathname: `${baseEditPath}/edit-email-address`,
+                    state: {
+                      formKey: keys.email,
+                      keys: { wrapper: keys.wrapper },
+                    },
+                  });
                 }}
                 active
               />
@@ -370,8 +495,69 @@ const ContactInfoBase = ({
           )}
         </va-card>
       </React.Fragment>
-    ) : null,
+    );
+  };
+
+  const contactSection = [
+    renderAddressSection(),
+    renderHomePhoneSection(),
+    renderMobilePhoneSection(),
+    renderEmailSection(),
   ];
+
+  const renderValidationMessages = () => (
+    <div ref={wrapRef}>
+      {hadError &&
+        missingInfo.length === 0 &&
+        validationErrors.length === 0 && (
+          <div className="vads-u-margin-top--1p5">
+            <va-alert status="success" slim>
+              <div className="vads-u-font-size--base">
+                {content.alertContent}
+              </div>
+            </va-alert>
+          </div>
+        )}
+      {missingInfo.length > 0 && (
+        <>
+          <p className="vads-u-margin-top--1p5">
+            <strong>Note:</strong>
+            {missingInfo[0].startsWith('e') ? ' An ' : ' A '}
+            {list} {plural ? 'are' : 'is'} required for this application.
+          </p>
+          {submitted && (
+            <div className="vads-u-margin-top--1p5" role="alert">
+              <va-alert status="error" slim>
+                <div className="vads-u-font-size--base">
+                  We still don’t have your {list}. Please edit and update the
+                  field.
+                </div>
+              </va-alert>
+            </div>
+          )}
+          <div className="vads-u-margin-top--1p5" role="alert">
+            <va-alert status="warning" slim>
+              <div className="vads-u-font-size--base">
+                Your {list} {plural ? 'are' : 'is'} missing. Please edit and
+                update the {plural ? 'fields' : 'field'}.
+              </div>
+            </va-alert>
+          </div>
+        </>
+      )}
+      {submitted &&
+        missingInfo.length === 0 &&
+        validationErrors.length > 0 && (
+          <div className="vads-u-margin-top--1p5" role="alert">
+            <va-alert status="error" slim>
+              <div className="vads-u-font-size--base">
+                {validationErrors[0]}
+              </div>
+            </va-alert>
+          </div>
+        )}
+    </div>
+  );
 
   const navButtons = onReviewPage ? (
     <va-button text={content.update} onClick={handlers.updatePage} />
@@ -387,118 +573,37 @@ const ContactInfoBase = ({
   );
 
   return (
-    <ContactInfoLoader
-      data={data}
-      goBack={goBack}
-      goForward={goForward}
-      onReviewPage={onReviewPage}
-      updatePage={updatePage}
-      contentBeforeButtons={contentBeforeButtons}
-      contentAfterButtons={contentAfterButtons}
-      setFormData={setFormData}
-      content={content}
-      contactPath={contactPath}
-      keys={keys}
-      requiredKeys={requiredKeys}
-      uiSchema={uiSchema}
-      testContinueAlert={testContinueAlert}
-      contactInfoPageKey={contactInfoPageKey}
-      disableMockContactInfo={disableMockContactInfo}
-      contactSectionHeadingLevel={contactSectionHeadingLevel}
-      router={router}
-      prefillPatternEnabled={prefillPatternEnabled && aedpPrefillToggleEnabled}
-    >
-      <div className="vads-u-margin-y--2">
-        <Element name={`${contactInfoPageKey}ScrollElement`} />
-        <ContactInfoSuccessAlerts
-          submitted={submitted}
-          missingInfo={missingInfo}
-          contactInfoPageKey={contactInfoPageKey}
-          editState={editState}
-          prefillPatternEnabled={
-            prefillPatternEnabled && aedpPrefillToggleEnabled
-          }
-        />
-        <form onSubmit={handlers.onSubmit}>
-          <MainHeader
-            id={`${contactInfoPageKey}Header`}
-            className="vads-u-margin-top--3 vads-u-margin-bottom--0"
+    <div className="vads-u-margin-y--2">
+      <Element name={`${contactInfoPageKey}ScrollElement`} />
+      <form onSubmit={handlers.onSubmit}>
+        <MainHeader
+          id={`${contactInfoPageKey}Header`}
+          className="vads-u-margin-top--3 vads-u-margin-bottom--0"
+        >
+          {content.title}
+        </MainHeader>
+        {content.description}
+        {!loggedIn && (
+          <strong className="usa-input-error-message">
+            You must be logged in to enable view and edit this page.
+          </strong>
+        )}
+        {renderValidationMessages()}
+        <div className="vads-u-margin-top--3">
+          <div
+            className="va-profile-wrapper vads-l-grid-container vads-u-padding-x--0"
+            onSubmit={handlers.onSubmit}
           >
-            {content.title}
-          </MainHeader>
-          {content.description}
-          {!loggedIn && (
-            <strong className="usa-input-error-message">
-              You must be logged in to enable view and edit this page.
-            </strong>
-          )}
-          <div ref={wrapRef}>
-            {hadError &&
-              missingInfo.length === 0 &&
-              validationErrors.length === 0 && (
-                <div className="vads-u-margin-top--1p5">
-                  <va-alert status="success" slim>
-                    <div className="vads-u-font-size--base">
-                      {content.alertContent}
-                    </div>
-                  </va-alert>
-                </div>
-              )}
-            {missingInfo.length > 0 && (
-              <>
-                <p className="vads-u-margin-top--1p5">
-                  <strong>Note:</strong>
-                  {missingInfo[0].startsWith('e') ? ' An ' : ' A '}
-                  {list} {plural ? 'are' : 'is'} required for this application.
-                </p>
-                {submitted && (
-                  <div className="vads-u-margin-top--1p5" role="alert">
-                    <va-alert status="error" slim>
-                      <div className="vads-u-font-size--base">
-                        We still don’t have your {list}. Please edit and update
-                        the field.
-                      </div>
-                    </va-alert>
-                  </div>
-                )}
-                <div className="vads-u-margin-top--1p5" role="alert">
-                  <va-alert status="warning" slim>
-                    <div className="vads-u-font-size--base">
-                      Your {list} {plural ? 'are' : 'is'} missing. Please edit
-                      and update the {plural ? 'fields' : 'field'}.
-                    </div>
-                  </va-alert>
-                </div>
-              </>
-            )}
-            {submitted &&
-              missingInfo.length === 0 &&
-              validationErrors.length > 0 && (
-                <div className="vads-u-margin-top--1p5" role="alert">
-                  <va-alert status="error" slim>
-                    <div className="vads-u-font-size--base">
-                      {validationErrors[0]}
-                    </div>
-                  </va-alert>
-                </div>
-              )}
-          </div>
-          <div className="vads-u-margin-top--3">
-            <div
-              className="va-profile-wrapper vads-l-grid-container vads-u-padding-x--0"
-              onSubmit={handlers.onSubmit}
-            >
-              <div className="vads-l-row">
-                <div className="vads-l-col--12 medium-screen:vads-l-col--6">
-                  {contactSection}
-                </div>
+            <div className="vads-l-row">
+              <div className="vads-l-col--12 medium-screen:vads-l-col--6">
+                {contactSection}
               </div>
             </div>
           </div>
-        </form>
-        <div className="vads-u-margin-top--4">{navButtons}</div>
-      </div>
-    </ContactInfoLoader>
+        </div>
+      </form>
+      <div className="vads-u-margin-top--4">{navButtons}</div>
+    </div>
   );
 };
 
@@ -515,16 +620,17 @@ ContactInfoBase.propTypes = {
   goForward: PropTypes.func,
   immediateRedirect: PropTypes.bool,
   keys: contactInfoPropTypes.keys,
+  prefillPatternEnabled: PropTypes.bool,
   requiredKeys: PropTypes.arrayOf(PropTypes.string),
   setFormData: PropTypes.func,
-  testContinueAlert: PropTypes.bool, // for unit testing only
+  testContinueAlert: PropTypes.bool,
+  // for unit testing only
   uiSchema: PropTypes.shape({
     'ui:required': PropTypes.func,
     'ui:validations': PropTypes.array,
   }),
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
-  prefillPatternEnabled: PropTypes.bool,
 };
 
 const ContactInfo = withRouter(ContactInfoBase);

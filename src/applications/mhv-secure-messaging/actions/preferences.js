@@ -6,7 +6,7 @@ export const getPatientSignature = () => async dispatch => {
     const response = await getSignature();
     dispatch({
       type: Actions.Preferences.GET_USER_SIGNATURE,
-      payload: response.data,
+      payload: response.data?.attributes,
     });
   } catch (error) {
     dispatch({

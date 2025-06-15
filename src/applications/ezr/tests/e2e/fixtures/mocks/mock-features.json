@@ -7,8 +7,12 @@
         "value": true
       },
       {
-        "name": "hcaSigiEnabled",
-        "value": false
+        "name": "ezrEmergencyContactsEnabled",
+        "value": true
+      },
+      {
+        "name": "ezrNextOfKinEnabled",
+        "value": true
       }
     ]
   }

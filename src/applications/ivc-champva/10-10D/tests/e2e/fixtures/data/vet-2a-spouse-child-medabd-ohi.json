@@ -13,9 +13,7 @@
           "state": "MD",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "345345345"
-        },
+        "applicantSSN": "345345345",
         "applicantName": {
           "first": "Applicant",
           "last": "Jones"
@@ -35,13 +33,25 @@
             "uploaded": false
           },
           {
-            "name": "applicantMedicarePartAPartBCard",
+            "name": "applicantMedicarePartAPartBCardFront",
             "path": "applicant-medicare-ab-file/:index",
             "required": true,
             "uploaded": false
           },
           {
-            "name": "applicantMedicarePartDCard",
+            "name": "applicantMedicarePartAPartBCardBack",
+            "path": "applicant-medicare-ab-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartDCardFront",
+            "path": "applicant-medicare-d-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartDCardBack",
             "path": "applicant-medicare-d-file/:index",
             "required": true,
             "uploaded": false
@@ -53,7 +63,13 @@
             "uploaded": false
           },
           {
-            "name": "applicantOhiCard",
+            "name": "applicantOhiCardFront",
+            "path": "applicant-other-insurance-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOhiCardBack",
             "path": "applicant-other-insurance-file/:index",
             "required": true,
             "uploaded": false
@@ -79,9 +95,7 @@
           "state": "MD",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "234123234"
-        },
+        "applicantSSN": "234123234",
         "applicantName": {
           "first": "Applicant2",
           "last": "Jones2"

@@ -1,7 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Paths, Locators, Alerts } from '../utils/constants';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockFacilityBlockedRecipients from '../fixtures/recipientsResponse/facility-blocked-recipients-response.json';
 import blockedThread from '../fixtures/recipientsResponse/thread-with-blocked-group-response.json';
@@ -26,7 +26,9 @@ describe('Verify Thread - Blocked from Facility', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
       waitForAnimations: true,
     });
-    cy.get(Locators.BUTTONS.CONTINUE).click({ waitForAnimations: true });
+    cy.findByTestId(Locators.BUTTONS.CONTINUE).click({
+      waitForAnimations: true,
+    });
 
     // TODO create a loop to check all triageGroups in facility
 

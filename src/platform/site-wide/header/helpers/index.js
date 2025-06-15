@@ -110,3 +110,26 @@ export const deriveMenuItemID = (item, level) => {
   const formattedLevel = level || '';
   return `${formattedTitle}-${formattedHref}-${formattedLevel}`;
 };
+
+/**
+ * Common logic for both minimal header and footer to determine if it should be shown.
+ * Returns a boolean if static, or a function if dynamic.
+ *
+ * @param {
+ *  enabled?: boolean,
+ *  excludePaths?: string[]
+ * } data
+ *
+ * @returns {boolean | function(string): boolean}
+ */
+export const createShouldShowMinimal = ({ enabled, excludePaths }) => {
+  let showMinimal = !!enabled;
+
+  if (enabled && excludePaths?.length) {
+    showMinimal = path => {
+      return !path || !excludePaths.includes(path);
+    };
+  }
+
+  return showMinimal;
+};

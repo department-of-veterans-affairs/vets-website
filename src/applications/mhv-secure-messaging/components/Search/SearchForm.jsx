@@ -14,7 +14,7 @@ import {
   filterDescription,
 } from '../../util/constants';
 import { DateRangeOptions, DateRangeValues } from '../../util/inputContants';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, isCustomFolder } from '../../util/helpers';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query, threadCount } = props;
@@ -214,22 +214,28 @@ const SearchForm = props => {
     );
   };
 
-  const isCustomFolder =
-    folder.name !== DefaultFolders.INBOX.header &&
-    folder.name !== DefaultFolders.SENT.header &&
-    folder.name !== DefaultFolders.DRAFTS.header &&
-    folder.name !== DefaultFolders.DELETED.header;
+  const isCustom = useMemo(() => isCustomFolder(folder.folderId), [
+    folder.folderId,
+  ]);
 
-  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folder.name}`}`;
-  const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
+  const ddTitle = useMemo(
+    () => {
+      return `${isCustom ? 'Custom Folder' : `${folder.name}`}`;
+    },
+    [folder.name, isCustom],
+  );
+  const ddPrivacy = useMemo(() => `${isCustom ? 'mask' : 'allow'}`, [isCustom]);
 
   const filterLabelHeading = useMemo(
     () => {
+      if (isCustom) {
+        return `Filter messages in ${folder.name}`;
+      }
       return `Filter messages in ${
-        folder.name === 'Deleted' ? 'Trash' : folder.name
-      } `;
+        folder.name === 'Deleted' ? 'trash' : folder.name.toLowerCase()
+      }`;
     },
-    [folder.name],
+    [folder.name, isCustom],
   );
 
   const filterLabelBody = useMemo(
@@ -274,7 +280,7 @@ const SearchForm = props => {
                 value={searchTerm}
                 onInput={e => setSearchTerm(e.target.value)}
                 data-testid="keyword-search-input"
-                data-dd-action-name={`${filterLabelBody} Input Field`}
+                data-dd-action-name="Input Field - Filter"
                 onKeyPress={e => {
                   if (e.key === 'Enter') handleSearch();
                 }}
@@ -313,7 +319,7 @@ const SearchForm = props => {
         )}
         <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
           <va-button
-            text="Filter"
+            text="Apply filters"
             primary
             class="filter-button"
             data-testid="filter-messages-button"
@@ -326,20 +332,20 @@ const SearchForm = props => {
           {/* using toggle to hide this btn temporarily until filter accordion redesign is completed */}
           {mhvSecureMessagingFilterAccordion ? (
             <va-button
-              text="Clear Filters"
+              text="Clear filters"
               secondary
               class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               onClick={handleFilterClear}
-              dd-action-name="Clear Filters Button"
+              dd-action-name="Clear filters Button"
             />
           ) : (
             resultsCount !== undefined && (
               <va-button
-                text="Clear Filters"
+                text="Clear filters"
                 secondary
                 class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
                 onClick={handleFilterClear}
-                dd-action-name="Clear Filters Button"
+                dd-action-name="Clear filters Button"
               />
             )
           )}

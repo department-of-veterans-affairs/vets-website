@@ -37,9 +37,9 @@ export function pdfTransform(formData) {
   const {
     veteranFullName,
     veteranSocialSecurityNumber: ssn,
-    vaFileNumber,
+    veteranVAFileNumber,
     veteranDateOfBirth: dateOfBirth,
-    serviceNumber,
+    veteranServiceNumber,
     veteranHomeAddress: homeAddress,
     primaryPhone: phone,
     veteranEmail: email,
@@ -56,6 +56,7 @@ export function pdfTransform(formData) {
     authorizeNamesTextArea,
     applicantPhone,
     applicantEmail,
+    representativeSubmissionMethod,
   } = formData;
 
   const createAddress = (address = {}) => ({
@@ -75,9 +76,9 @@ export function pdfTransform(formData) {
       last: veteranFullName?.last || '',
     },
     ssn,
-    vaFileNumber,
+    vaFileNumber: veteranVAFileNumber,
     dateOfBirth,
-    serviceNumber,
+    serviceNumber: veteranServiceNumber,
     serviceBranch: serviceBranch?.replace(/ /g, '_').toUpperCase() || null,
     address: createAddress(homeAddress),
     phone,
@@ -121,6 +122,7 @@ export function pdfTransform(formData) {
   }
 
   return {
+    representativeSubmissionMethod,
     veteran,
     recordConsent: yesNoToBoolean(authorizationRadio),
     consentAddressChange: yesNoToBoolean(authorizeAddressRadio),

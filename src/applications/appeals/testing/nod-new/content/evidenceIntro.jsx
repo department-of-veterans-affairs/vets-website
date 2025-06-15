@@ -11,7 +11,7 @@ export const evidenceUploadIntroDescription = (
       receive this request.
     </p>
     <div className="vads-u-margin-y--2">
-      <va-additional-info trigger="How do I submit evidence later?" uswds>
+      <va-additional-info trigger="How do I submit evidence later?">
         You can submit more evidence by mailing it to this address:
         <p className="vads-u-padding-y--2">
           Board of Veterans’ Appeals
@@ -21,7 +21,7 @@ export const evidenceUploadIntroDescription = (
           Washington, D.C. 20038
         </p>
         You can also fax it to{' '}
-        <va-telephone not-clickable contact="8446788979" uswds />
+        <va-telephone not-clickable contact="8446788979" />
       </va-additional-info>
     </div>
   </>

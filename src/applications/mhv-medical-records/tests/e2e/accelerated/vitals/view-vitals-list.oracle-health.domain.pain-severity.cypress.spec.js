@@ -18,9 +18,6 @@ describe('Medical Records View Pain Severity', () => {
   it('Visits View Vitals List', () => {
     site.loadPage();
 
-    // check for MY Va Health links
-    Vitals.checkLandingPageLinks();
-
     Vitals.goToVitalPage();
 
     // switch to march 2024

@@ -5,7 +5,7 @@
             "type": "messages",
             "attributes": {
                 "messageId": 7192838,
-                "category": "MEDICATIONS",
+                "category": "OTHER",
                 "subject": "test1 special message%$#*",
                 "body": "special %$#",
                 "attachment": null,

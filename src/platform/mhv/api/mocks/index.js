@@ -52,14 +52,20 @@ const seiHealthInsurance = require('./medical-records/self-entered/seiHealthInsu
 const seiLabs = require('./medical-records/self-entered/seiLabs');
 const seiMedicalEvents = require('./medical-records/self-entered/seiMedicalEvents');
 const seiMedications = require('./medical-records/self-entered/seiMedications');
+const seiEmergencyContacts = require('./medical-records/self-entered/seiEmergencyContacts');
 const seiMilitaryHealthHistory = require('./medical-records/self-entered/seiMilitaryHealthHistory');
 const seiTreatmentFacilities = require('./medical-records/self-entered/seiTreatmentFacilities');
 const seiVaccines = require('./medical-records/self-entered/seiVaccines');
 const seiVitals = require('./medical-records/self-entered/seiVitals');
+const seiAllDomains = require('./medical-records/self-entered/allDomains');
+
 const imaging = require('./medical-records/mhv-radiology/imaging');
 const imagingStatus = require('./medical-records/mhv-radiology/imaging-status');
 const imagingRequest = require('./medical-records/mhv-radiology/imaging-request');
 const imagingDownload = require('./medical-records/mhv-radiology/imaging-download');
+const {
+  getMockTooltips,
+} = require('../../../../applications/mhv-medications/mocks/api/tooltips/index');
 
 const responses = {
   ...commonResponses,
@@ -133,7 +139,17 @@ const responses = {
   'PATCH /my_health/v1/messaging/threads/:id/move': threads.moveThread,
   'POST /my_health/v1/messaging/folders/:index/search': messages.searchMessages,
   'POST /my_health/v1/messaging/preferences/recipients': { status: 200 },
-
+  'GET /my_health/v1/messaging/preferences/signature': {
+    data: {
+      id: '',
+      type: 'message_signature',
+      attributes: {
+        signatureName: null,
+        signatureTitle: null,
+        includeSignature: false,
+      },
+    },
+  },
   // medical records
   'GET /my_health/v1/medical_records/session/status':
     session.phrRefreshInProgressNoNewRecords,
@@ -196,10 +212,12 @@ const responses = {
   'GET /my_health/v1/medical_records/self_entered/test_entries': seiLabs,
   'GET /my_health/v1/medical_records/self_entered/medical_events': seiMedicalEvents,
   'GET /my_health/v1/medical_records/self_entered/medications': seiMedications,
+  'GET /my_health/v1/medical_records/self_entered/emergency_contacts': seiEmergencyContacts,
   'GET /my_health/v1/medical_records/self_entered/military_history': seiMilitaryHealthHistory,
   'GET /my_health/v1/medical_records/self_entered/treatment_facilities': seiTreatmentFacilities,
   'GET /my_health/v1/medical_records/self_entered/vaccines': seiVaccines,
   'GET /my_health/v1/medical_records/self_entered/vitals': seiVitals,
+  'GET /my_health/v1/medical_records/self_entered': seiAllDomains,
 
   'GET /my_health/v1/medical_records/imaging': imaging,
   'GET /my_health/v1/medical_records/imaging/status': imagingStatus,
@@ -235,6 +253,10 @@ const responses = {
     // );
 
     return res.json(maintenanceWindows.noDowntime);
+  },
+
+  'GET /my_health/v1/tooltips': (_req, res) => {
+    return res.json(getMockTooltips());
   },
 };
 

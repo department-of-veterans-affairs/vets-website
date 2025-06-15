@@ -8,9 +8,10 @@ import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsons
 import {
   isReactComponent,
   focusElement,
-  customScrollAndFocus,
   defaultFocusSelector,
 } from 'platform/utilities/ui';
+import { scrollToTop, customScrollAndFocus } from 'platform/utilities/scroll';
+
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -28,20 +29,20 @@ import {
 import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
 import { stringifyUrlParams } from '../helpers';
 
-function focusForm(route, index) {
+const focusForm = async (route, index) => {
   const useCustomScrollAndFocus = route.formConfig?.useCustomScrollAndFocus;
   const scrollAndFocusTarget =
     route.pageConfig?.scrollAndFocusTarget ||
     route.formConfig?.scrollAndFocusTarget;
-
   if (useCustomScrollAndFocus === false) {
     focusElement(defaultFocusSelector);
   } else if (useCustomScrollAndFocus || scrollAndFocusTarget) {
-    customScrollAndFocus(scrollAndFocusTarget, index);
-  } else {
-    focusElement(defaultFocusSelector);
+    return customScrollAndFocus(scrollAndFocusTarget, index);
   }
-}
+
+  focusElement(defaultFocusSelector);
+  return scrollToTop();
+};
 
 function getContentBeforeAndAfterButtons(
   route,

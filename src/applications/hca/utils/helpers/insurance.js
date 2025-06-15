@@ -7,13 +7,13 @@
  */
 export function getInsuranceAriaLabel(formData) {
   const { insuranceName, insurancePolicyNumber, insuranceGroupCode } = formData;
-  const labels = {
-    policy: insurancePolicyNumber
-      ? `Policy number ${insurancePolicyNumber}`
-      : null,
-    group: insuranceGroupCode ? `Group code ${insuranceGroupCode}` : null,
-  };
+  const policyLabel = insurancePolicyNumber
+    ? `Policy number ${insurancePolicyNumber}`
+    : '';
+  const groupLabel = insuranceGroupCode
+    ? `Group code ${insuranceGroupCode}`
+    : '';
   return insuranceName
-    ? `${insuranceName}, ${labels.policy ?? labels.group}`
+    ? `${insuranceName}, ${policyLabel || groupLabel || ''}`
     : 'insurance policy';
 }

@@ -46,6 +46,13 @@ describe('App', () => {
           verified: !!isLOA3,
         },
       },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
     };
   };
 
@@ -90,7 +97,7 @@ describe('App', () => {
     expect(await screen.findAllByText(/My HealtheVet/i)).to.exist;
   });
 
-  it('should render a verify identity message if user is not LOA3', async () => {
+  it('should render a verify identity message if user is not LOA3', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
@@ -101,13 +108,11 @@ describe('App', () => {
       path: `/claims/`,
       reducers: reducer,
     });
-    await waitFor(() => {
-      expect($('va-alert-sign-in')).to.exist;
-      expect(screen.findByText(/verify your identity/i)).to.exist;
-    });
+    expect($('va-alert-sign-in')).to.exist;
+    expect(screen.getAllByText(/verify with/i)).to.exist;
   });
 
-  it('should render a verify identity message for logingov sign in service if user is not LOA3', async () => {
+  it('should render a verify identity message for logingov sign in service if user is not LOA3', () => {
     renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
@@ -122,7 +127,7 @@ describe('App', () => {
     expect($('va-alert-sign-in[variant="verifyLoginGov"]')).to.exist;
   });
 
-  it('should render a verify identity message for idme sign in service if user is not LOA3', async () => {
+  it('should render a verify identity message for idme sign in service if user is not LOA3', () => {
     renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,

@@ -7,7 +7,7 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformationChapter.pages.personalInfoPage;
+} = formConfig.chapters.preparerTypeChapter.pages.personalInfoPage;
 
 const pageTitle = 'Your personal information';
 

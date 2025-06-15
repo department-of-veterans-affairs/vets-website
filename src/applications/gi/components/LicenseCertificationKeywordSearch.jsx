@@ -7,7 +7,6 @@ import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-libr
 
 export default function LicenseCertificationKeywordSearch({
   inputValue,
-  handleInput,
   suggestions,
   onSelection,
   onUpdateAutocompleteSearchTerm,
@@ -54,16 +53,19 @@ export default function LicenseCertificationKeywordSearch({
               className="lc-search-label"
               htmlFor="lc-search"
             >
-              License/Certification Name
+              License/Certification/Prep course name
             </label>
             <div className="additional-info-wrapper">
               <VaAdditionalInfo
                 trigger="Tips to improve search results"
                 disableBorder={false}
               >
-                Using more specific keywords can help narrow down your search
-                results. For example, searching for "Microsoft Azure" will give
-                you more targeted results than searching for only "Microsoft."
+                <p>
+                  Using more specific keywords can help narrow down your search
+                  results. For example, searching for "Doctor of Chiropractic"
+                  will give you more targeted results than searching for only
+                  "Doctor."
+                </p>
               </VaAdditionalInfo>
             </div>
             <div className="vads-u-display--flex input-container">
@@ -77,7 +79,6 @@ export default function LicenseCertificationKeywordSearch({
                 {...getInputProps({
                   type: 'text',
                   onChange: handleChange,
-                  onInput: handleInput,
                   'aria-labelledby': 'lc-search-label',
                 })}
               />
@@ -142,8 +143,16 @@ export default function LicenseCertificationKeywordSearch({
 }
 
 LicenseCertificationKeywordSearch.propTypes = {
+  handleClearInput: PropTypes.func.isRequired,
+  inputValue: PropTypes.string.isRequired,
   onSelection: PropTypes.func.isRequired,
-  inputValue: PropTypes.string,
-  suggestions: PropTypes.array,
-  onUpdateAutocompleteSearchTerm: PropTypes.func,
+  onUpdateAutocompleteSearchTerm: PropTypes.func.isRequired,
+  suggestions: PropTypes.arrayOf(
+    PropTypes.shape({
+      eduLacTypeNm: PropTypes.string,
+      enrichedId: PropTypes.string,
+      lacNm: PropTypes.string.isRequired,
+      state: PropTypes.string,
+    }),
+  ).isRequired,
 };

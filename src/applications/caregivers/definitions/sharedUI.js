@@ -16,8 +16,7 @@ import {
   validateAddressFields,
   validateCountyInput,
 } from '../utils/validation';
-import { setAddressCountry } from '../utils/helpers/schema';
-import { replaceStrValues } from '../utils/helpers';
+import { setAddressCountry, replaceStrValues } from '../utils/helpers';
 import AddressWithAutofill from '../components/FormFields/AddressWithAutofill';
 import CustomReviewField from '../components/FormReview/CustomReviewField';
 import content from '../locales/en/content.json';

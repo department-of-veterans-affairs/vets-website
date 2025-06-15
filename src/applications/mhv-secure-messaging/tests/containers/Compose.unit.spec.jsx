@@ -4,12 +4,13 @@ import { expect } from 'chai';
 import { waitFor, fireEvent } from '@testing-library/react';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
+import allTriageGroupsBlocked from '../fixtures/json-triage-mocks/triage-teams-all-blocked-mock.json';
 import triageTeams from '../fixtures/recipients.json';
 import categories from '../fixtures/categories-response.json';
 import draftMessage from '../fixtures/message-draft-response.json';
 import reducer from '../../reducers';
 import Compose from '../../containers/Compose';
-import { Paths } from '../../util/constants';
+import { Paths, BlockedTriageAlertText } from '../../util/constants';
 import {
   inputVaTextInput,
   selectVaRadio,
@@ -33,7 +34,7 @@ describe('Compose container', () => {
     },
   };
 
-  const setup = (state = initialState, path = Paths.COMPOSE) => {
+  const setup = ({ state = initialState, path = Paths.COMPOSE }) => {
     return renderWithStoreAndRouter(<Compose />, {
       initialState: state,
       reducers: reducer,
@@ -42,7 +43,7 @@ describe('Compose container', () => {
   };
 
   it('renders without errors', () => {
-    const screen = setup();
+    const screen = setup({});
     expect(screen);
   });
 
@@ -71,7 +72,7 @@ describe('Compose container', () => {
   });
 
   it(`displays compose heading if path is ${Paths.COMPOSE}`, () => {
-    const screen = setup();
+    const screen = setup({});
     const headingText = waitFor(() => {
       screen.getByRole('heading', {
         name: 'Start a new message',
@@ -86,10 +87,23 @@ describe('Compose container', () => {
       sm: {
         triageTeams: { triageTeams },
         categories: { categories },
+        recipients: {
+          associatedTriageGroupsQty:
+            noBlockedRecipients.associatedTriageGroupsQty,
+          noAssociations: false,
+          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+        },
+        preferences: {
+          signature: {
+            signatureName: 'TEST',
+            signatureTitle: 'TITLE',
+            includeSignature: true,
+          },
+        },
       },
     };
 
-    const screen = setup(state);
+    const screen = setup({ state });
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('continue-button'));
     });
@@ -104,19 +118,16 @@ describe('Compose container', () => {
     const body = waitFor(() => {
       screen.getByTestId('message-body-field');
     });
-    expect(screen.getByText('Edit preferences')).to.exist;
-    expect(screen.getByTestId('edit-list')).to.have.attribute(
-      'visible',
-      'false',
-    );
+
     expect(recipient).to.exist;
     expect(categoryRadioButtons).to.have.length(6);
     expect(subject).to.exist;
     expect(body).to.exist;
+    expect(screen.getByTestId('edit-signature-link')).to.exist;
   });
 
   it(`displays compose action buttons if path is ${Paths.COMPOSE}`, () => {
-    const screen = setup();
+    const screen = setup({});
 
     const sendButton = waitFor(() => {
       screen.getByTestId('send-button');
@@ -130,7 +141,7 @@ describe('Compose container', () => {
   });
 
   it('does not display recipients with preferredTeam:false attribute', async () => {
-    const screen = setup();
+    const screen = setup({});
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('continue-button'));
     });
@@ -155,7 +166,7 @@ describe('Compose container', () => {
   });
 
   it('responds to sending a message with attachment', async () => {
-    const screen = setup();
+    const screen = setup({});
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('continue-button'));
     });
@@ -181,5 +192,78 @@ describe('Compose container', () => {
         target: { files: [file] },
       });
     });
+  });
+
+  it('displays all blocked triage groups alert on deadend compose page', async () => {
+    const customState = {
+      user: { login: { currentlyLoggedIn: true } },
+      sm: {
+        recipients: {
+          allTriageGroupsBlocked: true,
+          associatedBlockedTriageGroupsQty:
+            allTriageGroupsBlocked.associatedBlockedTriageGroupsQty,
+        },
+      },
+    };
+
+    const screen = setup({
+      state: customState,
+      path: Paths.COMPOSE,
+    });
+    const { alertTitle, alertMessage } = BlockedTriageAlertText;
+
+    await waitFor(() => {
+      const headingText = screen.getByText('Start a new message');
+      expect(headingText).to.exist;
+    });
+
+    const alert = screen.getByTestId('blocked-triage-group-alert');
+    expect(alert).to.exist;
+    expect(alert).to.have.attribute('status', 'warning');
+    expect(alert).to.have.attribute('visible', 'true');
+    expect(alert.textContent).to.contain(alertTitle.ALL_TEAMS_BLOCKED);
+    expect(alert.textContent).to.contain(alertMessage.ALL_TEAMS_BLOCKED);
+    const findLocationsLink = screen.getByText('Find your VA health facility');
+    expect(findLocationsLink)
+      .to.have.attribute('href')
+      .to.contain('/find-locations');
+  });
+
+  it('displays no associations alert on deadend compose page', async () => {
+    const customState = {
+      user: { login: { currentlyLoggedIn: true } },
+      sm: {
+        recipients: {
+          allowedRecipients: [],
+          allTriageGroupsBlocked: false,
+          associatedTriageGroupsQty: 0,
+          associatedBlockedTriageGroupsQty: 0,
+          noAssociations: true,
+          allRecipients: [],
+        },
+      },
+    };
+
+    const screen = setup({
+      state: customState,
+      path: Paths.COMPOSE,
+    });
+    const { alertTitle, alertMessage } = BlockedTriageAlertText;
+
+    await waitFor(() => {
+      const headingText = screen.getByText('Start a new message');
+      expect(headingText).to.exist;
+    });
+
+    const alert = screen.getByTestId('blocked-triage-group-alert');
+    expect(alert).to.exist;
+    expect(alert).to.have.attribute('status', 'info');
+    expect(alert).to.have.attribute('visible', 'true');
+    expect(alert.textContent).to.contain(alertTitle.NO_ASSOCIATIONS);
+    expect(alert.textContent).to.contain(alertMessage.NO_ASSOCIATIONS);
+    const findLocationsLink = screen.getByText('Find your VA health facility');
+    expect(findLocationsLink)
+      .to.have.attribute('href')
+      .to.contain('/find-locations');
   });
 });

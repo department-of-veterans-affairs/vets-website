@@ -126,7 +126,9 @@ const EditContactList = () => {
 
   useEffect(() => {
     updatePageTitle(
-      `${ParentComponent.CONTACT_LIST} ${PageTitles.PAGE_TITLE_TAG}`,
+      `Messages: ${ParentComponent.CONTACT_LIST} ${
+        PageTitles.DEFAULT_PAGE_TITLE_TAG
+      }`,
     );
     focusElement(document.querySelector('h1'));
   }, []);
@@ -166,7 +168,7 @@ const EditContactList = () => {
           vads-u-margin-y--0
         `}
         data-testid="contact-list-go-back"
-        data-dd-action-name="Contact List Go Back Button"
+        data-dd-action-name="Go back button"
         onClick={handleCancel}
       >
         <div className="vads-u-margin-right--0p5">
@@ -187,7 +189,7 @@ const EditContactList = () => {
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
       />
-      <h1>Contact list</h1>
+      <h1>Messages: Contact list</h1>
       <AlertBackgroundBox closeable focus />
 
       <div
@@ -254,7 +256,11 @@ const EditContactList = () => {
                           team.stationNumber === stationNumber &&
                           team.blockedStatus === false,
                       )
-                      .sort((a, b) => a.name.localeCompare(b.name))}
+                      .sort((a, b) => {
+                        const aName = a.suggestedNameDisplay || a.name;
+                        const bName = b.suggestedNameDisplay || b.name;
+                        return aName.localeCompare(bName);
+                      })}
                   />
                 );
               }
@@ -279,7 +285,7 @@ const EditContactList = () => {
                   "
                 onClick={e => handleSave(e)}
                 data-testid="contact-list-save"
-                data-dd-action-name="Contact List Save Button"
+                data-dd-action-name="Save contact list button"
               />
             </div>
             <GetFormHelp />

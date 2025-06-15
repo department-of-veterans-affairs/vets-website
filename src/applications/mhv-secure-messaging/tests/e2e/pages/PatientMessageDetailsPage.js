@@ -1,6 +1,6 @@
 import threadResponse from '../fixtures/thread-response-new-api.json';
-import inboxMessages from '../fixtures/messages-response.json';
-import { dateFormat } from '../../../util/helpers';
+import inboxMessages from '../fixtures/threads-response.json';
+import GeneralFunctionsPage from './GeneralFunctionsPage';
 import { Locators, Paths } from '../utils/constants';
 import PatientInterstitialPage from './PatientInterstitialPage';
 
@@ -59,14 +59,12 @@ class PatientMessageDetailsPage {
       'contain',
       messageDetails.data[0].attributes.messageId,
     );
-    cy.get(Locators.FROM).should(
-      'contain',
-      messageDetails.data[0].attributes.triageGroupName,
-    );
+
     cy.get(Locators.FROM).should(
       'contain',
       messageDetails.data[0].attributes.senderName,
     );
+
     cy.get(Locators.TO).should(
       'contain',
       messageDetails.data[0].attributes.recipientName,
@@ -190,13 +188,11 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageFrom = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="from"]')
+    cy.get(Locators.FROM)
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data[messageIndex].attributes.senderName} (${
-          messageDetails.data[messageIndex].attributes.triageGroupName
-        })`,
+        `From: ${messageDetails.data[messageIndex].attributes.senderName}`,
       );
   };
 
@@ -222,10 +218,9 @@ class PatientMessageDetailsPage {
     cy.get(Locators.MSG_DATE)
       .eq(messageIndex)
       .should(
-        'have.text',
-        `Date: ${dateFormat(
+        'include.text',
+        `Date: ${GeneralFunctionsPage.formatToReadableDate(
           messageDetails.data[messageIndex].attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
         )}`,
       );
   };
@@ -246,7 +241,7 @@ class PatientMessageDetailsPage {
   };
 
   replyToMessageTo = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="draft-reply-to"')
+    cy.get(Locators.REPLY_TO)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -258,37 +253,34 @@ class PatientMessageDetailsPage {
 
   replyToMessageSenderName = (messageDetails, messageIndex = 0) => {
     cy.log('testing message from sender');
-    cy.get('[data-testid="from"]')
+    cy.get(Locators.FROM)
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
-        })`,
+        `From: ${messageDetails.data.attributes.senderName}`,
       );
   };
 
   replyToMessageRecipientName = (messageDetails, messageIndex = 0) => {
     cy.log('testing message to recipient');
-    cy.get('[data-testid="to"]')
+    cy.get(Locators.TO)
       .eq(messageIndex)
       .should('contain', `To: ${messageDetails.data.attributes.recipientName}`);
   };
 
   replyToMessageDate = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
+    cy.get(Locators.MSG_DATE)
       .eq(messageIndex)
       .should(
-        'have.text',
-        `Date: ${dateFormat(
+        'include.text',
+        `Date: ${GeneralFunctionsPage.formatToReadableDate(
           messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
         )}`,
       );
   };
 
   replyToMessageId = messageDetails => {
-    cy.get('[data-testid="message-id"]').should(
+    cy.get(Locators.MSG_ID).should(
       'contain',
       `Message ID: ${messageDetails.data.attributes.messageId}`,
     );

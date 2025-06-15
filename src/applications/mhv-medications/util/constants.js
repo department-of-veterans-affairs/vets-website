@@ -1,15 +1,14 @@
 export const rxListSortingOptions = {
   alphabeticallyByStatus: {
-    API_ENDPOINT:
-      '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    API_ENDPOINT: '&sort=alphabetical-status',
     LABEL: 'Alphabetically by status',
   },
   lastFilledFirst: {
-    API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
+    API_ENDPOINT: '&sort=last-fill-date',
     LABEL: 'Last filled first',
   },
   alphabeticalOrder: {
-    API_ENDPOINT: '&sort[]=prescription_name&sort[]=dispensed_date',
+    API_ENDPOINT: '&sort=alphabetical-rx-name',
     LABEL: 'Alphabetically by name',
   },
 };
@@ -19,6 +18,7 @@ export const medicationsUrls = {
   MHV_HOME: '/../../my-health',
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
+  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
   MEDICATIONS_ABOUT: '/my-health/medications/about',
   MEDICATIONS_ABOUT_ACCORDION_RENEW:
     '/my-health/medications/about#accordion-renew-rx',
@@ -26,6 +26,7 @@ export const medicationsUrls = {
   PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
   subdirectories: {
     BASE: '/',
+    // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
     ABOUT: '/about',
     REFILL: '/refill',
     DETAILS: '/prescription',
@@ -51,7 +52,7 @@ export const filterOptions = {
     name: 'filter option',
     description: 'Active prescriptions and non-VA medications',
     url:
-      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On hold,Active: Parked,Active: Submitted',
+      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On Hold,Active: Parked,Active: Submitted',
     showingContentDisplayName: ' active',
   },
   [RECENTLY_REQUESTED_FILTER_KEY]: {
@@ -74,7 +75,7 @@ export const filterOptions = {
     label: 'Non-active',
     name: 'filter option',
     description:
-      'Prescriptions that are discontinued, expired, or have an unkown status',
+      'Prescriptions that are discontinued, expired, or have an unknown status',
     url: '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
     showingContentDisplayName: ' non-active',
   },
@@ -181,10 +182,7 @@ export const pdfStatusDefinitions = {
 
 export const pdfDefaultStatusDefinition = [
   {
-    value: `There’s a problem with our system. You can’t manage this prescription online right now.`,
-  },
-  {
-    value: `If you need this prescription now, call your VA pharmacy.`,
+    value: `We can’t access information about this prescription right now.`,
   },
 ];
 
@@ -241,4 +239,40 @@ export const allergyTypes = {
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
 };
 
-export const EMPTY_FIELD = 'None noted';
+export const FIELD_NONE_NOTED = 'None noted';
+export const FIELD_NOT_AVAILABLE = 'Not available';
+
+export const downtimeNotificationParams = {
+  appTitle: 'this medications tool',
+};
+
+export const trackingConfig = {
+  dhl: {
+    label: 'DHL',
+    url: 'http://webtrack.dhlglobalmail.com/?id=462&trackingnumber=',
+  },
+  fedex: {
+    label: 'FedEx',
+    url: 'https://www.fedex.com/fedextrack/?trknbr=',
+  },
+  ups: {
+    label: 'UPS',
+    url:
+      'http://wwwapps.ups.com/WebTracking/processInputRequest?HTMLVersion=5.0&loc=en_US&Requester=UPSHome&tracknum=',
+  },
+  usps: {
+    label: 'USPS',
+    url: 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=',
+  },
+};
+
+export const tooltipNames = {
+  mhvMedicationsTooltipFilterAccordion:
+    'mhv_medications_tooltip_filter_accordion',
+};
+
+export const tooltipHintContent = {
+  filterAccordion: {
+    HINT: 'Filter your list to find a specific medication.',
+  },
+};

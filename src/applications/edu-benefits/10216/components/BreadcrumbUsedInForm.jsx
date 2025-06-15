@@ -12,9 +12,8 @@ const BreadcrumbUsedInForm = () => {
       label: 'Resources for schools',
     },
     {
-      href:
-        '/education/apply-for-education-benefits/application/10216/introduction',
-      label: 'Request exemption from the 85/15 Rule reporting requirement',
+      href: '/school-administrators/35-percent-exemption/introduction',
+      label: 'Request exemption from the 85/15 rule reporting requirement',
     },
   ];
   return (

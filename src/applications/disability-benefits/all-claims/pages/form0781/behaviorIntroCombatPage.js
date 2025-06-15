@@ -15,12 +15,13 @@ import {
 export const uiSchema = {
   'ui:title': titleWithTag(behaviorPageTitle, form0781HeadingTag),
   'ui:description': behaviorIntroCombatDescription,
-  'view:answerCombatBehaviorQuestions': radioUI({
-    title: 'Do you want to answer additional questions?',
+  answerCombatBehaviorQuestions: radioUI({
+    title: 'Do you want to answer questions about behavioral changes?',
+    labelHeaderLevel: '4',
     required: () => true,
     labels: {
-      true: 'Yes',
-      false: 'No',
+      true: 'Yes, I want to answer these questions.',
+      false: 'No, I want to skip these questions.',
     },
   }),
   'view:mentalHealthSupportAlert': {
@@ -31,7 +32,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:answerCombatBehaviorQuestions': radioSchema(['true', 'false']),
+    answerCombatBehaviorQuestions: radioSchema(['true', 'false']),
     'view:mentalHealthSupportAlert': {
       type: 'object',
       properties: {},

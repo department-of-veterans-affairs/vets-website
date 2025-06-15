@@ -1,10 +1,15 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
+import { Paths } from '../util/constants';
 
 const InterstitialPage = props => {
   const { acknowledge, type } = props;
+  const history = useHistory();
+  const isPilot = useSelector(state => state.sm.app.isPilot);
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
@@ -24,6 +29,17 @@ const InterstitialPage = props => {
     [type],
   );
 
+  const handleContinueButton = useCallback(
+    () => {
+      if (isPilot) {
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`);
+      } else {
+        acknowledge();
+      }
+    },
+    [history, acknowledge, isPilot],
+  );
+
   return (
     <div className="interstitial-page">
       <h1 className="vads-u-margin-bottom--2">
@@ -39,7 +55,7 @@ const InterstitialPage = props => {
         <button
           className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
           data-testid="continue-button"
-          onClick={acknowledge}
+          onClick={handleContinueButton}
           data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
         >
           {continueButtonText}
@@ -47,7 +63,7 @@ const InterstitialPage = props => {
         </button>
 
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
-          If you need help sooner, use one of these urgent communication
+          If you need help sooner, use one of these urgent communications
           options:
         </h2>
         <ul className="vads-u-margin--0">
@@ -64,13 +80,13 @@ const InterstitialPage = props => {
           </li>
           <li className="vads-u-margin--0">
             <p className="vads-u-margin-top--1p5 vads-u-margin-bottom--0">
-              <strong>If you think your life or health is in danger, </strong>{' '}
-              call
+              <strong>If you think your life or health is in danger, </strong>
+              {` call `}
               <va-telephone
                 contact="911"
                 data-dd-action-name="911 link on Interstital Page"
               />
-              or go to the nearest emergency room.
+              {` or go to the nearest emergency room.`}
             </p>
           </li>
         </ul>

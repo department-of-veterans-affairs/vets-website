@@ -93,7 +93,7 @@ describe('Reply form component', () => {
     const screen = render();
     await waitFor(() => {
       expect(
-        screen.queryByText(`${category}: ${subject}`, {
+        screen.queryByText(`Messages: ${category} - ${subject}`, {
           selector: 'h1',
         }),
       ).to.exist;
@@ -123,6 +123,36 @@ describe('Reply form component', () => {
       .to.contain('message-body-attachments-label');
 
     expect(actionButtons).to.exist;
+  });
+
+  it('renders correct category in h1 when category is "OTHER"', async () => {
+    const customReplyMessage = {
+      ...replyMessage,
+      category: 'OTHER',
+      subject: 'test replace category',
+    };
+    const screen = render(undefined, undefined, customReplyMessage);
+
+    await waitFor(() => {
+      const replyTitle = screen.getByTestId('reply-form-title');
+      expect(replyTitle).to.have.text(
+        'Messages: General - test replace category',
+      );
+    });
+  });
+
+  it('renders correct category in h1 when category is "TEST_RESULTS"', async () => {
+    const customReplyMessage = {
+      ...replyMessage,
+      category: 'TEST_RESULTS',
+      subject: 'test replace category',
+    };
+    const screen = render(undefined, undefined, customReplyMessage);
+
+    await waitFor(() => {
+      const replyTitle = screen.getByTestId('reply-form-title');
+      expect(replyTitle).to.have.text('Messages: Test - test replace category');
+    });
   });
 
   it('renders the message signature in the textarea if a signature is included', async () => {

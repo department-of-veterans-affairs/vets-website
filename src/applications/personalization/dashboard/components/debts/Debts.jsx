@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import recordEvent from '~/platform/monitoring/record-event';
 import {
   fetchDebts,
@@ -11,6 +14,7 @@ import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import DebtsCard from './DebtsCard';
 import CopaysCard from './CopaysCard';
+import GenericDebtCard from './GenericDebtCard';
 
 const NoOutstandingDebtsText = () => {
   return (
@@ -68,6 +72,7 @@ const PopularActionsForDebts = () => {
 
 const BenefitPaymentsAndDebt = ({
   debts,
+  debtsCount,
   copays,
   hasDebtError,
   hasCopayError,
@@ -75,15 +80,22 @@ const BenefitPaymentsAndDebt = ({
   getCopays,
   shouldShowLoadingIndicator,
 }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showGenericDebtCard = useToggleValue(TOGGLE_NAMES.showGenericDebtCard);
+
   useEffect(
     () => {
-      getDebts();
+      if (!showGenericDebtCard) {
+        getDebts(true);
+      }
+
       getCopays();
     },
-    [getDebts, getCopays],
+    [getDebts, getCopays, showGenericDebtCard],
   );
 
-  const debtsCount = debts?.length || 0;
+  const totalDebtsCount = debts?.length || debtsCount || 0;
+
   const copaysCount = copays?.length || 0;
 
   if (shouldShowLoadingIndicator) {
@@ -101,7 +113,9 @@ const BenefitPaymentsAndDebt = ({
   }
 
   const hasNoOutstandingDebts = () => {
-    return !hasDebtError && !hasCopayError && debtsCount < 1 && copaysCount < 1;
+    return (
+      !hasDebtError && !hasCopayError && totalDebtsCount < 1 && copaysCount < 1
+    );
   };
 
   return (
@@ -116,9 +130,16 @@ const BenefitPaymentsAndDebt = ({
             <DashboardWidgetWrapper>
               <OutstandingDebtsError />
             </DashboardWidgetWrapper>
-            <DashboardWidgetWrapper>
-              {hasDebtError && copaysCount > 0 && <PopularActionsForDebts />}
-            </DashboardWidgetWrapper>
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                <DashboardWidgetWrapper>
+                  {hasDebtError &&
+                    copaysCount > 0 && <PopularActionsForDebts />}
+                </DashboardWidgetWrapper>
+              </Toggler.Disabled>
+            </Toggler>
           </>
         )}
         {hasNoOutstandingDebts() && (
@@ -128,29 +149,46 @@ const BenefitPaymentsAndDebt = ({
             </DashboardWidgetWrapper>
           </>
         )}
-        {debtsCount > 0 && (
+        {showGenericDebtCard && (
           <DashboardWidgetWrapper>
-            <DebtsCard debts={debts} />
+            <GenericDebtCard />
           </DashboardWidgetWrapper>
         )}
+        {totalDebtsCount > 0 &&
+          !showGenericDebtCard && (
+            <DashboardWidgetWrapper>
+              <DebtsCard debtsCount={totalDebtsCount} />
+            </DashboardWidgetWrapper>
+          )}
         {copaysCount > 0 && (
           <>
             <DashboardWidgetWrapper>
               <CopaysCard copays={copays} />
             </DashboardWidgetWrapper>
-            <DashboardWidgetWrapper>
-              {!debtsCount && !hasDebtError && <PopularActionsForDebts />}
-            </DashboardWidgetWrapper>
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                <DashboardWidgetWrapper>
+                  {!totalDebtsCount &&
+                    !hasDebtError && <PopularActionsForDebts />}
+                </DashboardWidgetWrapper>
+              </Toggler.Disabled>
+            </Toggler>
           </>
         )}
       </div>
-      {((debtsCount === 0 && copaysCount === 0) ||
-        (hasCopayError && debtsCount === 0) ||
-        (hasDebtError && copaysCount === 0)) && (
-        <DashboardWidgetWrapper>
-          <PopularActionsForDebts />
-        </DashboardWidgetWrapper>
-      )}
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          {((totalDebtsCount === 0 && copaysCount === 0) ||
+            (hasCopayError && totalDebtsCount === 0) ||
+            (hasDebtError && copaysCount === 0)) && (
+            <DashboardWidgetWrapper>
+              <PopularActionsForDebts />
+            </DashboardWidgetWrapper>
+          )}
+        </Toggler.Disabled>
+      </Toggler>
     </div>
   );
 };
@@ -180,6 +218,7 @@ BenefitPaymentsAndDebt.propTypes = {
       ),
     }),
   ),
+  debtsCount: PropTypes.number,
   getCopays: PropTypes.func,
   getDebts: PropTypes.func,
   hasCopayError: PropTypes.bool,
@@ -190,9 +229,11 @@ BenefitPaymentsAndDebt.propTypes = {
 const mapStateToProps = state => {
   const debtsIsLoading = state.allDebts.isLoading;
   const debts = state.allDebts.debts || [];
+  const { debtsCount } = state.allDebts;
   const copays = state.allDebts.copays || [];
   return {
     debts,
+    debtsCount,
     copays,
     hasDebtError: state.allDebts.debtsErrors.length > 0,
     hasCopayError: state.allDebts.copaysErrors.length > 0,

@@ -5,6 +5,7 @@ describe('22-10282 Edu form', () => {
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
   });
+
   it('should be keyboard-only navigable', () => {
     // Go to application, should go to intro page
     cy.visit(
@@ -12,7 +13,8 @@ describe('22-10282 Edu form', () => {
     );
     cy.injectAxeThenAxeCheck();
     // Tab to and press 'Start your application'
-    cy.realPress(['Tab', 'Enter']);
+    cy.repeatKey('Tab', 2);
+    cy.realPress(['Enter']);
 
     // Applicant name page
     cy.url().should(
@@ -140,17 +142,9 @@ describe('22-10282 Edu form', () => {
       formConfig.chapters.personalInformation.pages.applicantGender.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.repeatKey('Tab', 2);
+    cy.repeatKey('Tab', 1);
     cy.allyEvaluateRadioButtons(
-      [
-        'input#root_genderWinput',
-        'input#root_genderMinput',
-        'input#root_genderTWinput',
-        'input#root_genderTMinput',
-        'input#root_genderNBinput',
-        'input#root_gender0input',
-        'input#root_genderNAinput',
-      ],
+      ['input#root_genderMinput', 'input#root_genderWinput'],
       'ArrowDown',
     );
     cy.chooseRadio(maximalData.data.gender);
@@ -264,6 +258,6 @@ describe('22-10282 Edu form', () => {
     cy.tabToSubmitForm();
 
     // Confirmation page
-    // cy.location('pathname').should('include', '/confirmation');
+    cy.location('pathname').should('include', '/confirmation');
   });
 });

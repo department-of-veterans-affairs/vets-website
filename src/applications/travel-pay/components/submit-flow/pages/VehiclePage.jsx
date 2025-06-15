@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
+
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import { HelpTextOptions } from '../../HelpText';
+import SmocRadio from '../../SmocRadio';
 import {
-  VaButtonPair,
-  VaRadio,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import { BTSSS_PORTAL_URL } from '../../../constants';
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
+
+const title = 'Did you travel in your own vehicle?';
 
 const VehiclePage = ({
   pageIndex,
@@ -16,14 +23,18 @@ const VehiclePage = ({
   setIsUnsupportedClaimType,
 }) => {
   useEffect(() => {
+    recordSmocPageview('vehicle');
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
+
+  useSetPageTitle(title);
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 
   const handlers = {
     onNext: () => {
+      recordSmocButtonClick('vehicle', 'continue');
       if (!yesNo.vehicle) {
         setRequiredAlert(true);
       } else if (yesNo.vehicle !== 'yes') {
@@ -34,65 +45,28 @@ const VehiclePage = ({
       }
     },
     onBack: () => {
+      recordSmocButtonClick('vehicle', 'back');
       setPageIndex(pageIndex - 1);
     },
   };
 
   return (
     <div>
-      <VaRadio
-        use-forms-pattern="single"
-        form-heading="Did you travel in your own vehicle?"
-        form-heading-level={1}
-        id="vehicle"
-        onVaValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
+      <SmocRadio
+        name="vehicle"
         value={yesNo.vehicle}
-        data-testid="vehicle-test-id"
-        error={requiredAlert ? 'You must make a selection to continue.' : null}
-        header-aria-describedby={null}
-        hint=""
-        label=""
-        label-header-level=""
-      >
-        <va-radio-option
-          label="Yes"
-          value="yes"
-          key="vehicle-yes"
-          name="vehicle"
-          checked={yesNo.vehicle === 'yes'}
-        />
-        <va-radio-option
-          key="vehicle-no"
-          name="vehicle"
-          checked={yesNo.vehicle === 'no'}
-          label="No"
-          value="no"
-        />
-      </VaRadio>
-
-      <va-additional-info
-        class="vads-u-margin-y--3"
+        label={title}
+        error={requiredAlert}
+        onValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
+      />
+      <HelpTextOptions
         trigger="If you didn't travel in your own vehicle"
-      >
-        <p>
-          <strong>
-            If you traveled by bus, train, taxi, or other authorized public
-            transportation, you can’t file a claim in this tool right now.
-          </strong>{' '}
-          But you can file your claim online, within 30 days, through the{' '}
-          <va-link
-            external
-            href={BTSSS_PORTAL_URL}
-            text="Beneficiary Travel Self Service System (BTSSS)"
-          />
-          . Or you can use VA Form 10-3542 to submit a claim by mail or in
-          person.
-        </p>
-      </va-additional-info>
-
+        headline="If you traveled by bus, train, taxi, or other authorized public transportation, you can’t file a claim in this tool right now."
+      />
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={e => handlers.onNext(e)}
         onSecondaryClick={e => handlers.onBack(e)}
       />

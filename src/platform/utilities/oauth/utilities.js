@@ -8,6 +8,7 @@ import {
   EXTERNAL_APPS,
   GA,
   SIGNUP_TYPES,
+  CSP_IDS,
 } from 'platform/user/authentication/constants';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import {
@@ -177,10 +178,12 @@ export function buildTokenRequest({
 
   if (!code || !codeVerifier) return null;
 
+  const clientId = sessionStorage.getItem(COOKIES.CI) || CLIENT_IDS.VAWEB;
+
   // Build the authorization URL
   const oAuthParams = {
     [OAUTH_KEYS.GRANT_TYPE]: OAUTH_ALLOWED_PARAMS.AUTH_CODE,
-    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(CLIENT_IDS.VAWEB),
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(clientId),
     [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(redirectUri),
     [OAUTH_KEYS.CODE]: code,
     [OAUTH_KEYS.CODE_VERIFIER]: codeVerifier,
@@ -332,3 +335,29 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
     teardownProfileSession();
   }
 };
+
+export function createOktaOAuthRequest({
+  clientId,
+  codeChallenge,
+  state,
+  loginType,
+}) {
+  const oAuthParams = {
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(clientId),
+    [OAUTH_KEYS.ACR]: CSP_IDS.LOGIN_GOV === loginType ? 'ial2' : 'loa3',
+    [OAUTH_KEYS.STATE]: state,
+    [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
+    [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
+    [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
+  };
+
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: loginType }));
+
+  Object.keys(oAuthParams).forEach(param =>
+    url.searchParams.append(param, oAuthParams[param]),
+  );
+
+  sessionStorage.setItem('ci', clientId);
+  recordEvent({ event: `login-attempted-${loginType}-oauth-${clientId}` });
+  return url.toString();
+}

@@ -1,7 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
 
 import reducer from '../../../../redux/reducer';
 import ConfirmationPage from '../../../../components/submit-flow/pages/ConfirmationPage';
@@ -13,7 +15,17 @@ const appointment = {
 };
 
 describe('Confirmation page', () => {
-  it('should render with expected content', () => {
+  let recordEventStub;
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+  });
+
+  it('should render with expected content and record the pageview', () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
       initialState: {
         travelPay: {
@@ -34,20 +46,31 @@ describe('Confirmation page', () => {
 
     expect(screen.getByText('We’re processing your travel reimbursement claim'))
       .to.exist;
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'confirmation',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
+    expect($('va-link[href="/my-health/travel-pay/claims/"]')).to.exist;
+    expect($('va-link[text="Check your travel reimbursement claim status"]')).to
+      .exist;
 
     expect(
-      screen.container.querySelector(
-        '[href="/my-health/travel-pay/claims/"]',
-        '[text="Check your travel reimbursement claim status"]',
+      $(
+        'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"]',
+      ),
+    ).to.exist;
+    expect(
+      $(
+        'va-link[text="Learn how to set up direct deposit for travel pay reimbursement"]',
       ),
     ).to.exist;
 
-    expect(
-      screen.container.querySelector(
-        '[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"]',
-        '[text="Learn how to set up direct deposit for travel pay reimbursement"]',
-      ),
-    ).to.exist;
+    expect($('va-alert[status="success"]')).to.exist;
   });
 
   it('should render practictioner name if available', () => {
@@ -59,11 +82,7 @@ describe('Confirmation page', () => {
             error: null,
             data: {
               ...appointment,
-              practitioners: [
-                {
-                  name: { family: 'Last', given: ['First', 'Middle'] },
-                },
-              ],
+              practitionerName: 'First Middle Last',
             },
           },
           claimSubmission: {
@@ -79,11 +98,7 @@ describe('Confirmation page', () => {
     expect(screen.getByText('We’re processing your travel reimbursement claim'))
       .to.exist;
 
-    expect(
-      screen.queryAllByText((_, element) =>
-        element.textContent.includes('with First Middle Last'),
-      ),
-    ).to.not.be.empty;
+    expect(screen.getByText(/with First Middle Last/i)).to.exist;
   });
 
   it('should render a loading spinner while claim is submitting', () => {

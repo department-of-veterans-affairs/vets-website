@@ -43,6 +43,7 @@ const FacilityCheckboxGroup = props => {
           checked={selectAll}
           onVaChange={handleSelectAllChange}
           class="vads-u-margin-bottom--3 tablet:vads-u-margin-bottom--2"
+          data-dd-action-name="Select all # teams - checkbox"
           message-aria-describedby={
             errorMessage
               ? `Error. ${errorMessage}`
@@ -65,12 +66,12 @@ const FacilityCheckboxGroup = props => {
                     : 'vads-u-margin-bottom--3 tablet:vads-u-margin-bottom--2'
                 }`}
                 key={team.triageTeamId}
-                label={team.name}
+                label={team.suggestedNameDisplay || team.name}
                 checked={team.preferredTeam}
                 onVaChange={() => {
                   updatePreferredTeam(team.triageTeamId, null);
                 }}
-                data-dd-action-name="Triage Group Name"
+                data-dd-action-name="Individual team - checkbox"
               />
             );
           })}

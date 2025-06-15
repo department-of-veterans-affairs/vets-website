@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
@@ -97,7 +97,10 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
       <ul className="claim-list">
         <li>
           <h3>Who submitted this form</h3>
-          <span>
+          <span
+            className="dd-privacy-hidden"
+            data-dd-action-name="claimant full name"
+          >
             {claimantName?.first} {claimantName?.middle} {claimantName?.last}{' '}
             {claimantName?.suffix}
           </span>
@@ -112,7 +115,10 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         </li>
         <li>
           <h3>Deceased Veteran</h3>
-          <span>
+          <span
+            className="dd-privacy-hidden"
+            data-dd-action-name="deceased veteran full name"
+          >
             {veteranName.first} {veteranName.middle} {veteranName.last}{' '}
             {veteranName.suffix}
           </span>

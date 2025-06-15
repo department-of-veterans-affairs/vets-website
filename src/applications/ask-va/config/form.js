@@ -42,6 +42,7 @@ import TopicSelectPage from '../containers/TopicSelectPage';
 import WhoIsYourQuestionAboutCustomPage from '../containers/WhoIsYourQuestionAboutCustomPage';
 
 import CustomPageReviewField from '../components/CustomPageReviewField';
+import SignInInterruptPage from '../containers/SignInInterruptPage';
 import {
   aboutMyselfRelationshipFamilyMemberCondition,
   aboutMyselfRelationshipVeteranCondition,
@@ -122,6 +123,19 @@ const formConfig = {
           },
           uiSchema: {},
         },
+        selectCategorySignInInterrupt: {
+          path: 'category-requires-sign-in',
+          title: 'Ask VA Sign In',
+          CustomPage: SignInInterruptPage,
+          CustomPageReview: null,
+          editModeOnReviewPage: false,
+          depends: formData => formData.categoryRequiresSignIn === true,
+          schema: {
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
+        },
         selectTopic: {
           path: CHAPTER_1.PAGE_2.PATH,
           title: CHAPTER_1.PAGE_2.TITLE,
@@ -130,6 +144,19 @@ const formConfig = {
           editModeOnReviewPage: false,
           schema: {
             // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
+        },
+        selectTopicSignInInterrupt: {
+          path: 'topic-requires-sign-in',
+          title: 'Ask VA Sign In',
+          CustomPage: SignInInterruptPage,
+          CustomPageReview: null,
+          editModeOnReviewPage: false,
+          depends: formData => formData.topicRequiresSignIn === true,
+          schema: {
             type: 'object',
             properties: {}, // The properties can be empty
           },
@@ -166,6 +193,19 @@ const formConfig = {
           },
           schema: {
             // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
+        },
+        yourQuestionSignInInterrupt: {
+          path: 'your-question-requires-sign-in',
+          title: 'Ask VA Sign In',
+          CustomPage: SignInInterruptPage,
+          CustomPageReview: null,
+          editModeOnReviewPage: false,
+          depends: formData => formData.yourQuestionRequiresSignIn === true,
+          schema: {
             type: 'object',
             properties: {}, // The properties can be empty
           },

@@ -71,7 +71,7 @@ const generateTitleSection = (doc, parent, data) => {
     title: 'Title',
   });
   titleSection.add(
-    createHeading(doc, 'H1', config, 'VA medical records', {
+    createHeading(doc, 'H1', config, 'VA Blue Button® report', {
       x: config.margins.left,
       paragraphGap: 12,
     }),
@@ -157,6 +157,8 @@ const generateTitleSection = (doc, parent, data) => {
 };
 
 const generateDateRangeParagraph = (section, doc, data) => {
+  const dateRangeText =
+    data.fromDate === 'any' ? 'All time' : `${data.fromDate} to ${data.toDate}`;
   section.add(
     doc.struct('P', () => {
       doc
@@ -168,15 +170,10 @@ const generateDateRangeParagraph = (section, doc, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(
-          `${data.fromDate} to ${data.toDate}`,
-          config.margins.left,
-          doc.y,
-          {
-            paragraphOptions: { lineGap: 20 },
-            continued: false,
-          },
-        );
+        .text(dateRangeText, config.margins.left, doc.y, {
+          paragraphOptions: { lineGap: 20 },
+          continued: false,
+        });
     }),
   );
   doc.moveDown();
@@ -185,6 +182,10 @@ const generateDateRangeParagraph = (section, doc, data) => {
 const getAvailableRecordSets = recordSets => {
   return recordSets.filter(recordSet => {
     if (!recordSet.selected) return false;
+    // appointments records are broken into two sub-lists: past and upcoming
+    if (recordSet.type === 'appointments') {
+      return !recordSet.records.every(type => !type?.results?.items?.length);
+    }
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length;
     }
@@ -198,6 +199,12 @@ const getAvailableRecordSets = recordSets => {
 const getUnavailableRecordSets = recordSets => {
   return recordSets.filter(recordSet => {
     if (!recordSet.selected) return false;
+    // appointments records are broken into two sub-lists: past and upcoming
+    if (recordSet.type === 'appointments') {
+      return recordSet.records.every(
+        type => type?.results?.items?.length === 0,
+      );
+    }
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length === 0;
     }

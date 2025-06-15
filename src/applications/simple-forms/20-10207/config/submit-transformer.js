@@ -65,6 +65,7 @@ export default function transformForSubmit(formConfig, form) {
     preparerType === PREPARER_TYPES.NON_VETERAN
   ) {
     delete transformedData.thirdPartyFullName;
+    delete transformedData.thirdPartyEmailAddress;
     delete transformedData.thirdPartyType;
   }
 

@@ -151,8 +151,6 @@ describe('<PersonalInformation />', () => {
 
     const featureToggles = {};
 
-    // eslint-disable-next-line dot-notation
-    featureToggles['mhv_secure_messaging_signature_settings'] = true;
     const screen = setup({
       toggles: { ...featureToggles },
       optionalServices: ['messaging'],
@@ -172,13 +170,7 @@ describe('<PersonalInformation />', () => {
       },
     };
 
-    const featureToggles = {};
-
-    // eslint-disable-next-line dot-notation
-    featureToggles['mhv_secure_messaging_signature_settings'] = true;
-
     const screen = setup({
-      toggles: { ...featureToggles },
       mhvAccount,
     });
 
@@ -188,20 +180,16 @@ describe('<PersonalInformation />', () => {
   });
 
   it('retrieves the messaging signatue from SM API if messaging is enabled but messagingSignature is not populated', async () => {
-    const featureToggles = {};
-
-    // eslint-disable-next-line dot-notation
-    featureToggles['mhv_secure_messaging_signature_settings'] = true;
-
     mockApiRequest({
       data: {
-        signatureName: 'Abraham Lincoln',
-        signatureTitle: 'Veteran',
-        includeSignature: true,
+        attributes: {
+          signatureName: 'Abraham Lincoln',
+          signatureTitle: 'Veteran',
+          includeSignature: true,
+        },
       },
     });
     const screen = setup({
-      toggles: { ...featureToggles },
       optionalServices: ['messaging'],
     });
 

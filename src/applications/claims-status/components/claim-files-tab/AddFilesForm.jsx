@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   VaFileInput,
@@ -15,10 +16,7 @@ import {
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
-import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
-
-import { Element } from 'platform/utilities/scroll';
+import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
 
 import { displayFileSize, DOC_TYPES } from '../../utils/helpers';
 import { setFocus } from '../../utils/page';
@@ -164,18 +162,49 @@ class AddFilesForm extends React.Component {
     return (
       <>
         <div className="add-files-form">
-          <VaFileInput
-            id="file-upload"
-            className="vads-u-margin-bottom--3"
-            error={this.getErrorMessage()}
-            label="Upload additional evidence"
-            hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
-            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-            onVaChange={e => this.add(e.detail.files)}
-            name="fileUpload"
-            additionalErrorClass="claims-upload-input-error-message"
-            aria-describedby="file-requirements"
-          />
+          <Toggler
+            toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
+          >
+            <Toggler.Enabled>
+              <div>
+                {!this.props.fileTab && (
+                  <>
+                    <h2>Upload documents</h2>
+                    <p>
+                      If you have a document to upload, you can do that here.
+                    </p>
+                  </>
+                )}
+                <VaFileInput
+                  id="file-upload"
+                  className="vads-u-margin-bottom--3"
+                  error={this.getErrorMessage()}
+                  label="Upload additional evidence"
+                  hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
+                  accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+                  onVaChange={e => this.add(e.detail.files)}
+                  name="fileUpload"
+                  additionalErrorClass="claims-upload-input-error-message"
+                  aria-describedby="file-requirements"
+                  uswds
+                />
+              </div>
+            </Toggler.Enabled>
+            <Toggler.Disabled>
+              <VaFileInput
+                id="file-upload"
+                className="vads-u-margin-bottom--3"
+                error={this.getErrorMessage()}
+                label="Upload additional evidence"
+                hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
+                accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+                onVaChange={e => this.add(e.detail.files)}
+                name="fileUpload"
+                additionalErrorClass="claims-upload-input-error-message"
+                aria-describedby="file-requirements"
+              />
+            </Toggler.Disabled>
+          </Toggler>
         </div>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
@@ -213,6 +242,7 @@ class AddFilesForm extends React.Component {
                       decrypt it.
                     </p>
                     <VaTextInput
+                      id="password-input"
                       required
                       error={
                         validateIfDirty(password, isNotBlank)
@@ -253,12 +283,12 @@ class AddFilesForm extends React.Component {
         )}
         <VaButton
           id="submit"
-          text="Submit files for review"
+          text="Submit documents for review"
           onClick={this.submit}
         />
         <va-additional-info
           class="vads-u-margin-y--3"
-          trigger="Need to mail your files?"
+          trigger="Need to mail your documents?"
         >
           {mailMessage}
         </va-additional-info>
@@ -302,6 +332,7 @@ AddFilesForm.propTypes = {
   onRemoveFile: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   backUrl: PropTypes.string,
+  fileTab: PropTypes.bool,
   mockReadAndCheckFile: PropTypes.func,
   progress: PropTypes.number,
   uploading: PropTypes.bool,

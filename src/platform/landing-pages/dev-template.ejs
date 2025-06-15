@@ -53,11 +53,14 @@
     <a class="show-on-focus" href="#content" onclick="focusContent(event)">Skip to Content</a>
     <% if (typeof minimalHeader !== 'undefined') { %>
     <!-- Header Minimal -->
+    <%
+      const minimalHeaderExcludePaths = (typeof minimalHeader === 'object' && minimalHeader.excludePaths) || (typeof minimalExcludePaths !== 'undefined' && minimalExcludePaths);
+    %>
     <div
       id="header-minimal"
       class="vads-u-display--none vads-u-background-color--primary-darker"
-      <% if (minimalHeader.excludePaths) { %>
-        data-exclude-paths='<%= JSON.stringify(minimalHeader.excludePaths).replace(/"/g, "&quot;") %>'
+      <% if (minimalHeaderExcludePaths) { %>
+        data-exclude-paths='<%= JSON.stringify(minimalHeaderExcludePaths).replace(/"/g, "&quot;") %>'
       <% } %>
     >
       <va-header-minimal
@@ -250,8 +253,14 @@
     <!-- Footer -->
     <div id="announcement-root"></div>
     <footer class="footer" role="contentinfo">
+      <%
+        const minimalFooterExcludePaths = (typeof minimalFooter === 'object' && minimalFooter.excludePaths) || (typeof minimalExcludePaths !== 'undefined' && minimalExcludePaths);
+      %>
       <div id="footerNav"
-        data-minimal-footer="<%= typeof minimalFooter !== 'undefined' ? minimalFooter : false %>"
+        data-minimal-footer="<%= typeof minimalFooter !== 'undefined' ? true : false %>"
+        <% if (minimalFooterExcludePaths) { %>
+          data-minimal-exclude-paths='<%= JSON.stringify(minimalFooterExcludePaths).replace(/"/g, "&quot;") %>'
+        <% } %>
       ></div>
     </footer>
 

@@ -3,10 +3,11 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
+import { militaryBranchComponentTypes } from '../constants/benefits';
 
 import manifest from '../manifest.json';
 
@@ -17,7 +18,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
+import activeDuty from '../pages/activeDuty';
+import militaryBranch from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
+import titleTenServiceTime from '../pages/titleTenTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
 import characterOfDischarge from '../pages/characterOfDischarge';
@@ -93,11 +97,59 @@ export const formConfig = {
           uiSchema: militaryServiceTimeServed.uiSchema,
           schema: militaryServiceTimeServed.schema,
         },
+        militaryBranch: {
+          path: 'service/branch-served',
+          title: 'Military Branch Served',
+          uiSchema: militaryBranch.uiSchema,
+          schema: militaryBranch.schema,
+          depends: () => !environment.isProduction(),
+        },
+        titleTenActiveDuty: {
+          path: 'service/active-duty',
+          title: 'Active Duty',
+          uiSchema: activeDuty.uiSchema,
+          schema: activeDuty.schema,
+          depends: formData => {
+            return (
+              !environment.isProduction() &&
+              Object.values(formData.branchComponents).some(
+                branchComponent =>
+                  branchComponent[
+                    militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
+                  ] === true ||
+                  branchComponent[
+                    militaryBranchComponentTypes.RESERVE_SERVICE
+                  ] === true,
+              )
+            );
+          },
+        },
+        titleTenTimeServed: {
+          path: 'service/title-ten',
+          title: 'Title Ten',
+          uiSchema: titleTenServiceTime.uiSchema,
+          schema: titleTenServiceTime.schema,
+          depends: formData => {
+            return (
+              !environment.isProduction() &&
+              formData.titleTenActiveDuty === true
+            );
+          },
+        },
         militaryService: {
           path: 'service/current',
           title: 'Military Service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.militaryServiceCurrentlyServing === true) {
+              goPath(
+                formConfig.chapters.chapter4.pages.characterOfDischarge.path,
+              );
+            } else {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
         },
         militaryServiceCompleted: {
           path: 'service/completed',
@@ -105,18 +157,10 @@ export const formConfig = {
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
           depends: formData => {
-            if (environment.isProduction()) {
-              return formData.militaryServiceCurrentlyServing === true;
-            }
-            return formData.militaryServiceCurrentlyServing !== false;
+            return formData.militaryServiceCurrentlyServing === true;
           },
           onNavForward: ({ formData, goPath }) => {
-            if (
-              (formData.militaryServiceCurrentlyServing === true &&
-                formData.militaryServiceCompleted === false) ||
-              (!environment.isProduction() &&
-                formData.militaryServiceCurrentlyServing === undefined)
-            ) {
+            if (formData.militaryServiceCurrentlyServing === true) {
               goPath(
                 formConfig.chapters.chapter4.pages.characterOfDischarge.path,
               );
@@ -146,6 +190,13 @@ export const formConfig = {
           title: 'Character of Discharge',
           uiSchema: characterOfDischarge.uiSchema,
           schema: characterOfDischarge.schema,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData.militaryServiceCurrentlyServing === true) {
+              goPath(formConfig.chapters.chapter2.pages.militaryService.path);
+            } else {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
         },
       },
     },

@@ -20,12 +20,21 @@ export function isMissingVeteranGender(formData) {
 }
 
 /**
- * Helper that determines if the form data is missing the Veteran's birth sex
+ * Helper that determines if emergency contacts is enabled
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the viewfield is empty
  */
-export function isSigiEnabled(formData) {
-  return formData['view:isSigiEnabled'];
+export function isEmergencyContactsEnabled(formData) {
+  return formData['view:isEmergencyContactsEnabled'];
+}
+
+/**
+ * Helper that determines if next of kin is enabled
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the viewfield is empty
+ */
+export function isNextOfKinEnabled(formData) {
+  return formData['view:isNextOfKinEnabled'];
 }
 
 /**
@@ -275,4 +284,36 @@ export function collectMedicareInformation(formData) {
  */
 export function includeInsuranceInformation(formData) {
   return !formData[INSURANCE_VIEW_FIELDS.skip];
+}
+
+export function includeHouseholdInformationWithV1Prefill(formData) {
+  return (
+    includeHouseholdInformation(formData) &&
+    !formData['view:isProvidersAndDependentsPrefillEnabled']
+  );
+}
+
+export function includeHouseholdInformationWithV2Prefill(formData) {
+  return (
+    includeHouseholdInformation(formData) &&
+    formData['view:isProvidersAndDependentsPrefillEnabled']
+  );
+}
+
+export function includeSpousalInformationWithV1Prefill(formData) {
+  if (!includeHouseholdInformationWithV1Prefill(formData)) return false;
+  const { maritalStatus } = formData['view:maritalStatus'];
+  return (
+    maritalStatus?.toLowerCase() === 'married' ||
+    maritalStatus?.toLowerCase() === 'separated'
+  );
+}
+
+export function includeSpousalInformationWithV2Prefill(formData) {
+  if (!includeHouseholdInformationWithV2Prefill(formData)) return false;
+  const { maritalStatus } = formData['view:maritalStatus'];
+  return (
+    maritalStatus?.toLowerCase() === 'married' ||
+    maritalStatus?.toLowerCase() === 'separated'
+  );
 }

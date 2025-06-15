@@ -6,13 +6,11 @@ export const evidenceUploadIntroTitle = (
 
 export const bvaAddressAndFax = (
   <>
-    <p className="vads-u-padding-y--2">
-      Board of Veterans’ Appeals
-      <br role="presentation" />
-      PO Box 27063
-      <br role="presentation" />
-      Washington, D.C. 20038
-    </p>
+    <div className="vads-u-padding-y--2">
+      <div>Board of Veterans’ Appeals</div>
+      <div>PO Box 27063</div>
+      <div>Washington, DC 20038</div>
+    </div>
     You can also fax it to <va-telephone not-clickable contact="8446788979" />
   </>
 );

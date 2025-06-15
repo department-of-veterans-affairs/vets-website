@@ -70,7 +70,7 @@
     }
   ],
   "view:servedUnderOtherNames": true,
-  "militaryServiceNumber": "1234567",
+  "militaryServiceNumber": "A123456",
   "toursOfDuty": [
     {
       "serviceBranch": "Army",
@@ -133,11 +133,11 @@
     }
   ],
   "locationOfDeath": {
-    "location": "stateVeteransHome",
-    "stateVeteransHome": {
-      "facilityName": "CA State facility",
-      "facilityLocation": "Modesto, CA"
-    }
+    "location": "stateVeteransHome"
+  },
+  "stateVeteransHome": {
+    "facilityName": "CA State facility",
+    "facilityLocation": "Modesto, CA"
   },
   "claimantAddress": {
     "view:militaryBaseDescription": {},

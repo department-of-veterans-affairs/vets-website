@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 
-import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
-import { scrollToFirstError } from 'platform/utilities/ui';
+import { Element, scrollToFirstError } from 'platform/utilities/scroll';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
@@ -12,12 +11,17 @@ import VehiclePage from '../components/submit-flow/pages/VehiclePage';
 import AddressPage from '../components/submit-flow/pages/AddressPage';
 import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
-import BreadCrumbs from '../components/Breadcrumbs';
-import { selectAppointment } from '../redux/selectors';
-
 import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
+
+import { selectAppointment } from '../redux/selectors';
+import { HelpTextGeneral } from '../components/HelpText';
 import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
+import { stripTZOffset } from '../util/dates';
+import {
+  recordSmocButtonClick,
+  recordSmocLinkClick,
+} from '../util/events-helpers';
 
 const SubmitFlowWrapper = () => {
   const dispatch = useDispatch();
@@ -59,13 +63,25 @@ const SubmitFlowWrapper = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
+  const [isAgreementError, setIsAgreementError] = useState(false);
 
   const onSubmit = () => {
     if (!isAgreementChecked) {
+      setIsAgreementError(true);
       scrollToFirstError();
       return;
     }
-    dispatch(submitMileageOnlyClaim(appointmentData.localStartTime));
+    const apptData = {
+      appointmentDateTime: stripTZOffset(appointmentData.localStartTime),
+      facilityStationNumber: appointmentData.location.id,
+      appointmentType: appointmentData.isCompAndPen
+        ? 'CompensationAndPensionExamination'
+        : 'Other',
+      isComplete: false,
+    };
+    recordSmocButtonClick('review', 'file-claim');
+
+    dispatch(submitMileageOnlyClaim(apptData));
     setPageIndex(pageIndex + 1);
   };
 
@@ -126,6 +142,7 @@ const SubmitFlowWrapper = () => {
           setPageIndex={setPageIndex}
           isAgreementChecked={isAgreementChecked}
           setIsAgreementChecked={setIsAgreementChecked}
+          isError={isAgreementError}
         />
       ),
     },
@@ -154,8 +171,23 @@ const SubmitFlowWrapper = () => {
 
   return (
     <Element name="topScrollElement">
-      <article className="usa-grid-full vads-u-margin-bottom--3">
-        <BreadCrumbs />
+      <article className="usa-grid-full vads-u-margin-bottom--0">
+        <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
+          <va-link
+            back
+            data-testid="submit-back-link"
+            disable-analytics
+            href={`/my-health/appointments/past/${apptId}`}
+            text="Back to your appointment"
+            onClick={() => {
+              recordSmocLinkClick(
+                `${pageList[pageIndex].page}`,
+                'Back to your appointment',
+                undefined, // per anaylitics request don't use actual URL
+              );
+            }}
+          />
+        </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {isUnsupportedClaimType && (
             <UnsupportedClaimTypePage
@@ -168,6 +200,13 @@ const SubmitFlowWrapper = () => {
           {!isUnsupportedClaimType &&
             !submissionError &&
             pageList[pageIndex].component}
+          <div className="vads-u-margin-top--4">
+            <va-need-help>
+              <div slot="content">
+                <HelpTextGeneral />
+              </div>
+            </va-need-help>
+          </div>
         </div>
       </article>
     </Element>

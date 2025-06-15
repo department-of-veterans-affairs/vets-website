@@ -3,10 +3,9 @@ import { expect } from 'chai';
 
 import createCommonStore from 'platform/startup/store';
 import SkinDeep from 'skin-deep';
-import reducer from '../../../post-911-gib-status/reducers/index';
 import ServicePeriodView from '../../components/ServicePeriodView';
 
-const store = createCommonStore(reducer);
+const store = createCommonStore();
 const defaultProps = store.getState();
 defaultProps.dateRange = {
   from: '1900-01-01',

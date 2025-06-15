@@ -13,10 +13,6 @@
   text-transform: uppercase;
 }
 
-h1:focus {
-  outline: none !important;
-}
-
 .title-text-eyebrow {
   display: block;
   text-transform: uppercase;
@@ -105,4 +101,8 @@ body {
   .vaos__dynamic-font-size--h2 {
     font-size: 24px;
   }
+}
+
+va-textarea::part(input-type-textarea) {
+  box-sizing: border-box;
 }

@@ -53,12 +53,14 @@ ReferralAppLinkComponent.propTypes = {
 export default function ReferralAppLink({ linkText, id }) {
   const location = useLocation();
   // Only display on upcoming appointments page
+
   if (
     location.pathname.endsWith('pending') ||
     location.pathname.endsWith('past')
   ) {
     return null;
   }
+
   return <ReferralAppLinkComponent linkText={linkText} id={id} />;
 }
 

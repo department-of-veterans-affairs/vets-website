@@ -20,7 +20,7 @@ const content = {
   },
   copayCompromise: {
     type: 'Compromise',
-    description: `If you can't pay the debt in full, we can consider a smaller, one-time payment to resolve your debt.`,
+    description: `If you are unable to pay your account in full you may be eligible for a compromise which is a smaller payment no less than 50% of your balance. This payment must be made in full within 30 days of approval.`,
     label: 'How much can you afford to pay as a one-time payment?',
   },
 };

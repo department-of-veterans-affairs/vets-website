@@ -9,8 +9,8 @@ export default function ListItem({
   children,
   status,
 }) {
-  const uniqueIdentifier = appointment.id || appointment.UUID;
-  const idClickable = `id-${uniqueIdentifier.replace('.', '\\.')}`;
+  const uniqueIdentifier = appointment.id || appointment.uuid;
+  const idClickable = `id-${uniqueIdentifier.replace(/[.=\\]/g, '\\$&')}`;
 
   return (
     <li

@@ -3,10 +3,9 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import sendNextStepsEmail from '../api/sendNextStepsEmail';
 import { getFormNumber, getFormName } from '../utilities/helpers';
-import useV2FeatureToggle from '../hooks/useV2FeatureVisibility';
 
 import GetFormHelp from '../components/GetFormHelp';
 
@@ -31,7 +30,7 @@ export default function ConfirmationPage({ router }) {
   const isDigitalSubmission =
     formData.representativeSubmissionMethod === 'digital';
 
-  const v2IsEnabled = useV2FeatureToggle();
+  const v2IsEnabled = formData?.['view:v2IsEnabled'];
   useEffect(() => {
     scrollTo('topScrollElement');
   }, []);

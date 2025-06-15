@@ -1,15 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { useSelector } from 'react-redux';
-import ExternalLink from './ExternalLink';
 import { sendDataDogAction } from '../../util/helpers';
 
-const InfoAlert = ({ highLowResults, fullState }) => {
-  const phase0p5Flag = useSelector(
-    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
-  );
+const InfoAlert = ({ highLowResults }) => {
   return (
     <>
       <va-alert-expandable
@@ -39,24 +32,13 @@ const InfoAlert = ({ highLowResults, fullState }) => {
           ordered this test.
         </p>
         <p data-testid="new-message-link" className="vads-u-padding-bottom--2">
-          {phase0p5Flag ? (
-            <va-link
-              href="/my-health/secure-messages/new-message/"
-              text="Start a new message"
-              onClick={() => {
-                sendDataDogAction('Start a new message - L&TR Details info');
-              }}
-            />
-          ) : (
-            <ExternalLink
-              ddTag="Start a new message - L&TR Details info"
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'compose-message',
-              )}
-              text="Start a new message"
-            />
-          )}
+          <va-link
+            href="/my-health/secure-messages/new-message/"
+            text="Start a new message"
+            onClick={() => {
+              sendDataDogAction('Start a new message - L&TR Details info');
+            }}
+          />
         </p>
         <p data-testid="result-Alert-note">
           <strong>Note:</strong> If you have questions about more than 1 test

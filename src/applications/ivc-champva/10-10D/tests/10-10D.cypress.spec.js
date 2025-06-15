@@ -14,7 +14,6 @@ import {
   fillFullNameWebComponentPattern,
   reviewAndSubmitPageFlow,
   fillDateWebComponentPattern,
-  fillAddressWebComponentPattern,
   getAllPages,
   verifyAllDataWasSubmitted,
 } from '../../shared/tests/helpers';
@@ -61,7 +60,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'certifierAddress',
               data.certifierAddress,
             );
@@ -98,7 +97,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'sponsorAddress',
               data.sponsorAddress,
             );
@@ -163,8 +162,8 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             cy.url().then(url => {
               fillTextWebComponent(
-                'applicantSSN_ssn',
-                data.applicants[getIdx(url)].applicantSSN.ssn,
+                'applicantSSN',
+                data.applicants[getIdx(url)].applicantSSN,
               );
             });
             cy.axeCheck();
@@ -187,7 +186,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
-              fillAddressWebComponentPattern(
+              cy.fillAddressWebComponentPattern(
                 'applicantAddress',
                 data.applicants[getIdx(url)].applicantAddress,
               );

@@ -1,56 +1,61 @@
-/* eslint-disable camelcase */
-import moment from 'moment';
-import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
+import * as Sentry from '@sentry/browser';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import moment from 'moment';
 
-import { createAppointment } from '../../services/appointment';
-import getNewAppointmentFlow from '../newAppointmentFlow';
 import {
-  selectFeatureDirectScheduling,
+  addMinutes,
+  areIntervalsOverlapping,
+  startOfMonth,
+  endOfMonth,
+  startOfDay,
+  addDays,
+  isAfter,
+} from 'date-fns';
+import {
   selectFeatureCommunityCare,
-  selectSystemIds,
+  selectFeatureDirectScheduling,
+  selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthModality,
+  selectFeatureFeSourceOfTruthTelehealth,
+  selectFeatureFeSourceOfTruthVA,
+  selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
-  selectFeatureVAOSServiceVAAppointments,
-  selectFeatureClinicFilter,
-  selectFeatureBreadcrumbUrlUpdate,
+  selectSystemIds,
+  selectFeatureConvertSlotsToUtc,
 } from '../../redux/selectors';
 import {
-  getTypeOfCare,
-  getNewAppointment,
-  getFormData,
-  getTypeOfCareFacilities,
-  getCCEType,
-} from './selectors';
+  FORM_SUBMIT_SUCCEEDED,
+  STARTED_NEW_APPOINTMENT_FLOW,
+} from '../../redux/sitewide';
+import { createAppointment } from '../../services/appointment';
 import {
-  getLocation,
-  getSiteIdFromFacilityId,
-  getLocationsByTypeOfCareAndSiteIds,
-  getCommunityProvidersByTypeOfCare,
-  fetchParentLocations,
   fetchCommunityCareSupportedSites,
+  fetchParentLocations,
+  getCommunityProvidersByTypeOfCare,
+  getLocation,
+  getLocationsByTypeOfCareAndSiteIds,
+  getSiteIdFromFacilityId,
   isCernerLocation,
   isTypeOfCareSupported,
 } from '../../services/location';
+import {
+  fetchFlowEligibilityAndClinics,
+  fetchPatientRelationships,
+} from '../../services/patient';
 import { getSlots } from '../../services/slot';
+import { getCommunityCareV2 } from '../../services/vaos/index';
 import { getPreciseLocation } from '../../utils/address';
 import {
+  APPOINTMENT_STATUS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
   GA_PREFIX,
+  DATE_FORMATS,
 } from '../../utils/constants';
-import {
-  transformFormToVAOSAppointment,
-  transformFormToVAOSCCRequest,
-  transformFormToVAOSVARequest,
-} from './helpers/formSubmitTransformers';
-import {
-  resetDataLayer,
-  recordItemsRetrieved,
-  recordEligibilityFailure,
-} from '../../utils/events';
 import {
   captureError,
   getErrorCodes,
@@ -58,15 +63,24 @@ import {
   has409LevelError,
 } from '../../utils/error';
 import {
-  STARTED_NEW_APPOINTMENT_FLOW,
-  FORM_SUBMIT_SUCCEEDED,
-} from '../../redux/sitewide';
-import {
-  fetchFlowEligibilityAndClinics,
-  fetchPatientRelationships,
-} from '../../services/patient';
+  recordEligibilityFailure,
+  recordItemsRetrieved,
+  resetDataLayer,
+} from '../../utils/events';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
-import { getCommunityCareV2 } from '../../services/vaos/index';
+import getNewAppointmentFlow from '../newAppointmentFlow';
+import {
+  transformFormToVAOSAppointment,
+  transformFormToVAOSCCRequest,
+  transformFormToVAOSVARequest,
+} from './helpers/formSubmitTransformers';
+import {
+  getCCEType,
+  getFormData,
+  getNewAppointment,
+  getTypeOfCare,
+  getTypeOfCareFacilities,
+} from './selectors';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -83,6 +97,8 @@ export const FORM_PAGE_CHANGE_COMPLETED =
   'newAppointment/FORM_PAGE_CHANGE_COMPLETED';
 export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
+export const FORM_UPDATE_SELECTED_PROVIDER =
+  'newAppointment/FORM_UPDATE_SELECTED_PROVIDER';
 export const FORM_PAGE_FACILITY_V2_OPEN =
   'newAppointment/FACILITY_PAGE_V2_OPEN';
 export const FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED =
@@ -154,6 +170,12 @@ export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED =
   'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED';
 export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED =
   'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED';
+export const FORM_FETCH_RECENT_LOCATIONS =
+  'newAppointment/FORM_FETCH_RECENT_LOCATIONS';
+export const FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED =
+  'newAppointment/FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED';
+export const FORM_FETCH_RECENT_LOCATIONS_FAILED =
+  'newAppointment/FORM_FETCH_RECENT_LOCATIONS_FAILED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -201,6 +223,13 @@ export function updateFacilityType(facilityType) {
   return {
     type: FORM_UPDATE_FACILITY_TYPE,
     facilityType,
+  };
+}
+
+export function updateSelectedProvider(provider) {
+  return {
+    type: FORM_UPDATE_SELECTED_PROVIDER,
+    provider,
   };
 }
 
@@ -285,54 +314,101 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
-export function checkEligibility({ location, showModal }) {
+export function checkEligibility({ location, showModal, isCerner }) {
   return async (dispatch, getState) => {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
-    const featureClinicFilter = selectFeatureClinicFilter(state);
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
     });
 
     try {
-      const loadingStartTime = Date.now();
+      // OH/Cerner eligibility checks
+      if (isCerner) {
+        try {
+          const {
+            eligibility,
+            pastAppointments,
+          } = await fetchFlowEligibilityAndClinics({
+            location,
+            typeOfCare,
+            directSchedulingEnabled,
+            useFeSourceOfTruth,
+            useFeSourceOfTruthCC,
+            useFeSourceOfTruthVA,
+            useFeSourceOfTruthModality,
+            useFeSourceOfTruthTelehealth,
+            isCerner: true,
+          });
 
-      const {
-        eligibility,
-        clinics,
-        pastAppointments,
-      } = await fetchFlowEligibilityAndClinics({
-        location,
-        typeOfCare,
-        directSchedulingEnabled,
-        useV2: featureVAOSServiceVAAppointments,
-        featureClinicFilter,
-      });
+          dispatch({
+            type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+            typeOfCare,
+            location,
+            eligibility,
+            pastAppointments,
+            facilityId: location.id,
+          });
 
-      if (showModal) {
-        recordEvent({
-          event: 'loading-indicator-displayed',
-          'loading-indicator-display-time': Date.now() - loadingStartTime,
-        });
+          return eligibility;
+        } catch (e) {
+          captureError(e, false, 'facility page');
+          dispatch({
+            type: FORM_ELIGIBILITY_CHECKS_FAILED,
+          });
+        }
       }
 
-      dispatch({
-        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
-        typeOfCare,
-        location,
-        eligibility,
-        pastAppointments,
-        clinics,
-        facilityId: location.id,
-        showModal,
-      });
+      // If it's NOT Cerner, do the normal eligibility checks
+      if (!isCerner) {
+        const loadingStartTime = Date.now();
 
-      return eligibility;
+        const {
+          eligibility,
+          clinics,
+          pastAppointments,
+        } = await fetchFlowEligibilityAndClinics({
+          location,
+          typeOfCare,
+          directSchedulingEnabled,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
+        });
+
+        if (showModal) {
+          recordEvent({
+            event: 'loading-indicator-displayed',
+            'loading-indicator-display-time': Date.now() - loadingStartTime,
+          });
+        }
+
+        dispatch({
+          type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+          typeOfCare,
+          location,
+          eligibility,
+          pastAppointments,
+          clinics,
+          facilityId: location.id,
+          showModal,
+        });
+
+        return eligibility;
+      }
     } catch (e) {
       captureError(e, false, 'facility page');
       dispatch({
@@ -343,88 +419,97 @@ export function checkEligibility({ location, showModal }) {
   };
 }
 
+async function fetchRecentLocations(dispatch, siteIds) {
+  try {
+    dispatch({ type: FORM_FETCH_RECENT_LOCATIONS });
+    const recentLocations = getLocationsByTypeOfCareAndSiteIds({
+      siteIds,
+      sortByRecentLocations: true,
+    });
+    dispatch({
+      type: FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED,
+      recentLocations,
+    });
+    return recentLocations;
+  } catch (e) {
+    captureError(e, true, 'recent locations - facility page');
+    dispatch({ type: FORM_FETCH_RECENT_LOCATIONS_FAILED });
+    return [];
+  }
+}
+
 export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
-      const initialState = getState();
-      const { newAppointment } = initialState;
+      const state = getState();
+      const { newAppointment } = state;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
-      if (typeOfCareId) {
-        const siteIds = selectSystemIds(initialState);
-        const cernerSiteIds = selectRegisteredCernerFacilityIds(initialState);
-        let typeOfCareFacilities = getTypeOfCareFacilities(initialState);
-        let siteId = null;
-        let facilityId = newAppointment.data.vaFacility;
+      const useRecentLocations = selectFeatureRecentLocationsFilter(state);
+      const siteIds = selectSystemIds(state);
+      const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
+      let facilities = getTypeOfCareFacilities(state);
+      let facilityId = newAppointment.data.vaFacility;
 
-        dispatch({
-          type: FORM_PAGE_FACILITY_V2_OPEN,
-        });
+      dispatch({ type: FORM_PAGE_FACILITY_V2_OPEN });
 
-        // Fetch facilities that support this type of care
-        if (!typeOfCareFacilities) {
-          typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
-            siteIds,
-          });
+      // Fetch facilities that support this type of care
+      if (!facilities) {
+        if (useRecentLocations) {
+          facilities = await fetchRecentLocations(dispatch, siteIds);
+          recordItemsRetrieved('recent-locations', facilities?.length || 0);
+        } else {
+          facilities = await getLocationsByTypeOfCareAndSiteIds({ siteIds });
+          recordItemsRetrieved('available_facilities', facilities?.length);
         }
+      }
 
-        recordItemsRetrieved(
-          'available_facilities',
-          typeOfCareFacilities?.length,
-        );
+      dispatch({
+        type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+        facilities: facilities || [],
+        typeOfCareId,
+        schema,
+        uiSchema,
+        cernerSiteIds,
+        address: selectVAPResidentialAddress(state),
+        featureRecentLocationsFilter: useRecentLocations,
+      });
 
-        dispatch({
-          type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
-          facilities: typeOfCareFacilities || [],
-          typeOfCareId,
-          schema,
-          uiSchema,
+      // If we have an already selected location or only have a single location
+      // fetch eligibility data immediately
+      const supportedFacilities = facilities.filter(facility =>
+        isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
+      );
+      const eligibilityDataNeeded =
+        (!!facilityId || supportedFacilities?.length === 1) &&
+        !isCernerLocation(
+          facilityId || supportedFacilities[0].id,
           cernerSiteIds,
-          address: selectVAPResidentialAddress(initialState),
-        });
-
-        // If we have an already selected location or only have a single location
-        // fetch eligbility data immediately
-        const supportedFacilities = typeOfCareFacilities.filter(facility =>
-          isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
         );
-        const eligibilityDataNeeded =
-          (!!facilityId || supportedFacilities?.length === 1) &&
-          !isCernerLocation(
-            facilityId || supportedFacilities[0].id,
-            cernerSiteIds,
-          );
 
-        if (!typeOfCareFacilities.length) {
-          recordEligibilityFailure(
-            'supported-facilities',
-            typeOfCare.name,
-            siteIds[0],
-          );
-        }
+      if (!facilities.length) {
+        recordEligibilityFailure(
+          'supported-facilities',
+          typeOfCare.name,
+          siteIds[0],
+        );
+      }
 
-        if (eligibilityDataNeeded && !facilityId) {
-          facilityId = supportedFacilities[0].id;
-        }
+      if (eligibilityDataNeeded && !facilityId) {
+        facilityId = supportedFacilities[0].id;
+      }
 
-        const eligibilityChecks =
-          newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
+      const eligibilityChecks =
+        newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
 
-        if (eligibilityDataNeeded && !eligibilityChecks) {
-          const location = supportedFacilities.find(f => f.id === facilityId);
-
-          if (!siteId) {
-            siteId = getSiteIdFromFacilityId(location.id);
-          }
-
-          dispatch(checkEligibility({ location, siteId }));
-        }
+      if (eligibilityDataNeeded && !eligibilityChecks) {
+        const location = supportedFacilities.find(f => f.id === facilityId);
+        const siteId = getSiteIdFromFacilityId(location.id);
+        dispatch(checkEligibility({ location, siteId }));
       }
     } catch (e) {
       captureError(e, false, 'facility page');
-      dispatch({
-        type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
-      });
+      dispatch({ type: FORM_PAGE_FACILITY_V2_OPEN_FAILED });
     }
   };
 }
@@ -476,10 +561,10 @@ export function updateCCProviderSortMethod(sortMethod, selectedFacility = {}) {
 
 export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
-    let location = null;
     const facilities = getTypeOfCareFacilities(getState());
     const cernerSiteIds = selectRegisteredCernerFacilityIds(getState());
-    const calculatedDistanceFromCurrentLocation = facilities.some(
+
+    const calculatedDistance = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
 
@@ -488,11 +573,12 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
       sortMethod,
       uiSchema,
       cernerSiteIds,
+      calculatedDistance,
     };
 
     if (
       sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation &&
-      !calculatedDistanceFromCurrentLocation
+      !calculatedDistance
     ) {
       dispatch({
         type: FORM_REQUEST_CURRENT_LOCATION,
@@ -501,7 +587,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
         event: `${GA_PREFIX}-request-current-location-clicked`,
       });
       try {
-        location = await getPreciseLocation();
+        const location = await getPreciseLocation();
         recordEvent({
           event: `${GA_PREFIX}-request-current-location-allowed`,
         });
@@ -514,15 +600,8 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
           event: `${GA_PREFIX}-request-current-location-blocked`,
         });
         captureError(e, true, 'facility page');
-        dispatch({
-          type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
-          sortMethod,
-          uiSchema,
-          cernerSiteIds,
-        });
-        dispatch({
-          type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
-        });
+        dispatch(action);
+        dispatch({ type: FORM_REQUEST_CURRENT_LOCATION_FAILED });
       }
     } else {
       dispatch(action);
@@ -542,33 +621,21 @@ export function hideEligibilityModal() {
   };
 }
 
-export function openReasonForAppointment(
-  page,
-  uiSchema,
-  schema,
-  useV2 = false,
-) {
+export function openReasonForAppointment(page, uiSchema, schema) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
     page,
     uiSchema,
     schema,
-    useV2,
   };
 }
 
-export function updateReasonForAppointmentData(
-  page,
-  uiSchema,
-  data,
-  useV2 = false,
-) {
+export function updateReasonForAppointmentData(page, uiSchema, data) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
     page,
     uiSchema,
     data,
-    useV2,
   };
 }
 
@@ -578,12 +645,11 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
+    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
-    const startDateMonth = moment(startDate).format('YYYY-MM');
-    const endDateMonth = moment(endDate).format('YYYY-MM');
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
+    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
+    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
+
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
     let fetchedAppointmentSlotMonths = [];
@@ -607,28 +673,24 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
       try {
         const startDateString = !fetchedStartMonth
-          ? startDate
-          : moment(endDate)
-              .startOf('month')
-              .format('YYYY-MM-DD');
+          ? format(new Date(startDate), 'yyyy-MM-dd')
+          : format(startOfMonth(new Date(endDate)), 'yyyy-MM-dd');
         const endDateString = !fetchedEndMonth
-          ? endDate
-          : moment(startDate)
-              .endOf('month')
-              .format('YYYY-MM-DD');
+          ? format(new Date(endDate), 'yyyy-MM-dd')
+          : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
 
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          convertToUtc: featureConvertSlotsToUTC,
         });
-        const tomorrow = moment()
-          .add(1, 'day')
-          .startOf('day');
+
+        const tomorrow = startOfDay(addDays(new Date(), 1));
 
         mappedSlots = fetchedSlots.filter(slot =>
-          moment(slot.start).isAfter(tomorrow),
+          isAfter(new Date(slot.start), tomorrow),
         );
 
         // Keep track of which months we've fetched already so we don't
@@ -641,21 +703,19 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           fetchedAppointmentSlotMonths.push(endDateMonth);
         }
 
-        const sortedSlots = [...availableSlots, ...mappedSlots]
-          // Check timezone 1st since conversion might flip the date to the
-          // previous or next day. This insures available slots are displayed
-          // for the correct day.
-          .map(slot => {
-            if (featureVAOSServiceVAAppointments) {
-              const zonedDate = utcToZonedTime(slot.start, timezone);
-              const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
-                timeZone: timezone,
-              });
-              return { ...slot, start: time };
-            }
-            return slot;
-          })
-          .sort((a, b) => a.start.localeCompare(b.start));
+        // Check timezone 1st since conversion might flip the date to the
+        // previous or next day. This ensures available slots are displayed
+        // for the correct day.
+        const correctedSlots = mappedSlots.map(slot => {
+          const zonedDate = utcToZonedTime(slot.start, timezone);
+          const time = format(zonedDate, DATE_FORMATS.ISODateTime, {
+            timeZone: timezone,
+          });
+          return { ...slot, start: time, startUtc: slot.start };
+        });
+        const sortedSlots = [...availableSlots, ...correctedSlots].sort(
+          (a, b) => a.start.localeCompare(b.start),
+        );
         dispatch({
           type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
@@ -671,10 +731,45 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   };
 }
 
-export function onCalendarChange(selectedDates) {
+export function onCalendarChange(
+  selectedDates,
+  maxSelections,
+  upcomingAppointments,
+  availableSlots,
+) {
+  let isSame = false;
+  if (maxSelections === 1 && selectedDates?.length > 0 && availableSlots) {
+    const selectedSlot = availableSlots?.find(
+      slot => slot.start === selectedDates[0],
+    );
+    if (selectedSlot) {
+      const key = format(new Date(selectedSlot.start), DATE_FORMATS.yearMonth);
+      const appointments = upcomingAppointments[key];
+
+      isSame = appointments?.some(appointment => {
+        // Use UTC timestamps for conflict detection. This avoids timezone conversion issues.
+        const slotInterval = {
+          start: new Date(selectedSlot.startUtc),
+          end: new Date(selectedSlot.end),
+        };
+        const appointmentStart = new Date(appointment.startUtc);
+        const appointmentInterval = {
+          start: appointmentStart,
+          end: addMinutes(appointmentStart, appointment.minutesDuration),
+        };
+
+        return (
+          appointment.status !== APPOINTMENT_STATUS.cancelled &&
+          areIntervalsOverlapping(slotInterval, appointmentInterval)
+        );
+      });
+    }
+  }
+
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
     selectedDates,
+    isAppointmentSelectionError: isSame,
   };
 }
 
@@ -756,10 +851,15 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
-    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -785,6 +885,11 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
         });
 
         dispatch({
@@ -797,16 +902,7 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-
-        if (featureVAOSServiceVAAppointments) {
-          if (featureBreadcrumbUrlUpdate) {
-            history.push(`/${appointment.id}?confirmMsg=true`);
-          } else {
-            history.push(`/va/${appointment.id}?confirmMsg=true`);
-          }
-        } else {
-          history.push('/new-appointment/confirmation');
-        }
+        history.push(`/${appointment.id}?confirmMsg=true`);
       } catch (error) {
         const extraData = {
           vaFacility: data?.vaFacility,
@@ -835,9 +931,11 @@ export function submitAppointmentOrRequest(history) {
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
       const today = moment().format('YYYYMMDD');
       const daysFromPreference = ['null', 'null', 'null'];
+
       const diffDays = Object.values(data.selectedDates).map(item =>
         moment(item, 'YYYYMMDD').diff(today, 'days'),
       );
+
       // takes daysFromPreference array then replace those values from diffDays array
       daysFromPreference.splice(0, diffDays.length, ...diffDays);
 
@@ -873,16 +971,18 @@ export function submitAppointmentOrRequest(history) {
       });
 
       try {
-        let requestData;
-        if (isCommunityCare) {
-          requestBody = transformFormToVAOSCCRequest(getState());
-          requestData = await createAppointment({ appointment: requestBody });
-        } else {
-          requestBody = transformFormToVAOSVARequest(getState());
-          requestData = await createAppointment({
-            appointment: requestBody,
-          });
-        }
+        requestBody = isCommunityCare
+          ? transformFormToVAOSCCRequest(getState())
+          : transformFormToVAOSVARequest(getState());
+
+        const requestData = await createAppointment({
+          appointment: requestBody,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
+        });
 
         dispatch({
           type: FORM_SUBMIT_SUCCEEDED,
@@ -894,11 +994,7 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push(
-          `${featureBreadcrumbUrlUpdate ? '/pending' : '/requests'}/${
-            requestData.id
-          }?confirmMsg=true`,
-        );
+        history.push(`/pending/${requestData.id}?confirmMsg=true`);
       } catch (error) {
         let extraData = null;
         if (requestBody) {

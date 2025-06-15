@@ -46,6 +46,7 @@ const FormApp = props => {
     : [];
 
   const isIntroductionPage = trimmedPathname.endsWith('introduction');
+  const isConfirmationPage = trimmedPathname.endsWith('confirmation');
   const isNonFormPage = nonFormPages.includes(lastPathComponent);
   const Footer = formConfig.footerContent;
   const title =
@@ -75,12 +76,12 @@ const FormApp = props => {
   if (!isIntroductionPage && !isNonFormPage && !hasHiddenFormTitle && title) {
     formTitle = <FormTitle title={title} subTitle={subTitle} />;
   }
-
   if (formConfig.useTopBackLink) {
     if (isMinimalHeaderApp()) {
       useTopBackLink = isMinimalHeaderPath(currentLocation.pathname);
     } else {
-      useTopBackLink = !isNonFormPage;
+      // useTopBackLink if we're not on one of the additionalRoutes *and* the confirmation page
+      useTopBackLink = !isNonFormPage && !isConfirmationPage;
     }
   }
 

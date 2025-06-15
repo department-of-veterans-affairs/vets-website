@@ -1,4 +1,4 @@
-import { notFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import manifest from '../../manifest.json';
 
 import features from '../fixtures/features';
@@ -49,7 +49,6 @@ describe('After-visit Summary - Happy Path', () => {
     cy.visit(testUrl);
     cy.get('h1').contains('After-visit summary');
     cy.get("[header='Your appointment on January 1, 2023'][open='true']")
-      .shadow()
       .get('.avs-accordion-item')
       .contains('You were diagnosed with')
       .should('be.visible');
@@ -99,10 +98,10 @@ describe('After-visit Summary - Happy Path', () => {
   it('child paths past an ID get page not found', () => {
     cy.visit(`${testUrl}/path1`);
     cy.injectAxeThenAxeCheck();
-    cy.findByRole('heading', { name: notFoundHeading }).should.exist;
+    cy.findByRole('heading', { name: pageNotFoundHeading }).should.exist;
 
     cy.visit(`${testUrl}/path1/path2`);
-    cy.findByRole('heading', { name: notFoundHeading }).should.exist;
+    cy.findByRole('heading', { name: pageNotFoundHeading }).should.exist;
   });
 });
 

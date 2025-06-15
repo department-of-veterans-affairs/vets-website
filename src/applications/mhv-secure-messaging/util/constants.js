@@ -16,13 +16,15 @@ export const Paths = {
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
   CONTACT_LIST: '/contact-list/',
+  SELECT_HEALTH_CARE_SYSTEM: 'select-health-care-system',
+  START_MESSAGE: 'start-message',
 };
 
 export const DefaultFolders = {
   INBOX: {
     id: 0,
     header: 'Inbox',
-    desc: '',
+    desc: 'Communicate securely with your VA health care team.',
   },
   SENT: {
     id: -1,
@@ -51,6 +53,7 @@ export const ErrorMessages = {
   },
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
+    VALID_RECIPIENT_REQUIRED: 'Please select a valid recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
     CHECKBOX_REQUIRED: 'You must certify by checking the box.',
     SUBJECT_REQUIRED: 'Subject cannot be blank.',
@@ -236,11 +239,6 @@ export const Prompts = {
       'If you remove an attachment, you will have to attach it again.',
   },
   Compose: {
-    EDIT_PREFERENCES_TITLE: 'Edit your message preferences',
-    EDIT_PREFERENCES_CONTENT:
-      'You can edit your contact list or signature settings on the My HealtheVet website. Then refresh this page to review your updated list.',
-    EDIT_PREFERENCES_LINK: `Edit your message preferences on the My HealtheVet website 
-    (opens in a new tab)`,
     SIGNATURE_REQUIRED:
       'Messages to this team require a signature. We added a signature box to this page.',
     SIGNATURE_NOT_REQUIRED:
@@ -278,6 +276,16 @@ export const Breadcrumbs = {
   MESSAGE_THREAD: {
     href: Paths.MESSAGE_THREAD,
     label: 'Edit draft',
+    isRouterLink: true,
+  },
+  CONTACT_LIST: {
+    href: Paths.CONTACT_LIST,
+    label: 'Contact list',
+    isRouterLink: true,
+  },
+  REPLY: {
+    href: Paths.REPLY,
+    label: 'Reply',
     isRouterLink: true,
   },
 };
@@ -411,14 +419,11 @@ export const BreadcrumbViews = {
 };
 
 export const PageTitles = {
-  DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
-  PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
-  CONVERSATION_TITLE_TAG:
-    'Conversation - MHV Secure Messaging | Veterans Affairs',
+  DEFAULT_PAGE_TITLE_TAG: ' | Veterans Affairs',
+  MY_FOLDERS_PAGE_TITLE_TAG: ' More folders | Veterans Affairs',
+  CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
-  MY_FOLDERS_PAGE_TITLE_TAG:
-    'More folders - MHV Secure Messaging | Veterans Affairs',
 };
 
 export const Recipients = {
@@ -485,7 +490,16 @@ export const CernerTransitioningFacilities = {
 };
 
 export const filterDescription = {
-  noMsgId: 'Enter information from one of these fields: To, from, or subject',
+  noMsgId: 'Enter information from one of these fields: to, from, or subject',
   withMsgId:
-    'Enter information from one of these fields: To, from, message ID, or subject',
+    'Enter information from one of these fields: to, from, subject, or message ID',
+};
+
+export const smFooter = {
+  HAVE_QUESTIONS: 'Have questions about how messages works?',
+  LEARN_MORE: 'Learn more about messages',
+  CONTACT_FACILITY:
+    'Want to send a message to a care team that’s not on your list? Contact your VA health facility. Ask for the My HealtheVet coordinator or secure messaging administrator.',
+  FIND_FACILITY: 'Find your VA health facility',
+  NEED_HELP: 'Need help?',
 };

@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { calculatedPercentage } from '../utilities';
+import { calculatedPercentage, dateSigned } from '../utilities';
 
 export function transform(formConfig, form) {
   const newSchoolTransform = formData => {
     let clonedData = _.cloneDeep(formData);
+    delete clonedData.statementOfTruthCertified;
     delete clonedData.studentRatioCalcChapter.studentPercentageCalc;
-
     clonedData = {
       ...clonedData,
       studentRatioCalcChapter: {
@@ -17,6 +17,7 @@ export function transform(formConfig, form) {
         numOfStudent: Number(clonedData.studentRatioCalcChapter.numOfStudent),
         VABeneficiaryStudentsPercentage: calculatedPercentage(clonedData),
       },
+      dateSigned: dateSigned(),
     };
     return clonedData;
   };

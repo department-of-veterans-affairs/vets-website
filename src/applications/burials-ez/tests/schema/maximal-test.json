@@ -43,7 +43,7 @@
       "serviceBranch": "Coast Guard"
     }
   ],
-  "militaryServiceNumber": "01234567",
+  "militaryServiceNumber": "A123456",
   "toursOfDuty": [
     {
       "serviceBranch": "Air Force",
@@ -69,11 +69,11 @@
     }
   ],
   "locationOfDeath": {
-    "location": "stateVeteransHome",
-    "stateVeteransHome": {
-      "facilityName": "CA State facility",
-      "facilityLocation": "Modesto, CA"
-    }
+    "location": "stateVeteransHome"
+  },
+  "stateVeteransHome": {
+    "facilityName": "CA State facility",
+    "facilityLocation": "Modesto, CA"
   },
   "veteranFullName": {
     "first": "Tom",

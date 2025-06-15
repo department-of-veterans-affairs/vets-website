@@ -11,19 +11,17 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  formatNameFirstLast,
+  getNameDateAndTime,
+  makePdf,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import {
-  formatNameFirstLast,
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  formatUserDob,
-} from '../util/helpers';
+import { generateTextFile } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -115,7 +113,13 @@ const AllergyDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, details: generateAllergyItem(allergyData) };
     const pdfName = `VA-allergies-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Allergy details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Allergy details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateAllergyTextContent = () => {
@@ -195,7 +199,10 @@ Provider notes: ${allergyData.notes} \n`;
               allowTxtDownloads={allowTxtDownloads}
               downloadTxt={generateAllergyTxt}
             />
-            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+            <DownloadingRecordsInfo
+              description="Allergy Detail"
+              allowTxtDownloads={allowTxtDownloads}
+            />
 
             <div
               className="max-80 vads-u-margin-top--4"

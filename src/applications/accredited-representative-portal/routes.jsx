@@ -4,10 +4,12 @@ import { redirect } from 'react-router-dom';
 import App from './containers/App';
 import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
+import ClaimantSearchPage from './containers/ClaimantSearchPage';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
+import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
-import ErrorBoundary from './components/ErrorBoundary';
-
+import ErrorBoundary from './components/Error/ErrorBoundary';
+import GetHelpPage from './containers/GetHelpPage';
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
 
@@ -25,25 +27,17 @@ const addSignInRedirection = route => {
   route.loader = async ({ params, request }) => {
     if (await userPromise) {
       try {
-        // `route.loader` results in infinite recursion, hence the alias.
         return await loader({ params, request });
       } catch (e) {
-        /**
-         * Likely a temporary solution. For our singleton `userPromise` to look
-         * good, but then we still experience an authentication related error
-         * means that it has been long enough for our refresh token to have
-         * expired. If so, we'll bring the user to login and then return here,
-         * which is the same experience when hard-nav'ing here.
-         *
-         * Also of note, the platform API wrapper we're using is probably not so
-         * suited to us, because it erases a fair amount of error information.
-         */
-        if (e.errors !== 'Access token JWT is malformed') {
+        // Only rethrow non-401 errors
+        // this can most likely be removed considering we added it to the api client
+        if (!(e instanceof Response) || e.status !== 401) {
           throw e;
         }
       }
     }
 
+    // Handle both initial auth and token expiration (401s)
     throw redirect(
       getSignInUrl({
         returnUrl: request.url,
@@ -65,19 +59,29 @@ const routes = [
     children: [
       {
         index: true,
-        element: <LandingPage />,
+        element: (
+          <LandingPage title="Accredited Representative Portal | Veterans Affairs" />
+        ),
       },
       forEachRoute(addSignInRedirection, {
         element: <SignedInLayout />,
         children: [
           {
             path: 'poa-requests',
-            element: <POARequestSearchPage />,
+            element: (
+              <POARequestSearchPage title="Representation requests | Veterans Affairs" />
+            ),
             loader: POARequestSearchPage.loader,
           },
           {
+            path: 'claimant-search',
+            element: <ClaimantSearchPage />,
+          },
+          {
             path: 'poa-requests/:id',
-            element: <POARequestDetailsPage />,
+            element: (
+              <POARequestDetailsPage title="POA request | Veterans Affairs" />
+            ),
             loader: POARequestDetailsPage.loader,
             children: [
               {
@@ -85,6 +89,19 @@ const routes = [
                 action: POARequestDetailsPage.createDecisionAction,
               },
             ],
+          },
+          {
+            path: 'get-help',
+            element: (
+              <GetHelpPage title="Get help using the portal | Veterans Affairs" />
+            ),
+          },
+          {
+            path: 'submissions',
+            element: (
+              <SubmissionsPage title="Form Submissions | Veterans Affairs" />
+            ),
+            loader: SubmissionsPage.loader,
           },
         ],
       }),

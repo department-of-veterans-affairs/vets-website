@@ -1,5 +1,6 @@
 import React from 'react';
-import { focusByOrder, focusElement, scrollTo } from 'platform/utilities/ui';
+import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { createBreadcrumbListFromPath } from '../../routing';
@@ -7,31 +8,29 @@ import { createBreadcrumbListFromPath } from '../../routing';
 /**
  * If the minimal header is applicable to the current app regardless of excluded paths.
  *
- * Note: Not reliable to use in a .js file load. Should be used in
- * a component or function to allow for session storage to load first.
- *
  * @returns {boolean}
  */
 export function isMinimalHeaderApp() {
-  return sessionStorage.getItem('MINIMAL_HEADER_APPLICABLE') === 'true';
+  // The header DOM is rendered before app-entry.js is executed,
+  // so it is safe to use for initialization conditions for the app
+  return document.getElementById('header-minimal') !== null;
 }
 
 /**
  * If the minimal header is applicable to the current app and the
  * current window path is not a excluded
  *
- * Note: Not reliable to use in a .js file load. Should be used in
- * a component or function to allow for session storage to load first.
- *
  * @param {string} [pathname] Defaults to `window.location.pathname` if not provided
  * @returns {boolean}
  */
 export function isMinimalHeaderPath(pathname = window?.location?.pathname) {
-  if (!isMinimalHeaderApp()) {
+  const minimalHeader = document.getElementById('header-minimal');
+
+  if (!minimalHeader) {
     return false;
   }
 
-  let excludePaths = sessionStorage.getItem('MINIMAL_HEADER_EXCLUDE_PATHS');
+  let excludePaths = minimalHeader.dataset?.excludePaths;
   excludePaths = excludePaths ? JSON.parse(excludePaths) : [];
   const isExcludedPath =
     pathname && excludePaths.some(path => pathname.endsWith(path));
@@ -113,6 +112,10 @@ export const minimalHeaderFormConfigOptions = ({
   homeVeteransAffairs,
   CustomTopContent,
 } = {}) => {
+  if (!isMinimalHeaderApp()) {
+    return {};
+  }
+
   const TopContent = ({ currentLocation }) => {
     const ConditionalBreadcrumbs = isMinimalHeaderPath() ? null : (
       <Breadcrumbs
@@ -139,6 +142,7 @@ export const minimalHeaderFormConfigOptions = ({
     CustomTopContent: TopContent,
     useTopBackLink: true,
     hideFormTitle: true,
+    hideFormTitleConfirmation: false,
     useCustomScrollAndFocus: true,
     scrollAndFocusTarget: minimalHeaderScrollAndFocus,
   };

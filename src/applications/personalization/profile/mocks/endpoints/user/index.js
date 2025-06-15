@@ -75,7 +75,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -299,7 +298,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -480,6 +478,7 @@ const baseUserResponses = {
           'identity-proofed',
           'vet360',
           'lighthouse',
+          'messaging',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -511,7 +510,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -723,7 +721,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -935,7 +932,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -1143,7 +1139,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [],
           vaPatient: false,
           mhvAccountState: 'NONE',
@@ -1338,7 +1333,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -1553,7 +1547,6 @@ const mockErrorResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',

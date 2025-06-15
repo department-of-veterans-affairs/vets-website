@@ -2,13 +2,21 @@
 /** @type {ArrayBuilderText} */
 export const DEFAULT_ARRAY_BUILDER_TEXT = {
   alertItemUpdated: props => {
-    const itemName = props.getItemName(props.itemData, props.index);
+    const itemName = props.getItemName(
+      props.itemData,
+      props.index,
+      props.formData,
+    );
     return itemName
       ? `${itemName}’s information has been updated`
       : `${props.nounSingular} information has been updated`;
   },
   alertItemDeleted: props => {
-    const itemName = props.getItemName(props.itemData, props.index);
+    const itemName = props.getItemName(
+      props.itemData,
+      props.index,
+      props.formData,
+    );
     return itemName
       ? `${itemName}’s information has been deleted`
       : `${props.nounSingular} information has been deleted`;
@@ -31,7 +39,11 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   cancelAddYes: props => `Yes, cancel`,
   cancelAddNo: props => `No, continue adding this ${props.nounSingular}`,
   cancelAddTitle: props => {
-    const itemName = props.getItemName(props.itemData, props.index);
+    const itemName = props.getItemName(
+      props.itemData,
+      props.index,
+      props.formData,
+    );
     return itemName
       ? `Cancel adding ${itemName}`
       : `Cancel adding this ${props.nounSingular}`;
@@ -46,7 +58,11 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   cancelEditYes: props => `Yes, cancel`,
   cancelEditNo: props => `No, continue editing this ${props.nounSingular}`,
   cancelEditTitle: props => {
-    const itemName = props.getItemName(props.itemData, props.index);
+    const itemName = props.getItemName(
+      props.itemData,
+      props.index,
+      props.formData,
+    );
     return itemName
       ? `Cancel editing ${itemName}`
       : `Cancel editing this ${props.nounSingular}`;
@@ -58,10 +74,14 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
     } is missing information. Edit and complete this ${
       props.nounSingular
     }’s information before continuing.`,
-  editSaveButtonText: props => `Save and Continue`,
-  getItemName: (itemData, index) => itemData?.name,
+  editSaveButtonText: props => `Save and continue`,
+  getItemName: (itemData, index, formData) => itemData?.name,
   deleteDescription: props => {
-    const itemName = props.getItemName(props.itemData, props.index);
+    const itemName = props.getItemName(
+      props.itemData,
+      props.index,
+      props.formData,
+    );
     return itemName
       ? `This will delete ${itemName} and all the information from your list of ${
           props.nounPlural
@@ -80,7 +100,11 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
     } for us to process this form.`,
   deleteNo: props => `No, keep this ${props.nounSingular}`,
   deleteTitle: props => {
-    const itemName = props.getItemName(props.itemData, props.index);
+    const itemName = props.getItemName(
+      props.itemData,
+      props.index,
+      props.formData,
+    );
     return itemName
       ? `Delete ${itemName}’s information?`
       : `Delete this ${props.nounSingular}?`;

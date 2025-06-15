@@ -1,6 +1,7 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import content from '../../locales/en/content.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import {
@@ -59,6 +60,13 @@ const testConfig = createTestConfig(
         afterHook(() => {
           acceptPrivacyAgreement();
           cy.findByText(/submit/i, { selector: 'button' }).click();
+
+          cy.get(`va-link[text="${content['button-download']}"]`)
+            .as('downloadButton')
+            .click();
+
+          cy.wait('@downloadPdf');
+          cy.get('@downloadButton').should('be.visible');
         });
       },
     },

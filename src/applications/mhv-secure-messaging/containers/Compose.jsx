@@ -1,24 +1,46 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
+
 import { clearThread } from '../actions/threadDetails';
+import { getListOfThreads } from '../actions/threads';
+import { closeAlert } from '../actions/alerts';
+import { getPatientSignature } from '../actions/preferences';
 import { retrieveMessageThread } from '../actions/messages';
+
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
-import { closeAlert } from '../actions/alerts';
-import { PageTitles, Paths } from '../util/constants';
-import { getPatientSignature } from '../actions/preferences';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
+import {
+  PageTitles,
+  Paths,
+  BlockedTriageAlertStyles,
+  DefaultFolders,
+  threadSortingOptions,
+  ParentComponent,
+} from '../util/constants';
+import { getRecentThreads } from '../util/threads';
+import { getUniqueTriageGroups } from '../util/recipients';
 
-const Compose = () => {
+const Compose = ({ skipInterstitial }) => {
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
   const signature = useSelector(state => state.sm.preferences.signature);
+  const { noAssociations } = useSelector(state => state.sm.recipients);
+
+  const { threadList, isLoading, hasError: hasThreadListError } = useSelector(
+    state => state.sm.threads,
+  );
+
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
+  const { allTriageGroupsBlocked } = recipients;
 
-  const [acknowledged, setAcknowledged] = useState(false);
+  const [acknowledged, setAcknowledged] = useState(skipInterstitial);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
@@ -28,7 +50,7 @@ const Compose = () => {
 
   useEffect(
     () => {
-      if (location.pathname === Paths.COMPOSE) {
+      if (location.pathname.startsWith(Paths.COMPOSE)) {
         dispatch(clearThread());
         setDraftType('compose');
       } else {
@@ -44,7 +66,7 @@ const Compose = () => {
         checkNextPath();
       };
     },
-    [dispatch, draftId, location.pathname],
+    [dispatch, draftId, history, location.pathname],
   );
 
   useEffect(
@@ -82,9 +104,59 @@ const Compose = () => {
   useEffect(
     () => {
       if (acknowledged && header) focusElement(document.querySelector('h1'));
-      document.title = `${pageTitle} ${PageTitles.PAGE_TITLE_TAG}`;
+      document.title = `${pageTitle} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
     },
-    [header, acknowledged],
+    [header, acknowledged, pageTitle],
+  );
+  // make sure the thread list is fetched when navigating to the compose page
+  useEffect(
+    () => {
+      const shouldLoadSentFolder = () => {
+        const isThreadListEmpty = !threadList;
+        const didThreadListError = hasThreadListError;
+        const isFirstThreadNotSentFolder =
+          threadList?.[0]?.folderId !== DefaultFolders.SENT.id;
+        return (
+          !isLoading &&
+          !didThreadListError &&
+          (isThreadListEmpty || isFirstThreadNotSentFolder)
+        );
+      };
+
+      const loadSentFolder = () => {
+        dispatch(
+          getListOfThreads(
+            DefaultFolders.SENT.id,
+            100,
+            1,
+            threadSortingOptions.SENT_DATE_DESCENDING.value,
+            false,
+          ),
+        );
+      };
+      if (shouldLoadSentFolder()) {
+        loadSentFolder();
+      }
+    },
+    [dispatch, hasThreadListError, isLoading, threadList],
+  );
+
+  useEffect(
+    () => {
+      if (threadList?.length > 0 && !isLoading && recipients) {
+        const groups = getUniqueTriageGroups(threadList);
+        const recentMessages = getRecentThreads(threadList);
+        const dataForDataDog = {
+          allowedSMRecipients: recipients.allowedRecipients.length,
+          countOfSentMessagesInTheLastSixMonths: recentMessages.length || 0,
+          uniqueRecentTriageGroups: groups.length,
+        };
+        addUserProperties({
+          ...dataForDataDog,
+        });
+      }
+    },
+    [threadList, isLoading, recipients],
   );
 
   const content = () => {
@@ -127,7 +199,24 @@ const Compose = () => {
         />
       )}
 
-      {draftType && !acknowledged ? (
+      {draftType &&
+        (noAssociations || allTriageGroupsBlocked) && (
+          <div className="vads-l-grid-container compose-container">
+            <h1>Start a new message</h1>
+            <BlockedTriageGroupAlert
+              alertStyle={
+                allTriageGroupsBlocked
+                  ? BlockedTriageAlertStyles.WARNING
+                  : BlockedTriageAlertStyles.INFO
+              }
+              parentComponent={ParentComponent.COMPOSE}
+            />
+          </div>
+        )}
+
+      {draftType &&
+      !acknowledged &&
+      (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
         <InterstitialPage
           acknowledge={() => {
             setAcknowledged(true);
@@ -136,15 +225,21 @@ const Compose = () => {
         />
       ) : (
         <>
-          {draftType && (
-            <div className="vads-l-grid-container compose-container">
-              {content()}
-            </div>
-          )}
+          {draftType &&
+            (noAssociations === (undefined || false) &&
+              !allTriageGroupsBlocked) && (
+              <div className="vads-l-grid-container compose-container">
+                {content()}
+              </div>
+            )}
         </>
       )}
     </>
   );
+};
+
+Compose.propTypes = {
+  skipInterstitial: PropTypes.bool,
 };
 
 export default Compose;

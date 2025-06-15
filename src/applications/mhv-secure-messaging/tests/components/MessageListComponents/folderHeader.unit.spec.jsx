@@ -90,7 +90,7 @@ describe('Folder Header component', () => {
 
     it('must display valid FOLDER name: EMPTY FOLDER', () => {
       expect(
-        screen.getByText(emptyFolder.name, {
+        screen.getByText(`Messages: ${emptyFolder.name}`, {
           selector: 'h1',
         }),
       ).to.exist;
@@ -113,7 +113,7 @@ describe('Folder Header component', () => {
   describe('Folder Header component displays CUSTOM folder and children components', () => {
     it('must display valid CUSTOM FOLDER name and description: DEMO FOLDER 1', async () => {
       const screen = setup();
-      expect(screen.getByText(customFolder.name)).to.exist;
+      expect(screen.getByText(`Messages: ${customFolder.name}`)).to.exist;
       expect(screen.getByText(Folders.CUSTOM_FOLDER.desc)).to.exist;
     });
 
@@ -124,7 +124,7 @@ describe('Folder Header component', () => {
 
       const filterHeader = filterBox.querySelector('h2');
       expect(filterHeader.textContent).to.equal(
-        `Filter messages in ${customFolder.name} `,
+        `Filter messages in ${customFolder.name}`,
       );
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
@@ -166,7 +166,8 @@ describe('Folder Header component', () => {
         initialThreadCount,
         inbox,
       );
-      expect(screen.getByText(inbox.name, { selector: 'h1' })).to.exist;
+      expect(screen.getByText(`Messages: ${inbox.name}`, { selector: 'h1' })).to
+        .exist;
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
 
       const inboxTab = screen.getByTestId('inbox-inner-nav');
@@ -187,7 +188,7 @@ describe('Folder Header component', () => {
 
       const filterHeader = filterBox.querySelector('h2');
       expect(filterHeader.textContent).to.equal(
-        `Filter messages in ${inbox.name} `,
+        `Filter messages in ${inbox.name.toLowerCase()}`,
       );
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
@@ -277,7 +278,8 @@ describe('Folder Header component', () => {
         threadList,
         drafts,
       );
-      expect(screen.getByText(drafts.name, { selector: 'h1' })).to.exist;
+      expect(screen.getByText(`Messages: ${drafts.name}`, { selector: 'h1' }))
+        .to.exist;
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
     });
 
@@ -293,12 +295,12 @@ describe('Folder Header component', () => {
 
       const filterHeader = filterBox.querySelector('h2');
       expect(filterHeader.textContent).to.equal(
-        `Filter messages in ${drafts.name} `,
+        `Filter messages in ${drafts.name.toLowerCase()}`,
       );
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
-        'Enter information from one of these fields: To, from, or subject',
+        'Enter information from one of these fields: to, from, or subject',
       );
     });
 
@@ -320,7 +322,8 @@ describe('Folder Header component', () => {
 
     it('must display valid FOLDER name: SENT', async () => {
       const screen = setup(initialSentState, Paths.SENT, threadList, sent);
-      expect(screen.getByText(sent.name, { selector: 'h1' })).to.exist;
+      expect(screen.getByText(`Messages: ${sent.name}`, { selector: 'h1' })).to
+        .exist;
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
     });
 
@@ -336,7 +339,7 @@ describe('Folder Header component', () => {
 
       const filterHeader = filterBox.querySelector('h2');
       expect(filterHeader.textContent).to.equal(
-        `Filter messages in ${sent.name} `,
+        `Filter messages in ${sent.name.toLowerCase()}`,
       );
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
@@ -375,7 +378,8 @@ describe('Folder Header component', () => {
         initialThreadCount,
         trash,
       );
-      expect(screen.getByText(trash.name, { selector: 'h1' })).to.exist;
+      expect(screen.getByText(`Messages: ${trash.name}`, { selector: 'h1' })).to
+        .exist;
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
     });
 
@@ -391,7 +395,7 @@ describe('Folder Header component', () => {
 
       const filterHeader = filterBox.querySelector('h2');
       expect(filterHeader.textContent).to.equal(
-        `Filter messages in ${trash.name} `,
+        `Filter messages in ${trash.name.toLowerCase()}`,
       );
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');

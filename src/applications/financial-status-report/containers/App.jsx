@@ -22,7 +22,7 @@ import { ErrorAlert } from '../components/alerts/Alerts';
 import WizardContainer from '../wizard/WizardContainer';
 import { WIZARD_STATUS } from '../wizard/constants';
 import {
-  fsrWizardFeatureToggle,
+  fsrLegacyWizardFeatureToggle,
   fsrFeatureToggle,
   reviewPageNavigationFeatureToggle,
 } from '../utils/helpers';
@@ -45,7 +45,7 @@ const App = ({
   setFormData,
   showFSR,
   showReviewPageNavigationFeature,
-  showWizard,
+  showLegacyWizard,
 }) => {
   const dispatch = useDispatch();
   const { shouldShowReviewButton } = useDetectFieldChanges(formData);
@@ -53,6 +53,10 @@ const App = ({
   const showUpdatedExpensePages = useToggleValue(
     TOGGLE_NAMES.financialStatusReportExpensesUpdate,
   );
+  const showStreamlinedWaiver = useToggleValue(
+    TOGGLE_NAMES.showFinancialStatusReportStreamlinedWaiver,
+  );
+  const showStaticWizard = useToggleValue(TOGGLE_NAMES.fsrWizard);
 
   // Set the document title based on the current page
   useDocumentTitle(location);
@@ -152,7 +156,7 @@ const App = ({
       setFormData({
         ...formData,
         'view:enhancedFinancialStatusReport': true,
-        'view:streamlinedWaiver': true,
+        'view:streamlinedWaiver': showStreamlinedWaiver,
         'view:streamlinedWaiverAssetUpdate': true,
         'view:reviewPageNavigationToggle': showReviewPageNavigationFeature,
         'view:showUpdatedExpensePages': showUpdatedExpensePages,
@@ -164,6 +168,7 @@ const App = ({
       isStartingOver,
       setFormData,
       showReviewPageNavigationFeature,
+      showStreamlinedWaiver,
       showUpdatedExpensePages,
     ],
   );
@@ -192,7 +197,11 @@ const App = ({
     return <ErrorAlert />;
   }
 
-  if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
+  if (
+    !showStaticWizard &&
+    showLegacyWizard &&
+    wizardState !== WIZARD_STATUS_COMPLETE
+  ) {
     return (
       <WizardContainer setWizardStatus={setWizardStatus} showFSR={showFSR} />
     );
@@ -231,7 +240,7 @@ App.propTypes = {
   setFormData: PropTypes.func,
   showFSR: PropTypes.bool,
   showReviewPageNavigationFeature: PropTypes.bool,
-  showWizard: PropTypes.bool,
+  showLegacyWizard: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -240,7 +249,7 @@ const mapStateToProps = state => ({
   isError: state.fsr.isError,
   pending: state.fsr.pending,
   profile: selectProfile(state) || {},
-  showWizard: fsrWizardFeatureToggle(state),
+  showLegacyWizard: fsrLegacyWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
   showReviewPageNavigationFeature: reviewPageNavigationFeatureToggle(state),
   isLoadingFeatures: toggleValues(state).loading,

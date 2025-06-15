@@ -33,12 +33,19 @@ import { getRealFacilityId } from '../../utils/appointment';
  * @async
  * @param {Object} locationParams Parameters needed for fetching locations
  * @param {Array<string>} locationParams.facilityIds A list of va facility ids to fetch
- * @param {boolean} params.useV2 Use the VAOS v2 endpoints to get locations
  * @returns {Array<Location>} A FHIR searchset of Location resources
  */
-export async function getLocations({ facilityIds, children = false }) {
+export async function getLocations({
+  facilityIds,
+  children = false,
+  sortByRecentLocations = false,
+}) {
   try {
-    const facilities = await getFacilities(facilityIds, children);
+    const facilities = await getFacilities(
+      facilityIds,
+      children,
+      sortByRecentLocations,
+    );
 
     return transformFacilitiesV2(facilities);
   } catch (e) {
@@ -57,7 +64,6 @@ export async function getLocations({ facilityIds, children = false }) {
  * @async
  * @param {Object} locationParams Parameters needed for fetching locations
  * @param {Array<string>} locationParams.facilityId An id for the facility to fetch info for
- * @param {boolean} locationParams.useV2 Use the VAOS v2 endpoints to get locations
  * @returns {Location} A FHIR Location resource
  */
 export async function getLocation({ facilityId }) {
@@ -106,7 +112,10 @@ export async function getLocationSettings({ siteIds }) {
  * @param {Array<string>} params.siteIds A list of 3 digit site ids to retrieve the settings for
  * @returns {Array<Location>} An array of Locations with settings included
  */
-export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
+export async function getLocationsByTypeOfCareAndSiteIds({
+  siteIds,
+  sortByRecentLocations = false,
+}) {
   try {
     let locations = [];
     let settings = [];
@@ -114,6 +123,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
     locations = await getLocations({
       facilityIds: siteIds,
       children: true,
+      sortByRecentLocations,
     });
 
     const uniqueIds = locations.map(location => location.id);
@@ -127,7 +137,9 @@ export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
         settings,
       }),
     );
-
+    if (sortByRecentLocations) {
+      return locations;
+    }
     return locations.sort((a, b) => (a.name < b.name ? -1 : 1));
   } catch (e) {
     if (e.errors) {
@@ -268,8 +280,6 @@ export async function fetchParentLocations({ siteIds }) {
  * @export
  * @param {Object} params
  * @param {Array<Location>} params.locations The locations to find CC support at
- * @param {boolean} params.useV2 Use the V2 scheduling configurations endpoint
- *   to get the CC supported locations
  * @returns {Array<Location>} A list of locations that support CC requests
  */
 export async function fetchCommunityCareSupportedSites({ locations }) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
@@ -41,12 +41,7 @@ export class ConfirmationPage extends React.Component {
     this.initializePage();
     this.handleResults();
     this.resetSubmissionStatus();
-    const sortedBenefitsList = this.state.benefitsList.sort((a, b) => {
-      if (a.name < b.name) return -1;
-      if (a.name > b.name) return 1;
-      return 0;
-    });
-    this.setState({ benefitsList: sortedBenefitsList });
+    this.sortBenefits();
   }
 
   componentDidUpdate(prevProps) {
@@ -94,11 +89,19 @@ export class ConfirmationPage extends React.Component {
     const sortStrings = {
       alphabetical: 'alphabetical',
       category: 'category',
+      isTimeSensitive: 'isTimeSensitive',
     };
     this.setState({ sortValue: sortStrings[key] });
   };
 
   sortBenefitObj = (benefitObj, sortKey) => {
+    if (sortKey === 'isTimeSensitive') {
+      return [...benefitObj].sort((a, b) => {
+        if (a[sortKey] === b[sortKey]) return 0;
+        return a[sortKey] ? -1 : 1;
+      });
+    }
+
     return [...benefitObj].sort((a, b) => {
       const aValue = a[sortKey] || '';
       const bValue = b[sortKey] || '';
@@ -158,13 +161,25 @@ export class ConfirmationPage extends React.Component {
       return;
     }
 
+    let filteredBenefitsList;
+    let filteredBenefits;
+    if (key === 'isTimeSensitive') {
+      filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
+        return benefit.isTimeSensitive;
+      });
+      filteredBenefits = this.props.results.data.filter(benefit => {
+        return benefit.isTimeSensitive;
+      });
+    } else {
+      filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
+        return benefit.category.includes(key);
+      });
+      filteredBenefits = this.props.results.data.filter(benefit => {
+        return benefit.category.includes(key);
+      });
+    }
+
     this.setState(() => {
-      const filteredBenefits = this.props.results.data.filter(benefit => {
-        return benefit.category.includes(key);
-      });
-      const filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
-        return benefit.category.includes(key);
-      });
       return {
         benefits: filteredBenefits,
         benefitsList: filteredBenefitsList,
@@ -189,6 +204,19 @@ export class ConfirmationPage extends React.Component {
 
   createFilterText() {
     const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
+    const filterValue =
+      this.state.filterValue === 'isTimeSensitive'
+        ? 'time-sensitive'
+        : this.state.filterValue;
+    let sortValue;
+    if (this.state.sortValue === 'alphabetical') {
+      sortValue = 'alphabetically by benefit name';
+    } else if (this.state.sortValue === 'isTimeSensitive') {
+      sortValue = 'by time-sensitive';
+    } else {
+      sortValue = `alphabetically by benefit ${this.state.sortValue}`;
+    }
+
     const count =
       this.props.location.query.allBenefits === 'true'
         ? this.state.benefitsList.length
@@ -196,10 +224,7 @@ export class ConfirmationPage extends React.Component {
     return (
       <>
         Showing {count} {resultsText}, filtered to show{' '}
-        <b>{this.state.filterValue} results</b>, sorted{' '}
-        {this.state.sortValue === 'alphabetical'
-          ? 'alphabetically by benefit name'
-          : `alphabetically by benefit ${this.state.sortValue}`}
+        <b>{filterValue} results</b>, sorted {sortValue}
       </>
     );
   }
@@ -222,18 +247,12 @@ export class ConfirmationPage extends React.Component {
         }, {})
       : {};
 
-    const benefitsState = this.props.results.data.sort((a, b) => {
-      if (a.name < b.name) return -1;
-      if (a.name > b.name) return 1;
-      return 0;
-    });
-
     this.setState(
       {
         hasResults,
         resultsCount,
         benefitIds,
-        benefits: benefitsState,
+        benefits: this.props.results.data,
       },
       () => this.setState(() => ({ filterText: this.createFilterText() })),
     );
@@ -360,6 +379,9 @@ export class ConfirmationPage extends React.Component {
                 <option key="Pension" value="Pension">
                   Pension
                 </option>
+                <option key="isTimeSensitive" value="isTimeSensitive">
+                  Time-sensitive
+                </option>
               </VaSelect>
               <br />
               <span>
@@ -378,6 +400,9 @@ export class ConfirmationPage extends React.Component {
                 </option>
                 <option key="type" value="category">
                   Type
+                </option>
+                <option key="isTimeSensitive" value="isTimeSensitive">
+                  Time-sensitive
                 </option>
               </VaSelect>
               <br />

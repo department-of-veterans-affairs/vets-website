@@ -8,6 +8,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import {
   renderMHVDowntime,
   useDatadogRum,
+  setDatadogRumUser,
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
@@ -17,26 +18,27 @@ import {
   externalServiceStatus,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
+import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
 import { HeaderSectionProvider } from '../context/HeaderSectionContext';
 
-import { flagsLoadedAndMhvEnabled } from '../util/selectors';
+import {
+  flagsLoadedAndMhvEnabled,
+  selectBypassDowntime,
+} from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
-  const userServices = user.profile.services;
-  const hasMhvAccount = user.profile.mhvAccountState !== 'NONE';
 
-  const { featureTogglesLoading, appEnabled } = useSelector(
+  const { featureTogglesLoading } = useSelector(
     flagsLoadedAndMhvEnabled,
     state => state.featureToggles,
   );
-  const phase0p5Flag = useSelector(
-    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
-  );
+
+  const bypassDowntime = useSelector(selectBypassDowntime);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -115,32 +117,18 @@ const App = ({ children }) => {
   };
   useDatadogRum(datadogRumConfig);
 
+  // Add unique user tracking
   useEffect(
     () => {
-      // If the user is not whitelisted or feature flag is disabled, redirect them.
-      if (featureTogglesLoading === false && appEnabled !== true) {
-        window.location.replace('/health-care/get-medical-records');
-      }
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
     },
-    [featureTogglesLoading, appEnabled],
+    [user],
   );
-
-  const isMissingRequiredService = (loggedIn, services) => {
-    if (
-      loggedIn &&
-      hasMhvAccount &&
-      !services.includes(backendServices.MEDICAL_RECORDS)
-    ) {
-      window.location.replace('/health-care/get-medical-records');
-      return true;
-    }
-    return false;
-  };
 
   if (featureTogglesLoading || user.profile.loading) {
     return (
       <>
-        {phase0p5Flag && <MhvSecondaryNav />}
+        <MhvSecondaryNav />
         <div className="vads-l-grid-container">
           <va-loading-indicator
             message="Loading your medical records..."
@@ -152,24 +140,19 @@ const App = ({ children }) => {
     );
   }
 
-  if (appEnabled !== true) {
-    // If the user is not whitelisted or feature flag is disabled, return nothing.
-    return <></>;
-  }
-
   return (
-    <RequiredLoginView
-      user={user}
-      serviceRequired={[backendServices.MEDICAL_RECORDS]}
-    >
-      {isMissingRequiredService(user.login.currentlyLoggedIn, userServices) || (
+    <RequiredLoginView user={user}>
+      <MhvServiceRequiredGuard
+        user={user}
+        serviceRequired={[backendServices.MEDICAL_RECORDS]}
+      >
         <>
-          {phase0p5Flag && <MhvSecondaryNav />}
+          <MhvSecondaryNav />
           <div
             ref={measuredRef}
             className="vads-l-grid-container vads-u-padding-left--2"
           >
-            {mhvMrDown === externalServiceStatus.down ? (
+            {mhvMrDown === externalServiceStatus.down && !bypassDowntime ? (
               <>
                 {atLandingPage && <MrBreadcrumbs />}
                 <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
@@ -204,7 +187,7 @@ const App = ({ children }) => {
             <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
           </div>
         </>
-      )}
+      </MhvServiceRequiredGuard>
     </RequiredLoginView>
   );
 };

@@ -11,7 +11,6 @@ import RecordListItem from './RecordListItem';
 import { getParamValue, sendDataDogAction } from '../../util/helpers';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
-const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
   const { records, type, perPage = 10, hidePagination, domainOptions } = props;
   const totalEntries = records?.length;
@@ -29,6 +28,12 @@ const RecordList = props => {
     history.push(newURL);
     setCurrentRecords(paginatedRecords.current[page - 1]);
     setCurrentPage(page);
+
+    // calculate height of "showing records" and scrolls to it.
+    const showRecordsHeight = document
+      .querySelector('#showingRecords')
+      .getBoundingClientRect();
+    window.scrollTo({ top: showRecordsHeight.top + window.scrollY, left: 0 });
   };
 
   // tracks url param
@@ -61,7 +66,6 @@ const RecordList = props => {
     () => {
       if (currentPage > 1 && records?.length) {
         focusElement(document.querySelector('#showingRecords'));
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
     },
     [currentPage, records],
@@ -114,7 +118,6 @@ const RecordList = props => {
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={paginatedRecords.current.length}
-              maxPageListLength={MAX_PAGE_LIST_LENGTH}
               showLastPage
               uswds
             />

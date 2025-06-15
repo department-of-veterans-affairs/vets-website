@@ -9,7 +9,11 @@ const WhereContent = ({
   derivedLocations,
 }) => {
   if (fieldType === 'online') {
-    return 'This is an online event.';
+    return (
+      <p className="vads-u-margin--0" data-testid="event-online">
+        This is an online event.
+      </p>
+    );
   }
 
   const locationAddress = derivedLocations?.length

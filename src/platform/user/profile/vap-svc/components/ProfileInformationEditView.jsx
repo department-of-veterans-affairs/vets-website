@@ -8,6 +8,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
+import { ContactInfoFormAppConfigContext } from './ContactInfoFormAppConfigContext';
 import {
   createTransaction,
   refreshTransaction,
@@ -50,12 +51,14 @@ import VAPServiceEditModalErrorMessage from './base/VAPServiceEditModalErrorMess
 import CopyMailingAddress from '../containers/CopyMailingAddress';
 
 import { createPersonalInfoUpdate } from '../actions/personalInformation';
+import { updateMessagingSignature } from '../../actions/mhv';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
 export class ProfileInformationEditView extends Component {
   componentDidMount() {
     const { getInitialFormValues } = this.props;
+
     this.onChangeFormDataAndSchemas(
       getInitialFormValues(),
       this.props.formSchema,
@@ -84,7 +87,7 @@ export class ProfileInformationEditView extends Component {
     ) {
       this.interval = window.setInterval(
         this.refreshTransaction,
-        window.VetsGov.pollTimeout || 1000,
+        window.VetsGov.pollTimeout || 2000,
       );
     }
     // if the transaction is no longer pending, stop refreshing it
@@ -176,7 +179,10 @@ export class ProfileInformationEditView extends Component {
         return;
       }
 
-      // TODO: update with PERSONAL_INFO_FIELD_NAMES.MESSAGING_SIGNATURE after api is built
+      if (fieldName === PERSONAL_INFO_FIELD_NAMES.MESSAGING_SIGNATURE) {
+        this.props.updateMessagingSignature(payload, fieldName, 'POST');
+        return;
+      }
 
       this.props.createPersonalInfoUpdate({
         route: apiRoute,
@@ -232,6 +238,8 @@ export class ProfileInformationEditView extends Component {
   };
 
   onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
+    // Validate before updating
+
     this.props.updateFormFieldWithSchema(
       this.props.fieldName,
       value,
@@ -290,6 +298,29 @@ export class ProfileInformationEditView extends Component {
 
     const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
 
+    const formData =
+      this.context?.formFieldData?.formOnlyUpdate === true
+        ? (() => {
+            // Merge objects but also handle inputPhoneNumber explicitly
+            const merged = {
+              ...field.value,
+              ...this.context.formFieldData,
+            };
+            // For phone fields, ensure inputPhoneNumber is updated to match the new number
+            if (
+              [FIELD_NAMES.HOME_PHONE, FIELD_NAMES.MOBILE_PHONE].includes(
+                fieldName,
+              ) &&
+              this.context.formFieldData?.phoneNumber
+            ) {
+              merged.inputPhoneNumber =
+                this.context.formFieldData.areaCode +
+                this.context.formFieldData.phoneNumber;
+            }
+            return merged;
+          })()
+        : field?.value;
+
     return (
       <>
         {!!field && (
@@ -311,7 +342,7 @@ export class ProfileInformationEditView extends Component {
               name="Contact Info Form"
               title="Contact Info Form"
               schema={field.formSchema}
-              data={field.value}
+              data={formData}
               uiSchema={field.uiSchema}
               onChange={event =>
                 this.onInput(event, field.formSchema, field.uiSchema)
@@ -385,6 +416,7 @@ ProfileInformationEditView.propTypes = {
   onCancel: PropTypes.func.isRequired,
   activeEditView: PropTypes.string,
   cancelButtonText: PropTypes.string,
+  contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
   editViewData: PropTypes.object,
   field: PropTypes.shape({
@@ -395,9 +427,11 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
+  successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
+  updateMessagingSignature: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -417,12 +451,12 @@ export const mapStateToProps = (state, ownProps) => {
 
   return {
     /*
-    This ternary is to deal with an edge case: if the user is currently viewing
-    the address validation view we need to handle things differently or text in
-    the modal would be inaccurate. This is an unfortunate hack to get around an
-    existing hack we've been using to determine if we need to show the address
-    validation view or not.
-    */
+        This ternary is to deal with an edge case: if the user is currently viewing
+        the address validation view we need to handle things differently or text in
+        the modal would be inaccurate. This is an unfortunate hack to get around an
+        existing hack we've been using to determine if we need to show the address
+        validation view or not.
+        */
     activeEditView:
       activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
         ? ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
@@ -446,9 +480,12 @@ const mapDispatchToProps = {
   validateAddress,
   refreshTransaction,
   createPersonalInfoUpdate,
+  updateMessagingSignature,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ProfileInformationEditView);
+
+ProfileInformationEditView.contextType = ContactInfoFormAppConfigContext;

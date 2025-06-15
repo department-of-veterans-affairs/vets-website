@@ -2,23 +2,21 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 
-const IntroductionPage = ({ router }) => {
+import OmbInfo from '../components/OmbInfo';
+
+const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
   }, []);
 
-  const startForm = event => {
-    event.preventDefault();
-    router.push('/institution-details');
-  };
-
   return (
     <article className="schemaform-intro">
-      <FormTitle title="Report 85/15 Rule enrollment ratios" />
+      <FormTitle title="Report 85/15 rule enrollment ratios" />
       <p className="vads-u-margin-y--2">
         Statement of Assurance of Compliance with 85% Enrollment Ratios (VA Form
         22-10215)
@@ -53,18 +51,17 @@ const IntroductionPage = ({ router }) => {
       </p>
       <p>
         By regulation 38 CFR 21.4201(f)(2), schools WITHOUT an approved 35
-        percent Exemption are obligated to report all 85/15 percent calculations
-        to the VA. To find due dates for submitting your calculations each term,
-        please review the "More information about reporting your 85/15 Rule
-        enrollment ratios" section of this page.
+        percent exemption are obligated to report all 85/15 calculations to the
+        VA. To find due dates for submitting your calculations each term, please
+        review the "More information about reporting your 85/15 rule enrollment
+        ratios" section of this page.
       </p>
       <p>
-        For additional guidance on the 85/15 Rule, see the{' '}
         <va-link
-          text="School Certifying Official Handbook"
-          href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000149088/School-Certifying-Official-Handbook-On-line"
+          external
+          text="Learn more about the 85/15 rule"
+          href="https://benefits.va.gov/GIBILL/85_15/85_15_homepage.asp"
         />
-        .
       </p>
       <p>
         Please take the time to review the calculation instructions we have
@@ -76,7 +73,7 @@ const IntroductionPage = ({ router }) => {
         <va-link
           external
           text="Review the calculation instructions"
-          href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+          href="/school-administrators/85-15-rule-enrollment-ratio/calculation-instructions"
         />
       </p>
 
@@ -88,10 +85,10 @@ const IntroductionPage = ({ router }) => {
           <p>
             Fill out the form online. This is a download and upload process.
             After completing the form, you will download a PDF, which you will
-            need to submit later by uploading it to the VA Education Portal.
-            Ensure you have all the necessary details, such as your enrollment
-            information, institution, and any required documentation, before
-            continuing.
+            need to submit later by uploading it to the Education File Upload
+            Portal. Ensure you have all the necessary details, such as your
+            enrollment information, institution, and any required documentation,
+            before continuing.
           </p>
         </va-process-list-item>
         <va-process-list-item header="Download the completed form as a PDF">
@@ -102,9 +99,9 @@ const IntroductionPage = ({ router }) => {
             completed form as a PDF and proceed to the next step.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Upload your PDF to the VA Educational portal">
+        <va-process-list-item header="Upload your PDF to the Education File Upload Portal">
           <p>
-            As the final step of this form, please go to the VA Education File
+            As the final step of this form, please go to the Education File
             Upload Portal and upload the completed PDF document that you
             downloaded. This is how you submit this form.
           </p>
@@ -116,92 +113,113 @@ const IntroductionPage = ({ router }) => {
       </h2>
       <va-accordion>
         <va-accordion-item
-          header="What are the due dates for submitting my 85/15 Rule enrollment ratios?"
+          header="What are the due dates for submitting my 85/15 rule enrollment ratios?"
           id="first"
         >
-          <p>Calculations for the corresponding term must be submitted:</p>
-          <ul>
-            <li>
-              No later than 30 days after the beginning of each regular school
-              term (excluding summer sessions), or before the beginning date of
-              the next term (whichever is earlier), if the Educational &
-              Training Institution is organized on a term, quarter, or semester
-              basis; or
-            </li>
-            <li>
-              No later than 30 days after the end of each calendar quarter if
-              the Educational & Training Institution is not organized on a term,
-              quarter, or semester basis. This is aligned with the quarters of
-              the VA Fiscal Year which begins in October and ends in September.
-              Calculations must be submitted for all enrollment periods in the
-              previous calendar quarter. The due dates for 85/15 reports are
-              shown below.
-            </li>
-          </ul>
+          <p className="vads-u-font-weight--bold">Term-based schools:</p>
+          <p>
+            A school organized on a standard-length term basis must provide
+            85/15 calculations to VA no later than 30 days after the start of
+            each regular school term (excluding summer terms), or before the
+            beginning date of the next term, whichever is earlier.
+          </p>
+          <p className="vads-u-margin-bottom--0">Example:</p>
           <va-table>
             <va-table-row>
-              <span>Due date</span>
-              <span>Enrollment period beginning</span>
+              <span>Enrollment period</span>
+              <span>Start date</span>
+              <span>Report due date</span>
             </va-table-row>
             <va-table-row>
-              <span>January 30</span>
-              <span>October 1 through December 31</span>
+              <span>Spring Term</span>
+              <span>January 13, 2025</span>
+              <span>February 12, 2025</span>
             </va-table-row>
             <va-table-row>
-              <span>April 30</span>
-              <span>January 1 through March 31</span>
-            </va-table-row>
-            <va-table-row>
-              <span>July 30</span>
-              <span>April 1 through June 30</span>
-            </va-table-row>
-            <va-table-row>
-              <span>October 30</span>
-              <span>July 1 through September 30</span>
+              <span>Fall Term</span>
+              <span>August 25, 2025</span>
+              <span>September 24, 2025</span>
             </va-table-row>
           </va-table>
+          <p className="vads-u-font-weight--bold">Non-term-based schools:</p>
+          <p>
+            A school organized on a non-standard-length term basis must provide
+            85/15 calculations to VA no later than 30 days after the beginning
+            of each enrollment period.{' '}
+          </p>
+          <p className="vads-u-margin-bottom--0">Example:</p>
+          <va-table>
+            <va-table-row>
+              <span>Enrollment period</span>
+              <span>Start date</span>
+              <span>Report due date</span>
+            </va-table-row>
+            <va-table-row>
+              <span>Module/Cohort/Pathway 1</span>
+              <span>January 20, 2025</span>
+              <span>February 19, 2025</span>
+            </va-table-row>
+            <va-table-row>
+              <span>Module/Cohort/Pathway 2</span>
+              <span>February 24, 2025</span>
+              <span>March 26, 2025</span>
+            </va-table-row>
+            <va-table-row>
+              <span>Module/Cohort/Pathway 3</span>
+              <span>March 31, 2025</span>
+              <span>April 30, 2025</span>
+            </va-table-row>
+          </va-table>
+          <ul>
+            <li>
+              Includes schools/programs that operate on a modular basis or other
+              system wherein students complete a section of each program and
+              start a new section at the start of the next enrollment period
+            </li>
+            <li>
+              Does not include those term-, semester-, or quarter-based schools
+              offering "mini-mesters," where classes commence later in the term
+              to run on an accelerated schedule
+            </li>
+          </ul>
         </va-accordion-item>
         <va-accordion-item
-          header="What happens after I submit my 85/15 Rule enrollment ratios?"
+          header="What happens after I submit my 85/15 rule enrollment ratios?"
           id="second"
         >
           <p>
-            After you submit your 85/15 Rule enrollment ratios, we will review
-            them within 7-10 business days. Once we complete the review, we will
-            email your school a letter with the decision. If we accept your
-            request, we will include a copy of WEAMS form 1998 as confirmation
-            in the letter. If we deny your request, we will explain the reason
-            for rejection in the letter and provide further instructions for
-            re-submission or additional steps.
+            After you submit your 85/15 rule enrollment ratios, we will review
+            them within 7-10 business days. Once we review your submission, we
+            will email you with our determinations, and any next steps.
           </p>
         </va-accordion-item>
         <va-accordion-item
-          header="How do I request an exemption from routine 85/15 Rule enrollment ratio reporting?"
+          header="How do I request an exemption from routine 85/15 rule enrollment ratio reporting? "
           id="third"
         >
           <p>
-            You may request an exemption from routine reporting of 85/15 percent
+            You may request an exemption from routine reporting of 85/15
             calculations if the number of VA beneficiaries at your school does
             not exceed 35 percent of the total enrollment. This figure should be
             calculated separately for the main campus and any
             separately-approved branch campuses. To request a 35 percent
-            exemption from 85/15 percent routine reporting, please submit the
-            "35 percent Exemption Request From 85/15 Reporting Requirement" (VA
-            Form 22-10216). Detailed instructions are provided on that form.{' '}
+            exemption from 85/15 routine reporting, please submit the "35
+            percent Exemption Request From 85/15 Reporting Requirement" (VA Form
+            22-10216). Detailed instructions are provided on that form.{' '}
             <va-link
               text="Go to VA Form 22-10216"
-              href="/education/apply-for-education-benefits/application/10216/introduction"
+              href="/school-administrators/35-percent-exemption/introduction"
             />
             .
           </p>
           <p>
-            <strong>Special note for accredited schools: </strong> If your
-            school is accredited and qualifies for the 35 percent Exemption, it
-            is NOT necessary to complete OR submit VA Form 22-10215.
+            <strong>Special note for accredited schools:</strong> If your school
+            is accredited and qualifies for the 35 percent exemption, it is NOT
+            necessary to complete OR submit VA Form 22-10215.
           </p>
           <p>
-            <strong>Non-accredited schools: </strong> must complete and submit
-            VA Form 22-10215 with the 35 percent Exemption request.
+            <strong>Non-accredited schools:</strong> Must complete and submit VA
+            Form 22-10215 with the 35 percent exemption request.
           </p>
         </va-accordion-item>
       </va-accordion>
@@ -209,26 +227,29 @@ const IntroductionPage = ({ router }) => {
       <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
         Start the form
       </h2>
-      <va-link-action
-        href="#"
-        onClick={startForm}
-        text="Start your 85/15 enrollment ratios report"
+      <SaveInProgressIntro
+        prefillEnabled={route.formConfig.prefillEnabled}
+        messages={route.formConfig.savedFormMessages}
+        formConfig={route.formConfig}
+        pageList={route.pageList}
+        startText="Start your 85/15 calculations report"
+        unauthStartText="Sign in to start your form"
       />
       <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
 
-      <va-omb-info
-        res-burden={60}
-        omb-number="2900-0897"
-        exp-date="12/31/2024"
-      />
+      <OmbInfo />
     </article>
   );
 };
 
 IntroductionPage.propTypes = {
-  router: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
 };
 
 export default IntroductionPage;

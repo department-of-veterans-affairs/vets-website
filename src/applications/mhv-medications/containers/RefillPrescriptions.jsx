@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import {
   VaButton,
   VaCheckbox,
@@ -14,55 +13,89 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
-  getRefillablePrescriptionsList,
-  getAllergiesList,
-  fillPrescriptions,
-  clearFillNotification,
-} from '../actions/prescriptions';
+  useGetRefillablePrescriptionsQuery,
+  useBulkRefillPrescriptionsMutation,
+} from '../api/prescriptionsApi';
+
 import { dateFormat } from '../util/helpers';
-import { selectRefillContentFlag, selectFilterFlag } from '../util/selectors';
-import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
+import {
+  selectRefillContentFlag,
+  selectRefillProgressFlag,
+  selectRemoveLandingPageFlag,
+} from '../util/selectors';
 import { SESSION_SELECTED_PAGE_NUMBER } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import PrintOnlyPage from './PrintOnlyPage';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
-import { dataDogActionNames } from '../util/dataDogConstants';
+import RefillAlert from '../components/shared/RefillAlert';
+import NeedHelp from '../components/shared/NeedHelp';
+import { dataDogActionNames, pageType } from '../util/dataDogConstants';
+import ProcessList from '../components/shared/ProcessList';
+import { refillProcessStepGuide } from '../util/processListData';
+import { useGetAllergiesQuery } from '../api/allergiesApi';
 
-const RefillPrescriptions = ({ isLoadingList = true }) => {
-  // Hooks
-  const location = useLocation();
-  const dispatch = useDispatch();
+const RefillPrescriptions = () => {
+  const {
+    data: refillableData,
+    isLoading,
+    error: refillableError,
+  } = useGetRefillablePrescriptionsQuery();
 
-  // State
-  const [isLoading, updateLoadingStatus] = useState(isLoadingList);
+  const [
+    bulkRefillPrescriptions,
+    result,
+  ] = useBulkRefillPrescriptionsMutation();
+  const { isLoading: isRefilling, error: bulkRefillError } = result;
+
+  const getMedicationsByIds = (ids, prescriptions) => {
+    if (!ids || !prescriptions) return [];
+    return ids.map(id =>
+      prescriptions.find(
+        prescription => prescription.prescriptionId === Number(id),
+      ),
+    );
+  };
+
+  const successfulMeds = useMemo(
+    () =>
+      getMedicationsByIds(
+        result?.data?.successfulIds,
+        refillableData?.prescriptions,
+      ),
+    [result?.data?.successfulIds],
+  );
+
+  const failedMeds = useMemo(
+    () =>
+      getMedicationsByIds(
+        result?.data?.failedIds,
+        refillableData?.prescriptions,
+      ),
+    [result?.data?.failedIds],
+  );
+
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
     false,
   );
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [refillStatus, setRefillStatus] = useState('notStarted');
 
+  // Handle API errors from RTK Query
+  const prescriptionsApiError = refillableError || bulkRefillError;
+
   // Selectors
   const selectedSortOption = useSelector(
-    state => state.rx.prescriptions?.selectedSortOption,
+    state => state.rx.preferences?.selectedSortOption,
   );
-  const fullRefillList = useSelector(
-    state => state.rx.prescriptions?.refillableList,
-  );
-  const fullRenewList = useSelector(
-    state => state.rx.prescriptions?.renewableList,
-  );
-  const prescriptionsApiError = useSelector(
-    state => state.rx.prescriptions?.apiError,
-  );
-  const refillNotificationData = useSelector(
-    state => state.rx.prescriptions?.refillNotification,
-  );
+
+  // Get refillable list from RTK Query result
+  const fullRefillList = refillableData?.prescriptions || [];
   const showRefillContent = useSelector(selectRefillContentFlag);
-  const showFilterContent = useSelector(selectFilterFlag);
-  const allergies = useSelector(state => state.rx.allergies?.allergiesList);
-  const allergiesError = useSelector(state => state.rx.allergies.error);
+  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
 
@@ -75,11 +108,18 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
       setRefillStatus('inProgress');
-      updateLoadingStatus(true);
       window.scrollTo(0, 0);
-      dispatch(fillPrescriptions(selectedRefillList)).then(() =>
-        setRefillStatus('finished'),
-      );
+
+      // Get just the prescription IDs for the bulk refill
+      const prescriptionIds = selectedRefillList.map(rx => rx.prescriptionId);
+
+      try {
+        await bulkRefillPrescriptions(prescriptionIds);
+        setRefillStatus('finished');
+      } catch (error) {
+        setRefillStatus('error');
+      }
+
       if (hasNoOptionSelectedError) setHasNoOptionSelectedError(false);
     } else {
       setHasNoOptionSelectedError(true);
@@ -127,38 +167,23 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
     }
   };
 
-  useEffect(() => {
-    if (refillNotificationData) {
-      dispatch(clearFillNotification());
-    }
-    sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
-  }, []);
-
   useEffect(
     () => {
-      if (fullRefillList === undefined) {
-        updateLoadingStatus(true);
-      }
-      if (refillStatus !== 'inProgress') {
-        dispatch(getRefillablePrescriptionsList()).then(() =>
-          updateLoadingStatus(false),
-        );
-        if (!allergies) dispatch(getAllergiesList());
-      }
+      // Remove session data on component mount
+      sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
+
       updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
     },
-    // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, location.pathname, selectedSortOption, refillStatus, allergies],
+    [selectedSortOption],
   );
 
   useEffect(
     () => {
-      if (!isLoading) {
+      if (!isLoading && !isRefilling) {
         focusElement(document.querySelector('h1'));
       }
     },
-    [isLoading],
+    [isLoading, isRefilling],
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
@@ -168,16 +193,20 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
     if (!showRefillContent) {
       return <PageNotFound />;
     }
-    if (isLoading) {
+    if (isLoading || isRefilling) {
       return (
         <div
           className="refill-loading-indicator"
           data-testid="loading-indicator"
         >
-          <va-loading-indicator message="Loading medications..." setFocus />
+          <va-loading-indicator message="Loading medications..." set-focus />
         </div>
       );
     }
+    const stepGuideProps = {
+      processSteps: refillProcessStepGuide.processSteps,
+      title: refillProcessStepGuide.title,
+    };
     return (
       <div>
         <h1
@@ -186,6 +215,12 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
         >
           Refill prescriptions
         </h1>
+        {showRefillProgressContent && (
+          <RefillAlert
+            dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
+            refillStatus={refillStatus}
+          />
+        )}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
@@ -193,7 +228,11 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
           </>
         ) : (
           <>
-            <RefillNotification refillStatus={refillStatus} />
+            <RefillNotification
+              refillStatus={refillStatus}
+              successfulMeds={successfulMeds}
+              failedMeds={failedMeds}
+            />
             {fullRefillList?.length > 0 ? (
               <div>
                 <CernerFacilityAlert />
@@ -301,31 +340,26 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
                 <CernerFacilityAlert className="vads-u-margin-top--2" />
               </>
             )}
-            {showFilterContent ? (
-              <p
-                className="vads-u-margin-top--3"
-                data-testid="note-refill-page"
+            <p className="vads-u-margin-top--3" data-testid="note-refill-page">
+              <strong>Note:</strong> If you can’t find the prescription you’re
+              looking for, you may need to renew it. Go to your medications list
+              and filter by “renewal needed before refill.”
+              <Link
+                data-testid="medications-page-link"
+                className="vads-u-margin-top--2 vads-u-display--block"
+                to="/"
+                data-dd-action-name={
+                  dataDogActionNames.refillPage
+                    .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW
+                }
               >
-                <strong>Note:</strong> If you can’t find the prescription you’re
-                looking for, you may need to renew it. Go to your medications
-                list and filter by “renewal needed before refill.”
-                <Link
-                  data-testid="medications-page-link"
-                  className="vads-u-margin-top--2 vads-u-display--block"
-                  to="/"
-                  data-dd-action-name={
-                    dataDogActionNames.refillPage
-                      .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW
-                  }
-                >
-                  Go to your medications list
-                </Link>
-              </p>
-            ) : (
-              <RenewablePrescriptions
-                renewablePrescriptionsList={fullRenewList}
-              />
+                Go to your medications list
+              </Link>
+            </p>
+            {showRefillProgressContent && (
+              <ProcessList stepGuideProps={stepGuideProps} />
             )}
+            {removeLandingPage && <NeedHelp page={pageType.REFILL} />}
           </>
         )}
       </div>
@@ -350,12 +384,6 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
       </div>
     </>
   );
-};
-
-// This have been added for testing purposes only
-// While the loading status is being determined locally
-RefillPrescriptions.propTypes = {
-  isLoadingList: PropTypes.bool,
 };
 
 export default RefillPrescriptions;

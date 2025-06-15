@@ -7,8 +7,14 @@ import {
 import environments from '../environment';
 
 import FlipperClient from './flipper-client';
-import { useFeatureToggle } from './useFeatureToggle';
+import {
+  useFeatureToggle,
+  useFormFeatureToggleSync,
+  useToggleLoadingValue,
+  useToggleValue,
+} from './useFeatureToggle';
 import { Toggler } from './Toggler';
+import TOGGLE_NAMES from './featureFlagNames';
 
 const { fetchToggleValues } = FlipperClient({ host: environments.API_URL });
 
@@ -34,6 +40,12 @@ let updateFeatureToggleValuesFunc = () => {};
 const updateFeatureToggleValue = newToggleValues =>
   updateFeatureToggleValuesFunc(newToggleValues);
 
+/**
+ * Fetches feature toggle values from the service and updates the redux store
+ * generally this is only called once in the app when mounted
+ * @param {Function} dispatch - Redux dispatch function
+ * @param {Object} toggleValues - Initial toggle values
+ */
 async function connectFeatureToggle(
   dispatch,
   toggleValues = initialToggleValues,
@@ -158,9 +170,10 @@ const FeatureToggle = ({ children, ...props }) => {
 export {
   connectFeatureToggle,
   updateFeatureToggleValue,
-  // FeatureToggle,
-  // subscribeToToggleUpdates,
-  // withFeatureToggleProvider,
+  useToggleLoadingValue,
+  useFormFeatureToggleSync,
+  useToggleValue,
   useFeatureToggle,
   Toggler,
+  TOGGLE_NAMES,
 };

@@ -1,64 +1,48 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT, Paths } from '../utils/constants';
-import mockFeatureToggles from '../fixtures/toggles-response.json';
-import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
+import PatientFilterPage from '../pages/PatientFilterPage';
 import mockMessages from '../fixtures/pilot-responses/inbox-threads-OH-response.json';
 
 describe('Secure Messaging Pilot feature flag', () => {
-  const pilotFeatureFlag = {
-    name: 'mhv_secure_messaging_cerner_pilot',
-    value: true,
-  };
-  const mockPilotFeatureToggles = {
-    ...mockFeatureToggles,
-    data: {
-      ...mockFeatureToggles.data,
-      features: [...mockFeatureToggles.data.features, pilotFeatureFlag],
+  const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
+    {
+      name: 'mhv_secure_messaging_cerner_pilot',
+      value: true,
     },
-  };
-  const filteredData = {
-    data: mockMessages.data.filter(el => el.attributes.subject.includes('OH')),
-  };
-  const updatedMockMessages = GeneralFunctionsPage.updatedThreadDates(
+  ]);
+
+  const filterData = `OH`;
+  const filteredResponse = PatientFilterPage.filterMockResponse(
     mockMessages,
+    filterData,
   );
 
   beforeEach(() => {
-    SecureMessagingSite.login();
-    SecureMessagingLandingPage.loadMainPage(
-      mockPilotFeatureToggles,
-      Paths.UI_PILOT,
-    );
+    SecureMessagingSite.login(updatedFeatureToggles);
 
-    PilotEnvPage.loadInboxMessages(Paths.UI_PILOT, updatedMockMessages);
+    PilotEnvPage.loadInboxMessages(Paths.UI_PILOT, mockMessages);
     PilotEnvPage.verifyUrl(Paths.UI_PILOT);
   });
 
   it('verify filter works correctly', () => {
-    PilotEnvPage.inputFilterData(`OH`);
+    PilotEnvPage.inputFilterData(filterData);
 
-    PilotEnvPage.clickFilterButton(filteredData);
+    PilotEnvPage.clickFilterButton(filteredResponse);
 
-    PilotEnvPage.verifyFilterResults('OH', filteredData);
+    PilotEnvPage.verifyFilterResults(filterData, filteredResponse);
 
-    cy.contains('Clear Filters').click({ force: true });
+    cy.contains('Clear filters').click({ force: true });
 
-    PilotEnvPage.verifyThreadLength(updatedMockMessages);
+    PilotEnvPage.verifyThreadLength(mockMessages);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify sorting works correctly', () => {
-    const sortedResponse = {
-      ...updatedMockMessages,
-      data: [...updatedMockMessages.data].sort(
-        (a, b) =>
-          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
-      ),
-    };
+    const sortedResponse = PatientFilterPage.sortMessagesThread(mockMessages);
 
     PilotEnvPage.verifySorting('Oldest to newest', sortedResponse);
 

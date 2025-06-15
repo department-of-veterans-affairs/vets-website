@@ -8,16 +8,17 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import MessageActionButtons from './MessageActionButtons';
 import {
   Categories,
-  PageTitles,
   Recipients,
   ParentComponent,
   RecipientStatus,
   BlockedTriageAlertStyles,
 } from '../util/constants';
-import { scrollIfFocusedAndNotInView } from '../util/helpers';
+import { getPageTitle, scrollIfFocusedAndNotInView } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
+import useFeatureToggles from '../hooks/useFeatureToggles';
+import ReplyButton from './ReplyButton';
 
 const MessageThreadHeader = props => {
   const {
@@ -29,6 +30,8 @@ const MessageThreadHeader = props => {
   } = props;
 
   const { threadId, category, subject, sentDate, recipientId } = message;
+
+  const { customFoldersRedesignEnabled } = useFeatureToggles();
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -51,6 +54,7 @@ const MessageThreadHeader = props => {
           name:
             messages.find(m => m.triageGroupName === message.triageGroupName)
               ?.triageGroupName || message.triageGroupName,
+          suggestedNameDisplay: message.suggestedNameDisplay,
           type: Recipients.CARE_TEAM,
           status: RecipientStatus.ALLOWED,
         };
@@ -87,8 +91,9 @@ const MessageThreadHeader = props => {
 
   useEffect(
     () => {
+      const pageTitleTag = getPageTitle({});
       focusElement(document.querySelector('h1'));
-      updatePageTitle(PageTitles.CONVERSATION_TITLE_TAG);
+      updatePageTitle(pageTitleTag);
     },
     [categoryLabel, message, subject],
   );
@@ -108,7 +113,7 @@ const MessageThreadHeader = props => {
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
           data-dd-privacy="mask"
         >
-          {categoryLabel}: {subject}
+          {`Messages: ${categoryLabel} - ${subject}`}
         </h1>
 
         <CannotReplyAlert
@@ -127,12 +132,19 @@ const MessageThreadHeader = props => {
         </div>
       )}
 
-      <MessageActionButtons
-        threadId={threadId}
-        hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
-        isCreateNewModalVisible={isCreateNewModalVisible}
-        setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-      />
+      {customFoldersRedesignEnabled ? (
+        <ReplyButton
+          key="replyButton"
+          visible={!cannotReply && !showBlockedTriageGroupAlert}
+        />
+      ) : (
+        <MessageActionButtons
+          threadId={threadId}
+          hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
+          isCreateNewModalVisible={isCreateNewModalVisible}
+          setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+        />
+      )}
     </div>
   );
 };

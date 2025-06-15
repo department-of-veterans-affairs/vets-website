@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import ContactCard from '../components/ContactCard';
 import AddressBlock from '../components/AddressBlock';
 import GetFormHelp from '../components/GetFormHelp';
@@ -30,7 +30,7 @@ export default function NextStepsPage() {
   return (
     <div>
       <FormTitle
-        title="Get help from a VA accredited representative or VSO"
+        title="Request help from a VA accredited representative or VSO"
         subTitle={getFormSubtitle(formData)}
       />
       <h2>Your next steps</h2>

@@ -1,29 +1,29 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectAuthStatus, selectFeatureToggles } from '../utils/selectors';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
-import { useYesNoInputEvents } from '../hooks/useYesNoInputEvents';
 import { useDefaultFormData } from '../hooks/useDefaultFormData';
 import { useLoa3UserData } from '../hooks/useLoa3UserData';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
-const App = props => {
-  const { children, location } = props;
-  const { isLoadingFeatureFlags } = useSelector(selectFeatureToggles);
-  const { isLoadingProfile } = useSelector(selectAuthStatus);
-  const isAppLoading = isLoadingFeatureFlags || isLoadingProfile;
+const App = ({ children, location }) => {
+  const { isLoadingFeatureFlags, isLoadingProfile } = useSelector(state => ({
+    isLoadingFeatureFlags: selectFeatureToggles(state).isLoadingFeatureFlags,
+    isLoadingProfile: selectAuthStatus(state).isLoadingProfile,
+  }));
+  const isAppLoading = useMemo(
+    () => isLoadingFeatureFlags || isLoadingProfile,
+    [isLoadingFeatureFlags, isLoadingProfile],
+  );
 
   // Fetch appropriate data for LOA3 users
   useLoa3UserData();
 
   // Set default view fields within the form data
   useDefaultFormData();
-
-  // Attach analytics events to all yes/no radio inputs
-  useYesNoInputEvents(isAppLoading, location);
 
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
@@ -42,11 +42,8 @@ const App = props => {
 };
 
 App.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-  location: PropTypes.object,
+  location: PropTypes.object.isRequired,
+  children: PropTypes.node,
 };
 
 export default App;

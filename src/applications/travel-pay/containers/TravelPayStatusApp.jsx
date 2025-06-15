@@ -11,15 +11,54 @@ import { intersection, difference } from 'lodash';
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { focusElement } from 'platform/utilities/ui';
-import { Element } from 'platform/utilities/scroll';
-import { scrollTo } from 'platform/utilities/ui/scroll';
-import BreadCrumbs from '../components/Breadcrumbs';
+import { Element, scrollTo } from 'platform/utilities/scroll';
+
+import Breadcrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
 import { HelpTextManage } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
 import ErrorAlert from '../components/alerts/ErrorAlert';
+import { BTSSS_PORTAL_URL } from '../constants';
+import useSetPageTitle from '../hooks/useSetPageTitle';
+import DowntimeWindowAlert from './DownTimeWindowAlert';
+
+function SmocEntryContent() {
+  return (
+    <>
+      <p className="vads-u-font-family--serif vads-u-font-size--lg">
+        File new claims for travel reimbursement and review the status of all
+        your travel claims.
+      </p>
+      <h2 className="vads-u-margin-top--2">
+        File a new claim for travel reimbursement online
+      </h2>
+      <p>
+        If you’re claiming mileage only, you can file a travel claim for
+        eligible past appointments here on VA.gov.
+      </p>
+      <va-link-action
+        href="/my-health/appointments/past"
+        text="Go to your past appointments"
+        class="vads-u-margin-y--1"
+      />
+      <p>
+        <strong>
+          If you need to submit receipts for other expenses, like tolls, meals,
+          or lodging
+        </strong>
+        , you can file your travel claim through the{' '}
+        <va-link
+          external
+          href={BTSSS_PORTAL_URL}
+          text="Beneficiary Travel Self-Service System"
+        />
+        .
+      </p>
+    </>
+  );
+}
 
 export default function TravelPayStatusApp({ children }) {
   const dispatch = useDispatch();
@@ -56,7 +95,7 @@ export default function TravelPayStatusApp({ children }) {
   if (data.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
 
-    const topStatuses = new Set(['On Hold', 'Denied', 'In Manual Review']);
+    const topStatuses = new Set(['On hold', 'Denied', 'In manual review']);
     const availableStatuses = new Set(data.map(c => c.claimStatus));
 
     const availableTopStatuses = intersection(
@@ -163,6 +202,15 @@ export default function TravelPayStatusApp({ children }) {
   const canViewClaimDetails = useToggleValue(
     TOGGLE_NAMES.travelPayViewClaimDetails,
   );
+  const smocEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPaySubmitMileageExpense,
+  );
+
+  const title = smocEnabled
+    ? 'Travel reimbursement claims'
+    : 'Check your travel reimbursement claim status';
+
+  useSetPageTitle(title);
 
   useEffect(
     () => {
@@ -271,18 +319,24 @@ export default function TravelPayStatusApp({ children }) {
     return (
       <Element name="topScrollElement">
         <article className="usa-grid-full vads-u-padding-bottom--0">
-          <BreadCrumbs />
+          <Breadcrumbs />
           <h1 tabIndex="-1" data-testid="header">
-            Check your travel reimbursement claim status
+            {title}
           </h1>
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-            <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--4">
-              You can use this tool to check the status of your VA travel
-              claims.
-            </h2>
-            <ErrorAlert errorStatus={error.errors[0].status} />
-            <VaBackToTop />
-          </div>
+          <DowntimeWindowAlert appTitle={title}>
+            <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+              {smocEnabled ? (
+                <SmocEntryContent />
+              ) : (
+                <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--4">
+                  You can use this tool to check the status of your VA travel
+                  claims.
+                </h2>
+              )}
+              <ErrorAlert errorStatus={error.errors[0].status} />
+              <VaBackToTop />
+            </div>
+          </DowntimeWindowAlert>
         </article>
       </Element>
     );
@@ -291,116 +345,146 @@ export default function TravelPayStatusApp({ children }) {
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
-        <BreadCrumbs />
+        <Breadcrumbs />
         <h1 tabIndex="-1" data-testid="header">
-          Check your travel reimbursement claim status
+          {title}
         </h1>
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          <h2 className="vads-u-font-size--h4">
-            You can use this tool to check the status of your VA travel claims.
-          </h2>
-          {!error &&
-            !isLoading && (
-              <va-additional-info
-                class="vads-u-margin-y--3"
-                trigger="How to manage your claims or get more information"
-              >
-                <>
-                  <HelpTextManage />
-                  <va-link
-                    data-testid="status-explainer-link"
-                    href="/my-health/travel-pay/help"
-                    text="What does my claim status mean?"
-                  />
-                </>
-              </va-additional-info>
+        <DowntimeWindowAlert appTitle={title}>
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            {smocEnabled ? (
+              <SmocEntryContent />
+            ) : (
+              <>
+                <h2 className="vads-u-font-size--h4">
+                  You can use this tool to check the status of your VA travel
+                  claims.
+                </h2>
+                {!error &&
+                  !isLoading && (
+                    <va-additional-info
+                      class="vads-u-margin-y--3"
+                      trigger="How to manage your claims or get more information"
+                    >
+                      <>
+                        <HelpTextManage />
+                        <va-link
+                          data-testid="status-explainer-link"
+                          href="/my-health/travel-pay/help"
+                          text="What does my claim status mean?"
+                        />
+                      </>
+                    </va-additional-info>
+                  )}
+              </>
             )}
 
-          {isLoading && (
-            <va-loading-indicator
-              label="Loading"
-              message="Loading Travel Claims..."
-            />
-          )}
-          {!isLoading &&
-            data.length > 0 && (
-              <>
-                <div className="btsss-claims-sort-and-filter-container">
-                  <h2 className="vads-u-font-size--h4">Your travel claims</h2>
-                  <p>
-                    This list shows all the appointments you've filed a travel
-                    claim for.
-                  </p>
-                  <label
-                    htmlFor="claimsOrder"
-                    className="vads-u-margin-bottom--0 vads-u-margin-top--0"
-                  >
-                    Show appointments with travel claims in this order
-                  </label>
-                  <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
-                    <select
-                      className="vads-u-margin-bottom--0"
-                      hint={null}
-                      title="Show appointments with travel claims in this order"
-                      name="claimsOrder"
-                      id="claimsOrder"
-                      value={selectedClaimsOrder}
-                      onChange={e => setSelectedClaimsOrder(e.target.value)}
+            {isLoading && (
+              <va-loading-indicator
+                label="Loading"
+                message="Loading Travel Claims..."
+              />
+            )}
+            {!isLoading &&
+              data.length > 0 && (
+                <>
+                  <div className="btsss-claims-sort-and-filter-container">
+                    <h2 className="vads-u-margin-top--2">Your travel claims</h2>
+                    <p>
+                      This list shows all the appointments you've filed a travel
+                      claim for.
+                    </p>
+                    {smocEnabled && (
+                      <va-additional-info
+                        class="vads-u-margin-y--3"
+                        trigger="How to manage your claims or get more information"
+                      >
+                        <div>
+                          <p className="vads-u-margin-top--0">
+                            You can call the BTSSS call center at{' '}
+                            <va-telephone contact="8555747292" /> (
+                            <va-telephone tty contact="711" />) Monday through
+                            Friday, 8:00 a.m. to 8:00 p.m. ET. Have your claim
+                            number ready to share when you call.
+                          </p>
+                          <va-link
+                            data-testid="status-explainer-link"
+                            href="/my-health/travel-pay/help"
+                            text="What does my claim status mean?"
+                          />
+                        </div>
+                      </va-additional-info>
+                    )}
+                    <label
+                      htmlFor="claimsOrder"
+                      className="vads-u-margin-bottom--0 vads-u-margin-top--0"
                     >
-                      <option value="mostRecent">Most Recent</option>
-                      <option value="oldest">Oldest</option>
-                    </select>
-                    <va-button
-                      onClick={() => onSortClick()}
-                      data-testid="Sort travel claims"
-                      secondary
-                      text="Sort"
-                      label="Sort"
+                      Show appointments with travel claims in this order
+                    </label>
+                    <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
+                      <select
+                        className="vads-u-margin-bottom--0"
+                        hint={null}
+                        title="Show appointments with travel claims in this order"
+                        name="claimsOrder"
+                        id="claimsOrder"
+                        value={selectedClaimsOrder}
+                        onChange={e => setSelectedClaimsOrder(e.target.value)}
+                      >
+                        <option value="mostRecent">Most Recent</option>
+                        <option value="oldest">Oldest</option>
+                      </select>
+                      <va-button
+                        onClick={() => onSortClick()}
+                        data-testid="Sort travel claims"
+                        secondary
+                        text="Sort"
+                        label="Sort"
+                      />
+                    </div>
+
+                    <TravelPayClaimFilters
+                      statusesToFilterBy={statusesToFilterBy}
+                      checkedStatusFilters={checkedStatusFilters}
+                      onStatusFilterChange={onStatusFilterChange}
+                      applyFilters={applyFilters}
+                      resetSearch={resetSearch}
+                      selectedDateFilter={selectedDateFilter}
+                      datesToFilterBy={datesToFilterBy}
+                      onDateFilterChange={onDateFilterChange}
                     />
                   </div>
 
-                  <TravelPayClaimFilters
-                    statusesToFilterBy={statusesToFilterBy}
-                    checkedStatusFilters={checkedStatusFilters}
-                    onStatusFilterChange={onStatusFilterChange}
-                    applyFilters={applyFilters}
-                    resetSearch={resetSearch}
-                    selectedDateFilter={selectedDateFilter}
-                    datesToFilterBy={datesToFilterBy}
-                    onDateFilterChange={onDateFilterChange}
-                  />
-                </div>
+                  <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
+                    {resultsText()}
+                  </h2>
 
-                <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
-                  {resultsText()}
-                </h2>
-
-                <section
-                  id="travel-claims-list"
-                  className="travel-claim-list-container"
-                >
-                  {displayedClaims.map(travelClaim => (
-                    <TravelClaimCard
-                      key={travelClaim.id}
-                      {...travelClaim}
-                      canViewClaimDetails={canViewClaimDetails}
+                  <section
+                    id="travel-claims-list"
+                    className="travel-claim-list-container"
+                  >
+                    {displayedClaims.map(travelClaim => (
+                      <TravelClaimCard
+                        key={travelClaim.id}
+                        {...travelClaim}
+                        canViewClaimDetails={canViewClaimDetails}
+                      />
+                    ))}
+                  </section>
+                  {shouldPaginate && (
+                    <VaPagination
+                      onPageSelect={e => onPageSelect(e.detail.page)}
+                      page={currentPage}
+                      pages={numPages}
                     />
-                  ))}
-                </section>
-                {shouldPaginate && (
-                  <VaPagination
-                    onPageSelect={e => onPageSelect(e.detail.page)}
-                    page={currentPage}
-                    pages={numPages}
-                  />
-                )}
-              </>
-            )}
-          {!isLoading &&
-            !error &&
-            data.length === 0 && <p>No travel claims to show.</p>}
-          <VaBackToTop />
-        </div>
+                  )}
+                </>
+              )}
+            {!isLoading &&
+              !error &&
+              data.length === 0 && <p>No travel claims to show.</p>}
+            <VaBackToTop />
+          </div>
+        </DowntimeWindowAlert>
       </article>
 
       {children}

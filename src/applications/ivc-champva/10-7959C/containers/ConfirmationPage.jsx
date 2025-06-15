@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import {
   VaAlert,
@@ -55,8 +55,7 @@ const mailPreamble = (
     <va-link
       href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your"
       external
-      text="Learn more about the supporting documents you need to submit (opens in a
-      new tab)"
+      text="Learn more about the supporting documents you need to submit"
     />
 
     <p>
@@ -110,9 +109,9 @@ export function ConfirmationPage(props) {
       {OverviewComp}
 
       <div className="inset">
-        <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
+        <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
           Your submission information
-        </h3>
+        </h2>
         {(data.statementOfTruthSignature || data.signature) && (
           <>
             <span className="veterans-full-name">

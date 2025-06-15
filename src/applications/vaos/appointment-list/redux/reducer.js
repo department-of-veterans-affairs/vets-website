@@ -41,7 +41,7 @@ import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
 const initialState = {
   pending: null,
   pendingStatus: FETCH_STATUS.notStarted,
-  confirmed: null,
+  confirmed: [],
   confirmedStatus: FETCH_STATUS.notStarted,
   past: null,
   providerData: null,
@@ -79,6 +79,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         confirmedStatus: FETCH_STATUS.failed,
         confirmed: null,
+        error: action.error,
       };
     case FETCH_PENDING_APPOINTMENTS:
       return {
@@ -169,6 +170,7 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         appointmentDetailsStatus: FETCH_STATUS.failed,
+        isBadAppointmentId: action.isBadAppointmentId,
       };
     }
     case FETCH_CONFIRMED_DETAILS_SUCCEEDED:

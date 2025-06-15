@@ -47,10 +47,12 @@ describe('Radiology Images List container', () => {
 
   it('displays the test name as an h1', () => {
     const screen = setup();
-    const testName = screen.getByText(
-      `Images: ${initialState.mr.labsAndTests.labsAndTestsDetails.name}`,
-      { exact: true, selector: 'h1' },
-    );
+    const testName = screen.getByText((content, element) => {
+      return (
+        element.tagName.toLowerCase() === 'h1' &&
+        content.includes(initialState.mr.labsAndTests.labsAndTestsDetails.name)
+      );
+    });
     expect(testName).to.exist;
   });
 

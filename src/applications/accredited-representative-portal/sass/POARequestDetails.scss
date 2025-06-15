@@ -3,11 +3,17 @@
 .poa-request-details {
   width: 100%;
   @media (min-width: $small-desktop-screen) {
-    width: 1000px;
+    width: 960px;
+  }
+
+  @media (min-width: $small-desktop-screen) {
+    &__h2 {
+      margin: 32px 0 24px;
+    }
   }
 
   &__form {
-    padding: 35px 14px;
+    padding: 34px 38px;
     background-color: $vads-color-base-lightest;
     margin-top: 66px;
 
@@ -16,17 +22,15 @@
     }
 
     @media (min-width: $small-desktop-screen) {
-      max-width: 654px;
-      padding: 34px 87px 50px 38px;
       margin-top: 88px;
     }
 
     &-label {
       margin: 0;
+      max-width: 100%;
 
       p {
-        margin: 4px 0 14px;
-        color: $vads-color-gray-medium;
+        color: $vads-color-base;
       }
 
       .poa-request-details__form--error & {
@@ -37,7 +41,6 @@
     }
 
     &-submit {
-      margin: 0;
       width: auto !important;
 
       @media (min-width: $small-desktop-screen) {
@@ -49,7 +52,7 @@
   &__divider {
     border-bottom: 1px solid $vads-color-base-light;
     width: 100%;
-    margin: 2rem 0;
+    margin: 28px 0;
     display: flex;
   }
 
@@ -63,6 +66,11 @@
     @media (min-width: $small-desktop-screen) {
       flex-direction: row;
       flex-wrap: wrap;
+      margin: 24px 0 48px;
+
+      &--col {
+        margin: 0;
+      }
     }
 
     &-item {
@@ -80,12 +88,13 @@
         margin: 0;
         display: flex;
         flex-direction: column;
+        max-width: 100%;
 
-      @media (min-width: $small-desktop-screen) {
-        flex-direction: row;
-        height: 56px;
-        align-items: center;
-      }
+        @media (min-width: $small-desktop-screen) {
+          flex-direction: row;
+          height: 56px;
+          align-items: center;
+        }
 
         &:first-child {
           border-top: 1px solid $vads-color-base;
@@ -119,8 +128,14 @@
   &__subtitle {
     margin: 0;
 
+    .poa-request__card-field--label & {
+      margin-left: 5px;
+      font-weight: normal;
+    }
+
     .poa-request-details__list & {
       margin-bottom: 24px;
+      display: block;
       @media (min-width: $small-desktop-screen) {
         margin-bottom: 0;
       }
@@ -132,7 +147,7 @@
   }
 
   &__header {
-    margin-bottom: 8px;
+    margin-bottom: 0;
   }
 
   &__name {
@@ -140,6 +155,12 @@
     margin: 8px 0;
     display: flex;
     align-items: center;
+    font-size: 24px;
+    font-family: inherit;
+    @media (min-width: $small-desktop-screen) {
+      font-size: 1.875rem;
+      margin: 24px 0;
+    }
   }
 
   &__status {
@@ -180,13 +201,12 @@
   }
 
   &__info {
-    max-width: 650px;
+    max-width: 627px;
   }
 }
 .processing-date {
-  display: flex;
-
-  strong {
+  > span {
+    font-weight: bold;
     margin-left: 3px;
   }
 }

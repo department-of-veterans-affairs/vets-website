@@ -74,7 +74,7 @@ const benefitSelection = {
               CHAPTER 30
             </h5>
             <h4 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
-              MONTGOMERY GI BILL ACTIVE DUTY (MGIB-AD)
+              Montgomery GI Bill Active Duty (MGIB-AD)
             </h4>
 
             <h4 className="vads-u-font-size--h5 vads-u-margin-top--0 vads-u-margin-bottom--2">
@@ -111,7 +111,7 @@ const benefitSelection = {
               CHAPTER 1606
             </h5>
             <h4 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
-              MONTGOMERY GI BILL SELECTED RESERVE (MGIB-SR)
+              Montgomery GI Bill Selected Reserve (MGIB-SR)
             </h4>
 
             <h4 className="vads-u-font-size--h5 vads-u-margin-top--0 vads-u-margin-bottom--2">

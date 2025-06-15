@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import React from 'react';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
   createArrayBuilderItemAddPath,
@@ -10,6 +11,9 @@ import {
   initGetText,
   defaultSummaryPageScrollAndFocusTarget,
   defaultItemPageScrollAndFocusTarget,
+  arrayBuilderDependsContextWrapper,
+  arrayBuilderContextObject,
+  getArrayUrlSearchParams,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
@@ -62,6 +66,23 @@ function throwMissingYesNoValidation() {
   throw new Error(
     "arrayBuilderPages `pageBuilder.summaryPage()` must include a `uiSchema` that is using `arrayBuilderYesNoUI` pattern instead of `yesNoUI` pattern, or a similar pattern including `yesNoUI` with `'ui:validations'`",
   );
+}
+
+function safeDependsItem(depends) {
+  if (typeof depends !== 'function') {
+    return depends;
+  }
+  return (formData, index, context = null) => {
+    try {
+      return depends(
+        formData,
+        index,
+        arrayBuilderDependsContextWrapper(context),
+      );
+    } catch (e) {
+      return false;
+    }
+  };
 }
 
 function validateNoSchemaAssociatedWithLinkOrButton(
@@ -216,9 +237,9 @@ export function validateMinItems(minItems) {
 
 export function assignGetItemName(options) {
   const safeGetItemName = getItemFn => {
-    return (item, index) => {
+    return (item, index, fullData) => {
       try {
-        return getItemFn(item, index);
+        return getItemFn(item, index, fullData);
       } catch (e) {
         return null;
       }
@@ -270,8 +291,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     nounSingular,
     nounPlural,
     isItemIncomplete = item => item?.name,
-    minItems = 1,
+    minItems = null, // default to null to avoid enforcing a minimum length on optional arrays
     maxItems = 100,
+    hideMaxItemsAlert = false,
     text: userText = {},
     reviewPath = 'review-and-submit',
     required: userRequired,
@@ -345,15 +367,12 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   validateMinItems(options.minItems);
   const required =
     typeof userRequired === 'function' ? userRequired : () => userRequired;
-  const lastItemPagePath = itemPages?.[itemPages.length - 1]?.path;
 
-  const getActiveItemPages = (formData, index) => {
+  const getActiveItemPages = (formData, index, context = null) => {
     return itemPages.filter(page => {
       try {
         if (page.depends) {
-          return typeof page.depends === 'function'
-            ? page.depends(formData, index)
-            : page.depends;
+          return safeDependsItem(page.depends)(formData, index, context);
         }
         return true;
       } catch (e) {
@@ -362,12 +381,12 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     });
   };
 
-  const getFirstItemPagePath = (formData, index) => {
-    return getActiveItemPages(formData, index)?.[0]?.path;
+  const getFirstItemPagePath = (formData, index, context = null) => {
+    return getActiveItemPages(formData, index, context)?.[0]?.path;
   };
 
-  const getLastItemPagePath = (formData, index) => {
-    const activeItemPages = getActiveItemPages(formData, index);
+  const getLastItemPagePath = (formData, index, context = null) => {
+    const activeItemPages = getActiveItemPages(formData, index, context);
     return activeItemPages?.[activeItemPages.length - 1]?.path;
   };
 
@@ -389,11 +408,18 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     goPath(path);
   };
 
-  const navForwardSummaryAddItem = ({ formData, goPath }) => {
+  const navForwardSummaryAddItem = ({ formData, goPath, urlParams }) => {
     const nextIndex = formData[arrayPath]?.length || 0;
 
     const path = createArrayBuilderItemAddPath({
-      path: getFirstItemPagePath(formData, nextIndex),
+      path: getFirstItemPagePath(
+        formData,
+        nextIndex,
+        arrayBuilderContextObject({
+          add: true,
+          review: urlParams?.review,
+        }),
+      ),
       index: nextIndex,
     });
     goPath(path);
@@ -423,9 +449,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   });
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardSummary = ({ formData, goPath, pageList }) => {
+  const navForwardSummary = ({ formData, goPath, pageList, urlParams }) => {
     if (formData?.[hasItemsKey]) {
-      navForwardSummaryAddItem({ formData, goPath });
+      navForwardSummaryAddItem({ formData, goPath, urlParams });
     } else {
       navForwardSummaryGoNextChapter({ formData, goPath, pageList });
     }
@@ -441,7 +467,14 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     // summary -> items -> summary
     if (required(formData) && !formData[arrayPath]?.length) {
       path = createArrayBuilderItemAddPath({
-        path: getFirstItemPagePath(formData, 0),
+        path: getFirstItemPagePath(
+          formData,
+          0,
+          arrayBuilderContextObject({
+            add: true,
+            review: urlParams?.review,
+          }),
+        ),
         index: 0,
         isReview: urlParams?.review,
       });
@@ -479,19 +512,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     };
   };
 
-  function safeDepends(depends) {
-    if (typeof depends !== 'function') {
-      return depends;
-    }
-    return (formData, index) => {
-      try {
-        return depends(formData, index);
-      } catch (e) {
-        return false;
-      }
-    };
-  }
-
   pageBuilder.summaryPage = pageConfig => {
     let requiredOpts = ['title', 'path'];
     if (usesYesNo) {
@@ -507,28 +527,48 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       introPath,
       isItemIncomplete,
       maxItems,
+      hideMaxItemsAlert,
       nounPlural,
       nounSingular,
       required,
       useLinkInsteadOfYesNo,
       useButtonInsteadOfYesNo,
+      isReviewPage: false,
     };
 
+    const summaryReviewPageProps = {
+      ...summaryPageProps,
+      isReviewPage: true,
+    };
+
+    // If the user defines their own CustomPage to override ArrayBuilderSummaryPage,
+    // then we should at least give them all the same props that we use for parity.
+    // In the future, it would be nice to extract component features as a whole
+    // to pass to a consumer's CustomPage as well, e.g. Cards, Alerts, NavButtons
+    const CustomPage = pageConfig.CustomPage
+      ? props => (
+          <pageConfig.CustomPage {...props} arrayBuilder={summaryPageProps} />
+        )
+      : ArrayBuilderSummaryPage(summaryPageProps);
+
+    const CustomPageReview = pageConfig.CustomPageReview
+      ? props => (
+          <pageConfig.CustomPageReview
+            {...props}
+            arrayBuilder={summaryReviewPageProps}
+          />
+        )
+      : ArrayBuilderSummaryPage(summaryReviewPageProps);
+
     const page = {
-      CustomPageReview: ArrayBuilderSummaryPage({
-        isReviewPage: true,
-        ...summaryPageProps,
-      }),
-      CustomPage: ArrayBuilderSummaryPage({
-        isReviewPage: false,
-        ...summaryPageProps,
-      }),
       scrollAndFocusTarget:
         pageConfig.scrollAndFocusTarget ||
         defaultSummaryPageScrollAndFocusTarget,
       onNavForward: navForwardSummary,
       onNavBack: onNavBackKeepUrlParams,
       ...pageConfig,
+      CustomPageReview,
+      CustomPage,
     };
 
     if (!pageConfig.uiSchema) {
@@ -549,18 +589,29 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     verifyRequiredPropsPageConfig('itemPage', requiredOpts, pageConfig);
     const { onNavBack, onNavForward } = getNavItem(pageConfig.path);
 
+    const itemPageProps = {
+      arrayPath,
+      introRoute: introPath,
+      summaryRoute: summaryPath,
+      reviewRoute: reviewPath,
+      required,
+      getText,
+    };
+
+    // If the user defines their own CustomPage to override ArrayBuilderItemPage,
+    // then we should at least give them all the same props that we use for parity.
+    // In the future, it would be nice to extract component features as a whole
+    // to pass to a consumer's CustomPage as well, e.g. NavButtons, rerouting feature
+    const CustomPage = pageConfig.CustomPage
+      ? props => (
+          <pageConfig.CustomPage {...props} arrayBuilder={itemPageProps} />
+        )
+      : ArrayBuilderItemPage(itemPageProps);
+
     return {
       showPagePerItem: true,
       allowPathWithNoItems: true,
       arrayPath,
-      CustomPage: ArrayBuilderItemPage({
-        arrayPath,
-        introRoute: introPath,
-        summaryRoute: summaryPath,
-        reviewRoute: reviewPath,
-        required,
-        getText,
-      }),
       CustomPageReview: () => null,
       customPageUsesPagePerItemData: true,
       scrollAndFocusTarget:
@@ -569,8 +620,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       onNavForward,
       ...pageConfig,
       ...(pageConfig.depends
-        ? { depends: safeDepends(pageConfig.depends) }
+        ? { depends: safeDependsItem(pageConfig.depends) }
         : {}),
+      CustomPage,
       uiSchema: {
         [arrayPath]: {
           items: pageConfig.uiSchema,

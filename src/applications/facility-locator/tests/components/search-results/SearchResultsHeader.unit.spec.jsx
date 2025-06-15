@@ -54,6 +54,26 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
+  it('should render header with LocationType.HEALTH for VA health service autosuggest, totalEntries = 1', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        facilityType={LocationType.HEALTH}
+        inProgress={false}
+        pagination={{ totalEntries: 1 }}
+        results={[{}]}
+        serviceType={null}
+        context="new york"
+        vamcServiceDisplay="All VA health services"
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 result for "VA health",\s+"All VA health services"\s+near\s+"new york"/,
+    );
+
+    wrapper.unmount();
+  });
+
   it('should render header with LocationType.HEALTH, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader

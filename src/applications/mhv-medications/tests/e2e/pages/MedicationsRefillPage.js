@@ -5,6 +5,9 @@ import { Paths } from '../utils/constants';
 
 class MedicationsRefillPage {
   loadRefillPage = prescriptions => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
     cy.intercept(
       'GET',
       'my_health/v1/prescriptions/list_refillable_prescriptions',
@@ -346,18 +349,26 @@ class MedicationsRefillPage {
   };
 
   verifyPartialSuccessAlertOnRefillPage = () => {
-    cy.get('[data-testid="failed-message-title"]').should(
+    cy.get('[data-testid="partial-failed-message-title"]').should(
       'contain',
       'Only part of your request was submitted',
     );
   };
 
-  verifyFailedRequestMessageAlertOnRefillPage = () => {
-    cy.get('[data-testid="failed-message-title"]').should('exist');
-    cy.get('[data-testid="failed-message-title"]').should(
-      'contain',
-      'Request not submitted',
-    );
+  verifyFailedRequestMessageAlertOnRefillPage = text => {
+    cy.get('[data-testid="failed-message-title"]', { includeShadowDom: true })
+      .should('be.visible')
+      .first()
+      .and('have.text', text);
+  };
+
+  verifyPartiallyFailedRequestMessageAlertOnRefillPage = text => {
+    cy.get('[data-testid="partial-failed-message-title"]', {
+      includeShadowDom: true,
+    })
+      .should('be.visible')
+      .first()
+      .and('have.text', text);
   };
 
   verifyNetworkResponseForFailedRefillRequest = failedId => {
@@ -477,6 +488,61 @@ class MedicationsRefillPage {
 
   verifyCernerUserMyVAHealthAlertOnRefillsPage = text => {
     cy.get('[data-testid="cerner-facilities-alert"]').should('contain', text);
+  };
+
+  verifyRefillDelayAlertBannerOnRefillPage = text => {
+    cy.get('[data-testid="rxDelay-alert-message"]').should('have.text', text);
+  };
+
+  verifyRefillDelayAlertNotVisibleOnRefillPage(text) {
+    cy.get('[data-testid="rxDelay-alert-message"]')
+      .should('have.text', text)
+      .and('not.be.visible');
+  }
+
+  verifyRefillDetailsLinkVisibleOnDelayAlertBanner = rxName => {
+    cy.get('[data-testid="alert-banner"]').should('contain', rxName);
+  };
+
+  verifyNeedHelpSectionOnRefillPage = text => {
+    cy.get('[data-testid="rx-need-help-container"]').should('contain', text);
+  };
+
+  verifyGoToUseMedicationLinkOnRefillPage = () => {
+    cy.get('[data-testid="go-to-use-medications-link"]').should('be.visible');
+  };
+
+  verifyStartANewMessageLinkOnRefillPage = () => {
+    cy.get('[data-testid="start-a-new-message-link"]').should('be.visible');
+  };
+
+  verifyHowRefillProcessWorksListHeaderTextOnRefillPage = text => {
+    cy.get('[data-testid="progress-list-header"]').should('contain', text);
+  };
+
+  verifyProcessStepOneHeaderOnRefillPage = text => {
+    cy.get('[header="You request a refill"]').should('contain', text);
+  };
+
+  verifyProcessStepTwoHeaderOnRefillPage = text => {
+    cy.get('[header="We process your refill request"]').should('contain', text);
+  };
+
+  verifyProcessStepThreeHeaderOnRefillPage = text => {
+    cy.get('[header="We ship your refill to you"]').should('contain', text);
+  };
+
+  verifyProcessStepThreeNoteOnRefillPage = text => {
+    cy.get('[header="We ship your refill to you"]').should('contain', text);
+  };
+
+  verifyFailedAlertTextExistsOnRefillPage = (text, suggestion) => {
+    cy.get('[data-testid="failed-request-text"]')
+      .should('have.text', text)
+      .and('be.visible');
+    cy.get('[data-testid="failed-request-suggestion"]')
+      .should('have.text', suggestion)
+      .and('be.visible');
   };
 }
 

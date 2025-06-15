@@ -1,9 +1,16 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import { LetterList } from '../../containers/LetterList';
-import { AVAILABILITY_STATUSES } from '../../utils/constants';
+import {
+  AVAILABILITY_STATUSES,
+  DOWNLOAD_STATUSES,
+} from '../../utils/constants';
 
 const defaultProps = {
   letters: [
@@ -24,6 +31,37 @@ const defaultProps = {
   letterDownloadStatus: {},
   optionsAvailable: true,
 };
+
+// Ensure the Toggler is set to false
+const getStore = (lettersPageNewDesign = false) =>
+  createStore(() => ({
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      letters_page_new_design: lettersPageNewDesign,
+    },
+    letters: {
+      optionsAvailable: true,
+      requestOptions: {},
+      benefitInfo: {
+        serviceConnectedPercentage: 60,
+        awardEffectiveDate: '2021-12-01T00:00:00Z',
+        monthlyAwardAmount: 1288.03,
+        hasServiceConnectedDisabilities: true,
+      },
+      serviceInfo: [
+        {
+          branch: 'Army',
+          characterOfService: 'HONORABLE',
+          enteredDate: '1977-08-30T00:00:00Z',
+          releasedDate: '1984-12-12T00:00:00Z',
+        },
+      ],
+      enhancedLetterStatus: {
+        [defaultProps.letterType]: DOWNLOAD_STATUSES.downloading,
+      },
+    },
+    shouldUseLighthouse: true,
+  }));
 
 describe('<LetterList>', () => {
   it('renders', () => {
@@ -46,8 +84,12 @@ describe('<LetterList>', () => {
     });
   });
 
-  it('renders DL buttons for all letters in list', () => {
-    const component = SkinDeep.shallowRender(<LetterList {...defaultProps} />);
+  it('[TOGGLER OFF]: renders DL buttons for all letters in list', () => {
+    const component = SkinDeep.shallowRender(
+      <Provider store={getStore()}>
+        <LetterList {...defaultProps} />
+      </Provider>,
+    );
 
     const checkButtonInPanel = panel => {
       expect(panel.text()).to.contain('Connect(DownloadLetterLink)');
@@ -56,7 +98,47 @@ describe('<LetterList>', () => {
     component.everySubTree('va-accordion-item').forEach(checkButtonInPanel);
   });
 
-  it('does not render DL button for BSL if !optionsAvailable', () => {
+  it('[TOGGLER ON]: renders DL links for all letters except BSL in list', () => {
+    const assertHocRendered = panel => {
+      expect(panel.subTree('Hoc')).to.exist; // Not exact, but shows the Toggler is rendered
+    };
+
+    const isNotBSL = panel => {
+      const panelText = panel.text();
+      return !panelText.includes(defaultProps.letters[1].name);
+    };
+    const component = SkinDeep.shallowRender(<LetterList {...defaultProps} />);
+
+    component
+      .everySubTree('va-accordion-item')
+      .map(panel => panel)
+      .filter(isNotBSL)
+      .forEach(assertHocRendered);
+  });
+
+  // We want to test BSL logic for both toggler states because it (BSL) isn't
+  // changing until the second phase of the new design
+  it('[TOGGLER OFF]: does not render DL link for BSL if !optionsAvailable', () => {
+    const assertButtonUndefined = panelText => {
+      expect(panelText).to.not.contain('Connect(DownloadLetterLink)');
+    };
+
+    const isBSL = panelText => panelText.includes(defaultProps.letters[1].name);
+    const props = { ...defaultProps, optionsAvailable: false };
+    const component = SkinDeep.shallowRender(
+      <Provider store={getStore()}>
+        <LetterList {...props} />
+      </Provider>,
+    );
+
+    component
+      .everySubTree('va-accordion-item')
+      .map(panel => panel.text())
+      .filter(isBSL)
+      .forEach(assertButtonUndefined);
+  });
+
+  it('[TOGGLER ON]: does not render DL link for BSL if !optionsAvailable', () => {
     const assertButtonUndefined = panelText => {
       expect(panelText).to.not.contain('Connect(DownloadLetterLink)');
     };
@@ -72,9 +154,31 @@ describe('<LetterList>', () => {
       .forEach(assertButtonUndefined);
   });
 
-  it('renders DL button for non-benefit-summary letters if !optionsAvailable', () => {
+  it('[TOGGLER OFF]: renders DL button for non-benefit-summary letters if !optionsAvailable', () => {
     const checkButtonInPanel = panelText => {
       expect(panelText).to.includes('Connect(DownloadLetterLink)');
+    };
+
+    const isNotBSL = panelText =>
+      !panelText.includes(defaultProps.letters[1].name);
+
+    const props = { ...defaultProps, optionsAvailable: false };
+    const component = SkinDeep.shallowRender(
+      <Provider store={getStore()}>
+        <LetterList {...props} />
+      </Provider>,
+    );
+
+    component
+      .everySubTree('va-accordion-item')
+      .map(panel => panel.text())
+      .filter(isNotBSL)
+      .forEach(checkButtonInPanel);
+  });
+
+  it('[TOGGLER ON]: renders DL link for non-benefit-summary letters if !optionsAvailable', () => {
+    const checkButtonLink = panelText => {
+      expect(panelText).to.includes('Letter');
     };
 
     const isNotBSL = panelText =>
@@ -87,7 +191,7 @@ describe('<LetterList>', () => {
       .everySubTree('va-accordion-item')
       .map(panel => panel.text())
       .filter(isNotBSL)
-      .forEach(checkButtonInPanel);
+      .forEach(checkButtonLink);
   });
 
   it('renders eligibility error when letters not available', () => {
@@ -100,5 +204,33 @@ describe('<LetterList>', () => {
     expect(eligibilityMessage.children).to.contain(
       'One of our systems appears to be down.',
     );
+  });
+  it('renders VeteranBenefitSummaryLetter lettersPageNewDesign is false', () => {
+    const { getByText } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...defaultProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(getByText('Benefit Summary and Service Verification Letter')).to
+      .exist;
+    expect(getByText('VA benefit and disability information')).to.exist;
+  });
+  it('renders VeteranBenefitSummaryOptions lettersPageNewDesign is true', () => {
+    const { getByText } = render(
+      <Provider store={getStore(true)}>
+        <MemoryRouter>
+          <LetterList {...defaultProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(getByText('Benefit Summary and Service Verification Letter')).to
+      .exist;
+    expect(
+      getByText(
+        'The Benefit Summary and Service Verification Letter includes your VA benefits and service history. You can customize this letter depending on your needs.',
+      ),
+    ).to.exist;
   });
 });

@@ -6,7 +6,6 @@ const Breadcrumbs = () => {
     <VaBreadcrumbs
       class="income-limits-breadcrumbs vads-u-margin-left--1"
       label="Breadcrumbs"
-      uswds
       breadcrumbList={[
         {
           href: '/',

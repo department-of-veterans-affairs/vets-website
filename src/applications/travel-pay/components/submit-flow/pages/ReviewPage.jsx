@@ -6,16 +6,24 @@ import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import { selectAppointment } from '../../../redux/selectors';
-import { getPractionerName } from '../../../util/appointment-helpers';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
+
+const title = 'Review your travel claim';
 
 const ReviewPage = ({
   address,
+  isError,
   onSubmit,
   setPageIndex,
   setYesNo,
@@ -23,15 +31,19 @@ const ReviewPage = ({
   setIsAgreementChecked,
 }) => {
   useEffect(() => {
+    recordSmocPageview('review');
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
+
+  useSetPageTitle(title);
 
   const { data } = useSelector(selectAppointment);
 
   const [formattedDate, formattedTime] = formatDateTime(data.localStartTime);
 
   const onBack = () => {
+    recordSmocButtonClick('review', 'start-over');
     setYesNo({
       mileage: '',
       vehicle: '',
@@ -42,39 +54,39 @@ const ReviewPage = ({
 
   return (
     <div>
-      <h1 tabIndex="-1">Review your travel claim</h1>
+      <h1 tabIndex="-1">{title}</h1>
       <p>Confirm the information is correct before you submit your claim.</p>
 
       <h2 className="vads-u-margin-bottom--0">Claims</h2>
-      <hr className="vads-u-margin-y--1" />
+      <hr aria-hidden="true" className="vads-u-margin-y--1" />
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
         What you’re claiming
       </h3>
       <p className="vads-u-margin-y--0">
         Mileage-only reimbursement for your appointment
         {data.location?.attributes?.name
-          ? `at ${data.location.attributes.name}`
+          ? ` at ${data.location.attributes.name}`
           : ''}{' '}
-        {data.practitioners?.length > 0 &&
-        typeof data.practitioners[0].name !== 'undefined'
-          ? `with ${getPractionerName(data.practitioners)}`
-          : ''}{' '}
-        on {formattedDate} at {formattedTime}.
+        {data.practitionerName ? `with ${data.practitionerName}` : ''} on{' '}
+        {formattedDate} at {formattedTime}.
       </p>
 
       <h2 className="vads-u-margin-bottom--0">Travel method</h2>
-      <hr className="vads-u-margin-y--1" />
+      <hr aria-hidden="true" className="vads-u-margin-y--1" />
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
         How you traveled
       </h3>
       <p className="vads-u-margin-y--0">In your own vehicle</p>
 
       <h2 className="vads-u-margin-bottom--0">Starting address</h2>
-      <hr className="vads-u-margin-y--1" />
+      <hr aria-hidden="true" className="vads-u-margin-y--1" />
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
         Where you traveled from
       </h3>
-      <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+      <p
+        className="vads-u-margin-bottom--3 vads-u-margin-top--0"
+        data-dd-privacy="mask"
+      >
         {address.addressLine1}
         <br />
         {address.addressLine2 && (
@@ -94,13 +106,16 @@ const ReviewPage = ({
       </p>
 
       <va-card background>
-        <h3 className="vad-u-margin-bottom--2 vads-u-margin-top--0">
+        <h3 className="vads-u-margin-bottom--2 vads-u-margin-top--0">
           Beneficiary travel agreement
         </h3>
-        <p>
-          <strong>Penalty statement:</strong> There are severe criminal and
-          civil penalties, including a fine, imprisonment, or both, for
-          knowingly submitting a false, fictitious, or fraudulent claim.
+        <h4 className="vads-u-font-family--sans vads-u-display--inline">
+          Penalty statement:
+        </h4>{' '}
+        <p className="vads-u-display--inline">
+          There are severe criminal and civil penalties, including a fine,
+          imprisonment, or both, for knowingly submitting a false, fictitious,
+          or fraudulent claim.
         </p>
         <p>
           By submitting this claim, you agree to the beneficiary travel
@@ -113,7 +128,7 @@ const ReviewPage = ({
           name="accept-agreement"
           description={null}
           error={
-            !isAgreementChecked
+            isError
               ? 'You must accept the beneficiary travel agreement before continuing.'
               : null
           }
@@ -125,9 +140,11 @@ const ReviewPage = ({
       </va-card>
 
       <VaButtonPair
-        class="vads-u-margin-top--2"
-        leftButtonText="File claim"
-        rightButtonText="Start over"
+        className="vads-u-margin-top--2"
+        continue
+        disable-analytics
+        rightButtonText="File claim"
+        leftButtonText="Start over"
         onPrimaryClick={onSubmit}
         onSecondaryClick={onBack}
       />
@@ -138,6 +155,7 @@ const ReviewPage = ({
 ReviewPage.propTypes = {
   address: PropTypes.object,
   isAgreementChecked: PropTypes.bool,
+  isError: PropTypes.bool,
   setIsAgreementChecked: PropTypes.func,
   setPageIndex: PropTypes.func,
   setYesNo: PropTypes.func,

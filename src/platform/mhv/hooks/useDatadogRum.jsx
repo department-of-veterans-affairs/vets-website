@@ -32,19 +32,28 @@ const initializeDatadogRum = config => {
 
 const setRumUser = user => {
   datadogRum.setUser({
+    ...user,
     id: user.id || 'no-id-found',
   });
+};
+
+const shouldRumBeEnabled = () => {
+  // Prevent RUM from running on local/CI environments.
+  return environment.BASE_URL.indexOf('localhost') < 0 && !window.Mocha;
+};
+
+const isRumConfigured = () => {
+  // Check if Datadog RUM is configured.
+  return !!window.DD_RUM?.getInitConfiguration();
 };
 
 const useDatadogRum = config => {
   useEffect(
     () => {
       if (
-        // Prevent RUM from running on local/CI environments.
-        environment.BASE_URL.indexOf('localhost') < 0 &&
+        shouldRumBeEnabled() &&
         // Prevent re-initializing the SDK.
-        !window.DD_RUM?.getInitConfiguration() &&
-        !window.Mocha
+        !isRumConfigured()
       ) {
         initializeDatadogRum(config);
       }
@@ -53,19 +62,45 @@ const useDatadogRum = config => {
   );
 };
 
-// REMINDER: Always be conscience of PII and Datadog
+// REMINDER: Always be conscious of PII and Datadog
+/**
+ * Sets the Datadog RUM user information if the environment is not local/CI,
+ * Datadog is configured, and the user object has an id.
+ *
+ * @param {Object} user - The user object containing user information.
+ * @param {string} user.id - The user's unique identifier.
+ * @param {boolean} user.hasEHRM - Indicates if the user has EHRM access.
+ * @param {boolean} user.hasVista - Indicates if the user has Vista access.
+ * @param {string} user.CSP - The user's CSP value.
+ * @param {string} user.LOA - The user's LOA value.
+ * @param {boolean} user.isVAPatient - Indicates if the user is a VA patient.
+ */
 const setDatadogRumUser = user => {
-  if (
-    // // Prevent RUM from running on local/CI environments.
-    environment.BASE_URL.indexOf('localhost') < 0 &&
-    // Only run if DD is configured.
-    window.DD_RUM?.getInitConfiguration() &&
-    // Not during unit tests
-    !window.Mocha &&
-    user?.id
-  ) {
-    setRumUser({ id: user.id });
+  if (shouldRumBeEnabled() && isRumConfigured() && user?.id) {
+    setRumUser({
+      id: user.id,
+      hasEHRM: user.hasEHRM,
+      hasVista: user.hasVista,
+      CSP: user.CSP,
+      LOA: user.LOA,
+      isVAPatient: user.isVAPatient,
+    });
   }
 };
 
-export { useDatadogRum, setDatadogRumUser };
+// REMINDER: Always be conscious of PII and Datadog
+/**
+ * Adds user properties to existing Datadog RUM user object if the environment is not local/CI,
+ *
+ * @param {Object} userData - The user object containing user information.
+ */
+const addUserProperties = userData => {
+  if (shouldRumBeEnabled() && isRumConfigured() && userData) {
+    const userProps = Object.entries(userData);
+    userProps.forEach(([key, val]) => {
+      datadogRum.setUserProperty(key, val);
+    });
+  }
+};
+
+export { addUserProperties, setDatadogRumUser, useDatadogRum };

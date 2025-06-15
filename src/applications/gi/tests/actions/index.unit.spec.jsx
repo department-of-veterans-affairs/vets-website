@@ -360,7 +360,20 @@ describe('actionCreators', () => {
       actions.addCompareInstitution(institution)(dispatch);
     });
   });
+  describe('updateQueryParams', () => {
+    it('should dispatch UPDATE_QUERY_PARAMS with the correct payload', () => {
+      const mockDispatch = sinon.spy();
+      const queryParams = { key: 'value', anotherKey: 'anotherValue' };
 
+      actions.updateQueryParams(queryParams)(mockDispatch);
+
+      expect(mockDispatch.calledOnce).to.be.true;
+      expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+        type: 'UPDATE_QUERY_PARAMS',
+        payload: queryParams,
+      });
+    });
+  });
   describe('clearGeocodeError action creato', () => {
     it('should clear code error', () => {
       const expectedActions = [{ type: 'GEOCODE_CLEAR_ERROR' }];
@@ -787,131 +800,109 @@ describe('actionCreators', () => {
   });
 
   describe('fetchLicenseCertificationResults action creator', () => {
-    // it('dispatches FETCH_LC_RESULTS_SUCCEEDED on successful fetch', () => {
-    //   const mockFetch = sinon.stub(global, 'fetch');
-    //   const mockDispatch = sinon.spy();
-    //   const mockResponse = {
-    //     ok: true,
-    //     json: sinon.stub().returns(
-    //       Promise.resolve({
-    //         data: [
-    //           { id: 1, name: 'Sample Certification', type: 'certification' },
-    //         ],
-    //       }),
-    //     ),
-    //   };
-
-    //   mockFetch.resolves(mockResponse);
-
-    //   return actions
-    //     .fetchLicenseCertificationResults()(mockDispatch)
-    //     .then(() => {
-    //       expect(
-    //         mockDispatch.calledWith({
-    //           type: 'FETCH_LC_RESULTS_SUCCEEDED',
-    //           payload: [
-    //             { id: 1, name: 'Sample Certification', type: 'certification' },
-    //           ],
-    //         }),
-    //       ).to.be.true;
-    //       mockFetch.restore();
-    //     });
-    // });
-
-    it('dispatches FETCH_LC_RESULTS_FAILED on fetch error', () => {
-      const mockFetch = sinon.stub(global, 'fetch');
-      const mockDispatch = sinon.spy();
-      const error = new Error('Failed to fetch');
-
-      mockFetch.rejects(error);
-
-      return actions
-        .fetchLicenseCertificationResults('SampleName', 'certification')(
-          mockDispatch,
-        )
-        .catch(() => {
-          expect(
-            mockDispatch.calledWith({
-              type: 'FETCH_LC_RESULTS_FAILED',
-              payload: 'Failed to fetch',
-            }),
-          ).to.be.true;
-          mockFetch.restore();
-        });
-    });
-  });
-
-  describe('fetchLcResult action creator', () => {
-    // it('dispatches FETCH_LC_RESULT_SUCCEEDED on successful fetch', () => {
-    //   const mockFetch = sinon.stub(global, 'fetch');
-    //   const mockDispatch = sinon.spy();
-    //   const mockResponse = {
-    //     ok: true,
-    //     json: sinon.stub().returns(
-    //       Promise.resolve({
-    //         data: { id: 1, detail: 'Sample License/Certification Result' },
-    //       }),
-    //     ),
-    //   };
-
-    //   mockFetch.resolves(mockResponse);
-
-    //   return actions
-    //     .fetchLcResult(1)(mockDispatch)
-    //     .then(() => {
-    //       expect(
-    //         mockDispatch.calledWith({
-    //           type: 'FETCH_LC_RESULT_SUCCEEDED',
-    //           payload: { id: 1, detail: 'Sample License/Certification Result' },
-    //         }),
-    //       ).to.be.true;
-    //       mockFetch.restore();
-    //     });
-    // });
-
-    it('dispatches FETCH_LC_RESULT_FAILED on fetch error', () => {
-      const mockFetch = sinon.stub(global, 'fetch');
-      const mockDispatch = sinon.spy();
-      const error = new Error('Fetch failed');
-
-      mockFetch.rejects(error);
-
-      return actions
-        .fetchLcResult('sample-link')(mockDispatch)
-        .catch(() => {
-          expect(
-            mockDispatch.calledWith({
-              type: 'FETCH_LC_RESULT_FAILED',
-              payload: 'Fetch failed',
-            }),
-          ).to.be.true;
-          mockFetch.restore();
-        });
-    });
-    it('dispatches FETCH_LC_RESULT_FAILED when response is not ok', () => {
-      const mockFetch = sinon.stub(global, 'fetch');
-      const mockDispatch = sinon.spy();
-      const errorMessage = 'Internal Server Error';
-      const mockResponse = new Response(null, {
-        status: 500,
-        statusText: errorMessage,
+    describe('fetchLcResult action creator', () => {
+      afterEach(() => {
+        if (global.fetch.restore) {
+          global.fetch.restore();
+        }
       });
 
-      mockFetch.resolves(mockResponse);
+      it('dispatches FETCH_LC_RESULT_SUCCEEDED on successful fetch (res.ok)', async () => {
+        const mockDispatch = sinon.spy();
+        const mockResponse = {
+          ok: true,
+          json: sinon.stub().resolves({
+            lac: { id: 123, name: 'Test LAC' },
+          }),
+        };
+        const fetchStub = sinon.stub(global, 'fetch').resolves(mockResponse);
 
-      return actions
-        .fetchLcResult('sample-link')(mockDispatch)
-        .then(() => {
-          expect(
-            mockDispatch.calledWith({
-              type: 'FETCH_LC_RESULT_FAILED',
-              payload: errorMessage,
-            }),
-          ).to.be.true;
-          mockFetch.restore();
+        const testId = '123';
+        await actions.fetchLcResult(testId)(mockDispatch);
+
+        expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULT_STARTED,
         });
+
+        expect(mockDispatch.secondCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULT_SUCCEEDED,
+          payload: { id: 123, name: 'Test LAC' },
+        });
+
+        const expectedURL = `${api.url}/lcpe/lacs/${testId}`;
+        expect(
+          fetchStub.calledWithMatch(expectedURL, {
+            ...api.settings,
+          }),
+        ).to.be.true;
+
+        fetchStub.restore();
+      });
+
+      it('dispatches FETCH_LC_RESULT_FAILED when response is not ok', async () => {
+        const mockDispatch = sinon.spy();
+        const errorMessage = 'Internal Server Error';
+        const mockResponse = new Response(null, {
+          status: 500,
+          statusText: errorMessage,
+        });
+        const fetchStub = sinon.stub(global, 'fetch').resolves(mockResponse);
+
+        await actions.fetchLcResult('999')(mockDispatch);
+
+        expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULT_STARTED,
+        });
+        expect(mockDispatch.secondCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULT_FAILED,
+          payload: errorMessage,
+        });
+
+        fetchStub.restore();
+      });
+
+      it('dispatches FETCH_LC_RESULT_FAILED on fetch error (promise rejection)', async () => {
+        const mockDispatch = sinon.spy();
+        const fetchError = new Error('Network Failed');
+
+        const fetchStub = sinon.stub(global, 'fetch').rejects(fetchError);
+
+        await actions
+          .fetchLcResult('555')(mockDispatch)
+          .catch(() => {});
+
+        expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULT_STARTED,
+        });
+        expect(mockDispatch.secondCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULT_FAILED,
+          payload: 'Network Failed',
+        });
+
+        fetchStub.restore();
+      });
+
+      it('does not dispatch FETCH_LC_RESULT_FAILED on AbortError', async () => {
+        const mockDispatch = sinon.spy();
+        const abortError = new Error('Aborted');
+        abortError.name = 'AbortError';
+
+        const fetchStub = sinon.stub(global, 'fetch').rejects(abortError);
+
+        await actions
+          .fetchLcResult('555')(mockDispatch)
+          .catch(() => {});
+
+        expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULT_STARTED,
+        });
+        expect(mockDispatch.callCount).to.equal(1); // Only the STARTED action should be dispatched
+
+        fetchStub.restore();
+      });
     });
   });
+
   describe('fetchInstitutionPrograms action creator', () => {
     it('dispatches FETCH_INSTITUTION_PROGRAMS_SUCCEEDED on successful fetch', () => {
       const mockFetch = sinon.stub(global, 'fetch');

@@ -1,30 +1,76 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { Toggler } from 'platform/utilities/feature-toggles';
+import { recordDatalayerEvent } from '../../utilities/analytics';
 import { SIGN_OUT_URL } from '../../utilities/constants';
 import NavDropdown from './NavDropdown';
 
 const UserHelpLinks = () => {
   return (
     <>
+      <Toggler
+        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSearch}
+      >
+        <Toggler.Enabled>
+          <li>
+            <Link
+              data-testid="user-nav-claimant-search-link"
+              className="vads-u-color--white"
+              to="/claimant-search"
+              onClick={recordDatalayerEvent}
+              data-eventname="nav-link-click"
+            >
+              <va-icon icon="search" size={2} className="people-search-icon" />
+              Find Claimant
+            </Link>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
       <li>
         <Link
           data-testid="user-nav-poa-requests-link"
           className="vads-u-color--white"
           to="/poa-requests"
+          onClick={recordDatalayerEvent}
+          data-eventname="nav-link-click"
         >
-          Power of Attorney Requests
+          Representation Requests
         </Link>
       </li>
-      <li className="vads-u-display--none">
-        <Link
-          data-testid="user-nav-profile-link"
-          className="vads-u-color--white"
-          to="/get-help"
-        >
-          Get Help
-        </Link>
-      </li>
+      <Toggler
+        toggleName={
+          Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
+        }
+      >
+        <li>
+          <Toggler.Enabled>
+            <Link
+              data-testid="submissions-link"
+              className="vads-u-color--white"
+              to="/submissions"
+            >
+              Submissions
+            </Link>
+          </Toggler.Enabled>
+        </li>
+      </Toggler>
+      <Toggler
+        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
+      >
+        <Toggler.Enabled>
+          <li>
+            <Link
+              data-testid="user-nav-profile-link"
+              className="vads-u-color--white"
+              to="/get-help"
+              onClick={recordDatalayerEvent}
+              data-eventname="nav-link-click"
+            >
+              Get Help
+            </Link>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
     </>
   );
 };
@@ -32,20 +78,30 @@ const UserHelpLinks = () => {
 const UserNavLinks = () => {
   return (
     <>
-      <li className="vads-u-display--none">
-        <Link
-          data-testid="user-nav-profile-link"
-          className="vads-u-color--black"
-          to="/profile"
-        >
-          Profile
-        </Link>
-      </li>
+      <Toggler
+        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalProfile}
+      >
+        <Toggler.Enabled>
+          <li>
+            <Link
+              data-testid="user-nav-profile-link"
+              className="vads-u-color--black"
+              to="/profile"
+              onClick={recordDatalayerEvent}
+              data-eventname="nav-link-click"
+            >
+              Profile
+            </Link>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
       <li>
         <a
           data-testid="user-nav-sign-out-link"
           className="vads-u-color--black"
           href={SIGN_OUT_URL}
+          onClick={recordDatalayerEvent}
+          data-eventname="nav-header-sign-out"
         >
           Sign Out
         </a>
@@ -58,7 +114,7 @@ function UserNav({ profile }) {
   return (
     <>
       <div
-        data-test-id="desktop-user-nav"
+        data-testid="desktop-user-nav"
         className="vads-u-display--flex vads-u-justify-content--center user-nav vads-u-align-items--center desktop"
       >
         <NavDropdown
@@ -71,6 +127,8 @@ function UserNav({ profile }) {
           lastName={profile.lastName}
           secondaryIcon="chevron_left"
           iconClassName="user-nav__chevron"
+          view="desktop"
+          size={2}
         >
           <UserNavLinks />
         </NavDropdown>
@@ -83,6 +141,8 @@ function UserNav({ profile }) {
           className="nav__btn nav__btn--user vads-u-color--base"
           iconClassName="user-nav__chevron"
           dropdownClass="nav__user-menu"
+          view="mobile"
+          size={3}
         >
           <UserNavLinks />
         </NavDropdown>
@@ -92,8 +152,11 @@ function UserNav({ profile }) {
           icon="menu"
           srText="toggle menu"
           dropdownClass="nav__full-width"
-          className="nav__btn"
+          className="nav__btn is--menu"
           closeIcon="close"
+          view="mobile"
+          size={2}
+          data-testid="menu-toggle-dropdown-mobile"
         >
           <UserHelpLinks />
         </NavDropdown>

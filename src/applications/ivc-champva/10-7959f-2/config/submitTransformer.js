@@ -26,7 +26,7 @@ export default function transformForSubmit(formConfig, form) {
       full_name: transformedData?.veteranFullName,
       physical_address: transformedData.sameMailingAddress
         ? transformedData.veteranAddress
-        : transformedData.physical_address || {
+        : transformedData.physicalAddress || {
             country: 'NA',
             street: 'NA',
             city: 'NA',
@@ -57,7 +57,11 @@ export default function transformForSubmit(formConfig, form) {
       phone: transformedData.veteranPhoneNumber,
       email: transformedData.veteranEmailAddress,
     },
-    supportingDocs: getObjectsWithAttachmentId(transformedData),
+    // Grab all files uploaded
+    supportingDocs: getObjectsWithAttachmentId(
+      transformedData,
+      'confirmationCode',
+    ),
   };
 
   // Stringify and format the addresses so they fit in the PDF fields properly

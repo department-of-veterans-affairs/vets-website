@@ -1,17 +1,25 @@
 import React from 'react';
+import { Link } from 'react-router';
+import {
+  ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
+  BEHAVIOR_LIST_SECTION_SUBTITLES,
+  LISTED_BEHAVIOR_TYPES_WITH_SECTION,
+  MH_0781_URL_PREFIX,
+} from '../../constants';
 
+// intro page
 export const behaviorPageTitle = 'Behavioral changes';
 
 export const behaviorIntroDescription = (
   <>
     <p>
-      The next few questions are about behavioral changes you experienced after
+      The next few questions are about behavioral changes that happened after
       your traumatic experiences.
     </p>
     <p>
       These questions are optional. Any information you provide will help us
       understand your situation and identify evidence to support your claim. You
-      can provide only details you’re comfortable sharing.
+      only need to provide details you’re comfortable sharing.
     </p>
     <h4>Information we’ll ask you for</h4>
     <p>
@@ -30,12 +38,24 @@ export const behaviorIntroDescription = (
     <h4>You can take a break at any time</h4>
     <p>
       We understand that some of the questions may be difficult to answer. You
-      can take a break at any time and come back to continue your application
-      later. We’ll save the information you’ve entered so far.
+      can take a break at any time. We’ll save the information you enter so you
+      can finish your application later.
     </p>
   </>
 );
 
+// combat-only intro page
+export const behaviorIntroCombatDescription = (
+  <>
+    <p>
+      We’ll now ask you a few questions about the behavioral changes you
+      experienced after combat events. You can choose to answer these questions
+      or skip them. If we need more information, we’ll contact you.
+    </p>
+  </>
+);
+
+// behavior list page
 export const behaviorListPageTitle = 'Types of behavioral changes';
 
 export const behaviorListDescription = (
@@ -47,23 +67,6 @@ export const behaviorListDescription = (
     <p>
       It’s also okay if you don’t report any behavioral changes. You can skip
       this question if you don’t feel comfortable answering.
-    </p>
-  </>
-);
-
-export const behaviorListNoneLabel =
-  'I didn’t experience any of these behavioral changes.';
-
-export const behaviorIntroCombatDescription = (
-  <>
-    <p>
-      The next few questions are about behavioral changes you experienced after
-      your traumatic experiences
-    </p>
-    <p>
-      Since you said your traumatic experiences were related to combat only,
-      these questions are optional. You don’t need to answer them. If we need
-      more information, we’ll contact you after you submit your claim.
     </p>
   </>
 );
@@ -84,17 +87,29 @@ export const behaviorListAdditionalInformation = (
   </va-additional-info>
 );
 
-export const behaviorListValidationError = (
-  <va-alert status="error" uswds>
-    <p className="vads-u-font-size--base">
-      You selected one or more behavioral changes. You also selected "I didn’t
-      experience any behavioral changes." Revise your selection so they don’t
-      conflict to continue.
-    </p>
-  </va-alert>
-);
+export const behaviorListNoneLabel =
+  'I didn’t experience any behavioral changes after my traumatic events.';
 
-function selectedBehaviors(formData) {
+export const conflictingBehaviorErrorMessage =
+  'If you select no behavioral changes to include, unselect other behavioral changes before continuing.';
+
+/**
+ * Returns true if 'none' selected, false otherwise
+ * @param {object} formData
+ * @returns {boolean}
+ */
+function hasSelectedNoneCheckbox(formData) {
+  return Object.values(formData.noBehavioralChange || {}).some(
+    selected => selected === true,
+  );
+}
+
+/**
+ * Returns an object with behavior section properties and boolean value if selections present within each section
+ * @param {object} formData
+ * @returns {object}
+ */
+function selectedBehaviorSections(formData) {
   const workBehaviorsSelected = Object.values(
     formData.workBehaviors || {},
   ).some(selected => selected === true);
@@ -107,9 +122,7 @@ function selectedBehaviors(formData) {
     formData.otherBehaviors || {},
   ).some(selected => selected === true);
 
-  const noneSelected = Object.values(formData['view:noneCheckbox'] || {}).some(
-    selected => selected === true,
-  );
+  const noneSelected = hasSelectedNoneCheckbox(formData);
 
   return {
     workBehaviors: workBehaviorsSelected,
@@ -120,44 +133,175 @@ function selectedBehaviors(formData) {
 }
 
 /**
- * Returns true if 'none' checkbox and other behaviors are selected
+ * Returns true if any selected behavior types, false otherwise
+ * @param {object} formData
+ * @returns {boolean}
+ */
+export function hasSelectedBehaviors(formData) {
+  const selections = selectedBehaviorSections(formData);
+  const { workBehaviors, healthBehaviors, otherBehaviors } = selections;
+  return [workBehaviors, healthBehaviors, otherBehaviors].some(
+    selection => selection === true,
+  );
+}
+
+/**
+ * Returns true if 'none' checkbox and other behavior types are selected
  * @param {object} formData
  * @returns {boolean}
  */
 
 export function showConflictingAlert(formData) {
-  const selections = selectedBehaviors(formData);
-  const { none, workBehaviors, healthBehaviors, otherBehaviors } = selections;
-  const somethingSelected = [
-    workBehaviors,
-    healthBehaviors,
-    otherBehaviors,
-  ].some(selection => selection === true);
-
-  return !!(none && somethingSelected);
+  const noneSelected = hasSelectedNoneCheckbox(formData);
+  const somethingSelected = hasSelectedBehaviors(formData);
+  return !!(noneSelected && somethingSelected);
 }
 
 /**
- * Validates that the 'none' checkbox is not selected if behaviors are also selected
+ * Validates that the 'none' checkbox is not selected if behavior types are also selected
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
 
 export function validateBehaviorSelections(errors, formData) {
   const isConflicting = showConflictingAlert(formData);
-  const selections = selectedBehaviors(formData);
 
-  // add error with no message to each checked section
+  // add error message to none checkbox if conflict exists
   if (isConflicting === true) {
-    errors['view:noneCheckbox'].addError(' ');
-    if (selections.workBehaviors === true) {
-      errors.workBehaviors.addError(' ');
-    }
-    if (selections.healthBehaviors === true) {
-      errors.healthBehaviors.addError(' ');
-    }
-    if (selections.otherBehaviors === true) {
-      errors.otherBehaviors.addError(' ');
-    }
+    errors.noBehavioralChange.addError(
+      'If you select no behavioral changes to include, unselect other behavioral changes before continuing.',
+    );
   }
 }
+
+/**
+ * Returns an object containing the selected behavior types from the form data.
+ * @param {object} formData
+ * @returns {object} //example: { reassignment: true, consultations: true }
+ */
+export const allSelectedBehaviorTypes = formData => {
+  const allBehaviorTypes = {
+    ...formData.workBehaviors,
+    ...formData.healthBehaviors,
+    ...formData.otherBehaviors,
+  };
+
+  return Object.entries(allBehaviorTypes)
+    .filter(([, value]) => value === true)
+    .reduce((acc, [key, value]) => {
+      acc[key] = value;
+      return acc;
+    }, {});
+};
+
+/**
+ * Returns an object containing the orphaned behavior type with the provided details.
+ * @param {object} formData
+ * @returns {object} // example: { performance: 'Changes in performance or performance evaluations', socialEconomic: 'Economic or social behavioral changes' }
+ */
+export function orphanedBehaviorDetails(formData) {
+  const updatedSelections = allSelectedBehaviorTypes(formData);
+
+  const existingDetails = formData.behaviorsDetails;
+
+  const orphanedObject = {};
+  if (Object.keys(updatedSelections).length === 0) {
+    Object.entries(existingDetails).forEach(([behaviorType, detail]) => {
+      if (!detail) {
+        return; // skip if detail is empty string or undefined
+      }
+      const behaviorTypeDescription =
+        behaviorType === 'unlisted'
+          ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
+          : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
+      orphanedObject[behaviorType] = behaviorTypeDescription;
+    });
+  } else {
+    Object.entries(existingDetails).forEach(([behaviorType, detail]) => {
+      if (
+        !!detail &&
+        !Object.prototype.hasOwnProperty.call(updatedSelections, behaviorType)
+      ) {
+        const behaviorTypeDescription =
+          behaviorType === 'unlisted'
+            ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
+            : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
+        orphanedObject[behaviorType] = behaviorTypeDescription;
+      }
+    });
+  }
+  return orphanedObject;
+}
+
+// behavior description pages
+export const behaviorDescriptionPageDescription =
+  'Describe the behavioral change you experienced. (Optional)';
+
+export const behaviorDescriptionPageHint =
+  'You can tell us approximately when this change happened, whether any records exist, or anything else about the change you experienced.';
+
+export const unlistedPageTitle = BEHAVIOR_LIST_SECTION_SUBTITLES.other;
+
+// the unlisted description page is after all the listed behaviors
+export const unlistedDescriptionPageNumber =
+  Object.keys(LISTED_BEHAVIOR_TYPES_WITH_SECTION).length + 1;
+
+export const unlistedDescriptionPageDescription =
+  'Describe the other behavioral changes you experienced that were not in the list of behavioral change types provided. (Optional)';
+
+// behavior summary page
+export const behaviorSummaryPageTitle = 'Summary of behavioral changes';
+
+function getDescriptionForBehavior(selectedBehaviors, behaviorDetails) {
+  const allBehaviorDescriptions = ALL_BEHAVIOR_CHANGE_DESCRIPTIONS;
+
+  const newObject = {};
+  Object.keys(allBehaviorDescriptions).forEach(behaviorType => {
+    if (behaviorType in selectedBehaviors) {
+      const behaviorDescription =
+        behaviorType === 'unlisted'
+          ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
+          : allBehaviorDescriptions[behaviorType];
+      newObject[behaviorDescription] =
+        behaviorDetails?.[behaviorType] || 'Optional description not provided.';
+    }
+  });
+  return newObject;
+}
+
+function behaviorSummariesList(behaviorAndDetails) {
+  return (
+    <>
+      {Object.entries(behaviorAndDetails).map(
+        ([behaviorType, details, index]) => (
+          <div key={`${behaviorType}-${index}`}>
+            <h4>{behaviorType}</h4>
+            <p className="multiline-ellipsis-4">{details}</p>
+          </div>
+        ),
+      )}
+      <div className="vads-u-margin-top--2">
+        <Link
+          to={{
+            pathname: `${MH_0781_URL_PREFIX}/behavior-changes-list`,
+            search: '?redirect',
+          }}
+        >
+          Edit behavioral changes
+        </Link>
+      </div>
+    </>
+  );
+}
+
+export const selectedBehaviorsWithDetails = formData => {
+  return getDescriptionForBehavior(
+    allSelectedBehaviorTypes(formData),
+    formData.behaviorsDetails,
+  );
+};
+
+export const summarizeBehaviors = formData => {
+  const summarizedObject = selectedBehaviorsWithDetails(formData);
+  return behaviorSummariesList(summarizedObject);
+};

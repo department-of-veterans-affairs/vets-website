@@ -7,7 +7,7 @@ import reducer from '../reducers';
 import FormRenderer from '../containers/FormRenderer';
 import { removeTrailingSlash } from './string';
 
-export default ({ formId, rootUrl, trackingPrefix = null }) => {
+export default ({ formId, rootUrl, trackingPrefix = null, breadcrumbs }) => {
   const rootUrlNoTrailingSlash = removeTrailingSlash(rootUrl);
 
   startAppFromIndex({
@@ -18,6 +18,7 @@ export default ({ formId, rootUrl, trackingPrefix = null }) => {
         formId={formId}
         rootUrl={rootUrlNoTrailingSlash}
         trackingPrefix={trackingPrefix}
+        breadcrumbs={breadcrumbs}
       />
     ),
   });

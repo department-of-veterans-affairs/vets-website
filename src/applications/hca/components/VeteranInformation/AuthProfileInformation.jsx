@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import AuthenticatedShortFormAlert from '../FormAlerts/AuthenticatedShortFormAlert';
 import { formatDate, normalizeFullName } from '../../utils/helpers';
-import { APP_URLS, HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
+import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
+import { APP_URLS } from '../../utils/appUrls';
 import { CONTACTS } from '../../utils/imports';
 
 const AuthProfileInformation = ({ user }) => {
   const { veteranFullName, veteranDateOfBirth, totalDisabilityRating } = user;
-  const veteranDOB = veteranDateOfBirth
-    ? formatDate(veteranDateOfBirth, 'MMMM dd, yyyy')
-    : null;
-  const veteranName = normalizeFullName(veteranFullName, true);
 
-  const ShortFormAlert =
-    totalDisabilityRating >= HIGH_DISABILITY_MINIMUM ? (
-      <AuthenticatedShortFormAlert />
-    ) : null;
+  const veteranDOB = useMemo(
+    () => formatDate(veteranDateOfBirth, 'MMMM dd, yyyy'),
+    [veteranDateOfBirth],
+  );
+  const veteranName = useMemo(() => normalizeFullName(veteranFullName, true), [
+    veteranFullName,
+  ]);
+
+  const ShortFormAlert = useMemo(
+    () =>
+      totalDisabilityRating >= HIGH_DISABILITY_MINIMUM ? (
+        <AuthenticatedShortFormAlert />
+      ) : null,
+    [totalDisabilityRating],
+  );
 
   return (
     <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
@@ -23,20 +31,23 @@ const AuthProfileInformation = ({ user }) => {
 
       <p>This is the personal information we have on file for you.</p>
 
-      <va-card data-testid="hca-profile-card" background>
+      <va-card data-testid="hca-profile-card">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+          Personal Information
+        </h2>
         <ul className="hca-list-style-none">
-          <li>
-            <span className="vads-u-visibility--screen-reader">Full name:</span>{' '}
+          <li className="vads-u-margin-y--1">
+            <strong>Full name:</strong>{' '}
             <span
-              className="vads-u-font-weight--bold vads-u-margin-bottom--1 dd-privacy-mask"
+              className="vads-u-margin-bottom--1 dd-privacy-mask"
               data-dd-action-name="Veteran name"
             >
               {veteranName}
             </span>
           </li>
           {veteranDOB ? (
-            <li>
-              <span>Date of birth:</span>{' '}
+            <li className="vads-u-margin-y--1">
+              <strong>Date of birth:</strong>{' '}
               <span
                 className="dd-privacy-mask"
                 data-dd-action-name="Date of birth"
@@ -82,7 +93,11 @@ const AuthProfileInformation = ({ user }) => {
 };
 
 AuthProfileInformation.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.shape({
+    veteranFullName: PropTypes.object,
+    veteranDateOfBirth: PropTypes.string,
+    totalDisabilityRating: PropTypes.number,
+  }),
 };
 
 export default AuthProfileInformation;

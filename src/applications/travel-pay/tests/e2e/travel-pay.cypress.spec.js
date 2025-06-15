@@ -4,14 +4,14 @@ import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
 
 const testStatuses = [
-  'Claim Submitted',
+  'Claim submitted',
   'Saved',
-  'In Process',
+  'In process',
   'Incomplete',
   'Appealed',
-  'Manual Review',
+  'In manual review',
   'Closed',
-  'On Hold',
+  'On hold',
 ];
 
 Cypress.Commands.add('openFilters', () => {
@@ -28,6 +28,7 @@ describe(`${appName} -- Status Page`, () => {
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.happyPath();
+    ApiInitializer.initializeClaimDetails.happyPath();
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
@@ -35,6 +36,11 @@ describe(`${appName} -- Status Page`, () => {
 
   afterEach(() => {
     cy.clock().invoke('restore');
+  });
+
+  it('navigates to the platform 404 page if route not found', () => {
+    cy.visit(`${rootUrl}/banana`);
+    cy.findByTestId('mhv-page-not-found').should('exist');
   });
 
   it('defaults to "most recent" sort order', () => {
@@ -64,10 +70,14 @@ describe(`${appName} -- Status Page`, () => {
       '/my-health/travel-pay/claims/498d60a7-fe33-4ea8-80a6-80a27d9fc212',
     );
 
-    // TODO: update mock data to reflect proper claim number formatting
     cy.get('span[data-testid="claim-details-claim-number"]').should(
       'include.text',
-      'Claim number: d00606da-ee39-4a0c-b505-83f6aa052594',
+      'Claim number: TC0000000000001',
+    );
+
+    cy.get('p[data-testid="status-definition-text"]').should(
+      'contain.text',
+      'We approved your claim',
     );
 
     // Wrapper to simulate Bradcrumbs spacing interferes with the cypress .get
@@ -76,7 +86,7 @@ describe(`${appName} -- Status Page`, () => {
     //   .click();
 
     // Instead just find the text for the link and click it
-    cy.contains('Back to your travel reimbursement claims').click();
+    cy.contains('Travel reimbursement claims').click();
 
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
@@ -176,7 +186,7 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('va-button[data-testid="Sort travel claims"]').click();
 
     cy.openFilters();
-    cy.selectVaCheckbox('Claim Submitted', true);
+    cy.selectVaCheckbox('Claim submitted', true);
     cy.get('select[name="claimsDates"]').select('All of 2023');
     cy.get('select[name="claimsDates"]').should('have.value', 'All of 2023');
 

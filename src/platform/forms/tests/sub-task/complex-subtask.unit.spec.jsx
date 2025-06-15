@@ -1,9 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
+import { add, format } from 'date-fns';
 
 import { $ } from '../../../forms-system/src/js/utilities/ui';
 import SubTask, { setStoredSubTask, resetStoredSubTask } from '../../sub-task';
@@ -37,8 +37,9 @@ const mockStore = (data = {}) => {
 };
 
 describe('Form 526 Sub-Task', () => {
-  const getDateDiff = (diff, type = 'days') => moment().add(diff, type);
-  const getDateFormat = date => date.format('YYYY-MM-DD');
+  const getDateDiff = (diff, type = 'days') =>
+    add(new Date(), { [type]: diff });
+  const getDateFormat = date => format(date, 'yyyy-MM-dd');
 
   after(() => {
     resetStoredSubTask();
@@ -167,7 +168,7 @@ describe('Form 526 Sub-Task', () => {
     expect($('va-button[continue]', container)).to.exist;
     expect($('va-button[back]', container)).to.not.exist;
   });
-  it('should prevent progress when rad date is in the past', () => {
+  it('should prevent progress when rad date is in the past', async () => {
     const { container } = render(
       <Provider
         store={mockStore({
@@ -182,16 +183,22 @@ describe('Form 526 Sub-Task', () => {
     expect($('form[data-page="start"]', container)).to.exist;
 
     fireEvent.click($('va-button[continue]', container), mouseClick);
-    const vaDate = $('va-date', container);
-    expect($('form[data-page="rad"]', container)).to.exist;
-    expect($('va-button[back]', container)).to.exist;
-    expect($('va-button[continue]', container)).to.exist;
 
-    expect(vaDate).to.exist;
-    expect(vaDate.error).to.be.null; // no error until submit attempt
+    const vaDate = $('va-date', container);
+    await waitFor(() => {
+      expect($('form[data-page="rad"]', container)).to.exist;
+      expect($('va-button[back]', container)).to.exist;
+      expect($('va-button[continue]', container)).to.exist;
+
+      expect(vaDate).to.exist;
+      expect(vaDate.error).to.be.null; // no error until submit attempt
+    });
 
     fireEvent.click($('va-button[continue]', container), mouseClick);
-    expect(vaDate.error).to.contain('valid future separation date');
+
+    await waitFor(() => {
+      expect(vaDate.error).to.contain('valid future separation date');
+    });
   });
   it('should go to file early alert & introduction page', () => {
     const router = { push: sinon.spy() };

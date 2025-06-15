@@ -77,6 +77,70 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     tree.unmount();
   });
 
+  it('should render h1 header if minimal header is present', () => {
+    const minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    document.body.appendChild(minimalHeader);
+
+    const formConfig = {
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: {},
+          },
+        },
+        chapter2: {
+          pages: {
+            page2: {},
+          },
+        },
+      },
+    };
+
+    const form = {
+      submission: {
+        hasAttemptedSubmit: false,
+      },
+      data: {
+        privacyAgreementAccepted: false,
+      },
+    };
+
+    const user = {
+      profile: {
+        savedForms: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+
+    const treeWithMinimalHeader = shallow(
+      <RoutedSavableReviewPage
+        form={form}
+        user={user}
+        formConfig={formConfig}
+        setPrivacyAgreement={f => f}
+      />,
+    );
+
+    expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
+    treeWithMinimalHeader.unmount();
+    document.body.removeChild(minimalHeader);
+
+    const treeWithoutMinimalHeader = shallow(
+      <RoutedSavableReviewPage
+        form={form}
+        user={user}
+        formConfig={formConfig}
+        setPrivacyAgreement={f => f}
+      />,
+    );
+
+    expect(treeWithoutMinimalHeader.find('h1').exists()).to.be.false;
+    treeWithoutMinimalHeader.unmount();
+  });
+
   it('should auto save after change', () => {
     const formConfig = {
       chapters: {

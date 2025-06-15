@@ -11,6 +11,7 @@ import { Toggler } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import WIP from '../../shared/components/WIP';
 import { addStyleToShadowDomOnPages } from '../../shared/utilities';
+import { useBrowserMonitoring } from '../helpers/useBrowserMonitoring';
 
 const breadcrumbList = [
   { href: '/', label: 'Home' },
@@ -33,6 +34,9 @@ const breadcrumbList = [
 ];
 
 export default function App({ location, children }) {
+  // Add Datadog RUM to the app
+  useBrowserMonitoring();
+
   document.title = `${formConfig.title} | Veterans Affairs`;
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
@@ -53,7 +57,10 @@ export default function App({ location, children }) {
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
             <DowntimeNotification
               appTitle={`CHAMPVA Form ${formConfig.formId}`}
-              dependencies={[externalServices.pega]}
+              dependencies={[
+                externalServices.pega,
+                externalServices.form107959c,
+              ]}
             >
               {children}
             </DowntimeNotification>

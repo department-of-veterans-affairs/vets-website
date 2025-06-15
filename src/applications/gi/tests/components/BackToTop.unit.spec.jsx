@@ -3,12 +3,11 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import * as recordEventModule from 'platform/monitoring/record-event';
-import * as scrollToTopModule from 'platform/utilities/ui/scrollToTop';
+import * as scrollToTopModule from 'platform/utilities/scroll/scroll';
 
 import BackToTop from '../../components/BackToTop';
 
 describe('<BackToTop>', () => {
-  let originalScrollToTop;
   let scrollToTopSpy;
   let orginalRecordEvent;
   let recordEvenetSpy;
@@ -82,10 +81,8 @@ describe('<BackToTop>', () => {
 
   // Test for onClick
   it('updates backToTopContainerStyle on resize when floating is true and parent element exists', () => {
-    originalScrollToTop = scrollToTopModule.default;
     orginalRecordEvent = recordEventModule.default;
-    scrollToTopSpy = sinon.spy();
-    scrollToTopModule.default = scrollToTopSpy;
+    scrollToTopSpy = sinon.stub(scrollToTopModule, 'scrollToTop');
     recordEvenetSpy = sinon.spy();
     recordEventModule.default = recordEvenetSpy;
 
@@ -100,7 +97,7 @@ describe('<BackToTop>', () => {
     wrapper.find('button').simulate('click');
     expect(scrollToTopSpy.calledOnce).to.be.true;
     expect(scrollToTopSpy.calledOnce).to.be.true;
-    scrollToTopModule.default = originalScrollToTop;
+    scrollToTopSpy.restore();
     recordEventModule.default = orginalRecordEvent;
     wrapper.unmount();
   });
@@ -124,6 +121,29 @@ describe('<BackToTop>', () => {
 
     const floatingStyle = wrapper.find('.back-to-top-floating');
     expect(floatingStyle.length).to.equal(0);
+    wrapper.unmount();
+  });
+  it('should focus on h1 element inside profilePageHeaderId when Back to Top is clicked', () => {
+    const profilePageHeaderId = 'profile-header';
+    const mockFocus = sinon.spy();
+    const headerDiv = document.createElement('div');
+    headerDiv.id = profilePageHeaderId;
+    const h1Element = document.createElement('h1');
+    h1Element.focus = mockFocus;
+    headerDiv.appendChild(h1Element);
+    document.body.appendChild(headerDiv);
+
+    const wrapper = mount(
+      <BackToTop
+        parentId="someId"
+        profilePageHeaderId={profilePageHeaderId}
+        compare={{ open: false }}
+        smallScreen={false}
+      />,
+    );
+    wrapper.find('button').simulate('click');
+    expect(mockFocus.calledOnce).to.be.true;
+    document.body.removeChild(headerDiv);
     wrapper.unmount();
   });
 });

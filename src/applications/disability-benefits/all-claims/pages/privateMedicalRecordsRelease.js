@@ -3,12 +3,15 @@ import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/V
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { validateDate } from 'platform/forms-system/src/js/validation';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   recordReleaseDescription,
   limitedConsentTitle,
   limitedConsentTextTitle,
   limitedConsentDescription,
 } from '../content/privateMedicalRecordsRelease';
+import { isCompletingForm0781 } from '../utils/form0781';
+import { standardTitle } from '../content/form0781';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
@@ -23,6 +26,7 @@ const {
 const { limitedConsent } = form4142.properties;
 
 export const uiSchema = {
+  'ui:title': standardTitle('Request medical records from private providers'),
   'ui:description': recordReleaseDescription,
   'view:limitedConsent': {
     'ui:webComponentField': VaCheckboxField,
@@ -48,6 +52,16 @@ export const uiSchema = {
     items: {
       providerFacilityName: {
         'ui:title': 'Name of private provider or hospital',
+      },
+      treatmentLocation0781Related: {
+        ...yesNoUI({
+          title:
+            'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+        }),
+        'ui:options': {
+          hideIf: formData => !isCompletingForm0781(formData),
+        },
+        'ui:required': formData => isCompletingForm0781(formData),
       },
       'ui:validations': [validateDate],
       treatmentDateRange: dateRangeUI(
@@ -114,9 +128,14 @@ export const schema = {
           'providerFacilityName',
           'treatmentDateRange',
           'providerFacilityAddress',
+          'treatmentLocation0781Related',
         ],
         properties: {
           providerFacilityName,
+          treatmentLocation0781Related: {
+            type: 'boolean',
+            properties: {},
+          },
           treatmentDateRange: {
             type: 'object',
             $ref: '#/definitions/dateRangeAllRequired',

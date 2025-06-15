@@ -349,6 +349,14 @@
 
 .claims-header {
   margin: 0;
+  display: inline-block;
+
+  & > span {
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 30px;
+    display: block;
+  }
 }
 
 .claims-files-cancel {
@@ -519,7 +527,7 @@ h1:focus {
     }
 
     // Move up the headers to align with the bullet point better
-    h3 {
+    h2 {
       padding-top: 0.4em;
     }
 
@@ -1037,32 +1045,6 @@ $marker-text-width: 5.625rem;
   & > h2 {
     margin-top: 0;
   }
-  .usa-accordion-bordered {
-    .usa-accordion-button {
-      font-size: 1.25rem; // match standard h3
-    }
-
-    .usa-accordion-content {
-      padding-top: 1.25em;
-
-      h5 {
-        font-family: var(--font-source-sans);
-        margin-top: 0;
-      }
-    }
-
-    .granted-section {
-      h5 {
-        color: var(--vads-color-success-dark);
-      }
-    }
-
-    .denied-section {
-      h5 {
-        color: var(--vads-color-secondary);
-      }
-    }
-  }
 }
 
 .closed-appeal-notice {
@@ -1105,6 +1087,17 @@ $marker-text-width: 5.625rem;
   }
 }
 
+.external-active-link {
+  display: flex;
+  font-weight: 700;
+  margin-top: 16px;
+  font-size: medium;
+}
+
+.active-link-icon {
+  position: relative;
+  top: 4px;
+}
 .tabs {
   list-style: none;
   margin-bottom: -1px;
@@ -1224,4 +1217,8 @@ va-icon.phase-current {
     display: inline-block;
     margin: 16px;
   }
+}
+
+.bullet-disc {
+  list-style-type: disc;
 }

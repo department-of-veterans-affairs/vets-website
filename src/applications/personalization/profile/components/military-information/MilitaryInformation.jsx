@@ -5,15 +5,14 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { connect } from 'react-redux';
 
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVeteranStatus } from '~/platform/user/selectors';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatus';
-import ProofOfVeteranStatusNew from '../proof-of-veteran-status/ProofOfVeteranStatusNew';
 
 import LoadFail from '../alerts/LoadFail';
 import Headline from '../ProfileSectionHeadline';
@@ -207,6 +206,9 @@ MilitaryInformationContent.propTypes = {
 };
 
 const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const vetStatusCardToggle = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
+
   useEffect(() => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
@@ -239,20 +241,22 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         active
       />
 
-      {militaryInformation?.serviceHistory?.serviceHistory && (
-        <div className="vads-u-margin-y--4">
-          <Toggler
-            toggleName={Toggler.TOGGLE_NAMES.veteranStatusCardUseLighthouse}
-          >
-            <Toggler.Enabled>
-              <ProofOfVeteranStatusNew />
-            </Toggler.Enabled>
-            <Toggler.Disabled>
-              <ProofOfVeteranStatus />
-            </Toggler.Disabled>
-          </Toggler>
-        </div>
+      {vetStatusCardToggle && (
+        <p className="vads-u-margin-y--1">
+          <va-link
+            href="/profile/veteran-status-card"
+            text="Access your Veteran Status Card"
+            active
+          />
+        </p>
       )}
+
+      {!vetStatusCardToggle &&
+        militaryInformation?.serviceHistory?.serviceHistory && (
+          <div className="vads-u-margin-y--4">
+            <ProofOfVeteranStatus />
+          </div>
+        )}
       <DevTools devToolsData={{ militaryInformation, veteranStatus }} panel>
         <p>Profile devtools test, please ignore.</p>
       </DevTools>

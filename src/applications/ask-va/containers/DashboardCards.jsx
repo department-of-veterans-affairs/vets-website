@@ -1,11 +1,12 @@
 import {
+  VaButtonPair,
   VaPagination,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { compareDesc, parse } from 'date-fns';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import {
@@ -22,12 +23,13 @@ const DashboardCards = () => {
   const [inquiries, setInquiries] = useState([]);
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
+  const [pendingStatusFilter, setPendingStatusFilter] = useState('All');
+  const [pendingCategoryFilter, setPendingCategoryFilter] = useState('All');
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentTab, setCurrentTab] = useState(0); // 0 for Business, 1 for Personal
   const itemsPerPage = 4;
-  const showingStart = (currentPage - 1) * itemsPerPage + 1;
-  const showingEnd = Math.min(currentPage * itemsPerPage, inquiries.length);
 
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
@@ -56,7 +58,7 @@ const DashboardCards = () => {
     return { transformedInquiries, uniqueCategories };
   };
 
-  const getApiData = url => {
+  const getApiData = useCallback(url => {
     setLoading(true);
 
     const processData = data => {
@@ -68,7 +70,7 @@ const DashboardCards = () => {
       setLoading(false);
     };
 
-    if (mockTestingFlagforAPI) {
+    if (mockTestingFlagforAPI && !window.Cypress) {
       processData(mockInquiries.data);
       return Promise.resolve();
     }
@@ -81,12 +83,28 @@ const DashboardCards = () => {
         setLoading(false);
         hasError(true);
       });
-  };
-
-  useEffect(() => {
-    focusElement('.schemaform-title > h1');
-    getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
   }, []);
+
+  useEffect(
+    () => {
+      // Focus element if we're on the main dashboard
+      if (window.location.pathname.includes('introduction')) {
+        focusElement('.schemaform-title > h1');
+      }
+
+      // Always fetch inquiries data regardless of route
+      getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
+    },
+    [getApiData],
+  );
+
+  useEffect(
+    () => {
+      setPendingStatusFilter(statusFilter);
+      setPendingCategoryFilter(categoryFilter);
+    },
+    [statusFilter, categoryFilter],
+  );
 
   const filterAndSortInquiries = loa => {
     return inquiries
@@ -119,10 +137,22 @@ const DashboardCards = () => {
 
   const handlePageChange = newPage => {
     setCurrentPage(newPage);
+    setTimeout(() => {
+      focusElement(filterSummaryRef?.current);
+    }, 0);
   };
 
-  const handleTabChange = () => {
+  const handleTabChange = tabIndex => {
+    setCurrentTab(tabIndex);
     setCurrentPage(1);
+    setTimeout(() => {
+      focusElement(filterSummaryRef?.current);
+    }, 0);
+  };
+
+  const getCurrentTabType = () => {
+    if (!hasBusinessLevelAuth) return 'Personal';
+    return currentTab === 0 ? 'Business' : 'Personal';
   };
 
   const inquiriesGridView = loa => {
@@ -161,33 +191,51 @@ const DashboardCards = () => {
             <li key={card.id} className="dashboard-card-list">
               <va-card class="vacard">
                 <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                  <dl className="vads-u-margin-bottom--1p5">
-                    <dt className="sr-only">Status</dt>
-                    <dd>
+                  <span className="vads-u-margin-bottom--1p5 vads-u-display--block">
+                    <span className="sr-only">Status</span>
+                    <span>
                       <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
                         {getVAStatusFromCRM(card.attributes.status)}
                       </span>
-                    </dd>
-                  </dl>
-                  <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
+                    </span>
+                  </span>
+                  <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p">
                     {`Submitted on ${formatDate(card.attributes.createdOn)}`}
                   </span>
                 </h3>
-                <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
-                  <span className="vads-u-font-weight--bold">
-                    Last updated:
-                  </span>{' '}
-                  {formatDate(card.attributes.lastUpdate)}
-                </p>
-                <p className="vacardCategory multiline-ellipsis-1">
-                  <span className="vads-u-font-weight--bold">Category:</span>{' '}
-                  {card.attributes.categoryName}
-                </p>
+                <dl>
+                  <div className="vads-u-margin--0 vads-u-padding-bottom--1">
+                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
+                      Last updated:
+                    </dt>{' '}
+                    <dd className="vads-u-display--inline">
+                      {formatDate(card.attributes.lastUpdate)}
+                    </dd>
+                  </div>
+                  <div className="vads-u-margin--0 vads-u-padding-bottom--1">
+                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
+                      Reference number:
+                    </dt>{' '}
+                    <dd className="vads-u-display--inline">
+                      {card.attributes.inquiryNumber}
+                    </dd>
+                  </div>
+                  <div className="vads-u-margin-bottom--0 vacardCategory multiline-ellipsis-1">
+                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
+                      Category:
+                    </dt>{' '}
+                    <dd className="vads-u-display--inline">
+                      {card.attributes.categoryName}
+                    </dd>
+                  </div>
+                </dl>
+                <div className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--1 vads-u-margin-top--1p5" />
                 <p className="vacardSubmitterQuestion">
                   {card.attributes.submitterQuestion}
                 </p>
                 <Link
                   to={`${URL.DASHBOARD_ID}${card.attributes.inquiryNumber}`}
+                  className="vads-u-margin-top--1p5"
                 >
                   <va-link
                     active
@@ -218,25 +266,33 @@ const DashboardCards = () => {
   };
 
   const renderFilteredResultsInfo = () => {
-    const filteredInquiries = filterAndSortInquiries(
-      hasBusinessLevelAuth ? 'All' : 'Personal',
-    );
+    const currentTabType = getCurrentTabType();
+    const filteredInquiries = filterAndSortInquiries(currentTabType);
     const totalFilteredCount = filteredInquiries.length;
+    const currentShowingStart = (currentPage - 1) * itemsPerPage + 1;
+    const currentShowingEnd = Math.min(
+      currentPage * itemsPerPage,
+      totalFilteredCount,
+    );
 
     return (
       <>
         Showing{' '}
         {totalFilteredCount === 0
           ? 'no'
-          : `${showingStart}-${Math.min(
-              showingEnd,
-              totalFilteredCount,
-            )} of ${totalFilteredCount}`}{' '}
+          : `${currentShowingStart}-${currentShowingEnd} of ${totalFilteredCount}`}{' '}
         results for
         <span className="vads-u-font-weight--bold"> "{statusFilter}" </span>
         {statusFilter !== 'All' ? 'status' : 'statuses'} and{' '}
         <span className="vads-u-font-weight--bold">"{categoryFilter}" </span>
         {categoryFilter !== 'All' ? 'category' : 'categories'}
+        {hasBusinessLevelAuth && (
+          <>
+            {' '}
+            in{' '}
+            <span className="vads-u-font-weight--bold">{currentTabType}</span>
+          </>
+        )}
       </>
     );
   };
@@ -265,57 +321,71 @@ const DashboardCards = () => {
       </h2>
       {inquiries.length > 0 ? (
         <>
-          <div className="vacardSelectFilters">
-            <div className="vads-u-flex--1 vads-u-width--full">
-              <VaSelect
-                hint={null}
-                label="Filter by status"
-                name="status"
-                value={statusFilter}
-                onVaSelect={event => {
-                  setStatusFilter(
-                    event.target.value ? event.target.value : 'All',
-                  );
-                  setCurrentPage(1);
-                  focusElement(filterSummaryRef?.current);
-                }}
-              >
-                <option value="All">All</option>
-                <option value="In progress">In progress</option>
-                <option value="Replied">Replied</option>
-                <option value="Reopened">Reopened</option>
-              </VaSelect>
+          <div className="filter-container">
+            <div className="vacardSelectFilters">
+              <div>
+                <VaSelect
+                  hint={null}
+                  label="Filter by status"
+                  name="status"
+                  value={pendingStatusFilter}
+                  onVaSelect={event => {
+                    setPendingStatusFilter(
+                      event.target.value ? event.target.value : 'All',
+                    );
+                  }}
+                >
+                  <option value="All">All</option>
+                  <option value="In progress">In progress</option>
+                  <option value="Replied">Replied</option>
+                  <option value="Reopened">Reopened</option>
+                </VaSelect>
+              </div>
+              <div>
+                <VaSelect
+                  hint={null}
+                  label="Filter by category"
+                  name="category"
+                  value={pendingCategoryFilter}
+                  onVaSelect={event => {
+                    setPendingCategoryFilter(
+                      event.target.value ? event.target.value : 'All',
+                    );
+                  }}
+                >
+                  <option value="All">All</option>
+                  {categories.map(category => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </VaSelect>
+              </div>
             </div>
-            <div className="vads-u-flex--2 vads-u-margin-left--2 vads-u-width--full">
-              <VaSelect
-                hint={null}
-                label="Filter by category"
-                name="category"
-                value={categoryFilter}
-                onVaSelect={event => {
-                  setCategoryFilter(
-                    event.target.value ? event.target.value : 'All',
-                  );
+
+            <div className="filter-actions">
+              <VaButtonPair
+                primaryLabel="Apply filters"
+                secondaryLabel="Clear all filters"
+                onPrimaryClick={() => {
+                  setStatusFilter(pendingStatusFilter);
+                  setCategoryFilter(pendingCategoryFilter);
                   setCurrentPage(1);
                   focusElement(filterSummaryRef?.current);
                 }}
-              >
-                <option value="All">All</option>
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </VaSelect>
+                onSecondaryClick={() => {
+                  setStatusFilter('All');
+                  setCategoryFilter('All');
+                  setPendingStatusFilter('All');
+                  setPendingCategoryFilter('All');
+                  setCurrentPage(1);
+                  focusElement(filterSummaryRef?.current);
+                }}
+                leftButtonText="Apply filters"
+                rightButtonText="Clear all filters"
+              />
             </div>
           </div>
-
-          <p
-            ref={filterSummaryRef}
-            className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light"
-          >
-            {renderFilteredResultsInfo()}
-          </p>
 
           {hasBusinessLevelAuth ? (
             <div className="columns small-12 tabs">
@@ -324,12 +394,36 @@ const DashboardCards = () => {
                   <Tab className="small-6 tab">Business</Tab>
                   <Tab className="small-6 tab">Personal</Tab>
                 </TabList>
-                <TabPanel>{inquiriesGridView('Business')}</TabPanel>
-                <TabPanel>{inquiriesGridView('Personal')}</TabPanel>
+                <TabPanel>
+                  <p
+                    ref={filterSummaryRef}
+                    className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-x--2p5"
+                  >
+                    {renderFilteredResultsInfo()}
+                  </p>
+                  {inquiriesGridView('Business')}
+                </TabPanel>
+                <TabPanel>
+                  <p
+                    ref={filterSummaryRef}
+                    className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-x--2p5"
+                  >
+                    {renderFilteredResultsInfo()}
+                  </p>
+                  {inquiriesGridView('Personal')}
+                </TabPanel>
               </Tabs>
             </div>
           ) : (
-            inquiriesGridView('Personal')
+            <>
+              <p
+                ref={filterSummaryRef}
+                className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-x--0"
+              >
+                {renderFilteredResultsInfo()}
+              </p>
+              {inquiriesGridView('Personal')}
+            </>
           )}
         </>
       ) : (
@@ -339,6 +433,7 @@ const DashboardCards = () => {
             full-width="false"
             status="info"
             visible="true"
+            slim
           >
             <p className="vads-u-margin-y--0">
               You haven’t submitted a question yet.

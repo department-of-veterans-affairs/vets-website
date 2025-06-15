@@ -1,0 +1,38 @@
+{
+  "data": {
+    "mainPhone": "1234567890",
+    "cellPhone": "2345678901",
+    "internationalPhone": "3456789012",
+    "email": "john.veteran@example.com",
+    "newAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Other Street",
+      "street2": "Second address line",
+      "street3": "Third address line",
+      "city": "Kansas City",
+      "state": "KS",
+      "postalCode": "66099"
+    },
+    "isMoving": true,
+    "checkBoxGroup": {},
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1001 Easy Street",
+      "street2": "Second address line",
+      "street3": "Third address line",
+      "city": "Lincoln",
+      "state": "NE",
+      "postalCode": "11023"
+    },
+    "yearsOfEducation": "19",
+    "fullName": {
+      "first": "John",
+      "middle": "S.",
+      "last": "Veteran",
+      "suffix": "Sr."
+    },
+    "dob": "2000-01-01"
+  }
+}

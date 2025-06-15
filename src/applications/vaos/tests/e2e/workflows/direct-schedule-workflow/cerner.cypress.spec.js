@@ -1,23 +1,23 @@
 // @ts-check
-import {
-  vaosSetup,
-  mockAppointmentsGetApi,
-  mockFeatureToggles,
-  mockVamcEhrApi,
-  mockFacilitiesApi,
-  mockSchedulingConfigurationApi,
-  mockEligibilityCCApi,
-} from '../../vaos-cypress-helpers';
-import MockUser from '../../fixtures/MockUser';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ScheduleCernerPageObject from '../../page-objects/ScheduleCernerPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import ScheduleCernerPageObject from '../../page-objects/ScheduleCernerPageObject';
-import { getTypeOfCareById } from '../../../../utils/appointment';
-import { PRIMARY_CARE } from '../../../../utils/constants';
+import {
+  mockAppointmentsGetApi,
+  mockEligibilityCCApi,
+  mockFacilitiesApi,
+  mockFeatureToggles,
+  mockSchedulingConfigurationApi,
+  mockVamcEhrApi,
+  vaosSetup,
+} from '../../vaos-cypress-helpers';
 
-const { cceType } = getTypeOfCareById(PRIMARY_CARE);
+const { cceType } = getTypeOfCareById(TYPE_OF_CARE_IDS.PRIMARY_CARE);
 
 describe('VAOS direct schedule flow - Cerner', () => {
   beforeEach(() => {

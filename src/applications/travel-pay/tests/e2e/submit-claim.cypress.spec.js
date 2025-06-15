@@ -5,6 +5,7 @@ import ApiInitializer from './utilities/ApiInitializer';
 
 describe('Submit Mileage Only Claims', () => {
   beforeEach(() => {
+    cy.clock(new Date(2025, 0, 15), ['Date']);
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeAppointment.happyPath();
@@ -14,6 +15,10 @@ describe('Submit Mileage Only Claims', () => {
     cy.injectAxeThenAxeCheck();
   });
 
+  afterEach(() => {
+    cy.clock().invoke('restore');
+  });
+
   it('defaults to the Introduction page', () => {
     cy.get('h1').should('include.text', 'File a travel reimbursement claim');
   });
@@ -21,12 +26,12 @@ describe('Submit Mileage Only Claims', () => {
   it('should handle validation and answering "No" and navigate through the flow', () => {
     ApiInitializer.submitClaim.happyPath();
 
-    cy.get('va-link-action[text="File a mileage only claim"]')
+    cy.get('va-link-action[text="File a mileage-only claim"]')
       .first()
       .click();
 
     // Test that a No answer sends user to "Can't file this type..." page
-    cy.get('h1').should('include.text', 'Are you claiming only mileage?');
+    cy.get('h1').should('include.text', 'Are you only claiming mileage?');
 
     // Answer "No" and continue
     cy.get('va-radio-option[label="No"]')
@@ -44,7 +49,7 @@ describe('Submit Mileage Only Claims', () => {
       .first()
       .click();
 
-    cy.get('h1').should('include.text', 'Are you claiming only mileage?');
+    cy.get('h1').should('include.text', 'Are you only claiming mileage?');
 
     // Answer "Yes" and continue through the rest of the flow
     cy.get('va-radio-option[label="Yes"]')
@@ -101,11 +106,11 @@ describe('Submit Mileage Only Claims', () => {
   it('should handle a failed submission', () => {
     ApiInitializer.submitClaim.errorPath();
 
-    cy.get('va-link-action[text="File a mileage only claim"]')
+    cy.get('va-link-action[text="File a mileage-only claim"]')
       .first()
       .click();
 
-    cy.get('h1').should('include.text', 'Are you claiming only mileage?');
+    cy.get('h1').should('include.text', 'Are you only claiming mileage?');
 
     // Answer "Yes" and continue through the rest of the flow
     cy.get('va-radio-option[label="Yes"]')

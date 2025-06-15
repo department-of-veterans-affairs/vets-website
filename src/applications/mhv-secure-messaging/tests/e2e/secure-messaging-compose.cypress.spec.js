@@ -2,13 +2,18 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
+import mockMessages from './fixtures/threads-response.json';
+import mockSingleMessage from './fixtures/inboxResponse/single-message-response.json';
+import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 import { AXE_CONTEXT, Locators, Data } from './utils/constants';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 
-describe('Secure Messaging Compose', () => {
+describe('SM MESSAGING COMPOSE', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('verify interface', () => {
@@ -22,7 +27,7 @@ describe('Secure Messaging Compose', () => {
 
     cy.get(Locators.DROPDOWN.ADD_INFO).should(`be.visible`);
 
-    PatientComposePage.verifyRecipientsDropdownLinks();
+    PatientComposePage.verifyAdditionalInfoDropdownLinks();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -83,5 +88,38 @@ describe('Secure Messaging Compose', () => {
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+  });
+});
+
+describe('COMPOSE WITH PLAIN TG NAMES', () => {
+  const updatedMockRecipientsResponse = GeneralFunctionsPage.updateTGSuggestedName(
+    mockRecipients,
+    'TG | Type | Name',
+  );
+
+  beforeEach(() => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(
+      mockMessages,
+      mockSingleMessage,
+      updatedMockRecipientsResponse,
+    );
+    PatientInboxPage.navigateToComposePage();
+  });
+
+  it('verify recipients list indicates suggested TG name', () => {
+    cy.get(`#options`)
+      .find(
+        `[value=${
+          updatedMockRecipientsResponse.data[0].attributes.triageTeamId
+        }]`,
+      )
+      .should(
+        `have.text`,
+        `${
+          updatedMockRecipientsResponse.data[0].attributes.suggestedNameDisplay
+        }`,
+      );
+    cy.injectAxeThenAxeCheck();
   });
 });

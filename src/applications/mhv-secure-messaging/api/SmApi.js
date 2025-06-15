@@ -404,10 +404,49 @@ export const searchFolderAdvanced = (folderId, query, isPilot) => {
  * @returns {Object} signature object {data: {signatureName, includeSignature, signatureTitle}, errors:{}, metadata: {}}
  */
 export const getSignature = () => {
-  return apiRequest(`${apiBasePath}/messaging/messages/signature`, {
+  return apiRequest(`${apiBasePath}/messaging/preferences/signature`, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
+  });
+};
+
+export const submitLaunchMyVaHealthAal = () => {
+  return apiRequest(`${apiBasePath}/aal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      aal: {
+        activityType: 'Messaging',
+        action: 'Launch My VA Health',
+        performerType: 'Self',
+        status: '1',
+      },
+      product: 'sm',
+    }),
+  });
+};
+
+export const submitLaunchMessagingAal = () => {
+  return apiRequest(`${apiBasePath}/aal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      aal: {
+        activityType: 'Messages',
+        action: 'Launch Messages',
+        performerType: 'Self',
+        status: '1',
+      },
+      product: 'sm',
+      oncePerSession: true,
+    }),
   });
 };

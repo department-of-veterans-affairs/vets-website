@@ -9,16 +9,18 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import createCommonStore from 'platform/startup/store';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import widgetTypes from 'platform/site-wide/widgetTypes';
+import createRepresentativeStatus from 'platform/user/widgets/representative-status';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import { icsCreate } from './widget-creators/ics-generator';
 import openShareLink from './widget-creators/social-share-links';
 // Health Care | Manage Benefits widgets.
-import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
-import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
-import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
-import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging-page';
-import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-test-and-lab-results-page';
+import createModernGetMedicalRecordsPage from './health-care-manage-benefits/modern-get-medical-records-page';
+import createModernRefillTrackPrescriptionsPage from './health-care-manage-benefits/modern-refill-track-prescriptions-page';
+import createModernScheduleViewVAAppointmentsPage from './health-care-manage-benefits/modern-schedule-view-va-appointments-page';
+import createModernSecureMessagingPage from './health-care-manage-benefits/modern-secure-messaging-page';
+import createModernOrderMedicalSuppliesPage from './health-care-manage-benefits/modern-order-medical-supplies-page';
+import createMhvPortalLandingPage from './health-care-manage-benefits/mhv-portal-landing-page';
 // Health care facility widgets.
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import createChapter31CTA from './vre-chapter31/createChapter31CTA';
@@ -46,9 +48,9 @@ import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMap
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
 import createFindARepLandingContent from './representative-search';
 import createAppointARepLandingContent from './representative-appoint';
-import createRepresentativeStatus from './representative-status';
-import createFindVaForms, {
-  findVaFormsWidgetReducer,
+import {
+  createFindVaForms,
+  reducer as findVAFormsReducer,
 } from './find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from './find-forms/download-widget';
 import createHCAPerformanceWarning from './hca-performance-warning';
@@ -96,7 +98,7 @@ import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
 import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
 
-import create1010DAccess from './ivc-champva/10-10D/entry';
+import create1010DExtendedAccess from './ivc-champva/10-10d-extended/entry';
 import create107959CAccess from './ivc-champva/10-7959c/entry';
 import create107959AAccess from './ivc-champva/10-7959a/entry';
 import create107959F2Access from './ivc-champva/10-7959f-2/entry';
@@ -113,7 +115,7 @@ Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 // Create the Redux store.
 const store = createCommonStore({
   ...facilityReducer,
-  ...findVaFormsWidgetReducer,
+  ...findVAFormsReducer,
   ...post911GIBillStatusReducer,
   ...thirdPartyAppsReducer,
   ...dependencyVerificationReducer,
@@ -192,21 +194,28 @@ createAskVAWidget(store, widgetTypes.ASK_VA);
 createEventsPage(store, widgetTypes.EVENTS);
 createEZRSubmissionOptions(store, widgetTypes.EZR_SUBMISSION_OPTIONS);
 createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
-createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
-createRefillTrackPrescriptionsPage(
+createModernGetMedicalRecordsPage(
   store,
-  widgetTypes.REFILL_TRACK_PRESCRIPTIONS_PAGE,
+  widgetTypes.MODERN_GET_MEDICAL_RECORDS_PAGE,
 );
-createScheduleViewVAAppointmentsPage(
+createModernRefillTrackPrescriptionsPage(
   store,
-  widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
+  widgetTypes.MODERN_REFILL_TRACK_PRESCRIPTIONS_PAGE,
 );
-createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
+createModernScheduleViewVAAppointmentsPage(
+  store,
+  widgetTypes.MODERN_SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
+);
+createModernSecureMessagingPage(
+  store,
+  widgetTypes.MODERN_SECURE_MESSAGING_PAGE,
+);
+createModernOrderMedicalSuppliesPage(
+  store,
+  widgetTypes.MODERN_ORDER_MEDICAL_SUPPLIES_PAGE,
+);
+createMhvPortalLandingPage(store, widgetTypes.MHV_PORTAL_LANDING_PAGE);
 createSituationUpdatesBanner(store, widgetTypes.SITUATION_UPDATES_BANNER);
-createViewTestAndLabResultsPage(
-  store,
-  widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
-);
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
 createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
@@ -241,7 +250,7 @@ createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
 createVYEEnrollmentWidget(store, widgetTypes.VYE_ENROLLMENT_LOGIN_WIDGET);
 createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 
-create1010DAccess(store, widgetTypes.FORM_1010D);
+create1010DExtendedAccess(store, widgetTypes.FORM_1010D_EXTENDED);
 create107959CAccess(store, widgetTypes.FORM_107959C);
 create107959AAccess(store, widgetTypes.FORM_107959A);
 create107959F2Access(store, widgetTypes.FORM_107959F2);

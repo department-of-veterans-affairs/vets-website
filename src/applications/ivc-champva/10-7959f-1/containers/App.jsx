@@ -7,8 +7,12 @@ import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
+import { useBrowserMonitoring } from '../helpers/useBrowserMonitoring';
 
 export default function App({ location, children }) {
+  // Add Datadog RUM to the app
+  useBrowserMonitoring();
+
   const breadcrumbList = [
     { href: '/', label: 'Home' },
     { href: '/health-care', label: 'Health care' },

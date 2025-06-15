@@ -1,4 +1,4 @@
-import { snakeCase } from 'lodash';
+import { snakeCase, capitalize } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 import ADDRESS_DATA from 'platform/forms/address/data';
@@ -6,8 +6,7 @@ import ADDRESS_DATA from 'platform/forms/address/data';
 import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
-import { scroller } from 'react-scroll';
-import { getScrollOptions } from 'platform/utilities/ui';
+import { scrollTo, getScrollOptions } from 'platform/utilities/scroll';
 import environment from 'platform/utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 
@@ -325,7 +324,7 @@ export const scrollToFocusedElement = () => {
     compareDrawerHeight &&
     activeElementBounding.bottom > window.innerHeight - compareDrawerHeight
   ) {
-    scroller.scrollTo(document.activeElement.id, getScrollOptions());
+    scrollTo(document.activeElement.id, getScrollOptions());
   }
 };
 
@@ -511,6 +510,10 @@ export const isSearchByLocationPage = () => {
 
 export const giDocumentTitle = () => {
   let crumbLiEnding = 'GI Bill® Comparison Tool ';
+  const isUpdatedGi = window.location.pathname.includes(
+    'schools-and-employers',
+  );
+  if (isUpdatedGi) crumbLiEnding += '- Schools and employers ';
   const searchByName = isSearchByNamePage();
   const searchByLocationPage = isSearchByLocationPage();
   if (searchByName) {
@@ -614,7 +617,7 @@ export const updateQueryParam = (history, location, newParams) => {
   const searchParams = new URLSearchParams(location.search);
 
   Object.entries(newParams).forEach(([key, value]) => {
-    searchParams.set(key, value);
+    searchParams.set(key, encodeURIComponent(value));
   });
 
   history.push({
@@ -627,7 +630,13 @@ export const showLcParams = location => {
   const searchParams = new URLSearchParams(location.search);
   const categories = searchParams.getAll('category');
 
-  const nameParam = searchParams.get('name') ?? '';
+  const rawName = location.search.split('name=')[1]?.split('&')[0] ?? '';
+
+  // Decode the name while preserving + characters
+  const nameParam = decodeURIComponent(rawName)
+    .replace(/%20/g, ' ')
+    .replace(/%2B/g, '+');
+
   const categoryParams = categories.length === 0 ? ['all'] : categories;
   const stateParam = searchParams.get('state') ?? 'all';
   const initialCategoryParam = searchParams.get('initial') ?? 'all';
@@ -648,6 +657,7 @@ export const handleLcResultsSearch = (
   name,
   state = 'all',
   initialCategory = 'all',
+  page = 1,
 ) => {
   let categoryParams = '';
 
@@ -661,7 +671,7 @@ export const handleLcResultsSearch = (
   });
 
   history.push(
-    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&`.concat(
+    `/licenses-certifications-and-prep-courses/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
       categoryParams,
     ),
     {
@@ -674,11 +684,11 @@ export const formatResultCount = (results, currentPage, itemsPerPage) => {
   if (currentPage * itemsPerPage > results.length - 1) {
     return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
       results.length
-    }  `;
+    }`;
   }
 
   return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
-    itemsPerPage}  `;
+    itemsPerPage}`;
 };
 
 export const mappedStates = Object.entries(ADDRESS_DATA.states)
@@ -757,6 +767,52 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
   };
 };
 
+export const createCheckboxes = (categories, checkedList) => {
+  const valuesToCheck = ['license', 'certification', 'prep course'];
+
+  let allValuesIncluded;
+
+  if (checkedList[0] === 'all') {
+    allValuesIncluded = true;
+  } else {
+    allValuesIncluded = valuesToCheck.every(value =>
+      checkedList.includes(value),
+    );
+  }
+
+  return categories.map(category => {
+    let checked = checkedList.includes(category);
+
+    if (allValuesIncluded) {
+      checked = true;
+    }
+
+    return {
+      name: category,
+      checked,
+      label: capitalizeFirstLetter(category),
+    };
+  });
+};
+
+export function formatList(array) {
+  if (!array || array.length === 0) {
+    return '';
+  }
+
+  if (array.length === 1) {
+    return array[0];
+  }
+  if (array.length === 2) {
+    return `${array[0]} or ${array[1]}`;
+  }
+
+  const lastItem = array[array.length - 1];
+  const otherItems = array.slice(0, -1);
+
+  return `${otherItems.join(', ')} or ${lastItem}`;
+}
+
 export const showMultipleNames = (suggestions, nameInput) => {
   let final = [];
 
@@ -776,11 +832,14 @@ export const formatProgramType = (programType = '') => {
     return 'On-the-job training/Apprenticeships';
   }
 
-  return programType
+  const lowerJoined = programType
+    .toLowerCase()
     .split('-')
-    .filter(word => word.trim()) // Filter out empty strings caused by extra hyphens
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .filter(Boolean)
     .join(' ');
+
+  if (!lowerJoined) return '';
+  return lowerJoined.charAt(0).toUpperCase() + lowerJoined.slice(1);
 };
 
 export const generateMockPrograms = numPrograms => {
@@ -865,11 +924,11 @@ export const mapToAbbreviation = value => {
 
 export const mapProgramTypeToName = programType => {
   const programTypesNames = {
-    NCD: 'Non College Degree',
-    IHL: 'Institution of Higher Learning',
-    OJT: 'On The Job Training/Apprenticeship',
-    FLGT: 'Flight',
-    CORR: 'Correspondence',
+    NCD: 'non college degree',
+    IHL: 'institution of higher learning',
+    OJT: 'on-the-job training/apprenticeship',
+    FLGT: 'flight',
+    CORR: 'correspondence',
   };
 
   return programTypesNames[programType] || 'Unknown Program Type';
@@ -1043,4 +1102,86 @@ export const toTitleCase = str => {
   });
 
   return titled.join(' ');
+};
+
+export const handleZoom = () => {
+  const zoomLevel = Math.round(
+    (window.devicePixelRatio /
+      ((window.devicePixelRatio / window.outerWidth) * window.innerWidth)) *
+      100,
+  );
+
+  const elements = [
+    ...document.querySelectorAll('.lc-results-wrapper'),
+    ...document.querySelectorAll('.lc-result-cards-wrapper'),
+    ...document.querySelectorAll('.zoom-wrapper'),
+  ];
+
+  elements.forEach(element => {
+    if (zoomLevel >= 300) {
+      element.classList.add('high-zoom');
+    } else {
+      element.classList.remove('high-zoom');
+    }
+  });
+};
+
+export const focusElement = (ref, delay = 0) => {
+  setTimeout(() => {
+    if (ref) {
+      ref.focus();
+    }
+  }, delay);
+};
+
+export const deriveModalText = lowerType => {
+  let modalName;
+  switch (lowerType) {
+    case 'public':
+      modalName = 'publicSchool';
+      break;
+    case 'private':
+      modalName = 'privateSchool';
+      break;
+    case 'for profit':
+      modalName = 'proprietarySchool';
+      break;
+    case 'foreign':
+      modalName = 'foreignSchool';
+      break;
+    default:
+      modalName = undefined;
+  }
+  return modalName;
+};
+
+export const deriveLearnMoreAriaLabel = (lowerType, ariaLabels) => {
+  let ariaLabel;
+  switch (lowerType) {
+    case 'public':
+      ariaLabel = ariaLabels.learnMore.publicSchool;
+      break;
+    case 'private':
+      ariaLabel = ariaLabels.learnMore.privateSchool;
+      break;
+    case 'for profit':
+      ariaLabel = ariaLabels.learnMore.proprietarySchool;
+      break;
+    case 'foreign':
+      ariaLabel = ariaLabels.learnMore.foreignSchool;
+      break;
+    default:
+      ariaLabel = undefined;
+  }
+  return ariaLabel;
+};
+
+export const deriveInstitutionTitle = localType => {
+  if (localType === 'private') {
+    return 'Private Nonprofit Institution';
+  }
+  if (localType === 'for profit') {
+    return 'Proprietary Institution';
+  }
+  return `${capitalize(localType)} Institution`;
 };

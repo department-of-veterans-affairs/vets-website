@@ -7,7 +7,7 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.identificationInformationChapter.pages.nonCitizenIdentificationInfoPage;
+} = formConfig.chapters.preparerTypeChapter.pages.nonCitizenIdentificationInfoPage;
 
 const pageTitle = 'Non-Citizen’s identification information';
 

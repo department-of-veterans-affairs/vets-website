@@ -1,5 +1,6 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-import { focusByOrder, scrollTo } from 'platform/utilities/ui';
+import { focusByOrder } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
@@ -12,29 +13,138 @@ const formMappings = {
       'Request for Nursing Home Information in Connection with Claim for Aid and Attendance',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf',
   },
+  '21-4192': {
+    subTitle:
+      'Request for Employment Information in Connection with Claim for Disability Benefits',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf',
+  },
   '21-509': {
     subTitle: 'Statement of Dependency of Parent(s)',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf',
   },
-  '21P-0518-1': {
+  '21-8940': {
     subTitle:
-      'Improved Pension Eligibility Verification Report (Surviving Spouse with No Children)',
-    pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0518-1-ARE.pdf',
+      'Application for Increased Compensation Based on Un-employability',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf',
   },
   '21P-0516-1': {
     subTitle:
       'Improved Pension Eligibility Verification Report (Veteran with No Children)',
     pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0516-1-ARE.pdf',
   },
+  '21P-0517-1': {
+    subTitle:
+      'Improved Pension Eligibility Verification Report (Veteran with Children)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-0517-1-ARE.pdf',
+  },
+  '21P-0518-1': {
+    subTitle:
+      'Improved Pension Eligibility Verification Report (Surviving Spouse with No Children)',
+    pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0518-1-ARE.pdf',
+  },
+  '21P-0519C-1': {
+    subTitle:
+      'Improved Pension Eligibility Verification Report (Child or Children)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-0519C-1-ARE.pdf',
+  },
+  '21P-0519S-1': {
+    subTitle:
+      'Improved Pension Eligibility Verification Report (Surviving Spouse with Children)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-0519S-1-ARE.pdf',
+  },
+  '21P-530a': {
+    subTitle:
+      'State Application for Interment Allowance (Under 38 U.S.C. Chapter 23)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-530a-ARE.pdf',
+  },
+  '21P-8049': {
+    subTitle: 'Request for Details of Expenses',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-8049-ARE.pdf',
+  },
+
+  '21-2680': {
+    subTitle:
+      'Examination for Housebound Status or Permanent Need for Regular Aid and Attendance',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf',
+  },
+
+  '21-674b': {
+    subTitle: 'School Attendance Report',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-674b-ARE.pdf',
+  },
+
+  '21-8951-2': {
+    subTitle:
+      'Notice of Waiver of VA Compensation or Pension to Receive Military Pay and Allowances',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-8951-2-ARE.pdf',
+  },
+
+  '21-0788': {
+    subTitle: "Information Regarding Apportionment of Beneficiary's Award",
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-0788-ARE.pdf',
+  },
+
+  '21-4193': {
+    subTitle:
+      'Notice to Department of Veterans Affairs of Veteran or Beneficiary Incarcerated in Penal Institution',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-4193-ARE.pdf',
+  },
+
+  '21P-4718a': {
+    subTitle:
+      'Certificate of Balance on Deposit and Authorization to Disclose Financial Records',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-4718a-ARE.pdf',
+  },
+
+  '21-4140': {
+    subTitle: 'Employment Questionnaire',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-4140-ARE.pdf',
+  },
+
+  '21P-4706c': {
+    subTitle: "Court Appointed Fiduciary's Account",
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-4706c-ARE.pdf',
+  },
+
+  '21-8960': {
+    subTitle: 'Certification of School Attendance or Termination',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-8960-ARE.pdf',
+  },
+
+  '21-0304': {
+    subTitle:
+      "Application for Benefits for a Qualifying Veteran's Child Born with Disabilities",
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-0304-ARE.pdf',
+  },
+
+  '21-651': {
+    subTitle:
+      'Election of Compensation in Lieu of Retired Pay or Waiver of Retired Pay to Secure Compensation from Department of Veterans Affairs (38 U.S.C. 5304(a)-5305)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-651-ARE.pdf',
+  },
+
+  '21P-4185': {
+    subTitle: 'Report of Income from Property or Business',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-4185-ARE.pdf',
+  },
 };
 
-export const getFormNumber = (pathname = null) => {
-  const path = pathname || window?.location?.pathname;
+const extractFormSlug = path => {
   const regex = /upload\/([^/]+)/;
-  const match = path.match(regex)?.[1];
+  return path.match(regex)?.[1] ?? '';
+};
+
+const findMatchingFormNumber = slug => {
+  const lowerSlug = slug.toLowerCase();
   return (
-    Object.keys(formMappings).find(key => key.toLowerCase() === match) || ''
+    Object.keys(formMappings).find(key => key.toLowerCase() === lowerSlug) ?? ''
   );
+};
+
+export const getFormNumber = pathname => {
+  const path = pathname ?? window?.location?.pathname;
+  const match = extractFormSlug(path);
+  return findMatchingFormNumber(match);
 };
 
 export const getFormContent = (pathname = null) => {

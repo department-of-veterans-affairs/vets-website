@@ -84,14 +84,6 @@ export const clearInput = selector =>
     .focus()
     .clear();
 
-export const selectFromDropdown = (selector, value) =>
-  cy
-    .findByTestId(selector)
-    .shadow()
-    .get('select')
-    .first()
-    .select(value, { force: true });
-
 export const checkInputText = (selector, expectedValue) =>
   cy.findByTestId(selector).should('have.value', expectedValue);
 

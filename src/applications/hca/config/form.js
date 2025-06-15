@@ -192,6 +192,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: { date },
+  dev: { disableWindowUnloadInCI: true },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',

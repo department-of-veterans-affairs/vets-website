@@ -26,8 +26,8 @@ const GetFormHelp = () => {
       </p>
       <p>
         If you have questions about your copay bills, call us at{' '}
-        <va-telephone contact="8664001238" />. We’re here Monday through Friday,
-        8:00 a.m. to 8:00 p.m. ET.
+        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />. We’re here
+        Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
     </>
   );

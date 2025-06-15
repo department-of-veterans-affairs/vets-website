@@ -29,4 +29,27 @@ describe('ProfileLink Component', () => {
       ),
     ).to.exist;
   });
+
+  it('should not render the profile link and message when logged out', () => {
+    const store = mockStore({
+      user: {
+        login: {
+          currentlyLoggedIn: false,
+        },
+      },
+    });
+
+    const { queryByText } = render(
+      <Provider store={store}>
+        <ProfileLink />
+      </Provider>,
+    );
+
+    expect(
+      queryByText(
+        'Updates you make here will only apply to this form. To update your contact information for all your VA accounts, sign in to your profile.',
+      ),
+    ).to.be.null;
+    expect(queryByText('Update your contact information online')).to.be.null;
+  });
 });

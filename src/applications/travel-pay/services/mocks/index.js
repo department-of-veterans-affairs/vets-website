@@ -1,3 +1,4 @@
+const fs = require('fs');
 const delay = require('mocker-api/lib/delay');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
@@ -14,7 +15,19 @@ const user = {
   noAddress: require('./user-no-address.json'),
 };
 
+const claimDetails = {
+  v1: require('./travel-claim-details-v1.json'),
+  v2: require('./travel-claim-details-v2.json'),
+};
+
+const maintenanceWindows = {
+  none: require('./maintenance-windows/none.json'),
+  enabled: require('./maintenance-windows/enabled.json'),
+};
+
 const responses = {
+  'OPTIONS /v0/maintenance_windows': 'OK',
+  'GET /v0/maintenance_windows': maintenanceWindows.none,
   'GET /v0/user': user.withAddress,
   'GET /v0/feature_toggles': {
     data: {
@@ -23,6 +36,7 @@ const responses = {
         { name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true },
         { name: `${TOGGLE_NAMES.travelPayViewClaimDetails}`, value: true },
         { name: `${TOGGLE_NAMES.travelPaySubmitMileageExpense}`, value: true },
+        { name: `${TOGGLE_NAMES.travelPayClaimsManagement}`, value: true },
       ],
     },
   },
@@ -63,20 +77,22 @@ const responses = {
   //     ],
   //   });
   // },
-  'GET /travel_pay/v0/claims/:id': (req, res) => {
-    return res.json({
-      id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
-      claimNumber: 'TC0928098230498',
-      claimStatus: 'Claim Submitted',
-      appointmentDateTime: '2024-05-26T16:40:45.781Z',
-      facilityName: 'Tomah VA Medical Center',
-      createdOn: '2024-05-27T16:40:45.781Z',
-      modifiedOn: '2024-05-31T16:40:45.781Z',
-    });
-  },
+  'GET /travel_pay/v0/claims/:id': claimDetails.v1,
+  // 'GET /travel_pay/v0/claims/:id': (req, res) => {
+  //   return res.status(403).json({
+  //     errors: [
+  //       {
+  //         title: 'Forbidden',
+  //         status: 403,
+  //         detail: 'Forbidden.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
 
   // Submitting a new claim
-  'POST /travel_pay/v0/claims': { data: { claimId: '12345' } },
+  'POST /travel_pay/v0/claims': { claimId: '12345' },
   // 'POST /travel_pay/v0/claims': (req, res) => {
   //   return res.status(502).json({
   //     errors: [
@@ -106,5 +122,20 @@ const responses = {
   //     ],
   //   });
   // },
+
+  // Document download
+  'GET /travel_pay/v0/claims/:claimId/documents/:docId': (req, res) => {
+    // Absolute path to our mock docx file
+    const docx = fs.readFileSync(
+      'src/applications/travel-pay/services/mocks/sample-decision-letter.docx',
+    );
+    res.writeHead(200, {
+      'Content-Disposition': 'attachment; filename="Rejection Letter.docx"',
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'Content-Length': docx.length,
+    });
+    res.end(Buffer.from(docx, 'binary'));
+  },
 };
 module.exports = delay(responses, 1000);

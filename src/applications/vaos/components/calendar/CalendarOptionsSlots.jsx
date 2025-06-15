@@ -1,12 +1,14 @@
-import React from 'react';
-import moment from 'moment';
+import React, { useContext } from 'react';
+import { format, formatInTimeZone } from 'date-fns-tz';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import { CalendarContext } from './CalendarContext';
 
-/* 
+/*
  * Because we want to create a background for a jagged grid of cells,
  * we need to set padding and border radius for each cell depending on
  * where it is in the grid and how many cells per row we're displaying
- * 
+ *
  * This was a huge pain to figure out
  */
 function getOptionClasses(index, optionCount, rowSize) {
@@ -49,6 +51,7 @@ export default function CalendarOptionsSlots({
   timezone,
   showWeekends,
 }) {
+  const { isAppointmentSelectionError } = useContext(CalendarContext);
   const currentSlots = availableSlots.filter(slot =>
     slot?.start?.startsWith(currentlySelectedDate),
   );
@@ -88,22 +91,34 @@ export default function CalendarOptionsSlots({
     'vads-u-padding-left--1p5': hasError,
     ...marginClasses,
     ...justifyClasses,
+    'usa-input-error': hasError && isAppointmentSelectionError,
+    'vads-u-margin-top--0': hasError && isAppointmentSelectionError,
+    'vads-u-margin-bottom--0': hasError && isAppointmentSelectionError,
+    'vads-u-padding-top--0': hasError && isAppointmentSelectionError,
+    'vads-u-padding-bottom--0': hasError && isAppointmentSelectionError,
   });
   return (
-    <div className={cssClasses}>
+    <div
+      className={cssClasses}
+      style={{
+        position: hasError && isAppointmentSelectionError ? 'static' : null,
+      }}
+    >
       {currentSlots.map((slot, index) => {
         const checked = selectedDates.some(
           selectedDate => selectedDate === slot.start,
         );
-        let time = moment(slot.start);
-        if (slot.start.endsWith('Z') && timezone) {
-          time = time.tz(timezone);
-        }
-        const meridiem = time.format('A');
+
+        const timeString =
+          slot.start.endsWith('Z') && timezone
+            ? formatInTimeZone(new Date(slot.start), timezone, 'h:mm aaaa')
+            : format(new Date(slot.start), 'h:mm aaaa');
+
+        const [time, meridiem] = timeString.split(' ');
         const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
         const label = (
           <>
-            {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
+            {time} <span aria-hidden="true">{meridiem}</span>{' '}
             <span className="sr-only">{screenReaderMeridiem}</span>
           </>
         );
@@ -144,3 +159,16 @@ export default function CalendarOptionsSlots({
     </div>
   );
 }
+CalendarOptionsSlots.propTypes = {
+  availableSlots: PropTypes.array,
+  currentlySelectedDate: PropTypes.string,
+  hasError: PropTypes.bool,
+  id: PropTypes.string,
+  maxSelections: PropTypes.number,
+  rowSize: PropTypes.number,
+  selectedCellIndex: PropTypes.number,
+  selectedDates: PropTypes.array,
+  showWeekends: PropTypes.bool,
+  timezone: PropTypes.string,
+  onChange: PropTypes.func,
+};

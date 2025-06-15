@@ -3,7 +3,31 @@ import formConfig from './config/form';
 import App from './containers/App';
 
 // Add any new form-upload forms to this list
-const formUploadForms = ['21-0779', '21-509', '21P-0518-1', '21P-0516-1'];
+const formUploadForms = [
+  '21-0779',
+  '21-4192',
+  '21-509',
+  '21-8940',
+  '21P-0516-1',
+  '21P-0517-1',
+  '21P-0518-1',
+  '21P-0519C-1',
+  '21P-0519S-1',
+  '21P-530a',
+  '21P-8049',
+  '21-2680',
+  '21-674b',
+  '21-8951-2',
+  '21-0788',
+  '21-4193',
+  '21P-4718a',
+  '21-4140',
+  '21P-4706c',
+  '21-8960',
+  '21-0304',
+  '21-651',
+  '21P-4185',
+];
 
 const config = formConfig();
 

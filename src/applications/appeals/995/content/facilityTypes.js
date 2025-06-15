@@ -5,7 +5,8 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 export const facilityTypeTitle =
   'Select all the types of facilities or providers that treated you';
 
-export const facilityTypeTextLabel = 'Specify any other facility or provider';
+export const facilityTypeTextLabel =
+  'Specify any other types of facility or provider';
 
 export const facilityTypeChoices = {
   vamc: 'A VA medical center (also called a VAMC)',

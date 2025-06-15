@@ -19,10 +19,10 @@ import contactInformation from './chapters/01-claimant-information/contactInform
 import veteranInformation from './chapters/02-veteran-information/veteranInformation';
 import burialInformation from './chapters/02-veteran-information/burialInformation';
 import locationOfDeath from './chapters/02-veteran-information/locationOfDeath';
-import locationOfDeathV2 from './chapters/02-veteran-information/locationOfDeathV2';
 
 import separationDocuments from './chapters/03-military-history/separationDocuments';
 import uploadDD214 from './chapters/03-military-history/uploadDD214';
+import serviceNumber from './chapters/03-military-history/serviceNumber';
 import servicePeriods from './chapters/03-military-history/servicePeriods';
 import previousNamesQuestion from './chapters/03-military-history/previousNamesQuestion';
 import previousNames from './chapters/03-military-history/previousNames';
@@ -42,15 +42,10 @@ import transportationExpenses from './chapters/04-benefits-selection/transportat
 import supportingDocuments from './chapters/05-additional-information/supportingDocuments';
 import fasterClaimProcessing from './chapters/05-additional-information/fasterClaimProcessing';
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
-import deathCertificateV2 from './chapters/05-additional-information/deathCertificateV2';
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
 import additionalEvidence from './chapters/05-additional-information/additionalEvidence';
 
-import {
-  showUploadDocuments,
-  showLocationOfDeath,
-  generateDeathFacilitySchemas,
-} from '../utils/helpers';
+import { generateDeathFacilitySchemas } from '../utils/helpers';
 import { submit } from './submit';
 import manifest from '../manifest.json';
 import migrations from '../migrations';
@@ -83,7 +78,7 @@ const formConfig = {
       saved: 'Your burial benefits application has been saved.',
     },
   },
-  version: 2,
+  version: 3,
   migrations,
   prefillEnabled: true,
   dev: {
@@ -186,19 +181,8 @@ const formConfig = {
             <span className="vads-u-font-size--h3">Veteran death location</span>
           ),
           path: 'veteran-information/location-of-death',
-          depends: () => !showLocationOfDeath(),
           uiSchema: locationOfDeath.uiSchema,
           schema: locationOfDeath.schema,
-        },
-        locationOfDeathV2: {
-          title: 'Veteran death location',
-          reviewTitle: () => (
-            <span className="vads-u-font-size--h3">Veteran death location</span>
-          ),
-          path: 'veteran-information/location-of-death-v2',
-          depends: () => showLocationOfDeath(),
-          uiSchema: locationOfDeathV2.uiSchema,
-          schema: locationOfDeathV2.schema,
         },
         nursingHomeUnpaid: {
           title: 'Veteran death location details',
@@ -209,7 +193,6 @@ const formConfig = {
           ),
           path: 'veteran-information/location-of-death/nursing-home-unpaid',
           depends: form =>
-            showLocationOfDeath() &&
             get('locationOfDeath.location', form) === 'nursingHomeUnpaid',
           ...generateDeathFacilitySchemas(
             'nursingHomeUnpaid',
@@ -225,7 +208,6 @@ const formConfig = {
           ),
           path: 'veteran-information/location-of-death/nursing-home-paid',
           depends: form =>
-            showLocationOfDeath() &&
             get('locationOfDeath.location', form) === 'nursingHomePaid',
           ...generateDeathFacilitySchemas(
             'nursingHomePaid',
@@ -241,7 +223,6 @@ const formConfig = {
           ),
           path: 'veteran-information/location-of-death/va-medical-center',
           depends: form =>
-            showLocationOfDeath() &&
             get('locationOfDeath.location', form) === 'vaMedicalCenter',
           ...generateDeathFacilitySchemas(
             'vaMedicalCenter',
@@ -257,7 +238,6 @@ const formConfig = {
           ),
           path: 'veteran-information/location-of-death/state-veterans-home',
           depends: form =>
-            showLocationOfDeath() &&
             get('locationOfDeath.location', form) === 'stateVeteransHome',
           ...generateDeathFacilitySchemas(
             'stateVeteransHome',
@@ -289,6 +269,16 @@ const formConfig = {
           depends: form => get('view:separationDocuments', form),
           uiSchema: uploadDD214.uiSchema,
           schema: uploadDD214.schema,
+        },
+        serviceNumber: {
+          title: 'Service number',
+          reviewTitle: () => (
+            <span className="vads-u-font-size--h3">Service number</span>
+          ),
+          path: 'military-history/service-number',
+          depends: form => !get('view:separationDocuments', form),
+          uiSchema: serviceNumber.uiSchema,
+          schema: serviceNumber.schema,
         },
         servicePeriods: {
           title: 'Service periods',
@@ -470,20 +460,9 @@ const formConfig = {
           reviewTitle: () => (
             <span className="vads-u-font-size--h3">Death certificate</span>
           ),
-          path: 'additional-information/death-certificate',
-          depends: () => !showUploadDocuments(),
+          path: 'additional-information/upload-death-certificate',
           uiSchema: deathCertificate.uiSchema,
           schema: deathCertificate.schema,
-        },
-        deathCertificateV2: {
-          title: 'Death certificate',
-          reviewTitle: () => (
-            <span className="vads-u-font-size--h3">Death certificate</span>
-          ),
-          path: 'additional-information/upload-death-certificate',
-          depends: () => showUploadDocuments(),
-          uiSchema: deathCertificateV2.uiSchema,
-          schema: deathCertificateV2.schema,
         },
         transportationReceipts: {
           title: 'Transportation receipts',

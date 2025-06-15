@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { Toggler } from 'platform/utilities/feature-toggles';
 
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
@@ -30,12 +30,12 @@ const IntroductionPage = props => {
     pageList,
     pathname: '/introduction',
     prefillEnabled,
-    startText: 'Start your Claim',
+    startText: 'Start your claim',
     useActionLinks: true,
   };
 
   return (
-    <div className="schemaform-intro">
+    <div className="schemaform-intro vads-u-margin-bottom--4">
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle()} />
       <p className="va-introtext">
         If you disagree with our decision on your claim, a Supplemental Claim
@@ -59,9 +59,11 @@ const IntroductionPage = props => {
             <li>
               You have a condition that we now consider presumptive (such as
               under the{' '}
-              <a href="/resources/the-pact-act-and-your-va-benefits/">
-                PACT Act
-              </a>
+              <va-link
+                disable-analytics
+                href="/resources/the-pact-act-and-your-va-benefits/"
+                text="PACT Act"
+              />
               )
             </li>
           </ul>
@@ -78,38 +80,46 @@ const IntroductionPage = props => {
                 the service requirements for the presumption.
               </p>
               <p className="vads-u-margin-bottom--0">
-                <a href="/resources/the-pact-act-and-your-va-benefits/">
-                  Learn more about the PACT act
-                </a>
+                <va-link
+                  disable-analytics
+                  href="/resources/the-pact-act-and-your-va-benefits/"
+                  text="Learn more about the PACT Act"
+                />
               </p>
             </div>
           </va-additional-info>
           <p>
-            You can file a Supplemental Claim if you have new and relevant
-            evidence that we didn’t have when we reviewed your case before. You
-            can file your claim anytime, but we recommend you file within 1 year
-            from the date on your decision letter.
+            You can file your claim anytime, but we recommend you file within 1
+            year from the date on your decision letter.
           </p>
           <p>
             <strong>Note:</strong> You can’t file a Supplemental Claim if you
             have a fiduciary claim or a contested claim.
           </p>
           <p>
-            <a href="/decision-reviews/fiduciary-claims">
-              Learn more about fiduciary claims
-            </a>
+            <va-link
+              disable-analytics
+              href="/decision-reviews/fiduciary-claims"
+              text="Learn more about fiduciary claims"
+            />
           </p>
           <p>
-            <a href="/decision-reviews/contested-claims">
-              Learn more about contested claims
-            </a>
+            <va-link
+              disable-analytics
+              href="/decision-reviews/contested-claims"
+              text="Learn more about contested claims"
+            />
           </p>
           <p>
             If you don’t think this is the right form for you, you can go back
             to answer the questions again.
           </p>
           <p>
-            <a href={`${formConfig.rootUrl}/start`}>Go back to the questions</a>
+            <va-link
+              disable-analytics
+              href={`${formConfig.rootUrl}/start`}
+              text="Go back to the questions"
+            />
           </p>
         </va-process-list-item>
         <va-process-list-item header="Gather your information">
@@ -130,12 +140,10 @@ const IntroductionPage = props => {
               us to review more than 1 issue.
             </li>
             <li>
-              The name and address of any private medical facility you’d like us
+              The name and address of any non-VA medical facility you’d like us
               to request your records from.
             </li>
-            <li>
-              The dates you were treated at that private medical facility.
-            </li>
+            <li>The dates you were treated at that non-VA medical facility.</li>
           </ul>
           <va-additional-info trigger="Types of Evidence" uswds>
             <div>
@@ -145,10 +153,10 @@ const IntroductionPage = props => {
                 has gotten worse
               </p>
               <p>
-                Private medical records and hospital reports that relate to your
+                Non-VA medical records and hospital reports that relate to your
                 claimed condition or show that your disability has gotten worse
               </p>
-              <p className="vads-u-margin-bottom--0">
+              <p>
                 Supporting statements from family, friends, coworkers, clergy,
                 or law enforcement personnel with knowledge about how and when
                 your disability happened or how it has gotten worse
@@ -156,10 +164,7 @@ const IntroductionPage = props => {
             </div>
           </va-additional-info>
         </va-process-list-item>
-        <va-process-list-item
-          class="vads-u-padding-bottom--0"
-          header="Start your Supplemental Claim"
-        >
+        <va-process-list-item header="Start your Supplemental Claim">
           <p>
             We’ll take you through each step of the process. It should take
             about 15 minutes.

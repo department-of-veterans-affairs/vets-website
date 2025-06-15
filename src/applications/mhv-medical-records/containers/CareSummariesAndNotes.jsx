@@ -19,7 +19,8 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -72,14 +73,12 @@ const CareSummariesAndNotes = () => {
       <h1 data-testid="care-summaries-and-notes" className="page-title">
         Care summaries and notes
       </h1>
-      <p>
-        Most care summaries and notes are available{' '}
-        <span className="vads-u-font-weight--bold">36 hours</span> after
-        providers sign them. This list doesn’t include care summaries from
-        before 2013.
-      </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES} />
+      <p>This list doesn’t include care summaries from before 2013.</p>
+
+      <AcceleratedCernerFacilityAlert
+        {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES}
+      />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -101,12 +100,15 @@ const CareSummariesAndNotes = () => {
             dispatch(reloadRecords());
           }}
         />
-
-        <RecordList
-          records={careSummariesAndNotes}
-          type="care summaries and notes"
-          hideRecordsLabel
-        />
+        {careSummariesAndNotes?.length ? (
+          <RecordList
+            records={careSummariesAndNotes}
+            type="care summaries and notes"
+            hideRecordsLabel
+          />
+        ) : (
+          <NoRecordsMessage type={recordType.CARE_SUMMARIES_AND_NOTES} />
+        )}
       </RecordListSection>
     </div>
   );

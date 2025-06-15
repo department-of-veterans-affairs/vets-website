@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import TrackedSpinner from './TrackedSpinner';
 
 const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
   const apiImagingPath = `${
@@ -27,10 +28,20 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
     if (imageList.length && imagesPerPage && studyId) {
       return (
         <>
+          <div data-testid="showing-image-records">
+            <span>
+              {`Showing ${
+                paginatedImages[currentPage - 1][0].index
+              } to ${paginatedImages[currentPage - 1][0].index +
+                (paginatedImages[currentPage - 1].length - 1)} of ${
+                imageList.length
+              } images`}
+            </span>
+          </div>
           <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">
             {paginatedImages[currentPage - 1].map((image, idx) => (
               <div
-                className="image-div vads-l-col--4"
+                className="image-div vads-l-col--6"
                 data-testid="image-div"
                 key={idx}
               >
@@ -53,7 +64,6 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={pageCount}
-              maxPageListLength={5}
               showLastPage
               uswds
             />
@@ -63,7 +73,8 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
     }
     return (
       <div className="vads-u-margin-y--8">
-        <va-loading-indicator
+        <TrackedSpinner
+          id="radiology-image-gallery-spinner"
           message="Loading..."
           setFocus
           data-testid="loading-indicator"

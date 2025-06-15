@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
   getNextPagePath,
   getPreviousPagePath,
 } from 'platform/forms-system/src/js/routing';
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import AuthProfileInformation from '../components/VeteranInformation/AuthProfileInformation';
@@ -13,30 +12,31 @@ import GuestVerifiedInformation from '../components/VeteranInformation/GuestVeri
 import FormFooter from '../components/FormFooter';
 import content from '../locales/en/content.json';
 
-const PersonalInformationPage = props => {
-  const { location, route, router } = props;
-  const { pathname } = location;
-  const { pageList } = route;
-  const { data: formData } = useSelector(state => state.form);
-  const { userFullName, dob } = useSelector(state => state.user.profile);
-  const authUser = {
-    veteranFullName: userFullName,
-    veteranDateOfBirth: dob,
-    totalDisabilityRating: formData['view:totalDisabilityRating'],
-  };
-  const guestUser = formData['view:veteranInformation'];
-  const goBack = () => {
-    const prevPagePath = getPreviousPagePath(pageList, formData, pathname);
-    router.push(prevPagePath);
-  };
-  const goForward = () => {
-    const nextPagePath = getNextPagePath(pageList, formData, pathname);
-    router.push(nextPagePath);
-  };
+const PersonalInformationPage = ({ location, route, router }) => {
+  const { authUser, formData, guestUser } = useSelector(state => {
+    return {
+      authUser: {
+        veteranFullName: state.user.profile.userFullName,
+        veteranDateOfBirth: state.user.profile.dob,
+        totalDisabilityRating: state.form.data['view:totalDisabilityRating'],
+      },
+      guestUser: state.form.data['view:veteranInformation'],
+      formData: state.form.data,
+    };
+  });
 
-  useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
-  }, []);
+  const goBack = useCallback(
+    () =>
+      router.push(
+        getPreviousPagePath(route.pageList, formData, location.pathname),
+      ),
+    [formData, location.pathname, route.pageList, router],
+  );
+  const goForward = useCallback(
+    () =>
+      router.push(getNextPagePath(route.pageList, formData, location.pathname)),
+    [formData, location.pathname, route.pageList, router],
+  );
 
   return (
     <>

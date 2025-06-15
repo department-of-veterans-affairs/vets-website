@@ -173,10 +173,10 @@
     },
     {
       "column": 3,
-      "href": "https://www.twitter.com/DeptVetAffairs/",
+      "href": "https://www.x.com/DeptVetAffairs/",
       "order": 6,
       "target": "_blank",
-      "title": "Twitter",
+      "title": "X",
       "rel": "noopener noreferrer"
     },
     {
@@ -227,7 +227,7 @@
     {
       "ariaLabel": "TTY: 7 1 1.",
       "column": 4,
-      "href": "tel:+1711",
+      "href": "tel:711",
       "order": 4,
       "target": null,
       "title": "TTY: 711"

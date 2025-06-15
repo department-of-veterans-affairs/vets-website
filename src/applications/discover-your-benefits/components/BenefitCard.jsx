@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 
 const BenefitCard = ({ benefit }) => {
   const {
@@ -11,15 +12,34 @@ const BenefitCard = ({ benefit }) => {
     applyNowURL,
   } = benefit;
 
-  const renderLink = (url, text, label) => {
+  const handleClick = (url, text, label) => {
+    return recordEvent({
+      event: 'discover-benefits-link-click',
+      'display-text': text,
+      'link-destination': url,
+      'link-origin': label,
+    });
+  };
+
+  const renderLink = (url, text, label, action = false) => {
     if (url) {
-      return (
-        <va-link
+      return action === true ? (
+        <va-link-action
           href={url}
           text={text}
           label={label}
           type="secondary"
-          external
+          disable-analytics
+          onClick={handleClick(url, text, label)}
+        />
+      ) : (
+        <va-link
+          active
+          href={url}
+          text={text}
+          label={label}
+          disable-analytics
+          onClick={handleClick(url, text, label)}
         />
       );
     }
@@ -45,12 +65,22 @@ const BenefitCard = ({ benefit }) => {
           <span>{name}</span>
         </h3>
         <p className="vads-u-margin-y--0">{description}</p>
-        <div>
-          <div className="vads-u-margin-right--2">
-            {renderLink(learnMoreURL, 'Learn more', `Learn more about ${name}`)}
+        <div className="link-container">
+          <div className="vads-u-margin-right--2 vads-u-margin-bottom--1">
+            {renderLink(
+              learnMoreURL,
+              'Learn more',
+              `Learn more about ${name}`,
+              false,
+            )}
           </div>
           <div>
-            {renderLink(applyNowURL, 'Apply now', `Apply now for ${name}`)}
+            {renderLink(
+              applyNowURL,
+              'Apply now',
+              `Apply now for ${name}`,
+              true,
+            )}
           </div>
         </div>
       </va-card>

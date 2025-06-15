@@ -1,157 +1,110 @@
-import { SELECTORS as s } from './helpers';
+import * as h from './helpers';
 
-class FindFormComponent {
-  loadFindFormComponent = query => {
-    // Loads the forms page and checks existence
-    if (query || query === ' ') cy.visit(`/find-forms/?q=${query}`);
-    else cy.visit(`/find-forms/`);
-    cy.injectAxe();
-    cy.get(s.APP).should('exist');
-  };
-
-  inputText = str => {
-    // Find input field, clear, and enter the string
-    if (str) {
-      cy.get(s.FINDFORM_INPUT_ROOT)
-        .shadow()
-        .find(s.FINDFORM_INPUT)
-        .as('formInput');
-      cy.get('@formInput').scrollIntoView();
-      cy.get('@formInput').focus();
-      cy.get('@formInput').clear();
-      cy.get('@formInput').should('not.be.disabled');
-      cy.get('@formInput').type(str, { force: true });
-    }
-  };
-
-  focusSearch = () => {
-    cy.get(s.FINDFORM_INPUT_ROOT)
-      .shadow()
-      .find(s.FINDFORM_SEARCH)
-      .as('formSearch');
-    cy.get('@formSearch').focus();
-    cy.get('@formSearch').should('exist');
-  };
-
-  clickSearch = () => {
-    // Click search button
-    cy.get(s.FINDFORM_INPUT_ROOT)
-      .shadow()
-      .find(s.FINDFORM_SEARCH)
-      .as('formSearch');
-    cy.get('@formSearch').click();
-    cy.get('@formSearch').should('exist');
-  };
-
-  inputTextAndSearch = str => {
-    this.inputText(str);
-    this.clickSearch();
-  };
-
-  isErrorDisplayed = () => {
-    // Find the error body on the page
-    cy.get(s.APP).should('have.class', 'usa-input-error');
-
-    // Find the error message on the page
-    cy.get(s.FINDFORM_ERROR_MSG)
-      .should('exist')
-      .should('have.class', 'usa-input-error-message');
-
-    // Find the 'required' text for the error
-    cy.get(s.FINDFORM_REQUIRED)
-      .should('exist')
-      .should('contain', '(*Required)');
-  };
-
-  isErrorNotDisplayed = () => {
-    cy.get(s.FINDFORM_ERROR_BODY).should('not.exist');
-    cy.get(s.FINDFORM_ERROR_MSG).should('not.exist');
-    cy.get(s.FINDFORM_REQUIRED).should('not.exist');
-  };
-}
-
-// Tests for find-forms application
-describe('Find a VA form smoke test', () => {
-  const findFormComponent = new FindFormComponent();
-
+describe('Find a VA form', () => {
   it('does not display an error on initial page load with no URL query', () => {
-    findFormComponent.loadFindFormComponent();
-    findFormComponent.isErrorNotDisplayed();
+    cy.visit('/find-forms/');
+    cy.injectAxeThenAxeCheck();
+
+    h.confirmNoErrors();
 
     cy.axeCheck();
   });
 
   it('displays an error if input is empty and search is clicked', () => {
-    findFormComponent.loadFindFormComponent();
-    findFormComponent.inputTextAndSearch('');
-    findFormComponent.isErrorDisplayed();
+    cy.visit('/find-forms/');
+    cy.injectAxeThenAxeCheck();
+
+    h.clickSearch();
+    h.confirmErrorsDisplayed();
 
     cy.axeCheck();
   });
 
   it('displays an error if input is size one and search is clicked', () => {
-    findFormComponent.loadFindFormComponent();
-    findFormComponent.inputTextAndSearch('h');
-    findFormComponent.isErrorDisplayed();
+    cy.visit('/find-forms/');
+    cy.injectAxeThenAxeCheck();
+
+    h.typeSearchTerm('h');
+    h.clickSearch();
+    h.confirmErrorsDisplayed();
 
     cy.axeCheck();
   });
 
   it('does not display an error if input is greater than one character and search is clicked', () => {
-    findFormComponent.loadFindFormComponent();
-    findFormComponent.inputTextAndSearch('health');
-    findFormComponent.isErrorNotDisplayed();
+    cy.visit('/find-forms/');
+    cy.injectAxeThenAxeCheck();
+
+    h.typeSearchTerm('health');
+    h.clickSearch();
+    h.confirmNoErrors();
 
     cy.axeCheck();
   });
 
   it('does not display an error on initial page load with an empty URL query', () => {
-    findFormComponent.loadFindFormComponent(' ');
-    findFormComponent.isErrorNotDisplayed();
+    cy.visit('/find-forms/?q= ');
+    cy.injectAxeThenAxeCheck();
+
+    h.confirmNoErrors();
 
     cy.axeCheck();
   });
 
   it('displays an error on initial page load with a URL query of length one', () => {
-    findFormComponent.loadFindFormComponent('h');
-    findFormComponent.isErrorDisplayed();
+    cy.visit('/find-forms/?q=h');
+    cy.injectAxeThenAxeCheck();
+
+    h.confirmErrorsDisplayed();
 
     cy.axeCheck();
   });
 
   it('does not display an error on initial page load with a URL query of length greater than one', () => {
-    findFormComponent.loadFindFormComponent('health');
-    findFormComponent.isErrorNotDisplayed();
+    cy.visit('/find-forms/?q=health');
+    cy.injectAxeThenAxeCheck();
+
+    h.confirmNoErrors();
 
     cy.axeCheck();
   });
 
   it('removes the error once a valid query has been entered into the input', () => {
-    findFormComponent.loadFindFormComponent();
-    findFormComponent.inputTextAndSearch('h');
-    findFormComponent.isErrorDisplayed();
+    cy.visit('/find-forms/');
+    cy.injectAxeThenAxeCheck();
 
-    findFormComponent.inputTextAndSearch('health');
-    findFormComponent.isErrorNotDisplayed();
+    h.typeSearchTerm('h');
+    h.clickSearch();
+    h.confirmErrorsDisplayed();
+
+    h.typeSearchTerm('health');
+    h.clickSearch();
+    h.confirmNoErrors();
 
     cy.axeCheck();
   });
 
   it('does not display an error when the query is valid and text is removed', () => {
-    findFormComponent.loadFindFormComponent();
-    findFormComponent.inputTextAndSearch('health');
-    findFormComponent.isErrorNotDisplayed();
-    findFormComponent.inputText('h');
-    findFormComponent.isErrorNotDisplayed();
+    cy.visit('/find-forms/?q=health');
+    cy.injectAxeThenAxeCheck();
+
+    h.typeSearchTerm('health');
+    h.clickSearch();
+    h.confirmNoErrors();
+
+    h.typeSearchTerm('h');
+    h.confirmNoErrors();
 
     cy.axeCheck();
   });
 
   it('does not display an error when the query is invalid and the input loses focus', () => {
-    findFormComponent.loadFindFormComponent();
-    findFormComponent.inputText('h');
-    findFormComponent.focusSearch();
-    findFormComponent.isErrorNotDisplayed();
+    cy.visit('/find-forms/');
+    cy.injectAxeThenAxeCheck();
+
+    h.typeSearchTerm('h');
+    h.focusSearchButton();
+    h.confirmNoErrors();
 
     cy.axeCheck();
   });

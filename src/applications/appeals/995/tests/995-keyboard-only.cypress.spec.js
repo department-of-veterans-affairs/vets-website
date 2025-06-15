@@ -85,7 +85,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.realPress('Space');
 
       // *** Adding one issue
-      cy.tabToElement('a.add-new-issue');
+      cy.tabToElement('.add-new-issue');
       cy.realPress('Enter');
       cy.url().should('include', chapters.issues.pages.addIssue.path);
 
@@ -289,7 +289,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // *** Confirmation page
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
-      cy.get('va-button.screen-only').should('exist');
+      cy.get('va-button[text="Print this page"]').should('exist');
     });
   });
 });

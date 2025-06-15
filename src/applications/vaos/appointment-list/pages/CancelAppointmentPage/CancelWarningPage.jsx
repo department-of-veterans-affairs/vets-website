@@ -1,7 +1,7 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AppointmentCard from '../../../components/AppointmentCard';
 import BackLink from '../../../components/BackLink';
 import { APPOINTMENT_TYPES } from '../../../utils/constants';
@@ -11,6 +11,8 @@ import {
   confirmCancelAppointment,
 } from '../../redux/actions';
 import { selectAppointmentType } from '../../redux/selectors';
+import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
+
 import CancelPageContent from './CancelPageContent';
 
 function handleConfirm(dispatch) {
@@ -23,15 +25,20 @@ function handleClose(dispatch) {
 
 export default function CancelWarningPage({ appointment, cancelInfo }) {
   const dispatch = useDispatch();
+  const useFeSourceOfTruth = useSelector(state =>
+    selectFeatureFeSourceOfTruth(state),
+  );
+
   const { showCancelModal } = cancelInfo;
   const type = selectAppointmentType(appointment);
 
   let heading = 'Would you like to cancel this appointment?';
   let buttonText = 'Yes, cancel appointment';
-  if (
-    APPOINTMENT_TYPES.request === type ||
-    APPOINTMENT_TYPES.ccRequest === type
-  ) {
+  const isRequest = useFeSourceOfTruth
+    ? appointment.vaos.isPendingAppointment
+    : APPOINTMENT_TYPES.request === type ||
+      APPOINTMENT_TYPES.ccRequest === type;
+  if (isRequest) {
     heading = 'Would you like to cancel this request?';
     buttonText = 'Yes, cancel request';
   }
@@ -53,7 +60,7 @@ export default function CancelWarningPage({ appointment, cancelInfo }) {
         appointment online.
       </p>
       <AppointmentCard appointment={appointment}>
-        <CancelPageContent type={type} />
+        <CancelPageContent isRequest={isRequest} />
         <div className="vads-u-display--flex vads-u-align-items--center vads-u-margin-top--3 vaos-hide-for-print">
           <button type="button" onClick={handleConfirm(dispatch)}>
             {buttonText}

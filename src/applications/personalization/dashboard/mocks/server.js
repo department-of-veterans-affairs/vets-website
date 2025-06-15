@@ -15,6 +15,7 @@ const { user81Copays } = require('./medical-copays');
 const { v2 } = require('./appointments');
 const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
 const { boot } = require('../../common/mocks/script/utils');
+const { delaySingleResponse } = require('../../profile/mocks/script/utils');
 
 // set to true to simulate a user with debts for /v0/debts endpoint
 const hasDebts = false;
@@ -26,11 +27,17 @@ const responses = {
       authExpVbaDowntimeMessage: false,
       myVaUseExperimental: false,
       veteranOnboardingBetaFlow: false,
+      myVaFormSubmissionStatuses: true,
+      myVaFormPdfLink: true,
       veteranOnboardingShowWelcomeMessageToNewUsers: true,
+      myVaAuthExpRedesignEnabled: false,
     },
     true,
   ),
-  'GET /v0/user': user.simpleUser,
+  'GET /v0/user': user.simpleUser, // This is an LOA3 user
+  // 'GET /v0/user': user.loa3UserWithNoEmail, // This is simpleUser with no email
+  // 'GET /v0/user': user.loa1SimpleUser,
+  // 'GET /v0/user': user.loa1UserWithNoEmail,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': user81Copays,
@@ -59,6 +66,19 @@ const responses = {
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
   'GET /my_health/v1/messaging/folders': allFoldersWithUnreadMessages,
   'GET /v0/my_va/submission_statuses': createApplications(),
+  'POST /v0/my_va/submission_pdf_urls': (_req, res) => {
+    // return res.status(500).json({
+    //   error: 'bad request',
+    // });
+    const secondsOfDelay = 2;
+    delaySingleResponse(
+      () =>
+        res.status(200).json({
+          url: 'https://example.com/form.pdf',
+        }),
+      secondsOfDelay,
+    );
+  },
   'GET /v0/profile/full_name': {
     id: '',
     type: 'hashes',

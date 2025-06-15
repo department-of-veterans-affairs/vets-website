@@ -12,18 +12,14 @@ import mockUser from '../fixtures/mocks/user.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
-import {
-  fillAddressWebComponentPattern,
-  selectCheckboxWebComponent,
-  selectRadioWebComponent,
-} from './helpers';
+import { selectCheckboxWebComponent, selectRadioWebComponent } from './helpers';
 
 import pagePaths from './pagePaths';
 
 const TEST_URL =
   '/burials-memorials/veterans-burial-allowance/apply-for-allowance-form-21p-530ez/introduction';
 const IN_PROGRESS_URL = '/v0/in_progress_forms/21P-530EZ';
-const BURIALS_CLAIMS_URL = '/v0/burial_claims';
+const BURIALS_CLAIMS_URL = '/burials/v0/claims';
 const CLAIM_ATTACHMENTS_URL = '/v0/claim_attachments';
 const SUBMISSION_DATE = new Date().toISOString();
 
@@ -94,7 +90,10 @@ export const pageHooks = cy => ({
   },
   [pagePaths.mailingAddress]: () => {
     cy.get('@testData').then(data => {
-      fillAddressWebComponentPattern('claimantAddress', data.claimantAddress);
+      cy.fillAddressWebComponentPattern(
+        'claimantAddress',
+        data.claimantAddress,
+      );
     });
   },
   [pagePaths.separationDocuments]: () => {

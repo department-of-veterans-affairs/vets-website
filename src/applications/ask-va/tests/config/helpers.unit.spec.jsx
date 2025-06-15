@@ -2,56 +2,58 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import React from 'react';
 import {
-  contactRules,
-  getContactMethods,
-  isEqualToOnlyEmail,
+  DownloadLink,
   MilitaryBaseInfo,
   ServerErrorAlert,
-  isLocationOfResidenceRequired,
-  isPostalCodeRequired,
-  isStateOfPropertyRequired,
-  isBranchOfServiceRequired,
-  isVRERequired,
-  isHealthFacilityRequired,
-  getHealthFacilityTitle,
-  getVAStatusFromCRM,
-  getDescriptiveTextFromCRM,
-  isEducationNonVRE,
-  isOutsideUSEducation,
-  whoIsYourQuestionAboutCondition,
-  aboutMyselfRelationshipVeteranCondition,
   aboutMyselfRelationshipFamilyMemberCondition,
-  aboutSomeoneElseRelationshipVeteranCondition,
-  aboutSomeoneElseRelationshipFamilyMemberCondition,
-  aboutSomeoneElseRelationshipFamilyMemberAboutVeteranCondition,
-  aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberCondition,
+  aboutMyselfRelationshipVeteranCondition,
   aboutSomeoneElseRelationshipConnectedThroughWorkCondition,
   aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition,
+  aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberCondition,
+  aboutSomeoneElseRelationshipFamilyMemberAboutVeteranCondition,
+  aboutSomeoneElseRelationshipFamilyMemberCondition,
+  aboutSomeoneElseRelationshipVeteranCondition,
   aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition,
-  generalQuestionCondition,
-  getFiles,
+  contactRules,
+  convertDateForInquirySubheader,
   formatDate,
-  DownloadLink,
-  // convertDateForInquirySubheader,
+  generalQuestionCondition,
+  getContactMethods,
+  getDescriptiveTextFromCRM,
+  getFiles,
+  getHealthFacilityTitle,
+  getVAStatusFromCRM,
+  isBranchOfServiceRequired,
+  isEducationNonVRE,
+  isEqualToOnlyEmail,
+  isHealthFacilityRequired,
+  isLocationOfResidenceRequired,
+  isOutsideUSEducation,
+  isPostalCodeRequired,
+  isStateOfPropertyRequired,
+  isVRERequired,
+  whoIsYourQuestionAboutCondition,
 } from '../../config/helpers';
 // import { CategoryGuardianshipCustodianshipFiduciaryIssues } from '../../config/constants';
 import {
-  CategoryEducation,
-  isQuestionAboutVeteranOrSomeoneElseLabels,
-  relationshipOptionsSomeoneElse,
-  TopicVeteranReadinessAndEmploymentChapter31,
-  whoIsYourQuestionAboutLabels,
-  CategoryGuardianshipCustodianshipFiduciaryIssues,
-  contactOptions,
-  CategoryHealthCare,
-  CategoryHousingAssistanceAndHomeLoans,
-  TopicSpeciallyAdapatedHousing,
-  TopicAppraisals,
-  CategoryVeteranReadinessAndEmployment,
   CHAPTER_3,
   CategoryBenefitsIssuesOutsidetheUS,
+  CategoryEducation,
+  CategoryGuardianshipCustodianshipFiduciaryIssues,
+  CategoryHealthCare,
+  CategoryHousingAssistanceAndHomeLoans,
+  CategoryVeteranReadinessAndEmployment,
+  TopicAppraisals,
+  TopicDisabilityCompensation,
   TopicEducationBenefitsAndWorkStudy,
+  TopicSpeciallyAdapatedHousing,
+  TopicVeteranReadinessAndEmploymentChapter31,
+  branchOfServiceRuleforCategories,
+  contactOptions,
+  isQuestionAboutVeteranOrSomeoneElseLabels,
   relationshipOptionsMyself,
+  relationshipOptionsSomeoneElse,
+  whoIsYourQuestionAboutLabels,
 } from '../../constants';
 
 describe('Components and Utility Functions', () => {
@@ -79,10 +81,7 @@ describe('Components and Utility Functions', () => {
 
   describe('getContactMethods', () => {
     it('should return correct methods for a given category and topic', () => {
-      const methods = getContactMethods(
-        'Disability compensation',
-        'Aid and Attendance or Housebound benefits',
-      );
+      const methods = getContactMethods(['Email', 'Phone', 'USMail']);
       expect(methods).to.deep.equal({
         EMAIL: 'Email',
         PHONE: 'Phone call',
@@ -90,11 +89,8 @@ describe('Components and Utility Functions', () => {
       });
     });
 
-    it('should return all methods if category or topic not found', () => {
-      const methods = getContactMethods(
-        'Nonexistent Category',
-        'Nonexistent Topic',
-      );
+    it('should return all methods if category or topic contact preferences not found', () => {
+      const methods = getContactMethods();
       expect(methods).to.deep.equal({
         EMAIL: 'Email',
         PHONE: 'Phone call',
@@ -447,26 +443,52 @@ describe('Components and Utility Functions', () => {
     });
   });
 
-  describe('should return true if branch of service category selected and whoIsYourQuestionAbout is not GENERAL', () => {
-    const branchOfServiceCategories = [
-      'Veteran ID Card (VIC)',
-      'Disability compensation',
-      'Survivor benefits',
-      'Burials and memorials',
-      'Center for Women Veterans',
-      'Benefits issues outside the U.S.',
-    ];
-
-    it('required for branch of service categories', () => {
-      branchOfServiceCategories.forEach(category => {
+  describe('isBranchOfServiceRequired', () => {
+    it('should return true for branch of service categories when not GENERAL', () => {
+      branchOfServiceRuleforCategories.forEach(category => {
         const result = isBranchOfServiceRequired({
           selectCategory: category,
-          whoIsYourQuestionAbout: `anything except ${
-            whoIsYourQuestionAboutLabels.GENERAL
-          }`,
+          whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.MYSELF,
         });
         expect(result).to.be.true;
       });
+    });
+
+    it('should return false for branch of service categories when GENERAL', () => {
+      branchOfServiceRuleforCategories.forEach(category => {
+        const result = isBranchOfServiceRequired({
+          selectCategory: category,
+          whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.GENERAL,
+        });
+        expect(result).to.be.false;
+      });
+    });
+
+    it('should return true for Benefits Issues Outside US with Disability Compensation when not GENERAL', () => {
+      const result = isBranchOfServiceRequired({
+        selectCategory: CategoryBenefitsIssuesOutsidetheUS,
+        selectTopic: TopicDisabilityCompensation,
+        whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.MYSELF,
+      });
+      expect(result).to.be.true;
+    });
+
+    it('should return false for Benefits Issues Outside US with Disability Compensation when GENERAL', () => {
+      const result = isBranchOfServiceRequired({
+        selectCategory: CategoryBenefitsIssuesOutsidetheUS,
+        selectTopic: TopicDisabilityCompensation,
+        whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.GENERAL,
+      });
+      expect(result).to.be.false;
+    });
+
+    it('should return false for Benefits Issues Outside US with non-Disability Compensation topic', () => {
+      const result = isBranchOfServiceRequired({
+        selectCategory: CategoryBenefitsIssuesOutsidetheUS,
+        selectTopic: 'Some Other Topic',
+        whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.MYSELF,
+      });
+      expect(result).to.be.false;
     });
   });
 
@@ -1003,7 +1025,7 @@ describe('Components and Utility Functions', () => {
       expect(wrapper.exists()).to.be.true;
       expect(wrapper.find('a').prop('href')).to.equal('http://foo.bar');
       expect(wrapper.find('a').prop('download')).to.equal('foo.pdf');
-      expect(wrapper.find('a').text()).to.equal('foo.pdf (1907.36 MB)');
+      expect(wrapper.find('a').text()).to.equal('foo.pdf (190.73 MB)');
       wrapper.unmount();
     });
 
@@ -1020,6 +1042,25 @@ describe('Components and Utility Functions', () => {
       expect(wrapper.find('a').prop('download')).to.equal('foo.pdf');
       expect(wrapper.find('a').text()).to.equal('foo.pdf');
       wrapper.unmount();
+    });
+  });
+
+  describe('convertDateForInquirySubheader', () => {
+    it('handles well-formed dateString', () => {
+      // eslint-disable-next-line no-console
+      expect(convertDateForInquirySubheader('2/12/2023 12:00:00 AM')).to.equal(
+        'Feb. 11, 2023 at 7:00 p.m. E.T',
+      );
+    });
+
+    it('handles poorly-formed dateString', () => {
+      expect(convertDateForInquirySubheader('2/13/-234')).to.equal(
+        'Invalid Date',
+      );
+      expect(convertDateForInquirySubheader('pizza')).to.equal('Invalid Date');
+      expect(convertDateForInquirySubheader('2023-99-99 99:99:99')).to.equal(
+        'Invalid Date',
+      );
     });
   });
 });

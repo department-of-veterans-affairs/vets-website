@@ -14,11 +14,10 @@ import {
 import {
   BlockedTriageAlertStyles,
   DefaultFolders as Folders,
-  PageTitles,
   ParentComponent,
   downtimeNotificationParams,
 } from '../../util/constants';
-import { handleHeader } from '../../util/helpers';
+import { handleHeader, getPageTitle } from '../../util/helpers';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
@@ -87,16 +86,16 @@ const FolderHeader = props => {
   useEffect(
     () => {
       if (location.pathname.includes(folder?.folderId)) {
-        updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
+        const pageTitleTag = getPageTitle({
+          folderName: folder.name,
+        });
+        updatePageTitle(pageTitleTag);
       }
     },
     [folder, location.pathname],
   );
 
-  const { folderName, ddTitle, ddPrivacy } = handleHeader(
-    folder.folderId,
-    folder,
-  );
+  const { folderName, ddTitle, ddPrivacy } = handleHeader(folder);
 
   return (
     <>
@@ -106,7 +105,7 @@ const FolderHeader = props => {
         data-dd-action-name={ddTitle}
         data-dd-privacy={ddPrivacy}
       >
-        {folderName}
+        {`Messages: ${folderName}`}
       </h1>
 
       {folder.folderId === Folders.INBOX.id && (

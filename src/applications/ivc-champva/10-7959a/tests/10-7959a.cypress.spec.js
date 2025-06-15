@@ -11,7 +11,6 @@ import manifest from '../manifest.json';
 import {
   verifyAllDataWasSubmitted,
   reviewAndSubmitPageFlow,
-  fillAddressWebComponentPattern,
   selectRadioWebComponent,
   getAllPages,
 } from '../../shared/tests/helpers';
@@ -36,6 +35,7 @@ const testConfig = createTestConfig(
       'military-address-no-ohi-pharmacy-work.json',
       'third-party-foreign-address-ohi-medical-claim-work-auto.json',
       'two-ohi-other-type.json',
+      'no-packet.json',
     ],
 
     pageHooks: {
@@ -60,11 +60,29 @@ const testConfig = createTestConfig(
           });
         });
       },
+      // When we land on this screener page, progressing through the form is
+      // blocked (by design). To successfully complete the test,
+      // once we land here, change `certifierReceivedPacket` to `true`
+      // and click '<< Back' so that we can proceed past the screener
+      [ALL_PAGES.page1a2.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.axeCheck();
+            if (data.certifierReceivedPacket === false) {
+              // eslint-disable-next-line no-param-reassign
+              data.certifierReceivedPacket = true;
+              // This targets the '<< Back' button
+              cy.get('va-button').click();
+            }
+          });
+        });
+      },
       [ALL_PAGES.page1b.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'certifierAddress',
               data.certifierAddress,
             );
@@ -77,7 +95,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'applicantAddress',
               data.applicantAddress,
             );
@@ -174,7 +192,7 @@ const testConfig = createTestConfig(
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

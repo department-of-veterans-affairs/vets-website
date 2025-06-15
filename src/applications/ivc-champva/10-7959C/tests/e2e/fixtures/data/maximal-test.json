@@ -1,6 +1,7 @@
 {
   "description": "Has Medicare (ABD), both OHIs (Medigap), US address (new), third party signer",
   "data": {
+    "champvaBenefitStatus": true,
     "secondaryAdditionalComments": "Secondary comments",
     "secondaryMedigapPlan": "C",
     "applicantSecondaryInsuranceType": "medigap",
@@ -47,25 +48,49 @@
     },
     "missingUploads": [
       {
-        "name": "applicantMedicarePartAPartBCard",
+        "name": "applicantMedicarePartAPartBCardFront",
         "path": "medicare-ab-upload",
         "required": true,
         "uploaded": false
       },
       {
-        "name": "applicantMedicarePartDCard",
+        "name": "applicantMedicarePartAPartBCardBack",
+        "path": "medicare-ab-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "applicantMedicarePartDCardFront",
         "path": "medicare-d-upload",
         "required": true,
         "uploaded": false
       },
       {
-        "name": "primaryInsuranceCard",
+        "name": "applicantMedicarePartDCardBack",
+        "path": "medicare-d-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "primaryInsuranceCardFront",
         "path": "insurance-upload",
         "required": true,
         "uploaded": false
       },
       {
-        "name": "secondaryInsuranceCard",
+        "name": "primaryInsuranceCardBack",
+        "path": "insurance-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceCardFront",
+        "path": "secondary-insurance-card-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceCardBack",
         "path": "secondary-insurance-card-upload",
         "required": true,
         "uploaded": false

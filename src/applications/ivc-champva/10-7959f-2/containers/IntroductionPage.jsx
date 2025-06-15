@@ -39,11 +39,11 @@ const IntroductionPage = props => {
         </li>
       </ul>
       <a
-        href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#supporting-documents-to-send-w"
+        href="https://www.va.gov/health-care/file-foreign-medical-program-claim/"
         style={{ display: 'inline-block', marginBottom: '2em' }}
       >
         {' '}
-        Find out which supporting documents you need.
+        Find out which supporting documents you need
       </a>
       <SaveInProgressIntro
         formId={formConfig.formId}

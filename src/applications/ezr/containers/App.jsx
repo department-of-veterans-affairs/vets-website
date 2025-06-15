@@ -24,7 +24,13 @@ const App = props => {
     user,
   } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled, isSigiEnabled } = features;
+  const {
+    loading: isLoadingFeatures,
+    isProdEnabled,
+    isEmergencyContactsEnabled,
+    isNextOfKinEnabled,
+    isProvidersAndDependentsPrefillEnabled,
+  } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
@@ -39,8 +45,8 @@ const App = props => {
       if (isUserLOA3) {
         fetchEnrollmentStatus();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isUserLOA3],
   );
 
@@ -60,8 +66,10 @@ const App = props => {
         const defaultViewFields = {
           'view:userGender': parseVeteranGender(veteranGender),
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
-          'view:isSigiEnabled': isSigiEnabled,
           'view:householdEnabled': !!canSubmitFinancialInfo,
+          'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
+          'view:isNextOfKinEnabled': !!isNextOfKinEnabled,
+          'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
         };
 
         setFormData({
@@ -71,7 +79,12 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isAppLoading, canSubmitFinancialInfo, veteranFullName],
+    [
+      isAppLoading,
+      canSubmitFinancialInfo,
+      veteranFullName,
+      isProvidersAndDependentsPrefillEnabled,
+    ],
   );
 
   // Add Datadog UX monitoring to the application
@@ -107,7 +120,11 @@ const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
-    isSigiEnabled: state.featureToggles.hcaSigiEnabled,
+    isEmergencyContactsEnabled:
+      state.featureToggles.ezrEmergencyContactsEnabled,
+    isNextOfKinEnabled: state.featureToggles.ezrNextOfKinEnabled,
+    isProvidersAndDependentsPrefillEnabled:
+      state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,

@@ -50,6 +50,75 @@ describe('<Dashboard />', () => {
           services: ['appeals-status'],
           claims: {},
           signIn: { serviceName: 'logingov' },
+          vapContactInfo: {
+            email: {
+              createdAt: '2018-04-20T17:24:13.000Z',
+              emailAddress: 'myemail72585885@unattended.com',
+              effectiveEndDate: null,
+              effectiveStartDate: '2019-03-07T22:32:40.000Z',
+              id: 20648,
+              sourceDate: '2019-03-07T22:32:40.000Z',
+              sourceSystemUser: null,
+              transactionId: '44a0858b-3dd1-4de2-903d-38b147981a9c',
+              updatedAt: '2019-03-08T05:09:58.000Z',
+              vet360Id: '1273766',
+            },
+            mailingAddress: {
+              addressLine1: '123 Mailing Address St.',
+              addressLine2: 'Apt 1',
+              addressLine3: null,
+              addressPou: 'CORRESPONDENCE',
+              addressType: 'DOMESTIC',
+              city: 'Fulton',
+              countryName: 'United States',
+              countryCodeIso2: 'US',
+              countryCodeIso3: 'USA',
+              countryCodeFips: null,
+              countyCode: null,
+              countyName: null,
+              createdAt: '2022-03-21T21:06:15.000Z',
+              effectiveEndDate: null,
+              effectiveStartDate: '2022-03-23T19:14:59.000Z',
+              geocodeDate: '2022-03-23T19:15:00.000Z',
+              geocodePrecision: null,
+              id: 311999,
+              internationalPostalCode: null,
+              latitude: 45.2248,
+              longitude: -121.3595,
+              province: null,
+              sourceDate: '2022-03-23T19:14:59.000Z',
+              sourceSystemUser: null,
+              stateCode: 'NY',
+              transactionId: '3ea3ecf8-3ddf-46d9-8a4b-b5554385b3fb',
+              updatedAt: '2022-03-23T19:15:01.000Z',
+              validationKey: null,
+              vet360Id: '1273766',
+              zipCode: '97063',
+              zipCodeSuffix: null,
+              badAddress: null,
+            },
+            mobilePhone: {
+              areaCode: '619',
+              countryCode: '1',
+              createdAt: '2022-01-12T16:22:03.000Z',
+              extension: null,
+              effectiveEndDate: null,
+              effectiveStartDate: '2022-02-17T20:15:44.000Z',
+              id: 269804,
+              isInternational: false,
+              isTextable: null,
+              isTextPermitted: null,
+              isTty: null,
+              isVoicemailable: null,
+              phoneNumber: '5551234',
+              phoneType: 'MOBILE',
+              sourceDate: '2022-02-17T20:15:44.000Z',
+              sourceSystemUser: null,
+              transactionId: 'fdb13953-f670-4bd3-a3bb-8881eb9165dd',
+              updatedAt: '2022-02-17T20:15:45.000Z',
+              vet360Id: '1273766',
+            },
+          },
         },
       },
       featureToggles: {
@@ -120,6 +189,37 @@ describe('<Dashboard />', () => {
     expect(queryByTestId('welcome-modal')).to.not.exist;
   });
 
+  it('does not render the ContactInfoNeeded alert for an LOA1 user', async () => {
+    mockFetch();
+    initialState.user.profile.loa.current = 1;
+    initialState.user.profile.loa.highest = 1;
+
+    const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    await waitFor(() => {
+      expect(queryByTestId('account-blocked-alert')).to.not.exist;
+    });
+  });
+
+  it('does not render the ContactInfoNeeded alert for an LOA1 user missing at least one required piece of contact information', async () => {
+    mockFetch();
+    initialState.user.profile.loa.current = 1;
+    initialState.user.profile.loa.highest = 1;
+    initialState.user.profile.vapContactInfo.email = null;
+
+    const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    await waitFor(() => {
+      expect(queryByTestId('account-blocked-alert')).to.not.exist;
+    });
+  });
+
   it('renders for an LOA3 user', async () => {
     mockFetch();
 
@@ -137,6 +237,33 @@ describe('<Dashboard />', () => {
       expect(getByTestId('dashboard-section-benefit-application-drafts')).to
         .exist;
       expect(getByTestId('dashboard-section-education-and-training')).to.exist;
+    });
+  });
+
+  it('does not render a ContactInfoNeeded alert for an LOA3 user with all three required pieces of contact information', async () => {
+    mockFetch();
+
+    const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    await waitFor(() => {
+      expect(queryByTestId('account-blocked-alert')).to.not.exist;
+    });
+  });
+
+  it('renders a ContactInfoNeeded alert for an LOA3 user missing at least one required piece of contact information', async () => {
+    mockFetch();
+    initialState.user.profile.vapContactInfo.email = null;
+
+    const { getByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    await waitFor(() => {
+      expect(getByTestId('account-blocked-alert')).to.exist;
     });
   });
 

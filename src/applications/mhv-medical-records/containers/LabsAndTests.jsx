@@ -16,7 +16,8 @@ import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -76,7 +77,7 @@ const LabsAndTests = () => {
         confirm.{' '}
       </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -98,8 +99,11 @@ const LabsAndTests = () => {
             dispatch(reloadRecords());
           }}
         />
-
-        <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
+        {labsAndTests?.length ? (
+          <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
+        ) : (
+          <NoRecordsMessage type={recordType.LABS_AND_TESTS} />
+        )}
       </RecordListSection>
     </div>
   );

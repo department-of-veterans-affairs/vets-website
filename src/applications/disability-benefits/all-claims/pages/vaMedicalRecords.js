@@ -1,9 +1,12 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { treatmentView } from '../content/vaMedicalRecords';
 import { hasVAEvidence } from '../utils';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';
+import { isCompletingForm0781 } from '../utils/form0781';
+import { standardTitle } from '../content/form0781';
 
 import {
   validateMilitaryTreatmentCity,
@@ -17,7 +20,7 @@ const { vaTreatmentFacilities } = fullSchema.properties;
 
 export const uiSchema = {
   'view:vaMedicalRecordsIntro': {
-    'ui:title': 'VA medical records',
+    'ui:title': standardTitle('Request medical records from VA providers'),
     'ui:description':
       'Tell us where VA treated you for your condition. We’ll use the information you provide to help us locate your records and make decisions on your claim.',
   },
@@ -27,6 +30,8 @@ export const uiSchema = {
       itemAriaLabel: data => data.treatmentCenterName,
       viewField: treatmentView,
       showSave: true,
+      reviewMode: true,
+      confirmRemove: true,
       updateSchema: (formData, schema) => ({
         ...schema,
         minItems: hasVAEvidence(formData) ? 1 : 0,
@@ -36,6 +41,7 @@ export const uiSchema = {
       'ui:order': [
         'treatmentCenterName',
         'treatedDisabilityNames',
+        'treatmentLocation0781Related',
         'treatmentDateRange',
         'treatmentCenterAddress',
       ],
@@ -59,6 +65,16 @@ export const uiSchema = {
           atLeastOne: 'Please select at least one condition',
           required: 'Please select at least one condition',
         },
+      },
+      treatmentLocation0781Related: {
+        ...yesNoUI({
+          title:
+            'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+        }),
+        'ui:options': {
+          hideIf: formData => !isCompletingForm0781(formData),
+        },
+        'ui:required': formData => isCompletingForm0781(formData),
       },
       treatmentDateRange: {
         from: {
@@ -109,6 +125,10 @@ export const schema = {
         properties: {
           treatmentCenterName:
             vaTreatmentFacilities.items.properties.treatmentCenterName,
+          treatmentLocation0781Related: {
+            type: 'boolean',
+            properties: {},
+          },
           treatmentDateRange: {
             type: 'object',
             properties: {

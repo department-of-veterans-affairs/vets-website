@@ -5,6 +5,7 @@ import {
   Paths,
   RecipientStatus,
   Recipients,
+  PageTitles,
 } from './constants';
 
 /**
@@ -149,21 +150,14 @@ export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-
 
 export const decodeHtmlEntities = str => {
   const parser = new DOMParser();
-  const decodedStr = str
-    .replace(/&quot;/g, '"') // Replace &quot; with "
-    .replace(/&#x22;/g, '"') // Replace &#x22; with "
-    .replace(/&lt;/g, '<') // Replace &lt; with <
-    .replace(/&gt;/g, '>') // Replace &gt; with >
-    .replace(/&amp;/g, '&'); // Replace &amp; with &
-
-  const sanitizedStr = DOMPurify.sanitize(decodedStr);
-
-  return parser.parseFromString(sanitizedStr, 'text/html').documentElement
-    .innerText;
+  const sanitizedStr = DOMPurify.sanitize(str);
+  return (
+    parser.parseFromString(sanitizedStr, 'text/html').body.textContent || ''
+  );
 };
 
 /**
- * Comparing a timestampt to current date and time, if older than days return true
+ * Comparing a timestamp to current date and time, if older than days return true
  * @param {*} timestamp
  * @param {*} days
  * @returns {Boolean} true if timestamp is older than days
@@ -183,40 +177,51 @@ export const getLastSentMessage = messages => {
   );
 };
 
-export const handleHeader = (folderId, folder) => {
-  let folderName;
+export const isCustomFolder = folderId => {
+  return folderId > 0;
+};
 
-  switch (folderId) {
-    case Folders.INBOX.id: // Inbox
-      folderName = Folders.INBOX.header;
-      break;
-    case Folders.SENT.id: // Sent
-      folderName = Folders.SENT.header;
-      break;
-    case Folders.DRAFTS.id: // Drafts
-      folderName = Folders.DRAFTS.header;
-      break;
-    case Folders.DELETED.id: // Trash
-      folderName = Folders.DELETED.header;
-      break;
-    default:
-      folderName = folder.name;
-  }
+export const handleHeader = folder => {
+  const { folderId } = folder;
 
-  const isCustomFolder =
-    folderName !== Folders.INBOX.header &&
-    folderName !== Folders.SENT.header &&
-    folderName !== Folders.DRAFTS.header &&
-    folderName !== Folders.DELETED.header;
+  const folderName =
+    Object.values(Folders).find(f => f.id === folderId)?.header || folder.name;
 
-  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folderName}`} h1`;
-  const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
+  const ddTitle = `${
+    isCustomFolder(folderId) ? 'Custom Folder' : `Messages: ${folderName}`
+  } h1`;
+  const ddPrivacy = `${isCustomFolder(folderId) ? 'mask' : 'allow'}`;
 
   return {
     folderName,
     ddTitle,
     ddPrivacy,
   };
+};
+
+export const getPageTitle = ({ folderName, pathname }) => {
+  const systemFolderHeaders = [
+    Folders.INBOX.header,
+    Folders.SENT.header,
+    Folders.DRAFTS.header,
+    Folders.DELETED.header,
+  ];
+
+  const isSystemFolder = systemFolderHeaders.includes(folderName);
+
+  if (folderName) {
+    const titleTag = PageTitles.DEFAULT_PAGE_TITLE_TAG;
+    return `${`Messages: ${
+      folderName && isSystemFolder ? folderName : 'More folders'
+    } ${titleTag}`}`;
+  }
+
+  const folderTitleTag = PageTitles.MY_FOLDERS_PAGE_TITLE_TAG;
+  const conversationTitleTag = PageTitles.CONVERSATION_TITLE_TAG;
+
+  return `Messages: ${
+    pathname === Paths.FOLDERS ? folderTitleTag : conversationTitleTag
+  }`;
 };
 
 export const updateMessageInThread = (thread, response) => {
@@ -367,16 +372,10 @@ export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
 
 export const formatRecipient = recipient => {
   return {
-    id: recipient.attributes.triageTeamId,
-    triageTeamId: recipient.attributes.triageTeamId,
-    name: recipient.attributes.name,
-    stationNumber: recipient.attributes.stationNumber,
-    blockedStatus: recipient.attributes.blockedStatus,
-    preferredTeam: recipient.attributes.preferredTeam,
-    relationshipType: recipient.attributes.relationshipType,
-    signatureRequired: recipient.attributes.signatureRequired,
+    ...recipient,
+    id: recipient.triageTeamId,
     type: Recipients.CARE_TEAM,
-    status: recipient.attributes.blockedStatus
+    status: recipient.blockedStatus
       ? RecipientStatus.BLOCKED
       : RecipientStatus.ALLOWED,
   };
@@ -415,15 +414,18 @@ export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };
 
+import {
+  scrollToElement,
+  scrollToTop as scrollToTopUtil,
+} from 'platform/utilities/scroll';
+
 export const scrollTo = (element, behavior = 'smooth') => {
   if (element) {
-    element.scrollIntoView({ behavior });
+    scrollToElement(element, { behavior });
   }
 };
 
-export const scrollToTop = () => {
-  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-};
+export const scrollToTop = () => scrollToTopUtil();
 
 export const scrollIfFocusedAndNotInView = (offset = 0) => {
   const element = document.activeElement; // Get the currently focused element
@@ -440,13 +442,8 @@ export const scrollIfFocusedAndNotInView = (offset = 0) => {
       rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 
     if (!inViewport) {
-      // Calculate the position to scroll to, with an offset from the top
-      const scrollY = window.scrollY + rect.top - offset;
-
-      // Scroll to the element with the offset
-      window.scrollTo({
-        top: scrollY,
-        behavior: 'smooth', // Optional smooth scroll
+      scrollToElement(element, {
+        offset: offset * -1,
       });
     }
   }

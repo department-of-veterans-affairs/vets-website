@@ -1,11 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-
-import {
-  FETCH_TOGGLE_VALUES_STARTED,
-  FETCH_TOGGLE_VALUES_SUCCEEDED,
-} from '~/platform/site-wide/feature-toggles/actionTypes';
+import { FETCH_TOGGLE_VALUES_SUCCEEDED } from '~/platform/site-wide/feature-toggles/actionTypes';
 import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { renderTestApp } from '../helpers';
 import SignedInLayout, {
@@ -15,11 +11,7 @@ import SignedInLayout, {
 
 describe('SignedInLayout', () => {
   it('renders loading when pilot feature toggle is loading', () => {
-    const { getByTestId } = renderTestApp(<SignedInLayout />, {
-      initAction: {
-        type: FETCH_TOGGLE_VALUES_STARTED,
-      },
-    });
+    const { getByTestId } = renderTestApp(<SignedInLayout />);
 
     expect(getByTestId('signed-in-layout-pilot-toggle-loading')).to.exist;
   });

@@ -52,19 +52,6 @@ const HomePage = ({
         Answer 2 questions to find out how your income may affect your VA health
         care eligibility and costs.
       </p>
-      <va-alert
-        class="vads-u-margin-top--1 vads-u-margin-bottom--3"
-        close-btn-aria-label="Close notification"
-        status="info"
-        visible
-      >
-        <h2 slot="headline">
-          We’ve updated this tool to check 2025 income limits
-        </h2>
-        <p className="vads-u-margin-y--0">
-          You can check your income limits for 2025 now.
-        </p>
-      </va-alert>
       <h2>What to know before you start:</h2>
       <ul className="vads-u-margin-left--1">
         <li>

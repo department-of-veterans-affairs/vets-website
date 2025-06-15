@@ -18,7 +18,7 @@ describe('non-standard flow', () => {
 
     // Year
     h.verifyElement(h.YEARINPUT);
-    h.selectFromDropdown(h.YEARINPUT, h.YEAR);
+    h.typeInInput(h.YEARINPUT, h.YEAR);
     h.clickContinue();
 
     // Zip code

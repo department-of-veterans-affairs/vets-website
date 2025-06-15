@@ -59,6 +59,8 @@ export const NULL_STATE_FIELD = {
  * Records events for appointment details null states
  *
  * @export
+ * @param {Object} attributes  This is the dictionary containing the attributes
+ *   of the appointment to be recorded as part of the missing event.
  * @param {Object} nullStates This is the dictionary containing the null state
  *   details to be logged. The keys are the keys of NULL_STATE_TYPE and the
  *   values are booleans indicating whether that field is missing in the
@@ -66,29 +68,28 @@ export const NULL_STATE_FIELD = {
  *   information type is not applicable for the appointment type (e.g. Provider
  *   for Claim Exam) do not include an entry for the field in the dictionary.
  */
-export function recordAppointmentDetailsNullStates(nullStates) {
-  const nullStateEventPrefix = `${GA_PREFIX}-null-states`;
-  let anyNullState = false;
-
-  // Always increment total expected count
-  recordEvent({ event: `${nullStateEventPrefix}-expected-total` });
+export function recordAppointmentDetailsNullStates(attributes, nullStates) {
+  const missingFields = [];
+  const presentFields = [];
 
   // Examine each field type and determine which events should be logged
   Object.values(NULL_STATE_FIELD).forEach(key => {
     // Only log events if a field exists in the input dictionary, otherwise ignore it
     if (key in nullStates) {
-      // Record the expected event
-      recordEvent({ event: `${nullStateEventPrefix}-expected-${key}` });
-      // Record the missing event if needed and updated anyNullState
       if (nullStates[key]) {
-        recordEvent({ event: `${nullStateEventPrefix}-missing-${key}` });
-        anyNullState = true;
+        // If the field is missing, record the missing event
+        missingFields.push(key);
+      } else {
+        // If the field is present, record the expected event
+        presentFields.push(key);
       }
     }
   });
 
-  //  Increment if any null states were present
-  if (anyNullState) {
-    recordEvent({ event: `${nullStateEventPrefix}-missing-any` });
-  }
+  recordEvent({
+    event: `${GA_PREFIX}-null-states`,
+    ...attributes,
+    'fields-load-success': presentFields.join(','),
+    'fields-load-fail': missingFields.join(','),
+  });
 }

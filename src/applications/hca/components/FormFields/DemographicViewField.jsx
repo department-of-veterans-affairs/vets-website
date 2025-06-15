@@ -1,36 +1,40 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 const DemographicViewField = props => {
   const { formContext, uiSchema, schema, formData, registry } = props;
   const { ObjectField } = registry.fields;
 
-  if (formContext.reviewMode) {
-    const categories = Object.keys(schema.properties).filter(
-      prop => formData[prop],
-    );
+  const categories = useMemo(
+    () => Object.keys(schema.properties).filter(prop => formData[prop]),
+    [formData, schema.properties],
+  );
 
-    return (
-      <>
-        <div className="review-row">
-          <dt>{uiSchema['ui:title']}</dt>
-          <dd className="dd-privacy-hidden" data-dd-action-name="data value">
-            {categories.length > 0 && uiSchema[categories[0]]['ui:title']}
-          </dd>
-        </div>
-        {categories.slice(1).map(prop => (
-          <div key={prop} className="review-row">
-            <dt />
-            <dd className="dd-privacy-hidden" data-dd-action-name="data value">
-              {uiSchema[prop]['ui:title']}
-            </dd>
-          </div>
-        ))}
-      </>
-    );
+  if (!formContext.reviewMode) {
+    return <ObjectField {...props} />;
   }
 
-  return <ObjectField {...props} />;
+  return (
+    <>
+      <div className="review-row">
+        <dt>{uiSchema['ui:title']}</dt>
+        <dd className="dd-privacy-hidden" data-dd-action-name="data value">
+          {categories.length > 0 && uiSchema[categories[0]]['ui:title']}
+        </dd>
+      </div>
+      {categories.slice(1).map(field => {
+        const title = uiSchema[field]['ui:title'];
+        return (
+          <div key={field} className="review-row">
+            <dt />
+            <dd className="dd-privacy-hidden" data-dd-action-name="data value">
+              {title}
+            </dd>
+          </div>
+        );
+      })}
+    </>
+  );
 };
 
 DemographicViewField.propTypes = {

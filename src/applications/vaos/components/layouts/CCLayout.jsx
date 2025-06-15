@@ -43,15 +43,21 @@ export default function CCLayout({ data: appointment }) {
   const { patientComments } = appointment || {};
 
   let heading = 'Community care appointment';
-  if (isPastAppointment) heading = 'Past community care appointment';
-  else if (APPOINTMENT_STATUS.cancelled === status)
+  if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled community care appointment';
-  else heading = 'Community care appointment';
+  else if (isPastAppointment) heading = 'Past community care appointment';
 
-  recordAppointmentDetailsNullStates({
-    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
-    [NULL_STATE_FIELD.PROVIDER]: !providerName,
-  });
+  recordAppointmentDetailsNullStates(
+    {
+      type: appointment.type,
+      modality: appointment.modality,
+      isCerner: appointment.vaos.isCerner,
+    },
+    {
+      [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+      [NULL_STATE_FIELD.PROVIDER]: !providerName,
+    },
+  );
 
   return (
     <>

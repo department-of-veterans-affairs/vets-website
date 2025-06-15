@@ -1,25 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
 import PendingReferralCard from './PendingReferralCard';
-import { routeToNextReferralPage } from '../flow';
 import InfoAlert from '../../components/InfoAlert';
 import NewTabAnchor from '../../components/NewTabAnchor';
 
 const ReferralList = ({ referrals, referralsError }) => {
-  const history = useHistory();
-  const handleReferralClick = (e, referralId) => {
-    e.preventDefault();
-    routeToNextReferralPage(history, 'referralsAndRequests', referralId);
-  };
   if (referralsError) {
     return (
       <InfoAlert
         status="error"
         headline="We’re sorry. We’ve run into a problem"
       >
-        We’re sorry. We can’t retrieve your community care referrals at this
-        time. Please try again later.
+        We’re having trouble getting your community care referrals. Please try
+        again later.
       </InfoAlert>
     );
   }
@@ -41,7 +34,7 @@ const ReferralList = ({ referrals, referralsError }) => {
   }
   return (
     <ul
-      className="vads-u-padding-left--0 vads-u-margin-top--0"
+      className="usa-unstyled-list vaos-appts__list"
       data-testid="referral-list"
     >
       {referrals.map((referral, index) => {
@@ -49,8 +42,7 @@ const ReferralList = ({ referrals, referralsError }) => {
           <PendingReferralCard
             key={index}
             index={index}
-            referral={referral}
-            handleClick={handleReferralClick}
+            referral={referral.attributes}
           />
         );
       })}

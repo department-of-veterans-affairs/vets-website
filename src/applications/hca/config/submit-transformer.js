@@ -65,7 +65,7 @@ export const submitTransformer = (formConfig, form) => {
   }
 
   // map dependents
-  const { dependents } = form.data;
+  const { dependents } = dataToMap;
   if (dependents?.length) {
     const sanitizedDependents = sanitizeDependents(dependents);
     dataToMap = set('dependents', sanitizedDependents, dataToMap);

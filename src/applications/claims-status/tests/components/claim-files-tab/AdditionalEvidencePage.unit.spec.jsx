@@ -1,17 +1,17 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { createStore } from 'redux';
+import { fireEvent } from '@testing-library/dom';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
+import { fileTypeSignatures } from 'platform/forms-system/src/js/utilities/file';
 import { AdditionalEvidencePage } from '../../../components/claim-files-tab/AdditionalEvidencePage';
-import * as AddFilesForm from '../../../components/claim-files-tab/AddFilesForm';
 import { renderWithRouter } from '../../utils';
 
 const getRouter = () => ({ push: sinon.spy() });
@@ -34,21 +34,7 @@ const fileFormProps = {
   },
 };
 
-let stub;
-
 describe('<AdditionalEvidencePage>', () => {
-  beforeEach(() => {
-    // Stubbing out AddFilesForm because we're not interested
-    // in setting up all of the redux state needed to test it
-    stub = sinon.stub(AddFilesForm, 'default');
-    stub.returns(<div data-testid="add-files-form" />);
-    stub.propTypes = {};
-  });
-
-  afterEach(() => {
-    stub.restore();
-  });
-
   const getStore = createStore(() => ({}));
 
   context('when claim is open', () => {
@@ -64,10 +50,14 @@ describe('<AdditionalEvidencePage>', () => {
     };
 
     it('should render loading div', () => {
-      const tree = SkinDeep.shallowRender(
-        <AdditionalEvidencePage {...fileFormProps} claim={claim} loading />,
+      const { container } = render(
+        <Provider store={getStore}>
+          <AdditionalEvidencePage {...fileFormProps} claim={claim} loading />,
+        </Provider>,
       );
-      expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
+
+      expect($('va-loading-indicator', container)).to.exist;
+      expect($('additional-evidence-container', container)).not.to.exist;
     });
 
     it('should render upload error alert', () => {
@@ -76,16 +66,19 @@ describe('<AdditionalEvidencePage>', () => {
         body: 'test',
         type: 'error',
       };
-
-      const tree = SkinDeep.shallowRender(
-        <AdditionalEvidencePage
-          claim={claim}
-          message={message}
-          filesNeeded={[]}
-          filesOptional={[]}
-        />,
+      const { container } = render(
+        <Provider store={getStore}>
+          <AdditionalEvidencePage
+            {...fileFormProps}
+            claim={claim}
+            message={message}
+          />
+          ,
+        </Provider>,
       );
-      expect(tree.subTree('Notification')).not.to.be.false;
+
+      expect($('va-alert', container)).to.exist;
+      expect($('va-alert h2', container).textContent).to.equal(message.title);
     });
 
     it('should render upload error alert when rerendered', () => {
@@ -124,18 +117,23 @@ describe('<AdditionalEvidencePage>', () => {
       };
       const clearAdditionalEvidenceNotification = sinon.spy();
 
-      const tree = SkinDeep.shallowRender(
-        <AdditionalEvidencePage
-          {...fileFormProps}
-          claim={claim}
-          clearAdditionalEvidenceNotification={
-            clearAdditionalEvidenceNotification
-          }
-          message={message}
-        />,
+      const { container, unmount } = render(
+        <Provider store={getStore}>
+          <AdditionalEvidencePage
+            {...fileFormProps}
+            claim={claim}
+            clearAdditionalEvidenceNotification={
+              clearAdditionalEvidenceNotification
+            }
+            message={message}
+          />
+          ,
+        </Provider>,
       );
-      expect(tree.subTree('Notification')).not.to.be.false;
-      tree.getMountedInstance().componentWillUnmount();
+
+      expect($('va-alert', container)).to.exist;
+      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      unmount();
       expect(clearAdditionalEvidenceNotification.called).to.be.true;
     });
 
@@ -147,19 +145,24 @@ describe('<AdditionalEvidencePage>', () => {
       };
       const clearAdditionalEvidenceNotification = sinon.spy();
 
-      const tree = SkinDeep.shallowRender(
-        <AdditionalEvidencePage
-          {...fileFormProps}
-          claim={claim}
-          uploadComplete
-          clearAdditionalEvidenceNotification={
-            clearAdditionalEvidenceNotification
-          }
-          message={message}
-        />,
+      const { container, unmount } = render(
+        <Provider store={getStore}>
+          <AdditionalEvidencePage
+            {...fileFormProps}
+            claim={claim}
+            uploadComplete
+            clearAdditionalEvidenceNotification={
+              clearAdditionalEvidenceNotification
+            }
+            message={message}
+          />
+          ,
+        </Provider>,
       );
-      expect(tree.subTree('Notification')).not.to.be.false;
-      tree.getMountedInstance().componentWillUnmount();
+
+      expect($('va-alert', container)).to.exist;
+      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      unmount();
       expect(clearAdditionalEvidenceNotification.called).to.be.false;
     });
 
@@ -179,19 +182,35 @@ describe('<AdditionalEvidencePage>', () => {
     });
 
     it('should handle submit files', () => {
-      stub.restore();
-      const files = [];
-      const onSubmit = sinon.spy();
-      const tree = SkinDeep.shallowRender(
-        <AdditionalEvidencePage
-          claim={claim}
-          files={files}
-          submitFiles={onSubmit}
-          {...fileFormProps}
-        />,
+      const file = {
+        file: new File(['hello'], 'hello.jpg', {
+          type: fileTypeSignatures.jpg.mime,
+        }),
+        size: 40,
+        name: 'hello.jpg',
+        docType: { value: 'L029', dirty: true },
+        password: { value: '', dirty: false },
+        isEncrypted: false,
+      };
+      const submitFilesSpy = sinon.spy();
+
+      const { container } = render(
+        <Provider store={getStore}>
+          <AdditionalEvidencePage
+            {...fileFormProps}
+            claim={claim}
+            files={[file]}
+            documentsUseLighthouse={false}
+            submitFiles={submitFilesSpy}
+          />
+          ,
+        </Provider>,
       );
-      tree.subTree('AddFilesForm').props.onSubmit();
-      expect(onSubmit.calledWith(1, null, files)).to.be.true;
+
+      fireEvent.click($('#submit', container));
+
+      expect(submitFilesSpy.called).to.be.true;
+      expect(submitFilesSpy.calledWith(1, null, [file])).to.be.true;
     });
 
     it('should reset uploads on mount', () => {
@@ -217,21 +236,33 @@ describe('<AdditionalEvidencePage>', () => {
       const getClaim = sinon.spy();
       const resetUploads = sinon.spy();
       const navigate = sinon.spy();
-
-      const tree = SkinDeep.shallowRender(
-        <AdditionalEvidencePage
-          {...fileFormProps}
-          claim={claim}
-          uploadComplete
-          navigate={navigate}
-          getClaim={getClaim}
-          resetUploads={resetUploads}
-        />,
+      const { rerender } = render(
+        <Provider store={getStore}>
+          <AdditionalEvidencePage
+            {...fileFormProps}
+            claim={claim}
+            navigate={navigate}
+            getClaim={getClaim}
+            resetUploads={resetUploads}
+          />
+          ,
+        </Provider>,
       );
 
-      tree
-        .getMountedInstance()
-        .UNSAFE_componentWillReceiveProps({ uploadComplete: true });
+      rerender(
+        <Provider store={getStore}>
+          <AdditionalEvidencePage
+            {...fileFormProps}
+            claim={claim}
+            uploadComplete
+            navigate={navigate}
+            getClaim={getClaim}
+            resetUploads={resetUploads}
+          />
+          ,
+        </Provider>,
+      );
+
       expect(getClaim.calledWith(1)).to.be.true;
       expect(navigate.calledWith('../files')).to.be.true;
     });

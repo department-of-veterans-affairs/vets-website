@@ -1,112 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
 import moment from 'moment';
+import { format, subMonths } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../../components/InfoAlert';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import { groupAppointmentByDay } from '../../../services/appointment';
-import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
+import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import BackendAppointmentServiceAlert from '../../components/BackendAppointmentServiceAlert';
-import NoAppointments from '../../components/NoAppointments';
+import { fetchPastAppointments } from '../../redux/actions';
 import {
-  fetchPastAppointments,
-  startNewAppointmentFlow,
-} from '../../redux/actions';
-import { getPastAppointmentListInfo } from '../../redux/selectors';
+  getPastAppointmentListInfo,
+  selectPastAppointments,
+} from '../../redux/selectors';
 import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayout';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
-export function getPastAppointmentDateRangeOptions(today = moment()) {
-  const startOfToday = today.clone().startOf('day');
+export function getMaximumPastAppointmentDateRange() {
+  const now = new Date();
+  const today = format(now, 'yyyy-MM-dd');
 
-  // Past 3 months
-  const options = [
-    {
-      value: 0,
-      label: 'Past 3 months',
-      startDate: startOfToday
-        .clone()
-        .subtract(3, 'months')
-        .format('YYYY-MM-DD'),
-      endDate: today
-        .clone()
-        .startOf('hour')
-        .format('YYYY-MM-DD'),
-    },
-  ];
-
-  // 3 month ranges going back ~1 year
-  let index = 1;
-  let monthsToSubtract = 3;
-
-  while (index < 4) {
-    const start = startOfToday
-      .clone()
-      .subtract(index === 1 ? 5 : monthsToSubtract + 2, 'months')
-      .startOf('month');
-    const end = startOfToday
-      .clone()
-      .subtract(index === 1 ? 3 : monthsToSubtract, 'months')
-      .endOf('month');
-
-    options.push({
+  const dateRanges = [3, 6, 12, 24];
+  return dateRanges.map((range, index) => {
+    const start = subMonths(now, range);
+    return {
       value: index,
-      label: `${start.format('MMM YYYY')} – ${end.format('MMM YYYY')}`,
-      startDate: start.format('YYYY-MM-DD'),
-      endDate: end.format('YYYY-MM-DD'),
-    });
-
-    monthsToSubtract += 3;
-    index += 1;
-  }
-
-  // All of current year
-  options.push({
-    value: 4,
-    label: `All of ${startOfToday.format('YYYY')}`,
-    startDate: startOfToday
-      .clone()
-      .startOf('year')
-      .format('YYYY-MM-DD'),
-    endDate: startOfToday.format('YYYY-MM-DD'),
+      label: `Past ${range} months`,
+      startDateRaw: start,
+      startDate: format(start, 'yyyy-MM-dd'),
+      endDate: today,
+    };
   });
-
-  // All of last year
-  const lastYear = startOfToday.clone().subtract(1, 'years');
-
-  options.push({
-    value: 5,
-    label: `All of ${lastYear.format('YYYY')}`,
-    startDate: lastYear.startOf('year').format('YYYY-MM-DD'),
-    endDate: lastYear
-      .clone()
-      .endOf('year')
-      .format('YYYY-MM-DD'),
-  });
-
-  return options;
 }
 
 export default function PastAppointmentsPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isInitialMount, setInitialMount] = useState(true);
-  const dateRangeOptions = getPastAppointmentDateRangeOptions();
+
+  const dateRangeOptions = getMaximumPastAppointmentDateRange();
   const {
-    showScheduleButton,
     pastAppointmentsByMonth,
     pastStatus,
     pastSelectedIndex,
-    hasTypeChanged,
   } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
-
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+  const pastAppointments = useSelector(state => selectPastAppointments(state));
 
   useEffect(() => {
     if (pastStatus === FETCH_STATUS.notStarted) {
@@ -123,14 +63,12 @@ export default function PastAppointmentsPage() {
   useEffect(
     () => {
       if (pastStatus === FETCH_STATUS.succeeded && !isInitialMount) {
-        scrollAndFocus('h3');
-      } else if (hasTypeChanged && pastStatus === FETCH_STATUS.succeeded) {
-        scrollAndFocus('#type-dropdown');
-      } else if (hasTypeChanged && pastStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('#appointment-count');
+      } else if (pastStatus === FETCH_STATUS.failed) {
         scrollAndFocus('h3');
       }
     },
-    [isInitialMount, pastStatus, hasTypeChanged],
+    [isInitialMount, pastStatus],
   );
 
   const onDateRangeChange = index => {
@@ -159,27 +97,9 @@ export default function PastAppointmentsPage() {
   ) {
     return (
       <>
-        {dropdown}
         <div className="vads-u-margin-y--8">
           <va-loading-indicator
-            set-focus={hasTypeChanged || !isInitialMount}
-            message="Loading your past appointments..."
-          />
-        </div>
-      </>
-    );
-  }
-
-  if (
-    pastStatus === FETCH_STATUS.loading ||
-    pastStatus === FETCH_STATUS.notStarted
-  ) {
-    return (
-      <>
-        {dropdown}
-        <div className="vads-u-margin-y--8">
-          <va-loading-indicator
-            set-focus={hasTypeChanged || !isInitialMount}
+            set-focus={!isInitialMount}
             message="Loading your past appointments..."
           />
         </div>
@@ -203,6 +123,15 @@ export default function PastAppointmentsPage() {
 
   const keys = Object.keys(pastAppointmentsByMonth);
 
+  let noAppointmentHeading = 'We didn’t find any results in this date range';
+  let noAppointmentMessage =
+    'Try selecting a different date range. If you can’t find your appointment, contact your VA health facility.';
+  if (pastSelectedIndex === dateRangeOptions.length - 1) {
+    noAppointmentHeading = 'We didn’t find any results';
+    noAppointmentMessage =
+      'If you can’t find your appointment, contact your VA health facility.';
+  }
+
   return (
     <>
       <BackendAppointmentServiceAlert />
@@ -214,6 +143,17 @@ export default function PastAppointmentsPage() {
       </div>
       <div className="vaos-print-only vads-u-margin-top--neg2 vads-u-margin-bottom--2">
         {dateRangeOptions[pastSelectedIndex]?.label}
+      </div>
+
+      <div
+        id="appointment-count"
+        className="vads-u-margin-bottom--2 vads-u-font-style--italic"
+      >
+        Showing {pastAppointments.length} appointments between today and{' '}
+        {format(
+          dateRangeOptions[pastSelectedIndex].startDateRaw,
+          'MMMM d, yyyy',
+        )}
       </div>
 
       {keys.map(key => {
@@ -243,7 +183,6 @@ export default function PastAppointmentsPage() {
               role="list"
             >
               {UpcomingAppointmentLayout({
-                featureBreadcrumbUrlUpdate,
                 hashTable,
                 history,
               })}
@@ -253,18 +192,12 @@ export default function PastAppointmentsPage() {
       })}
 
       {!keys.length && (
-        <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
-          <NoAppointments
-            description="past appointments"
-            showScheduleButton={showScheduleButton}
-            startNewAppointmentFlow={() => {
-              recordEvent({
-                event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-              });
-              dispatch(startNewAppointmentFlow());
-            }}
-            level={2}
-          />
+        <div className="vads-u-background-color--gray-lightest vads-u-padding--2">
+          <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
+            {noAppointmentHeading}
+          </h2>
+          <p>{noAppointmentMessage}</p>
+          <a href="/find-locations">Find your VA health facility</a>
         </div>
       )}
     </>

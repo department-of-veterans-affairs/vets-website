@@ -9,12 +9,14 @@ import LetterList from './containers/LetterList';
 import Main from './containers/Main';
 import { LetterPage } from './containers/LetterPage';
 import LetterPageWrapper from './containers/LetterPageWrapper';
+import { EditAddress } from './containers/EditAddress';
 
 const newRoutes = (
   <Routes>
     <Route path="/" element={<App />}>
       <Route index element={<Navigate to="letter-page" replace />} />
       <Route element={<LetterPageWrapper />}>
+        <Route element={<EditAddress />} path="edit-address" />
         <Route element={<Main />}>
           <Route element={<LetterPage />} path="letter-page" />
         </Route>

@@ -137,8 +137,7 @@ export default {
         schema: dependentRecords.schemaEnhanced,
         depends: formData =>
           formData.questions?.hasDependents &&
-          formData.questions?.hasDependents !== '0' &&
-          formData['view:streamlinedWaiver'],
+          formData.questions?.hasDependents !== '0',
         CustomPage: DependentAges,
         CustomPageReview: DependentAgesReview,
         editModeOnReviewPage: false,

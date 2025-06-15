@@ -1,0 +1,30 @@
+{
+  "statusCode": 200,
+  "body": {
+    "data": {
+      "id": "",
+      "type": "in_progress_forms",
+      "attributes": {
+        "formId": "21-22",
+        "createdAt": "2025-01-01T00:00:00.000Z",
+        "updatedAt": "2025-01-01T00:00:00.000Z",
+        "metadata": {
+          "version": 0,
+          "returnUrl": "/claimant-type",
+          "savedAt": 1735707600000,
+          "submission": {
+            "status": false,
+            "errorMessage": false,
+            "id": false,
+            "timestamp": false,
+            "hasAttemptedSubmit": false
+          },
+          "createdAt": 1735707600000,
+          "expiresAt": 1740805200000,
+          "lastUpdated": 1735707600000,
+          "inProgressFormId": 12345
+        }
+      }
+    }
+  }
+}

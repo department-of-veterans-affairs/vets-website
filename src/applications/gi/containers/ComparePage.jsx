@@ -6,7 +6,8 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -14,7 +15,7 @@ import _ from 'lodash';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import {
   fetchProfile,
   setPageTitle,
@@ -25,10 +26,7 @@ import {
 } from '../actions';
 import { estimatedBenefits } from '../selectors/estimator';
 import { getCalculatedBenefits } from '../selectors/calculator';
-import {
-  getCompareCalculatorState,
-  updateUrlParams,
-} from '../selectors/compare';
+import { getCompareCalculatorState } from '../selectors/compare';
 import ServiceError from '../components/ServiceError';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import CompareHeader from '../components/CompareHeader';
@@ -59,9 +57,11 @@ export function ComparePage({
   const { selected, error } = compare;
   const { loaded, institutions } = compare.details;
   const { version } = preview;
-  const history = useHistory();
+  const navigate = useNavigate();
   const hasScrollTo = scrollTo !== null;
   const placeholderRef = useRef(null);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
 
   useEffect(
     () => {
@@ -71,6 +71,9 @@ export function ComparePage({
     },
     [allLoaded, dispatchFetchCompareDetails, filters, selected, version],
   );
+  useEffect(() => {
+    document.title = `Institution comparison: GI Bill® Comparison Tool | Veterans Affairs`;
+  }, []);
 
   useEffect(
     () => {
@@ -222,7 +225,11 @@ export function ComparePage({
             const newSelected = selected.filter(
               facilityCode => facilityCode !== promptingFacilityCode,
             );
-            history.replace(updateUrlParams(newSelected, version));
+            navigate(
+              `${
+                giCtCollab ? '/schools-and-employers' : ''
+              }/compare/?facilities=${newSelected.join(',')}`,
+            );
             dispatchRemoveCompareInstitution(promptingFacilityCode);
           }}
           onCancel={() => setPromptingFacilityCode(null)}

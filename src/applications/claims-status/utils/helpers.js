@@ -3,9 +3,10 @@ import { format, isValid, parseISO } from 'date-fns';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { scrollAndFocus, scrollToTop } from 'platform/utilities/ui';
+import { scrollAndFocus, scrollToTop } from 'platform/utilities/scroll';
 import titleCase from 'platform/utilities/data/titleCase';
 import { setUpPage, isTab } from './page';
+import { evidenceDictionary } from './evidenceDictionary';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
@@ -420,7 +421,8 @@ export const DOC_TYPES = [
   },
   {
     value: 'L228',
-    label: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
+    label:
+      'VA Form 21-0781 - Statement in Support of Claimed Mental Health Disorder(s) Due to an In-Service Traumatic Event(s)',
   },
   {
     value: 'L229',
@@ -1202,6 +1204,17 @@ export function setTabDocumentTitle(claim, tabName) {
   setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
 
+export const setPageTitle = trackedItem => {
+  if (trackedItem) {
+    const pageTitle = setDocumentRequestPageTitle(
+      trackedItem.friendlyName || trackedItem.displayName,
+    );
+    setDocumentTitle(pageTitle);
+  } else {
+    setDocumentTitle('Document Request');
+  }
+};
+
 // Used to set the page focus on the CST Tabs
 export function setPageFocus(lastPage, loading) {
   if (!isTab(lastPage)) {
@@ -1237,4 +1250,15 @@ export const getTrackedItemDateFromStatus = item => {
     default:
       return item.requestedDate;
   }
+};
+
+export const getDisplayFriendlyName = item => {
+  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
+    let updatedFriendlyName = item.friendlyName;
+    updatedFriendlyName =
+      updatedFriendlyName.charAt(0).toLowerCase() +
+      updatedFriendlyName.slice(1);
+    return updatedFriendlyName;
+  }
+  return item.friendlyName;
 };

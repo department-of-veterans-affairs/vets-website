@@ -3,7 +3,7 @@
 }
 
 .print-download {
-  width: 293px;
+  max-width: 293px;
   button {
     background-color: var(--vads-color-white);
     color: var(--vads-color-primary);
@@ -83,7 +83,7 @@
   }
 
   .menu-options-open {
-    width: 293px;
+    max-width: 293px;
     position: absolute;
     z-index: 99;
     list-style: none;

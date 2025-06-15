@@ -5,6 +5,7 @@ import { merge } from 'lodash';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
+import { createStore } from 'redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -25,6 +26,7 @@ const TestComponent = () => <div data-testid="children" />;
 
 const AVAILABLE = 'AVAILABLE';
 
+const getStore = () => createStore(() => ({}));
 const defaultProps = {
   params: { id: appealIdParam },
   appeal: mockData.data[0],
@@ -42,13 +44,15 @@ describe('<AppealInfo>', () => {
 
   it('should render its children', () => {
     const screen = render(
-      <MemoryRouter>
-        <Routes>
-          <Route element={<AppealInfo {...defaultProps} />}>
-            <Route index element={<TestComponent />} />
-          </Route>
-        </Routes>
-      </MemoryRouter>,
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <Routes>
+            <Route element={<AppealInfo {...defaultProps} />}>
+              <Route index element={<TestComponent />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </Provider>,
     );
 
     expect(screen.getByTestId('children')).to.exist;
@@ -65,7 +69,11 @@ describe('<AppealInfo>', () => {
   });
 
   it('should render the breadcrumbs', () => {
-    const { container } = renderWithRouter(<AppealInfo {...defaultProps} />);
+    const { container } = renderWithRouter(
+      <Provider store={getStore()}>
+        <AppealInfo {...defaultProps} />
+      </Provider>,
+    );
 
     const breadcrumbs = $('va-breadcrumbs', container);
     expect(breadcrumbs.breadcrumbList.length).to.equal(3);

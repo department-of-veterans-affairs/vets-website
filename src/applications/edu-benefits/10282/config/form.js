@@ -41,10 +41,10 @@ const formConfig = {
   saveInProgress: {
     messages: {
       inProgress:
-        'Your 	education benefits application (22-10282) is in progress.',
+        'Your education benefits application (22-10282) is in progress.',
       expired:
-        'Your saved 	education benefits application (22-10282) has expired. If you want to apply for 	education benefits, please start a new application.',
-      saved: 'Your 	education benefits application has been saved.',
+        'Your saved education benefits application (22-10282) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
     },
   },
   version: 0,
@@ -58,7 +58,6 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-
   title: 'Apply for the IBM SkillsBuild program',
   subTitle:
     'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',

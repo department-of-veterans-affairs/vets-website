@@ -3,9 +3,10 @@ import { isValidDateRange } from 'platform/forms-system/src/js/utilities/validat
 
 import { getIssueName, getSelected } from '../utils/issues';
 
-import { errorMessages, REGEX_COMMA } from '../../995/constants';
+import { errorMessages } from '../../995/constants';
 import { validateDate } from '../../995/validations/date';
 import sharedErrorMessages from '../content/errorMessages';
+import { REGEXP } from '../constants';
 
 export const validateIssues = (
   errors,
@@ -50,7 +51,7 @@ export const validateUniqueLocationOrFacility = (
   const len = vaOrPrivateLocations.length;
   if (len > 1 && len !== uniqueVaOrPrivateLocations.size) {
     const hasDuplicate = vaOrPrivateLocations.find(vaOrPrivateLocation => {
-      if (vaOrPrivateLocation.replace(REGEX_COMMA, '') === '') {
+      if (vaOrPrivateLocation.replace(REGEXP.COMMA, '') === '') {
         return false;
       }
       const firstIndex = vaOrPrivateLocations.indexOf(vaOrPrivateLocation);

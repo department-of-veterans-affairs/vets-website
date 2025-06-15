@@ -197,4 +197,26 @@ describe('compare reducer', () => {
       expect(newState.error).to.be.null;
     });
   });
+  it('should update selected facilities when facilities exist in payload', () => {
+    const initialState2 = { selected: [] };
+
+    const action = {
+      type: 'UPDATE_QUERY_PARAMS',
+      payload: { facilities: 'facility1,facility2,facility3' },
+    };
+
+    const expectedState = { selected: ['facility1', 'facility2', 'facility3'] };
+
+    const newState = compare(initialState2, action);
+    expect(newState).to.deep.equal(expectedState);
+  });
+
+  it('should not modify state when facilities are not in payload', () => {
+    const initialState2 = { selected: ['facility1'] };
+
+    const action = { type: 'UPDATE_QUERY_PARAMS', payload: {} };
+
+    const newState = compare(initialState2, action);
+    expect(newState).to.deep.equal(initialState2);
+  });
 });

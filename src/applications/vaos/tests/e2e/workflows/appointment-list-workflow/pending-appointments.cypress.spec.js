@@ -1,16 +1,18 @@
 /* eslint-disable no-plusplus */
 // @ts-check
-import moment from 'moment';
+import { subDays } from 'date-fns';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockUser from '../../../fixtures/MockUser';
 import PendingAppointmentListPageObject from '../../page-objects/AppointmentList/PendingAppointmentListPageObject';
 import {
-  vaosSetup,
-  mockFeatureToggles,
   mockAppointmentsGetApi,
+  mockFacilityApi,
+  mockFeatureToggles,
   mockVamcEhrApi,
+  vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import MockUser from '../../fixtures/MockUser';
 
 describe('VAOS pending appointment flow', () => {
   describe('When veteran has pending appointments', () => {
@@ -28,8 +30,9 @@ describe('VAOS pending appointment flow', () => {
       for (let i = 1; i <= 5; i++) {
         const appt = new MockAppointmentResponse({
           id: i,
-          localStartTime: moment(),
+          localStartTime: new Date(),
           status: APPOINTMENT_STATUS.proposed,
+          pending: true,
         });
         response.push(appt);
       }
@@ -51,9 +54,9 @@ describe('VAOS pending appointment flow', () => {
     it('should display pending appointment details', () => {
       // Arrange
       const appt = new MockAppointmentResponse({
-        localStartTime: moment(),
-        serviceType: 'primaryCare',
+        localStartTime: new Date(),
         status: APPOINTMENT_STATUS.proposed,
+        pending: true,
       });
 
       mockAppointmentsGetApi({ response: [appt] });
@@ -76,13 +79,13 @@ describe('VAOS pending appointment flow', () => {
 
     it('should display pending appointment pass due alert', () => {
       // Arrange
-      const past = moment().subtract(7, 'day');
+      const past = subDays(new Date(), 7);
       const appt = new MockAppointmentResponse({
-        localStartTime: moment(),
-        serviceType: 'primaryCare',
+        localStartTime: new Date(),
         status: APPOINTMENT_STATUS.proposed,
-        created: past,
-      });
+        pending: true,
+      }).setCreated(past);
+      mockFacilityApi({ id: '983', response: new MockFacilityResponse() });
 
       mockAppointmentsGetApi({ response: [appt] });
 

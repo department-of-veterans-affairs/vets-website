@@ -10,7 +10,7 @@ import {
 const OmbInfo = () => (
   <>
     <p>{subTitle995}</p>
-    <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="4/30/2024">
+    <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="5/31/2027">
       <p>
         <strong>Respondent Burden:</strong> We need this information to
         determine entitlement to benefits (38 U.S.C. 501). Title 38, United
@@ -21,13 +21,12 @@ const OmbInfo = () => (
         displayed. You are not required to respond to a collection of
         information if this number is not displayed. Valid OMB control numbers
         can be located on the{' '}
-        <a
+        <va-link
+          disable-analytics
           href="https://www.reginfo.gov/public/do/PRAMain"
-          target="_blank"
-          rel="noreferrer"
-        >
-          OMB Internet Page (opens in a new tab)
-        </a>
+          external
+          text="OMB Internet Page"
+        />
         . If desired, you can call <va-telephone contact="8008271000" /> to get
         information on where to send comments or suggestions about this form.
       </p>
@@ -84,13 +83,12 @@ const OmbInfo = () => (
         conduct or sponsor a collection of information unless a valid OMB
         control number is displayed. Valid OMB control numbers can be located on
         the{' '}
-        <a
+        <va-link
+          disable-analytics
           href="https://www.reginfo.gov/public/do/PRAMain"
-          target="_blank"
-          rel="noreferrer"
-        >
-          OMB Internet Page (opens in a new tab)
-        </a>
+          external
+          text="OMB Internet Page"
+        />
         . If desired, you can call <va-telephone contact="8008271000" /> to get
         information on where to send comments or suggestions about this form.
       </p>

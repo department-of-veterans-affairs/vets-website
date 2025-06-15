@@ -9,9 +9,9 @@ import { closeAlert } from '../actions/alerts';
 import {
   BlockedTriageAlertStyles,
   Breadcrumbs,
-  PageTitles,
   ParentComponent,
 } from '../util/constants';
+import { getPageTitle } from '../util/helpers';
 import FoldersList from '../components/FoldersList';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import CreateFolderModal from '../components/Modals/CreateFolderModal';
@@ -57,11 +57,16 @@ const Folders = () => {
           folders !== undefined && !alertVisible?.isActive
             ? 'h1'
             : alertVisible?.isActive && 'va-alert';
+
+        const pageTitleTag = getPageTitle({
+          pathname: location.pathname,
+        });
+
         focusElement(document.querySelector(alertSelector));
-        updatePageTitle(PageTitles.MY_FOLDERS_PAGE_TITLE_TAG);
+        updatePageTitle(pageTitleTag);
       }
     },
-    [alertList, folders, isModalVisible],
+    [alertList, folders, isModalVisible, location.pathname],
   );
 
   const openNewModal = () => {
@@ -97,7 +102,7 @@ const Folders = () => {
     return (
       <>
         <h1 className="vads-u-margin-bottom--2" data-testid="my-folder-header">
-          {Breadcrumbs.FOLDERS.label}
+          Messages: {Breadcrumbs.FOLDERS.label}
         </h1>
         {(noAssociations || allTriageGroupsBlocked) && (
           <BlockedTriageGroupAlert

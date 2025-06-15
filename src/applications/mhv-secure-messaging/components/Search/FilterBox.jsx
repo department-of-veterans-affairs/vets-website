@@ -25,6 +25,23 @@ const FilterBox = forwardRef((props, ref) => {
   const [fromDateError, setFromDateError] = useState('');
   const [toDateError, setToDateError] = useState('');
   const [formError, setFormError] = useState('');
+  const [isItemExpanded, setIsItemExpanded] = useState(false);
+
+  const handleCategoryChange = e => {
+    setCategory(SelectCategories.find(item => item?.value === e.detail.value));
+    if (e.target?.children) {
+      const selectedOption = Array.from(e.target.children).find(
+        item => item.value === e.detail.value,
+      );
+      datadogRum.addAction(`Filter category option - ${selectedOption?.label}`);
+    }
+  };
+
+  const handleDateRangeChange = e => {
+    const { value } = e.detail;
+    setDateRange(value);
+    datadogRum.addAction(`${value} Months Date Range Dropdown`);
+  };
 
   const checkFormValidity = () => {
     const today = new Date();
@@ -92,10 +109,26 @@ const FilterBox = forwardRef((props, ref) => {
         </VaModal>
       )}
 
-      <va-accordion data-dd-action-name="Add Filters Accordion" open-single>
-        <va-accordion-item id="additional-filter-accordion">
+      <va-accordion data-dd-action-name="Accordion - Filter" open-single>
+        <va-accordion-item
+          data-testid="accordion-item-filter"
+          id="additional-filter-accordion"
+          onClick={e => {
+            const isOpen = e.target?.getAttribute('open') === 'true';
+            const text = e.target?.shadowRoot?.querySelector('button')
+              ?.innerText;
+
+            // Only proceed if text is defined
+            if (text !== undefined) {
+              return setIsItemExpanded(isOpen && text !== undefined);
+            }
+            // If text is not defined, null
+            return null;
+          }}
+          open={isItemExpanded}
+        >
           <h3 slot="headline" className="headline-text">
-            Add filters
+            {isItemExpanded ? 'Hide filters' : 'Show filters'}
           </h3>
           <div className="filter-content">
             <VaSelect
@@ -104,14 +137,9 @@ const FilterBox = forwardRef((props, ref) => {
               name="category"
               class="advanced-search-field"
               value={category?.value}
-              onVaSelect={e => {
-                setCategory(
-                  SelectCategories.find(item => item?.value === e.detail.value),
-                );
-              }}
+              onVaSelect={handleCategoryChange}
               data-testid="category-dropdown"
-              data-dd-action-name={`${category?.label ??
-                '-Select-'} Category Dropdown`}
+              data-dd-action-name="Filter category dropdown"
             >
               {SelectCategories.map(item => (
                 <option key={item.value} value={item.value}>
@@ -126,9 +154,9 @@ const FilterBox = forwardRef((props, ref) => {
               name="dateRange"
               class="advanced-search-field"
               value={dateRange}
-              onVaSelect={e => setDateRange(e.detail.value)}
+              onVaSelect={handleDateRangeChange}
               data-testid="date-range-dropdown"
-              data-dd-action-name={`${dateRange?.toUpperCase()} Months Date Range Dropdown`}
+              data-dd-action-name="Filter Date Range Dropdown"
             >
               {DateRangeOptions.map(item => (
                 <option key={item.value} value={item.value}>
@@ -143,7 +171,7 @@ const FilterBox = forwardRef((props, ref) => {
                   <VaDate
                     label="Start date"
                     name="discharge-date"
-                    class="advanced-search-field"
+                    class="advanced-search-field vads-u-font-weight--bold"
                     onDateChange={e => setFromDate(e.target.value)}
                     value={fromDate}
                     required
@@ -153,7 +181,7 @@ const FilterBox = forwardRef((props, ref) => {
                   <VaDate
                     label="End date"
                     name="discharge-date"
-                    class="advanced-search-field"
+                    class="advanced-search-field vads-u-font-weight--bold"
                     onDateChange={e => setToDate(e.target.value)}
                     value={toDate}
                     required

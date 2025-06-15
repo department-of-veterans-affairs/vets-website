@@ -1,8 +1,6 @@
 import React from 'react';
 
-export const manualUploadPageTitle = (
-  <div className="vads-u-font-size--h3">Upload VA Form 21-0781</div>
-);
+export const manualUploadPageTitle = 'Upload VA Form 21 -0781';
 
 export const manualUploadPageDescription = (
   <>
@@ -14,6 +12,9 @@ export const manualUploadPageDescription = (
     </p>
   </>
 );
+
+export const manualUploadAlertText =
+  'We’ve deleted this file about your mental health statement.';
 
 export const howToScanFileInfo = (
   <va-additional-info trigger="How to scan a file">
@@ -35,8 +36,17 @@ export const howToScanFileInfo = (
   </va-additional-info>
 );
 
-export const uploadComponentPlaceholder = (
+export const manualUploadRequirementsTextTitle = (
   <>
-    <p>UPLOAD COMPONENT PLACEHOLDER</p>
+    <h4 className="vads-u-font-size--h4">Select a file to upload</h4>
   </>
+);
+
+export const manualUploadRequirementsText = (
+  <div>
+    <p className="usa-hint">
+      You can upload a .pdf, .jpg, .jpeg, .png, .gif, .bmp, or .txt file. Your
+      file should be no larger than 50 MB (non-PDF) or 99 MB (PDF only).
+    </p>
+  </div>
 );

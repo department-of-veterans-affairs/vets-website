@@ -1,17 +1,26 @@
 import React, { useEffect } from 'react';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 
-import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import { HelpTextModalities } from '../../HelpText';
+import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
+import { recordSmocPageview } from '../../../util/events-helpers';
+
+const title = 'We couldn’t file your claim';
 
 const SubmissionErrorPage = () => {
   useEffect(() => {
+    recordSmocPageview('error');
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
 
+  useSetPageTitle(title);
+
   return (
     <div>
-      <h1 tabIndex="-1">We couldn’t file your claim</h1>
+      <h1 tabIndex="-1">{title}</h1>
       <va-alert
         close-btn-aria-label="Close notification"
         status="error"
@@ -23,20 +32,16 @@ const SubmissionErrorPage = () => {
           tool right now. Please try again later.
         </p>
         <p>
-          Or you can still file within 30 days of the appointment through the
-          Beneficiary Travel Self Service System (BTSSS).
+          Or you can still file for this appointment through the Beneficiary
+          Travel Self Service System (BTSSS).
         </p>
         <va-link
-          href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+          href={TRAVEL_PAY_INFO_LINK}
           text="Find out how to file for travel reimbursement"
         />
       </va-alert>
       <h2>What happens next?</h2>
       <HelpTextModalities />
-      <p className="vads-u-font-weight--bold">
-        How can I get help with my claim?
-      </p>
-      <HelpTextGeneral />
     </div>
   );
 };

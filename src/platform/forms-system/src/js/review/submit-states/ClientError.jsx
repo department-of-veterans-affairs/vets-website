@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
 import PropTypes from 'prop-types';
 
-import { Element } from 'platform/utilities/scroll';
+import { Element, getScrollOptions, scrollTo } from 'platform/utilities/scroll';
 import { Column, Row } from 'platform/forms/components/common/grid';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 import ProgressButton from '../../components/ProgressButton';
 import Back from './Back';
 
@@ -23,6 +22,7 @@ export default function ClientError(props) {
   } else {
     ariaDescribedBy = null;
   }
+  const hideBackButton = formConfig?.useTopBackLink || false;
 
   useEffect(() => {
     focusElement('.schemaform-failure-alert');
@@ -43,20 +43,35 @@ export default function ClientError(props) {
       </Row>
       <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons vads-u-margin-y--2">
-        <Column classNames="small-6 medium-5">
-          <Back onButtonClick={onBack} />
-        </Column>
-        <Column classNames="small-6 medium-5">
-          <ProgressButton
-            ariaDescribedBy={ariaDescribedBy}
-            onButtonClick={onSubmit}
-            buttonText={buttonText}
-            buttonClass="usa-button-primary"
-          />
-        </Column>
-        <Column classNames="small-1 medium-1 end">
-          <div className="hidden">&nbsp;</div>
-        </Column>
+        {hideBackButton ? (
+          <>
+            <Column classNames="small-6 medium-5">
+              <ProgressButton
+                ariaDescribedBy={ariaDescribedBy}
+                onButtonClick={onSubmit}
+                buttonText={buttonText}
+                buttonClass="usa-button-primary"
+              />
+            </Column>
+          </>
+        ) : (
+          <>
+            <Column classNames="small-6 medium-5">
+              <Back onButtonClick={onBack} />
+            </Column>
+            <Column classNames="small-6 medium-5">
+              <ProgressButton
+                ariaDescribedBy={ariaDescribedBy}
+                onButtonClick={onSubmit}
+                buttonText={buttonText}
+                buttonClass="usa-button-primary"
+              />
+            </Column>
+            <Column classNames="small-1 medium-1 end">
+              <div className="hidden">&nbsp;</div>
+            </Column>
+          </>
+        )}
       </Row>
     </>
   );

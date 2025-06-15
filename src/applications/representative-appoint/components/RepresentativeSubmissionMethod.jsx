@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError } from 'platform/utilities/ui';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 import { useReviewPage } from '../hooks/useReviewPage';
 
 const RepresentativeSubmissionMethod = props => {
   const { formData, setFormData, goBack, goForward, goToPath } = props;
+
   const [error, setError] = useState(null);
 
   const isReviewPage = useReviewPage();
@@ -19,6 +20,7 @@ const RepresentativeSubmissionMethod = props => {
       goBack(formData);
     }
   };
+
   const handleGoForward = () => {
     if (!formData?.representativeSubmissionMethod) {
       setError('Choose how to submit your request by selecting an option');
@@ -40,9 +42,11 @@ const RepresentativeSubmissionMethod = props => {
 
   return (
     <>
+      <h3>Select how to submit your request</h3>
       <VaRadio
         error={error}
-        label="Select how to submit your request"
+        name="repSubmissionMethod"
+        label="How do you want to submit your request?"
         required
         onVaValueChange={handleRadioSelect}
       >
@@ -68,6 +72,11 @@ const RepresentativeSubmissionMethod = props => {
           checked={formData.representativeSubmissionMethod === 'in person'}
         />
       </VaRadio>
+      <p>
+        <strong>Note:</strong> If you want to submit your request by mail or in
+        person, you’ll need to print your form at the end of our online tool.
+        We’ll provide instructions on how to submit it.
+      </p>
       <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />
     </>
   );

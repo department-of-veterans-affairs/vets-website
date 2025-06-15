@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -6,7 +7,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h1');
   }
 
   render() {
@@ -16,22 +17,13 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="21P-0969 Income and Asset Statement Form"
-          subtitle="Equal to VA Form 21P-0969 (21P-0969 Income and Asset Statement Form)"
+          title="Income and Asset Statement Form"
+          subTitle="VA Form 21P-0969"
         />
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={route.formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        >
-          Please complete the 21P-0969 form to apply for benefits.
-        </SaveInProgressIntro>
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
           Follow these steps below to apply for benefits
         </h2>
-        <va-process-list uswds>
+        <va-process-list>
           <va-process-list-item header="Prepare">
             <h4 className="vads-u-margin-y--1">
               To fill out this application, you’ll need this information:
@@ -76,22 +68,34 @@ class IntroductionPage extends React.Component {
           </va-process-list-item>
         </va-process-list>
         <SaveInProgressIntro
-          buttonOnly
           headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
+          prefillEnabled={route.formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the Application"
+          startText="Start the Income and Asset Statement application"
         />
-        <p />
-        <va-omb-info
-          res-burden={30}
-          omb-number="2900-0829"
-          exp-date="11/30/2026"
-        />
+        <div className="vads-u-margin-top--2">
+          <va-omb-info
+            res-burden={30}
+            omb-number="2900-0829"
+            exp-date="11/30/2026"
+          />
+        </div>
       </article>
     );
   }
 }
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    pageList: PropTypes.array,
+    formConfig: PropTypes.shape({
+      downtime: PropTypes.object,
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.object,
+    }),
+  }),
+  router: PropTypes.object,
+};
 
 export default IntroductionPage;

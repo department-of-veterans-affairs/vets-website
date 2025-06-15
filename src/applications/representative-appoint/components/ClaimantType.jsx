@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { isLoggedIn } from 'platform/user/selectors';
+
 import ClaimantTypeForm from './ClaimantTypeForm';
+
 import prefillTransformer from '../config/prefillTransformer';
 
 const ClaimantType = props => {

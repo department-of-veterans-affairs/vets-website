@@ -68,18 +68,24 @@ export function populateFirstApplicant(formData, name, email, phone, address) {
     applicantPhone: phone,
   };
   if (modifiedFormData.applicants) {
-    if (
-      // Make sure we haven't already added this applicant:
-      !modifiedFormData.applicants.some(
-        a =>
-          a.applicantName.first === name.first ||
-          a.applicantEmailAddress === email,
-      )
-    ) {
+    // Get index of existing applicant w/ same name OR phone+email
+    const matchIndex = modifiedFormData.applicants.findIndex(
+      a =>
+        JSON.stringify(a.applicantName) === JSON.stringify(name) ||
+        (a.applicantEmailAddress === email && a.applicantPhone === phone),
+    );
+
+    if (matchIndex === -1) {
       modifiedFormData.applicants = [
         newApplicant,
         ...modifiedFormData.applicants,
       ];
+    } else if (matchIndex === 0) {
+      // If match found at first spot in applicant array, override:
+      modifiedFormData.applicants[matchIndex] = {
+        ...modifiedFormData.applicants[matchIndex],
+        ...newApplicant,
+      };
     }
   } else {
     // No applicants yet. Create array and add ours:

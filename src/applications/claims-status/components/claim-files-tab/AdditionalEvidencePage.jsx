@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
-import { Element } from 'platform/utilities/scroll';
+import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
 
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
@@ -76,6 +74,16 @@ class AdditionalEvidencePage extends React.Component {
     }
   }
 
+  onSubmitFiles(claimId) {
+    // START lighthouse_migration
+    if (this.props.documentsUseLighthouse) {
+      this.props.submitFilesLighthouse(claimId, null, this.props.files);
+    } else {
+      this.props.submitFiles(claimId, null, this.props.files);
+    }
+    // END lighthouse_migration
+  }
+
   scrollToSection = () => {
     if (this.props.location.hash === '#add-files') {
       setPageFocus('h3#add-files');
@@ -145,23 +153,14 @@ class AdditionalEvidencePage extends React.Component {
                 files={this.props.files}
                 backUrl={lastPage ? `/${lastPage}` : filesPath}
                 onSubmit={() => {
-                  // START lighthouse_migration
-                  if (this.props.documentsUseLighthouse) {
-                    this.props.submitFilesLighthouse(
-                      claim.id,
-                      null,
-                      this.props.files,
-                    );
-                  } else {
-                    this.props.submitFiles(claim.id, null, this.props.files);
-                  }
-                  // END lighthouse_migration
+                  this.onSubmitFiles(claim.id);
                 }}
                 onAddFile={this.props.addFile}
                 onRemoveFile={this.props.removeFile}
                 onFieldChange={this.props.updateField}
                 onCancel={this.props.cancelUpload}
                 onDirtyFields={this.props.setFieldsDirty}
+                fileTab
               />
             </>
           ) : (

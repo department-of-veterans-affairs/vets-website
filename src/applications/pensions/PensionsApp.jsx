@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import IntentToFile from 'platform/shared/itf/IntentToFile';
+
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
@@ -20,9 +22,9 @@ export default function PensionEntry({ location, children }) {
   const pensionMedicalEvidenceClarification = useToggleValue(
     TOGGLE_NAMES.pensionMedicalEvidenceClarification,
   );
-  const pensionDocumentUploadUpdate = useToggleValue(
-    TOGGLE_NAMES.pensionDocumentUploadUpdate,
-  );
+
+  const pensionItfShowAlert = useToggleValue(TOGGLE_NAMES.pensionItfShowAlert);
+
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
   );
@@ -51,10 +53,6 @@ export default function PensionEntry({ location, children }) {
           'showPensionEvidenceClarification',
           !!pensionMedicalEvidenceClarification,
         );
-        window.sessionStorage.setItem(
-          'showUploadDocuments',
-          !!pensionDocumentUploadUpdate,
-        );
       }
     },
     [
@@ -62,7 +60,6 @@ export default function PensionEntry({ location, children }) {
       pensionMultiplePageResponse,
       pensionIncomeAndAssetsClarification,
       pensionMedicalEvidenceClarification,
-      pensionDocumentUploadUpdate,
     ],
   );
 
@@ -74,8 +71,12 @@ export default function PensionEntry({ location, children }) {
     return <NoFormPage />;
   }
 
+  // Hide ITF until backend feature is ready
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {pensionItfShowAlert && (
+        <IntentToFile itfType="pension" location={location} />
+      )}
       {children}
     </RoutedSavableApp>
   );

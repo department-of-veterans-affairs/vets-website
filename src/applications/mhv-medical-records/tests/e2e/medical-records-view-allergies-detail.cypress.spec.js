@@ -25,7 +25,7 @@ describe('Medical Records View Allergies', () => {
       allergies.entry[0].resource.recorder.display,
     );
     // no observed in allergies...
-    AllergyDetailsPage.verifyAllergyDetailObserved('None noted');
+    AllergyDetailsPage.verifyAllergyDetailObserved('None recorded');
 
     AllergyDetailsPage.verifyAllergyDetailNotes(
       allergies.entry[0].resource.note[0].text,

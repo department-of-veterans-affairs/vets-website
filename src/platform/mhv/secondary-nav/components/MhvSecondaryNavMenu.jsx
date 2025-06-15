@@ -22,25 +22,26 @@ const MhvSecondaryNavMenu = ({ items }) => {
   const stripTrailingSlash = path => path?.replace(/\/$/, '');
 
   /**
-   * Find which navigation item needs to be set to active, if any. An item should be active
-   * when the URL pathname starts with the app's root URL, or the href matches the current
-   * URL pathname.
+   * Find which navigation item, if any, should be set as active based on the current URL.
+   * This method compares the first two segments of the current URL pathname with each item's
+   * `appRootUrl` or `href`. It returns the first matching item or undefined if no match is found.
+   *
    * @param secNavItems the list of navigation items
-   * @returns the item to be set as active, or null if none found
+   * @returns the item to be set as active, or undefined if none found
    */
   const findActiveItem = (secNavItems = items) => {
-    // Perform a reverse find to match which nav link we are on, so we match on the home page last
     return [...secNavItems] // Clone the array, so the original stays the same
-      .reverse()
       .find(item => {
+        // Normalizes paths by removing trailing slashes to ensure consistent comparisons
         const appRootUrl = stripTrailingSlash(item.appRootUrl || item.href);
-        // Remove the trailing slash as they are optional.
-        const linkNoTrailing = stripTrailingSlash(item.href);
-        const urlNoTrailing = stripTrailingSlash(window?.location?.pathname);
-        return (
-          window?.location?.pathname?.startsWith(appRootUrl) ||
-          linkNoTrailing === urlNoTrailing
-        );
+        const currentPath =
+          stripTrailingSlash(window?.location?.pathname) || '';
+        // Extracts the first two segment of the current URL for root path comparison
+        const currentAppRootPath = currentPath
+          .split('/')
+          .slice(0, 3)
+          .join('/');
+        return appRootUrl === currentAppRootPath;
       });
   };
 
@@ -86,6 +87,7 @@ MhvSecondaryNavMenu.propTypes = {
       appRootUrl: PropTypes.string,
     }),
   ),
+  loading: PropTypes.bool,
 };
 
 export default MhvSecondaryNavMenu;

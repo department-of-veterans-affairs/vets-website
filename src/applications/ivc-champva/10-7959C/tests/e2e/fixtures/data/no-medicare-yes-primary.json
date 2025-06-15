@@ -1,6 +1,7 @@
 {
   "description": "No Medicare, one OHI (Medigap), US address (new), third party signer",
   "data": {
+    "champvaBenefitStatus": true,
     "primaryAdditionalComments": "Primary comments",
     "primaryMedigapPlan": "D",
     "applicantPrimaryInsuranceType": "medigap",
@@ -30,8 +31,14 @@
     "applicantNewAddress": "yes",
     "missingUploads": [
       {
-        "name": "primaryInsuranceCard",
-        "path": "insurance-upload",
+        "name": "primaryInsuranceCardFront",
+        "path": "primary-insurance-card-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "primaryInsuranceCardBack",
+        "path": "primary-insurance-card-upload",
         "required": true,
         "uploaded": false
       }

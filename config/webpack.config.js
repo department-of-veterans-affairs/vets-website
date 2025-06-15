@@ -12,16 +12,16 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 const StylelintPlugin = require('stylelint-webpack-plugin');
+const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
 
-const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
+const headerFooterData = require('@department-of-veterans-affairs/platform-landing-pages/header-footer-data');
+const facilitySidebar = require('@department-of-veterans-affairs/platform-landing-pages/facility-sidebar');
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
-const facilitySidebar = require('../src/platform/landing-pages/facility-sidebar.json');
 
 const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
 
@@ -33,13 +33,13 @@ const {
 // TODO: refactor the other approach for creating files without the hash so that we're only doing that in the webpack config: https://github.com/department-of-veterans-affairs/vets-website/blob/a012bad17e5bf024b0ea7326a72ae6a737e349ec/src/site/stages/build/plugins/process-entry-names.js#L35
 const vaMedalliaStylesFilename = 'va-medallia-styles';
 
-const generateWebpackDevConfig = require('./webpack.dev.config.js');
+const generateWebpackDevConfig = require('./webpack.dev.config');
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
 const sharedModules = [
-  getAbsolutePath('src/platform/polyfills'),
+  '@department-of-veterans-affairs/platform-polyfills',
   'react',
   'react-dom',
   'react-redux',
@@ -49,18 +49,19 @@ const sharedModules = [
 ];
 
 const globalEntryFiles = {
-  polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
-  style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
-  [vaMedalliaStylesFilename]: getAbsolutePath(
-    'src/platform/site-wide/sass/va-medallia-style.scss',
-  ),
+  polyfills:
+    '@department-of-veterans-affairs/platform-polyfills/preESModulesPolyfills',
+  style: '@department-of-veterans-affairs/platform-site-wide/style',
+  [vaMedalliaStylesFilename]:
+    '@department-of-veterans-affairs/platform-site-wide/va-medallia-style',
   styleConsolidated: getAbsolutePath(
     'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
   vendor: sharedModules,
   // This is to solve the issue of the vendor file being cached
   'shared-modules': sharedModules,
-  'web-components': getAbsolutePath('src/platform/site-wide/wc-loader.js'),
+  'web-components':
+    '@department-of-veterans-affairs/platform-site-wide/wc-loader',
 };
 
 function getEntryManifests(entry) {
@@ -68,6 +69,9 @@ function getEntryManifests(entry) {
   let entryManifests = allManifests;
   if (entry) {
     const entryNames = entry.split(',').map(name => name.trim());
+    if (entryNames.indexOf('static-pages') === -1) {
+      entryNames.push('static-pages');
+    }
     entryManifests = allManifests.filter(manifest =>
       entryNames.includes(manifest.entryName),
     );
@@ -145,7 +149,7 @@ async function getScaffoldAssets() {
 
 const templateLayoutToDevTemplate = {
   'accredited-representative-portal.html':
-    'src/platform/landing-pages/arp-dev-template.ejs',
+    'node_modules/@department-of-veterans-affairs/platform-landing-pages/arp-dev-template.ejs',
 };
 
 /**
@@ -159,7 +163,7 @@ const templateLayoutToDevTemplate = {
 function getDevTemplate(templateLayout) {
   return (
     templateLayoutToDevTemplate[templateLayout] ||
-    'src/platform/landing-pages/dev-template.ejs'
+    'node_modules/@department-of-veterans-affairs/platform-landing-pages/dev-template.ejs'
   );
 }
 
@@ -439,6 +443,9 @@ module.exports = async (env = {}) => {
         util: require.resolve('util/'),
         zlib: require.resolve('browserify-zlib'),
         'process/browser': require.resolve('process/browser'),
+        os: require.resolve('os-browserify/browser'),
+        http: require.resolve('stream-http'),
+        https: require.resolve('https-browserify'),
       },
       symlinks: false,
     },
@@ -479,11 +486,21 @@ module.exports = async (env = {}) => {
         'process.env.MAPBOX_TOKEN': JSON.stringify(
           process.env.MAPBOX_TOKEN || '',
         ),
-        'process.env.VIRTUAL_AGENT_BACKEND_URL': JSON.stringify(
-          process.env.VIRTUAL_AGENT_BACKEND_URL || '',
-        ),
         'process.env.USE_LOCAL_DIRECTLINE':
           process.env.USE_LOCAL_DIRECTLINE || false,
+        'process.env.DATADOG_APP_NAME': JSON.stringify(
+          process.env.DATADOG_APP_NAME || '',
+        ),
+        'process.env.DATADOG_API_KEY': JSON.stringify(
+          process.env.DATADOG_API_KEY || '',
+        ),
+        'process.env.HOST_NAME': JSON.stringify(process.env.HOST_NAME || ''),
+        'process.env.LOG_LEVEL': JSON.stringify(
+          process.env.LOG_LEVEL || 'info',
+        ),
+        'process.env.DATADOG_TAGS': JSON.stringify(
+          process.env.DATADOG_TAGS || '',
+        ),
       }),
 
       new webpack.ProvidePlugin({
@@ -514,6 +531,10 @@ module.exports = async (env = {}) => {
           {
             from: 'src/site/assets',
             to: buildPath,
+          },
+          {
+            from: 'src/platform/site-wide/sass/fonts',
+            to: `${buildPath}/generated`,
           },
           {
             from:
@@ -553,11 +574,10 @@ module.exports = async (env = {}) => {
     baseConfig.devServer.open = { target };
   }
 
-  if (buildOptions.analyzer) {
+  if (buildOptions.statoscope) {
     baseConfig.plugins.push(
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'disabled',
-        generateStatsFile: true,
+      new StatoscopeWebpackPlugin({
+        saveReportTo: `build/${buildtype}/generated/statoscope-report.html`,
       }),
     );
   }

@@ -9,6 +9,7 @@ import DowntimeMessage from 'platform/monitoring/DowntimeNotification/components
 
 import ReviewChapters from './ReviewChapters';
 import SubmitController from './SubmitController';
+import { isMinimalHeaderApp } from '../patterns/minimal-header';
 
 class ReviewPage extends React.Component {
   renderDowntime = (downtime, children) => {
@@ -27,6 +28,9 @@ class ReviewPage extends React.Component {
     const downtimeDependencies = formConfig?.downtime?.dependencies || [];
     return (
       <div>
+        {isMinimalHeaderApp() && (
+          <h1 className="vads-u-font-size--h2">Review and submit</h1>
+        )}
         <ReviewChapters formConfig={formConfig} pageList={pageList} />
         <DowntimeNotification
           appTitle="application"

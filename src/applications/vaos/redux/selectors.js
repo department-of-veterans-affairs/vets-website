@@ -64,38 +64,8 @@ export const selectHasVAPResidentialAddress = state =>
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
-export const selectFeatureVAOSServiceRequests = state =>
-  toggleValues(state).vaOnlineSchedulingVAOSServiceRequests;
-
-export const selectFeatureVAOSServiceVAAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingVAOSServiceVAAppointments;
-
-export const selectFeatureVAOSServiceCCAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingVAOSServiceCCAppointments;
-
-export const selectFeatureVaosV2Next = state =>
-  toggleValues(state).vaOnlineSchedulingVAOSV2Next;
-
-export const selectFeatureClinicFilter = state =>
-  toggleValues(state).vaOnlineSchedulingClinicFilter;
-
-export const selectFeaturePocTypeOfCare = state =>
-  toggleValues(state).vaOnlineSchedulingPocTypeOfCare;
-
-export const selectFeatureConvertUtcToLocaL = state =>
-  toggleValues(state).vaOnlineSchedulingConvertUtcToLocal;
-
-export const selectFeatureBreadcrumbUrlUpdate = state =>
-  toggleValues(state).vaOnlineSchedulingBreadcrumbUrlUpdate;
-
-export const selectFeatureStaticLandingPage = state =>
-  toggleValues(state).vaOnlineSchedulingStaticLandingPage;
-
 export const selectFeatureBookingExclusion = state =>
   toggleValues(state).vaOnlineSchedulingBookingExclusion;
-
-export const selectFeatureDatadogRum = state =>
-  toggleValues(state).vaOnlineSchedulingDatadogRum;
 
 export const selectFeatureCCDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingCCDirectScheduling;
@@ -114,8 +84,20 @@ export const selectFeatureOHRequest = state =>
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
 
-export const selectFeatureUseVaDate = state =>
-  toggleValues(state).vaOnlineSchedulingUseVaDate;
+export const selectFeatureFeSourceOfTruth = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
+
+export const selectFeatureFeSourceOfTruthVA = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthVA;
+
+export const selectFeatureFeSourceOfTruthCC = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthCC;
+
+export const selectFeatureFeSourceOfTruthModality = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthModality;
+
+export const selectFeatureFeSourceOfTruthTelehealth = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthTelehealth;
 
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;
@@ -140,3 +122,8 @@ export function getRequestedAppointmentListInfo(state) {
     showScheduleButton: selectFeatureRequests(state),
   };
 }
+export const selectFeatureConvertSlotsToUtc = state =>
+  toggleValues(state).vaOnlineSchedulingConvertSlotsToUtc;
+
+export const selectFeatureMentalHealthHistoryFiltering = state =>
+  toggleValues(state).vaOnlineSchedulingMentalHealthHistoryFiltering;

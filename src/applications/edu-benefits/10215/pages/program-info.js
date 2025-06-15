@@ -8,7 +8,18 @@ import {
   arrayBuilderItemFirstPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import Calcs from './calcs';
+import { decimalSchema } from '../helpers';
 
+/**
+ * On the review page, the *formData* contains a single *program*
+ * object at the top-level when editing an existing program.
+ */
+const getSupportedStudents = (formData, index) =>
+  Number(
+    formData?.programs?.[index]?.supportedStudents ||
+      formData?.supportedStudents,
+  );
+const noSpaceOnlyPattern = '^(?!\\s*$).+';
 const programInfo = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
@@ -19,7 +30,7 @@ const programInfo = {
     'ui:description': (
       <va-link
         external
-        href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+        href="/school-administrators/85-15-rule-enrollment-ratio/calculation-instructions"
         text="Review the calculation instructions"
       />
     ),
@@ -27,6 +38,7 @@ const programInfo = {
       title: 'Program name',
       errorMessages: {
         required: 'Please enter a program name',
+        pattern: 'You must provide a response',
       },
     }),
     studentsEnrolled: numberUI({
@@ -61,8 +73,8 @@ const programInfo = {
           },
         }),
         {
-          'ui:required': (formData, _index) =>
-            Number(formData?.programs?.[_index]?.supportedStudents) >= 10,
+          'ui:required': (formData, index) =>
+            getSupportedStudents(formData, index) >= 10,
         },
       ),
       nonSupported: _.merge(
@@ -73,8 +85,8 @@ const programInfo = {
           },
         }),
         {
-          'ui:required': (formData, _index) =>
-            Number(formData?.programs?.[_index]?.supportedStudents) >= 10,
+          'ui:required': (formData, index) =>
+            getSupportedStudents(formData, index) >= 10,
         },
       ),
     },
@@ -85,14 +97,14 @@ const programInfo = {
   schema: {
     type: 'object',
     properties: {
-      programName: textSchema,
+      programName: { ...textSchema, pattern: noSpaceOnlyPattern },
       studentsEnrolled: numberSchema,
       supportedStudents: numberSchema,
       fte: {
         type: 'object',
         properties: {
-          supported: numberSchema,
-          nonSupported: numberSchema,
+          supported: decimalSchema,
+          nonSupported: decimalSchema,
         },
       },
       'view:calcs': { type: 'object', properties: {} },

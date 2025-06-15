@@ -1,7 +1,10 @@
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
 import noMedicationInformation from '../fixtures/missing-patient-medication-information.json';
+import rxDetails from '../fixtures/active-submitted-prescription-details.json';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -556,7 +559,7 @@ class MedicationsDetailsPage {
   };
 
   verifyLastFilledDateOnDetailsPage = text => {
-    cy.get('[data-testid="rx-last-filled-date"]').should('have.text', text);
+    cy.get('[data-testid="rx-last-filled-date"]').should('contain', text);
   };
 
   verifyRefillLinkTextOnDetailsPage = text => {
@@ -581,6 +584,283 @@ class MedicationsDetailsPage {
 
   verifyPendingTextAlertForLessThanSevenDays = text => {
     cy.get('[data-testid="pending-med-alert"]').should('have.text', text);
+  };
+
+  verifyRefillDelayAlertBannerOnDetailsPage = text => {
+    cy.get('[data-testid="rx-details-refill-alert"]').should('contain', text);
+  };
+
+  verifyCheckStatusHeaderTextOnDetailsPage = text => {
+    cy.get('[data-testid="check-status-text"]').should('have.text', text);
+  };
+
+  verifyPharmacyPhoneNumberOnDelayAlert = phoneNumber => {
+    cy.get('[data-testid="pharmacy-phone-number"]')
+      .shadow()
+      .find('[href="tel:+14106366899"]')
+      .should('contain', phoneNumber);
+  };
+
+  verifyProcessStepOneHeaderOnDetailsPage = (text, date) => {
+    cy.get('[data-testid="submitted-step-one"]')
+      .should('contain', text)
+      .and('contain', date);
+  };
+
+  verifyProcessStepTwoHeaderOnDetailsPage = (text, note) => {
+    cy.get('[data-testid="submitted-step-two"]')
+      .should('contain', text)
+      .and('contain', note);
+  };
+
+  verifyProcessStepThreeHeaderOnDetailsPage = (text, note) => {
+    cy.get('[data-testid="submitted-step-three"]')
+      .should('contain', text)
+      .and('contain', note);
+  };
+
+  verifyActiveRxStepOneProgressTrackerOnDetailsPage = (
+    text,
+    data,
+    dateInfo,
+  ) => {
+    cy.get('[header="We received your refill request"]')
+      .should('contain', text)
+      .and('contain', data)
+      .and('contain', dateInfo);
+  };
+
+  verifyActiveRxStepTwoProgressTrackerOnDetailsPage = (text, data, note) => {
+    cy.get('[data-testid="active-step-two"]')
+      .should('contain', text)
+      .and('contain', data)
+      .and('contain', note);
+  };
+
+  verifyActiveRxStepThreeProgressTrackerOnDetailsPage = (text, data, note) => {
+    cy.get('[data-testid="active-step-three"]')
+      .should('contain', text)
+      .and('contain', data)
+      .and('contain', note);
+  };
+
+  verifyActiveRefillInProcessStepTwoOnDetailsPage = (
+    locator,
+    text,
+    note,
+    dateInfo,
+  ) => {
+    cy.get(locator)
+      .should('contain', text)
+      .and('contain', note)
+      .and('contain', dateInfo);
+  };
+
+  verifyActiveRefillInProcessStepThreeOnDetailsPage = (
+    text,
+    note,
+    dateInfo,
+  ) => {
+    cy.get('[data-testid="progress-step-three"]')
+      .should('contain', text)
+      .and('contain', note)
+      .and('contain', dateInfo);
+  };
+
+  verifyTrackingForSubmittedRefillOnDetailsPage = () => {
+    cy.get('[data-testid="rx-name"]').should(
+      'contain',
+      `${rxDetails.data.attributes.prescriptionName}`,
+    );
+  };
+
+  verifyQuantityNotAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
+  };
+
+  verifyPrescribedOnDateNoAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="order-date"]').should('contain', text);
+  };
+
+  verifyProviderNameNotAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="provider-name"]').should('contain', text);
+  };
+
+  verifyMedDescriptionFieldInRefillAccordionDetailsPage = text => {
+    cy.get('[data-testid="rx-description"]').should('contain', text);
+  };
+
+  verifyPharmacyPhoneNumberOnDetailsPage = text => {
+    cy.get('[data-testid="pharmacy-phone"]').should('contain', text);
+  };
+
+  verifyReasonForUseOnDetailsPage = text => {
+    cy.get('[data-testid="rx-reason-for-use"]').should('contain', text);
+  };
+
+  verifyInstructionsOnDetailsPage = text => {
+    cy.get('[data-testid="rx-instructions"]').should('contain', text);
+  };
+
+  verifyStepTwoHeaderOnDetailPageForRxInProcess = (process, text) => {
+    cy.get('[data-testid="process-delay-header"]')
+      .should('contain', text)
+      .and('contain', process);
+  };
+
+  verifyRefillAccordionHeaderForPartialFillOnDetailsPage = (text, date) => {
+    cy.get('[data-testid="refill-history-accordion"] > :nth-child(1)')
+      .should('contain', text)
+      .and('contain', date);
+  };
+
+  verifyQuantityForPartialFillOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity-partial"]').should('have.text', text);
+  };
+
+  verifyPartialFillTextInRefillAccordionOnDetailsPage = text => {
+    cy.get('[data-testid="partial-fill-text"]').should('contain', text);
+  };
+
+  verifyMedicationDescriptionInTxtDownload = text => {
+    const downloadsFolder = Cypress.config('downloadsFolder');
+    const now = new Date();
+    const date = `${now.getMonth() + 1}-${now.getDate()}-${now.getFullYear()}`;
+    const fileName = `${downloadsFolder}/VA-medications-details-Safari-Mhvtp-${date}.txt`;
+    cy.readFile(fileName).then(fileContent => {
+      expect(fileContent).to.contain(text);
+    });
+  };
+
+  verifyTrackingAlertHeaderOnDetailsPage = text => {
+    cy.get('[data-testid="track-package"]').should('contain', text);
+  };
+
+  verifyTrackingNumberForShippedPrescriptionOnDetailsPage = text => {
+    cy.get('[data-testid="tracking-number"]').should('contain', text);
+  };
+
+  verifyPrescriptionInformationInTrackingAlertOnDetailsPage = (text, name) => {
+    cy.get('[data-testid="prescription-info"]').should('contain', text);
+    cy.get('[data-testid="rx-name"]').should('contain', name);
+  };
+
+  verifyLastFilledDateInAccordionOnDetailsPage = text => {
+    cy.get('[data-testid="accordion-fill-date-info"]')
+      .shadow({ force: true })
+      .find('[class="va-accordion__subheader"]', { force: true })
+      .should('contain', text);
+  };
+
+  verifyShippedOnDateNotAvailableTextInRefillAccordion = text => {
+    cy.get('[data-testid="shipped-on"]').should('contain', text);
+  };
+
+  verifyRxRfDispensedDateOnStepTwoProgressTracker = text => {
+    cy.get('[data-testid="active-step-two"] > .vads-u-color--gray-dark').should(
+      'be.visible',
+    );
+    const apiDate = text;
+    const expectedDate = 'March 22, 2024';
+    const parsedDate = new Date(apiDate);
+    const timeZone = 'America/New_York';
+    const zonedDate = utcToZonedTime(parsedDate, timeZone);
+    // Format the date to match the UI format
+    const formattedDate = format(zonedDate, 'MMMM d, yyyy');
+    cy.get('[data-testid="active-step-two"] > .vads-u-color--gray-dark').should(
+      'have.text',
+      `Completed on ${expectedDate}`,
+    );
+    expect(formattedDate).to.equal(expectedDate);
+  };
+
+  formatToEDTString(date) {
+    return `${date
+      .toLocaleString('en-US', {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZone: 'America/New_York',
+        hour12: false,
+      })
+      .replace(',', '')
+      .replace(' at', '')} EDT`;
+  }
+
+  updateCompleteDateTime(data, prescriptionName) {
+    const fourteenDaysAgo = new Date();
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 13);
+    const formattedDate = this.formatToEDTString(fourteenDaysAgo);
+
+    return {
+      ...data,
+      data: data.data.map(
+        item =>
+          item.attributes.prescriptionName === prescriptionName
+            ? {
+                ...item,
+                attributes: {
+                  ...item.attributes,
+                  tracking: true,
+                  trackingList: [
+                    {
+                      ...item.attributes.trackingList[0],
+                      completeDateTime: formattedDate,
+                    },
+                  ],
+                },
+              }
+            : item,
+      ),
+    };
+  }
+
+  updateRefillAndCompleteDates = (
+    data,
+    prescriptionName,
+    refillDateOffset = 15,
+  ) => {
+    const currentDate = new Date();
+
+    // Fixed completeDateTime to 14 days ago (T-14)
+    const completeDate = new Date(currentDate);
+    completeDate.setDate(currentDate.getDate() - 13);
+
+    // Dynamic refillDate based on the provided offset
+    const refillDate = new Date(currentDate);
+    refillDate.setDate(currentDate.getDate() + refillDateOffset);
+
+    return {
+      ...data,
+      data: data.data.map(
+        item =>
+          item.attributes.prescriptionName === prescriptionName
+            ? {
+                ...item,
+                attributes: {
+                  ...item.attributes,
+                  refillDate:
+                    item.attributes.refillDate != null
+                      ? refillDate.toISOString()
+                      : null,
+                  tracking: true, // Ensure tracking is enabled
+                  trackingList: item.attributes.trackingList?.length
+                    ? [
+                        {
+                          ...item.attributes.trackingList[0],
+                          completeDateTime: completeDate.toISOString(), // Fixed completeDateTime
+                        },
+                      ]
+                    : [],
+                },
+              }
+            : item,
+      ),
+    };
   };
 }
 

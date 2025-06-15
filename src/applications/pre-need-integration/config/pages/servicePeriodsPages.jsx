@@ -252,6 +252,7 @@ export function servicePeriodInformationPage(isVet, isPrep) {
           'Sponsor’s service end date',
           'Applicant’s service end date',
         ),
+        'The service end date must be after the service start date.', // Range error message
       ),
       dischargeType: {
         'ui:title': handleTitle(
@@ -284,7 +285,10 @@ export function servicePeriodInformationPage(isVet, isPrep) {
         'ui:title': 'State (for National Guard Service only)',
         'ui:options': {
           hideIf: (formData, index) => {
-            if (index !== null) {
+            if (
+              index !== null &&
+              typeof formData?.serviceRecords !== 'undefined'
+            ) {
               return !['AG', 'NG'].includes(
                 formData?.serviceRecords[index]?.serviceBranch,
               );

@@ -6,10 +6,10 @@ import {
   fullNameUI,
   vetRelationshipUI,
 } from '../../../definitions/sharedUI';
-import { fullSchema } from '../../../utils/imports';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { fullName, date, gender, vetRelationship } = fullSchema.definitions;
+const { fullName, date, gender, vetRelationship } = FULL_SCHEMA.definitions;
 const inputLabel = content['secondary-two-input-label'];
 const hintLabel = content['secondary-hint-label'];
 

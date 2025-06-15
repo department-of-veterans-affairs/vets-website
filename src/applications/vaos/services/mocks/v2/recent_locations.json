@@ -1,0 +1,2774 @@
+{
+    "data": [
+      {
+        "id": "983GC",
+        "type": "facilities",
+        "attributes": {
+          "id": "983GC",
+          "vista_site": "983",
+          "vast_parent": "983",
+          "type": "va_facilities",
+          "name": "Fort Collins VA Clinic",
+          "classification": "Multi-Specialty CBOC",
+          "timezone": {
+            "time_zone_id": "America/Denver"
+          },
+          "lat": 40.553875,
+          "long": -105.08795,
+          "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+          "phone": {
+            "main": "970-224-1550"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "line": [
+              "2509 Research Boulevard"
+            ],
+            "city": "Fort Collins",
+            "state": "CO",
+            "postal_code": "80526-8108"
+          },
+          "mobile": null,
+          "health_service": [
+            "Audiology",
+            "EmergencyCare",
+            "MentalHealthCare",
+            "PrimaryCare",
+            "SpecialtyCare"
+          ],
+          "operating_status": null
+        }
+      },
+      {
+        "id": "984",
+        "type": "facilities",
+        "attributes": {
+          "id": "984",
+          "vista_site": "984",
+          "vast_parent": "984",
+          "type": "va_health_facility",
+          "name": "Dayton VA Medical Center",
+          "classification": "VA Medical Center (VAMC)",
+          "timezone": {
+            "time_zone_id": "America/New_York"
+          },
+          "lat": 39.74935,
+          "long": -84.2532,
+          "website": "https://www.dayton.va.gov/locations/directions.asp",
+          "phone": {
+            "main": "937-268-6511"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "4100 West Third Street"
+            ],
+            "city": "Dayton",
+            "state": "OH",
+            "postal_code": "45428-9000"
+          },
+          "mobile": null,
+          "health_service": [
+            "Audiology",
+            "Cardiology",
+            "DentalServices",
+            "Dermatology",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "operating_status": null
+        }
+      },
+      {
+        "id": "983",
+        "type": "facilities",
+        "attributes": {
+          "id": "983",
+          "vista_site": "983",
+          "vast_parent": "983",
+          "type": "va_facilities",
+          "name": "Cheyenne VA Medical Center",
+          "classification": "VA Medical Center (VAMC)",
+          "timezone": {
+            "time_zone_id": "America/Denver"
+          },
+          "lat": 39.744507,
+          "long": -104.830956,
+          "website": "https://www.denver.va.gov/locations/directions.asp",
+          "phone": {
+            "main": "307-778-7550",
+            "fax": "307-778-7381",
+            "pharmacy": "866-420-6337",
+            "after_hours": "307-778-7550",
+            "patient_advocate": "307-778-7550 x7517",
+            "mental_health_clinic": "307-778-7349",
+            "enrollment_coordinator": "307-778-7550 x7579"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "2360 East Pershing Boulevard"
+            ],
+            "city": "Cheyenne",
+            "state": "WY",
+            "postal_code": "82001-5356"
+          },
+          "mobile": false,
+          "health_service": [
+            "Audiology",
+            "Cardiology",
+            "DentalServices",
+            "EmergencyCare",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare",
+            "UrgentCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "983GB",
+        "type": "facilities",
+        "attributes": {
+          "id": "983GB",
+          "vista_site": "983",
+          "vast_parent": "983",
+          "type": "va_facilities",
+          "name": "Sidney VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "Pacific/Honolulu"
+          },
+          "lat": 41.142464,
+          "long": -102.97669,
+          "website": "https://www.cheyenne.va.gov/locations/Sidney_VA_MSOC.asp",
+          "phone": {
+            "main": "308-254-6085"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "1116 10th Avenue"
+            ],
+            "city": "Sidney",
+            "state": "NE",
+            "postal_code": "69162-2001"
+          },
+          "mobile": null,
+          "health_service": [
+            "EmergencyCare",
+            "MentalHealthCare",
+            "PrimaryCare"
+          ],
+          "operating_status": null
+        }
+      },
+      {
+        "id": "983GD",
+        "type": "facilities",
+        "attributes": {
+          "id": "983GD",
+          "vista_site": "983",
+          "vast_parent": "983",
+          "type": "va_health_facility",
+          "name": "Loveland VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Denver"
+          },
+          "lat": 40.412647,
+          "long": -105.003815,
+          "website": "https://www.cheyenne.va.gov/locations/Loveland.asp",
+          "phone": {
+            "main": "970-962-4900"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "5200 Hahns Peak Drive"
+            ],
+            "city": "Loveland",
+            "state": "CO",
+            "postal_code": "80538-8852"
+          },
+          "mobile": null,
+          "health_service": [
+            "Audiology",
+            "EmergencyCare",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare",
+            "WomensHealth"
+          ],
+          "operating_status": null
+        }
+      },
+      {
+        "id": "663A4",
+        "type": "facilities",
+        "attributes": {
+          "id": "663A4",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "American Lake VA Medical Center",
+          "classification": "VA Medical Center (VAMC)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.14221,
+          "long": -122.56452,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/american-lake-va-medical-center/",
+          "phone": {
+            "main": "800-329-8387",
+            "fax": "253-589-4015",
+            "pharmacy": "253-583-3000",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x72585",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "9600 Veterans Drive Southwest",
+              null, null],
+            "city": "Tacoma",
+            "state": "WA",
+            "postal_code": "98493-0003"
+          },
+          "mobile": false,
+          "health_service": [
+            "Addiction",
+            "AdviceNurse",
+            "Anesthesia",
+            "Audiology",
+            "Cardiology",
+            "Chiropractic",
+            "ComplementaryHealth",
+            "Covid19Vaccine",
+            "Dental",
+            "Dermatology",
+            "Diabetic",
+            "EmploymentPrograms",
+            "Endocrinology",
+            "Gastroenterology",
+            "Geriatrics",
+            "Gynecology",
+            "Homeless",
+            "Hospice",
+            "InfectiousDisease",
+            "InternalMedicine",
+            "Laboratory",
+            "MentalHealth",
+            "MilitarySexualTrauma",
+            "MinorityCare",
+            "Mobility",
+            "MyHealtheVetCoordinator",
+            "Nephrology",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Otolaryngology",
+            "OutpatientSurgery",
+            "PainManagement",
+            "PatientAdvocates",
+            "Pharmacy",
+            "PhysicalMedicine",
+            "PhysicalTherapy",
+            "Podiatry",
+            "Polytrauma",
+            "PrimaryCare",
+            "Prosthetics",
+            "Psychiatry",
+            "Psychology",
+            "Ptsd",
+            "Radiology",
+            "RecreationTherapy",
+            "RegistryExams",
+            "Rehabilitation",
+            "Rheumatology",
+            "SleepMedicine",
+            "Smoking",
+            "SocialWork",
+            "SuicidePrevention",
+            "Surgery",
+            "Telehealth",
+            "TravelReimbursement",
+            "Urology",
+            "Vision",
+            "WholeHealth",
+            "WomensHealth",
+            "Wound"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663QD",
+        "type": "facilities",
+        "attributes": {
+          "id": "663QD",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "American Lake VA Mobile Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.56362,
+          "long": -122.30774,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/american-lake-va-mobile-clinic/",
+          "phone": {
+            "main": "800-329-8387",
+            "fax": "206-764-2250",
+            "pharmacy": "800-329-8387 x71234",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x62160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "1660 South Columbian Way",
+              null, null],
+            "city": "Seattle",
+            "state": "WA",
+            "postal_code": "98108-1532"
+          },
+          "mobile": true,
+          "health_service": null,
+          "operating_status": {
+  
+          }
+        }
+      },
+      {
+        "id": "668QD",
+        "type": "facilities",
+        "attributes": {
+          "id": "668QD",
+          "vista_site": "668",
+          "vast_parent": "668",
+          "type": "va_health_facility",
+          "name": "Bonner County VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 48.31163,
+          "long": -116.52453,
+          "website": "https://www.va.gov/spokane-health-care/locations/bonner-county-va-clinic",
+          "phone": {
+            "main": "208-263-0450",
+            "fax": "208-255-5635",
+            "pharmacy": "509-434-7011",
+            "after_hours": "509-434-7000",
+            "patient_advocate": "509-434-7504",
+            "mental_health_clinic": "1-509-434-7013",
+            "enrollment_coordinator": "509-434-7506"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "130 McGhee Road",
+              null, "Suite 101"
+            ],
+            "city": "Kootenai",
+            "state": "ID",
+            "postal_code": "83840"
+          },
+          "mobile": false,
+          "health_service": [
+            "PrimaryCare"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "653GB",
+        "type": "facilities",
+        "attributes": {
+          "id": "653GB",
+          "vista_site": "653",
+          "vast_parent": "653",
+          "type": "va_health_facility",
+          "name": "Brookings VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 42.05213,
+          "long": -124.2883,
+          "website": "https://www.va.gov/roseburg-health-care/locations/brookings-va-clinic/",
+          "phone": {
+            "main": "541-412-1152",
+            "fax": "541-412-1842",
+            "pharmacy": "541-440-1000 x41261",
+            "after_hours": "541-440-1000",
+            "patient_advocate": "541-440-1000 x44239",
+            "mental_health_clinic": "541-440-1257",
+            "enrollment_coordinator": "541-440-1000 x44575"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "840 Railroad Street",
+              null, null],
+            "city": "Brookings",
+            "state": "OR",
+            "postal_code": "97415-9702"
+          },
+          "mobile": false,
+          "health_service": [
+            "Covid19Vaccine",
+            "DomesticAbuseSupport",
+            "Homeless",
+            "Laboratory",
+            "PatientAdvocates",
+            "PrimaryCare",
+            "SocialWork",
+            "ToxicExposureScreening"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "983QF",
+        "type": "facilities",
+        "attributes": {
+          "id": "983QF",
+          "vista_site": "983",
+          "vast_parent": "983",
+          "type": "va_health_facility",
+          "name": "Cheyenne VA Mobile Clinic",
+          "classification": "Health Care Center (HCC)",
+          "timezone": {
+            "time_zone_id": "America/Denver"
+          },
+          "lat": 41.148026,
+          "long": -104.786255,
+          "website": null,
+          "phone": {
+            "main": "307-778-7550 x3816",
+            "fax": "307-778-7381",
+            "pharmacy": "866-420-6337",
+            "after_hours": "307-778-7550",
+            "patient_advocate": "307-778-7550 x7573",
+            "enrollment_coordinator": "307-778-7550 x7579"
+          },
+          "mailing_address": {
+            "type": "postal",
+            "line": [null, null, null]
+          },
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "2360 East Pershing Boulevard",
+              null, null],
+            "city": "Cheyenne",
+            "state": "WY",
+            "postal_code": "82001-5356"
+          },
+          "mobile": true,
+          "health_service": null,
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "668GB",
+        "type": "facilities",
+        "attributes": {
+          "id": "668GB",
+          "vista_site": "668",
+          "vast_parent": "668",
+          "type": "va_health_facility",
+          "name": "Coeur d 'Alene VA Clinic",
+          "classification": "Multi-Specialty CBOC",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.69264,
+          "long": -116.796265,
+          "website": "https://www.va.gov/spokane-health-care/locations/coeur-d-alene-va-clinic/",
+          "phone": {
+            "main": "208-665-1700",
+            "fax": "208-667-8649",
+            "pharmacy": "509-434-7011",
+            "after_hours": "509-434-7000",
+            "patient_advocate": "509-434-7504",
+            "mental_health_clinic": "1-509-413-9058",
+            "enrollment_coordinator": "509-434-7506"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "915 West Emma Avenue",
+              null, null],
+            "city": "Coeur d'Alene",
+            "state": "ID",
+            "postal_code": "83814-2531"
+          },
+          "mobile": false,
+          "health_service": [
+            "Addiction",
+            "Audiology",
+            "Cardiology",
+            "Diabetic",
+            "Laboratory",
+            "MentalHealth",
+            "MilitarySexualTrauma",
+            "Optometry",
+            "PhysicalTherapy",
+            "Podiatry",
+            "PrimaryCare",
+            "Psychiatry",
+            "Ptsd",
+            "SocialWork"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "463",
+        "type": "facilities",
+        "attributes": {
+          "id": "463",
+          "vista_site": "463",
+          "vast_parent": "463",
+          "type": "va_health_facility",
+          "name": "Colonel Mary Louise Rasmuson Campus of the Alaska VA Healthcare System",
+          "classification": "VA Medical Center (VAMC)",
+          "timezone": {
+            "time_zone_id": "America/Anchorage"
+          },
+          "lat": 61.231342,
+          "long": -149.74443,
+          "website": "https://www.va.gov/alaska-health-care/locations/colonel-mary-louise-rasmuson-campus-of-the-alaska-va-healthcare-system/",
+          "phone": {
+            "main": "888-353-7574",
+            "fax": "907-257-6774",
+            "pharmacy": "888-353-7574",
+            "after_hours": "888-353-7574",
+            "patient_advocate": "907-257-5449",
+            "mental_health_clinic": "907-257-4854, ext. 1",
+            "enrollment_coordinator": "907-257-3323"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "1201 North Muldoon Road",
+              null, null],
+            "city": "Anchorage",
+            "state": "AK",
+            "postal_code": "99504-6104"
+          },
+          "mobile": false,
+          "health_service": [
+            "AdviceNurse",
+            "Audiology",
+            "CaregiverSupport",
+            "Chiropractic",
+            "Covid19Vaccine",
+            "Dental",
+            "Dermatology",
+            "Gastroenterology",
+            "Homeless",
+            "Lgbtq",
+            "MentalHealth",
+            "MilitarySexualTrauma",
+            "MinorityCare",
+            "MyHealtheVetCoordinator",
+            "Nutrition",
+            "PatientAdvocates",
+            "Pharmacy",
+            "PhysicalTherapy",
+            "Podiatry",
+            "PrimaryCare",
+            "Speech",
+            "SuicidePrevention",
+            "Telehealth",
+            "ToxicExposureScreening",
+            "TransitionCounseling",
+            "WholeHealth",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "653QA",
+        "type": "facilities",
+        "attributes": {
+          "id": "653QA",
+          "vista_site": "653",
+          "vast_parent": "653",
+          "type": "va_health_facility",
+          "name": "Downtown Eugene VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 44.05248,
+          "long": -123.08937,
+          "website": "https://www.va.gov/roseburg-health-care/locations/downtown-eugene-va-clinic/",
+          "phone": {
+            "main": "541-242-0440",
+            "fax": "541-465-6610",
+            "pharmacy": "541-440-1000",
+            "after_hours": "541-440-1000",
+            "patient_advocate": "541-440-1000 x41206",
+            "enrollment_coordinator": "541-440-1000 x44024"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "211 East 7th Avenue",
+              null, "Suite 220"
+            ],
+            "city": "Eugene",
+            "state": "OR",
+            "postal_code": "97401-2722"
+          },
+          "mobile": false,
+          "health_service": [
+            "DomesticAbuseSupport",
+            "Homeless",
+            "MentalHealth",
+            "ToxicExposureScreening"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "668GC",
+        "type": "facilities",
+        "attributes": {
+          "id": "668GC",
+          "vista_site": "668",
+          "vast_parent": "668",
+          "type": "va_health_facility",
+          "name": "East Front Avenue VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.660324,
+          "long": -117.401474,
+          "website": "https://www.va.gov/spokane-health-care/locations/east-front-avenue-va-clinic/",
+          "phone": {
+            "main": "509-434-7000",
+            "fax": "509-434-7100",
+            "pharmacy": "509-434-7011",
+            "after_hours": "509-434-7010",
+            "patient_advocate": "509-434-7504",
+            "mental_health_clinic": "1-509-434-7013",
+            "enrollment_coordinator": "509-434-7009"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "624 East Front Avenue",
+              null, "Suite 201"
+            ],
+            "city": "Spokane",
+            "state": "WA",
+            "postal_code": "99202-2139"
+          },
+          "mobile": false,
+          "health_service": [
+            "PrimaryCare"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663GH",
+        "type": "facilities",
+        "attributes": {
+          "id": "663GH",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "Edmonds VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.802864,
+          "long": -122.33571,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/edmonds-va-clinic/",
+          "phone": {
+            "main": "206-716-5858",
+            "fax": "206-716-5852",
+            "pharmacy": "800-329-8387 x71234",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x62160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "21616 76th Avenue West",
+              "Professional Center",
+              "Suite 112"
+            ],
+            "city": "Edmonds",
+            "state": "WA",
+            "postal_code": "98026-7512"
+          },
+          "mobile": false,
+          "health_service": [
+            "AdviceNurse",
+            "Covid19Vaccine",
+            "Dermatology",
+            "Laboratory",
+            "MentalHealth",
+            "MyHealtheVetCoordinator",
+            "Nutrition",
+            "PrimaryCare",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "668GA",
+        "type": "facilities",
+        "attributes": {
+          "id": "668GA",
+          "vista_site": "668",
+          "vast_parent": "668",
+          "type": "va_health_facility",
+          "name": "Elwood “Bud” Link Department of Veterans Affairs Outpatient Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.463238,
+          "long": -120.33407,
+          "website": "https://www.va.gov/spokane-health-care/locations/elwood-bud-link-department-of-veterans-affairs-outpatient-clinic/",
+          "phone": {
+            "main": "833-500-1490",
+            "fax": "509-663-7516",
+            "pharmacy": "509-434-7011",
+            "after_hours": "509-434-7000",
+            "patient_advocate": "509-434-7504",
+            "enrollment_coordinator": "509-434-7506"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "2530 Chester Kimm Road",
+              null, null],
+            "city": "Wenatchee",
+            "state": "WA",
+            "postal_code": "98801-8130"
+          },
+          "mobile": false,
+          "health_service": [
+            "Audiology",
+            "Optometry",
+            "PhysicalTherapy",
+            "PrimaryCare"
+          ],
+          "operating_status": {
+            "code": "NOTICE",
+            "additional_info": "notice status"
+          }
+        }
+      },
+      {
+        "id": "653BY",
+        "type": "facilities",
+        "attributes": {
+          "id": "653BY",
+          "vista_site": "653",
+          "vast_parent": "653",
+          "type": "va_health_facility",
+          "name": "Eugene VA Clinic",
+          "classification": "Health Care Center (HCC)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 44.088463,
+          "long": -123.05252,
+          "website": "https://www.va.gov/roseburg-health-care/locations/eugene-va-clinic/",
+          "phone": {
+            "main": "541-607-0897",
+            "fax": "541-607-7573",
+            "pharmacy": "541-440-1000 x41261",
+            "after_hours": "541-440-1000",
+            "patient_advocate": "541-440-1000 x44239",
+            "mental_health_clinic": "541-242-0440",
+            "enrollment_coordinator": "541-440-1000 x44575"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "3355 Chad Drive",
+              null, null],
+            "city": "Eugene",
+            "state": "OR",
+            "postal_code": "97408-7426"
+          },
+          "mobile": false,
+          "health_service": [
+            "Audiology",
+            "Covid19Vaccine",
+            "Dental",
+            "Dermatology",
+            "DomesticAbuseSupport",
+            "Gastroenterology",
+            "Homeless",
+            "Laboratory",
+            "Lgbtq",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "PatientAdvocates",
+            "Pharmacy",
+            "Podiatry",
+            "PrimaryCare",
+            "SocialWork",
+            "Surgery",
+            "ToxicExposureScreening",
+            "TransitionCounseling",
+            "Urology"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663GK",
+        "type": "facilities",
+        "attributes": {
+          "id": "663GK",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "Everett VA Clinic",
+          "classification": "Multi-Specialty CBOC",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.95764,
+          "long": -122.231674,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/everett-va-clinic/",
+          "phone": {
+            "main": "800-329-8387",
+            "fax": "206-764-2250",
+            "pharmacy": "800-329-8387 x71234",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x62160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "220 Olympic Boulevard",
+              null, null],
+            "city": "Everett",
+            "state": "WA",
+            "postal_code": "98203-1918"
+          },
+          "mobile": false,
+          "health_service": [
+            "Audiology",
+            "Cardiology",
+            "Chiropractic",
+            "Dermatology",
+            "Gastroenterology",
+            "Laboratory",
+            "Nutrition",
+            "PrimaryCare",
+            "SocialWork",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "463GA",
+        "type": "facilities",
+        "attributes": {
+          "id": "463GA",
+          "vista_site": "463",
+          "vast_parent": "463",
+          "type": "va_health_facility",
+          "name": "Fairbanks VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Anchorage"
+          },
+          "lat": 64.84723,
+          "long": -147.78342,
+          "website": "https://www.va.gov/alaska-health-care/locations/fairbanks-va-clinic/",
+          "phone": {
+            "main": "907-328-1750",
+            "fax": "907-374-5174",
+            "pharmacy": "907-257-4808",
+            "after_hours": "907-257-4700",
+            "patient_advocate": "907-257-5449",
+            "mental_health_clinic": "907-257-4854, ext. 1",
+            "enrollment_coordinator": "907-257-3323"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "2555 Phillips Field Road",
+              null, null],
+            "city": "Fairbanks",
+            "state": "AK",
+            "postal_code": "99709-3933"
+          },
+          "mobile": false,
+          "health_service": [
+            "AdviceNurse",
+            "Audiology",
+            "Chiropractic",
+            "Dermatology",
+            "Laboratory",
+            "Lgbtq",
+            "MentalHealth",
+            "MyHealtheVetCoordinator",
+            "PrimaryCare",
+            "Telehealth",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "692GB",
+        "type": "facilities",
+        "attributes": {
+          "id": "692GB",
+          "vista_site": "692",
+          "vast_parent": "692",
+          "type": "va_health_facility",
+          "name": "Grants Pass VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 42.416557,
+          "long": -123.33771,
+          "website": "https://www.va.gov/southern-oregon-health-care/locations/grants-pass-va-clinic/",
+          "phone": {
+            "main": "541-955-5551",
+            "fax": "541-955-7171",
+            "pharmacy": "541-826-2111",
+            "after_hours": "541-826-2111",
+            "patient_advocate": "541-826-2111 x7504",
+            "mental_health_clinic": "541-830-7440",
+            "enrollment_coordinator": "541-826-2111 x3742"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "1877 Williams Highway",
+              null, null],
+            "city": "Grants Pass",
+            "state": "OR",
+            "postal_code": "97527-5802"
+          },
+          "mobile": false,
+          "health_service": [
+            "Cardiology",
+            "Laboratory",
+            "MentalHealth",
+            "Podiatry",
+            "PrimaryCare",
+            "Smoking",
+            "Telehealth",
+            "WeightManagement"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "463GD",
+        "type": "facilities",
+        "attributes": {
+          "id": "463GD",
+          "vista_site": "463",
+          "vast_parent": "463",
+          "type": "va_health_facility",
+          "name": "Homer VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Anchorage"
+          },
+          "lat": 59.650135,
+          "long": -151.51805,
+          "website": "https://www.va.gov/alaska-health-care/locations/homer-va-clinic/",
+          "phone": {
+            "main": "888-353-7574",
+            "fax": "907-283-4236",
+            "pharmacy": "888-353-7574",
+            "after_hours": "888-353-7574",
+            "patient_advocate": "907-257-5449",
+            "mental_health_clinic": "907-257-4854, ext. 1",
+            "enrollment_coordinator": "907-257-3323"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "4141 Pennock Street",
+              null, null],
+            "city": "Homer",
+            "state": "AK",
+            "postal_code": "99603-7223"
+          },
+          "mobile": false,
+          "health_service": [
+            "Dermatology",
+            "MentalHealth",
+            "PrimaryCare",
+            "Telehealth",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "463A4",
+        "type": "facilities",
+        "attributes": {
+          "id": "463A4",
+          "vista_site": "463",
+          "vast_parent": "463",
+          "type": "va_health_facility",
+          "name": "Joint Base Elmendorf-Richardson VA Medical Center",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Anchorage"
+          },
+          "lat": 61.237133,
+          "long": -149.74876,
+          "website": "https://www.va.gov/alaska-health-care/locations/joint-base-elmendorf-richardson-va-medical-center/",
+          "phone": {
+            "main": "907-257-4700",
+            "fax": "907-257-6774",
+            "pharmacy": "907-257-4925",
+            "after_hours": "907-580-6421",
+            "patient_advocate": "907-257-5460",
+            "mental_health_clinic": "907-257-4854, ext. 1",
+            "enrollment_coordinator": "907-257-4782"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "5955 Zeamer Avenue",
+              "DoD/VA Joint Venture Hospital",
+              null],
+            "city": "Joint Base Elmendorf-Richardson",
+            "state": "AK",
+            "postal_code": "99506-3702"
+          },
+          "mobile": false,
+          "health_service": [
+            "MentalHealth",
+            "Radiology"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "463GE",
+        "type": "facilities",
+        "attributes": {
+          "id": "463GE",
+          "vista_site": "463",
+          "vast_parent": "463",
+          "type": "va_health_facility",
+          "name": "Juneau VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Juneau"
+          },
+          "lat": 58.3017,
+          "long": -134.42075,
+          "website": "https://www.va.gov/alaska-health-care/locations/juneau-va-clinic/",
+          "phone": {
+            "main": "888-353-7574",
+            "fax": "907-796-4301",
+            "pharmacy": "888-353-7574",
+            "after_hours": "888-353-7574",
+            "patient_advocate": "907-257-5449",
+            "mental_health_clinic": "907-257-4854, ext. 1",
+            "enrollment_coordinator": "907-257-3323"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "709 West 9th Street",
+              "Federal Building",
+              "Suite 150"
+            ],
+            "city": "Juneau",
+            "state": "AK",
+            "postal_code": "99801-1807"
+          },
+          "mobile": false,
+          "health_service": [
+            "AdviceNurse",
+            "Audiology",
+            "Lgbtq",
+            "MentalHealth",
+            "MyHealtheVetCoordinator",
+            "PrimaryCare",
+            "Telehealth",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "692GA",
+        "type": "facilities",
+        "attributes": {
+          "id": "692GA",
+          "vista_site": "692",
+          "vast_parent": "692",
+          "type": "va_health_facility",
+          "name": "Klamath Falls VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 42.248173,
+          "long": -121.78707,
+          "website": "https://www.va.gov/southern-oregon-health-care/locations/klamath-falls-va-clinic/",
+          "phone": {
+            "main": "541-273-6206",
+            "fax": "541-273-6207",
+            "pharmacy": "541-826-2111",
+            "after_hours": "541-826-2111",
+            "patient_advocate": "541-826-2111 x7504",
+            "mental_health_clinic": "541-830-7440",
+            "enrollment_coordinator": "541-826-2111 x3742"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "2225 North Eldorado Boulevard",
+              null, null],
+            "city": "Klamath Falls",
+            "state": "OR",
+            "postal_code": "97601-6417"
+          },
+          "mobile": false,
+          "health_service": [
+            "PrimaryCare"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "983QD",
+        "type": "facilities",
+        "attributes": {
+          "id": "983QD",
+          "vista_site": "983",
+          "vast_parent": "983",
+          "type": "va_health_facility",
+          "name": "Laramie VA Mobile Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Denver"
+          },
+          "lat": 41.317177,
+          "long": -105.55893,
+          "website": "https://www.cheyenne.va.gov/locations/Laramie.asp",
+          "phone": {
+            "main": "307-778-7550 x3816",
+            "fax": "307-778-7389",
+            "pharmacy": "866-420-6337",
+            "after_hours": "307-778-7550 x3816",
+            "patient_advocate": "307-778-7550 x7573",
+            "enrollment_coordinator": "307-778-7550 x7579"
+          },
+          "mailing_address": {
+            "type": "postal",
+            "line": [null, null, null]
+          },
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "2901 Armory Road",
+              "Wyoming National Guard",
+              null],
+            "city": "Laramie",
+            "state": "WY",
+            "postal_code": "82070-2937"
+          },
+          "mobile": true,
+          "health_service": null,
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "668QB",
+        "type": "facilities",
+        "attributes": {
+          "id": "668QB",
+          "vista_site": "668",
+          "vast_parent": "668",
+          "type": "va_health_facility",
+          "name": "Libby VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Denver"
+          },
+          "lat": 48.393223,
+          "long": -115.54851,
+          "website": "https://www.va.gov/spokane-health-care/locations/libby-va-clinic/",
+          "phone": {
+            "main": "406-293-8711",
+            "fax": "406-293-8735",
+            "pharmacy": "509-434-7011",
+            "after_hours": "509-434-7000",
+            "patient_advocate": "509-434-7504",
+            "mental_health_clinic": "1-509-434-7013",
+            "enrollment_coordinator": "509-434-7506"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "211 East 2nd Street",
+              null, null],
+            "city": "Libby",
+            "state": "MT",
+            "postal_code": "59923-2047"
+          },
+          "mobile": false,
+          "health_service": [
+            "PrimaryCare"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "984GB",
+        "type": "facilities",
+        "attributes": {
+          "id": "984GB",
+          "vista_site": "984",
+          "vast_parent": "984",
+          "type": "va_health_facility",
+          "name": "Lima VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/New_York"
+          },
+          "lat": 40.741386,
+          "long": -84.11519,
+          "website": "https://www.dayton.va.gov/locations/Lima_cboc.asp",
+          "phone": {
+            "main": "419-222-5788"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "1303 Bellefontaine Avenue"
+            ],
+            "city": "Lima",
+            "state": "OH",
+            "postal_code": "45804-3109"
+          },
+          "mobile": null,
+          "health_service": [
+            "MentalHealthCare",
+            "Nutrition",
+            "Optometry",
+            "PrimaryCare",
+            "SpecialtyCare"
+          ],
+          "operating_status": null
+        }
+      },
+      {
+        "id": "668",
+        "type": "facilities",
+        "attributes": {
+          "id": "668",
+          "vista_site": "668",
+          "vast_parent": "668",
+          "type": "va_health_facility",
+          "name": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+          "classification": "VA Medical Center (VAMC)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.701927,
+          "long": -117.475624,
+          "website": "https://www.va.gov/spokane-health-care/locations/mann-grandstaff-department-of-veterans-affairs-medical-center/",
+          "phone": {
+            "main": "509-434-7000",
+            "fax": "509-434-7100",
+            "pharmacy": "509-434-7011",
+            "after_hours": "509-434-7000",
+            "patient_advocate": "509-434-7504",
+            "enrollment_coordinator": "509-434-7506"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "4815 North Assembly Street",
+              null, null],
+            "city": "Spokane",
+            "state": "WA",
+            "postal_code": "99205-6185"
+          },
+          "mobile": false,
+          "health_service": [
+            "Addiction",
+            "AdviceNurse",
+            "Audiology",
+            "Cardiology",
+            "CaregiverSupport",
+            "Chiropractic",
+            "ColonSurgery",
+            "ComplementaryHealth",
+            "Covid19Vaccine",
+            "CriticalCare",
+            "Dental",
+            "Dermatology",
+            "Diabetic",
+            "EmploymentPrograms",
+            "Gastroenterology",
+            "Geriatrics",
+            "Gynecology",
+            "Hematology",
+            "Homeless",
+            "Hospice",
+            "HospitalMedicine",
+            "Laboratory",
+            "Lgbtq",
+            "MentalHealth",
+            "MilitarySexualTrauma",
+            "MinorityCare",
+            "MyHealtheVetCoordinator",
+            "Neurology",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "OutpatientSurgery",
+            "PatientAdvocates",
+            "Pharmacy",
+            "PhysicalTherapy",
+            "Podiatry",
+            "PrimaryCare",
+            "Prosthetics",
+            "Psychiatry",
+            "Ptsd",
+            "PulmonaryMedicine",
+            "Radiology",
+            "RegistryExams",
+            "Rehabilitation",
+            "Rheumatology",
+            "SleepMedicine",
+            "Smoking",
+            "SocialWork",
+            "SuicidePrevention",
+            "Surgery",
+            "Telehealth",
+            "ToxicExposureScreening",
+            "TransitionCounseling",
+            "TravelReimbursement",
+            "UrgentCare",
+            "Urology",
+            "Vision",
+            "WeightManagement",
+            "WholeHealth",
+            "WomensHealth",
+            "Wound"
+          ],
+          "operating_status": {
+            "additional_info": "Temp location status"
+          }
+        }
+      },
+      {
+        "id": "463GC",
+        "type": "facilities",
+        "attributes": {
+          "id": "463GC",
+          "vista_site": "463",
+          "vast_parent": "463",
+          "type": "va_health_facility",
+          "name": "Mat-Su VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Anchorage"
+          },
+          "lat": 61.589973,
+          "long": -149.35985,
+          "website": "https://www.va.gov/alaska-health-care/locations/mat-su-va-clinic/",
+          "phone": {
+            "main": "888-353-7574",
+            "fax": "907-631-3101",
+            "pharmacy": "888-353-7574",
+            "after_hours": "888-353-7574",
+            "patient_advocate": "907-257-5449",
+            "mental_health_clinic": "907-257-4854, ext. 1",
+            "enrollment_coordinator": "907-257-3323"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "865 North Seward Meridian Parkway",
+              null, "Suite 105"
+            ],
+            "city": "Wasilla",
+            "state": "AK",
+            "postal_code": "99654-7241"
+          },
+          "mobile": false,
+          "health_service": [
+            "AdviceNurse",
+            "Audiology",
+            "Chiropractic",
+            "Laboratory",
+            "Lgbtq",
+            "MentalHealth",
+            "MyHealtheVetCoordinator",
+            "Pharmacy",
+            "Podiatry",
+            "PrimaryCare",
+            "Telehealth",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "984GA",
+        "type": "facilities",
+        "attributes": {
+          "id": "984GA",
+          "vista_site": "984",
+          "vast_parent": "984",
+          "type": "va_health_facility",
+          "name": "Middletown VA Clinic",
+          "classification": "Multi-Specialty CBOC",
+          "timezone": {
+            "time_zone_id": "America/New_York"
+          },
+          "lat": 39.50603,
+          "long": -84.316475,
+          "website": "https://www.dayton.va.gov/locations/midtwn_cboc.asp",
+          "phone": {
+            "main": "513-423-8387"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "4337 North Union Road"
+            ],
+            "city": "Middletown",
+            "state": "OH",
+            "postal_code": "45005-5211"
+          },
+          "mobile": null,
+          "health_service": [
+            "Audiology",
+            "MentalHealthCare",
+            "Optometry",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare"
+          ],
+          "operating_status": null
+        }
+      },
+      {
+        "id": "663GC",
+        "type": "facilities",
+        "attributes": {
+          "id": "663GC",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "Mount Vernon VA Clinic",
+          "classification": "Multi-Specialty CBOC",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 48.418797,
+          "long": -122.325294,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/mount-vernon-va-clinic/",
+          "phone": {
+            "main": "360-848-8500",
+            "fax": "360-419-3700",
+            "pharmacy": "800-329-8387 x71234",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x62160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "307 South 13th Street",
+              null, "Suite 200"
+            ],
+            "city": "Mount Vernon",
+            "state": "WA",
+            "postal_code": "98274-4100"
+          },
+          "mobile": false,
+          "health_service": [
+            "AdviceNurse",
+            "Audiology",
+            "Cardiology",
+            "Covid19Vaccine",
+            "Dermatology",
+            "Laboratory",
+            "MentalHealth",
+            "MyHealtheVetCoordinator",
+            "Nutrition",
+            "Optometry",
+            "Podiatry",
+            "PrimaryCare",
+            "SocialWork",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "653GA",
+        "type": "facilities",
+        "attributes": {
+          "id": "653GA",
+          "vista_site": "653",
+          "vast_parent": "653",
+          "type": "va_health_facility",
+          "name": "North Bend VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 43.40429,
+          "long": -124.23601,
+          "website": "https://www.va.gov/roseburg-health-care/locations/north-bend-va-clinic/",
+          "phone": {
+            "main": "541-756-8002",
+            "fax": "541-756-7503",
+            "pharmacy": "541-440-1000 x41261",
+            "after_hours": "541-440-1000",
+            "patient_advocate": "541-440-1000 x44239",
+            "mental_health_clinic": "541-756-8002",
+            "enrollment_coordinator": "541-440-1000 x44575"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "2191 Marion Street",
+              null, null],
+            "city": "North Bend",
+            "state": "OR",
+            "postal_code": "97459-2314"
+          },
+          "mobile": false,
+          "health_service": [
+            "Covid19Vaccine",
+            "DomesticAbuseSupport",
+            "Homeless",
+            "Nutrition",
+            "PatientAdvocates",
+            "PrimaryCare",
+            "SocialWork",
+            "ToxicExposureScreening"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663GE",
+        "type": "facilities",
+        "attributes": {
+          "id": "663GE",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "North Olympic Peninsula VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 48.113026,
+          "long": -123.41316,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/north-olympic-peninsula-va-clinic/",
+          "phone": {
+            "main": "360-565-7420",
+            "fax": "360-565-7499",
+            "pharmacy": "360-565-7420",
+            "after_hours": "800-329-8387",
+            "patient_advocate": "800-329-8387 x62160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "1114 Georgiana Street",
+              null, null],
+            "city": "Port Angeles",
+            "state": "WA",
+            "postal_code": "98362-4212"
+          },
+          "mobile": false,
+          "health_service": [
+            "AdviceNurse",
+            "Audiology",
+            "Covid19Vaccine",
+            "Dermatology",
+            "Gastroenterology",
+            "Laboratory",
+            "MentalHealth",
+            "MyHealtheVetCoordinator",
+            "Nutrition",
+            "PrimaryCare",
+            "SocialWork",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663GL",
+        "type": "facilities",
+        "attributes": {
+          "id": "663GL",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "Oak Harbor VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 48.33627,
+          "long": -122.68197,
+          "website": null,
+          "phone": {
+            "main": "800-329-8387",
+            "fax": "206-764-2250",
+            "pharmacy": "800-329-8387 x71234",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x62160",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "3475 North Saratoga Street",
+              null, "Building 993"
+            ],
+            "city": "Oak Harbor",
+            "state": "WA",
+            "postal_code": "98278-8800"
+          },
+          "mobile": false,
+          "health_service": null,
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663GI",
+        "type": "facilities",
+        "attributes": {
+          "id": "663GI",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "Olympia VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.053745,
+          "long": -122.84439,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/olympia-va-clinic/",
+          "phone": {
+            "main": "253-583-2621",
+            "fax": "253-583-1077",
+            "pharmacy": "800-329-8387 x71234",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x62160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "500 Lilly Road Northeast",
+              null, "Suites 201 and 202"
+            ],
+            "city": "Olympia",
+            "state": "WA",
+            "postal_code": "98506-5197"
+          },
+          "mobile": false,
+          "health_service": [
+            "Dermatology",
+            "MentalHealth",
+            "MyHealtheVetCoordinator",
+            "Nutrition",
+            "PrimaryCare",
+            "SocialWork",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663HK",
+        "type": "facilities",
+        "attributes": {
+          "id": "663HK",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "Puget Sound VA Mobile Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.14221,
+          "long": -122.56452,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/puget-sound-va-mobile-clinic/",
+          "phone": {
+            "main": "800-329-8387 x71234",
+            "fax": "844-545-3306",
+            "pharmacy": "800-329-8387 x71234",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x72585",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "9600 Veterans Drive Southwest",
+              null, null],
+            "city": "Tacoma",
+            "state": "WA",
+            "postal_code": "98493-0003"
+          },
+          "mobile": true,
+          "health_service": [
+            "Laboratory",
+            "PrimaryCare"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663GJ",
+        "type": "facilities",
+        "attributes": {
+          "id": "663GJ",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "Puyallup VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.0973,
+          "long": -122.27807,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/puyallup-va-clinic/",
+          "phone": {
+            "main": "253-583-3821",
+            "fax": "253-589-4045",
+            "pharmacy": "800-329-8387 x71234",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x62160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "11216 Sunrise Boulevard East",
+              null, "Suite 209, Building 3"
+            ],
+            "city": "Puyallup",
+            "state": "WA",
+            "postal_code": "98374-8848"
+          },
+          "mobile": false,
+          "health_service": [
+            "AdviceNurse",
+            "Covid19Vaccine",
+            "Laboratory",
+            "MentalHealth",
+            "MyHealtheVetCoordinator",
+            "Nutrition",
+            "PrimaryCare",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "983QA",
+        "type": "facilities",
+        "attributes": {
+          "id": "983QA",
+          "vista_site": "983",
+          "vast_parent": "983",
+          "type": "va_health_facility",
+          "name": "Rawlins VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Denver"
+          },
+          "lat": 42.04504,
+          "long": -104.95079,
+          "website": "https://www.cheyenne.va.gov/locations/Rawlins_VA_PCTOC.asp",
+          "phone": {
+            "main": "307-778-7550"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "1809 East Daley Street"
+            ],
+            "city": "Rawlins",
+            "state": "WY",
+            "postal_code": "82301-5911"
+          },
+          "mobile": null,
+          "health_service": null,
+          "operating_status": null
+        }
+      },
+      {
+        "id": "663QA",
+        "type": "facilities",
+        "attributes": {
+          "id": "663QA",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "Renton VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.481113,
+          "long": -122.21096,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/renton-va-clinic/",
+          "phone": {
+            "main": "425-203-7201",
+            "fax": "425-203-7217",
+            "pharmacy": "206-277-4000",
+            "after_hours": "425-203-7201",
+            "patient_advocate": "206-764-2160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "206-762-1010 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "419 South 2nd Street",
+              null, "Suite 2"
+            ],
+            "city": "Renton",
+            "state": "WA",
+            "postal_code": "98057-2234"
+          },
+          "mobile": false,
+          "health_service": [
+            "Homeless"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "984GC",
+        "type": "facilities",
+        "attributes": {
+          "id": "984GC",
+          "vista_site": "984",
+          "vast_parent": "984",
+          "type": "va_health_facility",
+          "name": "Richmond VA Clinic",
+          "classification": "Multi-Specialty CBOC",
+          "timezone": {
+            "time_zone_id": "America/Indiana/Indianapolis"
+          },
+          "lat": 39.840706,
+          "long": -84.88782,
+          "website": "https://www.dayton.va.gov/locations/rchmnd_cboc.asp",
+          "phone": {
+            "main": "765-973-6915"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "1010 North J Street"
+            ],
+            "city": "Richmond",
+            "state": "IN",
+            "postal_code": "47374-6052"
+          },
+          "mobile": null,
+          "health_service": [
+            "Audiology",
+            "Cardiology",
+            "MentalHealthCare",
+            "Optometry",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare"
+          ],
+          "operating_status": null
+        }
+      },
+      {
+        "id": "653",
+        "type": "facilities",
+        "attributes": {
+          "id": "653",
+          "vista_site": "653",
+          "vast_parent": "653",
+          "type": "va_health_facility",
+          "name": "Roseburg VA Medical Center",
+          "classification": "VA Medical Center (VAMC)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 43.228592,
+          "long": -123.36709,
+          "website": "https://www.va.gov/roseburg-health-care/locations/roseburg-va-medical-center/",
+          "phone": {
+            "main": "541-440-1000",
+            "fax": "541-440-1225",
+            "pharmacy": "541-440-1000 x41261",
+            "after_hours": "541-440-1000",
+            "patient_advocate": "541-440-1000 x44239",
+            "mental_health_clinic": "541-440-1257",
+            "enrollment_coordinator": "541-440-1000 x44575"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "913 Northwest Garden Valley Boulevard",
+              null, null],
+            "city": "Roseburg",
+            "state": "OR",
+            "postal_code": "97471-6523"
+          },
+          "mobile": false,
+          "health_service": [
+            "Audiology",
+            "Cardiology",
+            "CaregiverSupport",
+            "Covid19Vaccine",
+            "Dental",
+            "Dermatology",
+            "DomesticAbuseSupport",
+            "Gastroenterology",
+            "Homeless",
+            "Hospice",
+            "Laboratory",
+            "Lgbtq",
+            "MentalHealth",
+            "MyHealtheVetCoordinator",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "PatientAdvocates",
+            "Pharmacy",
+            "Podiatry",
+            "PrimaryCare",
+            "Prosthetics",
+            "SocialWork",
+            "SuicidePrevention",
+            "ToxicExposureScreening",
+            "TransitionCounseling",
+            "UrgentCare",
+            "Urology",
+            "WholeHealth",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663",
+        "type": "facilities",
+        "attributes": {
+          "id": "663",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "Seattle VA Medical Center",
+          "classification": "VA Medical Center (VAMC)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.562176,
+          "long": -122.31022,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/seattle-va-medical-center/",
+          "phone": {
+            "main": "800-329-8387",
+            "fax": "206-764-2250",
+            "pharmacy": "800-329-8387 x71234",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x62160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "1660 South Columbian Way",
+              null, null],
+            "city": "Seattle",
+            "state": "WA",
+            "postal_code": "98108-1532"
+          },
+          "mobile": false,
+          "health_service": [
+            "Addiction",
+            "AdviceNurse",
+            "Allergy",
+            "Amputation",
+            "Anesthesia",
+            "Audiology",
+            "BariatricSurgery",
+            "Cancer",
+            "Cardiology",
+            "CardiovascularSurgery",
+            "CaregiverSupport",
+            "Chiropractic",
+            "ColonSurgery",
+            "ComplementaryHealth",
+            "Covid19Vaccine",
+            "CriticalCare",
+            "Dental",
+            "Dermatology",
+            "Diabetic",
+            "EmergencyCare",
+            "EmploymentPrograms",
+            "Endocrinology",
+            "Gastroenterology",
+            "Geriatrics",
+            "Gynecology",
+            "Hematology",
+            "Homeless",
+            "Hospice",
+            "InfectiousDisease",
+            "InternalMedicine",
+            "Laboratory",
+            "Lgbtq",
+            "MentalHealth",
+            "MilitarySexualTrauma",
+            "MinorityCare",
+            "Mobility",
+            "MyHealtheVetCoordinator",
+            "Nephrology",
+            "Neurology",
+            "Neurosurgery",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Otolaryngology",
+            "OutpatientSurgery",
+            "PainManagement",
+            "PatientAdvocates",
+            "Pharmacy",
+            "PhysicalMedicine",
+            "PhysicalTherapy",
+            "PlasticSurgery",
+            "Podiatry",
+            "Polytrauma",
+            "PrimaryCare",
+            "Prosthetics",
+            "Psychiatry",
+            "Psychology",
+            "Ptsd",
+            "PulmonaryMedicine",
+            "RadiationOncology",
+            "Radiology",
+            "RegistryExams",
+            "Rehabilitation",
+            "Rheumatology",
+            "SleepMedicine",
+            "Smoking",
+            "SocialWork",
+            "SpinalInjury",
+            "SuicidePrevention",
+            "Surgery",
+            "SurgicalOncology",
+            "Telehealth",
+            "ThoracicSurgery",
+            "TransitionCounseling",
+            "TravelReimbursement",
+            "Urology",
+            "VascularSurgery",
+            "Vision",
+            "WholeHealth",
+            "WomensHealth",
+            "Wound"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663QC",
+        "type": "facilities",
+        "attributes": {
+          "id": "663QC",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "Seattle VA Mobile Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.56362,
+          "long": -122.30774,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/seattle-va-mobile-clinic/",
+          "phone": {
+            "main": "800-329-8387",
+            "fax": "206-764-2250",
+            "pharmacy": "800-329-8387 x71234",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x62160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "1660 South Columbian Way",
+              null, null],
+            "city": "Seattle",
+            "state": "WA",
+            "postal_code": "98108-1532"
+          },
+          "mobile": true,
+          "health_service": null,
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663GB",
+        "type": "facilities",
+        "attributes": {
+          "id": "663GB",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "Silverdale VA Clinic",
+          "classification": "Multi-Specialty CBOC",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.654102,
+          "long": -122.68594,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/silverdale-va-clinic/",
+          "phone": {
+            "main": "360-307-6920",
+            "fax": "360-377-8029",
+            "pharmacy": "800-329-8387 x71234",
+            "after_hours": "800-329-8387 x62810",
+            "patient_advocate": "800-329-8387 x62160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "800-329-8387 x76542"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "9177 Ridgetop Boulevard NW",
+              null, null],
+            "city": "Silverdale",
+            "state": "WA",
+            "postal_code": "98383-8519"
+          },
+          "mobile": false,
+          "health_service": [
+            "AdviceNurse",
+            "Covid19Vaccine",
+            "Dermatology",
+            "Laboratory",
+            "MentalHealth",
+            "MyHealtheVetCoordinator",
+            "Nutrition",
+            "PrimaryCare",
+            "SocialWork",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "463GB",
+        "type": "facilities",
+        "attributes": {
+          "id": "463GB",
+          "vista_site": "463",
+          "vast_parent": "463",
+          "type": "va_health_facility",
+          "name": "Soldotna VA Clinic",
+          "classification": "Primary Care CBOC",
+          "timezone": {
+            "time_zone_id": "America/Anchorage"
+          },
+          "lat": 60.49317,
+          "long": -151.08223,
+          "website": "https://www.va.gov/alaska-health-care/locations/soldotna-va-clinic/",
+          "phone": {
+            "main": "888-353-7574",
+            "fax": "907-283-4236",
+            "pharmacy": "888-353-7574",
+            "after_hours": "888-353-7574",
+            "patient_advocate": "907-257-5449",
+            "mental_health_clinic": "907-257-4854, ext. 1",
+            "enrollment_coordinator": "907-257-3323"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "237 West Rockwell Avenue",
+              null, null],
+            "city": "Soldotna",
+            "state": "AK",
+            "postal_code": "99669-7412"
+          },
+          "mobile": false,
+          "health_service": [
+            "AdviceNurse",
+            "Audiology",
+            "Dermatology",
+            "Laboratory",
+            "MentalHealth",
+            "Podiatry",
+            "PrimaryCare",
+            "Telehealth",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "663QB",
+        "type": "facilities",
+        "attributes": {
+          "id": "663QB",
+          "vista_site": "663",
+          "vast_parent": "663",
+          "type": "va_health_facility",
+          "name": "South Lucile Street VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.553387,
+          "long": -122.33064,
+          "website": "https://www.va.gov/puget-sound-health-care/locations/south-lucile-street-va-clinic/",
+          "phone": {
+            "main": "206-764-5149",
+            "fax": "206-764-5147",
+            "pharmacy": "206-277-4000",
+            "after_hours": "206-764-5149",
+            "patient_advocate": "206-764-2160",
+            "mental_health_clinic": "800-329-8387",
+            "enrollment_coordinator": "206-762-1010"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "305 South Lucile Street",
+              null, "Suite 103"
+            ],
+            "city": "Seattle",
+            "state": "WA",
+            "postal_code": "98108-2434"
+          },
+          "mobile": false,
+          "health_service": null,
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "668QE",
+        "type": "facilities",
+        "attributes": {
+          "id": "668QE",
+          "vista_site": "668",
+          "vast_parent": "668",
+          "type": "va_health_facility",
+          "name": "Spokane VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.654434,
+          "long": -117.40325,
+          "website": "https://www.va.gov/spokane-health-care/locations/spokane-va-clinic/",
+          "phone": {
+            "main": "509-462-2500",
+            "fax": "509-462-2503",
+            "pharmacy": "509-434-7011",
+            "after_hours": "509-434-7000",
+            "patient_advocate": "509-434-7504",
+            "mental_health_clinic": "1-509-434-7013",
+            "enrollment_coordinator": "509-434-7506"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "504 East 2nd Avenue",
+              null, null],
+            "city": "Spokane",
+            "state": "WA",
+            "postal_code": "99202-1406"
+          },
+          "mobile": false,
+          "health_service": [
+            "PrimaryCare"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "668HK",
+        "type": "facilities",
+        "attributes": {
+          "id": "668HK",
+          "vista_site": "668",
+          "vast_parent": "668",
+          "type": "va_health_facility",
+          "name": "Spokane VA Mobile Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.701927,
+          "long": -117.475624,
+          "website": null,
+          "phone": {
+            "main": "509-434-7000",
+            "fax": "509-434-7119",
+            "pharmacy": "509-434-7011",
+            "after_hours": "509-434-7000",
+            "patient_advocate": "509-434-7504",
+            "enrollment_coordinator": "509-434-7506"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "4815 North Assembly Street",
+              null, null],
+            "city": "Spokane",
+            "state": "WA",
+            "postal_code": "99205-6185"
+          },
+          "mobile": true,
+          "health_service": null,
+          "operating_status": {
+            "code": "CLOSED",
+            "additional_info": "This facility is closed.  Please visit one of our other system locations to support your health care needs."
+          }
+        }
+      },
+      {
+        "id": "668GD",
+        "type": "facilities",
+        "attributes": {
+          "id": "668GD",
+          "vista_site": "668",
+          "vast_parent": "668",
+          "type": "va_health_facility",
+          "name": "Spokane Valley VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 47.686275,
+          "long": -117.23665,
+          "website": "https://www.va.gov/spokane-health-care/locations/spokane-valley-va-clinic",
+          "phone": {
+            "main": "509-434-7055",
+            "fax": "509-434-7056",
+            "pharmacy": "800-274-6025",
+            "after_hours": "509-434-7000",
+            "patient_advocate": "509-434-7504",
+            "mental_health_clinic": "509-434-7013",
+            "enrollment_coordinator": "509-434-7009"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "12509 East Mirabeau Parkway",
+              null, "Suite 100"
+            ],
+            "city": "Spokane Valley",
+            "state": "WA",
+            "postal_code": "99216-1697"
+          },
+          "mobile": false,
+          "health_service": [
+            "PrimaryCare"
+          ],
+          "operating_status": {
+            "code": "CLOSED",
+            "additional_info": "The new facility is not open yet."
+          }
+        }
+      },
+      {
+        "id": "984GD",
+        "type": "facilities",
+        "attributes": {
+          "id": "984GD",
+          "vista_site": "984",
+          "vast_parent": "984",
+          "type": "va_health_facility",
+          "name": "Springfield VA Clinic",
+          "classification": "Multi-Specialty CBOC",
+          "timezone": {
+            "time_zone_id": "America/New_York"
+          },
+          "lat": 39.94281,
+          "long": -83.802895,
+          "website": "https://www.dayton.va.gov/locations/spgfld_cboc.asp",
+          "phone": {
+            "main": "937-328-3385"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "512 South Burnett Road"
+            ],
+            "city": "Springfield",
+            "state": "OH",
+            "postal_code": "45505-2720"
+          },
+          "mobile": null,
+          "health_service": [
+            "MentalHealthCare",
+            "Optometry",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare"
+          ],
+          "operating_status": null
+        }
+      },
+      {
+        "id": "983QE",
+        "type": "facilities",
+        "attributes": {
+          "id": "983QE",
+          "vista_site": "983",
+          "vast_parent": "983",
+          "type": "va_health_facility",
+          "name": "Sterling VA Clinic",
+          "classification": "Other Outpatient Services (OOS)",
+          "timezone": {
+            "time_zone_id": "America/Denver"
+          },
+          "lat": 42.04504,
+          "long": -104.95079,
+          "website": "https://www.cheyenne.va.gov/locations/Sterling_VA_Mobile_Telehealth_Clinic.asp",
+          "phone": {
+            "main": "307-778-7550"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "100 College Avenue"
+            ],
+            "city": "Sterling",
+            "state": "CO",
+            "postal_code": "80751-2345"
+          },
+          "mobile": null,
+          "health_service": null,
+          "operating_status": null
+        }
+      },
+      {
+        "id": "692",
+        "type": "facilities",
+        "attributes": {
+          "id": "692",
+          "vista_site": "692",
+          "vast_parent": "692",
+          "type": "va_health_facility",
+          "name": "White City VA Medical Center",
+          "classification": "VA Medical Center (VAMC)",
+          "timezone": {
+            "time_zone_id": "America/Los_Angeles"
+          },
+          "lat": 42.43995,
+          "long": -122.836296,
+          "website": "https://www.va.gov/southern-oregon-health-care/locations/white-city-va-medical-center/",
+          "phone": {
+            "main": "541-826-2111",
+            "fax": "541-830-7570",
+            "pharmacy": "541-826-2111",
+            "after_hours": "541-826-2111",
+            "patient_advocate": "541-826-2111 x7504",
+            "mental_health_clinic": "541-830-7440",
+            "enrollment_coordinator": "541-826-2111 x3742"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "8495 Crater Lake Highway",
+              null, null],
+            "city": "White City",
+            "state": "OR",
+            "postal_code": "97503-3011"
+          },
+          "mobile": false,
+          "health_service": [
+            "Audiology",
+            "Cardiology",
+            "CaregiverSupport",
+            "Covid19Vaccine",
+            "Dental",
+            "Dermatology",
+            "EmploymentPrograms",
+            "Homeless",
+            "Laboratory",
+            "Lgbtq",
+            "MentalHealth",
+            "MilitarySexualTrauma",
+            "MinorityCare",
+            "Nutrition",
+            "Optometry",
+            "Orthopedics",
+            "Pharmacy",
+            "PhysicalMedicine",
+            "Podiatry",
+            "PrimaryCare",
+            "Prosthetics",
+            "Psychiatry",
+            "Psychology",
+            "RecreationTherapy",
+            "Rehabilitation",
+            "SocialWork",
+            "SuicidePrevention",
+            "Telehealth",
+            "TransitionCounseling",
+            "Vision",
+            "WholeHealth",
+            "WomensHealth"
+          ],
+          "operating_status": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      {
+        "id": "984GF",
+        "type": "facilities",
+        "attributes": {
+          "id": "984GF",
+          "vista_site": "984",
+          "vast_parent": "984",
+          "type": "va_health_facility",
+          "name": "Wright-Patterson VA Clinic",
+          "classification": "Multi-Specialty CBOC",
+          "timezone": {
+            "time_zone_id": "America/New_York"
+          },
+          "lat": 39.94281,
+          "long": -83.802895,
+          "website": null,
+          "phone": {
+            "main": "937-328-3385"
+          },
+          "mailing_address": null,
+          "physical_address": {
+            "type": "physical",
+            "line": [
+              "4881 Sugar Maple Drive"
+            ],
+            "city": "Wright Patterson AFB",
+            "state": "OH",
+            "postal_code": "45433-7541"
+          },
+          "mobile": null,
+          "health_service": null,
+          "operating_status": null
+        }
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "current_page": 0,
+        "per_page": 0,
+        "total_pages": 0,
+        "total_entries": 0
+      }
+    }
+  }

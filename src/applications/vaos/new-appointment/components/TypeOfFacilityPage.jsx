@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { FACILITY_TYPES } from '../../utils/constants';
 import { getFormPageInfo } from '../redux/selectors';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
 import {
   openFormPage,
   routeToNextAppointmentPage,
@@ -31,11 +29,7 @@ const initialSchema = {
 
 const pageKey = 'typeOfFacility';
 
-export default function TypeOfFacilityPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-
+export default function TypeOfFacilityPage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const uiSchema = {
@@ -51,12 +45,6 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
           [FACILITY_TYPES.VAMC]: 'VA medical center or clinic',
           [FACILITY_TYPES.COMMUNITY_CARE]: 'Community care facility',
         },
-        descriptions: {
-          [FACILITY_TYPES.VAMC]:
-            'A VA medical center or clinic for this type of appointment',
-          [FACILITY_TYPES.COMMUNITY_CARE]:
-            'A community care facility near your home',
-        },
       },
     },
   };
@@ -70,16 +58,20 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-
     dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
 
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
+
   return (
-    <div className="vaos-form__facility-type vaos-form__radio-field-descriptive">
+    <div className="vaos-form__facility-type">
       {!!schema && (
         <SchemaForm
           name="Type of appointment"
@@ -94,6 +86,17 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
           }
           data={data}
         >
+          <va-additional-info
+            trigger="What to know about scheduling at community care facilities"
+            class="vads-u-margin-bottom--4"
+          >
+            <div>
+              If you select community care, we’ll ask for your preferred date,
+              timeframe, and provider. Then we’ll contact you to finish
+              scheduling your appointment.
+            </div>
+          </va-additional-info>
+
           <FormButtons
             onBack={() =>
               dispatch(routeToPreviousAppointmentPage(history, pageKey))
@@ -106,7 +109,3 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
     </div>
   );
 }
-
-TypeOfFacilityPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

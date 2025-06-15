@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,13 +21,16 @@ import ReplyDrafts from './ReplyDrafts';
 import MessageActionButtons from '../MessageActionButtons';
 import {
   BlockedTriageAlertStyles,
-  PageTitles,
+  Categories,
   ParentComponent,
   RecipientStatus,
   Recipients,
 } from '../../util/constants';
+import { getPageTitle } from '../../util/helpers';
 import { clearThread } from '../../actions/threadDetails';
 import { getPatientSignature } from '../../actions/preferences';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
+import ReplyButton from '../ReplyButton';
 
 const ReplyForm = props => {
   const {
@@ -38,6 +47,7 @@ const ReplyForm = props => {
     setIsSending,
   } = props;
   const dispatch = useDispatch();
+  const { customFoldersRedesignEnabled } = useFeatureToggles();
   const header = useRef();
 
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -55,6 +65,24 @@ const ReplyForm = props => {
   ] = useState(false);
   const [hideDraft, setHideDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
+
+  const handleEditDraftButton = useCallback(
+    () => {
+      if (isEditing === false) {
+        setIsEditing(true);
+        scrollTo('draft-reply-header');
+        focusElement(document.getElementById('draft-reply-header'));
+      } else {
+        setIsEditing(false);
+      }
+    },
+    [isEditing, setIsEditing],
+  );
+
+  const showEditDraftButton = useMemo(
+    () => !cannotReply && !showBlockedTriageGroupAlert && !hideDraft,
+    [cannotReply, showBlockedTriageGroupAlert, hideDraft],
+  );
 
   useEffect(
     () => {
@@ -79,9 +107,10 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
+      const pageTitleTag = getPageTitle({});
       setSubject(replyMessage.subject);
-      setCategory(replyMessage.category);
-      updatePageTitle(PageTitles.CONVERSATION_TITLE_TAG);
+      setCategory(Categories[replyMessage.category]);
+      updatePageTitle(pageTitleTag);
     },
     [replyMessage],
   );
@@ -123,7 +152,7 @@ const ReplyForm = props => {
     () => {
       const casedCategory =
         category === 'COVID' ? category : capitalize(category);
-      return `${casedCategory}: ${subject}`;
+      return `Messages: ${casedCategory} - ${subject}`;
     },
     [category, subject],
   );
@@ -136,6 +165,7 @@ const ReplyForm = props => {
           className="page-title"
           data-dd-privacy="mask"
           data-dd-action-name="Reply Form Header"
+          data-testid="reply-form-title"
         >
           {messageTitle}
         </h1>
@@ -153,27 +183,56 @@ const ReplyForm = props => {
           />
         )}
 
-        <MessageActionButtons
-          threadId={threadId}
-          hideDraft={hideDraft}
-          hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
-          replyMsgId={replyMessage.messageId}
-          showEditDraftButton={
-            !cannotReply && !showBlockedTriageGroupAlert && !hideDraft
-          }
-          handleEditDraftButton={() => {
-            if (isEditing === false) {
-              setIsEditing(true);
-              scrollTo('draft-reply-header');
-              focusElement(document.getElementById('draft-reply-header'));
-            } else {
-              setIsEditing(false);
-            }
-          }}
-          hasMultipleDrafts={drafts?.length > 1}
-          isCreateNewModalVisible={isCreateNewModalVisible}
-          setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-        />
+        {customFoldersRedesignEnabled && showEditDraftButton ? (
+          <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto">
+            <button
+              type="button"
+              className="usa-button
+                  vads-u-width--full
+                  mobile-lg:vads-u-width--auto
+                  reply-button-in-body
+                  vads-u-display--flex
+                  vads-u-flex-direction--row
+                  vads-u-justify-content--center
+                  vads-u-align-items--center
+                  vads-u-margin-right--0
+                  mobile-lg:vads-u-padding-x--7"
+              data-testid="edit-draft-button-body"
+              onClick={handleEditDraftButton}
+            >
+              <div className="vads-u-margin-right--0p5">
+                <va-icon icon="undo" aria-hidden="true" />
+              </div>
+              <span
+                className="message-action-button-text"
+                data-testid="edit-draft-button-body-text"
+              >
+                {`Edit draft repl${drafts?.length > 1 ? 'ies' : 'y'}`}
+              </span>
+            </button>
+          </div>
+        ) : (
+          !showEditDraftButton && (
+            <ReplyButton
+              key="replyButton"
+              visible={!cannotReply && !showBlockedTriageGroupAlert}
+            />
+          )
+        )}
+
+        {!customFoldersRedesignEnabled && (
+          <MessageActionButtons
+            threadId={threadId}
+            hideDraft={hideDraft}
+            hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
+            replyMsgId={replyMessage.messageId}
+            showEditDraftButton={showEditDraftButton}
+            handleEditDraftButton={handleEditDraftButton}
+            hasMultipleDrafts={drafts?.length > 1}
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+          />
+        )}
         <section>
           <form
             className="reply-form vads-u-padding-bottom--2"
@@ -184,7 +243,7 @@ const ReplyForm = props => {
             {/* {DELETE BUTTON IS PRESSED, DELETES SINGLE DRAFT} */}
             {!hideDraft && (
               <>
-                <h2 id="draft-reply-header">
+                <h2 id="draft-reply-header" data-testid="draft-reply-header">
                   {drafts && drafts.length > 1 ? 'Drafts' : 'Draft'}
                 </h2>
                 <ReplyDrafts

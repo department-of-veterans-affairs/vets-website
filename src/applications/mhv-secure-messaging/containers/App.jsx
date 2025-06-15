@@ -5,7 +5,6 @@ import { Switch } from 'react-router-dom';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   DowntimeNotification,
   externalServices,
@@ -21,38 +20,34 @@ import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/a
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import ScrollToTop from '../components/shared/ScrollToTop';
-import { getAllTriageTeamRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
 import { Actions } from '../util/actionTypes';
-import { downtimeNotificationParams } from '../util/constants';
+import { downtimeNotificationParams, Paths } from '../util/constants';
+import featureToggles from '../hooks/useFeatureToggles';
 import useTrackPreviousUrl from '../hooks/use-previous-url';
+import FetchRecipients from '../components/FetchRecipients';
+import LaunchMessagingAal from '../components/util/LaunchMessagingAal';
 
 const App = ({ isPilot }) => {
   useTrackPreviousUrl();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const { featureTogglesLoading } = useSelector(
-    state => {
-      return {
-        featureTogglesLoading: state.featureToggles.loading,
-      };
-    },
-    state => state.featureToggles,
-  );
-  const cernerPilotSmFeatureFlag = useSelector(
-    state =>
-      state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
-  );
-
-  const mhvMockSessionFlag = useSelector(
-    state => state.featureToggles['mhv-mock-session'],
-  );
+  const {
+    featureTogglesLoading,
+    isDowntimeBypassEnabled,
+    cernerPilotSmFeatureFlag,
+    mhvMockSessionFlag,
+  } = featureToggles();
 
   useEffect(
     () => {
       if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
     },
     [mhvMockSessionFlag],
+  );
+
+  const scheduledDownTimeIsReady = useSelector(
+    state => state.scheduledDowntime?.isReady,
   );
 
   const scheduledDowntimes = useSelector(
@@ -74,16 +69,11 @@ const App = ({ isPilot }) => {
 
   useEffect(
     () => {
-      const fetchAllData = async () => {
+      if (!scheduledDownTimeIsReady) {
         dispatch(getScheduledDowntime());
-
-        if (user.login.currentlyLoggedIn) {
-          await dispatch(getAllTriageTeamRecipients());
-        }
-      };
-      fetchAllData();
+      }
     },
-    [user.login.currentlyLoggedIn, dispatch],
+    [dispatch, scheduledDownTimeIsReady],
   );
 
   useEffect(
@@ -137,7 +127,8 @@ const App = ({ isPilot }) => {
   // If the user lands on /my-health/secure-messages-pilot and is not whitelisted,
   // redirect to the SM main experience landing page
   if (isPilot && !cernerPilotSmFeatureFlag) {
-    window.location.replace(manifest.rootUrl);
+    const url = `${manifest.rootUrl}${Paths.INBOX}`;
+    window.location.replace(url);
     return <></>;
   }
 
@@ -149,9 +140,12 @@ const App = ({ isPilot }) => {
         user={user}
         serviceRequired={[backendServices.MESSAGING]}
       >
+        <LaunchMessagingAal />
+        <FetchRecipients />
         <MhvSecondaryNav />
         <div className="vads-l-grid-container">
-          {mhvSMDown === externalServiceStatus.down ? (
+          {mhvSMDown === externalServiceStatus.down &&
+          !isDowntimeBypassEnabled ? (
             <>
               <h1>Messages</h1>
               <DowntimeNotification

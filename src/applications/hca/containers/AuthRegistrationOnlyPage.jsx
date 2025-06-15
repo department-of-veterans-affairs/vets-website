@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getPreviousPagePath } from 'platform/forms-system/src/js/routing';
@@ -7,15 +7,17 @@ import RegistrationOnlyAlert from '../components/FormAlerts/RegistrationOnlyAler
 import FormFooter from '../components/FormFooter';
 import content from '../locales/en/content.json';
 
-const AuthRegistrationOnlyPage = props => {
-  const { location, route, router } = props;
+const AuthRegistrationOnlyPage = ({ location, route, router }) => {
   const { data: formData } = useSelector(state => state.form);
-  const goBack = () => {
-    const { pathname } = location;
-    const { pageList } = route;
-    const prevPagePath = getPreviousPagePath(pageList, formData, pathname);
-    router.push(prevPagePath);
-  };
+
+  const goBack = useCallback(
+    () =>
+      router.push(
+        getPreviousPagePath(route.pageList, formData, location.pathname),
+      ),
+    [formData, location.pathname, route.pageList, router],
+  );
+
   return (
     <>
       <div className="progress-box progress-box-schemaform vads-u-padding-x--0">

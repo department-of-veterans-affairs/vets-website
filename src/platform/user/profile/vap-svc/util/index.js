@@ -182,8 +182,13 @@ export const validateAsciiCharacters = (errors, field) => {
 // checks for basic field data or data for nested object like gender identity
 export const isFieldEmpty = (data, fieldName) => {
   // checks whether data is available and in the case of gender identity if there is a code present
+  const signatureEmpty =
+    fieldName === FIELD_NAMES.MESSAGING_SIGNATURE &&
+    (!data?.[fieldName]?.signatureName || !data?.[fieldName]?.signatureTitle);
+
   return (
     !data ||
+    signatureEmpty ||
     (fieldName === FIELD_NAMES.GENDER_IDENTITY && !data?.[fieldName]?.code)
   );
 };

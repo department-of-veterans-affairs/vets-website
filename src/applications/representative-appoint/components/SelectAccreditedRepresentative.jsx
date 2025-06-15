@@ -1,28 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+
+import { createIsServiceAvailableSelector } from '@department-of-veterans-affairs/platform-user/selectors';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+
 import { setData } from '~/platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
-import { isLoggedIn } from 'platform/user/selectors';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import { fetchRepStatus } from '../api/fetchRepStatus';
 import SearchResult from './SearchResult';
 import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
 import { SearchResultsHeader } from './SearchResultsHeader';
-import { isVSORepresentative } from '../utilities/helpers';
+import { formIs2122 } from '../utilities/helpers';
 
 const SelectAccreditedRepresentative = props => {
-  const {
-    loggedIn,
-    setFormData,
-    formData,
-    goBack,
-    goForward,
-    goToPath,
-  } = props;
+  const { setFormData, formData, goBack, goForward, goToPath } = props;
 
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
@@ -45,8 +42,14 @@ const SelectAccreditedRepresentative = props => {
 
   const isReviewPage = useReviewPage();
 
+  // Based on user.icn.present? && user.participant_id.present? in vets-api policy
+  // From src/applications/personalization/profile/hooks/useDirectDeposit.js
+  const isUserLOA3WithParticipantId = useSelector(
+    createIsServiceAvailableSelector(backendServices.LIGHTHOUSE),
+  );
+
   const getRepStatus = async () => {
-    if (loggedIn) {
+    if (isUserLOA3WithParticipantId) {
       setLoadingPOA(true);
 
       try {
@@ -73,8 +76,8 @@ const SelectAccreditedRepresentative = props => {
     const selection = formData['view:selectedRepresentative'];
 
     const repTypeChanged =
-      isVSORepresentative(currentSelectedRep.current) !==
-      isVSORepresentative(newSelection);
+      formIs2122(currentSelectedRep.current) !== formIs2122(newSelection);
+
     const noSelectionExists = !selection && !selectionMade;
     const noNewSelection =
       !newSelection || newSelection === currentSelectedRep.current;
@@ -205,7 +208,10 @@ const SelectAccreditedRepresentative = props => {
             currentSelectedRep={currentSelectedRep.current}
             goToPath={goToPath}
             handleSelectRepresentative={handleSelectRepresentative}
-            userIsDigitalSubmitEligible={formData?.userIsDigitalSubmitEligible}
+            userIsDigitalSubmitEligible={
+              formData?.userIsDigitalSubmitEligible &&
+              formData?.['view:v2IsEnabled']
+            }
           />
         ))}
       <p className="vads-u-margin-y--4">
@@ -235,7 +241,6 @@ SelectAccreditedRepresentative.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form?.data,
-  loggedIn: isLoggedIn(state),
 });
 
 const mapDispatchToProps = {
