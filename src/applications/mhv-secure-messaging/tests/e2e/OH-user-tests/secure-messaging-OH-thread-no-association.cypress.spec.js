@@ -86,7 +86,21 @@ describe('SM OH USER NO ASSOCIATION WITH PARTICULAR TG', () => {
 
     cy.get(`va-alert> :nth-child(2)`).should(
       'have.text',
-      Alerts.OLD_MSG_SUBHEAD,
+      `The last message in this conversation is more than 45 days old.`,
+    );
+
+    cy.get(`va-alert> :nth-child(3)`).should(
+      'have.text',
+      `If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.`,
+    );
+
+    cy.get(`va-alert> :nth-child(4)`)
+      .find(`a`)
+      .should('have.attr', `href`, `/find-locations`);
+
+    cy.get(`va-alert> :nth-child(5)`).should(
+      'have.text',
+      `Or you can send a message to other care teams in your contact list.`,
     );
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
