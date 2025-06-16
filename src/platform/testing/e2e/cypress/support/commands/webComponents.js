@@ -416,8 +416,8 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'fillVaStatementOfTruth',
-  (field, { name, checked } = {}) => {
-    if (!name && typeof checked !== 'boolean') return;
+  (field, { fullName, checked } = {}) => {
+    if (!fullName && typeof checked !== 'boolean') return;
 
     const element =
       typeof field === 'string'
@@ -425,8 +425,8 @@ Cypress.Commands.add(
         : cy.wrap(field);
 
     element.shadow().within(() => {
-      if (name) {
-        cy.get('va-text-input').then($el => cy.fillVaTextInput($el, name));
+      if (fullName) {
+        cy.get('va-text-input').then($el => cy.fillVaTextInput($el, fullName));
       }
       if (checked) {
         cy.get('va-checkbox').then($el => cy.selectVaCheckbox($el, checked));
