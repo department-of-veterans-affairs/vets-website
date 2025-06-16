@@ -58,11 +58,6 @@ export const setUp = type => {
 
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
-  // cy.findByRole('button', { name: /edit mailing address/i }).click({
-  //   force: true,
-  //   timeout: 10000,
-  // });
-
   cy.get('va-button[label="Edit Mailing address"]', { timeout: 10000 })
     .shadow()
     .find('button')
