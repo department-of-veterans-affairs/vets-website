@@ -10,14 +10,16 @@ export default function transformForSubmit(formConfig, form) {
   const { fullName, dob, ...otherFields } = baseData;
 
   const payload = {
-    form: {
-      ...otherFields,
-      veteranInformation: {
-        fullName,
-        dob,
-      },
+    ...otherFields,
+    veteranInformation: {
+      fullName,
+      dob,
     },
   };
 
-  return JSON.stringify(payload);
+  return JSON.stringify({
+    veteranReadinessEmploymentClaim: {
+      form: JSON.stringify(payload),
+    },
+  });
 }
