@@ -30,6 +30,17 @@ const internationalPhoneUI = options => {
     'ui:title': title ?? 'Home phone number',
     'ui:webComponentField': VaInputTelephoneField,
     'ui:reviewField': internationalPhoneNumberWidget,
+    'ui:confirmationField': ({ formData }) => {
+      const { callingCode, contact, countryCode } = formData;
+      let data = 'No contact provided';
+      if (contact) {
+        data = `+${callingCode || ''} ${contact} (${countryCode || ''})`;
+      }
+      return {
+        data,
+        label: 'Contact',
+      };
+    },
     'ui:options': uiOptions,
     'ui:validations': [validateInputTelephone],
   };
