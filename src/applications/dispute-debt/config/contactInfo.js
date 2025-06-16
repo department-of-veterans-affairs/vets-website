@@ -66,7 +66,7 @@ export default profileContactInfo({
   mobilePhoneKey: 'mobilePhone',
   emailKey: 'email',
   addressKey: 'mailingAddress',
-  disableMockContactInfo: true,
+  disableMockContactInfo: false,
   contactSectionHeadingLevel: 'h2',
   editContactInfoHeadingLevel: 'h2',
   prefillPatternEnabled: true,
