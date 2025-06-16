@@ -22,6 +22,7 @@ import {
   affiliatedIndividualsSummary,
   affiliatedIndividualsAssociation,
 } from '../pages';
+import SubmissionInstructions from '../components/SubmissionInstructions';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -154,6 +155,23 @@ const formConfig = {
             }),
           }),
         ),
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
       },
     },
   },
