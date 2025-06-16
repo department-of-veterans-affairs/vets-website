@@ -1635,7 +1635,7 @@ jobs:
         update-e2e-allow-list,
         update-unit-test-allow-list,
       ]
-    if: ${{ always() && !cancelled() && github.ref != 'refs/heads/main' }}
+    if: ${{ always() && !cancelled() && github.ref != 'refs/heads/main' && ( needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure' || needs.cypress-tests.result == 'skipped' ) }}
     continue-on-error: true
     steps:
       - name: Checkout
