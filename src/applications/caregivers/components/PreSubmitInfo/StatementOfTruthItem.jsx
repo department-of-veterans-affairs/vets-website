@@ -94,6 +94,7 @@ const StatementOfTruthItem = props => {
       onVaInputBlur={handleInputBlur}
       onVaInputChange={handleInputChange}
       onVaCheckboxChange={handleCheckboxChange}
+      hideLegalNote
     >
       {statementText.map((text, index) => (
         <p key={index}>{text}</p>
