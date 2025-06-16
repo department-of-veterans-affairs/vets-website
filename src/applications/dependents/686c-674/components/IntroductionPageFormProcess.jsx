@@ -89,7 +89,7 @@ export const IntroductionPageFormProcess = () => (
           other information or supporting documents.
         </p>
         <va-link
-          href="/view-change-dependents/"
+          href="/manage-dependents/"
           text="Find out which documents you need to add or remove dependents"
         />
         <p>

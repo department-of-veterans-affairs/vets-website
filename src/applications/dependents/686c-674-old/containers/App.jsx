@@ -57,8 +57,7 @@ function App({
   // (flipperV2 && hasV1Form && isGreaterThan60Days);
 
   if (shouldUseV2) {
-    window.location.href =
-      '/view-change-dependents/add-remove-form-21-686c-674/';
+    window.location.href = '/manage-dependents/add-remove-form-21-686c-674/';
     return <></>;
   }
 
