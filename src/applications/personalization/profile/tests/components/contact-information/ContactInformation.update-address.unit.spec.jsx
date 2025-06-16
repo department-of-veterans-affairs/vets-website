@@ -30,11 +30,10 @@ const ui = (
 let view;
 let server;
 
+// helper function that returns the Edit va-button
+// since RTL doesn't support getByRole/getByText queries for web components
 function getEditVaButton(addressName) {
-  const label = `Edit ${addressName}`;
-  // use querySelector because <va-button> is a web component and doesn't
-  // work with getByRole/getByText queries
-  return view.container.querySelector(`va-button[label="${label}"]`);
+  return view.container.querySelector(`va-button[label="Edit ${addressName}"]`);
 }
 
 function updateAddress(addressName) {
@@ -119,9 +118,7 @@ async function testAddressValidation500(addressName) {
   // make sure that edit mode is not automatically exited
   await wait(75);
   expect(view.getByTestId('edit-error-alert')).to.exist;
-  // const editButton = getEditButton();
-  const editButton = getEditVaButton(addressName);
-  expect(editButton).to.not.exist;
+  expect(getEditVaButton(addressName)).to.not.exist;
 }
 
 // When the initial transaction creation request fails

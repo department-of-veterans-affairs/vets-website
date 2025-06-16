@@ -35,10 +35,10 @@ const ui = (
 let view;
 let server;
 
+// helper function that returns the Edit va-button
+// since RTL doesn't support getByRole/getByText queries for web components
 function getEditVaButton(numberName) {
-  const label = `Edit ${numberName}`;
-  // RTL doesn't support getByRole/getByText queries for web components
-  return view.container.querySelector(`va-button[label="${label}"]`);
+  return view.container.querySelector(`va-button[label="Edit ${numberName}"]`);
 }
 
 // helper function that enters the `Edit phone number` view, enters a number,
@@ -47,8 +47,7 @@ function editPhoneNumber(
   numberName,
   options = { areaCode: defaultAreaCode, phoneNumber: defaultPhoneNumber },
 ) {
-  const editButton = getEditVaButton(numberName);
-  editButton.click();
+  getEditVaButton(numberName).click();
 
   const phoneNumberInput = $(
     `va-text-input[label^="${numberName}"]`,

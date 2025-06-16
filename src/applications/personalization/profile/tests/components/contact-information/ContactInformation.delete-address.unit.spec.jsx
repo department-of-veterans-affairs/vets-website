@@ -22,18 +22,16 @@ const ui = (
 let view;
 let server;
 
-function getEditVaButton(addressName) {
-  const label = `Edit ${addressName}`;
-  // use querySelector because <va-button> is a web component and doesn't
-  // work with getByRole/getByText queries
+// helper function that returns the Edit or Remove va-button
+// since RTL doesn't support getByRole/getByText queries for web components
+function getVaButton(action, addressName) {
+  const label = `${action} ${addressName}`;
   return view.container.querySelector(`va-button[label="${label}"]`);
 }
 
 function deleteAddress(addressName) {
   // delete
-  view.container
-    .querySelector(`va-button[label="Remove ${addressName}"]`)
-    .click();
+  getVaButton('Remove', addressName).click();
   const confirmDeleteButton = view.getByText('Yes, remove my information', {
     selector: 'button',
   });
@@ -69,7 +67,7 @@ async function testSlowSuccess(addressName) {
   await view.findByText('Update saved.');
 
   // the edit button should exist
-  expect(getEditVaButton(addressName)).to.exist;
+  expect(getVaButton('Edit', addressName)).to.exist;
 }
 
 // When the initial transaction creation request fails
@@ -84,7 +82,7 @@ async function testTransactionCreationFails(addressName) {
     { exact: false },
   );
 
-  expect(getEditVaButton(addressName)).to.exist;
+  expect(getVaButton('Edit', addressName)).to.exist;
 }
 
 // When the update fails but not until after the Delete Modal has exited and the
@@ -115,7 +113,7 @@ async function testSlowFailure(addressName) {
   ).to.exist;
 
   // and the edit button should be back
-  expect(getEditVaButton(addressName)).to.exist;
+  expect(getVaButton('Edit', addressName)).to.exist;
 }
 
 describe('Deleting', () => {
@@ -157,10 +155,8 @@ describe('Deleting', () => {
 
   it('should not be supported for mailing address', () => {
     const addressName = FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS];
-    getEditVaButton(addressName).click();
+    getVaButton('Edit', addressName).click();
 
-    expect(
-      view.container.querySelector(`va-button[label="Remove ${addressName}"]`),
-    ).to.not.exist;
+    expect(getVaButton('Remove', addressName)).to.not.exist;
   });
 });
