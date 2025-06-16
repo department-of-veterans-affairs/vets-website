@@ -89,6 +89,7 @@ export const deceasedDependentIntroPage = {
         </p>
         <CancelButton
           dependentType="dependents who have died"
+          dependentButtonType="dependents"
           isAddChapter={false}
         />
       </>

@@ -63,7 +63,7 @@ describe('IntentToFile', () => {
       expect(
         $('va-loading-indicator', container).getAttribute('message'),
       ).to.include(
-        'wait while we check to see if you have an existing Intent to File',
+        'wait while we check to see if you have an existing intent to file',
       );
     });
   });
@@ -98,7 +98,7 @@ describe('IntentToFile', () => {
 
     waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
-        'We tried to check for your intent to file',
+        'We’re sorry. We can’t find a record of your intent to file',
       );
       expect(document.activeElement?.tagName).to.equal('VA-ALERT');
     });
