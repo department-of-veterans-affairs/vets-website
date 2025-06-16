@@ -17,6 +17,7 @@ const mockFormAeDesignPatterns = require('./endpoints/in-progress-forms/mock-for
 const prefill261880 = require('./endpoints/in-progress-forms/26-1880');
 const prefill221990 = require('./endpoints/in-progress-forms/22-1990');
 const prefill10182 = require('./endpoints/in-progress-forms/10182');
+const { prefill214138 } = require('./endpoints/in-progress-forms/21-4138');
 // transaction status that is used for address, email, phone number update flows
 const {
   getEmptyStatus,
@@ -77,6 +78,11 @@ const responses = {
   'GET /v0/in_progress_forms/10182': (_req, res) => {
     const secondsOfDelay = 1;
     delaySingleResponse(() => res.json(prefill10182), secondsOfDelay);
+  },
+
+  'GET /v0/in_progress_forms/21-4138': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(() => res.json(prefill214138), secondsOfDelay);
   },
 
   'PUT /v0/in_progress_forms/:id': (req, res) => {

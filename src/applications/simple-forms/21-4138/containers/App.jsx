@@ -8,6 +8,8 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import environment from 'platform/utilities/environment';
 import { initializeProfile } from 'platform/user/profile/actions';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { fetchInProgressForm } from 'platform/forms/save-in-progress/actions';
 import formConfig from '../config/form';
 import { WIP } from '../../shared/components/WIP';
 import { workInProgressContent } from '../config/constants';
@@ -18,6 +20,7 @@ function App({ location, children, showForm, isLoading }) {
   useEffect(() => {
     dispatch(initializeProfile());
     localStorage.setItem('hasSession', true);
+    dispatch(fetchInProgressForm(VA_FORM_IDS.FORM_21_4138, {}, true));
   }, []);
 
   if (isLoading) {
