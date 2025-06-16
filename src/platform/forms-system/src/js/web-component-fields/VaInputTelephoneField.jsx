@@ -40,7 +40,7 @@ export default function VaInputTelephoneField(props) {
   useEffect(() => {
     // component emits event on load that is important for validation
     // it does not get emitted in test env as it does in browser so emit manually
-    if (environment.isTest()) {
+    if (environment.isUnitTest()) {
       const testEvent = {
         detail: {
           callingCode: 1,
