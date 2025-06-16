@@ -30,6 +30,7 @@ const App = props => {
     isEmergencyContactsEnabled,
     isNextOfKinEnabled,
     isProvidersAndDependentsPrefillEnabled,
+    isSpouseV2Enabled,
   } = features;
   const {
     dob: veteranDateOfBirth,
@@ -70,6 +71,7 @@ const App = props => {
           'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
           'view:isNextOfKinEnabled': !!isNextOfKinEnabled,
           'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
+          'view:isSpouseV2Enabled': isSpouseV2Enabled,
         };
 
         setFormData({
@@ -125,6 +127,7 @@ const mapStateToProps = state => ({
     isNextOfKinEnabled: state.featureToggles.ezrNextOfKinEnabled,
     isProvidersAndDependentsPrefillEnabled:
       state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
+    isSpouseV2Enabled: state.featureToggles.ezrSpouseV2Enabled,
   },
   formData: state.form.data,
   user: state.user.profile,

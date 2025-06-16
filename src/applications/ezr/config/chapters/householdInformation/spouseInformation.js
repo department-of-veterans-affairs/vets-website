@@ -6,6 +6,8 @@ import spouseAdditionalInformationPage from '../../../definitions/spouseAddition
 import spouseContactInformationPage from '../../../definitions/spouseContactInformation';
 import spouseFinancialSupportPage from '../../../definitions/spouseFinancialSupport';
 import content from '../../../locales/en/content.json';
+import SpouseSummaryCardDescription from '../../../components/FormDescriptions/SpouseSummaryCardDescription';
+import SpouseInformationReviewWarning from '../../../components/FormAlerts/SpouseInformationReviewWarning';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -13,12 +15,21 @@ const options = {
   nounSingular: 'spouse',
   nounPlural: 'spouse',
   required: false,
-  isItemIncomplete: item => !item?.name,
   maxItems: 1,
   hideMaxItemsAlert: true,
   text: {
+    getItemName: item => {
+      return `${item.spouseFullName.first} ${item.spouseFullName.last}`;
+    },
+    summaryDescription: () => (
+      <SpouseInformationReviewWarning
+        isFormReviewPage={window?.location?.pathname.includes(
+          'review-and-submit',
+        )}
+      />
+    ),
     cardDescription: item => {
-      return item && <div>Custom card description</div>;
+      return item && <SpouseSummaryCardDescription item={item} />;
     },
   },
 };
@@ -66,42 +77,41 @@ const spouseContactInformationPageSchema = spouseContactInformationPage(
  */
 const spouseFinancialSupportPageSchema = spouseFinancialSupportPage(options);
 
-export const spousalInformationPages = arrayBuilderPages(
-  options,
-  pageBuilder => ({
-    spouseInformationSummaryPage: pageBuilder.summaryPage({
-      title: content['household-spouse-information-summary-title'],
-      path: 'household-information/spouse-information',
-      uiSchema: spouseInformationSummaryPageSchema.uiSchema,
-      schema: spouseInformationSummaryPageSchema.schema,
-    }),
-    spousePersonalInformationPage: pageBuilder.itemPage({
-      title: content['household-spouse-information-title'],
-      path:
-        'household-information/spouse-information/:index/spouse-personal-information',
-      uiSchema: spousePersonalInformationPageSchema.uiSchema,
-      schema: spousePersonalInformationPageSchema.schema,
-    }),
-    spouseAdditionalInformationPage: pageBuilder.itemPage({
-      title: 'Additional information',
-      path:
-        'household-information/spouse-information/:index/spouse-additional-information',
-      uiSchema: spouseAdditionalInformationPageSchema.uiSchema,
-      schema: spouseAdditionalInformationPageSchema.schema,
-    }),
-    spouseFinancialSupportPage: pageBuilder.itemPage({
-      title: 'Financial support',
-      path:
-        'household-information/spouse-information/:index/spouse-financial-support',
-      uiSchema: spouseFinancialSupportPageSchema.uiSchema,
-      schema: spouseFinancialSupportPageSchema.schema,
-    }),
-    spouseContactInformationPage: pageBuilder.itemPage({
-      title: 'Contact information',
-      path:
-        'household-information/spouse-information/:index/spouse-contact-information',
-      uiSchema: spouseContactInformationPageSchema.uiSchema,
-      schema: spouseContactInformationPageSchema.schema,
-    }),
+const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
+  spouseInformationSummaryPage: pageBuilder.summaryPage({
+    title: content['household-spouse-information-summary-title'],
+    path: 'household-information/spouse-information',
+    uiSchema: spouseInformationSummaryPageSchema.uiSchema,
+    schema: spouseInformationSummaryPageSchema.schema,
   }),
-);
+  spousePersonalInformationPage: pageBuilder.itemPage({
+    title: content['household-spouse-information-title'],
+    path:
+      'household-information/spouse-information/:index/spouse-personal-information',
+    uiSchema: spousePersonalInformationPageSchema.uiSchema,
+    schema: spousePersonalInformationPageSchema.schema,
+  }),
+  spouseAdditionalInformationPage: pageBuilder.itemPage({
+    title: 'Additional information',
+    path:
+      'household-information/spouse-information/:index/spouse-additional-information',
+    uiSchema: spouseAdditionalInformationPageSchema.uiSchema,
+    schema: spouseAdditionalInformationPageSchema.schema,
+  }),
+  spouseFinancialSupportPage: pageBuilder.itemPage({
+    title: 'Financial support',
+    path:
+      'household-information/spouse-information/:index/spouse-financial-support',
+    uiSchema: spouseFinancialSupportPageSchema.uiSchema,
+    schema: spouseFinancialSupportPageSchema.schema,
+  }),
+  spouseContactInformationPage: pageBuilder.itemPage({
+    title: 'Contact information',
+    path:
+      'household-information/spouse-information/:index/spouse-contact-information',
+    uiSchema: spouseContactInformationPageSchema.uiSchema,
+    schema: spouseContactInformationPageSchema.schema,
+  }),
+}));
+
+export default spousalInformationPages;
