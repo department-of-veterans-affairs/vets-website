@@ -862,6 +862,13 @@ class MedicationsDetailsPage {
       ),
     };
   };
+
+  verifyRxNumberNotVisibleOnPendingMedicationsDetailsPage = PrescriptionNumber => {
+    cy.get('[data-testid="va-prescription-container"]').should(
+      'not.contain',
+      PrescriptionNumber,
+    );
+  };
 }
 
 export default MedicationsDetailsPage;
