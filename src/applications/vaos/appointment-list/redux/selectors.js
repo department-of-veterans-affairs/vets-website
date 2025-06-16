@@ -22,7 +22,9 @@ import {
   isPendingOrCancelledRequest,
   getAppointmentTimezone,
   isClinicVideoAppointment,
+  isAtlasVideoAppointment,
   isInPersonVisit,
+  isVideoAtHome,
   getPatientTelecom,
 } from '../../services/appointment';
 import {
@@ -435,26 +437,13 @@ export function selectVideoProviderAddress(appointment) {
   return videoData?.atlasLocation?.address;
 }
 
-export function selectIsAtlasVideo(appointment) {
-  const { isAtlas } = appointment?.videoData || {};
-  return isAtlas;
-}
-
-export function selectIsHomeVideo(appointment) {
-  return (
-    selectIsVideo(appointment) &&
-    !selectIsClinicVideo(appointment) &&
-    !selectIsAtlasVideo(appointment)
-  );
-}
-
 export function selectModalityText(appointment, isPendingAppointment = false) {
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
-  const isVideoAtlas = selectIsAtlasVideo(appointment);
+  const isVideoAtlas = isAtlasVideoAppointment(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
-  const isVideoHome = selectIsHomeVideo(appointment);
+  const isVideoHome = isVideoAtHome(appointment);
   const { name: facilityName } = appointment.vaos.facilityData || {
     name: '',
   };
@@ -553,9 +542,9 @@ export function selectModalityAriaText(appointment) {
 export function selectModalityIcon(appointment) {
   const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
-  const isVideoAtlas = selectIsAtlasVideo(appointment);
+  const isVideoAtlas = isAtlasVideoAppointment(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
-  const isVideoHome = selectIsHomeVideo(appointment);
+  const isVideoHome = isVideoAtHome(appointment);
 
   let icon = '';
 
@@ -620,7 +609,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
   const isPhone = selectIsPhone(appointment);
   const timeZoneAbbr = selectTimeZoneAbbr(appointment);
   const providerAddress = selectProviderAddress(appointment);
-  const isAtlasVideo = selectIsAtlasVideo(appointment);
+  const isAtlasVideo = isAtlasVideoAppointment(appointment);
   const isPastAppointment = selectIsPast(appointment);
   const videoProviderName = selectVideoProviderName(appointment);
   const videoProviderAddress = selectVideoProviderAddress(appointment);
