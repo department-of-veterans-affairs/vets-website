@@ -1,12 +1,9 @@
-import React from 'react';
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   addDependentOptions,
   removeDependentOptions,
   validateAtLeastOneSelected,
-  OptionsReviewField,
 } from '../../../../../config/chapters/taskWizard/wizard/helpers';
 
 const mockErrors = {
@@ -66,27 +63,5 @@ describe('validateAtLeastOneSelected', () => {
     validateAtLeastOneSelected(mockErrors, fieldData);
 
     expect(addErrorSpy.notCalled).to.be.true;
-  });
-});
-
-describe('OptionsReviewField', () => {
-  it('should render null if children or formData is not provided', () => {
-    const { container } = render(<OptionsReviewField />);
-    expect(container.firstChild).to.be.null;
-  });
-
-  it('should render review row if children and formData are provided', () => {
-    const props = {
-      children: {
-        props: {
-          formData: true,
-          uiSchema: { 'ui:title': 'Test Title' },
-        },
-      },
-    };
-
-    const { getByText } = render(<OptionsReviewField {...props} />);
-
-    expect(getByText('Test Title')).to.exist;
   });
 });

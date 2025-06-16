@@ -9,6 +9,7 @@ import {
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
   selectFeatureFeSourceOfTruthModality,
+  selectFeatureFeSourceOfTruthTelehealth,
   selectSystemIds,
 } from '../../redux/selectors';
 import {
@@ -27,7 +28,8 @@ import {
   fetchRequestById,
   getAppointmentRequests,
   getVAAppointmentLocationId,
-  isVideoHome,
+  isAtlasVideoAppointment,
+  isVideoAtHome,
 } from '../../services/appointment';
 
 import {
@@ -98,6 +100,9 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
     const patientFacilities = selectPatientFacilities(state);
 
     const includeEPS = getIsInCCPilot(
@@ -140,6 +145,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
         }),
       ];
       if (includeRequests) {
@@ -158,6 +164,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             useFeSourceOfTruthCC,
             useFeSourceOfTruthVA,
             useFeSourceOfTruthModality,
+            useFeSourceOfTruthTelehealth,
           })
             .then(requests => {
               dispatch({
@@ -196,12 +203,12 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       recordItemsRetrieved('upcoming', data?.length);
       recordItemsRetrieved(
         'video_home',
-        data?.filter(appt => isVideoHome(appt)).length,
+        data?.filter(appt => isVideoAtHome(appt)).length,
       );
 
       recordItemsRetrieved(
         'video_atlas',
-        data?.filter(appt => appt.videoData.isAtlas).length,
+        data?.filter(appt => isAtlasVideoAppointment(appt)).length,
       );
 
       recordItemsRetrieved(
@@ -263,6 +270,9 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
     const patientFacilities = selectPatientFacilities(state);
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
@@ -289,6 +299,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
       });
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
@@ -343,6 +354,9 @@ export function fetchRequestDetails(id) {
       const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
         state,
       );
+      const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+        state,
+      );
 
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
@@ -364,6 +378,7 @@ export function fetchRequestDetails(id) {
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
         });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
@@ -403,6 +418,9 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
         state,
       );
+      const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+        state,
+      );
 
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
@@ -427,6 +445,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
         });
       }
 
@@ -494,6 +513,9 @@ export function confirmCancelAppointment() {
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
 
     try {
       dispatch({
@@ -506,6 +528,7 @@ export function confirmCancelAppointment() {
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
       });
 
       dispatch({
