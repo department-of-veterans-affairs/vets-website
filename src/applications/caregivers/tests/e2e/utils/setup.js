@@ -8,7 +8,7 @@ import mockPdfDownload from '../fixtures/mocks/pdf-download.json';
 import mockSubmission from '../fixtures/mocks/submission.json';
 import mockUpload from '../fixtures/mocks/upload.json';
 import mockVamc from '../fixtures/mocks/vamc-ehr.json';
-import { fillStatementOfTruthPattern, fillVaFacilitySearch } from './fillers';
+import { fillVaFacilitySearch } from './fillers';
 import { goToNextPage, startAsGuestUser } from './helpers';
 
 const APIs = {
@@ -74,7 +74,10 @@ export const pageHooks = {
         const signatures =
           statementOfTruthActions[testKey] || statementOfTruthActions.default;
         signatures.forEach(role =>
-          fillStatementOfTruthPattern(LABELS[role], parties[role]),
+          cy.fillVaStatementOfTruth(LABELS[role], {
+            fullName: parties[role],
+            checked: true,
+          }),
         );
       });
     });
