@@ -12,7 +12,7 @@ import {
 import { apiRequest } from 'platform/utilities/api';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
-import { isServerError } from 'platform/user/profile/utilities';
+// import { isServerError } from 'platform/user/profile/utilities';
 import { hasBadAddress } from '../selectors';
 
 import localVAProfileService, {
@@ -249,21 +249,21 @@ export function createTransaction(
       const profileSection = analyticsSectionName || 'unknown-profile-section';
 
       // Check if it's a 5xx error and we're in a form context
-      if (isServerError(error.status)) {
-        const state = getState();
-        const hasFormData = Boolean(state.form?.data);
+      // if (isServerError(error.status)) {
+      //   const state = getState();
+      //   const hasFormData = Boolean(state.form?.data);
 
-        // Only dispatch form-only update if we're in a form context
-        if (hasFormData) {
-          dispatch({
-            type: VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
-            fieldName,
-            payload,
-          });
-          // Return special flag to indicate form-only update should proceed
-          return { formOnlyUpdate: true };
-        }
-      }
+      //   // Only dispatch form-only update if we're in a form context
+      //   if (hasFormData) {
+      //     dispatch({
+      //       type: VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
+      //       fieldName,
+      //       payload,
+      //     });
+      //     // Return special flag to indicate form-only update should proceed
+      //     return { formOnlyUpdate: true };
+      //   }
+      // }
 
       recordEvent({
         event: 'profile-edit-failure',
