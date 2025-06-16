@@ -83,6 +83,7 @@ const StatementOfTruthItem = props => {
 
   return (
     <VaStatementOfTruth
+      name={label}
       heading={heading}
       inputLabel={inputLabel}
       inputValue={signature.value}
