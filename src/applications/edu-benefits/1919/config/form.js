@@ -3,6 +3,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 
 import {
   allProprietaryProfitConflictsArrayOptions,
@@ -59,6 +60,14 @@ const formConfig = {
     date,
     dateRange,
     usaPhone,
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body: PrivacyPolicy,
+      heading: 'Certification statement',
+      fullNamePath: 'certifyingOfficial',
+      messageAriaDescribedBy: 'I have read and accept the privacy policy.',
+    },
   },
   chapters: {
     institutionDetailsChapter: {
