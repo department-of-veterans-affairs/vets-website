@@ -719,7 +719,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPartialFillTextInRefillAccordionOnDetailsPage = text => {
-    cy.get('[data-testid="partial-fill-text"]').should('contain', text);
+    cy.get('[data-testid="partial-fill-text"]').should('have.text', text);
   };
 
   verifyMedicationDescriptionInTxtDownload = text => {
