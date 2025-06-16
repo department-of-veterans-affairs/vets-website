@@ -13,7 +13,6 @@ export function isVAProfileServiceConfigured() {
       'staging.va.gov',
       'va.gov',
       'www.va.gov',
-      '3e7d4947ad443be726c7ce8abdd7af24.review.vetsgov-internal',
     ].includes(document.location.hostname)
   );
 }
