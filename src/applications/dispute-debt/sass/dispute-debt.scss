@@ -32,6 +32,11 @@
   padding-left: 0;
 }
 
+.personal-information-box {
+    border: 1px solid var(--vads-color-gray-medium) !important;
+    padding: 0 $vads-spacing-2;
+}
+
 // Fix spacing between debt review buttons in form pages only
 // Excludes review page accordion items
 [data-chapter="reasonForDisputeChapter"]:not(va-accordion-item) {
