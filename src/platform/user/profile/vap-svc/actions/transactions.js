@@ -242,7 +242,7 @@ export function createTransaction(
         transaction,
       });
 
-      return transaction;
+      // return transaction;
     } catch (error) {
       const [firstError = {}] = error.errors ?? [];
       const { code = 'code', title = 'title', detail = 'detail' } = firstError;
@@ -279,7 +279,7 @@ export function createTransaction(
         error,
         fieldName,
       });
-      return null;
+      // return null;
     }
   };
 }
@@ -290,7 +290,7 @@ export const validateAddress = (
   fieldName,
   inputAddress,
   analyticsSectionName,
-  onlyValidate,
+  // onlyValidate,
 ) => async dispatch => {
   const userEnteredAddress = { ...inputAddress };
   dispatch({
@@ -391,22 +391,22 @@ export const validateAddress = (
 
     // when only validating, we don't want to create a transaction to update the profile
     // but we still want to include the validation key
-    if (onlyValidate) {
-      return {
-        onlyValidate,
-        formOnlyUpdate: true,
-        data: {
-          attributes: {
-            transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS,
-          },
-        },
-        validationKey,
-        payload: {
-          ...userEnteredAddress,
-          validationKey,
-        },
-      };
-    }
+    // if (onlyValidate) {
+    //   return {
+    //     onlyValidate,
+    // formOnlyUpdate: true,
+    // data: {
+    //   attributes: {
+    //     transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS,
+    //   },
+    // },
+    // validationKey,
+    // payload: {
+    //   ...userEnteredAddress,
+    //   validationKey,
+    // },
+    //   };
+    // }
 
     sessionStorage.setItem('profile-has-cleared-bad-address-indicator', 'true');
 
