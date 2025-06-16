@@ -82,16 +82,16 @@ describe('SM OH USER NO ASSOCIATION WITH PARTICULAR TG', () => {
 
     cy.get(Locators.ALERTS.EXPIRED_MESSAGE)
       .should('be.visible')
-      .and('have.text', Alerts.OLD_MSG_HEAD);
+      .and('have.text', Alerts.OH_OLD_MSG.HEADER);
 
     cy.get(`va-alert> :nth-child(2)`).should(
       'have.text',
-      `The last message in this conversation is more than 45 days old.`,
+      Alerts.OH_OLD_MSG.P_1,
     );
 
     cy.get(`va-alert> :nth-child(3)`).should(
       'have.text',
-      `If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.`,
+      Alerts.OH_OLD_MSG.P_2,
     );
 
     cy.get(`va-alert> :nth-child(4)`)
@@ -100,7 +100,7 @@ describe('SM OH USER NO ASSOCIATION WITH PARTICULAR TG', () => {
 
     cy.get(`va-alert> :nth-child(5)`).should(
       'have.text',
-      `Or you can send a message to other care teams in your contact list.`,
+      Alerts.OH_OLD_MSG.P_3,
     );
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
