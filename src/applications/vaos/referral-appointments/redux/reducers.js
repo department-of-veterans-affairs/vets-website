@@ -9,9 +9,6 @@ import {
   FETCH_REFERRAL_APPOINTMENT_INFO,
   FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
   FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
-  FETCH_REFERRALS,
-  FETCH_REFERRALS_SUCCEEDED,
-  FETCH_REFERRALS_FAILED,
   SET_INIT_REFERRAL_FLOW,
   SET_SELECTED_SLOT,
 } from './actions';
@@ -96,22 +93,6 @@ function ccAppointmentReducer(state = initialState, action) {
         appointmentInfoLoading: false,
         appointmentInfoError: true,
         appointmentInfoTimeout: action.payload,
-      };
-    case FETCH_REFERRALS:
-      return {
-        ...state,
-        referralsFetchStatus: FETCH_STATUS.loading,
-      };
-    case FETCH_REFERRALS_SUCCEEDED:
-      return {
-        ...state,
-        referralsFetchStatus: FETCH_STATUS.succeeded,
-        referrals: action.data,
-      };
-    case FETCH_REFERRALS_FAILED:
-      return {
-        ...state,
-        referralsFetchStatus: FETCH_STATUS.failed,
       };
     case SET_SELECTED_SLOT:
       return {
