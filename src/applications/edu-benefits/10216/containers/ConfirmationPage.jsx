@@ -95,14 +95,12 @@ export const ConfirmationPage = ({ router, route }) => {
         rejection in the letter and provide further instructions for
         resubmission or additional steps.
       </p>
-      <a
+      <va-link
         href="/school-administrators/85-15-rule-enrollment-ratio"
-        className="vads-u-margin-top--1p5 vads-u-margin-bottom--2"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Go to VA Form 22-10215 now
-      </a>
+        text="Go to VA Form 22-10215 now"
+        class="vads-u-margin-top--1p5 vads-u-margin-bottom--2"
+        external
+      />
     </div>
   );
 
