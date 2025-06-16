@@ -11,9 +11,11 @@ export const veteranInformation = {
     },
   },
   uiSchema: {
-    'ui:description': VeteranInformation,
-    'ui:options': {
-      hideOnReview: true,
+    veteranInformation: {
+      'ui:description': VeteranInformation,
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   },
 };

@@ -9,6 +9,7 @@ import prefillTransformer from '../prefill-transformer';
 
 // Chapter imports
 import { veteranInformation } from './chapters/veteran-information/veteranInformation';
+import { dependents } from './chapters/dependents/dependents';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -70,6 +71,17 @@ const formConfig = {
           title: 'Veteran information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+        },
+      },
+    },
+    dependents: {
+      title: 'Review your dependents',
+      pages: {
+        dependents: {
+          path: 'dependents',
+          title: 'Dependents on your VA benefits',
+          uiSchema: dependents.uiSchema,
+          schema: dependents.schema,
         },
       },
     },
