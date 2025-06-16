@@ -121,9 +121,11 @@ export const vitalReducer = (state = initialState, action) => {
     case Actions.Vitals.GET_LIST: {
       const oldList = state.vitalsList;
       const newList =
-        action.response.entry?.map(vital => {
-          return convertVital(vital.resource);
-        }) || [];
+        action.response.entry
+          ?.map(vital => {
+            return convertVital(vital.resource);
+          })
+          .filter(v => v.type in vitalTypes) || [];
 
       return {
         ...state,
