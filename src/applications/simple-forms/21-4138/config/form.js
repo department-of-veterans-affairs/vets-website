@@ -30,7 +30,6 @@ import { mailingAddressPage } from '../pages/mailingAddress';
 import { contactInformationPage } from '../pages/phoneAndEmail';
 import { statementPage } from '../pages/statement';
 import {
-  getMockData,
   isEligibleForDecisionReview,
   isEligibleToSubmitStatement,
 } from '../helpers';
@@ -39,11 +38,6 @@ import {
 export function isLocalhost() {
   return environment.isLocalhost();
 }
-
-// mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/user.json';
-
-const mockData = testData.data;
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -105,7 +99,7 @@ const formConfig = {
           schema: statementTypePage.schema,
           pageClass: 'statement-type',
           // we want required fields prefilled for LOCAL testing/previewing one single initialData prop here will suffice for entire form
-          initialData: getMockData(mockData, isLocalhost),
+          initialData: {},
           hideSaveLinkAndStatus: true,
         },
         layWitnessStatementPage: {
