@@ -13,7 +13,7 @@ const {
 
 const pageTitle = 'mock international phone';
 
-const expectedNumberOfWebComponentFields = 1;
+const expectedNumberOfWebComponentFields = 2;
 testNumberOfWebComponentFields(
   formConfig,
   schema,

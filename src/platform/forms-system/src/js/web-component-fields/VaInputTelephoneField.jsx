@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { VaInputTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaInputTelephoneFieldMapping from './vaInputTelephoneFieldMapping';
+import environment from '../../../../utilities/environment';
 
 /**
  * Usage uiSchema:
@@ -35,5 +36,22 @@ import vaInputTelephoneFieldMapping from './vaInputTelephoneFieldMapping';
  * @param {WebComponentFieldProps} props */
 export default function VaInputTelephoneField(props) {
   const mappedProps = vaInputTelephoneFieldMapping(props);
+
+  useEffect(() => {
+    // component emits event on load that is important for validation
+    // it does not get emitted in test env as it does in browser so emit manually
+    if (environment.isTest()) {
+      const testEvent = {
+        detail: {
+          callingCode: 1,
+          contact: 'not valid',
+          countryCode: 'US',
+          error: 'This is a test',
+          isValid: false,
+        },
+      };
+      mappedProps.onVaContact(testEvent);
+    }
+  }, []);
   return <VaInputTelephone {...mappedProps} />;
 }
