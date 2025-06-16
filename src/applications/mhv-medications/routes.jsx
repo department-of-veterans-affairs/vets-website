@@ -76,9 +76,11 @@ const routes = [
   {
     path: ':page',
     element: <AppWrapper Component={Prescriptions} />,
-    loader: (...args) => {
-      return Promise.all([prescriptionsLoader(...args)]);
-    },
+    loader: authenticatedLoader({
+      loader: (...args) => {
+        return Promise.all([prescriptionsLoader(...args)]);
+      },
+    }),
   },
   {
     path: '/',

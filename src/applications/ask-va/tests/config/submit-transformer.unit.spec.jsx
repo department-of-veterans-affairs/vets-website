@@ -2,8 +2,6 @@ import { expect } from 'chai';
 import submitTransformer from '../../config/submit-transformer';
 
 describe('Ask VA submit transformer', () => {
-  // const buildFormData = () => {};
-
   it('should transform data correctly with file(s)', () => {
     const formData = {
       school: '333 - Midvale School for the Gifted',
@@ -113,50 +111,73 @@ describe('Ask VA submit transformer', () => {
     });
   });
 
-  it('should use businessEmail when emailAddress is not present', () => {
+  it('should use businessEmail and businessPhone when relationship to Veteran is WORK', () => {
     const formData = {
       businessEmail: 'business@test.com',
+      businessPhone: '123-456-7890',
+      emailAddress: 'personal@test.com',
+      phoneNumber: '987-654-3210',
       school: null,
       stateOfTheFacility: 'NY',
+      relationshipToVeteran:
+        "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
     };
     const result = submitTransformer(formData);
     expect(result.emailAddress).to.equal('business@test.com');
     expect(result.businessEmail).to.equal('business@test.com');
-  });
-
-  it('should use businessPhone when phoneNumber is not present', () => {
-    const formData = {
-      businessPhone: '123-456-7890',
-      school: null,
-      stateOfTheFacility: 'NY',
-    };
-    const result = submitTransformer(formData);
-    expect(result.phoneNumber).to.equal('123-456-7890');
     expect(result.businessPhone).to.equal('123-456-7890');
+    expect(result.phoneNumber).to.equal('123-456-7890');
   });
 
-  it('should preserve businessEmail when both email fields exist', () => {
+  it('should use emailAddress and phoneNumber when Veteran is submitting ask-va', () => {
     const formData = {
+      businessEmail: 'business@test.com',
+      businessPhone: '123-456-7890',
+      emailAddress: 'personal@test.com',
+      phoneNumber: '987-654-3210',
       school: null,
       stateOfTheFacility: 'NY',
-      emailAddress: 'personal@test.com',
-      businessEmail: 'business@test.com',
+      relationshipToVeteran: "I'm the Veteran",
     };
     const result = submitTransformer(formData);
     expect(result.emailAddress).to.equal('personal@test.com');
     expect(result.businessEmail).to.equal('business@test.com');
+    expect(result.businessPhone).to.equal('123-456-7890');
+    expect(result.phoneNumber).to.equal('987-654-3210');
   });
 
-  it('should preserve businessPhone when both phone fields exist', () => {
+  it('should use emailAddress and phoneNumber when the family member of Veteran is submitting ask-va', () => {
     const formData = {
-      phoneNumber: '111-222-3333',
+      businessEmail: 'business@test.com',
+      businessPhone: '123-456-7890',
+      emailAddress: 'personal@test.com',
+      phoneNumber: '987-654-3210',
       school: null,
       stateOfTheFacility: 'NY',
-      businessPhone: '123-456-7890',
+      relationshipToVeteran: "I'm a family member of a Veteran",
     };
     const result = submitTransformer(formData);
-    expect(result.phoneNumber).to.equal('111-222-3333');
+    expect(result.emailAddress).to.equal('personal@test.com');
+    expect(result.businessEmail).to.equal('business@test.com');
     expect(result.businessPhone).to.equal('123-456-7890');
+    expect(result.phoneNumber).to.equal('987-654-3210');
+  });
+
+  it('should use emailAddress and phoneNumber and businessEmail and businessPhone should be undefined when the family member of Veteran is submitting ask-va', () => {
+    const formData = {
+      businessEmail: undefined,
+      businessPhone: undefined,
+      emailAddress: 'personal@test.com',
+      phoneNumber: '987-654-3210',
+      school: null,
+      stateOfTheFacility: 'NY',
+      relationshipToVeteran: "I'm a family member of a Veteran",
+    };
+    const result = submitTransformer(formData);
+    expect(result.emailAddress).to.equal('personal@test.com');
+    expect(result.businessEmail).to.be.undefined;
+    expect(result.businessPhone).to.be.undefined;
+    expect(result.phoneNumber).to.equal('987-654-3210');
   });
 
   it('should handle missing email and phone fields', () => {
