@@ -6,7 +6,7 @@ import {
   VaRadio,
   VaRadioOption,
   VaButton,
-  VaComboBox,
+  VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
@@ -30,6 +30,7 @@ const SelectCareTeam = () => {
     allRecipients,
     allowedRecipients,
     activeCareSystem,
+    activeCareTeam,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const cernerFacilities = useSelector(selectCernerFacilities);
@@ -38,11 +39,8 @@ const SelectCareTeam = () => {
   const [careSystemError, setCareSystemError] = useState('');
   const [careTeamError, setCareTeamError] = useState('');
   const [careTeamsList, setCareTeamsList] = useState([]);
-  const [selectedRecipientId, setSelectedRecipientId] = useState(null);
+  const [selectedCareTeamId, setSelectedCareTeamId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
-  const [careSystemComboInputValue, setCareSystemComboInputValue] = useState(
-    '',
-  );
   const [careTeamComboInputValue, setCareTeamComboInputValue] = useState('');
   const [showContactListLink, setShowContactListLink] = useState(false);
   const [showCantFindCareTeam, setShowCantFindCareTeam] = useState(false);
@@ -50,22 +48,25 @@ const SelectCareTeam = () => {
 
   const maxRadioOptions = 6;
 
-  const recipientHandler = useCallback(
+  const careTeamHandler = useCallback(
     recipient => {
-      setSelectedRecipientId(recipient?.id ? recipient.id.toString() : '0');
+      const newId = recipient?.id ? recipient.id.toString() : null;
 
-      if (recipient.id && recipient.id !== '0') {
-        setCareTeamError('');
-        dispatch(setActiveCareTeam(recipient));
-        // setUnsavedNavigationError();
-      }
+      // Only update if the value actually changes
+      if (selectedCareTeamId !== newId) {
+        setSelectedCareTeamId(newId);
 
-      if (!recipient.id) {
-        dispatch(setActiveCareTeam(null));
-        setSelectedRecipientId(null);
+        if (recipient.id && recipient.id !== '0') {
+          setCareTeamError('');
+          dispatch(setActiveCareTeam(recipient));
+        } else if (!recipient.id) {
+          dispatch(setActiveCareTeam(null));
+          setSelectedCareTeamId(null);
+        }
       }
+      // Do nothing if the id hasn't changed
     },
-    [dispatch, setCareTeamError],
+    [dispatch, selectedCareTeamId],
   );
 
   useEffect(() => {
@@ -77,7 +78,7 @@ const SelectCareTeam = () => {
       if (e.detail.value !== activeCareSystem?.vhaId) {
         setRecipientsSelectKey(prevKey => prevKey + 1);
         dispatch(setActiveCareTeam(null));
-        setSelectedRecipientId(null);
+        setSelectedCareTeamId(null);
       }
       setCareSystemError(null);
       dispatch(
@@ -107,9 +108,9 @@ const SelectCareTeam = () => {
     () => {
       if (activeCareSystem) {
         setCareTeamsList(
-          allowedRecipients.filter(
+          allowedRecipients?.filter(
             recipient => recipient.stationNumber === activeCareSystem?.vhaId,
-          ),
+          ) || [],
         );
         setShowCantFindCareTeam(true);
       } else {
@@ -122,7 +123,11 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (allFacilities.length === 1) {
+      if (
+        allFacilities.length === 1 &&
+        allFacilities[0] &&
+        (!activeCareSystem || activeCareSystem.vhaId !== allFacilities[0])
+      ) {
         const careSystem = [...cernerFacilities, ...vistaFacilities].find(
           facility => facility?.vhaId === allFacilities[0],
         );
@@ -130,6 +135,7 @@ const SelectCareTeam = () => {
       }
     },
     [
+      activeCareSystem,
       allFacilities,
       allRecipients,
       cernerFacilities,
@@ -142,32 +148,21 @@ const SelectCareTeam = () => {
   const checkValidity = useCallback(
     () => {
       let selectionsValid = true;
-      if (
-        allFacilities.length > 1 &&
-        allFacilities.length < maxRadioOptions &&
-        !activeCareSystem?.vhaId
-      ) {
+      if (allFacilities.length > 1 && !activeCareSystem?.vhaId) {
         setCareSystemError('Select a VA health care system');
         selectionsValid = false;
       }
-      if (
-        allFacilities.length >= maxRadioOptions &&
-        !careSystemComboInputValue
-      ) {
-        setCareSystemError('Select a VA health care system');
-        selectionsValid = false;
-      }
-      if (!selectedRecipientId) {
+      if (!selectedCareTeamId || !activeCareTeam) {
         setCareTeamError('Select a care team');
         selectionsValid = false;
       }
       return selectionsValid;
     },
     [
-      activeCareSystem,
+      activeCareSystem?.vhaId,
+      activeCareTeam,
       allFacilities.length,
-      careSystemComboInputValue,
-      selectedRecipientId,
+      selectedCareTeamId,
     ],
   );
 
@@ -178,38 +173,22 @@ const SelectCareTeam = () => {
     },
   };
 
-  const handleInput = e => {
-    setCareSystemComboInputValue(
-      e.target.shadowRoot.querySelector('input').value,
-    );
-    if (
-      activeCareSystem?.vamcSystemName &&
-      e.target.shadowRoot.querySelector('input').value !==
-        activeCareSystem?.vamcSystemName
-    ) {
-      dispatch(setActiveCareSystem(allRecipients, null));
-      setRecipientsSelectKey(prevKey => prevKey + 1);
-      dispatch(setActiveCareTeam(null));
-      setSelectedRecipientId(null);
-    }
-    setCareSystemError(null);
-  };
-
   const handleCareSystemSelect = useCallback(
     e => {
       const { value } = e.detail;
       if (!+value) {
-        setCareSystemComboInputValue(null);
+        dispatch(setActiveCareSystem(allRecipients, null));
+        setRecipientsSelectKey(prevKey => prevKey + 1);
+        dispatch(setActiveCareTeam(null));
         return;
       }
 
       if (e.detail.value !== activeCareSystem?.vhaId) {
         setRecipientsSelectKey(prevKey => prevKey + 1);
         dispatch(setActiveCareTeam(null));
-        setSelectedRecipientId(null);
+        setSelectedCareTeamId(null);
       }
 
-      setCareSystemComboInputValue(value);
       setCareSystemError(null);
       dispatch(
         setActiveCareSystem(
@@ -283,21 +262,22 @@ const SelectCareTeam = () => {
 
     if (allFacilities.length >= maxRadioOptions) {
       return (
-        <VaComboBox
+        <VaSelect
           required
+          enable-analytics
+          id="care-system-dropdown"
           label="Select a VA health care system"
-          name="to"
-          hint="Start typing your care facility, provider’s name, or type of care to search."
-          value=""
+          name="to-care-system"
+          value={activeCareSystem?.vhaId || ''}
           onVaSelect={handleCareSystemSelect}
-          data-testid="compose-recipient-combobox"
+          class="composeSelect"
+          data-testid="compose-recipient-select"
           error={careSystemError}
           data-dd-privacy="mask"
-          data-dd-action-name="Compose Recipient Combobox List"
-          onInput={handleInput}
+          data-dd-action-name="Compose Recipient Dropdown List"
         >
           {careSystemsOptionsValues}
-        </VaComboBox>
+        </VaSelect>
       );
     }
 
@@ -314,6 +294,7 @@ const SelectCareTeam = () => {
       <EmergencyNote dropDownFlag />
       <div>
         {renderCareSystems()}
+
         <div className="vads-u-margin-top--3">
           {careTeamsList &&
             !noAssociations &&
@@ -321,9 +302,9 @@ const SelectCareTeam = () => {
               <RecipientsSelect
                 key={recipientsSelectKey}
                 recipientsList={careTeamsList}
-                onValueChange={recipientHandler}
+                onValueChange={careTeamHandler}
                 error={careTeamError}
-                defaultValue={+selectedRecipientId}
+                defaultValue={+selectedCareTeamId}
                 isSignatureRequired={isSignatureRequired}
                 setComboBoxInputValue={setCareTeamComboInputValue}
                 comboBoxInputValue={careTeamComboInputValue}
