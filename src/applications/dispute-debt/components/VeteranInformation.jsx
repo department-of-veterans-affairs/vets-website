@@ -31,7 +31,7 @@ const VeteranInformation = ({ formData }) => {
   return (
     <>
       <div>
-        <h3 className="vads-u-margin-top--0">Your personal information</h3>
+        <h1 className="vads-u-margin-top--0">Your personal information</h1>
         <p>This is the personal information we have on file for you</p>
         <div className="personal-information-box">
           <h4 className="vads-u-margin-top--0">Personal information</h4>
