@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { scrollToTop } from 'platform/utilities/scroll';
 import withRouter from '../utils/withRouter';
 
 import {
@@ -39,7 +38,7 @@ import {
   getPageRange,
   sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
-import { setPageFocus, setUpPage } from '../utils/page';
+import { setPageFocus, setFocus } from '../utils/page';
 import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
 import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
 
@@ -57,14 +56,11 @@ class YourClaimsPageV2 extends React.Component {
     setDocumentTitle('Check your claim, decision review, or appeal status');
 
     const {
-      appealsLoading,
       canAccessAppeals,
       canAccessClaims,
-      claimsLoading,
       getAppealsV2,
       getClaims,
       getStemClaims,
-      stemClaimsLoading,
     } = this.props;
 
     // Only call if the current user has access to Lighthouse claims
@@ -78,11 +74,7 @@ class YourClaimsPageV2 extends React.Component {
 
     getStemClaims();
 
-    if (claimsLoading && appealsLoading && stemClaimsLoading) {
-      scrollToTop();
-    } else {
-      setUpPage();
-    }
+    setFocus('#main h1');
   }
 
   componentDidUpdate(prevProps) {
