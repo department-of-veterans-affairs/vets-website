@@ -24,11 +24,15 @@ ul.submissions__list {
   }
 
   &.submissions__card-error {
-    color: var(--vads-color-warning);
+    color: var(--vads-color-warning-dark);
   }
 }
 
 ul.submissions__list {
   list-style-type: none;
   padding-left: 0px;
+}
+
+.submission__card-attribute-text {
+  font-weight: bold;
 }

@@ -82,14 +82,11 @@ export const VeteranInformation = ({ formData }) => {
         </dfn>
         .
       </p>
-      <a
+      <va-link
         href="/resources/how-to-change-your-legal-name-on-file-with-va/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Find more detailed instructions for how to change your legal name (opens
-        in new tab)
-      </a>
+        external
+        text="Find more detailed instructions for how to change your legal name"
+      />
     </>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { renderProviderWrappedComponent } from '../../helpers';
 
 const expectedFieldTypes = 'input, select, textarea';
 const expectedFieldTypesWebComponents =
@@ -17,7 +18,8 @@ export const testNumberOfFields = (
 ) => {
   describe(`${pageTitle} page`, () => {
     it('should have appropriate number of fields', async () => {
-      const { container } = render(
+      const { container } = renderProviderWrappedComponent(
+        {},
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
           schema={schema}
@@ -46,7 +48,8 @@ export const testNumberOfErrorsOnSubmit = (
 ) => {
   describe(`${pageTitle} page`, () => {
     it('should show the correct number of errors on submit', async () => {
-      const { getByRole, queryAllByRole } = render(
+      const { getByRole, queryAllByRole } = renderProviderWrappedComponent(
+        {},
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
           schema={schema}

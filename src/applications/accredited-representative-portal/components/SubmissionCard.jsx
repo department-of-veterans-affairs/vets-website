@@ -11,7 +11,7 @@ const formatStatus = submission => {
           <va-icon
             class="submissions__inline-status-icon submissions__card-check"
             icon="check_circle"
-            size="2"
+            size="3"
           />
           {` Received ${formatDateParsedZoneLong(submission.vbmsReceivedDate)}`}
         </span>
@@ -23,7 +23,7 @@ const formatStatus = submission => {
             <va-icon
               icon="warning"
               class="submissions__inline-status-icon submissions__card-error"
-              size="2"
+              size="3"
             />
             {' Processing error'}
           </span>
@@ -62,9 +62,14 @@ const SubmissionCard = ({ submission }) => {
           </strong>
         </p>
         <p>
-          {`Confirmation: ${submission.confirmationNumber}`}
+          <span className="submission__card-attribute-text">
+            {'Confirmation: '}
+          </span>
+          {submission.confirmationNumber}
           <br />
-          {'VBMS efolder status: '}
+          <span className="submission__card-attribute-text">
+            {'VBMS efolder status: '}
+          </span>
           {formatStatus(submission)}
         </p>
       </va-card>

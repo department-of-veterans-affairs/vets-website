@@ -56,8 +56,8 @@ export const getCardDescription = item => {
   ) : null;
 };
 
-export const conflictOfInterestArrayOptions = {
-  arrayPath: 'conflict-of-interest',
+export const allProprietaryProfitConflictsArrayOptions = {
+  arrayPath: 'allProprietaryProfitConflicts',
   nounSingular: 'individual',
   nounPlural: 'individuals',
   required: false,
@@ -68,6 +68,31 @@ export const conflictOfInterestArrayOptions = {
     cancelAddNo: 'No, continue adding information',
     summaryTitle:
       'Review the individuals with a potential conflict of interest that receive VA educational benefits',
+  },
+};
+
+export const proprietaryProfitConflictsArrayOptions = {
+  arrayPath: 'proprietaryProfitConflicts',
+  nounSingular: 'individual',
+  nounPlural: 'individuals',
+  required: false,
+  text: {
+    getItemName: item => `${item?.first || ''} ${item?.last || ''}`.trim(),
+    cardDescription: item => (
+      <>
+        {item?.title}
+        <div className=" vads-u-margin-y--2">
+          {item?.individualAssociationType === 'vaEmployee'
+            ? 'VA employee'
+            : 'SAA employee'}
+        </div>
+      </>
+    ),
+    cancelAddYes: 'Yes, cancel',
+    cancelAddNo: 'No, continue adding information',
+    summaryTitle:
+      'Review the individuals with a potential conflict of interest',
+    cancelAddButtonText: "Cancel adding this individual's information",
   },
 };
 
