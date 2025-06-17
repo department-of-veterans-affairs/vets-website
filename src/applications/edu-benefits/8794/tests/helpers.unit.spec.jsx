@@ -118,6 +118,11 @@ describe('helpers ', () => {
       );
       expect(getByTestId('card-has-va-benefits').innerHTML).to.include('No');
     });
+    it('should handle when each card field is empty', () => {
+      const card = null;
+      const description = getCardDescription(card);
+      expect(description).to.equal(null);
+    });
   });
 
   describe('additionalOfficialArrayOptions', () => {
