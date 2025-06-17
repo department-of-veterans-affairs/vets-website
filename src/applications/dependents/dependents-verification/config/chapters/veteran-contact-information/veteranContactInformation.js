@@ -1,4 +1,4 @@
-import ContactInformationPage from '../../../components/ContactInformationPage';
+// import ContactInformationPage from '../../../components/ContactInformationPage';
 
 export const veteranContactInformation = {
   schema: {
@@ -12,7 +12,7 @@ export const veteranContactInformation = {
   },
   uiSchema: {
     veteranContactInformation: {
-      'ui:description': ContactInformationPage,
+      // 'ui:description': ContactInformationPage,
       'ui:options': {
         hideOnReview: true,
       },

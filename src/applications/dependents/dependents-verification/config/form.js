@@ -10,10 +10,12 @@ import prefillTransformer from '../prefill-transformer';
 // Chapter imports
 import { veteranInformation } from './chapters/veteran-information/veteranInformation';
 import { veteranContactInformation } from './chapters/veteran-contact-information/veteranContactInformation';
-import editAddressPage from './chapters/veteran-contact-information/editAddressPage';
 import editPhonePage from './chapters/veteran-contact-information/editPhonePage';
 import editInternationalPhonePage from './chapters/veteran-contact-information/editInternationalPhonePage';
 import editEmailPage from './chapters/veteran-contact-information/editEmailPage';
+
+import VeteranContactInformationPage from '../components/VeteranContactInformationPage';
+import NeedHelp from '../components/NeedHelp';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -84,17 +86,18 @@ const formConfig = {
         veteranContactInformation: {
           path: 'veteran-contact-information',
           title: 'Veteran contact information',
+          CustomPage: VeteranContactInformationPage,
+          CustomPageReview: null,
           uiSchema: veteranContactInformation.uiSchema,
           schema: veteranContactInformation.schema,
         },
-        editAddressPage,
         editEmailPage,
         editPhonePage,
         editInternationalPhonePage,
       },
     },
   },
-  // getHelp,
+  getHelp: NeedHelp,
   footerContent,
 };
 
