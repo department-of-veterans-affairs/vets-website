@@ -351,7 +351,6 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         newDisabilityFollowUp: {
-          // show for modern 0781 flow
           title: formData =>
             typeof formData.condition === 'string'
               ? capitalizeEachWord(formData.condition)
