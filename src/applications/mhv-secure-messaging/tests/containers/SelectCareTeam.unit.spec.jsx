@@ -61,40 +61,6 @@ describe('SelectCareTeam', () => {
               ehr: 'cerner',
             },
           },
-          cernerFacilities: [
-            {
-              vhaId: '954',
-              vamcSystemName: 'Test Facility 5',
-              ehr: 'cerner',
-            },
-            {
-              vhaId: '834',
-              vamcSystemName: 'Test Facility 6',
-              ehr: 'cerner',
-            },
-          ],
-          vistaFacilities: [
-            {
-              vhaId: '662',
-              vamcSystemName: 'Test Facility 1',
-              ehr: 'vista',
-            },
-            {
-              vhaId: '636',
-              vamcSystemName: 'Test Facility 2',
-              ehr: 'vista',
-            },
-            {
-              vhaId: '587',
-              vamcSystemName: 'Test Facility 3',
-              ehr: 'vista',
-            },
-            {
-              vhaId: '321',
-              vamcSystemName: 'Test Facility 4',
-              ehr: 'vista',
-            },
-          ],
         },
       },
     },

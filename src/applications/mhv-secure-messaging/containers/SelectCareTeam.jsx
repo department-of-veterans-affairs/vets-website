@@ -10,11 +10,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
-import {
-  selectEhrDataByVhaId,
-  selectCernerFacilities,
-  selectVistaFacilities,
-} from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { Paths } from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import { setActiveCareTeam, setActiveCareSystem } from '../actions/recipients';
@@ -33,8 +29,6 @@ const SelectCareTeam = () => {
     activeCareTeam,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
-  const cernerFacilities = useSelector(selectCernerFacilities);
-  const vistaFacilities = useSelector(selectVistaFacilities);
 
   const [careSystemError, setCareSystemError] = useState('');
   const [careTeamError, setCareTeamError] = useState('');
@@ -84,9 +78,7 @@ const SelectCareTeam = () => {
       dispatch(
         setActiveCareSystem(
           allRecipients,
-          [...cernerFacilities, ...vistaFacilities].find(
-            facility => facility?.vhaId === e.detail.value,
-          ),
+          ehrDataByVhaId[e.detail.value] || null,
         ),
       );
     }
@@ -128,21 +120,11 @@ const SelectCareTeam = () => {
         allFacilities[0] &&
         (!activeCareSystem || activeCareSystem.vhaId !== allFacilities[0])
       ) {
-        const careSystem = [...cernerFacilities, ...vistaFacilities].find(
-          facility => facility?.vhaId === allFacilities[0],
-        );
+        const careSystem = ehrDataByVhaId[allFacilities[0]] || null;
         dispatch(setActiveCareSystem(allRecipients, careSystem));
       }
     },
-    [
-      activeCareSystem,
-      allFacilities,
-      allRecipients,
-      cernerFacilities,
-      dispatch,
-      ehrDataByVhaId,
-      vistaFacilities,
-    ],
+    [activeCareSystem, allFacilities, allRecipients, dispatch, ehrDataByVhaId],
   );
 
   const checkValidity = useCallback(
@@ -191,21 +173,10 @@ const SelectCareTeam = () => {
 
       setCareSystemError(null);
       dispatch(
-        setActiveCareSystem(
-          allRecipients,
-          [...cernerFacilities, ...vistaFacilities].find(
-            facility => facility?.vhaId === value,
-          ),
-        ),
+        setActiveCareSystem(allRecipients, ehrDataByVhaId[value] || null),
       );
     },
-    [
-      activeCareSystem,
-      allRecipients,
-      cernerFacilities,
-      dispatch,
-      vistaFacilities,
-    ],
+    [activeCareSystem, allRecipients, dispatch, ehrDataByVhaId],
   );
 
   const careSystemsOptionsValues = useMemo(
