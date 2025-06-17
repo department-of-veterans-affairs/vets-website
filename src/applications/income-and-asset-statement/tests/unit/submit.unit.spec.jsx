@@ -46,7 +46,7 @@ describe('Income and asset submit', () => {
       const formData = {
         data: {
           mailingAddress: { street: '123 Main St' },
-          view: 'someView',
+          'view:viewField': 'someView',
           undefinedField: undefined,
           nullField: null,
         },
