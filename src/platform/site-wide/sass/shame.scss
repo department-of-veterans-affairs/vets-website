@@ -483,6 +483,8 @@ $medium-phone-screen: 375px;
 // scrolling box scrolls smoothly - let `scrollTo` control smooth scroll
 body {
   scroll-behavior: smooth;
+  // For testing only, do not merge into main.
+  background-color: #fefefe;
 }
 
 // There are styles in our sidebar styles that set a small
