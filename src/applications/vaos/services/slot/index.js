@@ -35,7 +35,7 @@ export async function getSlots({
   clinicId,
   startDate,
   endDate,
-  convertToUtc,
+  convertToUtc = false,
 }) {
   try {
     const data = await getAvailableV2Slots(

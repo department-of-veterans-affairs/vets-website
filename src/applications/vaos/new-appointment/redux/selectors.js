@@ -1,28 +1,29 @@
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
+import { formatInTimeZone } from 'date-fns-tz';
+import {
+  selectFeatureCommunityCare,
+  selectFeatureDirectScheduling,
+  selectFeatureRemovePodiatry,
+  selectHasVAPResidentialAddress,
+  selectRegisteredCernerFacilityIds,
+} from '../../redux/selectors';
+import { getSiteIdFromFacilityId } from '../../services/location';
+import {
+  AUDIOLOGY_TYPES_OF_CARE,
+  FACILITY_SORT_METHODS,
+  FACILITY_TYPES,
+  FETCH_STATUS,
+  TYPE_OF_CARE_IDS,
+  TYPES_OF_CARE,
+  TYPES_OF_EYE_CARE,
+  TYPES_OF_SLEEP_CARE,
+} from '../../utils/constants';
+import { removeDuplicateId } from '../../utils/data';
 import {
   getTimezoneByFacilityId,
   getTimezoneDescByFacilityId,
 } from '../../utils/timezone';
-import {
-  FACILITY_TYPES,
-  TYPE_OF_CARE_IDS,
-  TYPES_OF_CARE,
-  TYPES_OF_SLEEP_CARE,
-  TYPES_OF_EYE_CARE,
-  FETCH_STATUS,
-  AUDIOLOGY_TYPES_OF_CARE,
-  FACILITY_SORT_METHODS,
-} from '../../utils/constants';
-import { getSiteIdFromFacilityId } from '../../services/location';
-import {
-  selectHasVAPResidentialAddress,
-  selectFeatureCommunityCare,
-  selectFeatureDirectScheduling,
-  selectRegisteredCernerFacilityIds,
-  selectFeatureRemovePodiatry,
-} from '../../redux/selectors';
-import { removeDuplicateId } from '../../utils/data';
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -152,7 +153,20 @@ export function getDateTimeSelect(state, pageKey) {
 
   return {
     ...formInfo,
-    availableSlots,
+    availableSlots: availableSlots?.map(slot => {
+      return {
+        start: formatInTimeZone(
+          new Date(slot.start),
+          timezone,
+          "yyyy-MM-dd'T'HH:mm:ssXXX",
+        ),
+        end: formatInTimeZone(
+          new Date(slot.end),
+          timezone,
+          "yyyy-MM-dd'T'HH:mm:ssXXX",
+        ),
+      };
+    }),
     eligibleForRequests: eligibilityStatus.request,
     facilityId: data.vaFacility,
     appointmentSlotsStatus,

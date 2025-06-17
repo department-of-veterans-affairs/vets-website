@@ -1,20 +1,21 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import * as Sentry from '@sentry/browser';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format } from 'date-fns-tz';
 import moment from 'moment';
 
 import {
+  addDays,
   addMinutes,
   areIntervalsOverlapping,
-  startOfMonth,
   endOfMonth,
-  startOfDay,
-  addDays,
   isAfter,
+  startOfDay,
+  startOfMonth,
 } from 'date-fns';
 import {
   selectFeatureCommunityCare,
+  selectFeatureConvertSlotsToUtc,
   selectFeatureDirectScheduling,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
@@ -24,7 +25,6 @@ import {
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
-  selectFeatureConvertSlotsToUtc,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -50,11 +50,11 @@ import { getCommunityCareV2 } from '../../services/vaos/index';
 import { getPreciseLocation } from '../../utils/address';
 import {
   APPOINTMENT_STATUS,
+  DATE_FORMATS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
   GA_PREFIX,
-  DATE_FORMATS,
 } from '../../utils/constants';
 import {
   captureError,
@@ -67,7 +67,6 @@ import {
   recordItemsRetrieved,
   resetDataLayer,
 } from '../../utils/events';
-import { getTimezoneByFacilityId } from '../../utils/timezone';
 import getNewAppointmentFlow from '../newAppointmentFlow';
 import {
   transformFormToVAOSAppointment,
@@ -650,8 +649,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const startDateMonth = format(new Date(startDate), 'yyyy-MM');
     const endDateMonth = format(new Date(endDate), 'yyyy-MM');
 
-    const timezone = getTimezoneByFacilityId(data.vaFacility);
-
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
     let fetchedEndMonth = false;
@@ -687,7 +684,9 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           convertToUtc: featureConvertSlotsToUTC,
         });
 
-        const tomorrow = startOfDay(addDays(new Date(), 1));
+        const tomorrow = startOfDay(
+          addDays(new Date(new Date().toISOString()), 1),
+        );
 
         mappedSlots = fetchedSlots.filter(slot =>
           isAfter(new Date(slot.start), tomorrow),
@@ -703,19 +702,10 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           fetchedAppointmentSlotMonths.push(endDateMonth);
         }
 
-        // Check timezone 1st since conversion might flip the date to the
-        // previous or next day. This ensures available slots are displayed
-        // for the correct day.
-        const correctedSlots = mappedSlots.map(slot => {
-          const zonedDate = utcToZonedTime(slot.start, timezone);
-          const time = format(zonedDate, DATE_FORMATS.ISODateTime, {
-            timeZone: timezone,
-          });
-          return { ...slot, start: time, startUtc: slot.start };
-        });
-        const sortedSlots = [...availableSlots, ...correctedSlots].sort(
-          (a, b) => a.start.localeCompare(b.start),
+        const sortedSlots = [...availableSlots, ...mappedSlots].sort((a, b) =>
+          a.start.localeCompare(b.start),
         );
+
         dispatch({
           type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
@@ -749,10 +739,10 @@ export function onCalendarChange(
       isSame = appointments?.some(appointment => {
         // Use UTC timestamps for conflict detection. This avoids timezone conversion issues.
         const slotInterval = {
-          start: new Date(selectedSlot.startUtc),
+          start: new Date(selectedSlot.start),
           end: new Date(selectedSlot.end),
         };
-        const appointmentStart = new Date(appointment.startUtc);
+        const appointmentStart = new Date(appointment.start);
         const appointmentInterval = {
           start: appointmentStart,
           end: addMinutes(appointmentStart, appointment.minutesDuration),

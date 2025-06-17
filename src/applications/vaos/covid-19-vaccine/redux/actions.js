@@ -5,14 +5,7 @@ import {
   selectVAPMobilePhoneString,
   selectVAPResidentialAddress,
 } from '@department-of-veterans-affairs/platform-user/exports';
-import {
-  endOfMonth,
-  format,
-  isAfter,
-  isDate,
-  parseISO,
-  startOfMonth,
-} from 'date-fns';
+import { format, isAfter, isDate, parseISO, startOfMinute } from 'date-fns';
 import {
   selectFeatureConvertSlotsToUtc,
   selectFeatureFeSourceOfTruth,
@@ -267,17 +260,6 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
 }
 
 export function getAppointmentSlots(start, end, initialFetch = false) {
-  let startDate = start;
-  let endDate = end;
-
-  if (!isDate(start)) {
-    startDate = parseISO(start);
-  }
-
-  if (!isDate(end)) {
-    endDate = parseISO(end);
-  }
-
   return async (dispatch, getState) => {
     const state = getState();
     const siteId = getSiteIdFromFacilityId(
@@ -286,6 +268,17 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
     const newBooking = selectCovid19VaccineNewBooking(state);
     const { data } = newBooking;
     const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
+
+    let startDate = start;
+    let endDate = end;
+
+    if (!isDate(start)) {
+      startDate = parseISO(start);
+    }
+
+    if (!isDate(end)) {
+      endDate = parseISO(end);
+    }
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -298,10 +291,10 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
       ];
 
       fetchedStartMonth = fetchedAppointmentSlotMonths.includes(
-        format(startDate, "yyyy-MM-dd'T'HH:mm:ssXXX"),
+        format(startDate, 'yyyy-MM'),
       );
       fetchedEndMonth = fetchedAppointmentSlotMonths.includes(
-        format(endDate, "yyyy-MM-dd'T'HH:mm:ssXXX"),
+        format(endDate, 'yyyy-MM'),
       );
       availableSlots = newBooking.availableSlots || [];
     }
@@ -314,8 +307,8 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
-          startDate: startOfMonth(startDate),
-          endDate: endOfMonth(endDate),
+          startDate,
+          endDate,
           convertToUtc: featureConvertSlotsToUTC,
         });
 
@@ -325,23 +318,19 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
 
         mappedSlots = fetchedSlots.filter(slot => {
           return isAfter(
-            new Date(slot.start),
-            new Date(new Date().toISOString()),
+            startOfMinute(new Date(slot.start)),
+            startOfMinute(new Date(new Date().toISOString())),
           );
         });
 
         // Keep track of which months we've fetched already so we don't
         // make duplicate calls
         if (!fetchedStartMonth) {
-          fetchedAppointmentSlotMonths.push(
-            format(startDate, "yyyy-MM-dd'T'HH:mm:ssXXX"),
-          );
+          fetchedAppointmentSlotMonths.push(format(startDate, 'yyyy-MM'));
         }
 
         if (!fetchedEndMonth) {
-          fetchedAppointmentSlotMonths.push(
-            format(endDate, "yyyy-MM-dd'T'HH:mm:ssXXX"),
-          );
+          fetchedAppointmentSlotMonths.push(format(endDate, 'yyyy-MM'));
         }
 
         const sortedSlots = [...availableSlots, ...mappedSlots].sort((a, b) =>

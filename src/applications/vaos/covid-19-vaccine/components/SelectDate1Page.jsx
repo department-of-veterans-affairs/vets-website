@@ -1,17 +1,23 @@
+import {
+  addDays,
+  addMonths,
+  format,
+  lastDayOfMonth,
+  startOfMonth,
+} from 'date-fns';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { addDays, addMonths, startOfMonth, endOfMonth, format } from 'date-fns';
 
 import { useHistory } from 'react-router-dom';
-import FormButtons from '../../components/FormButtons';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
+import FormButtons from '../../components/FormButtons';
 import InfoAlert from '../../components/InfoAlert';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import useIsInitialLoad from '../../hooks/useIsInitialLoad';
 import { getRealFacilityId } from '../../utils/appointment';
 import { FETCH_STATUS } from '../../utils/constants';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getDateTimeSelect } from '../redux/selectors';
 
 import {
@@ -104,7 +110,7 @@ export default function SelectDate1Page() {
     () => {
       const now = new Date();
       const startDateObj = startOfMonth(now);
-      const endDateObj = endOfMonth(addMonths(now, 1));
+      const endDateObj = lastDayOfMonth(addMonths(now, 1));
       dispatch(getAppointmentSlots(startDateObj, endDateObj, true));
       document.title = `${pageTitle} | Veterans Affairs`;
     },

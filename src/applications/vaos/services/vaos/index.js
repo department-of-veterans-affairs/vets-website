@@ -1,5 +1,11 @@
 import appendQuery from 'append-query';
-import { format } from 'date-fns';
+import {
+  format,
+  isDate,
+  lastDayOfMonth,
+  parseISO,
+  startOfMonth,
+} from 'date-fns';
 import { getTestFacilityId } from '../../utils/appointment';
 import {
   apiRequestWithUrl,
@@ -156,11 +162,20 @@ export function getAvailableV2Slots(
 ) {
   const start = convertToUtc
     ? startDate.toISOString()
-    : format(startDate, "yyyy-MM-dd'T'HH:mm:ssXXX");
+    : format(
+        isDate(startDate)
+          ? startOfMonth(startDate)
+          : startOfMonth(parseISO(startDate)),
+        "yyyy-MM-dd'T'HH:mm:ssXXX",
+      );
   const end = convertToUtc
     ? endDate.toISOString()
-    : format(endDate, "yyyy-MM-dd'T'HH:mm:ssXXX");
-
+    : format(
+        isDate(endDate)
+          ? lastDayOfMonth(endDate)
+          : lastDayOfMonth(parseISO(endDate)),
+        "yyyy-MM-dd'T'HH:mm:ssXXX",
+      );
   return apiRequestWithUrl(
     `/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${encodeURIComponent(
       start,
