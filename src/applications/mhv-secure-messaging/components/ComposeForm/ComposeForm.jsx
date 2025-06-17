@@ -9,6 +9,7 @@ import {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
+import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -49,6 +50,11 @@ import RecipientsSelect from './RecipientsSelect';
 import { useSessionExpiration } from '../../hooks/use-session-expiration';
 import EditSignatureLink from './EditSignatureLink';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
+import {
+  setActiveCareSystem,
+  setActiveCareTeam,
+  setActiveDraftId,
+} from '../../actions/recipients';
 
 const ComposeForm = props => {
   const { pageTitle, headerRef, draft, recipients, signature } = props;
@@ -65,6 +71,7 @@ const ComposeForm = props => {
   const { activeCareSystem, activeCareTeam } = useSelector(
     state => state.sm.recipients,
   );
+  const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
@@ -74,9 +81,18 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (activeCareTeam) setSelectedRecipientId(activeCareTeam.id.toString());
+      if (draft) {
+        const careTeam = recipients?.allRecipients?.find(team => {
+          return draft?.recipientId === team.id;
+        });
+        dispatch(
+          setActiveCareSystem(ehrDataByVhaId[(careTeam?.stationNumber)]),
+        );
+        dispatch(setActiveCareTeam(careTeam));
+        dispatch(setActiveDraftId(draft?.messageId));
+      }
     },
-    [activeCareTeam],
+    [draft, dispatch, ehrDataByVhaId, recipients?.allRecipients],
   );
 
   useEffect(
@@ -887,7 +903,7 @@ const ComposeForm = props => {
                 {activeCareTeam?.suggestedNameDisplay || activeCareTeam?.name}
               </p>
               <Link
-                to="select-care-team"
+                to="/new-message/select-care-team"
                 data-dd-action-name="Select a different care team link"
               >
                 Select a different care team

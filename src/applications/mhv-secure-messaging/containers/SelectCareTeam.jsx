@@ -27,6 +27,7 @@ const SelectCareTeam = () => {
     allowedRecipients,
     activeCareSystem,
     activeCareTeam,
+    activeDraftId,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -37,10 +38,22 @@ const SelectCareTeam = () => {
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [careTeamComboInputValue, setCareTeamComboInputValue] = useState('');
   const [showContactListLink, setShowContactListLink] = useState(false);
-  const [showCantFindCareTeam, setShowCantFindCareTeam] = useState(false);
   const [recipientsSelectKey, setRecipientsSelectKey] = useState(0); // controls resetting the careTeam combo box when the careSystem changes
 
   const maxRadioOptions = 6;
+
+  // On initial load, always clear the active care system
+  // This ensures that if the user navigates back to this page, they start fresh
+  // If they have an active care team, we set that as the selected care team
+  useEffect(
+    () => {
+      dispatch(setActiveCareSystem(null));
+      if (activeCareTeam) {
+        setSelectedCareTeamId(activeCareTeam.id.toString());
+      }
+    },
+    [dispatch],
+  );
 
   const careTeamHandler = useCallback(
     recipient => {
@@ -75,12 +88,7 @@ const SelectCareTeam = () => {
         setSelectedCareTeamId(null);
       }
       setCareSystemError(null);
-      dispatch(
-        setActiveCareSystem(
-          allRecipients,
-          ehrDataByVhaId[e.detail.value] || null,
-        ),
-      );
+      dispatch(setActiveCareSystem(ehrDataByVhaId[e.detail.value] || null));
     }
   };
 
@@ -102,12 +110,10 @@ const SelectCareTeam = () => {
         setCareTeamsList(
           allowedRecipients?.filter(
             recipient => recipient.stationNumber === activeCareSystem?.vhaId,
-          ) || [],
+          ) || allowedRecipients,
         );
-        setShowCantFindCareTeam(true);
       } else {
-        setCareTeamsList([]);
-        setShowCantFindCareTeam(false);
+        setCareTeamsList(allowedRecipients);
       }
     },
     [activeCareSystem, allowedRecipients],
@@ -121,7 +127,7 @@ const SelectCareTeam = () => {
         (!activeCareSystem || activeCareSystem.vhaId !== allFacilities[0])
       ) {
         const careSystem = ehrDataByVhaId[allFacilities[0]] || null;
-        dispatch(setActiveCareSystem(allRecipients, careSystem));
+        dispatch(setActiveCareSystem(careSystem));
       }
     },
     [activeCareSystem, allFacilities, allRecipients, dispatch, ehrDataByVhaId],
@@ -130,28 +136,31 @@ const SelectCareTeam = () => {
   const checkValidity = useCallback(
     () => {
       let selectionsValid = true;
-      if (allFacilities.length > 1 && !activeCareSystem?.vhaId) {
-        setCareSystemError('Select a VA health care system');
-        selectionsValid = false;
-      }
       if (!selectedCareTeamId || !activeCareTeam) {
         setCareTeamError('Select a care team');
         selectionsValid = false;
       }
       return selectionsValid;
     },
-    [
-      activeCareSystem?.vhaId,
-      activeCareTeam,
-      allFacilities.length,
-      selectedCareTeamId,
-    ],
+    [activeCareTeam, selectedCareTeamId],
   );
 
   const handlers = {
     onContinue: () => {
       if (!checkValidity()) return;
-      history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
+      if (
+        !activeCareSystem ||
+        activeCareSystem.vhaId !== activeCareTeam.stationNumber
+      ) {
+        dispatch(
+          setActiveCareSystem(ehrDataByVhaId[(activeCareTeam?.stationNumber)]),
+        );
+      }
+      if (activeDraftId) {
+        history.push(`${Paths.MESSAGE_THREAD}/${activeDraftId}`);
+      } else {
+        history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
+      }
     },
   };
 
@@ -159,9 +168,10 @@ const SelectCareTeam = () => {
     e => {
       const { value } = e.detail;
       if (!+value) {
-        dispatch(setActiveCareSystem(allRecipients, null));
+        dispatch(setActiveCareSystem(null));
         setRecipientsSelectKey(prevKey => prevKey + 1);
         dispatch(setActiveCareTeam(null));
+        setSelectedCareTeamId('0');
         return;
       }
 
@@ -172,11 +182,9 @@ const SelectCareTeam = () => {
       }
 
       setCareSystemError(null);
-      dispatch(
-        setActiveCareSystem(allRecipients, ehrDataByVhaId[value] || null),
-      );
+      dispatch(setActiveCareSystem(ehrDataByVhaId[value] || null));
     },
-    [activeCareSystem, allRecipients, dispatch, ehrDataByVhaId],
+    [activeCareSystem, dispatch, ehrDataByVhaId],
   );
 
   const careSystemsOptionsValues = useMemo(
@@ -283,13 +291,11 @@ const SelectCareTeam = () => {
               />
             )}
         </div>
-        {showCantFindCareTeam && (
-          <div className="vads-u-margin-top--2">
-            <p className="vads-u-margin-bottom--1">
-              <Link to="/">What to do if you can’t find your care team</Link>
-            </p>
-          </div>
-        )}
+        <div className="vads-u-margin-top--2">
+          <p className="vads-u-margin-bottom--1">
+            <Link to="/">What to do if you can’t find your care team</Link>
+          </p>
+        </div>
         {showContactListLink && (
           <div className="vads-u-margin-top--2">
             <p className="vads-u-margin-bottom--1">

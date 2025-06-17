@@ -4,10 +4,6 @@ import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import PropTypes from 'prop-types';
-import {
-  selectCernerFacilities,
-  selectVistaFacilities,
-} from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessageThread } from '../actions/messages';
 import MessageThreadHeader from '../components/MessageThreadHeader';
@@ -17,14 +13,8 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { getFolders, retrieveFolder } from '../actions/folders';
-import {
-  findActiveDraftFacility,
-  getStationNumberFromRecipientId,
-  navigateToFolderByFolderId,
-  scrollToTop,
-} from '../util/helpers';
+import { navigateToFolderByFolderId, scrollToTop } from '../util/helpers';
 import MessageThreadForPrint from '../components/MessageThread/MessageThreadForPrint';
-import { setActiveCareSystem } from '../actions/recipients';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 import MessageActionButtons from '../components/MessageActionButtons';
 
@@ -35,11 +25,6 @@ const ThreadDetails = props => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-
-  const isPilot = useSelector(state => state.sm.app.isPilot);
-
-  const cernerFacilities = useSelector(selectCernerFacilities);
-  const vistaFacilities = useSelector(selectVistaFacilities);
 
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const recipients = useSelector(state => state.sm.recipients);
@@ -114,32 +99,6 @@ const ThreadDetails = props => {
       }
     },
     [alertList, folder, isCreateNewModalVisible, header],
-  );
-
-  useEffect(
-    () => {
-      if (
-        isPilot &&
-        recipients.allRecipients.length > 0 &&
-        !recipients?.activeFacility &&
-        drafts?.length > 0
-      ) {
-        const activeDraftStationNumber = getStationNumberFromRecipientId(
-          drafts[0].recipientId,
-          recipients?.allRecipients,
-        );
-
-        const activeDraftFacility = findActiveDraftFacility(
-          activeDraftStationNumber,
-          [...cernerFacilities, ...vistaFacilities],
-        );
-
-        dispatch(
-          setActiveCareSystem(recipients?.allRecipients, activeDraftFacility),
-        );
-      }
-    },
-    [cernerFacilities, dispatch, drafts, isPilot, recipients, vistaFacilities],
   );
 
   useEffect(() => {

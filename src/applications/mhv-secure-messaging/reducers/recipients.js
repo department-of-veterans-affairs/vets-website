@@ -15,6 +15,7 @@ const initialState = {
   allowedOhFacilities: [],
   activeCareSystem: null,
   activeCareTeam: null,
+  activeDraftId: null,
   associatedTriageGroupsQty: undefined,
   associatedBlockedTriageGroupsQty: undefined,
   noAssociations: undefined,
@@ -75,28 +76,18 @@ export const recipientsReducer = (state = initialState, action) => {
       return {
         ...state,
         activeCareSystem: action.payload.careSystem,
-        allowedRecipients: action.payload.recipients
-          .filter(
-            recipient =>
-              recipient.blockedStatus === false &&
-              recipient.preferredTeam === true &&
-              action.payload.careSystem?.vhaId === recipient?.stationNumber,
-          )
-          .map(recipient => formatRecipient(recipient)),
-
-        blockedRecipients: action.payload.recipients
-          .filter(
-            recipient =>
-              action.payload.careSystem?.vhaId === recipient?.stationNumber &&
-              recipient?.blockedStatus === true,
-          )
-          .map(recipient => formatRecipient(recipient)),
       };
     }
     case Actions.AllRecipients.SELECT_CARE_TEAM: {
       return {
         ...state,
         activeCareTeam: action.payload.careTeam,
+      };
+    }
+    case Actions.AllRecipients.SET_ACTIVE_DRAFT_ID: {
+      return {
+        ...state,
+        activeDraftId: action.payload.activeDraftId,
       };
     }
     case Actions.AllRecipients.GET_LIST_ERROR:
