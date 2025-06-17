@@ -21,8 +21,9 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   ]);
   const name = useMemo(
     () => {
-      const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
-        form.data ?? {};
+      const {
+        veteranFullName = { first: 'Applicant', last: 'Submission' },
+      } = form.data;
       return veteranFullName;
     },
     [form.data],
@@ -58,9 +59,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
           headers: { 'Content-Type': 'application/json' },
         });
 
-        if (!response.ok) {
-          throw new Error();
-        }
+        if (!response.ok) throw new Error();
 
         const blob = await response.blob();
         handlePdfDownload(blob);
