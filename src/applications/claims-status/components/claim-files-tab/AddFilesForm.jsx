@@ -3,10 +3,7 @@ import React from 'react';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
-  VaFileInput,
   VaModal,
-  VaSelect,
-  VaTextInput,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -16,31 +13,21 @@ import {
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
-import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
 
-import { displayFileSize, DOC_TYPES } from '../../utils/helpers';
-import { setFocus } from '../../utils/page';
 import {
   validateIfDirty,
-  isNotBlank,
   isValidFile,
   isValidDocument,
   isValidFileSize,
   isEmptyFileSize,
   isValidFileType,
   isPdf,
-  FILE_TYPES,
   MAX_FILE_SIZE_MB,
   MAX_PDF_SIZE_MB,
 } from '../../utils/validations';
 import UploadStatus from '../UploadStatus';
 import mailMessage from '../MailMessage';
-import RemoveFileModal from './RemoveFileModal';
-
-const scrollToFile = position => {
-  const options = getScrollOptions({ offset: -25 });
-  scrollTo(`documentScroll${position}`, options);
-};
+import FileInputMultiple from './FileInputMultiple';
 
 class AddFilesForm extends React.Component {
   constructor(props) {
@@ -48,9 +35,6 @@ class AddFilesForm extends React.Component {
     this.state = {
       errorMessage: null,
       canShowUploadModal: false,
-      showRemoveFileModal: false,
-      removeFileIndex: null,
-      removeFileName: null,
     };
   }
 
@@ -67,13 +51,6 @@ class AddFilesForm extends React.Component {
   handleDocTypeChange = (docType, index) => {
     this.props.onFieldChange(`files[${index}].docType`, {
       value: docType,
-      dirty: true,
-    });
-  };
-
-  handlePasswordChange = (password, index) => {
-    this.props.onFieldChange(`files[${index}].password`, {
-      value: password,
       dirty: true,
     });
   };
@@ -107,14 +84,6 @@ class AddFilesForm extends React.Component {
       // After submitting a file you will see this change in the Documents Filed section.
       // EX: test.jpg ->> test.pdf
       onAddFile([file], extraData);
-      setTimeout(() => {
-        scrollToFile(this.props.files.length - 1);
-        setFocus(
-          document.querySelectorAll('.document-item-container')[
-            this.props.files.length - 1
-          ],
-        );
-      });
     } else if (!isValidFileType(file)) {
       this.setState({
         errorMessage: 'Please choose a file from one of the accepted types.',
@@ -147,14 +116,6 @@ class AddFilesForm extends React.Component {
     this.props.onDirtyFields();
   };
 
-  removeFileConfirmation = (fileIndex, fileName) => {
-    this.setState({
-      showRemoveFileModal: true,
-      removeFileIndex: fileIndex,
-      removeFileName: fileName,
-    });
-  };
-
   render() {
     const showUploadModal =
       this.props.uploading && this.state.canShowUploadModal;
@@ -178,94 +139,8 @@ class AddFilesForm extends React.Component {
               </div>
             </Toggler.Enabled>
           </Toggler>
-          <VaFileInput
-            id="file-upload"
-            className="vads-u-margin-bottom--3"
-            error={this.getErrorMessage()}
-            label="Upload additional evidence"
-            hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
-            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-            onVaChange={e => this.add(e.detail.files)}
-            name="fileUpload"
-            additionalErrorClass="claims-upload-input-error-message"
-            aria-describedby="file-requirements"
-          />
+          <FileInputMultiple />
         </div>
-        {this.props.files.map(
-          ({ file, docType, isEncrypted, password }, index) => (
-            <div key={index} className="document-item-container">
-              <Element name={`documentScroll${index}`} />
-              <div>
-                <div className="document-title-row">
-                  <div className="document-title-text-container">
-                    <div>
-                      <span
-                        className="document-title"
-                        data-dd-privacy="mask"
-                        data-dd-action-name="document title"
-                      >
-                        {file.name}
-                      </span>
-                    </div>
-                    <div>{displayFileSize(file.size)}</div>
-                  </div>
-                  <div className="remove-document-button">
-                    <va-button
-                      secondary
-                      text="Remove"
-                      onClick={() => {
-                        this.removeFileConfirmation(index, file.name);
-                      }}
-                    />
-                  </div>
-                </div>
-                {isEncrypted && (
-                  <>
-                    <p className="clearfix">
-                      This is an encrypted PDF document. In order for us to be
-                      able to view the document, we will need the password to
-                      decrypt it.
-                    </p>
-                    <VaTextInput
-                      id="password-input"
-                      required
-                      error={
-                        validateIfDirty(password, isNotBlank)
-                          ? undefined
-                          : 'Please provide a password to decrypt this file'
-                      }
-                      label="PDF password"
-                      name="password"
-                      onInput={e =>
-                        this.handlePasswordChange(e.target.value, index)
-                      }
-                    />
-                  </>
-                )}
-                <VaSelect
-                  required
-                  error={
-                    validateIfDirty(docType, isNotBlank)
-                      ? undefined
-                      : 'Please provide a response'
-                  }
-                  name="docType"
-                  label="What type of document is this?"
-                  value={docType}
-                  onVaSelect={e =>
-                    this.handleDocTypeChange(e.detail.value, index)
-                  }
-                >
-                  {DOC_TYPES.map(doc => (
-                    <option key={doc.value} value={doc.value}>
-                      {doc.label}
-                    </option>
-                  ))}
-                </VaSelect>
-              </div>
-            </div>
-          ),
-        )}
         <VaButton
           id="submit"
           text="Submit documents for review"
@@ -277,20 +152,6 @@ class AddFilesForm extends React.Component {
         >
           {mailMessage}
         </va-additional-info>
-        <RemoveFileModal
-          removeFile={() => {
-            this.props.onRemoveFile(this.state.removeFileIndex);
-          }}
-          showRemoveFileModal={this.state.showRemoveFileModal}
-          removeFileName={this.state.removeFileName}
-          closeModal={() => {
-            this.setState({
-              showRemoveFileModal: false,
-              removeFileIndex: null,
-              removeFileName: null,
-            });
-          }}
-        />
         <VaModal
           id="upload-status"
           onCloseEvent={() => this.setState({ canShowUploadModal: false })}
