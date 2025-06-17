@@ -62,9 +62,7 @@ describe('IntentToFile', () => {
       expect($('.itf-wrapper', container)).to.exist;
       expect(
         $('va-loading-indicator', container).getAttribute('message'),
-      ).to.include(
-        'wait while we check to see if you have an existing intent to file',
-      );
+      ).to.include('Checking if you have an existing intent to file...');
     });
   });
 
@@ -74,7 +72,7 @@ describe('IntentToFile', () => {
 
     waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
-        'We’ve found your intent to file',
+        'We have your intent to file',
       );
       expect(document.activeElement?.tagName).to.equal('VA-ALERT');
     });
@@ -86,7 +84,7 @@ describe('IntentToFile', () => {
 
     waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
-        'We automatically recorded your intent to file',
+        'We recorded your intent to file',
       );
       expect(document.activeElement?.tagName).to.equal('VA-ALERT');
     });
