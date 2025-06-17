@@ -19,6 +19,40 @@
   margin: 1rem 0;
 }
 
+.loading-skeleton {
+  &__row {
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--vads-color-gray-cool-light);
+    border-radius: 6px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 150%;
+      height: 100%;
+      background-image: linear-gradient(
+        90deg,
+        transparent 0,
+        var(--vads-color-white) 50%,
+        transparent 100%
+      );
+      transform: translateX(-100%);
+      animation: skeleton-shimmer 1.6s linear infinite;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__row::after { animation: none; }
+  }
+}
+
+@keyframes skeleton-shimmer {
+  100% { transform: translateX(100%); }
+}
+
 .claim-list {
   margin-bottom: 2em;
 }
