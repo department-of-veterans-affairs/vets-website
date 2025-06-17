@@ -18,3 +18,4 @@ export * from './ssnPattern';
 export * from './textPatterns';
 export * from './titlePattern';
 export * from './yesNoPattern';
+export * from './internationalPhonePattern';
