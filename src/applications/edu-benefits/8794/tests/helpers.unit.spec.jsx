@@ -75,7 +75,7 @@ describe('helpers ', () => {
       const { getByTestId } = render(description);
 
       expect(getByTestId('card-phone-number').innerHTML).to.include(
-        '123-456-7890',
+        '1234567890',
       );
       expect(getByTestId('card-email').innerHTML).to.include(
         'johndoe@gmail.com',

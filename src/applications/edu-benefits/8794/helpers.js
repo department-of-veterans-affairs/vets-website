@@ -1,51 +1,26 @@
 import React from 'react';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
-export const formatPhoneNumber = num => {
-  if (num.length === 10)
-    return `${num.substring(0, 3)}-${num.substring(3, 6)}-${num.substring(
-      6,
-      10,
-    )}`;
-  return num;
-};
-
 export const getCardDescription = item => {
   return item ? (
     <>
-      {item.additionalOfficialDetails?.phoneType === 'us' ? (
-        <p>
-          <va-icon
-            icon="phone"
-            size={2}
-            style={{
-              position: 'relative',
-              top: '-5px',
-              left: '-1px',
-              marginRight: '5px',
-            }}
-          />
-          <span data-testid="card-phone-number">
-            {formatPhoneNumber(item.additionalOfficialDetails?.phoneNumber)}
-          </span>
-        </p>
-      ) : (
-        <p>
-          <va-icon
-            icon="phone"
-            size={2}
-            style={{
-              position: 'relative',
-              top: '-5px',
-              left: '-1px',
-              marginRight: '5px',
-            }}
-          />
-          <span data-testid="card-phone-number">
-            {item.additionalOfficialDetails?.internationalPhoneNumber}
-          </span>
-        </p>
-      )}
+      <p>
+        <va-icon
+          icon="phone"
+          size={2}
+          style={{
+            position: 'relative',
+            top: '-5px',
+            left: '-1px',
+            marginRight: '5px',
+          }}
+        />
+        <span data-testid="card-phone-number">
+          {item.additionalOfficialDetails?.phoneType === 'us'
+            ? item.additionalOfficialDetails?.phoneNumber
+            : item.additionalOfficialDetails?.internationalPhoneNumber}
+        </span>
+      </p>
       <p>
         <va-icon
           icon="mail"
