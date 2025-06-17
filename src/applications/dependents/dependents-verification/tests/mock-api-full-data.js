@@ -1,5 +1,5 @@
 /**
- * Run mock appeals server with max data using
+ * Run mock DV server with max data using
  * > yarn mock-api --responses ./src/applications/dependents/dependents-verification/tests/mock-api-full-data.js
  * Run this in browser console
  * > localStorage.setItem('hasSession', true)
