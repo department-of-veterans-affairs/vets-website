@@ -1,3 +1,4 @@
+const { createSaveInProgressUpdate } = require('./update');
 const prefill214138 = {
   formData: {
     statementType: 'not-listed',
@@ -28,4 +29,74 @@ const prefill214138 = {
   },
 };
 
-module.exports = { prefill214138 };
+const empty214138 = {
+  fullName:
+    {
+      first: '',
+      middle: '',
+      last: 'Tes'
+    },
+  statementType: 'not-listed',
+  emailAddress: '',
+  dateOfBirth: '',
+  idNumber: { ssn: '', vaFileNumber: ''},
+  mailingAddress:
+    {
+      country: '',
+      street: '',
+      street2: '',
+      city: '',
+      state: '',
+      postalCode: '',
+      militaryBaseDescription: {} // view:militaryBaseDescription
+    },
+  phone: '',
+  statement: '',
+  // additionalInfoStatementType:
+  //   {},
+  // layOrWitnessContent:
+  //   {},
+  // decisionReviewContent:
+  //   {},
+  // noticeOfDisagreementContent:
+  //   {},
+  // priorityProcessingContent:
+  //   {},
+  // recordsRequestHandoffContent:
+  //   {},
+  // newEvidenceHandoffContent:
+  //   {},
+}
+
+let tempData = {
+  ...empty214138
+}
+
+const updateTempData= (req) => {
+  const body = req.body || {};
+  const {
+    fullName = tempData.fullName,
+    statementType = tempData.statementType,
+    emailAddress = tempData.emailAddress,
+    dateOfBirth =  tempData.dateOfBirth,
+    idNumber = tempData.idNumber,
+    mailingAddress = tempData.mailingAddress,
+    phone = tempData.phone,
+    statement = tempData.statement } = body
+  tempData = {
+    fullName, statementType, emailAddress, dateOfBirth, idNumber, mailingAddress, phone, statement
+  }
+}
+const saveInProgress214138 = (req) => {
+  updateTempData(req)
+  return createSaveInProgressUpdate(req)
+}
+
+// called for confirmation
+const clearInProgressForm214138= () => {
+  tempData = {
+    ...empty214138
+  }
+}
+
+module.exports = { prefill214138, saveInProgress214138,  clearInProgressForm214138 };

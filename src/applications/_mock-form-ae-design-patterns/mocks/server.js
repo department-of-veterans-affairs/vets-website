@@ -17,7 +17,7 @@ const mockFormAeDesignPatterns = require('./endpoints/in-progress-forms/mock-for
 const prefill261880 = require('./endpoints/in-progress-forms/26-1880');
 const prefill221990 = require('./endpoints/in-progress-forms/22-1990');
 const prefill10182 = require('./endpoints/in-progress-forms/10182');
-const { prefill214138 } = require('./endpoints/in-progress-forms/21-4138');
+const { prefill214138, saveInProgress214138,  clearInProgressForm214138 } = require('./endpoints/in-progress-forms/21-4138');
 // transaction status that is used for address, email, phone number update flows
 const {
   getEmptyStatus,
@@ -83,6 +83,11 @@ const responses = {
   'GET /v0/in_progress_forms/21-4138': (_req, res) => {
     const secondsOfDelay = 1;
     delaySingleResponse(() => res.json(prefill214138), secondsOfDelay);
+  },
+
+  'PUT /v0/in_progress_forms/21-4138': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(() => res.json(saveInProgress214138(req)), secondsOfDelay);
   },
 
   'PUT /v0/in_progress_forms/:id': (req, res) => {
@@ -173,9 +178,12 @@ const responses = {
     // to simulate different responses based on the transactionId param
     return generateStatusResponse(req, res);
   },
-  'POST /simple_forms_api/v1/simple_forms': {
-    confirmationNumber: '48fac28c-b332-4549-a45b-3423297111f4',
-  },
+  'POST /simple_forms_api/v1/simple_forms': (_req, _res) => {
+    clearInProgressForm214138()
+    return {
+      confirmationNumber: '48fac28c-b332-4549-a45b-3423297111f4',
+    }
+  }
 };
 
 // here we can run anything that needs to happen before the mock server starts up
