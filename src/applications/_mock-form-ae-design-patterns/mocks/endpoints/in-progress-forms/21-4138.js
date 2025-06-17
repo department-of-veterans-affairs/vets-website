@@ -71,14 +71,22 @@ let tempData = {
   ...empty214138,
 };
 
+const emptyMetaData = {
+  version: 0,
+  prefill: true,
+  returnUrl: '/personal-information',
+};
+
+let tempMetaData = {
+  ...emptyMetaData,
+};
+
+let formCompleted = false;
+
 const get214138Data = () => {
   return {
     formData: tempData,
-    metadata: {
-      version: 0,
-      prefill: true,
-      returnUrl: '',
-    },
+    metadata: tempMetaData,
   };
 };
 
@@ -106,8 +114,27 @@ const updateTempData = req => {
   };
 };
 
+const updateMetaData = req => {
+  tempMetaData = {
+    ...tempMetaData,
+    returnUrl:
+      req?.body?.metadata?.returnUrl ||
+      '/veteran-information?noReturnUrlSpecified',
+  };
+};
+
 const saveInProgress214138 = req => {
+  // UpdateProgress gets called one more time after it goes
+  // to confirmation page so catch it here so it does not
+  // update the payload with old data when you start a new form
+  if (formCompleted) {
+    // reset and return fake payload
+    formCompleted = false;
+    return createSaveInProgressUpdate(req);
+  }
   updateTempData(req);
+  updateMetaData(req);
+
   return createSaveInProgressUpdate(req);
 };
 
@@ -116,6 +143,10 @@ const clearInProgressForm214138 = () => {
   tempData = {
     ...empty214138,
   };
+  tempMetaData = {
+    ...emptyMetaData,
+  };
+  formCompleted = true;
 };
 
 module.exports = {
