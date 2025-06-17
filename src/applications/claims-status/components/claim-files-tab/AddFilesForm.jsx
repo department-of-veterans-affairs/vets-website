@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
@@ -29,143 +29,141 @@ import UploadStatus from '../UploadStatus';
 import mailMessage from '../MailMessage';
 import FileInputMultiple from './FileInputMultiple';
 
-class AddFilesForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      errorMessage: null,
-      canShowUploadModal: false,
-    };
-  }
+export default function AddFilesForm({
+  field,
+  files,
+  onAddFile,
+  onCancel,
+  onDirtyFields,
+  onFieldChange,
+  onSubmit,
+  mockReadAndCheckFile,
+  progress,
+  uploading,
+  fileTab,
+}) {
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [canShowUploadModal, setCanShowUploadModal] = useState(false);
 
-  getErrorMessage = () => {
-    if (this.state.errorMessage) {
-      return this.state.errorMessage;
-    }
+  const getErrorMessage = useCallback(
+    () => {
+      if (errorMessage) return errorMessage;
 
-    return validateIfDirty(this.props.field, () => this.props.files.length > 0)
-      ? undefined
-      : 'Please select a file first';
-  };
+      return validateIfDirty(field, () => files.length > 0)
+        ? undefined
+        : 'Please select a file first';
+    },
+    [errorMessage, field, files.length],
+  );
 
-  handleDocTypeChange = (docType, index) => {
-    this.props.onFieldChange(`files[${index}].docType`, {
-      value: docType,
-      dirty: true,
-    });
-  };
+  const handleDocTypeChange = useCallback(
+    (docType, index) => {
+      onFieldChange(`files[${index}].docType`, { value: docType, dirty: true });
+    },
+    [onFieldChange],
+  );
 
-  add = async files => {
-    const file = files[0];
-    const { onAddFile, mockReadAndCheckFile } = this.props;
-    const extraData = {};
-    const hasPdfSizeLimit = isPdf(file);
+  const add = useCallback(
+    async newFiles => {
+      const file = newFiles[0];
+      const extraData = {};
+      const hasPdfSizeLimit = isPdf(file);
 
-    if (isValidFile(file)) {
-      // Check if the file is an encrypted PDF
-      const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
-      const checkResults = mockReadAndCheckFile
-        ? mockReadAndCheckFile()
-        : await readAndCheckFile(file, checks);
+      if (isValidFile(file)) {
+        const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
+        const checkResults = mockReadAndCheckFile
+          ? mockReadAndCheckFile()
+          : await readAndCheckFile(file, checks);
 
-      if (!checkResults.checkTypeAndExtensionMatches) {
-        this.setState({
-          errorMessage: FILE_TYPE_MISMATCH_ERROR,
-        });
-        return;
-      }
+        if (!checkResults.checkTypeAndExtensionMatches) {
+          setErrorMessage(FILE_TYPE_MISMATCH_ERROR);
+          return;
+        }
 
-      if (file.name?.toLowerCase().endsWith('pdf')) {
-        extraData.isEncrypted = checkResults.checkIsEncryptedPdf;
-      }
+        if (file.name?.toLowerCase().endsWith('pdf')) {
+          extraData.isEncrypted = checkResults.checkIsEncryptedPdf;
+        }
 
-      this.setState({ errorMessage: null });
-      // Note that the lighthouse api changes the file type to a pdf and the name is then updated as well.
-      // After submitting a file you will see this change in the Documents Filed section.
-      // EX: test.jpg ->> test.pdf
-      onAddFile([file], extraData);
-    } else if (!isValidFileType(file)) {
-      this.setState({
-        errorMessage: 'Please choose a file from one of the accepted types.',
-      });
-    } else if (!isValidFileSize(file)) {
-      const maxSize = hasPdfSizeLimit ? MAX_PDF_SIZE_MB : MAX_FILE_SIZE_MB;
-      this.setState({
-        errorMessage: `The file you selected is larger than the ${maxSize}MB maximum file size and could not be added.`,
-      });
-    } else if (isEmptyFileSize(file)) {
-      this.setState({
-        errorMessage:
+        setErrorMessage(null);
+        onAddFile([file], extraData);
+      } else if (!isValidFileType(file)) {
+        setErrorMessage('Please choose a file from one of the accepted types.');
+      } else if (!isValidFileSize(file)) {
+        const maxSize = hasPdfSizeLimit ? MAX_PDF_SIZE_MB : MAX_FILE_SIZE_MB;
+        setErrorMessage(
+          `The file you selected is larger than the ${maxSize}MB maximum file size and could not be added.`,
+        );
+      } else if (isEmptyFileSize(file)) {
+        setErrorMessage(
           'The file you selected is empty. Files uploaded must be larger than 0B.',
-      });
-    }
-  };
+        );
+      }
+    },
+    [mockReadAndCheckFile, onAddFile],
+  );
 
-  submit = () => {
-    const { files } = this.props;
-    const hasPasswords = files.every(
-      file => !file.isEncrypted || (file.isEncrypted && file.password.value),
-    );
+  const submit = useCallback(
+    () => {
+      const hasPasswords = files.every(
+        f => !f.isEncrypted || (f.isEncrypted && f.password.value),
+      );
 
-    if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
-      this.setState({ canShowUploadModal: true });
-      this.props.onSubmit();
-      return;
-    }
+      if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
+        setCanShowUploadModal(true);
+        onSubmit();
+      } else {
+        onDirtyFields();
+      }
+    },
+    [files, onSubmit, onDirtyFields],
+  );
 
-    this.props.onDirtyFields();
-  };
+  const showUploadModal = uploading && canShowUploadModal;
 
-  render() {
-    const showUploadModal =
-      this.props.uploading && this.state.canShowUploadModal;
-
-    return (
-      <>
-        <div className="add-files-form">
-          <Toggler
-            toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
-          >
-            <Toggler.Enabled>
-              <div>
-                {!this.props.fileTab && (
-                  <>
-                    <h2>Upload documents</h2>
-                    <p>
-                      If you have a document to upload, you can do that here.
-                    </p>
-                  </>
-                )}
-              </div>
-            </Toggler.Enabled>
-          </Toggler>
-          <FileInputMultiple />
-        </div>
-        <VaButton
-          id="submit"
-          text="Submit documents for review"
-          onClick={this.submit}
+  return (
+    <>
+      <div className="add-files-form">
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}>
+          <Toggler.Enabled>
+            {!fileTab && (
+              <>
+                <h2>Upload documents</h2>
+                <p>If you have a document to upload, you can do that here.</p>
+              </>
+            )}
+          </Toggler.Enabled>
+        </Toggler>
+        <FileInputMultiple
+          add={add}
+          getErrorMessage={getErrorMessage}
+          handleDocTypeChange={handleDocTypeChange}
+          docType={field.docType}
         />
-        <va-additional-info
-          class="vads-u-margin-y--3"
-          trigger="Need to mail your documents?"
-        >
-          {mailMessage}
-        </va-additional-info>
-        <VaModal
-          id="upload-status"
-          onCloseEvent={() => this.setState({ canShowUploadModal: false })}
-          visible={showUploadModal}
-        >
-          <UploadStatus
-            progress={this.props.progress}
-            files={this.props.files.length}
-            onCancel={this.props.onCancel}
-          />
-        </VaModal>
-      </>
-    );
-  }
+      </div>
+      <VaButton
+        id="submit"
+        text="Submit documents for review"
+        onClick={submit}
+      />
+      <va-additional-info
+        class="vads-u-margin-y--3"
+        trigger="Need to mail your documents?"
+      >
+        {mailMessage}
+      </va-additional-info>
+      <VaModal
+        id="upload-status"
+        onCloseEvent={() => setCanShowUploadModal(false)}
+        visible={showUploadModal}
+      >
+        <UploadStatus
+          progress={progress}
+          files={files.length}
+          onCancel={onCancel}
+        />
+      </VaModal>
+    </>
+  );
 }
 
 AddFilesForm.propTypes = {
@@ -183,5 +181,3 @@ AddFilesForm.propTypes = {
   progress: PropTypes.number,
   uploading: PropTypes.bool,
 };
-
-export default AddFilesForm;
