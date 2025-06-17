@@ -68,18 +68,6 @@ export default function MhvTemporaryAccess() {
           data-testid="updateMhvBtn"
         />
         <h2>Help and support</h2>
-        <h3 className="vads-u-margin-top--0">Recover forgotten password</h3>
-        <p className="vads-u-measure--4 vads-u-margin-bottom--0">
-          If you forgot your My HealtheVet password, you can submit personal
-          information to recover it.
-        </p>
-        <va-link-action
-          text="Recover your password"
-          type="secondary"
-          href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/forgot-password?action=new"
-          data-testid="recoverMhvBtn"
-        />
-        <h3>Get support</h3>
         <p>
           For all other questions, contact the administrator who gave you access
           to this page.
