@@ -4,7 +4,7 @@ import {
   fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import FileField from 'platform/forms-system/src/js/fields/FileField';
 import {
   UPLOAD_TITLE,
@@ -139,10 +139,20 @@ export function UploadPage(props) {
   return <CustomAlertPage {...props} alert={alert} />;
 }
 
-// UploadPage.propTypes = {
-//   data: PropTypes.shape({
-//     uploadedFile: PropTypes.shape({
-//       warnings: PropTypes.arrayOf(PropTypes.string),
-//     }),
-//   }).isRequired,
-// };
+UploadPage.propTypes = {
+  data: PropTypes.shape({
+    uploadedFile: PropTypes.shape({
+      warnings: PropTypes.arrayOf(PropTypes.string),
+    }),
+    supportingDocuments: PropTypes.arrayOf(
+      PropTypes.shape({
+        fileName: PropTypes.string,
+        fileSize: PropTypes.number,
+        confirmationNumber: PropTypes.string,
+        errorMessage: PropTypes.string,
+        uploading: PropTypes.bool,
+        warnings: PropTypes.arrayOf(PropTypes.string),
+      }),
+    ),
+  }).isRequired,
+};

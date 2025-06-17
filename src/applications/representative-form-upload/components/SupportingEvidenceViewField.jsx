@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { displayFileSize } from 'platform/utilities/ui/index';
 import { getFormNumber } from '../helpers';
@@ -57,17 +57,17 @@ const SupportingEvidenceViewField = props => {
 };
 
 SupportingEvidenceViewField.propTypes = {
-  // defaultEditButton: PropTypes.func.isRequired,
-  // formData: PropTypes.shape({
-  //   supportingDocuments: PropTypes.arrayOf(
-  //     PropTypes.shape({
-  //       fileName: PropTypes.string,
-  //       fileSize: PropTypes.number,
-  //       confirmationNumber: PropTypes.string,
-  //       errorMessage: PropTypes.string,
-  //     }),
-  //   ),
-  // }).isRequired,
+  defaultEditButton: PropTypes.func.isRequired,
+  formData: PropTypes.shape({
+    supportingDocuments: PropTypes.arrayOf(
+      PropTypes.shape({
+        fileName: PropTypes.string,
+        fileSize: PropTypes.number,
+        confirmationNumber: PropTypes.string,
+        errorMessage: PropTypes.string,
+      }),
+    ),
+  }).isRequired,
 };
 
 export default SupportingEvidenceViewField;
