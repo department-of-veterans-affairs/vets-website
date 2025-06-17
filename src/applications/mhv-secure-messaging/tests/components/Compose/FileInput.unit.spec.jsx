@@ -59,14 +59,20 @@ describe('File input component', () => {
     expect(uploader.files.length).to.equal(1);
   });
 
-  it('attach button should be hidden when 4 files attached', async () => {
-    const fourAttachments = [
+  it('attach button should be hidden when 10 files attached', async () => {
+    const tenAttachments = [
       { name: 'test1.png', size: 100, type: 'image/png' },
       { name: 'test2.png', size: 200, type: 'image/png' },
       { name: 'test2.png', size: 300, type: 'image/png' },
       { name: 'test4.png', size: 400, type: 'image/png' },
+      { name: 'test4.png', size: 100, type: 'image/png' },
+      { name: 'test4.png', size: 100, type: 'image/png' },
+      { name: 'test4.png', size: 100, type: 'image/png' },
+      { name: 'test4.png', size: 100, type: 'image/png' },
+      { name: 'test4.png', size: 100, type: 'image/png' },
+      { name: 'test4.png', size: 100, type: 'image/png' },
     ];
-    const screen = render(<FileInput attachments={fourAttachments} />);
+    const screen = render(<FileInput attachments={tenAttachments} />);
     expect(screen.queryByTestId('attach-file-button')).to.not.exist;
     expect(screen.queryByTestId('attach-file-input')).to.not.exist;
   });

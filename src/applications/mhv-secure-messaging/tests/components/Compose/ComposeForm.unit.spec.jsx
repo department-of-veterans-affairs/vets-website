@@ -1148,6 +1148,9 @@ describe('Compose form component', () => {
     const customAttachments = [
       { name: 'test1.png', size: 4 * oneMB, type: 'image/png' },
       { name: 'test2.png', size: 4 * oneMB, type: 'image/png' },
+      { name: 'test3.png', size: 5 * oneMB, type: 'image/png' },
+      { name: 'test4.png', size: 6 * oneMB, type: 'image/png' },
+      { name: 'test5.png', size: 7 * oneMB, type: 'image/png' },
     ];
     const largeFileSizeInBytes = 3 * oneMB; // 7MB
 
