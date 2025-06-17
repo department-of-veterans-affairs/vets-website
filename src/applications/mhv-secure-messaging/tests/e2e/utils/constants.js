@@ -452,11 +452,9 @@ export const Data = {
 
   NOT_FOUND: {
     H2: `Or try these other health resources`,
-    P_O: `If you typed or copied the web address, check that it’s correct.`,
-    P_1: `If you still can’t find what you’re looking for, try visiting the My HealtheVet homepage.`,
-    LINK_0: `Go to our My HealtheVet on VA.gov homepage`,
-    LINK_1: `Chat live with a health professional on VA health chat`,
-    LINK_2: `Find a VA facility`,
+    P_O: `If you typed or copied the URL into your web browser, check that it’s correct.`,
+    P_1: `If that doesn’t work, try going to the My HealtheVet homepage.`,
+    LINK: `Go to the My HealtheVet on VA.gov homepage`,
   },
 };
 
