@@ -740,14 +740,14 @@ export function getStatusContents(appeal, name = {}) {
           <p>
             To get the latest information—like whether your claim has been
             assigned to a reviewer or if we’re gathering evidence—call the VA
-            benefits hotline at <va-telephone contact="8772228387" /> (
+            benefits hotline at <va-telephone contact="8008271000" /> (
             <va-telephone contact="711" tty="true" />
             ).
-            <p>
-              Right now, we can't share detailed updates about supplemental
-              claims in this tool. We're looking into ways to make this possible
-              in the future.
-            </p>
+          </p>
+          <p>
+            Right now, we can't share detailed updates about supplemental claims
+            in this tool. We're looking into ways to make this possible in the
+            future.
           </p>
         </div>
       );
@@ -759,7 +759,7 @@ export function getStatusContents(appeal, name = {}) {
           <p>
             To get the latest information—like whether your higher level review
             has been assigned to a reviewer—call the VA benefits hotline at{' '}
-            <va-telephone contact="8772228387" /> (
+            <va-telephone contact="8008271000" /> (
             <va-telephone contact="711" tty="true" />
             ).
           </p>
