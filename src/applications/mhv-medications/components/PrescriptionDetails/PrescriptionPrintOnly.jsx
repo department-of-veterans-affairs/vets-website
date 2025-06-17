@@ -233,8 +233,7 @@ const PrescriptionPrintOnly = props => {
                         <>
                           <p>This fill has a smaller quantity on purpose.</p>
                           <p>
-                            <strong>Quantity</strong>
-                            {entry.quantity}
+                            <strong>Quantity:</strong> {entry.quantity}
                           </p>
                         </>
                       )}
