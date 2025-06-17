@@ -105,11 +105,26 @@ describe('CG <PreSubmitCheckboxGroup>', () => {
     sinon.assert.notCalled(dispatch);
   });
 
-  it('should call `onSectionComplete(true)` when all statements are complete', async () => {
+  it('should call `onSectionComplete(true)` when all statements are complete (not as representative)', async () => {
     const { selectors } = subject();
     const { vaStatementsOfTruth } = selectors();
     const completeSignatureBox = component => {
       component.__events.vaInputChange({ detail: { value: 'John Smith' } });
+      component.__events.vaCheckboxChange({ detail: { checked: true } });
+      component.__events.vaInputBlur();
+    };
+
+    await waitFor(() => completeSignatureBox(vaStatementsOfTruth[0]));
+    await waitFor(() => completeSignatureBox(vaStatementsOfTruth[1]));
+
+    sinon.assert.calledWith(onSectionComplete.lastCall, true);
+  });
+
+  it('should call `onSectionComplete(true)` when all statements are complete (as representative)', async () => {
+    const { selectors } = subject({ isRep: true });
+    const { vaStatementsOfTruth } = selectors();
+    const completeSignatureBox = component => {
+      component.__events.vaInputChange({ detail: { value: 'Jack Smith' } });
       component.__events.vaCheckboxChange({ detail: { checked: true } });
       component.__events.vaInputBlur();
     };

@@ -63,12 +63,14 @@ const StatementOfTruthItem = props => {
         ...prev,
         [label]: {
           ...prev[label],
-          matches: value.toLowerCase() === fullName.toLowerCase(),
+          matches: isRep
+            ? true
+            : value.toLowerCase() === fullName.toLowerCase(),
           value,
         },
       }));
     },
-    [fullName, label, setSignatures],
+    [fullName, isRep, label, setSignatures],
   );
 
   const handleCheckboxChange = useCallback(
