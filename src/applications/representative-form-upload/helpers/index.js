@@ -112,3 +112,22 @@ export const getAlert = (props, continueClicked) => {
 
   return FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
 };
+
+export function parseResponse({ data }) {
+  const { name, size, confirmationCode } = data.attributes;
+  return {
+    name,
+    confirmationCode,
+    size,
+  };
+}
+
+export function createPayload(file, formId, password) {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  if (password) {
+    payload.append('password', password);
+  }
+  return payload;
+}
