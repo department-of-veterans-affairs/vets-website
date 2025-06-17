@@ -99,10 +99,10 @@ describe('Additional certifying official details page', () => {
       ],
     };
 
-    const resultSchema2 = uiSchema.additionalOfficialDetails[
+    const resultSchema = uiSchema.additionalOfficialDetails[
       'ui:options'
     ].updateSchema(formData, schema, null, 0);
-    expect(resultSchema2.required).to.deep.equal([
+    expect(resultSchema.required).to.deep.equal([
       'title',
       'phoneType',
       'internationalPhoneNumber',

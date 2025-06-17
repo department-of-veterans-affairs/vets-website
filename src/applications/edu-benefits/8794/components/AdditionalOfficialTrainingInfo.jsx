@@ -7,7 +7,7 @@ const AdditionalOfficialTrainingInfo = ({ formContext }) => {
   const index = formContext.pagePerItemIndex;
   const official = Array.isArray(formState['additional-certifying-official'])
     ? formState['additional-certifying-official'][index]
-        .additionalOfficialDetails
+        ?.additionalOfficialDetails
     : {};
 
   return (
