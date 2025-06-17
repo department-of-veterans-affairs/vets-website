@@ -364,7 +364,7 @@ export default class MockAppointmentResponse {
           future,
         })
           .setKind(TYPE_OF_VISIT_ID.telehealth)
-          .setModality('vaVideoCareAtHome')
+          .setModality('vaVideoCareAtAVaLocation')
           .setVvsKind(VIDEO_TYPES.storeForward),
       );
   }
