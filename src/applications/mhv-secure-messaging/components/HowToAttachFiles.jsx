@@ -11,14 +11,14 @@ const HowToAttachFiles = () => {
     >
       <section className="how-to-attach-files">
         <ul className="vads-u-margin-y--0">
-          <li>You may attach up to 4 files to each message</li>
+          <li>You can attach up to 10 files to each message</li>
           <li>
             You can attach only these file types: doc, docx, gif, jpg, pdf, png,
-            rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp
+            rtf, txt, xls, xlsx, bmp, tiff, ppt, ppsx, odt, mp4, mov, wmv, mpg
           </li>
           <li>The maximum size for each file is 6 MB</li>
           <li>
-            The maximum total size for all files attached to 1 message is 10 MB
+            The maximum total size for all files attached to 1 message is 25 MB
           </li>
         </ul>
       </section>

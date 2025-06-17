@@ -656,7 +656,10 @@ describe('Thread Details container', () => {
     mockApiRequest({ method: 'POST', data: {}, status: 200 });
     fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
-      expect(screen.getByTestId('sending-indicator')).to.exist;
+      expect(screen.getByTestId('sending-indicator')).to.have.attribute(
+        'message',
+        'Do not refresh the page. Sending message...',
+      );
     });
   });
 

@@ -120,7 +120,7 @@ const ThreadDetails = props => {
       return (
         <>
           <va-loading-indicator
-            message="Sending message..."
+            message="Do not refresh the page. Sending message..."
             data-testid="sending-indicator"
             style={{ display: isSending ? 'block' : 'none' }}
           />

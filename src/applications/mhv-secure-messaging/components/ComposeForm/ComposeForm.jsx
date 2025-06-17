@@ -764,7 +764,7 @@ const ComposeForm = props => {
   if (sendMessageFlag === true) {
     return (
       <va-loading-indicator
-        message="Sending message..."
+        message="Do not refresh the page. Sending message..."
         setFocus
         data-testid="sending-indicator"
       />
