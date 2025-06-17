@@ -139,7 +139,7 @@ const VeteranContactInformationPage = ({
     },
     editClick: (e, editHref) => {
       e.preventDefault();
-      goToPath(editHref);
+      goToPath(editHref, { force: true });
     },
   };
 

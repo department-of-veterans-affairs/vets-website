@@ -10,6 +10,7 @@ import prefillTransformer from '../prefill-transformer';
 // Chapter imports
 import { veteranInformation } from './chapters/veteran-information/veteranInformation';
 import { veteranContactInformation } from './chapters/veteran-contact-information/veteranContactInformation';
+import editAddressPage from './chapters/veteran-contact-information/editAddressPage';
 import editPhonePage from './chapters/veteran-contact-information/editPhonePage';
 import editInternationalPhonePage from './chapters/veteran-contact-information/editInternationalPhonePage';
 import editEmailPage from './chapters/veteran-contact-information/editEmailPage';
@@ -91,6 +92,7 @@ const formConfig = {
           uiSchema: veteranContactInformation.uiSchema,
           schema: veteranContactInformation.schema,
         },
+        editAddressPage,
         editEmailPage,
         editPhonePage,
         editInternationalPhonePage,
