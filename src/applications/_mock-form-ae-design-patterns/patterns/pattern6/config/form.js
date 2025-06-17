@@ -72,6 +72,15 @@ const formConfig = {
   prefillEnabled: true,
   title: 'Marital Information Pattern',
   subTitle: 'Pattern 6 - Marital Information',
+  // Disable the review page
+  hideFromReview: [
+    'formSpouseName',
+    'formMarriageDate',
+    'formMarriageLocation',
+    'formMarriageEndDate',
+    'formMarriageEndReason',
+    'previousMarriages',
+  ],
   chapters: {
     maritalStatusChapter: {
       title: 'Marital information',

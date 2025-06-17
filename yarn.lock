@@ -13503,7 +13503,7 @@ is-core-module@^2.13.0:
   dependencies:
     hasown "^2.0.0"
 
-is-core-module@^2.15.1, is-core-module@^2.16.0:
+is-core-module@^2.15.1:
   version "2.16.1"
   resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.16.1.tgz#2a98801a849f43e2add644fbb6bc6229b19a4ef4"
   integrity sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==
@@ -22705,9 +22705,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#0c89f4433f41d0f17ac9eb8925e5a3288765eef6":
-  version "24.16.3"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0c89f4433f41d0f17ac9eb8925e5a3288765eef6"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#83345d72fc384a1ab02efbe4e0679d779a86f5e1":
+  version "24.16.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#83345d72fc384a1ab02efbe4e0679d779a86f5e1"
   dependencies:
     minimist "^1.2.3"
 
