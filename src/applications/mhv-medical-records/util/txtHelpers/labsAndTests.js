@@ -15,7 +15,7 @@ ${
             details.push('Details about this test:', ' ');
 
             if (record.sampleTested)
-              details.push(`Site or sample tested: ${record.sampleTested}`);
+              details.push(`Site or sample tested: ${record.sampleFrom}`);
             if (record.reason)
               details.push(`Reason for test: ${record.reason}`);
             if (record.clinicalHistory)
@@ -24,8 +24,6 @@ ${
               details.push(`Imaging location: ${record.imagingLocation}`);
             if (record.imagingProvider)
               details.push(`Imaging provider: ${record.imagingProvider}`);
-            if (record.sampleFrom)
-              details.push(`Sample from: ${record.sampleFrom}`);
             if (record.orderedBy && record.type !== 'pathology')
               details.push(`Ordered by: ${record.orderedBy}`);
             if (record.orderingLocation)
