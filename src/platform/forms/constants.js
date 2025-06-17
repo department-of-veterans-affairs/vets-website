@@ -34,7 +34,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_509_UPLOAD: '21-509-UPLOAD',
   FORM_21_526EZ: '21-526EZ',
   FORM_21_686C: '686C-674',
-  FORM_21_686C_UPLOAD: '21-686C-UPLOAD',
+  FORM_21_686C_BENEFITS_INTAKE: '21-686C-BENEFITS-INTAKE',
   FORM_21_686CV2: '686C-674-V2',
   FORM_21_8940_UPLOAD: '21-8940-UPLOAD',
   FORM_21A: '21a',
@@ -114,7 +114,8 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
   [VA_FORM_IDS.FORM_21_526EZ]: '/v0/disability_compensation_in_progress_forms/',
   [VA_FORM_IDS.FORM_21A]:
     '/accredited_representative_portal/v0/in_progress_forms/',
-  '21-686C-UPLOAD': '/accredited_representative_portal/v0/in_progress_forms/',
+  '21-686C-BENEFITS-INTAKE':
+    '/accredited_representative_portal/v0/in_progress_forms/',
 });
 
 // Entries previously added to FORM_LINKS go in here:
