@@ -19,11 +19,12 @@ import {
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthModality,
+  selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureFeSourceOfTruthVA,
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
-  selectFeatureConvertSlotsToUTC,
+  selectFeatureConvertSlotsToUtc,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -324,6 +325,9 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -344,6 +348,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
             useFeSourceOfTruthCC,
             useFeSourceOfTruthVA,
             useFeSourceOfTruthModality,
+            useFeSourceOfTruthTelehealth,
             isCerner: true,
           });
 
@@ -381,6 +386,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
         });
 
         if (showModal) {
@@ -639,7 +645,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
-    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
+    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
     const startDateMonth = format(new Date(startDate), 'yyyy-MM');
     const endDateMonth = format(new Date(endDate), 'yyyy-MM');
@@ -851,6 +857,9 @@ export function submitAppointmentOrRequest(history) {
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -880,6 +889,7 @@ export function submitAppointmentOrRequest(history) {
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
         });
 
         dispatch({
@@ -971,6 +981,7 @@ export function submitAppointmentOrRequest(history) {
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
         });
 
         dispatch({

@@ -68,13 +68,13 @@ describe('InstitutionName Component', () => {
         institutionDetails: {
           ...initialState.form.data.institutionDetails,
           institutionName: 'Test Institution',
-          address: {
-            address1: '123 Main St',
-            address2: 'Suite 100',
-            address3: 'Building A',
+          institutionAddress: {
+            street: '123 Main St',
+            street2: 'Suite 100',
+            street3: 'Building A',
             city: 'Anytown',
             state: 'VA',
-            zip: '12345',
+            postalCode: '12345',
             country: 'USA',
           },
         },
@@ -102,7 +102,7 @@ describe('InstitutionName Component', () => {
         institutionDetails: {
           ...initialState.form.data.institutionDetails,
           institutionName: 'not found',
-          address: {},
+          institutionAddress: {},
         },
       }),
     );

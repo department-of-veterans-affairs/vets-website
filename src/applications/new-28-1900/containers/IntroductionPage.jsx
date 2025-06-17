@@ -54,7 +54,19 @@ const ProcessList = () => {
           You can print this message for your records.
         </p>
         <va-additional-info trigger="What happens after you apply?">
-          Need copy.
+          <div>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--2p5">
+              We’ll review your application to determine if you’re eligible for
+              an initial evaluation with a Vocational Rehabilitation Counselor
+              (VRC). If we determine you’re eligible for an initial evaluation,
+              we’ll send you an appointment letter with the date and time when a
+              VRC will meet with you.
+            </p>
+            <p className="vads-u-margin-top--2p5 vads-u-margin-bottom--0p5">
+              During the initial evaluation, the VRC will gather information to
+              determine if you’re entitled to receive VR&E benefits.
+            </p>
+          </div>
         </va-additional-info>
       </va-process-list-item>
     </va-process-list>
