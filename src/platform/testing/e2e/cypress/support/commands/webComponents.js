@@ -413,3 +413,24 @@ Cypress.Commands.add(
     );
   },
 );
+
+Cypress.Commands.add(
+  'fillVaStatementOfTruth',
+  (field, { fullName, checked } = {}) => {
+    if (!fullName && typeof checked !== 'boolean') return;
+
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-statement-of-truth[name="${field}"]`)
+        : cy.wrap(field);
+
+    element.shadow().within(() => {
+      if (fullName) {
+        cy.get('va-text-input').then($el => cy.fillVaTextInput($el, fullName));
+      }
+      if (checked) {
+        cy.get('va-checkbox').then($el => cy.selectVaCheckbox($el, checked));
+      }
+    });
+  },
+);

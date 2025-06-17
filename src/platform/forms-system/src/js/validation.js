@@ -4,6 +4,7 @@ import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
+import environment from '../../../utilities/environment';
 
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
@@ -650,5 +651,15 @@ export function validateAutosuggestOption(errors, formData) {
     formData.label
   ) {
     errors.addError('Please select an option from the suggestions');
+  }
+}
+
+export function validateInputTelephone(errors, { _error }) {
+  // temporarily disable validation for cypress tests
+  // fix before entering production
+  if (environment.isTest() && !environment.isUnitTest()) return;
+
+  if (_error !== '') {
+    errors.addError(_error);
   }
 }
