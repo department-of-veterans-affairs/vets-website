@@ -198,5 +198,11 @@ describe('ezr general helpers', () => {
       expect(formatCurrency('0.99')).to.equal('$0.99');
       expect(formatCurrency('123456789')).to.equal('$123,456,789.00');
     });
+
+    context('when a value is null or undefined', () => {
+      it('should return `$0.00`', () => {
+        expect(formatCurrency(null)).to.equal('$0.00');
+      });
+    });
   });
 });
