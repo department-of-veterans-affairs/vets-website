@@ -231,22 +231,26 @@ class YourClaimsPageV2 extends React.Component {
             <h1 className="claims-container-title">
               Check your claim, decision review, or appeal status
             </h1>
-            <va-on-this-page />
+            <div className="on-this-page-container">
+              <va-on-this-page />
+            </div>
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>
             <div>{this.renderErrorMessages()}</div>
-            <va-additional-info
-              id="claims-combined"
-              class="claims-combined"
-              trigger="Find out why we sometimes combine claims."
-            >
-              <div>
-                If you turn in a new claim while we’re reviewing another one
-                from you, we’ll add any new information to the original claim
-                and close the new claim, with no action required from you.
-              </div>
-            </va-additional-info>
+            <div className="additional-info-container">
+              <va-additional-info
+                id="claims-combined"
+                class="claims-combined"
+                trigger="Find out why we sometimes combine claims."
+              >
+                <div>
+                  If you turn in a new claim while we’re reviewing another one
+                  from you, we’ll add any new information to the original claim
+                  and close the new claim, with no action required from you.
+                </div>
+              </va-additional-info>
+            </div>
             {content}
             <ClaimLetterSection />
             <h2 id="what-if-i-dont-see-my-appeal">
