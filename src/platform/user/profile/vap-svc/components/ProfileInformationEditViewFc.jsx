@@ -88,7 +88,6 @@ const mailingAddressUpdateProfileUiSchema = radioUI({
     yes: 'Yes, also update my profile',
     no: 'No, only update this form',
   },
-  enableAnalytics: true,
 });
 
 const mailingAddressUpdateProfileSchema = radioSchema(['yes', 'no']);

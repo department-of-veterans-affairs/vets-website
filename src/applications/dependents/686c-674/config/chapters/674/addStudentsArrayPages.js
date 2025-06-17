@@ -505,10 +505,13 @@ export const studentTermDatesPage = {
           'ui:description': TermDateHint,
         },
         expectedStudentStartDate: {
-          ...currentOrPastDateUI(
+          'ui:title':
             'When did the student start or expect to start their course?',
-          ),
+          'ui:webComponentField': VaMemorableDateField,
           'ui:required': () => true,
+          'ui:errorMessages': {
+            pattern: 'Enter a valid date',
+          },
         },
         expectedGraduationDate: {
           'ui:title': 'When does the student expect to graduate?',
