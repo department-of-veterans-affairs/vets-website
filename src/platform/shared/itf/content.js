@@ -66,15 +66,12 @@ export const showLoading = (message, label) => (
 
 export const ItfSearchSpinner = () =>
   showLoading(
-    'Please wait while we check to see if you have an existing intent to file.',
+    'Checking if you have an existing intent to file...',
     'looking for an intent to file',
   );
 
 export const ItfCreateSpinner = () =>
-  showLoading(
-    'Please wait while we create your intent to file.',
-    'creating an intent to file',
-  );
+  showLoading('Recording your intent to file...', 'creating an intent to file');
 
 export const itfMessage = ({ headline, content, status }) => (
   <va-alert visible status={status}>
