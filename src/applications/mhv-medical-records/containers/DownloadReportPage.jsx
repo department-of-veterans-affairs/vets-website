@@ -247,7 +247,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       <h2>Other reports you can download</h2>
 
       {(generatingCCD || ccdDownloadSuccess) &&
-        !ccdError && (
+        (!ccdError && !CCDRetryTimestamp) && (
           <DownloadSuccessAlert
             type="Continuity of Care Document download"
             className="vads-u-margin-bottom--1"
