@@ -95,7 +95,7 @@ describe('content unit tests', () => {
       const loading = $('va-loading-indicator', container);
       expect(loading).to.exist;
       expect(loading.getAttribute('message')).to.contain(
-        'see if you have an existing Intent to File',
+        'Checking if you have an existing intent to file',
       );
       expect(loading.getAttribute('label')).to.equal(
         'looking for an intent to file',
@@ -110,7 +110,7 @@ describe('content unit tests', () => {
       const loading = $('va-loading-indicator', container);
       expect(loading).to.exist;
       expect(loading.getAttribute('message')).to.contain(
-        'wait while we create your Intent to File',
+        'Recording your intent to file',
       );
       expect(loading.getAttribute('label')).to.equal(
         'creating an intent to file',
@@ -138,23 +138,23 @@ describe('content unit tests', () => {
 
   describe('ItfCreatedAlert', () => {
     it('should render a success message with the correct headline and content', () => {
-      const itfType = 'pension';
+      const creationDateFormatted = '2022-12-31';
       const expirationDateFormatted = '2023-12-31';
 
       const { container } = render(
-        ItfCreatedAlert({ itfType, expirationDateFormatted }),
+        ItfCreatedAlert({ creationDateFormatted, expirationDateFormatted }),
       );
 
       const alert = $('va-alert', container);
       expect(alert).to.exist;
       expect($('h2', alert).textContent).to.equal(
-        `Your intent to file a ${itfType} application`,
+        `We recorded your intent to file`,
       );
-      expect($('div', alert).textContent).to.contain(
-        'We automatically recorded your intent to file',
+      expect($('p', alert).textContent).to.contain(
+        `Your intent to file date is ${creationDateFormatted}`,
       );
       expect($('span', alert).textContent).to.contain(
-        `Submit your application by ${expirationDateFormatted}`,
+        `Submit your saved application by ${expirationDateFormatted}`,
       );
     });
   });
@@ -162,22 +162,28 @@ describe('content unit tests', () => {
   describe('ItfFoundAlert', () => {
     it('should render a success message with the correct headline and content', () => {
       const itfType = 'compensation';
+      const creationDateFormatted = '2022-12-31';
       const expirationDateFormatted = '2023-12-31';
 
       const { container } = render(
-        ItfFoundAlert({ itfType, expirationDateFormatted }),
+        ItfFoundAlert({
+          itfType,
+          creationDateFormatted,
+          expirationDateFormatted,
+        }),
       );
 
       const alert = $('va-alert', container);
       expect(alert).to.exist;
       expect($('h2', alert).textContent).to.equal(
-        'We’ve recorded your intent to file',
+        'We have your intent to file',
       );
       expect($('div', alert).textContent).to.contain(
-        `We’ve found your intent to file a ${itfType} application in our records.`,
+        `We have your intent to file a ${itfType} application in our records. ` +
+          `Your intent to file date is ${creationDateFormatted}`,
       );
       expect($('span', alert).textContent).to.contain(
-        `Submit your application by ${expirationDateFormatted}`,
+        `Submit your saved application by ${expirationDateFormatted}`,
       );
     });
   });
@@ -191,10 +197,10 @@ describe('content unit tests', () => {
       const alert = $('va-alert', container);
       expect(alert).to.exist;
       expect($('h2', alert).textContent).to.equal(
-        `You may want to confirm your intent to file for ${itfType} benefits`,
+        `You can call to confirm your intent to file`,
       );
       expect($('div', alert).textContent).to.contain(
-        'We tried to check for your intent to file',
+        `We’re sorry. We can’t find a record of your intent to file a Veterans ${itfType} application right now.`,
       );
     });
   });

@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class ContactFacilityPageObject extends PageObject {
+class ContactFacilityPageObject extends PageObject {
   assertText(value, exist = true) {
     if (exist) {
       cy.findByText(value);

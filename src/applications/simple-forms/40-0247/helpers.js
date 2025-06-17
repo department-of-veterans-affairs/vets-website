@@ -5,11 +5,10 @@ import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
-  getScrollOptions,
   focusElement,
   waitForRenderThenFocus,
-} from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+} from 'platform/utilities/ui/focus';
+import { getScrollOptions, scrollTo } from 'platform/utilities/scroll';
 
 export function trackNoAuthStartLinkClick() {
   recordEvent({ event: 'no-login-start-form' });

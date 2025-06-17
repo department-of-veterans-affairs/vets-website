@@ -96,6 +96,35 @@ describe('Thread Details container', () => {
     );
   });
 
+  it('renders reply link when customFoldersRedesign feature flag is on', async () => {
+    const state = {
+      sm: {
+        threadDetails,
+      },
+      featureToggles: {},
+    };
+
+    // eslint-disable-next-line dot-notation
+    state.featureToggles['mhv_secure_messaging_custom_folders_redesign'] = true;
+
+    const screen = setup(state);
+    const { category, subject } = threadDetails.messages[0];
+
+    expect(
+      await screen.findByText(`Messages: ${category} - ${subject}`, {
+        exact: false,
+        selector: 'h1',
+      }),
+    ).to.exist;
+
+    expect(screen.getByTestId('reply-to-message-link')).to.exist;
+    expect(screen.queryByTestId('reply-button-body')).to.not.exist;
+
+    expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
+      '2 messages in this conversation',
+    );
+  });
+
   it('renders Print Window on `Print` button click in Thread Details', async () => {
     const state = {
       sm: {
@@ -385,6 +414,65 @@ describe('Thread Details container', () => {
       expect(alert)
         .to.have.attribute('status')
         .to.equal('success');
+    });
+  });
+  it('with an active reply draft, focuses on draft section when clicking Edit reply draft button', async () => {
+    const draftMessageHistoryUpdated = [
+      {
+        ...replyMessage,
+        sentDate: moment()
+          .subtract(44, 'days')
+          .format(),
+      },
+      olderMessage,
+    ];
+
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        triageTeams: {
+          triageTeams: recipients,
+        },
+        threadDetails: {
+          replyToName: 'FREEMAN, GORDON',
+          cannotReply: isOlderThan(
+            getLastSentMessage(draftMessageHistoryUpdated).sentDate,
+            45,
+          ),
+          drafts: [
+            {
+              ...replyDraftMessage,
+              draftDate: new Date(),
+            },
+          ],
+          messages: [...draftMessageHistoryUpdated],
+        },
+        recipients: {
+          allRecipients: noBlockedRecipients.mockAllRecipients,
+          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noBlockedRecipients.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: noBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+        },
+      },
+    };
+    const screen = setup(state);
+
+    const editDraftReplyButton = screen.getByTestId('edit-draft-button-body');
+    expect(editDraftReplyButton).to.exist;
+    const draftReplyHeader = screen.getByTestId('draft-reply-header');
+    expect(draftReplyHeader).to.exist;
+    await waitFor(() => {
+      fireEvent.click(editDraftReplyButton);
+      expect(document.activeElement).to.equal(
+        screen.getByTestId('draft-reply-header'),
+      );
     });
   });
 
@@ -710,6 +798,62 @@ describe('Thread Details container', () => {
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
       'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+    );
+  });
+
+  it('allows reply if message is from unassociated OH sender', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails: {
+          ...threadDetails,
+          messages: threadDetails.messages.map(m => ({
+            ...m,
+            isOhMessage: true,
+          })),
+        },
+        recipients: {
+          allRecipients: lostAssociation.mockAllRecipients,
+          allowedRecipients: lostAssociation.mockAllowedRecipients,
+          blockedRecipients: lostAssociation.mockBlockedRecipients,
+          associatedTriageGroupsQty: lostAssociation.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            lostAssociation.associatedBlockedTriageGroupsQty,
+          noAssociations: lostAssociation.noAssociations,
+          allTriageGroupsBlocked: lostAssociation.allTriageGroupsBlocked,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
+          },
+        },
+      },
+      featureToggles: {},
+    };
+
+    const screen = setup(state);
+
+    const blockedTriageGroupAlert = await screen.queryByTestId(
+      'blocked-triage-group-alert',
+    );
+
+    expect(blockedTriageGroupAlert).to.not.exist;
+    expect(screen.getByTestId('reply-button-body')).to.exist;
+    expect(screen.getByTestId('reply-button-body').textContent).to.contain(
+      'Reply',
     );
   });
 

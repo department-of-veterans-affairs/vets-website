@@ -77,9 +77,9 @@ describe('VAOS Component: AppointmentCardIcon', () => {
         ...appointmentData,
         vaos: {
           isVideo: true,
+          isAtlas: false,
         },
         videoData: {
-          isAtlas: false,
           kind: 'CLINIC_BASED',
           extension: {
             patientHasMobileGfe: false,
@@ -105,9 +105,9 @@ describe('VAOS Component: AppointmentCardIcon', () => {
         ...appointmentData,
         vaos: {
           isVideo: true,
+          isAtlas: false,
         },
         videoData: {
-          isAtlas: false,
           kind: 'STORE_FORWARD',
           extension: {
             patientHasMobileGfe: false,
@@ -157,8 +157,6 @@ describe('VAOS Component: AppointmentCardIcon', () => {
       ...appointmentData,
       vaos: {
         isVideo: true,
-      },
-      videoData: {
         isAtlas: true,
       },
     };
@@ -206,9 +204,10 @@ describe('VAOS Component: AppointmentCardIcon', () => {
         ...appointmentData,
         vaos: {
           isVideo: true,
+          isVideoAtHome: true,
+          isAtlas: false,
         },
         videoData: {
-          isAtlas: false,
           kind: 'MOBILE_ANY',
           extension: {
             patientHasMobileGfe: false,
@@ -234,9 +233,10 @@ describe('VAOS Component: AppointmentCardIcon', () => {
         ...appointmentData,
         vaos: {
           isVideo: true,
+          isVideoAtHome: true,
+          isAtlas: false,
         },
         videoData: {
-          isAtlas: false,
           kind: 'ADHOC',
           extension: {
             patientHasMobileGfe: false,

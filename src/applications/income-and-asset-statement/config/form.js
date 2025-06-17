@@ -1,6 +1,7 @@
 // import fullSchema from 'vets-json-schema/dist/21P-0969-schema.json';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
@@ -19,6 +20,7 @@ import annuities from './chapters/08-annuities';
 import unreportedAssets from './chapters/09-unreported-assets';
 import discontinuedIncomes from './chapters/10-discontinued-incomes';
 import incomeReceiptWaivers from './chapters/11-income-receipt-waivers';
+import supportingDocuments from './chapters/12-supporting-documents';
 
 // const { } = fullSchema.properties;
 
@@ -48,6 +50,7 @@ const formConfig = {
   dev: {
     disableWindowUnloadInCI: true,
   },
+  ...minimalHeaderFormConfigOptions(),
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -64,7 +67,7 @@ const formConfig = {
           : 'claimantFullName',
     },
   },
-  title: 'Income and Asset Statement Form',
+  title: 'Income and Asset Statement',
   subTitle: 'VA Form 21P-0969',
   defaultDefinitions: {},
   chapters: {
@@ -79,6 +82,7 @@ const formConfig = {
     unreportedAssets,
     discontinuedIncomes,
     incomeReceiptWaivers,
+    supportingDocuments,
   },
 };
 

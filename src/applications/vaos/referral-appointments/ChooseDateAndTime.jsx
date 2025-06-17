@@ -39,7 +39,10 @@ export const ChooseDateAndTime = props => {
       ) {
         if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
           dispatch(
-            createDraftReferralAppointment(currentReferral.referralNumber),
+            createDraftReferralAppointment(
+              currentReferral.referralNumber,
+              currentReferral.referralConsultId,
+            ),
           );
         }
         if (futureStatus === FETCH_STATUS.notStarted) {

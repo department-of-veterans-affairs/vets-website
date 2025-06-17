@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+
+import { scrollToTop } from 'platform/utilities/scroll';
 import withRouter from '../utils/withRouter';
 
 import {

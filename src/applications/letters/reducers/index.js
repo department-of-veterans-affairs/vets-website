@@ -39,7 +39,7 @@ export const initialState = {
   savePending: false,
   benefitInfo: {},
   enhancedLetters: [],
-  enhancedLettersAvailability: DOWNLOAD_STATUSES.notStarted,
+  enhancedLetterStatus: {},
 };
 
 function letters(state = initialState, action) {
@@ -154,20 +154,34 @@ function letters(state = initialState, action) {
     case GET_ENHANCED_LETTERS_DOWNLOADING: {
       return {
         ...state,
-        enhancedLettersAvailability: DOWNLOAD_STATUSES.downloading,
+        enhancedLetterStatus: {
+          ...state.enhancedLetterStatus,
+          [action.letterType]: DOWNLOAD_STATUSES.downloading,
+        },
       };
     }
     case GET_ENHANCED_LETTERS_SUCCESS: {
+      const newStatus = {};
+      action.data.forEach(letter => {
+        newStatus[letter.letterType] = DOWNLOAD_STATUSES.success;
+      });
+
       return {
         ...state,
         enhancedLetters: action.data,
-        enhancedLettersAvailability: DOWNLOAD_STATUSES.success,
+        enhancedLetterStatus: {
+          ...state.enhancedLetterStatus,
+          ...newStatus,
+        },
       };
     }
     case GET_ENHANCED_LETTERS_FAILURE: {
       return {
         ...state,
-        enhancedLettersAvailability: DOWNLOAD_STATUSES.failure,
+        enhancedLetterStatus: {
+          ...state.enhancedLetterStatus,
+          [action.letterType]: DOWNLOAD_STATUSES.failure,
+        },
       };
     }
     default:
