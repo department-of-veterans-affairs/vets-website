@@ -125,7 +125,7 @@ const schema = {
         title: {
           type: 'string',
           minLength: 1,
-          maxLength: 50,
+          maxLength: 30,
         },
         phoneType: radioSchema(Object.keys(phoneLabels)),
         phoneNumber: phoneSchema,
