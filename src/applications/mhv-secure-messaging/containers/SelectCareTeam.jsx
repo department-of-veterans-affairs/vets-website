@@ -271,10 +271,10 @@ const SelectCareTeam = () => {
           value={activeCareSystem?.vhaId || ''}
           onVaSelect={handleCareSystemSelect}
           class="composeSelect"
-          data-testid="compose-recipient-select"
+          data-testid="care-system-select"
           error={careSystemError}
           data-dd-privacy="mask"
-          data-dd-action-name="Compose Recipient Dropdown List"
+          data-dd-action-name="Care System Dropdown List"
         >
           {careSystemsOptionsValues}
         </VaSelect>
@@ -332,7 +332,7 @@ const SelectCareTeam = () => {
           <VaButton
             continue
             class="continue-go-back vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
-            data-testid="continue-go-back-buttons"
+            data-testid="continue-button"
             data-dd-action-name="Continue button on Choose a VA Healthcare System Page"
             onClick={e => handlers.onContinue(e)}
             text={null}

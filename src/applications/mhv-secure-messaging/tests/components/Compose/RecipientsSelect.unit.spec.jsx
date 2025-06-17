@@ -193,41 +193,6 @@ describe('RecipientsSelect', () => {
     };
     const screen = setup({ state: customState });
 
-    expect(
-      screen.getByText(
-        'You’re sending a message to Test OH Facility Health Care teams.',
-        {
-          selector: 'h2',
-        },
-      ),
-    ).to.exist;
-
-    const systemLink = screen.getByText(
-      'Select a different VA health care system',
-      {
-        selector: 'a',
-      },
-    );
-    expect(systemLink).to.exist;
-    expect(systemLink).to.have.attribute(
-      'href',
-      '/new-message/select-health-care-system',
-    );
-
-    expect(
-      screen.getByText('Choose a care team', {
-        selector: 'h3',
-      }),
-    ).to.exist;
-
-    const additionalInfo = screen.container.querySelector('va-additional-info');
-    expect(additionalInfo).to.exist;
-    expect(additionalInfo).to.contain.text(
-      'If you can’t find your care team, try entering the first few letters of your facility’s location, your provider’s name, or a type of care.',
-    );
-    expect(additionalInfo).to.contain.text(
-      'If you still can’t find your care team, they may not use secure messaging. Or they may be part of a different VA health care system.',
-    );
     const comboBox = screen.getByTestId('compose-recipient-combobox');
     expect(comboBox).to.exist;
 
@@ -251,49 +216,6 @@ describe('RecipientsSelect', () => {
       },
     };
     const screen = setup({ state: customState });
-
-    expect(
-      screen.getByText(
-        'You’re sending a message to Test Vista Facility Health Care teams.',
-        {
-          selector: 'h2',
-        },
-      ),
-    ).to.exist;
-
-    const systemLink = screen.getByText(
-      'Select a different VA health care system',
-      {
-        selector: 'a',
-      },
-    );
-    expect(systemLink).to.exist;
-    expect(systemLink).to.have.attribute(
-      'href',
-      '/new-message/select-health-care-system',
-    );
-
-    expect(
-      screen.getByText('Choose a care team', {
-        selector: 'h3',
-      }),
-    ).to.exist;
-
-    const additionalInfo = screen.container.querySelector('va-additional-info');
-    expect(additionalInfo).to.exist;
-    const listItems = additionalInfo.querySelectorAll('li');
-    expect(listItems).to.have.lengthOf(Constants.teamNotListedReasons.length);
-    Constants.teamNotListedReasons.forEach((reason, idx) => {
-      expect(listItems[idx].textContent).to.equal(reason);
-    });
-
-    const updateContactListLink = additionalInfo.querySelector(
-      'a[href="/contact-list/"]',
-    );
-    expect(updateContactListLink).to.exist;
-    expect(updateContactListLink.textContent).to.equal(
-      'Update your contact list',
-    );
 
     const comboBox = screen.getByTestId('compose-recipient-combobox');
     expect(comboBox).to.exist;

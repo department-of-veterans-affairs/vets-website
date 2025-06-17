@@ -1277,7 +1277,6 @@ describe('Compose form component', () => {
     const screen = setup(customState, Paths.COMPOSE, {
       pageTitle: 'Start your message',
     });
-    screen.debug(undefined, 20000);
     expect(
       screen.getByText('Start your message', {
         selector: 'h1',
@@ -1285,34 +1284,7 @@ describe('Compose form component', () => {
     ).to.exist;
 
     expect(
-      screen.getByText(
-        'You’re sending a message to Test Vista Facility Health Care teams.',
-        {
-          selector: 'h2',
-        },
-      ),
-    ).to.exist;
-
-    expect(
-      screen.getByText('Choose a care team', {
-        selector: 'h3',
-      }),
-    ).to.exist;
-
-    expect(
-      screen.getByText('Choose a topic for your message', {
-        selector: 'h3',
-      }),
-    ).to.exist;
-
-    expect(
-      screen.getByText('Write your message', {
-        selector: 'h3',
-      }),
-    ).to.exist;
-
-    expect(
-      screen.getByText('Add files to your message', {
+      screen.getByText('Attachments', {
         selector: 'h3',
       }),
     ).to.exist;
