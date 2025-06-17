@@ -13,6 +13,7 @@ describe('Income and asset submit', () => {
         createObjectURL: sinon.stub().returns('test'),
       };
     });
+
     it('should reject if initial request fails', () => {
       mockFetch(new Error('fake error'), false);
       const formConfig = {
@@ -31,10 +32,36 @@ describe('Income and asset submit', () => {
         },
       );
     });
+
     afterEach(() => {
       delete window.URL;
     });
   });
+
+  describe('transformForSubmit', () => {
+    it('should remove undefined, null, and view: prefixed fields', () => {
+      const formConfig = {
+        chapters: {},
+      };
+      const formData = {
+        data: {
+          mailingAddress: { street: '123 Main St' },
+          view: 'someView',
+          undefinedField: undefined,
+          nullField: null,
+        },
+      };
+
+      const transformed = transformForSubmit(formConfig, formData, replacer);
+
+      expect(transformed).to.deep.equal(
+        JSON.stringify({
+          mailingAddress: { street: '123 Main St' },
+        }),
+      );
+    });
+  });
+
   describe('replacer', () => {
     it('should clean up empty objects', () => {
       const formConfig = {
