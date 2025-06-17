@@ -12,7 +12,7 @@ import {
   mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
 } from '../tests/mocks/mockApis';
-import { FACILITY_TYPES } from '../utils/constants';
+import { FACILITY_TYPES, TYPE_OF_CARE_IDS } from '../utils/constants';
 import getNewAppointmentFlow from './newAppointmentFlow';
 
 const userState = {
@@ -70,7 +70,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: '323',
+              typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
             },
           },
         };
@@ -106,7 +106,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: '323',
+              typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
             },
           },
         };
@@ -142,7 +142,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: 'tbd-podiatry',
+              typeOfCareId: TYPE_OF_CARE_IDS.PODIATRY_ID,
             },
           },
         };
@@ -204,7 +204,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: 'tbd-podiatry',
+              typeOfCareId: TYPE_OF_CARE_IDS.PODIATRY_ID,
             },
           },
         };
@@ -255,7 +255,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: 'tbd-podiatry',
+              typeOfCareId: TYPE_OF_CARE_IDS.PODIATRY_ID,
             },
           },
         };
@@ -281,7 +281,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: 'SLEEP',
+              typeOfCareId: TYPE_OF_CARE_IDS.SLEEP_MEDICINE_ID,
             },
           },
         };
@@ -331,7 +331,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: '323',
+              typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
             },
           },
         };
@@ -355,7 +355,7 @@ describe('VAOS newAppointmentFlow', () => {
           newAppointment: {
             data: {
               facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-              typeOfCareId: '203',
+              typeOfCareId: TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
             },
           },
         };
@@ -393,7 +393,7 @@ describe('VAOS newAppointmentFlow', () => {
           newAppointment: {
             data: {
               facilityType: 'va',
-              typeOfCareId: '203',
+              typeOfCareId: TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
             },
           },
           featureToggles: {
@@ -418,7 +418,7 @@ describe('VAOS newAppointmentFlow', () => {
       },
       newAppointment: {
         data: {
-          typeOfCareId: '323',
+          typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
           vaParent: '983',
           vaFacility: '983',
           facilityType: undefined,
@@ -504,7 +504,7 @@ describe('VAOS newAppointmentFlow', () => {
           newAppointment: {
             data: {
               vaFacility: '692',
-              typeOfCareId: '123',
+              typeOfCareId: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
             },
             facilities: {
               123: [
@@ -716,7 +716,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            typeOfCareId: 'EYE',
+            typeOfCareId: TYPE_OF_CARE_IDS.EYE_CARE_ID,
           },
         },
       };
@@ -761,8 +761,8 @@ describe('VAOS newAppointmentFlow', () => {
         },
         newAppointment: {
           data: {
-            typeOfCareId: 'EYE',
-            typeOfEyeCareId: '408',
+            typeOfCareId: TYPE_OF_CARE_IDS.EYE_CARE_ID,
+            typeOfEyeCareId: TYPE_OF_CARE_IDS.OPTOMETRY_ID,
           },
         },
       };
@@ -788,8 +788,8 @@ describe('VAOS newAppointmentFlow', () => {
         },
         newAppointment: {
           data: {
-            typeOfCareId: 'EYE',
-            typeOfEyeCareId: '407',
+            typeOfCareId: TYPE_OF_CARE_IDS.EYE_CARE_ID,
+            typeOfEyeCareId: TYPE_OF_CARE_IDS.OPHTHALMOLOGY_ID,
           },
         },
       };

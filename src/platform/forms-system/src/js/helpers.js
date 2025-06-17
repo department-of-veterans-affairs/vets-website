@@ -226,21 +226,23 @@ export function filterViewFields(data) {
   return Object.keys(data).reduce((newData, nextProp) => {
     const field = data[nextProp];
 
-    if (Array.isArray(field)) {
-      const newArray = field.map(item => filterViewFields(item));
+    if (field !== null) {
+      if (Array.isArray(field)) {
+        const newArray = field.map(item => filterViewFields(item));
 
-      return set(nextProp, newArray, newData);
-    }
-
-    if (typeof field === 'object') {
-      if (nextProp.startsWith('view:')) {
-        return { ...newData, ...filterViewFields(field) };
+        return set(nextProp, newArray, newData);
       }
-      return set(nextProp, filterViewFields(field), newData);
-    }
 
-    if (!nextProp.startsWith('view:')) {
-      return set(nextProp, field, newData);
+      if (typeof field === 'object') {
+        if (nextProp.startsWith('view:')) {
+          return { ...newData, ...filterViewFields(field) };
+        }
+        return set(nextProp, filterViewFields(field), newData);
+      }
+
+      if (!nextProp.startsWith('view:')) {
+        return set(nextProp, field, newData);
+      }
     }
 
     return newData;

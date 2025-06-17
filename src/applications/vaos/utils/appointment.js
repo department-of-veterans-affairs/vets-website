@@ -5,7 +5,7 @@
  */
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { format, addDays, differenceInDays, parseISO } from 'date-fns';
+import { addDays, differenceInDays, parseISO } from 'date-fns';
 import {
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
@@ -13,33 +13,6 @@ import {
   TYPES_OF_CARE,
   SERVICE_CATEGORY,
 } from './constants';
-
-export const CANCELLED_APPOINTMENT_SET = new Set([
-  'CANCELLED BY CLINIC & AUTO RE-BOOK',
-  'CANCELLED BY CLINIC',
-  'CANCELLED BY PATIENT & AUTO-REBOOK',
-  'CANCELLED BY PATIENT',
-]);
-
-// Appointments in these "HIDE_STATUS_SET"s should show in list, but their status should be hidden
-export const FUTURE_APPOINTMENTS_HIDE_STATUS_SET = new Set([
-  'ACT REQ/CHECKED IN',
-  'ACT REQ/CHECKED OUT',
-]);
-
-export const PAST_APPOINTMENTS_HIDE_STATUS_SET = new Set([
-  'ACTION REQUIRED',
-  'INPATIENT APPOINTMENT',
-  'INPATIENT/ACT REQ',
-  'INPATIENT/CHECKED IN',
-  'INPATIENT/CHECKED OUT',
-  'INPATIENT/FUTURE',
-  'INPATIENT/NO ACT TAKN',
-  'NO ACTION TAKEN',
-  'NO-SHOW & AUTO RE-BOOK',
-  'NO-SHOW',
-  'NON-COUNT',
-]);
 
 /**
  * Replaces a mock facility id with a real facility id in non production environments
@@ -86,22 +59,6 @@ export function getTypeOfCareById(inputId) {
 }
 
 /**
- * Method to get patient video instruction
- * @param {Appointment} appointment A FHIR appointment resource
- * @return {string} Returns patient video instruction title and exclude remaining data
- */
-
-export function getPatientInstruction(appointment) {
-  if (appointment?.patientInstruction.includes('Medication Review')) {
-    return 'Medication Review';
-  }
-  if (appointment?.patientInstruction.includes('Video Visit Preparation')) {
-    return 'Video Visit Preparation';
-  }
-  return null;
-}
-
-/**
  * Get the provider name based on api version
  *
  *
@@ -126,35 +83,6 @@ export function getProviderName(appointment) {
   }
   return null;
 }
-
-/**
- * Function to generate appointment REST API URL
- *
- * @param {*} startDate - Appointment start date
- * @param {*} endDate - Appointment end date
- * @param {*} [statuses=[]] - Appointment statusesm i.e. ['booked', 'arrived', 'fulfilled', 'cancelled']
- * @param {number} [version=2] - API version number
- * @returns URL string
- */
-export function generateAppointmentUrl(
-  startDate,
-  endDate,
-  statuses = [],
-  version = 2,
-) {
-  const start = format(parseISO(startDate), 'yyyy-MM-dd');
-  const end = format(parseISO(endDate), 'yyyy-MM-dd');
-
-  return `/vaos/v${version}/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
-    .map(status => `statuses[]=${status}`)
-    .join('&')}`;
-}
-
-export const TIME_TEXT = {
-  AM: 'in the morning',
-  PM: 'in the afternoon',
-  'No Time Selected': '',
-};
 
 /**
  * Function to get the time remaining to file a travel claim

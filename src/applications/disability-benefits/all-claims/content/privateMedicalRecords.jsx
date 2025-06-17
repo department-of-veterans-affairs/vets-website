@@ -38,7 +38,13 @@ export const privateRecordsChoiceHelp = (
 );
 
 export const patientAcknowledgmentTitle = (
-  <h3 className="vads-u-margin-top--0">Request a disclosure</h3>
+  <h3 className="vads-u-margin-top--0">Authorize us to get your records</h3>
+);
+export const patientAcknowledgmentError = (
+  <p>
+    You must select “I acknowledge and authorize this release of information”
+    for us to get your records from your provider.
+  </p>
 );
 
 export const patientAcknowledgmentText = (
@@ -136,16 +142,11 @@ export const patientAcknowledgmentText = (
         to decide my claim.
       </p>
       <p>
-        Note: For additional information regarding VA Form 21-4142, refer to the
-        following website:{' '}
-        <a
+        <va-link
+          external
           href="https://www.benefits.va.gov/privateproviders/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          https://www.benefits.va.gov/privateproviders/
-        </a>
-        .
+          text="Learn more about VA From 21-4142"
+        />
       </p>
     </VaAdditionalInfo>
   </div>

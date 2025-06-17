@@ -5,7 +5,6 @@ import {
   postReferralAppointment,
   postDraftReferralAppointment,
   getProviderById,
-  getPatientReferrals,
   getAppointmentInfo,
 } from '../../services/referral';
 // import { filterReferrals } from '../utils/referrals';
@@ -33,9 +32,6 @@ export const FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED =
   'FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED';
 export const FETCH_REFERRAL_APPOINTMENT_INFO_FAILED =
   'FETCH_REFERRAL_APPOINTMENT_INFO_FAILED';
-export const FETCH_REFERRALS = 'FETCH_REFERRALS';
-export const FETCH_REFERRALS_SUCCEEDED = 'FETCH_REFERRALS_SUCCEEDED';
-export const FETCH_REFERRALS_FAILED = 'FETCH_REFERRALS_FAILED';
 export const FETCH_REFERRAL = 'FETCH_REFERRAL';
 export const SET_SELECTED_SLOT = 'SET_SELECTED_SLOT';
 export const SET_INIT_REFERRAL_FLOW = 'SET_INIT_REFERRAL_FLOW';
@@ -47,7 +43,10 @@ export function setFormCurrentPage(currentPage) {
   };
 }
 
-export function createDraftReferralAppointment(referralNumber) {
+export function createDraftReferralAppointment(
+  referralNumber,
+  referralConsultId,
+) {
   return async dispatch => {
     try {
       dispatch({
@@ -56,6 +55,7 @@ export function createDraftReferralAppointment(referralNumber) {
 
       const providerDetails = await postDraftReferralAppointment(
         referralNumber,
+        referralConsultId,
       );
 
       dispatch({
@@ -88,29 +88,6 @@ export function fetchProviderDetails(id) {
     } catch (error) {
       dispatch({
         type: FETCH_PROVIDER_DETAILS_FAILED,
-      });
-      return captureError(error);
-    }
-  };
-}
-
-export function fetchReferrals() {
-  return async dispatch => {
-    try {
-      dispatch({
-        type: FETCH_REFERRALS,
-      });
-      const referrals = await getPatientReferrals();
-      // TODO: need to add this back in for production
-      // const filteredReferrals = filterReferrals(referrals);
-      dispatch({
-        type: FETCH_REFERRALS_SUCCEEDED,
-        data: referrals,
-      });
-      return referrals;
-    } catch (error) {
-      dispatch({
-        type: FETCH_REFERRALS_FAILED,
       });
       return captureError(error);
     }
