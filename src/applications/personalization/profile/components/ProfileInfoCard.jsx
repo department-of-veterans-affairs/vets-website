@@ -103,10 +103,10 @@ export const List = ({ data }) => {
             {rowData.title && (
               <dfn className={classes.rowTitle}>
                 {rowData.title}
+                {rowData.alertMessage && <>{rowData.alertMessage}</>}
                 {rowData.description && (
                   <RowDescription description={rowData.description} />
                 )}
-                {rowData.alertMessage && <>{rowData.alertMessage}</>}
               </dfn>
             )}
 
@@ -140,10 +140,10 @@ const Sections = ({ data, level }) => {
                 >
                   {rowData.title}
                 </HeadingLevel>
+                {rowData.alertMessage && <>{rowData.alertMessage}</>}
                 {rowData.description && (
                   <RowDescription description={rowData.description} />
                 )}
-                {rowData.alertMessage && <>{rowData.alertMessage}</>}
               </>
             )}
 

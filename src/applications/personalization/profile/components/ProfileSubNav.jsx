@@ -16,7 +16,7 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes }) => {
       <div>
         <h2
           id="subnav-header"
-          className="vads-u-font-size--h4 vads-u-margin-top--2"
+          className="vads-u-font-size--h4 vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-padding-y--2"
         >
           Profile <span className="sr-only">menu</span>
         </h2>
