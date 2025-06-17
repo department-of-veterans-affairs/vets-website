@@ -484,7 +484,7 @@ $medium-phone-screen: 375px;
 body {
   scroll-behavior: smooth;
   // For testing only, do not merge into main.
-  background-color: #fefefe;
+  background-color: rgb(254, 254, 254);
 }
 
 // There are styles in our sidebar styles that set a small
