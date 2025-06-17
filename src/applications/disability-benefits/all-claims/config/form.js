@@ -24,7 +24,7 @@ import {
   DISABILITY_SHARED_CONFIG,
   getPageTitle,
   hasGuardOrReservePeriod,
-  hasNewPtsdDisabilityOldFlow,
+  hasNewPtsdDisability,
   hasOtherEvidence,
   hasPrivateEvidence,
   hasRatedDisabilities,
@@ -391,7 +391,7 @@ const formConfig = {
               ? capitalizeEachWord(formData.condition)
               : NULL_CONDITION_STRING,
           path: 'new-disabilities/ptsd-intro',
-          depends: hasNewPtsdDisabilityOldFlow,
+          depends: hasNewPtsdDisability,
           uiSchema: newPTSDFollowUp.uiSchema,
           schema: newPTSDFollowUp.schema,
         },
@@ -399,7 +399,7 @@ const formConfig = {
         choosePtsdType: {
           title: 'Factors that contributed to PTSD',
           path: 'new-disabilities/ptsd-type',
-          depends: hasNewPtsdDisabilityOldFlow,
+          depends: hasNewPtsdDisability,
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
         },
@@ -423,7 +423,7 @@ const formConfig = {
           title: 'Answer online questions or upload paper 21-0781',
           path: 'new-disabilities/walkthrough-781-choice',
           depends: formData =>
-            hasNewPtsdDisabilityOldFlow(formData) && needsToEnter781(formData),
+            hasNewPtsdDisability(formData) && needsToEnter781(formData),
           uiSchema: ptsdWalkthroughChoice781.uiSchema,
           schema: ptsdWalkthroughChoice781.schema,
         },

@@ -42,7 +42,7 @@ import {
   showSeparationLocation,
   isExpired,
   truncateDescriptions,
-  hasNewPtsdDisabilityOldFlow,
+  hasNewPtsdDisability,
   showPtsdCombat,
   showPtsdNonCombat,
   skip781,
@@ -1287,7 +1287,7 @@ describe('skip PTSD questions', () => {
     skip781ForNonCombatReason: skipNonCombat,
   });
 
-  describe('hasNewPtsdDisabilityOldFlow', () => {
+  describe('hasNewPtsdDisability', () => {
     const getPtsdData = (date, bddState = true) => ({
       'view:isBddData': bddState,
       serviceInformation: {
@@ -1298,17 +1298,16 @@ describe('skip PTSD questions', () => {
     });
 
     it('should return true for PTSD in non-BDD flow', () => {
-      expect(hasNewPtsdDisabilityOldFlow(getPtsdData('2020-01-01', false))).to
-        .be.true;
+      expect(hasNewPtsdDisability(getPtsdData('2020-01-01', false))).to.be.true;
       // invalid BDD separation date negates BDD flow
       const today = moment().format('YYYY-MM-DD');
-      expect(hasNewPtsdDisabilityOldFlow(getPtsdData(today, true))).to.be.true;
+      expect(hasNewPtsdDisability(getPtsdData(today, true))).to.be.true;
     });
     it('should return false for PTSD in BDD flow', () => {
       const date = moment()
         .add(90, 'days')
         .format('YYYY-MM-DD');
-      expect(hasNewPtsdDisabilityOldFlow(getPtsdData(date, true))).to.be.false;
+      expect(hasNewPtsdDisability(getPtsdData(date, true))).to.be.false;
     });
 
     describe('PTSD flow migration', () => {
@@ -1329,8 +1328,8 @@ describe('skip PTSD questions', () => {
         };
 
         it('should return false so the legacy PTSD flow is hidden', () => {
-          expect(hasNewPtsdDisabilityOldFlow(ptsdFormDataModernFlowEnabled)).to
-            .be.false;
+          expect(hasNewPtsdDisability(ptsdFormDataModernFlowEnabled)).to.be
+            .false;
         });
       });
 
@@ -1341,8 +1340,8 @@ describe('skip PTSD questions', () => {
         };
 
         it('should return true so the legacy PTSD flow is visible', () => {
-          expect(hasNewPtsdDisabilityOldFlow(ptsdFormDataModernFlowEnabled)).to
-            .be.true;
+          expect(hasNewPtsdDisability(ptsdFormDataModernFlowEnabled)).to.be
+            .true;
         });
       });
     });
