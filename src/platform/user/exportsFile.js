@@ -149,7 +149,6 @@ export {
 /* authorization */
 export {
   default as RequiredLoginView,
-  RequiredLoginLoader,
 } from './authorization/components/RequiredLoginView';
 export { default as VerifyAlert } from './authorization/components/VerifyAlert';
 

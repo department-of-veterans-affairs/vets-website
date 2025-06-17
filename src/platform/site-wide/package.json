@@ -15,6 +15,7 @@
       "./header": "./header/index.js",
       "./legacy/mega-menu": "./legacy/mega-menu.js",
       "./LoadingButton": "./loading-button/LoadingButton.jsx",
+      "./LoadingIndicatorFullPage": "./loading-indicator-full-page/LoadingIndicatorFullPage.jsx",
       "./mega-menu": "./mega-menu/index.js",
       "./m-downtime-notification": "./sass/modules/m-downtime-notification.scss",
       "./m-footer": "./sass/modules/m-footer.scss",

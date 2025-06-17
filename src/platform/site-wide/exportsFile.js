@@ -16,6 +16,8 @@ import { addOverlayTriggers } from './legacy/menu';
 
 import LoadingButton from './loading-button/LoadingButton';
 
+import LoadingIndicatorFullPage from './loading-indicator-full-page/LoadingIndicatorFullPage';
+
 import MegaMenu, { initNavMenu } from './legacy/mega-menu';
 
 import startMegaMenuWidget from './mega-menu/reducers';
@@ -65,6 +67,7 @@ export {
   FeatureToggleReducer,
   addOverlayTriggers,
   LoadingButton,
+  LoadingIndicatorFullPage,
   MegaMenu,
   initNavMenu,
   startMegaMenuWidget,

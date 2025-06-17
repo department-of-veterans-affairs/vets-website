@@ -9,6 +9,7 @@ import DowntimeNotification, {
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import LoadingIndicatorFullPage from '~/platform/site-wide/loading-indicator-full-page/LoadingIndicatorFullPage';
 
 import { setLastPage } from '../actions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
@@ -24,12 +25,7 @@ function AppContent({ featureFlagsLoading, isDataAvailable }) {
 
   if (!isAppReady) {
     return (
-      <div className="vads-u-margin-y--5">
-        <va-loading-indicator
-          data-testid="feature-flags-loading"
-          message="Loading your information..."
-        />
-      </div>
+      <LoadingIndicatorFullPage message="Loading your claims and appeals..." />
     );
   }
 
@@ -78,6 +74,7 @@ function ClaimsStatusApp({
         backendServices.LIGHTHOUSE,
       ]}
       user={user}
+      loaderMessage="Loading your claims and appeals..."
     >
       <div id="downtime-app">
         <DowntimeNotification
@@ -89,6 +86,7 @@ function ClaimsStatusApp({
             externalServices.vaProfile,
             externalServices.vbms,
           ]}
+          loaderMessage="Loading your claims and appeals..."
         >
           <AppContent featureFlagsLoading={featureFlagsLoading} />
         </DowntimeNotification>

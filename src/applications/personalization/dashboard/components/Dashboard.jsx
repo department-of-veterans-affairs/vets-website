@@ -12,6 +12,7 @@ import {
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import LoadingIndicatorFullPage from '~/platform/site-wide/loading-indicator-full-page/LoadingIndicatorFullPage';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
@@ -27,10 +28,7 @@ import {
   hasMPIConnectionError,
   isNotInMPI,
 } from '~/platform/user/selectors';
-import {
-  RequiredLoginView,
-  RequiredLoginLoader,
-} from '~/platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from '~/platform/user/authorization/components/RequiredLoginView';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import {
   DowntimeNotification,
@@ -296,7 +294,6 @@ const Dashboard = ({
     >
       <DowntimeNotification
         appTitle="user dashboard"
-        loadingIndicator={<RequiredLoginLoader />}
         dependencies={[
           externalServices.mvi,
           externalServices.mhv,
@@ -304,7 +301,7 @@ const Dashboard = ({
         ]}
         render={downtimeApproachingRenderMethod}
       >
-        {showLoader && <RequiredLoginLoader />}
+        {showLoader && <LoadingIndicatorFullPage />}
         {!showLoader && (
           <div className="dashboard">
             <Toggler
