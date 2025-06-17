@@ -63,6 +63,7 @@ import nextOfKinPages from './chapters/veteranInformation/nextOfKin';
 
 // chapter 2 - Household Information
 import maritalStatus from './chapters/householdInformation/maritalStatus';
+import MaritalStatusPage from '../components/FormPages/MaritalStatusPage';
 import spousePersonalInformation from './chapters/householdInformation/spousePersonalInformation';
 import spouseAdditionalInformation from './chapters/householdInformation/spouseAdditionalInformation';
 import spouseFinancialSupport from './chapters/householdInformation/spouseFinancialSupport';
@@ -358,7 +359,9 @@ const formConfig = {
           title: 'Marital status',
           initialData: {},
           depends: includeHouseholdInformation,
-          uiSchema: maritalStatus.uiSchema,
+          CustomPage: MaritalStatusPage,
+          CustomPageReview: null,
+          uiSchema: {},
           schema: maritalStatus.schema,
         },
         spouseInformationSummary: {
