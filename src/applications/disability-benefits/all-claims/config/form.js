@@ -341,7 +341,6 @@ const formConfig = {
           }),
         },
         followUpDesc: {
-          // we want this to show only for any new non-BDD condition that is either: old 0781 flow and non-PTSD, or any new 0781 flow condition
           title: 'Follow-up questions',
           depends: formData => claimingNew(formData) && !isBDD(formData),
           path: 'new-disabilities/follow-up',
