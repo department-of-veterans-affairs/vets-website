@@ -229,6 +229,7 @@ function logEligibilityExplanation(
  * @param {boolean} [params.useFeSourceOfTruth=false] whether to use vets-api payload as the FE source of truth
  * @param {boolean} [params.useFeSourceOfTruthCC=false] whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @param {boolean} [params.useFeSourceOfTruthVA=false] whether to use vets-api payload as the FE source of truth for VA appointments and requests
+ * @param {boolean} [params.usePastVisitMHFilter=false] whether to use vets-api payload as the FE source of truth for VA appointments and requests
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
  */
@@ -241,6 +242,7 @@ export async function fetchFlowEligibilityAndClinics({
   useFeSourceOfTruthVA = false,
   useFeSourceOfTruthModality = false,
   useFeSourceOfTruthTelehealth = false,
+  usePastVisitMHFilter = false,
   isCerner = false,
 }) {
   const directSchedulingAvailable =
@@ -268,7 +270,8 @@ export async function fetchFlowEligibilityAndClinics({
     // Primary care and mental health is exempt from past appt history requirement
     const isDirectAppointmentHistoryRequired =
       typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-      typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH &&
+      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH ||
+        usePastVisitMHFilter) &&
       directTypeOfCareSettings.patientHistoryRequired === true;
 
     if (isDirectAppointmentHistoryRequired) {
@@ -364,7 +367,8 @@ export async function fetchFlowEligibilityAndClinics({
     if (
       !isCerner &&
       typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-      typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH &&
+      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH ||
+        usePastVisitMHFilter) &&
       directTypeOfCareSettings.patientHistoryRequired &&
       !hasMatchingClinics(results.clinics, results.pastAppointments)
     ) {
