@@ -78,6 +78,12 @@ describe('VAOS direct schedule flow - Mental health', () => {
           typeOfCareId,
           isDirect: true,
           isRequest: true,
+          // overrideDirect: {
+          //   patientHistoryRequired: true,
+          //   patientHistoryDuration: 730,
+          //   canCancel: true,
+          //   enabled: true,
+          // },
         });
       };
 
