@@ -32,8 +32,13 @@ export const claimantTitleAndDescription = {
     'ui:title': 'Claimant information',
   },
   'view:claimantDescription': {
-    'ui:description':
-      "Note: If the claimant's information here doesn't match the uploaded PDF, it will cause processing delays",
+    'ui:description': Object.freeze(
+      <>
+        <span className="vads-u-font-weight--bold">Note:</span> If the
+        claimant’s information here doesn’t match the uploaded PDF, it will
+        cause processing delays.
+      </>,
+    ),
   },
 };
 
@@ -42,28 +47,24 @@ export const veteranTitleAndDescription = {
     'ui:title': 'Veteran identification information',
   },
   'view:veteranDescription': {
-    'ui:description':
-      "Note: If the veteran's information here doesn't match the uploaded PDF, it will cause processing delays",
-  },
-};
-
-export const representativeTitleAndDescription = {
-  'view:representativeTitle': {
-    'ui:title': 'Representative contact information',
-  },
-  'view:representativeDescription': {
-    'ui:description':
-      "Note: We'll use this email address to send you updates about the form submission.",
+    'ui:description': Object.freeze(
+      <>
+        <span className="vads-u-font-weight--bold">Note:</span> If the veteran’s
+        information here doesn’t match the uploaded PDF, it will cause
+        processing delays.
+      </>,
+    ),
   },
 };
 
 export const CustomTopContent = () => {
   const formNumber = getFormNumber();
   const breadcrumbs = [
-    { href: '/representative', label: 'ARP home' },
+    { href: '/representative', label: 'Representative.va.gov home' },
+    { href: '/representative/submissions', label: 'Submissions' },
     {
       href: `/representative/representative-form-upload/${formNumber}/introduction`,
-      label: `Upload form ${formNumber}`,
+      label: `Submit VA Form ${formNumber}`,
     },
   ];
   const bcString = JSON.stringify(breadcrumbs);
