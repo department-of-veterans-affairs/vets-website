@@ -12,7 +12,7 @@ import {
 import { apiRequest } from 'platform/utilities/api';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
-import { isServerError } from 'platform/user/profile/utilities';
+// import { isServerError } from 'platform/user/profile/utilities';
 import { hasBadAddress } from '../selectors';
 
 import localVAProfileService, {
@@ -242,28 +242,28 @@ export function createTransaction(
         transaction,
       });
 
-      return transaction;
+      // return transaction;
     } catch (error) {
       const [firstError = {}] = error.errors ?? [];
       const { code = 'code', title = 'title', detail = 'detail' } = firstError;
       const profileSection = analyticsSectionName || 'unknown-profile-section';
 
       // Check if it's a 5xx error and we're in a form context
-      if (isServerError(error.status)) {
-        const state = getState();
-        const hasFormData = Boolean(state.form?.data);
+      // if (isServerError(error.status)) {
+      //   const state = getState();
+      //   const hasFormData = Boolean(state.form?.data);
 
-        // Only dispatch form-only update if we're in a form context
-        if (hasFormData) {
-          dispatch({
-            type: VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
-            fieldName,
-            payload,
-          });
-          // Return special flag to indicate form-only update should proceed
-          return { formOnlyUpdate: true };
-        }
-      }
+      //   // Only dispatch form-only update if we're in a form context
+      //   if (hasFormData) {
+      //     dispatch({
+      //       type: VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
+      //       fieldName,
+      //       payload,
+      //     });
+      //     // Return special flag to indicate form-only update should proceed
+      //     return { formOnlyUpdate: true };
+      //   }
+      // }
 
       recordEvent({
         event: 'profile-edit-failure',
@@ -279,7 +279,7 @@ export function createTransaction(
         error,
         fieldName,
       });
-      return null;
+      // return null;
     }
   };
 }
@@ -290,7 +290,7 @@ export const validateAddress = (
   fieldName,
   inputAddress,
   analyticsSectionName,
-  onlyValidate,
+  // onlyValidate,
 ) => async dispatch => {
   const userEnteredAddress = { ...inputAddress };
   dispatch({
@@ -390,17 +390,23 @@ export const validateAddress = (
     });
 
     // when only validating, we don't want to create a transaction to update the profile
-    if (onlyValidate) {
-      return {
-        onlyValidate,
-        formOnlyUpdate: true,
-        data: {
-          attributes: {
-            transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS,
-          },
-        },
-      };
-    }
+    // but we still want to include the validation key
+    // if (onlyValidate) {
+    //   return {
+    //     onlyValidate,
+    // formOnlyUpdate: true,
+    // data: {
+    //   attributes: {
+    //     transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS,
+    //   },
+    // },
+    // validationKey,
+    // payload: {
+    //   ...userEnteredAddress,
+    //   validationKey,
+    // },
+    //   };
+    // }
 
     sessionStorage.setItem('profile-has-cleared-bad-address-indicator', 'true');
 
