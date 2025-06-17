@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
@@ -28,11 +28,11 @@ import { formTitle } from '../content/title';
 
 import {
   chapterHeaderClass,
-  ConfirmationTitle,
-  ConfirmationAlert,
   ConfirmationSummary,
   ConfirmationReturnLink,
-} from '../../shared/components/ConfirmationCommon';
+} from '../../shared/components/ConfirmationSummary';
+import { ConfirmationAlert } from '../../shared/components/ConfirmationAlert';
+import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 
@@ -107,24 +107,33 @@ export const ConfirmationPageV2 = () => {
         we’ll mail you a decision packet with the details of our decision.
       </p>
       <p>
-        <a href="/decision-reviews/after-you-request-review/">
-          Learn more about what happens after you request a decision review
-        </a>
+        <va-link
+          disable-analytics
+          href="/decision-reviews/after-you-request-review/"
+          text="Learn more about what happens after you request a decision review"
+        />
       </p>
       <p>
         You can check the status of your request in the claims and appeals
         status tool. It may take <strong>7 to 10 days</strong> to appear there.
       </p>
       <p>
-        <a href="/claim-or-appeal-status/">
-          Check the status of your request for a Higher-Level Review online
-        </a>
+        <va-link
+          disable-analytics
+          href="/claim-or-appeal-status/"
+          text="Check the status of your request for a Higher-Level Review online"
+        />
       </p>
 
       <h2>How to contact us if you have questions</h2>
       <p>You can ask us a question online through Ask VA.</p>
       <p>
-        <a href="https://ask.va.gov/">Contact us online through Ask VA.</a>
+        <va-link
+          disable-analytics
+          href="https://ask.va.gov/"
+          text="Contact us online through Ask VA"
+        />
+        .
       </p>
       <p>
         Or call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (

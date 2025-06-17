@@ -4,8 +4,8 @@ import {
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
 } from '@department-of-veterans-affairs/platform-user/exports';
-import moment from 'moment';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { startOfMonth, endOfMonth, format, isAfter } from 'date-fns';
 
 import {
   selectSystemIds,
@@ -13,6 +13,8 @@ import {
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
   selectFeatureFeSourceOfTruthModality,
+  selectFeatureFeSourceOfTruthTelehealth,
+  selectFeatureConvertSlotsToUtc,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -24,6 +26,7 @@ import {
   FACILITY_SORT_METHODS,
   GA_PREFIX,
   TYPES_OF_CARE,
+  TYPE_OF_CARE_IDS,
 } from '../../utils/constants';
 import { captureError, has400LevelError } from '../../utils/error';
 import {
@@ -31,7 +34,6 @@ import {
   recordItemsRetrieved,
   resetDataLayer,
 } from '../../utils/events';
-import { TYPE_OF_CARE_ID } from '../utils';
 import {
   selectCovid19VaccineNewBooking,
   selectCovid19VaccineFormData,
@@ -129,7 +131,7 @@ export function getClinics({ facilityId, showModal = false }) {
       clinics = await getAvailableHealthcareServices({
         facilityId,
         typeOfCare: TYPES_OF_CARE.find(
-          typeOfCare => typeOfCare.id === TYPE_OF_CARE_ID,
+          typeOfCare => typeOfCare.id === TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         ),
       });
       dispatch({
@@ -181,12 +183,16 @@ export function openFacilityPage() {
       // fetch eligbility data immediately
       const supportedFacilities = facilities?.filter(
         facility =>
-          facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
+          facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]?.direct
+            .enabled,
       );
       const clinicsNeeded = !!facilityId || supportedFacilities?.length === 1;
 
       if (!facilities.length) {
-        recordEligibilityFailure('covid19-supported-facilities', 'covid');
+        recordEligibilityFailure(
+          'covid19-supported-facilities',
+          TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+        );
       }
 
       if (clinicsNeeded && !facilityId) {
@@ -262,9 +268,10 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
     );
     const newBooking = selectCovid19VaccineNewBooking(state);
     const { data } = newBooking;
+    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
-    const startDateMonth = moment(startDate).format('YYYY-MM');
-    const endDateMonth = moment(endDate).format('YYYY-MM');
+    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
+    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -287,31 +294,27 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
 
       try {
         const startDateString = !fetchedStartMonth
-          ? startDate
-          : moment(endDate)
-              .startOf('month')
-              .format('YYYY-MM-DD');
+          ? format(new Date(startDate), 'yyyy-MM-dd')
+          : format(startOfMonth(new Date(endDate)), 'yyyy-MM-dd');
         const endDateString = !fetchedEndMonth
-          ? endDate
-          : moment(startDate)
-              .endOf('month')
-              .format('YYYY-MM-DD');
+          ? format(new Date(endDate), 'yyyy-MM-dd')
+          : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
 
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          convertToUtc: featureConvertSlotsToUTC,
         });
 
         if (initialFetch) {
           recordItemsRetrieved('covid_slots', fetchedSlots?.length);
         }
 
-        const now = moment();
-
+        const now = new Date();
         mappedSlots = fetchedSlots.filter(slot =>
-          moment(slot.start).isAfter(now),
+          isAfter(new Date(slot.start), now),
         );
 
         // Keep track of which months we've fetched already so we don't
@@ -388,6 +391,9 @@ export function confirmAppointment(history) {
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
 
     dispatch({
       type: FORM_SUBMIT,
@@ -410,6 +416,7 @@ export function confirmAppointment(history) {
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
       });
 
       const data = selectCovid19VaccineFormData(getState());

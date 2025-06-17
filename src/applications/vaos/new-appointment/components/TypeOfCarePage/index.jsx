@@ -21,11 +21,12 @@ import {
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthModality,
+  selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureFeSourceOfTruthVA,
 } from '../../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
-import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
+import { TYPE_OF_CARE_IDS, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 import { getPageTitle } from '../../newAppointmentFlow';
@@ -46,6 +47,9 @@ export default function TypeOfCarePage() {
   );
   const useFeSourceOfTruthModality = useSelector(state =>
     selectFeatureFeSourceOfTruthModality(state),
+  );
+  const useFeSourceOfTruthTelehealth = useSelector(state =>
+    selectFeatureFeSourceOfTruthTelehealth(state),
   );
 
   const dispatch = useDispatch();
@@ -91,7 +95,7 @@ export default function TypeOfCarePage() {
     initialSchema: () => {
       const sortedCare = TYPES_OF_CARE.filter(
         typeOfCare =>
-          typeOfCare.id !== PODIATRY_ID ||
+          typeOfCare.id !== TYPE_OF_CARE_IDS.PODIATRY_ID ||
           (showCommunityCare && !removePodiatry),
       ).sort(
         (careA, careB) =>
@@ -163,6 +167,7 @@ export default function TypeOfCarePage() {
                 useFeSourceOfTruthCC,
                 useFeSourceOfTruthVA,
                 useFeSourceOfTruthModality,
+                useFeSourceOfTruthTelehealth,
               );
             }
 

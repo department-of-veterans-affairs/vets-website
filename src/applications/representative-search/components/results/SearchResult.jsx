@@ -2,10 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  focusElement,
-  scrollTo,
-} from '@department-of-veterans-affairs/platform-utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';

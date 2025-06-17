@@ -51,7 +51,6 @@ export default function VAFacilityPageV2() {
   const {
     address,
     canScheduleAtChosenFacility,
-    cernerSiteIds,
     childFacilitiesStatus,
     data,
     eligibility,
@@ -68,7 +67,6 @@ export default function VAFacilityPageV2() {
     sortMethod,
     typeOfCare,
     fetchRecentLocationStatus,
-    recentLocations,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
 
   const sortOptions = useMemo(
@@ -84,7 +82,7 @@ export default function VAFacilityPageV2() {
         },
         { value: 'alphabetical', label: 'Alphabetically' },
       ];
-      if (featureRecentLocationsFilter && recentLocations?.length) {
+      if (featureRecentLocationsFilter) {
         options.push({
           value: 'recentLocations',
           label: 'By recent locations',
@@ -92,7 +90,7 @@ export default function VAFacilityPageV2() {
       }
       return options;
     },
-    [featureRecentLocationsFilter, recentLocations],
+    [featureRecentLocationsFilter],
   );
 
   const uiSchema = {
@@ -257,12 +255,7 @@ export default function VAFacilityPageV2() {
           sortMethod={sortMethod}
           typeOfCareName={typeOfCare.name}
         />
-        <FacilitiesNotShown
-          facilities={facilities}
-          sortMethod={sortMethod}
-          typeOfCareId={typeOfCare?.id}
-          cernerSiteIds={cernerSiteIds}
-        />
+        <FacilitiesNotShown />
         <FormButtons
           onBack={() =>
             dispatch(routeToPreviousAppointmentPage(history, pageKey))
@@ -305,19 +298,14 @@ export default function VAFacilityPageV2() {
                 dispatch(updateFacilitySortMethod(value, uiSchema)).then(
                   recordEvent({
                     event: `${GA_PREFIX}-updated-locations-sort--${
-                      sortOptions.find(option => option.value === value).label
+                      sortOptions.find(option => option.value === value)?.label
                     }`,
                   }),
                 ),
             }}
             data={data}
           >
-            <FacilitiesNotShown
-              facilities={facilities}
-              sortMethod={sortMethod}
-              typeOfCareId={typeOfCare?.id}
-              cernerSiteIds={cernerSiteIds}
-            />
+            <FacilitiesNotShown />
             <FormButtons
               continueLabel=""
               pageChangeInProgress={pageChangeInProgress}

@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   selectProfile,
@@ -19,6 +22,7 @@ import { API_NAMES } from '../../../common/constants';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import useHighlightedClaimOrAppeal from './hooks/useHighlightedClaimOrAppeal';
 import HighlightedClaimAppeal from './HighlightedClaimAppeal';
+import DisabilityRatingCard from './DisabilityRatingCard';
 
 const NoClaimsOrAppealsText = () => {
   return (
@@ -185,7 +189,13 @@ const ClaimsAndAppeals = ({
               ) : (
                 <>
                   {!isLOA1 && <NoClaimsOrAppealsText />}
-                  <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
+                  <Toggler
+                    toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+                  >
+                    <Toggler.Disabled>
+                      <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
+                    </Toggler.Disabled>
+                  </Toggler>
                 </>
               )}
             </>
@@ -195,10 +205,26 @@ const ClaimsAndAppeals = ({
           !hasAPIError &&
           !isLOA1 && (
             <DashboardWidgetWrapper>
-              <PopularActionsForClaimsAndAppeals />
+              <Toggler
+                toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+              >
+                <Toggler.Disabled>
+                  <PopularActionsForClaimsAndAppeals />
+                </Toggler.Disabled>
+              </Toggler>
             </DashboardWidgetWrapper>
           )}
       </div>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Enabled>
+          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Disability rating
+          </h3>
+          <DashboardWidgetWrapper>
+            <DisabilityRatingCard />
+          </DashboardWidgetWrapper>
+        </Toggler.Enabled>
+      </Toggler>
     </div>
   );
 };

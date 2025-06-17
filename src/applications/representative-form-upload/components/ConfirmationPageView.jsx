@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
 
 export const ConfirmationPageView = ({
   submitDate,
   confirmationNumber,
-  formNumber,
   childContent = null,
 }) => {
   const alertRef = useRef(null);
@@ -55,7 +54,7 @@ export const ConfirmationPageView = ({
             <va-process-list-item header="Now, we'll process your form">
               <p>
                 The submission is in progress and is being processed through
-                Central Mail before reaching VBMS
+                Central Mail before reaching VBMS.
               </p>
             </va-process-list-item>
             <va-process-list-item pending header="Next, we'll review the files">
@@ -68,16 +67,9 @@ export const ConfirmationPageView = ({
         </section>
         <a
           className="vads-c-action-link--green vads-u-margin-bottom--4"
-          href={`/representative/representative-form-upload/${formNumber}/introduction`}
+          href="/representative/submissions"
         >
-          Start a new VA Form {formNumber} submission
-        </a>
-        <br />
-        <a
-          className="vads-c-action-link--green vads-u-margin-bottom--4"
-          href="/representative/poa-requests"
-        >
-          Go to POA requests
+          Review submissions history
         </a>
       </div>
       {childContent || null}

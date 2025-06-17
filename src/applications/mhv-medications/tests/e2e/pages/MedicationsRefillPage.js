@@ -349,18 +349,26 @@ class MedicationsRefillPage {
   };
 
   verifyPartialSuccessAlertOnRefillPage = () => {
-    cy.get('[data-testid="failed-message-title"]').should(
+    cy.get('[data-testid="partial-failed-message-title"]').should(
       'contain',
       'Only part of your request was submitted',
     );
   };
 
-  verifyFailedRequestMessageAlertOnRefillPage = () => {
-    cy.get('[data-testid="failed-message-title"]').should('exist');
-    cy.get('[data-testid="failed-message-title"]').should(
-      'contain',
-      'Request not submitted',
-    );
+  verifyFailedRequestMessageAlertOnRefillPage = text => {
+    cy.get('[data-testid="failed-message-title"]', { includeShadowDom: true })
+      .should('be.visible')
+      .first()
+      .and('have.text', text);
+  };
+
+  verifyPartiallyFailedRequestMessageAlertOnRefillPage = text => {
+    cy.get('[data-testid="partial-failed-message-title"]', {
+      includeShadowDom: true,
+    })
+      .should('be.visible')
+      .first()
+      .and('have.text', text);
   };
 
   verifyNetworkResponseForFailedRefillRequest = failedId => {
@@ -526,6 +534,15 @@ class MedicationsRefillPage {
 
   verifyProcessStepThreeNoteOnRefillPage = text => {
     cy.get('[header="We ship your refill to you"]').should('contain', text);
+  };
+
+  verifyFailedAlertTextExistsOnRefillPage = (text, suggestion) => {
+    cy.get('[data-testid="failed-request-text"]')
+      .should('have.text', text)
+      .and('be.visible');
+    cy.get('[data-testid="failed-request-suggestion"]')
+      .should('have.text', suggestion)
+      .and('be.visible');
   };
 }
 

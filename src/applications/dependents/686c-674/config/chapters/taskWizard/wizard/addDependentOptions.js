@@ -4,6 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { TASK_KEYS } from '../../../constants';
 import { addDependentOptions } from './helpers';
+import { AddDependentsOptionsDescription } from '../../../../components/AddDependentsOptionsDescription';
 
 export const uiSchema = {
   'view:addDependentOptions': {
@@ -11,8 +12,6 @@ export const uiSchema = {
       title:
         'Who do you want to add as a dependent? Check everyone you want to add.',
       required: () => true,
-      tile: true,
-      labelHeaderLevel: '3',
       labels: {
         addSpouse: addDependentOptions.addSpouse,
         addChild: addDependentOptions.addChild,
@@ -26,6 +25,7 @@ export const uiSchema = {
     }),
     'ui:options': {
       tile: true,
+      labelHeaderLevel: '3',
       updateSchema: (formData, schema) => {
         // Check if new option is selected
         // update view:selectable686Options with the selection
@@ -43,6 +43,9 @@ export const uiSchema = {
       },
     },
   },
+  'view:addDependentOptionsDescription': {
+    'ui:description': AddDependentsOptionsDescription,
+  },
 };
 
 export const schema = {
@@ -55,5 +58,9 @@ export const schema = {
       TASK_KEYS.report674,
       TASK_KEYS.addDisabledChild,
     ]),
+    'view:addDependentOptionsDescription': {
+      type: 'object',
+      properties: {},
+    },
   },
 };

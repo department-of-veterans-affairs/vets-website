@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import Scroll from 'react-scroll';
+import * as scrollModule from 'platform/utilities/scroll/scroll';
 import { shallow } from 'enzyme';
 import {
   getFileSize,
@@ -17,8 +17,6 @@ import {
   getAlert,
 } from '../../../helpers';
 import * as constants from '../../../config/constants';
-
-const { scroller } = Scroll;
 
 describe('Helpers', () => {
   describe('getFormNumber', () => {
@@ -50,7 +48,7 @@ describe('Helpers', () => {
       global.window.location = {
         pathname: 'representative/representative-form-upload/21-686c/upload',
       };
-      expect(getFormContent()).to.include({ title: 'Upload form 21-686c' });
+      expect(getFormContent()).to.include({ title: 'Submit VA Form 21-686c' });
     });
   });
 
@@ -97,13 +95,16 @@ describe('Helpers', () => {
     let scrollToSpy;
 
     beforeEach(() => {
-      scrollToSpy = sinon.stub(scroller, 'scrollTo');
+      scrollToSpy = sinon.stub(scrollModule, 'scrollTo');
     });
 
     it('calls scrollTo', () => {
       scrollAndFocusTarget();
-
       expect(scrollToSpy.calledWith('topScrollElement')).to.be.true;
+    });
+
+    afterEach(() => {
+      scrollToSpy.restore();
     });
   });
 

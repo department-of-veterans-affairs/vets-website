@@ -3,12 +3,10 @@ import React from 'react';
 export const AddStudentsIntro = (
   <>
     <p className="vads-u-margin-top--0">
-      In the next few questions, we’ll ask you about your{' '}
-      <strong>
-        unmarried children between ages 18 and 23 who attend school
-      </strong>
-      . You’ll need to complete this section of the form, equal to a Request for
-      Approval of School Attendance (VA Form 21-674).
+      In the next few questions, we’ll ask you about your unmarried children
+      between ages 18 and 23 who attend school. You’ll need to complete this
+      section of the form, equal to a Request for Approval of School Attendance
+      (VA Form 21-674).
     </p>
     <p>
       You must add at least one student.{' '}
@@ -45,14 +43,11 @@ export const AccreditedSchool = (
       You can go to the U.S. Department of Education’s website to check if a
       school is accredited.
     </p>
-    <a
+    <va-link
       href="https://ope.ed.gov/dapip/#/home"
-      rel="noopener noreferrer"
-      aria-label="Go to the U.S. Department of Education’s website (opens in new tab)"
-      target="_blank"
-    >
-      Go to the U.S. Department of Education’s website (opens in new tab)
-    </a>
+      external
+      text="Go to the U.S. Department of Education’s website"
+    />
   </va-additional-info>
 );
 

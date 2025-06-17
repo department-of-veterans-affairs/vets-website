@@ -237,14 +237,14 @@ describe('spouseMarriageHistoryOptions', () => {
     });
   });
 
-  describe('text.getItemName + text.cardDescription', () => {
+  describe('text.getItemName', () => {
     it('should return the full name of the item', () => {
       const item = {
         fullName: { first: 'John', last: 'Doe' },
       };
 
       const { container } = render(
-        spouseMarriageHistoryOptions.text.cardDescription(item),
+        spouseMarriageHistoryOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('John Doe');
     });
@@ -254,12 +254,12 @@ describe('spouseMarriageHistoryOptions', () => {
       const missingBoth = { fullName: {} };
 
       let result = render(
-        spouseMarriageHistoryOptions.text.cardDescription(incompleteItem),
+        spouseMarriageHistoryOptions.text.getItemName(incompleteItem),
       );
       expect(result.container.textContent).to.equal('John');
 
       result = render(
-        spouseMarriageHistoryOptions.text.cardDescription(missingBoth),
+        spouseMarriageHistoryOptions.text.getItemName(missingBoth),
       );
       expect(result.container.textContent).to.equal('');
     });

@@ -128,7 +128,7 @@ const resolveLandingPageLinks = (
         },
         {
           href: '/health-care/wellness-programs/',
-          text: 'Veteran programs for health and wellness',
+          text: 'Veterans programs for health and wellness',
         },
         {
           href: '/family-and-caregiver-benefits/',
@@ -174,25 +174,19 @@ const resolveLandingPageLinks = (
 
   const spotlightLinks = [
     {
-      text: 'Tips for Creating Your Login.gov or ID.me Account',
+      text: 'Medical record hold periods are changing',
       href: mhvUrl(
         authdWithSSOe,
-        'ss20241209-tips-creating-login-gov-id-me-account',
+        'ss20250414-medical-record-hold-periods-changing',
       ),
     },
     {
-      text: 'Try the New Medical Records Tool on VA.gov',
-      href: mhvUrl(
-        authdWithSSOe,
-        'ss20250102-try-new-medical-records-tool-on-va-gov',
-      ),
+      text: 'Treat your pain at VA',
+      href: mhvUrl(authdWithSSOe, 'ss20220915-treat-your-pain-at-va'),
     },
     {
-      text: '6 Healthy Eating Habits to Start This Year',
-      href: mhvUrl(
-        authdWithSSOe,
-        'ss20210423-healthy-eating-habits-to-start-now',
-      ),
+      text: 'Managing PTSD while you age',
+      href: mhvUrl(authdWithSSOe, 'ss20210525-managing-ptsd-while-you-age'),
     },
   ];
 
@@ -325,7 +319,7 @@ const resolveLandingPageLinks = (
     },
     {
       href: '/health-care/how-to-apply/',
-      text: 'How to apply for VA health benefits care',
+      text: 'How to apply for VA health care',
     },
     {
       href: '/family-and-caregiver-benefits/health-and-disability/',
@@ -340,7 +334,7 @@ const resolveLandingPageLinks = (
     },
     {
       href: '/health-care/wellness-programs/',
-      text: 'Veteran programs for health and wellness',
+      text: 'Veterans programs for health and wellness',
     },
   ].filter(isLinkData);
 

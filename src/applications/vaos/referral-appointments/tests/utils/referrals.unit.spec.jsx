@@ -13,7 +13,8 @@ describe('VAOS referral generator', () => {
   describe('createReferrals', () => {
     it('Create specified number of referrals', () => {
       const referrals = referralUtil.createReferrals(2);
-      expect(referrals.length).to.equal(2);
+      // There are currently 4 error referrals appended to the array so this is 6
+      expect(referrals.length).to.equal(6);
     });
     it('Creates each referral on day later', () => {
       const referrals = referralUtil.createReferrals(2, '2025-10-11');
@@ -51,7 +52,7 @@ describe('VAOS referral generator', () => {
       const referral = referralUtil.createReferralById('2024-10-30', '111')
         .attributes;
       expect(
-        referralUtil.getAddressString(referral.referringFacilityInfo.address),
+        referralUtil.getAddressString(referral.referringFacility.address),
       ).to.equal('222 Richmond Avenue, BATAVIA, 14020');
     });
   });

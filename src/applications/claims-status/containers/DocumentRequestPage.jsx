@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
-import { Element } from 'platform/utilities/scroll';
+import { Element, scrollTo, scrollToTop } from 'platform/utilities/scroll';
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -36,6 +34,7 @@ import {
   getClaimType,
   isAutomated5103Notice,
   setPageTitle,
+  getDisplayFriendlyName,
 } from '../utils/helpers';
 import { setUpPage, setPageFocus } from '../utils/page';
 import withRouter from '../utils/withRouter';
@@ -148,7 +147,18 @@ class DocumentRequestPage extends React.Component {
     const previousPageBreadcrumb = previousPageIsFilesTab()
       ? filesBreadcrumb
       : statusBreadcrumb;
-
+    const getLabel = () => {
+      if (
+        trackedItem?.friendlyName &&
+        trackedItem?.status === 'NEEDED_FROM_YOU'
+      ) {
+        return trackedItem.friendlyName;
+      }
+      if (trackedItem?.friendlyName) {
+        return `Your ${getDisplayFriendlyName(trackedItem)}`;
+      }
+      return trackedItem?.displayName;
+    };
     return (
       <Toggler.Hoc
         toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
@@ -164,9 +174,7 @@ class DocumentRequestPage extends React.Component {
                       : 'needed-from-others'
                   }/${params.trackedItemId}`
                 : `../document-request/${params.trackedItemId}`,
-              label: setDocumentRequestPageTitle(
-                trackedItem?.friendlyName || trackedItem?.displayName,
-              ),
+              label: setDocumentRequestPageTitle(getLabel()),
               isRouterLink: true,
             },
           ];

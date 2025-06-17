@@ -4,7 +4,6 @@ import { formatISO } from 'date-fns';
 import * as actions from './actions';
 import * as services from '../../services/referral';
 import * as errorUtils from '../../utils/error';
-import * as referralUtils from '../utils/referrals';
 
 describe('referral actions', () => {
   let sandbox;
@@ -100,40 +99,6 @@ describe('referral actions', () => {
     });
   });
 
-  describe('fetchReferrals', () => {
-    // TODO: enable this test before production
-    it.skip('should dispatch success flow with filtered referrals', async () => {
-      const referrals = [
-        { id: 1, attributes: { categoryOfCare: 'OPTOMETRY' } },
-        { id: 2, attributes: {} },
-      ];
-      const filtered = [referrals[0]];
-      sandbox.stub(services, 'getPatientReferrals').resolves(referrals);
-      sandbox.stub(referralUtils, 'filterReferrals').returns(filtered);
-
-      const result = await actions.fetchReferrals()(dispatch);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(actions.FETCH_REFERRALS);
-
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: actions.FETCH_REFERRALS_SUCCEEDED,
-        data: filtered,
-      });
-      expect(result).to.deep.equal(referrals);
-    });
-
-    it('should dispatch failure flow', async () => {
-      const captureStub = sandbox.stub(errorUtils, 'captureError');
-      sandbox.stub(services, 'getPatientReferrals').rejects(new Error('fail'));
-
-      await actions.fetchReferrals()(dispatch);
-
-      expect(dispatch.calledWithMatch({ type: actions.FETCH_REFERRALS_FAILED }))
-        .to.be.true;
-      expect(captureStub.calledOnce).to.be.true;
-    });
-  });
-
   describe('createReferralAppointment', () => {
     it('should dispatch success flow', async () => {
       const mockAppointment = { confirmation: true };
@@ -142,9 +107,11 @@ describe('referral actions', () => {
         .resolves(mockAppointment);
 
       const result = await actions.createReferralAppointment({
-        referralId: 'r1',
-        slotId: 's1',
         draftApppointmentId: 'd1',
+        referralNumber: 'r1',
+        slotId: 's1',
+        networkId: 'n1',
+        providerServiceId: 'p1',
       })(dispatch);
 
       expect(dispatch.firstCall.args[0].type).to.equal(
@@ -163,9 +130,11 @@ describe('referral actions', () => {
         .rejects(new Error('fail'));
 
       await actions.createReferralAppointment({
-        referralId: 'r1',
-        slotId: 's1',
         draftApppointmentId: 'd1',
+        referralNumber: 'r1',
+        slotId: 's1',
+        networkId: 'n1',
+        providerServiceId: 'p1',
       })(dispatch);
 
       expect(

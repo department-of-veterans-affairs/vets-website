@@ -36,12 +36,11 @@ const epsAppointmentUtils = require('../../referral-appointments/utils/appointme
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
-const features = require('../../utils/featureFlags');
+const features = require('./featureFlags');
 
 const mockAppts = [];
 let currentMockId = 1;
 const draftAppointmentPollCount = {};
-const draftAppointments = {};
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -120,6 +119,7 @@ const responses = {
         type,
         modality,
         localStartTime: req.body.slot?.id ? localTime : null,
+        start: req.body.slot?.id ? selectedTime[0] : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {
           telecom: [
@@ -441,33 +441,27 @@ const responses = {
         data: expiredReferral,
       });
     }
+
     const referral = referralUtils.createReferralById(
       '2024-12-02',
       req.params.referralId,
     );
+
     return res.json({
       data: referral,
     });
   },
   'POST /vaos/v2/appointments/draft': (req, res) => {
-    const { referralId } = req.body;
-    // Provider 3 throws error
-    if (referralId === '') {
+    const { referral_number: referralNumber } = req.body;
+    // empty referral number throws error
+    if (referralNumber === '') {
       return res.status(500).json({ error: true });
     }
 
-    let slots = 5;
-    // Provider 0 has no available slots
-    if (referralId === '0') {
-      slots = 0;
-    }
-
     const draftAppointment = providerUtils.createDraftAppointmentInfo(
-      slots,
-      referralId,
+      3,
+      referralNumber,
     );
-
-    draftAppointments[draftAppointment.id] = draftAppointment;
 
     return res.json({
       data: draftAppointment,
@@ -476,19 +470,28 @@ const responses = {
   'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
+    // create a mock appointment in draft state for polling simulation
     const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(
       appointmentId,
-      null,
+      'draft',
       epsAppointmentUtils.appointmentData,
     );
 
-    if (appointmentId === 'timeout-appointment-id') {
+    if (appointmentId === 'details-retry-error') {
       // Set a very high poll count to simulate a timeout
       successPollCount = 1000;
     }
 
+    if (appointmentId === 'EEKoGzEf-appointment-details-error') {
+      return res.status(500).json({ error: true });
+    }
+
     if (appointmentId === 'eps-error-appointment-id') {
       return res.status(400).json({ error: true });
+    }
+
+    if (appointmentId === 'details-error') {
+      return res.status(500).json({ error: true });
     }
 
     // Check if the request is coming from the details page
@@ -523,16 +526,26 @@ const responses = {
     });
   },
   'POST /vaos/v2/appointments/submit': (req, res) => {
-    const { slotId, draftApppointmentId, referralId } = req.body;
+    const {
+      id,
+      referralNumber,
+      slotId,
+      networkId,
+      providerServiceId,
+    } = req.body;
 
-    if (!referralId || !slotId || !draftApppointmentId) {
+    if (!id || !referralNumber || !slotId || !networkId || !providerServiceId) {
       return res.status(400).json({ error: true });
     }
 
-    draftAppointmentPollCount[draftApppointmentId] = 1;
+    if (referralNumber === 'appointment-submit-error') {
+      return res.status(500).json({ error: true });
+    }
+
+    draftAppointmentPollCount[id] = 1;
 
     return res.status(201).json({
-      data: { id: draftApppointmentId },
+      data: { id },
     });
   },
   // Required v0 APIs
@@ -611,8 +624,8 @@ const responses = {
           },
           residentialAddress: {
             addressLine1: '345 Home Address St.',
-            addressLine2: null,
-            addressLine3: null,
+            addressLine2: 'line 2',
+            addressLine3: 'line 3',
             addressPou: 'RESIDENCE/CHOICE',
             addressType: 'DOMESTIC',
             city: 'San Francisco',
@@ -739,4 +752,4 @@ const responses = {
   // End of required v0 APIs
 };
 
-module.exports = delay(responses, 1000);
+module.exports = delay(responses, 100);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import GroupedMedications from '../../../components/PrescriptionDetails/GroupedMedications';
@@ -7,12 +7,12 @@ import groupedMedicationsList from '../../fixtures/groupedMedicationsList.json';
 
 describe('Grouped medications component', () => {
   const setup = () => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <GroupedMedications groupedMedicationsList={groupedMedicationsList} />,
       {
         initialState: {},
         reducers: {},
-        path: '/prescriptions/1234567891',
+        initialEntries: ['/prescriptions/1234567891'],
       },
     );
   };
@@ -38,14 +38,17 @@ describe('Grouped medications component', () => {
   it('displays the prescription number of one of the meds on the list', async () => {
     const screen = setup();
     await waitFor(() => {
-      expect(screen);
-      expect(
-        screen.getByText(
-          `Prescription number: ${
-            groupedMedicationsList[0].prescriptionNumber
-          }`,
-        ),
-      ).to.exist;
+      // Get all h3s with the label
+      const h3s = screen.getAllByText('Prescription number:', {
+        selector: 'h3',
+      });
+      expect(h3s).to.have.length.above(0);
+
+      // Check the first h3 contains the correct span with the prescription number
+      const rxNumber = groupedMedicationsList[0].prescriptionNumber;
+      const span = h3s[0].querySelector('span');
+      expect(span).to.exist;
+      expect(span.textContent.trim()).to.equal(String(rxNumber));
     });
   });
 });
