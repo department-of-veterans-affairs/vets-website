@@ -10,7 +10,7 @@ export function LetterPage() {
   return (
     <div className="letters vads-u-margin-top--neg2 ">
       <NewAddressSection success={success} />
-      <h2>Benefit letters and document</h2>
+      <h2>Benefit letters and documents</h2>
       <LetterList />
     </div>
   );
