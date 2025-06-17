@@ -670,11 +670,11 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
       try {
         const startDateString = !fetchedStartMonth
-          ? format(new Date(startDate), 'yyyy-MM-dd')
-          : format(startOfMonth(new Date(endDate)), 'yyyy-MM-dd');
+          ? new Date(startDate)
+          : startOfMonth(new Date(endDate));
         const endDateString = !fetchedEndMonth
-          ? format(new Date(endDate), 'yyyy-MM-dd')
-          : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
+          ? new Date(endDate)
+          : endOfMonth(new Date(startDate));
 
         const fetchedSlots = await getSlots({
           siteId,
@@ -683,7 +683,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           endDate: endDateString,
           convertToUtc: featureConvertSlotsToUTC,
         });
-
         const tomorrow = startOfDay(
           addDays(new Date(new Date().toISOString()), 1),
         );
