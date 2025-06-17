@@ -83,14 +83,15 @@ export const getCardTitle = item => {
   let cardTitle = null;
 
   if (item) {
-    const first = item.additionalOfficialDetails?.fullName?.first || '';
+    const first =
+      item.additionalOfficialDetails?.fullName?.first || 'Certifying';
     const middle = item.additionalOfficialDetails?.fullName?.middle || '';
-    const last = item.additionalOfficialDetails?.fullName?.last || '';
-    const title = item.additionalOfficialDetails?.title || '';
+    const last = item.additionalOfficialDetails?.fullName?.last || 'Official';
+    const title = item.additionalOfficialDetails?.title || 'Title';
 
-    cardTitle = `${first} ${middle} ${last}, ${title}`;
-
-    // cardTitle = (<p><strong>{first} {middle} {last},</strong> {title}</p>)
+    cardTitle = middle
+      ? `${first} ${middle} ${last}, ${title}`
+      : `${first} ${last}, ${title}`;
   }
 
   return cardTitle;
@@ -106,12 +107,7 @@ export const additionalOfficialArrayOptions = {
     cardDescription: item => getCardDescription(item),
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
-    summaryTitle: props =>
-      `Review your ${
-        props?.formData['additional-certifying-official']?.length > 1
-          ? 'additional certifying officials'
-          : 'additional certifying official'
-      }`,
+    summaryTitle: 'Review your additional certifying officials',
   },
 };
 
