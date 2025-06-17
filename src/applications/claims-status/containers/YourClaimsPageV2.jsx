@@ -40,7 +40,7 @@ import {
   getPageRange,
   sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
-import { setPageFocus, setFocus } from '../utils/page';
+import { setFocus, setPageFocus, setUpPage } from '../utils/page';
 import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
 import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
 
@@ -58,11 +58,14 @@ class YourClaimsPageV2 extends React.Component {
     setDocumentTitle('Check your claim, decision review, or appeal status');
 
     const {
+      appealsLoading,
       canAccessAppeals,
       canAccessClaims,
+      claimsLoading,
       getAppealsV2,
       getClaims,
       getStemClaims,
+      stemClaimsLoading,
     } = this.props;
 
     // Only call if the current user has access to Lighthouse claims
@@ -75,7 +78,15 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     getStemClaims();
-    setFocus('#main h1');
+    if (!this.props.isSmoothLoadingEnabled) {
+      if (claimsLoading && appealsLoading && stemClaimsLoading) {
+        scrollToTop();
+      } else {
+        setUpPage();
+      }
+    } else {
+      setFocus('#main h1');
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -225,20 +236,39 @@ class YourClaimsPageV2 extends React.Component {
 
     return (
       <>
+        <div name="topScrollElement" />
         <article className="row">
           <div className="usa-width-two-thirds medium-8 columns">
-            <ClaimsBreadcrumbs />
+            <div
+              className={`${
+                this.props.isSmoothLoadingEnabled ? 'breadcrumbs-container' : ''
+              }`}
+            >
+              <ClaimsBreadcrumbs />
+            </div>
             <h1 className="claims-container-title">
               Check your claim, decision review, or appeal status
             </h1>
-            <div className="on-this-page-container">
+            <div
+              className={`${
+                this.props.isSmoothLoadingEnabled
+                  ? 'on-this-page-container'
+                  : ''
+              }`}
+            >
               <va-on-this-page />
             </div>
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>
             <div>{this.renderErrorMessages()}</div>
-            <div className="additional-info-container">
+            <div
+              className={`${
+                this.props.isSmoothLoadingEnabled
+                  ? 'additional-info-container'
+                  : ''
+              }`}
+            >
               <va-additional-info
                 id="claims-combined"
                 class="claims-combined"
@@ -282,6 +312,7 @@ YourClaimsPageV2.propTypes = {
   getAppealsV2: PropTypes.func,
   getClaims: PropTypes.func,
   getStemClaims: PropTypes.func,
+  isSmoothLoadingEnabled: PropTypes.bool,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string,
@@ -303,6 +334,9 @@ function mapStateToProps(state) {
   const canAccessClaims = services.includes(backendServices.LIGHTHOUSE);
   const stemAutomatedDecision = toggleValues(state)[
     FEATURE_FLAG_NAMES.stemAutomatedDecision
+  ];
+  const isSmoothLoadingEnabled = toggleValues(state)[
+    FEATURE_FLAG_NAMES.cstSmoothLoadingExperience
   ];
 
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
@@ -342,6 +376,7 @@ function mapStateToProps(state) {
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
+    isSmoothLoadingEnabled,
     list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
   };

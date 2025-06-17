@@ -15,13 +15,11 @@ function ClaimsBreadcrumbs({ crumbs = [] }) {
   }
 
   return (
-    <div className="breadcrumbs-container">
-      <VaBreadcrumbs
-        breadcrumbList={breadcrumbList}
-        onRouteChange={handleRouteChange}
-        wrapping
-      />
-    </div>
+    <VaBreadcrumbs
+      breadcrumbList={breadcrumbList}
+      onRouteChange={handleRouteChange}
+      wrapping
+    />
   );
 }
 
