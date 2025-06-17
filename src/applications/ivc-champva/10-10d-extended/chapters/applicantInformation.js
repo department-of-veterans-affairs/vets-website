@@ -94,8 +94,7 @@ const applicantOptions = {
       item.applicantGender &&
       item.applicantPhone &&
       item.applicantAddress &&
-      item.applicantRelationshipToSponsor &&
-      item.applicantMedicareStatus
+      item.applicantRelationshipToSponsor
     );
   }, // TODO: include more required fields here
   maxItems: MAX_APPLICANTS,

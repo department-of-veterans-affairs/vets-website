@@ -9,7 +9,7 @@ import {
   radioUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, toHash, getAgeInYears } from '../../shared/utilities';
+import { nameWording, toHash } from '../../shared/utilities';
 
 /**
  * Gets applicants eligible for Medicare selection
@@ -18,9 +18,7 @@ import { nameWording, toHash, getAgeInYears } from '../../shared/utilities';
  * @returns {Array} Filtered array of eligible applicants
  */
 function getEligibleApplicants(data, idx) {
-  // Get applicants at or over 65 y/o
-  const applicants =
-    data?.applicants?.filter(a => getAgeInYears(a.applicantDob) >= 65) ?? [];
+  const applicants = [];
   const medicareData = data?.medicare;
 
   // If no Medicare data exists, return all applicants
