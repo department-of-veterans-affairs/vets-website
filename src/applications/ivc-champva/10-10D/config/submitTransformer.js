@@ -75,7 +75,7 @@ export default function transformForSubmit(formConfig, form) {
   been observed outside of Cypress. 
   */
   // eslint-disable-next-line no-param-reassign
-  form?.data?.applicants.forEach(a => delete a['view:applicantSSNArray']);
+  form?.data?.applicants?.forEach(a => delete a['view:applicantSSNArray']);
 
   // delete form.data.['view:applicantSSNArray']
   const transformedData = JSON.parse(
