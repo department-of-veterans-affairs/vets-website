@@ -8,7 +8,7 @@ let pdfModulePromise = null;
 const getPdfBlob = async (templateId, data) => {
   // Use cached module promise if available, otherwise create a new one
   if (!pdfModulePromise) {
-    pdfModulePromise = import('platform/pdf/templates');
+    pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
   }
 
   // Wait for the module to load and extract the templates
