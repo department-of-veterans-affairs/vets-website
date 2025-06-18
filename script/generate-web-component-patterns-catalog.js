@@ -55,24 +55,72 @@ files.forEach(file => {
 
     const exports = [];
 
+    // Helper function to extract description from JSDoc comments
+    const extractDescription = comments => {
+      if (comments && comments.length > 0) {
+        const jsdoc = comments[comments.length - 1].value.trim();
+
+        // Extract the first line of the JSDoc comment and clean it up
+        // First, split by newlines and filter out empty lines or lines with only *
+        const lines = jsdoc
+          .split('\n')
+          .map(line => line.replace(/^\s*\*\s*/, '').trim());
+        const contentLines = lines.filter(
+          line => line && !line.startsWith('@'),
+        );
+
+        // Take the first non-empty line as the description
+        const firstLine = contentLines.length > 0 ? contentLines[0] : '';
+        return firstLine || null;
+      }
+      return null;
+    };
+
     traverse(ast, {
       ExportNamedDeclaration(path) {
         const { declaration, specifiers } = path.node;
+
+        // Check for comments on the export declaration itself
+        const exportComments = path.node.leadingComments;
+
         if (declaration) {
           if (declaration.type === 'FunctionDeclaration') {
-            exports.push(`${declaration.id.name} (function)`);
+            // For function declarations, check comments directly on the function
+            const description = extractDescription(
+              exportComments || declaration.leadingComments,
+            );
+            exports.push({
+              name: declaration.id.name,
+              type: 'function',
+              description,
+            });
           } else if (declaration.type === 'VariableDeclaration') {
             declaration.declarations.forEach(decl => {
               const isFunction =
                 decl.init && decl.init.type === 'ArrowFunctionExpression';
-              if (isFunction) {
-                exports.push(`${decl.id.name} (function)`);
-              } else {
-                exports.push(`${decl.id.name} (object)`);
-              }
+
+              // Try to get JSDoc from different possible locations
+              const description = extractDescription(
+                exportComments ||
+                  declaration.leadingComments ||
+                  path.parent?.leadingComments,
+              );
+
+              exports.push({
+                name: decl.id.name,
+                type: isFunction ? 'function' : 'object',
+                description,
+              });
             });
           } else if (declaration.type === 'ClassDeclaration') {
-            exports.push(`${declaration.id.name} (class)`);
+            const description = extractDescription(
+              exportComments || declaration.leadingComments,
+            );
+            exports.push({
+              name: declaration.id.name,
+              type: 'class',
+              description,
+            });
           }
         } else if (specifiers && specifiers.length > 0) {
           specifiers.forEach(specifier => {
@@ -83,42 +131,94 @@ files.forEach(file => {
             const binding = path.scope.getBinding(localName);
             if (binding) {
               const bindingNode = binding.path.node;
+              let type = 'unknown';
+              let description = null;
+
+              // Try to find comments in various places
+              if (exportComments) {
+                description = extractDescription(exportComments);
+              } else if (binding.path.node.leadingComments) {
+                description = extractDescription(
+                  binding.path.node.leadingComments,
+                );
+              } else if (
+                binding.path.parent &&
+                binding.path.parent.leadingComments
+              ) {
+                description = extractDescription(
+                  binding.path.parent.leadingComments,
+                );
+              }
+
               if (
                 bindingNode.type === 'FunctionDeclaration' ||
                 (bindingNode.type === 'VariableDeclarator' &&
                   bindingNode.init &&
                   bindingNode.init.type === 'ArrowFunctionExpression')
               ) {
-                exports.push(`${exportedName} (function)`);
+                type = 'function';
               } else if (bindingNode.type === 'ClassDeclaration') {
-                exports.push(`${exportedName} (class)`);
+                type = 'class';
               } else {
-                exports.push(`${exportedName} (object)`);
+                type = 'object';
               }
+
+              exports.push({
+                name: exportedName,
+                type,
+                description,
+              });
             } else {
-              exports.push(`${exportedName} (unknown)`);
+              exports.push({
+                name: exportedName,
+                type: 'unknown',
+                description: null,
+              });
             }
           });
         }
       },
       ExportDefaultDeclaration(path) {
         const { declaration } = path.node;
+        // Try to get JSDoc from the export or the declaration itself
+        const description = extractDescription(
+          path.node.leadingComments ||
+            (declaration.type === 'Identifier'
+              ? null
+              : declaration.leadingComments),
+        );
+
         if (declaration.type === 'Identifier') {
-          exports.push(`${declaration.name} (object)`);
+          exports.push({
+            name: declaration.name,
+            type: 'object',
+            description,
+          });
         } else if (declaration.type === 'FunctionDeclaration') {
-          exports.push(`default export (function)`);
+          exports.push({
+            name: 'default export',
+            type: 'function',
+            description,
+          });
         } else {
-          exports.push('default export (object)');
+          exports.push({
+            name: 'default export',
+            type: 'object',
+            description,
+          });
         }
       },
     });
 
     // Filter exports to only include those ending in 'UI' or 'Schema'
-    const filteredExports = exports.filter(exp => exp.match(/(UI|Schema)\b/));
+    const filteredExports = exports.filter(exp =>
+      exp.name.match(/(UI|Schema)\b/),
+    );
 
     if (filteredExports.length > 0) {
-      filteredExports.forEach(exp => {
-        readmeContent += `- ${exp}\n`;
+      filteredExports.forEach(({ name, type, description }) => {
+        const desc = description ? ` — ${description}` : '';
+        readmeContent += `- \`${name}\` *(${type})*${desc}\n`;
       });
     } else {
       readmeContent += '- No matching exports found\n';
