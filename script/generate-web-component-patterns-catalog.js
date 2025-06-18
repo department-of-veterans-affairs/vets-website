@@ -218,7 +218,7 @@ files.forEach(file => {
     if (filteredExports.length > 0) {
       filteredExports.forEach(({ name, type, description }) => {
         const desc = description ? ` — ${description}` : '';
-        readmeContent += `- \`${name}\` *(${type})*${desc}\n`;
+        readmeContent += `- \`${name}\` (${type})${desc}\n`;
       });
     } else {
       readmeContent += '- No matching exports found\n';
