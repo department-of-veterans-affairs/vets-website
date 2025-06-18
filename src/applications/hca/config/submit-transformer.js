@@ -44,33 +44,39 @@ const sanitizeDependents = dependents => {
  * @returns {Object} - an object containing the form submission payload
  */
 export const submitTransformer = (formConfig, form) => {
+  const logErrorToDatadog = error =>
+    window.DD_LOGS?.logger.error('HCA Submit Transformer error', {}, error);
   let dataToMap = JSON.parse(transformForSubmit(formConfig, form));
 
-  // map Veteran address data if mailing and home addresses match
-  if (form.data['view:doesMailingMatchHomeAddress']) {
-    const { veteranAddress } = dataToMap;
-    dataToMap = set('veteranHomeAddress', veteranAddress, dataToMap);
-  }
+  try {
+    // map Veteran address data if mailing and home addresses match
+    if (form.data['view:doesMailingMatchHomeAddress']) {
+      const { veteranAddress } = dataToMap;
+      dataToMap = set('veteranHomeAddress', veteranAddress, dataToMap);
+    }
 
-  // map compensation type for short form-eligible data
-  if (!hasLowDisabilityRating(form.data) && !dataToMap.vaCompensationType) {
-    dataToMap = set('vaCompensationType', 'highDisability', dataToMap);
-  }
+    // map compensation type for short form-eligible data
+    if (!hasLowDisabilityRating(form.data) && !dataToMap.vaCompensationType) {
+      dataToMap = set('vaCompensationType', 'highDisability', dataToMap);
+    }
 
-  // map file attachments
-  const { attachments } = form.data;
-  if (attachments instanceof Array) {
-    const sanitizedAttachments = sanitizeAttachments(attachments);
-    dataToMap = set('attachments', sanitizedAttachments, dataToMap);
-  }
+    // map file attachments
+    const { attachments } = form.data;
+    if (attachments instanceof Array) {
+      const sanitizedAttachments = sanitizeAttachments(attachments);
+      dataToMap = set('attachments', sanitizedAttachments, dataToMap);
+    }
 
-  // map dependents
-  const { dependents } = dataToMap;
-  if (dependents?.length) {
-    const sanitizedDependents = sanitizeDependents(dependents);
-    dataToMap = set('dependents', sanitizedDependents, dataToMap);
-  } else {
-    dataToMap = set('dependents', [], dataToMap);
+    // map dependents
+    const { dependents } = dataToMap;
+    if (dependents?.length) {
+      const sanitizedDependents = sanitizeDependents(dependents);
+      dataToMap = set('dependents', sanitizedDependents, dataToMap);
+    } else {
+      dataToMap = set('dependents', [], dataToMap);
+    }
+  } catch (error) {
+    logErrorToDatadog(error);
   }
 
   // add logging to track user volume of forms submitted with specific questions answered
