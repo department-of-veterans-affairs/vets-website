@@ -1,5 +1,3 @@
-// import ContactInformationPage from '../../../components/ContactInformationPage';
-
 export const veteranContactInformation = {
   schema: {
     type: 'object',
@@ -11,11 +9,6 @@ export const veteranContactInformation = {
     },
   },
   uiSchema: {
-    veteranContactInformation: {
-      // 'ui:description': ContactInformationPage,
-      'ui:options': {
-        hideOnReview: true,
-      },
-    },
+    veteranContactInformation: {},
   },
 };

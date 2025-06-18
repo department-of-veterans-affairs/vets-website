@@ -16,6 +16,7 @@ import editInternationalPhonePage from './chapters/veteran-contact-information/e
 import editEmailPage from './chapters/veteran-contact-information/editEmailPage';
 
 import VeteranContactInformationPage from '../components/VeteranContactInformationPage';
+import VeteranContactInformationReviewPage from '../components/VeteranContactInformationReviewPage.jsx';
 import NeedHelp from '../components/NeedHelp';
 
 /** @type {FormConfig} */
@@ -88,7 +89,7 @@ const formConfig = {
           path: 'veteran-contact-information',
           title: 'Veteran contact information',
           CustomPage: VeteranContactInformationPage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranContactInformationReviewPage,
           uiSchema: veteranContactInformation.uiSchema,
           schema: veteranContactInformation.schema,
         },
