@@ -1,33 +1,32 @@
-import React from 'react';
 import {
   addressSchema,
   addressUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import EditAddressPage from '../../../components/EditAddressPage';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+
+import EditMailingAddress from '../../../components/EditMailingAddress';
 
 export default {
   title: 'Edit mailing address',
   path: 'veteran-contact-information/mailing-address',
   depends: () => false,
-  CustomPage: props =>
-    props ? (
-      <EditAddressPage
-        {...props}
-        schema={{
-          type: 'object',
-          properties: {
-            address: addressSchema(),
-          },
-        }}
-        uiSchema={{
-          address: addressUI(),
-        }}
-      />
-    ) : null,
+  CustomPage: EditMailingAddress,
   CustomPageReview: null,
-  uiSchema: {},
+  uiSchema: {
+    address: addressUI(),
+  },
   schema: {
     type: 'object',
-    properties: {},
+    properties: {
+      'view:pageTitle': blankSchema,
+      address: {
+        type: 'object',
+        properties: {
+          ...addressSchema().properties,
+          street2: { type: 'string' },
+          street3: { type: 'string' },
+        },
+      },
+    },
   },
 };
