@@ -250,20 +250,18 @@ describe('getStatusContents', () => {
   it('should return correct title and description for Supplemental Claim - received', () => {
     const { title, description } = getStatusContents(mockAppealData.data[27]);
     const content = description.props.children[0].props.children.join('');
-    expect(title).to.equal('A reviewer is examining your new evidence');
+    expect(title).to.equal('We received your supplemental claim');
     expect(content).to.include(
-      'A Supplemental Claim allows you to add new and relevant evidence to your case. When you filed a Supplemental Claim, you included new evidence or identified evidence that the Agency of Original Jurisdiction should obtain.',
+      'To get the latest information—like whether your claim has been assigned to a reviewer or if we’re gathering evidence—call the VA benefits hotline at',
     );
   });
 
   it('should return correct title and description for Higher-level review', () => {
     const { title, description } = getStatusContents(mockAppealData.data[28]);
     const content = description.props.children[0].props.children.join('');
-    expect(title).to.equal(
-      'A higher-level reviewer is taking a new look at your case',
-    );
+    expect(title).to.equal('We received your higher level review');
     expect(content).to.include(
-      'By requesting a Higher-Level Review, you asked for a higher-level at the Agency of Original Jurisdiction to look at your case and determine whether they can change the decision based on a difference of opinion or because VA made an error.',
+      'To get the latest information—like whether your higher level review has been assigned to a reviewer—call the VA benefits hotline at',
     );
   });
 
