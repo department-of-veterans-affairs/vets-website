@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// TODO: ensure correct heading levels
-// Also check breadcrumbs, sidenav on all screen sizes
 const ProfileSectionHeadline = ({ children, dataTestId }) => {
   return (
     <h1
