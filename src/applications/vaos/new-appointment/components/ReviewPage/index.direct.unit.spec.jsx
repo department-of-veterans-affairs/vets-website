@@ -11,6 +11,7 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { addMinutes, format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -90,8 +91,12 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
         availableSlots: [
           {
             id: 'slot-id',
-            start: format(start, DATE_FORMATS.ISODateTime),
-            end: format(addMinutes(start, 30), DATE_FORMATS.ISODateTime),
+            start: formatInTimeZone(start, 'UTC', DATE_FORMATS.ISODateTimeUTC),
+            end: formatInTimeZone(
+              addMinutes(start, 30),
+              'UTC',
+              DATE_FORMATS.ISODateTimeUTC,
+            ),
           },
         ],
         clinics: {
@@ -107,7 +112,11 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       },
     });
     store.dispatch(startDirectScheduleFlow());
-    store.dispatch(onCalendarChange([format(start, DATE_FORMATS.ISODateTime)]));
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(start, 'America/Denver', "yyyy-MM-dd'T'HH:mm:ssXXX"),
+      ]),
+    );
   });
 
   it('should show form information for review', async () => {
@@ -138,7 +147,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     expect(dateHeading).to.contain.text('Date and time');
     expect(screen.baseElement).to.contain.text(
-      format(start, 'EEEE, MMMM d, yyyy'),
+      formatInTimeZone(start, 'UTC', 'EEEE, MMMM d, yyyy'),
     );
     expect(screen.baseElement).to.contain.text(format(start, 'h:mm aaaa'));
 
