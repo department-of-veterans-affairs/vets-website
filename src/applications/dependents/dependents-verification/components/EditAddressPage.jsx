@@ -18,6 +18,14 @@ const EditAddressPage = ({
   const initialAddress = formData?.veteranContactInformation?.address || {};
   const [localAddress, setLocalAddress] = useState(initialAddress);
 
+  const returnToPath = () => {
+    goToPath(
+      sessionStorage.getItem('onReviewPage')
+        ? '/review-and-submit'
+        : returnPath,
+    );
+  };
+
   const handlers = {
     onChange: newFormData => {
       setLocalAddress(newFormData?.address || {});
@@ -33,11 +41,10 @@ const EditAddressPage = ({
           address: localAddress,
         },
       });
-
-      goToPath(returnPath);
+      returnToPath();
     },
     onCancel: () => {
-      goToPath(returnPath);
+      returnToPath();
     },
   };
 

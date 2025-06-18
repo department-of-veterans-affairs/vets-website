@@ -29,6 +29,13 @@ const EditPhonePage = props => {
   };
 
   const returnPath = '/veteran-contact-information';
+  const returnToPath = () => {
+    goToPath(
+      sessionStorage.getItem('onReviewPage')
+        ? '/review-and-submit'
+        : returnPath,
+    );
+  };
 
   const handlers = {
     onInput: event => {
@@ -49,10 +56,10 @@ const EditPhonePage = props => {
           phone: fieldData || '',
         },
       });
-      goToPath(returnPath);
+      returnToPath();
     },
     onCancel: () => {
-      goToPath(returnPath);
+      returnToPath();
     },
   };
 

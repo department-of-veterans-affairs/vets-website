@@ -9,23 +9,25 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
     mailingAddress = {},
     internationalPhone,
   } = veteranContactInformation;
+  sessionStorage.removeItem('onReviewPage');
+
+  const goEditPath = path => {
+    sessionStorage.setItem('onReviewPage', 'true');
+    goToPath(path, { force: true });
+  };
 
   const handlers = {
     editMailingAddress: () => {
-      sessionStorage.setItem('onReviewPage', 'true');
-      goToPath('/veteran-contact-information/mailing-address');
+      goEditPath('/veteran-contact-information/mailing-address');
     },
     editEmail: () => {
-      sessionStorage.setItem('onReviewPage', 'true');
-      goToPath('veteran-contact-information/email');
+      goEditPath('veteran-contact-information/email');
     },
     editPhone: () => {
-      sessionStorage.setItem('onReviewPage', 'true');
-      goToPath('veteran-contact-information/phone');
+      goEditPath('veteran-contact-information/phone');
     },
     editInternationalPhone: () => {
-      sessionStorage.setItem('onReviewPage', 'true');
-      goToPath('veteran-contact-information/international-phone');
+      goEditPath('veteran-contact-information/international-phone');
     },
   };
 
