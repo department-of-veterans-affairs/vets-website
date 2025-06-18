@@ -2,6 +2,11 @@
 import { addHours, format, startOfDay } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import {
+  transformVAOSAppointment,
+  transformVAOSAppointments,
+} from '../../services/appointment/transformers';
+import { parseApiList, parseApiObject } from '../../services/utils';
+import {
   APPOINTMENT_STATUS,
   DATE_FORMATS,
   TYPE_OF_VISIT_ID,
@@ -217,6 +222,7 @@ export default class MockAppointmentResponse {
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {boolean} [arguments.vvsKind] - VVS king of the appointment. Default = VIDEO_TYPES.clinic.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @returns Array of MockAppointmentResponse objects
    * @memberof MockAppointmentResponse
@@ -225,6 +231,7 @@ export default class MockAppointmentResponse {
     localStartTime,
     future = false,
     past = false,
+    vvsKind = VIDEO_TYPES.clinic,
     count = 1,
   } = {}) {
     return Array(count)
@@ -238,9 +245,42 @@ export default class MockAppointmentResponse {
         })
           .setKind(TYPE_OF_VISIT_ID.telehealth)
           .setModality('vaVideoCareAtAVaLocation')
-          .setType('COMMUNITY_CARE_APPOINTMENT')
-          .setVvsKind(VIDEO_TYPES.clinic),
+          .setType('VA')
+          .setVvsKind(vvsKind),
       );
+  }
+
+  /**
+   * Method to generate mock Clinic response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {boolean} [arguments.status] - Status of the appointment appointment.
+   * @param {boolean} [arguments.vvsKind] - VVS kind of the appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createClinicResponse({
+    future,
+    localStartTime,
+    past,
+    pending,
+    status,
+    vvsKind,
+  } = {}) {
+    return MockAppointmentResponse.createClinicResponses({
+      count: 1,
+      future,
+      localStartTime,
+      past,
+      pending,
+      status,
+      vvsKind,
+    })[0];
   }
 
   /**
@@ -529,6 +569,32 @@ export default class MockAppointmentResponse {
   setLocalStart(value) {
     this.attributes.localStartTime = value;
     return this;
+  }
+
+  /**
+   * Method to generate transformed mock appointment object. This object respresents
+   * the stored Redux appointment object.
+   *
+   * @static
+   * @param {MockAppointmentResponse} response MockAppointmentResponse object.
+   * @returns transformed object
+   * @memberof MockAppointmentResponse
+   */
+  static getTransformedResponse(response) {
+    return transformVAOSAppointment(parseApiObject({ data: response }));
+  }
+
+  /**
+   * Method to generate a collection of transformed mock appointment objects. These
+   * objects represent the stored Redux appointments objects.
+   *
+   * @static
+   * @param {Array<MockAppointmentResponse>} response - A collection of MockAppointmentResponse objects.
+   * @returns Transformed object
+   * @memberof MockAppointmentResponse
+   */
+  static getTransformedResponses(responses) {
+    return transformVAOSAppointments(parseApiList({ data: responses }));
   }
 
   /**

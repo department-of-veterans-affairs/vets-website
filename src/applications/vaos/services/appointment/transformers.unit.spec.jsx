@@ -1,8 +1,10 @@
 import { expect } from 'chai';
 
 import { MockAppointment } from '../../tests/fixtures/MockAppointment';
-import { getAppointmentType, transformVAOSAppointment } from './transformers';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
 import { VIDEO_TYPES } from '../../utils/constants';
+import { parseApiObject } from '../utils';
+import { getAppointmentType, transformVAOSAppointment } from './transformers';
 
 describe('getAppointmentType util', () => {
   it('should return appointment type as request', async () => {
@@ -248,30 +250,15 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(a.vaos.isAtlas).to.be.true;
       expect(a.vaos.isVideoAtVA).to.be.false;
     });
-    it('should set modality fields for video at ATLAS appointments', async () => {
+    it('should set modality fields for video at VA appointments', async () => {
       // Arrange
-      const appointment = new MockAppointment();
-      appointment.setModality('vaVideoCareAtAVaLocation');
-      appointment.telehealth = {
-        atlas: {
-          siteCode: 'VFW-DC-20011-01',
-          confirmationCode: '271631',
-          address: {
-            streetAddress: '5929 Georgia Ave NW',
-            city: 'Washington',
-            state: 'DC',
-            zipCode: '20011',
-            country: 'USA',
-            latitutde: 38.96198,
-            longitude: -77.02791,
-            additionalDetails: '',
-          },
-        },
-      };
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
+      });
 
       // Act
       const a = transformVAOSAppointment(
-        appointment,
+        parseApiObject({ data: response }),
         false,
         false,
         false,
@@ -456,20 +443,18 @@ describe('VAOS <transformVAOSAppointment>', () => {
     });
     it('should set modality fields for video at VA appointments', async () => {
       // Arrange
-      const mobile = new MockAppointment();
-      mobile.kind = 'telehealth';
-      mobile.telehealth = {
+      const mobile = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
         vvsKind: VIDEO_TYPES.clinic,
-      };
-      const adhoc = new MockAppointment();
-      adhoc.kind = 'telehealth';
-      adhoc.telehealth = {
+      });
+      const storeForward = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
         vvsKind: VIDEO_TYPES.storeForward,
-      };
+      });
 
       // Act
       const a = transformVAOSAppointment(
-        mobile,
+        parseApiObject({ data: mobile }),
         false,
         false,
         false,
@@ -477,7 +462,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
         useFeSourceOfTruthTelehealth,
       );
       const b = transformVAOSAppointment(
-        adhoc,
+        parseApiObject({ data: storeForward }),
         false,
         false,
         false,
