@@ -32,43 +32,45 @@ const DependentsInformation = () => {
       <h3>Dependents on your VA benefits</h3>
 
       {dependents.map((dep, index) => (
-        <va-card key={index} className="vads-u-margin-bottom--3">
-          <h4 className="vads-u-font-size--h4 vads-u-margin-top--0">
-            {dep.fullName}
-          </h4>
-          <p>Relationship: {dep.relationship}</p>
-          <p>Date of birth: {dep.dob}</p>
-          {dep.age && <p>Age: {dep.age} years old</p>}
-          <p>
-            SSN:{' '}
-            <span
-              className="dd-privacy-mask"
-              data-dd-action-name="Dependent's SSN"
-            >
-              {maskSSN(dep.ssnLastFour)}
-            </span>
-          </p>
-          {dep.removalDate && (
-            <>
-              <p>
-                <strong>Automatic removal date:</strong> {dep.removalDate}
-              </p>
-              <va-alert status="info" background-only visible>
+        <div className="vads-u-margin-bottom--2" key={index}>
+          <va-card>
+            <h4 className="vads-u-font-size--h4 vads-u-margin-top--0">
+              {dep.fullName}
+            </h4>
+            <div>Relationship: {dep.relationship}</div>
+            <din>Date of birth: {dep.dob}</din>
+            {dep.age && <div>Age: {dep.age} years old</div>}
+            <div>
+              SSN:{' '}
+              <span
+                className="dd-privacy-mask"
+                data-dd-action-name="Dependent's SSN"
+              >
+                {maskSSN(dep.ssnLastFour)}
+              </span>
+            </div>
+            {dep.removalDate && (
+              <>
                 <p>
-                  <strong>Note:</strong> If no other action is taken, this
-                  dependent will be removed automatically when they turn 18,
-                  which may reduce the amount you receive each month. If this
-                  child is continuing education, they need to be added back to
-                  your benefits.{' '}
-                  <va-link
-                    href="https://www.va.gov/view-change-dependents/add-dependent/"
-                    text="Learn about how to add a student"
-                  />
+                  <strong>Automatic removal date:</strong> {dep.removalDate}
                 </p>
-              </va-alert>
-            </>
-          )}
-        </va-card>
+                <va-alert status="info" background-only visible>
+                  <p>
+                    <strong>Note:</strong> If no other action is taken, this
+                    dependent will be removed automatically when they turn 18,
+                    which may reduce the amount you receive each month. If this
+                    child is continuing education, they need to be added back to
+                    your benefits.{' '}
+                    <va-link
+                      href="https://www.va.gov/view-change-dependents/add-dependent/"
+                      text="Learn about how to add a student"
+                    />
+                  </p>
+                </va-alert>
+              </>
+            )}
+          </va-card>
+        </div>
       ))}
 
       <p>
