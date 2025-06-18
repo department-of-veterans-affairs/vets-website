@@ -1,6 +1,7 @@
 import React from 'react';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import PropTypes from 'prop-types';
 
 const maskSSN = ssnLastFour =>
   srSubstitute(
@@ -10,16 +11,27 @@ const maskSSN = ssnLastFour =>
 
 const dependents = [
   {
-    fullName: 'Morty Smith',
+    fullName: {
+      first: 'Morty',
+      middle: 'Charles',
+      last: 'Smith',
+      suffix: 'None',
+    },
     relationship: 'Child',
     dob: 'January 4, 2011',
-    ssnLastFour: '6789',
+    ssnLastFour: '6791',
+    age: 14,
   },
   {
-    fullName: 'Summer Smith',
+    fullName: {
+      first: 'Summer',
+      middle: 'Susan',
+      last: 'Smith',
+      suffix: 'None',
+    },
     relationship: 'Child',
     dob: 'August 1, 2008',
-    ssnLastFour: '6789',
+    ssnLastFour: '6790',
     age: 17,
     removalDate: 'August 1, 2026',
   },
@@ -34,7 +46,9 @@ const DependentsInformation = () => {
         <div className="vads-u-margin-bottom--2" key={index}>
           <va-card>
             <h4 className="vads-u-font-size--h4 vads-u-margin-top--0">
-              {dep.fullName}
+              {`${dep.fullName.first} ${
+                dep.fullName.middle ? `${dep.fullName.middle} ` : ''
+              }${dep.fullName.last}`}
             </h4>
             <div>Relationship: {dep.relationship}</div>
             <div>Date of birth: {dep.dob}</div>
@@ -94,9 +108,104 @@ const DependentsInformation = () => {
   );
 };
 
-const DependentsInformationReview = _data => {
-  // console.log(_data);
-  return <div>test</div>;
+const DependentsInformationReview = ({ data, goToPath }) => {
+  const { hasDependentsStatusChanged = '' } = data || {};
+
+  const onEditClick = () => {
+    sessionStorage.setItem('onReviewPage', 'true');
+    goToPath('/dependents', { force: true });
+  };
+
+  return (
+    <div className="form-review-panel-page">
+      <va-additional-info trigger="Why you can’t edit your dependents’ personal information online">
+        <p>
+          To protect your dependent’s personal information, we don’t allow
+          online changes to your dependents’ names, dates of birth, or Social
+          Security numbers. If you need to change this information,{' '}
+          <strong>
+            call us at <va-telephone contact="8008271000" />
+          </strong>
+          . We’re here
+          <strong> Monday through Friday, 8:00 a.m to 9:00 p.m ET</strong>. If
+          you have hearing loss, call <va-telephone contact="711" tty />
+        </p>
+      </va-additional-info>
+
+      {dependents.map((dep, index) => (
+        <dl key={index} className="review vads-u-margin-y--4">
+          <h5 className="vads-u-font-size--h5">
+            {`${dep.fullName.first} ${dep.fullName.last}`}
+          </h5>
+
+          <div className="review-row">
+            <dt>First name</dt>
+            <dd>{dep.fullName.first}</dd>
+          </div>
+          <div className="review-row">
+            <dt>Middle name</dt>
+            <dd>{dep.fullName.middle}</dd>
+          </div>
+          <div className="review-row">
+            <dt>Last name</dt>
+            <dd>{dep.fullName.last}</dd>
+          </div>
+          <div className="review-row">
+            <dt>Suffix</dt>
+            <dd>{dep.fullName.suffix}</dd>
+          </div>
+          <div className="review-row">
+            <dt>Social Security number</dt>
+            <dd
+              className="dd-privacy-hidden"
+              data-dd-action-name="Dependent SSN"
+            >
+              {maskSSN(dep.ssnLastFour)}
+            </dd>
+          </div>
+          <div className="review-row">
+            <dt>Date of birth</dt>
+            <dd>{dep.dob}</dd>
+          </div>
+          <div className="review-row">
+            <dt>Age</dt>
+            <dd>{dep.age} years old</dd>
+          </div>
+          <div className="review-row">
+            <dt>Relationship</dt>
+            <dd>{dep.relationship}</dd>
+          </div>
+        </dl>
+      ))}
+
+      <div className="form-review-panel-page-header-row vads-u-margin-top--4">
+        <h5 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
+          Status of dependents
+        </h5>
+        <va-button
+          secondary
+          class="edit-page float-right"
+          onClick={onEditClick}
+          label="Edit dependent status"
+          text="Edit"
+        />
+      </div>
+
+      <dl className="review">
+        <div className="review-row">
+          <dt>Has the status of your dependents changed</dt>
+          <dd>{hasDependentsStatusChanged === 'Y' ? 'Yes' : 'No'}</dd>
+        </div>
+      </dl>
+    </div>
+  );
+};
+
+DependentsInformationReview.propTypes = {
+  data: PropTypes.shape({
+    hasDependentsStatusChanged: PropTypes.oneOf(['Y', 'N']),
+  }),
+  goToPath: PropTypes.func,
 };
 
 export { DependentsInformation, DependentsInformationReview };
