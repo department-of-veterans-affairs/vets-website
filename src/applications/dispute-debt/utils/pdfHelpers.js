@@ -1,9 +1,18 @@
 import * as Sentry from '@sentry/browser';
-import { templates } from 'platform/pdf/exportsFile';
+
+// Cache the dynamic import promise to avoid redundant network requests
+let pdfModulePromise = null;
 
 // 'Manually' generating PDF instead of using generatePdf so we can
 //  get the blob and send it to the API
 const getPdfBlob = async (templateId, data) => {
+  // Use cached module promise if available, otherwise create a new one
+  if (!pdfModulePromise) {
+    pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
+  }
+
+  // Wait for the module to load and extract the templates
+  const { templates } = await pdfModulePromise;
   const template = templates[templateId]();
   const doc = await template.generate(data);
 
@@ -53,6 +62,9 @@ export const handlePdfGeneration = async pdfData => {
     // Returning FormData to be used in the API request
     return formData;
   } catch (error) {
+    // Reset the pdfModulePromise so subsequent calls can try again
+    pdfModulePromise = null;
+
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
       Sentry.captureMessage(
