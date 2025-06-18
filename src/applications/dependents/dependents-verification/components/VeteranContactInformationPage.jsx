@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectUser } from '~/platform/user/selectors';
@@ -15,12 +15,11 @@ const VeteranContactInformationPage = ({
   goBack,
   goForward,
   goToPath,
-  // onReviewPage,
-  // updatePage,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
+  const alertRef = useRef(null);
   const { profile } = useSelector(selectUser);
   const { veteranContactInformation = {} } = data || {};
   const {
@@ -83,7 +82,7 @@ const VeteranContactInformationPage = ({
         missingAddress ? 'mailing address' : '',
       ].join(' and ');
       setAlert(
-        <va-alert status="error" visible>
+        <va-alert ref={alertRef} status="error" visible>
           Your {missingInfo} is required before you continue. Provide a valid
           {missingInfo}.
         </va-alert>,
@@ -152,7 +151,9 @@ const VeteranContactInformationPage = ({
       if (checkErrors()) {
         setSubmitted(true);
         setPrefillAlert(null); // Hide prefill alert if there are errors
-        scrollAndFocus('va-alert[status="error"]');
+        setTimeout(() => {
+          scrollAndFocus('va-alert[status="error"]');
+        });
       } else if (email) {
         setSubmitted(false);
         goForward(data);
@@ -186,82 +187,88 @@ const VeteranContactInformationPage = ({
         href="/profile/contact-information"
       />
 
-      {/* Include "hydrated" otherwise the va-card remains hidden when class updates */}
-      <va-card
-        class={`vads-u-margin-top--3 hydrated ${
-          submitted && hasMissingAddress ? 'contact-info-error' : ''
-        }`}
+      <div
+        className={submitted && hasMissingAddress ? 'contact-info-error' : ''}
       >
-        <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          Mailing address{' '}
-          <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-            (*Required)
-          </span>
-        </h4>
-        <div className="mailing-address vads-u-margin-y--2">
-          {!hasMissingAddress ? (
-            <span
-              className="dd-privacy-hidden"
-              data-dd-action-name="Veteran's address"
-            >
-              <AddressView data={mailingAddress} />
+        <va-card class="vads-u-margin-top--3">
+          <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
+            Mailing address{' '}
+            <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+              (*Required)
             </span>
-          ) : (
-            <span className="usa-input-error-message">
-              Select "Add" to enter your mailing address
-            </span>
-          )}
-        </div>
-        <VaLink
-          active
-          href="/veteran-contact-information/mailing-address"
-          label={`${mailingAddress ? 'Edit' : 'Add'} mailing address`}
-          text={mailingAddress ? 'Edit' : 'Add'}
-          onClick={e =>
-            handlers.editClick(
-              e,
-              '/veteran-contact-information/mailing-address',
-            )
-          }
-        />
-      </va-card>
+          </h4>
+          <div className="mailing-address vads-u-margin-y--2">
+            {!hasMissingAddress ? (
+              <span
+                className="dd-privacy-hidden"
+                data-dd-action-name="Veteran's address"
+              >
+                <AddressView data={mailingAddress} />
+              </span>
+            ) : (
+              <>
+                {submitted && (
+                  <span className="usa-error-message">
+                    Select "Add" to enter your mailing address
+                  </span>
+                )}
+                <div>None provided</div>
+              </>
+            )}
+          </div>
+          <VaLink
+            active
+            href="/veteran-contact-information/mailing-address"
+            label={`${mailingAddress ? 'Edit' : 'Add'} mailing address`}
+            text={mailingAddress ? 'Edit' : 'Add'}
+            onClick={e =>
+              handlers.editClick(
+                e,
+                '/veteran-contact-information/mailing-address',
+              )
+            }
+          />
+        </va-card>
+      </div>
 
-      {/* Include "hydrated" otherwise the va-card remains hidden when class updates */}
-      <va-card
-        class={`vads-u-margin-top--3 hydrated ${
-          submitted && hasMissingEmail ? 'contact-info-error' : ''
-        }`}
-      >
-        <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          Email address{' '}
-          <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-            (*Required)
-          </span>
-        </h4>
-        <div className="email vads-u-margin-y--2">
-          {!hasMissingEmail ? (
-            <span
-              className="dd-privacy-hidden"
-              data-dd-action-name="Veteran's email"
-            >
-              {email}
+      <div className={submitted && hasMissingEmail ? 'contact-info-error' : ''}>
+        <va-card class="vads-u-margin-top--3">
+          <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
+            Email address{' '}
+            <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+              (*Required)
             </span>
-          ) : (
-            <span className="usa-input-error-message">
-              Select "Add" to enter your email address
-            </span>
-          )}
-        </div>
-        <VaLink
-          active
-          href="/veteran-contact-information/email"
-          label={`${email ? 'Edit' : 'Add'} email address`}
-          text={email ? 'Edit' : 'Add'}
-          onClick={e =>
-            handlers.editClick(e, '/veteran-contact-information/email')
-          }
-        />
-      </va-card>
+          </h4>
+          <div className="email vads-u-margin-y--2">
+            {!hasMissingEmail ? (
+              <span
+                className="dd-privacy-hidden"
+                data-dd-action-name="Veteran's email"
+              >
+                {email}
+              </span>
+            ) : (
+              <>
+                {submitted && (
+                  <span className="usa-error-message">
+                    Select "Add" to enter your email address
+                  </span>
+                )}
+                <div>None provided</div>
+              </>
+            )}
+          </div>
+          <VaLink
+            active
+            href="/veteran-contact-information/email"
+            label={`${email ? 'Edit' : 'Add'} email address`}
+            text={email ? 'Edit' : 'Add'}
+            onClick={e =>
+              handlers.editClick(e, '/veteran-contact-information/email')
+            }
+          />
+        </va-card>
+      </div>
 
       <va-card class="vads-u-margin-top--3">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
