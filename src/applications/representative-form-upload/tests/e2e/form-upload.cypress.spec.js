@@ -92,12 +92,10 @@ describe('Representative Form Upload', () => {
       fillTextWebComponent('veteranFullName_first', data.veteranFullName.first);
       fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
       fillTextWebComponent('address_postalCode', data.address.postalCode);
-      // fillTextWebComponent('root_veteranSsn', data.ssn);
 
       cy.get('select[name="root_veteranDateOfBirthMonth"]').select('February');
       cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
       cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
-      cy.fillVaTextInput(`root_email`, data.email);
 
       cy.findByRole('button', { name: /^Continue$/ }).click();
 
@@ -156,17 +154,10 @@ describe('Representative Form Upload', () => {
         data.claimantFullName.first,
       );
       fillTextWebComponent('claimantFullName_last', data.claimantFullName.last);
-      // fillTextWebComponent('claimantSsn', data.claimantSsn);
-      cy.get('select[name="root_claimantDateOfBirthMonth"]').select(
-        'September',
-      );
-      cy.get('input[name="root_claimantDateOfBirthDay"]').type('21');
-      cy.get('input[name="root_claimantDateOfBirthYear"]').type('2009');
 
       fillTextWebComponent('veteranFullName_first', data.veteranFullName.first);
       fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
       fillTextWebComponent('address_postalCode', data.address.postalCode);
-      // fillTextWebComponent('veteranSsn', data.ssn);
 
       cy.get('select[name="root_veteranDateOfBirthMonth"]').select('August');
       cy.get('input[name="root_veteranDateOfBirthDay"]').type('17');
