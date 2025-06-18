@@ -227,7 +227,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     expect(
       screen.getByRole('heading', {
-        level: 4,
+        level: 3,
         name: /Cheyenne VA Medical Center/i,
       }),
     );
