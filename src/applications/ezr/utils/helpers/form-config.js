@@ -309,6 +309,22 @@ export function includeSpousalInformationWithV1Prefill(formData) {
   );
 }
 
+/**
+ * Helper that determines if the form data contains values that require users
+ * to fill out spousal information (V1)
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user declares they would like to provide their
+ * financial data & have a marital status of 'married' or 'separated'.
+ */
+export function includeSpousalInformationV1(formData) {
+  if (formData['view:isSpouseV2Enabled']) return false;
+  const { maritalStatus } = formData['view:maritalStatus'];
+  return (
+    maritalStatus?.toLowerCase() === 'married' ||
+    maritalStatus?.toLowerCase() === 'separated'
+  );
+}
+
 export function includeSpousalInformationWithV2Prefill(formData) {
   if (!includeHouseholdInformationWithV2Prefill(formData)) return false;
   const { maritalStatus } = formData['view:maritalStatus'];
@@ -316,4 +332,64 @@ export function includeSpousalInformationWithV2Prefill(formData) {
     maritalStatus?.toLowerCase() === 'married' ||
     maritalStatus?.toLowerCase() === 'separated'
   );
+}
+
+/**
+ * Helper that determines if the form data contains values that require users
+ * to fill out spousal information (V2)
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user declares they would like to provide their
+ * financial data & have a marital status of 'married' or 'separated'.
+ */
+export function includeSpousalInformationV2(formData) {
+  if (!formData['view:isSpouseV2Enabled']) return false;
+  const { maritalStatus } = formData['view:maritalStatus'];
+  return (
+    maritalStatus?.toLowerCase() === 'married' ||
+    maritalStatus?.toLowerCase() === 'separated'
+  );
+}
+
+/**
+ * Helper that determines if the Veteran & their spouse cohabitated last year (V1)
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if cohabitedLastYear is set to `false` and spousal
+ * information should be included in the form
+ */
+export function spouseDidNotCohabitateWithVeteranV1(formData) {
+  const { cohabitedLastYear } = formData;
+  return includeSpousalInformationV1(formData) && !cohabitedLastYear;
+}
+
+/**
+ * Helper that determines if the Veteran & their spouse cohabitated last year (V2)
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if cohabitedLastYear is set to `false` and spousal
+ * information should be included in the form
+ */
+export function spouseDidNotCohabitateWithVeteranV2(formData) {
+  const { cohabitedLastYear } = formData;
+  return includeSpousalInformationV2(formData) && !cohabitedLastYear;
+}
+
+/**
+ * Helper that determines if the Veteran's spouse has the same address
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if sameAddress is set to `false` and spousal
+ * information should be included in the form
+ */
+export function spouseAddressDoesNotMatchVeteransV1(formData) {
+  const { sameAddress } = formData;
+  return includeSpousalInformationV1(formData) && !sameAddress;
+}
+
+/**
+ * Helper that determines if the Veteran's spouse has the same address
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if sameAddress is set to `false` and spousal
+ * information should be included in the form
+ */
+export function spouseAddressDoesNotMatchVeteransV2(formData) {
+  const { sameAddress } = formData;
+  return includeSpousalInformationV2(formData) && !sameAddress;
 }
