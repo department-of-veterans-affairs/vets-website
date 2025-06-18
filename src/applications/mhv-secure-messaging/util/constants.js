@@ -103,6 +103,8 @@ export const ErrorMessages = {
         'Your file is too large. Try attaching a file smaller than 6MB.',
       TOTAL_MAX_FILE_SIZE_EXCEEDED:
         'Your files are too large. The total size of all files must be smaller than 10MB.',
+      TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE:
+        'Your files are too large. The total size of all files must be smaller than 25MB.',
     },
   },
   SearchForm: {
@@ -325,37 +327,44 @@ export const Categories = {
 };
 
 export const acceptedFileTypes = {
-  bmp: 'image/bmp',
   doc: 'application/msword',
   docx:
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   gif: 'image/gif',
-  jfif: 'image/jfif',
-  jpeg: 'image/jpeg',
   jpg: 'image/jpeg',
-  mov: 'video/quicktime',
-  mp4: 'video/mp4',
-  mpg: 'video/mpeg',
-  odt: 'application/vnd.oasis.opendocument.text',
+  jpeg: 'image/jpeg',
   pdf: 'application/pdf',
-  pjp: 'image/pjp',
-  pjpeg: 'image/pjpeg',
   png: 'image/png',
-  ppsx:
-    'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-  ppt: 'application/vnd.ms-powerpoint',
-  rtf: 'text/rtf',
-  tiff: 'image/tiff',
+  rtf: 'application/rtf', // corrected from 'text/rtf' to 'application/rtf' for wider compatibility
   txt: 'text/plain',
-  wmv: 'video/x-ms-wmv',
   xls: 'application/vnd.ms-excel',
   xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  bmp: 'image/bmp',
+  tiff: 'image/tiff',
+  tif: 'image/tiff', // common alias
+  ppt: 'application/vnd.ms-powerpoint',
+  pptx:
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  pps: 'application/vnd.ms-powerpoint',
+  ppsx:
+    'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+  odt: 'application/vnd.oasis.opendocument.text',
+  mp4: 'video/mp4',
+  m4v: 'video/x-m4v',
+  mov: 'video/quicktime',
+  wmv: 'video/x-ms-wmv',
+  mpg: 'video/mpeg',
+  jfif: 'image/jfif',
+  pjpeg: 'image/pjpeg',
+  pjp: 'image/pjp',
 };
 
 export const Attachments = {
-  MAX_FILE_COUNT: 10,
+  MAX_FILE_COUNT: 4,
+  MAX_FILE_COUNT_LARGE: 10,
   MAX_FILE_SIZE: 6000000,
-  TOTAL_MAX_FILE_SIZE: 26214400, // 25 MB
+  TOTAL_MAX_FILE_SIZE: 10000000,
+  TOTAL_MAX_FILE_SIZE_LARGE: 26214400, // 25 MB
 };
 
 export const ElectronicSignatureBox = {

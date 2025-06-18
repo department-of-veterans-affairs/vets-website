@@ -40,6 +40,19 @@ import {
 import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
 describe('Compose form component', () => {
+  let stub;
+  afterEach(() => {
+    if (stub) {
+      stub.restore();
+      stub = null;
+    }
+  });
+  const stubUseFeatureToggles = value => {
+    const useFeatureToggles = require('../../../hooks/useFeatureToggles');
+    stub = sinon.stub(useFeatureToggles, 'default').returns(value);
+    return stub;
+  };
+
   const initialState = {
     sm: {
       triageTeams: { triageTeams },
@@ -215,6 +228,41 @@ describe('Compose form component', () => {
   });
 
   it('renders sending message spinner without errors', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+    expect(screen.queryByTestId('sending-indicator')).to.equal(null);
+    fireEvent.click(screen.getByTestId('send-button'));
+    await waitFor(() => {
+      expect(screen.getByTestId('sending-indicator')).to.have.attribute(
+        'message',
+        'Sending message...',
+      );
+    });
+  });
+
+  it('renders sending message spinner without errors with largeAttachmentsEnabled feature flag ', async () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: true,
+    });
+    useFeatureTogglesStub;
+
     const customDraftMessage = {
       ...draftMessage,
       recipientId: 1013155,
@@ -1143,14 +1191,15 @@ describe('Compose form component', () => {
     );
   });
 
-  it(' should display an error message when attaching a new file increases total attachments size over 10MB', async () => {
+  it('should display an error message when attaching a new file increases total attachments size over 10MB', async () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: false,
+    });
+    useFeatureTogglesStub;
     const oneMB = 1024 * 1024;
     const customAttachments = [
       { name: 'test1.png', size: 4 * oneMB, type: 'image/png' },
       { name: 'test2.png', size: 4 * oneMB, type: 'image/png' },
-      { name: 'test3.png', size: 5 * oneMB, type: 'image/png' },
-      { name: 'test4.png', size: 6 * oneMB, type: 'image/png' },
-      { name: 'test5.png', size: 7 * oneMB, type: 'image/png' },
     ];
     const largeFileSizeInBytes = 3 * oneMB; // 7MB
 
@@ -1201,6 +1250,70 @@ describe('Compose form component', () => {
     const error = screen.getByTestId('file-input-error-message');
     expect(error.textContent).to.equal(
       ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
+    );
+  });
+
+  it('should display an error message when attaching a new file increases total attachments size over 25MB with largeAttachmentsEnabled feature flag', async () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: true,
+    });
+    useFeatureTogglesStub;
+    const oneMB = 1024 * 1024;
+    const customAttachments = [
+      { name: 'test1.png', size: 4 * oneMB, type: 'image/png' },
+      { name: 'test2.png', size: 4 * oneMB, type: 'image/png' },
+      { name: 'test3.png', size: 4 * oneMB, type: 'image/png' },
+      { name: 'test4.png', size: 11 * oneMB, type: 'image/png' },
+    ];
+    const largeFileSizeInBytes = 3 * oneMB; // 7MB
+
+    const largeFileBuffer = new ArrayBuffer(largeFileSizeInBytes);
+    const largeFileBlob = new Blob([largeFileBuffer], {
+      type: 'application/octet-stream',
+    });
+
+    const largeFile = new File([largeFileBlob], 'large_file.txt', {
+      type: 'application/octet-stream',
+      lastModified: new Date().getTime(),
+    });
+
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      attachments: [...customAttachments],
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm
+        draft={customDraftMessage}
+        recipients={customState.sm.recipients}
+      />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/draft/${draftMessage.id}`,
+      },
+    );
+
+    const uploader = screen.getByTestId('attach-file-input');
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [largeFile] },
+      }),
+    );
+    const error = screen.getByTestId('file-input-error-message');
+    expect(error.textContent).to.equal(
+      ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE,
     );
   });
 

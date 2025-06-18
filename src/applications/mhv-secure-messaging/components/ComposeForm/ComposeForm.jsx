@@ -60,7 +60,7 @@ const ComposeForm = props => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { isComboBoxEnabled } = useFeatureToggles();
+  const { isComboBoxEnabled, largeAttachmentsEnabled } = useFeatureToggles();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
@@ -764,7 +764,11 @@ const ComposeForm = props => {
   if (sendMessageFlag === true) {
     return (
       <va-loading-indicator
-        message="Do not refresh the page. Sending message..."
+        message={
+          largeAttachmentsEnabled
+            ? 'Do not refresh the page. Sending message...'
+            : 'Sending message...'
+        }
         setFocus
         data-testid="sending-indicator"
       />
