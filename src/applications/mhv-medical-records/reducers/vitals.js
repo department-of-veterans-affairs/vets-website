@@ -6,6 +6,7 @@ import {
   vitalUnitCodes,
   vitalUnitDisplayText,
   loadStates,
+  allowedVitalLoincs,
 } from '../util/constants';
 import {
   isArrayAndHasItems,
@@ -122,10 +123,14 @@ export const vitalReducer = (state = initialState, action) => {
       const oldList = state.vitalsList;
       const newList =
         action.response.entry
-          ?.map(vital => {
+          ?.filter(entry =>
+            entry.resource.code.coding.some(coding =>
+              allowedVitalLoincs.includes(coding.code),
+            ),
+          )
+          .map(vital => {
             return convertVital(vital.resource);
-          })
-          .filter(v => v.type in vitalTypes) || [];
+          }) || [];
 
       return {
         ...state,
