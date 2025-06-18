@@ -73,7 +73,7 @@ describe('Representative Form Upload', () => {
       );
 
       cy.get('a[href="#start"]')
-        .contains('Start application')
+        .contains('Start form')
         .click();
 
       cy.location('pathname').should(
@@ -137,7 +137,7 @@ describe('Representative Form Upload', () => {
         '/representative/representative-form-upload/21-686c/introduction',
       );
       cy.get('a[href="#start"]')
-        .contains('Start application')
+        .contains('Start form')
         .click();
       cy.location('pathname').should(
         'eq',
