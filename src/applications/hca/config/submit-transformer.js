@@ -116,6 +116,6 @@ export const submitTransformer = (formConfig, form) => {
     });
   } catch (error) {
     logErrorToDatadog(error);
-    return JSON.stringify({});
+    return '{}';
   }
 };
