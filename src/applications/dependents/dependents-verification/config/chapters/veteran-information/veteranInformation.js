@@ -20,8 +20,8 @@ export const veteranInformation = {
     },
   },
   uiSchema: {
+    'ui:description': VeteranInformation,
     veteranInformation: {
-      'ui:description': VeteranInformation,
       ssnLastFour: {},
     },
     'ui:objectViewField': VeteranInformationReviewPage,
