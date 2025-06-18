@@ -63,7 +63,6 @@ import nextOfKinPages from './chapters/veteranInformation/nextOfKin';
 
 // chapter 2 - Household Information
 import maritalStatus from './chapters/householdInformation/maritalStatus';
-import MaritalStatusPage from '../components/FormPages/MaritalStatusPage';
 import spousePersonalInformation from './chapters/householdInformation/spousePersonalInformation';
 import spouseAdditionalInformation from './chapters/householdInformation/spouseAdditionalInformation';
 import spouseFinancialSupport from './chapters/householdInformation/spouseFinancialSupport';
@@ -77,7 +76,8 @@ import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIn
 import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
 import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 import FinancialInformationPages from './chapters/householdInformation/financialInformation';
-import { spousalInformationPages } from './chapters/householdInformation/spouseInformation';
+import spousalInformationPages from './chapters/householdInformation/spouseInformation';
+import MaritalStatusPage from '../components/FormPages/MaritalStatusPage';
 
 // chapter 3 Military Service
 import toxicExposure from './chapters/militaryService/toxicExposure';
@@ -359,6 +359,7 @@ const formConfig = {
           title: 'Marital status',
           initialData: {},
           depends: includeHouseholdInformation,
+          // uiSchema: maritalStatus.uiSchema,
           CustomPage: MaritalStatusPage,
           CustomPageReview: null,
           uiSchema: {},
