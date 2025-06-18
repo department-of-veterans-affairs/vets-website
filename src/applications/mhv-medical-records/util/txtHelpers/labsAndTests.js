@@ -16,7 +16,8 @@ ${
 
             if (record.sampleTested && record.type !== 'pathology')
               details.push(`Site or sample tested: ${record.sampleTested}`);
-            else details.push(`Site or sample tested: ${record.sampleFrom}`);
+            if (record.sampleFrom && record.type === 'pathology')
+              details.push(`Site or sample tested: ${record.sampleFrom}`);
             if (record.reason)
               details.push(`Reason for test: ${record.reason}`);
             if (record.clinicalHistory)
