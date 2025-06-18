@@ -1,4 +1,3 @@
-// platform imports
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -9,7 +8,8 @@ import manifest from '../manifest.json';
 import content from '../locales/en/content.json';
 import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
-  includeSpousalInformation,
+  includeSpousalInformationV1,
+  includeSpousalInformationV2,
   includeHouseholdInformation,
   isMissingVeteranDob,
   isMissingVeteranGender,
@@ -24,8 +24,10 @@ import {
   isEmergencyContactsEnabled,
   isNextOfKinEnabled,
   showFinancialStatusAlert,
-  spouseDidNotCohabitateWithVeteran,
-  spouseAddressDoesNotMatchVeterans,
+  spouseDidNotCohabitateWithVeteranV1,
+  spouseAddressDoesNotMatchVeteransV1,
+  spouseDidNotCohabitateWithVeteranV2,
+  spouseAddressDoesNotMatchVeteransV2,
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
@@ -74,6 +76,7 @@ import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIn
 import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
 import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 import FinancialInformationPages from './chapters/householdInformation/financialInformation';
+import { spousalInformationPages } from './chapters/householdInformation/spouseInformation';
 
 // chapter 3 Military Service
 import toxicExposure from './chapters/militaryService/toxicExposure';
@@ -358,11 +361,31 @@ const formConfig = {
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
+        spouseInformationSummary: {
+          ...spousalInformationPages.spouseInformationSummaryPage,
+          depends: includeSpousalInformationV2,
+        },
+        spousePersonalInformationV2: {
+          ...spousalInformationPages.spousePersonalInformationPage,
+          depends: includeSpousalInformationV2,
+        },
+        spouseAdditionalInformationV2: {
+          ...spousalInformationPages.spouseAdditionalInformationPage,
+          depends: includeSpousalInformationV2,
+        },
+        spouseFinancialSupportV2: {
+          ...spousalInformationPages.spouseFinancialSupportPage,
+          depends: spouseDidNotCohabitateWithVeteranV2,
+        },
+        spouseContactInformationV2: {
+          ...spousalInformationPages.spouseContactInformationPage,
+          depends: spouseAddressDoesNotMatchVeteransV2,
+        },
         spousePersonalInformation: {
           path: 'household-information/spouse-personal-information',
           title: 'Spouse\u2019s personal information',
           initialData: {},
-          depends: includeSpousalInformation,
+          depends: includeSpousalInformationV1,
           uiSchema: spousePersonalInformation.uiSchema,
           schema: spousePersonalInformation.schema,
         },
@@ -370,14 +393,14 @@ const formConfig = {
           path: 'household-information/spouse-additional-information',
           title: 'Spouse\u2019s additional information',
           initialData: {},
-          depends: includeSpousalInformation,
+          depends: includeSpousalInformationV1,
           uiSchema: spouseAdditionalInformation.uiSchema,
           schema: spouseAdditionalInformation.schema,
         },
         spouseFinancialSupport: {
           path: 'household-information/spouse-financial-support',
           title: 'Spouse\u2019s financial support',
-          depends: spouseDidNotCohabitateWithVeteran,
+          depends: spouseDidNotCohabitateWithVeteranV1,
           uiSchema: spouseFinancialSupport.uiSchema,
           schema: spouseFinancialSupport.schema,
         },
@@ -385,7 +408,7 @@ const formConfig = {
           path: 'household-information/spouse-contact-information',
           title: 'Spouse\u2019s address and phone number',
           initialData: {},
-          depends: spouseAddressDoesNotMatchVeterans,
+          depends: spouseAddressDoesNotMatchVeteransV1,
           uiSchema: spouseContactInformation.uiSchema,
           schema: spouseContactInformation.schema,
         },
