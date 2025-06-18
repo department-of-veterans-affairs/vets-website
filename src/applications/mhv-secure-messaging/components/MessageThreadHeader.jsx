@@ -17,6 +17,8 @@ import { getPageTitle, scrollIfFocusedAndNotInView } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
+import useFeatureToggles from '../hooks/useFeatureToggles';
+import ReplyButton from './ReplyButton';
 
 const MessageThreadHeader = props => {
   const {
@@ -24,10 +26,18 @@ const MessageThreadHeader = props => {
     cannotReply,
     isCreateNewModalVisible,
     setIsCreateNewModalVisible,
-    recipients,
   } = props;
 
-  const { threadId, category, subject, sentDate, recipientId } = message;
+  const {
+    threadId,
+    category,
+    subject,
+    sentDate,
+    recipientId,
+    isOhMessage,
+  } = message;
+
+  const { customFoldersRedesignEnabled } = useFeatureToggles();
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -60,7 +70,7 @@ const MessageThreadHeader = props => {
 
       // The Blocked Triage Group alert should stay visible until the user navigates away
     },
-    [message, recipients],
+    [message, messages, recipientId],
   );
 
   useEffect(
@@ -124,16 +134,24 @@ const MessageThreadHeader = props => {
             parentComponent={ParentComponent.MESSAGE_THREAD}
             currentRecipient={currentRecipient}
             setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+            isOhMessage={isOhMessage}
           />
         </div>
       )}
 
-      <MessageActionButtons
-        threadId={threadId}
-        hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
-        isCreateNewModalVisible={isCreateNewModalVisible}
-        setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-      />
+      {customFoldersRedesignEnabled ? (
+        <ReplyButton
+          key="replyButton"
+          visible={!cannotReply && !showBlockedTriageGroupAlert}
+        />
+      ) : (
+        <MessageActionButtons
+          threadId={threadId}
+          hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
+          isCreateNewModalVisible={isCreateNewModalVisible}
+          setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+        />
+      )}
     </div>
   );
 };
@@ -142,7 +160,6 @@ MessageThreadHeader.propTypes = {
   cannotReply: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   message: PropTypes.object,
-  recipients: PropTypes.object,
   setIsCreateNewModalVisible: PropTypes.func,
   onReply: PropTypes.func,
 };

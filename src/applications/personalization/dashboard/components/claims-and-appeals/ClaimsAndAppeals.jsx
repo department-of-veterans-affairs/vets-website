@@ -22,6 +22,7 @@ import { API_NAMES } from '../../../common/constants';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import useHighlightedClaimOrAppeal from './hooks/useHighlightedClaimOrAppeal';
 import HighlightedClaimAppeal from './HighlightedClaimAppeal';
+import DisabilityRatingCard from './DisabilityRatingCard';
 
 const NoClaimsOrAppealsText = () => {
   return (
@@ -88,7 +89,7 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
       {!isLOA1 && (
         <IconCTALink
           text="Manage all claims and appeals"
-          href="/claim-or-appeal-status/"
+          href="/track-claims/your-claims/"
           icon="assignment"
           onClick={() => {
             recordEvent({
@@ -214,6 +215,16 @@ const ClaimsAndAppeals = ({
             </DashboardWidgetWrapper>
           )}
       </div>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Enabled>
+          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Disability rating
+          </h3>
+          <DashboardWidgetWrapper>
+            <DisabilityRatingCard />
+          </DashboardWidgetWrapper>
+        </Toggler.Enabled>
+      </Toggler>
     </div>
   );
 };

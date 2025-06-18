@@ -1,11 +1,14 @@
 import React from 'react';
 
+import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+
 export const showConflictOfInterestText = () => {
   window.dataLayer.push({
     event: 'edu-1919--form-help-text-clicked',
     'help-text-label': 'Review the conflict of interest policy',
   });
 };
+
 export const conflictOfInterestPolicy = (
   <va-additional-info
     trigger="Review the conflict of interest policy"
@@ -22,31 +25,77 @@ export const conflictOfInterestPolicy = (
     </p>
   </va-additional-info>
 );
-export const cardDescription = item => {
-  if (
-    !item?.allProprietarySchoolsEmployeeInfo.first ||
-    !item?.allProprietarySchoolsEmployeeInfo.last
-  ) {
-    return 'this individual';
+
+export const getCardTitle = item => {
+  let title = null;
+
+  if (item) {
+    const first = item.certifyingOfficial?.first || 'Certifying';
+    const last = item.certifyingOfficial?.last || 'Official';
+    title = `${first} ${last}`;
   }
-  return `${item?.allProprietarySchoolsEmployeeInfo.first} ${
-    item?.allProprietarySchoolsEmployeeInfo.last
-  }`;
+
+  return title;
 };
-export const arrayBuilderOptions = {
-  arrayPath: 'all-proprietary-schools',
+
+export const getCardDescription = item => {
+  return item ? (
+    <>
+      <p className="vads-u-margin-top--0" data-testid="card-title">
+        {item.certifyingOfficial?.title || 'Title'}
+      </p>
+      <p data-testid="card-file-number">{item.fileNumber || 'File number'}</p>
+      {item.enrollmentPeriod?.from && (
+        <p data-testid="card-enrollment-period">
+          {formatReviewDate(item.enrollmentPeriod.from)}
+          {item.enrollmentPeriod?.to &&
+            ` - ${formatReviewDate(item.enrollmentPeriod.to)}`}
+        </p>
+      )}
+    </>
+  ) : null;
+};
+
+export const allProprietaryProfitConflictsArrayOptions = {
+  arrayPath: 'allProprietaryProfitConflicts',
   nounSingular: 'individual',
   nounPlural: 'individuals',
-  required: true,
+  required: false,
   text: {
-    getItemName: item => cardDescription(item),
-    cardDescription: item => {
-      return `${item?.allProprietarySchoolsEmployeeInfo?.title}`;
-    },
+    getItemName: item => getCardTitle(item),
+    cardDescription: item => getCardDescription(item),
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
+    summaryTitle:
+      'Review the individuals with a potential conflict of interest that receive VA educational benefits',
   },
 };
+
+export const proprietaryProfitConflictsArrayOptions = {
+  arrayPath: 'proprietaryProfitConflicts',
+  nounSingular: 'individual',
+  nounPlural: 'individuals',
+  required: false,
+  text: {
+    getItemName: item => `${item?.first || ''} ${item?.last || ''}`.trim(),
+    cardDescription: item => (
+      <>
+        {item?.title}
+        <div className=" vads-u-margin-y--2">
+          {item?.individualAssociationType === 'vaEmployee'
+            ? 'VA employee'
+            : 'SAA employee'}
+        </div>
+      </>
+    ),
+    cancelAddYes: 'Yes, cancel',
+    cancelAddNo: 'No, continue adding information',
+    summaryTitle:
+      'Review the individuals with a potential conflict of interest',
+    cancelAddButtonText: "Cancel adding this individual's information",
+  },
+};
+
 export const alert = (
   <va-alert
     class="vads-u-margin-bottom--1"

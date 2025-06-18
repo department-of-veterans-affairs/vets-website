@@ -16,11 +16,10 @@ module.exports = [
   { name: 'vaOnlineSchedulingFeSourceOfTruthCC', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruthModality', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruthTelehealth', value: true },
-  { name: 'vaOnlineSchedulingMHVRouteGuards', value: false },
-  { name: 'vaOnlineSchedulingConvertSlotsToUTC', value: false },
-  { name: 'vaOnlineSchedulingDirectScheduleAppointmentConflict', value: true },
+  { name: 'vaOnlineSchedulingConvertSlotsToUtc', value: true },
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },
   { name: 'travelPayViewClaimDetails', value: false },
   { name: 'travelPaySubmitMileageExpense', value: false },
+  { name: 'vaOnlineSchedulingMentalHealthHistoryFiltering', value: true },
 ];

@@ -23,13 +23,13 @@ export const useValidateFacilityCode = formData => {
             },
           );
           const attrs = response.data.attributes;
-          const address = {
-            address1: attrs.address1 || '',
-            address2: attrs.address2 || '',
-            address3: attrs.address3 || '',
+          const institutionAddress = {
+            street: attrs.address1 || '',
+            street2: attrs.address2 || '',
+            street3: attrs.address3 || '',
             city: attrs.city || '',
             state: attrs.state || '',
-            zip: attrs.zip || '',
+            postalCode: attrs.zip || '',
             country: attrs.country || '',
           };
 
@@ -41,7 +41,7 @@ export const useValidateFacilityCode = formData => {
               institutionDetails: {
                 ...formData.institutionDetails,
                 institutionName: response?.data?.attributes?.name,
-                address,
+                institutionAddress,
               },
             }),
           );
@@ -54,7 +54,7 @@ export const useValidateFacilityCode = formData => {
               institutionDetails: {
                 ...formData.institutionDetails,
                 institutionName: 'not found',
-                address: {},
+                institutionAddress: {},
               },
             }),
           );
@@ -67,19 +67,19 @@ export const useValidateFacilityCode = formData => {
     [formData?.institutionDetails?.facilityCode],
   );
   const attrs = institutionData?.attributes || {};
-  const address = {
-    address1: attrs.address1 || '',
-    address2: attrs.address2 || '',
-    address3: attrs.address3 || '',
+  const institutionAddress = {
+    street: attrs.address1 || '',
+    street2: attrs.address2 || '',
+    street3: attrs.address3 || '',
     city: attrs.city || '',
     state: attrs.state || '',
-    zip: attrs.zip || '',
+    postalCode: attrs.zip || '',
     country: attrs.country || '',
   };
 
   return {
     loader,
-    address,
+    institutionAddress,
     institutionName: institutionData?.attributes?.name || 'not found',
     ...institutionData,
   };
