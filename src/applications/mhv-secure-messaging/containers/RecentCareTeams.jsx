@@ -23,7 +23,15 @@ const RecentCareTeams = () => {
         setError('Select a care team');
         return;
       }
-      history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`);
+      setError(null); // Clear error on valid submit
+      if (selectedCareTeam === OTHER_VALUE) {
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`);
+        return;
+      }
+      // TODO: CURATED LIST handle pushing selected recipient value to reducer
+      // For now, just redirect to compose message
+      // This is a placeholder for the actual logic to dispatch value to activeDraft redux state
+      history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}/`);
     },
     [history, selectedCareTeam],
   );
@@ -31,6 +39,7 @@ const RecentCareTeams = () => {
   const handleRadioChange = useCallback(event => {
     const { value } = event.detail;
     setSelectedCareTeam(value);
+    setError(null); // Clear error on selection
   }, []);
 
   return (
