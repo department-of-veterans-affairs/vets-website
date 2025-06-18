@@ -78,7 +78,7 @@ describe('CustomTopContent', () => {
     expect(breadcrumbs).to.exist;
     expect(breadcrumbs).to.have.attr(
       'breadcrumb-list',
-      '[{"href":"/representative","label":"Representative.va.gov home"},{ href: "/representative/submissions", label: "Submissions" },{"href":"/representative/representative-form-upload/21-686c/introduction","label":"Submit VA Form 21-686c"}]',
+      '[{"href":"/representative","label":"Representative.va.gov home"},{ "href": "/representative/submissions", "label": "Submissions" },{"href":"/representative/representative-form-upload/21-686c/introduction","label":"Submit VA Form 21-686c"}]',
     );
   });
 });
