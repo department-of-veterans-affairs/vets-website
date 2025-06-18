@@ -222,7 +222,6 @@ export default class MockAppointmentResponse {
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
-   * @param {boolean} [arguments.vvsKind] - VVS king of the appointment. Default = VIDEO_TYPES.clinic.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @returns Array of MockAppointmentResponse objects
    * @memberof MockAppointmentResponse
@@ -231,7 +230,6 @@ export default class MockAppointmentResponse {
     localStartTime,
     future = false,
     past = false,
-    vvsKind = VIDEO_TYPES.clinic,
     count = 1,
   } = {}) {
     return Array(count)
@@ -246,7 +244,7 @@ export default class MockAppointmentResponse {
           .setKind(TYPE_OF_VISIT_ID.telehealth)
           .setModality('vaVideoCareAtAVaLocation')
           .setType('VA')
-          .setVvsKind(vvsKind),
+          .setVvsKind(VIDEO_TYPES.clinic),
       );
   }
 
@@ -260,7 +258,6 @@ export default class MockAppointmentResponse {
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
    * @param {boolean} [arguments.status] - Status of the appointment appointment.
-   * @param {boolean} [arguments.vvsKind] - VVS kind of the appointment.
    * @returns Array of MockAppointmentResponse objects
    * @memberof MockAppointmentResponse
    */
@@ -270,7 +267,6 @@ export default class MockAppointmentResponse {
     past,
     pending,
     status,
-    vvsKind,
   } = {}) {
     return MockAppointmentResponse.createClinicResponses({
       count: 1,
@@ -279,7 +275,6 @@ export default class MockAppointmentResponse {
       past,
       pending,
       status,
-      vvsKind,
     })[0];
   }
 
@@ -407,6 +402,28 @@ export default class MockAppointmentResponse {
           .setModality('vaVideoCareAtAVaLocation')
           .setVvsKind(VIDEO_TYPES.storeForward),
       );
+  }
+
+  /**
+   * Method to generate mock Store Forward response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createStoreForwardResponse({
+    localStartTime,
+    future = false,
+    count = 1,
+  } = {}) {
+    return MockAppointmentResponse.createStoreForwardResponses({
+      count,
+      localStartTime,
+      future,
+    })[0];
   }
 
   /**

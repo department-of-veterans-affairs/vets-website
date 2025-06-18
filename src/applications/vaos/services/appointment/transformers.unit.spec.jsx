@@ -445,11 +445,9 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Arrange
       const mobile = MockAppointmentResponse.createClinicResponse({
         localStartTime: new Date(),
-        vvsKind: VIDEO_TYPES.clinic,
       });
-      const storeForward = MockAppointmentResponse.createClinicResponse({
+      const storeForward = MockAppointmentResponse.createStoreForwardResponse({
         localStartTime: new Date(),
-        vvsKind: VIDEO_TYPES.storeForward,
       });
 
       // Act
