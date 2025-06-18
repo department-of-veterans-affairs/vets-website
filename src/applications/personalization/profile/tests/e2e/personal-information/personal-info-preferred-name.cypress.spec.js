@@ -20,7 +20,9 @@ describe('Preferred name field tests on the personal information page', () => {
     // check that 'WES' is formatted to 'Wes'
     cy.findByTestId('preferredName').contains('Wes');
 
-    cy.findByLabelText(nameEditButtonLabel).click({ waitForAnimations: true });
+    cy.get(`va-button[label="${nameEditButtonLabel}"]`).click({
+      waitForAnimations: true,
+    });
 
     cy.findByText(nameEditInputLabel).should('exist');
 
@@ -87,7 +89,9 @@ describe('Preferred name field tests on the personal information page', () => {
     const nameEditButtonLabel = 'Edit Preferred name';
     const nameEditInputField = 'input[name="root_preferredName"]';
 
-    cy.findByLabelText(nameEditButtonLabel).click({ waitForAnimations: true });
+    cy.get(`va-button[label="${nameEditButtonLabel}"]`).click({
+      waitForAnimations: true,
+    });
 
     cy.get(nameEditInputField)
       .clear()
@@ -114,7 +118,9 @@ describe('Preferred name field tests on the personal information page', () => {
     const nameEditButtonLabel = 'Edit Preferred name';
     const nameEditInputField = 'input[name="root_preferredName"]';
 
-    cy.findByLabelText(nameEditButtonLabel).click({ waitForAnimations: true });
+    cy.get(`va-button[label="${nameEditButtonLabel}"]`).click({
+      waitForAnimations: true,
+    });
 
     cy.get(nameEditInputField)
       .clear()
@@ -132,7 +138,9 @@ describe('Preferred name field tests on the personal information page', () => {
 
     const nameEditButtonLabel = 'Edit Preferred name';
 
-    cy.findByLabelText(nameEditButtonLabel).click({ waitForAnimations: true });
+    cy.get(`va-button[label="${nameEditButtonLabel}"]`).click({
+      waitForAnimations: true,
+    });
 
     cy.findAllByTestId('save-edit-button')
       .should('exist')

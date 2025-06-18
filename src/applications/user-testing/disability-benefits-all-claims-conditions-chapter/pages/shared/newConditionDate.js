@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   arrayBuilderItemSubsequentPageTitleUI,
   currentOrPastDateSchema,
@@ -5,33 +6,53 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
+  addStyleToShadowDomOnPages,
   createNewConditionName,
   ForceFieldBlur,
   validateApproximateDate,
 } from './utils';
 
+// Hides the built-in “For example: January 19 2000”
+const HideDefaultDateHint = () => {
+  useEffect(() => {
+    // Inject the style into every <va-memorable-date> on the page
+    addStyleToShadowDomOnPages(
+      [''],
+      ['va-memorable-date'],
+      '#dateHint {display:none}',
+    );
+  }, []);
+
+  return null; // nothing visual – side-effect only
+};
+
 const baseDateUI = currentOrPastDateUI({
-  title: 'What’s the approximate date your condition started?',
-  hint: 'For example, summer of 1988 can be entered as June 1, 1988.',
+  title: 'When did your condition start?',
+  hint:
+    'You can share an approximate date. If your back pain started in the winter of 2020, you would enter December 1, 2020.',
 });
 
-/** @returns {PageSchema} */
+/** @type {PageSchema} */
 const newConditionDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `Approximate start date of condition: ${createNewConditionName(
-          formData,
-        )}`,
+      ({ formData }) => createNewConditionName(formData, true),
+      undefined,
+      false,
     ),
+
     conditionDate: {
       ...baseDateUI,
+      // run the effect here
+      'ui:description': HideDefaultDateHint,
       'ui:validations': [validateApproximateDate],
     },
+
     _forceFieldBlur: {
       'ui:field': ForceFieldBlur,
     },
   },
+
   schema: {
     type: 'object',
     properties: {

@@ -152,7 +152,17 @@ const updateWithoutChanges = () => {
 };
 
 const validateFocusedElement = element => {
-  cy.findByRole(element.tag, { name: element.name }).should('be.focused');
+  // If the element is a web component, assert focus is on the
+  // native element inside the shadow DOM
+  if (element.innerTag) {
+    cy.get(`${element.tag}[label="${element.name}"]`)
+      .shadow()
+      .find(element.innerTag)
+      .should('be.focused');
+  } else {
+    // Otherwise, use the standard role-based query
+    cy.findByRole(element.tag, { name: element.name }).should('be.focused');
+  }
 };
 
 class AddressPage {
@@ -324,7 +334,17 @@ class AddressPage {
   };
 
   validateFocusedElement = element => {
-    cy.findByRole(element.tag, { name: element.name }).should('be.focused');
+    // If the element is a web component, assert focus is on the
+    // native element inside the shadow DOM
+    if (element.innerTag) {
+      cy.get(`${element.tag}[label="${element.name}"]`)
+        .shadow()
+        .find(element.innerTag)
+        .should('be.focused');
+    } else {
+      // Otherwise, use the standard role-based query
+      cy.findByRole(element.tag, { name: element.name }).should('be.focused');
+    }
   };
 }
 
