@@ -201,12 +201,12 @@ export const CompleteReferral = props => {
                 Please consider taking our pilot feedback surveys
               </h3>
               <p className="vads-u-margin-top--0">
-                First, you will follow the link below to the{' '}
-                <strong>sign-up survey</strong> with our recruitment partner.
+                First, follow the link below to the sign-up survey with our
+                recruitment partner.
               </p>
               <p>
-                Next, you will be contacted by our recruitment partner and
-                provided the <strong>feedback</strong> survey.
+                Next, wait to be contacted by our recruitment partner, who will
+                provide the feedback survey.
               </p>
               <p className="vads-u-margin-y--1">
                 Our recruiting partner will provide compensation.
