@@ -13,3 +13,7 @@
 va-checkbox[name="issues"]::part(label) {
   word-break: break-all;
 }
+
+.hipaa-privacy-agreement {
+  background-color: $vads-color-base-lightest;
+}
