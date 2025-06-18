@@ -15,6 +15,20 @@ import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import { isLoadingFeatures } from '../selectors';
 import { useBrowserMonitoring } from '../utils/datadog-rum/useBrowserMonitoring';
 
+const AppLoadingIndicator = ({ dataTestId }) => (
+  <div className="vads-u-margin-y--5">
+    <va-loading-indicator
+      data-testid={dataTestId}
+      message="Loading your information..."
+      set-focus
+    />
+  </div>
+);
+
+AppLoadingIndicator.propTypes = {
+  dataTestId: PropTypes.string,
+};
+
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
 function AppContent({ featureFlagsLoading, isDataAvailable }) {
@@ -23,14 +37,7 @@ function AppContent({ featureFlagsLoading, isDataAvailable }) {
   const isAppReady = canUseApp && !featureFlagsLoading;
 
   if (!isAppReady) {
-    return (
-      <div className="vads-u-margin-y--5">
-        <va-loading-indicator
-          data-testid="feature-flags-loading"
-          message="Loading your information..."
-        />
-      </div>
-    );
+    return <AppLoadingIndicator dataTestId="feature-flags-loading" />;
   }
 
   return (
@@ -89,6 +96,9 @@ function ClaimsStatusApp({
             externalServices.vaProfile,
             externalServices.vbms,
           ]}
+          loadingIndicator={
+            <AppLoadingIndicator dataTestId="downtime-notification-loading" />
+          }
         >
           <AppContent featureFlagsLoading={featureFlagsLoading} />
         </DowntimeNotification>
