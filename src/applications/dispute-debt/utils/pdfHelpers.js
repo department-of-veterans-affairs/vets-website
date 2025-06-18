@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser';
-import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
+// import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { templates } from '~/platform/pdf/exportsFile';
 
 // 'Manually' generating PDF instead of using generatePdf so we can
 //  get the blob and send it to the API
