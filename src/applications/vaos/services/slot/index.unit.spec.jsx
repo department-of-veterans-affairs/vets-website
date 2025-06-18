@@ -1,10 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
-import {
-  mockFetch,
-  setFetchJSONFailure,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
 import {
   addDays,
   addMonths,
@@ -13,8 +7,14 @@ import {
   startOfDay,
   startOfMonth,
 } from 'date-fns';
-import * as transformers from './transformers';
+import {
+  mockFetch,
+  setFetchJSONFailure,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
+import sinon from 'sinon';
 import * as vaos from '../vaos';
+import * as transformers from './transformers';
 
 import { getSlots } from '.';
 import { DATE_FORMATS } from '../../utils/constants';
@@ -61,8 +61,8 @@ describe('VAOS Services: Slot ', () => {
       expect(decodeURIComponent(global.fetch.firstCall.args[0])).to.contain(
         `/vaos/v2/locations/983/clinics/308/slots?start=${format(
           startDate,
-          DATE_FORMATS.ISODateTimeLocal,
-        )}&end=${format(endDate, DATE_FORMATS.ISODateTimeLocal)}`,
+          "yyyy-MM-dd'T'HH:mm:ssXXX",
+        )}&end=${format(endDate, "yyyy-MM-dd'T'HH:mm:ssXXX")}`,
       );
       expect(data[0].start).to.equal(
         format(startDate, DATE_FORMATS.ISODateTimeUTC),
@@ -91,8 +91,8 @@ describe('VAOS Services: Slot ', () => {
       expect(decodeURIComponent(global.fetch.firstCall.args[0])).to.contain(
         `/vaos/v2/locations/983/clinics/308/slots?start=${format(
           startDate,
-          DATE_FORMATS.ISODateTimeLocal,
-        )}&end=${format(endDate, DATE_FORMATS.ISODateTimeLocal)}`,
+          "yyyy-MM-dd'T'HH:mm:ssXXX",
+        )}&end=${format(endDate, "yyyy-MM-dd'T'HH:mm:ssXXX")}`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
