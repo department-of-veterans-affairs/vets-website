@@ -108,9 +108,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
-          .assertSingleLocation({
-            locationName: /Cheyenne VA Medical Center/i,
-          })
+          .assertSingleLocation({ locationName: /Facility 983/i })
           .clickNextButton();
 
         DateTimeRequestPageObject.assertUrl()
