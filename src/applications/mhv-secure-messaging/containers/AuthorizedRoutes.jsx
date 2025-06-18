@@ -18,6 +18,7 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
 import SelectHealthCareSystem from './SelectHealthCareSystem';
+import RecentCareTeams from './RecentCareTeams';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
 const AppRoute = ({ children, ...rest }) => {
@@ -106,6 +107,16 @@ const AuthorizedRoutes = () => {
             key="Compose"
           >
             <Compose skipInterstitial />
+          </AppRoute>
+        )}
+
+        {isPilot && (
+          <AppRoute
+            exact
+            path={`${Paths.COMPOSE}${Paths.RECENT_CARE_TEAMS}`}
+            key="RecentCareTeams"
+          >
+            <RecentCareTeams />
           </AppRoute>
         )}
         {isPilot && (
