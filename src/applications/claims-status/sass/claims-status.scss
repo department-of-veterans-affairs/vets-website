@@ -20,11 +20,16 @@
 }
 
 .loading-skeleton {
-  &__row {
+  &--loading {
+    padding: 1em;
+    border: 1px solid var(--vads-color-base-light);
+  }
+
+  &--row {
     margin: 0;
     position: relative;
     overflow: hidden;
-    background-color: var(--vads-color-gray-cool-light);
+    background-color: var(--vads-color-base-light);
     border-radius: 6px;
 
     &::after {
@@ -45,7 +50,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    &__row::after { animation: none; }
+    &--row::after { animation: none; }
   }
 }
 

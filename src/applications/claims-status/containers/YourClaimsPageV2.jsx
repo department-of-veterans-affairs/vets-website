@@ -176,14 +176,10 @@ class YourClaimsPageV2 extends React.Component {
     let pageInfo;
     const allRequestsLoaded =
       !claimsLoading && !appealsLoading && !stemClaimsLoading;
-    const allRequestsLoading =
-      claimsLoading && appealsLoading && stemClaimsLoading;
     const atLeastOneRequestLoading =
       claimsLoading || appealsLoading || stemClaimsLoading;
     const emptyList = !(list && list.length);
-    if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
-      content = <ClaimCardLoadingSkeleton />;
-    } else if (!emptyList) {
+    if (!emptyList) {
       const listLen = list.length;
       const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
       const shouldPaginate = numPages > 1;
@@ -204,7 +200,11 @@ class YourClaimsPageV2 extends React.Component {
           {pageInfo}
           <div className="claim-list">
             {pageItems.map(claim => this.renderListItem(claim))}
-            {atLeastOneRequestLoading && <ClaimCardLoadingSkeleton />}
+            {atLeastOneRequestLoading ? (
+              <ClaimCardLoadingSkeleton />
+            ) : (
+              <ClaimCardLoadingSkeleton isLoading={false} />
+            )}
             {shouldPaginate && (
               <VaPagination
                 page={this.state.page}

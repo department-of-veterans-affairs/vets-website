@@ -1,20 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import Skeleton from '../LoadingSkeleton';
+import LoadingSkeleton from '../LoadingSkeleton';
 
-export default function ClaimCardLoadingSkeleton() {
+export default function ClaimCardLoadingSkeleton({ isLoading = true }) {
   return (
-    <Skeleton
-      label="Loading your claims and appeals…"
-      className="claim-list-loading-skeleton"
+    <LoadingSkeleton
+      id="claim-card"
+      isLoading={isLoading}
+      srLabel="Loading your claims and appeals…"
+      srLoadedLabel="Claims and appeals have loaded"
     >
-      <Skeleton.Row height="1.5rem" width="7rem" marginBottom="1rem" />
-      <Skeleton.Row height="1.5rem" width="16rem" />
-      <Skeleton.Row width="12rem" marginBottom="1rem" />
-      <Skeleton.Row width="16rem" />
-      <Skeleton.Row width="20rem" />
-      <Skeleton.Row width="16rem" marginBottom="1rem" />
-      <Skeleton.Row width="6rem" />
-    </Skeleton>
+      <LoadingSkeleton.Row height="1.5rem" width="7rem" marginBottom="1rem" />
+      <LoadingSkeleton.Row height="1.5rem" width="16rem" />
+      <LoadingSkeleton.Row width="12rem" marginBottom="1rem" />
+      <LoadingSkeleton.Row width="16rem" />
+      <LoadingSkeleton.Row width="20rem" />
+      <LoadingSkeleton.Row width="16rem" marginBottom="1rem" />
+      <LoadingSkeleton.Row width="6rem" />
+    </LoadingSkeleton>
   );
 }
+
+ClaimCardLoadingSkeleton.propTypes = {
+  isLoading: PropTypes.bool,
+};
