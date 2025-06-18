@@ -115,9 +115,9 @@ describe('vitalReducer', () => {
   it('creates a list', () => {
     const response = {
       entry: [
-        { resource: { id: 1, code: { text: 'TEMPERATURE' } } },
-        { resource: { id: 2, code: { text: 'TEMPERATURE' } } },
-        { resource: { id: 3, code: { text: 'TEMPERATURE' } } },
+        { resource: { id: 1, code: { coding: [{ code: '8310-5' }] } } },
+        { resource: { id: 2, code: { coding: [{ code: '8310-5' }] } } },
+        { resource: { id: 3, code: { coding: [{ code: '8310-5' }] } } },
       ],
       resourceType: 'Observation',
     };
@@ -132,9 +132,9 @@ describe('vitalReducer', () => {
   it('puts updated records in updatedList', () => {
     const response = {
       entry: [
-        { resource: { id: 1, code: { text: 'TEMPERATURE' } } },
-        { resource: { id: 2, code: { text: 'TEMPERATURE' } } },
-        { resource: { id: 3, code: { text: 'TEMPERATURE' } } },
+        { resource: { id: 1, code: { coding: [{ code: '8310-5' }] } } },
+        { resource: { id: 2, code: { coding: [{ code: '8310-5' }] } } },
+        { resource: { id: 3, code: { coding: [{ code: '8310-5' }] } } },
       ],
       resourceType: 'Observation',
     };
@@ -151,9 +151,9 @@ describe('vitalReducer', () => {
   it('ignores records without allowed types', () => {
     const response = {
       entry: [
-        { resource: { id: 1, code: { text: 'PAIN' } } },
-        { resource: { id: 2, code: { text: 'PAIN' } } },
-        { resource: { id: 3, code: { text: 'PAIN' } } },
+        { resource: { id: 1, code: { coding: [{ code: '1234-5' }] } } },
+        { resource: { id: 2, code: { coding: [{ code: '1234-5' }] } } },
+        { resource: { id: 3, code: { coding: [{ code: '1234-5' }] } } },
       ],
       resourceType: 'Observation',
     };
