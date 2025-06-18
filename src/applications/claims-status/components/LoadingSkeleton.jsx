@@ -2,39 +2,61 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Accessible skeleton component.
- * Can either use children or rowCount for loader content.
+ * @component
+ * A loading skeleton component.
+ * Skeleton content can be provided using children or rowCount.
+ * Provides accessibility features including screen reader support and ARIA attributes.
  *
- * @param {string}   [label]      Screen‑reader text (defaults to “Loading…”)
+ * @param {React.ReactNode} [children]  Rows or any other markup to render
  * @param {string}   [className]  Class names for custom container styling
- * @param {ReactNode} [children]  Rows or any other markup to render
- * @param {string}   [id]         Passed to the data-testid attribute
+ * @param {string}   [id]         Passed to the data-testid attribute which appends "-loading-skeleton" to the id
+ * @param {boolean}  [isLoading=true]  Whether content is loading which determines if the skeleton is shown or not
  * @param {number}   [rowCount]   Number of rows to render
+ * @param {string}   [srLabel="Loading…"]      Screen‑reader text when loading
+ * @param {string}   [srLoadedLabel="Content has loaded"] Screen‑reader text when loaded
  * @example
  * <Skeleton
- *   label="Loading your claims..."
  *   className="claims-loading-skeleton"
- *   id="claims-loading-skeleton"
- *   rowCount={3}
- * />
+ *   id="claims"
+ *   isLoading={isLoading}
+ *   srLabel="Loading your claims..."
+ *   srLoadedLabel="Claims have loaded"
+ * >
+ *   <Skeleton.Row height="1.5rem" width="7rem" marginBottom="1rem" />
+ *   <Skeleton.Row height="1.5rem" width="16rem" />
+ * </Skeleton>
  */
 export default function LoadingSkeleton({
-  label = 'Loading…',
-  className = '',
   children,
+  className = '',
   id,
+  isLoading = true,
   rowCount,
+  srLabel = 'Loading…',
+  srLoadedLabel = 'Content has loaded',
 }) {
-  const classes = className
-    ? `loading-skeleton ${className}`
-    : 'loading-skeleton';
+  const baseClass = 'loading-skeleton';
+  const loadingClass = isLoading ? 'loading-skeleton--loading' : '';
+  const classes = `${baseClass} ${loadingClass} ${className || ''}`.trim();
 
   return (
-    <div role="status" aria-busy="true" className={classes} data-testid={id}>
-      <span className="sr-only">{label}</span>
-      {children}
-      {rowCount > 0 &&
-        Array.from({ length: rowCount }).map((_, index) => <Row key={index} />)}
+    <div
+      aria-busy={isLoading}
+      className={classes}
+      data-testid={`${id}-loading-skeleton`}
+    >
+      <span aria-live="polite" className="sr-only">
+        {isLoading ? srLabel : srLoadedLabel}
+      </span>
+      {isLoading && (
+        <>
+          {children}
+          {rowCount > 0 &&
+            Array.from({ length: rowCount }).map((_, index) => (
+              <Row key={index} />
+            ))}
+        </>
+      )}
     </div>
   );
 }
@@ -43,17 +65,20 @@ LoadingSkeleton.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   id: PropTypes.string,
-  label: PropTypes.string,
+  isLoading: PropTypes.bool,
   rowCount: PropTypes.number,
+  srLabel: PropTypes.string,
+  srLoadedLabel: PropTypes.string,
 };
 
 /**
+ * @component
  * Loading skeleton row component.
  *
  * @param {string}   [className]  Class names for custom row styling
- * @param {string}   [height]     Height of the row
- * @param {string}   [width]      Width of the row
- * @param {string}   [marginBottom] Margin bottom of the row
+ * @param {string}   [height="1rem"]     Height of the row
+ * @param {string}   [width="100%"]      Width of the row
+ * @param {string}   [marginBottom=".5rem"] Margin bottom of the row
  * @example
  * <Skeleton>
  *   <Skeleton.Row height="2rem" width="10rem" marginBottom="1rem" />
@@ -66,16 +91,10 @@ function Row({
   marginBottom = '.5rem',
 }) {
   const classes = className
-    ? `loading-skeleton__row ${className}`
-    : 'loading-skeleton__row';
+    ? `loading-skeleton--row ${className}`
+    : 'loading-skeleton--row';
 
-  return (
-    <div
-      aria-hidden="true"
-      className={classes}
-      style={{ height, width, marginBottom }}
-    />
-  );
+  return <div className={classes} style={{ height, width, marginBottom }} />;
 }
 
 Row.propTypes = {
