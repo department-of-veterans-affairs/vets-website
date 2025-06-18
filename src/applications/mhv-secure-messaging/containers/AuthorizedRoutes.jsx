@@ -122,7 +122,7 @@ const AuthorizedRoutes = () => {
         {isPilot && (
           <AppRoute
             exact
-            path={`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`}
+            path={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
             key="SelectHealthCareSystem"
           >
             <SelectHealthCareSystem />
