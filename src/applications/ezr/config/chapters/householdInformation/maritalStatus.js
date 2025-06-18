@@ -4,7 +4,7 @@ import {
   titleUI,
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import VaSelectFieldWithModal from '../../../components/FormFields/VaSelectFieldWithModal';
 import MaritalStatusDescription from '../../../components/FormDescriptions/MaritalStatusDescription';
 import content from '../../../locales/en/content.json';
 
@@ -18,7 +18,23 @@ export default {
       ...descriptionUI(MaritalStatusDescription, { hideOnReview: true }),
       maritalStatus: {
         'ui:title': content['household-marital-status-label'],
-        'ui:webComponentField': VaSelectField,
+        'ui:webComponentField': VaSelectFieldWithModal,
+        'ui:options': {
+          modalConfig: {
+            triggerValues: ['Married', 'Separated'],
+            modalTitle: content['household-spouse-status-change-modal-title'],
+            modalDescription:
+              content['household-spouse-status-change-modal-text'],
+            primaryButtonText:
+              content[
+                'household-spouse-status-change-modal-continue-button-text'
+              ],
+            secondaryButtonText:
+              content[
+                'household-spouse-status-change-modal-cancel-button-text'
+              ],
+          },
+        },
       },
     },
   },

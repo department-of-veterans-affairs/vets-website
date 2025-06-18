@@ -5,9 +5,18 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import PropTypes from 'prop-types';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
 const MaritalStatusPage = props => {
-  const { goForward, goBack, setFormData, data, NavButtons } = props;
+  const {
+    goForward,
+    goBack,
+    setFormData,
+    data,
+    NavButtons,
+    contentBeforeButtons,
+    contentAfterButtons,
+  } = props;
   const [modal, setModal] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(
     data['view:maritalStatus'].maritalStatus,
@@ -29,6 +38,7 @@ const MaritalStatusPage = props => {
 
   // Marital status schema from form schema.
   const { maritalStatus: maritalStatusSchema } = ezrSchema.properties;
+  const prefilled = data?.metadata?.prefill || false;
 
   // Modal content.
   const modalTitle = 'Marital Status Changed';
@@ -70,6 +80,12 @@ const MaritalStatusPage = props => {
 
   return (
     <div>
+      <PrefillMessage formContext={{ prefilled }}>
+        <p>
+          We’ve prefilled some of your information from your account. If you
+          need to correct anything, you can edit the form fields below.
+        </p>
+      </PrefillMessage>
       <VaSelect
         onVaSelect={handlers.onChange}
         required
@@ -98,7 +114,9 @@ const MaritalStatusPage = props => {
       >
         <p className="vads-u-margin--0">{modalCancelDescription}</p>
       </VaModal>
+      {contentBeforeButtons}
       <NavButtons goForward={handlers.handleGoForward} goBack={goBack} />
+      {contentAfterButtons}
     </div>
   );
 };
