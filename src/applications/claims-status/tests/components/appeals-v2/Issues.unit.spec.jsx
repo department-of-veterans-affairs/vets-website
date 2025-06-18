@@ -23,7 +23,7 @@ describe('<Issues/>', () => {
     isAppeal: true,
   };
 
-  const noneApealIssues = { issues: addStatusToIssues([]), isAppeal: false };
+  const nonAppealIssues = { issues: addStatusToIssues([]), isAppeal: false };
 
   it('should render', () => {
     const wrapper = shallow(<Issues {...emptyIssues} />);
