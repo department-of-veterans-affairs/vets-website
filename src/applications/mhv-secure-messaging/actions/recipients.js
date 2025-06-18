@@ -64,3 +64,25 @@ export const updateTriageTeamRecipients = recipients => async dispatch => {
     dispatch(addAlert(ALERT_TYPE_ERROR, null, Alerts.ContactList.CANNOT_SAVE));
   }
 };
+
+export const setActiveCareSystem = (
+  recipients,
+  selectedCareSystem,
+) => dispatch => {
+  dispatch({
+    type: Actions.AllRecipients.SELECT_HEALTH_CARE_SYSTEM,
+    payload: {
+      careSystem: selectedCareSystem,
+      recipients,
+    },
+  });
+};
+
+export const setActiveCareTeam = selectedCareTeam => dispatch => {
+  dispatch({
+    type: Actions.AllRecipients.SELECT_CARE_TEAM,
+    payload: {
+      careTeam: selectedCareTeam,
+    },
+  });
+};

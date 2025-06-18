@@ -55,8 +55,8 @@ const RecipientsSelect = ({
   defaultValue,
   error,
   isSignatureRequired,
-  setCheckboxMarked,
-  setElectronicSignature,
+  setCheckboxMarked = () => {},
+  setElectronicSignature = () => {},
   setComboBoxInputValue,
 }) => {
   const alertRef = useRef(null);
@@ -69,6 +69,8 @@ const RecipientsSelect = ({
   const [selectedRecipient, setSelectedRecipient] = useState(null);
   const [recipientsListSorted, setRecipientsListSorted] = useState([]);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+
+  const isPilot = useSelector(state => state.sm.app.isPilot);
 
   const optGroupEnabled = useSelector(
     state =>
@@ -166,7 +168,7 @@ const RecipientsSelect = ({
 
   const optionsValues = useMemo(
     () => {
-      if (!optGroupEnabled) {
+      if (!optGroupEnabled || isPilot) {
         return sortRecipients(recipientsList)?.map(item => (
           <option key={item.id} value={item.id}>
             {item.suggestedNameDisplay || item.name}
@@ -222,11 +224,20 @@ const RecipientsSelect = ({
 
   return (
     <>
-      {!featureTogglesLoading && isComboBoxEnabled ? (
+      {!featureTogglesLoading && (isComboBoxEnabled || isPilot) ? (
         <VaComboBox
           required
-          label="Select a care team to send your message to"
+          label={`${
+            isPilot
+              ? 'Select a care team'
+              : 'Select a care team to send your message to'
+          }`}
           name="to"
+          hint={
+            isPilot
+              ? 'Start typing your care facility, provider’s name, or type of care to search.'
+              : null
+          }
           value={defaultValue !== undefined ? defaultValue : ''}
           onVaSelect={handleRecipientSelect}
           data-testid="compose-recipient-combobox"
@@ -235,7 +246,7 @@ const RecipientsSelect = ({
           data-dd-action-name="Compose Recipient Combobox List"
           onInput={handleInput}
         >
-          <CantFindYourTeam />
+          {!isPilot && <CantFindYourTeam />}
           {optionsValues}
         </VaComboBox>
       ) : (
@@ -284,6 +295,8 @@ const RecipientsSelect = ({
 RecipientsSelect.propTypes = {
   recipientsList: PropTypes.array.isRequired,
   onValueChange: PropTypes.func.isRequired,
+  activeFacility: PropTypes.object,
+  currentRecipient: PropTypes.object,
   defaultValue: PropTypes.number,
   error: PropTypes.string,
   isSignatureRequired: PropTypes.bool,

@@ -1256,4 +1256,37 @@ describe('Compose form component', () => {
     expect(subjectInputError).to.equal('Subject cannot be blank.');
     expect(messageInputError).to.equal('Message body cannot be blank.');
   });
+
+  it('renders correct headings in pilot environment', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: { loading: false },
+      sm: {
+        ...initialState.sm,
+        app: { isPilot: true },
+        recipients: {
+          ...initialState.sm.recipients,
+          activeFacility: {
+            ehr: 'vista',
+            vamcSystemName: 'Test Vista Facility Health Care',
+          },
+        },
+      },
+    };
+
+    const screen = setup(customState, Paths.COMPOSE, {
+      pageTitle: 'Start your message',
+    });
+    expect(
+      screen.getByText('Start your message', {
+        selector: 'h1',
+      }),
+    ).to.exist;
+
+    expect(
+      screen.getByText('Attachments', {
+        selector: 'h3',
+      }),
+    ).to.exist;
+  });
 });

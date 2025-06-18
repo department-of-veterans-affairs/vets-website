@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+// import {
+//   selectCernerFacilities,
+//   selectVistaFacilities,
+// } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
 
 import { clearThread } from '../actions/threadDetails';
@@ -24,8 +28,11 @@ import {
 } from '../util/constants';
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
+// import { setActiveCareTeam, setActiveCareSystem } from '../actions/recipients';
 
 const Compose = ({ skipInterstitial }) => {
+  const isPilot = useSelector(state => state.sm.app.isPilot);
+
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
@@ -39,10 +46,14 @@ const Compose = ({ skipInterstitial }) => {
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
   const { allTriageGroupsBlocked } = recipients;
+  // const cernerFacilities = useSelector(selectCernerFacilities);
+  // const vistaFacilities = useSelector(selectVistaFacilities);
 
   const [acknowledged, setAcknowledged] = useState(skipInterstitial);
   const [draftType, setDraftType] = useState('');
-  const [pageTitle, setPageTitle] = useState('Start a new message');
+  const [pageTitle, setPageTitle] = useState(
+    isPilot ? 'Start your message' : 'Start a new message',
+  );
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -100,6 +111,27 @@ const Compose = ({ skipInterstitial }) => {
     },
     [isDraftPage],
   );
+
+  // Follow this pattern to set the active facility once other components are connected.
+  // The useEffect here should be removed and the dispatch added to the ChooseVAHealthcareSystem
+  // component with the actual selected Facility passed into setActiveCareSystem
+  //
+  // useEffect(
+  //   () => {
+  //     if (
+  //       isPilot &&
+  //       recipients.allRecipients.length > 0 &&
+  //       !recipients?.activeFacility
+  //     ) {
+  //       dispatch(
+  //         // setActiveCareSystem(recipients?.allRecipients, cernerFacilities[0]),
+  //         setActiveCareSystem(recipients?.allRecipients, vistaFacilities[0]),
+  //       );
+  //       dispatch(setActiveCareTeam(recipients?.allowedRecipients[0]));
+  //     }
+  //   },
+  //   [cernerFacilities, dispatch, isPilot, recipients, vistaFacilities],
+  // );
 
   useEffect(
     () => {
