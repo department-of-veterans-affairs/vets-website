@@ -132,7 +132,7 @@ const LabsAndTests = () => {
                 <VaAlert
                   status="success"
                   visible
-                  class="vads-u-margin-top--4 no-print"
+                  class="vads-u-margin-y--3 no-print"
                   role="alert"
                   data-testid="alert-download-started"
                 >

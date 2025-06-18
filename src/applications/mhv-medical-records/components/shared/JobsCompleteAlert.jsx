@@ -20,16 +20,15 @@ export default function JobsCompleteAlert({ records, studyJobs }) {
           view and download your images. After that, you’ll need to request them
           again.
         </p>
-        <p>
+        <p className="vads-u-margin-bottom--0">
           <Link
             to={`/labs-and-tests/${records[0].id}/images`}
-            className="vads-c-action-link--blue"
             data-testid="radiology-view-all-images"
             onClick={() => {
               sendDataDogAction('View all images');
             }}
           >
-            View all {imageCount} images
+            <strong>View all {imageCount} images</strong>
           </Link>
         </p>
       </>
@@ -38,17 +37,19 @@ export default function JobsCompleteAlert({ records, studyJobs }) {
   return (
     <>
       <p>
-        View or download your images now. They'll be available here for 3 days.
+        Images are available here for 3 days. After that, you'll need to request
+        them again.
       </p>
       <ul
         style={{ listStyle: 'none' }}
         className="vads-u-padding-x--0 vads-u-margin-bottom--0"
       >
-        {records.map(record => {
-          const studyJob =
-            studyJobs?.find(img => img.studyIdUrn === record.studyId) || null;
+        {records.map((record, index) => {
+          const isLast = index === records.length - 1;
+          const liClass = isLast ? '' : 'vads-u-margin-bottom--2';
+
           return (
-            <li key={record.id}>
+            <li key={record.id} className={liClass}>
               <Link
                 to={`/labs-and-tests/${record.id}/images`}
                 data-testid="radiology-view-all-images"
@@ -56,7 +57,8 @@ export default function JobsCompleteAlert({ records, studyJobs }) {
                   sendDataDogAction('View all images');
                 }}
               >
-                {record.name} ({studyJob.imageCount} images)
+                {record.name} ({record.imageCount}{' '}
+                {record.imageCount > 1 ? 'images' : 'image'})
               </Link>
             </li>
           );
