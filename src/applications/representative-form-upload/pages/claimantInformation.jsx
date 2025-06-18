@@ -41,7 +41,6 @@ const claimantSubPageSchema = {
   claimantFullName: firstNameLastNameNoSuffixSchema,
   claimantSsn: ssnSchema,
   claimantDateOfBirth: dateOfBirthSchema,
-  // vaFileNumber: vaFileNumberSchema,
 };
 
 const veteranSubPageUI = {
