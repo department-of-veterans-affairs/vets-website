@@ -3,7 +3,7 @@ import EditEmailPage from '../../../components/EditEmailPage';
 /** @type {PageSchema} */
 export default {
   title: 'Edit email address',
-  path: '/veteran-contact-information/email',
+  path: 'veteran-contact-information/email',
   depends: () => false,
   hideNavButtons: true,
   hideStepper: true,

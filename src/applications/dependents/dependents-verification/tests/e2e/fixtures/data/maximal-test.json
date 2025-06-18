@@ -2,6 +2,22 @@
   "data": {
     "veteranInformation": {
       "ssnLastFour": "5678"
+    },
+    "veteranContactInformation": {
+      "email": "",
+      "phone": "",
+      "mailingAddress": {
+        "addressType": "",
+        "addressLine1": "",
+        "addressLine2": "",
+        "city": "",
+        "stateCode": "",
+        "zipCode": "",
+        "province": "",
+        "internationalPostalCode": "",
+        "countryCodeIso3": ""
+      },
+      "internationalPhone": ""
     }
   }
 }

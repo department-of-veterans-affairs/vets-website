@@ -3,7 +3,7 @@ import EditPhonePage from '../../../components/EditPhonePage';
 /** @type {PageSchema} */
 export default {
   title: 'Edit phone number',
-  path: '/veteran-contact-information/phone',
+  path: 'veteran-contact-information/phone',
   depends: () => false,
   hideNavButtons: true,
   CustomPage: EditPhonePage,

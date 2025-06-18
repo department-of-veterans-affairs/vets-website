@@ -66,7 +66,7 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Mailing address
         </h4>
-        <p className="mailing-address">
+        <div className="mailing-address">
           {mailingAddress ? (
             <span
               className="dd-privacy-hidden"
@@ -77,7 +77,7 @@ const ContactInformation = ({ formData, router, setFormData }) => {
           ) : (
             <span>None provided</span>
           )}
-        </p>
+        </div>
         <VaLink
           active
           href="/veteran-contact-information/mailing-address"
@@ -95,7 +95,7 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Email address
         </h4>
-        <p className="email">
+        <div className="email">
           {email ? (
             <span
               className="dd-privacy-hidden"
@@ -106,7 +106,7 @@ const ContactInformation = ({ formData, router, setFormData }) => {
           ) : (
             <span>None provided</span>
           )}
-        </p>
+        </div>
         <VaLink
           active
           href="/veteran-contact-information/email"
@@ -122,7 +122,7 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Mobile phone number
         </h4>
-        <p className="phone">
+        <div className="phone">
           {phone ? (
             <va-telephone
               not-clickable
@@ -133,7 +133,7 @@ const ContactInformation = ({ formData, router, setFormData }) => {
           ) : (
             <span>None provided</span>
           )}
-        </p>
+        </div>
         <VaLink
           active
           href="/veteran-contact-information/phone"
@@ -149,7 +149,7 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           International phone number
         </h4>
-        <p className="intl-phone">
+        <div className="intl-phone">
           {internationalPhone ? (
             <span
               className="dd-privacy-hidden"
@@ -160,7 +160,7 @@ const ContactInformation = ({ formData, router, setFormData }) => {
           ) : (
             <span>None provided</span>
           )}
-        </p>
+        </div>
         <VaLink
           active
           href="/veteran-contact-information/international-phone"

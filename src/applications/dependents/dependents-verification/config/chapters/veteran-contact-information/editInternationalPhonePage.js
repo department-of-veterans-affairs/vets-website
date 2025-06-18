@@ -3,7 +3,7 @@ import EditInternationalPhonePage from '../../../components/EditInternationalPho
 /** @type {PageSchema} */
 export default {
   title: 'Edit phone number',
-  path: '/veteran-contact-information/international-phone',
+  path: 'veteran-contact-information/international-phone',
   depends: () => false,
   hideNavButtons: true,
   CustomPage: EditInternationalPhonePage,

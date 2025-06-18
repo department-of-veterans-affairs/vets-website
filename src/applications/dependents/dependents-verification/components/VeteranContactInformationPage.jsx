@@ -4,9 +4,11 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '~/platform/user/selectors';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import AddressView from '@@vap-svc/components/AddressField/AddressView';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollAndFocus } from 'platform/utilities/scroll';
-import AddressView from '@@vap-svc/components/AddressField/AddressView';
+
+import { isEmptyObject } from '../../shared/utils';
 
 const VeteranContactInformationPage = ({
   data,
@@ -19,11 +21,32 @@ const VeteranContactInformationPage = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const [hasMissingEmail, setHasMissingEmail] = useState(null);
-  const [hasMissingAddress, setHasMissingAddress] = useState(null);
-  const [alert, setAlert] = useState(null);
   const { profile } = useSelector(selectUser);
   const { veteranContactInformation = {} } = data || {};
+  const {
+    email,
+    phone,
+    mailingAddress,
+    internationalPhone,
+  } = veteranContactInformation;
+
+  const { email: profileEmail, vapContactInfo } = profile || {};
+  const {
+    mailingAddress: profileMailingAddress,
+    homePhone: profileHomePhone,
+    mobilePhone: profileMobilePhone,
+  } = vapContactInfo || {};
+
+  const [hasMissingEmail, setHasMissingEmail] = useState(null);
+  const [hasMissingAddress, setHasMissingAddress] = useState(null);
+  const [prefillAlert, setPrefillAlert] = useState(null);
+  const [alert, setAlert] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
+  // Mobile > Home - see
+  // https://www.figma.com/design/bvj72inycD0iZkuCbjYTWL/Dependent-Verification-MVP?node-id=3283-112583&t=AQOdcM9NR0aEb8CC-4
+  const [phoneSource] = useState(
+    phone || profileMobilePhone ? 'Mobile' : 'Home',
+  );
 
   const convertPhoneObjectToString = phoneObj => {
     if (!phoneObj) return '';
@@ -39,20 +62,6 @@ const VeteranContactInformationPage = ({
       veteranContactInformation: { ...veteranContactInformation, ...field },
     });
   };
-
-  const {
-    email,
-    phone,
-    mailingAddress,
-    internationalPhone,
-  } = veteranContactInformation;
-
-  const { email: profileEmail, vapContactInfo } = profile || {};
-  const {
-    mailingAddress: profileMailingAddress,
-    homePhone: profileHomePhone,
-    mobilePhone: profileMobilePhone,
-  } = vapContactInfo || {};
 
   let profileInternationalPhone = null;
   if (profileHomePhone?.isInternational) {
@@ -88,6 +97,13 @@ const VeteranContactInformationPage = ({
   };
 
   useEffect(() => {
+    let address = {};
+    if (!isEmptyObject(mailingAddress)) {
+      address = mailingAddress;
+    } else if (!isEmptyObject(profileMailingAddress)) {
+      address = profileMailingAddress;
+    }
+
     updateContactInfo({
       email: email || profileEmail || '',
       phone:
@@ -95,7 +111,7 @@ const VeteranContactInformationPage = ({
         convertPhoneObjectToString(profileHomePhone) ||
         convertPhoneObjectToString(profileMobilePhone) ||
         '',
-      mailingAddress: mailingAddress || profileMailingAddress || {},
+      mailingAddress: address,
       internationalPhone: internationalPhone || profileInternationalPhone || '',
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -114,12 +130,14 @@ const VeteranContactInformationPage = ({
         ].join(' and ');
         const article = !email ? 'an' : 'a';
 
-        setAlert(
+        setPrefillAlert(
           <va-alert status="warning" visible>
-            We could not prefill this form with your {missingInfo}. Provide
+            We could not prefill this form with your {missingInfo}. Provide{' '}
             {article} {missingInfo}.
           </va-alert>,
         );
+      } else {
+        setPrefillAlert(null);
       }
 
       checkErrors();
@@ -132,8 +150,11 @@ const VeteranContactInformationPage = ({
     onSubmit: event => {
       event.preventDefault();
       if (checkErrors()) {
-        scrollAndFocus('va-alert');
+        setSubmitted(true);
+        setPrefillAlert(null); // Hide prefill alert if there are errors
+        scrollAndFocus('va-alert[status="error"]');
       } else if (email) {
+        setSubmitted(false);
         goForward(data);
       }
     },
@@ -148,7 +169,8 @@ const VeteranContactInformationPage = ({
       <h3 className="vads-u-margin-y--2">
         Confirm the contact information we have on file for you
       </h3>
-      {alert}
+      {prefillAlert}
+      {submitted && alert}
       <p>
         If you notice any errors, correct them now.{' '}
         <strong>
@@ -167,7 +189,7 @@ const VeteranContactInformationPage = ({
       {/* Include "hydrated" otherwise the va-card remains hidden when class updates */}
       <va-card
         class={`vads-u-margin-top--3 hydrated ${
-          hasMissingAddress ? 'contact-info-error' : ''
+          submitted && hasMissingAddress ? 'contact-info-error' : ''
         }`}
       >
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
@@ -176,7 +198,7 @@ const VeteranContactInformationPage = ({
             (*Required)
           </span>
         </h4>
-        <p className="mailing-address">
+        <div className="mailing-address vads-u-margin-y--2">
           {!hasMissingAddress ? (
             <span
               className="dd-privacy-hidden"
@@ -189,7 +211,7 @@ const VeteranContactInformationPage = ({
               Select "Add" to enter your mailing address
             </span>
           )}
-        </p>
+        </div>
         <VaLink
           active
           href="/veteran-contact-information/mailing-address"
@@ -207,7 +229,7 @@ const VeteranContactInformationPage = ({
       {/* Include "hydrated" otherwise the va-card remains hidden when class updates */}
       <va-card
         class={`vads-u-margin-top--3 hydrated ${
-          hasMissingEmail ? 'contact-info-error' : ''
+          submitted && hasMissingEmail ? 'contact-info-error' : ''
         }`}
       >
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
@@ -216,7 +238,7 @@ const VeteranContactInformationPage = ({
             (*Required)
           </span>
         </h4>
-        <p className="email">
+        <div className="email vads-u-margin-y--2">
           {!hasMissingEmail ? (
             <span
               className="dd-privacy-hidden"
@@ -229,7 +251,7 @@ const VeteranContactInformationPage = ({
               Select "Add" to enter your email address
             </span>
           )}
-        </p>
+        </div>
         <VaLink
           active
           href="/veteran-contact-information/email"
@@ -243,9 +265,9 @@ const VeteranContactInformationPage = ({
 
       <va-card class="vads-u-margin-top--3">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          Home phone number
+          {`${phoneSource} phone number`}
         </h4>
-        <p className="phone">
+        <div className="phone vads-u-margin-y--2">
           {phone ? (
             <va-telephone
               not-clickable
@@ -256,7 +278,7 @@ const VeteranContactInformationPage = ({
           ) : (
             <span>None provided</span>
           )}
-        </p>
+        </div>
         <VaLink
           active
           href="/veteran-contact-information/phone"
@@ -272,7 +294,7 @@ const VeteranContactInformationPage = ({
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           International phone number
         </h4>
-        <p className="intl-phone">
+        <div className="intl-phone vads-u-margin-y--2">
           {internationalPhone ? (
             <span
               className="dd-privacy-hidden"
@@ -283,7 +305,7 @@ const VeteranContactInformationPage = ({
           ) : (
             <span>None provided</span>
           )}
-        </p>
+        </div>
         <VaLink
           active
           href="/veteran-contact-information/international-phone"

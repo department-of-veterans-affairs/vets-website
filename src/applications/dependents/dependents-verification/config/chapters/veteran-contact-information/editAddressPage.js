@@ -7,7 +7,8 @@ import EditAddressPage from '../../../components/EditAddressPage';
 
 export default {
   title: 'Edit mailing address',
-  path: '/veteran-contact-information/mailing-address',
+  path: 'veteran-contact-information/mailing-address',
+  depends: () => false,
   CustomPage: props =>
     props ? (
       <EditAddressPage
