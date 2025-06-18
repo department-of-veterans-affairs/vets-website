@@ -1,12 +1,17 @@
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { parseISO } from 'date-fns';
 import { formatInTimeZone, toDate } from 'date-fns-tz';
-import { FETCH_STATUS, TYPE_OF_CARE_IDS } from '../../utils/constants';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { selectCanUseVaccineFlow } from '../../appointment-list/redux/selectors';
+import { getSiteIdFromFacilityId } from '../../services/location';
+import {
+  DATE_FORMATS,
+  FETCH_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../utils/constants';
 import {
   getTimezoneByFacilityId,
   getTimezoneDescByFacilityId,
 } from '../../utils/timezone';
-import { getSiteIdFromFacilityId } from '../../services/location';
-import { selectCanUseVaccineFlow } from '../../appointment-list/redux/selectors';
 
 function selectCovid19Vaccine(state) {
   return state.covid19Vaccine;
@@ -43,7 +48,16 @@ export function getChosenSlot(state) {
   const { availableSlots } = selectCovid19VaccineNewBooking(state);
   const selectedTime = selectCovid19VaccineFormData(state).date1?.[0];
 
-  return availableSlots?.find(slot => slot.start === selectedTime);
+  // Convert to UTC since slots are in UTC.
+  return availableSlots?.find(
+    slot =>
+      slot.start ===
+      formatInTimeZone(
+        parseISO(selectedTime),
+        'UTC',
+        DATE_FORMATS.ISODateTimeUTC,
+      ),
+  );
 }
 
 function getChosenFacilityInfo(state) {

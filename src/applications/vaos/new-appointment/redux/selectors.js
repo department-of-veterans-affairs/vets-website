@@ -1,5 +1,6 @@
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
+import { parseISO } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import {
   selectFeatureCommunityCare,
@@ -11,6 +12,7 @@ import {
 import { getSiteIdFromFacilityId } from '../../services/location';
 import {
   AUDIOLOGY_TYPES_OF_CARE,
+  DATE_FORMATS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FETCH_STATUS,
@@ -133,7 +135,16 @@ export function getChosenSlot(state) {
   const { availableSlots } = getNewAppointment(state);
   const selectedTime = getFormData(state).selectedDates?.[0];
 
-  return availableSlots?.find(slot => slot.start === selectedTime);
+  // Convert to UTC since slots are in UTC.
+  return availableSlots?.find(
+    slot =>
+      slot.start ===
+      formatInTimeZone(
+        parseISO(selectedTime),
+        'UTC',
+        DATE_FORMATS.ISODateTimeUTC,
+      ),
+  );
 }
 
 export function getDateTimeSelect(state, pageKey) {
