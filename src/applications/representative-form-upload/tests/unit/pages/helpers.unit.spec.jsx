@@ -4,7 +4,7 @@ import { render, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../config/form';
-import { CustomTopContent } from '../../../pages/helpers';
+import { CustomTopContent, form686cBcList } from '../../../pages/helpers';
 
 const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/test-page';
 const config = formConfig;
@@ -76,9 +76,8 @@ describe('CustomTopContent', () => {
 
     const breadcrumbs = $('va-breadcrumbs', container);
     expect(breadcrumbs).to.exist;
-    expect(breadcrumbs).to.have.attr(
-      'breadcrumb-list',
-      '[{"href":"/representative","label":"Representative.va.gov home"},{ "href": "/representative/submissions", "label": "Submissions" },{"href":"/representative/representative-form-upload/21-686c/introduction","label":"Submit VA Form 21-686c"}]',
+    expect(breadcrumbs.getAttribute('breadcrumb-list')).to.equal(
+      JSON.stringify(form686cBcList),
     );
   });
 });

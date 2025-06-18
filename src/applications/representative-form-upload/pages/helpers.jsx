@@ -9,6 +9,16 @@ export const emptyObjectSchema = {
   properties: {},
 };
 
+const formNumber = getFormNumber();
+export const form686cBcList = [
+  { href: '/representative', label: 'Representative.va.gov home' },
+  { href: '/representative/submissions', label: 'Submissions' },
+  {
+    href: `/representative/representative-form-upload/${formNumber}/introduction`,
+    label: `Submit VA Form ${formNumber}`,
+  },
+];
+
 export const uploadTitleAndDescription = {
   'view:uploadTitle': {
     'ui:title': 'Upload files',
@@ -58,16 +68,7 @@ export const veteranTitleAndDescription = {
 };
 
 export const CustomTopContent = () => {
-  const formNumber = getFormNumber();
-  const breadcrumbs = [
-    { href: '/representative', label: 'Representative.va.gov home' },
-    { href: '/representative/submissions', label: 'Submissions' },
-    {
-      href: `/representative/representative-form-upload/${formNumber}/introduction`,
-      label: `Submit VA Form ${formNumber}`,
-    },
-  ];
-  const bcString = JSON.stringify(breadcrumbs);
+  const bcString = JSON.stringify(form686cBcList);
   return (
     <va-breadcrumbs
       className="breadcrumbs-container"
