@@ -18,7 +18,7 @@ import { nameWording, toHash } from '../../shared/utilities';
  * @returns {Array} Filtered array of eligible applicants
  */
 function getEligibleApplicants(data, idx) {
-  const applicants = [];
+  const applicants = data?.applicants ?? [];
   const medicareData = data?.medicare;
 
   // If no Medicare data exists, return all applicants
