@@ -2,7 +2,10 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import DependentsInformation from '../../../components/DependentsInformationComponent';
+import {
+  DependentsInformation,
+  DependentsInformationReview,
+} from '../../../components/DependentsInformation';
 
 export const dependents = {
   schema: {
@@ -18,9 +21,7 @@ export const dependents = {
   uiSchema: {
     dependents: {
       'ui:description': DependentsInformation,
-      'ui:options': {
-        hideOnReview: true,
-      },
+      'ui:reviewField': DependentsInformationReview,
     },
     hasDependentsStatusChanged: radioUI({
       title: 'Has the status of your dependents changed?',

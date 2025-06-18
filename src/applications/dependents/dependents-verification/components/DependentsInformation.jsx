@@ -1,7 +1,6 @@
 import React from 'react';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import PropTypes from 'prop-types';
 
 const maskSSN = ssnLastFour =>
   srSubstitute(
@@ -38,7 +37,7 @@ const DependentsInformation = () => {
               {dep.fullName}
             </h4>
             <div>Relationship: {dep.relationship}</div>
-            <din>Date of birth: {dep.dob}</din>
+            <div>Date of birth: {dep.dob}</div>
             {dep.age && <div>Age: {dep.age} years old</div>}
             <div>
               SSN:{' '}
@@ -95,8 +94,9 @@ const DependentsInformation = () => {
   );
 };
 
-DependentsInformation.propTypes = {
-  dependents: PropTypes.array,
+const DependentsInformationReview = _data => {
+  // console.log(_data);
+  return <div>test</div>;
 };
 
-export default DependentsInformation;
+export { DependentsInformation, DependentsInformationReview };
