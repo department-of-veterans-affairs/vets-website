@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import LoadingSkeleton from '../LoadingSkeleton';
 
-export default function ClaimCardLoadingSkeleton({ isLoading }) {
+export default function ClaimCardLoadingSkeleton({ isLoading = true }) {
   return (
     <LoadingSkeleton
       id="claim-card"

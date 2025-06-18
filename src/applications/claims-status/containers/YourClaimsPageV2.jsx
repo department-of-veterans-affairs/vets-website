@@ -189,8 +189,13 @@ class YourClaimsPageV2 extends React.Component {
     const atLeastOneRequestLoading =
       claimsLoading || appealsLoading || stemClaimsLoading;
     const emptyList = !(list && list.length);
-    if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
-      content = <ClaimCardLoadingSkeleton />;
+    if (
+      !this.props.isSmoothLoadingEnabled &&
+      (allRequestsLoading || (atLeastOneRequestLoading && emptyList))
+    ) {
+      content = (
+        <va-loading-indicator message="Loading your claims and appeals..." />
+      );
     } else if (!emptyList) {
       const listLen = list.length;
       const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
@@ -211,8 +216,16 @@ class YourClaimsPageV2 extends React.Component {
         <>
           {pageInfo}
           <div className="claim-list">
+            {!this.props.isSmoothLoadingEnabled &&
+              atLeastOneRequestLoading && (
+                <va-loading-indicator message="Loading your claims and appeals..." />
+              )}
             {pageItems.map(claim => this.renderListItem(claim))}
-            {atLeastOneRequestLoading && <ClaimCardLoadingSkeleton />}
+            {this.props.isSmoothLoadingEnabled && atLeastOneRequestLoading ? (
+              <ClaimCardLoadingSkeleton />
+            ) : (
+              <ClaimCardLoadingSkeleton isLoading={false} />
+            )}
             {shouldPaginate && (
               <VaPagination
                 page={this.state.page}
@@ -283,6 +296,7 @@ YourClaimsPageV2.propTypes = {
   getAppealsV2: PropTypes.func,
   getClaims: PropTypes.func,
   getStemClaims: PropTypes.func,
+  isSmoothLoadingEnabled: PropTypes.bool,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string,
@@ -304,6 +318,9 @@ function mapStateToProps(state) {
   const canAccessClaims = services.includes(backendServices.LIGHTHOUSE);
   const stemAutomatedDecision = toggleValues(state)[
     FEATURE_FLAG_NAMES.stemAutomatedDecision
+  ];
+  const isSmoothLoadingEnabled = toggleValues(state)[
+    FEATURE_FLAG_NAMES.cstSmoothLoadingExperience
   ];
 
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
@@ -343,6 +360,7 @@ function mapStateToProps(state) {
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
+    isSmoothLoadingEnabled,
     list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
   };
