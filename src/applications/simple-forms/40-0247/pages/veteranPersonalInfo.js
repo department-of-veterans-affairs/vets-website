@@ -12,7 +12,6 @@ import environment from 'platform/utilities/environment';
 import { dateOfDeathValidation } from '../helpers';
 
 /** @type {PageSchema} */
-
 export default {
   uiSchema: {
     ...(environment.isProduction()
