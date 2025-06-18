@@ -102,15 +102,20 @@ export const submitTransformer = (formConfig, form) => {
 
   // stringify form data for submission
   // NOTE: we don’t to remove dependents in the normal empty value clean up
-  const replacer = (key, value) => {
-    if (key === 'dependents') return value;
-    return stringifyFormReplacer(key, value);
-  };
-  const dataToSubmit = JSON.stringify(dataToMap, replacer) || '{}';
+  try {
+    const replacer = (key, value) => {
+      if (key === 'dependents') return value;
+      return stringifyFormReplacer(key, value);
+    };
+    const dataToSubmit = JSON.stringify(dataToMap, replacer) || '{}';
 
-  return JSON.stringify({
-    form: dataToSubmit,
-    asyncCompatible: true,
-    gaClientId,
-  });
+    return JSON.stringify({
+      form: dataToSubmit,
+      asyncCompatible: true,
+      gaClientId,
+    });
+  } catch (error) {
+    logErrorToDatadog(error);
+    return JSON.stringify({});
+  }
 };
