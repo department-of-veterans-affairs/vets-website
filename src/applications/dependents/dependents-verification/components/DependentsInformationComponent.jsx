@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const maskSSN = ssnLastFour =>
   srSubstitute(
-    `${ssnLastFour}`,
+    `●●●–●●-${ssnLastFour}`,
     `ending with ${ssnLastFour.split('').join(' ')}`,
   );
 
@@ -36,24 +36,15 @@ const DependentsInformation = () => {
           <h4 className="vads-u-font-size--h4 vads-u-margin-top--0">
             {dep.fullName}
           </h4>
+          <p>Relationship: {dep.relationship}</p>
+          <p>Date of birth: {dep.dob}</p>
+          {dep.age && <p>Age: {dep.age} years old</p>}
           <p>
-            <strong>Relationship:</strong> {dep.relationship}
-          </p>
-          <p>
-            <strong>Date of birth:</strong> {dep.dob}
-          </p>
-          {dep.age && (
-            <p>
-              <strong>Age:</strong> {dep.age} years old
-            </p>
-          )}
-          <p>
-            <strong>SSN:</strong>{' '}
+            SSN:{' '}
             <span
               className="dd-privacy-mask"
               data-dd-action-name="Dependent's SSN"
             >
-              ***-**-
               {maskSSN(dep.ssnLastFour)}
             </span>
           </p>
