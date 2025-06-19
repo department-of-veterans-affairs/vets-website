@@ -1,4 +1,4 @@
-import React from 'react';
+import { getFullName } from '../../../../shared/utils';
 
 function isFieldMissing(value) {
   return value === undefined || value === null || value === '';
@@ -128,12 +128,6 @@ export const arrayBuilderOptions = {
   isItemIncomplete,
   maxItems: 20,
   text: {
-    getItemName: () => 'Child',
-    cardDescription: item => (
-      <span className="dd-privacy" data-dd-privacy="mask">
-        {`${item?.fullName?.first ?? ''} ${item?.fullName?.last ??
-          ''}`.trim() || ' '}
-      </span>
-    ),
+    getItemName: item => getFullName(item.fullName),
   },
 };

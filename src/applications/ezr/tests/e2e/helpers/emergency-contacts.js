@@ -17,17 +17,16 @@ export const advanceToEmergencyContacts = () => {
   cy.tabToContinueForm();
 };
 
-export const fillEmergencyContactPersonalInfo = contact => {
+export const fillContactPersonalInfo = contact => {
   fillTextWebComponent('fullName_first', contact.fullName.first);
   fillTextWebComponent('fullName_last', contact.fullName.last);
   fillTextWebComponent('primaryPhone', contact.primaryPhone);
   selectDropdownWebComponent('relationship', contact.relationship);
-  selectYesNoWebComponent('view:hasEmergencyContactAddress', true);
   cy.injectAxeThenAxeCheck();
   goToNextPage();
 };
 
-export const fillEmergencyContactAddress = contact => {
+export const fillContactAddress = contact => {
   selectDropdownWebComponent('address_country', contact.address.country);
   fillTextWebComponent('address_street', contact.address.street);
   fillTextWebComponent('address_city', contact.address.city);

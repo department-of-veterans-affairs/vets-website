@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
+
 import { showEduBenefits0994Wizard } from '../../selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {

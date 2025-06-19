@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import { setSubmission } from 'platform/forms-system/src/js/actions';
 import Alert from '../components/Alert';
 import GetFormHelp from '../components/GetFormHelp';
@@ -95,10 +95,11 @@ export const ConfirmationPage = ({ router, route }) => {
         rejection in the letter and provide further instructions for
         resubmission or additional steps.
       </p>
-      <va-link-action
+      <va-link
         href="/school-administrators/85-15-rule-enrollment-ratio"
         text="Go to VA Form 22-10215 now"
         class="vads-u-margin-top--1p5 vads-u-margin-bottom--2"
+        external
       />
     </div>
   );

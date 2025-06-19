@@ -8,22 +8,37 @@ const Disclaimer = () => {
           Need help?
         </h3>
         <p>
-          Note: This website provides general information and does not
-          constitute legal advice. It is not a comprehensive analysis of
-          statutes, regulations, or case law.
+          Note: Content on this web page is for informational purposes only. It
+          is not intended to provide legal advice or to be a comprehensive
+          statement or analysis of applicable statutes, regulations, and case
+          law governing this topic. Rather, it’s a plain language summary.
         </p>
         <p>
           <span className="vads-u-font-weight--bold">
-            If you need help with claims,
+            For information about using VA Education benefits,
           </span>{' '}
-          contact a VA regional office, a{' '}
+          contact us online any time using{' '}
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://www.va.gov/ogc/apps/accreditation/index.asp"
+            href="https://ask.va.gov/"
+            id="disclaimer-link-ask-va"
+          >
+            Ask VA
+          </a>{' '}
+          or call the VA Education Call Center at 1-888-GIBILL-1(1-888-442-4551)
+          from 7 a.m. - 6 p.m. Central Time, Monday-Friday.
+        </p>
+        <p>
+          <span className="vads-u-font-weight--bold">For help with claims</span>{' '}
+          contact a{' '}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.va.gov/get-help-from-accredited-representative/"
             id="disclaimer-link-vso"
           >
-            Veterans Service Organization (VSO), or a VA-accredited attorney or
+            Veterans Service Organization (VSO) or a VA-accredited attorney or
             agent.
           </a>
         </p>
@@ -31,25 +46,17 @@ const Disclaimer = () => {
           <span className="vads-u-font-weight--bold">
             For technical assistance
           </span>{' '}
-          or questions about the GI Bill Comparison Tool,{' '}
+          or questions about the GI Bill Comparison Tool, contact a VA regional
+          office or{' '}
           <a href="mailto: vbacoeducomptoolinq@va.gov">send us an email.</a> You
           can also{' '}
           <a
             href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp"
             target="_blank"
             rel="noopener noreferrer"
-            id="about-this-tool"
+            id="disclaimer-link-about-this-tool"
           >
-            learn more about the GI Bill Comparison Tool
-          </a>
-          , or{' '}
-          <a
-            href="https://www.benefits.va.gov/GIBILL/docs/job_aids/ComparisonToolData.xlsx"
-            target="_blank"
-            rel="noopener noreferrer"
-            id="download-all-data"
-          >
-            download data on all schools (XLS).
+            learn more about the GI Bill Comparison Tool.
           </a>
         </p>
       </div>

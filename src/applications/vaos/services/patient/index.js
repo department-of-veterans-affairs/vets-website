@@ -111,6 +111,7 @@ export async function fetchPatientRelationships(facilityId, typeOfCare) {
       locationId: facilityId,
       typeOfCareId: typeOfCare.idV2,
     });
+
     return transformPatientRelationships(data || []);
   } catch (e) {
     return null;
@@ -239,6 +240,7 @@ export async function fetchFlowEligibilityAndClinics({
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
   useFeSourceOfTruthModality = false,
+  useFeSourceOfTruthTelehealth = false,
   isCerner = false,
 }) {
   const directSchedulingAvailable =
@@ -275,6 +277,7 @@ export async function fetchFlowEligibilityAndClinics({
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
       ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
     }
   }
