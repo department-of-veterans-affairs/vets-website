@@ -3,7 +3,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import PrivacyPolicy from '../components/PrivacyPolicy';
+import PrivacyPolicy from '../containers/PrivacyPolicy';
 
 import {
   allProprietaryProfitConflictsArrayOptions,
