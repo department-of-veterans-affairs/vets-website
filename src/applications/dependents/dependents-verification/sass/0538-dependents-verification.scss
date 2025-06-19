@@ -23,3 +23,9 @@
     font-weight: 700;
   }
 }
+
+/* hide SSN input on Vet info page */
+#root_veteranInformation_ssnLastFour-label,
+#root_veteranInformation_ssnLastFour-label + div {
+  display: none !important;
+}

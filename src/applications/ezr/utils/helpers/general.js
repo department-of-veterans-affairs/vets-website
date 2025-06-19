@@ -67,9 +67,10 @@ export function replaceStrValues(src, val, char = '%s') {
   return src && val ? src.toString().replace(char, val) : '';
 }
 
-export const formatCurrency = str => {
+export const formatCurrency = amount => {
+  if (!amount) return '$0.00';
   // Convert the string to a number
-  const number = Number(str);
+  const number = Number(amount);
 
   // Format the number as a currency string
   return number.toLocaleString('en-US', {

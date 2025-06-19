@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { selectProfile } from '~/platform/user/selectors';
-
-import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
+import { selectProfile } from 'platform/user/selectors';
+import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 
 // separate each number so the screen reader reads "number ending with 1 2 3 4"
@@ -93,6 +92,7 @@ export const VeteranInformation = ({ formData }) => {
         external
         text="Find more detailed instructions for how to change your legal name"
       />
+      <div className="vads-u-padding-bottom--2" />
     </>
   );
 };
