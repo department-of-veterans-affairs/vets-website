@@ -418,10 +418,6 @@ export function selectAppointmentLocality(
   return `${isCommunityCare ? 'Community care' : 'VA appointment'}`;
 }
 
-export function selectIsClinicVideo(appointment) {
-  return isClinicVideoAppointment(appointment);
-}
-
 export function selectVideoData(appointment) {
   return appointment?.videoData || {};
 }
@@ -442,7 +438,7 @@ export function selectModalityText(appointment, isPendingAppointment = false) {
   const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = isAtlasVideoAppointment(appointment);
-  const isVideoClinic = selectIsClinicVideo(appointment);
+  const isVideoClinic = isClinicVideoAppointment(appointment);
   const isVideoHome = isVideoAtHome(appointment);
   const { name: facilityName } = appointment.vaos.facilityData || {
     name: '',
@@ -543,7 +539,7 @@ export function selectModalityIcon(appointment) {
   const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = isAtlasVideoAppointment(appointment);
-  const isVideoClinic = selectIsClinicVideo(appointment);
+  const isVideoClinic = isClinicVideoAppointment(appointment);
   const isVideoHome = isVideoAtHome(appointment);
 
   let icon = '';
@@ -570,7 +566,7 @@ export function selectAppointmentTravelClaim(appointment) {
 export function selectIsEligibleForTravelClaim(appointment) {
   return (
     selectIsPast(appointment) &&
-    (isInPersonVisit(appointment) || selectIsClinicVideo(appointment)) &&
+    (isInPersonVisit(appointment) || isClinicVideoAppointment(appointment)) &&
     selectAppointmentTravelClaim(appointment)
   );
 }
