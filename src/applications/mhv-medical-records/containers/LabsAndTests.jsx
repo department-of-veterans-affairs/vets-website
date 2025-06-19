@@ -29,7 +29,7 @@ const LabsAndTests = () => {
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
   );
-  let labsAndTests = useSelector(
+  const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
   const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
@@ -43,8 +43,6 @@ const LabsAndTests = () => {
     const jobComplete = studyJob?.status === studyJobStatus.COMPLETE;
     return isRadRecord && jobComplete;
   });
-
-  labsAndTests = radRecordsWithImagesReady;
 
   const activeAlert = useAlerts(dispatch);
   const listState = useSelector(state => state.mr.labsAndTests.listState);
