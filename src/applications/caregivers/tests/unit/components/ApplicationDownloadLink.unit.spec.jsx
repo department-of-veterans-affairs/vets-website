@@ -127,9 +127,7 @@ describe('CG <ApplicationDownloadLink>', () => {
         await waitFor(() => {
           const { vaAlert, vaLink } = selectors();
           expect(vaAlert).to.exist;
-          expect(vaAlert).to.contain.text(
-            content['alert-download-message--generic'],
-          );
+          expect(vaAlert).to.contain.text(ERR_MSG_GENERIC);
           expect(vaLink).to.exist;
         });
 
