@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useSelector } from 'react-redux';
 import ResBurdenPrivacyPolicy from './ResBurdenPrivacyAct';
+import { getTitle } from '../helpers';
 
 const PrivacyPolicy = () => {
   const [showModal, setShowModal] = useState(false);
+  const formData = useSelector(state => state.form.data);
+  const title = getTitle(formData?.certifyingOfficial?.role);
 
   const removeNoteText = async () => {
     const noteText = await querySelectorWithShadowRoot(
@@ -71,6 +75,10 @@ const PrivacyPolicy = () => {
           tabIndex="0"
         />
       </span>
+      <p className="vads-u-margin-bottom--0">Your title</p>
+      <strong>
+        <p className="vads-u-font-size--h3 vads-u-margin-top--0">{title}</p>
+      </strong>
       <VaModal
         modalTitle="Privacy Act Statement"
         onCloseEvent={() => setShowModal(!showModal)}
