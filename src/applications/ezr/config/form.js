@@ -359,10 +359,9 @@ const formConfig = {
           title: 'Marital status',
           initialData: {},
           depends: includeHouseholdInformation,
-          // uiSchema: maritalStatus.uiSchema,
           CustomPage: MaritalStatusPage,
           CustomPageReview: null,
-          uiSchema: {},
+          uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
         spouseInformationSummary: {
