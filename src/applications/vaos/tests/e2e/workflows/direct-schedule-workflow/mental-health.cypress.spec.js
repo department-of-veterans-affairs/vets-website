@@ -159,4 +159,120 @@ describe('VAOS direct schedule flow - Mental health', () => {
       });
     });
   });
+  describe('When patient has history and flipper for MH past filtering is enabled', () => {
+    beforeEach(() => {
+      vaosSetup();
+
+      mockAppointmentsGetApi({ response: [] });
+      mockFeatureToggles();
+      mockVamcEhrApi();
+    });
+
+    describe('And one facility supports direct scheduling with no history required', () => {
+      const setup = () => {
+        const mockEligibilityResponse = new MockEligibilityResponse({
+          facilityId: '983',
+          typeOfCareId,
+          type: 'direct',
+          isEligible: true,
+        });
+
+        const response = new MockAppointmentResponse({
+          id: 'mock1',
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.booked,
+          future: true,
+        });
+
+        mockAppointmentCreateApi({ response });
+        mockAppointmentGetApi({ response });
+        mockEligibilityApi({ response: mockEligibilityResponse });
+        mockFacilitiesApi({
+          response: [new MockFacilityResponse()],
+        });
+        mockSchedulingConfigurationApi({
+          facilityIds: ['983'],
+          typeOfCareId,
+          isDirect: true,
+          isRequest: true,
+        });
+      };
+      // Not testing for appointment flow completeness, just that filtering MH
+      // are correct.
+      beforeEach(setup);
+
+      it('should submit form', () => {
+        // Arrange
+        const mockUser = new MockUser({
+          addressLine1: '123 Main St.',
+        });
+
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({
+            count: 2,
+          }),
+        });
+        mockSlotsApi({
+          locationId: '983',
+          clinicId: '1',
+          response: MockSlotResponse.createResponses({
+            startTimes: [addMonths(new Date(), 1)],
+          }),
+        });
+
+        // Act
+        cy.login(mockUser);
+
+        AppointmentListPageObject.visit().scheduleAppointment();
+
+        TypeOfCarePageObject.assertUrl()
+          .assertAddressAlert({ exist: false })
+          .selectTypeOfCare(typeOfCareRegex)
+          .clickNextButton();
+
+        VAFacilityPageObject.assertUrl()
+          .assertSingleLocation({
+            locationName: /Cheyenne VA Medical Center/i,
+          })
+          .clickNextButton();
+
+        ClinicChoicePageObject.assertUrl()
+          .selectClinic({ selection: /Clinic 1/i })
+          .clickNextButton();
+
+        PreferredDatePageObject.assertUrl()
+          .typeDate()
+          .clickNextButton();
+
+        DateTimeSelectPageObject.assertUrl()
+          .selectFirstAvailableDate()
+          .clickNextButton();
+
+        ReasonForAppointmentPageObject.assertUrl()
+          .selectReasonForAppointment()
+          .typeAdditionalText({ content: 'This is a test' })
+          .clickNextButton();
+
+        ContactInfoPageObject.assertUrl()
+          .typeEmailAddress('veteran@va.gov')
+          .typePhoneNumber('5555555555')
+          .clickNextButton();
+
+        ReviewPageObject.assertUrl()
+          .assertHeading({
+            name: /Review and confirm your appointment details/i,
+          })
+          .assertSomeText({ text: typeOfCareRegex, minNumber: 3 })
+          .clickConfirmButton();
+
+        ConfirmationPageObject.assertUrl().assertText({
+          text: /We.ve scheduled and confirmed your appointment/i,
+        });
+
+        // Assert
+        cy.axeCheckBestPractice();
+      });
+    });
+  });
 });
