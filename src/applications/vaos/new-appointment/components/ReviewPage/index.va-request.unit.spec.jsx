@@ -233,7 +233,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
     expect(
       screen.getByRole('heading', {
-        level: 4,
+        level: 3,
         name: /Cheyenne VA Medical Center/i,
       }),
     );

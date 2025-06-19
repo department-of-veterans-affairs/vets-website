@@ -8,8 +8,8 @@ import {
   addDays,
   addHours,
   addMonths,
-  endOfMonth,
   format,
+  lastDayOfMonth,
   nextThursday,
   nextTuesday,
   setDay,
@@ -925,7 +925,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
         new MockSlotResponse({ id: '1', start: secondSlotDate, duration: 20 }),
       ],
       startDate: startOfMonth(secondSlotDate),
-      endDate: startOfDay(endOfMonth(secondSlotDate)),
+      endDate: startOfDay(lastDayOfMonth(secondSlotDate)),
     });
 
     const store = createTestStore(initialState);
