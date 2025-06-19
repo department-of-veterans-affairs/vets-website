@@ -66,9 +66,9 @@ export default function ReferralsAndRequests() {
       <p>Find your requested appointments and community care referrals.</p>
       <h2 data-testid="referrals-heading">Community care referrals</h2>
       <p data-testid="referrals-text">
-        Your care team approved these referrals. Only referrals that you can
-        schedule online are shown here, so you may not find all your referrals
-        listed.
+        Your care team approved these referrals. You may not find all your
+        referrals listed. Only referrals that you can schedule online are shown
+        here.
       </p>
       <p>
         <va-link
