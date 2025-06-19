@@ -21,5 +21,5 @@ module.exports = [
   { name: 'gibctEybBottomSheet', value: true },
   { name: 'travelPayViewClaimDetails', value: false },
   { name: 'travelPaySubmitMileageExpense', value: false },
-  { name: 'vaOnlineSchedulingMentalHealthHistoryFiltering', value: false },
+  { name: 'vaOnlineSchedulingMentalHealthHistoryFiltering', value: true },
 ];
