@@ -92,23 +92,21 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     );
   }
 
-  // render error alert if file cannot download
-  if (errorMessage) {
-    return (
-      <div className="caregiver-download-error">
-        <va-alert status="error">{errorMessage}</va-alert>
-      </div>
-    );
-  }
-
   return (
-    <va-link
-      text={content['button-download']}
-      onClick={fetchPdf}
-      filetype="PDF"
-      href="#"
-      download
-    />
+    <>
+      {errorMessage && (
+        <div className="caregiver-download-error vads-u-margin-y--1">
+          <va-alert status="error">{errorMessage}</va-alert>
+        </div>
+      )}
+      <va-link
+        text={content['button-download']}
+        onClick={fetchPdf}
+        filetype="PDF"
+        href="#"
+        download
+      />
+    </>
   );
 };
 

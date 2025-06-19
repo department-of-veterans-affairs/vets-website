@@ -44,10 +44,10 @@ const SignatureCheckbox = props => {
 
       <SignatureInput
         fullName={normalizedFullName}
-        required={isRequired}
-        showError={showError}
         hasSubmittedForm={hasSubmittedForm}
+        required={isRequired}
         setIsStatementOfTruthSigned={setIsStatementOfTruthSigned}
+        showError={showError}
       />
 
       <VaCheckbox

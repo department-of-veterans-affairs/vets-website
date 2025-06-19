@@ -23,7 +23,7 @@ function FilesOptional({ item }) {
       evidenceDictionary[item.displayName] &&
       evidenceDictionary[item.displayName].isDBQ
     ) {
-      return `Requested from examiner's office on ${formattedDate}`;
+      return `Requested from examiner’s office on ${formattedDate}`;
     }
     return `Requested from outside VA on ${formattedDate}`;
   };

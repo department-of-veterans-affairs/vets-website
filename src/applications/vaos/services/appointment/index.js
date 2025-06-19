@@ -15,7 +15,6 @@ import { mapToFHIRErrors } from '../utils';
 import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
-  VIDEO_TYPES,
   GA_PREFIX,
 } from '../../utils/constants';
 import { formatFacilityAddress, getFacilityPhone } from '../location';
@@ -310,10 +309,7 @@ export function isVAPhoneAppointment(appointment) {
  * @returns {boolean} True if appointment is a clinic or store forward appointment
  */
 export function isClinicVideoAppointment(appointment) {
-  return (
-    appointment?.videoData?.kind === VIDEO_TYPES.clinic ||
-    appointment?.videoData?.kind === VIDEO_TYPES.storeForward
-  );
+  return appointment?.vaos.isVideoAtVA;
 }
 
 /**

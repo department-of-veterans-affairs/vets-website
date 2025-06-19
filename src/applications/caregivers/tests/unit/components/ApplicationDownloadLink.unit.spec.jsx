@@ -117,19 +117,20 @@ describe('CG <ApplicationDownloadLink>', () => {
       it('should display `generic` error message when response is an error', async () => {
         const { selectors } = subject();
         const { vaLink: link } = selectors();
-
         triggerError({ link });
 
         await waitFor(() => {
           const { vaLoadingIndicator } = selectors();
           expect(vaLoadingIndicator).to.exist;
         });
+
         await waitFor(() => {
-          const { vaAlert } = selectors();
+          const { vaAlert, vaLink } = selectors();
           expect(vaAlert).to.exist;
           expect(vaAlert).to.contain.text(
             content['alert-download-message--generic'],
           );
+          expect(vaLink).to.exist;
         });
 
         sinon.assert.calledWithExactly(recordEventStub, DOWNLOAD_FAILED_EVENT);
@@ -142,13 +143,12 @@ describe('CG <ApplicationDownloadLink>', () => {
 
         const { selectors } = subject();
         const { vaLink: link } = selectors();
-
         triggerSuccess({ link });
 
         await waitFor(() => {
           const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
           expect(vaLoadingIndicator).to.not.exist;
-          expect(vaLink).to.not.exist;
+          expect(vaLink).to.exist;
           expect(vaAlert).to.exist;
           expect(vaAlert).to.contain.text(ERR_MSG_GENERIC);
         });
