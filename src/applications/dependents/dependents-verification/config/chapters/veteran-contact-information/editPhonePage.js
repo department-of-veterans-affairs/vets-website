@@ -4,7 +4,6 @@ import EditPhonePage from '../../../components/EditPhonePage';
 export default {
   title: 'Edit phone number',
   path: 'veteran-contact-information/phone',
-  depends: () => false,
   hideNavButtons: true,
   CustomPage: EditPhonePage,
   CustomPageReview: null,

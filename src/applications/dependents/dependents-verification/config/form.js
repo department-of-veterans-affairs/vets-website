@@ -1,4 +1,5 @@
 // import { externalServices } from 'platform/monitoring/DowntimeNotification';
+// import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -9,7 +10,7 @@ import prefillTransformer from '../prefill-transformer';
 
 // Chapter imports
 import { veteranInformation } from './chapters/veteran-information/veteranInformation';
-import { veteranContactInformation } from './chapters/veteran-contact-information/veteranContactInformation';
+// import { veteranContactInformation } from './chapters/veteran-contact-information/veteranContactInformation';
 import editAddressPage from './chapters/veteran-contact-information/editAddressPage';
 import editPhonePage from './chapters/veteran-contact-information/editPhonePage';
 import editInternationalPhonePage from './chapters/veteran-contact-information/editInternationalPhonePage';
@@ -88,10 +89,11 @@ const formConfig = {
         veteranContactInformation: {
           path: 'veteran-contact-information',
           title: 'Veteran contact information',
+          initialData: {},
           CustomPage: VeteranContactInformationPage,
           CustomPageReview: VeteranContactInformationReviewPage,
-          uiSchema: veteranContactInformation.uiSchema,
-          schema: veteranContactInformation.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
         editAddressPage,
         editEmailPage,

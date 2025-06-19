@@ -13,7 +13,7 @@ import { isEmptyObject } from '../../shared/utils';
 const VeteranContactInformationPage = ({
   data,
   goBack,
-  goForward,
+  // goForward,
   goToPath,
   setFormData,
   contentBeforeButtons,
@@ -25,7 +25,7 @@ const VeteranContactInformationPage = ({
   const {
     email,
     phone,
-    mailingAddress,
+    address,
     internationalPhone,
   } = veteranContactInformation;
 
@@ -73,8 +73,7 @@ const VeteranContactInformationPage = ({
     // Show error alert if no email or mailing address
     const missingEmail = !email;
     setHasMissingEmail(missingEmail);
-    const missingAddress =
-      !mailingAddress?.addressLine1 || !mailingAddress?.city;
+    const missingAddress = !address?.street || !address?.city;
     setHasMissingAddress(missingAddress);
     if (missingEmail || missingAddress) {
       const missingInfo = [
@@ -96,11 +95,11 @@ const VeteranContactInformationPage = ({
   };
 
   useEffect(() => {
-    let address = {};
-    if (!isEmptyObject(mailingAddress)) {
-      address = mailingAddress;
+    let newAddress = {};
+    if (!isEmptyObject(address)) {
+      newAddress = address;
     } else if (!isEmptyObject(profileMailingAddress)) {
-      address = profileMailingAddress;
+      newAddress = profileMailingAddress;
     }
 
     updateContactInfo({
@@ -110,7 +109,7 @@ const VeteranContactInformationPage = ({
         convertPhoneObjectToString(profileHomePhone) ||
         convertPhoneObjectToString(profileMobilePhone) ||
         '',
-      mailingAddress: address,
+      address: newAddress,
       internationalPhone: internationalPhone || profileInternationalPhone || '',
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -120,7 +119,7 @@ const VeteranContactInformationPage = ({
     () => {
       // Show no email or mailing address prefill alert
       if (
-        (!profileMailingAddress?.city && !mailingAddress?.city) ||
+        (!profileMailingAddress?.city && !address?.city) ||
         (!email && !profileEmail)
       ) {
         const missingInfo = [
@@ -142,7 +141,7 @@ const VeteranContactInformationPage = ({
       checkErrors();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [email, mailingAddress, profileEmail, profileMailingAddress],
+    [email, address, profileEmail, profileMailingAddress],
   );
 
   const handlers = {
@@ -156,7 +155,8 @@ const VeteranContactInformationPage = ({
         });
       } else if (email) {
         setSubmitted(false);
-        goForward(data);
+        // goForward(data);
+        goToPath('/review-and-submit', { force: true });
       }
     },
     editClick: (e, editHref) => {
@@ -203,7 +203,7 @@ const VeteranContactInformationPage = ({
                 className="dd-privacy-hidden"
                 data-dd-action-name="Veteran's address"
               >
-                <AddressView data={mailingAddress} />
+                <AddressView data={address} />
               </span>
             ) : (
               <>
@@ -219,8 +219,8 @@ const VeteranContactInformationPage = ({
           <VaLink
             active
             href="/veteran-contact-information/mailing-address"
-            label={`${mailingAddress ? 'Edit' : 'Add'} mailing address`}
-            text={mailingAddress ? 'Edit' : 'Add'}
+            label={`${address ? 'Edit' : 'Add'} mailing address`}
+            text={address ? 'Edit' : 'Add'}
             onClick={e =>
               handlers.editClick(
                 e,
@@ -354,7 +354,7 @@ VeteranContactInformationPage.propTypes = {
     veteranContactInformation: PropTypes.shape({
       email: PropTypes.string,
       phone: PropTypes.string,
-      mailingAddress: PropTypes.shape({
+      address: PropTypes.shape({
         street: PropTypes.string,
         city: PropTypes.string,
         state: PropTypes.string,

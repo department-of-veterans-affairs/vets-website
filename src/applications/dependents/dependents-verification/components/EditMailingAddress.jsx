@@ -1,67 +1,78 @@
 import React, { useEffect } from 'react';
-import { SchemaForm } from 'platform/forms-system/exportsFile';
+import { useDispatch } from 'react-redux';
+import { SchemaForm, setData } from 'platform/forms-system/exportsFile';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
+// import mergeWith from 'lodash/mergeWith';
 import { scrollTo } from 'platform/utilities/scroll';
 
 const EditMailingAddress = ({
-  data,
   schema,
   uiSchema,
+  data,
   goToPath,
-  setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
   const fromReviewPage = sessionStorage.getItem('onReviewPage');
+  const dispatch = useDispatch();
 
   const returnPath = '/veteran-contact-information';
-  const mailingAddress = data?.veteranContactInformation?.mailingAddress || {};
+
   // Convert profile address data to address schema format
-  const address = {
-    addressType: mailingAddress?.addressType || '',
-    country: mailingAddress?.countryCodeIso3 || '',
-    isMilitary: (mailingAddress?.addressType || '').includes('MILITARY'),
-    street: mailingAddress?.addressLine1 || '',
-    street2: mailingAddress?.addressLine2 || '',
-    street3: mailingAddress?.addressLine3 || '',
-    city: mailingAddress?.city || '',
-    state: mailingAddress?.stateCode || '',
-    postalCode: mailingAddress?.zipCode || '',
-    internationalPostalCode: mailingAddress?.internationalPostalCode || '',
-  };
+  // const mailingAddress = data?.veteranContactInformation?.address || {};
+  // const address = {
+  //   addressType: '',
+  //   country: '',
+  //   isMilitary: false,
+  //   street: '',
+  //   street2: '',
+  //   street3: '',
+  //   city: '',
+  //   state: '',
+  //   postalCode: '',
+  //   internationalPostalCode: '',
+  // };
+  // console.log({ data, mailingAddress });
 
   const returnToPath = () => {
     goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
   };
 
+  const setFormData = oData => {
+    dispatch(setData(oData));
+  };
+
   const handlers = {
     onInput: inputData => {
-      const isUSA =
-        !inputData.address.country || inputData.address.country === 'USA';
-      let addressType = 'DOMESTIC';
-      if (inputData.address.isMilitary) {
-        addressType = 'MILITARY';
-      } else if (!isUSA) {
-        addressType = 'INTERNATIONAL';
-      }
+      // console.log({ data, inputData });
+      // console.log({ inputData, data });
+      // let addressType = 'DOMESTIC';
+
+      // const updatedData = mergeWith(data.mailingAddress, inputData.address);
+      // if (updatedData.isMilitary === undefined) {
+      //   updatedData.isMilitary = false;
+      // } else if (updatedData.isMilitary === true) {
+      //   addressType = 'MILITARY';
+      // } else if (['USA']?.includes(updatedData.country)) {
+      //   addressType = 'INTERNATIONAL';
+      // }
+
+      // setFormData({
+      //   ...data,
+      //   mailingAddress: {
+      //     ...data.mailingAddress,
+      //     isMilitary: false,
+      //     addressType,
+      //     ...updatedData,
+      //   },
+      // });
       setFormData({
         ...data,
-        test: true,
+        ...inputData,
         veteranContactInformation: {
-          ...data.veteranContactInformation,
-          mailingAddress: {
-            ...mailingAddress,
-            countryCodeIso3: inputData.address.country,
-            addressType,
-            addressLine1: inputData.address.street,
-            addressLine2: inputData.address.street2,
-            addressLine3: inputData.address.street3,
-            city: inputData.address.city,
-            stateCode: isUSA ? inputData.address.state : '',
-            province: isUSA ? '' : inputData.address.state,
-            internationalPostalCode: isUSA ? '' : inputData.address.postalCode,
-            zipCode: isUSA ? inputData.address.postalCode : '',
+          address: {
+            ...inputData.address,
           },
         },
       });
@@ -73,6 +84,44 @@ const EditMailingAddress = ({
       returnToPath();
     },
   };
+
+  // const handlers = {
+  //   onInput: inputData => {
+  //     // const isUSA =
+  //     //   !inputData.address.country || inputData.address.country === 'USA';
+  //     let addressType = 'DOMESTIC';
+  //     // if (inputData.address.isMilitary) {
+  //     //   addressType = 'MILITARY';
+  //     // } else if (!isUSA) {
+  //     //   addressType = 'INTERNATIONAL';
+  //     // }
+
+  //     const updatedData = mergeWith(address, inputData.address);
+  //     if (updatedData.isMilitary === undefined) {
+  //       updatedData.isMilitary = false;
+  //     } else if (updatedData.isMilitary === true) {
+  //       addressType = 'MILITARY';
+  //     } else if (['USA']?.includes(updatedData.country)) {
+  //       addressType = 'INTERNATIONAL';
+  //     }
+
+  //     setFormData({
+  //       ...data,
+  //       mailingAddress: {
+  //         ...data.mailingAddress,
+  //         isMilitary: false,
+  //         addressType,
+  //         ...updatedData,
+  //       },
+  //     });
+  //   },
+  //   onSubmit: () => {
+  //     returnToPath();
+  //   },
+  //   onCancel: () => {
+  //     returnToPath();
+  //   },
+  // };
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -100,7 +149,7 @@ const EditMailingAddress = ({
         title="Contact Info Form"
         idSchema={{}}
         schema={schema}
-        data={{ address }}
+        data={data}
         uiSchema={uiSchema}
         onChange={handlers.onInput}
         onSubmit={handlers.onSubmit}
