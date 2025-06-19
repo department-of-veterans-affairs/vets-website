@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
-import ResBurdenPrivacyPolicy from './ResBurdenPrivacyAct';
+import PrivacyActStatement from './PrivacyActStatement';
 import { getTitle } from '../helpers';
 
 const PrivacyPolicy = () => {
@@ -85,7 +85,7 @@ const PrivacyPolicy = () => {
         visible={showModal}
         large
       >
-        <ResBurdenPrivacyPolicy />
+        <PrivacyActStatement />
       </VaModal>
     </div>
   );
