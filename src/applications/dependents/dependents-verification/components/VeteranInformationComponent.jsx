@@ -101,7 +101,6 @@ VeteranInformation.propTypes = {
   formData: PropTypes.shape({
     veteranInformation: PropTypes.shape({
       ssnLastFour: PropTypes.string,
-      vaFileLastFour: PropTypes.string,
     }),
   }),
 };
