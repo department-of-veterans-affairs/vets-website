@@ -65,9 +65,9 @@ describe('CG <ApplicationDownloadLink>', () => {
       fireEvent.click(link);
     };
 
-    const triggerSuccess = ({ link }) => {
+    const triggerSuccess = ({ link, ok = true }) => {
       apiRequestStub.resolves({
-        ok: true,
+        ok,
         blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
       });
       fireEvent.click(link);
@@ -157,14 +157,9 @@ describe('CG <ApplicationDownloadLink>', () => {
       });
 
       it('should throw and trigger error handling if `response.ok` is `false`', async () => {
-        apiRequestStub.resolves({
-          ok: false,
-          blob: () => new Blob(['fake'], { type: 'application/pdf' }),
-        });
-
         const { selectors } = subject();
         const { vaLink: link } = selectors();
-        fireEvent.click(link);
+        triggerSuccess({ link, ok: false });
 
         await waitFor(() => {
           const { vaAlert } = selectors();
