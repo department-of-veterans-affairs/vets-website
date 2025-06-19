@@ -124,9 +124,9 @@ export const uploadPage = {
 
 /** @type {CustomPageType} */
 export function UploadPage(props) {
-  const warnings =
-    props.data?.uploadedFile?.warnings ||
-    props.data?.supportingDocuments?.warnings;
+  const warnings = (props.data?.uploadedFile?.warnings || []).concat(
+    props.data?.supportingDocuments?.warnings || [],
+  );
   const alert =
     warnings?.length > 0
       ? FORM_UPLOAD_OCR_ALERT(
