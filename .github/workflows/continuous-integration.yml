@@ -344,7 +344,7 @@ jobs:
           if [[ -n "$APP_FOLDERS" ]]; then
             yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
           else
-            yarn test:unit:gha yarn test:unit:gha --full-suite --coverage --log-level verbose
+            yarn test:unit:gha yarn test:unit:gha --full-suite
           fi
           
         env:
@@ -1635,7 +1635,7 @@ jobs:
         update-e2e-allow-list,
         update-unit-test-allow-list,
       ]
-    if: always() && !cancelled() && github.ref != 'refs/heads/main' && ( needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure' || needs.tests-prep.result == 'skipped' )
+    if:  !cancelled() && github.ref != 'refs/heads/main' && ( needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure' || needs.tests-prep.result == 'skipped' )
     continue-on-error: true
     steps:
       - name: Checkout
