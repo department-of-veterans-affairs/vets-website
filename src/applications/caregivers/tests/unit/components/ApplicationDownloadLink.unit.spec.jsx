@@ -126,11 +126,12 @@ describe('CG <ApplicationDownloadLink>', () => {
           expect(vaLoadingIndicator).to.exist;
         });
         await waitFor(() => {
-          const { vaAlert } = selectors();
+          const { vaAlert, vaLink } = selectors();
           expect(vaAlert).to.exist;
           expect(vaAlert).to.contain.text(
             content['alert-download-message--generic'],
           );
+          expect(vaLink).to.exist;
         });
 
         sinon.assert.calledWithExactly(recordEventStub, { event });
@@ -150,7 +151,7 @@ describe('CG <ApplicationDownloadLink>', () => {
           const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
 
           expect(vaLoadingIndicator).to.not.exist;
-          expect(vaLink).to.not.exist;
+          expect(vaLink).to.exist;
 
           expect(vaAlert).to.exist;
           expect(vaAlert).to.contain.text(

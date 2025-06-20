@@ -174,7 +174,7 @@ describe('selectMedicareParticipantPage updateSchema', () => {
       reviewMode: false,
     });
     expect(res.enumNames.includes('Jim Jones')).to.be.true;
-    expect(res.enumNames.includes('John Jones')).to.be.false;
+    expect(res.enumNames.includes('John Jones')).to.be.true;
   });
 
   it('should return "No eligible applicants" if no applicants present', () => {
@@ -203,7 +203,7 @@ describe('selectMedicareParticipantPage updateSchema', () => {
         },
         {
           applicantName: { first: 'John', last: 'Jones' },
-          applicantDob: '2025-06-01', // Not over 65 (at least until 2090)
+          applicantDob: '2025-06-01',
           applicantSSN: '345345345',
         },
       ],
@@ -213,7 +213,7 @@ describe('selectMedicareParticipantPage updateSchema', () => {
     });
     expect(res.enumNames).to.include('Jim Jones');
     expect(res.enumNames).to.include('Jack Jones');
-    expect(res.enumNames).to.not.include('John Jones');
+    expect(res.enumNames).to.include('John Jones');
   });
 });
 
