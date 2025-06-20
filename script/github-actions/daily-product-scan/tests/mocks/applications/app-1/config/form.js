@@ -361,9 +361,6 @@ const formConfig = {
         vaFacility: {
           path: 'insurance-information/va-facility',
           title: 'VA Facility',
-          initialData: {
-            isEssentialAcaCoverage: false,
-          },
           uiSchema: vaFacility.uiSchema,
           schema: vaFacility.schema,
         },
