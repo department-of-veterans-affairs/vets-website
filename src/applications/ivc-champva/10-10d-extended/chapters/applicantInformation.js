@@ -39,6 +39,7 @@ import {
 } from '../../shared/components/fileUploads/attachments';
 import {
   applicantWording,
+  nameWording,
   getAgeInYears,
   fmtDate,
 } from '../../shared/utilities';
@@ -448,36 +449,46 @@ const applicantSchoolCertUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Upload proof of school enrollment',
-      ({ formData }) => {
+      ({ formData, formContext }) => {
+        const index = +formContext?.pagePerItemIndex; // NaN if not present
+        // since we don't have the standard access to full form data here,
+        // make use of the previously added `view:certifierRole` property.
+        const tmpFormData = {
+          ...formData,
+          certifierRole: formData?.['view:certifierRole'],
+        };
+        // Calls the appropriate name getter depending on current list item index.
+        // First applicant is assumed to be the certifier if certifierRole === 'applicant'.
+        const getNameFn = posessive =>
+          index === 0
+            ? nameWording(tmpFormData, posessive, false)
+            : // formData doesn't need certifier role for applicantWording
+              applicantWording(formData, posessive, false);
+
         const posessiveName = (
-          <b className="dd-privacy-hidden">
-            {applicantWording(formData, true, false)}
-          </b>
+          <b className="dd-privacy-hidden">{getNameFn(true)}</b>
         );
         const nonPosessiveName = (
-          <b className="dd-privacy-hidden">
-            {applicantWording(formData, false, false)}
-          </b>
+          <b className="dd-privacy-hidden">{getNameFn(false)}</b>
         );
+        const nameBeingVerb =
+          tmpFormData?.certifierRole === 'applicant' ? (
+            'you’re'
+          ) : (
+            <>
+              <b className="dd-privacy-hidden">{nonPosessiveName}</b> is
+            </>
+          );
         return (
           <>
-            You’ll need to submit a copy of a document showing proof of{' '}
-            {posessiveName} school enrollment. If {nonPosessiveName} is planning
-            to enroll, you’ll need to upload a document showing information
-            about {posessiveName} plan to enroll.
-            <br />
-            <br />
-            Fill out a School Enrollment Certification Form.
-            <br />
-            <va-link
-              href="https://www.va.gov/COMMUNITYCARE/docs/pubfiles/forms/School-Enrollment.pdf"
-              text="Get school enrollment certification form to download"
-            />
-            <br />
-            <br />
-            Or you can submit an enrollment letter on the school’s letterhead.
-            <br />
-            Here’s what the letter should include:
+            <p>
+              <b>If {nameBeingVerb} already enrolled in school</b>
+            </p>
+            <p>You’ll need to submit a letter on the school’s letterhead.</p>
+            <p>
+              Ask the school to write us a letter on school letterhead that
+              includes all of these pieces of information:
+            </p>
             <ul>
               <li>{posessiveName} first and last name</li>
               <li>
@@ -486,13 +497,20 @@ const applicantSchoolCertUploadPage = {
               <li>
                 The start and end dates for each semester or enrollment term
               </li>
+              <li>Enrollment status (full-time or part-time)</li>
+              <li>Expected graduation date</li>
               <li>
                 Signature and title of a school official (like a director or
                 principal)
               </li>
             </ul>
-            If {nonPosessiveName} is not enrolled, upload a copy of{' '}
-            {posessiveName} acceptance letter from the school.
+            <p>
+              <b>If {nameBeingVerb} planning to enroll</b>
+            </p>
+            <p>
+              Submit a copy of {posessiveName} acceptance letter from the
+              school.
+            </p>
           </>
         );
       },
