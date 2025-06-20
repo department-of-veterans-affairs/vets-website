@@ -199,6 +199,7 @@ describe('vaPrescription details container', () => {
   it('does not display refill history if there is one record with dispensedDate undefined', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
+      dispensedDate: undefined,
       rxRfRecords: [
         { ...prescription.rxRfRecords[0], dispensedDate: undefined },
       ],
@@ -212,6 +213,7 @@ describe('vaPrescription details container', () => {
   it('displays refill history if there is one record with dispensedDate not undefined', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
+      dispensedDate: undefined,
       rxRfRecords: [{ ...prescription.rxRfRecords[0] }],
     };
     const screen = setup(rxWithNoRefillHistory);
@@ -223,6 +225,7 @@ describe('vaPrescription details container', () => {
   it('does not display refill history if there is no records', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
+      dispensedDate: undefined,
       rxRfRecords: [],
     };
     const screen = setup(rxWithNoRefillHistory);
@@ -234,6 +237,7 @@ describe('vaPrescription details container', () => {
   it('displays refill history if there are 2 records', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
+      dispensedDate: undefined,
       rxRfRecords: [
         { ...prescription.rxRfRecords[0], ...prescription.rxRfRecords[0] },
       ],
