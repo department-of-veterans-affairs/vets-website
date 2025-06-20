@@ -5,8 +5,8 @@ import {
 
 const arrayBuilderOptions = {
   arrayPath: 'readOnlyCertifyingOfficials',
-  nounSingular: 'certifying officials',
-  nounPlural: 'certifying official',
+  nounSingular: 'certifying official',
+  nounPlural: 'certifying officials',
   required: false,
   text: { getItemName: item => item.fullName },
 };

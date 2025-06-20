@@ -1,21 +1,19 @@
 import { readOnlyCertifyingOfficialIntro } from './pages/readOnlyCertifyingOfficialIntro';
 
 export const getReadOnlyPrimaryOfficialTitle = item => {
-  let title = null;
+  if (!item) return null;
 
-  if (item) {
-    const first = item?.fullName?.first || 'Certifying';
-    const last = item?.fullName?.last || 'Official';
-    title = `${first} ${last}`;
-  }
+  const first = (item.fullName?.first || '').trim() || 'Certifying';
+  const middle = (item.fullName?.middle || '').trim();
+  const last = (item.fullName?.last || '').trim() || 'Official';
 
-  return title;
+  return [first, middle, last].filter(Boolean).join(' ');
 };
 
 export const readOnlyCertifyingOfficialArrayOptions = {
   arrayPath: 'readOnlyCertifyingOfficials',
   nounSingular: 'certifying official',
-  nounPlural: 'certifying official',
+  nounPlural: 'certifying officials',
   required: false,
   text: {
     getItemName: item => getReadOnlyPrimaryOfficialTitle(item),
