@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { replaceStrValues } from '../../utils';
@@ -6,10 +6,10 @@ import { replaceStrValues } from '../../utils';
 const SignatureInput = props => {
   const {
     fullName,
-    required,
-    showError,
     hasSubmittedForm,
+    required,
     setIsStatementOfTruthSigned,
+    showError,
   } = props;
 
   const [signatureMatches, setSignatureMatches] = useState(false);
@@ -28,16 +28,36 @@ const SignatureInput = props => {
     return value.replace(/ +(?= )/g, '');
   };
 
-  const handleBlur = event => {
-    const { value } = event.target;
-    setData({ value, dirty: true });
-    const normalizedSignature = normalizeSignature(value);
-    const isMatch =
-      normalizedSignature.toLocaleLowerCase() === fullName.toLocaleLowerCase();
+  const handleBlur = useCallback(
+    event => {
+      const { value } = event.target;
+      setData({ value, dirty: true });
+    },
+    [setData],
+  );
 
-    setSignatureMatches(isMatch);
-    setIsStatementOfTruthSigned(isMatch);
+  const handleChange = event => {
+    const { value } = event.target;
+    setData({ value, dirty: data.dirty });
   };
+
+  const normalizedSignature = useMemo(() => normalizeSignature(data.value), [
+    data.value,
+  ]);
+
+  const isMatch = useMemo(
+    () =>
+      normalizedSignature.toLocaleLowerCase() === fullName.toLocaleLowerCase(),
+    [normalizedSignature, fullName],
+  );
+
+  useEffect(
+    () => {
+      setSignatureMatches(isMatch);
+      setIsStatementOfTruthSigned(isMatch);
+    },
+    [isMatch, setSignatureMatches, setIsStatementOfTruthSigned],
+  );
 
   useEffect(
     () => {
@@ -66,6 +86,7 @@ const SignatureInput = props => {
       value={data.value}
       error={error}
       onBlur={handleBlur}
+      onInput={handleChange}
     />
   );
 };

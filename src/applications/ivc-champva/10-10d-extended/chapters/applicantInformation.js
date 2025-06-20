@@ -55,9 +55,6 @@ import {
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
-import { ApplicantMedicareStatusPage } from '../../10-10D/pages/ApplicantMedicareStatusPage';
-import { ApplicantMedicareStatusContinuedPage } from '../../10-10D/pages/ApplicantMedicareStatusContinuedPage';
-import ApplicantOhiStatusPage from '../../10-10D/pages/ApplicantOhiStatusPage';
 
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 
@@ -97,9 +94,7 @@ const applicantOptions = {
       item.applicantGender &&
       item.applicantPhone &&
       item.applicantAddress &&
-      item.applicantRelationshipToSponsor &&
-      item.applicantMedicareStatus &&
-      item.applicantHasOhi
+      item.applicantRelationshipToSponsor
     );
   }, // TODO: include more required fields here
   maxItems: MAX_APPLICANTS,
@@ -647,57 +642,6 @@ const applicantReMarriageCertUploadPage = {
   },
 };
 
-const applicantMedicareStatusPage = {
-  uiSchema: {},
-  schema: {
-    type: 'object',
-    properties: {
-      applicantMedicareStatus: {
-        type: 'object',
-        properties: {
-          eligibility: { type: 'string' },
-          _unused: { type: 'string' },
-        },
-      },
-    },
-    required: ['applicantMedicareStatus'],
-  },
-};
-
-const applicantMedicarePartDStatusPage = {
-  uiSchema: {},
-  schema: {
-    type: 'object',
-    properties: {
-      applicantMedicarePartD: {
-        type: 'object',
-        properties: {
-          enrollment: { type: 'string' },
-          otherEnrollment: { type: 'string' },
-        },
-      },
-    },
-    required: ['applicantMedicarePartD'],
-  },
-};
-
-const applicantOhiStatusPage = {
-  uiSchema: {},
-  schema: {
-    type: 'object',
-    properties: {
-      applicantHasOhi: {
-        type: 'object',
-        properties: {
-          hasOhi: { type: 'string' },
-          _unused: { type: 'string' },
-        },
-      },
-    },
-    required: ['applicantHasOhi'],
-  },
-};
-
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -916,29 +860,6 @@ export const applicantPages = arrayBuilderPages(
         get('applicantRemarried', formData?.applicants?.[index]),
       CustomPage: FileFieldCustom,
       ...applicantReMarriageCertUploadPage,
-    }),
-    page19: pageBuilder.itemPage({
-      path: 'applicant-medicare/:index',
-      title: item => `${applicantWording(item)} Medicare Part A and B status`,
-      ...applicantMedicareStatusPage,
-      CustomPage: ApplicantMedicareStatusPage,
-    }),
-    page20: pageBuilder.itemPage({
-      path: 'applicant-medicare-continued/:index',
-      title: item => `${applicantWording(item)} Medicare Part D status`,
-      depends: (formData, index) =>
-        get(
-          'applicantMedicareStatus.eligibility',
-          formData?.applicants?.[index],
-        ) === 'enrolled',
-      ...applicantMedicarePartDStatusPage,
-      CustomPage: ApplicantMedicareStatusContinuedPage,
-    }),
-    page21: pageBuilder.itemPage({
-      path: 'applicant-other-insurance-status/:index',
-      title: item => `${applicantWording(item)} other health insurance status`,
-      ...applicantOhiStatusPage,
-      CustomPage: ApplicantOhiStatusPage,
     }),
   }),
 );
