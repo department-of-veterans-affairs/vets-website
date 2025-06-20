@@ -35,8 +35,8 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
 
   // Determine if the user should be redirected to the `/my-health` page.
   // Redirect if:
-  //   1. The `featureMhvRouteGuards` flag is enabled,
-  //   2. AND the user is either not LOA3 authenticated OR not registered with any facilities.
+  //   1. The user is not LOA3 authenticated
+  //   2. OR not registered with any facilities.
   const shouldRedirectToMyHealtheVet = !isUserLOA3 || !hasRegisteredSystems;
 
   if (shouldRedirectToMyHealtheVet) {

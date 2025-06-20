@@ -94,7 +94,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
         appointment,
         false,
         false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -117,7 +116,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
         false,
         false,
         useFeSourceOfTruthModality,
@@ -144,7 +142,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
         appointment,
         false,
         false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -169,7 +166,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
         appointment,
         false,
         false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -192,7 +188,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
         false,
         false,
         useFeSourceOfTruthModality,
@@ -235,7 +230,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
         appointment,
         false,
         false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -259,7 +253,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         parseApiObject({ data: response }),
-        false,
         false,
         false,
         useFeSourceOfTruthModality,
@@ -302,7 +295,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
         appointment,
         false,
         false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -325,7 +317,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
         false,
         false,
         useFeSourceOfTruthModality,
@@ -352,7 +343,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
         appointment,
         false,
         false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -374,7 +364,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
         false,
         false,
         useFeSourceOfTruthModality,
@@ -409,13 +398,11 @@ describe('VAOS <transformVAOSAppointment>', () => {
         mobile,
         false,
         false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
       const b = transformVAOSAppointment(
         adhoc,
-        false,
         false,
         false,
         useFeSourceOfTruthModality,
@@ -455,13 +442,11 @@ describe('VAOS <transformVAOSAppointment>', () => {
         parseApiObject({ data: mobile }),
         false,
         false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
       const b = transformVAOSAppointment(
         parseApiObject({ data: storeForward }),
-        false,
         false,
         false,
         useFeSourceOfTruthModality,
@@ -512,7 +497,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
         false,
         false,
         useFeSourceOfTruthModality,

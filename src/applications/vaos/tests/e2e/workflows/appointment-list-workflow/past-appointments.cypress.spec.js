@@ -18,7 +18,7 @@ describe('VAOS past appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles({ vaOnlineSchedulingFeSourceOfTruth: false });
+      mockFeatureToggles({});
       mockVamcEhrApi();
 
       cy.login(new MockUser());

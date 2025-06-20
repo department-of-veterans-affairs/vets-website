@@ -207,6 +207,7 @@ describe('VAOS Backend Service Alert', () => {
     const appointment = new MockAppointmentResponse({
       localStartTime: yesterday,
       status: APPOINTMENT_STATUS.proposed,
+      pending: true,
     }).setLocation(new MockFacilityResponse());
 
     mockAppointmentsApi({
@@ -239,6 +240,7 @@ describe('VAOS Backend Service Alert', () => {
     const appointment = new MockAppointmentResponse({
       localStartTime: yesterday,
       status: APPOINTMENT_STATUS.proposed,
+      pending: true,
     }).setLocation(new MockFacilityResponse());
 
     mockAppointmentsApi({

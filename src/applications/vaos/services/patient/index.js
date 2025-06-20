@@ -226,7 +226,6 @@ function logEligibilityExplanation(
  * @param {TypeOfCare} params.typeOfCare Type of care object for the currently chosen type of care
  * @param {Location} params.location The current location to check eligibility against
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
- * @param {boolean} [params.useFeSourceOfTruth=false] whether to use vets-api payload as the FE source of truth
  * @param {boolean} [params.useFeSourceOfTruthCC=false] whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @param {boolean} [params.useFeSourceOfTruthVA=false] whether to use vets-api payload as the FE source of truth for VA appointments and requests
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
@@ -236,7 +235,6 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
-  useFeSourceOfTruth = false,
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
   useFeSourceOfTruthModality = false,
@@ -273,7 +271,6 @@ export async function fetchFlowEligibilityAndClinics({
 
     if (isDirectAppointmentHistoryRequired) {
       apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
-        useFeSourceOfTruth,
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,

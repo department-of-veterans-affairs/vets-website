@@ -8,7 +8,6 @@ import {
   TYPE_OF_VISIT,
   VIDEO_TYPES,
 } from '../../utils/constants';
-import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
 
 export function getAppointmentType(
@@ -67,48 +66,6 @@ function getTypeOfVisit(id) {
 }
 
 /**
- * Finds the datetime of the appointment depending on vista site location
- * and returns it as a moment object
- *
- * @param {Object} appt VAOS Service appointment object
- * @returns {Object} Returns appointment datetime as moment object
- */
-function getMomentConfirmedDate(appt) {
-  const timezone = getTimezoneByFacilityId(appt.locationId);
-
-  return timezone
-    ? moment(appt.localStartTime).tz(timezone)
-    : moment(appt.localStartTime);
-}
-
-/**
- *  Determines whether current time is less than appointment time
- *  +60 min or +240 min in the case of video
- * @param {*} appt VAOS Service appointment object
- */
-function isPastAppointment(appt) {
-  const isVideo = appt.kind === 'telehealth';
-  const threshold = isVideo ? 240 : 60;
-  const apptDateTime = moment(getMomentConfirmedDate(appt));
-  return apptDateTime.add(threshold, 'minutes').isBefore(moment());
-}
-
-/**
- *  Determines whether current time is before appointment time
- * @param {*} appt VAOS Service appointment object
- * @param {*} isRequest is appointment a request
- */
-function isFutureAppointment(appt, isRequest) {
-  const apptDateTime = moment(appt.start);
-  return (
-    !isRequest &&
-    !isPastAppointment(appt) &&
-    apptDateTime.isValid() &&
-    apptDateTime.isAfter(moment().startOf('day'))
-  );
-}
-
-/**
  * Gets the atlas location and sitecode
  *
  * @param {Object} appt VAOS Service appointment object
@@ -134,7 +91,6 @@ function getAtlasLocation(appt) {
 
 export function transformVAOSAppointment(
   appt,
-  useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
@@ -147,14 +103,9 @@ export function transformVAOSAppointment(
   );
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
-  const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
-  const isRequest = useFeSourceOfTruth
-    ? appt.pending
-    : appointmentType === APPOINTMENT_TYPES.request ||
-      appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const isUpcoming = useFeSourceOfTruth
-    ? appt.future
-    : isFutureAppointment(appt, isRequest);
+  const isPast = appt.past;
+  const isRequest = appt.pending;
+  const isUpcoming = appt.future;
   const isCCRequest = useFeSourceOfTruthCC
     ? appointmentType === APPOINTMENT_TYPES.ccRequest
     : isCC && isRequest;
@@ -373,7 +324,6 @@ export function transformVAOSAppointment(
 
 export function transformVAOSAppointments(
   appts,
-  useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
@@ -382,7 +332,6 @@ export function transformVAOSAppointments(
   return appts.map(appt =>
     transformVAOSAppointment(
       appt,
-      useFeSourceOfTruth,
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
       useFeSourceOfTruthModality,
