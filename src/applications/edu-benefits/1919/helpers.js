@@ -141,28 +141,62 @@ export const confirmationChildContent = (pdfUrl, trackingPrefix, goBack) => (
                 download
                 filetype="PDF"
                 href={pdfUrl}
-                text="Download VA Form 22-10215"
+                text="Download VA Form 22-1919"
               />
             </span>
           </p>
         </div>
       </va-process-list-item>
-      <va-process-list-item header="Upload your PDF to the Education File Upload Portal">
+      <va-process-list-item header="Upload the form to the Education File Upload Portal or email it to your State Approving Agency (SAA) for approval">
         <div itemProp="itemListElement">
           <p>
-            Visit the&nbsp;
+            <strong> If your institution has a facility code:</strong> Visit
+            the&nbsp;
             <va-link
               external
               text="Education File Upload Portal"
               href="https://www.my.va.gov/EducationFileUploads/s/"
             />
-            , and upload your saved VA Form 22-10215.
+            , and upload your saved VA Form 22-1919.
+          </p>
+          <p>
+            <strong>
+              If your institution does not have a facility code or if you are
+              submitting the form because your institution has changed
+              ownership:{' '}
+            </strong>
+            Email your downloaded PDF to your State Approving Agency (SAA). If
+            you need help finding their email address&nbsp;
+            <va-link
+              external
+              text="search the SAA contact directory"
+              href="https://nasaa-vetseducation.com/nasaa-contacts/"
+            />
           </p>
         </div>
       </va-process-list-item>
-      <va-process-list-item header="Submit your form">
+      <va-process-list-item header="Next steps">
         <div itemProp="itemListElement">
-          <p>Once uploaded, click submit to finalize your request.</p>
+          <p>
+            We will generally review your submission within 7-10 business days.
+          </p>
+          <p>
+            <strong>
+              If you uploaded your form to the Education File Upload Portal:
+            </strong>{' '}
+            Once we complete the review, we will email all authorized
+            individuals listed on this form to confirm that your institution’s
+            information has been updated, and include a copy of the WEAMS 1998
+            report. If for any reason we cannot accept your form, we will
+            explain the reasons why and give you instructions for re-submission.
+          </p>
+          <p>
+            <strong>If you emailed your form to your SAA:</strong> After
+            reviewing your form, the SAA will include it in the approval request
+            they submit to the VA. They will reach out if they need more
+            information. VA will contact you directly once the approval request
+            has been processed.
+          </p>
         </div>
       </va-process-list-item>
     </va-process-list>
@@ -183,14 +217,6 @@ export const confirmationChildContent = (pdfUrl, trackingPrefix, goBack) => (
         text="Back"
         href="#"
       />
-    </p>
-    <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
-      What are my next steps?
-    </h2>
-    <p>
-      After you submit your 85/15 rule enrollment ratios, we will review them
-      within 7-10 business days. Once we review your submission, we will email
-      you with our determinations, and any next steps.
     </p>
   </div>
 );
