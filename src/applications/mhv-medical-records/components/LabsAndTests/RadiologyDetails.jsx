@@ -390,6 +390,12 @@ ${record.results}`;
     </>
   );
 
+  const renderJobCompleteAlert = () => {
+    return (
+      <JobCompleteAlert records={[radiologyDetails]} studyJobs={[studyJob]} />
+    );
+  };
+
   const imageStatusContent = () => {
     if (radiologyDetails.studyId) {
       if (processingRequest) {
@@ -421,7 +427,7 @@ ${record.results}`;
         <>
           {nillOrLimitReached && imagesNotRequested(studyJob)}
           {newOrProcessing && jobProcessingAlert(studyJob)}
-          {jobComplete && JobCompleteAlert}
+          {jobComplete && renderJobCompleteAlert()}
           {requestFailedOrError && imageAlertError(studyJob)}
           {notificationContent()}
         </>
@@ -458,10 +464,7 @@ ${record.results}`;
             <h3 className="vads-u-font-size--lg vads-u-font-family--sans no-print">
               Images ready
             </h3>
-            <JobCompleteAlert
-              records={[radiologyDetails]}
-              studyJobs={[studyJob]}
-            />
+            {renderJobCompleteAlert()}
           </VaAlert>
         )}
         {downloadStarted && <DownloadSuccessAlert />}
