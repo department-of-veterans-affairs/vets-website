@@ -7,7 +7,6 @@ import {
   mockMultipleApiRequests,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import moment from 'moment';
 import { subDays } from 'date-fns';
 import ThreadDetails from '../../containers/ThreadDetails';
 import { Alerts, PageTitles } from '../../util/constants';
@@ -397,9 +396,7 @@ describe('Thread Details container', () => {
     const draftMessageHistoryUpdated = [
       {
         ...replyMessage,
-        sentDate: moment()
-          .subtract(44, 'days')
-          .format(),
+        sentDate: subDays(new Date(), 44).toISOString(),
       },
       olderMessage,
     ];
@@ -492,9 +489,7 @@ describe('Thread Details container', () => {
     const draftMessageHistoryUpdated = [
       {
         ...replyMessage,
-        sentDate: moment()
-          .subtract(44, 'days')
-          .format(),
+        sentDate: subDays(new Date(), 44).toISOString(),
       },
       olderMessage,
     ];
