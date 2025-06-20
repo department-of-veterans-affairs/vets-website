@@ -484,5 +484,29 @@ describe('SSN validation helpers', () => {
       validateApplicantSsnIsUnique(errors, page);
       expect(errors.applicantSSN.addError.called).to.be.false;
     });
+
+    it('should return undefined when `view:pagePerItemIndex` is undefined', () => {
+      const page = {
+        applicantSSN: '987-65-4321',
+        'view:sponsorSSN': '123-45-6789',
+        'view:applicantSSNArray': ['987-65-4321', '234-56-7890'],
+      };
+
+      const res = validateApplicantSsnIsUnique(errors, page);
+      expect(errors.applicantSSN.addError.called).to.be.false;
+      expect(res).to.be.undefined;
+    });
+
+    it('should return undefined when `view:applicantSSNArray` is undefined', () => {
+      const page = {
+        applicantSSN: '987-65-4321',
+        'view:sponsorSSN': '123-45-6789',
+        'view:applicantSSNArray': ['987-65-4321', '234-56-7890'],
+      };
+
+      const res = validateApplicantSsnIsUnique(errors, page);
+      expect(errors.applicantSSN.addError.called).to.be.false;
+      expect(res).to.be.undefined;
+    });
   });
 });

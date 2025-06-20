@@ -657,4 +657,30 @@ describe('Component ChapterSectionCollection', () => {
     expect(getByText('Radio page confirmation field')).to.exist;
     expect(getByText('Page level confirmation field rendered')).to.exist;
   });
+
+  it('should render dividers (hr) between chapters', () => {
+    const { mockStore } = mockRedux({
+      formData: {
+        ...mockChapterRadioData,
+        ...mockChapterTextData,
+      },
+    });
+
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ChapterSectionCollection
+          formConfig={{
+            chapters: {
+              radioChapter: mockChapterRadio,
+              textChapter: mockChapterText,
+            },
+          }}
+        />
+      </Provider>,
+    );
+
+    // Should have exactly one <hr> since there are two chapters
+    const hrElements = container.querySelectorAll('hr');
+    expect(hrElements.length).to.equal(1);
+  });
 });
