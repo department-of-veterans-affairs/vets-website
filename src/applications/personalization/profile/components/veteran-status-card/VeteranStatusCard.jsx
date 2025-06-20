@@ -29,7 +29,7 @@ const VeteranStatusCard = ({
           <div className="vets-status-card-row">
             <dt className="vads-u-font-weight--bold">DoD ID Number</dt>
             <dd>{edipi}</dd>
-            {!!totalDisabilityRating && (
+            {totalDisabilityRating >= 0 && (
               <>
                 <dt className="vads-u-font-weight--bold">
                   VA disability rating

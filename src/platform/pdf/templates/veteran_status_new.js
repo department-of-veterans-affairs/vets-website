@@ -234,7 +234,7 @@ const generate = async data => {
     {
       heading: 'VA disability rating',
       content: `${data.details.totalDisabilityRating?.toString()}%`,
-      condition: data.details.totalDisabilityRating,
+      condition: data.details.totalDisabilityRating >= 0,
     },
   ];
   infoItems2.forEach(item => {
