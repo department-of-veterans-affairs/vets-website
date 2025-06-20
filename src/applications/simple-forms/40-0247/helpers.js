@@ -34,7 +34,6 @@ export const pageFocusScroll = () => {
 
 export const supportingDocsDescription = (
   <div className="supp-docs-description">
-    <p>We prefer that you upload the Veteran’s or Reservist’s DD214.</p>
     <p>Guidelines for uploading a file:</p>
     <ul>
       <>
