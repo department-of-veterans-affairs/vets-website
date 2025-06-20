@@ -142,22 +142,17 @@ class AddressValidationView extends React.Component {
     }
 
     if (suggestedAddressSelected) {
-      this.props.updateValidationKeyAndSave(
-        VAP_SERVICE.API_ROUTES.ADDRESSES,
-        method,
-        addressValidationType,
-        payload,
-        analyticsSectionName,
-      );
-    } else {
-      await this.props.createTransaction(
-        VAP_SERVICE.API_ROUTES.ADDRESSES,
-        method,
-        addressValidationType,
-        payload,
-        analyticsSectionName,
-      );
+      // if the user selected a suggested address, we need to remove the validationKey
+      // so that the API doesn't throw an error
+      delete payload.validationKey;
     }
+    await this.props.createTransaction(
+      VAP_SERVICE.API_ROUTES.ADDRESSES,
+      method,
+      addressValidationType,
+      payload,
+      analyticsSectionName,
+    );
   };
 
   onEditClick = () => {
