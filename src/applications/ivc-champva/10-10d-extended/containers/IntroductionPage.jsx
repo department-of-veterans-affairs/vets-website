@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollToTop } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { TITLE, SUBTITLE } from '../constants';
 
-const OMB_RES_BURDEN = 30;
+const OMB_RES_BURDEN = 15;
 const OMB_NUMBER = '2900-0219';
 const OMB_EXP_DATE = '10/31/2024';
 
@@ -55,7 +57,6 @@ const ProcessList = () => {
 export const IntroductionPage = props => {
   const { route } = props;
   const { formConfig, pageList } = route;
-
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
@@ -69,16 +70,25 @@ export const IntroductionPage = props => {
         10-7959c).
       </h2>
       <ProcessList />
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start the application"
-        devOnly={{
-          forceShowFormControls: true,
-        }}
-      />
+      <va-alert-sign-in variant="signInOptionalNoPrefill" visible>
+        <span slot="SignInButton">
+          <VaButton
+            text="Sign in or create an account"
+            onClick={() => props.toggleLoginModal(true)}
+          />
+
+          <p>
+            <Link
+              to={pageList?.[1]?.path}
+              className="schemaform-start-button"
+              aria-label="test-aria-label"
+              aria-describedby="test-aria-desc-by"
+            >
+              Start your {formConfig?.customText?.appType} without signing in
+            </Link>
+          </p>
+        </span>
+      </va-alert-sign-in>
       <p />
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
@@ -94,12 +104,18 @@ IntroductionPage.propTypes = {
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool.isRequired,
       savedFormMessages: PropTypes.object.isRequired,
+      customText: PropTypes.shape({ appType: PropTypes.string }),
     }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
   location: PropTypes.shape({
     basename: PropTypes.string,
   }),
+  toggleLoginModal: PropTypes.func,
+};
+
+const mapDispatchToProps = {
+  toggleLoginModal,
 };
 
 const mapStateToProps = state => {
@@ -108,4 +124,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(IntroductionPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPage);
