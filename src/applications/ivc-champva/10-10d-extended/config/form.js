@@ -61,6 +61,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   submissionError: SubmissionError,
+  customText: { appType: 'form' },
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
