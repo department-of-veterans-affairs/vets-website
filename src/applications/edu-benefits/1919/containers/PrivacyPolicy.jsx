@@ -43,11 +43,9 @@ const PrivacyPolicy = () => {
         I certify that my entries are true and correct to the best of my
         knowledge. I agree to immediately notify the VA of any potential
         violations of the above prohibitions. I further acknowledge that this
-        certification must be completed and signed by the President, Chief
-        Administrative Officer, or an equivalent official of the institution. It
-        cannot be signed by the SCO or other personnel, unless they are a Chief
-        Administration President, Chief Administrative Officer, or the
-        equivalent.
+        certification must be completed by a certifying official, owner,
+        officer, or another individual in an official capacity, such as the
+        President or Chief Administrative Officer of the institution.
       </p>
       <span data-testid="privacy-policy-text">
         I have read and accept the{' '}
