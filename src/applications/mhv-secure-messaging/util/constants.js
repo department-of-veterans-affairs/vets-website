@@ -174,6 +174,8 @@ export const Alerts = {
       'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
     SEND_MESSAGE_SUCCESS: 'Message Sent.',
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
+    SERVER_ERROR_500_MESSAGES_HEADING: `We can't access your messages right now`,
+    SERVER_ERROR_500_MESSAGES_CONTENT: `We’re sorry. There's a problem with our system. Refresh this page or try again later.`,
     SERVER_ERROR_503:
       'We’re sorry. We couldn’t load this page. Try again later.',
     SAVE_CONTACT_LIST_SUCCESS: 'Contact list changes saved',

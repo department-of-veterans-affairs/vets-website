@@ -14,6 +14,7 @@ import { retrieveMessageThread } from '../actions/messages';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import {
   PageTitles,
   Paths,
@@ -199,6 +200,7 @@ const Compose = ({ skipInterstitial }) => {
         />
       )}
 
+      <AlertBackgroundBox closeable />
       {draftType &&
         (noAssociations || allTriageGroupsBlocked) && (
           <div className="vads-l-grid-container compose-container">
