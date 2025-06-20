@@ -1,8 +1,10 @@
 import { expect } from 'chai';
 
 import { MockAppointment } from '../../tests/fixtures/MockAppointment';
-import { getAppointmentType, transformVAOSAppointment } from './transformers';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
 import { VIDEO_TYPES } from '../../utils/constants';
+import { parseApiObject } from '../utils';
+import { getAppointmentType, transformVAOSAppointment } from './transformers';
 
 describe('getAppointmentType util', () => {
   it('should return appointment type as request', async () => {
@@ -104,6 +106,8 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(a.vaos.isInPersonVisit).to.be.true;
       expect(a.vaos.isVideo).to.be.false;
       expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.false;
     });
     it('should set modality fields for phone appointments', async () => {
       // Arrange
@@ -127,6 +131,8 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(a.vaos.isInPersonVisit).to.be.false;
       expect(a.vaos.isVideo).to.be.false;
       expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.false;
     });
     it('should set modality fields for vaccine appointments', async () => {
       // Arrange
@@ -150,6 +156,8 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(a.vaos.isInPersonVisit).to.be.true;
       expect(a.vaos.isVideo).to.be.false;
       expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.false;
     });
     it('should set modality fields for in person appointments', async () => {
       // Arrange
@@ -173,6 +181,8 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(a.vaos.isInPersonVisit).to.be.true;
       expect(a.vaos.isVideo).to.be.false;
       expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.false;
     });
     it('should set modality fields for video at home appointments', async () => {
       // Arrange
@@ -196,6 +206,75 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(a.vaos.isInPersonVisit).to.be.false;
       expect(a.vaos.isVideo).to.be.true;
       expect(a.vaos.isVideoAtHome).to.be.true;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.false;
+    });
+    it('should set modality fields for video at ATLAS appointments', async () => {
+      // Arrange
+      const appointment = new MockAppointment();
+      appointment.setModality('vaVideoCareAtAnAtlasLocation');
+      appointment.telehealth = {
+        atlas: {
+          siteCode: 'VFW-DC-20011-01',
+          confirmationCode: '271631',
+          address: {
+            streetAddress: '5929 Georgia Ave NW',
+            city: 'Washington',
+            state: 'DC',
+            zipCode: '20011',
+            country: 'USA',
+            latitutde: 38.96198,
+            longitude: -77.02791,
+            additionalDetails: '',
+          },
+        },
+      };
+
+      // Act
+      const a = transformVAOSAppointment(
+        appointment,
+        false,
+        false,
+        false,
+        useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
+      );
+
+      // Assert
+      expect(a.vaos.isCompAndPenAppointment).to.be.false;
+      expect(a.vaos.isPhoneAppointment).to.be.false;
+      expect(a.vaos.isCOVIDVaccine).to.be.false;
+      expect(a.vaos.isInPersonVisit).to.be.false;
+      expect(a.vaos.isVideo).to.be.true;
+      expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.true;
+      expect(a.vaos.isVideoAtVA).to.be.false;
+    });
+    it('should set modality fields for video at VA appointments', async () => {
+      // Arrange
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
+      });
+
+      // Act
+      const a = transformVAOSAppointment(
+        parseApiObject({ data: response }),
+        false,
+        false,
+        false,
+        useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
+      );
+
+      // Assert
+      expect(a.vaos.isCompAndPenAppointment).to.be.false;
+      expect(a.vaos.isPhoneAppointment).to.be.false;
+      expect(a.vaos.isCOVIDVaccine).to.be.false;
+      expect(a.vaos.isInPersonVisit).to.be.false;
+      expect(a.vaos.isVideo).to.be.true;
+      expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.true;
     });
   });
   describe('When modality flag is off', () => {
@@ -235,6 +314,8 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(a.vaos.isInPersonVisit).to.be.true;
       expect(a.vaos.isVideo).to.be.false;
       expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.false;
     });
     it('should set modality fields for phone appointments', async () => {
       // Arrange
@@ -258,6 +339,8 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(a.vaos.isInPersonVisit).to.be.false;
       expect(a.vaos.isVideo).to.be.false;
       expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.false;
     });
     it('should set modality fields for vaccine appointments', async () => {
       // Arrange
@@ -281,6 +364,8 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(a.vaos.isInPersonVisit).to.be.true;
       expect(a.vaos.isVideo).to.be.false;
       expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.false;
     });
     it('should set modality fields for in person appointments', async () => {
       // Arrange
@@ -303,6 +388,8 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(a.vaos.isInPersonVisit).to.be.true;
       expect(a.vaos.isVideo).to.be.false;
       expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.false;
     });
     it('should set modality fields for video at home appointments', async () => {
       // Arrange
@@ -342,6 +429,8 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(a.vaos.isInPersonVisit).to.be.false;
       expect(a.vaos.isVideo).to.be.true;
       expect(a.vaos.isVideoAtHome).to.be.true;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.false;
 
       expect(b.vaos.isCompAndPenAppointment).to.be.false;
       expect(b.vaos.isPhoneAppointment).to.be.false;
@@ -349,6 +438,96 @@ describe('VAOS <transformVAOSAppointment>', () => {
       expect(b.vaos.isInPersonVisit).to.be.false;
       expect(b.vaos.isVideo).to.be.true;
       expect(b.vaos.isVideoAtHome).to.be.true;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.false;
+    });
+    it('should set modality fields for video at VA appointments', async () => {
+      // Arrange
+      const mobile = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
+      });
+      const storeForward = MockAppointmentResponse.createStoreForwardResponse({
+        localStartTime: new Date(),
+      });
+
+      // Act
+      const a = transformVAOSAppointment(
+        parseApiObject({ data: mobile }),
+        false,
+        false,
+        false,
+        useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
+      );
+      const b = transformVAOSAppointment(
+        parseApiObject({ data: storeForward }),
+        false,
+        false,
+        false,
+        useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
+      );
+
+      // Assert
+      expect(a.vaos.isCompAndPenAppointment).to.be.false;
+      expect(a.vaos.isPhoneAppointment).to.be.false;
+      expect(a.vaos.isCOVIDVaccine).to.be.false;
+      expect(a.vaos.isInPersonVisit).to.be.false;
+      expect(a.vaos.isVideo).to.be.true;
+      expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.true;
+
+      expect(b.vaos.isCompAndPenAppointment).to.be.false;
+      expect(b.vaos.isPhoneAppointment).to.be.false;
+      expect(b.vaos.isCOVIDVaccine).to.be.false;
+      expect(b.vaos.isInPersonVisit).to.be.false;
+      expect(b.vaos.isVideo).to.be.true;
+      expect(b.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.false;
+      expect(a.vaos.isVideoAtVA).to.be.true;
+    });
+    it('should set modality fields for video at ATLAS appointments', async () => {
+      // Arrange
+      const appointment = new MockAppointment();
+      appointment.kind = 'telehealth';
+      appointment.telehealth = {
+        vvsKind: VIDEO_TYPES.adhoc,
+        atlas: {
+          siteCode: 'VFW-DC-20011-01',
+          confirmationCode: '271631',
+          address: {
+            streetAddress: '5929 Georgia Ave NW',
+            city: 'Washington',
+            state: 'DC',
+            zipCode: '20011',
+            country: 'USA',
+            latitutde: 38.96198,
+            longitude: -77.02791,
+            additionalDetails: '',
+          },
+        },
+      };
+
+      // Act
+      const a = transformVAOSAppointment(
+        appointment,
+        false,
+        false,
+        false,
+        useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
+      );
+
+      // Assert
+      expect(a.vaos.isCompAndPenAppointment).to.be.false;
+      expect(a.vaos.isPhoneAppointment).to.be.false;
+      expect(a.vaos.isCOVIDVaccine).to.be.false;
+      expect(a.vaos.isInPersonVisit).to.be.false;
+      expect(a.vaos.isVideo).to.be.true;
+      expect(a.vaos.isVideoAtHome).to.be.false;
+      expect(a.vaos.isAtlas).to.be.true;
+      expect(a.vaos.isVideoAtVA).to.be.false;
     });
   });
 });

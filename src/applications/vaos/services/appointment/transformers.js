@@ -147,7 +147,6 @@ export function transformVAOSAppointment(
   );
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
-  const isAtlas = !!appt.telehealth?.atlas;
   const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
   const isRequest = useFeSourceOfTruth
     ? appt.pending
@@ -164,9 +163,12 @@ export function transformVAOSAppointment(
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   const vvsKind = appt.telehealth?.vvsKind;
   let isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
+  let isAtlas = !!appt.telehealth?.atlas;
   let isVideoAtHome =
     !isAtlas &&
     (vvsKind === VIDEO_TYPES.mobile || vvsKind === VIDEO_TYPES.adhoc);
+  let isVideoAtVA =
+    vvsKind === VIDEO_TYPES.clinic || vvsKind === VIDEO_TYPES.storeForward;
   let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
   let isPhone = appt.kind === 'phone';
   let isCovid = appt.serviceType === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
@@ -183,6 +185,8 @@ export function transformVAOSAppointment(
       appt.modality === 'vaVideoCareAtAnAtlasLocation' ||
       appt.modality === 'vaVideoCareAtAVaLocation';
     isVideoAtHome = appt.modality === 'vaVideoCareAtHome';
+    isAtlas = appt.modality === 'vaVideoCareAtAnAtlasLocation';
+    isVideoAtVA = appt.modality === 'vaVideoCareAtAVaLocation';
   }
 
   const isCancellable = appt.cancellable;
@@ -209,7 +213,6 @@ export function transformVAOSAppointment(
           };
         })
         .filter(Boolean),
-      isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
       extension: appt.extension,
@@ -347,6 +350,7 @@ export function transformVAOSAppointment(
       isPendingAppointment: isRequest,
       isUpcomingAppointment: isUpcoming,
       isVideo,
+      isAtlas,
       isPastAppointment: isPast,
       isCompAndPenAppointment: isCompAndPen,
       isCancellable,
@@ -357,6 +361,7 @@ export function transformVAOSAppointment(
       isCOVIDVaccine: isCovid,
       isInPersonVisit,
       isVideoAtHome,
+      isVideoAtVA,
       isCerner,
       apiData: appt,
       timeZone: appointmentTZ,

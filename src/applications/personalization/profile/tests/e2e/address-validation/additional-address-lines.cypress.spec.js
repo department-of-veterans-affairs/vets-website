@@ -2,7 +2,7 @@ import AddressPage from './page-objects/AddressPage';
 
 describe('Personal and contact information', () => {
   context('when entering info on line two', () => {
-    it('show show the address validation screen', () => {
+    it('should show the address validation screen', () => {
       const formFields = {
         address: '36320 Coronado Dr',
         address2: 'care of Care Taker',
