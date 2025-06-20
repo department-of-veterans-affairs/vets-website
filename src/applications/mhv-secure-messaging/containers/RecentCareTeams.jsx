@@ -8,6 +8,7 @@ import {
 import EmergencyNote from '../components/EmergencyNote';
 import * as Constants from '../util/constants';
 import { getRecentRecipients } from '../actions/recipients';
+import { focusOnErrorField } from '../util/formHelpers';
 
 const RADIO_BUTTON_SET_LABEL =
   "Select a team from those you've sent messages to in the past 6 months. Or select A different care team to find another team.";
@@ -43,6 +44,7 @@ const RecentCareTeams = () => {
     () => {
       if (!selectedCareTeam) {
         setError('Select a care team');
+        focusOnErrorField();
         return;
       }
       setError(null); // Clear error on valid submit
