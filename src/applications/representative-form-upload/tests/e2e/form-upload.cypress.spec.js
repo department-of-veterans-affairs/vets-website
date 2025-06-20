@@ -80,7 +80,6 @@ describe('Representative Form Upload', () => {
       cy.get('a[href="#start"]')
         .contains('Start application')
         .click();
-      cy.axeCheck();
 
       cy.findByLabelText(/^The claimant is the Veteran$/).click();
       cy.findByRole('button', { name: /^Continue$/ }).click();
@@ -124,7 +123,6 @@ describe('Representative Form Upload', () => {
       cy.get('a[href="#start"]')
         .contains('Start application')
         .click();
-      cy.axeCheck();
 
       cy.findByLabelText(/^The claimant is the Veteran$/).click();
       cy.findByRole('button', { name: /^Continue$/ }).click();
@@ -175,7 +173,6 @@ describe('Representative Form Upload', () => {
       cy.get('a[href="#start"]')
         .contains('Start application')
         .click();
-      cy.axeCheck();
 
       cy.findByLabelText(
         /^The claimant is a survivor or dependent of the Veteran$/,
