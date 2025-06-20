@@ -6,8 +6,6 @@ import { render } from '@testing-library/react';
 import {
   medicarePages,
   medicareOptions,
-  anyAppEnrolledInMedicare,
-  getEligibleApplicantsWithoutMedicare,
 } from '../../../chapters/medicareInformation';
 
 const mockStore = state => createStore(() => state);
