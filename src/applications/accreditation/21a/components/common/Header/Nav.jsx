@@ -62,7 +62,7 @@ export const Nav = () => {
               <Toggler.Enabled>
                 <a
                   className="nav__btn desktop"
-                  href="/poa-search"
+                  href="/representative/poa-search"
                   data-testid="desktop-search-link"
                   data-eventname="nav-link-click"
                 >
@@ -77,7 +77,7 @@ export const Nav = () => {
             </Toggler>
             <a
               className="nav__btn desktop"
-              href="/poa-requests"
+              href="/representative/poa-requests"
               data-testid="desktop-poa-link"
               data-eventname="nav-link-click"
             >
@@ -91,7 +91,7 @@ export const Nav = () => {
               <Toggler.Enabled>
                 <a
                   className="nav__btn desktop"
-                  href="/submissions"
+                  href="/representative/submissions"
                   data-testid="desktop-search-link"
                 >
                   Submissions
@@ -105,7 +105,7 @@ export const Nav = () => {
             >
               <Toggler.Enabled>
                 <a
-                  href="/get-help"
+                  href="/representative/get-help"
                   className="nav__btn desktop"
                   data-testid="desktop-help-link"
                   data-eventname="nav-link-click"
