@@ -1,8 +1,9 @@
+import React from 'react';
+
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   allProprietaryProfitConflictsArrayOptions,
@@ -23,6 +24,11 @@ import {
   affiliatedIndividualsAssociation,
 } from '../pages';
 import SubmissionInstructions from '../components/SubmissionInstructions';
+import ConfirmationPage from '../containers/ConfirmationPage';
+
+export const confirmFormLogic = ({ router, route }) => (
+  <ConfirmationPage router={router} route={route} />
+);
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -34,7 +40,7 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'Edu-1919-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: confirmFormLogic,
   formId: '22-1919',
   useCustomScrollAndFocus: true,
   saveInProgress: {
