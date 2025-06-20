@@ -111,7 +111,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
       // are correct.
       beforeEach(setup);
 
-      it.skip('should submit form', () => {
+      it('should submit form', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
