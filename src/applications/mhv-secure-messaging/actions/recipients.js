@@ -1,4 +1,6 @@
 import { subMonths } from 'date-fns';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { Actions } from '../util/actionTypes';
 import {
   getAllRecipients,
@@ -14,30 +16,33 @@ import {
   DefaultFolders,
 } from '../util/constants';
 
-const isSignatureRequired = recipients => {
+const isSignatureRequired = recipient => {
   const regex = /.*\s*(Privacy Issue|Privacy Issues|Release of Information Medical Records|Record Amendment)\s*_*\s*Admin/i;
-
-  return recipients.map(recipient => {
-    if (regex.test(recipient.attributes.name)) {
-      return {
-        ...recipient,
-        attributes: {
-          ...recipient.attributes,
-          signatureRequired: true,
-        },
-      };
-    }
-    return recipient;
-  });
+  return regex.test(recipient.attributes.name);
 };
 
 export const getAllTriageTeamRecipients = () => async (dispatch, getState) => {
   const isPilot = getIsPilotFromState(getState);
+  const ehrDataByVhaId = selectEhrDataByVhaId(getState());
   try {
     const response = await getAllRecipients(isPilot);
     const updatedResponse = {
       ...response,
-      data: isSignatureRequired(response.data),
+      data: response.data.map(recipient => {
+        return {
+          ...recipient,
+          attributes: {
+            ...recipient.attributes,
+            signatureRequired: isSignatureRequired(recipient),
+            healthCareSystemName:
+              recipient.attributes.healthCareSystemName ||
+              getVamcSystemNameFromVhaId(
+                ehrDataByVhaId,
+                recipient.attributes.stationNumber,
+              ),
+          },
+        };
+      }),
     };
 
     dispatch({

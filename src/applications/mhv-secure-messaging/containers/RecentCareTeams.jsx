@@ -103,6 +103,7 @@ const RecentCareTeams = () => {
                 key={recipient.triageTeamId}
                 label={recipient.name}
                 value={recipient.triageTeamId}
+                description={recipient.healthCareSystemName || ''}
               />
             ));
           }

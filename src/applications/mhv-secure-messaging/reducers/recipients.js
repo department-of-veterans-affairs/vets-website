@@ -77,11 +77,18 @@ export const recipientsReducer = (state = initialState, action) => {
       // Filter recent recipients to only include those that are allowed
 
       const allowedMap = new Map(
-        state.allowedRecipients.map(r => [r.triageTeamId, r.name]),
+        state.allowedRecipients.map(r => [
+          r.triageTeamId,
+          { name: r.name, healthCareSystemName: r.healthCareSystemName },
+        ]),
       );
+
       const filteredRecent = (action.response || [])
         .filter(id => allowedMap.has(id))
-        .map(id => ({ triageTeamId: id, name: allowedMap.get(id) }))
+        .map(id => ({
+          triageTeamId: id,
+          ...allowedMap.get(id),
+        }))
         .slice(0, 4);
       return {
         ...state,
