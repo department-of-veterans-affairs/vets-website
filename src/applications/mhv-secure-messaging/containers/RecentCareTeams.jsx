@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -21,6 +21,7 @@ const RecentCareTeams = () => {
   const [error, setError] = useState(null);
   const { recipients } = useSelector(state => state.sm);
   const { recentRecipients } = recipients;
+  const h1Ref = useRef(null);
 
   useEffect(
     () => {
@@ -32,11 +33,23 @@ const RecentCareTeams = () => {
   useEffect(
     () => {
       // If recentRecipients is null (fetched but none present), redirect
-      if (recentRecipients === null) {
+      if (
+        recentRecipients?.length === 0 ||
+        recentRecipients === ('error' || null)
+      ) {
         history.replace(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`);
       }
     },
     [recentRecipients, history],
+  );
+
+  useEffect(
+    () => {
+      if (h1Ref.current && recentRecipients !== undefined) {
+        h1Ref.current.focus();
+      }
+    },
+    [recentRecipients],
   );
 
   const handleContinue = useCallback(
@@ -65,13 +78,15 @@ const RecentCareTeams = () => {
     setError(null); // Clear error on selection
   }, []);
 
-  if (recentRecipients === null) {
-    return null;
+  if (recentRecipients === undefined) {
+    return <va-loading-indicator message="Loading..." />;
   }
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--3">Recent care teams</h1>
+      <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
+        Recent care teams
+      </h1>
       <EmergencyNote dropDownFlag />
       <VaRadio
         class="vads-u-margin-bottom--3"

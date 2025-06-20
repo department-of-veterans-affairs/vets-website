@@ -8,7 +8,7 @@ const initialState = {
    */
   allRecipients: [],
   allowedRecipients: [],
-  recentRecipients: [],
+  recentRecipients: undefined,
   blockedRecipients: [],
   blockedFacilities: [],
   allFacilities: [],
