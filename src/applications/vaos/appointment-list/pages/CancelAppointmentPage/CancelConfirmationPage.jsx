@@ -61,13 +61,13 @@ export default function CancelConfirmationPage({ appointment, cancelInfo }) {
         If you still need an appointment, call us or request a new appointment
         online.
       </p>
-      <a
-        className="vads-c-action-link--blue vaos-hide-for-print vads-u-margin-bottom--1p5"
+      <va-link-action
+        type="secondary"
+        className="vaos-hide-for-print vads-u-margin-bottom--1p5"
         href="/"
         onClick={handleClick(history, dispatch, page.url)}
-      >
-        Schedule a new appointment
-      </a>
+        text="Schedule a new appointment"
+      />
       <AppointmentCard appointment={appointment}>
         <CancelPageContent isRequest={isRequest} />
       </AppointmentCard>
