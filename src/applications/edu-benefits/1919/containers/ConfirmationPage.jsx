@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { setSubmission } from 'platform/forms-system/src/js/actions';
 import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
+import environment from '~/platform/utilities/environment';
 import { confirmationChildContent } from '../helpers';
 import GetFormHelp from '../components/GetFormHelp';
 
@@ -52,14 +53,13 @@ export const ConfirmationPage = ({ router, route }) => {
   return (
     <ConfirmationView
       formConfig={route?.formConfig}
-      // confirmationNumber={confirmationNumber}
+      confirmationNumber={submission?.response?.confirmationNumber}
       submitDate={submitDate}
     >
       {confirmationChildContent(
-        // `${
-        //   environment.API_URL
-        // }/v0/education_benefits_claims/download_pdf/${claimId}`,
-        // route?.formConfig?.trackingPrefix,
+        `${environment.API_URL}/v0/education_benefits_claims/download_pdf/${
+          submission?.response?.confirmationNumber
+        }`, // update pdf download url when available
         goBack,
       )}
       <ConfirmationView.NeedHelp content={<GetFormHelp />} />

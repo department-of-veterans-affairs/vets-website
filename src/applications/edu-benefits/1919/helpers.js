@@ -114,7 +114,7 @@ export const alert = (
   </va-alert>
 );
 
-export const confirmationChildContent = (pdfUrl, trackingPrefix, goBack) => (
+export const confirmationChildContent = (pdfUrl, goBack) => (
   <div data-testid="download-link">
     <va-alert close-btn-aria-label="Close notification" status="into" visible>
       <h2 slot="headline">Complete all submission steps</h2>
