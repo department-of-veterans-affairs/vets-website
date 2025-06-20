@@ -16,39 +16,48 @@ const OMB_EXP_DATE = '10/31/2024';
 const ProcessList = () => {
   return (
     <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
+      <va-process-list-item header="Check your eligibility">
+        <p>Make sure you meet our eligibility requirements before you apply.</p>
+        <va-link
+          text="Find out if you’re eligible for CHAMPVA benefits"
+          href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/"
+        />
+      </va-process-list-item>
+      <va-process-list-item header="Gather your information">
+        <p>
+          <b>Here’s what you need to apply:</b>
+        </p>
         <ul>
-          <li>Social Security number (required)</li>
+          <li>
+            <b>Personal information about you</b> and anyone else you’re
+            applying for
+          </li>
+          <li>
+            <b>Personal information about your sponsor</b> (the Veteran or
+            service member you’re connected to)
+          </li>
         </ul>
         <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
+          This includes dates of birth, Social Security numbers, and contact
+          information.
+        </p>
+        <p>
+          You may also need to submit supporting documents, like copies of your
+          health insurance cards or proof of school enrollment.
+        </p>
+        <va-link
+          text="Find out which documents you’ll need to apply for CHAMPVA"
+          href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your-"
+        />
+      </va-process-list-item>
+      <va-process-list-item header="Start your application">
+        <p>
+          We’ll take you through each step of the process. It should take about{' '}
+          {OMB_RES_BURDEN} minutes.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
-        <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="VA Review">
-        <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
-        </p>
+      <va-process-list-item header="After you apply">
+        <p>We’ll contact you if we have questions or need more information.</p>
       </va-process-list-item>
     </va-process-list>
   );
@@ -66,8 +75,7 @@ export const IntroductionPage = props => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for CHAMPVA application (includes
-        10-7959c).
+        Follow the steps to apply for CHAMPVA benefits
       </h2>
       <ProcessList />
       <va-alert-sign-in variant="signInOptionalNoPrefill" visible>
