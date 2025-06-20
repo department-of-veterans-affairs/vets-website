@@ -91,11 +91,14 @@ describe('additional exposures details', () => {
         }
       });
 
-      it(`should submit without dates for ${itemId}`, () => {
+      // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
+      // however we want Veterans to be able to submit with a completely blank date.
+      // Note to revisit after we land on a solution for accommodating partial dates.
+      it(`should not submit without dates for ${itemId}`, () => {
         pageSubmitTest(
           schemas[`additional-exposure-${itemId}`],
           formData,
-          true,
+          false,
         );
       });
 
