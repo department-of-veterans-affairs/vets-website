@@ -10,8 +10,7 @@ import * as Constants from '../util/constants';
 import { getRecentRecipients } from '../actions/recipients';
 import { focusOnErrorField } from '../util/formHelpers';
 
-const RADIO_BUTTON_SET_LABEL =
-  "Select a team from those you've sent messages to in the past 6 months. Or select A different care team to find another team.";
+const RADIO_BUTTON_SET_LABEL = `Select a team from those you've sent messages to in the past 6 months. Or select "A different care team" to find another team.`;
 const OTHER_VALUE = 'other';
 const { Paths } = Constants;
 
