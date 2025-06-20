@@ -294,6 +294,7 @@ Prescribed by: ${
       : 'Provider name not available'
   }
 `;
+
   if (showRefillHistory) {
     result += `
 Refill history
@@ -302,7 +303,7 @@ Showing ${refillHistory.length} fill${
       refillHistory.length > 1 ? 's, from newest to oldest' : ''
     }
 
-  `;
+`;
 
     refillHistory.forEach((entry, i) => {
       const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
@@ -349,7 +350,7 @@ Shipped on: ${dateFormat(
       }
 ${!isPartialFill ? `Medication description: ${description}` : ``}
 
-    `;
+  `;
     });
   }
 
