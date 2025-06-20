@@ -4,6 +4,8 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import PrivacyPolicy from '../containers/PrivacyPolicy';
 
 import {
   allProprietaryProfitConflictsArrayOptions,
@@ -24,7 +26,6 @@ import {
   affiliatedIndividualsAssociation,
 } from '../pages';
 import SubmissionInstructions from '../components/SubmissionInstructions';
-import ConfirmationPage from '../containers/ConfirmationPage';
 
 export const confirmFormLogic = ({ router, route }) => (
   <ConfirmationPage router={router} route={route} />
@@ -65,6 +66,14 @@ const formConfig = {
     date,
     dateRange,
     usaPhone,
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body: PrivacyPolicy,
+      heading: 'Certification statement',
+      fullNamePath: 'certifyingOfficial',
+      messageAriaDescribedBy: 'I have read and accept the privacy policy.',
+    },
   },
   chapters: {
     institutionDetailsChapter: {
