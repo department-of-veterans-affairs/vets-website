@@ -4,6 +4,7 @@ import {
   dateFormat,
   determineRefillLabel,
   getRefillHistory,
+  getShowRefillHistory,
   processList,
   validateField,
   validateIfAvailable,
@@ -212,6 +213,7 @@ Provider notes: ${validateField(item.notes)}
  */
 export const buildVAPrescriptionTXT = prescription => {
   const refillHistory = getRefillHistory(prescription);
+  const showRefillHistory = getShowRefillHistory(refillHistory);
   const pendingMed =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'NewOrder';
@@ -291,62 +293,65 @@ Prescribed by: ${
           ''}`
       : 'Provider name not available'
   }
-
-
+`;
+  if (showRefillHistory) {
+    result += `
 Refill history
 
 Showing ${refillHistory.length} fill${
-    refillHistory.length > 1 ? 's, from newest to oldest' : ''
-  }
+      refillHistory.length > 1 ? 's, from newest to oldest' : ''
+    }
 
   `;
 
-  refillHistory.forEach((entry, i) => {
-    const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
-    const { shape, color, backImprint, frontImprint } = entry;
-    const hasValidDesc = shape?.trim() && color?.trim() && frontImprint?.trim();
-    const isPartialFill = entry.prescriptionSource === 'PF';
-    const refillLabel = determineRefillLabel(isPartialFill, refillHistory, i);
-    const description = hasValidDesc
-      ? `
+    refillHistory.forEach((entry, i) => {
+      const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+      const { shape, color, backImprint, frontImprint } = entry;
+      const hasValidDesc =
+        shape?.trim() && color?.trim() && frontImprint?.trim();
+      const isPartialFill = entry.prescriptionSource === 'PF';
+      const refillLabel = determineRefillLabel(isPartialFill, refillHistory, i);
+      const description = hasValidDesc
+        ? `
 Note: If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
-          phone,
-        )}
+            phone,
+          )}
 
 * Shape: ${shape[0].toUpperCase()}${shape.slice(1).toLowerCase()}
 * Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
 * Front marking: ${frontImprint}
 ${backImprint ? `* Back marking: ${backImprint}` : ''}`
-      : createNoDescriptionText(phone);
-    result += `
+        : createNoDescriptionText(phone);
+      result += `
 ${refillLabel}: ${dateFormat(
-      entry.dispensedDate,
-      'MMMM D, YYYY',
-      'Date not available',
-    )}
+        entry.dispensedDate,
+        'MMMM D, YYYY',
+        'Date not available',
+      )}
 ${
-      isPartialFill
-        ? `
+        isPartialFill
+          ? `
 This fill has a smaller quantity on purpose.
 
 Quantity: ${entry.quantity}`
-        : ``
-    }
+          : ``
+      }
 ${
-      i === 0 && !isPartialFill
-        ? `
+        i === 0 && !isPartialFill
+          ? `
 Shipped on: ${dateFormat(
-            prescription?.trackingList?.[0]?.completeDateTime,
-            'MMMM D, YYYY',
-            'Date not available',
-          )}
+              prescription?.trackingList?.[0]?.completeDateTime,
+              'MMMM D, YYYY',
+              'Date not available',
+            )}
 `
-        : ``
-    }
+          : ``
+      }
 ${!isPartialFill ? `Medication description: ${description}` : ``}
 
     `;
-  });
+    });
+  }
 
   if (prescription?.groupedMedications?.length > 0) {
     result += `

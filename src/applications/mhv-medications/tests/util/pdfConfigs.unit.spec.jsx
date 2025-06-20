@@ -43,9 +43,33 @@ describe('VA prescription Config', () => {
     expect(pdfGen[0].header).to.equal('Most recent prescription');
   });
 
-  it('should create "Refill history" section', () => {
+  it('should create "Refill history" section if there is 1 record with dispensedDate NOT undefined', () => {
     const pdfGen = buildVAPrescriptionPDFList(prescriptionDetails);
     expect(pdfGen[1].header).to.equal('Refill history');
+  });
+
+  it('should NOT create "Refill history" section if there is 1 record with dispensedDate undefined', () => {
+    const rxDetails = { ...prescriptionDetails };
+    rxDetails.data.attributes.rxRfRecords[0].dispensedDate = undefined;
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    expect(pdfGen[1].header).to.not.equal('Refill history');
+  });
+
+  it('should NOT create "Refill history" section if there are NO records', () => {
+    const rxDetails = { ...prescriptionDetails };
+    rxDetails.data.attributes.rxRfRecords = [];
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    expect(pdfGen[1].header).to.not.equal('Refill history');
+  });
+
+  it('should create "Refill history" section if there are 2 records', () => {
+    const rxDetails = { ...prescriptionDetails };
+    rxDetails.data.attributes.rxRfRecords = [
+      ...prescriptionDetails.data.attributes.rxRfRecords[0],
+      ...prescriptionDetails.data.attributes.rxRfRecords[0],
+    ];
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    expect(pdfGen[1].header).to.not.equal('Refill history');
   });
 
   it('should handle single name provider', () => {

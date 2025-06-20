@@ -89,6 +89,45 @@ describe('VA prescription Config', () => {
     expect(txt).to.include('Shape: Hexagon');
     expect(txt).to.include('Color: Purple');
   });
+
+  it('should not show refill history if there are no records', () => {
+    const txt = buildVAPrescriptionTXT({
+      ...prescriptionDetails.data.attributes,
+      rxRfRecords: [],
+    });
+    expect(txt).to.not.include('Refill history\n');
+  });
+
+  it('should not show refill history if there are 1 record with dispensedDate undefined', () => {
+    const txt = buildVAPrescriptionTXT({
+      ...prescriptionDetails.data.attributes,
+      rxRfRecords: [
+        {
+          ...prescriptionDetails.data.attributes.rxRfRecords[0],
+          dispensedDate: undefined,
+        },
+      ],
+    });
+    expect(txt).to.not.include('Refill history\n');
+  });
+
+  it('should show refill history if there are 2 records', () => {
+    const txt = buildVAPrescriptionTXT({
+      ...prescriptionDetails.data.attributes,
+      rxRfRecords: [
+        { ...prescriptionDetails.data.attributes.rxRfRecords[0] },
+        { ...prescriptionDetails.data.attributes.rxRfRecords[0] },
+      ],
+    });
+    expect(txt).to.include('Refill history\n');
+  });
+
+  it('should not show refill history if there are 1 record with dispensedDate not undefined', () => {
+    const txt = buildVAPrescriptionTXT({
+      ...prescriptionDetails.data.attributes,
+    });
+    expect(txt).to.include('Refill history\n');
+  });
 });
 
 describe('Non VA prescription Config', () => {
