@@ -34,6 +34,7 @@ describe('VAOS Component: AppointmentTasks', () => {
           isCommunityCare: false,
           isPhoneAppointment: false,
           isVideo: true,
+          isVideoAtVA: true,
         },
         videoData: {
           kind,

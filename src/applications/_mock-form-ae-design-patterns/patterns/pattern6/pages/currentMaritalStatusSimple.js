@@ -28,7 +28,7 @@ export default {
   path: 'current-marital-status-simple',
   uiSchema: {
     maritalStatus: yesNoUI({
-      title: 'Are you married?',
+      title: 'Are you currently married?',
       description: (
         <span className="vads-u-color--gray-medium">
           If you’re in a civil union or common law marriage that’s recognized by

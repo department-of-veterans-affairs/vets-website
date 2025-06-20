@@ -65,11 +65,14 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     veteranInformation: {
-      title: "Veteran's information",
+      title: 'Review your personal information',
+      // This is the same review page title as within the accordion... will
+      // consult with design on content changes
+      reviewTitle: 'Your personal information',
       pages: {
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran information',
+          title: 'Your personal information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
