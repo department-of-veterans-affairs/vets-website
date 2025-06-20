@@ -34,13 +34,13 @@ import {
   isAnswering781aQuestions,
   isAnswering781Questions,
   isBDD,
-  isDisabilityPtsd,
   isNotUploadingPrivateMedical,
   isUploading781aForm,
   isUploading781Form,
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
+  showNewDisabilityFollowUpPage,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
@@ -360,10 +360,7 @@ const formConfig = {
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: (item, formData) => {
-            if (formData?.syncModern0781Flow === true) {
-              return !!item.condition;
-            }
-            return !isDisabilityPtsd(item.condition);
+            showNewDisabilityFollowUpPage(item, formData);
           },
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
