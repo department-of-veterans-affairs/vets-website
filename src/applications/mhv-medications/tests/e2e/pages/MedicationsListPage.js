@@ -971,10 +971,10 @@ class MedicationsListPage {
     cardNumber,
   ) => {
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="rx-number"]`,
+      `.landing-page-content > [data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"]`,
     )
       .first()
-      .should('contain', prescriptionNumber);
+      .should('not.contain', prescriptionNumber);
   };
 
   verifyPendingNewRxInfoTextOnMedicationCardOnListPage = text => {
