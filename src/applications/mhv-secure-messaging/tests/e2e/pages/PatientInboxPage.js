@@ -7,6 +7,7 @@ import mockRecipients from '../fixtures/recipientsResponse/recipients-response.j
 import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.json';
 import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
+import mockSentThreadsResponse from '../fixtures/sentResponse/sent-messages-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
@@ -332,6 +333,12 @@ class PatientInboxPage {
   };
 
   navigateToComposePage = (checkFocusOnVcl = false) => {
+    cy.intercept(
+      `GET`,
+      `my_health/v1/messaging/folders/-1/threads*`,
+      mockSentThreadsResponse,
+    ).as(`threadsCall`);
+
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.CATEGORIES,
