@@ -132,7 +132,7 @@ const LabsAndTests = () => {
                   visible
                   class="vads-u-margin-y--3 no-print"
                   role="alert"
-                  data-testid="alert-download-started"
+                  data-testid="alert-images-ready"
                 >
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans no-print">
                     Images ready
