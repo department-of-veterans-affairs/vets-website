@@ -215,7 +215,8 @@ export const vitalUnitDisplayText = {
   TEMPERATURE: ' °F',
   WEIGHT: ' pounds',
   BODY_WEIGHT: ' pounds',
-  HEIGHT: ' inches',
+  HEIGHT_FT: ' feet',
+  HEIGHT_IN: ' inches',
   BODY_HEIGHT: ' inches',
   PAIN_SEVERITY: '',
 };
