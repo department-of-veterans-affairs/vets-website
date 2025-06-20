@@ -30,7 +30,7 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
     }
   };
   return (
-    <ul>
+    <ul className="vads-u-margin-top--0">
       {filteredRoutes.map(route => {
         return (
           <li key={route.path}>
