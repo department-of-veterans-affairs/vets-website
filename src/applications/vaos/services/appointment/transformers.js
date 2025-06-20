@@ -167,6 +167,8 @@ export function transformVAOSAppointment(
   let isVideoAtHome =
     !isAtlas &&
     (vvsKind === VIDEO_TYPES.mobile || vvsKind === VIDEO_TYPES.adhoc);
+  let isVideoAtVA =
+    vvsKind === VIDEO_TYPES.clinic || vvsKind === VIDEO_TYPES.storeForward;
   let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
   let isPhone = appt.kind === 'phone';
   let isCovid = appt.serviceType === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
@@ -184,6 +186,7 @@ export function transformVAOSAppointment(
       appt.modality === 'vaVideoCareAtAVaLocation';
     isVideoAtHome = appt.modality === 'vaVideoCareAtHome';
     isAtlas = appt.modality === 'vaVideoCareAtAnAtlasLocation';
+    isVideoAtVA = appt.modality === 'vaVideoCareAtAVaLocation';
   }
 
   const isCancellable = appt.cancellable;
@@ -358,6 +361,7 @@ export function transformVAOSAppointment(
       isCOVIDVaccine: isCovid,
       isInPersonVisit,
       isVideoAtHome,
+      isVideoAtVA,
       isCerner,
       apiData: appt,
       timeZone: appointmentTZ,
