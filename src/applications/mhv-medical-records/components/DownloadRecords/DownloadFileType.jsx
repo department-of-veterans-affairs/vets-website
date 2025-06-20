@@ -53,10 +53,6 @@ const DownloadFileType = props => {
 
   const dispatch = useDispatch();
 
-  const fileTypeFilter = useSelector(
-    state => state.mr.downloads?.fileTypeFilter,
-  );
-
   const user = useSelector(state => state.user.profile);
   const name = formatNameFirstLast(user.userFullName);
   const dob = formatUserDob(user);
@@ -94,16 +90,42 @@ const DownloadFileType = props => {
   const progressBarRef = useRef(null);
   const noRecordsFoundRef = useRef(null);
 
+  const radioRef = useRef(null);
+
+  const fileTypeFilter = useSelector(
+    state => state.mr.downloads?.fileTypeFilter,
+  );
+
   useFocusOutline(progressBarRef);
   useFocusOutline(noRecordsFoundRef);
 
   useEffect(
     () => {
-      if (fileTypeFilter) {
-        setFileType(fileTypeFilter);
-      }
+      if (!fileTypeFilter) return;
+
+      setFileType(fileTypeFilter);
+
+      if (!fileTypeError) return;
+
+      // give the browser a moment to render the error message into the shadowDOM
+      setTimeout(() => {
+        const shadow = radioRef.current?.shadowRoot;
+        if (!shadow) {
+          return;
+        }
+
+        // grab the <span class="usa-error-message" role="alert">…</span>
+        const errorEl = shadow.querySelector(
+          '.usa-error-message[role="alert"]',
+        );
+
+        if (errorEl) {
+          // spans aren't focusable by default ‒ give it a tabindex so we can move focus there
+          focusElement(errorEl);
+        }
+      }, 400);
     },
-    [fileTypeFilter],
+    [fileTypeError, fileTypeFilter],
   );
 
   useEffect(
@@ -515,6 +537,7 @@ const DownloadFileType = props => {
               </legend>
 
               <VaRadio
+                ref={radioRef}
                 label="If you use assistive technology, a text file may work better for you."
                 onVaValueChange={handleValueChange}
                 error={fileTypeError}
