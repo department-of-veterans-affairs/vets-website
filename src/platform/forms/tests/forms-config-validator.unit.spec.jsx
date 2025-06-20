@@ -56,6 +56,8 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_XX_123,
   // VA_FORM_IDS.FORM_28_1900,
   VA_FORM_IDS.FORM_10_10D_EXTENDED,
+  VA_FORM_IDS.FORM_21P_530,
+  VA_FORM_IDS.FORM_10_FRAME,
 ];
 
 const remapFormId = {

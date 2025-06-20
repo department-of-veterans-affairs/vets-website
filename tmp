@@ -1,0 +1,69 @@
+yo @department-of-veterans-affairs/vets-website \
+  --appName="My App" \
+  --folderName="my-folder" \
+  --entryName="my-entry" \
+  --rootUrl="/my-url" \
+  --slackGroup="@devs" \
+  --isForm=TRUE \
+  --contentLoc="../vagov-content" \
+  --formNumber="21P-530" \
+  --trackingPrefix="burials-530-" \
+  --respondentBurden="30" \
+  --ombNumber="2900-0797" \
+  --expirationDate="12/31/2025" \
+  --benefitDescription="burial benefits" \
+  --usesVetsJsonSchema=FALSE \
+  --usesMinimalHeader=TRUE \
+  --templateType="WITH_1_PAGE"
+
+  yo @department-of-veterans-affairs/vets-website \
+  --appName="My App" \
+  --folderName="my-app" \
+  --entryName="my-app" \
+  --rootUrl="/my-app" \
+  --isForm=true \
+  --slackGroup="@my-group" \
+  --formNumber="21P-530" \
+  --trackingPrefix="burials-530-" \
+  --respondentBurden="30" \
+  --ombNumber="2900-0797" \
+  --expirationDate="12/31/2026" \
+  --benefitDescription="burial benefits" \
+  --usesVetsJsonSchema=false \
+  --usesMinimalHeader=false \
+  --templateType="WITH_1_PAGE"
+
+  yo @department-of-veterans-affairs/vets-website \
+  --appName="My App" \
+  --folderName="my-app" \
+  --entryName="my-app" \
+  --rootUrl="/my-app" \
+  --isForm=true \
+  --slackGroup="@my-group" \
+  --formNumber="21P-530" \
+  --trackingPrefix="burials-530-" \
+  --respondentBurden="30" \
+  --ombNumber="2900-0797" \
+  --expirationDate="12/31/2026" \
+  --benefitDescription="burial benefits" \
+  --usesVetsJsonSchema=false \
+  --usesMinimalHeader=false \
+  --templateType="WITH_1_PAGE"
+
+yo @department-of-veterans-affairs/vets-website \
+  --appName="My App" \
+  --folderName="my-app" \
+  --entryName="my-app" \
+  --rootUrl="/my-app" \
+  --isForm=true \
+  --slackGroup="none" \
+  --contentLoc="../vagov-content" \
+  --formNumber="21P-530" \
+  --trackingPrefix="burials-530-" \
+  --respondentBurden="30" \
+  --ombNumber="2900-0797" \
+  --expirationDate="12/31/2026" \
+  --benefitDescription="burial benefits" \
+  --usesVetsJsonSchema=false \
+  --usesMinimalHeader=false \
+  --templateType="WITH_1_PAGE"

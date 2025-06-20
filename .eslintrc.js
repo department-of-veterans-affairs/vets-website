@@ -162,5 +162,14 @@ module.exports = {
         ],
       },
     },
+    {
+      files: ['**/*.prompt.md'],
+      rules: {
+        'no-unused-expressions': 'off',
+        'no-undef': 'off',
+        'import/no-unresolved': 'off',
+        'no-restricted-syntax': 'off',
+      },
+    },
   ],
 };
