@@ -11,8 +11,7 @@
       "uiSchemaDescription": "uiSchema for address - Same as addressUI, but without the military checkbox. Includes fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.",
       "schema": "addressNoMilitarySchema",
       "schemaType": "function",
-      "schemaDescription": "Schema for addressNoMilitaryUI. Fields may be omitted.",
-      "examplesPath": "examples/address-examples.js"
+      "schemaDescription": "Schema for addressNoMilitaryUI. Fields may be omitted."
     },
     {
       "category": "Address",
@@ -21,8 +20,7 @@
       "uiSchemaDescription": "uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.",
       "schema": "addressSchema",
       "schemaType": "function",
-      "schemaDescription": "Schema for addressUI. Fields may be omitted.",
-      "examplesPath": "examples/address-examples.js"
+      "schemaDescription": "Schema for addressUI. Fields may be omitted."
     },
     {
       "category": "Arn",
@@ -31,8 +29,7 @@
       "uiSchemaDescription": "uiSchema for Alien registration number or VA File Number. Includes two fields.",
       "schema": "arnOrVaFileNumberSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema for arnOrVaFileNumberUI",
-      "examplesPath": "examples/arn-examples.js"
+      "schemaDescription": "Schema for arnOrVaFileNumberUI"
     },
     {
       "category": "Arn",
@@ -41,8 +38,7 @@
       "uiSchemaDescription": "uiSchema for Alien registration number (ARN)",
       "schema": "arnSchema",
       "schemaType": "object",
-      "schemaDescription": "schema for arnUI",
-      "examplesPath": "examples/arn-examples.js"
+      "schemaDescription": "schema for arnUI"
     },
     {
       "category": "ArrayBuilder",
@@ -51,8 +47,7 @@
       "uiSchemaDescription": "Title for the first page of an item in an array builder",
       "schema": null,
       "schemaType": null,
-      "schemaDescription": null,
-      "examplesPath": "examples/arraybuilder-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "ArrayBuilder",
@@ -61,8 +56,7 @@
       "uiSchemaDescription": "Title for the top of a subsequent page (not the first) of an item in array builder pattern",
       "schema": null,
       "schemaType": null,
-      "schemaDescription": null,
-      "examplesPath": "examples/arraybuilder-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "ArrayBuilder",
@@ -71,8 +65,7 @@
       "uiSchemaDescription": "uiSchema for the yes/no question in an array builder summary page. Includes array builder options, options when no cards are present, and options when cards are present.",
       "schema": "arrayBuilderYesNoSchema",
       "schemaType": "object",
-      "schemaDescription": "schema for arrayBuilderYesNoUI",
-      "examplesPath": "examples/array-builder-examples.js"
+      "schemaDescription": "schema for arrayBuilderYesNoUI"
     },
     {
       "category": "Bank",
@@ -81,8 +74,7 @@
       "uiSchemaDescription": "uiSchema for bank account information. Includes fields for account type, account number, routing number, and bank name. Bank name may be omitted.",
       "schema": "bankAccountSchema",
       "schemaType": "function",
-      "schemaDescription": "schema for bankAccountUI",
-      "examplesPath": "examples/bank-account-examples.js"
+      "schemaDescription": "schema for bankAccountUI"
     },
     {
       "category": "Checkbox",
@@ -91,8 +83,7 @@
       "uiSchemaDescription": null,
       "schema": "checkboxRequiredSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/checkbox-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "Checkbox",
@@ -101,8 +92,7 @@
       "uiSchemaDescription": "Web component v3 uiSchema for checkbox",
       "schema": "checkboxSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/checkbox-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "CheckboxGroup",
@@ -111,8 +101,7 @@
       "uiSchemaDescription": "uiSchema for checkbox group. Includes title and labels.",
       "schema": "checkboxGroupSchema",
       "schemaType": "function",
-      "schemaDescription": "schema for checkboxGroupUI",
-      "examplesPath": "examples/checkbox-group-examples.js"
+      "schemaDescription": "schema for checkboxGroupUI"
     },
     {
       "category": "Currency",
@@ -121,8 +110,7 @@
       "uiSchemaDescription": null,
       "schema": "currencyStringSchema",
       "schemaType": "object",
-      "schemaDescription": "schema for currencyUI with type string",
-      "examplesPath": "examples/currency-examples.js"
+      "schemaDescription": "schema for currencyUI with type string"
     },
     {
       "category": "Currency",
@@ -131,8 +119,7 @@
       "uiSchemaDescription": "uiSchema for currency based input which uses VaTextInputField",
       "schema": "currencySchema",
       "schemaType": "object",
-      "schemaDescription": "schema for currencyUI with type number",
-      "examplesPath": "examples/currency-examples.js"
+      "schemaDescription": "schema for currencyUI with type number"
     },
     {
       "category": "Date",
@@ -141,8 +128,7 @@
       "uiSchemaDescription": "uiSchema for current or past dates with digit select for month",
       "schema": "currentOrPastDateDigitsSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/date-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "Date",
@@ -151,8 +137,7 @@
       "uiSchemaDescription": "uiSchema for a \"from\" and \"to\" date range with current or past dates. Includes two fields.",
       "schema": "currentOrPastDateRangeSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema for currentOrPastDateRangeUI",
-      "examplesPath": "examples/date-examples.js"
+      "schemaDescription": "Schema for currentOrPastDateRangeUI"
     },
     {
       "category": "Date",
@@ -161,8 +146,7 @@
       "uiSchemaDescription": "uiSchema for a generic current or past date",
       "schema": "currentOrPastDateSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/date-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "Date",
@@ -171,8 +155,7 @@
       "uiSchemaDescription": "uiSchema for month and year only date range. Includes two fields for \"from\" and \"to\" dates.",
       "schema": "currentOrPastMonthYearDateRangeSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema for currentOrPastMonthYearDateRangeUI",
-      "examplesPath": "examples/date-examples.js"
+      "schemaDescription": "Schema for currentOrPastMonthYearDateRangeUI"
     },
     {
       "category": "Date",
@@ -181,8 +164,7 @@
       "uiSchemaDescription": "uiSchema for a current or past month and year",
       "schema": "currentOrPastMonthYearDateSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/date-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "Date",
@@ -191,8 +173,7 @@
       "uiSchemaDescription": "uiSchema for date of birth",
       "schema": "dateOfBirthSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/date-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "Date",
@@ -201,8 +182,7 @@
       "uiSchemaDescription": "uiSchema for date of death",
       "schema": "dateOfDeathSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/date-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "Email",
@@ -211,8 +191,7 @@
       "uiSchemaDescription": "uiSchema for email which also has an additional hint explaining it will be used for notifications about form submission. Preferred if it is the only email field in the form. Generally required.",
       "schema": "emailToSendNotificationsSchema",
       "schemaType": "object",
-      "schemaDescription": "schema for emailToSendNotificationsUI",
-      "examplesPath": "examples/email-examples.js"
+      "schemaDescription": "schema for emailToSendNotificationsUI"
     },
     {
       "category": "Email",
@@ -221,8 +200,7 @@
       "uiSchemaDescription": "uiSchema for email",
       "schema": "emailSchema",
       "schemaType": "object",
-      "schemaDescription": "schema for emailUI",
-      "examplesPath": "examples/email-examples.js"
+      "schemaDescription": "schema for emailUI"
     },
     {
       "category": "FileInput",
@@ -231,8 +209,7 @@
       "uiSchemaDescription": "uiSchema for file input field",
       "schema": "fileInputSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema for fileInputUI",
-      "examplesPath": "examples/file-input-examples.js"
+      "schemaDescription": "Schema for fileInputUI"
     },
     {
       "category": "FullName",
@@ -241,8 +218,7 @@
       "uiSchemaDescription": "uiSchema for `first` and `last name` only",
       "schema": "firstNameLastNameNoSuffixSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/fullname-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "FullName",
@@ -251,8 +227,7 @@
       "uiSchemaDescription": "uiSchema for `first`, `last name`, and `suffix`",
       "schema": "firstNameLastNameSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/fullname-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "FullName",
@@ -261,8 +236,7 @@
       "uiSchemaDescription": "uiSchema for `first`, `middle`, and `last name`",
       "schema": "fullNameNoSuffixSchema",
       "schemaType": "object",
-      "schemaDescription": "schema for `fullNameNoSuffixUI`",
-      "examplesPath": "examples/fullname-examples.js"
+      "schemaDescription": "schema for `fullNameNoSuffixUI`"
     },
     {
       "category": "FullName",
@@ -271,8 +245,7 @@
       "uiSchemaDescription": "uiSchema for `first`, `middle`, `last name`, and `suffix`",
       "schema": "fullNameSchema",
       "schemaType": "object",
-      "schemaDescription": "schema for `fullNameUI`",
-      "examplesPath": "examples/full-name-examples.js"
+      "schemaDescription": "schema for `fullNameUI`"
     },
     {
       "category": "FullName",
@@ -281,8 +254,7 @@
       "uiSchemaDescription": "uiSchema for `first`, `middle`, `last name`, `suffix`, and `maiden name`",
       "schema": "fullNameWithMaidenNameSchema",
       "schemaType": "object",
-      "schemaDescription": "schema for `fullNameWithMaidenNameUI`",
-      "examplesPath": "examples/fullname-examples.js"
+      "schemaDescription": "schema for `fullNameWithMaidenNameUI`"
     },
     {
       "category": "InternationalPhone",
@@ -291,8 +263,7 @@
       "uiSchemaDescription": "Web component v3 uiSchema for an international phone number",
       "schema": "internationalPhoneSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/phone-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "Number",
@@ -301,8 +272,7 @@
       "uiSchemaDescription": "uiSchema for a number based input which uses VaTextInputField",
       "schema": "numberSchema",
       "schemaType": "object",
-      "schemaDescription": "schema for numberUI",
-      "examplesPath": "examples/number-examples.js"
+      "schemaDescription": "schema for numberUI"
     },
     {
       "category": "Phone",
@@ -311,8 +281,7 @@
       "uiSchemaDescription": "Web component v3 uiSchema for international phone number",
       "schema": "internationalPhoneDeprecatedSchema",
       "schemaType": "object",
-      "schemaDescription": "It allows optional dashes in between",
-      "examplesPath": "examples/phone-examples.js"
+      "schemaDescription": "It allows optional dashes in between"
     },
     {
       "category": "Phone",
@@ -321,8 +290,7 @@
       "uiSchemaDescription": "uiSchema for a phone number - a single text input field",
       "schema": "phoneSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/phone-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "Radio",
@@ -331,8 +299,7 @@
       "uiSchemaDescription": "uiSchema for generic radio field",
       "schema": "radioSchema",
       "schemaType": "function",
-      "schemaDescription": "schema for radioUI",
-      "examplesPath": "examples/radio-examples.js"
+      "schemaDescription": "schema for radioUI"
     },
     {
       "category": "RelationshipToVeteran",
@@ -341,8 +308,7 @@
       "uiSchemaDescription": "uiSchema for claimant relationship to veteran, specifically for spouse or child",
       "schema": null,
       "schemaType": null,
-      "schemaDescription": null,
-      "examplesPath": "examples/relationshiptoveteran-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "RelationshipToVeteran",
@@ -351,8 +317,7 @@
       "uiSchemaDescription": "uiSchema for relationship to veteran, specifically for spouse or child",
       "schema": "relationshipToVeteranSpouseOrChildSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/relationshiptoveteran-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "RelationshipToVeteran",
@@ -361,8 +326,7 @@
       "uiSchemaDescription": "uiSchema for relationship to veteran. Includes spouse, child, parent, executor, and other fields",
       "schema": "relationshipToVeteranSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/relationshiptoveteran-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "Select",
@@ -371,8 +335,7 @@
       "uiSchemaDescription": "uiSchema for generic select field",
       "schema": "selectSchema",
       "schemaType": "function",
-      "schemaDescription": "schema for selectUI",
-      "examplesPath": "examples/select-examples.js"
+      "schemaDescription": "schema for selectUI"
     },
     {
       "category": "Ssn",
@@ -381,8 +344,7 @@
       "uiSchemaDescription": "uiSchema for Service Number",
       "schema": "serviceNumberSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema for serviceNumberUI",
-      "examplesPath": "examples/ssn-examples.js"
+      "schemaDescription": "Schema for serviceNumberUI"
     },
     {
       "category": "Ssn",
@@ -391,8 +353,7 @@
       "uiSchemaDescription": null,
       "schema": "ssnOrServiceNumberSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema ssnOrServiceNumberUI",
-      "examplesPath": "examples/ssn-examples.js"
+      "schemaDescription": "Schema ssnOrServiceNumberUI"
     },
     {
       "category": "Ssn",
@@ -401,8 +362,7 @@
       "uiSchemaDescription": "uiSchema for Social Security number or VA File Number. Should be used with a description above the fields such as: \"You must enter a Social Security number or VA file number\"",
       "schema": "ssnOrVaFileNumberNoHintSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema for ssnOrVaFileNumberNoHintUI",
-      "examplesPath": "examples/ssn-examples.js"
+      "schemaDescription": "Schema for ssnOrVaFileNumberNoHintUI"
     },
     {
       "category": "Ssn",
@@ -411,8 +371,7 @@
       "uiSchemaDescription": "uiSchema for Social Security number or VA File Number. Includes two fields, and a hint about entering either or.",
       "schema": "ssnOrVaFileNumberSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema for ssnOrVaFileNumberUI",
-      "examplesPath": "examples/ssn-examples.js"
+      "schemaDescription": "Schema for ssnOrVaFileNumberUI"
     },
     {
       "category": "Ssn",
@@ -421,8 +380,7 @@
       "uiSchemaDescription": "uiSchema for Social Security number field",
       "schema": "ssnSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema for ssnUI",
-      "examplesPath": "examples/ssn-examples.js"
+      "schemaDescription": "Schema for ssnUI"
     },
     {
       "category": "Ssn",
@@ -431,8 +389,7 @@
       "uiSchemaDescription": "uiSchema for VA File Number",
       "schema": "vaFileNumberSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema for vaFileNumberUI",
-      "examplesPath": "examples/ssn-examples.js"
+      "schemaDescription": "Schema for vaFileNumberUI"
     },
     {
       "category": "Text",
@@ -441,8 +398,7 @@
       "uiSchemaDescription": "uiSchema for generic textarea input field",
       "schema": "textareaSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema for textareaUI",
-      "examplesPath": "examples/text-examples.js"
+      "schemaDescription": "Schema for textareaUI"
     },
     {
       "category": "Text",
@@ -451,8 +407,7 @@
       "uiSchemaDescription": "uiSchema for generic text input field",
       "schema": "textSchema",
       "schemaType": "object",
-      "schemaDescription": "Schema textUI",
-      "examplesPath": "examples/text-examples.js"
+      "schemaDescription": "Schema textUI"
     },
     {
       "category": "Title",
@@ -461,8 +416,7 @@
       "uiSchemaDescription": "uiSchema for a description. Prefer to use second argument of titleUI instead.",
       "schema": "descriptionSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/title-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "Title",
@@ -471,8 +425,7 @@
       "uiSchemaDescription": "uiSchema for an inline title for (in the middle of) a form page. Try not to use this.",
       "schema": "inlineTitleSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/title-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "Title",
@@ -481,8 +434,7 @@
       "uiSchemaDescription": "uiSchema title for the form page, which appears at the top of the page, implemented with object spread into the uiSchema like such: ...titleUI('title')",
       "schema": "titleSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/title-examples.js"
+      "schemaDescription": null
     },
     {
       "category": "YesNo",
@@ -491,8 +443,7 @@
       "uiSchemaDescription": "uiSchema for yes or no questions. yesNoUI is an abstraction of radioUI tailored for binary yes/no questions.",
       "schema": "yesNoSchema",
       "schemaType": "object",
-      "schemaDescription": null,
-      "examplesPath": "examples/yes-no-examples.js"
+      "schemaDescription": null
     }
   ]
 }

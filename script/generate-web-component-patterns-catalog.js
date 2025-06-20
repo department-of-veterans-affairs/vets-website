@@ -1,10 +1,14 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-console */
-// *****************************************************************
-// This file generates
-// src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json
-// by using AST to read all the files in the web-component-patterns directory
-// *****************************************************************
+
+/**
+ * Script to generate a catalog of all web component patterns
+ * by using AST to check the exports and jsdocs for all files in the
+ * web-component-patterns directory
+ *
+ * Output: src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json
+ */
+
 const fs = require('fs');
 const path = require('path');
 const parser = require('@babel/parser');
@@ -19,19 +23,16 @@ const catalogPath = path.join(
   'web-component-patterns-catalog.json',
 );
 
-// Get all files in the directory except catalog files and index.js
 const files = fs
   .readdirSync(patternsDir)
   .filter(
     file =>
-      file !== 'web-component-patterns-catalog.md' &&
       file !== 'web-component-patterns-catalog.json' &&
       file !== 'index.js' &&
       (file.endsWith('.js') || file.endsWith('.jsx')),
   );
 
-// Helper function to extract description from JSDoc comments
-const extractDescription = comments => {
+const extractDescriptionFromJSDocs = comments => {
   if (comments && comments.length > 0) {
     const jsdoc = comments[comments.length - 1].value.trim();
     const lines = jsdoc
@@ -44,7 +45,6 @@ const extractDescription = comments => {
   return null;
 };
 
-// Helper function to determine category from filename
 const getCategoryFromFilename = filename => {
   return filename
     .replace(/patterns?\.jsx?$/i, '')
@@ -56,12 +56,10 @@ const getCategoryFromFilename = filename => {
     .trim();
 };
 
-// Helper function to get pattern base name (without UI/Schema suffix)
 const getPatternBaseName = name => {
   return name.replace(/(UI|Schema)$/, '');
 };
 
-// Helper function to determine pattern type based on name
 const getPatternTypeFromName = name => {
   if (name.endsWith('UI')) {
     return 'uiSchema';
@@ -72,7 +70,6 @@ const getPatternTypeFromName = name => {
   return 'unknown';
 };
 
-// Helper function to determine JavaScript type (function/object/class)
 const getJavaScriptType = (declaration, init) => {
   if (declaration?.type === 'FunctionDeclaration') {
     return 'function';
@@ -86,9 +83,8 @@ const getJavaScriptType = (declaration, init) => {
   return 'object';
 };
 
-// Helper function to process declaration exports
 const processDeclarationExport = (declaration, exportComments) => {
-  const description = extractDescription(
+  const description = extractDescriptionFromJSDocs(
     exportComments || declaration.leadingComments,
   );
   const patternType = getPatternTypeFromName(declaration.id.name);
@@ -101,40 +97,11 @@ const processDeclarationExport = (declaration, exportComments) => {
   };
 };
 
-// Helper function to get examples path
-const getExamplesPath = (baseName, category) => {
-  const exampleMap = {
-    address: 'examples/address-examples.js',
-    addressNoMilitary: 'examples/address-examples.js',
-    text: 'examples/text-examples.js',
-    textarea: 'examples/text-examples.js',
-    email: 'examples/email-examples.js',
-    emailToSendNotifications: 'examples/email-examples.js',
-    phone: 'examples/phone-examples.js',
-    internationalPhone: 'examples/phone-examples.js',
-    currentOrPastDate: 'examples/date-examples.js',
-    dateOfBirth: 'examples/date-examples.js',
-    fullName: 'examples/full-name-examples.js',
-    ssn: 'examples/ssn-examples.js',
-    yesNo: 'examples/yes-no-examples.js',
-    radio: 'examples/radio-examples.js',
-    select: 'examples/select-examples.js',
-    checkbox: 'examples/checkbox-examples.js',
-    checkboxGroup: 'examples/checkbox-group-examples.js',
-    currency: 'examples/currency-examples.js',
-    bankAccount: 'examples/bank-account-examples.js',
-    fileInput: 'examples/file-input-examples.js',
-    arrayBuilderYesNo: 'examples/array-builder-examples.js',
-    title: 'examples/title-examples.js',
-  };
+// TODO
+// const getExamplesPath = (baseName, category) => {
+//   return 'TODO';
+// };
 
-  return (
-    exampleMap[baseName] ||
-    `examples/${category.toLowerCase().replace(/\s+/g, '-')}-examples.js`
-  );
-};
-
-// Process all files and collect patterns
 const allPatterns = new Map();
 
 files.forEach(file => {
@@ -160,7 +127,7 @@ files.forEach(file => {
             exports.push(processDeclarationExport(declaration, exportComments));
           } else if (declaration.type === 'VariableDeclaration') {
             declaration.declarations.forEach(decl => {
-              const description = extractDescription(
+              const description = extractDescriptionFromJSDocs(
                 exportComments ||
                   declaration.leadingComments ||
                   path.parent?.leadingComments,
@@ -187,16 +154,16 @@ files.forEach(file => {
               let description = null;
 
               if (exportComments) {
-                description = extractDescription(exportComments);
+                description = extractDescriptionFromJSDocs(exportComments);
               } else if (binding.path.node.leadingComments) {
-                description = extractDescription(
+                description = extractDescriptionFromJSDocs(
                   binding.path.node.leadingComments,
                 );
               } else if (
                 binding.path.parent &&
                 binding.path.parent.leadingComments
               ) {
-                description = extractDescription(
+                description = extractDescriptionFromJSDocs(
                   binding.path.parent.leadingComments,
                 );
               }
@@ -228,7 +195,6 @@ files.forEach(file => {
       },
     });
 
-    // Filter exports to only include those ending in 'UI' or 'Schema'
     const filteredExports = exports.filter(exp =>
       exp.name.match(/(UI|Schema)\b/),
     );
@@ -246,7 +212,6 @@ files.forEach(file => {
   }
 });
 
-// Combine UI and Schema patterns
 const combinedPatterns = new Map();
 
 allPatterns.forEach(pattern => {
@@ -262,7 +227,7 @@ allPatterns.forEach(pattern => {
       schema: null,
       schemaType: null,
       schemaDescription: null,
-      examplesPath: null,
+      // examplesPath: null,
     });
   }
 
@@ -278,10 +243,10 @@ allPatterns.forEach(pattern => {
     combined.schemaDescription = pattern.description;
   }
 
-  combined.examplesPath = getExamplesPath(baseName, pattern.category);
+  // TODO: Implement examplesPath
+  // combined.examplesPath = getExamplesPath(baseName, pattern.category);
 });
 
-// Convert to final JSON structure
 const catalog = {
   title: 'VA.gov Web Component Form Field Patterns Catalog (RJSF)',
   description:
@@ -299,7 +264,6 @@ const catalog = {
   }),
 };
 
-// Write JSON file
 fs.writeFileSync(catalogPath, JSON.stringify(catalog, null, 2));
 
 console.log(
