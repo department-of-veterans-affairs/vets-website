@@ -53,7 +53,7 @@ const PrivacyPolicy = () => {
         I have read and accept the{' '}
         <va-link
           onClick={() => setShowModal(true)}
-          text="privacy policy."
+          text="privacy policy"
           aria-label="View the privacy policy"
           role="button"
           tabIndex="0"

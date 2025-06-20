@@ -2,132 +2,103 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-// import { createStore } from 'redux';
-import configureStore from 'redux-mock-store';
-// import thunk from 'redux-thunk';
-
-// import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 
 import PrivacyPolicy from '../../containers/PrivacyPolicy';
 
-// const defaultStore = createCommonStore();
-
 describe('22-1919 <PrivacyPolicy>', () => {
-  // const fakeStore = (formData = {}) => ({
-  //   getState: () => ({
-  //     form: {
-  //       data: formData,
-  //     },
-  //   }),
-  //   subscribe: () => {},
-  //   dispatch: () => {},
-  // });
-
-  const mockStore = configureStore([]);
-  const store = mockStore({
-    form: { data: {} },
+  const fakeStore = (formData = {}) => ({
+    getState: () => ({
+      form: {
+        data: formData,
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
   });
 
+  const formData = {
+    certifyingOfficial: {
+      role: { level: 'certifyingOfficial' },
+    },
+  };
+
   it('should render privacy policy link/button', () => {
-    const { getByText } = render(
-      <Provider store={store}>
+    const { getByTestId } = render(
+      <Provider store={fakeStore(formData)}>
         <PrivacyPolicy />,
       </Provider>,
     );
-    const link = getByText('privacy policy');
-    expect(link).to.exist;
+    const privacyPolicyContainer = getByTestId('privacy-policy-text');
+    expect(privacyPolicyContainer).to.exist;
   });
 
-  // it('should render modal', () => {
-  //   const store = fakeStore();
-  //   const { container } = render(
-  //     <Provider store={store}>
-  //       <PrivacyPolicy />
-  //     </Provider>,
-  //   );
-  //   const modal = container.querySelector('va-modal');
-  //   expect(modal).to.have.attribute('large', 'true');
-  //   expect(modal).to.have.attribute('modal-title', 'Privacy Act Statement');
-  // });
+  it('should render modal', () => {
+    const { container } = render(
+      <Provider store={fakeStore(formData)}>
+        <PrivacyPolicy />
+      </Provider>,
+    );
+    const modal = container.querySelector('va-modal');
+    expect(modal).to.have.attribute('large', 'true');
+    expect(modal).to.have.attribute('modal-title', 'Privacy Act Statement');
+  });
 
-  // it('should handle onClick event to open modal', () => {
-  //   const store = fakeStore();
-  //   const { getByText, container } = render(
-  //     <Provider store={store}>
-  //       <PrivacyPolicy />
-  //     </Provider>,
-  //   );
-  //   const button = getByText('privacy policy.');
-  //   const modal = container.querySelector('va-modal');
+  it('should display title from form data when certifyingOfficial role is present', () => {
+    const store = fakeStore(formData);
+    const { getByText } = render(
+      <Provider store={store}>
+        <PrivacyPolicy />
+      </Provider>,
+    );
 
-  //   expect(modal).to.have.attribute('visible', 'false');
+    expect(getByText('Certifying official')).to.exist;
+  });
 
-  //   button.click();
+  it('should display "Owner" title when role level is owner', () => {
+    const _formData = {
+      certifyingOfficial: {
+        role: { level: 'owner' },
+      },
+    };
+    const store = fakeStore(_formData);
+    const { getByText } = render(
+      <Provider store={store}>
+        <PrivacyPolicy />
+      </Provider>,
+    );
 
-  //   expect(modal).to.have.attribute('visible', 'true');
-  // });
+    expect(getByText('Owner')).to.exist;
+  });
 
-  // it('should display title from form data when certifyingOfficial role is present', () => {
-  //   const formData = {
-  //     certifyingOfficial: {
-  //       role: { level: 'certifyingOfficial' },
-  //     },
-  //   };
-  //   const store = fakeStore(formData);
-  //   const { getByText } = render(
-  //     <Provider store={store}>
-  //       <PrivacyPolicy />
-  //     </Provider>,
-  //   );
+  it('should display "Officer" title when role level is officer', () => {
+    const _formData = {
+      certifyingOfficial: {
+        role: { level: 'officer' },
+      },
+    };
+    const store = fakeStore(_formData);
+    const { getByText } = render(
+      <Provider store={store}>
+        <PrivacyPolicy />
+      </Provider>,
+    );
 
-  //   expect(getByText('Certifying official')).to.exist;
-  // });
+    expect(getByText('Officer')).to.exist;
+  });
 
-  // it('should display "Owner" title when role level is owner', () => {
-  //   const formData = {
-  //     certifyingOfficial: {
-  //       role: { level: 'owner' },
-  //     },
-  //   };
-  //   const store = fakeStore(formData);
-  //   const { getByText } = render(
-  //     <Provider store={store}>
-  //       <PrivacyPolicy />
-  //     </Provider>,
-  //   );
+  it('should display custom title when role has other property', () => {
+    const _formData = {
+      certifyingOfficial: {
+        role: { other: 'Custom Title' },
+      },
+    };
+    const store = fakeStore(_formData);
+    const { getByText } = render(
+      <Provider store={store}>
+        <PrivacyPolicy />
+      </Provider>,
+    );
 
-  //   expect(getByText('Owner')).to.exist;
-  // });
-
-  // it('should display "Officer" title when role level is officer', () => {
-  //   const formData = {
-  //     certifyingOfficial: {
-  //       role: { level: 'officer' },
-  //     },
-  //   };
-  //   const store = fakeStore(formData);
-  //   const { getByText } = render(
-  //     <Provider store={store}>
-  //       <PrivacyPolicy />
-  //     </Provider>,
-  //   );
-
-  //   expect(getByText('Officer')).to.exist;
-  // });
-
-  // it('should display custom title when role has other property', () => {
-  //   const formData = {
-  //     certifyingOfficial: {
-  //       role: { other: 'Custom Title' },
-  //     },
-  //   };
-  //   const store = fakeStore(formData);
-  //   const { getByText } = render(
-  //     <Provider store={store}>
-  //       <PrivacyPolicy />
-  //     </Provider>,
-  //   );
-
-  //   expect(getByText('Custom Title')).to.exist;
-  // });
+    expect(getByText('Custom Title')).to.exist;
+  });
 });
