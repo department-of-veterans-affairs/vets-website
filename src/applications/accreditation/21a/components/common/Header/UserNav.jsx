@@ -14,7 +14,7 @@ const UserHelpLinks = () => {
             <a
               data-testid="user-nav-poa-search-link"
               className="vads-u-color--white"
-              href="/poa-search"
+              href="/representative/poa-search"
               data-eventname="nav-link-click"
             >
               <va-icon icon="search" size={2} className="people-search-icon" />
@@ -27,7 +27,7 @@ const UserHelpLinks = () => {
         <a
           data-testid="user-nav-poa-requests-link"
           className="vads-u-color--white"
-          href="/poa-requests"
+          href="/representative/poa-requests"
           data-eventname="nav-link-click"
         >
           Representation Requests
@@ -43,7 +43,7 @@ const UserHelpLinks = () => {
             <a
               data-testid="submissions-link"
               className="vads-u-color--white"
-              href="/submissions"
+              href="/representative/submissions"
             >
               Submissions
             </a>
@@ -58,7 +58,7 @@ const UserHelpLinks = () => {
             <a
               data-testid="user-nav-profile-link"
               className="vads-u-color--white"
-              href="/get-help"
+              href="/representative/get-help"
               data-eventname="nav-link-click"
             >
               Get Help
@@ -81,7 +81,7 @@ const UserNavLinks = () => {
             <a
               data-testid="user-nav-profile-link"
               className="vads-u-color--black"
-              href="/profile"
+              href="/representative/profile"
               data-eventname="nav-link-click"
             >
               Profile
