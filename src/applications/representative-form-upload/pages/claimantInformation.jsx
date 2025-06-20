@@ -109,7 +109,6 @@ export const claimantInformationPage = {
       'view:veteranTitle': emptyObjectSchema,
       'view:veteranDescription': emptyObjectSchema,
       ...veteranSubPageSchema,
-      // vaFileNumber: vaFileNumberSchema,
     },
     required: [
       'claimantSsn',
