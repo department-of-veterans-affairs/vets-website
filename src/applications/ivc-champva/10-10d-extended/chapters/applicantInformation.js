@@ -39,6 +39,7 @@ import {
 } from '../../shared/components/fileUploads/attachments';
 import {
   applicantWording,
+  nameWording,
   getAgeInYears,
   fmtDate,
 } from '../../shared/utilities';
@@ -46,11 +47,10 @@ import {
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
 import { page15aDepends } from '../helpers/utilities';
-import { MAIL_OR_FAX_LATER_MSG, MAX_APPLICANTS } from '../constants';
+import { MAX_APPLICANTS } from '../constants';
 
 import {
   // TODO: convert to standard file upload.
-  uploadWithInfoComponent,
   acceptableFiles,
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
@@ -313,31 +313,47 @@ const applicantRelationshipOriginPage = {
   },
 };
 
-// TODO: switch to v3 file upload after initial page implementation
-const applicantBirthCertConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.birthCert,
-  'birth certificates',
-);
-
 const applicantBirthCertUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Upload birth certificate',
-      ({ formData }) => (
-        <>
-          To help us process this application faster, submit a copy of{' '}
-          <b className="dd-privacy-hidden">
-            {applicantWording(formData, true, false)}
-          </b>{' '}
-          birth certificate.
-          <br />
-          Submitting a copy can help us process this application faster.
-          <br />
-          {MAIL_OR_FAX_LATER_MSG}
-        </>
-      ),
+      ({ formData, formContext }) => {
+        const index = +formContext?.pagePerItemIndex; // NaN if not present
+        // since we don't have the standard access to full form data here,
+        // make use of the previously added `view:certifierRole` property.
+        const tmpFormData = {
+          ...formData,
+          certifierRole: formData?.['view:certifierRole'],
+        };
+        // Calls the appropriate name getter depending on current list item index.
+        // First applicant is assumed to be the certifier if certifierRole === 'applicant'.
+        const getNameFn = posessive =>
+          index === 0
+            ? nameWording(tmpFormData, posessive, false)
+            : // formData doesn't need certifier role for applicantWording
+              applicantWording(formData, posessive, false);
+
+        const nonPosessiveName = (
+          <b className="dd-privacy-hidden">{getNameFn(false)}</b>
+        );
+        const nameBeingVerb =
+          tmpFormData?.certifierRole === 'applicant' ? (
+            'you’re'
+          ) : (
+            <>
+              <b className="dd-privacy-hidden">{nonPosessiveName}</b> is
+            </>
+          );
+        return (
+          <>
+            <p>
+              You’ll need to submit a copy of {nameBeingVerb} birth certificate.
+            </p>
+          </>
+        );
+      },
     ),
-    ...applicantBirthCertConfig.uiSchema,
+    ...fileUploadBlurbCustom(),
     applicantBirthCertOrSocialSecCard: fileUploadUI({
       label: 'Upload a copy of birth certificate',
     }),
@@ -347,7 +363,7 @@ const applicantBirthCertUploadPage = {
     required: ['applicantBirthCertOrSocialSecCard'],
     properties: {
       titleSchema,
-      ...applicantBirthCertConfig.schema,
+      'view:fileUploadBlurb': blankSchema,
       applicantBirthCertOrSocialSecCard: fileWithMetadataSchema(
         acceptableFiles.birthCert,
       ),
