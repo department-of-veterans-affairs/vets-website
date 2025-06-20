@@ -408,7 +408,12 @@ describe('App', () => {
 
     const submitStub = sinon.stub(SmApi, 'submitLaunchMessagingAal');
     submitStub.resolves();
-    const useFeatureTogglesStub = stubUseFeatureToggles({ isAalEnabled: true });
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      isAalEnabled: true,
+      largeAttachmentsEnabled: true,
+    });
+    useFeatureTogglesStub;
+
     renderWithStoreAndRouter(<App />, {
       initialState,
       reducers: reducer,
