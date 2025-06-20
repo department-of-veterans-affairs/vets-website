@@ -496,114 +496,123 @@ export const buildVAPrescriptionPDFList = prescription => {
         },
       ],
     },
-    ...(showRefillHistory && {
-      header: 'Refill history',
-      indent: 32,
-      headerSize: 'H4',
-      sections: [
-        {
-          items: [
-            {
-              value: `Showing ${refillHistory.length} fill${
-                refillHistory.length > 1 ? 's, from newest to oldest' : ''
-              }`,
-              indent: 32,
-            },
-          ],
-        },
-        ...refillHistory
-          .map((entry, i) => {
-            const { shape, color, backImprint, frontImprint } = entry;
-            const isPartialFill = entry.prescriptionSource === 'PF';
-            const refillLabel = determineRefillLabel(
-              isPartialFill,
-              refillHistory,
-              i,
-            );
-            const phone =
-              entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
-            const hasValidDesc =
-              shape?.trim() && color?.trim() && frontImprint?.trim();
-            const description = hasValidDesc
-              ? `* Shape: ${shape[0].toUpperCase()}${shape
-                  .slice(1)
-                  .toLowerCase()}
-* Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
-* Front marking: ${frontImprint}
-${backImprint ? `* Back marking: ${backImprint}` : ''}`
-              : createNoDescriptionText(phone);
-            return {
-              header: `${refillLabel}: ${dateFormat(
-                entry.dispensedDate,
-                'MMMM D, YYYY',
-                'Date not available',
-              )}`,
-              indent: 32,
-              headerSize: 'H5',
-              items: [
-                ...(isPartialFill
-                  ? [
-                      {
-                        value: 'This fill has a smaller quantity on purpose.',
-                        indent: 32,
-                      },
-                      {
-                        title: 'Quantity',
-                        inline: true,
-                        value: validateIfAvailable('Quantity', entry.quantity),
-                        indent: 32,
-                      },
-                    ]
-                  : []),
-                ...(i === 0 && !isPartialFill
-                  ? [
-                      {
-                        title: `Shipped on`,
-                        value: dateFormat(
-                          prescription?.trackingList?.[0]?.completeDateTime,
-                          'MMMM D, YYYY',
-                          'Date not available',
-                        ),
-                        inline: true,
-                        indent: 32,
-                      },
-                    ]
-                  : []),
-                ...(!isPartialFill
-                  ? [
-                      {
-                        title: 'Medication description',
-                        inline: false,
-                        indent: 32,
-                      },
-                    ]
-                  : []),
-                ...(hasValidDesc && !isPartialFill
-                  ? [
-                      {
-                        title: 'Note',
-                        value: `If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
-                          phone,
-                        )}.`,
-                        inline: true,
-                        indent: 32,
-                      },
-                    ]
-                  : []),
-                ...(!isPartialFill
-                  ? [
-                      {
-                        value: description,
-                        indent: 32,
-                      },
-                    ]
-                  : []),
-              ],
-            };
-          })
-          .flat(),
-      ],
-    }),
+    ...(showRefillHistory
+      ? [
+          {
+            header: 'Refill history',
+            indent: 32,
+            headerSize: 'H4',
+            sections: [
+              {
+                items: [
+                  {
+                    value: `Showing ${refillHistory.length} fill${
+                      refillHistory.length > 1 ? 's, from newest to oldest' : ''
+                    }`,
+                    indent: 32,
+                  },
+                ],
+              },
+              ...refillHistory
+                .map((entry, i) => {
+                  const { shape, color, backImprint, frontImprint } = entry;
+                  const isPartialFill = entry.prescriptionSource === 'PF';
+                  const refillLabel = determineRefillLabel(
+                    isPartialFill,
+                    refillHistory,
+                    i,
+                  );
+                  const phone =
+                    entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+                  const hasValidDesc =
+                    shape?.trim() && color?.trim() && frontImprint?.trim();
+                  const description = hasValidDesc
+                    ? `* Shape: ${shape[0].toUpperCase()}${shape
+                        .slice(1)
+                        .toLowerCase()}
+    * Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
+    * Front marking: ${frontImprint}
+    ${backImprint ? `* Back marking: ${backImprint}` : ''}`
+                    : createNoDescriptionText(phone);
+                  return {
+                    header: `${refillLabel}: ${dateFormat(
+                      entry.dispensedDate,
+                      'MMMM D, YYYY',
+                      'Date not available',
+                    )}`,
+                    indent: 32,
+                    headerSize: 'H5',
+                    items: [
+                      ...(isPartialFill
+                        ? [
+                            {
+                              value:
+                                'This fill has a smaller quantity on purpose.',
+                              indent: 32,
+                            },
+                            {
+                              title: 'Quantity',
+                              inline: true,
+                              value: validateIfAvailable(
+                                'Quantity',
+                                entry.quantity,
+                              ),
+                              indent: 32,
+                            },
+                          ]
+                        : []),
+                      ...(i === 0 && !isPartialFill
+                        ? [
+                            {
+                              title: `Shipped on`,
+                              value: dateFormat(
+                                prescription?.trackingList?.[0]
+                                  ?.completeDateTime,
+                                'MMMM D, YYYY',
+                                'Date not available',
+                              ),
+                              inline: true,
+                              indent: 32,
+                            },
+                          ]
+                        : []),
+                      ...(!isPartialFill
+                        ? [
+                            {
+                              title: 'Medication description',
+                              inline: false,
+                              indent: 32,
+                            },
+                          ]
+                        : []),
+                      ...(hasValidDesc && !isPartialFill
+                        ? [
+                            {
+                              title: 'Note',
+                              value: `If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
+                                phone,
+                              )}.`,
+                              inline: true,
+                              indent: 32,
+                            },
+                          ]
+                        : []),
+                      ...(!isPartialFill
+                        ? [
+                            {
+                              value: description,
+                              indent: 32,
+                            },
+                          ]
+                        : []),
+                    ],
+                  };
+                })
+                .flat(),
+            ],
+          },
+        ]
+      : []),
   ];
 
   if (prescription?.groupedMedications?.length > 0) {
