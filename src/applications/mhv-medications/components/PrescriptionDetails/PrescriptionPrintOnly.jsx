@@ -208,109 +208,103 @@ const PrescriptionPrintOnly = props => {
                 </p>
               )}
           </div>
-          {refillHistory &&
-            showRefillHistory && (
-              <div className="print-only-refill-container vads-u-margin-left--2">
-                <h4>Refill history</h4>
-                <p className="vads-u-margin-y--1p5">
-                  {`Showing ${refillHistory.length} fill${
-                    refillHistory.length > 1 ? 's, from newest to oldest' : ''
-                  }`}
-                </p>
-                <div className="print-only-rx-details-container">
-                  {refillHistory.map((entry, i) => {
-                    const index = refillHistory.length - i - 1;
-                    const { shape, color, backImprint, frontImprint } = entry;
-                    const isPartialFill = entry.prescriptionSource === 'PF';
-                    const refillLabel = determineRefillLabel(
-                      isPartialFill,
-                      refillHistory,
-                      i,
-                    );
-                    return (
-                      <div key={index} className="vads-u-margin-bottom--2">
-                        <h5 className="vads-u-margin-top--1">
-                          {`${refillLabel}: ${dateFormat(entry.dispensedDate)}`}
-                        </h5>
-                        {isPartialFill && (
-                          <>
-                            <p>This fill has a smaller quantity on purpose.</p>
-                            <p>
-                              <strong>Quantity:</strong> {entry.quantity}
-                            </p>
-                          </>
+          {showRefillHistory && (
+            <div className="print-only-refill-container vads-u-margin-left--2">
+              <h4>Refill history</h4>
+              <p className="vads-u-margin-y--1p5">
+                {`Showing ${refillHistory.length} fill${
+                  refillHistory.length > 1 ? 's, from newest to oldest' : ''
+                }`}
+              </p>
+              <div className="print-only-rx-details-container">
+                {refillHistory.map((entry, i) => {
+                  const index = refillHistory.length - i - 1;
+                  const { shape, color, backImprint, frontImprint } = entry;
+                  const isPartialFill = entry.prescriptionSource === 'PF';
+                  const refillLabel = determineRefillLabel(
+                    isPartialFill,
+                    refillHistory,
+                    i,
+                  );
+                  return (
+                    <div key={index} className="vads-u-margin-bottom--2">
+                      <h5 className="vads-u-margin-top--1">
+                        {`${refillLabel}: ${dateFormat(entry.dispensedDate)}`}
+                      </h5>
+                      {isPartialFill && (
+                        <>
+                          <p>This fill has a smaller quantity on purpose.</p>
+                          <p>
+                            <strong>Quantity:</strong> {entry.quantity}
+                          </p>
+                        </>
+                      )}
+                      {i === 0 &&
+                        !isPartialFill && (
+                          <p>
+                            <strong>Shipped on:</strong>{' '}
+                            {dateFormat(latestTrackingStatus?.completeDateTime)}
+                          </p>
                         )}
-                        {i === 0 &&
-                          !isPartialFill && (
-                            <p>
-                              <strong>Shipped on:</strong>{' '}
-                              {dateFormat(
-                                latestTrackingStatus?.completeDateTime,
-                              )}
-                            </p>
-                          )}
-                        {!isPartialFill && (
-                          <>
-                            <p className="vads-u-margin--0">
-                              <strong>Medication description: </strong>
-                            </p>
-                            {shape?.trim() &&
-                            color?.trim() &&
-                            frontImprint?.trim() ? (
-                              <>
-                                <p className="vads-u-margin--0">
-                                  <strong>Note:</strong> If the medication
-                                  you’re taking doesn’t match this description,
-                                  call{' '}
-                                  <VaPharmacyText
-                                    phone={pharmacyPhone}
-                                    isNotClickable
-                                  />
-                                  .
-                                </p>
-                                <ul className="vads-u-margin--0">
-                                  <li className="vads-u-margin-y--0">
-                                    <strong>Shape:</strong>{' '}
-                                    {shape[0].toUpperCase()}
-                                    {shape.slice(1).toLowerCase()}
-                                  </li>
-                                  <li className="vads-u-margin-y--0">
-                                    <strong>Color:</strong>{' '}
-                                    {color[0].toUpperCase()}
-                                    {color.slice(1).toLowerCase()}
-                                  </li>
-                                  <li className="vads-u-margin-y--0">
-                                    <strong>Front marking:</strong>{' '}
-                                    {frontImprint}
-                                  </li>
-                                  {backImprint ? (
-                                    <li className="vads-u-margin-y--0">
-                                      <strong>Back marking:</strong>{' '}
-                                      {backImprint}
-                                    </li>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </ul>
-                              </>
-                            ) : (
-                              <>
-                                No description available. Call{' '}
+                      {!isPartialFill && (
+                        <>
+                          <p className="vads-u-margin--0">
+                            <strong>Medication description: </strong>
+                          </p>
+                          {shape?.trim() &&
+                          color?.trim() &&
+                          frontImprint?.trim() ? (
+                            <>
+                              <p className="vads-u-margin--0">
+                                <strong>Note:</strong> If the medication you’re
+                                taking doesn’t match this description, call{' '}
                                 <VaPharmacyText
                                   phone={pharmacyPhone}
                                   isNotClickable
-                                />{' '}
-                                if you need help identifying this medication.
-                              </>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+                                />
+                                .
+                              </p>
+                              <ul className="vads-u-margin--0">
+                                <li className="vads-u-margin-y--0">
+                                  <strong>Shape:</strong>{' '}
+                                  {shape[0].toUpperCase()}
+                                  {shape.slice(1).toLowerCase()}
+                                </li>
+                                <li className="vads-u-margin-y--0">
+                                  <strong>Color:</strong>{' '}
+                                  {color[0].toUpperCase()}
+                                  {color.slice(1).toLowerCase()}
+                                </li>
+                                <li className="vads-u-margin-y--0">
+                                  <strong>Front marking:</strong> {frontImprint}
+                                </li>
+                                {backImprint ? (
+                                  <li className="vads-u-margin-y--0">
+                                    <strong>Back marking:</strong> {backImprint}
+                                  </li>
+                                ) : (
+                                  <></>
+                                )}
+                              </ul>
+                            </>
+                          ) : (
+                            <>
+                              No description available. Call{' '}
+                              <VaPharmacyText
+                                phone={pharmacyPhone}
+                                isNotClickable
+                              />{' '}
+                              if you need help identifying this medication.
+                            </>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-            )}
+            </div>
+          )}
           {isDetailsRx &&
             rx.groupedMedications?.length > 0 && (
               <>
