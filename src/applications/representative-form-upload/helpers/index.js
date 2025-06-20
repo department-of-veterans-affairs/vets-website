@@ -118,6 +118,25 @@ export const getAlert = (props, continueClicked) => {
   return null;
 };
 
+export function parseResponse({ data }) {
+  const { name, size, confirmationCode } = data.attributes;
+  return {
+    name,
+    confirmationCode,
+    size,
+  };
+}
+
+export function createPayload(file, formId, password) {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  if (password) {
+    payload.append('password', password);
+  }
+  return payload;
+}
+
 export async function addStyleToShadowDomOnPages(
   urlArray,
   targetElements,

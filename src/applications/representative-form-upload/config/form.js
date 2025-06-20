@@ -10,6 +10,7 @@ import * as isVeteranModule from '../pages/isVeteranPage';
 import transformForSubmit from './submit-transformer';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
+import submissionError from './submissionError';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/veteran.json';
@@ -55,6 +56,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: false,
   transformForSubmit,
+  submissionError,
   title,
   subTitle,
   defaultDefinitions: {},
