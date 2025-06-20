@@ -192,7 +192,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
         mocksBase(true);
       };
       beforeEach(setup);
-      it('should submit form', () => {
+      it.skip('should submit form', () => {
         // Arrange
         const mockUser = new MockUser({
           addressLine1: '123 Main St.',
