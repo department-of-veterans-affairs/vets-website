@@ -33,7 +33,7 @@ const RecentCareTeams = () => {
     () => {
       // If recentRecipients is null (fetched but none present), redirect
       if (recentRecipients === null) {
-        history.replace(`${Paths.COMPOSE}${Paths.NEW_MESSAGE}/`);
+        history.replace(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`);
       }
     },
     [recentRecipients, history],
