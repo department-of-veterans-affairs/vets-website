@@ -22,18 +22,25 @@ export function createPayload(file, _formId, password) {
   return payload;
 }
 
-export function findAndFocusLastSelect() {
-  const lastSelect = [...document.querySelectorAll('va-select')].slice(-1);
+// TODO: cleanup any redundancies/inneficiencies and fix unit tests
+export function findAndFocusLastSelect(host) {
+  const lastSelect = [...host?.querySelectorAll('va-select')].slice(-1);
   if (lastSelect.length) {
     focusElement(lastSelect[0]);
   } else {
-    // focus on upload button as a fallback
-    focusElement(
-      // including `#upload-button` because RTL can't access the shadowRoot
-      'button, #upload-button',
-      {},
-      document.querySelector(`#upload-button`)?.shadowRoot,
-    );
+    // focus on delete button with upload button as a fallback
+    const delBtn = [host?.querySelector('.delete-upload')];
+    if (delBtn.length) {
+      const delBtnShadow = delBtn[0]?.shadowRoot?.querySelector('button');
+      focusElement(delBtnShadow);
+    } else {
+      focusElement(
+        // including `#upload-button` because RTL can't access the shadowRoot
+        'button, #upload-button',
+        {},
+        host.querySelector(`#upload-button`)?.shadowRoot,
+      );
+    }
   }
   return lastSelect;
 }
@@ -53,7 +60,15 @@ export const fileUploadUi = content => {
     createPayload,
     parseResponse: (response, file) => {
       setTimeout(() => {
-        findAndFocusLastSelect();
+        // Get the host element that contains our upload/delete buttons.
+        // This is so we can improve the focus behavior after upload.
+        let host = Array.from(
+          document.querySelectorAll('.schemaform-file-list'),
+        );
+        // From the list, select the one that holds a file with the same name
+        // as the one just uploaded. Take the first match.
+        host = host.filter(el => el.innerText?.includes(file.name));
+        findAndFocusLastSelect(host?.[0]);
       }, 500);
       return {
         name: file.name,
