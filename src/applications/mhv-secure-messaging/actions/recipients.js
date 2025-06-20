@@ -1,11 +1,17 @@
+import { subMonths } from 'date-fns';
 import { Actions } from '../util/actionTypes';
-import { getAllRecipients, updatePreferredRecipients } from '../api/SmApi';
+import {
+  getAllRecipients,
+  updatePreferredRecipients,
+  searchFolderAdvanced,
+} from '../api/SmApi';
 import { getIsPilotFromState } from '.';
 import { addAlert } from './alerts';
 import {
   ALERT_TYPE_ERROR,
   ALERT_TYPE_SUCCESS,
   Alerts,
+  DefaultFolders,
 } from '../util/constants';
 
 const isSignatureRequired = recipients => {
@@ -62,5 +68,43 @@ export const updateTriageTeamRecipients = recipients => async dispatch => {
       type: Actions.AllRecipients.UPDATE_PREFERRED_ERROR,
     });
     dispatch(addAlert(ALERT_TYPE_ERROR, null, Alerts.ContactList.CANNOT_SAVE));
+  }
+};
+
+export const getRecentRecipients = (numberOfMonths = 6) => async (
+  dispatch,
+  getState,
+) => {
+  try {
+    // Define default date range (last 6 months)
+    const toDateTime = new Date().toISOString();
+    const fromDateTime = subMonths(new Date(), numberOfMonths).toISOString();
+
+    const query = {
+      fromDate: fromDateTime,
+      toDate: toDateTime,
+    };
+
+    const isPilot = getIsPilotFromState(getState);
+
+    // Optionally use the response or dispatch an action with it
+    const response = await searchFolderAdvanced(
+      DefaultFolders.SENT.id,
+      query,
+      isPilot,
+    );
+
+    // Extract and return up to 4 unique recipientId values from the response (array of messages)
+    const recentRecipients = [
+      ...new Set((response?.data || []).map(msg => msg.attributes.recipientId)),
+    ];
+    dispatch({
+      type: Actions.AllRecipients.GET_RECENT,
+      response: recentRecipients,
+    });
+  } catch (error) {
+    dispatch({
+      type: Actions.AllRecipients.GET_RECENT_ERROR,
+    });
   }
 };
