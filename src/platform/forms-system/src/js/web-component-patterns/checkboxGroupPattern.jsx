@@ -19,7 +19,7 @@ const checkboxGroupItemUI = props => {
 };
 
 /**
- * Web component v3 uiSchema for checkbox group
+ * uiSchema for checkbox group. Includes title and labels.
  *
  * Usage uiSchema:
  * ```js
@@ -156,6 +156,8 @@ export const checkboxGroupUI = ({
 };
 
 /**
+ * schema for checkboxGroupUI
+ *
  * ```js
  * checkboxGroup: checkboxGroupSchema(['hasA', 'hasB'])
  * checkboxGroup: checkboxGroupSchema(['none', 'email', 'mobile', 'home', 'all'])

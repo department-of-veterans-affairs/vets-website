@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Form Generator Config",
+  "type": "object",
+  "required": [
+    "appName",
+    "folderName",
+    "entryName",
+    "rootUrl",
+    "isForm",
+    "slackGroup",
+    "contentLoc",
+    "formNumber",
+    "trackingPrefix",
+    "respondentBurden",
+    "ombNumber",
+    "expirationDate",
+    "benefitDescription",
+    "usesVetsJsonSchema",
+    "usesMinimalHeader",
+    "templateType"
+  ],
+  "properties": {
+    "appName": { "type": "string" },
+    "folderName": { "type": "string" },
+    "entryName": { "type": "string" },
+    "rootUrl": {
+      "type": "string",
+      "pattern": "^/.*"
+    },
+    "isForm": { "type": "boolean" },
+    "slackGroup": { "type": "string" },
+    "contentLoc": { "type": "string" },
+    "formNumber": {
+      "type": "string"
+    },
+    "trackingPrefix": { "type": "string" },
+    "respondentBurden": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "ombNumber": {
+      "type": "string",
+      "pattern": "[\\d-]*"
+    },
+    "expirationDate": {
+      "type": "string",
+      "pattern": "^(0?[1-9]|1[0-2])/([0-2]?[0-9]|3[01])/\\d{4}$"
+    },
+    "benefitDescription": { "type": "string" },
+    "usesVetsJsonSchema": { "type": "boolean" },
+    "usesMinimalHeader": { "type": "boolean" },
+    "templateType": {
+      "type": "string",
+      "enum": ["WITH_1_PAGE", "WITH_4_PAGES"]
+    }
+  },
+  "additionalProperties": false
+}

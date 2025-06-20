@@ -114,7 +114,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   } = uiSchema;
 
   const label =
-    uiSchema['ui:title'] || schemaFromState?.properties?.[key].title;
+    uiSchema['ui:title'] || schemaFromState?.properties?.[key].title || '';
 
   let refinedData = Array.isArray(data) ? data[index] : data;
   refinedData = typeof data === 'object' ? data[key] : data;
@@ -235,6 +235,10 @@ export const buildFields = (chapter, formData, pagesFromState) => {
       throw new Error(
         'Page level ui:confirmationField must be a React component',
       );
+    }
+
+    if (!formData) {
+      return null;
     }
 
     return Object.entries(page.uiSchema).flatMap(
