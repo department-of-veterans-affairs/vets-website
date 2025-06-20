@@ -8,7 +8,8 @@ import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
 import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
-import { getSlotByDate, getSlotById, hasConflict } from '../utils/provider';
+import { getSlotByDate, hasConflict } from '../utils/provider';
+import { getDriveTimeString } from '../../utils/appointment';
 import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
@@ -16,24 +17,28 @@ import {
 import { getReferralSlotKey } from '../utils/referrals';
 import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // Add a counter state to trigger focusing
+  const [focusTrigger, setFocusTrigger] = useState(0);
+
   const selectedSlot = useSelector(state => getSelectedSlot(state));
   const currentPage = useSelector(selectCurrentPage);
   const [error, setError] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacilityInfo.code,
+    currentReferral.referringFacility.code,
   );
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   const latestAvailableSlot = new Date(
     Math.max.apply(
       null,
-      draftAppointmentInfo.slots.slots.map(slot => {
+      draftAppointmentInfo.attributes.slots.map(slot => {
         return new Date(slot.start);
       }),
     ),
@@ -42,43 +47,49 @@ export const DateAndTimeContent = props => {
     () => {
       if (selectedSlot) {
         setSelectedDate(
-          getSlotById(draftAppointmentInfo.slots.slots, selectedSlot).start,
+          getSlotByDate(draftAppointmentInfo.attributes.slots, selectedSlot)
+            .start,
         );
       }
     },
-    [draftAppointmentInfo.slots.slots, selectedSlot],
+    [draftAppointmentInfo.attributes.slots, selectedSlot],
   );
   useEffect(
     () => {
       const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
-      const savedSlot = getSlotById(
-        draftAppointmentInfo.slots.slots,
+      const savedSlot = getSlotByDate(
+        draftAppointmentInfo.attributes.slots,
         savedSelectedSlot,
       );
       if (!savedSlot) {
         return;
       }
-      dispatch(setSelectedSlot(savedSlot.id));
+      dispatch(setSelectedSlot(savedSlot.start));
     },
-    [dispatch, selectedSlotKey, draftAppointmentInfo.slots],
+    [dispatch, selectedSlotKey, draftAppointmentInfo.attributes.slots],
   );
   const onChange = useCallback(
     value => {
-      const newSlot = getSlotByDate(draftAppointmentInfo.slots.slots, value[0]);
+      const newSlot = getSlotByDate(
+        draftAppointmentInfo.attributes.slots,
+        value[0],
+      );
       if (newSlot) {
         setError('');
-        dispatch(setSelectedSlot(newSlot.id));
+        dispatch(setSelectedSlot(newSlot.start));
         setSelectedDate(newSlot.start);
-        sessionStorage.setItem(selectedSlotKey, newSlot.id);
+        sessionStorage.setItem(selectedSlotKey, newSlot.start);
       }
     },
-    [dispatch, draftAppointmentInfo.slots.slots, selectedSlotKey],
+    [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
   );
   const onBack = () => {
     routeToPreviousReferralPage(history, currentPage, currentReferral.uuid);
   };
   const onSubmit = () => {
     if (error) {
+      // Increment the focus trigger to force re-focusing the validation message
+      setFocusTrigger(prev => prev + 1);
       return;
     }
     if (!selectedSlot) {
@@ -99,19 +110,34 @@ export const DateAndTimeContent = props => {
     routeToNextReferralPage(history, currentPage, currentReferral.uuid);
   };
 
-  const noSlotsAvailable = !draftAppointmentInfo.slots.slots.length;
-
-  const driveTimeMinutes = Math.floor(
-    draftAppointmentInfo.drivetime.destination
-      .driveTimeInSecondsWithoutTraffic / 60,
+  // Effect to focus on validation message whenever error state changes
+  useEffect(
+    () => {
+      scrollAndFocus('.vaos-input-error-message');
+    },
+    [error, focusTrigger],
   );
-  const driveTimeDistance =
-    draftAppointmentInfo.drivetime.destination.distanceInMiles;
 
-  const driveTimeString =
-    driveTimeMinutes && driveTimeDistance
-      ? `${driveTimeMinutes}-minute drive (${driveTimeDistance} miles)`
-      : null;
+  const noSlotsAvailable = !draftAppointmentInfo.attributes.slots.length;
+
+  // Get the drive time string
+  const driveTimeInSeconds =
+    draftAppointmentInfo?.attributes?.drivetime?.destination
+      ?.driveTimeInSecondsWithoutTraffic;
+  const driveTimeDistance =
+    draftAppointmentInfo?.attributes?.drivetime?.destination?.distanceInMiles;
+  const driveTimeString = getDriveTimeString(
+    driveTimeInSeconds,
+    driveTimeDistance,
+  );
+
+  const disabledMessage = (
+    <va-loading-indicator
+      data-testid="loadingIndicator"
+      set-focus
+      message="Finding appointment availability..."
+    />
+  );
 
   return (
     <>
@@ -123,15 +149,15 @@ export const DateAndTimeContent = props => {
           {titleCase(currentReferral.categoryOfCare)}
         </p>
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
-          {draftAppointmentInfo.provider.providerOrganization.name}
+          {draftAppointmentInfo.attributes.provider.providerOrganization.name}
         </p>
         <ProviderAddress
-          address={draftAppointmentInfo.provider.location.address}
+          address={draftAppointmentInfo.attributes.provider.location.address}
           showDirections
           directionsName={
-            draftAppointmentInfo.provider.providerOrganization.name
+            draftAppointmentInfo.attributes.provider.providerOrganization.name
           }
-          phone={currentReferral.provider.telephone}
+          phone={currentReferral.provider.phone}
         />
         {driveTimeString && <p>{driveTimeString}</p>}
         <p>
@@ -145,7 +171,7 @@ export const DateAndTimeContent = props => {
             Select an available date and time from the calendar below.
             Appointment times are displayed in{' '}
             {`${getTimezoneDescByFacilityId(
-              currentReferral.referringFacilityInfo.code,
+              currentReferral.referringFacility.code,
             )}`}
             .
           </p>
@@ -169,7 +195,7 @@ export const DateAndTimeContent = props => {
           <div data-testid="cal-widget">
             <CalendarWidget
               maxSelections={1}
-              availableSlots={draftAppointmentInfo.slots.slots}
+              availableSlots={draftAppointmentInfo.attributes.slots}
               value={[selectedDate]}
               id="dateTime"
               timezone={facilityTimeZone}
@@ -177,13 +203,7 @@ export const DateAndTimeContent = props => {
                 required: true,
               }}
               // disabled={loadingSlots}
-              disabledMessage={
-                <va-loading-indicator
-                  data-testid="loadingIndicator"
-                  set-focus
-                  message="Finding appointment availability..."
-                />
-              }
+              disabledMessage={disabledMessage}
               onChange={onChange}
               onNextMonth={null}
               onPreviousMonth={null}
@@ -209,9 +229,9 @@ export const DateAndTimeContent = props => {
 };
 
 DateAndTimeContent.propTypes = {
-  appointmentsByMonth: PropTypes.object.isRequired,
   currentReferral: PropTypes.object.isRequired,
   draftAppointmentInfo: PropTypes.object.isRequired,
+  appointmentsByMonth: PropTypes.object,
 };
 
 export default DateAndTimeContent;

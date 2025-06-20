@@ -3,8 +3,8 @@ import {
   emailToSendNotificationsUI,
   phoneUI,
   phoneSchema,
-  internationalPhoneUI,
-  internationalPhoneSchema,
+  internationalPhoneDeprecatedUI,
+  internationalPhoneDeprecatedSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -13,7 +13,7 @@ export default {
   uiSchema: {
     ...titleUI('Phone and email address'),
     survivingDependentPhone: phoneUI('Phone number'),
-    survivingDependentInternationalPhone: internationalPhoneUI(
+    survivingDependentInternationalPhone: internationalPhoneDeprecatedUI(
       'International phone number',
     ),
     survivingDependentEmail: emailToSendNotificationsUI(),
@@ -22,7 +22,7 @@ export default {
     type: 'object',
     properties: {
       survivingDependentPhone: phoneSchema,
-      survivingDependentInternationalPhone: internationalPhoneSchema,
+      survivingDependentInternationalPhone: internationalPhoneDeprecatedSchema,
       survivingDependentEmail: emailToSendNotificationsSchema,
     },
     required: ['survivingDependentPhone', 'survivingDependentEmail'],

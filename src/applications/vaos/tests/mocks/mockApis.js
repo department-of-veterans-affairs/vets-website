@@ -6,6 +6,7 @@ import {
   format,
   startOfDay,
   startOfMonth,
+  subDays,
   subYears,
 } from 'date-fns';
 import {
@@ -15,7 +16,7 @@ import {
 import sinon from 'sinon';
 import metaWithoutFailures from '../../services/mocks/v2/meta.json';
 import metaWithFailures from '../../services/mocks/v2/meta_failures.json';
-import { getVAOSAppointmentMock } from './mock';
+import MockAppointmentResponse from '../fixtures/MockAppointmentResponse';
 
 /**
  * Return a collection of start and end dates. The start date starts from the current
@@ -91,7 +92,7 @@ export function mockAppointmentsApi({
   start,
   statuses = [],
   useRFC3339 = false,
-  response: data,
+  response: data = [],
   responseCode = 200,
 }) {
   const baseUrl = `${
@@ -160,10 +161,12 @@ export function mockAppointmentSubmitApi({
  * @return {string} Return mock API URL. This is useful for debugging.
  */
 export function mockAppointmentUpdateApi({
+  id,
   response: data,
   responseCode = 200,
-}) {
-  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${data.id}`;
+} = {}) {
+  const _id = id || data?.id;
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${_id}`;
 
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
@@ -395,7 +398,11 @@ export function mockFacilitiesApi({
  *
  * @return {string} Return mock API URL. This is useful for debugging.
  */
-export function mockFacilityApi({ id, response: data, responseCode = 200 }) {
+export function mockFacilityApi({
+  id,
+  response: data = {},
+  responseCode = 200,
+}) {
   const _id = id || data?.id;
   const baseUrl = `${environment.API_URL}/vaos/v2/facilities/${_id}`;
 
@@ -634,16 +641,11 @@ export function mockEligibilityFetches({
   );
 
   const pastAppointments = (matchingClinics || clinics).map(clinic => {
-    const appt = getVAOSAppointmentMock();
-    return {
-      ...appt,
-      attributes: {
-        ...appt.attributes,
-        type: 'VA',
-        clinic: clinic.id,
-        locationId: facilityId.substr(0, 3),
-      },
-    };
+    return new MockAppointmentResponse({
+      localStartTime: subDays(new Date(), 1),
+    })
+      .setClinicId(clinic.id)
+      .setLocationId(facilityId.substr(0, 3));
   });
 
   const dateRanges = getDateRanges(3);

@@ -719,7 +719,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPartialFillTextInRefillAccordionOnDetailsPage = text => {
-    cy.get('[data-testid="partial-fill-text"]').should('contain', text);
+    cy.get('[data-testid="partial-fill-text"]').should('have.text', text);
   };
 
   verifyMedicationDescriptionInTxtDownload = text => {
@@ -772,6 +772,102 @@ class MedicationsDetailsPage {
       `Completed on ${expectedDate}`,
     );
     expect(formattedDate).to.equal(expectedDate);
+  };
+
+  formatToEDTString(date) {
+    return `${date
+      .toLocaleString('en-US', {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZone: 'America/New_York',
+        hour12: false,
+      })
+      .replace(',', '')
+      .replace(' at', '')} EDT`;
+  }
+
+  updateCompleteDateTime(data, prescriptionName) {
+    const fourteenDaysAgo = new Date();
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 13);
+    const formattedDate = this.formatToEDTString(fourteenDaysAgo);
+
+    return {
+      ...data,
+      data: data.data.map(
+        item =>
+          item.attributes.prescriptionName === prescriptionName
+            ? {
+                ...item,
+                attributes: {
+                  ...item.attributes,
+                  tracking: true,
+                  trackingList: [
+                    {
+                      ...item.attributes.trackingList[0],
+                      completeDateTime: formattedDate,
+                    },
+                  ],
+                },
+              }
+            : item,
+      ),
+    };
+  }
+
+  updateRefillAndCompleteDates = (
+    data,
+    prescriptionName,
+    refillDateOffset = 15,
+  ) => {
+    const currentDate = new Date();
+
+    // Fixed completeDateTime to 14 days ago (T-14)
+    const completeDate = new Date(currentDate);
+    completeDate.setDate(currentDate.getDate() - 13);
+
+    // Dynamic refillDate based on the provided offset
+    const refillDate = new Date(currentDate);
+    refillDate.setDate(currentDate.getDate() + refillDateOffset);
+
+    return {
+      ...data,
+      data: data.data.map(
+        item =>
+          item.attributes.prescriptionName === prescriptionName
+            ? {
+                ...item,
+                attributes: {
+                  ...item.attributes,
+                  refillDate:
+                    item.attributes.refillDate != null
+                      ? refillDate.toISOString()
+                      : null,
+                  tracking: true, // Ensure tracking is enabled
+                  trackingList: item.attributes.trackingList?.length
+                    ? [
+                        {
+                          ...item.attributes.trackingList[0],
+                          completeDateTime: completeDate.toISOString(), // Fixed completeDateTime
+                        },
+                      ]
+                    : [],
+                },
+              }
+            : item,
+      ),
+    };
+  };
+
+  verifyRxNumberNotVisibleOnPendingMedicationsDetailsPage = PrescriptionNumber => {
+    cy.get('[data-testid="va-prescription-container"]').should(
+      'not.contain',
+      PrescriptionNumber,
+    );
   };
 }
 

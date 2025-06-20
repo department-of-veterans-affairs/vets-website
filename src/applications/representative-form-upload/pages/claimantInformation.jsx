@@ -84,7 +84,10 @@ export const claimantInformationPage = {
     ...veteranTitleAndDescription,
     ...veteranSubPageUI,
     ...representativeTitleAndDescription,
-    email: emailToSendNotificationsUI(),
+    email: emailToSendNotificationsUI({
+      hint:
+        "Changes to information here won't apply to your VA Office of General Counsel (OGC) profile.",
+    }),
   },
   schema: {
     type: 'object',

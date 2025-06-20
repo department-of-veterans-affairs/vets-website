@@ -1,10 +1,14 @@
 flow:
   title: Benefits issues outside the US for Disability Compensation for the Spouse (auth)
-  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  runOnCI: false # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
       value: start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
 
     - action: include
       target: page
@@ -40,15 +44,11 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-you
+      value: your-contact-information-radio-buttons-us-mail
 
     - action: include
       target: page
-      value: your-contact-information-us-mail-no-prefill
-
-    - action: include
-      target: page
-      value: your-us-mailing-address-no-prefill
+      value: your-us-mailing-address
 
     - action: include
       target: page

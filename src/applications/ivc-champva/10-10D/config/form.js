@@ -6,7 +6,6 @@ import {
   checkboxGroupUI,
   fullNameSchema,
   fullNameUI,
-  ssnOrVaFileNumberSchema,
   addressSchema,
   addressUI,
   phoneSchema,
@@ -31,11 +30,14 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { flattenApplicantSSN, migrateCardUploadKeys } from './migrations';
+import { CustomApplicantSSNPage } from '../pages/CustomApplicantSSNPage';
+import {
+  flattenApplicantSSN,
+  flattenSponsorSSN,
+  migrateCardUploadKeys,
+  removeOtherRelationshipSpecification,
+} from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
-
-import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
-
 import transformForSubmit from './submitTransformer';
 import prefillTransformer from './prefillTransformer';
 import manifest from '../manifest.json';
@@ -52,6 +54,8 @@ import {
 import {
   certifierNameValidation,
   certifierAddressValidation,
+  validateSponsorSsnIsUnique,
+  validateApplicantSsnIsUnique,
 } from '../helpers/validations';
 import {
   sponsorAddressCleanValidation,
@@ -184,8 +188,13 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 2,
-  migrations: [flattenApplicantSSN, migrateCardUploadKeys],
+  version: 4,
+  migrations: [
+    flattenApplicantSSN,
+    migrateCardUploadKeys,
+    removeOtherRelationshipSpecification,
+    flattenSponsorSSN,
+  ],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
@@ -404,14 +413,15 @@ const formConfig = {
                 identification information
               </>
             )),
-            ssn: ssnOrVaFileNumberCustomUI(),
+            ssn: ssnUI(),
+            'ui:validations': [validateSponsorSsnIsUnique],
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
               titleSchema,
-              ssn: ssnOrVaFileNumberSchema,
+              ssn: ssnSchema,
             },
           },
         },
@@ -699,6 +709,9 @@ const formConfig = {
               identification information
             </>
           ),
+          CustomPage: CustomApplicantSSNPage,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           showPagePerItem: true,
           uiSchema: {
             applicants: {
@@ -720,6 +733,7 @@ const formConfig = {
                   </>
                 )),
                 applicantSSN: ssnUI(),
+                'ui:validations': [validateApplicantSsnIsUnique],
               },
             },
           },
@@ -908,7 +922,7 @@ const formConfig = {
             `${applicantWording(item)} relationship to the sponsor`,
           CustomPage: ApplicantRelationshipPage,
           CustomPageReview: ApplicantRelationshipReviewPage,
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantRelationshipToSponsor'], {
             applicantRelationshipToSponsor: {
               type: 'object',
               properties: {

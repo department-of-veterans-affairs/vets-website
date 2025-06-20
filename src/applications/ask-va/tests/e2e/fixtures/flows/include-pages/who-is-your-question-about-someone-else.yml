@@ -1,9 +1,0 @@
-steps:
-  - action: exists
-    target: header
-    value:  Who is your question about?
-  - action: click
-    target: radio
-    value:  Someone else
-  - action: click
-    target: call-to-action

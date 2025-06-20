@@ -3,6 +3,7 @@ import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import MedicationsListPage from './pages/MedicationsListPage';
 import mockPrescriptionDetails from './fixtures/older-prescription-details.json';
 import rxList from './fixtures/grouped-prescriptions-list.json';
+import { Data } from './utils/constants';
 
 describe('Medications Details Page Download TXT Refill History field', () => {
   it('visits Details Page Download Txt Refill History Med Description', () => {
@@ -15,8 +16,10 @@ describe('Medications Details Page Download TXT Refill History field', () => {
     listPage.clickPrintOrDownloadThisListDropDown();
     detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
     detailsPage.clickDownloadMedicationsDetailsAsTxtOnDetailsPage();
-    listPage.verifyDownloadCompleteSuccessMessageBanner();
-    detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
+    listPage.verifyDownloadCompleteSuccessMessageBanner(
+      Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
+    );
+    listPage.verifyFocusOnDownloadAlertSuccessBanner();
     // detailsPage.verifyMedicationDescriptionInTxtDownload(
     //   Data.DOWNLOAD_TXT_REFILL_HISTORY,
     // );

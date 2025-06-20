@@ -1,17 +1,20 @@
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import React from 'react';
+import {
+  createGetHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
-import { addDays, format, subDays } from 'date-fns';
 import MockDate from 'mockdate';
-import React from 'react';
 import ReferralsAndRequests from './ReferralsAndRequests';
-import { getVAOSRequestMock } from '../tests/mocks/mock';
 import reducers from '../redux/reducer';
-import { mockAppointmentsApi } from '../tests/mocks/mockApis';
 import { getTestDate, renderWithStoreAndRouter } from '../tests/mocks/setup';
-import { FETCH_STATUS } from '../utils/constants';
+import { APPOINTMENT_STATUS } from '../utils/constants';
 import { createReferrals } from './utils/referrals';
+import MockAppointmentResponse from '../tests/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../tests/fixtures/MockFacilityResponse';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -20,26 +23,49 @@ const initialStateVAOSService = {
   },
 };
 
+const referralsAPIEndpoint = 'https://dev-api.va.gov/vaos/v2/referrals';
+const appointmentsAPIEndpoint = 'https://dev-api.va.gov/vaos/v2/appointments';
+
 describe('VAOS Component: Referrals and Requests', () => {
+  const mswServer = setupServer();
+  before(() => {
+    mswServer.listen();
+  });
+
   beforeEach(() => {
-    mockFetch();
     MockDate.set(getTestDate());
   });
 
   afterEach(() => {
     MockDate.reset();
+    mswServer.resetHandlers();
   });
+
+  after(() => {
+    mswServer.close();
+  });
+
   it('should display referrals if there are referrals', async () => {
+    const appointment = MockAppointmentResponse.createVAResponse({
+      pending: true,
+      status: APPOINTMENT_STATUS.proposed,
+    }).setLocation(new MockFacilityResponse());
+    mswServer.use(
+      createGetHandler(referralsAPIEndpoint, () =>
+        jsonResponse(
+          { data: createReferrals(3, '2025-01-01') },
+          { status: 200 },
+        ),
+      ),
+    );
+
+    mswServer.use(
+      createGetHandler(appointmentsAPIEndpoint, () => {
+        return jsonResponse({ data: [appointment] }, { status: 200 });
+      }),
+    );
     const initialState = {
       ...initialStateVAOSService,
-      referral: {
-        referrals: createReferrals(3, '2025-01-01'),
-        referralsFetchStatus: FETCH_STATUS.succeeded,
-      },
-      appointments: {
-        pending: [],
-        pendingStatus: FETCH_STATUS.succeeded,
-      },
     };
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
@@ -50,37 +76,21 @@ describe('VAOS Component: Referrals and Requests', () => {
       expect(screen.getByTestId('referral-list')).to.exist;
     });
   });
-  it('should display error message if both calls fail', async () => {
-    const initialState = {
-      ...initialStateVAOSService,
-      referral: {
-        referrals: createReferrals(3, '2025-01-01'),
-        referralsFetchStatus: FETCH_STATUS.failed,
-      },
-      appointments: {
-        pending: [],
-        pendingStatus: FETCH_STATUS.failed,
-      },
-    };
-    const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
-      initialState,
-    });
-    waitFor(() => {
-      expect(screen.getByText('We’re sorry. We’ve run into a problem')).to
-        .exist;
-    });
-  });
+
   it('should display error message if both calls fail if failed action is called', async () => {
+    mswServer.use(
+      createGetHandler(referralsAPIEndpoint, () =>
+        jsonResponse(null, { status: 500 }),
+      ),
+    );
+
+    mswServer.use(
+      createGetHandler(appointmentsAPIEndpoint, () =>
+        jsonResponse(null, { status: 500 }),
+      ),
+    );
     const initialState = {
       ...initialStateVAOSService,
-      referral: {
-        referrals: [],
-        referralsFetchStatus: FETCH_STATUS.failed,
-      },
-      appointments: {
-        pending: [],
-        pendingStatus: FETCH_STATUS.failed,
-      },
     };
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
@@ -90,34 +100,49 @@ describe('VAOS Component: Referrals and Requests', () => {
         .exist;
     });
   });
+
   it('should display loading if one or more are loading', async () => {
+    const appointment = MockAppointmentResponse.createVAResponse({
+      pending: true,
+      status: APPOINTMENT_STATUS.proposed,
+    }).setLocation(new MockFacilityResponse());
+    mswServer.use(
+      createGetHandler(referralsAPIEndpoint, () =>
+        jsonResponse(
+          { data: createReferrals(3, '2025-01-01') },
+          { status: 500 },
+        ),
+      ),
+    );
+
+    mswServer.use(
+      createGetHandler(appointmentsAPIEndpoint, () =>
+        jsonResponse({ data: [appointment] }, { status: 200 }),
+      ),
+    );
     const initialState = {
       ...initialStateVAOSService,
-      referral: {
-        referrals: [],
-        referralsFetchStatus: FETCH_STATUS.succeeded,
-      },
-      appointments: {
-        pending: [],
-        pendingStatus: FETCH_STATUS.loading,
-      },
     };
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
     expect(screen.getByTestId('loading-indicator')).to.exist;
   });
+
   it('should display referral error message if referrals fail', async () => {
+    mswServer.use(
+      createGetHandler(referralsAPIEndpoint, () =>
+        jsonResponse(null, { status: 500 }),
+      ),
+    );
+
+    mswServer.use(
+      createGetHandler(appointmentsAPIEndpoint, () =>
+        jsonResponse({ data: [] }, { status: 200 }),
+      ),
+    );
     const initialState = {
       ...initialStateVAOSService,
-      referral: {
-        referrals: [],
-        referralsFetchStatus: FETCH_STATUS.failed,
-      },
-      appointments: {
-        pending: [],
-        pendingStatus: FETCH_STATUS.succeeded,
-      },
     };
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
@@ -130,17 +155,21 @@ describe('VAOS Component: Referrals and Requests', () => {
       ).to.exist;
     });
   });
+
   it('should display requests error message if requests fail', async () => {
+    mswServer.use(
+      createGetHandler(referralsAPIEndpoint, () =>
+        jsonResponse({ data: [] }, { status: 200 }),
+      ),
+    );
+
+    mswServer.use(
+      createGetHandler(appointmentsAPIEndpoint, () =>
+        jsonResponse(null, { status: 500 }),
+      ),
+    );
     const initialState = {
       ...initialStateVAOSService,
-      referral: {
-        referrals: [],
-        referralsFetchStatus: FETCH_STATUS.succeeded,
-      },
-      appointments: {
-        pending: [],
-        pendingStatus: FETCH_STATUS.failed,
-      },
     };
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
@@ -154,17 +183,21 @@ describe('VAOS Component: Referrals and Requests', () => {
       ).to.exist;
     });
   });
+
   it('should display no referrals message if there are no referrals', async () => {
+    mswServer.use(
+      createGetHandler(referralsAPIEndpoint, () =>
+        jsonResponse({ data: [] }, { status: 200 }),
+      ),
+    );
+
+    mswServer.use(
+      createGetHandler(appointmentsAPIEndpoint, () =>
+        jsonResponse({ data: [] }, { status: 200 }),
+      ),
+    );
     const initialState = {
       ...initialStateVAOSService,
-      referral: {
-        referrals: [],
-        referralsFetchStatus: FETCH_STATUS.succeeded,
-      },
-      appointments: {
-        pending: [],
-        pendingStatus: FETCH_STATUS.succeeded,
-      },
     };
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
@@ -176,56 +209,10 @@ describe('VAOS Component: Referrals and Requests', () => {
 
   it('should display pending and canceled appointments grouped', async () => {
     // And a veteran has VA appointment request
-    const startDate = new Date();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        },
-        {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'proposed',
-    };
+    const appointment = MockAppointmentResponse.createVAResponse({
+      pending: true,
+      status: APPOINTMENT_STATUS.proposed,
+    }).setLocation(new MockFacilityResponse());
     const canceledAppointment = {
       ...appointment,
       attributes: {
@@ -235,22 +222,25 @@ describe('VAOS Component: Referrals and Requests', () => {
       },
     };
 
-    // And developer is using the v2 API
-    mockAppointmentsApi({
-      start: subDays(new Date(), 120),
-      end: addDays(new Date(), 2),
-      statuses: ['proposed', 'cancelled'],
-      response: [appointment, canceledAppointment],
-    });
+    mswServer.use(
+      createGetHandler(referralsAPIEndpoint, () =>
+        jsonResponse({ data: [] }, { status: 200 }),
+      ),
+    );
+
+    mswServer.use(
+      createGetHandler(appointmentsAPIEndpoint, () =>
+        jsonResponse(
+          { data: [appointment, canceledAppointment] },
+          { status: 200 },
+        ),
+      ),
+    );
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
-        referral: {
-          referrals: [],
-          referralsFetchStatus: FETCH_STATUS.succeeded,
-        },
       },
       reducers,
     });
@@ -267,74 +257,26 @@ describe('VAOS Component: Referrals and Requests', () => {
   });
 
   it('should display pending appointments when there are no canceled appointments', async () => {
-    // And a veteran has VA appointment request
-    const startDate = new Date();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
+    const appointment = MockAppointmentResponse.createVAResponse({
+      pending: true,
+      status: APPOINTMENT_STATUS.proposed,
+    }).setLocation(new MockFacilityResponse());
+    mswServer.use(
+      createGetHandler(referralsAPIEndpoint, () =>
+        jsonResponse({ data: [] }, { status: 200 }),
+      ),
+    );
 
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        },
-        {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'proposed',
-    };
-
-    // And developer is using the v2 API
-    mockAppointmentsApi({
-      start: subDays(new Date(), 120),
-      end: addDays(new Date(), 2),
-      statuses: ['proposed', 'cancelled'],
-      response: [appointment],
-    });
+    mswServer.use(
+      createGetHandler(appointmentsAPIEndpoint, () =>
+        jsonResponse({ data: [appointment] }, { status: 200 }),
+      ),
+    );
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
-        referral: {
-          referrals: [],
-          referralsFetchStatus: FETCH_STATUS.succeeded,
-        },
       },
       reducers,
     });
@@ -359,22 +301,22 @@ describe('VAOS Component: Referrals and Requests', () => {
 
   it('should dispaly no appointments alert when there are no pending or cancelled appointments', async () => {
     // And a veteran has no pending or canceled appointment request
-    // And developer is using the v2 API
-    mockAppointmentsApi({
-      start: subDays(new Date(), 120),
-      end: addDays(new Date(), 2),
-      statuses: ['proposed', 'cancelled'],
-      response: [{}],
-    });
+    mswServer.use(
+      createGetHandler(referralsAPIEndpoint, () =>
+        jsonResponse({ data: [] }, { status: 200 }),
+      ),
+    );
+
+    mswServer.use(
+      createGetHandler(appointmentsAPIEndpoint, () =>
+        jsonResponse({ data: [] }, { status: 200 }),
+      ),
+    );
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
-        referral: {
-          referrals: [],
-          referralsFetchStatus: FETCH_STATUS.succeeded,
-        },
       },
       reducers,
     });
@@ -391,77 +333,30 @@ describe('VAOS Component: Referrals and Requests', () => {
   });
 
   it('should display no appointments alert when there are no pending but cancelled appointments', async () => {
-    // And a veteran has VA appointment request
     const startDate = new Date();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
+    const cancelledAppointment = MockAppointmentResponse.createVAResponse({
+      pending: true,
+      status: APPOINTMENT_STATUS.cancelled,
+    })
+      .setRequestedPeriods([startDate])
+      .setLocation(new MockFacilityResponse());
+    // And a veteran has VA appointment request
+    mswServer.use(
+      createGetHandler(referralsAPIEndpoint, () =>
+        jsonResponse({ data: [] }, { status: 200 }),
+      ),
+    );
 
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(
-            addDays(startDate, 3, 'days'),
-            "yyyy-MM-dd'T'HH:mm:ss'Z'",
-          ),
-        },
-        {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'cancelled',
-    };
-
-    // And developer is using the v2 API
-    mockAppointmentsApi({
-      start: subDays(new Date(), 120),
-      end: addDays(new Date(), 2),
-      statuses: ['proposed', 'cancelled'],
-      response: [appointment],
-    });
+    mswServer.use(
+      createGetHandler(appointmentsAPIEndpoint, () =>
+        jsonResponse({ data: [cancelledAppointment] }, { status: 200 }),
+      ),
+    );
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
-        referral: {
-          referrals: [],
-          referralsFetchStatus: FETCH_STATUS.succeeded,
-        },
       },
       reducers,
     });

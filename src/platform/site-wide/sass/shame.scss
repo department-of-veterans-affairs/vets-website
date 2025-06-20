@@ -234,7 +234,6 @@ $medium-phone-screen: 375px;
       .profile-nav-container {
         align-items: baseline;
         display: inherit;
-        white-space: nowrap;
       }
 
       .sign-in-nav {
@@ -628,6 +627,10 @@ div[data-widget-type="events"] {
       color: var(--vads-color-link);
     }
    }
+}
+
+ul#header-nav-items li {
+  max-width: 100%;
 }
 
 /* Fix to mobile menu color issue */

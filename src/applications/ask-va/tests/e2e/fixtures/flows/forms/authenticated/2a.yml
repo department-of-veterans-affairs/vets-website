@@ -8,6 +8,10 @@ flow:
 
     - action: include
       target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
       value: select-category-life-insurance
 
     - action: include
@@ -24,11 +28,7 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-yourself
-
-    - action: include
-      target: page
-      value: your-contact-information-email-no-prefill-life-insurance
+      value: your-contact-information-radio-buttons-email
 
     - action: include
       target: page

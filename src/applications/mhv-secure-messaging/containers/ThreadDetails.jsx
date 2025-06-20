@@ -15,8 +15,11 @@ import { closeAlert } from '../actions/alerts';
 import { getFolders, retrieveFolder } from '../actions/folders';
 import { navigateToFolderByFolderId, scrollToTop } from '../util/helpers';
 import MessageThreadForPrint from '../components/MessageThread/MessageThreadForPrint';
+import useFeatureToggles from '../hooks/useFeatureToggles';
+import MessageActionButtons from '../components/MessageActionButtons';
 
 const ThreadDetails = props => {
+  const { customFoldersRedesignEnabled } = useFeatureToggles();
   const { threadId } = useParams();
   const { testing } = props;
   const dispatch = useDispatch();
@@ -143,6 +146,15 @@ const ThreadDetails = props => {
             <MessageThreadForPrint messageHistory={messages} />
 
             <MessageThread isDraftThread messageHistory={messages} />
+
+            {customFoldersRedesignEnabled && (
+              <MessageActionButtons
+                message={messages[0]}
+                cannotReply={cannotReply}
+                isCreateNewModalVisible={isCreateNewModalVisible}
+                setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+              />
+            )}
           </div>
         </>
       );
@@ -151,11 +163,11 @@ const ThreadDetails = props => {
       updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
       return (
         <div className="compose-container">
-          <h1 className="page-title vads-u-margin-top--0" ref={header}>
-            Edit draft
-          </h1>
-
-          <ComposeForm draft={drafts[0]} recipients={recipients} />
+          <ComposeForm
+            draft={drafts[0]}
+            recipients={recipients}
+            pageTitle="Edit draft"
+          />
         </div>
       );
     }
@@ -173,6 +185,15 @@ const ThreadDetails = props => {
           <MessageThreadForPrint messageHistory={messages} />
 
           <MessageThread messageHistory={messages} />
+
+          {customFoldersRedesignEnabled && (
+            <MessageActionButtons
+              message={messages[0]}
+              cannotReply={cannotReply}
+              isCreateNewModalVisible={isCreateNewModalVisible}
+              setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+            />
+          )}
         </>
       );
     }

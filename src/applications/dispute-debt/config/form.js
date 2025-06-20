@@ -17,11 +17,15 @@ import contactInfo from './contactInfo';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import NeedHelp from '../components/NeedHelp';
+import DebtReviewPage from '../components/DebtReviewPage';
+import DebtSelectionReview from '../components/DebtSelectionReview';
 
 import manifest from '../manifest.json';
-import prefillTransformer from './prefill-transformer';
+// import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE } from '../constants';
+import transformForSubmit from './transformForSubmit';
+import { getDebtPageTitle } from '../utils';
 
 // Function to return the NeedHelp component
 const getHelp = () => <NeedHelp />;
@@ -29,6 +33,7 @@ const getHelp = () => <NeedHelp />;
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
+  transformForSubmit,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/debts_api/v0/digital_disputes`,
   submit: submitForm,
@@ -41,22 +46,22 @@ const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_DISPUTE_DEBT,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your digital dispute for debts application (DISPUTE-DEBT) is in progress.',
-    //   expired: 'Your saved digital dispute for debts application (DISPUTE-DEBT) has expired. If you want to apply for digital dispute for debts, please start a new application.',
-    //   saved: 'Your digital dispute for debts application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your application for disputing your VA debt is in progress.',
+      expired:
+        'Your saved application for disputing your VA debt has expired. If you want to apply again, please start a new application.',
+      saved: 'Your application for disputing your VA debt has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
+  // prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to apply for digital dispute for debts.',
+    notFound: 'Please start your application over to dispute your VA debt.',
     noAuth:
-      'Please sign in again to continue your application for digital dispute for debts.',
+      'Please sign in again to continue your application to dispute your VA debt.',
   },
   title: TITLE,
-  subTitle: SUBTITLE,
   downtime: {
     dependencies: [
       externalServices.mvi,
@@ -90,6 +95,7 @@ const formConfig = {
           initialData: {
             selectedDebts: [],
           },
+          CustomPageReview: DebtSelectionReview,
         },
       },
     },
@@ -98,19 +104,21 @@ const formConfig = {
       pages: {
         disputeReason: {
           path: 'existence-or-amount/:index',
-          title: 'Debt X of Y: Name of debt',
+          title: getDebtPageTitle,
           uiSchema: disputeReason.uiSchema,
           schema: disputeReason.schema,
           showPagePerItem: true,
           arrayPath: 'selectedDebts',
+          CustomPageReview: DebtReviewPage,
         },
         supportStatement: {
           path: 'dispute-reason/:index',
-          title: 'Debt X of Y: Name of debt',
+          title: getDebtPageTitle,
           uiSchema: supportStatement.uiSchema,
           schema: supportStatement.schema,
           showPagePerItem: true,
           arrayPath: 'selectedDebts',
+          CustomPageReview: DebtReviewPage,
         },
       },
     },

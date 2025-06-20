@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
+import { addDays, addMonths, startOfMonth, endOfMonth, format } from 'date-fns';
 
 import InfoAlert from '../../../components/InfoAlert';
 
@@ -27,7 +27,11 @@ import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 import { getPageTitle } from '../../newAppointmentFlow';
-import { selectUpcomingAppointments } from '../../../appointment-list/redux/selectors';
+import {
+  selectUpcomingAppointments,
+  getUpcomingAppointmentListInfo,
+} from '../../../appointment-list/redux/selectors';
+import { fetchFutureAppointments } from '../../../appointment-list/redux/actions';
 
 const pageKey = 'selectDateTime';
 
@@ -38,13 +42,11 @@ function renderContent({ dispatch, isRequest, facilityId, history }) {
     return (
       <>
         To schedule this appointment, you can{' '}
-        <button
-          type="button"
-          onClick={() => dispatch(requestAppointmentDateChoice(history))}
+        <va-link
           className="va-button-link"
-        >
-          submit a request for a VA appointment
-        </button>{' '}
+          text="submit a request for a VA appointment"
+          onClick={() => dispatch(requestAppointmentDateChoice(history))}
+        />{' '}
         or{' '}
         <NewTabAnchor
           href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
@@ -126,6 +128,10 @@ export default function DateTimeSelectPage() {
     timezoneDescription,
     isAppointmentSelectionError,
   } = useSelector(state => getDateTimeSelect(state, pageKey), shallowEqual);
+  const { futureStatus } = useSelector(
+    state => getUpcomingAppointmentListInfo(state),
+    shallowEqual,
+  );
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -133,7 +139,9 @@ export default function DateTimeSelectPage() {
   const fetchFailed = appointmentSlotsStatus === FETCH_STATUS.failed;
   const loadingSlots =
     appointmentSlotsStatus === FETCH_STATUS.loading ||
-    appointmentSlotsStatus === FETCH_STATUS.notStarted;
+    appointmentSlotsStatus === FETCH_STATUS.notStarted ||
+    futureStatus === FETCH_STATUS.loading ||
+    futureStatus === FETCH_STATUS.notStarted;
 
   const isInitialLoad = useIsInitialLoad(loadingSlots);
   const eligibility = useSelector(selectEligibility);
@@ -142,21 +150,13 @@ export default function DateTimeSelectPage() {
 
   useEffect(
     () => {
-      dispatch(
-        getAppointmentSlots(
-          moment(preferredDate)
-            .startOf('month')
-            .format('YYYY-MM-DD'),
-          moment(preferredDate)
-            .add(1, 'months')
-            .endOf('month')
-            .format('YYYY-MM-DD'),
-          true,
-        ),
-      );
+      const prefDateObj = new Date(preferredDate);
+      const startDateObj = startOfMonth(prefDateObj);
+      const endDateObj = endOfMonth(addMonths(prefDateObj, 1));
+      dispatch(getAppointmentSlots(startDateObj, endDateObj, true));
       document.title = `${pageTitle} | Veterans Affairs`;
     },
-    [dispatch, preferredDate],
+    [dispatch, pageTitle, preferredDate],
   );
 
   useEffect(
@@ -180,9 +180,18 @@ export default function DateTimeSelectPage() {
     [loadingSlots, appointmentSlotsStatus],
   );
 
+  useEffect(
+    () => {
+      if (futureStatus === FETCH_STATUS.notStarted) {
+        dispatch(fetchFutureAppointments({ includeRequests: false }));
+      }
+    },
+    [dispatch, futureStatus],
+  );
+
   const { selectedDates } = data;
   const startMonth = preferredDate
-    ? moment(preferredDate).format('YYYY-MM')
+    ? format(new Date(preferredDate), 'yyyy-MM')
     : null;
 
   return (
@@ -230,6 +239,7 @@ export default function DateTimeSelectPage() {
             }}
             disabled={loadingSlots}
             disabledMessage={
+              // eslint-disable-next-line react/jsx-wrap-multilines
               <va-loading-indicator
                 data-testid="loadingIndicator"
                 set-focus
@@ -241,12 +251,8 @@ export default function DateTimeSelectPage() {
             onPreviousMonth={(...args) =>
               dispatch(getAppointmentSlots(...args))
             }
-            minDate={moment()
-              .add(1, 'days')
-              .format('YYYY-MM-DD')}
-            maxDate={moment()
-              .add(395, 'days')
-              .format('YYYY-MM-DD')}
+            minDate={format(addDays(new Date(), 1), 'yyyy-MM-dd')}
+            maxDate={format(addDays(new Date(), 395), 'yyyy-MM-dd')}
             renderIndicator={_ => undefined}
             required
             requiredMessage="Please choose your preferred date and time for your appointment"

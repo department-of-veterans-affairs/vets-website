@@ -112,3 +112,60 @@ export const migrateCardUploadKeys = ({ formData, metadata, _formId }) => {
 
   return { formData: tmpFormData, metadata };
 };
+
+/**
+ * [10-10d migration version 2 -> 3]
+ *
+ * Removes applicant relationship to sponsor values if they were previously set
+ * to "other", as that is not supported downstream in the VES system that will
+ * receive these applications.
+ *
+ * Since much of the form's conditional flow depends on this property, this
+ * migration just blows away the prior setting so that the user is directed to
+ * choose a valid option and then correct any dependant pages down the line.
+ *
+ * @param {{formData: object, metadata: object, formId: string}} param0 - Object containing form data/metadata
+ * @param {object} param0.formData - current formData from SIP interface
+ * @param {object} param0.metadata - current metadata from SIP interface
+ * @param {string} param0._formId- current form ID from SIP interface, e.g. '10-10D'
+ * @returns {{formData: object, metadata: object}}
+ */
+export const removeOtherRelationshipSpecification = ({
+  formData,
+  metadata,
+  _formId,
+}) => {
+  formData.applicants?.forEach(app => {
+    const tmpApp = app; // Changes will be set directly on `formData`
+    if (
+      app?.applicantRelationshipToSponsor?.relationshipToVeteran === 'other'
+    ) {
+      // Removes both nested properties 'relationshipToVeteran' and
+      // 'otherRelationshipToVeteran' to trigger a validation error
+      // so the user knows to choose a valid option.
+      delete tmpApp.applicantRelationshipToSponsor;
+    }
+  });
+  return { formData, metadata };
+};
+
+/**
+ * [10-10d migration version 3 -> 4]
+ *
+ * Flattens SSN/VA File Number object info down to a single string on the sponsor.
+ *
+ * @param {{formData: object, metadata: object, formId: string}} param0 - Object containing form data/metadata
+ * @param {object} param0.formData - current formData from SIP interface
+ * @param {object} param0.metadata - current metadata from SIP interface
+ * @param {string} param0._formId- current form ID from SIP interface, e.g. '10-10D'
+ * @returns {{formData: object, metadata: object}}
+ */
+export const flattenSponsorSSN = ({ formData, metadata, _formId }) => {
+  const tmpFormData = formData; // changes will apply directly to formData
+  if (typeof tmpFormData?.ssn === 'object') {
+    // Flatten SSN object to a string:
+    tmpFormData.ssn =
+      tmpFormData?.ssn?.ssn || tmpFormData?.ssn?.vaFileNumber || '';
+  }
+  return { formData, metadata };
+};

@@ -5,6 +5,10 @@ flow:
     - action: include
       target: page
       value: start-your-question-auth
+    
+    - action: include
+      target: page
+      value: your-personal-information
 
     - action: include
       target: page
@@ -28,11 +32,7 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-you
-
-    - action: include
-      target: page
-      value: your-contact-information-email-no-prefill
+      value: your-contact-information
 
     - action: include
       target: page

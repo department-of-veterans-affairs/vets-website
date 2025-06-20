@@ -70,7 +70,7 @@ const DashboardCards = () => {
       setLoading(false);
     };
 
-    if (mockTestingFlagforAPI) {
+    if (mockTestingFlagforAPI && !window.Cypress) {
       processData(mockInquiries.data);
       return Promise.resolve();
     }
@@ -220,7 +220,7 @@ const DashboardCards = () => {
                       {card.attributes.inquiryNumber}
                     </dd>
                   </div>
-                  <div className="vads-u-margin-bottom--0 vads-u-padding-bottom--3 vacardCategory multiline-ellipsis-1">
+                  <div className="vads-u-margin-bottom--0 vacardCategory multiline-ellipsis-1">
                     <dt className="vads-u-font-weight--bold vads-u-display--inline">
                       Category:
                     </dt>{' '}

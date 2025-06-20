@@ -8,6 +8,10 @@ flow:
 
     - action: include
       target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
       value: select-category-burials-and-memorials
 
     - action: include
@@ -32,8 +36,7 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-your-family-member-veteran-branch-of-service
-
+      value: tell-us-about-your-veteran-family-member-with-service-branch
 
     - action: include
       target: page
@@ -41,11 +44,7 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-yourself-with-service-branch
-
-    - action: include
-      target: page
-      value: your-contact-information-business-no-prefill
+      value: your-contact-information-radio-buttons-phone-call
 
     - action: include
       target: page

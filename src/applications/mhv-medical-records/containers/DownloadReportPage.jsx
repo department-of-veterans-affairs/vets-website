@@ -30,6 +30,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 
 /**
  * Formats failed domain lists with display names.
@@ -246,7 +247,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       <h2>Other reports you can download</h2>
 
       {(generatingCCD || ccdDownloadSuccess) &&
-        !ccdError && (
+        (!ccdError && !CCDRetryTimestamp) && (
           <DownloadSuccessAlert
             type="Continuity of Care Document download"
             className="vads-u-margin-bottom--1"
@@ -302,7 +303,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </p>
           {generatingCCD ? (
             <div id="generating-ccd-indicator">
-              <va-loading-indicator
+              <TrackedSpinner
+                id="download-ccd-spinner"
                 label="Loading"
                 message="Preparing your download..."
               />
@@ -333,7 +335,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </p>
           {selfEnteredPdfLoading ? (
             <div id="generating-sei-indicator">
-              <va-loading-indicator
+              <TrackedSpinner
+                id="download-self-entered-spinner"
                 label="Loading"
                 message="Preparing your download..."
                 data-testid="sei-loading-indicator"

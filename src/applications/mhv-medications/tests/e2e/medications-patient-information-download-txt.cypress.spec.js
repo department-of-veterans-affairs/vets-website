@@ -24,6 +24,9 @@ describe('Medications Details Page Medication Information txt download', () => {
     medInfoPage.verifyDownloadSuccessConfirmationMessageOnMedInfoPage(
       Data.DOWNLOAD_SUCCESS_CONFIRMATION_MESSAGE,
     );
+    medInfoPage.verifyDownloadSuccessAlertContentOnMedInfoPage(
+      Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
+    );
     listPage.verifyDownloadTextFileHeadless(
       'Safari',
       'Mhvtp',

@@ -7,6 +7,7 @@ import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
+  TYPE_OF_CARE_IDS,
   COMP_AND_PEN,
 } from '../../utils/constants';
 import {
@@ -21,7 +22,9 @@ import {
   isPendingOrCancelledRequest,
   getAppointmentTimezone,
   isClinicVideoAppointment,
+  isAtlasVideoAppointment,
   isInPersonVisit,
+  isVideoAtHome,
   getPatientTelecom,
 } from '../../services/appointment';
 import {
@@ -29,7 +32,6 @@ import {
   selectFeatureCancel,
   selectFeatureFeSourceOfTruth,
 } from '../../redux/selectors';
-import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
 import { getTimezoneNameFromAbbr } from '../../utils/timezone';
 
@@ -191,8 +193,9 @@ export function selectFacilitySettingsStatus(state) {
 export function selectCanUseVaccineFlow(state) {
   return state.appointments.facilitySettings?.some(
     facility =>
-      facility.services.find(service => service.id === VACCINE_TYPE_OF_CARE_ID)
-        ?.direct.enabled,
+      facility.services.find(
+        service => service.id === TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+      )?.direct.enabled,
   );
 }
 
@@ -415,10 +418,6 @@ export function selectAppointmentLocality(
   return `${isCommunityCare ? 'Community care' : 'VA appointment'}`;
 }
 
-export function selectIsClinicVideo(appointment) {
-  return isClinicVideoAppointment(appointment);
-}
-
 export function selectVideoData(appointment) {
   return appointment?.videoData || {};
 }
@@ -434,26 +433,13 @@ export function selectVideoProviderAddress(appointment) {
   return videoData?.atlasLocation?.address;
 }
 
-export function selectIsAtlasVideo(appointment) {
-  const { isAtlas } = appointment?.videoData || {};
-  return isAtlas;
-}
-
-export function selectIsHomeVideo(appointment) {
-  return (
-    selectIsVideo(appointment) &&
-    !selectIsClinicVideo(appointment) &&
-    !selectIsAtlasVideo(appointment)
-  );
-}
-
 export function selectModalityText(appointment, isPendingAppointment = false) {
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
-  const isVideoAtlas = selectIsAtlasVideo(appointment);
-  const isVideoClinic = selectIsClinicVideo(appointment);
-  const isVideoHome = selectIsHomeVideo(appointment);
+  const isVideoAtlas = isAtlasVideoAppointment(appointment);
+  const isVideoClinic = isClinicVideoAppointment(appointment);
+  const isVideoHome = isVideoAtHome(appointment);
   const { name: facilityName } = appointment.vaos.facilityData || {
     name: '',
   };
@@ -552,9 +538,9 @@ export function selectModalityAriaText(appointment) {
 export function selectModalityIcon(appointment) {
   const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
-  const isVideoAtlas = selectIsAtlasVideo(appointment);
-  const isVideoClinic = selectIsClinicVideo(appointment);
-  const isVideoHome = selectIsHomeVideo(appointment);
+  const isVideoAtlas = isAtlasVideoAppointment(appointment);
+  const isVideoClinic = isClinicVideoAppointment(appointment);
+  const isVideoHome = isVideoAtHome(appointment);
 
   let icon = '';
 
@@ -580,7 +566,7 @@ export function selectAppointmentTravelClaim(appointment) {
 export function selectIsEligibleForTravelClaim(appointment) {
   return (
     selectIsPast(appointment) &&
-    (isInPersonVisit(appointment) || selectIsClinicVideo(appointment)) &&
+    (isInPersonVisit(appointment) || isClinicVideoAppointment(appointment)) &&
     selectAppointmentTravelClaim(appointment)
   );
 }
@@ -619,7 +605,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
   const isPhone = selectIsPhone(appointment);
   const timeZoneAbbr = selectTimeZoneAbbr(appointment);
   const providerAddress = selectProviderAddress(appointment);
-  const isAtlasVideo = selectIsAtlasVideo(appointment);
+  const isAtlasVideo = isAtlasVideoAppointment(appointment);
   const isPastAppointment = selectIsPast(appointment);
   const videoProviderName = selectVideoProviderName(appointment);
   const videoProviderAddress = selectVideoProviderAddress(appointment);

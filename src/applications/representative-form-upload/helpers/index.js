@@ -1,5 +1,6 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-import { focusByOrder, scrollTo } from 'platform/utilities/ui';
+import { focusByOrder } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
@@ -8,7 +9,7 @@ import {
 
 const formMappings = {
   '21-686c': {
-    subTitle: 'Declaration of Status of Dependents',
+    subTitle: 'Application Request to Add and/or Remove Dependents',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
   },
 };
@@ -32,7 +33,7 @@ export const getFormContent = (pathname = null) => {
     ombInfo,
     subTitle,
     pdfDownloadUrl,
-    title: `Upload form ${formNumber}`,
+    title: `Submit VA Form ${formNumber}`,
   };
 };
 

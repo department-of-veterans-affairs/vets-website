@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AccessTroubleAlertBox from './AccessTroubleAlertBox';
-import NoRecordsMessage from './NoRecordsMessage';
 import TrackedSpinner from './TrackedSpinner';
 import useInitialFhirLoadTimeout from '../../hooks/useInitialFhirLoadTimeout';
+import { recordTypeKeyNames } from '../../util/constants';
 
 const RecordListSection = ({
   children,
@@ -37,16 +37,13 @@ const RecordListSection = ({
       </div>
     );
   }
-  if (recordCount === 0) {
-    return <NoRecordsMessage type={recordType} />;
-  }
-  if (recordCount) {
+  if (recordCount || recordCount === 0) {
     return children;
   }
   return (
     <div className="vads-u-margin-y--8">
       <TrackedSpinner
-        id="loading-list-spinner"
+        id={`${recordTypeKeyNames[recordType]}-list-spinner`}
         message="We’re loading your records. This could take up to a minute."
         setFocus
         data-testid="loading-indicator"

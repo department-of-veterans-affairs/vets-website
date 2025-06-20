@@ -7,7 +7,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 const expectedFieldTypes = 'input, select, textarea';
 
 const expectedFieldTypesWebComponents =
-  'va-text-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date';
+  'va-text-input, va-file-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date, va-input-telephone';
 
 const wrapperWebComponents = 'va-checkbox-group, va-memorable-date';
 

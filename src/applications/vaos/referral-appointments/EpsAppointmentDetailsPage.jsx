@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import { fetchAppointmentInfo, setFormCurrentPage } from './redux/actions';
@@ -11,16 +11,15 @@ import { getReferralAppointmentInfo } from './redux/selectors';
 import PageLayout from '../appointment-list/components/PageLayout';
 import FullWidthLayout from '../components/FullWidthLayout';
 import Section from '../components/Section';
-import {
-  AppointmentTime,
-  // eslint-disable-next-line import/no-restricted-paths
-} from '../appointment-list/components/AppointmentDateTime';
-import FacilityPhone from '../components/FacilityPhone';
+// eslint-disable-next-line import/no-restricted-paths
+import { AppointmentTime } from '../appointment-list/components/AppointmentDateTime';
+import ProviderAddress from './components/ProviderAddress';
 
 export default function EpsAppointmentDetailsPage() {
   const { pathname } = useLocation();
   // get the id from the url my-health/appointments/1234
   const [, appointmentId] = pathname.split('/');
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const {
@@ -95,6 +94,21 @@ export default function EpsAppointmentDetailsPage() {
 
   return (
     <PageLayout>
+      <div className="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
+        <nav aria-label="backlink" className="vads-u-padding-y--2 ">
+          <va-link
+            back
+            aria-label="Back link"
+            data-testid="back-link"
+            text="Back to appointments"
+            href="/my-health/appointments"
+            onClick={e => {
+              e.preventDefault();
+              history.push('/');
+            }}
+          />
+        </nav>
+      </div>
       <div
         className="vaos-appts__appointment-details--container vads-u-margin-top--4 vads-u-border--2px vads-u-border-color--gray-medium vads-u-padding-x--2p5 vads-u-padding-top--5 vads-u-padding-bottom--3"
         data-testid="appointment-card"
@@ -115,50 +129,29 @@ export default function EpsAppointmentDetailsPage() {
           <br />
           <AppointmentTime appointment={appointment} />
         </Section>
-        <Section heading="What">
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            {appointment.typeOfCare}
-          </p>
-        </Section>
         <Section heading="Provider">
           <span>
-            {`${appointment.provider.name ||
+            {`${appointment.provider.location.name ||
               'Provider information not available'}`}
           </span>
           <br />
-          {appointment.provider.location && (
-            <>
-              <>
-                {/* removes falsy values from address array */}
-                <span>{appointment.provider.location.address}</span>
-              </>
-              <div className="vads-u-margin-top--1 vads-u-color--link-default">
-                <a
-                  href={`https://maps.google.com?saddr=Current+Location&daddr=${
-                    appointment.provider.location.address
-                  }`}
-                >
-                  <va-icon icon="directions" size="3" />
-                  Directions
-                </a>
-              </div>
-            </>
-          )}
-          {appointment.provider.phoneNumber && (
-            <>
-              <br />
-              <FacilityPhone contact={appointment.provider.phoneNumber} />
-            </>
+          {appointment.provider.location.address && (
+            <ProviderAddress
+              address={appointment.provider.location.address}
+              showDirections
+              directionsName={appointment.provider.location.name}
+              phone={appointment.provider.phone}
+            />
           )}
         </Section>
         <Section heading="Prepare for your appointment">
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            Bring your insurance cards. And bring a list of your medications
-            other information to share with your provider.
+            Bring your insurance cards, a list of your medications, and other
+            things to share with your provider
           </p>
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
             <va-link
-              text="Find a full list of things to bring to your appointment"
+              text="Find out what to bring to your appointment"
               href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
             />
           </p>

@@ -8,6 +8,10 @@ flow:
 
     - action: include
       target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
       value: select-category-education-benefits-and-work-study
 
     - action: include
@@ -44,15 +48,11 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-you
+      value: your-contact-information-radio-buttons-us-mail
 
     - action: include
       target: page
-      value: your-contact-information-us-mail-no-prefill
-
-    - action: include
-      target: page
-      value: your-us-mailing-address-no-prefill
+      value: your-us-mailing-address
 
     - action: include
       target: page

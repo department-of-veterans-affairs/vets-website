@@ -1,14 +1,15 @@
 import { expect } from 'chai';
-import { Actions } from '../../util/actionTypes';
 import {
-  allergiesReducer,
   convertAllergy,
   extractLocation,
   extractObservedReported,
-} from '../../reducers/allergies';
-import allergies from '../fixtures/allergies.json';
+} from '../../api/allergiesApi';
 import allergy from '../fixtures/allergy.json';
-import { allergyTypes, EMPTY_FIELD } from '../../util/constants';
+import {
+  allergyTypes,
+  FIELD_NONE_NOTED,
+  FIELD_NOT_AVAILABLE,
+} from '../../util/constants';
 
 describe('extractLocation function', () => {
   it('should return the name when all properties exist and conditions are met', () => {
@@ -32,7 +33,7 @@ describe('extractLocation function', () => {
     expect(extractLocation(allergyExample)).to.equal('LocationName');
   });
 
-  it('should return EMPTY_FIELD when recorder or extension is undefined', () => {
+  it('should return FIELD_NOT_AVAILABLE when recorder or extension is undefined', () => {
     const allergyExample = {
       recorder: {
         // extension is missing
@@ -44,10 +45,10 @@ describe('extractLocation function', () => {
         },
       ],
     };
-    expect(extractLocation(allergyExample)).to.equal(EMPTY_FIELD);
+    expect(extractLocation(allergyExample)).to.equal(FIELD_NOT_AVAILABLE);
   });
 
-  it('should return EMPTY_FIELD when reference is incorrect', () => {
+  it('should return FIELD_NOT_AVAILABLE when reference is incorrect', () => {
     const allergyExample = {
       recorder: {
         extension: [
@@ -65,10 +66,10 @@ describe('extractLocation function', () => {
         },
       ],
     };
-    expect(extractLocation(allergyExample)).to.equal(EMPTY_FIELD);
+    expect(extractLocation(allergyExample)).to.equal(FIELD_NOT_AVAILABLE);
   });
 
-  it('should return EMPTY_FIELD when contained item does not have a name', () => {
+  it('should return FIELD_NOT_AVAILABLE when contained item does not have a name', () => {
     const allergyExample = {
       recorder: {
         extension: [
@@ -86,47 +87,7 @@ describe('extractLocation function', () => {
         },
       ],
     };
-    expect(extractLocation(allergyExample)).to.equal(EMPTY_FIELD);
-  });
-});
-
-describe('Allergies reducer', () => {
-  const initialState = {
-    allergiesList: undefined,
-    error: undefined,
-  };
-  it('should update the allergies list', () => {
-    const action = {
-      type: Actions.Allergies.GET_LIST,
-      response: allergies,
-    };
-    const nextState = allergiesReducer(initialState, action);
-    expect(nextState.allergiesList).to.exist;
-  });
-
-  it('should produce an empty list', () => {
-    const action = {
-      type: Actions.Allergies.GET_LIST,
-      response: {},
-    };
-    const nextState = allergiesReducer(initialState, action);
-    expect(nextState.allergiesList).to.exist;
-  });
-
-  it('should set the error tag to true', () => {
-    const action = {
-      type: Actions.Allergies.GET_LIST_ERROR,
-    };
-    const nextState = allergiesReducer(initialState, action);
-    expect(nextState.error).to.exist;
-  });
-
-  it('should clear the error tag', () => {
-    const action = {
-      type: Actions.Allergies.GET_LIST_ERROR_RESET,
-    };
-    const nextState = allergiesReducer(initialState, action);
-    expect(nextState.error).to.equal(undefined);
+    expect(extractLocation(allergyExample)).to.equal(FIELD_NOT_AVAILABLE);
   });
 });
 
@@ -149,34 +110,34 @@ describe('extractObservedReported function', () => {
     );
   });
 
-  it('should return EMPTY_FIELD when extension array is empty', () => {
+  it('should return FIELD_NOT_AVAILABLE when extension array is empty', () => {
     const allergyWithEmptyArray = { extension: [] };
     expect(extractObservedReported(allergyWithEmptyArray)).to.equal(
-      EMPTY_FIELD,
+      FIELD_NOT_AVAILABLE,
     );
   });
 
-  it('should return EMPTY_FIELD when extension does not contain the target url', () => {
+  it('should return FIELD_NOT_AVAILABLE when extension does not contain the target url', () => {
     const allergyWithNotTargetUrl = {
       extension: [{ url: 'differentUrl', valueCode: 'o' }],
     };
     expect(extractObservedReported(allergyWithNotTargetUrl)).to.equal(
-      EMPTY_FIELD,
+      FIELD_NOT_AVAILABLE,
     );
   });
 
-  it('should return EMPTY_FIELD when valueCode is neither "o" nor "h"', () => {
+  it('should return FIELD_NOT_AVAILABLE when valueCode is neither "o" nor "h"', () => {
     const allergyWithInvalidValueCode = {
       extension: [{ url: 'allergyObservedHistoric', valueCode: 'x' }],
     };
     expect(extractObservedReported(allergyWithInvalidValueCode)).to.equal(
-      EMPTY_FIELD,
+      FIELD_NOT_AVAILABLE,
     );
   });
 });
 
 describe('convertAllergy function', () => {
-  it('should return EMPTY_FIELD values', () => {
+  it('should return FIELD_NOT_AVAILABLE values', () => {
     const emptyFieldsAllergy = {
       ...allergy,
       category: null,
@@ -185,10 +146,10 @@ describe('convertAllergy function', () => {
       note: null,
     };
     const convertedAllergy = convertAllergy(emptyFieldsAllergy);
-    expect(convertedAllergy.type).to.equal(EMPTY_FIELD);
-    expect(convertedAllergy.name).to.equal(EMPTY_FIELD);
-    expect(convertedAllergy.date).to.equal(EMPTY_FIELD);
-    expect(convertedAllergy.notes).to.equal(EMPTY_FIELD);
+    expect(convertedAllergy.type).to.equal(FIELD_NOT_AVAILABLE);
+    expect(convertedAllergy.name).to.equal(FIELD_NONE_NOTED);
+    expect(convertedAllergy.date).to.equal(FIELD_NOT_AVAILABLE);
+    expect(convertedAllergy.notes).to.equal(FIELD_NONE_NOTED);
   });
 
   it('should contain allergy name and id', () => {

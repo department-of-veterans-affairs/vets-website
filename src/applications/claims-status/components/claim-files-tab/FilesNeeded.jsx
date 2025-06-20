@@ -73,8 +73,12 @@ export default function FilesNeeded({ item, previousPage = null }) {
       <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
         <Link
-          aria-label={`Details for ${item.displayName}`}
-          title={`Details for ${item.displayName}`}
+          aria-label={
+            cstFriendlyEvidenceRequests
+              ? `About this request for ${item.friendlyName ||
+                  item.displayName}`
+              : `Details for ${item.displayName}`
+          }
           className="vads-c-action-link--blue"
           to={
             cstFriendlyEvidenceRequests
