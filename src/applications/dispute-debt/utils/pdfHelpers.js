@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser';
-import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
+// import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { templates } from '~/platform/pdf/exportsFile';
 
 // 'Manually' generating PDF instead of using generatePdf so we can
 //  get the blob and send it to the API
@@ -21,49 +22,30 @@ const getPdfBlob = async (templateId, data) => {
   });
 };
 
-const pdfDataSplitter = pdfData => {
-  const educationDebts = pdfData.selectedDebts.filter(
-    debt => debt.deductionCode !== '30',
-  );
-  const compAndPenDebts = pdfData.selectedDebts.filter(
-    debt => debt.deductionCode === '30',
-  );
-
-  return {
-    education: educationDebts.length
-      ? { ...pdfData, selectedDebts: educationDebts }
-      : null,
-    compAndPen: compAndPenDebts.length
-      ? { ...pdfData, selectedDebts: compAndPenDebts }
-      : null,
-  };
-};
-
 export const handlePdfGeneration = async pdfData => {
   try {
-    const splitPdfData = pdfDataSplitter(pdfData);
     const formData = new FormData();
 
     // Generate the PDF for education debts if present
-    if (splitPdfData.education) {
+    if (pdfData.education) {
       const educationPdfData = await getPdfBlob(
         'disputeDebt',
-        splitPdfData.education,
+        pdfData.education,
       );
       formData.append('files[]', educationPdfData);
     }
 
     // Generate the PDF for comp and pen debts if present
-    if (splitPdfData.compAndPen) {
+    if (pdfData.compAndPen) {
       const compAndPenPdfData = await getPdfBlob(
         'disputeDebt',
-        splitPdfData.compAndPen,
+        pdfData.compAndPen,
       );
       formData.append('files[]', compAndPenPdfData);
     }
 
     // shouldn't happen, but just in case
-    if (!splitPdfData.compAndPen && !splitPdfData.education) {
+    if (!pdfData.compAndPen && !pdfData.education) {
       throw new Error(
         '`Dispute Debt pdf generation failed: No debts to generate PDF for.',
       );
@@ -76,7 +58,7 @@ export const handlePdfGeneration = async pdfData => {
       scope.setExtra('error', error);
       Sentry.captureMessage(
         `Dispute Debt pdf generation failed in handlePdfGeneration: ${
-          error.detail
+          error?.detail
         }`,
       );
     });
