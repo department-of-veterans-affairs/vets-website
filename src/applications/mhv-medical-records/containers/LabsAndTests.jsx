@@ -2,15 +2,18 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList, reloadRecords } from '../actions/labsAndTests';
 import {
   ALERT_TYPE_ERROR,
   CernerAlertContent,
   accessAlertTypes,
+  labTypes,
   pageTitles,
   recordType,
   refreshExtractTypes,
+  studyJobStatus,
 } from '../util/constants';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
@@ -18,6 +21,8 @@ import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { fetchImageRequestStatus } from '../actions/images';
+import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -27,11 +32,30 @@ const LabsAndTests = () => {
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
+  const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
+
+  const radRecordsWithImagesReady = labsAndTests?.filter(radRecord => {
+    const isRadRecord =
+      radRecord?.type === labTypes.RADIOLOGY ||
+      radRecord?.type === labTypes.CVIX_RADIOLOGY;
+    const studyJob =
+      studyJobs?.find(img => img.studyIdUrn === radRecord.studyId) || null;
+    const jobComplete = studyJob?.status === studyJobStatus.COMPLETE;
+    return isRadRecord && jobComplete;
+  });
+
   const activeAlert = useAlerts(dispatch);
   const listState = useSelector(state => state.mr.labsAndTests.listState);
   const refresh = useSelector(state => state.mr.refresh);
   const labsAndTestsCurrentAsOf = useSelector(
     state => state.mr.labsAndTests.listCurrentAsOf,
+  );
+
+  useEffect(
+    () => {
+      dispatch(fetchImageRequestStatus());
+    },
+    [dispatch],
   );
 
   useListRefresh({
@@ -100,7 +124,30 @@ const LabsAndTests = () => {
           }}
         />
         {labsAndTests?.length ? (
-          <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
+          <>
+            {radRecordsWithImagesReady?.length &&
+              studyJobs?.length && (
+                <VaAlert
+                  status="success"
+                  visible
+                  class="vads-u-margin-y--3 no-print"
+                  role="alert"
+                  data-testid="alert-images-ready"
+                >
+                  <h3 className="vads-u-font-size--lg vads-u-font-family--sans no-print">
+                    Images ready
+                  </h3>
+                  <JobCompleteAlert
+                    records={radRecordsWithImagesReady}
+                    studyJobs={studyJobs}
+                  />
+                </VaAlert>
+              )}
+            <RecordList
+              records={labsAndTests}
+              type={recordType.LABS_AND_TESTS}
+            />
+          </>
         ) : (
           <NoRecordsMessage type={recordType.LABS_AND_TESTS} />
         )}
