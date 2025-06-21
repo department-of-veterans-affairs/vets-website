@@ -13,6 +13,7 @@ import {
   determineRefillLabel,
   getImageUri,
   getRefillHistory,
+  getShowRefillHistory,
   hasCmopNdcNumber,
   isRefillTakingLongerThanExpected,
   pharmacyPhoneNumber,
@@ -49,6 +50,7 @@ const VaPrescription = prescription => {
       ],
   );
   const refillHistory = getRefillHistory(prescription);
+  const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
     prescription?.prescriptionSource === 'PD' &&
@@ -518,39 +520,39 @@ const VaPrescription = prescription => {
           )}
           {!pendingMed && (
             <div>
-              {!pendingRenewal && (
-                <>
-                  {/* TODO: clean after grouping flag is gone */}
-                  {!showGroupingContent && (
-                    <h2
-                      className="vads-u-margin-top--3"
-                      data-testid="refill-History"
-                    >
-                      Refill history
-                    </h2>
-                  )}
-                  {showGroupingContent && (
-                    <h3
-                      className="vads-u-margin-top--3"
-                      data-testid="refill-History"
-                    >
-                      Refill history
-                    </h3>
-                  )}
-                  {refillHistory?.length > 1 &&
-                    hasCmopNdcNumber(refillHistory) && (
-                      <p className="vads-u-margin--0">
-                        <strong>Note:</strong> Images on this page are for
-                        identification purposes only. They don’t mean that this
-                        is the amount of medication you’re supposed to take. If
-                        the most recent image doesn’t match what you’re taking,
-                        call <VaPharmacyText phone={pharmacyPhone} />.
-                      </p>
+              {!pendingRenewal &&
+                showRefillHistory && (
+                  <>
+                    {/* TODO: clean after grouping flag is gone */}
+                    {!showGroupingContent && (
+                      <h2
+                        className="vads-u-margin-top--3"
+                        data-testid="refill-History"
+                      >
+                        Refill history
+                      </h2>
                     )}
-                  {/* TODO: clean after grouping flag is gone */}
-                  {!showGroupingContent &&
-                    ((refillHistory.length > 1 ||
-                      refillHistory[0].dispensedDate !== undefined) &&
+                    {showGroupingContent && (
+                      <h3
+                        className="vads-u-margin-top--3"
+                        data-testid="refill-History"
+                      >
+                        Refill history
+                      </h3>
+                    )}
+                    {refillHistory?.length > 1 &&
+                      hasCmopNdcNumber(refillHistory) && (
+                        <p className="vads-u-margin--0">
+                          <strong>Note:</strong> Images on this page are for
+                          identification purposes only. They don’t mean that
+                          this is the amount of medication you’re supposed to
+                          take. If the most recent image doesn’t match what
+                          you’re taking, call{' '}
+                          <VaPharmacyText phone={pharmacyPhone} />.
+                        </p>
+                      )}
+                    {/* TODO: clean after grouping flag is gone */}
+                    {!showGroupingContent &&
                       refillHistory.map((entry, i) => {
                         const {
                           shape,
@@ -701,10 +703,8 @@ const VaPrescription = prescription => {
                             </div>
                           </div>
                         );
-                      }))}
-                  {showGroupingContent &&
-                    (refillHistory?.length > 1 ||
-                      refillHistory[0]?.dispensedDate !== undefined) && (
+                      })}
+                    {showGroupingContent && (
                       <>
                         <p
                           className="vads-u-margin-top--2 vads-u-margin-bottom--0"
@@ -917,12 +917,8 @@ const VaPrescription = prescription => {
                         </VaAccordion>
                       </>
                     )}
-                  {refillHistory?.length <= 1 &&
-                    refillHistory[0]?.dispensedDate === undefined && (
-                      <p>You haven’t filled this prescription yet.</p>
-                    )}
-                </>
-              )}
+                  </>
+                )}
               {showGroupingContent &&
                 prescription?.groupedMedications?.length > 0 && (
                   <GroupedMedications
