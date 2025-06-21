@@ -113,3 +113,21 @@ export const alert = (
     </p>
   </va-alert>
 );
+
+export const getTitle = role => {
+  const titles = {
+    certifyingOfficial: 'Certifying official',
+    owner: 'Owner',
+    officer: 'Officer',
+  };
+
+  let title;
+
+  if (role.other) {
+    title = role.other;
+  } else {
+    title = titles[role.level];
+  }
+
+  return title;
+};
