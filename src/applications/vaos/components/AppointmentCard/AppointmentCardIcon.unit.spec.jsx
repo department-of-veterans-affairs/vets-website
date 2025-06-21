@@ -78,6 +78,7 @@ describe('VAOS Component: AppointmentCardIcon', () => {
         vaos: {
           isVideo: true,
           isAtlas: false,
+          isVideoAtVA: true,
         },
         videoData: {
           kind: 'CLINIC_BASED',
