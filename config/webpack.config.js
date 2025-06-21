@@ -282,6 +282,7 @@ module.exports = async (env = {}) => {
     scaffold: false,
     watch: false,
     destination: buildtype,
+    lightweightWatch: false,
     ...env,
   };
 
@@ -580,6 +581,13 @@ module.exports = async (env = {}) => {
         saveReportTo: `build/${buildtype}/generated/statoscope-report.html`,
       }),
     );
+  }
+
+  if (buildOptions.lightweightWatch) {
+    baseConfig.watchOptions = {
+      ignored: '**/node_modules',
+      poll: true,
+    };
   }
 
   return baseConfig;
