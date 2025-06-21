@@ -76,7 +76,10 @@ describe('Medical Records View Vitals', () => {
     VitalsListPage.verifyVitalOnListPage(
       6,
       'Height',
-      `${defaultVitals.entry[3].resource.valueQuantity.value} inches`,
+      `${Math.floor(
+        defaultVitals.entry[3].resource.valueQuantity.value / 12,
+      )} feet, ${defaultVitals.entry[3].resource.valueQuantity.value %
+        12} inches`,
       moment
         .parseZone(defaultVitals.entry[3].resource.effectiveDateTime)
         .format('MMMM D, YYYY'),

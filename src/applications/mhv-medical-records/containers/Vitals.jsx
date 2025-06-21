@@ -123,24 +123,11 @@ const Vitals = () => {
     updatePageTitle,
   );
 
-  const VITAL_TYPES = useMemo(
-    () => {
-      if (isAcceleratingVitals) {
-        return { ...vitalTypes };
-      }
-      // remove PAIN_SEVERITY from the list of vital types
-      const vitalTypesCopy = { ...vitalTypes };
-      delete vitalTypesCopy.PAIN_SEVERITY;
-      return vitalTypesCopy;
-    },
-    [isAcceleratingVitals],
-  );
-
   const PER_PAGE = useMemo(
     () => {
-      return Object.keys(VITAL_TYPES).length;
+      return Object.keys(vitalTypes).length;
     },
-    [VITAL_TYPES],
+    [vitalTypes],
   );
 
   useEffect(
@@ -148,7 +135,7 @@ const Vitals = () => {
       if (vitals?.length) {
         // create vital type cards based on the types of records present
         const firstOfEach = [];
-        for (const [key, types] of Object.entries(VITAL_TYPES)) {
+        for (const [key, types] of Object.entries(vitalTypes)) {
           const firstOfType = vitals.find(item => types.includes(item.type));
           if (firstOfType) firstOfEach.push(firstOfType);
           else firstOfEach.push({ type: key, noRecords: true });
@@ -156,7 +143,7 @@ const Vitals = () => {
         setCards(firstOfEach);
       }
     },
-    [vitals, VITAL_TYPES],
+    [vitals, vitalTypes],
   );
 
   const content = () => {
