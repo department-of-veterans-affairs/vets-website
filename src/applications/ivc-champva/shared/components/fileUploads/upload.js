@@ -66,9 +66,9 @@ export const fileUploadUi = content => {
           document.querySelectorAll('.schemaform-file-list'),
         );
         // From the list, select the one that holds a file with the same name
-        // as the one just uploaded. Take the first match.
+        // as the one just uploaded. Take the last match.
         host = host.filter(el => el.innerText?.includes(file.name));
-        findAndFocusLastSelect(host?.[0]);
+        findAndFocusLastSelect(host?.pop());
       }, 500);
       return {
         name: file.name,
