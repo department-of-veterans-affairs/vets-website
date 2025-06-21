@@ -37,9 +37,9 @@ export function findAndFocusLastSelect(host) {
     focusElement(lastSelect[0]);
   } else {
     // focus on delete button with upload button as a fallback
-    const delBtn = [host?.querySelector('.delete-upload')];
-    if (delBtn.length) {
-      const delBtnShadow = delBtn[0]?.shadowRoot?.querySelector('button');
+    const delBtn = host?.querySelector('.delete-upload');
+    if (delBtn) {
+      const delBtnShadow = delBtn?.shadowRoot?.querySelector('button');
       focusElement(delBtnShadow);
     } else {
       focusElement(
