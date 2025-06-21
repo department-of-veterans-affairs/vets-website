@@ -12,29 +12,19 @@ import DowntimeNotification, {
 
 import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
-import HeaderLayoutPreMilestone2 from './HeaderLayoutPreMilestone2';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
 import Alerts from '../containers/Alerts';
-import {
-  isLOA3,
-  isVAPatient,
-  personalizationEnabled,
-  isAuthenticatedWithSSOe,
-} from '../selectors';
+import { isLOA3, isVAPatient, personalizationEnabled } from '../selectors';
 import manifest from '../manifest.json';
 
 const LandingPage = ({ data = {} }) => {
   const { cards = [], hubs = [] } = data;
-  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userVerified = useSelector(isLOA3);
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const { mhvMilestone2ChangesEnabled = false } = useSelector(
-    state => state.featureToggles,
-  );
 
   return (
     <>
@@ -56,15 +46,7 @@ const LandingPage = ({ data = {} }) => {
             dependencies={[externalServices.mhvPlatform]}
             render={renderMHVDowntime}
           />
-          {mhvMilestone2ChangesEnabled ? (
-            <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
-          ) : (
-            <HeaderLayoutPreMilestone2
-              showWelcomeMessage={showWelcomeMessage}
-              ssoe={ssoe}
-              showMhvGoBack={userRegistered}
-            />
-          )}
+          <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
           <Alerts />
           {userRegistered && <CardLayout data={cards} />}
         </div>
