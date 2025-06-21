@@ -51,7 +51,7 @@ function mockExistingAppointments(hasPast = false) {
         localStartTime: subDays(new Date(), 10),
       })
         .setLocation(new MockFacilityResponse({ id: '983' }))
-        .setClinicId(clinic),
+        .setClinicId(clinic.id),
     );
   }
   mockAppointmentsGetApi({
