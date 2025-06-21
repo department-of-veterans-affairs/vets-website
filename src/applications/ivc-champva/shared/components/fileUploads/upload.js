@@ -22,8 +22,16 @@ export function createPayload(file, _formId, password) {
   return payload;
 }
 
-// TODO: cleanup any redundancies/inneficiencies and fix unit tests
+/**
+ * This function handles setting focus after uploading a file.
+ * It sets focus to the first <select> element in the host.
+ * If no <select> is found it attempts to set focus to the delete button
+ * and falls back to the upload button if no delete button is found.
+ * @param {Object} host DOM node we want to look inside
+ * @returns last <select> element found in host or undefined
+ */
 export function findAndFocusLastSelect(host) {
+  if (host === undefined) return undefined;
   const lastSelect = [...host?.querySelectorAll('va-select')].slice(-1);
   if (lastSelect.length) {
     focusElement(lastSelect[0]);
@@ -63,7 +71,7 @@ export const fileUploadUi = content => {
         // Get the host element that contains our upload/delete buttons.
         // This is so we can improve the focus behavior after upload.
         let host = Array.from(
-          document.querySelectorAll('.schemaform-file-list'),
+          document.querySelectorAll('.schemaform-file-list li'),
         );
         // From the list, select the one that holds a file with the same name
         // as the one just uploaded. Take the last match.
