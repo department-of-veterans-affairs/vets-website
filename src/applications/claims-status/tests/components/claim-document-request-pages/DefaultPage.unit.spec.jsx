@@ -191,7 +191,7 @@ describe('<DefaultPage>', () => {
         ),
       );
     });
-    it(`should render Requested from examiner's office on when the track item is a DBQ`, () => {
+    it(`should render Requested from examiner’s office on when the track item is a DBQ`, () => {
       const item = {
         closedDate: null,
         description: 'old description',
@@ -212,7 +212,7 @@ describe('<DefaultPage>', () => {
           <DefaultPage {...defaultProps} item={item} />
         </Provider>,
       );
-      getByText(`Requested from examiner's office on March 25, 2024`);
+      getByText(`Requested from examiner’s office on March 25, 2024`);
     });
   });
 
