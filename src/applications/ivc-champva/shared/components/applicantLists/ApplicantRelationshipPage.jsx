@@ -277,18 +277,17 @@ export default function ApplicantRelationshipPage({
   );
   return (
     <>
-      <span className="dd-privacy-hidden">
-        {
-          titleUI(
-            customTitle ||
-              `${
-                useFirstPerson ? `Your` : `${applicant}’s`
-              } relationship to the ${personTitle}`,
-          )['ui:title']
-        }
-      </span>
-
       <form onSubmit={handlers.onGoForward}>
+        <span className="dd-privacy-hidden">
+          {
+            titleUI(
+              customTitle ||
+                `${
+                  useFirstPerson ? `Your` : `${applicant}’s`
+                } relationship to the ${personTitle}`,
+            )['ui:title']
+          }
+        </span>
         <VaRadio
           class="vads-u-margin-y--2 dd-privacy-hidden"
           label={
