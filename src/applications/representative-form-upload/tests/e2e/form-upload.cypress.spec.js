@@ -73,7 +73,7 @@ describe('Representative Form Upload', () => {
       );
 
       cy.get('a[href="#start"]')
-        .contains('Start application')
+        .contains('Start form')
         .click();
 
       cy.location('pathname').should(
@@ -92,12 +92,11 @@ describe('Representative Form Upload', () => {
       fillTextWebComponent('veteranFullName_first', data.veteranFullName.first);
       fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
       fillTextWebComponent('address_postalCode', data.address.postalCode);
-      fillTextWebComponent('veteranSsn', data.ssn);
+      cy.get('input[name="root_veteranSsn"]').type(data.ssn);
 
       cy.get('select[name="root_veteranDateOfBirthMonth"]').select('February');
       cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
       cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
-      cy.fillVaTextInput(`root_email`, data.email);
 
       cy.findByRole('button', { name: /^Continue$/ }).click();
 
@@ -137,7 +136,7 @@ describe('Representative Form Upload', () => {
         '/representative/representative-form-upload/21-686c/introduction',
       );
       cy.get('a[href="#start"]')
-        .contains('Start application')
+        .contains('Start form')
         .click();
       cy.location('pathname').should(
         'eq',
@@ -166,12 +165,11 @@ describe('Representative Form Upload', () => {
       fillTextWebComponent('veteranFullName_first', data.veteranFullName.first);
       fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
       fillTextWebComponent('address_postalCode', data.address.postalCode);
-      fillTextWebComponent('veteranSsn', data.ssn);
+      cy.get('input[name="root_veteranSsn"]').type(data.ssn);
 
       cy.get('select[name="root_veteranDateOfBirthMonth"]').select('August');
       cy.get('input[name="root_veteranDateOfBirthDay"]').type('17');
       cy.get('input[name="root_veteranDateOfBirthYear"]').type('1992');
-      cy.fillVaTextInput(`root_email`, data.email);
 
       cy.findByRole('button', { name: /^Continue$/ }).click();
       cy.location('pathname').should(
