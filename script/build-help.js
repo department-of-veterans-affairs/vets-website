@@ -53,6 +53,12 @@ const helpSections = [
           'Set NODE_OPTION --max-old-space-size to: 1024, 2048, 3072, 4096, 5120, 6144, 7168, or 8192 (e.g. --env memory=8192)',
       },
       {
+        name: 'env lightweightWatch',
+        type: Boolean,
+        description:
+          'If watching does not work for you, try out this option. This may help issues with NFS and machines in VirtualBox, WSL, Containers, or Docker. In those cases, use a polling interval and ignore large folders like /node_modules/ to keep CPU usage minimal. (https://webpack.js.org/configuration/watch/)',
+      },
+      {
         name: 'env openTo',
         typeLabel: '{underline URL}',
         description:
