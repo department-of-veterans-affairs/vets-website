@@ -323,33 +323,24 @@ const applicantBirthCertUploadPage = {
         // make use of the previously added `view:certifierRole` property.
         const tmpFormData = {
           ...formData,
-          certifierRole: formData?.['view:certifierRole'],
+          /*
+          If idx is 0, we want to take certifier role into account. Otherwise not
+          because we consistently assume that if the certifier is an applicant
+          then they will be the first applicant. All other cases we should use 
+          third person addressing.
+          */
+          certifierRole: index === 0 ? formData?.['view:certifierRole'] : '',
         };
-        // Calls the appropriate name getter depending on current list item index.
-        // First applicant is assumed to be the certifier if certifierRole === 'applicant'.
-        const getNameFn = posessive =>
-          index === 0
-            ? nameWording(tmpFormData, posessive, false)
-            : // formData doesn't need certifier role for applicantWording
-              applicantWording(formData, posessive, false);
-
-        const nonPosessiveName = (
-          <b className="dd-privacy-hidden">{getNameFn(false)}</b>
+        const posessiveName = (
+          <b className="dd-privacy-hidden">
+            {nameWording(tmpFormData, true, false)}
+          </b>
         );
-        const nameBeingVerb =
-          tmpFormData?.certifierRole === 'applicant' ? (
-            'you’re'
-          ) : (
-            <>
-              <b className="dd-privacy-hidden">{nonPosessiveName}</b> is
-            </>
-          );
+
         return (
-          <>
-            <p>
-              You’ll need to submit a copy of {nameBeingVerb} birth certificate.
-            </p>
-          </>
+          <p>
+            You’ll need to submit a copy of {posessiveName} birth certificate.
+          </p>
         );
       },
     ),
@@ -364,9 +355,17 @@ const applicantBirthCertUploadPage = {
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      applicantBirthCertOrSocialSecCard: fileWithMetadataSchema(
-        acceptableFiles.birthCert,
-      ),
+      applicantBirthCertOrSocialSecCard: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
     },
   },
 };
