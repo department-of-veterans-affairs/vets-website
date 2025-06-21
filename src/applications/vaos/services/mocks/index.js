@@ -251,7 +251,7 @@ const responses = {
       appt => appt.id === req.params.id,
     );
 
-    if (appointment.start) {
+    if (appointment?.start) {
       appointment.future = moment(appointment.start).isAfter(moment());
     }
     return res.json({
