@@ -85,7 +85,7 @@ const yesNoOptionsMore = {
   hint:
     'If any applicants have other health insurance, it is required to report it to process your application for CHAMPVA benefits.',
 };
-const healthInsuranceOptions = {
+export const healthInsuranceOptions = {
   arrayPath: 'healthInsurance',
   nounSingular: 'plan',
   nounPlural: 'plans',
@@ -220,7 +220,7 @@ const providerInformation = {
 const employer = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Type of insurance for ${formData.provider}`,
+      ({ formData }) => `Type of insurance for ${formData?.provider}`,
     ),
     throughEmployer: yesNoUI({
       title: 'Is this insurance through the applicant(s) employer?',
@@ -241,7 +241,7 @@ const additionalComments = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData.provider} health insurance additional comments`,
+        `${formData?.provider} health insurance additional comments`,
     ),
     additionalComments: textareaUI({
       title: 'Any additional comments about the applicant(s) health insurance?',
@@ -264,7 +264,7 @@ const additionalComments = {
 const healthInsuranceCardUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Upload ${formData.provider} health insurance card`,
+      ({ formData }) => `Upload ${formData?.provider} health insurance card`,
       'You’ll need to submit a copy of the front and back of this health insurance card.',
     ),
     ...fileUploadBlurb,
