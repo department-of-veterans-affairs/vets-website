@@ -9,6 +9,7 @@ export default {
   bgs: 'bgs',
   // CARMA (Caregiver Record Management Application)
   carma: 'carma',
+  decisionReviews: 'decision_reviews',
   // Debt Management Services
   dmc: 'dmc',
   dslogon: 'dslogon',

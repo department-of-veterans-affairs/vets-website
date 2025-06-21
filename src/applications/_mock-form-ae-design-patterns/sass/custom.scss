@@ -103,6 +103,12 @@ padding-left: 0;
   va-radio::part(legend) {
     font-size: 1.25rem;
     font-weight: 700;
+    font-family: "Bitter", serif !important;
+  }
+  va-radio::part(required) {
+    font-size: 1.06rem;
+    font-weight: normal;
+    font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   }
 }
 
@@ -110,6 +116,12 @@ padding-left: 0;
   va-radio::part(legend) {
     font-size: 1.25rem;
     font-weight: 700;
+    font-family: "Bitter", serif !important;
+  }
+  va-radio::part(required) {
+    font-size: 1.06rem;
+    font-weight: normal;
+    font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   }
 }
 
@@ -127,18 +139,12 @@ padding-left: 0;
   va-radio::part(legend) {
     margin-top: 0 !important;
   }
-  va-radio::part(required) {
-    font-family: "Bitter", serif !important;
-}
 }
 
 [data-location="6/marital-information/veteran-marriage-history"] {
   va-radio::part(legend) {
     margin-top: 0 !important;
   }
-  va-radio::part(required) {
-    font-family: "Bitter", serif !important;
-}
 }
 
 [data-location*="/reason-former-marriage-ended"] {
@@ -198,6 +204,10 @@ legend.schemaform-label {
   font-size: 1.25rem;
   font-weight: 700;
 }
+span.schemaform-required-span {
+  font-size: 1.06rem;
+  font-weight: normal;
+}
 }
 
 [data-location="6/marital-information/marriage-type"] {
@@ -205,10 +215,17 @@ legend.schemaform-label {
     font-size: 1.25rem;
     font-weight: 700;
   }
+  span.schemaform-required-span {
+    font-size: 1.06rem;
+    font-weight: normal;
+  }
 }
 
 .end-title-span {
   color: rgb(181, 9, 9) !important;
+  font-size: 1.06rem;
+  font-weight: normal;
+  font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
 
 .schemaform-block-title {
@@ -220,11 +237,13 @@ legend.schemaform-label {
 #root_marriageType-label {
   font-size: 1.25rem;
   font-weight: 700;
+  font-family: "Bitter", serif !important;
 }
 
-va-radio::part(required) {
-  font-size: 1.25rem;
-  font-weight: 700;
+span.schemaform-required-span {
+  font-size: 1.06rem;
+  font-weight: normal;
+  font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
 
 va-radio[label="Do you have any other previous marriages?"]::part(required) {
