@@ -3,123 +3,165 @@ import { Provider } from 'react-redux';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
-import { inputVaTextInput } from 'platform/testing/unit/helpers';
+import { ERROR_MSG_INPUT_REP } from '../../../../components/PreSubmitInfo/StatementOfTruthItem';
+import * as useSignaturesSyncModule from '../../../../hooks/useSignatureSync';
 import PreSubmitInfo from '../../../../components/PreSubmitInfo';
+
+const MOCK_FULL_NAME = { first: 'John', last: 'Smith' };
 
 describe('CG <PreSubmitCheckboxGroup>', () => {
   let dispatch;
+  let onSectionComplete;
   const subject = ({
-    hasSecondaryOne = false,
-    hasSecondaryTwo = false,
-    signAsRepresentativeYesNo = 'no',
+    isRep = false,
+    showError = false,
     status = false,
   } = {}) => {
     const props = {
-      onSectionComplete: f => f,
       formData: {
-        primaryFullName: {
-          first: 'Mary',
-          middle: '',
-          last: 'Smith',
-        },
-        secondaryOneFullName: {
-          first: 'Joe',
-          middle: '',
-          last: 'Smith',
-        },
-        secondaryTwoFullName: {
-          first: 'Nikki',
-          middle: '',
-          last: 'Smith',
-        },
-        veteranFullName: {
-          first: 'John',
-          middle: '',
-          last: 'Smith',
-        },
-        signAsRepresentativeYesNo,
+        primaryFullName: MOCK_FULL_NAME,
+        veteranFullName: MOCK_FULL_NAME,
+        signAsRepresentativeYesNo: isRep ? 'yes' : 'no',
         'view:hasPrimaryCaregiver': true,
-        'view:hasSecondaryCaregiverOne': hasSecondaryOne,
-        'view:hasSecondaryCaregiverTwo': hasSecondaryTwo,
       },
-      showError: false,
+      showError,
+      onSectionComplete,
     };
     const mockStore = {
-      getState: () => ({
-        form: { submission: { status } },
-      }),
+      getState: () => ({ form: { submission: { status } } }),
       subscribe: () => {},
       dispatch,
     };
-    const { container } = render(
+    const { container, unmount } = render(
       <Provider store={mockStore}>
         <PreSubmitInfo.CustomComponent {...props} />
       </Provider>,
     );
     const selectors = () => ({
-      signatureBoxes: container.querySelectorAll('.signature-box'),
-      vaCheckboxes: container.querySelectorAll('va-checkbox'),
-      vaTextInputs: container.querySelectorAll('va-text-input'),
+      vaStatementsOfTruth: container.querySelectorAll('va-statement-of-truth'),
     });
-    return { container, selectors };
+    return { container, selectors, unmount };
   };
 
   beforeEach(() => {
     dispatch = sinon.spy();
+    onSectionComplete = sinon.spy();
   });
 
   afterEach(() => {
     dispatch.resetHistory();
+    onSectionComplete.resetHistory();
   });
 
-  context('when a representative is signing for the Veteran', () => {
-    it('should render the appropriate `va-text-input` label for the Veteran signature', () => {
-      const { selectors } = subject({
-        signAsRepresentativeYesNo: 'yes',
-      });
-      const { vaTextInputs } = selectors();
-      expect(vaTextInputs[0]).to.have.attr(
-        'label',
-        'Enter your name to sign as the Veteran’s representative',
-      );
+  it('should render error state for statement components when invalid', () => {
+    const { selectors } = subject({ isRep: true, showError: true });
+    const { vaStatementsOfTruth } = selectors();
+    vaStatementsOfTruth.forEach(component => {
+      expect(component).to.have.attr('checkbox-error');
     });
+    expect(vaStatementsOfTruth[0]).to.have.attr(
+      'input-error',
+      ERROR_MSG_INPUT_REP,
+    );
   });
 
-  context('when the Veteran is signing for themselves', () => {
-    it('should render the appropriate `va-text-input` label for the Veteran signature', () => {
-      const { selectors } = subject();
-      const { vaTextInputs } = selectors();
-      expect(vaTextInputs[0]).to.have.attr('label', 'Veteran’s full name');
-    });
-  });
+  it('should dispatch `SET_DATA` on input change if submission is not pending', async () => {
+    const { selectors } = subject();
+    const { vaStatementsOfTruth } = selectors();
+    const signatureBox = vaStatementsOfTruth[0];
+    const fillInput = value => {
+      signatureBox.__events.vaInputChange({ detail: { value } });
+      signatureBox.__events.vaInputBlur();
+    };
 
-  context('when secondary caregivers are named in the application', () => {
-    it('should render the appropriate number of signature checkbox components', () => {
-      const { selectors } = subject({
-        hasSecondaryOne: true,
-        hasSecondaryTwo: true,
-      });
-      expect(selectors().signatureBoxes).to.have.lengthOf(4);
-    });
-  });
-
-  context('when a change is made to a `va-text-input` component', () => {
-    it('should not set new form data when the form has been submitted', async () => {
-      const { container, selectors } = subject({ status: true });
-      await waitFor(() => {
-        const { vaTextInputs } = selectors();
-        inputVaTextInput(container, 'John Smith', vaTextInputs[0]);
-        sinon.assert.notCalled(dispatch);
+    await waitFor(() => {
+      fillInput('Jack John');
+      expect(signatureBox).to.have.attr('input-error');
+      sinon.assert.calledWithMatch(dispatch.secondCall, {
+        type: 'SET_DATA',
+        data: { veteranSignature: 'Jack John' },
       });
     });
 
-    it('should set new form data when the form has not been submitted', async () => {
-      const { container, selectors } = subject();
-      await waitFor(() => {
-        const { vaTextInputs } = selectors();
-        inputVaTextInput(container, 'John Smith', vaTextInputs[0]);
-        sinon.assert.called(dispatch);
+    await waitFor(() => {
+      fillInput('John Smith');
+      expect(signatureBox).to.not.have.attr('input-error');
+      sinon.assert.calledWithMatch(dispatch.lastCall, {
+        type: 'SET_DATA',
+        data: { veteranSignature: 'John Smith' },
       });
     });
+  });
+
+  it('should not dispatch `SET_DATA` on input change if submission is pending', async () => {
+    const { selectors } = subject({ status: 'submitPending' });
+    const { vaStatementsOfTruth } = selectors();
+
+    await waitFor(() => {
+      const signatureBox = vaStatementsOfTruth[0];
+      signatureBox.__events.vaInputChange({ detail: { value: 'Jack John' } });
+    });
+
+    sinon.assert.notCalled(dispatch);
+  });
+
+  it('should call `onSectionComplete(true)` when all statements are complete (not as representative)', async () => {
+    const { selectors } = subject();
+    const { vaStatementsOfTruth } = selectors();
+    const completeSignatureBox = component => {
+      component.__events.vaInputChange({ detail: { value: 'John Smith' } });
+      component.__events.vaCheckboxChange({ detail: { checked: true } });
+      component.__events.vaInputBlur();
+    };
+
+    await waitFor(() => completeSignatureBox(vaStatementsOfTruth[0]));
+    await waitFor(() => completeSignatureBox(vaStatementsOfTruth[1]));
+
+    sinon.assert.calledWith(onSectionComplete.lastCall, true);
+  });
+
+  it('should call `onSectionComplete(true)` when all statements are complete (as representative)', async () => {
+    const { selectors } = subject({ isRep: true });
+    const { vaStatementsOfTruth } = selectors();
+    const completeSignatureBox = component => {
+      component.__events.vaInputChange({ detail: { value: 'Jack Smith' } });
+      component.__events.vaCheckboxChange({ detail: { checked: true } });
+      component.__events.vaInputBlur();
+    };
+
+    await waitFor(() => completeSignatureBox(vaStatementsOfTruth[0]));
+    await waitFor(() => completeSignatureBox(vaStatementsOfTruth[1]));
+
+    sinon.assert.calledWith(onSectionComplete.lastCall, true);
+  });
+
+  it('should call `onSectionComplete(false)` on unmount', () => {
+    const { unmount } = subject();
+    unmount();
+    sinon.assert.calledWith(onSectionComplete.lastCall, false);
+  });
+
+  it('should fallback to `DEFAULT_SIGNATURE_STATE` when there is a formData mismatch', () => {
+    sinon.stub(useSignaturesSyncModule, 'useSignaturesSync').returns({
+      requiredElements: [
+        {
+          label: 'Random',
+          fullName: MOCK_FULL_NAME,
+          statementText: ['Some text'],
+        },
+      ],
+      signatures: {},
+      setSignatures: sinon.spy(),
+      signatureConfig: {},
+    });
+
+    const { selectors } = subject();
+    const { vaStatementsOfTruth } = selectors();
+    expect(vaStatementsOfTruth[0]).to.have.attr(
+      'input-label',
+      'Random full name',
+    );
+
+    sinon.restore();
   });
 });
