@@ -194,7 +194,7 @@ export const updateFormDataAddress = (
  */
 
 /**
- * Web component v3 uiSchema for address
+ * uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.
  *
  * ```js
  * schema: {
@@ -592,7 +592,7 @@ export function addressUI(options) {
 }
 
 /**
- * Web component schema for address
+ * Schema for addressUI. Fields may be omitted.
  *
  * ```js
  * schema: {
@@ -621,7 +621,7 @@ export const addressSchema = options => {
 };
 
 /**
- * Web component v3 uiSchema for address
+ *  uiSchema for address - Same as addressUI, but without the military checkbox. Includes fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.
  *
  * ```js
  * schema: {
@@ -657,7 +657,7 @@ export const addressNoMilitaryUI = options =>
   });
 
 /**
- * Web component schema for address
+ * Schema for addressNoMilitaryUI. Fields may be omitted.
  *
  * ```js
  * schema: {
