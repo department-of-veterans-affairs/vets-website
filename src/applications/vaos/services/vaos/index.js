@@ -146,9 +146,26 @@ export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
   ).then(parseApiList);
 }
 
-export function getAvailableV2Slots(facilityId, clinicId, startDate, endDate) {
+export function getAvailableV2Slots(
+  facilityId,
+  clinicId = null,
+  typeOfCare = null,
+  startDate,
+  endDate,
+) {
+  let typeOfCareParam = '';
+  let clinicIdParam = '';
+
+  if (typeOfCare !== null) {
+    typeOfCareParam = `&clinical_service=${typeOfCare}`;
+  }
+
+  if (clinicId !== null) {
+    clinicIdParam = `clinics/${clinicId}/`;
+  }
+
   return apiRequestWithUrl(
-    `/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${startDate}&end=${endDate}`,
+    `/vaos/v2/locations/${facilityId}/${clinicIdParam}slots?start=${startDate}&end=${endDate}${typeOfCareParam}`,
   ).then(parseApiList);
 }
 
