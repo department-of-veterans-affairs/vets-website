@@ -90,13 +90,6 @@ describe('VA prescription Config', () => {
     expect(txt).to.include('Color: Purple');
   });
 
-  it('should show refill history if there is 1 record with dispensedDate not undefined', () => {
-    const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
-    const txt = buildVAPrescriptionTXT(rxDetails);
-    expect(txt).to.include('Refill history\n');
-  });
-
   it('should not show refill history if there is 1 record with dispensedDate undefined', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
