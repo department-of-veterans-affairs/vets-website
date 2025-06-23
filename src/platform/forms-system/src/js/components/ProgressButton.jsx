@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import uniqueId from 'lodash/uniqueId';
+import navigationState from '../utilities/navigation/navigationState';
 
 /**
  * A component for the continue button to navigate through panels of questions.
@@ -11,6 +12,11 @@ class ProgressButton extends React.Component {
   UNSAFE_componentWillMount() {
     this.id = uniqueId();
   }
+
+  handleClick = () => {
+    navigationState.setNavigationEvent();
+    this.props.onButtonClick();
+  };
 
   render() {
     let beforeText = '';
@@ -53,7 +59,8 @@ class ProgressButton extends React.Component {
           this.props.disabled ? ' usa-button-disabled' : ''
         }`}
         id={`${this.id}-continueButton`}
-        onClick={this.props.onButtonClick}
+        // onClick={this.props.onButtonClick}
+        onClick={this.handleClick}
         onMouseDown={this.props.preventOnBlur}
         aria-label={this.props.ariaLabel || null}
         aria-describedby={this.props.ariaDescribedBy}
