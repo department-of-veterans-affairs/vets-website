@@ -72,29 +72,13 @@ export const recipientsReducer = (state = initialState, action) => {
         allTriageGroupsBlocked,
       };
     }
-    case Actions.AllRecipients.SELECT_HEALTH_CARE_SYSTEM: {
-      return {
-        ...state,
-        activeCareSystem: action.payload.careSystem,
-      };
-    }
-    case Actions.AllRecipients.SELECT_CARE_TEAM: {
-      return {
-        ...state,
-        activeCareTeam: action.payload.careTeam,
-      };
-    }
-    case Actions.AllRecipients.SET_ACTIVE_DRAFT_ID: {
-      return {
-        ...state,
-        activeDraftId: action.payload.activeDraftId,
-      };
-    }
+
     case Actions.AllRecipients.GET_LIST_ERROR:
       return {
         ...state,
         error: true,
       };
+
     default:
       return state;
   }

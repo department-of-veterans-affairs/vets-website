@@ -34,7 +34,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   VaAlert,
   VaComboBox,
@@ -48,6 +48,7 @@ import { sortRecipients } from '../../util/helpers';
 import { Prompts } from '../../util/constants';
 import CantFindYourTeam from './CantFindYourTeam';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
+import { updateDraftInProgress } from '../../actions/threadDetails';
 
 const RecipientsSelect = ({
   recipientsList,
@@ -59,6 +60,7 @@ const RecipientsSelect = ({
   setElectronicSignature = () => {},
   setComboBoxInputValue,
 }) => {
+  const dispatch = useDispatch();
   const alertRef = useRef(null);
   const isSignatureRequiredRef = useRef();
   isSignatureRequiredRef.current = isSignatureRequired;
@@ -159,11 +161,18 @@ const RecipientsSelect = ({
       const recipient = recipientsList.find(r => +r.id === +value) || {};
       setSelectedRecipient(recipient);
 
+      dispatch(
+        updateDraftInProgress({
+          recipientName: recipient.name,
+          recipientId: recipient.id,
+        }),
+      );
+
       if (recipient.signatureRequired || isSignatureRequired) {
         setAlertDisplayed(true);
       }
     },
-    [recipientsList, isSignatureRequired, setSelectedRecipient],
+    [recipientsList, dispatch, isSignatureRequired],
   );
 
   const optionsValues = useMemo(
