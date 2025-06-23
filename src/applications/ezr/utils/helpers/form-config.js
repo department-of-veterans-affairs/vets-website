@@ -207,6 +207,20 @@ export function includeHouseholdInformation(formData) {
   return formData['view:householdEnabled'];
 }
 
+export function includeHouseholdInformationV1(formData) {
+  return (
+    includeHouseholdInformation(formData) &&
+    !formData['view:isSpouseConfirmationFlowEnabled']
+  );
+}
+
+export function includeHouseholdInformationV2(formData) {
+  return (
+    includeHouseholdInformation(formData) &&
+    formData['view:isSpouseConfirmationFlowEnabled']
+  );
+}
+
 /**
  * Helper that determines if the form data contains values that require the financial
  * status alert to be shown
@@ -311,18 +325,15 @@ export function includeSpousalInformationWithV1Prefill(formData) {
 
 /**
  * Helper that determines if the form data contains values that require users
- * to fill out spousal information (V1)
+ * to fill out spousal information for V1 confirmation flow.
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the user declares they would like to provide their
  * financial data & have a marital status of 'married' or 'separated'.
  */
 export function includeSpousalInformationV1(formData) {
-  if (formData['view:isSpouseV2Enabled']) return false;
-  const { maritalStatus } = formData['view:maritalStatus'];
-  return (
-    maritalStatus?.toLowerCase() === 'married' ||
-    maritalStatus?.toLowerCase() === 'separated'
-  );
+  if (formData['view:isSpouseConfirmationFlowEnabled']) return false;
+  if (!includeHouseholdInformation(formData)) return false;
+  return includeSpousalInformation(formData);
 }
 
 export function includeSpousalInformationWithV2Prefill(formData) {
@@ -342,7 +353,7 @@ export function includeSpousalInformationWithV2Prefill(formData) {
  * financial data & have a marital status of 'married' or 'separated'.
  */
 export function includeSpousalInformationV2(formData) {
-  if (!formData['view:isSpouseV2Enabled']) return false;
+  if (!formData['view:isSpouseConfirmationFlowEnabled']) return false;
   const { maritalStatus } = formData['view:maritalStatus'];
   return (
     maritalStatus?.toLowerCase() === 'married' ||
