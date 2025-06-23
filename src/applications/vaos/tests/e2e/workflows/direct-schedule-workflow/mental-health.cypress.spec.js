@@ -102,7 +102,7 @@ function mocksBase(requiresPast = false) {
 }
 
 describe('VAOS direct schedule flow - Mental health', () => {
-  describe('When patient has no history and flipper for MH past filtering is enabled', () => {
+  describe('When flipper for MH past filtering is enabled', () => {
     beforeEach(() => {
       vaosSetup();
 
@@ -110,7 +110,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
       mockVamcEhrApi();
     });
 
-    describe('And one facility supports direct scheduling with no history required', () => {
+    describe('And patient has no history and one facility supports direct scheduling with no history required', () => {
       const setup = () => {
         mockExistingAppointments();
         mocksBase();
@@ -194,7 +194,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
         cy.axeCheckBestPractice();
       });
     });
-    describe('And one facility requires past history with past history existing', () => {
+    describe('And patient has history and one facility requires past history to schedule', () => {
       const setup = () => {
         mockExistingAppointments(true);
         mocksBase(true);

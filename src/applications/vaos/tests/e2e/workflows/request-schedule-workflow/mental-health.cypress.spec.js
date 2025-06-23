@@ -39,7 +39,7 @@ const { idV2: typeOfCareId } = getTypeOfCareById(
 );
 const typeOfCareRegex = /Mental health/i;
 
-describe('VAOS direct schedule flow - Mental health', () => {
+describe('VAOS request schedule flow - Mental health', () => {
   describe('When patient has no history and flipper for MH past filtering is enabled', () => {
     beforeEach(() => {
       vaosSetup();
@@ -57,7 +57,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
       mockVamcEhrApi();
     });
 
-    describe('And one facility supports direct scheduling with no history required', () => {
+    describe('And one facility supports requesting with no history required', () => {
       const setup = () => {
         const mockEligibilityResponse = new MockEligibilityResponse({
           facilityId: '983',
@@ -74,7 +74,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
           typeOfCareId,
-          isDirect: false,
+          isDirect: true,
           isRequest: true,
         });
       };
