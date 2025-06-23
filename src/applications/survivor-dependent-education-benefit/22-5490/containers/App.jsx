@@ -144,23 +144,32 @@ function App({
   // Fallback to prefillTransformer data (claimant) – run once when formData initially lacks name or DOB
   useEffect(
     () => {
-      if (
-        claimant &&
-        Object.keys(claimant).length > 0 &&
-        (!formData?.claimantFullName?.first || !formData?.claimantDateOfBirth)
-      ) {
-        setFormData({
-          ...formData,
-          claimantFullName:
-            claimant.claimantFullName || formData.claimantFullName,
-          claimantDateOfBirth:
-            claimant.claimantDateOfBirth || formData.claimantDateOfBirth,
-        });
-      }
+      setFormData(prevData => {
+        const needsName =
+          !prevData.claimantFullName?.first &&
+          claimant?.claimantFullName?.first;
+        const needsDob =
+          !prevData.claimantDateOfBirth && claimant?.claimantDateOfBirth;
+        if (
+          claimant &&
+          Object.keys(claimant).length > 0 &&
+          (needsName || needsDob)
+        ) {
+          return {
+            ...prevData,
+            claimantFullName: needsName
+              ? claimant.claimantFullName
+              : prevData.claimantFullName,
+            claimantDateOfBirth: needsDob
+              ? claimant.claimantDateOfBirth
+              : prevData.claimantDateOfBirth,
+          };
+        }
+        return prevData; // <--- No update if nothing changed
+      });
     },
     [claimant, setFormData],
   );
-
   return (
     <>
       <div className="row">
