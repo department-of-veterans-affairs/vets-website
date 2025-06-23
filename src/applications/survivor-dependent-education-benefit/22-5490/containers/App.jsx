@@ -16,7 +16,6 @@ function App({
   children,
   duplicateEmail,
   duplicatePhone,
-  dob,
   formData,
   getDuplicateContactInfo,
   getPersonalInformation,
@@ -109,17 +108,17 @@ function App({
   );
 
   // Keep claimantDateOfBirth in sync with profile/pre-fill data
-  useEffect(
-    () => {
-      if (dob && dob !== formData?.claimantDateOfBirth) {
-        setFormData({
-          ...formData,
-          claimantDateOfBirth: dob,
-        });
-      }
-    },
-    [dob, formData, setFormData],
-  );
+  // useEffect(
+  //   () => {
+  //     if (dob && dob !== formData?.claimantDateOfBirth) {
+  //       setFormData({
+  //         ...formData,
+  //         claimantDateOfBirth: dob,
+  //       });
+  //     }
+  //   },
+  //   [dob, formData],
+  // );
 
   // Populate claimant info from profile if missing
   useEffect(
@@ -140,7 +139,7 @@ function App({
         });
       }
     },
-    [user?.profile, formData, setFormData],
+    [user?.profile, formData],
   );
 
   return (
@@ -183,7 +182,6 @@ App.propTypes = {
   children: PropTypes.node,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
-  dob: PropTypes.string,
   formData: PropTypes.object,
   getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
@@ -196,9 +194,6 @@ App.propTypes = {
 const mapStateToProps = state => ({
   ...getAppData(state),
   formData: state.form?.data || {},
-  dob:
-    state?.user?.profile?.dob ||
-    state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
   user: state.user,
 });
 
