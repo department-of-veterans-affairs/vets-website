@@ -54,6 +54,9 @@ const formConfig = {
   },
   title: 'Conflicting interests certification for proprietary schools',
   subTitle: 'VA Form 22-1919',
+  customText: {
+    submitButtonText: 'Continue',
+  },
   defaultDefinitions: {
     fullName,
     ssn,
