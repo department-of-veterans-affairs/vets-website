@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -80,8 +80,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
   const [failedSeiDomains, setFailedSeiDomains] = useState([]);
   const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(null);
+  const [expandSelfEntered, setExpandSelfEntered] = useState(false);
 
   const activeAlert = useAlerts(dispatch);
+  const selfEnteredAccordionRef = useRef(null);
 
   // Checks if CCD retry is needed and returns a formatted timestamp or null.
   const CCDRetryTimestamp = useMemo(
@@ -110,13 +112,35 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   // Initial page setup effect
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('sei') === 'true') {
+        // Expand and focus the self-entered accordion if ?sei=true query param is present
+        setExpandSelfEntered(true);
+      } else {
+        // Focus h1 and set page title
+        focusElement(document.querySelector('h1'));
+      }
       return () => {
         dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
       };
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (expandSelfEntered) {
+        setTimeout(() => {
+          const accordion = selfEnteredAccordionRef.current;
+          const heading = accordion?.shadowRoot?.querySelector('h3');
+          if (heading) {
+            focusElement(heading);
+          }
+        }, 400);
+      }
+    },
+    [expandSelfEntered],
   );
 
   const accessErrors = () => {
@@ -319,8 +343,15 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             />
           )}
         </va-accordion-item>
-        <va-accordion-item bordered data-testid="selfEnteredAccordionItem">
-          <h3 slot="headline">Self-entered health information</h3>
+        <va-accordion-item
+          bordered
+          data-testid="selfEnteredAccordionItem"
+          open={expandSelfEntered ? 'true' : undefined}
+          ref={selfEnteredAccordionRef}
+        >
+          <h3 id="self-entered-header" slot="headline" tabIndex="-1">
+            Self-entered health information
+          </h3>
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
             in the previous version of My HealtheVet.
