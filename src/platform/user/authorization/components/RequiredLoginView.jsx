@@ -164,7 +164,7 @@ export const RequiredLoginView = props => {
     }
 
     if (user.profile.loading) {
-      return <RequiredLoginLoader />;
+      return props.loadingIndicator || <RequiredLoginLoader />;
     }
 
     if (shouldSignIn()) {
@@ -193,6 +193,7 @@ RequiredLoginView.propTypes = {
     PropTypes.arrayOf(validService),
   ]).isRequired,
   user: PropTypes.object.isRequired,
+  loadingIndicator: PropTypes.node,
   showProfileErrorMessage: PropTypes.bool,
   useSiS: PropTypes.bool,
   verify: PropTypes.bool,
