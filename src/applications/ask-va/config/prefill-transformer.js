@@ -1,4 +1,5 @@
 import { hasPrefillInformation } from '../constants';
+
 export default function prefillTransformer(pages, formData, metadata) {
   const prefillPersonalInformation = data => {
     const personalInfo = data?.personalInformation || {};
