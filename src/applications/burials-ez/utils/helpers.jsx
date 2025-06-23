@@ -109,10 +109,15 @@ export const pageAndReviewTitle = title => ({
 // Elizabeth Dole Act law change for VA Home Hospice; ignoring start date of
 // July 1, 2025 to immediately
 const endDate = endOfDay(new Date('2026-09-30')).getTime();
-const today = Date.now();
 
-export const showHomeHospiceCarePage = (form, date = today) =>
-  get('locationOfDeath.location', form) === 'atHome' && date <= endDate;
+export const showHomeHospiceCarePage = form => {
+  const dayOfDeath = get('deathDate', form);
+  if (!dayOfDeath) {
+    return false;
+  }
+  const date = new Date(dayOfDeath).getTime();
+  return get('locationOfDeath.location', form) === 'atHome' && date <= endDate;
+};
 
 export const showHomeHospiceCareAfterDischargePage = form =>
   get('homeHospiceCare', form);

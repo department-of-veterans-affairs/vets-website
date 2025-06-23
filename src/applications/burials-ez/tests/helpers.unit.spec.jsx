@@ -125,22 +125,24 @@ describe('Burials helpers', () => {
   });
 
   describe('showHomeHospiceCarePage', () => {
-    const data = { locationOfDeath: { location: 'atHome' } };
-    const date = new Date('2025-07-30').getTime();
+    const data = {
+      deathDate: '2025-07-30',
+      locationOfDeath: { location: 'atHome' },
+    };
     it('should return true if home is selected & before end date', () => {
-      expect(showHomeHospiceCarePage(data, date)).to.be.true;
+      expect(showHomeHospiceCarePage(data)).to.be.true;
     });
     it('should return false if home is not selected & before end date', () => {
       expect(
-        showHomeHospiceCarePage(
-          { locationOfDeath: { location: 'other' } },
-          date,
-        ),
+        showHomeHospiceCarePage({
+          deathDate: '2025-07-30',
+          locationOfDeath: { location: 'other' },
+        }),
       ).to.be.false;
     });
     it('should return false if home is selected & past the end date', () => {
-      const expiredDate = new Date('2030-01-01').getTime();
-      expect(showHomeHospiceCarePage(data, expiredDate)).to.be.false;
+      const expiredDate = { ...data, deathDate: '2030-01-01' };
+      expect(showHomeHospiceCarePage(expiredDate)).to.be.false;
     });
   });
 
