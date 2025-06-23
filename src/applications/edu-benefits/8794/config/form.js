@@ -19,6 +19,8 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import SubmissionInstructions from '../components/SubmissionInstructions';
+
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
@@ -210,6 +212,23 @@ const formConfig = {
           }),
         }),
       ),
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      },
     },
   },
 };
