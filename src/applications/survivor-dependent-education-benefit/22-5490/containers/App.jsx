@@ -9,13 +9,11 @@ import {
   fetchDuplicateContactInfo,
   fetchPersonalInformation,
 } from '../actions';
-import { prefillTransformer } from '../helpers';
 import formConfig from '../config/form';
 import { getAppData } from '../selectors';
 
 function App({
   children,
-  claimant,
   duplicateEmail,
   duplicatePhone,
   dob,
@@ -55,24 +53,6 @@ function App({
       user?.login?.currentlyLoggedIn,
       setFormData,
     ],
-  );
-
-  useEffect(
-    () => {
-      if (user?.profile) {
-        setFormData({
-          ...formData,
-          claimantFullName: {
-            first: user.profile.userFullName.first,
-            middle: user.profile.userFullName.middle,
-            last: user.profile.userFullName.last,
-            suffix: user.profile.userFullName.suffix,
-          },
-          claimantDateOfBirth: user.profile.dob,
-        });
-      }
-    },
-    [user?.profile],
   );
 
   useEffect(
@@ -141,24 +121,26 @@ function App({
     [dob, formData, setFormData],
   );
 
-  // Fallback to prefillTransformer data (claimant) – run once when formData initially lacks name or DOB
+  // Populate claimant info from profile if missing
   useEffect(
     () => {
       if (
-        claimant &&
-        Object.keys(claimant).length > 0 &&
+        user?.profile &&
         (!formData?.claimantFullName?.first || !formData?.claimantDateOfBirth)
       ) {
         setFormData({
           ...formData,
-          claimantFullName:
-            claimant.claimantFullName || formData.claimantFullName,
-          claimantDateOfBirth:
-            claimant.claimantDateOfBirth || formData.claimantDateOfBirth,
+          claimantFullName: {
+            first: user.profile.userFullName.first,
+            middle: user.profile.userFullName.middle,
+            last: user.profile.userFullName.last,
+            suffix: user.profile.userFullName.suffix,
+          },
+          claimantDateOfBirth: user.profile.dob,
         });
       }
     },
-    [formData, claimant, setFormData],
+    [user?.profile, formData, setFormData],
   );
 
   return (
@@ -199,7 +181,6 @@ function App({
 
 App.propTypes = {
   children: PropTypes.node,
-  claimant: PropTypes.object,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   dob: PropTypes.string,
@@ -215,7 +196,6 @@ App.propTypes = {
 const mapStateToProps = state => ({
   ...getAppData(state),
   formData: state.form?.data || {},
-  claimant: prefillTransformer(null, null, null, state)?.formData,
   dob:
     state?.user?.profile?.dob ||
     state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
