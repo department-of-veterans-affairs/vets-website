@@ -49,31 +49,29 @@ const VeteranInformation = ({
   };
 
   return (
-    <form>
-      <fieldset className="vads-u-margin-y--2">
-        <h3 className="vads-u-margin--0" ref={headerRef}>
-          Veteran information
-        </h3>
-        {reviewNavigation && showReviewNavigation ? (
-          <ReviewPageNavigationAlert data={data} title="veteran information" />
-        ) : null}
-        <VeteranInfoBox
-          first={first}
-          middle={middle}
-          last={last}
-          dateOfBirth={dateOfBirth}
-          ssnLastFour={ssn}
-          fileNumber={fileNumber}
-        />
-        {contentBeforeButtons}
-        <FormNavButtons
-          goBack={handleBackNavigation}
-          goForward={goForward}
-          submitToContinue
-        />
-        {contentAfterButtons}
-      </fieldset>
-    </form>
+    <div>
+      <h3 className="vads-u-margin--0" ref={headerRef}>
+        Veteran information
+      </h3>
+      {reviewNavigation && showReviewNavigation ? (
+        <ReviewPageNavigationAlert data={data} title="veteran information" />
+      ) : null}
+      <VeteranInfoBox
+        first={first}
+        middle={middle}
+        last={last}
+        dateOfBirth={dateOfBirth}
+        ssnLastFour={ssn}
+        fileNumber={fileNumber}
+      />
+      {contentBeforeButtons}
+      <FormNavButtons
+        goBack={handleBackNavigation}
+        goForward={goForward}
+        submitToContinue
+      />
+      {contentAfterButtons}
+    </div>
   );
 };
 
