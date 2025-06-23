@@ -22,7 +22,6 @@ import NeedHelp from '../components/NeedHelp';
 import { dependents } from './chapters/dependents/dependents';
 import { DependentsInformationReview } from '../components/DependentsInformation';
 
-
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -105,7 +104,8 @@ const formConfig = {
         editEmailPage,
         editPhonePage,
         editInternationalPhonePage,
-
+      },
+    },
     dependents: {
       title: 'Review your dependents',
       pages: {
@@ -116,7 +116,6 @@ const formConfig = {
           uiSchema: dependents.uiSchema,
           schema: dependents.schema,
         },
-
       },
     },
   },
