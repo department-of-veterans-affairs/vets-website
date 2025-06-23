@@ -15,10 +15,10 @@ import { getAppData } from '../selectors';
 
 function App({
   children,
+  claimant,
   duplicateEmail,
   duplicatePhone,
   dob,
-  claimant,
   formData,
   getDuplicateContactInfo,
   getPersonalInformation,
@@ -57,39 +57,22 @@ function App({
     ],
   );
 
-  // Merge claimant info (from transformer) or profile into form data exactly once on mount / when it changes
   useEffect(
     () => {
-      if (!user?.profile && !claimant) return;
-
-      setFormData(prev => {
-        // Avoid overwriting if data already present
-        const hasName =
-          prev?.claimantFullName?.first && prev?.claimantFullName?.last;
-        const hasDob = prev?.claimantDateOfBirth;
-
-        if (hasName && hasDob) return prev;
-
-        const sourceName =
-          claimant?.claimantFullName || user?.profile?.userFullName || {};
-        const sourceDob =
-          dob || claimant?.claimantDateOfBirth || user?.profile?.dob;
-
-        return {
-          ...prev,
-          claimantFullName: hasName
-            ? prev.claimantFullName
-            : {
-                first: sourceName?.first,
-                middle: sourceName?.middle,
-                last: sourceName?.last,
-                suffix: sourceName?.suffix,
-              },
-          claimantDateOfBirth: hasDob ? prev.claimantDateOfBirth : sourceDob,
-        };
-      });
+      if (user?.profile) {
+        setFormData({
+          ...formData,
+          claimantFullName: {
+            first: user.profile.userFullName.first,
+            middle: user.profile.userFullName.middle,
+            last: user.profile.userFullName.last,
+            suffix: user.profile.userFullName.suffix,
+          },
+          claimantDateOfBirth: user.profile.dob,
+        });
+      }
     },
-    [claimant, user?.profile, dob, setFormData],
+    [user?.profile],
   );
 
   useEffect(
@@ -145,14 +128,37 @@ function App({
     [getDuplicateContactInfo, formData],
   );
 
-  // Keep claimantDateOfBirth in sync with profile/pre-fill data (functional form avoids stale state)
+  // Keep claimantDateOfBirth in sync with profile/pre-fill data
   useEffect(
     () => {
-      if (dob) {
-        setFormData(prev => ({ ...prev, claimantDateOfBirth: dob }));
+      if (dob && dob !== formData?.claimantDateOfBirth) {
+        setFormData({
+          ...formData,
+          claimantDateOfBirth: dob,
+        });
       }
     },
-    [dob, setFormData],
+    [dob, formData, setFormData],
+  );
+
+  // Fallback to prefillTransformer data if claimant info still missing
+  useEffect(
+    () => {
+      if (
+        claimant &&
+        Object.keys(claimant).length > 0 &&
+        (!formData?.claimantFullName?.first || !formData?.claimantDateOfBirth)
+      ) {
+        setFormData({
+          ...formData,
+          claimantFullName:
+            claimant.claimantFullName || formData.claimantFullName,
+          claimantDateOfBirth:
+            claimant.claimantDateOfBirth || formData.claimantDateOfBirth,
+        });
+      }
+    },
+    [claimant, formData, setFormData],
   );
 
   return (
@@ -193,10 +199,10 @@ function App({
 
 App.propTypes = {
   children: PropTypes.node,
+  claimant: PropTypes.object,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   dob: PropTypes.string,
-  claimant: PropTypes.object,
   formData: PropTypes.object,
   getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
