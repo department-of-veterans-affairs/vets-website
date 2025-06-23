@@ -54,7 +54,7 @@ export default {
           other: textUI({
             title:
               'If your relationship with the Veteran is not listed, you can write it here',
-            options: { hideEmptyValueInReview: true },
+            hideEmptyValueInReview: true,
           }),
         },
       },

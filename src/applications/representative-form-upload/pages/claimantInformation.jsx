@@ -103,7 +103,6 @@ export const claimantInformationPage = {
       'claimantDateOfBirth',
       'veteranSsn',
       'veteranDateOfBirth',
-      'email',
       'address',
       'veteranFullName',
     ],
