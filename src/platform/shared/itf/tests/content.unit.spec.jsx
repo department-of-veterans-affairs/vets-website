@@ -95,7 +95,7 @@ describe('content unit tests', () => {
       const loading = $('va-loading-indicator', container);
       expect(loading).to.exist;
       expect(loading.getAttribute('message')).to.contain(
-        'see if you have an existing intent to file',
+        'Checking if you have an existing intent to file',
       );
       expect(loading.getAttribute('label')).to.equal(
         'looking for an intent to file',
@@ -110,7 +110,7 @@ describe('content unit tests', () => {
       const loading = $('va-loading-indicator', container);
       expect(loading).to.exist;
       expect(loading.getAttribute('message')).to.contain(
-        'wait while we create your intent to file',
+        'Recording your intent to file',
       );
       expect(loading.getAttribute('label')).to.equal(
         'creating an intent to file',

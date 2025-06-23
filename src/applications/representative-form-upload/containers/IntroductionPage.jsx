@@ -32,10 +32,10 @@ const IntroductionPage = ({ route, router }) => {
       return (
         <a
           href="#start"
-          className="vads-c-action-link--green"
+          className="vads-c-action-link--green representative-form__start"
           onClick={startForm}
         >
-          Start application
+          Start form
         </a>
       );
     },
@@ -43,10 +43,31 @@ const IntroductionPage = ({ route, router }) => {
   );
 
   return (
-    <article className="schemaform-intro">
+    <article className="schemaform-intro representative-form">
       <FormTitle title={title} subTitle={subTitle} />
-      <h2>Follow these steps to submit the form</h2>
+
+      <va-alert close-btn-aria-label="Close notification" status="info" visible>
+        <h2 id="track-your-status-on-mobile" slot="headline">
+          We are working to improve this tool
+        </h2>
+        <p className="vads-u-margin-y--0">
+          This is an early version of the Accredited Representative Portal that
+          has limited functionality.
+        </p>
+      </va-alert>
+
+      <h2 className="representative-form__h2">
+        Follow these steps to submit the form
+      </h2>
       <VaProcessList>
+        <VaProcessListItem header="Confirm power of attorney">
+          <p>
+            Make sure you or your Veterans Service Organization (VSO) has
+            established power of attorney (POA) with the claimant. If POA is not
+            established, the portal will not allow you to submit the claimant’s
+            form.
+          </p>
+        </VaProcessListItem>
         <VaProcessListItem header="Download, fill out, and sign the form">
           <p>
             Download the form on your computer and fill it out, or print and
@@ -57,6 +78,7 @@ const IntroductionPage = ({ route, router }) => {
             <li>Sign the form</li>
           </ul>
           <VaLink
+            download
             external
             filetype="PDF"
             href={pdfDownloadUrl}
@@ -64,15 +86,17 @@ const IntroductionPage = ({ route, router }) => {
           />
         </VaProcessListItem>
         <VaProcessListItem header="Upload and submit the form">
-          <div>
-            <p>Upload the form, review and submit the form.</p>
-            <p>
-              <strong>Note:</strong> The portal can’t check for mistakes in your
-              form, so make sure you review all the information before you
-              upload and submit.
-            </p>
-            <p>When you’re ready, start the process below.</p>
-          </div>
+          <p>
+            First provide information about the claimant so we can confirm you
+            have established POA. Then upload the form, review, and submit the
+            form.
+          </p>
+          <p>
+            <strong>Note:</strong> The portal can’t check for mistakes in your
+            form, so make sure you review all the information before you upload
+            and submit.
+          </p>
+          <p>When you’re ready, start the process below.</p>
         </VaProcessListItem>
       </VaProcessList>
       {userLoggedIn ? (

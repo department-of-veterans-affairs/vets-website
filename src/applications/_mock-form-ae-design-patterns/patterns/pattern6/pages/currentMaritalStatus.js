@@ -36,17 +36,12 @@ export default {
   path: 'current-marital-status',
   uiSchema: {
     maritalStatus: radioUI({
-      title: 'What is your marital status?',
+      title: 'What is your current marital status?',
       labels: maritalStatusOptions,
       description: (
         <span className="vads-u-color--gray-medium">
           If you're in a civil union or common law marriage that's recognized by
           the state the union took place in, select Married.{' '}
-          {/* <va-link
-            text="Learn more about how VA defines marriage"
-            href="https://www.va.gov/resources/state-recognized-unions/"
-          />
-          . */}
         </span>
       ),
     }),
