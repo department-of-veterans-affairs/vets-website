@@ -19,6 +19,10 @@ import VeteranContactInformationPage from '../components/VeteranContactInformati
 import VeteranContactInformationReviewPage from '../components/VeteranContactInformationReviewPage';
 import NeedHelp from '../components/NeedHelp';
 
+import { dependents } from './chapters/dependents/dependents';
+import { DependentsInformationReview } from '../components/DependentsInformation';
+
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -101,6 +105,18 @@ const formConfig = {
         editEmailPage,
         editPhonePage,
         editInternationalPhonePage,
+
+    dependents: {
+      title: 'Review your dependents',
+      pages: {
+        dependents: {
+          path: 'dependents',
+          title: 'Dependents on your VA benefits',
+          CustomPageReview: DependentsInformationReview,
+          uiSchema: dependents.uiSchema,
+          schema: dependents.schema,
+        },
+
       },
     },
   },
