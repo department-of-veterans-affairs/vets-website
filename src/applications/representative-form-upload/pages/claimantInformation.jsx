@@ -27,10 +27,7 @@ const claimantSubPageUI = {
     ...ssnUI,
     'ui:title': 'Social Security number',
   },
-  claimantDateOfBirth: {
-    ...dateOfBirthUI,
-    'ui:title': 'Date of birth',
-  },
+  claimantDateOfBirth: dateOfBirthUI(),
   vaFileNumber: {
     ...vaFileNumberUI,
     'ui:title': 'VA file number',
@@ -49,10 +46,7 @@ const veteranSubPageUI = {
     ...ssnUI,
     'ui:title': 'Social Security number',
   },
-  veteranDateOfBirth: {
-    ...dateOfBirthUI,
-    'ui:title': 'Date of birth',
-  },
+  veteranDateOfBirth: dateOfBirthUI(),
   address: addressUI({
     labels: {
       postalCode: 'Postal code',
@@ -115,7 +109,6 @@ export const claimantInformationPage = {
       'claimantDateOfBirth',
       'veteranSsn',
       'veteranDateOfBirth',
-      'email',
       'address',
       'veteranFullName',
     ],

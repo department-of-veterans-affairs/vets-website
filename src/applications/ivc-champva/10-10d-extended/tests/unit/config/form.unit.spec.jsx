@@ -1,7 +1,6 @@
-/*
 import { expect } from 'chai';
-import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../../config/form';
+/* import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
 import mockData from '../../fixtures/data/test-data.json';
 
 testNumberOfWebComponentFields(
@@ -23,3 +22,15 @@ testNumberOfWebComponentFields(
 );
 
 */
+
+// TODO: when we connect this form to the backend via submitUrl, we can remove
+// the `submit` function + this test.
+describe('formConfig', () => {
+  describe('submit function', () => {
+    it('should resolve with a confirmation number', () => {
+      formConfig
+        .submit()
+        .then(r => expect(r.confirmationNumber).to.eq('123123123'));
+    });
+  });
+});
