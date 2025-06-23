@@ -178,17 +178,17 @@ export function prefillTransformer(pages, formData, metadata, state) {
     email: emailAddress,
     confirmEmail: emailAddress,
     mobilePhone: {
-      phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+      phone: mobilePhoneNumber?.replace(/\D/g, '') || null,
       isInternational: mobilePhoneIsInternational,
     },
     homePhone: {
-      phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
+      phone: homePhoneNumber?.replace(/\D/g, '') || null,
       isInternational: homePhoneIsInternational,
     },
     mailingAddressInput: {
       address: {
         street: address?.addressLine1,
-        street2: address?.addressLine2 || undefined,
+        street2: address?.addressLine2 || null,
         city: address?.city,
         state: address?.stateCode || address?.province,
         postalCode:
