@@ -16,10 +16,9 @@ const veteranLabels = {
 /** @type {PageSchema} */
 export const isVeteranPage = {
   uiSchema: {
-    ...titleUI("What is the claimant's relationship to the Veteran?"),
+    ...titleUI('Claimant background'),
     isVeteran: radioUI({
-      title: 'Tell us who the claimant is',
-      description: "What is the claimant's relationship to the Veteran?",
+      title: "What is the claimant's relationship to the Veteran?",
       labels: veteranLabels,
     }),
   },
