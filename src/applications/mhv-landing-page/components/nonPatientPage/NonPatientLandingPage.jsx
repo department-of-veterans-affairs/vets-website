@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
+import { datadogRum } from '@datadog/browser-rum';
 
 import HeaderLayout from '../HeaderLayout';
 import HelpdeskNonPatient from './HelpdeskNonPatient';
@@ -14,8 +17,22 @@ import HubLinks from '../HubLinks';
 import NewsletterSignup from '../NewsletterSignup';
 import manifest from '../../manifest.json';
 
-const NonPatientLandingPage = ({ data = {} }) => {
-  const { nonPatientHubs, healthResourcesLinks = {} } = data;
+const NON_PATIENT_PAGE = 'non-patient';
+
+const NonPatientLandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
+  const { nonPatientHubs = [], healthResourcesLinks = [] } = data;
+
+  useEffect(
+    () => {
+      const url = new URL(window.location.href);
+      url.searchParams.set('page', NON_PATIENT_PAGE);
+      window.history.replaceState({}, '', url);
+
+      recordEvent({ event: 'nav-non-patient-landing-page' });
+      datadogRum.addAction('Showed non-patient landing page');
+    },
+    [recordEvent],
+  );
 
   return (
     <div
@@ -31,6 +48,7 @@ const NonPatientLandingPage = ({ data = {} }) => {
           ]}
         />
         <DowntimeNotification
+          appTitle={manifest.appName}
           dependencies={[externalServices.mhvPlatform]}
           render={renderMHVDowntime}
         />
@@ -47,6 +65,7 @@ const NonPatientLandingPage = ({ data = {} }) => {
 
 NonPatientLandingPage.propTypes = {
   data: PropTypes.object,
+  recordEvent: PropTypes.func,
 };
 
 export default NonPatientLandingPage;

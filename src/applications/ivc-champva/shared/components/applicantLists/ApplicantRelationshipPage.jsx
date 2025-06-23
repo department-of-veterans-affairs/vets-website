@@ -44,7 +44,16 @@ export function appRelBoilerplate({ data, pagePerItemIndex }) {
   };
 }
 
-function generateOptions({ data, pagePerItemIndex }) {
+/**
+ * Assembles radio options and returns customized wording for use in the display
+ * @param {Object} param0.data Formdata object
+ * @param {Number|String} param0.pagePerItemIndex list loop current index
+ * @param {Object} param0.customWordingloop Object containing custom wording overrides.
+ *  Wording that may be overridden includes: personTitle, customTitle, customHint,
+ *  description, customOtherDescription.
+ * @returns
+ */
+function generateOptions({ data, pagePerItemIndex, customWording }) {
   const {
     keyname,
     currentListItem,
@@ -59,7 +68,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     {
       label: `${
         data.sponsorIsDeceased ? 'Surviving s' : 'S'
-      }pouse or partner from a legal union (including a civil union or common-law marriage`,
+      }pouse or partner from a legal union (including a civil union or common-law marriage)`,
       value: 'spouse',
     },
     {
@@ -71,6 +80,7 @@ function generateOptions({ data, pagePerItemIndex }) {
   ];
 
   return {
+    ...customWording,
     options,
     useFirstPerson,
     relativePossessive,
@@ -162,6 +172,7 @@ export default function ApplicantRelationshipPage({
   pagePerItemIndex,
   updatePage,
   onReviewPage,
+  customWording,
 }) {
   // fulldata is present in array builder pages:
   const fullOrItemData = fullData ?? data;
@@ -199,6 +210,7 @@ export default function ApplicantRelationshipPage({
   } = genOps({
     data: fullOrItemData,
     pagePerItemIndex,
+    customWording, // For hint override when using default configuration
   });
 
   const handlers = {
@@ -265,18 +277,17 @@ export default function ApplicantRelationshipPage({
   );
   return (
     <>
-      <span className="dd-privacy-hidden">
-        {
-          titleUI(
-            customTitle ||
-              `${
-                useFirstPerson ? `Your` : `${applicant}’s`
-              } relationship to the ${personTitle}`,
-          )['ui:title']
-        }
-      </span>
-
       <form onSubmit={handlers.onGoForward}>
+        <span className="dd-privacy-hidden">
+          {
+            titleUI(
+              customTitle ||
+                `${
+                  useFirstPerson ? `Your` : `${applicant}’s`
+                } relationship to the ${personTitle}`,
+            )['ui:title']
+          }
+        </span>
         <VaRadio
           class="vads-u-margin-y--2 dd-privacy-hidden"
           label={
@@ -347,6 +358,7 @@ ApplicantRelationshipReviewPage.propTypes = {
 
 ApplicantRelationshipPage.propTypes = {
   contentAfterButtons: PropTypes.object,
+  customWording: PropTypes.object,
   data: PropTypes.object,
   fullData: PropTypes.object,
   genOp: PropTypes.func,

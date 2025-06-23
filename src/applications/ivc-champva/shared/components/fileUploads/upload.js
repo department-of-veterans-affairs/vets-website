@@ -22,18 +22,33 @@ export function createPayload(file, _formId, password) {
   return payload;
 }
 
-export function findAndFocusLastSelect() {
-  const lastSelect = [...document.querySelectorAll('va-select')].slice(-1);
+/**
+ * This function handles setting focus after uploading a file.
+ * It sets focus to the first <select> element in the host.
+ * If no <select> is found it attempts to set focus to the delete button
+ * and falls back to the upload button if no delete button is found.
+ * @param {Object} host DOM node we want to look inside
+ * @returns last <select> element found in host or undefined
+ */
+export function findAndFocusLastSelect(host) {
+  if (host === undefined) return undefined;
+  const lastSelect = [...host?.querySelectorAll('va-select')].slice(-1);
   if (lastSelect.length) {
     focusElement(lastSelect[0]);
   } else {
-    // focus on upload button as a fallback
-    focusElement(
-      // including `#upload-button` because RTL can't access the shadowRoot
-      'button, #upload-button',
-      {},
-      document.querySelector(`#upload-button`)?.shadowRoot,
-    );
+    // focus on delete button with upload button as a fallback
+    const delBtn = host?.querySelector('.delete-upload');
+    if (delBtn) {
+      const delBtnShadow = delBtn?.shadowRoot?.querySelector('button');
+      focusElement(delBtnShadow);
+    } else {
+      focusElement(
+        // including `#upload-button` because RTL can't access the shadowRoot
+        'button, #upload-button',
+        {},
+        host.querySelector(`#upload-button`)?.shadowRoot,
+      );
+    }
   }
   return lastSelect;
 }
@@ -53,7 +68,15 @@ export const fileUploadUi = content => {
     createPayload,
     parseResponse: (response, file) => {
       setTimeout(() => {
-        findAndFocusLastSelect();
+        // Get the host element that contains our upload/delete buttons.
+        // This is so we can improve the focus behavior after upload.
+        let host = Array.from(
+          document.querySelectorAll('.schemaform-file-list li'),
+        );
+        // From the list, select the one that holds a file with the same name
+        // as the one just uploaded. Take the last match.
+        host = host.filter(el => el.innerText?.includes(file.name));
+        findAndFocusLastSelect(host?.pop());
       }, 500);
       return {
         name: file.name,

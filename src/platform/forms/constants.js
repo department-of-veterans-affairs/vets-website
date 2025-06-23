@@ -157,6 +157,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21_10210]: `${tryGetAppUrl(
       '10210-lay-witness-statement',
     )}/`,
+    [VA_FORM_IDS.FORM_21A]: `${tryGetAppUrl('representative-21a')}/`,
     [VA_FORM_IDS.FORM_21_22]: `${tryGetAppUrl('appoint-a-representative')}/`,
     [VA_FORM_IDS.FORM_21_22A]: `${tryGetAppUrl('appoint-a-representative')}/`,
     [VA_FORM_IDS.FORM_21_4142]: `${tryGetAppUrl('21-4142-medical-release')}/`,
@@ -176,7 +177,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_26_1880]: `${tryGetAppUrl('coe')}/`,
     [VA_FORM_IDS.FORM_26_4555]: `${tryGetAppUrl('4555-adapted-housing')}/`,
     [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900-chapter-31')}/`,
-    [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('new-28-1900-chapter-31')}/`,
+    [VA_FORM_IDS.FORM_28_1900_V2]: `${tryGetAppUrl('new-28-1900-chapter-31')}/`,
     [VA_FORM_IDS.FORM_28_8832]: `${tryGetAppUrl(
       '25-8832-planning-and-career-guidance',
     )}/`,
@@ -433,6 +434,13 @@ export const MY_VA_SIP_FORMS = [
     title: 'lay/witness statement (21-10210)',
     description: 'lay/witness statement application (21-10210)',
     trackingPrefix: 'lay-witness-10210-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21A,
+    benefit: `Application for Accreditation as a Claims Agent or Attorney`,
+    title: `Application for Accreditation as a Claims Agent or Attorney (21a)`,
+    description: 'Claims Agent or Attorney accreditation application (21a)',
+    trackingPrefix: '21a-',
   },
   {
     id: VA_FORM_IDS.FORM_21_22,

@@ -173,6 +173,9 @@ describe('VAOS Component: ClaimExamLayout', () => {
         type: 'VA',
         modality: 'claimExamAppointment',
         isCerner: false,
+        'fields-load-success': '',
+        'fields-load-fail':
+          'type-of-care,clinic-phone,facility-id,facility-details,facility-phone',
       };
 
       // Act
@@ -195,47 +198,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
           );
         }),
       );
-
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-any',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-id',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-id',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
         ...nullAttributes,
       });
     });
@@ -312,6 +276,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
+        type: 'VA',
+        modality: 'claimExamAppointment',
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -336,6 +302,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
+          isCerner: false,
           apiData: {
             serviceCategory: [
               {
@@ -345,6 +312,14 @@ describe('VAOS Component: ClaimExamLayout', () => {
           },
         },
         status: 'booked',
+      };
+      const nullAttributes = {
+        type: 'VA',
+        modality: 'claimExamAppointment',
+        isCerner: false,
+        'fields-load-success':
+          'type-of-care,clinic-phone,facility-id,facility-details,facility-phone',
+        'fields-load-fail': '',
       };
 
       // Act
@@ -404,11 +379,11 @@ describe('VAOS Component: ClaimExamLayout', () => {
         }),
       );
       expect(
-        screen.getByText(/You don't need to bring anything to your exam./i),
+        screen.getByText(/You don.t need to bring anything to your exam/i),
       );
       expect(
         screen.getByText(
-          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
+          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment/i,
         ),
       );
       expect(
@@ -439,40 +414,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
       ).to.not.exist;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-any',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-id',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-id',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
+        ...nullAttributes,
       });
     });
   });
@@ -639,11 +582,11 @@ describe('VAOS Component: ClaimExamLayout', () => {
         }),
       );
       expect(
-        screen.getByText(/You don't need to bring anything to your exam./i),
+        screen.getByText(/You don.t need to bring anything to your exam/i),
       );
       expect(
         screen.getByText(
-          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
+          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment/i,
         ),
       );
       expect(

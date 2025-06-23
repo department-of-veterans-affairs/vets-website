@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const LiVaIconAndVaLink = ({ href, text, iconName }) => (
   <li>
-    <va-link href={`${href}#facebook`} text={text} icon-name={iconName} />
+    <va-link href={href} text={text} icon-name={iconName} />
   </li>
 );
 

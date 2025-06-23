@@ -51,13 +51,13 @@ describe('VAOS Component: VideoLayout', () => {
           kind: 'ADHOC',
           duration: 30,
           providers: [],
-          isAtlas: false,
           atlasLocation: null,
           extension: {
             patientHasMobileGfe: false,
           },
         },
         vaos: {
+          isAtlas: false,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -73,6 +73,9 @@ describe('VAOS Component: VideoLayout', () => {
         type: 'VA',
         modality: 'vaVideoCareAtHome',
         isCerner: false,
+        'fields-load-success': '',
+        'fields-load-fail':
+          'type-of-care,provider,clinic-phone,facility-details,facility-phone',
       };
 
       // Act
@@ -109,45 +112,7 @@ describe('VAOS Component: VideoLayout', () => {
       expect(screen.getByText(/Facility not available/i));
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-any',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
         ...nullAttributes,
       });
     });
@@ -242,6 +207,8 @@ describe('VAOS Component: VideoLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
+        type: 'VA',
+        modality: 'vaVideoCareAtHome',
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -275,11 +242,20 @@ describe('VAOS Component: VideoLayout', () => {
           isPendingAppointment: false,
           isUpcomingAppointment: true,
           isVideo: true,
+          isCerner: false,
           apiData: {
             serviceType: 'primaryCare',
           },
         },
         status: 'booked',
+      };
+      const nullAttributes = {
+        type: 'VA',
+        modality: 'vaVideoCareAtHome',
+        isCerner: false,
+        'fields-load-success':
+          'type-of-care,provider,clinic-phone,facility-details,facility-phone',
+        'fields-load-fail': '',
       };
 
       // Act
@@ -365,7 +341,7 @@ describe('VAOS Component: VideoLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -375,51 +351,19 @@ describe('VAOS Component: VideoLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Get your device ready to join./i));
+      expect(screen.getByText(/Get your device ready to join/i));
       expect(
         screen.container.querySelector(
-          'va-additional-info[trigger="How to setup your device"]',
+          'va-link[text="Learn how to prepare for your video appointment"]',
         ),
       ).to.be.ok;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-any',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
+        ...nullAttributes,
       });
     });
   });
@@ -827,7 +771,7 @@ describe('VAOS Component: VideoLayout', () => {
         );
         expect(
           screen.getByText(
-            /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+            /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
           ),
         );
         expect(
@@ -837,13 +781,13 @@ describe('VAOS Component: VideoLayout', () => {
         ).to.be.ok;
         expect(
           screen.container.querySelector(
-            'va-link[text="Find a full list of things to bring to your appointment"]',
+            'va-link[text="Find out what to bring to your appointment"]',
           ),
         ).to.be.ok;
-        expect(screen.getByText(/Get your device ready to join./i));
+        expect(screen.getByText(/Get your device ready to join/i));
         expect(
           screen.container.querySelector(
-            'va-additional-info[trigger="How to setup your device"]',
+            'va-link[text="Learn how to prepare for your video appointment"]',
           ),
         ).to.be.ok;
       });
@@ -989,7 +933,7 @@ describe('VAOS Component: VideoLayout', () => {
         );
         expect(
           screen.getByText(
-            /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+            /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
           ),
         );
         expect(
@@ -999,13 +943,13 @@ describe('VAOS Component: VideoLayout', () => {
         ).to.be.ok;
         expect(
           screen.container.querySelector(
-            'va-link[text="Find a full list of things to bring to your appointment"]',
+            'va-link[text="Find out what to bring to your appointment"]',
           ),
         ).to.be.ok;
-        expect(screen.getByText(/Get your device ready to join./i));
+        expect(screen.getByText(/Get your device ready to join/i));
         expect(
           screen.container.querySelector(
-            'va-additional-info[trigger="How to setup your device"]',
+            'va-link[text="Learn how to prepare for your video appointment"]',
           ),
         ).to.be.ok;
       });

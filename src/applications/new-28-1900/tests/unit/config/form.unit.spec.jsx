@@ -38,7 +38,7 @@ describe('new-28-1900 formConfig', () => {
     describe('contactInformationChapter page.depends', () => {
       const {
         depends,
-      } = formConfig.chapters.contactInformationChapter.pages.newMailingAddressPage;
+      } = formConfig.chapters.contactInformationChapter.pages.newAddressPage;
 
       it('returns FALSE when isMoving is false', () => {
         expect(depends({ isMoving: false })).to.be.false;
