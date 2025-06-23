@@ -8,8 +8,7 @@ import ProgressButton from '@department-of-veterans-affairs/platform-forms-syste
 
 const EditInternationalPhonePage = props => {
   const { formData = {}, goToPath, setFormData } = props;
-  const { veteranContactInformation = {} } = formData;
-  const { internationalPhone = '' } = veteranContactInformation;
+  const { internationalPhone = '' } = formData;
 
   const [fieldData, setFieldData] = useState(internationalPhone);
   const [error, setError] = useState(null);
@@ -44,10 +43,7 @@ const EditInternationalPhonePage = props => {
 
       setFormData({
         ...formData,
-        veteranContactInformation: {
-          ...veteranContactInformation,
-          internationalPhone: fieldData,
-        },
+        internationalPhone: fieldData,
       });
 
       returnToPath();
@@ -97,9 +93,7 @@ const EditInternationalPhonePage = props => {
 
 EditInternationalPhonePage.propTypes = {
   formData: PropTypes.shape({
-    veteranContactInformation: PropTypes.shape({
-      internationalPhone: PropTypes.string,
-    }),
+    internationalPhone: PropTypes.string,
   }),
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,

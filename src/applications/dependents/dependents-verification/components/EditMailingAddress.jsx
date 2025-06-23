@@ -19,22 +19,6 @@ const EditMailingAddress = ({
 
   const returnPath = '/veteran-contact-information';
 
-  // Convert profile address data to address schema format
-  // const mailingAddress = data?.veteranContactInformation?.address || {};
-  // const address = {
-  //   addressType: '',
-  //   country: '',
-  //   isMilitary: false,
-  //   street: '',
-  //   street2: '',
-  //   street3: '',
-  //   city: '',
-  //   state: '',
-  //   postalCode: '',
-  //   internationalPostalCode: '',
-  // };
-  // console.log({ data, mailingAddress });
-
   const returnToPath = () => {
     goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
   };
@@ -45,36 +29,9 @@ const EditMailingAddress = ({
 
   const handlers = {
     onInput: inputData => {
-      // console.log({ data, inputData });
-      // console.log({ inputData, data });
-      // let addressType = 'DOMESTIC';
-
-      // const updatedData = mergeWith(data.mailingAddress, inputData.address);
-      // if (updatedData.isMilitary === undefined) {
-      //   updatedData.isMilitary = false;
-      // } else if (updatedData.isMilitary === true) {
-      //   addressType = 'MILITARY';
-      // } else if (['USA']?.includes(updatedData.country)) {
-      //   addressType = 'INTERNATIONAL';
-      // }
-
-      // setFormData({
-      //   ...data,
-      //   mailingAddress: {
-      //     ...data.mailingAddress,
-      //     isMilitary: false,
-      //     addressType,
-      //     ...updatedData,
-      //   },
-      // });
       setFormData({
         ...data,
-        ...inputData,
-        veteranContactInformation: {
-          address: {
-            ...inputData.address,
-          },
-        },
+        address: inputData.address,
       });
     },
     onSubmit: () => {
@@ -84,44 +41,6 @@ const EditMailingAddress = ({
       returnToPath();
     },
   };
-
-  // const handlers = {
-  //   onInput: inputData => {
-  //     // const isUSA =
-  //     //   !inputData.address.country || inputData.address.country === 'USA';
-  //     let addressType = 'DOMESTIC';
-  //     // if (inputData.address.isMilitary) {
-  //     //   addressType = 'MILITARY';
-  //     // } else if (!isUSA) {
-  //     //   addressType = 'INTERNATIONAL';
-  //     // }
-
-  //     const updatedData = mergeWith(address, inputData.address);
-  //     if (updatedData.isMilitary === undefined) {
-  //       updatedData.isMilitary = false;
-  //     } else if (updatedData.isMilitary === true) {
-  //       addressType = 'MILITARY';
-  //     } else if (['USA']?.includes(updatedData.country)) {
-  //       addressType = 'INTERNATIONAL';
-  //     }
-
-  //     setFormData({
-  //       ...data,
-  //       mailingAddress: {
-  //         ...data.mailingAddress,
-  //         isMilitary: false,
-  //         addressType,
-  //         ...updatedData,
-  //       },
-  //     });
-  //   },
-  //   onSubmit: () => {
-  //     returnToPath();
-  //   },
-  //   onCancel: () => {
-  //     returnToPath();
-  //   },
-  // };
 
   useEffect(() => {
     const timeout = setTimeout(() => {

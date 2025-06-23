@@ -4,23 +4,17 @@ import EditPhonePage from '../../../components/EditPhonePage';
 export default {
   title: 'Edit phone number',
   path: 'veteran-contact-information/phone',
+  depends: () => false,
   hideNavButtons: true,
   CustomPage: EditPhonePage,
   CustomPageReview: null,
   uiSchema: {
-    veteranContactInformation: {
-      'ui:options': {
-        hideOnReview: true,
-      },
+    'ui:options': {
+      hideOnReview: true,
     },
   },
   schema: {
     type: 'object',
-    properties: {
-      veteranContactInformation: {
-        type: 'object',
-        properties: {},
-      },
-    },
+    properties: {},
   },
 };

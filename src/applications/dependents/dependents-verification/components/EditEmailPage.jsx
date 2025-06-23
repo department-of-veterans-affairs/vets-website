@@ -16,8 +16,7 @@ import ProgressButton from '@department-of-veterans-affairs/platform-forms-syste
 
 const EditEmailPage = props => {
   const { formData = {}, goToPath, setFormData } = props;
-  const { veteranContactInformation = {} } = formData;
-  const { email = '' } = veteranContactInformation;
+  const { email = '' } = formData;
 
   const [fieldData, setFieldData] = useState(email);
   const [error, setError] = useState(null);
@@ -52,10 +51,7 @@ const EditEmailPage = props => {
 
       setFormData({
         ...formData,
-        veteranContactInformation: {
-          ...veteranContactInformation,
-          email: fieldData,
-        },
+        email: fieldData,
       });
 
       returnToPath();
@@ -107,9 +103,7 @@ const EditEmailPage = props => {
 
 EditEmailPage.propTypes = {
   formData: PropTypes.shape({
-    veteranContactInformation: PropTypes.shape({
-      email: PropTypes.string,
-    }),
+    email: PropTypes.string,
   }),
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { isValidPhone } from 'platform/forms/validations';
 import { Title } from '~/platform/forms-system/src/js/web-component-patterns/titlePattern';
 import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
@@ -14,9 +12,8 @@ import ProgressButton from '@department-of-veterans-affairs/platform-forms-syste
  * number or cancel and return to the contact information page.
  */
 
-const EditPhonePage = props => {
-  const { formData = {}, goToPath, setFormData } = props;
-  const { phone = '' } = formData.veteranContactInformation || {};
+const EditPhonePage = ({ data, goToPath, setFormData }) => {
+  const { phone = '' } = data || {};
   const [fieldData, setFieldData] = useState(phone);
   const [error, setError] = useState(null);
 
@@ -50,11 +47,8 @@ const EditPhonePage = props => {
       if (validationError) return;
 
       setFormData({
-        ...formData,
-        veteranContactInformation: {
-          ...formData.veteranContactInformation,
-          phone: fieldData || '',
-        },
+        ...data,
+        phone: fieldData || '',
       });
       returnToPath();
     },
@@ -105,22 +99,11 @@ const EditPhonePage = props => {
 };
 
 EditPhonePage.propTypes = {
-  formData: PropTypes.shape({
+  data: PropTypes.shape({
     phone: PropTypes.string,
   }),
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  formData: state.form?.data,
-});
-
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EditPhonePage);
+export default EditPhonePage;

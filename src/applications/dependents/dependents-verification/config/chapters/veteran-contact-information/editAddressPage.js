@@ -8,7 +8,7 @@ import EditMailingAddress from '../../../components/EditMailingAddress';
 export default {
   title: 'Edit mailing address',
   path: 'veteran-contact-information/mailing-address',
-  // depends: () => false,
+  depends: () => false,
   CustomPage: EditMailingAddress,
   CustomPageReview: null,
   uiSchema: {

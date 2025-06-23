@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '~/platform/user/selectors';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import AddressView from '@@vap-svc/components/AddressField/AddressView';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 
@@ -13,7 +12,6 @@ import { isEmptyObject } from '../../shared/utils';
 const VeteranContactInformationPage = ({
   data,
   goBack,
-  // goForward,
   goToPath,
   setFormData,
   contentBeforeButtons,
@@ -21,13 +19,7 @@ const VeteranContactInformationPage = ({
 }) => {
   const alertRef = useRef(null);
   const { profile } = useSelector(selectUser);
-  const { veteranContactInformation = {} } = data || {};
-  const {
-    email,
-    phone,
-    address,
-    internationalPhone,
-  } = veteranContactInformation;
+  const { email, phone, address, internationalPhone } = data;
 
   const { email: profileEmail, vapContactInfo } = profile || {};
   const {
@@ -58,7 +50,7 @@ const VeteranContactInformationPage = ({
   const updateContactInfo = field => {
     setFormData({
       ...data,
-      veteranContactInformation: { ...veteranContactInformation, ...field },
+      ...field,
     });
   };
 
@@ -99,7 +91,18 @@ const VeteranContactInformationPage = ({
     if (!isEmptyObject(address)) {
       newAddress = address;
     } else if (!isEmptyObject(profileMailingAddress)) {
-      newAddress = profileMailingAddress;
+      newAddress = {
+        addressType: profileMailingAddress.addressType,
+        street: profileMailingAddress.addressLine1,
+        street2: profileMailingAddress.addressLine2,
+        city: profileMailingAddress.city,
+        state:
+          profileMailingAddress.stateCode || profileMailingAddress.province,
+        postalCode:
+          profileMailingAddress.zipCode ||
+          profileMailingAddress.internationalPostalCode,
+        country: profileMailingAddress.countryCodeIso3,
+      };
     }
 
     updateContactInfo({
@@ -203,7 +206,28 @@ const VeteranContactInformationPage = ({
                 className="dd-privacy-hidden"
                 data-dd-action-name="Veteran's address"
               >
-                <AddressView data={address} />
+                <div className="dd-privacy-hidden" data-dd-action-name="street">
+                  {address.street}
+                </div>
+                {address.street2 && (
+                  <div
+                    className="dd-privacy-hidden"
+                    data-dd-action-name="street2"
+                  >
+                    {address.street2}
+                  </div>
+                )}
+                <div
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="city, state and zip code"
+                >
+                  {`${address.city}, ${address.state ||
+                    address.province} ${address.postalCode ||
+                    address.internationalPostalCode}`}
+                </div>
+                {address.country === 'USA' ? null : (
+                  <div>{address.country}</div>
+                )}
               </span>
             ) : (
               <>
@@ -351,18 +375,19 @@ VeteranContactInformationPage.propTypes = {
   // onReviewPage: PropTypes.bool,
   // updatePage: PropTypes.func,
   data: PropTypes.shape({
-    veteranContactInformation: PropTypes.shape({
-      email: PropTypes.string,
-      phone: PropTypes.string,
-      address: PropTypes.shape({
-        street: PropTypes.string,
-        city: PropTypes.string,
-        state: PropTypes.string,
-        postalCode: PropTypes.string,
-        country: PropTypes.string,
-      }),
-      internationalPhone: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+    address: PropTypes.shape({
+      street: PropTypes.string,
+      street2: PropTypes.string,
+      city: PropTypes.string,
+      state: PropTypes.string,
+      province: PropTypes.string,
+      postalCode: PropTypes.string,
+      internationalPostalCode: PropTypes.string,
+      country: PropTypes.string,
     }),
+    internationalPhone: PropTypes.string,
   }),
 };
 
