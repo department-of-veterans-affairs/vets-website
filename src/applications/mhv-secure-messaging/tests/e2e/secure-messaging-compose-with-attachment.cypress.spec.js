@@ -17,7 +17,7 @@ describe('Compose a new message with attachments', () => {
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
       force: true,
-      waitforanimations: true,
+      waitForAnimations: true,
     });
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.sendMessage();
