@@ -141,7 +141,7 @@ function App({
     [dob, formData, setFormData],
   );
 
-  // Fallback to prefillTransformer data if claimant info still missing
+  // Fallback to prefillTransformer data (claimant) – run once when formData initially lacks name or DOB
   useEffect(
     () => {
       if (
@@ -158,7 +158,7 @@ function App({
         });
       }
     },
-    [claimant, formData, setFormData],
+    [formData, claimant, setFormData],
   );
 
   return (
