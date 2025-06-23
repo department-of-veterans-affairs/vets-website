@@ -16,8 +16,8 @@ on:
           - both
 
 env:
-  DEVOPS_CHANNEL_ID: C37M86Y8G
-  VETS_WEBSITE_CHANNEL_ID: C02V265VCGH
+  DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+  VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
 jobs:
   permissions-check:
