@@ -92,16 +92,16 @@ const VeteranContactInformationPage = ({
       newAddress = address;
     } else if (!isEmptyObject(profileMailingAddress)) {
       newAddress = {
-        addressType: profileMailingAddress.addressType,
-        street: profileMailingAddress.addressLine1,
-        street2: profileMailingAddress.addressLine2,
-        city: profileMailingAddress.city,
+        addressType: profileMailingAddress?.addressType,
+        street: profileMailingAddress?.addressLine1,
+        street2: profileMailingAddress?.addressLine2,
+        city: profileMailingAddress?.city,
         state:
-          profileMailingAddress.stateCode || profileMailingAddress.province,
+          profileMailingAddress?.stateCode || profileMailingAddress?.province,
         postalCode:
-          profileMailingAddress.zipCode ||
-          profileMailingAddress.internationalPostalCode,
-        country: profileMailingAddress.countryCodeIso3,
+          profileMailingAddress?.zipCode ||
+          profileMailingAddress?.internationalPostalCode,
+        country: profileMailingAddress?.countryCodeIso3,
       };
     }
 
