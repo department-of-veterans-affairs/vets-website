@@ -107,19 +107,6 @@ function App({
     [getDuplicateContactInfo, formData],
   );
 
-  // Keep claimantDateOfBirth in sync with profile/pre-fill data
-  // useEffect(
-  //   () => {
-  //     if (dob && dob !== formData?.claimantDateOfBirth) {
-  //       setFormData({
-  //         ...formData,
-  //         claimantDateOfBirth: dob,
-  //       });
-  //     }
-  //   },
-  //   [dob, formData],
-  // );
-
   // Populate claimant info from profile if missing
   useEffect(
     () => {
@@ -139,7 +126,7 @@ function App({
         });
       }
     },
-    [user?.profile, formData],
+    [user?.profile, setFormData],
   );
 
   return (
