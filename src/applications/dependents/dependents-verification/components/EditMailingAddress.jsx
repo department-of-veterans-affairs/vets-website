@@ -62,8 +62,6 @@ const EditMailingAddress = ({
       <h3 className="vads-u-margin-bottom--4">Edit mailing address</h3>
       <SchemaForm
         addNameAttribute
-        // `name` and `title` are required by SchemaForm, but are only used
-        // internally by the SchemaForm component
         name="Contact Info Form"
         title="Contact Info Form"
         idSchema={{}}
