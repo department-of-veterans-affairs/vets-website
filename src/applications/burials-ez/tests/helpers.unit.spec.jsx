@@ -148,12 +148,26 @@ describe('Burials helpers', () => {
 
   describe('showHomeHospiceCareAfterDischargePage', () => {
     it('should return true if home hospice care is selected', () => {
-      const data = { homeHospiceCare: true };
+      const data = {
+        locationOfDeath: { location: 'atHome' },
+        homeHospiceCare: true,
+      };
       expect(showHomeHospiceCareAfterDischargePage(data)).to.be.true;
     });
 
+    it('should return false if death was not at home', () => {
+      const data = {
+        locationOfDeath: { location: 'other' },
+        homeHospiceCare: true,
+      };
+      expect(showHomeHospiceCareAfterDischargePage(data)).to.be.false;
+    });
+
     it('should return false if home hospice care is not selected', () => {
-      const data = { homeHospiceCare: false };
+      const data = {
+        locationOfDeath: { location: 'atHome' },
+        homeHospiceCare: false,
+      };
       expect(showHomeHospiceCareAfterDischargePage(data)).to.be.false;
     });
   });

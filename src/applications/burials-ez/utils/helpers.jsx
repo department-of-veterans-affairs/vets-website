@@ -120,4 +120,5 @@ export const showHomeHospiceCarePage = form => {
 };
 
 export const showHomeHospiceCareAfterDischargePage = form =>
+  get('locationOfDeath.location', form) === 'atHome' &&
   get('homeHospiceCare', form);
