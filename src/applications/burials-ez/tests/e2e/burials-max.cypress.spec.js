@@ -1,8 +1,8 @@
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import minimalFixture from '../schema/minimal-test.json';
-import overflowFixture from '../schema/overflow-test.json';
+import maximalFixture from '../schema/maximal-test.json';
+import maximalAtHomeFixture from '../schema/maximal-at-home-test.json';
 
 import mockUser from '../fixtures/mocks/user.json';
 import formConfig from '../../config/form';
@@ -17,8 +17,8 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataDir: null,
     dataSets: [
-      { title: 'overflow', data: overflowFixture },
-      { title: 'minimal', data: minimalFixture },
+      { title: 'maximal', data: maximalFixture },
+      { title: 'maximal at home', data: maximalAtHomeFixture },
     ],
     pageHooks: pageHooks(cy),
     setupPerTest: () => {
