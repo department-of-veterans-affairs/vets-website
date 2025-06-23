@@ -5,7 +5,12 @@ import { waitFor } from '@testing-library/react';
 import * as api from 'platform/utilities/api';
 import { fullNameUI } from 'platform/forms-system/src/js/web-component-patterns';
 import * as recordEventModule from 'platform/monitoring/record-event';
-import { benefitsIntakeFullNameUI } from '../utils/helpers';
+import {
+  benefitsIntakeFullNameUI,
+  pageAndReviewTitle,
+  showHomeHospiceCarePage,
+  showHomeHospiceCareAfterDischargePage,
+} from '../utils/helpers';
 import { submit } from '../config/submit';
 
 describe('Burials helpers', () => {
@@ -108,6 +113,46 @@ describe('Burials helpers', () => {
       );
       expect(benefitsUiSchema.first['ui:validations']).to.have.lengthOf(2);
       expect(benefitsUiSchema.last['ui:validations']).to.have.lengthOf(2);
+    });
+  });
+
+  describe('pageAndReviewTitle', () => {
+    it('should return the correct title for a page', () => {
+      const title = pageAndReviewTitle('Testing page');
+      expect(Object.keys(title)).to.deep.equal(['title', 'reviewTitle']);
+      expect(title.title).to.equal('Testing page');
+    });
+  });
+
+  describe('showHomeHospiceCarePage', () => {
+    const data = { locationOfDeath: { location: 'atHome' } };
+    const date = new Date('2025-07-30').getTime();
+    it('should return true if home is selected & before end date', () => {
+      expect(showHomeHospiceCarePage(data, date)).to.be.true;
+    });
+    it('should return false if home is not selected & before end date', () => {
+      expect(
+        showHomeHospiceCarePage(
+          { locationOfDeath: { location: 'other' } },
+          date,
+        ),
+      ).to.be.false;
+    });
+    it('should return false if home is selected & past the end date', () => {
+      const expiredDate = new Date('2030-01-01').getTime();
+      expect(showHomeHospiceCarePage(data, expiredDate)).to.be.false;
+    });
+  });
+
+  describe('showHomeHospiceCareAfterDischargePage', () => {
+    it('should return true if home hospice care is selected', () => {
+      const data = { homeHospiceCare: true };
+      expect(showHomeHospiceCareAfterDischargePage(data)).to.be.true;
+    });
+
+    it('should return false if home hospice care is not selected', () => {
+      const data = { homeHospiceCare: false };
+      expect(showHomeHospiceCareAfterDischargePage(data)).to.be.false;
     });
   });
 });
