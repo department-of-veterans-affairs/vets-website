@@ -46,17 +46,14 @@ jobs:
         with:
           github-token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           script: |
-            const core = require('@actions/core');
             const org = context.repo.owner;
-            const teamSlug = 'va-platform-cop-frontend';
-            const username = context.actor;
 
             try {
               // Throws 404 if the user is NOT a member of the team.
               await github.rest.teams.getMembershipForUserInOrg({
                 org,
-                team_slug: teamSlug,
-                username,
+                team_slug: 'va-platform-cop-frontend',
+                username: context.actor,
               });
               core.notice('Permissions check passed.');
             } catch (error) {
