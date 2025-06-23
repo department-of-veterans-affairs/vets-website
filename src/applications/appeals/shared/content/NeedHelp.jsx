@@ -27,10 +27,12 @@ export default function NeedHelp() {
         <va-telephone contact={CONTACTS['711']} tty />.
       </p>
       <p>
-        <a href={HEALTH_BENEFITS_URL}>
-          Learn more about Veterans Health Administration (VHA) health care
-          services
-        </a>
+        <va-link
+          disable-analytics
+          href={HEALTH_BENEFITS_URL}
+          text="Learn more about Veterans Health Administration (VHA) health care
+          services"
+        />
         .
       </p>
       <p>
@@ -38,14 +40,22 @@ export default function NeedHelp() {
         sexual trauma (MST), contact a VHA MST Coordinator.
       </p>
       <p>
-        <a href={MST_COORD_URL}>Find a VHA MST coordinator</a>
+        <va-link
+          disable-analytics
+          href={MST_COORD_URL}
+          text="Find a VHA MST coordinator"
+        />
       </p>
       <p>
         Or contact your local VA medical facility and ask to speak to a MST
         coordinator.
       </p>
       <p>
-        <a href={FACILITY_LOCATOR_URL}>Find a VA medical facility near you</a>
+        <va-link
+          disable-analytics
+          href={FACILITY_LOCATOR_URL}
+          text="Find a VA medical facility near you"
+        />
       </p>
     </>
   ) : (

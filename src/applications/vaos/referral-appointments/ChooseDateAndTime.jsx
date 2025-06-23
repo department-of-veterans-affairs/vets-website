@@ -39,7 +39,10 @@ export const ChooseDateAndTime = props => {
       ) {
         if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
           dispatch(
-            createDraftReferralAppointment(currentReferral.referralNumber),
+            createDraftReferralAppointment(
+              currentReferral.referralNumber,
+              currentReferral.referralConsultId,
+            ),
           );
         }
         if (futureStatus === FETCH_STATUS.notStarted) {
@@ -58,13 +61,7 @@ export const ChooseDateAndTime = props => {
         setFailed(true);
       }
     },
-    [
-      currentReferral.referralNumber,
-      currentReferral.uuid,
-      dispatch,
-      draftAppointmentCreateStatus,
-      futureStatus,
-    ],
+    [currentReferral, dispatch, draftAppointmentCreateStatus, futureStatus],
   );
   useEffect(
     () => {
@@ -77,7 +74,7 @@ export const ChooseDateAndTime = props => {
     return (
       <ReferralLayout
         data-testid="loading"
-        loadingMessage="Loading available appointments times..."
+        loadingMessage="Loading available appointment times..."
         hasEyebrow
         heading="Schedule an appointment with your provider"
       />

@@ -1,8 +1,8 @@
 {
   "data": {
     "checkBoxGroup": {},
-    "emailAddress": "john.veteran@example.com",
-    "mainMailingAddress": {
+    "email": "john.veteran@example.com",
+    "veteranAddress": {
       "city": "APO",
       "country": "USA",
       "isMilitary": true,
@@ -11,8 +11,8 @@
       "street": "Street name",
       "view:militaryBaseDescription": {}
     },
-    "movingYesNo": true,
-    "newMailingAddress": {
+    "isMoving": true,
+    "newAddress": {
       "city": "FPO",
       "country": "USA",
       "isMilitary": true,
@@ -21,11 +21,11 @@
       "street": "Street 1",
       "view:militaryBaseDescription": {}
     },
-    "veteranDateOfBirth": "2000-01-01",
-    "veteranFullName": {
+    "dob": "2000-01-01",
+    "fullName": {
       "first": "John",
       "last": "Veteran"
     },
-    "yearsOfEducation": "firstGrade"
+    "yearsOfEducation": "10"
   }
 }

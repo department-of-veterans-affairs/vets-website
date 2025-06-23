@@ -170,6 +170,7 @@ const Prescriptions = () => {
   const [isRetrievingFullList, setIsRetrievingFullList] = useState(false);
   const isAlertVisible = useMemo(() => false, []);
   const [isLoading, setLoading] = useState();
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
@@ -282,7 +283,14 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      focusElement(document.getElementById('showingRx'));
+      if (!isFirstLoad) {
+        focusElement(document.getElementById('showingRx'));
+        return;
+      }
+
+      if (isLoading === false && isFirstLoad) {
+        setIsFirstLoad(false);
+      }
     },
     [isLoading],
   );
@@ -804,6 +812,7 @@ const Prescriptions = () => {
             />
             {showIPEContent && <InProductionEducationFiltering />}
           </>
+          {isLoading && renderLoadingIndicator()}
           {hasMedications && (
             <>
               {!isLoading && (
@@ -811,24 +820,20 @@ const Prescriptions = () => {
               )}
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               {!isLoading && renderMedicationsList()}
-              {!isLoading && (
-                <>
-                  <BeforeYouDownloadDropdown page={pageType.LIST} />
-                  <PrintDownload
-                    onDownload={handleFullListDownload}
-                    isSuccess={
-                      pdfTxtGenerateStatus.status ===
-                      PDF_TXT_GENERATE_STATUS.Success
-                    }
-                    isLoading={
-                      !allergiesError &&
-                      pdfTxtGenerateStatus.status ===
-                        PDF_TXT_GENERATE_STATUS.InProgress
-                    }
-                    list
-                  />
-                </>
-              )}
+              <BeforeYouDownloadDropdown page={pageType.LIST} />
+              <PrintDownload
+                onDownload={handleFullListDownload}
+                isSuccess={
+                  pdfTxtGenerateStatus.status ===
+                  PDF_TXT_GENERATE_STATUS.Success
+                }
+                isLoading={
+                  !allergiesError &&
+                  pdfTxtGenerateStatus.status ===
+                    PDF_TXT_GENERATE_STATUS.InProgress
+                }
+                list
+              />
             </>
           )}
           {!isLoading && noFilterMatches && renderNoFilterMatches()}
@@ -851,10 +856,9 @@ const Prescriptions = () => {
             <CernerFacilityAlert />
             {renderRefillAlert()}
             {renderMedicationsContent()}
-            {isLoading && renderLoadingIndicator()}
           </>
         )}
-        {removeLandingPage && !isLoading && <NeedHelp page={pageType.LIST} />}
+        {removeLandingPage && <NeedHelp page={pageType.LIST} />}
       </div>
     );
   };

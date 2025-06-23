@@ -1,6 +1,6 @@
 // @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
-import { PRIMARY_CARE } from '../../../../utils/constants';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
 import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
@@ -16,7 +16,7 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 
-const { cceType } = getTypeOfCareById(PRIMARY_CARE);
+const { cceType } = getTypeOfCareById(TYPE_OF_CARE_IDS.PRIMARY_CARE);
 
 describe('VAOS direct schedule flow - No facility dead ends', () => {
   beforeEach(() => {

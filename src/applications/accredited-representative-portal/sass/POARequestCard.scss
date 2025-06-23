@@ -1,7 +1,7 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .poa-request {
-  max-width: 660px;
+  max-width: 627px;
 
   va-pagination {
     padding: 0;
@@ -93,16 +93,13 @@
 
     li {
       margin-bottom: 16px;
+      max-width: 100%;
     }
   }
 
   &__card {
     > a {
       display: flex;
-    }
-
-    @media (min-width: $small-desktop-screen) {
-      max-width: 660px;
     }
 
     &-icon {
@@ -127,7 +124,7 @@
       &--request {
         display: flex;
         align-items: center;
-        margin-top: 8px;
+        margin-bottom: 13px;
         flex-wrap: wrap;
       }
 
@@ -143,14 +140,25 @@
           color: $vads-color-error;
         }
         [icon] {
-          margin-right: 6px;
+          margin-right: 4px;
         }
       }
 
       &--label {
         font-weight: 700;
-        margin-bottom: 0;
-        margin-right: 5px;
+        margin: 0 5px 0 0;
+
+        span {
+          font-weight: normal;
+          display: block;
+          @media (min-width: $small-desktop-screen) {
+            display: inline;
+          }
+        }
+      }
+
+      &--org {
+        margin-top: 13px;
       }
 
       &--expiry {

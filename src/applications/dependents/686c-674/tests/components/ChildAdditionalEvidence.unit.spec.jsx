@@ -30,8 +30,18 @@ describe('ChildAdditionalEvidence', () => {
     );
   });
 
+  it('should not render an empty accordion', () => {
+    const { container } = renderComponent({
+      veteranContactInformation: { veteranAddress: { country: 'USA' } },
+    });
+    const evidenceAccordion = container.querySelector('#supporting-evidence');
+    expect(evidenceAccordion).to.be.null;
+  });
+
   it('should render the accordion with supporting evidence details', () => {
-    const { container } = renderComponent();
+    const { container } = renderComponent({
+      veteranContactInformation: { veteranAddress: { country: 'Canada' } },
+    });
     const evidenceAccordion = container.querySelector('#supporting-evidence');
     expect(evidenceAccordion).to.not.be.null;
     expect(evidenceAccordion.getAttribute('header')).to.equal(

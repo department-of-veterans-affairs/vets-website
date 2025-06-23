@@ -40,7 +40,7 @@ describe('22-1919 <IntroductionPage>', () => {
   it('should render section headers', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
 
-    expect(wrapper.find('h2').length).to.equal(3);
+    expect(wrapper.find('h2').length).to.equal(4);
 
     wrapper.unmount();
   });

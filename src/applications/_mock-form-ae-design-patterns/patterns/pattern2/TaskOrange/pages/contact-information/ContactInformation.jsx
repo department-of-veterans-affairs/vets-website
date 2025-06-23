@@ -7,8 +7,8 @@ import { scrollToElement } from 'platform/forms-system/exportsFile';
 import {
   waitForRenderThenFocus,
   focusElement,
-  scrollTo,
-} from 'platform/utilities/ui';
+} from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 
 import { PatternConfigContext } from 'applications/_mock-form-ae-design-patterns/shared/context/PatternConfigContext';
 import { SaveSuccessAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/SaveSuccessAlert';

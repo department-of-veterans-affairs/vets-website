@@ -36,12 +36,11 @@ const epsAppointmentUtils = require('../../referral-appointments/utils/appointme
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
-const features = require('../../utils/featureFlags');
+const features = require('./featureFlags');
 
 const mockAppts = [];
 let currentMockId = 1;
 const draftAppointmentPollCount = {};
-const draftAppointments = {};
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -431,33 +430,27 @@ const responses = {
         data: expiredReferral,
       });
     }
+
     const referral = referralUtils.createReferralById(
       '2024-12-02',
       req.params.referralId,
     );
+
     return res.json({
       data: referral,
     });
   },
   'POST /vaos/v2/appointments/draft': (req, res) => {
-    const { referral_id: referralNumber } = req.body;
-    // Provider 3 throws error
+    const { referral_number: referralNumber } = req.body;
+    // empty referral number throws error
     if (referralNumber === '') {
       return res.status(500).json({ error: true });
     }
 
-    let slots = 5;
-    // Provider 0 has no available slots
-    if (referralNumber === '0') {
-      slots = 0;
-    }
-
     const draftAppointment = providerUtils.createDraftAppointmentInfo(
-      slots,
+      3,
       referralNumber,
     );
-
-    draftAppointments[draftAppointment.id] = draftAppointment;
 
     return res.json({
       data: draftAppointment,
@@ -473,13 +466,21 @@ const responses = {
       epsAppointmentUtils.appointmentData,
     );
 
-    if (appointmentId === 'timeout-appointment-id') {
+    if (appointmentId === 'details-retry-error') {
       // Set a very high poll count to simulate a timeout
       successPollCount = 1000;
     }
 
+    if (appointmentId === 'EEKoGzEf-appointment-details-error') {
+      return res.status(500).json({ error: true });
+    }
+
     if (appointmentId === 'eps-error-appointment-id') {
       return res.status(400).json({ error: true });
+    }
+
+    if (appointmentId === 'details-error') {
+      return res.status(500).json({ error: true });
     }
 
     // Check if the request is coming from the details page
@@ -524,6 +525,10 @@ const responses = {
 
     if (!id || !referralNumber || !slotId || !networkId || !providerServiceId) {
       return res.status(400).json({ error: true });
+    }
+
+    if (referralNumber === 'appointment-submit-error') {
+      return res.status(500).json({ error: true });
     }
 
     draftAppointmentPollCount[id] = 1;
@@ -608,8 +613,8 @@ const responses = {
           },
           residentialAddress: {
             addressLine1: '345 Home Address St.',
-            addressLine2: null,
-            addressLine3: null,
+            addressLine2: 'line 2',
+            addressLine3: 'line 3',
             addressPou: 'RESIDENCE/CHOICE',
             addressType: 'DOMESTIC',
             city: 'San Francisco',

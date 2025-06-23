@@ -29,6 +29,7 @@ import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import RecordListSection from '../components/shared/RecordListSection';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -281,7 +282,8 @@ const Vitals = () => {
 
       {isLoading && (
         <div className="vads-u-margin-y--8">
-          <va-loading-indicator
+          <TrackedSpinner
+            id="vitals-page-spinner"
             message="We’re loading your vitals."
             setFocus
             data-testid="loading-indicator"
@@ -294,7 +296,8 @@ const Vitals = () => {
           {isLoadingAcceleratedData && (
             <>
               <div className="vads-u-margin-y--8">
-                <va-loading-indicator
+                <TrackedSpinner
+                  id="accelerated-vitals-page-spinner"
                   message="We’re loading your records."
                   setFocus
                   data-testid="loading-indicator"

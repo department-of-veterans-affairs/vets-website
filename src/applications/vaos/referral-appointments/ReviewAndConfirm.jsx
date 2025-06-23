@@ -23,10 +23,7 @@ import {
 } from './flow';
 import { getReferralSlotKey } from './utils/referrals';
 import { getSlotByDate } from './utils/provider';
-import {
-  getTimezoneDescByFacilityId,
-  getTimezoneByFacilityId,
-} from '../utils/timezone';
+import { stripDST } from '../utils/timezone';
 import ProviderAddress from './components/ProviderAddress';
 import { titleCase } from '../utils/formatters';
 
@@ -48,9 +45,6 @@ const ReviewAndConfirm = props => {
   const slotDetails = getSlotByDate(
     draftAppointmentInfo?.attributes?.slots,
     selectedSlot,
-  );
-  const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacility.code,
   );
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.uuid),
@@ -187,7 +181,7 @@ const ReviewAndConfirm = props => {
           <div className="vads-l-row">
             <div className="vads-l-col">
               <h2 className={headingStyles}>
-                {`${titleCase(currentReferral.categoryOfCare)} Provider`}
+                {`${titleCase(currentReferral.categoryOfCare)} provider`}
               </h2>
             </div>
           </div>
@@ -232,20 +226,19 @@ const ReviewAndConfirm = props => {
             <>
               {formatInTimeZone(
                 new Date(slotDetails.start),
-                facilityTimeZone,
+                draftAppointmentInfo.attributes.provider.location.timezone,
                 'EEEE, LLLL d, yyyy',
               )}
             </>
             <br />
             <>
-              {formatInTimeZone(
-                new Date(slotDetails.start),
-                facilityTimeZone,
-                'h:mm aaaa',
-              )}{' '}
-              {`${getTimezoneDescByFacilityId(
-                currentReferral.referringFacility.code,
-              )}`}
+              {stripDST(
+                formatInTimeZone(
+                  new Date(slotDetails.start),
+                  draftAppointmentInfo.attributes.provider.location.timezone,
+                  'h:mm aaaa zzz',
+                ),
+              )}
             </>
           </p>
         )}
@@ -273,7 +266,7 @@ const ReviewAndConfirm = props => {
                 createReferralAppointment({
                   draftApppointmentId: draftAppointmentInfo.id,
                   referralNumber: currentReferral.referralNumber,
-                  slotId: selectedSlot,
+                  slotId: slotDetails.id,
                   networkId:
                     draftAppointmentInfo.attributes.provider.networkIds[0],
                   providerServiceId:

@@ -45,7 +45,10 @@ export default function DefaultPage({
                   ? `Your ${getDisplayFriendlyName(item)}`
                   : item.displayName}
                 <span className="vads-u-font-family--sans vads-u-margin-top--1">
-                  Requested from outside VA on{' '}
+                  {evidenceDictionary[item.displayName] &&
+                  evidenceDictionary[item.displayName].isDBQ
+                    ? `Requested from examiner’s office on`
+                    : 'Requested from outside VA on'}{' '}
                   {dateFormatter(item.requestedDate)}
                 </span>
               </>

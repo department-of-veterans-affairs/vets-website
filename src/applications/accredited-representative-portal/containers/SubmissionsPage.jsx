@@ -70,12 +70,14 @@ const SubmissionsPage = title => {
             Start here to submit VA forms for your claimants.
           </p>
           <p className="submissions-21-686-c__form-name">Form 21-686c</p>
-          <h3>Application Request to Add and/or Remove Dependents</h3>
+          <h2 className="vads-u-font-size--h3">
+            Application Request to Add and/or Remove Dependents
+          </h2>
           <p className="submissions-21-686-c__subtext">
             The form will be processed by VA Centralized Mail after you submit
             it.
             <va-link-action
-              href="/find-forms/about-form-21-686c/"
+              href="/representative/representative-form-upload/21-686c"
               text="Upload and submit VA Form 21-686c"
             />
           </p>
@@ -89,12 +91,12 @@ const SubmissionsPage = title => {
           <SortForm
             options={[
               {
-                sortBy: 'submittedDate',
+                sortBy: 'created_at',
                 sortOrder: 'desc',
                 label: 'Submitted date (newest)',
               },
               {
-                sortBy: 'submittedDate',
+                sortBy: 'created_at',
                 sortOrder: 'asc',
                 label: 'Submitted date (oldest)',
               },
@@ -134,15 +136,18 @@ const SubmissionsPage = title => {
 
 SubmissionsPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
-  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
-  const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
-  const size = searchParams.get(SEARCH_PARAMS.SIZE);
-  const number = searchParams.get(SEARCH_PARAMS.NUMBER);
+  let sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
+  let sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
+  let size = searchParams.get(SEARCH_PARAMS.SIZE);
+  let number = searchParams.get(SEARCH_PARAMS.NUMBER);
   if (!['asc', 'desc'].includes(sort)) {
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_DEFAULTS.SORT_ORDER);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_DEFAULTS.SORT_BY);
-    searchParams.set(SEARCH_PARAMS.SIZE, SORT_DEFAULTS.SIZE);
-    searchParams.set(SEARCH_PARAMS.NUMBER, SORT_DEFAULTS.NUMBER);
+    sort = SORT_DEFAULTS.SORT_ORDER;
+    sortBy = SORT_DEFAULTS.SORT_BY;
+    size = SORT_DEFAULTS.SIZE;
+    number = SORT_DEFAULTS.NUMBER;
+  }
+  if (size === '0') {
+    size = SORT_DEFAULTS.SIZE;
   }
 
   // Wait for the Promise-based Response object

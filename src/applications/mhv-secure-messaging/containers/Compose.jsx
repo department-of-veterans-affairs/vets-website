@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -19,11 +20,12 @@ import {
   BlockedTriageAlertStyles,
   DefaultFolders,
   threadSortingOptions,
+  ParentComponent,
 } from '../util/constants';
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
 
-const Compose = () => {
+const Compose = ({ skipInterstitial }) => {
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
@@ -38,7 +40,7 @@ const Compose = () => {
   const { draftId } = useParams();
   const { allTriageGroupsBlocked } = recipients;
 
-  const [acknowledged, setAcknowledged] = useState(false);
+  const [acknowledged, setAcknowledged] = useState(skipInterstitial);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
@@ -48,7 +50,7 @@ const Compose = () => {
 
   useEffect(
     () => {
-      if (location.pathname === Paths.COMPOSE) {
+      if (location.pathname.startsWith(Paths.COMPOSE)) {
         dispatch(clearThread());
         setDraftType('compose');
       } else {
@@ -207,6 +209,7 @@ const Compose = () => {
                   ? BlockedTriageAlertStyles.WARNING
                   : BlockedTriageAlertStyles.INFO
               }
+              parentComponent={ParentComponent.COMPOSE}
             />
           </div>
         )}
@@ -233,6 +236,10 @@ const Compose = () => {
       )}
     </>
   );
+};
+
+Compose.propTypes = {
+  skipInterstitial: PropTypes.bool,
 };
 
 export default Compose;
