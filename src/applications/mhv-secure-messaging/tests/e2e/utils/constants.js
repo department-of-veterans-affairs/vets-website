@@ -32,6 +32,7 @@ export const Paths = {
   CONTACT_LIST: '/contact-list',
   NEW_MESSAGE: '/my-health/secure-messages/new-message/',
   AAL: '/my_health/v1/aal',
+  PARTICULAR_THREAD: '/my-health/secure-messages/thread/',
   INTERCEPT: {
     MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
     MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
@@ -39,6 +40,7 @@ export const Paths = {
     MESSAGE_FOLDERS: '/my_health/v1/messaging/folders',
     MESSAGE_FOLDER_THREAD: '/my_health/v1/messaging/folders/0/threads?*',
     INBOX_FOLDER: '/my_health/v1/messaging/folders/0*',
+    SENT_FOLDER_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
     MESSAGE_DRAFTS: '/my_health/v1/messaging/message_drafts',
     MESSAGE_FOLDERS_SEARCH: '/my_health/v1/messaging/folders/*/search',
     MESSAGE_FOLDERS_2: '/my_health/v1/messaging/folders/-2*',
@@ -50,6 +52,7 @@ export const Paths = {
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
+    PARTICULAR_THREAD: '/my_health/v1/messaging/messages/*/thread*',
   },
 };
 

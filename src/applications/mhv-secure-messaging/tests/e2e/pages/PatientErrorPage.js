@@ -1,13 +1,14 @@
-import { Paths, Alerts, Locators, Data } from '../utils/constants';
+import { Paths, Locators, Data } from '../utils/constants';
 import GeneralFunctionsPage from './GeneralFunctionsPage';
 import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockSentFolderMetaResponse from '../fixtures/sentResponse/folder-sent-metadata.json';
+import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import FolderLoadPage from './FolderLoadPage';
 
 class PatientErrorPage {
-  loadParticularFolderError = () => {
+  loadFolders500Error = () => {
     cy.intercept(
       'GET',
       Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,
@@ -17,12 +18,10 @@ class PatientErrorPage {
     cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/*`, {
       errors: [
         {
-          title: 'Service unavailable',
-          detail: Alerts.OUTAGE,
-          status: '503',
+          status: '500',
         },
       ],
-    }).as('folderMetaData');
+    }).as('errorFolders');
 
     cy.visit(Paths.UI_MAIN + Paths.INBOX, {
       onBeforeLoad: win => {
@@ -31,25 +30,29 @@ class PatientErrorPage {
     });
   };
 
-  loadMyFoldersError = () => {
-    cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}*`, {
+  loadRecipients500Error = () => {
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.SENT_FOLDER_THREADS}/*`,
+      mockSentMessages,
+    ).as('folders');
+
+    cy.intercept('GET', `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`, {
       errors: [
         {
-          title: 'Service unavailable',
-          detail: Alerts.OUTAGE,
-          status: '503',
+          status: '500',
         },
       ],
-    }).as('folders');
+    }).as('errorRecipients');
 
-    cy.visit(Paths.UI_MAIN + Paths.FOLDERS, {
+    cy.visit(Paths.UI_MAIN + Paths.COMPOSE, {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },
     });
   };
 
-  loadInboxFolder500Error = () => {
+  loadInboxFolderThreads500Error = () => {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
@@ -77,7 +80,7 @@ class PatientErrorPage {
     cy.wait('@inboxMessages', { requestTimeout: 10000 });
   };
 
-  loadSentFolder500Error = () => {
+  loadSentFolderThreads500Error = () => {
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1*`,
@@ -91,7 +94,7 @@ class PatientErrorPage {
     cy.get('[data-testid="sent-inner-nav"]>a').click({ force: true });
   };
 
-  loadCustomFolder500Error = () => {
+  loadCustomFolderThreads500Error = () => {
     const folder = mockFolders.data[mockFolders.data.length - 1];
     const { folderId } = mockFolders.data[
       mockFolders.data.length - 1
@@ -119,20 +122,6 @@ class PatientErrorPage {
     });
 
     cy.wait(`@customFolderThread`);
-  };
-
-  verifyAlertMessageText = () => {
-    cy.get('[data-testid="alert-text"]')
-      .should('be.visible')
-      .and('contain.text', Alerts.OUTAGE);
-  };
-
-  verifyFromToDateErrorMessageText = (index, text) => {
-    cy.get(Locators.FROM_TO_DATES_CONTAINER)
-      .find('#error-message')
-      .eq(index)
-      .scrollIntoView()
-      .should('contain.text', text);
   };
 
   verifyPageNotFoundContent = () => {
@@ -168,6 +157,9 @@ class PatientErrorPage {
     cy.findByTestId(`alert-text`)
       .should(`be.visible`)
       .and(`include.text`, Data.ERROR_500.TEXT);
+
+    cy.findByTestId(`folder-header`).should(`not.exist`);
+    cy.findByTestId(`inbox-footer`).should(`not.exist`);
   };
 }
 

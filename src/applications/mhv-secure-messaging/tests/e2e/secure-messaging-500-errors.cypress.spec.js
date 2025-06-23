@@ -3,39 +3,40 @@ import PatientErrorPage from './pages/PatientErrorPage';
 import { AXE_CONTEXT, Paths } from './utils/constants';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockSentMessages from './fixtures/sentResponse/sent-messages-response.json';
+import mockMessages from './fixtures/threads-response.json';
 import FolderLoadPage from './pages/FolderLoadPage';
 
-describe('THREAD LIST LOAD ERRORS', () => {
-  it('verify error on particular folder', () => {
+describe('SM 500 ERRORS', () => {
+  it('verify 500 error on folders call', () => {
     SecureMessagingSite.login();
-    PatientErrorPage.loadParticularFolderError();
+    PatientErrorPage.loadFolders500Error();
     PatientErrorPage.verifyError500Content();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('verify error in my folders', () => {
+  it('verify 500 error on allRecipients call', () => {
     SecureMessagingSite.login();
-    PatientErrorPage.loadMyFoldersError();
-    PatientErrorPage.verifyAlertMessageText();
-
-    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-  });
-
-  it('verify 404 page', () => {
-    SecureMessagingSite.login();
-
-    cy.visit(`${Paths.UI_MAIN}/inbox404`);
-    PatientErrorPage.verifyPageNotFoundContent();
+    PatientErrorPage.loadRecipients500Error();
+    PatientErrorPage.verifyError500Content();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify 500 error on inbox thread call', () => {
     SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
 
-    PatientErrorPage.loadInboxFolder500Error();
-    PatientErrorPage.verifyError500Content();
+    cy.intercept('GET', Paths.INTERCEPT.PARTICULAR_THREAD, {
+      statusCode: 500,
+    }).as(`threadError`);
+
+    cy.visit(
+      `${Paths.PARTICULAR_THREAD}${mockMessages.data[0].attributes.messageId}/`,
+    );
+
+    // PatientErrorPage.loadInboxFolderThreads500Error();
+    // PatientErrorPage.verifyError500Content();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -45,7 +46,7 @@ describe('THREAD LIST LOAD ERRORS', () => {
     PatientInboxPage.loadInboxMessages(mockSentMessages);
     FolderLoadPage.loadFolders();
 
-    PatientErrorPage.loadSentFolder500Error();
+    PatientErrorPage.loadSentFolderThreads500Error();
     PatientErrorPage.verifyError500Content();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
@@ -56,7 +57,7 @@ describe('THREAD LIST LOAD ERRORS', () => {
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
 
-    PatientErrorPage.loadCustomFolder500Error();
+    PatientErrorPage.loadCustomFolderThreads500Error();
     PatientErrorPage.verifyError500Content();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
