@@ -31,13 +31,13 @@ const InterstitialPage = props => {
 
   const handleContinueButton = useCallback(
     () => {
-      if (isPilot) {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`);
+      if (type !== 'reply' && isPilot) {
+        history.push(`${Paths.COMPOSE}${Paths.RECENT_CARE_TEAMS}`);
       } else {
         acknowledge();
       }
     },
-    [history, acknowledge, isPilot],
+    [history, acknowledge, isPilot, type],
   );
 
   return (
