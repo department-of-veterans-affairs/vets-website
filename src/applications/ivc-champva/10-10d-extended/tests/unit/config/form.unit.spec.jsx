@@ -31,7 +31,6 @@ describe('formConfig', () => {
       formConfig
         .submit()
         .then(r => expect(r.confirmationNumber).to.eq('123123123'));
-      // expect(res.confirmationNumber).to.eq('123123123');
     });
   });
 });
