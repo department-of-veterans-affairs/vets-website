@@ -54,9 +54,6 @@ class PatientErrorPage {
 
   verifyPageNotFoundContent = () => {
     GeneralFunctionsPage.verifyPageHeader(`Page not found`);
-    cy.get(`h2`)
-      .should(`be.visible`)
-      .and(`include.text`, Data.NOT_FOUND.H2);
 
     cy.findByTestId(Locators.PAGE_NOT_FOUND)
       .find(`p`)
@@ -75,25 +72,7 @@ class PatientErrorPage {
       .eq(0)
       .should(`be.visible`)
       .and(`have.attr`, `href`, `/my-health`)
-      .and(`have.attr`, `text`, Data.NOT_FOUND.LINK_0);
-
-    cy.findByTestId(Locators.PAGE_NOT_FOUND)
-      .find(`va-link`)
-      .eq(1)
-      .should(`be.visible`)
-      .and(
-        `have.attr`,
-        `href`,
-        `https://eauth.va.gov/MAP/users/v2/landing?redirect_uri=/cirrusmd/`,
-      )
-      .and(`have.attr`, `text`, Data.NOT_FOUND.LINK_1);
-
-    cy.findByTestId(Locators.PAGE_NOT_FOUND)
-      .find(`va-link`)
-      .eq(2)
-      .should(`be.visible`)
-      .and(`have.attr`, `href`, `/find-locations`)
-      .and(`have.attr`, `text`, Data.NOT_FOUND.LINK_2);
+      .and(`have.attr`, `text`, Data.NOT_FOUND.LINK);
   };
 }
 

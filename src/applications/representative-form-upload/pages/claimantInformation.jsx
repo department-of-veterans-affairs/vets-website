@@ -5,8 +5,8 @@ import {
   addressUI,
   firstNameLastNameNoSuffixSchema,
   firstNameLastNameNoSuffixUI,
-  emailSchema,
-  emailToSendNotificationsUI,
+  vaFileNumberUI,
+  vaFileNumberSchema,
   ssnSchema,
   ssnUI,
   dateOfBirthUI,
@@ -18,16 +18,23 @@ import {
   CustomAlertPage,
   emptyObjectSchema,
   claimantTitleAndDescription,
-  representativeTitleAndDescription,
   veteranTitleAndDescription,
 } from './helpers';
 
 const claimantSubPageUI = {
   claimantFullName: firstNameLastNameNoSuffixUI(),
-  claimantSsn: ssnUI('Social Security Number'),
-  claimantDateOfBirth: dateOfBirthUI({
-    title: 'Date of Birth',
-  }),
+  claimantSsn: {
+    ...ssnUI,
+    'ui:title': 'Social Security number',
+  },
+  claimantDateOfBirth: {
+    ...dateOfBirthUI,
+    'ui:title': 'Date of birth',
+  },
+  vaFileNumber: {
+    ...vaFileNumberUI,
+    'ui:title': 'VA file number',
+  },
 };
 
 const claimantSubPageSchema = {
@@ -38,10 +45,14 @@ const claimantSubPageSchema = {
 
 const veteranSubPageUI = {
   veteranFullName: firstNameLastNameNoSuffixUI(),
-  veteranSsn: ssnUI('Social Security Number'),
-  veteranDateOfBirth: dateOfBirthUI({
-    title: 'Date of Birth',
-  }),
+  veteranSsn: {
+    ...ssnUI,
+    'ui:title': 'Social Security number',
+  },
+  veteranDateOfBirth: {
+    ...dateOfBirthUI,
+    'ui:title': 'Date of birth',
+  },
   address: addressUI({
     labels: {
       postalCode: 'Postal code',
@@ -57,6 +68,10 @@ const veteranSubPageUI = {
     ],
     required: true,
   }),
+  vaFileNumber: {
+    ...vaFileNumberUI,
+    'ui:title': 'VA file number',
+  },
 };
 
 const veteranSubPageSchema = {
@@ -74,6 +89,7 @@ const veteranSubPageSchema = {
       'street3',
     ],
   }),
+  vaFileNumber: vaFileNumberSchema,
 };
 
 /** @type {PageSchema} */
@@ -83,11 +99,6 @@ export const claimantInformationPage = {
     ...claimantSubPageUI,
     ...veteranTitleAndDescription,
     ...veteranSubPageUI,
-    ...representativeTitleAndDescription,
-    email: emailToSendNotificationsUI({
-      hint:
-        "Changes to information here won't apply to your VA Office of General Counsel (OGC) profile.",
-    }),
   },
   schema: {
     type: 'object',
@@ -98,9 +109,6 @@ export const claimantInformationPage = {
       'view:veteranTitle': emptyObjectSchema,
       'view:veteranDescription': emptyObjectSchema,
       ...veteranSubPageSchema,
-      'view:representativeTitle': emptyObjectSchema,
-      'view:representativeDescription': emptyObjectSchema,
-      email: emailSchema,
     },
     required: [
       'claimantSsn',

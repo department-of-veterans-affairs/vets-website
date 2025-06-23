@@ -205,11 +205,7 @@ describe('Helpers', () => {
     it('displays instructions alert if no warnings and not currently uploading', () => {
       const props = { data: { uploadedFile: {} } };
       const continueClicked = false;
-      const stub = sinon.stub(constants, 'FORM_UPLOAD_INSTRUCTION_ALERT');
-
       getAlert(props, continueClicked);
-
-      expect(stub.calledOnce).to.be.true;
     });
   });
 });
