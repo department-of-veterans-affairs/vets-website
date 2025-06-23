@@ -74,7 +74,6 @@ export const veteranInformationPage = {
     required: [
       'veteranSsn',
       'veteranDateOfBirth',
-      'email',
       'address',
       'veteranFullName',
     ],
