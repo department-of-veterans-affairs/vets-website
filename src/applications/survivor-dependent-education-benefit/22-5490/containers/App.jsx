@@ -9,6 +9,7 @@ import {
   fetchDuplicateContactInfo,
   fetchPersonalInformation,
 } from '../actions';
+import { prefillTransformer } from '../helpers';
 import formConfig from '../config/form';
 import { getAppData } from '../selectors';
 
@@ -16,6 +17,7 @@ function App({
   children,
   duplicateEmail,
   duplicatePhone,
+  dob,
   formData,
   getDuplicateContactInfo,
   getPersonalInformation,
@@ -125,6 +127,19 @@ function App({
     [getDuplicateContactInfo, formData],
   );
 
+  // Keep claimantDateOfBirth in sync with profile/pre-fill data
+  useEffect(
+    () => {
+      if (dob && dob !== formData?.claimantDateOfBirth) {
+        setFormData({
+          ...formData,
+          claimantDateOfBirth: dob,
+        });
+      }
+    },
+    [dob, formData, setFormData],
+  );
+
   return (
     <>
       <div className="row">
@@ -165,6 +180,7 @@ App.propTypes = {
   children: PropTypes.node,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
+  dob: PropTypes.string,
   formData: PropTypes.object,
   getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
@@ -177,6 +193,10 @@ App.propTypes = {
 const mapStateToProps = state => ({
   ...getAppData(state),
   formData: state.form?.data || {},
+  claimant: prefillTransformer(null, null, null, state)?.formData,
+  dob:
+    state?.user?.profile?.dob ||
+    state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
   user: state.user,
 });
 
