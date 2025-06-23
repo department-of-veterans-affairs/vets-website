@@ -159,7 +159,7 @@ const VeteranContactInformationPage = ({
       } else if (email) {
         setSubmitted(false);
         // goForward(data);
-        goToPath('/review-and-submit', { force: true });
+        goToPath('/dependents', { force: true });
       }
     },
     editClick: (e, editHref) => {
