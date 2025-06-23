@@ -2,7 +2,6 @@ import React from 'react';
 
 import GovBanner from './GovBanner';
 import Nav from './Nav';
-import Hero from './Hero';
 
 const Header = () => {
   return (
@@ -12,7 +11,6 @@ const Header = () => {
     >
       <GovBanner />
       <Nav />
-      <Hero />
     </header>
   );
 };

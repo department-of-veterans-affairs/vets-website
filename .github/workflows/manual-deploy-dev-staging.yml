@@ -17,14 +17,56 @@ on:
 
 env:
   DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
-  VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
+  VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
 jobs:
+  permissions-check:
+    name: Verify FE COP membership
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Check FE COP permissions
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          script: |
+            const core = require('@actions/core');
+            const org = context.repo.owner;
+            const teamSlug = 'va-platform-cop-frontend';
+            const username = context.actor;
+
+            try {
+              // Throws 404 if the user is NOT a member of the team.
+              await github.rest.teams.getMembershipForUserInOrg({
+                org,
+                team_slug: teamSlug,
+                username,
+              });
+
+              core.notice(`${username} is authorized to run this workflow.`);
+            } catch (error) {
+              core.setFailed(`User ${username} is not authorized to run this workflow.`);
+            }
+
   set-environment:
     name: Set environment to deploy
     runs-on: ubuntu-latest
     outputs:
       environment: ${{ steps.set-output.outputs.environment }}
+    needs: permissions-check
 
     env:
       dev: "{
