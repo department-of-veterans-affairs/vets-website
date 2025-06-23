@@ -25,6 +25,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
@@ -55,10 +58,9 @@ jobs:
                 team_slug: teamSlug,
                 username,
               });
-
-              core.notice(`${username} is authorized to run this workflow.`);
+              core.notice('Permissions check passed.');
             } catch (error) {
-              core.setFailed(`User ${username} is not authorized to run this workflow.`);
+              core.setFailed('Permissions check failed: user is not authorized to run this workflow.');
             }
 
   set-environment:
