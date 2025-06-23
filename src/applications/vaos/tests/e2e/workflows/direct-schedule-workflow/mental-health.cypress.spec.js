@@ -43,7 +43,6 @@ const typeOfCareRegex = /Mental health/i;
 function mockExistingAppointments(hasPast = false) {
   const response = [];
   if (hasPast) {
-    const clinic = new MockClinicResponse({ id: '1' });
     response.push(
       new MockAppointmentResponse({
         future: false,
@@ -51,7 +50,16 @@ function mockExistingAppointments(hasPast = false) {
         localStartTime: subDays(new Date(), 10),
       })
         .setLocation(new MockFacilityResponse({ id: '983' }))
-        .setClinicId(clinic.id),
+        .setClinicId('1'),
+    );
+    response.push(
+      new MockAppointmentResponse({
+        future: false,
+        status: APPOINTMENT_STATUS.booked,
+        localStartTime: subDays(new Date(), 15),
+      })
+        .setLocation(new MockFacilityResponse({ id: '983' }))
+        .setClinicId('2'),
     );
   }
   mockAppointmentsGetApi({
@@ -192,7 +200,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
         mocksBase(true);
       };
       beforeEach(setup);
-      it.skip('should submit form', () => {
+      it('should submit form', () => {
         // Arrange
         const mockUser = new MockUser({
           addressLine1: '123 Main St.',
