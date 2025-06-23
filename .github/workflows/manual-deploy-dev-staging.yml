@@ -27,7 +27,7 @@ jobs:
     steps:
         Permissions-lock-Manual-dev/staging-workflow-112475
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
 
         main
