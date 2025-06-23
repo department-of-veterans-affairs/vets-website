@@ -37,9 +37,10 @@ const App = ({ children }) => {
     addStyleToShadowDomOnPages(
       [''],
       ['va-memorable-date'],
-      '#dateHint {display: none}',
+      '#dateHint {display: none} .usa-form-group--month-select {width: 159px}',
     );
   });
+
   const dispatch = useDispatch();
   useEffect(() => dispatch(fetchUser()), [dispatch]);
 

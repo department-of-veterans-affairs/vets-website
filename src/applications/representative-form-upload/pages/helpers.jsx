@@ -39,7 +39,7 @@ export const uploadTitleAndDescription = {
 
 export const claimantTitleAndDescription = {
   'view:claimantTitle': {
-    'ui:title': 'Claimant information',
+    'ui:title': 'Claimant and Veteran information',
   },
   'view:claimantDescription': {
     'ui:description': Object.freeze(
