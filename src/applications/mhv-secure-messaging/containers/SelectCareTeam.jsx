@@ -28,7 +28,6 @@ const SelectCareTeam = () => {
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
 
-  const [careSystemError, setCareSystemError] = useState('');
   const [careTeamError, setCareTeamError] = useState('');
   const [careTeamsList, setCareTeamsList] = useState([]);
   const [selectedCareTeamId, setSelectedCareTeamId] = useState(null);
@@ -102,7 +101,6 @@ const SelectCareTeam = () => {
         );
         setSelectedCareTeamId(null);
       }
-      setCareSystemError(null);
       dispatch(
         updateDraftInProgress({
           careSystemVhaId: careSystem?.vhaId,
@@ -140,7 +138,6 @@ const SelectCareTeam = () => {
         setSelectedCareTeamId(null);
       }
 
-      setCareSystemError(null);
       const careSystem = ehrDataByVhaId[value];
       dispatch(
         updateDraftInProgress({
@@ -271,7 +268,6 @@ const SelectCareTeam = () => {
       return (
         <VaRadio
           label="Select a VA health care system"
-          error={careSystemError}
           name="va-health-care-system"
           onVaValueChange={onRadioChangeHandler}
         >
@@ -307,7 +303,6 @@ const SelectCareTeam = () => {
           onVaSelect={handleCareSystemSelect}
           class="composeSelect"
           data-testid="care-system-select"
-          error={careSystemError}
           data-dd-privacy="mask"
           data-dd-action-name="Care System Dropdown List"
         >
@@ -321,11 +316,7 @@ const SelectCareTeam = () => {
 
   return (
     <div className="choose-va-health-care-system">
-      <h1 className="vads-u-margin-bottom--2">
-        {allFacilities.length === 1
-          ? 'Select a care team'
-          : 'Which VA health care system do you want to send a message to?'}
-      </h1>
+      <h1 className="vads-u-margin-bottom--2">Select care team</h1>
       <EmergencyNote dropDownFlag />
       <div>
         {renderCareSystems()}
@@ -364,9 +355,9 @@ const SelectCareTeam = () => {
         <div>
           <VaButton
             continue
-            class="continue-go-back vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
+            class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
             data-testid="continue-button"
-            data-dd-action-name="Continue button on Choose a VA Healthcare System Page"
+            data-dd-action-name="Continue button on Select care team page"
             onClick={e => handlers.onContinue(e)}
             text={null}
           />
