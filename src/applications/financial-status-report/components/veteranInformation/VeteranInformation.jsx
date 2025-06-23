@@ -51,11 +51,9 @@ const VeteranInformation = ({
   return (
     <form>
       <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">
-          <h3 className="vads-u-margin--0" ref={headerRef}>
-            Veteran information
-          </h3>
-        </legend>
+        <h3 className="vads-u-margin--0" ref={headerRef}>
+          Veteran information
+        </h3>
         {reviewNavigation && showReviewNavigation ? (
           <ReviewPageNavigationAlert data={data} title="veteran information" />
         ) : null}
