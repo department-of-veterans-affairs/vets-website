@@ -67,7 +67,7 @@ const PrivacyPolicy = () => {
         visible={showModal}
         large
       >
-        <PrivacyActStatement />
+        <PrivacyActStatement showRespondentBurden={false} />
       </VaModal>
     </div>
   );
