@@ -38,7 +38,7 @@ describe('Compose a new message with attachments', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify use can delete attachment', () => {
+  it('verify user can delete attachment', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.removeAttachedFile();
 

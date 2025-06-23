@@ -4,7 +4,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 
-describe('SM MESSAGING COMPOSE', () => {
+describe('SM MESSAGING LARGE ATTACHMENT', () => {
   beforeEach(() => {
     const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
       { name: `mhv_secure_messaging_large_attachments`, value: true },
@@ -15,7 +15,7 @@ describe('SM MESSAGING COMPOSE', () => {
     PatientComposePage.interceptSentFolder();
   });
 
-  it('verify interface', () => {
+  it('verify information block', () => {
     cy.get(`.attachments-section`)
       .find(`.additional-info-title`)
       .click();
