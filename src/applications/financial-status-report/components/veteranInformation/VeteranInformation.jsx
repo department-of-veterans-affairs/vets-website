@@ -50,9 +50,9 @@ const VeteranInformation = ({
 
   return (
     <div>
-      <h3 className="vads-u-margin--0" ref={headerRef}>
+      <h2 className="vads-u-margin--0" ref={headerRef}>
         Veteran information
-      </h3>
+      </h2>
       {reviewNavigation && showReviewNavigation ? (
         <ReviewPageNavigationAlert data={data} title="veteran information" />
       ) : null}
