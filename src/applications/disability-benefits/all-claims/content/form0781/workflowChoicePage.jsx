@@ -8,18 +8,9 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { scrollToFirstError, scrollTo } from 'platform/utilities/scroll';
 import { form0781HeadingTag, titleWithTag } from '../form0781';
-/**
- * TODO: tech-debt(import/no-cycle): Fix upstream import cycle
- * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110538
- */
-// eslint-disable-next-line import/no-cycle
 import { checkValidations } from '../../utils/submit';
 
-import {
-  form0781WorkflowChoiceDescription,
-  form0781WorkflowChoices,
-  form0781WorkflowChoiceLabels,
-} from './workflowChoices';
+import { form0781WorkflowChoices } from './workflowChoices';
 
 export const workflowChoicePageTitle =
   'Option to add a statement in support of mental health conditions';
@@ -50,7 +41,16 @@ const conditionSelections = formData => {
     </div>
   );
 };
-
+export const form0781WorkflowChoiceDescription =
+  'Do you want to add a statement in support of mental health conditions?';
+export const form0781WorkflowChoiceLabels = Object.freeze({
+  [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]:
+    'Yes, and I want to answer the questions online.',
+  [form0781WorkflowChoices.SUBMIT_PAPER_FORM]:
+    'Yes, and I want to fill out a PDF to upload.',
+  [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]:
+    'No, I don’t want to add this form to my claim.',
+});
 export const workflowChoicePageDescription = formData => {
   return (
     <>
