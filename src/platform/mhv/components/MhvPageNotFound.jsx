@@ -16,14 +16,6 @@ export const mhvPageNotFoundTitle = 'Page not found | Veterans Affairs';
 export const mhvPageNotFoundTestId = 'mhv-page-not-found';
 export const mhvPageNotFoundEvent = 'nav-404-error';
 
-export const healthResources = [
-  {
-    href: 'https://eauth.va.gov/MAP/users/v2/landing?redirect_uri=/cirrusmd/',
-    text: 'Chat live with a health professional on VA health chat',
-  },
-  { href: '/find-locations', text: 'Find a VA facility' },
-];
-
 export const MhvPageNotFoundContent = ({
   recordEvent = recordEventFn,
 } = {}) => {
@@ -43,35 +35,22 @@ export const MhvPageNotFoundContent = ({
         >
           <h1 className="vads-u-margin-top--4">{mhvPageNotFoundHeading}</h1>
           <p>
-            If you typed or copied the web address, check that it’s correct.
+            If you typed or copied the URL into your web browser, check that
+            it’s correct.
           </p>
-          <p className="vads-u-measure--4">
-            If you still can’t find what you’re looking for, try visiting the My
-            HealtheVet homepage.
-          </p>
+          <p>If that doesn’t work, try going to the My HealtheVet homepage.</p>
           <p>
             <va-link
               href="/my-health"
-              text="Go to our My HealtheVet on VA.gov homepage"
+              text="Go to the My HealtheVet on VA.gov homepage"
             />
           </p>
           <p className="vads-u-measure--4">
-            Or call the My HealtheVet help desk at{' '}
-            <va-telephone contact={CONTACTS.MY_HEALTHEVET} />. We’re here Monday
-            through Friday; 8:00 a.m. to 8:00 p.m. ET. If you have hearing loss,
-            call <va-telephone contact={CONTACTS['711']} tty />.
+            If you still can’t find what you need, call us at{' '}
+            <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
+            ). We’re here Monday through Friday; 8:00 a.m. to 8:00 p.m. ET.
           </p>
-
-          <h2 className="va-h-ruled vads-u-font-size--h4 vads-u-margin-top--5">
-            Or try these other health resources
-          </h2>
-          <ul className="usa-unstyled-list vads-u-margin-bottom--5">
-            {healthResources.map(({ href, text }, i) => (
-              <li key={`health-resource-${i}`} className="vads-u-margin-y--2">
-                <va-link href={href} text={text} />
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React from 'react';
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
 // Example of an imported schema:
 // In a real app this would be imported from `vets-json-schema`:
@@ -29,11 +30,14 @@ import {
   institutionDetails,
   institutionDetailsFacility,
   primaryOfficialTraining,
+  primaryOfficialBenefitStatus,
   institutionDetailsNoFacilityDescription,
   institutionNameAndAddress,
+  readOnlyCertifyingOfficialSummaryPage,
+  readOnlyCertifyingOfficial,
 } from '../pages';
 import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
+import { readOnlyCertifyingOfficialArrayOptions } from '../helpers';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -95,6 +99,7 @@ const formConfig = {
           title: 'Institution details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
+          updateFormData: institutionDetails.updateFormData,
         },
         institutionDetailsFacility: {
           path: 'institution-details-3',
@@ -109,23 +114,16 @@ const formConfig = {
           title: 'Institution details',
           uiSchema: institutionDetailsNoFacilityDescription.uiSchema,
           schema: institutionDetailsNoFacilityDescription.schema,
+          depends: formData =>
+            formData.institutionDetails.hasVaFacilityCode === false,
         },
         institutionNameAndAddress: {
           path: 'institution-details-2',
           title: 'Institution details',
           uiSchema: institutionNameAndAddress.uiSchema,
           schema: institutionNameAndAddress.schema,
-        },
-      },
-    },
-    serviceHistoryChapter: {
-      title: 'Service History',
-      pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
+          depends: formData =>
+            formData.institutionDetails.hasVaFacilityCode === false,
         },
       },
     },
@@ -143,6 +141,12 @@ const formConfig = {
           title: 'Section 305 training',
           uiSchema: primaryOfficialTraining.uiSchema,
           schema: primaryOfficialTraining.schema,
+        },
+        primaryOfficialBenefitStatus: {
+          path: 'primary-certifying-official-2',
+          title: 'Benefit status',
+          uiSchema: primaryOfficialBenefitStatus.uiSchema,
+          schema: primaryOfficialBenefitStatus.schema,
         },
       },
     },
@@ -185,6 +189,27 @@ const formConfig = {
           schema: directDeposit.schema,
         },
       },
+    },
+    readOnlyCertifyingOfficialChapter: {
+      title: 'Read-only certifying officials',
+      pages: arrayBuilderPages(
+        readOnlyCertifyingOfficialArrayOptions,
+        pageBuilder => ({
+          readOnlyPrimaryOfficialSummary: pageBuilder.summaryPage({
+            title: 'Review read-only certifying officials',
+            path: 'read-only-certifying-officials/summary',
+            uiSchema: readOnlyCertifyingOfficialSummaryPage.uiSchema,
+            schema: readOnlyCertifyingOfficialSummaryPage.schema,
+          }),
+          addReadOnlyPrimaryOfficial: pageBuilder.itemPage({
+            title: 'Tell us about your read-only school certifying official',
+            path: 'read-only-certifying-officials/:index',
+            showPagePerItem: true,
+            uiSchema: readOnlyCertifyingOfficial.uiSchema,
+            schema: readOnlyCertifyingOfficial.schema,
+          }),
+        }),
+      ),
     },
   },
 };

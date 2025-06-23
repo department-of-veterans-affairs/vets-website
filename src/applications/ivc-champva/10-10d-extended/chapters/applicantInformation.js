@@ -24,6 +24,8 @@ import {
   emailUI,
   emailSchema,
   radioSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 
@@ -31,9 +33,13 @@ import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
-import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
+import {
+  fileUploadBlurbCustom,
+  fileWithMetadataSchema,
+} from '../../shared/components/fileUploads/attachments';
 import {
   applicantWording,
+  nameWording,
   getAgeInYears,
   fmtDate,
 } from '../../shared/utilities';
@@ -44,14 +50,12 @@ import { page15aDepends } from '../helpers/utilities';
 import { MAIL_OR_FAX_LATER_MSG, MAX_APPLICANTS } from '../constants';
 
 import {
+  // TODO: convert to standard file upload.
   uploadWithInfoComponent,
   acceptableFiles,
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
-import { ApplicantMedicareStatusPage } from '../../10-10D/pages/ApplicantMedicareStatusPage';
-import { ApplicantMedicareStatusContinuedPage } from '../../10-10D/pages/ApplicantMedicareStatusContinuedPage';
-import ApplicantOhiStatusPage from '../../10-10D/pages/ApplicantOhiStatusPage';
 
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 
@@ -91,9 +95,7 @@ const applicantOptions = {
       item.applicantGender &&
       item.applicantPhone &&
       item.applicantAddress &&
-      item.applicantRelationshipToSponsor &&
-      item.applicantMedicareStatus &&
-      item.applicantHasOhi
+      item.applicantRelationshipToSponsor
     );
   }, // TODO: include more required fields here
   maxItems: MAX_APPLICANTS,
@@ -343,6 +345,7 @@ const applicantBirthCertUploadPage = {
   },
   schema: {
     type: 'object',
+    required: ['applicantBirthCertOrSocialSecCard'],
     properties: {
       titleSchema,
       ...applicantBirthCertConfig.schema,
@@ -353,39 +356,31 @@ const applicantBirthCertUploadPage = {
   },
 };
 
-const applicantAdoptedConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.adoptionCert,
-  'adoption papers',
-);
-
 const applicantAdoptionUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Upload adoption documents',
       ({ formData }) => (
         <>
-          To help us process this application faster, submit a copy of{' '}
+          You’ll need to submit a document showing proof of{' '}
           <b className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
           </b>{' '}
-          adoption documents.
-          <br />
-          Submitting a copy can help us process this application faster.
-          <br />
-          {MAIL_OR_FAX_LATER_MSG}
+          adoption (like court ordered adoption papers).
         </>
       ),
     ),
-    ...applicantAdoptedConfig.uiSchema,
+    ...fileUploadBlurbCustom(),
     applicantAdoptionPapers: fileUploadUI({
       label: 'Upload a copy of adoption documents',
     }),
   },
   schema: {
     type: 'object',
+    required: ['applicantAdoptionPapers'],
     properties: {
       titleSchema,
-      ...applicantAdoptedConfig.schema,
+      'view:fileUploadBlurb': blankSchema,
       applicantAdoptionPapers: fileWithMetadataSchema(
         acceptableFiles.adoptionCert,
       ),
@@ -393,120 +388,145 @@ const applicantAdoptionUploadPage = {
   },
 };
 
-const applicantStepChildConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.stepCert,
-  'marriage certificates',
-);
-
 const applicantStepChildUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      'Upload parental marriage documents',
+      'Upload proof of parent’s marriage or legal union',
       ({ formData }) => (
         <>
-          To help us process this application faster, submit a copy of{' '}
+          You’ll need to submit a document showing proof of the marriage or
+          legal union between{' '}
           <b className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
           </b>{' '}
-          parental marriage documents.
+          sponsor and{' '}
+          <b className="dd-privacy-hidden">
+            {applicantWording(formData, true, false)}
+          </b>{' '}
+          parent.
           <br />
-          Submitting a copy can help us process this application faster.
           <br />
-          {MAIL_OR_FAX_LATER_MSG}
+          Upload a copy of one of these documents:
+          <ul>
+            <li>
+              Marriage certificate, <b>or</b>
+            </li>
+            <li>
+              A document showing proof of a civil union, <b>or</b>
+            </li>
+            <li>Common-law marriage affidavit</li>
+          </ul>
         </>
       ),
     ),
-    ...applicantStepChildConfig.uiSchema,
+    ...fileUploadBlurbCustom(),
     applicantStepMarriageCert: fileUploadUI({
-      label: 'Upload a copy of parental marriage documents',
+      label: 'Upload proof of marriage or legal union',
     }),
   },
   schema: {
     type: 'object',
+    required: ['applicantStepMarriageCert'],
     properties: {
       titleSchema,
-      ...applicantStepChildConfig.schema,
-      applicantStepMarriageCert: fileWithMetadataSchema(
-        acceptableFiles.stepCert,
-      ),
+      'view:fileUploadBlurb': blankSchema,
+      applicantStepMarriageCert: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
     },
   },
 };
 
-const applicantSchoolCertConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.schoolCert,
-  'school certifications',
-);
-
 const applicantSchoolCertUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      'Upload school documents',
-      ({ formData }) => (
-        <>
-          To help us process this application faster, submit a copy of{' '}
-          <b className="dd-privacy-hidden">
-            {applicantWording(formData, true, false)}
-          </b>{' '}
-          school documents.
-          <br />
-          Submitting a copy can help us process this application faster.
-          <br />
-          {MAIL_OR_FAX_LATER_MSG}
-        </>
-      ),
+      'Upload proof of school enrollment',
+      ({ formData, formContext }) => {
+        const index = +formContext?.pagePerItemIndex; // NaN if not present
+        // since we don't have the standard access to full form data here,
+        // make use of the previously added `view:certifierRole` property.
+        const tmpFormData = {
+          ...formData,
+          certifierRole: formData?.['view:certifierRole'],
+        };
+        // Calls the appropriate name getter depending on current list item index.
+        // First applicant is assumed to be the certifier if certifierRole === 'applicant'.
+        const getNameFn = posessive =>
+          index === 0
+            ? nameWording(tmpFormData, posessive, false)
+            : // formData doesn't need certifier role for applicantWording
+              applicantWording(formData, posessive, false);
+
+        const posessiveName = (
+          <b className="dd-privacy-hidden">{getNameFn(true)}</b>
+        );
+        const nonPosessiveName = (
+          <b className="dd-privacy-hidden">{getNameFn(false)}</b>
+        );
+        const nameBeingVerb =
+          tmpFormData?.certifierRole === 'applicant' ? (
+            'you’re'
+          ) : (
+            <>
+              <b className="dd-privacy-hidden">{nonPosessiveName}</b> is
+            </>
+          );
+        return (
+          <>
+            <p>
+              <b>If {nameBeingVerb} already enrolled in school</b>
+            </p>
+            <p>You’ll need to submit a letter on the school’s letterhead.</p>
+            <p>
+              Ask the school to write us a letter on school letterhead that
+              includes all of these pieces of information:
+            </p>
+            <ul>
+              <li>{posessiveName} first and last name</li>
+              <li>
+                The last 4 digits of {posessiveName} Social Security number
+              </li>
+              <li>
+                The start and end dates for each semester or enrollment term
+              </li>
+              <li>Enrollment status (full-time or part-time)</li>
+              <li>Expected graduation date</li>
+              <li>
+                Signature and title of a school official (like a director or
+                principal)
+              </li>
+            </ul>
+            <p>
+              <b>If {nameBeingVerb} planning to enroll</b>
+            </p>
+            <p>
+              Submit a copy of {posessiveName} acceptance letter from the
+              school.
+            </p>
+          </>
+        );
+      },
     ),
-    ...applicantSchoolCertConfig.uiSchema,
+    ...fileUploadBlurbCustom(),
     applicantSchoolCert: fileUploadUI({
       label: 'Upload proof of school enrollment',
     }),
   },
   schema: {
     type: 'object',
+    required: ['applicantSchoolCert'],
     properties: {
       titleSchema,
-      ...applicantSchoolCertConfig.schema,
+      'view:fileUploadBlurb': blankSchema,
       applicantSchoolCert: fileWithMetadataSchema(acceptableFiles.schoolCert),
-    },
-  },
-};
-
-const applicantHelplessChildConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.helplessCert,
-  'VBA decision rating',
-);
-
-const applicantHelplessChildUploadPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Upload helpless child documents',
-      ({ formData }) => (
-        <>
-          To help us process this application faster, submit a copy of{' '}
-          <b className="dd-privacy-hidden">
-            {applicantWording(formData, true, false)}
-          </b>{' '}
-          helpless child documents.
-          <br />
-          Submitting a copy can help us process this application faster.
-          <br />
-          {MAIL_OR_FAX_LATER_MSG}
-        </>
-      ),
-    ),
-    ...applicantHelplessChildConfig.uiSchema,
-    applicantHelplessCert: fileUploadUI({
-      label: 'Upload proof of helpless child status',
-    }),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      titleSchema,
-      ...applicantHelplessChildConfig.schema,
-      applicantHelplessCert: fileWithMetadataSchema(
-        acceptableFiles.helplessCert,
-      ),
     },
   },
 };
@@ -539,9 +559,9 @@ const applicantMarriageDatesPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         `${applicantWording(formData)} date of marriage to the sponsor`,
-      'If you don’t know the exact date, enter your best guess',
+      'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system.',
     ),
-    dateOfMarriageToSponsor: currentOrPastDateUI(),
+    dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
   },
   schema: {
     type: 'object',
@@ -552,94 +572,91 @@ const applicantMarriageDatesPage = {
   },
 };
 
-const applicantMarriageCertConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.spouseCert,
-  'marriage certificates',
-);
-
-const applicantMarriageCertUploadPage = {
+const applicantRemarriedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      'Upload marriage documents',
+      ({ formData }) => `${applicantWording(formData)} marriage status`,
+    ),
+    applicantRemarried: {
+      ...yesNoUI({
+        updateUiSchema: formData => {
+          return {
+            'ui:title': `Has ${applicantWording(formData, false)} remarried?`,
+          };
+        },
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['applicantRemarried'],
+    properties: {
+      titleSchema,
+      applicantRemarried: yesNoSchema,
+    },
+  },
+};
+
+const applicantReMarriageCertUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload proof of remarriage',
       ({ formData }) => (
         <>
-          To help us process this application faster, submit a copy of{' '}
-          <b className="dd-privacy-hidden">
-            {applicantWording(formData, true, false)}
-          </b>{' '}
-          marriage documents.
+          If {applicantWording(formData, false)} remarried after the death of
+          the sponsor, you can help us process your application faster by
+          submitting documents showing proof of that remarriage.
           <br />
-          Submitting a copy can help us process this application faster.
           <br />
-          {MAIL_OR_FAX_LATER_MSG}
+          Upload a copy of one of these documents:
+          <ul>
+            <li>
+              Marriage certificate, <b>or</b>
+            </li>
+            <li>
+              A document showing proof of a civil union, <b>or</b>
+            </li>
+            <li>Common-law marriage affidavit</li>
+          </ul>
+          <b>If the remarriage has ended,</b> upload a copy of one of these
+          documents:
+          <ul>
+            <li>
+              Divorce decree, <b>or</b>
+            </li>
+            <li>
+              Annulment decree, <b>or</b>
+            </li>
+            <li>Death certificate</li>
+          </ul>
         </>
       ),
     ),
-    ...applicantMarriageCertConfig.uiSchema,
+    ...fileUploadBlurbCustom(
+      <li key="final-bullet">You can upload more than one file here.</li>,
+    ),
     applicantRemarriageCert: fileUploadUI({
-      label: 'Upload proof of marriage or legal union',
+      label: 'Upload proof of remarriage',
     }),
   },
   schema: {
     type: 'object',
+    required: ['applicantRemarriageCert'],
     properties: {
       titleSchema,
-      ...applicantMarriageCertConfig.schema,
-      applicantRemarriageCert: fileWithMetadataSchema(
-        acceptableFiles.spouseCert,
-      ),
-    },
-  },
-};
-
-const applicantMedicareStatusPage = {
-  uiSchema: {},
-  schema: {
-    type: 'object',
-    properties: {
-      applicantMedicareStatus: {
-        type: 'object',
-        properties: {
-          eligibility: { type: 'string' },
-          _unused: { type: 'string' },
+      'view:fileUploadBlurb': blankSchema,
+      applicantRemarriageCert: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
         },
       },
     },
-    required: ['applicantMedicareStatus'],
-  },
-};
-
-const applicantMedicarePartDStatusPage = {
-  uiSchema: {},
-  schema: {
-    type: 'object',
-    properties: {
-      applicantMedicarePartD: {
-        type: 'object',
-        properties: {
-          enrollment: { type: 'string' },
-          otherEnrollment: { type: 'string' },
-        },
-      },
-    },
-    required: ['applicantMedicarePartD'],
-  },
-};
-
-const applicantOhiStatusPage = {
-  uiSchema: {},
-  schema: {
-    type: 'object',
-    properties: {
-      applicantHasOhi: {
-        type: 'object',
-        properties: {
-          hasOhi: { type: 'string' },
-          _unused: { type: 'string' },
-        },
-      },
-    },
-    required: ['applicantHasOhi'],
   },
 };
 
@@ -729,7 +746,14 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-relationship/:index',
       title: item => `${applicantWording(item)} relationship to the sponsor`,
       ...applicantRelationshipPage,
-      CustomPage: ApplicantRelationshipPage,
+      CustomPage: props =>
+        ApplicantRelationshipPage({
+          ...props,
+          customWording: {
+            customHint:
+              'Depending on your response, you may need to submit proof of marriage or dependent status with this application.',
+          },
+        }),
     }),
     page18c: pageBuilder.itemPage({
       path: 'applicant-relationship-child/:index',
@@ -749,7 +773,15 @@ export const applicantPages = arrayBuilderPages(
         get(
           'applicantRelationshipToSponsor.relationshipToVeteran',
           formData?.applicants?.[index],
-        ) === 'child',
+        ) === 'child' &&
+        (get(
+          'applicantRelationshipOrigin.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'adoption' ||
+          get(
+            'applicantRelationshipOrigin.relationshipToVeteran',
+            formData?.applicants?.[index],
+          ) === 'step'),
       CustomPage: FileFieldCustom,
       ...applicantBirthCertUploadPage,
     }),
@@ -770,7 +802,7 @@ export const applicantPages = arrayBuilderPages(
     }),
     page18e: pageBuilder.itemPage({
       path: 'applicant-child-marriage-file/:index',
-      title: item => `${applicantWording(item)} parental marriage documents`,
+      title: 'Upload proof of parent’s marriage or legal union',
       depends: (formData, index) =>
         get(
           'applicantRelationshipToSponsor.relationshipToVeteran',
@@ -814,18 +846,6 @@ export const applicantPages = arrayBuilderPages(
       CustomPage: FileFieldCustom,
       ...applicantSchoolCertUploadPage,
     }),
-    page18b2: pageBuilder.itemPage({
-      path: 'applicant-dependent-upload/:index',
-      title: item => `${applicantWording(item)} helpless child documents`,
-      depends: (formData, index) =>
-        formData.applicants[index]?.applicantRelationshipToSponsor
-          ?.relationshipToVeteran === 'child' &&
-        getAgeInYears(formData.applicants[index]?.applicantDob) >= 18 &&
-        formData.applicants[index]?.applicantDependentStatus?.status ===
-          'over18HelplessChild',
-      CustomPage: FileFieldCustom,
-      ...applicantHelplessChildUploadPage,
-    }),
     page18f3: pageBuilder.itemPage({
       path: 'applicant-marriage-date/:index',
       title: item => `${applicantWording(item)} marriage dates`,
@@ -836,39 +856,28 @@ export const applicantPages = arrayBuilderPages(
         ) === 'spouse',
       ...applicantMarriageDatesPage,
     }),
-    page18f: pageBuilder.itemPage({
-      path: 'applicant-marriage-upload/:index',
-      title: item => `${applicantWording(item)} marriage documents`,
+    page18f4: pageBuilder.itemPage({
+      path: 'applicant-remarried/:index',
+      title: 'Marriage status',
       depends: (formData, index) =>
         get(
           'applicantRelationshipToSponsor.relationshipToVeteran',
           formData?.applicants?.[index],
         ) === 'spouse' && get('sponsorIsDeceased', formData),
-      CustomPage: FileFieldCustom,
-      ...applicantMarriageCertUploadPage,
+      ...applicantRemarriedPage,
     }),
-    page19: pageBuilder.itemPage({
-      path: 'applicant-medicare/:index',
-      title: item => `${applicantWording(item)} Medicare Part A and B status`,
-      ...applicantMedicareStatusPage,
-      CustomPage: ApplicantMedicareStatusPage,
-    }),
-    page20: pageBuilder.itemPage({
-      path: 'applicant-medicare-continued/:index',
-      title: item => `${applicantWording(item)} Medicare Part D status`,
+    page18g: pageBuilder.itemPage({
+      path: 'applicant-remarriage-upload/:index',
+      title: 'Upload proof of remarriage',
       depends: (formData, index) =>
         get(
-          'applicantMedicareStatus.eligibility',
+          'applicantRelationshipToSponsor.relationshipToVeteran',
           formData?.applicants?.[index],
-        ) === 'enrolled',
-      ...applicantMedicarePartDStatusPage,
-      CustomPage: ApplicantMedicareStatusContinuedPage,
-    }),
-    page21: pageBuilder.itemPage({
-      path: 'applicant-other-insurance-status/:index',
-      title: item => `${applicantWording(item)} other health insurance status`,
-      ...applicantOhiStatusPage,
-      CustomPage: ApplicantOhiStatusPage,
+        ) === 'spouse' &&
+        get('sponsorIsDeceased', formData) &&
+        get('applicantRemarried', formData?.applicants?.[index]),
+      CustomPage: FileFieldCustom,
+      ...applicantReMarriageCertUploadPage,
     }),
   }),
 );

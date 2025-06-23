@@ -168,6 +168,7 @@ export const Locators = {
     CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
+    REPLY: `reply-to-message-link`,
   },
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
@@ -320,6 +321,12 @@ export const Alerts = {
     INVALID_START_DATE: `Start date must be on or before end date.`,
     INVALID_END_DATE: `End date must be on or after start date.`,
   },
+  OH_OLD_MSG: {
+    HEADER: 'This conversation is too old for new replies',
+    P_1: `The last message in this conversation is more than 45 days old.`,
+    P_2: `If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.`,
+    P_3: `Or you can send a message to other care teams in your contact list.`,
+  },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
   OLD_MSG_SUBHEAD:
@@ -380,6 +387,7 @@ export const Data = {
   REMOVE_FOLDER: 'Remove folder',
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
   HCS_SELECT: `Which VA health care system do you want to send a message to?`,
+  REPLY_HEADER: `Only use messages for non-urgent needs`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',
@@ -444,11 +452,9 @@ export const Data = {
 
   NOT_FOUND: {
     H2: `Or try these other health resources`,
-    P_O: `If you typed or copied the web address, check that it’s correct.`,
-    P_1: `If you still can’t find what you’re looking for, try visiting the My HealtheVet homepage.`,
-    LINK_0: `Go to our My HealtheVet on VA.gov homepage`,
-    LINK_1: `Chat live with a health professional on VA health chat`,
-    LINK_2: `Find a VA facility`,
+    P_O: `If you typed or copied the URL into your web browser, check that it’s correct.`,
+    P_1: `If that doesn’t work, try going to the My HealtheVet homepage.`,
+    LINK: `Go to the My HealtheVet on VA.gov homepage`,
   },
 
   ERROR_500: {

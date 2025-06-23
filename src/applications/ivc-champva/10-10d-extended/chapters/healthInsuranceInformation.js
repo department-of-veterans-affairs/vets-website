@@ -68,7 +68,7 @@ export function generateParticipantNames(item) {
   return 'No participants';
 }
 
-const healthInsuranceOptions = {
+export const healthInsuranceOptions = {
   arrayPath: 'healthInsurance',
   nounSingular: 'plan',
   nounPlural: 'plans',
@@ -198,7 +198,7 @@ const providerInformation = {
 const employer = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Type of insurance for ${formData.provider}`,
+      ({ formData }) => `Type of insurance for ${formData?.provider}`,
     ),
     throughEmployer: yesNoUI({
       title: 'Is this insurance through the applicant(s) employer?',
@@ -219,7 +219,7 @@ const additionalComments = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData.provider} health insurance additional comments`,
+        `${formData?.provider} health insurance additional comments`,
     ),
     additionalComments: textareaUI({
       title: 'Any additional comments about the applicant(s) health insurance?',
@@ -239,36 +239,41 @@ const additionalComments = {
   },
 };
 
-const applicantStepChildUploadPage = {
+const healthInsuranceCardUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Upload ${formData.provider} health insurance card`,
+      ({ formData }) => `Upload ${formData?.provider} health insurance card`,
       'You’ll need to submit a copy of the front and back of this health insurance card.',
     ),
     ...fileUploadBlurb,
-    insuranceCard: fileUploadUI({
-      label: (
-        <>
-          Upload health insurance card
-          <br />
-          <span className="usa-hint">
-            Upload front and back as separate files
-          </span>
-        </>
-      ),
+    insuranceCardFront: fileUploadUI({
+      label: 'Upload front of the health insurance card',
+    }),
+    insuranceCardBack: fileUploadUI({
+      label: 'Upload back of the health insurance card',
     }),
   },
   schema: {
     type: 'object',
-    required: ['insuranceCard'],
+    required: ['insuranceCardFront', 'insuranceCardBack'],
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      insuranceCard: {
+      insuranceCardFront: {
         type: 'array',
-        // TODO: when we switch to V3 file upload,
-        // fix the error messaging around minItems
-        minItems: 2,
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+      insuranceCardBack: {
+        type: 'array',
+        maxItems: 1,
         items: {
           type: 'object',
           properties: {
@@ -357,7 +362,7 @@ export const healthInsurancePages = arrayBuilderPages(
       path: 'health-insurance-card/:index',
       title: 'Upload health insurance card',
       CustomPage: FileFieldCustom,
-      ...applicantStepChildUploadPage,
+      ...healthInsuranceCardUploadPage,
     }),
   }),
 );
