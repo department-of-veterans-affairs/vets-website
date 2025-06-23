@@ -32,28 +32,23 @@ const getPdfBlob = async (templateId, data) => {
 
 export const handlePdfGeneration = async pdfData => {
   try {
+    const { education, compAndPen } = pdfData;
     const formData = new FormData();
 
     // Generate the PDF for education debts if present
-    if (pdfData.education) {
-      const educationPdfData = await getPdfBlob(
-        'disputeDebt',
-        pdfData.education,
-      );
+    if (education) {
+      const educationPdfData = await getPdfBlob('disputeDebt', education);
       formData.append('files[]', educationPdfData);
     }
 
     // Generate the PDF for comp and pen debts if present
-    if (pdfData.compAndPen) {
-      const compAndPenPdfData = await getPdfBlob(
-        'disputeDebt',
-        pdfData.compAndPen,
-      );
+    if (compAndPen) {
+      const compAndPenPdfData = await getPdfBlob('disputeDebt', compAndPen);
       formData.append('files[]', compAndPenPdfData);
     }
 
     // shouldn't happen, but just in case
-    if (!pdfData.compAndPen && !pdfData.education) {
+    if (!compAndPen && !education) {
       throw new Error(
         '`Dispute Debt pdf generation failed: No debts to generate PDF for.',
       );
