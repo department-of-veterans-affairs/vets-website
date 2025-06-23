@@ -82,7 +82,7 @@ function editTitleWrapper(title) {
   return withEditTitle(title)(title);
 }
 
-const applicantOptions = {
+export const applicantOptions = {
   arrayPath: 'applicants',
   nounSingular: 'applicant',
   nounPlural: 'applicants',
