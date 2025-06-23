@@ -10,7 +10,7 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { AppContent, ClaimsStatusApp } from '../../containers/ClaimsStatusApp';
 
 describe('<AppContent>', () => {
-  it('should render downtime loading indicator while downtime check is pending', () => {
+  it('should render downtime loader while downtime check is pending', () => {
     const store = createStore(() => ({
       scheduledDowntime: {
         globalDowntime: null,
@@ -48,32 +48,32 @@ describe('<AppContent>', () => {
       </Provider>,
     );
 
-    expect(getByTestId('downtime-notification-loading')).to.have.attribute(
+    expect(getByTestId('downtime-notification-loader')).to.have.attribute(
       'message',
-      'Loading your information...',
+      'Loading your claims and appeals...',
     );
-    expect(getByTestId('downtime-notification-loading')).to.have.attribute(
+    expect(getByTestId('downtime-notification-loader')).to.have.attribute(
       'set-focus',
     );
     expect(queryByTestId('children')).to.not.exist;
   });
 
-  it('should render feature flags loading indicator when feature flags are loading', () => {
+  it('should render feature flags loader when feature flags are loading', () => {
     const { getByTestId, queryByTestId } = render(
       <AppContent featureFlagsLoading>
         <div data-testid="children" />
       </AppContent>,
     );
 
-    expect(getByTestId('feature-flags-loading')).to.have.attribute(
+    expect(getByTestId('feature-flags-loader')).to.have.attribute(
       'message',
-      'Loading your information...',
+      'Loading your claims and appeals...',
     );
-    expect(getByTestId('feature-flags-loading')).to.have.attribute('set-focus');
+    expect(getByTestId('feature-flags-loader')).to.have.attribute('set-focus');
     expect(queryByTestId('children')).to.not.exist;
   });
 
-  it('should render only downtime loading indicator while downtime check is pending even when feature flags are also loading', () => {
+  it('should render only downtime loader while downtime check is pending even when feature flags are also loading', () => {
     const store = createStore(() => ({
       scheduledDowntime: {
         globalDowntime: null,
@@ -111,8 +111,8 @@ describe('<AppContent>', () => {
       </Provider>,
     );
 
-    expect(getByTestId('downtime-notification-loading')).to.exist;
-    expect(queryByTestId('feature-flags-loading')).to.not.exist;
+    expect(getByTestId('downtime-notification-loader')).to.exist;
+    expect(queryByTestId('feature-flags-loader')).to.not.exist;
     expect(queryByTestId('children')).to.not.exist;
   });
 
@@ -127,7 +127,7 @@ describe('<AppContent>', () => {
       </MemoryRouter>,
     );
 
-    expect(queryByTestId('feature-flags-loading')).to.not.exist;
+    expect(queryByTestId('feature-flags-loader')).to.not.exist;
     expect(getByTestId('children')).to.exist;
   });
 
@@ -173,8 +173,8 @@ describe('<AppContent>', () => {
       </MemoryRouter>,
     );
 
-    expect(queryByTestId('downtime-notification-loading')).to.not.exist;
-    expect(queryByTestId('feature-flags-loading')).to.not.exist;
+    expect(queryByTestId('downtime-notification-loader')).to.not.exist;
+    expect(queryByTestId('feature-flags-loader')).to.not.exist;
     expect(getByTestId('children')).to.exist;
 
     unmount();

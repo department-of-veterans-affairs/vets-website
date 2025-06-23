@@ -17,10 +17,10 @@ import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import { isLoadingFeatures } from '../selectors';
 import { useBrowserMonitoring } from '../utils/datadog-rum/useBrowserMonitoring';
 
-const AppLoadingIndicator = ({ dataTestId }) => (
+const AppLoadingIndicator = ({ id }) => (
   <div className="loading-indicator-full-page-container">
     <va-loading-indicator
-      data-testid={dataTestId}
+      data-testid={id}
       message="Loading your claims and appeals..."
       set-focus
     />
@@ -28,7 +28,7 @@ const AppLoadingIndicator = ({ dataTestId }) => (
 );
 
 AppLoadingIndicator.propTypes = {
-  dataTestId: PropTypes.string,
+  id: PropTypes.string,
 };
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -43,14 +43,14 @@ function AppContent({
   const isAppReady = canUseApp && !featureFlagsLoading;
 
   if (!isAppReady && isSmoothLoadingEnabled) {
-    return <AppLoadingIndicator dataTestId="feature-flags-loading" />;
+    return <AppLoadingIndicator dataTestId="feature-flags-loader" />;
   }
 
   if (!isAppReady && !isSmoothLoadingEnabled) {
     return (
       <div className="vads-u-margin-y--5">
         <va-loading-indicator
-          data-testid="feature-flags-loading"
+          data-testid="feature-flags-loader"
           message="Loading your information..."
         />
       </div>
@@ -114,7 +114,7 @@ function ClaimsStatusApp({
     <RequiredLoginView
       loadingIndicator={
         isSmoothLoadingEnabled ? (
-          <AppLoadingIndicator dataTestId="required-login-view-loading" />
+          <AppLoadingIndicator id="required-login-view-loader" />
         ) : null
       }
       verify
@@ -137,7 +137,7 @@ function ClaimsStatusApp({
           ]}
           loadingIndicator={
             isSmoothLoadingEnabled ? (
-              <AppLoadingIndicator dataTestId="downtime-notification-loading" />
+              <AppLoadingIndicator id="downtime-notification-loader" />
             ) : null
           }
         >
