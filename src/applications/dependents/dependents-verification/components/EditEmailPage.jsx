@@ -117,6 +117,7 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
+export { EditEmailPage };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
