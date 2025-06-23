@@ -29,13 +29,13 @@ const cardHeadingId = 'bank-account-information';
 // layout wrapper for common styling
 const Wrapper = ({ children, withPaymentHistory }) => {
   return (
-    <div className="vads-u-margin-y--2">
+    <>
       <Headline dataTestId="unified-direct-deposit">
         Direct deposit information
       </Headline>
       {children}
       {withPaymentHistory && <PaymentHistoryCard />}
-    </div>
+    </>
   );
 };
 
