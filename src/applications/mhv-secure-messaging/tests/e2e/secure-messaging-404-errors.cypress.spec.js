@@ -11,4 +11,13 @@ describe('SM 404 ERRORS', () => {
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
+
+  it('verify 404 page visiting particular thread', () => {
+    SecureMessagingSite.login();
+
+    cy.visit(`${Paths.PARTICULAR_THREAD}/00000001a`);
+    PatientErrorPage.verifyPageNotFoundContent();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
 });
