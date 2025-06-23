@@ -125,14 +125,14 @@ describe('File input component', () => {
     const tenAttachments = [
       { name: 'test1.png', size: 100, type: 'image/png' },
       { name: 'test2.png', size: 200, type: 'image/png' },
-      { name: 'test2.png', size: 300, type: 'image/png' },
+      { name: 'test3.png', size: 300, type: 'image/png' },
       { name: 'test4.png', size: 400, type: 'image/png' },
-      { name: 'test4.png', size: 100, type: 'image/png' },
-      { name: 'test4.png', size: 100, type: 'image/png' },
-      { name: 'test4.png', size: 100, type: 'image/png' },
-      { name: 'test4.png', size: 100, type: 'image/png' },
-      { name: 'test4.png', size: 100, type: 'image/png' },
-      { name: 'test4.png', size: 100, type: 'image/png' },
+      { name: 'test5.png', size: 100, type: 'image/png' },
+      { name: 'test6.png', size: 100, type: 'image/png' },
+      { name: 'test7.png', size: 100, type: 'image/png' },
+      { name: 'test8.png', size: 100, type: 'image/png' },
+      { name: 'test9.png', size: 100, type: 'image/png' },
+      { name: 'test10.png', size: 100, type: 'image/png' },
     ];
     const screen = render(<FileInput attachments={tenAttachments} />);
     expect(screen.queryByTestId('attach-file-button')).to.not.exist;
@@ -148,7 +148,7 @@ describe('File input component', () => {
     const tenAttachments = [
       { name: 'test1.png', size: 100, type: 'image/png' },
       { name: 'test2.png', size: 200, type: 'image/png' },
-      { name: 'test2.png', size: 300, type: 'image/png' },
+      { name: 'test3.png', size: 300, type: 'image/png' },
       { name: 'test4.png', size: 400, type: 'image/png' },
       { name: 'test5.png', size: 100, type: 'image/png' },
       { name: 'test6.png', size: 100, type: 'image/png' },
