@@ -6,6 +6,7 @@ import { render } from '@testing-library/react';
 import {
   medicarePages,
   medicareOptions,
+  getEligibleApplicantsWithoutMedicare,
 } from '../../../chapters/medicareInformation';
 
 const mockStore = state => createStore(() => state);
@@ -84,6 +85,15 @@ describe('medicarePages depends functions', () => {
 });
 
 describe('medicareOptions', () => {
+  describe('isItemIncomplete', () => {
+    it('should return false', () => {
+      // TODO: when we determine which fields we want to require,
+      // update this test. Until then just verify it always passes
+      // (so that this test fails as soon as we start requiring things).
+      const res = medicareOptions.isItemIncomplete({});
+      expect(res).to.be.false;
+    });
+  });
   describe('text.getItemName', () => {
     it('should provide fallback title when no data present', () => {
       const res = medicareOptions.text.getItemName();
@@ -98,5 +108,20 @@ describe('medicareOptions', () => {
       );
       expect(container.querySelector('ul')).to.not.be.undefined;
     });
+  });
+});
+
+describe('getEligibleApplicantsWithoutMedicare', () => {
+  it('should return list of applicants not assigned to a Medicare plan', () => {
+    const applicantData = {
+      applicants: [
+        { applicantSSN: '123123123' },
+        { applicantSSN: '321321321' },
+      ],
+      medicare: [{ medicareParticipant: '274d8b67cb72' }], // result derived from `toHash(123123123)`
+    };
+    const res = getEligibleApplicantsWithoutMedicare(applicantData);
+    expect(res).to.have.length(1);
+    expect(res[0].applicantSSN).to.eq('321321321');
   });
 });
