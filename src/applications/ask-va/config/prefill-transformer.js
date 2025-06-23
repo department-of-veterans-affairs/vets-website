@@ -1,3 +1,5 @@
+import { hasPrefillInformation } from '../constants';
+
 export default function prefillTransformer(pages, formData, metadata) {
   const prefillPersonalInformation = data => {
     const personalInfo = data?.personalInformation || {};
@@ -45,6 +47,13 @@ export default function prefillTransformer(pages, formData, metadata) {
     ...prefillPersonalInformation(formData || {}),
     ...prefillContactInformation(formData || {}),
   };
+
+  // FORCE setting the hasPrefillInformation flag
+  // The theory is that there might be race conditions where the flag is not set properly
+  if (prefillFormData.hasPrefillInformation === undefined) {
+    const hasPrefillFlag = hasPrefillInformation(prefillFormData);
+    prefillFormData.hasPrefillInformation = hasPrefillFlag;
+  }
 
   return {
     metadata,
