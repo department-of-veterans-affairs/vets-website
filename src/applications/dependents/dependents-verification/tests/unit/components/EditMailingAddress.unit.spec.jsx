@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -50,6 +50,16 @@ const mockData = {
 };
 
 describe('EditMailingAddress renders fields', () => {
+  let goToPath;
+
+  beforeEach(() => {
+    goToPath = sinon.spy();
+  });
+
+  afterEach(() => {
+    sessionStorage.clear();
+  });
+
   it('renders address inputs with correct labels and values', () => {
     const store = createMockStore();
     const { container } = render(
@@ -95,6 +105,7 @@ describe('EditMailingAddress renders fields', () => {
         />
       </Provider>,
     );
+
     const buttons = Array.from(container.querySelectorAll('va-button'));
     const saveButton = buttons.find(
       btn =>
@@ -107,5 +118,51 @@ describe('EditMailingAddress renders fields', () => {
     );
     expect(saveButton).to.not.be.null;
     expect(cancelButton).to.not.be.null;
+  });
+
+  it('calls onCancel when cancel button is clicked + reviewPage', async () => {
+    sessionStorage.setItem('onReviewPage', true);
+    const store = createMockStore();
+    const { container } = render(
+      <Provider store={store}>
+        <EditMailingAddress
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={goToPath}
+        />
+      </Provider>,
+    );
+
+    const cancelButton = container.querySelector('va-button[text="Cancel"]');
+
+    fireEvent.click(cancelButton);
+
+    await waitFor(() => {
+      expect(goToPath.called).to.be.true;
+      expect(goToPath.calledWith('/review-and-submit')).to.be.true;
+    });
+  });
+
+  it('calls onSubmit when Save button is clicked', async () => {
+    const store = createMockStore();
+    const { container } = render(
+      <Provider store={store}>
+        <EditMailingAddress
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={goToPath}
+        />
+      </Provider>,
+    );
+
+    const cancelButton = container.querySelector('va-button[text="Save"]');
+
+    fireEvent.submit(cancelButton);
+
+    await waitFor(() => {
+      expect(goToPath.called).to.be.true;
+    });
   });
 });

@@ -5,7 +5,10 @@ import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import VeteranContactInformationPage from '../../../components/VeteranContactInformationPage';
 
-const defaultProfile = {
+const defaultProfile = ({
+  isInternationalHome = false,
+  isInternationalMobile = false,
+} = {}) => ({
   email: 'vet@example.com',
   vapContactInfo: {
     mailingAddress: {
@@ -22,21 +25,21 @@ const defaultProfile = {
     homePhone: {
       areaCode: '555',
       phoneNumber: '1234567',
-      isInternational: false,
-      countryCode: '',
+      isInternational: isInternationalHome,
+      countryCode: isInternationalHome ? '44' : '',
     },
     mobilePhone: {
       areaCode: '555',
       phoneNumber: '7654321',
-      isInternational: false,
-      countryCode: '',
+      isInternational: isInternationalMobile,
+      countryCode: isInternationalHome ? '44' : '',
     },
   },
   userFullName: {
     first: 'Jane',
     last: 'Doe',
   },
-};
+});
 
 const defaultData = {
   email: 'vet@example.com',
@@ -94,6 +97,22 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     expect(container.textContent).to.include('123 Main St');
     expect(container.textContent).to.include('vet@example.com');
     expect(container.textContent).to.include('12345');
+  });
+
+  it('covers international home phone ojbect', () => {
+    const { container } = renderPage({
+      profile: defaultProfile({ isInternationalHome: true }),
+    });
+
+    expect(container.querySelector('va-card')).to.not.be.null;
+  });
+
+  it('covers international home phone ojbect', () => {
+    const { container } = renderPage({
+      profile: defaultProfile({ isInternationalMobile: true }),
+    });
+
+    expect(container.querySelector('va-card')).to.not.be.null;
   });
 
   it('shows add links and "None provided" if info is missing', () => {
