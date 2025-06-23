@@ -1133,7 +1133,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData => {
                   const isYes = formData?.notificationMethod?.startsWith('Yes');
-                  const mobilePhone = formData?.mobilePhone.phone;
+                  const mobilePhone = formData?.mobilePhone?.phone;
                   const noDuplicates = formData?.duplicatePhone?.some(
                     entry => entry?.dupe === false,
                   );
