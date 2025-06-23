@@ -421,4 +421,22 @@ describe('App', () => {
       useFeatureTogglesStub.restore();
     }
   });
+
+  it('renders RecentCareTeams container when isPilot is true', () => {
+    const { findByText } = renderWithStoreAndRouter(<App isPilot />, {
+      initialState,
+      reducers: reducer,
+      path: `/new-message/recent/`,
+    });
+    expect(findByText('Recent care teams', { selector: 'h1' })).to.exist;
+  });
+
+  it('does NOT render RecentCareTeams container when isPilot is false', () => {
+    const { queryByText } = renderWithStoreAndRouter(<App />, {
+      initialState,
+      reducers: reducer,
+      path: `/new-message/recent/`,
+    });
+    expect(queryByText('Recent care teams', { selector: 'h1' })).to.be.null;
+  });
 });

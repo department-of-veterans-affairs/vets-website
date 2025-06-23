@@ -20,14 +20,16 @@ const RecentCareTeams = () => {
   const [selectedCareTeam, setSelectedCareTeam] = useState(null);
   const [error, setError] = useState(null);
   const { recipients } = useSelector(state => state.sm);
-  const { recentRecipients } = recipients;
+  const { recentRecipients, allRecipients } = recipients;
   const h1Ref = useRef(null);
 
   useEffect(
     () => {
-      dispatch(getRecentRecipients(6));
+      if (allRecipients?.length > 0) {
+        dispatch(getRecentRecipients(6));
+      }
     },
-    [dispatch],
+    [allRecipients, dispatch],
   );
 
   useEffect(
@@ -35,9 +37,10 @@ const RecentCareTeams = () => {
       // If recentRecipients is null (fetched but none present), redirect
       if (
         recentRecipients?.length === 0 ||
-        recentRecipients === ('error' || null)
+        recentRecipients === 'error' ||
+        recentRecipients === null
       ) {
-        history.replace(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`);
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`);
       }
     },
     [recentRecipients, history],
@@ -104,6 +107,7 @@ const RecentCareTeams = () => {
                 label={recipient.name}
                 value={recipient.triageTeamId}
                 description={recipient.healthCareSystemName || ''}
+                data-dd-privacy="mask"
               />
             ));
           }
