@@ -75,9 +75,9 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
       {location.pathname === typeOfCareUrl && <MhvSecondaryNav />}
       <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
         <Nav pageTitle={pageTitle} />
-        {location.pathname.endsWith('new-appointment') && (
+        {location.pathname.endsWith('type-of-care') && (
           <DowntimeNotification
-            appTitle="VA online scheduling tool"
+            appTitle="appointments tool"
             dependencies={[externalServices.vaosWarning]}
             render={(props, childContent) => (
               <WarningNotification {...props}>

@@ -16,6 +16,8 @@ export const Paths = {
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
   CONTACT_LIST: '/contact-list/',
+  SELECT_HEALTH_CARE_SYSTEM: 'select-health-care-system',
+  START_MESSAGE: 'start-message',
 };
 
 export const DefaultFolders = {
@@ -149,8 +151,15 @@ export const Alerts = {
   Message: {
     BLOCKED_MESSAGE_ERROR:
       'You are blocked from sending messages to this recipient.',
-    CANNOT_REPLY_BODY:
-      "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
+    CANNOT_REPLY_BODY: {
+      MAIN: 'The last message in this conversation is more than 45 days old.',
+      VISTA:
+        "If you want to continue this conversation, you'll need to start a new message.",
+      OH:
+        'If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.',
+      OH_CONTACT:
+        'Or you can send a message to other care teams in your contact list.',
+    },
     CANNOT_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
     GET_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     DELETE_MESSAGE_SUCCESS:

@@ -2,8 +2,9 @@ import { parseISO, format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
-  dateFormatWithoutTimezone,
   formatDate,
+  dateFormatWithoutTimezone,
+  formatDateInLocalTimezone,
   extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -135,6 +136,18 @@ export const extractSpecimen = record => {
 
 export const extractOrderedTest = (record, id) => {
   const serviceReq = extractContainedResource(record, id);
+
+  // First try to find a display value in the coding array
+  if (isArrayAndHasItems(serviceReq?.code?.coding)) {
+    const codingWithDisplay = serviceReq.code.coding.find(
+      item => item.display && item.display.trim() !== '',
+    );
+    if (codingWithDisplay?.display) {
+      return codingWithDisplay.display;
+    }
+  }
+
+  // Fall back to code.text if no display found
   return serviceReq?.code?.text || null;
 };
 
@@ -287,25 +300,6 @@ export const convertPathologyRecord = record => {
 };
 
 /**
- * @param {Object} record - A FHIR DocumentReference EKG object
- * @returns the appropriate frontend object for display
- */
-const convertEkgRecord = record => {
-  return {
-    id: record.id,
-    name: 'Electrocardiogram (EKG)',
-    type: labTypes.EKG,
-    category: '',
-    orderedBy: 'DOE, JANE A',
-    requestedBy: 'John J. Lydon',
-    signedBy: 'Beth M. Smith',
-    date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
-    facility: 'Washington DC VAMC',
-    sortDate: record.date,
-  };
-};
-
-/**
  * @param {Object} record - A FHIR DocumentReference radiology object
  * @returns the appropriate frontend object for display
  */
@@ -359,7 +353,7 @@ export const convertMhvRadiologyRecord = record => {
     clinicalHistory: record?.clinicalHistory?.trim() || EMPTY_FIELD,
     imagingLocation: record.performingLocation,
     date: record.eventDate
-      ? dateFormatWithoutTimezone(record.eventDate)
+      ? formatDateInLocalTimezone(record.eventDate, true)
       : EMPTY_FIELD,
     sortDate: record.eventDate,
     imagingProvider: imagingProvider || EMPTY_FIELD,
@@ -378,7 +372,7 @@ export const convertCvixRadiologyRecord = record => {
     clinicalHistory: parsedReport['Clinical History'] || EMPTY_FIELD,
     imagingLocation: record.facilityInfo?.name || EMPTY_FIELD,
     date: record.performedDatePrecise
-      ? dateFormatWithoutTimezone(record.performedDatePrecise)
+      ? formatDateInLocalTimezone(record.performedDatePrecise, true)
       : EMPTY_FIELD,
     sortDate: record.performedDatePrecise
       ? `${new Date(record.performedDatePrecise).toISOString().split('.')[0]}Z`
@@ -465,14 +459,7 @@ const getRecordType = record => {
     }
   }
   if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {
-    if (record.type?.coding?.some(coding => coding.code === loincCodes.EKG)) {
-      return labTypes.EKG;
-    }
-    if (
-      record.type?.coding?.some(coding => coding.code === loincCodes.RADIOLOGY)
-    ) {
-      return labTypes.OTHER;
-    }
+    return labTypes.OTHER;
   }
   if (Object.prototype.hasOwnProperty.call(record, 'radiologist')) {
     return labTypes.RADIOLOGY;
@@ -491,7 +478,6 @@ const labsAndTestsConverterMap = {
   [labTypes.CHEM_HEM]: convertChemHemRecord,
   [labTypes.MICROBIOLOGY]: convertMicrobiologyRecord,
   [labTypes.PATHOLOGY]: convertPathologyRecord,
-  [labTypes.EKG]: convertEkgRecord,
   [labTypes.RADIOLOGY]: convertMhvRadiologyRecord,
   [labTypes.CVIX_RADIOLOGY]: convertCvixRadiologyRecord,
 };

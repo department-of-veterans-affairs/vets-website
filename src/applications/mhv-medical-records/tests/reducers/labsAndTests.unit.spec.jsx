@@ -346,18 +346,19 @@ describe('extractPractitioner', () => {
 describe('extractOrderedTest', () => {
   const TEST_ID = 'ServiceRequest-1';
   const TEST_REF = `#${TEST_ID}`;
-  const TEST_NAME = 'Test Name';
+  const CODE_TEXT_NAME = 'Glycohemoglobin HbA 1c~ARCHITECH C8000';
+  const DISPLAY_NAME = 'HEMOGLOBIN A1C*';
   const record = {
-    contained: [{ id: 'ServiceRequest-1', code: { text: TEST_NAME } }],
+    contained: [{ id: 'ServiceRequest-1', code: { text: CODE_TEXT_NAME } }],
   };
 
   it('returns the test name when present', () => {
-    expect(extractOrderedTest(record, TEST_REF)).to.equal(TEST_NAME);
+    expect(extractOrderedTest(record, TEST_REF)).to.equal(CODE_TEXT_NAME);
   });
 
   it('returns null when the reference is not found', () => {
     const badRec = {
-      contained: [{ id: TEST_ID, code: { text: TEST_NAME } }],
+      contained: [{ id: TEST_ID, code: { text: CODE_TEXT_NAME } }],
     };
     expect(extractOrderedTest(badRec, '#Not-Found')).to.be.null;
   });
@@ -376,6 +377,95 @@ describe('extractOrderedTest', () => {
       basedOn: [{ reference: TEST_REF }],
     };
     expect(extractOrderedTest(badRec)).to.be.null;
+  });
+
+  it('prioritizes display value from coding array when available', () => {
+    const recordWithCoding = {
+      contained: [
+        {
+          id: TEST_ID,
+          code: {
+            text: CODE_TEXT_NAME,
+            coding: [
+              {
+                code: '85053.3412',
+                system: 'http://va.gov/terminology/vistaDefinedTerms/64',
+              },
+              {
+                code: '7531',
+                display: DISPLAY_NAME,
+                system: 'http://va.gov/terminology/vistaDefinedTerms/60',
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    expect(extractOrderedTest(recordWithCoding, TEST_REF)).to.equal(
+      DISPLAY_NAME,
+    );
+  });
+
+  it('falls back to code.text when no display value is found in coding array', () => {
+    const recordWithCodingNoDisplay = {
+      contained: [
+        {
+          id: TEST_ID,
+          code: {
+            text: CODE_TEXT_NAME,
+            coding: [
+              {
+                code: '85053.3412',
+                system: 'http://va.gov/terminology/vistaDefinedTerms/64',
+              },
+              {
+                code: '7531',
+                system: 'http://va.gov/terminology/vistaDefinedTerms/60',
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    expect(extractOrderedTest(recordWithCodingNoDisplay, TEST_REF)).to.equal(
+      CODE_TEXT_NAME,
+    );
+  });
+
+  it('ignores empty display values in coding array', () => {
+    const recordWithEmptyDisplay = {
+      contained: [
+        {
+          id: TEST_ID,
+          code: {
+            text: CODE_TEXT_NAME,
+            coding: [
+              {
+                code: '85053.3412',
+                display: '',
+                system: 'http://va.gov/terminology/vistaDefinedTerms/64',
+              },
+              {
+                code: '7531',
+                display: '   ',
+                system: 'http://va.gov/terminology/vistaDefinedTerms/60',
+              },
+              {
+                code: '9999',
+                display: DISPLAY_NAME,
+                system: 'http://va.gov/terminology/vistaDefinedTerms/99',
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    expect(extractOrderedTest(recordWithEmptyDisplay, TEST_REF)).to.equal(
+      DISPLAY_NAME,
+    );
   });
 });
 

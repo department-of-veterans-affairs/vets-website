@@ -38,9 +38,6 @@ const LandingPageContainer = () => {
   const userVerified = useSelector(isLOA3);
   const vaPatient = useSelector(isVAPatient);
   const verifiedNonVaPatient = userVerified && !vaPatient;
-  const { mhvMilestone2ChangesEnabled = false } = useSelector(
-    state => state.featureToggles,
-  );
 
   const data = useMemo(
     () => {
@@ -98,7 +95,7 @@ const LandingPageContainer = () => {
       serviceRequired={[backendServices.USER_PROFILE]}
     >
       <ErrorBoundary>
-        {mhvMilestone2ChangesEnabled && verifiedNonVaPatient ? (
+        {verifiedNonVaPatient ? (
           <NonPatientLandingPage data={data} />
         ) : (
           <LandingPage data={data} />

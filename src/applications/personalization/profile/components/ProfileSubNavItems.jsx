@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { NavLink } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 import { selectIsBlocked } from '../selectors';
 
 function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
@@ -13,15 +14,23 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
   // or having isBlocked state selector return true
   const filteredRoutes = routes.filter(route => {
     // loa3 check and isBlocked check
-    if ((route.requiresLOA3 && !isLOA3) || (route.requiresLOA3 && isBlocked)) {
+    if (route.requiresLOA3 && (!isLOA3 || isBlocked)) {
       return false;
     }
 
     // mvi check
     return !(route.requiresMVI && !isInMVI);
   });
+  const recordNavUserEvent = () => {
+    recordEvent({
+      event: 'nav-sidenav',
+    });
+    if (clickHandler) {
+      clickHandler();
+    }
+  };
   return (
-    <ul>
+    <ul className="vads-u-margin-top--0">
       {filteredRoutes.map(route => {
         return (
           <li key={route.path}>
@@ -29,7 +38,7 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
               activeClassName="is-active"
               exact
               to={route.path}
-              onClick={clickHandler}
+              onClick={recordNavUserEvent}
             >
               {route.name}
             </NavLink>

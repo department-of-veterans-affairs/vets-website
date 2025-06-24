@@ -10,7 +10,7 @@ import prescriptions from '../fixtures/prescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
-import { DOWNLOAD_FORMAT, EMPTY_FIELD } from '../../util/constants';
+import { DOWNLOAD_FORMAT, FIELD_NONE_NOTED } from '../../util/constants';
 import { convertHtmlForDownload } from '../../util/helpers';
 
 describe('Prescriptions List Config', () => {
@@ -26,7 +26,7 @@ describe('Prescriptions List Config', () => {
       },
     ];
     const pdfList = buildPrescriptionsPDFList(blankPrescriptions);
-    expect(pdfList[0].sections[0].items[2].value).to.equal(EMPTY_FIELD);
+    expect(pdfList[0].sections[0].items[2].value).to.equal(FIELD_NONE_NOTED);
   });
 });
 

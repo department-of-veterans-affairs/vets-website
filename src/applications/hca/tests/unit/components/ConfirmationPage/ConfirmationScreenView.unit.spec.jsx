@@ -97,23 +97,9 @@ describe('hca <ConfirmationScreenView>', () => {
     });
   });
 
-  context('download pdf button', () => {
-    it('should render when `hca_download_completed_pdf` is true', () => {
-      const { selectors } = subject(undefined, {
-        // eslint-disable-next-line camelcase
-        hca_download_completed_pdf: true,
-      });
-      const { downloadLink } = selectors();
-      expect(downloadLink).to.exist;
-    });
-
-    it('should not render when `hca_download_completed_pdf` is false', () => {
-      const { selectors } = subject(undefined, {
-        // eslint-disable-next-line camelcase
-        hca_download_completed_pdf: false,
-      });
-      const { downloadLink } = selectors();
-      expect(downloadLink).not.exist;
-    });
+  it('should render download pdf button', () => {
+    const { selectors } = subject();
+    const { downloadLink } = selectors();
+    expect(downloadLink).to.exist;
   });
 });

@@ -1,7 +1,8 @@
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { focusElement } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 // Modified version of the file upload from applications/appeals/995
 
@@ -20,11 +21,13 @@ export function createPayload(file, _formId, password) {
 }
 
 export const dependentsUploadUI = (content, options = {}) => {
-  const findAndFocusLastSelect = () => {
-    const lastSelect = [...document.querySelectorAll('select')].slice(-1);
-    if (lastSelect.length) {
-      focusElement(lastSelect[0]);
-    }
+  const findAndFocusLastCard = name => {
+    const target = $$('.schemaform-file-list li').find(entry =>
+      $('strong', entry)
+        .textContent?.trim()
+        .includes(name),
+    );
+    scrollAndFocus(target);
   };
 
   const addAnotherLabel = 'Upload another file';
@@ -40,12 +43,13 @@ export const dependentsUploadUI = (content, options = {}) => {
     confirmRemove: true,
     classNames: 'vads-u-font-size--md',
     createPayload,
-    parseResponse: (response, file) => {
+    parseResponse: (response, { name, size }) => {
       setTimeout(() => {
-        findAndFocusLastSelect();
+        findAndFocusLastCard(name);
       });
       return {
-        name: file?.name,
+        name,
+        size,
         confirmationCode: response?.data?.attributes?.confirmationCode,
         attachmentId: '',
       };
@@ -61,7 +65,6 @@ export const dependentsUploadUI = (content, options = {}) => {
 
 export const dependentsUploadSchema = {
   type: 'array',
-  minItems: 1,
   items: {
     type: 'object',
     properties: {

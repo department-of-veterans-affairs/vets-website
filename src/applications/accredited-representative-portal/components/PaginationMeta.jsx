@@ -1,13 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
-import { SEARCH_PARAMS } from '../utilities/poaRequests';
+import { SEARCH_PARAMS } from '../utilities/constants';
 
-const PaginationMeta = (meta, poaRequests) => {
+const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   const [searchParams] = useSearchParams();
-  const pageSize = Number(searchParams.get('pageSize'));
-  const pageNumber = Number(searchParams.get('pageNumber'));
-  const sortby = searchParams.get(SEARCH_PARAMS.SORTBY);
-  const searchStatus = searchParams.get('status');
+  const pageSize = Number(searchParams.get('pageSize')) || defaults.SIZE;
+  const pageNumber = Number(searchParams.get('pageNumber')) || defaults.NUMBER;
+  const sortOrder =
+    searchParams.get(SEARCH_PARAMS.SORTORDER) || defaults.SORT_ORDER;
+  const searchStatus = searchParams.get('status') || '';
   let initCount;
   let pageSizeCount = pageSize * pageNumber;
   const totalCount = meta.total;
@@ -15,7 +17,7 @@ const PaginationMeta = (meta, poaRequests) => {
     pageSizeCount = pageSize + (totalCount - pageSize);
   }
   if (pageNumber > 1) {
-    if (poaRequests.length < pageSize) {
+    if (results.length < pageSize) {
       initCount = pageSize * (pageNumber - 1) + 1;
     } else {
       initCount = pageSizeCount - (pageSize - 1);
@@ -26,14 +28,21 @@ const PaginationMeta = (meta, poaRequests) => {
   return (
     <p className="poa-request__meta">
       Showing {initCount}-{pageSizeCount} of {totalCount} {searchStatus}{' '}
-      requests sorted by “
+      {resultType || ''} sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
-        {sortby === 'asc' ? 'oldest' : 'newest'})
+        {sortOrder === 'asc' ? 'oldest' : 'newest'})
       </strong>
       ”
     </p>
   );
+};
+
+PaginationMeta.propTypes = {
+  defaults: PropTypes.object,
+  meta: PropTypes.object,
+  results: PropTypes.arrayOf(PropTypes.object),
+  resultType: PropTypes.string,
 };
 
 export default PaginationMeta;

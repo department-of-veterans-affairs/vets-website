@@ -8,7 +8,6 @@ import * as claimantInformationModule from '../pages/claimantInformation';
 import * as veteranInformationModule from '../pages/veteranInformation';
 import * as isVeteranModule from '../pages/isVeteranPage';
 import transformForSubmit from './submit-transformer';
-import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
 
@@ -46,8 +45,10 @@ const formConfig = {
   trackingPrefix,
   confirmation: ConfirmationPage,
   CustomTopContent,
-  CustomReviewTopContent,
-  customText: { appType: 'form' },
+  customText: {
+    appType: 'form',
+    finishAppLaterMessage: ' ',
+  },
   hideReviewChapters: true,
   introduction: IntroductionPage,
   formId,
@@ -60,25 +61,25 @@ const formConfig = {
   v3SegmentedProgressBar: { useDiv: false },
   chapters: {
     isVeteranChapter: {
-      title: 'Who is the claimant?',
+      title: 'Claimant background',
       pages: {
         isVeteranPage: {
           path: 'is-veteran',
-          title: 'Who is the claimant?',
+          title: "What is the claimant's relationship to the veteran?",
           uiSchema: isVeteranPage.uiSchema,
           schema: isVeteranPage.schema,
         },
       },
     },
     veteranInformationChapter: {
-      title: 'Veteran Information',
+      title: 'Claimant information',
       pages: {
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran information',
+          title: 'Claimant information',
           uiSchema: veteranInformationPage.uiSchema,
           depends: formData => {
-            return formData.isVeteran === true;
+            return formData.isVeteran === 'yes';
           },
           schema: veteranInformationPage.schema,
           CustomPage: VeteranInformationPage,
@@ -90,14 +91,16 @@ const formConfig = {
       },
     },
     claimantInformationChapter: {
-      title: 'Claimant Information',
+      title: 'Claimant and Veteran information',
       pages: {
         claimantInformation: {
           path: 'claimant-information',
-          title: 'Claimant information',
+          title: 'Claimant and Veteran information',
           uiSchema: claimantInformationPage.uiSchema,
           depends: formData => {
-            return formData.isVeteran === false;
+            return (
+              formData.isVeteran === undefined || formData.isVeteran === 'no'
+            );
           },
           schema: claimantInformationPage.schema,
           CustomPage: ClaimantInformationPage,
@@ -109,7 +112,7 @@ const formConfig = {
       },
     },
     uploadChapter: {
-      title: 'Upload',
+      title: 'Upload Files',
       pages: {
         uploadPage: {
           path: 'upload',

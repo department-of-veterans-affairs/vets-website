@@ -47,11 +47,6 @@ const LabsAndTestsListItem = props => {
             {`Ordered by ${record.orderedBy}`}
           </div>
         )}
-        {record.type === labTypes.EKG && (
-          <div data-dd-privacy="mask" data-dd-action-name>
-            {`Signed by ${record.signedBy}`}
-          </div>
-        )}
       </div>
     </va-card>
   );

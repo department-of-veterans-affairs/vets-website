@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import {
-  EMPTY_FIELD,
+  FIELD_NONE_NOTED,
   imageRootUri,
   medicationsUrls,
   PRINT_FORMAT,
@@ -44,7 +44,7 @@ export const dateFormat = (
   dateWithMessage = null,
 ) => {
   if (!timestamp) {
-    return noDateMessage || EMPTY_FIELD;
+    return noDateMessage || FIELD_NONE_NOTED;
   }
 
   const isoTimestamp = convertToISO(timestamp);
@@ -95,7 +95,7 @@ export const validateField = fieldValue => {
   if (fieldValue || fieldValue === 0) {
     return fieldValue;
   }
-  return EMPTY_FIELD;
+  return FIELD_NONE_NOTED;
 };
 
 /**
@@ -146,12 +146,12 @@ export const generateTextFile = (content, fileName) => {
  * @param {Array} list
  * @returns {String} array of strings, separated by a comma
  */
-export const processList = list => {
+export const processList = (list, emptyMessage) => {
   if (Array.isArray(list)) {
     if (list?.length > 1) return list.join('. ');
     if (list?.length === 1) return list.toString();
   }
-  return EMPTY_FIELD;
+  return emptyMessage || FIELD_NONE_NOTED;
 };
 
 /**
@@ -228,6 +228,32 @@ export const createOriginalFillRecord = prescription => {
 };
 
 /**
+ * Checks if a prescription has a cmopNdcNumber value directly or in its refill history
+ *
+ * @param {Array} refillHistory - The refill history array of the prescription
+ * @returns {boolean} - Returns true if any refill records have a cmopNdcNumber
+ */
+export const hasCmopNdcNumber = refillHistory => {
+  return refillHistory.some(record => record.cmopNdcNumber);
+};
+
+/**
+ * Get the refill history for a prescription, including the original fill record
+ *
+ * @param {Object} prescription - The prescription object
+ * @returns {Array} - Returns an array of refill history records, including the original fill record
+ */
+export const getRefillHistory = prescription => {
+  if (!prescription) return [];
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
+  if (prescription?.dispensedDate) {
+    const originalFill = createOriginalFillRecord(prescription);
+    refillHistory.push(originalFill);
+  }
+  return refillHistory;
+};
+
+/**
  * Create a plain text string for when a medication description can't be provided
  * @param {String} Phone number, as a string
  * @returns {String} A string suitable for display anywhere plain text is preferable
@@ -237,7 +263,7 @@ export const createNoDescriptionText = phone => {
   if (phone) {
     dialFragment = ` at ${phone}`;
   }
-  return `No description available. Call your pharmacy${dialFragment} if you need help identifying this medication.`;
+  return `No description available. If you need help identifying this medication, call your pharmacy${dialFragment}.`;
 };
 
 /**
@@ -603,4 +629,18 @@ export const isRefillTakingLongerThanExpected = rx => {
     (rx.dispStatus === dispStatusObj.submitted &&
       Date.parse(refillSubmitDate) < sevenDaysAgoDate)
   );
+};
+
+/**
+ * @param {Boolean} isPartialFill is it partial refill
+ * @param {Array} rxHistory refill history array
+ * @param {Number} refillPosition refill position
+ * @param {Number} index index
+ * @returns {String}
+ */
+export const determineRefillLabel = (isPartialFill, rxHistory, i) => {
+  if (isPartialFill) {
+    return 'Partial fill';
+  }
+  return i + 1 === rxHistory.length ? 'Original fill' : 'Refill';
 };

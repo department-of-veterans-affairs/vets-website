@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useLocation, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { GA_PREFIX } from 'applications/vaos/utils/constants';
 import ReferralLayout from './components/ReferralLayout';
-import ReferralAppLink from './components/ReferralAppLink';
+import { routeToNextReferralPage } from './flow';
 import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
+import { selectCurrentPage } from './redux/selectors';
 import { getReferralSlotKey } from './utils/referrals';
 import { titleCase } from '../utils/formatters';
 
 export default function ScheduleReferral(props) {
   const { attributes: currentReferral } = props.currentReferral;
   const location = useLocation();
+  const history = useHistory();
+  const currentPage = useSelector(selectCurrentPage);
   const dispatch = useDispatch();
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   useEffect(
@@ -23,6 +28,17 @@ export default function ScheduleReferral(props) {
     [location, dispatch, selectedSlotKey],
   );
   const categoryOfCare = titleCase(currentReferral.categoryOfCare);
+
+  const handleClick = () => {
+    return e => {
+      e.preventDefault();
+      recordEvent({
+        event: `${GA_PREFIX}-review-upcoming-link`,
+      });
+      routeToNextReferralPage(history, currentPage, currentReferral.uuid);
+    };
+  };
+
   return (
     <ReferralLayout
       hasEyebrow
@@ -50,9 +66,14 @@ export default function ScheduleReferral(props) {
             text="Find your VA health facility"
           />
         </va-additional-info>
-        <ReferralAppLink
-          linkText="Schedule your appointment"
-          id={currentReferral.uuid}
+        <va-link-action
+          className="vads-u-margin-top--1"
+          href={`/my-health/appointments/schedule-referral?id=${
+            currentReferral.uuid
+          }`}
+          text="Schedule your appointment"
+          onClick={handleClick()}
+          data-testid="schedule-appointment-button"
         />
         <h2>Details about your referral</h2>
         <p data-testid="referral-details">
@@ -67,10 +88,10 @@ export default function ScheduleReferral(props) {
           {currentReferral.provider.name}
           <br />
           <strong>Location: </strong>
-          {currentReferral.provider.location}
+          {currentReferral.provider.facilityName}
           <br />
           <strong>Referral number: </strong>
-          {currentReferral.referralId}
+          {currentReferral.referralNumber}
         </p>
         <h2>If you have questions about your referral</h2>
         <p>
@@ -80,10 +101,10 @@ export default function ScheduleReferral(props) {
         </p>
         <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
-          {currentReferral.referringFacilityInfo.name}
+          {currentReferral.referringFacility.name}
           <br />
           <strong>Phone: </strong>
-          {currentReferral.referringFacilityInfo.phone}
+          {currentReferral.referringFacility.phone}
         </p>
       </div>
     </ReferralLayout>

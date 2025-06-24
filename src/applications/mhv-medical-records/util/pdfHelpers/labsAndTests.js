@@ -5,7 +5,7 @@ import {
 
 export const generateLabsIntro = record => {
   return {
-    title: `Lab and test results: ${record.name}`,
+    title: `${record.name}`,
     subject: 'VA Medical Record',
     subtitles: [
       'If you have questions about these results, send a secure message to your care team.',
@@ -245,11 +245,6 @@ export const generatePathologyContent = record => ({
       },
       {
         title: 'Site or sample tested',
-        value: record.sampleTested,
-        inline: true,
-      },
-      {
-        title: 'Collection sample',
         value: record.sampleFrom,
         inline: true,
       },
@@ -282,33 +277,6 @@ export const generatePathologyContent = record => ({
           {
             value: record.results,
             monospace: true,
-          },
-        ],
-      },
-    ],
-  },
-});
-
-export const generateEkgContent = record => ({
-  results: {
-    sectionSeparators: false,
-    items: [
-      {
-        items: [
-          {
-            title: 'Date',
-            value: record.date,
-            inline: true,
-          },
-          {
-            title: 'Location',
-            value: record.facility,
-            inline: true,
-          },
-          {
-            title: 'Provider',
-            value: record.orderedBy,
-            inline: true,
           },
         ],
       },
@@ -352,7 +320,7 @@ export const generateRadiologyContent = record => ({
       },
       {
         title: 'Images',
-        value: `Images are not yet available in this new medical records tool. To get images, you'll need to request them in the previous version of medical records on the My HealtheVet website.`,
+        value: `Images are not included in this test result document. To get your images, go to this test result in My HealtheVet on VA.gov and select "Request images."`,
         inline: true,
       },
     ],

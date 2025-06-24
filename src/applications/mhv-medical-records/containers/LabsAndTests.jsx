@@ -26,6 +26,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import DatePicker from '../components/shared/DatePicker';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -158,62 +159,22 @@ const LabsAndTests = () => {
         listCurrentAsOf={labsAndTestsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!isAcceleratingLabsAndTests && (
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={[
-              refreshExtractTypes.CHEM_HEM,
-              refreshExtractTypes.VPR,
-            ]}
-            newRecordsFound={
-              Array.isArray(labsAndTests) &&
-              Array.isArray(updatedRecordList) &&
-              labsAndTests.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
-        )}
-        {isAcceleratingLabsAndTests && (
-          <>
-            <div className="vads-u-margin-bottom--2">
-              <DatePicker
-                {...{
-                  updateDate,
-                  triggerApiUpdate,
-                  isLoadingAcceleratedData,
-                  dateValue: acceleratedLabsAndTestDate,
-                }}
-              />
-            </div>
-          </>
-        )}
-        {isLoadingAcceleratedData && (
-          <>
-            <div className="vads-u-margin-y--8">
-              <va-loading-indicator
-                message="We’re loading your records."
-                setFocus
-                data-testid="loading-indicator"
-              />
-            </div>
-          </>
-        )}
-
-        {!isLoadingAcceleratedData && (
-          <RecordList
-            type={recordType.LABS_AND_TESTS}
-            records={labsAndTests?.map(data => ({
-              ...data,
-              isOracleHealthData: isAcceleratingLabsAndTests,
-            }))}
-            domainOptions={{
-              isAccelerating: isAcceleratingLabsAndTests,
-              timeFrame: acceleratedLabsAndTestDate,
-              displayTimeFrame: getMonthFromSelectedDate({ date: displayDate }),
-            }}
-          />
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={[refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR]}
+          newRecordsFound={
+            Array.isArray(labsAndTests) &&
+            Array.isArray(updatedRecordList) &&
+            labsAndTests.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
+        {labsAndTests?.length ? (
+          <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
+        ) : (
+          <NoRecordsMessage type={recordType.LABS_AND_TESTS} />
         )}
       </RecordListSection>
     </div>

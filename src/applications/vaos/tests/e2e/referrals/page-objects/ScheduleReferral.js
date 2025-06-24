@@ -47,7 +47,7 @@ export class ScheduleReferralPageObject extends PageObject {
   /**
    * Validates that referring facility information is displayed
    */
-  assertReferringFacilityInfo() {
+  assertreferringFacility() {
     // Verify that the facility information is populated
     cy.findByTestId('referral-facility')
       .should('exist')
@@ -61,7 +61,7 @@ export class ScheduleReferralPageObject extends PageObject {
    * Clicks the Schedule Appointment link
    */
   clickScheduleAppointment() {
-    cy.findByText('Schedule your appointment')
+    cy.findByTestId('schedule-appointment-button')
       .should('exist')
       .click();
     return this;

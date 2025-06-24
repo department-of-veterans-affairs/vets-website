@@ -1,5 +1,3 @@
-import React from 'react';
-import { capitalize } from 'lodash';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -15,12 +13,14 @@ import {
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+
 import {
   marriageEnums,
   veteranFormerMarriageLabels,
   customLocationSchema,
   generateHelpText,
 } from '../../helpers';
+import { getFullName } from '../../../../shared/utils';
 
 /* NOTE:
  * In "Add mode" of the array builder, formData represents the entire formData object.
@@ -56,14 +56,7 @@ export const veteranMarriageHistoryOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your marital history',
-    getItemName: () => 'Your former marriage',
-    cardDescription: item => (
-      <span className="dd-privacy" data-dd-privacy="mask">
-        {`${capitalize(item?.fullName?.first || '')} ${capitalize(
-          item?.fullName?.last || '',
-        )}`.trim()}
-      </span>
-    ),
+    getItemName: item => getFullName(item.fullName),
   },
 };
 
@@ -168,10 +161,10 @@ export const vetFormerMarriageStartDatePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
       return 'Your former marriage';
     }),
-    startDate: {
-      ...currentOrPastDateUI('When did you get married?'),
-      'ui:required': () => true,
-    },
+    startDate: currentOrPastDateUI({
+      title: 'When did you get married? xxx',
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',

@@ -35,6 +35,7 @@ export default function FacilitiesRadioWidget({
     ? sortOptions.find(type => type.value === sortMethod).label
     : sortOptions[0].label;
   const requestingLocationFailed =
+    sortMethod === 'distanceFromCurrentLocation' &&
     requestLocationStatus === FETCH_STATUS.failed;
 
   // If user has already selected a value, and the index of that value is > 4,
