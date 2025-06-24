@@ -8,7 +8,6 @@ import {
   TYPE_OF_VISIT,
   VIDEO_TYPES,
 } from '../../utils/constants';
-import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
 
 export function getAppointmentType(
@@ -67,48 +66,6 @@ function getTypeOfVisit(id) {
 }
 
 /**
- * Finds the datetime of the appointment depending on vista site location
- * and returns it as a moment object
- *
- * @param {Object} appt VAOS Service appointment object
- * @returns {Object} Returns appointment datetime as moment object
- */
-function getMomentConfirmedDate(appt) {
-  const timezone = getTimezoneByFacilityId(appt.locationId);
-
-  return timezone
-    ? moment(appt.localStartTime).tz(timezone)
-    : moment(appt.localStartTime);
-}
-
-/**
- *  Determines whether current time is less than appointment time
- *  +60 min or +240 min in the case of video
- * @param {*} appt VAOS Service appointment object
- */
-function isPastAppointment(appt) {
-  const isVideo = appt.kind === 'telehealth';
-  const threshold = isVideo ? 240 : 60;
-  const apptDateTime = moment(getMomentConfirmedDate(appt));
-  return apptDateTime.add(threshold, 'minutes').isBefore(moment());
-}
-
-/**
- *  Determines whether current time is before appointment time
- * @param {*} appt VAOS Service appointment object
- * @param {*} isRequest is appointment a request
- */
-function isFutureAppointment(appt, isRequest) {
-  const apptDateTime = moment(appt.start);
-  return (
-    !isRequest &&
-    !isPastAppointment(appt) &&
-    apptDateTime.isValid() &&
-    apptDateTime.isAfter(moment().startOf('day'))
-  );
-}
-
-/**
  * Gets the atlas location and sitecode
  *
  * @param {Object} appt VAOS Service appointment object
@@ -134,7 +91,6 @@ function getAtlasLocation(appt) {
 
 export function transformVAOSAppointment(
   appt,
-  useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
@@ -147,15 +103,9 @@ export function transformVAOSAppointment(
   );
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
-  const isAtlas = !!appt.telehealth?.atlas;
-  const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
-  const isRequest = useFeSourceOfTruth
-    ? appt.pending
-    : appointmentType === APPOINTMENT_TYPES.request ||
-      appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const isUpcoming = useFeSourceOfTruth
-    ? appt.future
-    : isFutureAppointment(appt, isRequest);
+  const isPast = appt.past;
+  const isRequest = appt.pending;
+  const isUpcoming = appt.future;
   const isCCRequest = useFeSourceOfTruthCC
     ? appointmentType === APPOINTMENT_TYPES.ccRequest
     : isCC && isRequest;
@@ -164,9 +114,12 @@ export function transformVAOSAppointment(
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   const vvsKind = appt.telehealth?.vvsKind;
   let isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
+  let isAtlas = !!appt.telehealth?.atlas;
   let isVideoAtHome =
     !isAtlas &&
     (vvsKind === VIDEO_TYPES.mobile || vvsKind === VIDEO_TYPES.adhoc);
+  let isVideoAtVA =
+    vvsKind === VIDEO_TYPES.clinic || vvsKind === VIDEO_TYPES.storeForward;
   let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
   let isPhone = appt.kind === 'phone';
   let isCovid = appt.serviceType === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
@@ -183,6 +136,8 @@ export function transformVAOSAppointment(
       appt.modality === 'vaVideoCareAtAnAtlasLocation' ||
       appt.modality === 'vaVideoCareAtAVaLocation';
     isVideoAtHome = appt.modality === 'vaVideoCareAtHome';
+    isAtlas = appt.modality === 'vaVideoCareAtAnAtlasLocation';
+    isVideoAtVA = appt.modality === 'vaVideoCareAtAVaLocation';
   }
 
   const isCancellable = appt.cancellable;
@@ -209,7 +164,6 @@ export function transformVAOSAppointment(
           };
         })
         .filter(Boolean),
-      isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
       extension: appt.extension,
@@ -347,6 +301,7 @@ export function transformVAOSAppointment(
       isPendingAppointment: isRequest,
       isUpcomingAppointment: isUpcoming,
       isVideo,
+      isAtlas,
       isPastAppointment: isPast,
       isCompAndPenAppointment: isCompAndPen,
       isCancellable,
@@ -357,6 +312,7 @@ export function transformVAOSAppointment(
       isCOVIDVaccine: isCovid,
       isInPersonVisit,
       isVideoAtHome,
+      isVideoAtVA,
       isCerner,
       apiData: appt,
       timeZone: appointmentTZ,
@@ -368,7 +324,6 @@ export function transformVAOSAppointment(
 
 export function transformVAOSAppointments(
   appts,
-  useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
@@ -377,7 +332,6 @@ export function transformVAOSAppointments(
   return appts.map(appt =>
     transformVAOSAppointment(
       appt,
-      useFeSourceOfTruth,
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
       useFeSourceOfTruthModality,

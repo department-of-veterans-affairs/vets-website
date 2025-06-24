@@ -2907,10 +2907,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.13.0":
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.13.0.tgz#287a353e6fa72e833cd770f45a2a7aa4046b771d"
-  integrity sha512-F1Emhd1N6UpdgtPIcPfT72JPGMT4CumqWOpVEh3kS8MoIfsk0IMzv1QLe9adKi99wd3USuNZFHZMMnUXdJ+pcg==
+"@department-of-veterans-affairs/generator-vets-website@^3.14.0":
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.14.0.tgz#4037f45124bbd6e38ae6229cf581695361806ad9"
+  integrity sha512-abWGxcSVbpLrsKzyE4tjlUYll7j/Xl0KlsHroSyVScRnd1uWx29Aslo6ANOME/JFlU2IQyZ/vU71j0cC07XnMA==
   dependencies:
     chalk "^4.1.2"
     yeoman-generator "^5.6.1"
@@ -13503,7 +13503,7 @@ is-core-module@^2.13.0:
   dependencies:
     hasown "^2.0.0"
 
-is-core-module@^2.15.1:
+is-core-module@^2.15.1, is-core-module@^2.16.0:
   version "2.16.1"
   resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.16.1.tgz#2a98801a849f43e2add644fbb6bc6229b19a4ef4"
   integrity sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==
@@ -22705,9 +22705,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#83345d72fc384a1ab02efbe4e0679d779a86f5e1":
-  version "24.16.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#83345d72fc384a1ab02efbe4e0679d779a86f5e1"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#1fb30c7180b05de632da278420b95e0322f6cb44":
+  version "24.17.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#1fb30c7180b05de632da278420b95e0322f6cb44"
   dependencies:
     minimist "^1.2.3"
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const addDependentOptions = {
   addSpouse: 'My spouse',
   addChild: 'An unmarried child under 18',
@@ -23,17 +21,4 @@ export const validateAtLeastOneSelected = (errors, fieldData) => {
   if (!Object.values(fieldData).some(val => val === true)) {
     errors.addError('Select at least one option');
   }
-};
-
-export const OptionsReviewField = props => {
-  const { children } = props;
-  if (!children?.props.formData) {
-    return null;
-  }
-  return (
-    <div className="review-row">
-      <dt>{children?.props?.uiSchema['ui:title']}</dt>
-      <dd />
-    </div>
-  );
 };

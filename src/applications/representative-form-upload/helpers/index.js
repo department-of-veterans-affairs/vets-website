@@ -1,5 +1,6 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusByOrder } from 'platform/utilities/ui/focus';
+import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { scrollTo } from 'platform/utilities/scroll';
 import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
@@ -34,6 +35,7 @@ export const getFormContent = (pathname = null) => {
     subTitle,
     pdfDownloadUrl,
     title: `Submit VA Form ${formNumber}`,
+    message: 'Select a file to upload',
   };
 };
 
@@ -96,7 +98,6 @@ export const getAlert = (props, continueClicked) => {
   const warnings = props.data?.uploadedFile?.warnings;
   const fileUploading = props.data?.uploadedFile?.name === 'uploading';
   const formNumber = getFormNumber();
-
   if (warnings?.length > 0) {
     return FORM_UPLOAD_OCR_ALERT(
       formNumber,
@@ -110,5 +111,33 @@ export const getAlert = (props, continueClicked) => {
     return FORM_UPLOAD_FILE_UPLOADING_ALERT(onCloseAlert);
   }
 
-  return FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
+  if (props.name === 'uploadPage') {
+    return FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
+  }
+
+  return null;
 };
+
+export async function addStyleToShadowDomOnPages(
+  urlArray,
+  targetElements,
+  style,
+) {
+  // If we're on one of the desired pages (per URL array), inject CSS
+  // into the specified target elements' shadow DOMs:
+  if (urlArray.some(u => window.location.href.includes(u)))
+    targetElements.map(async e => {
+      try {
+        document.querySelectorAll(e).forEach(async item => {
+          const el = await waitForShadowRoot(item);
+          if (el?.shadowRoot) {
+            const sheet = new CSSStyleSheet();
+            sheet.replaceSync(style);
+            el.shadowRoot.adoptedStyleSheets.push(sheet);
+          }
+        });
+      } catch (err) {
+        // Fail silently (styles just won't be applied)
+      }
+    });
+}
