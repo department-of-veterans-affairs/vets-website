@@ -56,7 +56,12 @@ function App({
 
   useEffect(
     () => {
-      if (user?.profile) {
+      if (
+        user?.profile &&
+        (!formData?.claimantFullName.first ||
+          !formData?.claimantFullName.last ||
+          !formData?.claimantDateOfBirth)
+      ) {
         setFormData({
           ...formData,
           claimantFullName: {
