@@ -87,7 +87,9 @@ describe('VAOS vaccine flow: ReviewPage', () => {
       },
     });
     store.dispatch(
-      onCalendarChange([format(start, "yyyy-MM-dd'T'HH:mm:ssXXX")]),
+      onCalendarChange([
+        formatInTimeZone(start, 'America/Denver', "yyyy-MM-dd'T'HH:mm:ssXXX"),
+      ]),
     );
   });
 
