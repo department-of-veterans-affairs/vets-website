@@ -36,8 +36,15 @@ export const arpWebOAuthOptions = {
   acrSignup: { idme_signup: 'loa3', logingov_signup: 'ial2' },
 };
 
+export const form21AWebOAuthOptions = {
+  clientId: CLIENT_IDS.FORM21A,
+  acr: { idme: 'loa3', logingov: 'ial2' },
+  acrSignup: { idme_signup: 'loa3', logingov_signup: 'ial2' },
+};
+
 export const OAuthEnabledApplications = [
   undefined /* default */,
   EXTERNAL_APPS.VA_FLAGSHIP_MOBILE,
   EXTERNAL_APPS.ARP,
+  EXTERNAL_APPS.FORM21A,
 ];
