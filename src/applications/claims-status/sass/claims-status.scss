@@ -6,6 +6,13 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 
+.all-requests-loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 12rem;
+}
+
 .claim-list {
   margin-bottom: 2em;
 }
