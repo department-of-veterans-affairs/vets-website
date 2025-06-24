@@ -242,15 +242,15 @@ export function privWrapper(children) {
 export function PrivWrappedReview(props) {
   // IMPORTANT: props.title could have PII, so exercise caution. Override
   // with an explicit `itemAriaLabel` as needed.
-  const ariaLabel =
-    props?.uiSchema?.['ui:options']?.itemAriaLabel() ?? props.title;
+  const title = typeof props.title === 'function' ? props.title() : props.title;
+  const ariaLabel = props?.uiSchema?.['ui:options']?.itemAriaLabel() ?? title;
   const editAriaLabel = `Edit ${ariaLabel}`;
 
   return (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          {privWrapper(props.title)}
+          {privWrapper(title)}
         </h4>
         <div className="vads-u-justify-content--flex-end">
           {props.defaultEditButton({ label: editAriaLabel })}
