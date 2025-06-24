@@ -22,7 +22,7 @@ The form-spec.md file is used to define the structure and metadata for a form in
 2. **Chapters & Pages**: Structure of the form, including chapters and pages with their fields.
     - Each chapter should have a title and a list of pages.
     - Each page should have a title and a list of fields with their identifiers and descriptions.
-    - Fields must be valid somethingUI from [web-component-pattern-catalog.md](src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.md).
+    - Fields must be valid somethingUI from [web-component-pattern-catalog.md](src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json).
     - Use standardized address objects for address fields where applicable.
     - Include if a field is required, specific error messages, validation rules or formats for fields (e.g., date formats, phone number formats).
 3. **Notes / Decisions**: Any additional notes or decisions made during the form

@@ -5,7 +5,7 @@ Instructions on web component patterns for RJSF
 
 Only use these instructions if working with RJSF uiSchema and schema.
 
-Look at [README](src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.md) for all available web component patterns.
+Look at [README](src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json) for all available web component patterns.
 
 ## Example of Usage:
 

@@ -5,8 +5,6 @@ mode: 'agent'
 
 1. Determine the {app_folder} we are in [instructions](.github/prompts/find-app-folder.prompt.md). The {app_folder} should be the remaining path after `src/applications`
 
-Continue to search until you find it.
-
 ## Creating or updating a page
 
 You must make at least 3 changes for each page.

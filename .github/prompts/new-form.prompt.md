@@ -8,7 +8,7 @@ Help the user create a **new form** workspace, referencing existing form paths i
 
 ### Steps:
 
-1. **Check if the form exists** using the `manifest-catalog.md`.
+1. **Check if the form exists** using the `src/applications/manifest-catalog.json`.
 2. If it exists, confirm if the user wants to:
    - Create a new form with a different name.
    - Use the existing form
