@@ -415,7 +415,7 @@ describe('Accelerated OH API calls', () => {
         // expect fetch to be called with the correct date
         const expectedUrl = `${
           environment.API_URL
-        }/my_health/v2/medical_records/labs_and_tests?from=2023-01-01&to=2023-01-01`;
+        }/my_health/v2/medical_records/labs_and_tests?start_date=2023-01-01&end_date=2023-01-01`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
