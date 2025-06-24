@@ -3,7 +3,6 @@ import GeneralFunctionsPage from './GeneralFunctionsPage';
 import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
-import mockSentFolderMetaResponse from '../fixtures/sentResponse/folder-sent-metadata.json';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import FolderLoadPage from './FolderLoadPage';
 
@@ -18,7 +17,7 @@ class PatientErrorPage {
     cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/*`, {
       errors: [
         {
-          status: '500',
+          status: '503',
         },
       ],
     }).as('errorFolders');
@@ -40,7 +39,7 @@ class PatientErrorPage {
     cy.intercept('GET', `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`, {
       errors: [
         {
-          status: '500',
+          status: '503',
         },
       ],
     }).as('errorRecipients');
@@ -60,7 +59,7 @@ class PatientErrorPage {
     ).as('folders');
 
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, {
-      statusCode: 500,
+      statusCode: 503,
     }).as(`inboxMessages`);
 
     cy.intercept('GET', Paths.INTERCEPT.INBOX_FOLDER, mockInboxFolder).as(
@@ -74,24 +73,7 @@ class PatientErrorPage {
     ).as('recipients');
 
     cy.visit(Paths.UI_MAIN + Paths.INBOX);
-
-    cy.wait('@featureToggle');
-    cy.wait('@mockUser');
     cy.wait('@inboxMessages', { requestTimeout: 10000 });
-  };
-
-  loadSentFolderThreads500Error = () => {
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1*`,
-      mockSentFolderMetaResponse,
-    ).as('sentFolder');
-
-    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/threads**`, {
-      statusCode: 500,
-    }).as('sentFolderMessages');
-
-    cy.get('[data-testid="sent-inner-nav"]>a').click({ force: true });
   };
 
   loadCustomFolderThreads500Error = () => {
@@ -109,17 +91,13 @@ class PatientErrorPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads*`,
-      { statusCode: 500 },
+      { statusCode: 503 },
     ).as('customFolderThread');
     FolderLoadPage.loadFolders();
 
     cy.get(`[data-testid=${folderName}]`).click({ force: true });
 
-    cy.visit(`${Paths.UI_MAIN + Paths.FOLDERS}/${folderId}`, {
-      onBeforeLoad: win => {
-        cy.stub(win, 'print');
-      },
-    });
+    cy.visit(`${Paths.UI_MAIN + Paths.FOLDERS}/${folderId}`);
 
     cy.wait(`@customFolderThread`);
   };
@@ -147,7 +125,7 @@ class PatientErrorPage {
       .and(`have.attr`, `text`, Data.NOT_FOUND.LINK);
   };
 
-  verifyError500Content = () => {
+  verifyOnlyError500Content = () => {
     cy.get(`va-alert`).should('be.focused');
 
     cy.findByTestId(`alert-heading`)
@@ -160,6 +138,18 @@ class PatientErrorPage {
 
     cy.findByTestId(`folder-header`).should(`not.exist`);
     cy.findByTestId(`inbox-footer`).should(`not.exist`);
+  };
+
+  verifyError500Content = () => {
+    cy.get(`va-alert`).should('be.focused');
+
+    cy.findByTestId(`alert-heading`)
+      .should(`be.visible`)
+      .and(`have.text`, Data.ERROR_500.HEADER);
+
+    cy.findByTestId(`alert-text`)
+      .should(`be.visible`)
+      .and(`include.text`, Data.ERROR_500.TEXT);
   };
 }
 
