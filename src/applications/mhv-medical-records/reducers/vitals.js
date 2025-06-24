@@ -58,7 +58,10 @@ export const getMeasurement = (record, type) => {
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
 
-  if (vitalTypes.HEIGHT.includes(type)) {
+  if (
+    vitalTypes.HEIGHT.includes(type) &&
+    record.valueQuantity?.code === '[in_i]'
+  ) {
     const feet = Math.floor(record.valueQuantity.value / 12);
     const inches = record.valueQuantity.value % 12;
     return `${feet}${vitalUnitDisplayText.HEIGHT_FT}, ${inches}${
