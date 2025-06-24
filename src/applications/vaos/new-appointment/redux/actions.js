@@ -5,6 +5,7 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import moment from 'moment';
 
 import {
+  parse,
   addMinutes,
   areIntervalsOverlapping,
   startOfMonth,
@@ -651,8 +652,27 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const { data } = newAppointment;
     const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
-    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
-    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
+    // console.log(`------------------------------------------------------------------------`);
+    // console.log(`Fetching appointment slots for ${siteId} from ${startDate} to ${endDate}`);
+
+    let startDateMonth = format(new Date(startDate), 'yyyy-MM');
+    let endDateMonth = format(new Date(endDate), 'yyyy-MM');
+    if (typeof startDate === 'string') {
+      startDateMonth = format(
+        parse(startDate, 'yyyy-MM-dd', new Date()),
+        'yyyy-MM',
+      );
+      endDateMonth = format(
+        parse(endDate, 'yyyy-MM-dd', new Date()),
+        'yyyy-MM',
+      );
+    }
+
+    // console.log(`Start date object ${new Date(startDate)} and end date object ${new Date(endDate)}`);
+    // if (typeof startDate === 'string') {
+    //   console.log(`Parsed start date object ${parse(startDate, 'yyyy-MM-dd', new Date())} and parsed end date object ${parse(endDate, 'yyyy-MM-dd', new Date())}`);
+    // }
+    // console.log(`Start date month ${startDateMonth} and end date month ${endDateMonth}`);
 
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
@@ -671,6 +691,8 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
       availableSlots = newAppointment.availableSlots || [];
     }
 
+    // console.log(`Fetched appointment slot months: ${fetchedAppointmentSlotMonths}`);
+
     if (!fetchedStartMonth || !fetchedEndMonth) {
       let mappedSlots = [];
       dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
@@ -682,6 +704,8 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
         const endDateString = !fetchedEndMonth
           ? format(new Date(endDate), 'yyyy-MM-dd')
           : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
+
+        // console.log(`Start date string: ${startDateString} end date string: ${endDateString}`);
 
         const fetchedSlots = await getSlots({
           siteId,
