@@ -58,8 +58,8 @@ function App({
     () => {
       if (
         user?.profile &&
-        (!formData?.claimantFullName.first ||
-          !formData?.claimantFullName.last ||
+        (!formData?.claimantFullName?.first ||
+          !formData?.claimantFullName?.last ||
           !formData?.claimantDateOfBirth)
       ) {
         setFormData({
