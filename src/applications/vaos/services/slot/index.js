@@ -21,6 +21,16 @@ import { transformV2Slots } from './transformers';
  * Fetch appointment slots based on start/end date times based on a VistA sites
  * availability for a particular type of care
  *
+ * This will fetch slots for both OH and VistA clinics/facilities. Depending on
+ * which EHR is being queried, there will be different required and optional
+ * params:
+ *
+ * VistA required params: siteId (facilityId), clinicId, startDate, endDate
+ *
+ * OH required params: siteId (facilityId), startDate, endDate
+ * More often than not, a OH will also include the typeofCare and provider
+ * params as well
+ *
  * @export
  * @async
  * @param {Object} slotsRequest - An object containing the parameters necessary to retrieve appointment slots
