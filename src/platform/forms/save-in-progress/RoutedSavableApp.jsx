@@ -41,6 +41,8 @@ class RoutedSavableApp extends React.Component {
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
+    document.body.addEventListener('click', this.checkExitFormLink);
+
     if (window.History) {
       window.History.scrollRestoration = 'manual';
     }
@@ -218,6 +220,17 @@ class RoutedSavableApp extends React.Component {
 
   removeOnbeforeunload = () => {
     window.removeEventListener('beforeunload', this.onbeforeunload);
+    document.body.removeEventListener('click', this.checkExitFormLink);
+  };
+
+  // Allow link to leave form flow without showing browser window unload alert
+  checkExitFormLink = ({ target }) => {
+    if (
+      target.tagName === 'VA-LINK' &&
+      target.getAttribute('exit-form') === 'true'
+    ) {
+      this.removeOnbeforeunload();
+    }
   };
 
   redirectOrLoad(props) {
@@ -347,6 +360,9 @@ RoutedSavableApp.propTypes = {
     }),
     dev: PropTypes.shape({
       disableWindowUnloadInCI: PropTypes.bool,
+    }),
+    formOptions: PropTypes.shape({
+      ignorePageUnloadAlertOnUrls: PropTypes.arrayOf(PropTypes.string),
     }),
     disableSave: PropTypes.bool,
     urlPrefix: PropTypes.string,
