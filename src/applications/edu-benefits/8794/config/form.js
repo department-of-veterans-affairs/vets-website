@@ -11,10 +11,10 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { additionalOfficialArrayOptions } from '../helpers';
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
+import {
+  additionalOfficialArrayOptions,
+  readOnlyCertifyingOfficialArrayOptions,
+} from '../helpers';
 
 // pages
 import {
@@ -30,6 +30,8 @@ import {
   additionalOfficialDetails,
   additionalOfficialTraining,
   additionalOfficialBenefitStatus,
+  readOnlyCertifyingOfficialSummaryPage,
+  readOnlyCertifyingOfficial,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -92,6 +94,7 @@ const formConfig = {
           title: 'Institution details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
+          updateFormData: institutionDetails.updateFormData,
         },
         institutionDetailsFacility: {
           path: 'institution-details-3',
@@ -175,6 +178,27 @@ const formConfig = {
           }),
         })),
       },
+    },
+    readOnlyCertifyingOfficialChapter: {
+      title: 'Read-only certifying officials',
+      pages: arrayBuilderPages(
+        readOnlyCertifyingOfficialArrayOptions,
+        pageBuilder => ({
+          readOnlyPrimaryOfficialSummary: pageBuilder.summaryPage({
+            title: 'Review read-only certifying officials',
+            path: 'read-only-certifying-officials/summary',
+            uiSchema: readOnlyCertifyingOfficialSummaryPage.uiSchema,
+            schema: readOnlyCertifyingOfficialSummaryPage.schema,
+          }),
+          addReadOnlyPrimaryOfficial: pageBuilder.itemPage({
+            title: 'Tell us about your read-only school certifying official',
+            path: 'read-only-certifying-officials/:index',
+            showPagePerItem: true,
+            uiSchema: readOnlyCertifyingOfficial.uiSchema,
+            schema: readOnlyCertifyingOfficial.schema,
+          }),
+        }),
+      ),
     },
   },
 };

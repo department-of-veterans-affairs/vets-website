@@ -9,6 +9,8 @@ import prefillTransformer from '../prefill-transformer';
 
 // Chapter imports
 import { veteranInformation } from './chapters/veteran-information/veteranInformation';
+import { dependents } from './chapters/dependents/dependents';
+import { DependentsInformationReview } from '../components/DependentsInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -63,13 +65,28 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     veteranInformation: {
-      title: "Veteran's information",
+      title: 'Review your personal information',
+      // This is the same review page title as within the accordion... will
+      // consult with design on content changes
+      reviewTitle: 'Your personal information',
       pages: {
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran information',
+          title: 'Your personal information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+        },
+      },
+    },
+    dependents: {
+      title: 'Review your dependents',
+      pages: {
+        dependents: {
+          path: 'dependents',
+          title: 'Dependents on your VA benefits',
+          CustomPageReview: DependentsInformationReview,
+          uiSchema: dependents.uiSchema,
+          schema: dependents.schema,
         },
       },
     },

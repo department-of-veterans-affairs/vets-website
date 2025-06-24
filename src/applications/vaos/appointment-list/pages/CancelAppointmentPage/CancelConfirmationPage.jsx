@@ -66,7 +66,7 @@ export default function CancelConfirmationPage({ appointment, cancelInfo }) {
         href="/"
         onClick={handleClick(history, dispatch, page.url)}
       >
-        Scheduling a new appointment
+        Schedule a new appointment
       </a>
       <AppointmentCard appointment={appointment}>
         <CancelPageContent isRequest={isRequest} />

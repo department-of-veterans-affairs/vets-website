@@ -61,7 +61,7 @@ const formConfig = {
   v3SegmentedProgressBar: { useDiv: false },
   chapters: {
     isVeteranChapter: {
-      title: "What is the claimant's relationship to the veteran?",
+      title: 'Claimant background',
       pages: {
         isVeteranPage: {
           path: 'is-veteran',
@@ -72,11 +72,11 @@ const formConfig = {
       },
     },
     veteranInformationChapter: {
-      title: 'Claimant and representative information',
+      title: 'Claimant information',
       pages: {
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Claimant and representative information',
+          title: 'Claimant information',
           uiSchema: veteranInformationPage.uiSchema,
           depends: formData => {
             return formData.isVeteran === 'yes';
@@ -91,11 +91,11 @@ const formConfig = {
       },
     },
     claimantInformationChapter: {
-      title: 'Claimant and representative information',
+      title: 'Claimant and Veteran information',
       pages: {
         claimantInformation: {
           path: 'claimant-information',
-          title: 'Claimant and representative information',
+          title: 'Claimant and Veteran information',
           uiSchema: claimantInformationPage.uiSchema,
           depends: formData => {
             return (

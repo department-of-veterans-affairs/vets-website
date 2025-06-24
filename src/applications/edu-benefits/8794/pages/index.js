@@ -10,6 +10,12 @@ import { additionalOfficialSummary } from './additionalOfficialSummary';
 import * as additionalOfficialDetails from './additionalOfficialDetails';
 import * as additionalOfficialTraining from './additionalOfficialTraining';
 import * as additionalOfficialBenefitStatus from './additionalOfficialBenefitStatus';
+import { readOnlyCertifyingOfficialIntro } from './readOnlyCertifyingOfficialIntro';
+import {
+  readOnlyCertifyingOfficialSummaryPage,
+  arrayBuilderOptions,
+} from './readOnlyCertifyingOfficialSummaryPage';
+import * as readOnlyCertifyingOfficial from './readOnlyCertifyingOfficial';
 
 export {
   designatingOfficial,
@@ -24,4 +30,8 @@ export {
   additionalOfficialDetails,
   additionalOfficialTraining,
   additionalOfficialBenefitStatus,
+  readOnlyCertifyingOfficialIntro,
+  readOnlyCertifyingOfficialSummaryPage,
+  arrayBuilderOptions,
+  readOnlyCertifyingOfficial,
 };

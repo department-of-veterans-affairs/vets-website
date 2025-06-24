@@ -2,6 +2,7 @@ import {
   createNoDescriptionText,
   createVAPharmacyText,
   dateFormat,
+  determineRefillLabel,
   getRefillHistory,
   processList,
   validateField,
@@ -82,6 +83,10 @@ export const buildPrescriptionsTXT = prescriptions => {
       result += buildNonVAPrescriptionTXT(rx).slice(84);
       return;
     }
+    const pendingMed =
+      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+    const pendingRenewal =
+      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
 
     result += `
 ${rx.prescriptionName}
@@ -93,9 +98,13 @@ Last filled on: ${dateFormat(
       'MMMM D, YYYY',
       'Date not available',
     )}
-
+${
+      !pendingMed && !pendingRenewal
+        ? `
 Prescription number: ${rx.prescriptionNumber}
-
+`
+        : ''
+    }
 Status: ${rx.dispStatus || 'Unknown'}
 ${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
       (fullStatus, item) =>
@@ -203,6 +212,12 @@ Provider notes: ${validateField(item.notes)}
  */
 export const buildVAPrescriptionTXT = prescription => {
   const refillHistory = getRefillHistory(prescription);
+  const pendingMed =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'NewOrder';
+  const pendingRenewal =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'Renew';
   let result = `
 ---------------------------------------------------------------------------------
 
@@ -221,9 +236,13 @@ Last filled on: ${dateFormat(
     'MMMM D, YYYY',
     'Date not available',
   )}
-
+${
+    !pendingMed && !pendingRenewal
+      ? `
 Prescription number: ${prescription.prescriptionNumber}
-
+`
+      : ''
+  }
 Status: ${prescription.dispStatus || 'Unknown'}
 ${(
     pdfStatusDefinitions[prescription.refillStatus] ||
@@ -276,7 +295,7 @@ Prescribed by: ${
 
 Refill history
 
-Showing ${refillHistory.length} refill${
+Showing ${refillHistory.length} fill${
     refillHistory.length > 1 ? 's, from newest to oldest' : ''
   }
 
@@ -286,7 +305,8 @@ Showing ${refillHistory.length} refill${
     const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
     const { shape, color, backImprint, frontImprint } = entry;
     const hasValidDesc = shape?.trim() && color?.trim() && frontImprint?.trim();
-    const index = refillHistory.length - i - 1;
+    const isPartialFill = entry.prescriptionSource === 'PF';
+    const refillLabel = determineRefillLabel(isPartialFill, refillHistory, i);
     const description = hasValidDesc
       ? `
 Note: If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
@@ -299,13 +319,21 @@ Note: If the medication you’re taking doesn’t match this description, call $
 ${backImprint ? `* Back marking: ${backImprint}` : ''}`
       : createNoDescriptionText(phone);
     result += `
-${index === 0 ? 'Original fill' : `Refill`}: ${dateFormat(
+${refillLabel}: ${dateFormat(
       entry.dispensedDate,
       'MMMM D, YYYY',
       'Date not available',
     )}
 ${
-      i === 0
+      isPartialFill
+        ? `
+This fill has a smaller quantity on purpose.
+
+Quantity: ${entry.quantity}`
+        : ``
+    }
+${
+      i === 0 && !isPartialFill
         ? `
 Shipped on: ${dateFormat(
             prescription?.trackingList?.[0]?.completeDateTime,
@@ -315,7 +343,7 @@ Shipped on: ${dateFormat(
 `
         : ``
     }
-Medication description: ${description}
+${!isPartialFill ? `Medication description: ${description}` : ``}
 
     `;
   });

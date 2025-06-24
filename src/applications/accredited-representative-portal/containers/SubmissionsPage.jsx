@@ -42,7 +42,7 @@ const SubmissionsPage = title => {
       }
     >
       <Toggler.Enabled>
-        <section className="poa-request">
+        <section className="poa-request submissions">
           <VaBreadcrumbs
             breadcrumbList={submissionsBC}
             label={SUBMISSIONS_BC_LABEL}
@@ -69,11 +69,13 @@ const SubmissionsPage = title => {
           <p className="submissions-subtext__copy">
             Start here to submit VA forms for your claimants.
           </p>
-          <p className="submissions-21-686-c__form-name">Form 21-686c</p>
-          <h2 className="vads-u-font-size--h3">
+          <p className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
+            Form 21-686c
+          </p>
+          <h2 className="submissions__form-description vads-u-font-size--h4">
             Application Request to Add and/or Remove Dependents
           </h2>
-          <p className="submissions-21-686-c__subtext">
+          <p className="submissions__subtext submissions__subtext">
             The form will be processed by VA Centralized Mail after you submit
             it.
             <va-link-action
@@ -83,20 +85,22 @@ const SubmissionsPage = title => {
           </p>
           <hr />
 
-          <h1>Recent Submissions</h1>
-          <p className="submissions-subtext__copy">
+          <h2 className="submissions__search-header vads-u-font-size--h1">
+            Recent Submissions
+          </h2>
+          <p className="submissions-subtext__copy--secondary vads-u-font-family--serif">
             This list shows only your submissions sent through this portal from
             the past 60 days.
           </p>
           <SortForm
             options={[
               {
-                sortBy: 'submittedDate',
+                sortBy: 'created_at',
                 sortOrder: 'desc',
                 label: 'Submitted date (newest)',
               },
               {
-                sortBy: 'submittedDate',
+                sortBy: 'created_at',
                 sortOrder: 'asc',
                 label: 'Submitted date (oldest)',
               },
@@ -136,15 +140,18 @@ const SubmissionsPage = title => {
 
 SubmissionsPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
-  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
-  const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
-  const size = searchParams.get(SEARCH_PARAMS.SIZE);
-  const number = searchParams.get(SEARCH_PARAMS.NUMBER);
+  let sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
+  let sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
+  let size = searchParams.get(SEARCH_PARAMS.SIZE);
+  let number = searchParams.get(SEARCH_PARAMS.NUMBER);
   if (!['asc', 'desc'].includes(sort)) {
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_DEFAULTS.SORT_ORDER);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_DEFAULTS.SORT_BY);
-    searchParams.set(SEARCH_PARAMS.SIZE, SORT_DEFAULTS.SIZE);
-    searchParams.set(SEARCH_PARAMS.NUMBER, SORT_DEFAULTS.NUMBER);
+    sort = SORT_DEFAULTS.SORT_ORDER;
+    sortBy = SORT_DEFAULTS.SORT_BY;
+    size = SORT_DEFAULTS.SIZE;
+    number = SORT_DEFAULTS.NUMBER;
+  }
+  if (size === '0') {
+    size = SORT_DEFAULTS.SIZE;
   }
 
   // Wait for the Promise-based Response object

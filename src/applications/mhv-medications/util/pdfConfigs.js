@@ -2,6 +2,7 @@ import {
   createNoDescriptionText,
   createVAPharmacyText,
   dateFormat,
+  determineRefillLabel,
   getRefillHistory,
   processList,
   validateField,
@@ -141,6 +142,11 @@ export const buildPrescriptionsPDFList = prescriptions => {
       };
     }
 
+    const pendingMed =
+      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+    const pendingRenewal =
+      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+
     return {
       header: rx.prescriptionName,
       sections: [
@@ -158,12 +164,16 @@ export const buildPrescriptionsPDFList = prescriptions => {
               inline: true,
               indent: 32,
             },
-            {
-              title: 'Prescription number',
-              value: rx.prescriptionNumber,
-              inline: true,
-              indent: 32,
-            },
+            ...(!pendingMed && !pendingRenewal
+              ? [
+                  {
+                    title: 'Prescription number',
+                    value: rx.prescriptionNumber,
+                    inline: true,
+                    indent: 32,
+                  },
+                ]
+              : []),
             {
               title: 'Status',
               value: validateField(rx.dispStatus),
@@ -373,6 +383,12 @@ export const buildAllergiesPDFList = allergies => {
  */
 export const buildVAPrescriptionPDFList = prescription => {
   const refillHistory = getRefillHistory(prescription);
+  const pendingMed =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'NewOrder';
+  const pendingRenewal =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'Renew';
   const VAPrescriptionPDFList = [
     {
       header: 'Most recent prescription',
@@ -388,11 +404,15 @@ export const buildVAPrescriptionPDFList = prescription => {
               ),
               inline: true,
             },
-            {
-              title: 'Prescription number',
-              value: prescription.prescriptionNumber,
-              inline: true,
-            },
+            ...(!pendingMed && !pendingRenewal
+              ? [
+                  {
+                    title: 'Prescription number',
+                    value: prescription.prescriptionNumber,
+                    inline: true,
+                  },
+                ]
+              : []),
             {
               title: 'Status',
               value: prescription.dispStatus || 'Unknown',
@@ -482,7 +502,7 @@ export const buildVAPrescriptionPDFList = prescription => {
         {
           items: [
             {
-              value: `Showing ${refillHistory.length} refill${
+              value: `Showing ${refillHistory.length} fill${
                 refillHistory.length > 1 ? 's, from newest to oldest' : ''
               }`,
               indent: 32,
@@ -492,7 +512,12 @@ export const buildVAPrescriptionPDFList = prescription => {
         ...refillHistory
           .map((entry, i) => {
             const { shape, color, backImprint, frontImprint } = entry;
-            const index = refillHistory.length - i - 1;
+            const isPartialFill = entry.prescriptionSource === 'PF';
+            const refillLabel = determineRefillLabel(
+              isPartialFill,
+              refillHistory,
+              i,
+            );
             const phone =
               entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
             const hasValidDesc =
@@ -506,9 +531,7 @@ export const buildVAPrescriptionPDFList = prescription => {
 ${backImprint ? `* Back marking: ${backImprint}` : ''}`
               : createNoDescriptionText(phone);
             return {
-              header: `${
-                index === 0 ? 'Original fill' : `Refill`
-              }: ${dateFormat(
+              header: `${refillLabel}: ${dateFormat(
                 entry.dispensedDate,
                 'MMMM D, YYYY',
                 'Date not available',
@@ -516,7 +539,21 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
               indent: 32,
               headerSize: 'H5',
               items: [
-                ...(i === 0
+                ...(isPartialFill
+                  ? [
+                      {
+                        value: 'This fill has a smaller quantity on purpose.',
+                        indent: 32,
+                      },
+                      {
+                        title: 'Quantity',
+                        inline: true,
+                        value: validateIfAvailable('Quantity', entry.quantity),
+                        indent: 32,
+                      },
+                    ]
+                  : []),
+                ...(i === 0 && !isPartialFill
                   ? [
                       {
                         title: `Shipped on`,
@@ -530,12 +567,16 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                       },
                     ]
                   : []),
-                {
-                  title: 'Medication description',
-                  inline: false,
-                  indent: 32,
-                },
-                ...(hasValidDesc
+                ...(!isPartialFill
+                  ? [
+                      {
+                        title: 'Medication description',
+                        inline: false,
+                        indent: 32,
+                      },
+                    ]
+                  : []),
+                ...(hasValidDesc && !isPartialFill
                   ? [
                       {
                         title: 'Note',
@@ -547,10 +588,14 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                       },
                     ]
                   : []),
-                {
-                  value: description,
-                  indent: 32,
-                },
+                ...(!isPartialFill
+                  ? [
+                      {
+                        value: description,
+                        indent: 32,
+                      },
+                    ]
+                  : []),
               ],
             };
           })
