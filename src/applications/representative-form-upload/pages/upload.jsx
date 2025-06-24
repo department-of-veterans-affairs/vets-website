@@ -14,7 +14,6 @@ import {
 } from '../config/constants';
 import {
   getFormContent,
-  getPdfDownloadUrl,
   onCloseAlert,
   createPayload,
   parseResponse,
@@ -131,12 +130,7 @@ export function UploadPage(props) {
   );
   const alert =
     warnings?.length > 0
-      ? FORM_UPLOAD_OCR_ALERT(
-          formNumber,
-          getPdfDownloadUrl(formNumber),
-          onCloseAlert,
-          warnings,
-        )
+      ? FORM_UPLOAD_OCR_ALERT(formNumber, onCloseAlert, warnings)
       : FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
   return <CustomAlertPage {...props} alert={alert} />;
 }

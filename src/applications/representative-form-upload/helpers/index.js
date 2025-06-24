@@ -99,12 +99,7 @@ export const getAlert = (props, continueClicked) => {
   const fileUploading = props.data?.uploadedFile?.name === 'uploading';
   const formNumber = getFormNumber();
   if (warnings?.length > 0) {
-    return FORM_UPLOAD_OCR_ALERT(
-      formNumber,
-      getPdfDownloadUrl(formNumber),
-      onCloseAlert,
-      warnings,
-    );
+    return FORM_UPLOAD_OCR_ALERT(formNumber, onCloseAlert, warnings);
   }
 
   if (fileUploading && continueClicked) {

@@ -53,7 +53,6 @@ export const UPLOAD_DESCRIPTION = Object.freeze(
 
 export const FORM_UPLOAD_OCR_ALERT = (
   formNumber,
-  pdfDownloadUrl,
   onCloseEvent,
   warnings = [],
 ) => (
