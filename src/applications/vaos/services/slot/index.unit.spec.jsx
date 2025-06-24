@@ -168,20 +168,22 @@ describe('VAOS Services: Slot ', () => {
       expect(getAvailableV2SlotsStub.calledOnce).to.be.true;
 
       const {
-        siteId,
+        facilityId,
         typeOfCare,
         provider,
-        start,
-        end,
-      } = getAvailableV2SlotsStub.firstCall.args.filter(e => e !== null); // account for optional args
+        startDate,
+        endDate,
+      } = getAvailableV2SlotsStub.firstCall.args[0];
 
-      expect(siteId).to.equal('983');
+      expect(facilityId).to.equal('983');
       expect(typeOfCare).to.equal('foodAndNutrition');
       expect(provider).to.equal('Practitioner/123456');
-      expect(new Date(start).toISOString()).to.equal(
+      expect(new Date(startDate).toISOString()).to.equal(
         '2025-04-30T19:00:00.000Z',
       );
-      expect(new Date(end).toISOString()).to.equal('2025-06-29T19:00:00.000Z');
+      expect(new Date(endDate).toISOString()).to.equal(
+        '2025-06-29T19:00:00.000Z',
+      );
 
       expect(transformV2SlotsStub.calledOnce).to.be.true;
       expect(transformV2SlotsStub.firstCall.args[0]).to.deep.equal(
