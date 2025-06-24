@@ -205,22 +205,21 @@ export function ApplicantAddressCopyPage({
 
   return (
     <>
-      {
-        titleUI(
-          customTitle ?? (
-            <>
-              <span className="dd-privacy-hidden">
-                {applicantWording(currentApp)}
-              </span>{' '}
-              address selection
-            </>
-          ),
-          customDescription ??
-            'We’ll send any important information about your application to this address.',
-        )['ui:title']
-      }
-
       <form onSubmit={handlers.onGoForward}>
+        {
+          titleUI(
+            customTitle ?? (
+              <>
+                <span className="dd-privacy-hidden">
+                  {applicantWording(currentApp)}
+                </span>{' '}
+                address selection
+              </>
+            ),
+            customDescription ??
+              'We’ll send any important information about your application to this address.',
+          )['ui:title']
+        }
         <VaSelect
           onVaSelect={handlers.selectUpdate}
           error={selectError}

@@ -18,7 +18,7 @@ describe('UploadPage', () => {
     const result = uiSchema.uploadedFile['ui:options'].updateUiSchema({});
 
     expect(result).to.deep.equal({
-      'ui:title': 'Submit VA Form ',
+      'ui:title': 'Select a file to upload',
     });
   });
 
@@ -31,7 +31,7 @@ describe('UploadPage', () => {
     const result = uiSchema.uploadedFile['ui:options'].updateUiSchema(formData);
 
     expect(result).to.deep.equal({
-      'ui:title': 'Submit VA Form ',
+      'ui:title': 'Select a file to upload',
     });
   });
 });
