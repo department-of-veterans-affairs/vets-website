@@ -6,7 +6,6 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { replaceStrValues } from 'applications/ezr/utils/helpers/general';
 import { useEditOrAddForm } from 'platform/forms-system/src/js/patterns/array-builder';
-import { isVeteranMarriedOrSeparated } from 'applications/ezr/utils/helpers/household';
 import { getFormContext } from 'platform/forms/save-in-progress/selectors';
 import content from 'applications/ezr/locales/en/content.json';
 
@@ -64,7 +63,9 @@ function MaritalStatusPage(props) {
   const [modal, setModal] = useState(false);
   const [pendingMaritalStatus, setPendingMaritalStatus] = useState(null);
   const [tempFormData, setTempFormData] = useState(null);
-  const currentMaritalStatus = data['view:maritalStatus']?.maritalStatus || '';
+  const marriedOrSeparated = status =>
+    ['married' || 'separated'].includes(status.toLowerCase());
+  const currentMaritalStatus = data['view:maritalStatus']?.maritalStatus ?? '';
 
   const modalTitle = content['household-spouse-status-change-modal-title'];
   const modalCancelDescription = replaceStrValues(
@@ -80,6 +81,10 @@ function MaritalStatusPage(props) {
    * Determines if a modal should be shown based on the current and new marital
    * statuses.
    *
+   * The modal (and any subsequent changes to formData) should only trigger
+   * when moving from a married/separated status to an unmarried (divorced,
+   * widowed, never married) status.
+   *
    * @param {string} currentStatus
    *   The current marital status of the Veteran.
    * @param {string} newStatus
@@ -88,15 +93,12 @@ function MaritalStatusPage(props) {
    * @returns {boolean}
    *   True if the modal should be shown, false otherwise.
    */
-  const shouldShowModal = (currentStatus, newStatus) => {
-    if (currentStatus.length === 0 || newStatus.length === 0) {
+  const shouldShowModal = (previousStatus, newStatus) => {
+    // Return early if current/new status is a zero length string or undefined.
+    if (previousStatus.length === 0 || newStatus.length === 0) {
       return false;
     }
-    const isCurrentlyMarried = isVeteranMarriedOrSeparated(currentStatus);
-    const isNewlyMarried = isVeteranMarriedOrSeparated(newStatus);
-    const statusChanged = currentStatus !== newStatus;
-    const isMaritalStatusTransition = isCurrentlyMarried !== isNewlyMarried;
-    return statusChanged && isMaritalStatusTransition;
+    return marriedOrSeparated(previousStatus) && !marriedOrSeparated(newStatus);
   };
 
   /**
