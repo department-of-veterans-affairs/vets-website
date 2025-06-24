@@ -95,17 +95,14 @@ function ClaimsStatusApp({
     service: 'benefits-claim-status-tool',
   });
 
-  if (featureFlagsLoading && isSmoothLoadingEnabled) {
-    return <AppLoadingIndicator dataTestId="feature-flags-loading" />;
-  }
-
-  if (featureFlagsLoading && !isSmoothLoadingEnabled) {
+  if (featureFlagsLoading) {
     return (
       <div className="vads-u-margin-y--5">
         <va-loading-indicator
-          data-testid="feature-flags-loading"
+          data-testid="feature-flags-loader"
           message="Loading your information..."
         />
+        <p>Loading...</p>
       </div>
     );
   }
