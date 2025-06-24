@@ -146,7 +146,7 @@ const formConfig = {
       },
     },
     additionalOfficialChapter: {
-      title: 'Add additional certifying officials',
+      title: 'Additional certifying officials',
       pages: {
         ...arrayBuilderPages(additionalOfficialArrayOptions, pageBuilder => ({
           additionalOfficialSummary: pageBuilder.summaryPage({
