@@ -35,6 +35,7 @@ import {
   institutionNameAndAddress,
   readOnlyCertifyingOfficialSummaryPage,
   readOnlyCertifyingOfficial,
+  remarksPage,
 } from '../pages';
 import directDeposit from '../pages/directDeposit';
 import { readOnlyCertifyingOfficialArrayOptions } from '../helpers';
@@ -210,6 +211,16 @@ const formConfig = {
           }),
         }),
       ),
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          uiSchema: remarksPage.uiSchema,
+          schema: remarksPage.schema,
+        },
+      },
     },
   },
 };
