@@ -11,6 +11,7 @@ import {
 } from '../actions';
 import formConfig from '../config/form';
 import { getAppData } from '../selectors';
+import { prefillTransformer } from '../helpers';
 
 function App({
   children,
@@ -179,11 +180,19 @@ App.propTypes = {
   user: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  ...getAppData(state),
-  formData: state.form?.data || {},
-  user: state.user,
-});
+const mapStateToProps = state => {
+  const appData = getAppData(state);
+  const transformedData =
+    prefillTransformer(null, null, null, state)?.formData || {};
+  return {
+    ...appData,
+    formData: {
+      ...(state.form?.data || {}),
+      ...transformedData,
+    },
+    user: state.user,
+  };
+};
 
 const mapDispatchToProps = {
   getPersonalInformation: fetchPersonalInformation,
