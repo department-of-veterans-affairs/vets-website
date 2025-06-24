@@ -91,7 +91,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
     case 'MDOT_SERVICE_UNAVAILABLE':
     case 'MDOT_SERVER_ERROR':
       content = (
-        <va-alert status="error">
+        <va-alert status="warning">
           <h3 slot="headline">This application is down for maintenance.</h3>
           <div className="mdot-server-error-alert">
             <p>
