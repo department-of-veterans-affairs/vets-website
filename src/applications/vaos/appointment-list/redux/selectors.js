@@ -30,7 +30,6 @@ import {
 import {
   selectFeatureRequests,
   selectFeatureCancel,
-  selectFeatureFeSourceOfTruth,
 } from '../../redux/selectors';
 import { getTypeOfCareById } from '../../utils/appointment';
 import { getTimezoneNameFromAbbr } from '../../utils/timezone';
@@ -100,29 +99,27 @@ export function selectFutureStatus(state) {
 export const selectFutureAppointments = createSelector(
   state => state.appointments.pending,
   state => state.appointments.confirmed,
-  state => selectFeatureFeSourceOfTruth(state),
-  (pending, confirmed, useFeSourceOfTruth) => {
+  (pending, confirmed) => {
     if (!confirmed || !pending) {
       return null;
     }
 
     return confirmed
       .concat(...pending)
-      .filter(item => isUpcomingAppointmentOrRequest(item, useFeSourceOfTruth))
+      .filter(item => isUpcomingAppointmentOrRequest(item))
       .sort(sortUpcoming);
   },
 );
 
 export const selectUpcomingAppointments = createSelector(
   state => state.appointments.confirmed,
-  state => selectFeatureFeSourceOfTruth(state),
-  (confirmed, useFeSourceOfTruth) => {
+  confirmed => {
     if (!confirmed) {
       return null;
     }
 
     const sortedAppointments = confirmed
-      .filter(item => isUpcomingAppointment(item, useFeSourceOfTruth))
+      .filter(item => isUpcomingAppointment(item))
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);
@@ -284,13 +281,8 @@ export function selectBackendServiceFailuresInfo(state) {
     backendServiceFailures,
   };
 }
-export function selectStartDate(appointment, useFeSourceOfTruth) {
-  if (
-    useFeSourceOfTruth
-      ? appointment.vaos.isPendingAppointment
-      : appointment.vaos.appointmentType === APPOINTMENT_TYPES.request ||
-        appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest
-  ) {
+export function selectStartDate(appointment) {
+  if (appointment.vaos.isPendingAppointment) {
     return moment(appointment.requestedPeriod[0].start);
   }
 

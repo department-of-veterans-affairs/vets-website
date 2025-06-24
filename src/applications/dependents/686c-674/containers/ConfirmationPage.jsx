@@ -23,10 +23,13 @@ export default function ConfirmationPage() {
     ? format(new Date(submission?.timestamp), 'MMMM d, yyyy')
     : '';
 
-  useEffect(() => {
-    scrollToTop('topScrollElement');
-    waitForRenderThenFocus('va-alert h2', alertRef.current);
-  }, []);
+  useEffect(
+    () => {
+      scrollToTop('topScrollElement');
+      waitForRenderThenFocus('va-alert h2', alertRef.current);
+    },
+    [alertRef],
+  );
 
   return (
     <>

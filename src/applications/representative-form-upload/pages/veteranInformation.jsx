@@ -40,10 +40,7 @@ export const veteranInformationPage = {
       ],
       required: true,
     }),
-    veteranSsn: {
-      ...ssnUI,
-      'ui:title': 'Social Security number',
-    },
+    veteranSsn: ssnUI(),
     veteranDateOfBirth: dateOfBirthUI(),
     vaFileNumber: {
       ...vaFileNumberUI,
