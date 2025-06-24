@@ -141,7 +141,7 @@ const LabsAndTests = () => {
         Lab and test results
       </h1>
 
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         Most lab and test results are available{' '}
         <span className="vads-u-font-weight--bold">36 hours</span> after the lab
         confirms them. Pathology results may take{' '}
@@ -159,22 +159,70 @@ const LabsAndTests = () => {
         listCurrentAsOf={labsAndTestsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={[refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR]}
-          newRecordsFound={
-            Array.isArray(labsAndTests) &&
-            Array.isArray(updatedRecordList) &&
-            labsAndTests.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
-        {labsAndTests?.length ? (
-          <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
-        ) : (
-          <NoRecordsMessage type={recordType.LABS_AND_TESTS} />
+        {!isAcceleratingLabsAndTests && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={[
+              refreshExtractTypes.CHEM_HEM,
+              refreshExtractTypes.VPR,
+            ]}
+            newRecordsFound={
+              Array.isArray(labsAndTests) &&
+              Array.isArray(updatedRecordList) &&
+              labsAndTests.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
+        {isAcceleratingLabsAndTests && (
+          <>
+            <div className="vads-u-margin-bottom--2">
+              <DatePicker
+                {...{
+                  updateDate,
+                  triggerApiUpdate,
+                  isLoadingAcceleratedData,
+                  dateValue: acceleratedLabsAndTestDate,
+                }}
+              />
+            </div>
+          </>
+        )}
+        {isLoadingAcceleratedData && (
+          <>
+            <div className="vads-u-margin-y--8">
+              <va-loading-indicator
+                message="We’re loading your records."
+                setFocus
+                data-testid="loading-indicator"
+              />
+            </div>
+          </>
+        )}
+
+        {!isLoadingAcceleratedData && (
+          <>
+            {labsAndTests?.length ? (
+              <RecordList
+                type={recordType.LABS_AND_TESTS}
+                records={labsAndTests?.map(data => ({
+                  ...data,
+                  isOracleHealthData: isAcceleratingLabsAndTests,
+                }))}
+                domainOptions={{
+                  isAccelerating: isAcceleratingLabsAndTests,
+                  timeFrame: acceleratedLabsAndTestDate,
+                  displayTimeFrame: getMonthFromSelectedDate({
+                    date: displayDate,
+                  }),
+                }}
+              />
+            ) : (
+              <NoRecordsMessage type={recordType.LABS_AND_TESTS} />
+            )}
+          </>
         )}
       </RecordListSection>
     </div>

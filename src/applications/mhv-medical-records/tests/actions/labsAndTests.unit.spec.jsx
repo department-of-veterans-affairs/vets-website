@@ -58,17 +58,6 @@ describe('Get labs and tests details action', () => {
     });
   });
 
-  it('when accelerating, should dispatch a get details action', () => {
-    const mockData = pathology;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getLabsAndTestsDetails('3106', null, true)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST,
-      );
-    });
-  });
-
   it('should dispatch a get details action and pull from the list argument', () => {
     const dispatch = sinon.spy();
     return getLabsAndTestsDetails('1', [{ id: '1' }])(dispatch).then(() => {

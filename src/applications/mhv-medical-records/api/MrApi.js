@@ -80,15 +80,6 @@ export const getAcceleratedLabsAndTests = async timeFrame => {
   );
 };
 
-export const getAcceleratedLabsAndTestsDetails = async id => {
-  return apiRequest(
-    `${API_BASE_PATH_V2}/medical_records/labs_and_tests/${id}`,
-    {
-      headers,
-    },
-  );
-};
-
 export const getLabOrTest = id => {
   return apiRequest(`${apiBasePath}/medical_records/labs_and_tests/${id}`, {
     headers,

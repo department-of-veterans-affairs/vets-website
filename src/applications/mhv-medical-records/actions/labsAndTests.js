@@ -6,7 +6,6 @@ import {
   getMhvRadiologyDetails,
   getImagingStudies,
   getAcceleratedLabsAndTests,
-  getAcceleratedLabsAndTestsDetails,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
@@ -80,36 +79,21 @@ export const getLabsAndTestsList = (
   }
 };
 
-export const getLabsAndTestsDetails = (
-  labId,
-  labList,
-  isAccelerating,
-) => async dispatch => {
+export const getLabsAndTestsDetails = (labId, labList) => async dispatch => {
   try {
-    if (isAccelerating) {
-      await dispatchDetails(
-        labId,
-        labList,
-        dispatch,
-        getAcceleratedLabsAndTestsDetails,
-        Actions.LabsAndTests.GET_FROM_LIST,
-        Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST,
-      );
-    } else {
-      let getDetailsFunc = getLabOrTest;
+    let getDetailsFunc = getLabOrTest;
 
-      if (labId && labId.charAt(0).toLowerCase() === 'r') {
-        getDetailsFunc = getMhvRadiologyDetails;
-      }
-      await dispatchDetails(
-        labId,
-        labList,
-        dispatch,
-        getDetailsFunc,
-        Actions.LabsAndTests.GET_FROM_LIST,
-        Actions.LabsAndTests.GET,
-      );
+    if (labId && labId.charAt(0).toLowerCase() === 'r') {
+      getDetailsFunc = getMhvRadiologyDetails;
     }
+    await dispatchDetails(
+      labId,
+      labList,
+      dispatch,
+      getDetailsFunc,
+      Actions.LabsAndTests.GET_FROM_LIST,
+      Actions.LabsAndTests.GET,
+    );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     throw error;

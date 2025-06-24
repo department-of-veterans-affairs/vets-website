@@ -48,13 +48,7 @@ const LabAndTestDetails = () => {
   useEffect(
     () => {
       if (labId && !isLoading) {
-        dispatch(
-          getLabsAndTestsDetails(
-            labId,
-            labAndTestList,
-            isAcceleratingLabsAndTests,
-          ),
-        );
+        dispatch(getLabsAndTestsDetails(labId, labAndTestList));
       }
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
     },
