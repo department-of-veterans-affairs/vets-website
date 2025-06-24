@@ -62,7 +62,7 @@ export function generateParticipantName(item) {
   return 'No participant';
 }
 
-const medicareOptions = {
+export const medicareOptions = {
   arrayPath: 'medicare',
   nounSingular: 'plan',
   nounPlural: 'plans',
@@ -707,12 +707,12 @@ const medicarePartDCardUploadPage = {
 };
 
 /**
- * Returns a list of applicants who are 65 or older, enrolled, and not claimed on
- * a Medicare plan that has been entered in the form.
+ * Returns a list of applicants who are not claimed on a Medicare plan that has
+ * been entered in the form.
  * @param {Object} formData Standard formdata object provided to depends functions
  * @returns Array of applicant objects
  */
-function getEligibleApplicantsWithoutMedicare(formData) {
+export function getEligibleApplicantsWithoutMedicare(formData) {
   return formData?.applicants?.filter(
     applicant =>
       !formData?.medicare?.some(

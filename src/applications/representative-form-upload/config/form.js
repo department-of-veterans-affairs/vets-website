@@ -93,11 +93,11 @@ const formConfig = {
       },
     },
     claimantInformationChapter: {
-      title: 'Claimant information',
+      title: 'Claimant and Veteran information',
       pages: {
         claimantInformation: {
           path: 'claimant-information',
-          title: 'Claimant information',
+          title: 'Claimant and Veteran information',
           uiSchema: claimantInformationPage.uiSchema,
           depends: formData => {
             return (
