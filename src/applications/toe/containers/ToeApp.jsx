@@ -282,13 +282,19 @@ ToeApp.propTypes = {
 };
 
 const mapStateToProps = state => {
+  // Get transformed data from prefillTransformer
+  const transformedData =
+    prefillTransformer(null, null, null, state)?.formData || {};
   return {
     ...getAppData(state),
+    claimant: state?.data?.formData?.data?.attributes?.claimant,
     dob:
       state?.user?.profile?.dob ||
       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
-    formData: state.form?.data || {},
-    claimant: prefillTransformer(null, null, null, state)?.formData,
+    formData: {
+      ...(state.form?.data || {}),
+      ...transformedData,
+    },
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,
     sponsorsInitial: state?.data?.sponsors,
