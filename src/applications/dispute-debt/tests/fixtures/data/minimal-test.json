@@ -1,9 +1,19 @@
 {
   "data": {
-    "fullName": {
-      "first": "John",
-      "last": "Doe"
+    "veteran": {
+      "mailingAddress": {},
+      "mobilePhone": {},
+      "email": "vets.gov.user+81@gmail.com",
+      "fullName": {
+        "first": "Travis",
+        "middle": "D",
+        "last": "Jones"
+      },
+      "ssn": "3018",
+      "dateOfBirth": "1950-09-06",
+      "homePhone": "1",
+      "fileNumber": "3018"
     },
-    "dateOfBirth": "1980-01-01"
+    "selectedDebts": []
   }
 }
