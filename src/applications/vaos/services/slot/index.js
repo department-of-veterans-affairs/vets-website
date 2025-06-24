@@ -63,14 +63,14 @@ export async function getSlots({
       ? parseEndDate.toISOString()
       : format(parseEndDate, "yyyy-MM-dd'T'HH:mm:ssxxx");
 
-    const data = await getAvailableV2Slots(
-      siteId,
-      clinicId.split('_')[1],
+    const data = await getAvailableV2Slots({
+      facilityId: siteId,
+      clinicId: clinicId ? clinicId.split('_')[1] : null,
       typeOfCare,
       provider,
-      start,
-      end,
-    );
+      startDate: start,
+      endDate: end,
+    });
 
     return transformV2Slots(data || []);
   } catch (e) {

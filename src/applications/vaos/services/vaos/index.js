@@ -146,14 +146,14 @@ export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
   ).then(parseApiList);
 }
 
-export function getAvailableV2Slots(
+export function getAvailableV2Slots({
   facilityId,
   clinicId,
   typeOfCare,
   provider,
   startDate,
   endDate,
-) {
+}) {
   let clinicIdParam = '';
   let typeOfCareParam = '';
   let providerParam = '';
