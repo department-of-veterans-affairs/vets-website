@@ -228,7 +228,7 @@ class RoutedSavableApp extends React.Component {
   checkExitFormLink = ({ target }) => {
     if (
       ['VA-LINK', 'VA-BUTTON', 'BUTTON'].includes(target.tagName) &&
-      target.getAttribute('exit-form') === 'true'
+      target.classList.contains('exit-form')
     ) {
       this.removeOnbeforeunload();
     }
