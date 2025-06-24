@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
-import { applicantPages } from '../../../chapters/applicantInformation';
+import {
+  applicantPages,
+  applicantOptions,
+} from '../../../chapters/applicantInformation';
 import { generateParticipantName } from '../../../chapters/medicareInformation';
 
 const mockStore = state => createStore(() => state);
@@ -288,5 +291,51 @@ describe('generateParticipantName', () => {
   });
   it('should return "No participant" if no participant selected', () => {
     expect(generateParticipantName(undefined)).to.eq('No participant');
+  });
+});
+
+describe('applicantOptions', () => {
+  describe('isItemIncomplete', () => {
+    it('should mark item incomplete if date of birth is missing', () => {
+      const res = applicantOptions.isItemIncomplete({
+        applicantName: { first: 'Jim' },
+        applicantSSN: '123123123',
+        applicantGender: 'male',
+        applicantPhone: '1231231234',
+        applicantAddress: { street: '123 St' },
+        applicantRelationshipToSponsor: 'child',
+      });
+      expect(res).to.be.true;
+    });
+    it('should mark item complete if all required fields are present', () => {
+      const res = applicantOptions.isItemIncomplete({
+        applicantName: { first: 'Jim' },
+        applicantDob: '2001-01-01',
+        applicantSSN: '123123123',
+        applicantGender: 'male',
+        applicantPhone: '1231231234',
+        applicantAddress: { street: '123 St' },
+        applicantRelationshipToSponsor: 'child',
+      });
+      expect(res).to.be.false;
+    });
+  });
+  describe('text.getItemName', () => {
+    it('should compute title from applicant name', () => {
+      const res = applicantOptions.text.getItemName({
+        applicantName: { first: 'Jim', last: 'Jones' },
+      });
+      expect(res).to.equal('Jim Jones');
+    });
+  });
+
+  describe('text.cardDescription', () => {
+    it('should return JSX containing an unordered list', () => {
+      const res = applicantOptions.text.cardDescription({});
+      const { container } = render(
+        <Provider store={minimalStore}>{res}</Provider>,
+      );
+      expect(container.querySelector('ul')).to.not.be.undefined;
+    });
   });
 });

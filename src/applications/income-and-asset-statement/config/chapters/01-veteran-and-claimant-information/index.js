@@ -8,6 +8,7 @@ import editEmailAddress from './editEmailAddress';
 import editPhoneNumber from './editPhoneNumber';
 import emailAddress from './emailAddress';
 import phoneNumber from './phoneNumber';
+import dateReceivedBy from './dateReceivedBy';
 import incomeNetWorthDateRange from './incomeNetWorthDateRange';
 
 const customConfig = {
@@ -38,6 +39,7 @@ export default {
     emailAddress,
     phoneNumber,
     veteranInformation,
+    dateReceivedBy,
     incomeNetWorthDateRange,
   },
 };

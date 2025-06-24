@@ -5,6 +5,7 @@ import SSNReviewWidget from 'platform/forms-system/src/js/review/SSNWidget';
 import get from 'platform/utilities/data/get';
 import { vaFileNumberUI } from 'platform/forms-system/src/js/web-component-patterns';
 import HandlePrefilledSSN, { maskSSN } from '../../shared/components/maskSSN';
+import { privWrapper } from '../../shared/utilities';
 
 const SSN_DEFAULT_TITLE = 'Social Security number';
 
@@ -63,11 +64,15 @@ export function CustomSSNReviewPage(props) {
       <dl className="review">
         <div className="review-row">
           <dt>Social Security number</dt>
-          <dd>{maskedSSN}</dd>
+          <dd>{privWrapper(maskedSSN)}</dd>
         </div>
         <div className="review-row">
           <dt>VA file number</dt>
-          <dd>{props?.data?.veteranSocialSecurityNumber?.vaFileNumber}</dd>
+          <dd>
+            {privWrapper(
+              props?.data?.veteranSocialSecurityNumber?.vaFileNumber,
+            )}
+          </dd>
         </div>
       </dl>
     </div>
@@ -78,6 +83,7 @@ CustomSSNReviewPage.propTypes = {
   data: PropTypes.shape({
     veteranSocialSecurityNumber: PropTypes.shape({
       ssn: PropTypes.string,
+      vaFileNumber: PropTypes.string,
     }),
   }),
   editPage: PropTypes.func,

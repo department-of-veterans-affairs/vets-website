@@ -23,10 +23,7 @@ import {
 
 const claimantSubPageUI = {
   claimantFullName: firstNameLastNameNoSuffixUI(),
-  claimantSsn: {
-    ...ssnUI,
-    'ui:title': 'Social Security number',
-  },
+  claimantSsn: ssnUI(),
   claimantDateOfBirth: dateOfBirthUI(),
   vaFileNumber: {
     ...vaFileNumberUI,
@@ -42,10 +39,7 @@ const claimantSubPageSchema = {
 
 const veteranSubPageUI = {
   veteranFullName: firstNameLastNameNoSuffixUI(),
-  veteranSsn: {
-    ...ssnUI,
-    'ui:title': 'Social Security number',
-  },
+  veteranSsn: ssnUI(),
   veteranDateOfBirth: dateOfBirthUI(),
   address: addressUI({
     labels: {
