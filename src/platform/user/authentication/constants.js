@@ -88,7 +88,7 @@ export const EXTERNAL_APPS = {
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
   ARP: 'arp',
-  FORM21A: '21a',
+  FORM21A: 'form21a',
   SMHD: 'smhdweb',
 };
 
@@ -111,7 +111,7 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.FORM21A]: `
     ${
       environment.BASE_URL
-    }/representative/accreditation/attorney-claims-agent-form-21a/`,
+    }/representative/accreditation/attorney-claims-agent-form-21a`,
   [EXTERNAL_APPS.SMHD]: `${eAuthURL}/MAP/users/v2/landing?application=vaoccmobile&redirect_uri=/smhdWeb/`,
 };
 
