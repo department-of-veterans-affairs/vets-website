@@ -18,32 +18,6 @@ const PreSubmit = ({ formData, showError, onSectionComplete }) => {
     setIsStatementOfTruthCertified,
   ] = useState(false);
 
-  const statementsOfTruth = useMemo(
-    () => {
-      return (
-        <SignatureCheckbox
-          fullName={formData.fullName}
-          showError={showError}
-          submission={submission}
-          isStatementOfTruthSigned={isStatementOfTruthSigned}
-          setIsStatementOfTruthSigned={setIsStatementOfTruthSigned}
-          setIsStatementOfTruthCertified={setIsStatementOfTruthCertified}
-          isRequired
-        >
-          <StatementOfTruth />
-        </SignatureCheckbox>
-      );
-    },
-    [
-      formData,
-      isStatementOfTruthSigned,
-      showError,
-      setIsStatementOfTruthCertified,
-      setIsStatementOfTruthSigned,
-      submission,
-    ],
-  );
-
   const [isChecked, setIsChecked] = useState(false);
   const privacyStatement = useMemo(
     () => {
@@ -86,7 +60,17 @@ const PreSubmit = ({ formData, showError, onSectionComplete }) => {
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
       {privacyStatement}
-      {statementsOfTruth}
+      <SignatureCheckbox
+        fullName={formData.fullName}
+        showError={showError}
+        submission={submission}
+        isStatementOfTruthSigned={isStatementOfTruthSigned}
+        setIsStatementOfTruthSigned={setIsStatementOfTruthSigned}
+        setIsStatementOfTruthCertified={setIsStatementOfTruthCertified}
+        isRequired
+      >
+        <StatementOfTruth />
+      </SignatureCheckbox>
       <p className="vads-u-margin-bottom--3">
         <strong>Note:</strong> According to federal law, there are criminal
         penalties, including a fine and/or imprisonment for up to 5 years, for

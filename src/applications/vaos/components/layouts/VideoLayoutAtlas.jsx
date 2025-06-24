@@ -74,10 +74,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
         !isPastAppointment && (
           <Section heading="How to join">
             You’ll use this appointment code to find your appointment using the
-            computer provided at the site:
-            <br />
-            {atlasConfirmationCode}
-            <br />
+            computer provided at the site: {atlasConfirmationCode}
           </Section>
         )}
       <When>

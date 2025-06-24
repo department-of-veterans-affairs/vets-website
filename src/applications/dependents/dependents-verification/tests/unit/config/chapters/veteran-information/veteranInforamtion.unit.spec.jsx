@@ -38,11 +38,7 @@ describe('veteranInformation config', () => {
   it('should export a uiSchema object', () => {
     expect(veteranInformation).to.have.property('uiSchema');
     expect(veteranInformation.uiSchema).to.have.property('ui:description');
-    expect(veteranInformation.uiSchema).to.have.property('ui:options');
-  });
-
-  it('should set hideOnReview to true', () => {
-    expect(veteranInformation.uiSchema['ui:options'].hideOnReview).to.be.true;
+    expect(veteranInformation.uiSchema).to.have.property('ui:objectViewField');
   });
 
   it('should render the VeteranInformation component as description', () => {
