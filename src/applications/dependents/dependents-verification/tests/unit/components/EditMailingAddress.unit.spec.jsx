@@ -81,11 +81,11 @@ describe('EditMailingAddress renders fields', () => {
     expect(container.textContent).to.include('ZIP');
     expect(container.textContent).to.include('Country');
 
-    expect(textInputs[0].value).to.equal('1 Main St'); // Street
-    expect(textInputs[1].value).to.equal('Hometown'); // City
-    expect(textInputs[2].value).to.equal('CA'); // State
-    expect(textInputs[3].value).to.equal('90210'); // ZIP
-    expect(textInputs[4].value).to.equal('USA'); // Country
+    expect(textInputs[0].value).to.equal('1 Main St');
+    expect(textInputs[1].value).to.equal('Hometown');
+    expect(textInputs[2].value).to.equal('CA');
+    expect(textInputs[3].value).to.equal('90210');
+    expect(textInputs[4].value).to.equal('USA');
 
     expect(container.textContent).to.include(
       'We’ve prefilled some of your information',

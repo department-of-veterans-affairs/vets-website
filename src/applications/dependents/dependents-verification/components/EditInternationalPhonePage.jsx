@@ -107,6 +107,7 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
+export { EditInternationalPhonePage };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
