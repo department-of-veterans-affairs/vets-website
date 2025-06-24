@@ -41,6 +41,10 @@ import { readOnlyCertifyingOfficialArrayOptions } from '../helpers';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
+export const confirmFormLogic = ({ router, route }) => (
+  <ConfirmationPage router={router} route={route} />
+);
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
