@@ -293,8 +293,8 @@ const mapStateToProps = state => {
       state?.user?.profile?.dob ||
       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
     formData: {
-      ...prefillData,
       ...formStateData,
+      ...prefillData,
       sponsors: formStateData.sponsors || prefillData.sponsors,
     },
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
