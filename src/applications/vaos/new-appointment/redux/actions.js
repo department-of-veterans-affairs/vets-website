@@ -24,6 +24,7 @@ import {
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
   selectFeatureConvertSlotsToUtc,
+  selectFeatureMentalHealthHistoryFiltering,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -327,6 +328,12 @@ export function checkEligibility({ location, showModal, isCerner }) {
       state,
     );
 
+    // Retrieves flipper state for mental health history filtering
+    // Only used in NON-Cerner checks
+    const usePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
+      state,
+    );
+
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
     });
@@ -383,6 +390,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
+          usePastVisitMHFilter,
         });
 
         if (showModal) {

@@ -33,7 +33,7 @@ export const lastUpdatedIsBeforeCutoff = lastUpdated => {
     return false;
   }
 
-  const CUTOFF_DATE_4142 = '2025-06-30 19:00:00'; // CST
+  const CUTOFF_DATE_4142 = '2025-06-25 09:00:00'; // CST
 
   return formattedLastUpdated < CUTOFF_DATE_4142;
 };
