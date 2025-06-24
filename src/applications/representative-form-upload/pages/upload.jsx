@@ -59,7 +59,9 @@ export const uploadPage = {
     },
     'ui:objectViewField': SupportingEvidenceViewField,
     supportingDocuments: {
-      'ui:title': 'Upload additional evidence',
+      'ui:title': <strong>Upload additional evidence</strong>,
+      'ui:description':
+        'Select supporting documents to upload. You can upload one file at a time no larger than 25MB. Your file can be .pdf, .png or .jpg.',
       'ui:field': FileField,
       'ui:confirmationField': ({ formData }) => ({
         data: formData?.map(item => item.name || item.fileName),
