@@ -105,10 +105,13 @@ const ComposeForm = props => {
               draftInProgress?.careSystemName || careSystem?.vamcSystemName,
             recipientId: draftInProgress?.recipientId || draft.recipientId,
             recipientName:
-              draftInProgress?.recipientName || draft.triageGroupName,
+              draftInProgress?.recipientName ||
+              draft.suggestedNameDisplay ||
+              draft.recipientName,
             category: draftInProgress?.category || draft.category,
             subject: draftInProgress?.subject || draft.subject,
             body: draftInProgress?.body || draft.body,
+            messageId: draftInProgress.messageId || draft.messageId,
           }),
         );
       }
@@ -942,7 +945,10 @@ const ComposeForm = props => {
           {isPilot && (
             <div className="vads-u-margin-top--3">
               <p className="vads-u-margin-bottom--0">To</p>
-              <p className="vads-u-font-weight--bold vads-u-margin-y--0">
+              <p
+                className="vads-u-font-weight--bold vads-u-margin-y--0"
+                data-testid="compose-recipient-title"
+              >
                 {draftInProgress.careSystemName} -{' '}
                 {draftInProgress.recipientName}
               </p>

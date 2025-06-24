@@ -277,26 +277,27 @@ const RecipientsSelect = ({
         </VaSelect>
       )}
 
-      {alertDisplayed && (
-        <VaAlert
-          ref={alertRef}
-          class="vads-u-margin-y--2"
-          closeBtnAriaLabel="Close notification"
-          closeable
-          onCloseEvent={() => {
-            setAlertDisplayed(false);
-          }}
-          status="info"
-          visible
-          data-testid="signature-alert"
-        >
-          <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
-            {isSignatureRequired === true
-              ? Prompts.Compose.SIGNATURE_REQUIRED
-              : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
-          </p>
-        </VaAlert>
-      )}
+      {!isPilot &&
+        alertDisplayed && (
+          <VaAlert
+            ref={alertRef}
+            class="vads-u-margin-y--2"
+            closeBtnAriaLabel="Close notification"
+            closeable
+            onCloseEvent={() => {
+              setAlertDisplayed(false);
+            }}
+            status="info"
+            visible
+            data-testid="signature-alert"
+          >
+            <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
+              {isSignatureRequired === true
+                ? Prompts.Compose.SIGNATURE_REQUIRED
+                : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
+            </p>
+          </VaAlert>
+        )}
     </>
   );
 };

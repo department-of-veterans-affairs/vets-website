@@ -10,6 +10,7 @@ const initialState = {
   replyToMessageId: undefined,
   cannotReply: false,
   draftInProgress: {
+    messageId: null,
     category: null,
     subject: null,
     body: null,
