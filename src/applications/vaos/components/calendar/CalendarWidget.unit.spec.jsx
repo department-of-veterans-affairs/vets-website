@@ -44,11 +44,7 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
     ];
-    const startMonth = formatInTimeZone(
-      nowUTC,
-      timezone,
-      DATE_FORMATS.yearMonth,
-    );
+    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
@@ -157,11 +153,7 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
     ];
-    const startMonth = formatInTimeZone(
-      nowUTC,
-      timezone,
-      DATE_FORMATS.yearMonth,
-    );
+    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
@@ -260,7 +252,7 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
       {
-        start: formatInTimeZone(slot2, timezone, DATE_FORMATS.ISODateTimeUTC),
+        start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeUTC),
         end: formatInTimeZone(
           addMinutes(slot2, 60),
           'UTC',
@@ -268,11 +260,7 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
     ];
-    const startMonth = formatInTimeZone(
-      nowUTC,
-      timezone,
-      DATE_FORMATS.yearMonth,
-    );
+    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
@@ -296,7 +284,6 @@ describe('VAOS Component: CalendarWidget', () => {
       const isAppointmentSelectionError = useSelector(
         state => state.newAppointment.isAppointmentSelectionError,
       );
-
       return (
         <CalendarWidget
           maxSelections={1}
@@ -354,6 +341,7 @@ describe('VAOS Component: CalendarWidget', () => {
     });
 
     userEvent.click(screen.getByText('2'));
+    screen.debug(null, 100000);
 
     await waitFor(() => {
       expect(
