@@ -21,7 +21,7 @@ const DisabilityRatingCard = ({
       )}
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
         <CTALink
-          href="/disability/view-disability-rating"
+          href="/disability/view-disability-rating/rating"
           text="Review your VA disability rating"
           className="vads-u-font-weight--bold"
           showArrow
