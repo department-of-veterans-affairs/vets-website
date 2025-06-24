@@ -91,7 +91,7 @@ export const EXTERNAL_APPS = {
   SMHD: 'smhdweb',
 };
 
-const ARP_APPS = {
+export const ARP_APPS = {
   FORM21A: 'form21a',
 };
 
