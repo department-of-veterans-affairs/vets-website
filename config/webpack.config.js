@@ -582,5 +582,9 @@ module.exports = async (env = {}) => {
     );
   }
 
+  baseConfig.watchOptions = {
+    ignored: /\/(\.git|node_modules)\//,
+  };
+
   return baseConfig;
 };
