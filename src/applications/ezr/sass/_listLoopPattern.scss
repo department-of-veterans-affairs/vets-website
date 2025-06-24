@@ -12,3 +12,6 @@ legend.schemaform-block-title:focus { outline: none !important; }
  // Hack to hide the contact type field, because we only allow Primary Next of Kin and
 // the forms pattern forces display of the field
 va-select[name$="_contactType"] { display: none; }
+
+// Hide the delete button for the financial information list & loop
+va-card[name^="income and deductible"] va-button-icon[data-action="remove"] { display: none; }

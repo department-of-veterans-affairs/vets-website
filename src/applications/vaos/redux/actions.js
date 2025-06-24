@@ -7,10 +7,10 @@ import { GA_PREFIX } from '../utils/constants';
 import { captureError } from '../utils/error';
 import {
   selectFeatureCCDirectScheduling,
-  selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
   selectFeatureFeSourceOfTruthModality,
+  selectFeatureFeSourceOfTruthTelehealth,
 } from './selectors';
 import { getIsInCCPilot } from '../referral-appointments/utils/pilot';
 
@@ -45,10 +45,12 @@ export function fetchPendingAppointments() {
 
       const state = getState();
       const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
-      const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
       const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
       const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+        state,
+      );
+      const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
         state,
       );
       const patientFacilities = selectPatientFacilities(state);
@@ -65,10 +67,10 @@ export function fetchPendingAppointments() {
           .add(2, 'days')
           .format('YYYY-MM-DD'),
         includeEPS,
-        useFeSourceOfTruth,
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
+        useFeSourceOfTruthTelehealth,
       });
 
       const data = pendingAppointments?.filter(

@@ -5,7 +5,7 @@ import {
 import ConflictOfInterestIntro from './conflictOfInterestIntro';
 
 const arrayBuilderOptions = {
-  arrayPath: 'conflict-of-interest',
+  arrayPath: 'conflictOfInterestArrayOptions',
   nounSingular: 'individual with a potential conflict of interest',
   nounPlural: 'individuals with a potential conflict of interest',
   required: false,
@@ -16,7 +16,7 @@ const schoolsSummary = {
     'view:introduction': {
       'ui:description': ConflictOfInterestIntro,
     },
-    hasConflictOfInterest: arrayBuilderYesNoUI(
+    allProprietaryConflictOfInterest: arrayBuilderYesNoUI(
       arrayBuilderOptions,
       {
         title:
@@ -50,9 +50,9 @@ const schoolsSummary = {
         type: 'object',
         properties: {},
       },
-      hasConflictOfInterest: arrayBuilderYesNoSchema,
+      allProprietaryConflictOfInterest: arrayBuilderYesNoSchema,
     },
-    required: ['hasConflictOfInterest'],
+    required: ['allProprietaryConflictOfInterest'],
   },
 };
 

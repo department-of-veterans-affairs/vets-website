@@ -41,7 +41,6 @@ const features = require('./featureFlags');
 const mockAppts = [];
 let currentMockId = 1;
 const draftAppointmentPollCount = {};
-const draftAppointments = {};
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -252,7 +251,7 @@ const responses = {
       appt => appt.id === req.params.id,
     );
 
-    if (appointment.start) {
+    if (appointment?.start) {
       appointment.future = moment(appointment.start).isAfter(moment());
     }
     return res.json({
@@ -431,10 +430,12 @@ const responses = {
         data: expiredReferral,
       });
     }
+
     const referral = referralUtils.createReferralById(
       '2024-12-02',
       req.params.referralId,
     );
+
     return res.json({
       data: referral,
     });
@@ -446,18 +447,10 @@ const responses = {
       return res.status(500).json({ error: true });
     }
 
-    let slots = 5;
-    // referral 0 has no available slots
-    if (referralNumber === '0') {
-      slots = 0;
-    }
-
     const draftAppointment = providerUtils.createDraftAppointmentInfo(
-      slots,
+      3,
       referralNumber,
     );
-
-    draftAppointments[draftAppointment.id] = draftAppointment;
 
     return res.json({
       data: draftAppointment,
@@ -473,13 +466,21 @@ const responses = {
       epsAppointmentUtils.appointmentData,
     );
 
-    if (appointmentId === 'timeout-appointment-id') {
+    if (appointmentId === 'details-retry-error') {
       // Set a very high poll count to simulate a timeout
       successPollCount = 1000;
     }
 
+    if (appointmentId === 'EEKoGzEf-appointment-details-error') {
+      return res.status(500).json({ error: true });
+    }
+
     if (appointmentId === 'eps-error-appointment-id') {
       return res.status(400).json({ error: true });
+    }
+
+    if (appointmentId === 'details-error') {
+      return res.status(500).json({ error: true });
     }
 
     // Check if the request is coming from the details page
@@ -524,6 +525,10 @@ const responses = {
 
     if (!id || !referralNumber || !slotId || !networkId || !providerServiceId) {
       return res.status(400).json({ error: true });
+    }
+
+    if (referralNumber === 'appointment-submit-error') {
+      return res.status(500).json({ error: true });
     }
 
     draftAppointmentPollCount[id] = 1;

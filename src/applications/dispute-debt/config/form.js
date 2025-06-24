@@ -21,7 +21,7 @@ import DebtReviewPage from '../components/DebtReviewPage';
 import DebtSelectionReview from '../components/DebtSelectionReview';
 
 import manifest from '../manifest.json';
-import prefillTransformer from './prefill-transformer';
+// import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
 import { TITLE } from '../constants';
 import transformForSubmit from './transformForSubmit';
@@ -41,8 +41,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
+    showNavLinks: false,
+    collapsibleNavLinks: false,
   },
   formId: VA_FORM_IDS.FORM_DISPUTE_DEBT,
   saveInProgress: {
@@ -55,7 +55,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
+  // prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start your application over to dispute your VA debt.',
     noAuth:
