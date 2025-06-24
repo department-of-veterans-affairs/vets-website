@@ -7,7 +7,7 @@ import {
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler, useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import formConfig from '../config/form';
 import WIP from '../../shared/components/WIP';
@@ -35,6 +35,17 @@ const breadcrumbList = [
 ];
 
 export default function App({ location, children }) {
+  // Following guide at https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-replace-a-form-page-using-#VAFormsLibrary-Howtoreplaceaformpageusingafeaturetoggle-Step-by-stepguide
+  // for the FF-controlled claim resubmission page:
+  const { useFormFeatureToggleSync } = useFeatureToggle();
+  useFormFeatureToggleSync([
+    'champvaEnableClaimResubmitQuestion',
+    {
+      toggleName: 'champvaEnableClaimResubmitQuestion', // feature toggle name
+      formKey: 'resubmitPathEnabled', // form data name
+    },
+  ]);
+
   // Add Datadog RUM to the app
   useBrowserMonitoring({
     loggedIn: undefined,
