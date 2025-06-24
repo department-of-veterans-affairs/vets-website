@@ -116,12 +116,14 @@ describe('VAOS Services: Slot ', () => {
 
       // Assert
       expect(getAvailableV2SlotsStub.calledOnce).to.be.true;
+
       const [
         siteId,
         clinicId,
         start,
         end,
-      ] = getAvailableV2SlotsStub.firstCall.args;
+      ] = getAvailableV2SlotsStub.firstCall.args.filter(e => e !== null); // account for optional args
+
       expect(siteId).to.equal('983');
       expect(clinicId).to.equal('308');
       expect(new Date(start).toISOString()).to.equal(
