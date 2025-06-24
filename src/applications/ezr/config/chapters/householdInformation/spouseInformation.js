@@ -71,7 +71,7 @@ const spouseContactInformationPageSchema = spouseContactInformationPage(
 );
 
 /**
- * Schemas for spouse financial support page.
+ * Spouse confirmation flow (ArrayBuilder/List and Loop) form pages.
  *
  * @returns {PageSchema}
  */

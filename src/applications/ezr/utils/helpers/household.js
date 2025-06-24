@@ -61,15 +61,3 @@ export function getDependentPageList(pages, formData = {}) {
     return acc;
   }, []);
 }
-
-/**
- * Helper that determines if the veteran is married or separated
- * @param {String} status - the current marital status of the veteran
- * @returns {Boolean} - true if the veteran is married or separated
- */
-export function isVeteranMarriedOrSeparated(status) {
-  return (
-    String(status).toLowerCase() === 'married' ||
-    String(status).toLowerCase() === 'separated'
-  );
-}
