@@ -35,13 +35,13 @@ import { APP_TYPE_DEFAULT } from '../../../forms-system/src/js/constants';
 class DowntimeNotification extends React.Component {
   static propTypes = {
     appTitle: PropTypes.string.isRequired,
+    children: PropTypes.node,
+    content: PropTypes.node,
     dependencies: PropTypes.arrayOf(
       PropTypes.oneOf(Object.values(externalServices)),
     ).isRequired,
     getGlobalDowntime: PropTypes.func.isRequired,
     getScheduledDowntime: PropTypes.func.isRequired,
-    children: PropTypes.node,
-    content: PropTypes.node,
     isReady: PropTypes.bool,
     loadingIndicator: PropTypes.node,
     render: PropTypes.func,

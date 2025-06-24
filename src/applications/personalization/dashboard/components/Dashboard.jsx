@@ -41,7 +41,6 @@ import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
-import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
@@ -360,14 +359,11 @@ const Dashboard = ({
               {/* LOA3 user experience */}
               {props.showClaimsAndAppeals && (
                 <DowntimeNotification
-                  appTitle="claims and appeals"
                   dependencies={[
                     externalServices.mhv,
                     externalServices.appeals,
                   ]}
-                  render={RenderClaimsWidgetDowntimeNotification({
-                    status: externalServiceStatus.down,
-                  })}
+                  render={RenderClaimsWidgetDowntimeNotification}
                 >
                   <ClaimsAndAppeals />
                 </DowntimeNotification>
