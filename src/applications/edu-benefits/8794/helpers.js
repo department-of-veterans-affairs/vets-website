@@ -57,7 +57,7 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
           <p>
             To submit this form, make sure that your completed form is saved as
             a PDF on your device.{' '}
-            <p>
+            <p className="vads-u-margin-y--0">
               <va-link
                 download
                 filetype="PDF"

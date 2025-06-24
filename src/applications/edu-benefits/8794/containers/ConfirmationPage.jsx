@@ -84,7 +84,6 @@ export const ConfirmationPage = ({ router, route }) => {
         route?.formConfig?.trackingPrefix,
         goBack,
       )}
-      {/* <ConfirmationView.NeedHelp content={<GetFormHelp />} /> */}
     </ConfirmationView>
   );
 };
