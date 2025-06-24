@@ -33,7 +33,16 @@ const formatStatus = submission => {
       );
     case 'awaiting_receipt':
     default:
-      return <span>Awaiting receipt</span>;
+      return (
+        <>
+          <va-icon
+            class="submissions__inline-status-icon submissions__card-check"
+            icon="check_circle"
+            size="3"
+          />
+          <span>Awaiting receipt</span>
+        </>
+      );
   }
 };
 
@@ -41,8 +50,10 @@ const SubmissionCard = ({ submission }) => {
   return (
     <li>
       <va-card class="submission__card">
-        <p>Submitted {formatDateParsedZoneLong(submission.submittedDate)}</p>
-        <h1 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
+        <p className="submission__card-date">
+          Submitted {formatDateParsedZoneLong(submission.submittedDate)}
+        </p>
+        <h2 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
           {submission.url ? (
             <Link
               to={`/submissions/${submission.id}`}
@@ -54,23 +65,25 @@ const SubmissionCard = ({ submission }) => {
           ) : (
             `${submission.lastName}, ${submission.firstName}`
           )}
-        </h1>
-        <p>
+        </h2>
+        <p className="submission__card-form-name vads-u-font-size--h5 vads-u-font-family--serif">
           <strong>
             {submission.formType}
             {submission.packet ? ' packet' : ''}
           </strong>
         </p>
-        <p>
+        <p className="submission__card-status">
           <span className="submission__card-attribute-text">
             {'Confirmation: '}
           </span>
           {submission.confirmationNumber}
           <br />
-          <span className="submission__card-attribute-text">
-            {'VBMS efolder status: '}
+          <span className="submission__card-status--row">
+            <span className="submission__card-attribute-text">
+              {'VBMS efolder status: '}
+            </span>
+            {formatStatus(submission)}
           </span>
-          {formatStatus(submission)}
         </p>
       </va-card>
     </li>
