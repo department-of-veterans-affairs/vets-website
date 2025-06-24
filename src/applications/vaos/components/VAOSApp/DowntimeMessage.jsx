@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
@@ -26,6 +27,9 @@ export default function DowntimeMessage({
   const descriptionBody = notificationTitle
     ? splitDescription?.[1]
     : splitDescription?.[0];
+  // NOTE: platform DowntimeNotification no longer supports moment
+  const startTimeM = moment(startTime);
+  const endTimeM = moment(endTime);
   if (status === externalServiceStatus.down) {
     return (
       <FullWidthLayout>
@@ -41,9 +45,9 @@ export default function DowntimeMessage({
             <p>{descriptionBody}</p>
           ) : (
             <p>
-              We’re making updates to the tool on {startTime.format('MMMM Do')}{' '}
-              between {startTime.format('LT')} and {endTime.format('LT')}. We’re
-              sorry it’s not working right now. If you need to request or
+              We’re making updates to the tool on {startTimeM.format('MMMM Do')}{' '}
+              between {startTimeM.format('LT')} and {endTimeM.format('LT')}.
+              We’re sorry it’s not working right now. If you need to request or
               confirm an appointment during this time, please call your local VA
               medical center. Use the{' '}
               <a href="/find-locations">VA facility locator</a> to find contact
@@ -78,8 +82,8 @@ export default function DowntimeMessage({
           ) : (
             <p>
               We’re doing work on the VA appointments tool on{' '}
-              {startTime.format('MMMM Do')} between {startTime.format('LT')} and{' '}
-              {endTime.format('LT')}. If you need to request or confirm an
+              {startTimeM.format('MMMM Do')} between {startTimeM.format('LT')}{' '}
+              and {endTimeM.format('LT')}. If you need to request or confirm an
               appointment during this time, please call your local VA medical
               center. Use the <a href="/find-locations">VA facility locator</a>{' '}
               to find contact information for your medical center.
