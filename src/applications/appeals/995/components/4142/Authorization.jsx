@@ -33,7 +33,7 @@ export const lastUpdatedIsBeforeCutoff = lastUpdated => {
     return false;
   }
 
-  const CUTOFF_DATE_4142 = '2025-06-30 19:00:00'; // CST
+  const CUTOFF_DATE_4142 = '2025-06-25 09:00:00'; // CST
 
   return formattedLastUpdated < CUTOFF_DATE_4142;
 };
@@ -54,6 +54,14 @@ const Authorization = ({
     state => state?.form?.loadedData?.metadata?.lastUpdated,
   );
 
+  const returnUrl = useSelector(
+    state => state?.form?.loadedData?.metadata?.returnUrl,
+  );
+
+  const returnUrlIs4142Auth =
+    returnUrl &&
+    returnUrl === '/supporting-evidence/private-medical-records-authorization';
+
   const toggle4142PrivacyModal = () => {
     setModalVisible(!modalVisible);
   };
@@ -61,10 +69,12 @@ const Authorization = ({
   useEffect(
     () => {
       if (lastUpdated && typeof lastUpdated === 'number') {
-        setShowLegaleseBanner(lastUpdatedIsBeforeCutoff(lastUpdated));
+        setShowLegaleseBanner(
+          returnUrlIs4142Auth && lastUpdatedIsBeforeCutoff(lastUpdated),
+        );
       }
     },
-    [lastUpdated],
+    [lastUpdated, returnUrlIs4142Auth],
   );
 
   useEffect(

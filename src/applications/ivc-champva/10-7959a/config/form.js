@@ -17,6 +17,7 @@ import {
   certifierAddressSchema,
   certifierContactSchema,
   certifierRelationshipSchema,
+  certifierClaimStatusSchema,
 } from '../chapters/signerInformation';
 import { NotEnrolledChampvaPage } from '../chapters/NotEnrolledChampvaPage';
 import {
@@ -156,6 +157,13 @@ const formConfig = {
           title: 'Your relationship to the beneficiary',
           depends: formData => get('certifierRole', formData) === 'other',
           ...certifierRelationshipSchema,
+        },
+        page1e: {
+          path: 'is-resubmit',
+          title: 'Your CHAMPVA claim status',
+          // If the feature toggle is enabled, show this page:
+          depends: formData => formData.champvaEnableClaimResubmitQuestion,
+          ...certifierClaimStatusSchema,
         },
       },
     },
