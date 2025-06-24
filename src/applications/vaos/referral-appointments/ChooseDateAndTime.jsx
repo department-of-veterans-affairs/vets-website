@@ -5,14 +5,14 @@ import { useLocation } from 'react-router-dom';
 import ReferralLayout from './components/ReferralLayout';
 // eslint-disable-next-line import/no-restricted-paths
 import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
-import {
-  setFormCurrentPage,
-  createDraftReferralAppointment,
-} from './redux/actions';
+import { setFormCurrentPage } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
-import { getDraftAppointmentInfo } from './redux/selectors';
-import { FETCH_STATUS } from '../utils/constants';
+import { usePostDraftReferralAppointmentMutation } from '../redux/api/vaosApi';
+import {
+  FETCH_STATUS,
+  POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
+} from '../utils/constants';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
 export const ChooseDateAndTime = props => {
@@ -20,10 +20,19 @@ export const ChooseDateAndTime = props => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { draftAppointmentInfo, draftAppointmentCreateStatus } = useSelector(
-    state => getDraftAppointmentInfo(state),
-    shallowEqual,
-  );
+  const [
+    postDraftReferralAppointment,
+    {
+      data: draftAppointmentInfo,
+      isError,
+      isLoading,
+      isUninitialized,
+      isSuccess,
+    },
+  ] = usePostDraftReferralAppointmentMutation({
+    fixedCacheKey: POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
+  });
+
   const { futureStatus, appointmentsByMonth } = useSelector(
     state => getUpcomingAppointmentListInfo(state),
     shallowEqual,
@@ -33,35 +42,29 @@ export const ChooseDateAndTime = props => {
   const [failed, setFailed] = useState(false);
   useEffect(
     () => {
-      if (
-        draftAppointmentCreateStatus === FETCH_STATUS.notStarted ||
-        futureStatus === FETCH_STATUS.notStarted
-      ) {
-        if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-          dispatch(
-            createDraftReferralAppointment(
-              currentReferral.referralNumber,
-              currentReferral.referralConsultId,
-            ),
-          );
+      if (isUninitialized || futureStatus === FETCH_STATUS.notStarted) {
+        if (isUninitialized) {
+          postDraftReferralAppointment(currentReferral.referralNumber);
         }
         if (futureStatus === FETCH_STATUS.notStarted) {
           dispatch(fetchFutureAppointments({ includeRequests: false }));
         }
-      } else if (
-        draftAppointmentCreateStatus === FETCH_STATUS.succeeded &&
-        futureStatus === FETCH_STATUS.succeeded
-      ) {
+      } else if (isSuccess && futureStatus === FETCH_STATUS.succeeded) {
         setLoading(false);
-      } else if (
-        draftAppointmentCreateStatus === FETCH_STATUS.failed ||
-        futureStatus === FETCH_STATUS.failed
-      ) {
+      } else if (isError || futureStatus === FETCH_STATUS.failed) {
         setLoading(false);
         setFailed(true);
       }
     },
-    [currentReferral, dispatch, draftAppointmentCreateStatus, futureStatus],
+    [
+      currentReferral,
+      dispatch,
+      futureStatus,
+      isError,
+      isSuccess,
+      isUninitialized,
+      postDraftReferralAppointment,
+    ],
   );
   useEffect(
     () => {
@@ -70,7 +73,7 @@ export const ChooseDateAndTime = props => {
     [location, dispatch],
   );
 
-  if (loading) {
+  if (loading || isLoading) {
     return (
       <ReferralLayout
         data-testid="loading"

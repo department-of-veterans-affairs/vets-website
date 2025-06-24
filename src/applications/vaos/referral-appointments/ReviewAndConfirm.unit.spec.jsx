@@ -24,8 +24,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
     referral: {
-      draftAppointmentInfo,
-      draftAppointmentCreateStatus: FETCH_STATUS.succeeded,
       selectedSlot: '0',
       currentPage: 'reviewAndConfirm',
       appointmentCreateStatus: FETCH_STATUS.notStarted,
@@ -33,6 +31,14 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       appointmentInfoError: false,
       appointmentInfoLoading: false,
       referralAppointmentInfo: {},
+    },
+    appointmentApi: {
+      mutations: {
+        postDraftReferralAppointmentCache: {
+          status: 'fulfilled',
+          data: draftAppointmentInfo,
+        },
+      },
     },
   };
   // TODO - add test for when draftAppointmentInfo is empty
