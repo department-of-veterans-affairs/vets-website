@@ -144,7 +144,7 @@ export const createExternalApplicationUrl = () => {
     case EXTERNAL_APPS.MY_VA_HEALTH:
       URL = sanitizeOracleHealth({ application });
       break;
-    case EXTERNAL_APPS.ARP:
+    case (EXTERNAL_APPS.ARP, EXTERNAL_APPS.FORM21A):
       URL = sanitizeUrl(externalRedirectUrl, to);
       break;
     case EXTERNAL_APPS.SMHD:
