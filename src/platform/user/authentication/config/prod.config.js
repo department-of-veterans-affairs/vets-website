@@ -10,6 +10,7 @@ import {
   defaultWebOAuthOptions,
   defaultMobileOAuthOptions,
   arpWebOAuthOptions,
+  form21AWebOAuthOptions,
 } from './constants';
 
 export default {
@@ -97,6 +98,28 @@ export default {
     OAuthEnabled: true,
     requiresVerification: false,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP],
+  },
+  [EXTERNAL_APPS.FORM21A]: {
+    allowedSignInProviders: {
+      idme: false,
+      logingov: true,
+    },
+    legacySignInProviders: {
+      dslogon: false,
+    },
+    isMobile: false,
+    queryParams: {
+      allowOAuth: true,
+      allowPostLogin: true,
+      allowRedirect: false,
+    },
+    oAuthOptions: {
+      ...form21AWebOAuthOptions,
+      clientId: 'fe0d4b2cac7935e7eec5946b8ee31643',
+    },
+    OAuthEnabled: true,
+    requiresVerification: false,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.FORM21A],
   },
   [EXTERNAL_APPS.SMHD]: {
     allowedSignInProviders: {
