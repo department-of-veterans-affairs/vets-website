@@ -25,8 +25,9 @@ import { transformV2Slots } from './transformers';
  * @async
  * @param {Object} slotsRequest - An object containing the parameters necessary to retrive appointment slots
  * @param {string} slotsRequest.siteId 3 digit facility ID
- * @param {string} slotsRequest.typeOfCareId 3 digit type of care id
  * @param {string} slotsRequest.clinicId clinic id
+ * @param {string} slotsRequest.typeOfCareId 3 digit type of care id
+ * @param {string} slotsRequest.provider OH provider id
  * @param {string} slotsRequest.startDate start date to search for appointments slots
  * @param {string} slotsRequest.endDate end date to search for appointments slots
  * @param {boolean} slotsRequest.convertToUtc check if flag to convert the start and end dates to UTC is set to true
@@ -35,6 +36,8 @@ import { transformV2Slots } from './transformers';
 export async function getSlots({
   siteId,
   clinicId,
+  typeOfCareId = null,
+  provider = null,
   startDate,
   endDate,
   convertToUtc = false,
@@ -55,6 +58,8 @@ export async function getSlots({
       clinicId.split('_')[1],
       start,
       end,
+      typeOfCareId,
+      provider,
     );
 
     return transformV2Slots(data || []);
