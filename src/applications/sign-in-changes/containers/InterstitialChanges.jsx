@@ -12,7 +12,7 @@ export default function InterstitialChanges() {
 
   useEffect(() => {
     document.title =
-      'You’ll need to sign in with a different account after September 30, 2025 | Veterans Affairs';
+      'The DS Logon sign-in option is going away soon | Veterans Affairs';
 
     apiRequest('/user/credential_emails', {
       credentials: 'include',
@@ -31,14 +31,15 @@ export default function InterstitialChanges() {
   }, []);
 
   const showAccount = userEmails?.logingov || userEmails?.idme;
-  const returnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/';
+  const returnUrl =
+    sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/my-va';
 
   if (isLoading) {
     return <VaLoadingIndicator />;
   }
 
   if (error) {
-    window.location = '/';
+    window.location = '/my-va';
   }
 
   return (
@@ -54,8 +55,8 @@ export default function InterstitialChanges() {
         id="interstitialP"
         data-testid="interstitialP"
       >
-        After <strong>September 30, 2025</strong>, we’ll remove the{' '}
-        <strong>DS Logon</strong> sign-in option. You’ll need to sign in using a{' '}
+        After September 30, 2025, we’ll remove the <strong>DS Logon</strong>{' '}
+        sign-in option. You’ll need to sign in using a{' '}
         <strong>Login.gov</strong> or <strong>ID.me</strong> account.
       </p>
       {showAccount ? (

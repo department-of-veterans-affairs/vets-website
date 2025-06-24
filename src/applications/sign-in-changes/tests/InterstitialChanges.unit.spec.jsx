@@ -39,7 +39,7 @@ describe('InterstitialChanges', () => {
       ),
     );
     const mockStore = store();
-    const expectedReturnUrl = '/';
+    const expectedReturnUrl = '/my-va';
     const { getByRole, getByTestId, container } = render(
       <Provider store={mockStore}>
         <InterstitialChanges />
