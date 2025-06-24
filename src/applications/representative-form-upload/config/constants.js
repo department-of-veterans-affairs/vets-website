@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  VaAlert,
-  VaLink,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
   const isLoa3 = formData?.loa === 3;
@@ -82,20 +79,12 @@ export const FORM_UPLOAD_OCR_ALERT = (
         )}
         {warnings.includes('wrong_form') && (
           <li>
-            The file you uploaded doesn’t look like a recent VA Form{' '}
+            Check to make sure the file you uploaded is the official VA Form{' '}
             {formNumber}.
           </li>
         )}
       </ul>
-      <p className="vads-u-margin-y--0">
-        Please check the file you uploaded is a recent VA Form {formNumber}.
-      </p>
-      <VaLink
-        external
-        filetype="PDF"
-        href={pdfDownloadUrl}
-        text={`Download VA Form ${formNumber}`}
-      />
+
       <p>If you’re sure this is the right file, you can continue.</p>
     </React.Fragment>
   </VaAlert>
