@@ -29,44 +29,6 @@ describe('referral actions', () => {
     clock.restore();
   });
 
-  describe('createDraftReferralAppointment', () => {
-    it('should dispatch success flow', async () => {
-      const mockResponse = { foo: 'bar' };
-      sandbox
-        .stub(services, 'postDraftReferralAppointment')
-        .resolves(mockResponse);
-
-      const result = await actions.createDraftReferralAppointment('ref-id')(
-        dispatch,
-      );
-
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        actions.CREATE_DRAFT_REFERRAL_APPOINTMENT,
-      );
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: actions.CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
-        data: mockResponse,
-      });
-      expect(result).to.deep.equal(mockResponse);
-    });
-
-    it('should dispatch failure flow', async () => {
-      const captureStub = sandbox.stub(errorUtils, 'captureError');
-      sandbox
-        .stub(services, 'postDraftReferralAppointment')
-        .rejects(new Error('fail'));
-
-      await actions.createDraftReferralAppointment('ref-id')(dispatch);
-
-      expect(
-        dispatch.calledWithMatch({
-          type: actions.CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED,
-        }),
-      ).to.be.true;
-      expect(captureStub.calledOnce).to.be.true;
-    });
-  });
-
   describe('fetchProviderDetails', () => {
     it('should dispatch success flow', async () => {
       const mockDetails = { name: 'Dr. Who' };

@@ -60,9 +60,6 @@ export const vaosApi = createApi({
           };
         }
       },
-      // async onQueryStarted(id, { dispatch }) {
-      //   dispatch(fetchFutureAppointments({ includeRequests: false }));
-      // },
     }),
   }),
 });
