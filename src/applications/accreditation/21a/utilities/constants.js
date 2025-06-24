@@ -14,7 +14,10 @@ const USIP_BASE_URL = environment.BASE_URL;
 
 export const getSignInUrl = ({ __returnUrl } = {}) => {
   const url = new URL(USIP_PATH, USIP_BASE_URL);
-  url.searchParams.set(USIP_QUERY_PARAMS.application, USIP_APPLICATIONS.ARP);
+  url.searchParams.set(
+    USIP_QUERY_PARAMS.application,
+    USIP_APPLICATIONS.FORM21A,
+  );
   url.searchParams.set(USIP_QUERY_PARAMS.OAuth, true);
 
   url.searchParams.set(USIP_QUERY_PARAMS.to, '/poa-requests');
