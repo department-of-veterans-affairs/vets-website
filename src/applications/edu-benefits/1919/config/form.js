@@ -3,6 +3,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrivacyPolicy from '../containers/PrivacyPolicy';
 
 import {
   allProprietaryProfitConflictsArrayOptions,
@@ -53,12 +54,23 @@ const formConfig = {
   },
   title: 'Conflicting interests certification for proprietary schools',
   subTitle: 'VA Form 22-1919',
+  customText: {
+    submitButtonText: 'Continue',
+  },
   defaultDefinitions: {
     fullName,
     ssn,
     date,
     dateRange,
     usaPhone,
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body: PrivacyPolicy,
+      heading: 'Certification statement',
+      fullNamePath: 'certifyingOfficial',
+      messageAriaDescribedBy: 'I have read and accept the privacy policy.',
+    },
   },
   chapters: {
     institutionDetailsChapter: {
