@@ -178,6 +178,10 @@
     background-color: var(--vads-color-base-light);
     border-radius: 6px;
 
+    @media (forced-colors: active) {
+      border: 1px solid;
+    }
+
     &::after {
       content: "";
       position: absolute;
