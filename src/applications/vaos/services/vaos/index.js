@@ -13,6 +13,7 @@ import {
   parseApiListWithErrors,
   parseApiObject,
 } from '../utils';
+import { DATE_FORMATS } from '../../utils/constants';
 
 const acheronHeader = {
   headers: { ACHERON_REQUESTS: 'true' },
@@ -166,7 +167,7 @@ export function getAvailableV2Slots(
         isDate(startDate)
           ? startOfMonth(startDate)
           : startOfMonth(parseISO(startDate)),
-        "yyyy-MM-dd'T'HH:mm:ssXXX",
+        DATE_FORMATS.ISODateTimeLocal,
       );
   const end = convertToUtc
     ? endDate.toISOString()
@@ -174,7 +175,7 @@ export function getAvailableV2Slots(
         isDate(endDate)
           ? lastDayOfMonth(endDate)
           : lastDayOfMonth(parseISO(endDate)),
-        "yyyy-MM-dd'T'HH:mm:ssXXX",
+        DATE_FORMATS.ISODateTimeLocal,
       );
   return apiRequestWithUrl(
     `/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${encodeURIComponent(

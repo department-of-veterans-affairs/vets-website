@@ -169,12 +169,12 @@ export function getDateTimeSelect(state, pageKey) {
         start: formatInTimeZone(
           new Date(slot.start),
           timezone,
-          "yyyy-MM-dd'T'HH:mm:ssXXX",
+          DATE_FORMATS.ISODateTimeLocal,
         ),
         end: formatInTimeZone(
           new Date(slot.end),
           timezone,
-          "yyyy-MM-dd'T'HH:mm:ssXXX",
+          DATE_FORMATS.ISODateTimeLocal,
         ),
       };
     }),

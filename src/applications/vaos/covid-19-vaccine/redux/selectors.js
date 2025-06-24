@@ -86,12 +86,12 @@ export function getDateTimeSelect(state, pageKey) {
         start: formatInTimeZone(
           toDate(element.start),
           timezone,
-          "yyyy-MM-dd'T'HH:mm:ssXXX",
+          DATE_FORMATS.ISODateTimeLocal,
         ),
         end: formatInTimeZone(
           toDate(element.end),
           timezone,
-          "yyyy-MM-dd'T'HH:mm:ssXXX",
+          DATE_FORMATS.ISODateTimeLocal,
         ),
       };
     });

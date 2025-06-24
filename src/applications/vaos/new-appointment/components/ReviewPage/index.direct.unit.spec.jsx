@@ -114,7 +114,11 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     store.dispatch(startDirectScheduleFlow());
     store.dispatch(
       onCalendarChange([
-        formatInTimeZone(start, 'America/Denver', "yyyy-MM-dd'T'HH:mm:ssXXX"),
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
       ]),
     );
   });
