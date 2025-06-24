@@ -75,6 +75,9 @@ module.exports = async (on, config) => {
     loader: { '.js': 'jsx' },
     format: 'cjs',
     external: [
+      'fs',
+      'stream',
+      'zlib',
       'web-components/react-bindings',
       'url-search-params',
       '@@vap-svc/*',
