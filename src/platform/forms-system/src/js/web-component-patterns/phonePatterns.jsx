@@ -2,7 +2,7 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
 import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
 
 /**
- * Web component v3 uiSchema for phone number
+ * uiSchema for a phone number - a single text input field
  *
  * ```js
  * examplePhone: phoneUI() // Phone number

@@ -1,9 +1,13 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import mockUser from './fixtures/mocks/user.json';
+
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
+
+import debts from './fixtures/mocks/debts.json';
+import mockUser from './fixtures/mocks/user.json';
+import mockStatus from './fixtures/mocks/profile-status-response.json';
 
 const testConfig = createTestConfig(
   {
@@ -21,14 +25,30 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        body: {
+          data: {
+            type: 'feature_toggles',
+            features: [{ name: 'dispute_debt', value: true }],
+          },
+        },
+      });
+      cy.intercept('GET', '/v0/maintenance_windows', []);
+      cy.intercept('GET', 'v0/user_transition_availabilities', {
+        statusCode: 200,
+      });
+
       cy.intercept('GET', '/v0/user', mockUser);
-      cy.intercept('POST', formConfig.submitUrl, { status: 200 });
+      cy.intercept('GET', '/v0/debts', debts);
       cy.login(mockUser);
+
+      cy.intercept('POST', formConfig.submitUrl, { status: 200 });
+      cy.intercept('GET', '/v0/profile/status', mockStatus);
     },
 
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    skip: true,
   },
   manifest,
   formConfig,

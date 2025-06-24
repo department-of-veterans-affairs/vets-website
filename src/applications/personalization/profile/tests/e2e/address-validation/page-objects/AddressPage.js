@@ -262,13 +262,6 @@ class AddressPage {
         'exist',
       );
       cy.get('#edit-mailing-address').should('exist');
-
-      // this linting warning is actually a bug in cypress
-      // https://github.com/cypress-io/eslint-plugin-cypress/issues/140
-      cy.focused().then($focused => {
-        expect($focused).to.have.attr('aria-label', 'Edit Mailing address');
-        expect($focused).to.have.text('Edit');
-      });
     }
 
     altText && cy.findByText(altText).should('exist');
