@@ -1,16 +1,31 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import reducer from '../../reducers';
 import { Paths } from '../../util/constants';
 import SelectCareTeam from '../../containers/SelectCareTeam';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import noBlocked6Recipients from '../fixtures/json-triage-mocks/triage-teams-mock-6-teams.json';
+import singleFacility from '../fixtures/json-triage-mocks/triage-teams-one-facility-mock.json';
 import { selectVaRadio, selectVaSelect } from '../../util/testUtils';
+import * as threadDetailsActions from '../../actions/threadDetails';
 
 describe('SelectCareTeam', () => {
+  let updateDraftInProgressSpy;
+
+  beforeEach(() => {
+    updateDraftInProgressSpy = sinon.spy(
+      threadDetailsActions,
+      'updateDraftInProgress',
+    );
+  });
+
+  afterEach(() => {
+    updateDraftInProgressSpy.restore();
+  });
+
   const initialState = {
     sm: {
       recipients: {
@@ -65,6 +80,7 @@ describe('SelectCareTeam', () => {
       },
     },
   };
+
   it('renders the heading and radio options', () => {
     const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
       initialState,
@@ -74,7 +90,7 @@ describe('SelectCareTeam', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: /Which VA health care system do you want to send a message to?/i,
+        name: /Select care team/i,
       }),
     ).to.exist;
     const vaRadio = screen.container.querySelector('va-radio');
@@ -88,47 +104,6 @@ describe('SelectCareTeam', () => {
     expect(vaRadioOption.getAttribute('id')).to.equal('636');
     expect(screen.getByTestId('care-system-636')).to.exist;
     expect(screen.getByTestId('care-system-662')).to.exist;
-  });
-
-  it('sets error attribute on va-radio after clicking Continue with no selection', () => {
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
-      initialState,
-      reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
-    });
-
-    const continueButton = screen.getByTestId('continue-button');
-    expect(continueButton).to.exist;
-    fireEvent.click(continueButton);
-    // $('va-button').__events.primaryClick(); // continue
-    expect($('va-radio')).to.have.attribute(
-      'error',
-      'Select a VA health care system',
-    );
-  });
-
-  it('removes error when a facility is selected after error', async () => {
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
-      initialState,
-      reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
-    });
-    const continueButton = screen.getByTestId('continue-button');
-    expect(continueButton).to.exist;
-    fireEvent.click(continueButton);
-    expect($('va-radio')).to.have.attribute(
-      'error',
-      'Select a VA health care system',
-    );
-    expect($('va-radio-option').radioOptionSelected).to.equal('');
-
-    await waitFor(() => {
-      selectVaRadio(screen.container, '636');
-      expect($('va-radio')).to.not.have.attribute(
-        'error',
-        'Select a VA health care system',
-      );
-    });
   });
 
   it('displays health care system facilities as radio button options', async () => {
@@ -168,16 +143,18 @@ describe('SelectCareTeam', () => {
       path: Paths.SELECT_CARE_TEAM,
     });
 
-    const careSystemSelect = screen.getByTestId('care-system-select');
+    await waitFor(() => {
+      const careSystemSelect = screen.getByTestId('care-system-select');
 
-    const options = careSystemSelect.querySelectorAll('option');
-    expect(options).to.have.lengthOf(
-      customState.sm.recipients.allFacilities.length,
-    );
+      const options = careSystemSelect.querySelectorAll('option');
+      expect(options).to.have.lengthOf(
+        customState.sm.recipients.allFacilities.length,
+      );
 
-    const careTeamSelect = screen.getByTestId('compose-recipient-select');
-    const careTeamOptions = careTeamSelect.querySelectorAll('option');
-    expect(careTeamOptions).to.have.lengthOf(0);
+      const careTeamSelect = screen.getByTestId('compose-recipient-select');
+      const careTeamOptions = careTeamSelect.querySelectorAll('option');
+      expect(careTeamOptions).to.have.lengthOf(11);
+    });
   });
 
   it('updates care team selection options when a care system is selected', async () => {
@@ -213,6 +190,186 @@ describe('SelectCareTeam', () => {
       const careTeamSelect = screen.getByTestId('compose-recipient-select');
       const careTeamOptions = careTeamSelect.querySelectorAll('option');
       expect(careTeamOptions).to.have.lengthOf(3);
+    });
+  });
+
+  it('updates care team selection options when a care system radio is selected', async () => {
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    selectVaRadio(screen.container, '636');
+
+    await waitFor(() => {
+      const careTeamSelect = screen.getByTestId('compose-recipient-select');
+      const careTeamOptions = careTeamSelect.querySelectorAll('option');
+      expect(careTeamOptions).to.have.lengthOf(5);
+    });
+  });
+
+  it('updates care team on care team selection', async () => {
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      const val = initialState.sm.recipients.allowedRecipients[0].id;
+      selectVaSelect(screen.container, val);
+
+      expect(screen.getByTestId('compose-recipient-select')).to.have.value(val);
+    });
+  });
+
+  it('navigates to start-message when no messageId present', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId: initialState.sm.recipients.allowedRecipients[0].id,
+            recipientName: initialState.sm.recipients.allowedRecipients[0].name,
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      const val = customState.sm.recipients.allowedRecipients[0].id;
+      selectVaSelect(screen.container, val);
+
+      const continueButton = screen.getByTestId('continue-button');
+      expect(continueButton).to.exist;
+      fireEvent.click(continueButton);
+
+      expect(screen.history.location.pathname).to.equal(
+        `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
+      );
+    });
+  });
+
+  it('navigates to edit draft when messageId present', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId: initialState.sm.recipients.allowedRecipients[0].id,
+            recipientName: initialState.sm.recipients.allowedRecipients[0].name,
+            messageId: 123456,
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      const val = customState.sm.recipients.allowedRecipients[0].id;
+      selectVaSelect(screen.container, val);
+
+      const continueButton = screen.getByTestId('continue-button');
+      expect(continueButton).to.exist;
+      fireEvent.click(continueButton);
+
+      expect(screen.history.location.pathname).to.equal(
+        `${Paths.MESSAGE_THREAD}${
+          customState.sm.threadDetails.draftInProgress.messageId
+        }`,
+      );
+    });
+  });
+
+  it('dispatches correct care system when it does not match the selected care team on continue', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId: initialState.sm.recipients.allowedRecipients[0].id,
+            recipientName: initialState.sm.recipients.allowedRecipients[0].name,
+            careSystemName: null,
+            careSystemVhaId: null,
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      const val = customState.sm.recipients.allowedRecipients[0].id;
+      selectVaSelect(screen.container, val);
+
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      sinon.assert.calledWith(updateDraftInProgressSpy);
+      const callArgs = updateDraftInProgressSpy.lastCall.args[0];
+
+      expect(callArgs).to.include({
+        careSystemVhaId: '662',
+        careSystemName: 'Test Facility 1',
+      });
+    });
+  });
+
+  it('dispatches care system when user has only one facility', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          allFacilities: singleFacility.mockAllFacilities,
+          allRecipients: singleFacility.mockAllRecipients,
+          allowedRecipients: singleFacility.mockAllowedRecipients,
+          blockedRecipients: singleFacility.mockBlockedRecipients,
+          associatedTriageGroupsQty: singleFacility.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            singleFacility.associatedBlockedTriageGroupsQty,
+          noAssociations: singleFacility.noAssociations,
+          allTriageGroupsBlocked: singleFacility.allTriageGroupsBlocked,
+        },
+        threadDetails: {
+          draftInProgress: {},
+        },
+      },
+    };
+
+    renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      sinon.assert.calledWith(updateDraftInProgressSpy);
+    });
+    const callArgs = updateDraftInProgressSpy.lastCall.args[0];
+
+    expect(callArgs).to.include({
+      careSystemVhaId: '662',
+      careSystemName: 'Test Facility 1',
     });
   });
 });
