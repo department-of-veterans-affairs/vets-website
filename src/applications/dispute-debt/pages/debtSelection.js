@@ -6,7 +6,7 @@ const debtSelection = {
     'ui:title': () => (
       <>
         <legend className="schemaform-block-title">
-          <h3 className="vads-u-margin--0">What debt do you need help with?</h3>
+          <h3 className="vads-u-margin--0 ">Which debt are you disputing?</h3>
         </legend>
       </>
     ),
