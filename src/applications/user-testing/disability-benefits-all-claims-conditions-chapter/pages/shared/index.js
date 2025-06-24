@@ -1,11 +1,9 @@
-import { ARRAY_PATH, CONDITION_NOT_LISTED_OPTION } from '../../constants';
+import { ARRAY_PATH } from '../../constants';
 import causePage from './cause';
 import causeNewPage from './causeNew';
-import causeSecondaryEnhancedPage from '../ratedOrNewNextPageSecondaryEnhanced/causeSecondaryEnhanced';
 import causeSecondaryPage from './causeSecondary';
 import causeVAPage from './causeVA';
 import causeWorsenedPage from './causeWorsened';
-import introPage from './intro';
 import newConditionPage from './newCondition';
 import newConditionDatePage from './newConditionDate';
 import ratedDisabilityDatePage from './ratedDisabilityDate';
@@ -14,23 +12,14 @@ import summaryPage from './summary';
 import {
   arrayBuilderOptions,
   hasSideOfBody,
-  isActiveDemo,
   isNewCondition,
   isRatedDisability,
 } from './utils';
 
-export const introAndSummaryPages = (demo, pageBuilder) => ({
-  [`${demo.name}Intro`]: pageBuilder.introPage({
-    title: 'Conditions intro',
-    path: `conditions-${demo.label}-intro`,
-    depends: formData => isActiveDemo(formData, demo.name),
-    uiSchema: introPage.uiSchema,
-    schema: introPage.schema,
-  }),
-  [`${demo.name}Summary`]: pageBuilder.summaryPage({
+export const SummaryPage = pageBuilder => ({
+  Summary: pageBuilder.summaryPage({
     title: 'Review your conditions',
-    path: `conditions-${demo.label}-summary`,
-    depends: formData => isActiveDemo(formData, demo.name),
+    path: `conditions-mango-summary`,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
@@ -45,46 +34,21 @@ const clearSideOfBody = (formData, index, setFormData) => {
   });
 };
 
-// Just for SecondaryEnhanced demo
-const clearConditionNotListed = (formData, setFormData) => {
-  setFormData({
-    ...formData,
-    [arrayBuilderOptions.arrayPath]: formData[
-      arrayBuilderOptions.arrayPath
-    ].map(
-      item =>
-        item?.causedByCondition?.[CONDITION_NOT_LISTED_OPTION] === true
-          ? {
-              ...item,
-              causedByCondition: {},
-            }
-          : item,
-    ),
-  });
-};
-
 const hasCause = (formData, index, cause) =>
   formData?.[arrayBuilderOptions.arrayPath]?.[index]?.cause === cause;
 
-export const remainingSharedPages = (
-  demo,
-  pageBuilder,
-  helpers,
-  isSecondaryEnhanced,
-) => ({
-  [`${demo.name}RatedDisabilityDate`]: pageBuilder.itemPage({
+export const remainingSharedPages = (pageBuilder, helpers) => ({
+  DisabilityDate: pageBuilder.itemPage({
     title: 'Approximate date of service-connected disability worsening',
-    path: `conditions-${demo.label}/:index/rated-disability-date`,
-    depends: (formData, index) =>
-      isActiveDemo(formData, demo.name) && isRatedDisability(formData, index),
+    path: `conditions-mango/:index/rated-disability-date`,
+    depends: (formData, index) => isRatedDisability(formData, index),
     uiSchema: ratedDisabilityDatePage.uiSchema,
     schema: ratedDisabilityDatePage.schema,
   }),
-  [`${demo.name}NewCondition`]: pageBuilder.itemPage({
+  NewCondition: pageBuilder.itemPage({
     title: 'Add new condition',
-    path: `conditions-${demo.label}/:index/new-condition`,
-    depends: (formData, index) =>
-      isActiveDemo(formData, demo.name) && isNewCondition(formData, index),
+    path: `conditions-mango/:index/new-condition`,
+    depends: (formData, index) => isNewCondition(formData, index),
     uiSchema: newConditionPage.uiSchema,
     schema: newConditionPage.schema,
     onNavForward: props => {
@@ -97,105 +61,63 @@ export const remainingSharedPages = (
       return helpers.navForwardKeepUrlParams(props);
     },
   }),
-  [`${demo.name}SideOfBody`]: pageBuilder.itemPage({
+  SideOfBody: pageBuilder.itemPage({
     title: 'Side of the body for new condition',
-    path: `conditions-${demo.label}/:index/side-of-body`,
+    path: `conditions-mango/:index/side-of-body`,
     depends: (formData, index) =>
-      isActiveDemo(formData, demo.name) &&
-      isNewCondition(formData, index) &&
-      hasSideOfBody(formData, index),
+      isNewCondition(formData, index) && hasSideOfBody(formData, index),
     uiSchema: sideOfBodyPage.uiSchema,
     schema: sideOfBodyPage.schema,
   }),
-  [`${demo.name}NewConditionDate`]: pageBuilder.itemPage({
+  NewConditionDate: pageBuilder.itemPage({
     title: 'Approximate start date of new condition',
-    path: `conditions-${demo.label}/:index/new-condition-date`,
-    depends: (formData, index) =>
-      isActiveDemo(formData, demo.name) && isNewCondition(formData, index),
+    path: `conditions-mango/:index/new-condition-date`,
+    depends: (formData, index) => isNewCondition(formData, index),
     uiSchema: newConditionDatePage.uiSchema,
     schema: newConditionDatePage.schema,
-    onNavForward: props => {
-      const { formData, setFormData } = props;
-
-      // This is to clear the condition not listed option
-      // With this implementation, there is an edge case in which the user
-      // hits cancel on the Add a new condition page
-      // then the condition not listed option is not cleared
-      if (isSecondaryEnhanced) {
-        clearConditionNotListed(formData, setFormData);
-      }
-
-      return helpers.navForwardKeepUrlParams(props);
-    },
+    onNavForward: props => helpers.navForwardKeepUrlParams(props),
   }),
-  [`${demo.name}Cause`]: pageBuilder.itemPage({
+  ConditionCause: pageBuilder.itemPage({
     title: 'Cause of new condition',
-    path: `conditions-${demo.label}/:index/cause`,
-    depends: (formData, index) =>
-      isActiveDemo(formData, demo.name) && isNewCondition(formData, index),
+    path: `conditions-mango/:index/cause`,
+    depends: (formData, index) => isNewCondition(formData, index),
     uiSchema: causePage.uiSchema,
     schema: causePage.schema,
   }),
-  [`${demo.name}CauseNew`]: pageBuilder.itemPage({
+  CauseNewDetails: pageBuilder.itemPage({
     title:
       'Details of the injury, event, disease or exposure that caused new condition',
-    path: `conditions-${demo.label}/:index/cause-new`,
+    path: `conditions-mango/:index/cause-new`,
     depends: (formData, index) =>
-      isActiveDemo(formData, demo.name) &&
-      isNewCondition(formData, index) &&
-      hasCause(formData, index, 'NEW'),
+      isNewCondition(formData, index) && hasCause(formData, index, 'NEW'),
     uiSchema: causeNewPage.uiSchema,
     schema: causeNewPage.schema,
   }),
-  [`${demo.name}CauseSecondary`]: pageBuilder.itemPage({
+  CauseSecondary: pageBuilder.itemPage({
     title:
       'Details of the service-connected disability or condition that caused new condition',
-    path: `conditions-${demo.label}/:index/cause-secondary`,
+    path: `conditions-mango/:index/cause-secondary`,
     depends: (formData, index) =>
-      isActiveDemo(formData, demo.name) &&
-      isNewCondition(formData, index) &&
-      hasCause(formData, index, 'SECONDARY'),
-    uiSchema: isSecondaryEnhanced
-      ? causeSecondaryEnhancedPage.uiSchema
-      : causeSecondaryPage.uiSchema,
-    schema: isSecondaryEnhanced
-      ? causeSecondaryEnhancedPage.schema
-      : causeSecondaryPage.schema,
-    onNavForward: props => {
-      const { formData, index, setFormData } = props;
-
-      if (isSecondaryEnhanced) {
-        const hasConditionNotListedSelected =
-          formData?.[arrayBuilderOptions.arrayPath]?.[index]
-            ?.causedByCondition?.[CONDITION_NOT_LISTED_OPTION];
-
-        if (hasConditionNotListedSelected) {
-          clearConditionNotListed(formData, setFormData);
-        }
-      }
-
-      return helpers.navForwardFinishedItem(props);
-    },
+      isNewCondition(formData, index) && hasCause(formData, index, 'SECONDARY'),
+    uiSchema: causeSecondaryPage.uiSchema,
+    schema: causeSecondaryPage.schema,
+    onNavForward: props => helpers.navForwardFinishedItem(props),
   }),
-  [`${demo.name}CauseWorsened`]: pageBuilder.itemPage({
+  CauseWorsened: pageBuilder.itemPage({
     title:
       'Details of the injury, event or exposure that worsened new condition',
-    path: `conditions-${demo.label}/:index/cause-worsened`,
+    path: `conditions-mango/:index/cause-worsened`,
     depends: (formData, index) =>
-      isActiveDemo(formData, demo.name) &&
-      isNewCondition(formData, index) &&
-      hasCause(formData, index, 'WORSENED'),
+      isNewCondition(formData, index) && hasCause(formData, index, 'WORSENED'),
     uiSchema: causeWorsenedPage.uiSchema,
     schema: causeWorsenedPage.schema,
   }),
-  [`${demo.name}CauseVA`]: pageBuilder.itemPage({
+  CauseVA: pageBuilder.itemPage({
     title:
       'Details of the injury or event in VA care that caused new condition',
-    path: `conditions-${demo.label}/:index/cause-va`,
+    path: `conditions-mango/:index/cause-va`,
     depends: (formData, index) =>
-      isActiveDemo(formData, demo.name) &&
-      isNewCondition(formData, index) &&
-      hasCause(formData, index, 'VA'),
+      isNewCondition(formData, index) && hasCause(formData, index, 'VA'),
     uiSchema: causeVAPage.uiSchema,
     schema: causeVAPage.schema,
   }),
