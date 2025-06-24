@@ -15,10 +15,9 @@ import {
 import { APPOINTMENT_STATUS, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import RequestedAppointmentsPage from './RequestedAppointmentsPage';
 
-const initialStateVAOSService = {
+const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingFeSourceOfTruth: true,
     vaOnlineSchedulingFeSourceOfTruthVA: true,
   },
 };
@@ -52,7 +51,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: initialStateVAOSService,
+      initialState,
       reducers,
     });
     // Then it should display the requested appointments
@@ -83,7 +82,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     });
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: initialStateVAOSService,
+      initialState,
       reducers,
     });
 
@@ -118,9 +117,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: {
-        ...initialStateVAOSService,
-      },
+      initialState,
       reducers,
     });
 
@@ -156,7 +153,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: initialStateVAOSService,
+      initialState,
       reducers,
     });
 
@@ -186,9 +183,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: {
-        ...initialStateVAOSService,
-      },
+      initialState,
       reducers,
     });
 
@@ -223,9 +218,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: {
-        ...initialStateVAOSService,
-      },
+      initialState,
       reducers,
     });
 
@@ -255,9 +248,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: {
-        ...initialStateVAOSService,
-      },
+      initialState,
       reducers,
     });
 
@@ -288,7 +279,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     });
 
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: initialStateVAOSService,
+      initialState,
       reducers,
     });
 
@@ -302,8 +293,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
   describe('When FE Source of Truth is off', () => {
     const defaultState = {
       featureToggles: {
-        ...initialStateVAOSService.featureToggles,
-        vaOnlineSchedulingFeSourceOfTruth: false,
+        ...initialState.featureToggles,
         vaOnlineSchedulingFeSourceOfTruthVA: true,
       },
     };
