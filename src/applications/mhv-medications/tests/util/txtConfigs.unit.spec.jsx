@@ -89,6 +89,40 @@ describe('VA prescription Config', () => {
     expect(txt).to.include('Shape: Hexagon');
     expect(txt).to.include('Color: Purple');
   });
+
+  it('should not show refill history if there is 1 record with dispensedDate undefined', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.rxRfRecords[0].dispensedDate = undefined;
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.not.include('Refill history\n');
+  });
+
+  it('should not show refill history if there are no records', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.rxRfRecords = [];
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.not.include('Refill history\n');
+  });
+
+  it('should show refill history if there are no records but original fill record is created', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.rxRfRecords = [];
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.include('Refill history\n');
+  });
+
+  it('should show refill history if there are 2 records', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.rxRfRecords = [
+      { ...rxDetails.rxRfRecords[0] },
+      { ...rxDetails.rxRfRecords[0] },
+    ];
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.include('Refill history\n');
+  });
 });
 
 describe('Non VA prescription Config', () => {
