@@ -229,16 +229,6 @@ class PatientComposePage {
       });
   };
 
-  verifyAttachmentErrorMessage = errormessage => {
-    cy.get(Locators.ALERTS.ERROR_MESSAGE)
-      .should('have.text', errormessage)
-      .should('be.visible');
-
-    cy.get(`.attachments-section`)
-      .find(`.file-input`)
-      .should(`have.css`, `border-left-width`, `4px`);
-  };
-
   closeAlertModal = () => {
     cy.get(`.first-focusable-child`).click({ force: true });
   };
