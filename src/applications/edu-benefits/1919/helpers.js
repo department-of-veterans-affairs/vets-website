@@ -114,6 +114,113 @@ export const alert = (
   </va-alert>
 );
 
+export const confirmationChildContent = (pdfUrl, goBack) => (
+  <div data-testid="download-link">
+    <va-alert close-btn-aria-label="Close notification" status="into" visible>
+      <h2 slot="headline">Complete all submission steps</h2>
+      <p className="vads-u-margin-y--0">
+        This form requires additional steps for successful submission. Follow
+        the instructions below carefully to ensure your form is submitted
+        correctly.
+      </p>
+    </va-alert>
+    <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
+      To submit your form, follow the steps below
+    </h2>
+    <va-process-list uswds>
+      <va-process-list-item>
+        <div
+          itemProp="itemListElement"
+          className="confirmation-save-pdf-download-section screen-only custom-classname"
+        >
+          <h2>Download and save your form</h2>
+          <p>
+            Make sure that your completed form is saved as a PDF on your device.{' '}
+            <span className="vads-u-display--inline-block">
+              <va-link
+                download
+                filetype="PDF"
+                href={pdfUrl}
+                text="Download VA Form 22-1919"
+              />
+            </span>
+          </p>
+        </div>
+      </va-process-list-item>
+      <va-process-list-item header="Upload the form to the Education File Upload Portal or email it to your State Approving Agency (SAA) for approval">
+        <div itemProp="itemListElement">
+          <p>
+            <strong> If your institution has a facility code:</strong> Visit
+            the&nbsp;
+            <va-link
+              external
+              text="Education File Upload Portal"
+              href="https://www.my.va.gov/EducationFileUploads/s/"
+            />
+            , and upload your saved VA Form 22-1919.
+          </p>
+          <p>
+            <strong>
+              If your institution does not have a facility code or if you are
+              submitting the form because your institution has changed
+              ownership:{' '}
+            </strong>
+            Email your downloaded PDF to your State Approving Agency (SAA). If
+            you need help finding their email address&nbsp;
+            <va-link
+              external
+              text="search the SAA contact directory"
+              href="https://nasaa-vetseducation.com/nasaa-contacts/"
+            />
+          </p>
+        </div>
+      </va-process-list-item>
+      <va-process-list-item header="Next steps">
+        <div itemProp="itemListElement">
+          <p>
+            We will generally review your submission within 7-10 business days.
+          </p>
+          <p>
+            <strong>
+              If you uploaded your form to the Education File Upload Portal:
+            </strong>{' '}
+            Once we complete the review, we will email all authorized
+            individuals listed on this form to confirm that your institution’s
+            information has been updated, and include a copy of the WEAMS 1998
+            report. If for any reason we cannot accept your form, we will
+            explain the reasons why and give you instructions for re-submission.
+          </p>
+          <p>
+            <strong>If you emailed your form to your SAA:</strong> After
+            reviewing your form, the SAA will include it in the approval request
+            they submit to the VA. They will reach out if they need more
+            information. VA will contact you directly once the approval request
+            has been processed.
+          </p>
+        </div>
+      </va-process-list-item>
+    </va-process-list>
+    <p>
+      <va-button
+        className="custom-classname"
+        secondary
+        text="Print this page"
+        data-testid="print-page"
+        onClick={() => window.print()}
+      />
+    </p>
+    <p>
+      <va-link
+        onClick={goBack}
+        class="screen-only vads-u-margin-top--1 vads-u-font-weight--bold"
+        data-testid="back-button"
+        text="Back"
+        href="#"
+      />
+    </p>
+  </div>
+);
+
 export const getTitle = role => {
   const titles = {
     certifyingOfficial: 'Certifying official',

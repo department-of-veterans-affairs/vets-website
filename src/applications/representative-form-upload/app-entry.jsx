@@ -13,6 +13,7 @@ import routes from './routes';
 import createReduxStore from './store';
 import rootReducer from './reducers';
 import './sass/representative-form-upload.scss';
+import './sass/SupportingEvidenceViewField.scss';
 
 window.appName = manifest.entryName;
 const store = createReduxStore(rootReducer);

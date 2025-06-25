@@ -12,6 +12,7 @@ import {
   arrayBuilderOptions,
 } from './readOnlyCertifyingOfficialSummaryPage';
 import * as readOnlyCertifyingOfficial from './readOnlyCertifyingOfficial';
+import * as remarksPage from './remarks';
 
 export {
   designatingOfficial,
@@ -26,4 +27,5 @@ export {
   readOnlyCertifyingOfficialSummaryPage,
   arrayBuilderOptions,
   readOnlyCertifyingOfficial,
+  remarksPage,
 };
