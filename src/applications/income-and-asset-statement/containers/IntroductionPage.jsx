@@ -158,9 +158,9 @@ export const IntroductionPage = props => {
         <va-additional-info trigger="What we consider child custody" uswds>
           We define child custody for pension purposes in 38 C.F.R.§ 3.57(d).
           natural or adoptive parent has custody of a child unless custody is
-          legally removed. For pension purposes, a child who has attained age
-          18 remains in the custody of the person who had custody before the
-          child turned 18 unless custody is legally removed.
+          legally removed. For pension purposes, a child who has attained age 18
+          remains in the custody of the person who had custody before the child
+          turned 18 unless custody is legally removed.
         </va-additional-info>
       </p>
       <SaveInProgressIntro
