@@ -36,6 +36,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     // Arrange
     const appointment = new MockAppointmentResponse({
       localStartTime: now,
+      future: true,
     })
       .setLocation(new MockFacilityResponse())
       .setTypeOfCare(null);
@@ -71,6 +72,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     // Arrange
     const appointment = new MockAppointmentResponse({
       localStartTime: now,
+      future: true,
     })
       .setLocation(new MockFacilityResponse())
       .setTypeOfCare(null);
@@ -113,6 +115,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     const appointments = MockAppointmentResponse.createCCResponses({
       localStartTime: now,
       status: APPOINTMENT_STATUS.booked,
+      future: true,
     });
 
     mockAppointmentsApi({
@@ -146,6 +149,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     // Arrange
     const appointments = MockAppointmentResponse.createGfeResponses({
       localStartTime: now,
+      future: true,
     });
 
     mockAppointmentsApi({
@@ -179,6 +183,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     // Arrange
     const appointments = MockAppointmentResponse.createPhoneResponses({
       localStartTime: now,
+      future: true,
     });
 
     mockAppointmentsApi({
@@ -213,6 +218,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     const appointments = MockAppointmentResponse.createCCResponses({
       localStartTime: now,
       status: APPOINTMENT_STATUS.cancelled,
+      future: true,
     });
 
     mockAppointmentsApi({
@@ -244,6 +250,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   it('should show VA appointment text for telehealth appointments without vvsKind', async () => {
     const appointments = MockAppointmentResponse.createVAResponses({
       localStartTime: now,
+      future: true,
     });
     appointments[0]
       .setLocation(new MockFacilityResponse())

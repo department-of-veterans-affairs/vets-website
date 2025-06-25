@@ -39,7 +39,7 @@ export const uploadTitleAndDescription = {
 
 export const claimantTitleAndDescription = {
   'view:claimantTitle': {
-    'ui:title': 'Claimant information',
+    'ui:title': 'Claimant and Veteran information',
   },
   'view:claimantDescription': {
     'ui:description': Object.freeze(
@@ -49,6 +49,15 @@ export const claimantTitleAndDescription = {
         cause processing delays.
       </>,
     ),
+  },
+};
+
+export const supportingEvidenceTitleAndDescription = {
+  'view:supportingEvidenceTitle': {
+    'ui:title': 'Upload supporting evidence',
+  },
+  'view:supportingEvidenceDescription': {
+    'ui:description': 'Select supporting documents to upload.',
   },
 };
 

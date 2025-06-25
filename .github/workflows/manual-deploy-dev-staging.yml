@@ -25,6 +25,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
@@ -43,22 +46,18 @@ jobs:
         with:
           github-token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           script: |
-            const core = require('@actions/core');
             const org = context.repo.owner;
-            const teamSlug = 'va-platform-cop-frontend';
-            const username = context.actor;
 
             try {
               // Throws 404 if the user is NOT a member of the team.
               await github.rest.teams.getMembershipForUserInOrg({
                 org,
-                team_slug: teamSlug,
-                username,
+                team_slug: 'va-platform-cop-frontend',
+                username: context.actor,
               });
-
-              core.notice(`${username} is authorized to run this workflow.`);
+              core.notice('Permissions check passed.');
             } catch (error) {
-              core.setFailed(`User ${username} is not authorized to run this workflow.`);
+              core.setFailed('Permissions check failed: user is not authorized to run this workflow.');
             }
 
   set-environment:

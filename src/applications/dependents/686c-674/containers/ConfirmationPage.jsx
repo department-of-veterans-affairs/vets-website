@@ -23,10 +23,13 @@ export default function ConfirmationPage() {
     ? format(new Date(submission?.timestamp), 'MMMM d, yyyy')
     : '';
 
-  useEffect(() => {
-    scrollToTop('topScrollElement');
-    waitForRenderThenFocus('va-alert h2', alertRef.current);
-  }, []);
+  useEffect(
+    () => {
+      scrollToTop('topScrollElement');
+      waitForRenderThenFocus('va-alert h2', alertRef.current);
+    },
+    [alertRef],
+  );
 
   return (
     <>
@@ -68,7 +71,7 @@ export default function ConfirmationPage() {
         <va-process-list>
           <va-process-list-item header="We’ll confirm that we’ve received your form">
             <p>
-              This can take up to 10 days. When we receive your form, we'll
+              This can take up to 10 days. When we receive your form, we’ll
               update the status on My VA.
             </p>
             <va-link
