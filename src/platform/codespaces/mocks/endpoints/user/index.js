@@ -20,6 +20,7 @@ const loa3User = {
         'identity-proofed',
         'vet360',
         'lighthouse',
+        'lighthouse_benefits_intake',
       ],
       account: {
         accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -122,6 +123,7 @@ const loa3User = {
         '28-1900',
         '26-1880',
         '26-4555',
+        '00-1234',
       ],
       vet360ContactInformation: {
         email: {
