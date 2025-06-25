@@ -45,7 +45,6 @@ export const ConfirmationPageView = ({
           </p>
         ) : null}
         <p>Your confirmation number is: {confirmationNumber}.</p>
-        <p>We’ve emailed this confirmation number to you for your records.</p>
       </va-alert>
       <section>
         <h2>What to expect</h2>
