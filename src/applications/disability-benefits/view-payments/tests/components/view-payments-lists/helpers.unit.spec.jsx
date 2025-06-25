@@ -197,5 +197,49 @@ describe('View Payments helpers', () => {
       expect(result[0].bankName).to.equal('CAPITAL ONE, N.A.');
       expect(result[1].bankName).to.equal('NEIGHBORS CREDIT UNION');
     });
+
+    it('should handle payments with bank names in date field', () => {
+      const input = [
+        {
+          payCheckDt: 'WELLS FARGO BANK',
+        },
+      ];
+
+      const result = normalizePaymentData(input);
+
+      expect(result[0]).to.deep.equal({
+        payCheckDt: null,
+        payCheckAmount: null,
+        payCheckType: null,
+        paymentMethod: null,
+        bankName: null,
+        accountNumber: null,
+      });
+    });
+
+    it('should detect various bank name patterns in misaligned fields', () => {
+      const testCases = [
+        { payCheckDt: 'NAVY FEDERAL CREDIT UNION' },
+        { payCheckDt: 'USAA FEDERAL SAVINGS BANK' },
+        { payCheckDt: 'CAPITAL ONE, N.A.' },
+        { payCheckDt: 'TRUIST BANK' },
+        { payCheckDt: 'FIRST NATIONAL BANK' },
+        { payCheckDt: 'CITIZENS SAVINGS AND LOAN' },
+        { payCheckDt: 'TD BANK NATIONAL ASSOCIATION' },
+      ];
+
+      testCases.forEach(testCase => {
+        const result = normalizePaymentData([testCase]);
+        expect(result[0].payCheckDt).to.be.null;
+        expect(result[0]).to.include.all.keys([
+          'payCheckDt',
+          'payCheckAmount',
+          'payCheckType',
+          'paymentMethod',
+          'bankName',
+          'accountNumber',
+        ]);
+      });
+    });
   });
 });

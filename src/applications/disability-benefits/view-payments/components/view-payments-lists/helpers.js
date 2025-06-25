@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { format, isValid, parseISO } from 'date-fns';
+import { BANK_NAME_PATTERNS } from '../../constants';
 
 export const isValidDate = dateString => {
   const parsedDate = parseISO(dateString);
@@ -191,11 +192,10 @@ export const normalizePaymentData = payments => {
       typeof payment.payCheckDt === 'string' &&
       payment.payCheckDt.includes('*');
 
-    const BANK_NAME_SUBSTRINGS = ['BANK', 'CREDIT UNION', 'FEDERAL'];
     const hasBankNameInDateField =
       payment.payCheckDt &&
       typeof payment.payCheckDt === 'string' &&
-      new RegExp(BANK_NAME_SUBSTRINGS.join('|'), 'i').test(payment.payCheckDt);
+      new RegExp(BANK_NAME_PATTERNS.join('|'), 'i').test(payment.payCheckDt);
 
     const hasAmountInTypeField =
       payment.payCheckType &&
