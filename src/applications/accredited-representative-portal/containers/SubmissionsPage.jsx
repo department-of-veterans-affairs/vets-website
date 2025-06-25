@@ -42,24 +42,26 @@ const SubmissionsPage = title => {
       }
     >
       <Toggler.Enabled>
-        <section className="poa-request">
+        <section className="poa-request submissions">
           <VaBreadcrumbs
             breadcrumbList={submissionsBC}
             label={SUBMISSIONS_BC_LABEL}
             homeVeteransAffairs={false}
           />
-          <va-banner
-            data-label="Info banner"
-            headline="We are working to improve this tool."
-            type="info"
-            className="home__banner"
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="info"
+            closeable="true"
             visible
           >
+            <h2 id="track-your-status-on-mobile" slot="headline">
+              We are working to improve this tool.
+            </h2>
             <p>
               This early version of the Accredited Representative Portal has
               limited functionality.
             </p>
-          </va-banner>
+          </va-alert>
           <h1
             data-testid="submissions-header"
             className="submissions__search-header"
@@ -69,11 +71,13 @@ const SubmissionsPage = title => {
           <p className="submissions-subtext__copy">
             Start here to submit VA forms for your claimants.
           </p>
-          <p className="submissions-21-686-c__form-name">Form 21-686c</p>
-          <h2 className="vads-u-font-size--h3">
+          <p className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
+            Form 21-686c
+          </p>
+          <h2 className="submissions__form-description vads-u-font-size--h4">
             Application Request to Add and/or Remove Dependents
           </h2>
-          <p className="submissions-21-686-c__subtext">
+          <p className="submissions__subtext submissions__subtext">
             The form will be processed by VA Centralized Mail after you submit
             it.
             <va-link-action
@@ -83,8 +87,10 @@ const SubmissionsPage = title => {
           </p>
           <hr />
 
-          <h1>Recent Submissions</h1>
-          <p className="submissions-subtext__copy">
+          <h2 className="submissions__search-header vads-u-font-size--h1">
+            Recent Submissions
+          </h2>
+          <p className="submissions-subtext__copy--secondary vads-u-font-family--serif">
             This list shows only your submissions sent through this portal from
             the past 60 days.
           </p>

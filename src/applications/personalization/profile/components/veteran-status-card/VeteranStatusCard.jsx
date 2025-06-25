@@ -9,7 +9,7 @@ const VeteranStatusCard = ({
 }) => {
   return (
     <div className="proof-of-veteran-status-card vads-u-margin-bottom--2 vads-u-background-color--primary-darker vads-u-color--white ">
-      <h2 className="vads-u-background-color--primary-dark vads-u-margin-top--0 vads-u-padding-top--2p5 vads-u-padding-left--2 vads-u-padding-bottom--2">
+      <h2 className="veteran-status-card-title vads-u-background-color--primary-dark vads-u-margin-top--0 vads-u-padding-top--2p5 vads-u-padding-left--2 vads-u-padding-bottom--2">
         Veteran Status Card
       </h2>
       <img
@@ -29,14 +29,15 @@ const VeteranStatusCard = ({
           <div className="vets-status-card-row">
             <dt className="vads-u-font-weight--bold">DoD ID Number</dt>
             <dd>{edipi}</dd>
-            {!!totalDisabilityRating && (
-              <>
-                <dt className="vads-u-font-weight--bold">
-                  VA disability rating
-                </dt>
-                <dd>{`${totalDisabilityRating}%`}</dd>
-              </>
-            )}
+            {totalDisabilityRating != null &&
+              totalDisabilityRating >= 0 && (
+                <>
+                  <dt className="vads-u-font-weight--bold">
+                    VA disability rating
+                  </dt>
+                  <dd>{`${totalDisabilityRating}%`}</dd>
+                </>
+              )}
           </div>
         </dl>
         <small className="vads-u-font-size--sm">

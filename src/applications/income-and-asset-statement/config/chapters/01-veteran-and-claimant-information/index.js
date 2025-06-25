@@ -3,11 +3,9 @@ import { hasSession } from '../../../helpers';
 import claimantType from './claimantType';
 import veteranInformation from './veteranInformation';
 import claimantInformation from './claimantInformation';
-import contactInformation from './contactInformation';
-import editEmailAddress from './editEmailAddress';
-import editPhoneNumber from './editPhoneNumber';
 import emailAddress from './emailAddress';
 import phoneNumber from './phoneNumber';
+import dateReceivedBy from './dateReceivedBy';
 import incomeNetWorthDateRange from './incomeNetWorthDateRange';
 
 const customConfig = {
@@ -24,6 +22,7 @@ const customConfig = {
     ssnPath: 'veteranSocialSecurityNumber',
     vaFileNumber: 'vaFileNumber',
   },
+  hideOnReview: false,
 };
 
 export default {
@@ -32,12 +31,10 @@ export default {
     claimantType,
     ...personalInformationPage(customConfig),
     claimantInformation,
-    contactInformation,
-    editEmailAddress,
-    editPhoneNumber,
     emailAddress,
     phoneNumber,
     veteranInformation,
+    dateReceivedBy,
     incomeNetWorthDateRange,
   },
 };

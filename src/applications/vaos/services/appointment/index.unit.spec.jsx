@@ -47,10 +47,7 @@ describe('VAOS Services: Appointment ', () => {
         response: MockAppointmentResponse.createVAResponse(),
       });
 
-      const v2Result = await fetchBookedAppointment({
-        id: '1',
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await fetchBookedAppointment({ id: '1' });
 
       expect(v2Result).to.be.ok;
       expect(v2Result.vaos.apiData.modality).to.equal('vaInPerson');
@@ -64,10 +61,7 @@ describe('VAOS Services: Appointment ', () => {
         }),
       });
 
-      const v2Result = await fetchBookedAppointment({
-        id: '1',
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await fetchBookedAppointment({ id: '1' });
 
       expect(v2Result).to.be.ok;
     });
@@ -80,10 +74,7 @@ describe('VAOS Services: Appointment ', () => {
         }),
       });
 
-      const v2Result = await fetchBookedAppointment({
-        id: '1',
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await fetchBookedAppointment({ id: '1' });
 
       expect(v2Result).to.be.ok;
     });
@@ -96,10 +87,7 @@ describe('VAOS Services: Appointment ', () => {
         }),
       });
 
-      const v2Result = await fetchBookedAppointment({
-        id: '1',
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await fetchBookedAppointment({ id: '1' });
 
       expect(v2Result).to.be.ok;
     });
@@ -112,10 +100,7 @@ describe('VAOS Services: Appointment ', () => {
         }),
       });
 
-      const v2Result = await fetchBookedAppointment({
-        id: '1',
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await fetchBookedAppointment({ id: '1' });
 
       expect(v2Result).to.be.ok;
     });
@@ -128,10 +113,7 @@ describe('VAOS Services: Appointment ', () => {
         })[0],
       });
 
-      const v2Result = await fetchBookedAppointment({
-        id: '1',
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await fetchBookedAppointment({ id: '1' });
 
       expect(v2Result).to.be.ok;
     });
@@ -144,10 +126,7 @@ describe('VAOS Services: Appointment ', () => {
         })[0],
       });
 
-      const v2Result = await fetchBookedAppointment({
-        id: '1',
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await fetchBookedAppointment({ id: '1' });
 
       expect(v2Result).to.be.ok;
     });
@@ -160,10 +139,7 @@ describe('VAOS Services: Appointment ', () => {
         })[0],
       });
 
-      const v2Result = await fetchBookedAppointment({
-        id: '1',
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await fetchBookedAppointment({ id: '1' });
 
       expect(v2Result).to.be.ok;
     });
@@ -176,10 +152,7 @@ describe('VAOS Services: Appointment ', () => {
         })[0],
       });
 
-      const v2Result = await fetchBookedAppointment({
-        id: '1',
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await fetchBookedAppointment({ id: '1' });
 
       expect(v2Result).to.be.ok;
     });
@@ -192,10 +165,7 @@ describe('VAOS Services: Appointment ', () => {
         })[0],
       });
 
-      const v2Result = await fetchBookedAppointment({
-        id: '1',
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await fetchBookedAppointment({ id: '1' });
 
       expect(v2Result).to.be.ok;
     });
@@ -208,10 +178,7 @@ describe('VAOS Services: Appointment ', () => {
         }),
       });
 
-      const v2Result = await fetchBookedAppointment({
-        id: '1',
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await fetchBookedAppointment({ id: '1' });
 
       expect(v2Result).to.be.ok;
     });
@@ -225,10 +192,7 @@ describe('VAOS Services: Appointment ', () => {
 
       let v2Result = null;
       try {
-        await fetchBookedAppointment({
-          id: '1234',
-          useFeSourceOfTruth: true,
-        });
+        await fetchBookedAppointment({ id: '1234' });
       } catch (e) {
         v2Result = e;
       }
@@ -255,11 +219,7 @@ describe('VAOS Services: Appointment ', () => {
         response: MockAppointmentResponse.createVAResponses(),
       });
 
-      const v2Result = await getAppointmentRequests({
-        startDate,
-        endDate,
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await getAppointmentRequests({ startDate, endDate });
 
       // Then expect a VA appointment request to be returned.
       expect(v2Result.length).to.be.gt(0);
@@ -279,11 +239,7 @@ describe('VAOS Services: Appointment ', () => {
         response: MockAppointmentResponse.createCCResponses(),
       });
 
-      const v2Result = await getAppointmentRequests({
-        startDate,
-        endDate,
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await getAppointmentRequests({ startDate, endDate });
 
       // Then expect a CC appointment request to be returned.
       expect(v2Result.length).to.be.gt(0);
@@ -304,11 +260,7 @@ describe('VAOS Services: Appointment ', () => {
         response: MockAppointmentResponse.createCCResponses(),
       });
 
-      const v2Result = await getAppointmentRequests({
-        startDate,
-        endDate,
-        useFeSourceOfTruth: true,
-      });
+      const v2Result = await getAppointmentRequests({ startDate, endDate });
 
       // Then expect a canceled appointment request to be returned.
       expect(v2Result.length).to.be.gt(0);
@@ -339,11 +291,7 @@ describe('VAOS Services: Appointment ', () => {
       let v2Result = null;
 
       try {
-        await getAppointmentRequests({
-          startDate,
-          endDate,
-          useFeSourceOfTruth: true,
-        });
+        await getAppointmentRequests({ startDate, endDate });
       } catch (e) {
         v2Result = e;
       }
