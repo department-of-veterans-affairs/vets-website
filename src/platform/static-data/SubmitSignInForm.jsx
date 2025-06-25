@@ -9,8 +9,7 @@ import {
 // NOTE: Do not convert these phone links to web components as they are
 // used in the injected header, which does not support web components
 export default function SubmitSignInForm({ startSentence }) {
-  const helpDeskNumber = 'tel:+18662793677';
-
+  const helpDeskNumber = '8662793677';
   const helpDeskLink = (
     <a
       href={createHref(helpDeskNumber)}
