@@ -50,6 +50,7 @@ export const Paths = {
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
+    SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
   },
 };
 
