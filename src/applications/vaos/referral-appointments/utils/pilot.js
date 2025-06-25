@@ -26,12 +26,11 @@ const getIsInCCPilot = (featureCCDirectScheduling, patientFacilities = []) => {
     '657QD',
   ];
   const pilotStations = [...stagingStations, ...prodStations];
-  // eslint-disable-next-line no-unused-vars
   const hasPilotStation = patientFacilities.some(station =>
     pilotStations.includes(station.facilityId),
   );
 
-  return featureCCDirectScheduling; // & hasPilotStation;
+  return featureCCDirectScheduling && hasPilotStation;
 };
 
 export { getIsInCCPilot };
