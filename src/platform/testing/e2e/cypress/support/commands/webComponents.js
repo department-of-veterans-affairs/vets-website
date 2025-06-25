@@ -321,7 +321,6 @@ Cypress.Commands.add('enterWebComponentData', field => {
     }
 
     case 'VA-TELEPHONE-INPUT': {
-      cy.log('we be here...');
       cy.fillVaTelephoneInput(field.key, field.data);
       break;
     }
