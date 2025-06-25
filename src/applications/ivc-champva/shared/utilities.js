@@ -256,9 +256,9 @@ export function PrivWrappedReview(props) {
           {props.defaultEditButton({ label: editAriaLabel })}
         </div>
       </div>
-      <dl className="review">
+      <dl className="review dd-privacy-hidden">
         {props.renderedProperties.map(p => {
-          return <span key={p.key}>{privWrapper(p)}</span>;
+          return p;
         })}
       </dl>
     </div>
