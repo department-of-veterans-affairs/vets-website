@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import { useNavigate } from 'react-router-dom-v5-compat';
 import {
   clearLabsAndTestDetails,
   getLabsAndTestsDetails,
@@ -24,7 +23,7 @@ import UnifiedLabsAndTests from '../components/LabsAndTests/UnifiedLabAndTest';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const labAndTestDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
@@ -60,7 +59,7 @@ const LabAndTestDetails = () => {
         );
       }
       if (labAndTestDetails?.notFound) {
-        navigate('/labs-and-tests');
+        history.push('/labs-and-tests');
       }
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
     },
@@ -71,7 +70,7 @@ const LabAndTestDetails = () => {
       isAcceleratingLabsAndTests,
       isLoading,
       labAndTestDetails,
-      navigate,
+      history,
     ],
   );
 
