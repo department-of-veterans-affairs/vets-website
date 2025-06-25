@@ -11,8 +11,8 @@ class LabsAndTests {
     cy.intercept('GET', '/my_health/v2/medical_records/labs*', req => {
       // check the correct param was used
       if (useOhData) {
-        expect(req.url).to.contain('from=');
-        expect(req.url).to.contain('to=');
+        expect(req.url).to.contain('start_date=');
+        expect(req.url).to.contain('end_date=');
       }
       req.reply(labsAndTestData);
     }).as('labs-and-test-list');
