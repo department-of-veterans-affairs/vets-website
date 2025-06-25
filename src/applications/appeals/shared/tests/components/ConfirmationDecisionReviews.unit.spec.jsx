@@ -146,7 +146,7 @@ describe('Confirmation page', () => {
     expect($$('span.dd-privacy-hidden', container).length).to.eq(1);
   });
 
-  it('should focus on H2 inside va-alert', () => {
+  it('should focus on H2 inside va-alert', async () => {
     const { container } = render(
       <Provider store={mockStore(getData())}>
         <main id="main">
@@ -156,7 +156,7 @@ describe('Confirmation page', () => {
     );
     const h2 = $('va-alert h2', container);
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(document.activeElement).to.eq(h2);
     });
   });

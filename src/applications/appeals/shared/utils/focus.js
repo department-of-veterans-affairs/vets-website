@@ -100,7 +100,6 @@ export const focusAddAnotherButton = root => {
   // Add a timeout to allow for the upload button to reappear in the DOM
   // before trying to focus on it
   setTimeout(() => {
-    // scrollTo($('#upload-wrap', root));
     scrollTo('.upload-wrap');
     // focus on upload button, not the label
     focusElement(

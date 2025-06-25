@@ -183,9 +183,9 @@ describe('focusEvidence', () => {
   });
 
   it('should focus on error', async () => {
-    const { container } = await renderPage();
+    const { container } = await renderPage(true);
 
-    focusEvidence(null, container);
+    await focusEvidence(null, container);
 
     await waitFor(() => {
       const target = $('[error]', container);

@@ -2,7 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+
 import EvidenceSummary from '../../components/EvidenceSummary';
 import { content } from '../../content/evidenceSummary';
 import {
@@ -150,9 +152,11 @@ describe('<EvidenceSummary>', () => {
     expect($$('.usa-input-error-message', container).length).to.eq(9);
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
 
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
+    await fireEvent.click(
+      $('.form-progress-buttons .usa-button-primary', container),
+    );
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(goForward.called).to.be.false;
     });
   });
@@ -182,8 +186,8 @@ describe('<EvidenceSummary>', () => {
 
   it('should include the correct edit URL links', () => {
     const { container } = setupSummary({ limit: 'test' });
-    const links = $$('.edit-item', container);
 
+    const links = $$('.edit-item', container);
     expect(links.length).to.eq(9);
     expect(links[0].getAttribute('data-link')).to.contain(
       `${EVIDENCE_VA_PATH}?index=0`,
@@ -211,15 +215,11 @@ describe('<EvidenceSummary>', () => {
     expect(links[8].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
   });
 
-  it('should submit page without error', async () => {
+  it('should submit page without error', () => {
     const goForward = sinon.spy();
     const { container } = setupSummary({ goForward });
-
     fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-
-    await waitFor(() => {
-      expect(goForward.called).to.be.true;
-    });
+    expect(goForward.called).to.be.true;
   });
 
   it('should not navigate forward with errors', async () => {
@@ -232,9 +232,11 @@ describe('<EvidenceSummary>', () => {
       goForward,
     });
 
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
+    await fireEvent.click(
+      $('.form-progress-buttons .usa-button-primary', container),
+    );
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(goForward.called).to.be.false;
     });
   });
@@ -250,14 +252,14 @@ describe('<EvidenceSummary>', () => {
       updatePage: updateSpy,
     });
 
-    fireEvent.click($('.form-nav-buttons va-button', container));
+    await fireEvent.click($('.form-nav-buttons va-button', container));
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(updateSpy.called).to.be.false;
     });
   });
 
-  it('should navigate forward with not-included partial data', async () => {
+  it('should navigate forward with not-included partial data', () => {
     const goForward = sinon.spy();
     const { container } = setupSummary({
       vaMR: false,
@@ -273,13 +275,10 @@ describe('<EvidenceSummary>', () => {
     });
 
     fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-
-    await waitFor(() => {
-      expect(goForward.called).to.be.true;
-    });
+    expect(goForward.called).to.be.true;
   });
 
-  it('should call goBack to get to the private limitation page, even with errors', async () => {
+  it('should call goBack to get to the private limitation page, even with errors', () => {
     const goBack = sinon.spy();
     const { container } = setupSummary({
       vaMR: false,
@@ -292,10 +291,7 @@ describe('<EvidenceSummary>', () => {
     fireEvent.click(
       $('.form-progress-buttons .usa-button-secondary', container),
     );
-
-    await waitFor(() => {
-      expect(goBack.called).to.be.true;
-    });
+    expect(goBack.called).to.be.true;
   });
 
   // Move SC limitation
@@ -319,9 +315,11 @@ describe('<EvidenceSummary>', () => {
       goForward,
     });
 
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
+    await fireEvent.click(
+      $('.form-progress-buttons .usa-button-primary', container),
+    );
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(goForward.called).to.be.false;
     });
   });
@@ -350,6 +348,7 @@ describe('<EvidenceSummary>', () => {
 
     // remove second VA entry
     fireEvent.click($('va-button[label="Remove VAMC Location 2"]', container));
+
     const secondaryButton = $('va-button[secondary]', container);
     fireEvent.click(secondaryButton);
 
@@ -454,8 +453,7 @@ describe('<EvidenceSummary>', () => {
       $('.form-nav-buttons va-button', container).getAttribute('text'),
     ).to.eq(content.update);
   });
-
-  it('should call updatePage on review & submit in edit mode', async () => {
+  it('should call updatePage on review & submit in edit mode', () => {
     const updateSpy = sinon.spy();
     const { container } = setupSummary({
       onReviewPage: true,
@@ -463,9 +461,6 @@ describe('<EvidenceSummary>', () => {
     });
 
     fireEvent.click($('.form-nav-buttons va-button', container));
-
-    await waitFor(() => {
-      expect(updateSpy.called).to.be.true;
-    });
+    expect(updateSpy.called).to.be.true;
   });
 });
