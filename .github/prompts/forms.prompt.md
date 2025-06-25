@@ -92,5 +92,7 @@ Step 1: Create or update the specific page in `pages` or `chapters`.
 Step 2: Update the `config/form.js` file to add or update the new page or chapter.
 Step 3: Use [web-component-patterns](.github/instructions/web-component-rjsf-patterns.instructions.md) for code format patterns and validation.
 Step 4: Validate web component patterns are used correctly by referencing `platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json`.
-Step 5: Linting should be done by using
+Step 5: Fix formatting issues using
+- `yarn lint:js:changed:fix`
+- `yarn lint:js:untracked:fix`
 
