@@ -32,6 +32,7 @@ import {
   additionalOfficialBenefitStatus,
   readOnlyCertifyingOfficialSummaryPage,
   readOnlyCertifyingOfficial,
+  remarksPage,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -66,6 +67,15 @@ const formConfig = {
       Designation of certifying official(s) (VA Form 22-8794)
     </p>
   ),
+  customText: {
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    finishAppLaterMessage: 'Finish this form later',
+    startNewAppButtonText: 'Start a new form',
+  },
   useCustomScrollAndFocus: true,
   defaultDefinitions: {
     fullName,
@@ -199,6 +209,16 @@ const formConfig = {
           }),
         }),
       ),
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          uiSchema: remarksPage.uiSchema,
+          schema: remarksPage.schema,
+        },
+      },
     },
   },
 };
