@@ -104,7 +104,7 @@ const SelectCareTeam = () => {
       dispatch(
         updateDraftInProgress({
           careSystemVhaId: careSystem?.vhaId,
-          careSystemName: careSystem.vamcSystemName,
+          careSystemName: careSystem?.vamcSystemName,
         }),
       );
     }
@@ -142,7 +142,7 @@ const SelectCareTeam = () => {
       dispatch(
         updateDraftInProgress({
           careSystemVhaId: careSystem?.vhaId,
-          careSystemName: careSystem.vamcSystemName,
+          careSystemName: careSystem?.vamcSystemName,
         }),
       );
     },
@@ -153,7 +153,7 @@ const SelectCareTeam = () => {
     () => {
       if (allFacilities.length > 0 && ehrDataByVhaId) {
         allFacilities.forEach(facility => {
-          if (ehrDataByVhaId[facility]?.ehr === 'vista')
+          if (ehrDataByVhaId[facility]?.ehr !== 'cerner')
             setShowContactListLink(true);
         });
       }
@@ -230,7 +230,7 @@ const SelectCareTeam = () => {
           updateDraftInProgress({
             careSystemVhaId: selectedRecipientStationNumber,
             careSystemName:
-              ehrDataByVhaId[selectedRecipientStationNumber].vamcSystemName,
+              ehrDataByVhaId[selectedRecipientStationNumber]?.vamcSystemName,
           }),
         );
       }
@@ -256,7 +256,7 @@ const SelectCareTeam = () => {
         });
       return careSystemsSorted.map(item => (
         <option key={item?.vhaId} value={item?.vhaId}>
-          {item.vamcSystemName}
+          {item?.vamcSystemName}
         </option>
       ));
     },
@@ -349,7 +349,7 @@ const SelectCareTeam = () => {
               <strong>Note:</strong> You can add more care teams to select from
               by updating your contact list.
             </p>
-            <Link to="/">Update your contact list</Link>
+            <Link to={Paths.CONTACT_LIST}>Update your contact list</Link>
           </div>
         )}
         <div>
