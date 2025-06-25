@@ -17,6 +17,7 @@ import {
 
 import AppealListItem from '../components/appeals-v2/AppealListItem';
 import AppealsUnavailable from '../components/AppealsUnavailable';
+import ClaimCardLoadingSkeleton from '../components/ClaimCard/ClaimCardLoadingSkeleton';
 import NeedHelp from '../components/NeedHelp';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -188,7 +189,10 @@ class YourClaimsPageV2 extends React.Component {
     const atLeastOneRequestLoading =
       claimsLoading || appealsLoading || stemClaimsLoading;
     const emptyList = !(list && list.length);
-    if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
+    if (
+      !this.props.isSmoothLoadingEnabled &&
+      (allRequestsLoading || (atLeastOneRequestLoading && emptyList))
+    ) {
       content = (
         <va-loading-indicator message="Loading your claims and appeals..." />
       );
@@ -212,10 +216,16 @@ class YourClaimsPageV2 extends React.Component {
         <>
           {pageInfo}
           <div className="claim-list">
-            {atLeastOneRequestLoading && (
-              <va-loading-indicator message="Loading your claims and appeals..." />
-            )}
+            {!this.props.isSmoothLoadingEnabled &&
+              atLeastOneRequestLoading && (
+                <va-loading-indicator message="Loading your claims and appeals..." />
+              )}
             {pageItems.map(claim => this.renderListItem(claim))}
+            {this.props.isSmoothLoadingEnabled && atLeastOneRequestLoading ? (
+              <ClaimCardLoadingSkeleton />
+            ) : (
+              <ClaimCardLoadingSkeleton isLoading={false} />
+            )}
             {shouldPaginate && (
               <VaPagination
                 page={this.state.page}
@@ -286,6 +296,7 @@ YourClaimsPageV2.propTypes = {
   getAppealsV2: PropTypes.func,
   getClaims: PropTypes.func,
   getStemClaims: PropTypes.func,
+  isSmoothLoadingEnabled: PropTypes.bool,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string,
@@ -307,6 +318,9 @@ function mapStateToProps(state) {
   const canAccessClaims = services.includes(backendServices.LIGHTHOUSE);
   const stemAutomatedDecision = toggleValues(state)[
     FEATURE_FLAG_NAMES.stemAutomatedDecision
+  ];
+  const isSmoothLoadingEnabled = toggleValues(state)[
+    FEATURE_FLAG_NAMES.cstSmoothLoadingExperience
   ];
 
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
@@ -346,6 +360,7 @@ function mapStateToProps(state) {
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
+    isSmoothLoadingEnabled,
     list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
   };
