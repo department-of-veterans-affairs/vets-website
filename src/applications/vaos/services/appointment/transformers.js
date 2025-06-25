@@ -11,40 +11,18 @@ import {
 import { transformFacilityV2 } from '../location/transformers';
 
 export function getAppointmentType(appt) {
-  // TODO: Update APPOINTMENT_TYPES enum to match API response values.
-  const isCerner = appt?.id?.startsWith('CERN');
-
   if (appt?.type === 'VA') {
     return APPOINTMENT_TYPES.vaAppointment;
   }
-
   if (appt?.type === 'REQUEST') {
     return APPOINTMENT_TYPES.request;
   }
-
   if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
     return APPOINTMENT_TYPES.ccAppointment;
   }
   if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
     return APPOINTMENT_TYPES.ccRequest;
   }
-
-  if (isCerner && isEmpty(appt?.end)) {
-    return APPOINTMENT_TYPES.request;
-  }
-  if (isCerner && !isEmpty(appt?.end)) {
-    return APPOINTMENT_TYPES.vaAppointment;
-  }
-  if (appt?.kind === 'cc' && appt?.start) {
-    return APPOINTMENT_TYPES.ccAppointment;
-  }
-  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
-    return APPOINTMENT_TYPES.ccRequest;
-  }
-  if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
-    return APPOINTMENT_TYPES.request;
-  }
-
   return APPOINTMENT_TYPES.vaAppointment;
 }
 /**

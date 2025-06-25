@@ -318,7 +318,7 @@ describe('VAOS Services: Appointment ', () => {
         });
       });
 
-      await getLongTermAppointmentHistoryV2(true, true, true);
+      await getLongTermAppointmentHistoryV2(true, true);
       expect(global.fetch.callCount).to.equal(3);
       expect(global.fetch.firstCall.args[0]).to.contain(
         `${dateRanges[0].start.toISOString().slice(0, 19)}Z`,
