@@ -10,12 +10,6 @@ import {
 } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
 
-// const scrollSpy = sinon.spy();
-
-// before(() => {
-//   Element.prototype.scrollIntoView = scrollSpy;
-// });
-
 const defaultStore = createCommonStore();
 const baseFormData = {
   'view:selectable686Options': { addChild: true },
