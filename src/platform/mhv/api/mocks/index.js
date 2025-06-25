@@ -70,7 +70,7 @@ const {
 
 const responses = {
   ...commonResponses,
-  'GET /v0/user': user.defaultUser,
+  'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
     mhvMedicationsDisplayRefillContent: true,
@@ -261,19 +261,6 @@ const responses = {
 
   'GET /my_health/v1/tooltips': (_req, res) => {
     return res.json(getMockTooltips());
-  },
-  'POST /my_health/v1/aal': (_req, res) => {
-    return res.json({
-      data: {
-        type: 'aal',
-        attributes: {
-          aalEnabled: true,
-          aalLevel: 2,
-          aalLevelDescription: 'AAL2',
-          aalLevelDescriptionShort: 'AAL2',
-        },
-      },
-    });
   },
 };
 

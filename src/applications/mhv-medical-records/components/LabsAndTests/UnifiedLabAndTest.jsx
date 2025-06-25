@@ -47,7 +47,7 @@ const UnifiedLabsAndTests = props => {
   const generatePdf = async () => {
     setDownloadStarted(true);
     const data = pdfPrinter({ record, user });
-    makePdf(data.title, data.body, 'Unified Lab And Tests', runningUnitTest);
+    makePdf(data.title, data.body, 'medicalRecords', runningUnitTest);
   };
 
   const generateTxt = async () => {

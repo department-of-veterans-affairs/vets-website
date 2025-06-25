@@ -137,7 +137,6 @@
   "mhvAcceleratedDeliveryAllergiesEnabled": "mhv_accelerated_delivery_allergies_enabled",
   "mhvAcceleratedDeliveryVitalSignsEnabled": "mhv_accelerated_delivery_vital_signs_enabled",
   "mhvAcceleratedDeliveryLabsAndTestsEnabled": "mhv_accelerated_delivery_labs_and_tests_enabled",
-  "mhvIntegrationMedicalRecordsToPhase1": "mhv_integration_medical_records_to_phase_1",
   "mhvBypassDowntimeNotification": "mhv_bypass_downtime_notification",
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
   "mhvLandingPageShowShareMyHealthDataLink": "mhv_landing_page_show_share_my_health_data_link",
