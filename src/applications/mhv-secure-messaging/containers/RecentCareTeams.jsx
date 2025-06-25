@@ -115,7 +115,12 @@ const RecentCareTeams = () => {
         })()}
         <VaRadioOption label="A different care team" tile value={OTHER_VALUE} />
       </VaRadio>
-      <va-button continue onClick={handleContinue} text="Continue" />
+      <va-button
+        class="vads-u-width--full small-screen:vads-u-width--auto"
+        continue
+        onClick={handleContinue}
+        text="Continue"
+      />
     </>
   );
 };

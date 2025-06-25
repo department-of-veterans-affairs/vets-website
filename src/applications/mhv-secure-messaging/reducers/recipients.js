@@ -98,6 +98,11 @@ export const recipientsReducer = (state = initialState, action) => {
         recentRecipients: filteredRecent || null,
       };
     }
+    case Actions.AllRecipients.RESET_RECENT:
+      return {
+        ...state,
+        recentRecipients: undefined,
+      };
     case Actions.AllRecipients.GET_RECENT_ERROR:
       return {
         ...state,
