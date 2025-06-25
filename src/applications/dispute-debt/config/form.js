@@ -119,6 +119,20 @@ const formConfig = {
           arrayPath: 'selectedDebts',
           CustomPageReview: DebtReviewPage,
         },
+        chapterPlaceholder: {
+          // This is in place for the depends to auto increment the chapter count to match veteran expectations
+          // it does NOT render but MUST be here
+          path: 'chapter-placeholder',
+          title: 'Chapter placeholder',
+          depends: formData => {
+            return !formData?.selectedDebts?.length > 0;
+          },
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
       },
     },
   },
