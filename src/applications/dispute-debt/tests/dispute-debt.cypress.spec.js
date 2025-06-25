@@ -61,57 +61,111 @@ const testConfig = createTestConfig(
       },
       'personal-information': ({ afterHook }) => {
         afterHook(() => {
+          // TOO: add checks for personal information fields
           cy.get('.usa-button-primary').click();
         });
       },
       'contact-information': ({ afterHook }) => {
         afterHook(() => {
+          // TOO: add checks for contact information fields
           cy.get('.usa-button-primary').click();
         });
       },
       'select-debt': ({ afterHook }) => {
         afterHook(() => {
+          cy.get(`[data-testid="debt-selection-checkbox"]`)
+            .as('Debts')
+            .should('have.length', 3);
+
+          // Just want to make sure we have at least one compensation debt
+          //  since it gets its own pdf. We also include two others to confirm
+          //  pdf iteration functionality.
+          cy.get('@Debts')
+            .eq(0)
+            .shadow()
+            .find('span')
+            .should('contain', 'compensation');
+
+          cy.get('@Debts')
+            .eq(0)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check();
+          cy.get('@Debts')
+            .eq(1)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check();
+          cy.get('@Debts')
+            .eq(2)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check();
           cy.get('.usa-button-primary').click();
         });
       },
+
+      // Comp & Pen
       'existence-or-amount/0': ({ afterHook }) => {
         afterHook(() => {
+          cy.get(
+            'va-radio-option[value="I don\'t think I owe this debt to VA"]',
+          ).click();
           cy.get('.usa-button-primary').click();
         });
       },
       'dispute-reason/0': ({ afterHook }) => {
         afterHook(() => {
+          cy.get('va-textarea')
+            .shadow()
+            .find('textarea')
+            .type('Dispute reason for comp & pen debt', { force: true });
           cy.get('.usa-button-primary').click();
         });
       },
+
+      // Books/Supplies
       'existence-or-amount/1': ({ afterHook }) => {
         afterHook(() => {
+          cy.get(
+            'va-radio-option[value="I don\'t think the amount is correct on this debt"]',
+          ).click();
           cy.get('.usa-button-primary').click();
         });
       },
       'dispute-reason/1': ({ afterHook }) => {
         afterHook(() => {
+          cy.get('va-textarea')
+            .shadow()
+            .find('textarea')
+            .type('Dispute reason for books/supplies debt', { force: true });
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      // Tuition
+      'existence-or-amount/2': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(
+            'va-radio-option[value="I don\'t think I owe this debt to VA"]',
+          ).click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'dispute-reason/2': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-textarea')
+            .shadow()
+            .find('textarea')
+            .type('Dispute reason for tuition debt', { force: true });
           cy.get('.usa-button-primary').click();
         });
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#veteran-signature')
-            .shadow()
-            .find('input')
-            .first()
-            .type('Brendan JS Eich');
-          cy.get(`va-checkbox[name="veteran-certify"]`)
-            .shadow()
-            .find('input')
-            .check({ force: true });
-          cy.get(`va-privacy-agreement`)
-            .shadow()
-            .find('input')
-            .check({ force: true });
-          cy.findAllByText(/Submit your request/i, {
-            selector: 'button',
-          }).click({ force: true });
+          // TODO: add checks for review and submit page
+          //  confirm chapter data and selected debts are present
+          cy.findByText(/Submit/i, { selector: 'button' }).click();
         });
       },
     },
