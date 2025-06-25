@@ -189,7 +189,7 @@ describe('Labs and tests list container with radiology images ready', () => {
 
     await waitFor(() => {
       // the single VaAlert wrapper
-      expect(getByTestId('alert-download-started')).to.exist;
+      expect(getByTestId('alert-images-ready')).to.exist;
       // the heading inside it
       expect(getByText(/Images ready/i)).to.exist;
 
