@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
 
-import AddFilesForm from './AddFilesForm';
+import NewAddFilesForm from './NewAddFilesForm';
 import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
@@ -146,21 +146,21 @@ class AdditionalEvidencePage extends React.Component {
               {this.props.filesOptional.map(item => (
                 <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
-              <AddFilesForm
-                field={this.props.uploadField}
-                progress={this.props.progress}
-                uploading={this.props.uploading}
-                files={this.props.files}
-                backUrl={lastPage ? `/${lastPage}` : filesPath}
-                onSubmit={() => {
-                  this.onSubmitFiles(claim.id);
-                }}
-                onAddFile={this.props.addFile}
-                onRemoveFile={this.props.removeFile}
-                onFieldChange={this.props.updateField}
-                onCancel={this.props.cancelUpload}
-                onDirtyFields={this.props.setFieldsDirty}
-                fileTab
+              <NewAddFilesForm
+              // field={this.props.uploadField}
+              // progress={this.props.progress}
+              // uploading={this.props.uploading}
+              // files={this.props.files}
+              // backUrl={lastPage ? `/${lastPage}` : filesPath}
+              // onSubmit={() => {
+              //   this.onSubmitFiles(claim.id);
+              // }}
+              // onAddFile={this.props.addFile}
+              // onRemoveFile={this.props.removeFile}
+              // onFieldChange={this.props.updateField}
+              // onCancel={this.props.cancelUpload}
+              // onDirtyFields={this.props.setFieldsDirty}
+              // fileTab
               />
             </>
           ) : (
