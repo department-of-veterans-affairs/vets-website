@@ -2,6 +2,17 @@
   "data": {
     "veteranInformation": {
       "ssnLastFour": "5678"
-    }
+    },
+    "email": "test@test.com",
+    "phone": "8005551212",
+    "address": {
+      "street": "123 Main St",
+      "street2": "Apt 99",
+      "city": "Beverly Hills",
+      "state": "CA",
+      "postalCode": "90210",
+      "country": "UK"
+    },
+    "internationalPhone": "63123456789"
   }
 }
