@@ -18,7 +18,6 @@ import RequestedAppointmentsPage from './RequestedAppointmentsPage';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingFeSourceOfTruthVA: true,
   },
 };
 
@@ -294,7 +293,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingFeSourceOfTruthVA: true,
       },
     };
 

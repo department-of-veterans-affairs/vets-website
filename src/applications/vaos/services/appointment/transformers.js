@@ -10,18 +10,16 @@ import {
 } from '../../utils/constants';
 import { transformFacilityV2 } from '../location/transformers';
 
-export function getAppointmentType(appt, useFeSourceOfTruthVA) {
+export function getAppointmentType(appt) {
   // TODO: Update APPOINTMENT_TYPES enum to match API response values.
   const isCerner = appt?.id?.startsWith('CERN');
 
-  if (useFeSourceOfTruthVA) {
-    if (appt?.type === 'VA') {
-      return APPOINTMENT_TYPES.vaAppointment;
-    }
+  if (appt?.type === 'VA') {
+    return APPOINTMENT_TYPES.vaAppointment;
+  }
 
-    if (appt?.type === 'REQUEST') {
-      return APPOINTMENT_TYPES.request;
-    }
+  if (appt?.type === 'REQUEST') {
+    return APPOINTMENT_TYPES.request;
   }
 
   if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
@@ -85,11 +83,10 @@ function getAtlasLocation(appt) {
 
 export function transformVAOSAppointment(
   appt,
-  useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
   useFeSourceOfTruthTelehealth,
 ) {
-  const appointmentType = getAppointmentType(appt, useFeSourceOfTruthVA);
+  const appointmentType = getAppointmentType(appt);
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
   const isPast = appt.past;
@@ -311,14 +308,12 @@ export function transformVAOSAppointment(
 
 export function transformVAOSAppointments(
   appts,
-  useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
   useFeSourceOfTruthTelehealth,
 ) {
   return appts.map(appt =>
     transformVAOSAppointment(
       appt,
-      useFeSourceOfTruthVA,
       useFeSourceOfTruthModality,
       useFeSourceOfTruthTelehealth,
     ),

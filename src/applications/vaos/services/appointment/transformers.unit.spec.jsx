@@ -35,19 +35,11 @@ describe('getAppointmentType util', () => {
       id: '123',
       type: 'COMMUNITY_CARE_REQUEST',
     };
-    const result = getAppointmentType(appointment, false);
+    const result = getAppointmentType(appointment, true);
     expect(result).to.equal('ccRequest');
   });
-  it('should return appointment type as vaAppointment, useFeSourceOfTruthVA=false', async () => {
-    const appointment = {
-      id: '123',
-      kind: 'clinic',
-      start: '2021-08-31T17:00:00Z',
-    };
-    const result = getAppointmentType(appointment, false);
-    expect(result).to.equal('vaAppointment');
-  });
-  it('should return appointment type as vaAppointment, useFeSourceOfTruthVA=true', async () => {
+
+  it('should return appointment type as vaAppointment', async () => {
     const appointment = {
       id: '123',
       type: 'VA',
