@@ -77,22 +77,35 @@
 </examples>
 
 ## Creating new chapters or pages
+
 ### Prerequisites:
 - [ ] Ensure the form is already created or exists in the `manifest-catalog.json`.
-- [ ] It should be clear what chapter the page belongs to
+- [ ] Understand if the new data is related to an array of data or not, because that is handled differently. If it is related to an array, we will use `src/platform/forms-system/src/js/patterns/array-builder/README.md` for guidance.
+- [ ] It should be clear what chapter each page belongs to
 - [ ] Each page should have a title
 - [ ] Each page should have fields, and what web component patterns are used. Some web component patterns contain multiple fields, and so you must reference `platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json` to check if a pattern contains multiple fields.
 - [ ] (Optional) What fields are required?
 - [ ] (Optional) Is the page required?
+
+### ArrayBuilder-only prerequisites (multiple response list and loop pages):
+- [ ] Is the data required or optional?
+- [ ] How many pages are in the loop, and what fields on each page?
+- [ ] What is the title of each page?
+- [ ] What is the noun singular and plural for the array?
+- [ ] Which fields are required?
+- [ ] What is the item name for each item in the array?
 
 If there is any ambiguity, stop, confirm with the user intent and details, and then proceed.
 
 ### Steps to create or update a page:
 Step 1: Create or update the specific page in `pages` or `chapters`.
 Step 2: Update the `config/form.js` file to add or update the new page or chapter.
-Step 3: Use [web-component-patterns](.github/instructions/web-component-rjsf-patterns.instructions.md) for code format patterns and validation.
+Step 3: Use [web-component-patterns](.github/instructions/web-component-rjsf-patterns.instructions.md) for code format patterns and validation. If the data is an array, then also use `src/platform/forms-system/src/js/patterns/array-builder/README.md` for instructions.
 Step 4: Validate web component patterns are used correctly by referencing `platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json`.
 Step 5: Fix formatting issues using
-- `yarn lint:js:changed:fix`
-- `yarn lint:js:untracked:fix`
+- `yarn lint:js:working:fix`
+Step 6: Create unit tests for the new page or chapter in the appropriate test folder. Tests should confirm the title on the page, and that each individual field intended to be used is present on the page. See the [unit tests instructions](.github/instructions/unit-tests.instructions.md) for more details.
+Step 7: Run unit tests to ensure they pass.
+Step 8: Go back and fix any issues that arise from the unit tests and start at Step 4 again.
+Step 9: If all tests pass and expectations are met, summarize the results for the user.
 
