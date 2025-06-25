@@ -7,13 +7,12 @@ import {
 } from '@department-of-veterans-affairs/platform-user/exports';
 import { format, isAfter, isDate, parseISO, startOfMinute } from 'date-fns';
 import {
-  selectFeatureConvertSlotsToUtc,
-  selectFeatureFeSourceOfTruth,
+  selectSystemIds,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureFeSourceOfTruthVA,
-  selectSystemIds,
+  selectFeatureConvertSlotsToUtc,
 } from '../../redux/selectors';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -391,7 +390,6 @@ export function prefillContactInfo() {
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
@@ -418,7 +416,6 @@ export function confirmAppointment(history) {
     try {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
-        useFeSourceOfTruth,
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,

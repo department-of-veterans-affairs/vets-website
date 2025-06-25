@@ -17,7 +17,6 @@ import {
   selectFeatureCommunityCare,
   selectFeatureConvertSlotsToUtc,
   selectFeatureDirectScheduling,
-  selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
@@ -25,6 +24,7 @@ import {
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
+  selectFeatureMentalHealthHistoryFiltering,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -318,13 +318,18 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
     const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
+
+    // Retrieves flipper state for mental health history filtering
+    // Only used in NON-Cerner checks
+    const usePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
       state,
     );
 
@@ -343,7 +348,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
             location,
             typeOfCare,
             directSchedulingEnabled,
-            useFeSourceOfTruth,
             useFeSourceOfTruthCC,
             useFeSourceOfTruthVA,
             useFeSourceOfTruthModality,
@@ -381,11 +385,11 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
+          usePastVisitMHFilter,
         });
 
         if (showModal) {
@@ -840,7 +844,6 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
@@ -874,7 +877,6 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
-          useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
@@ -966,7 +968,6 @@ export function submitAppointmentOrRequest(history) {
 
         const requestData = await createAppointment({
           appointment: requestBody,
-          useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
