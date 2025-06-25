@@ -35,9 +35,7 @@ describe('MUST_MATCH_ALERT', () => {
 describe('FORM_UPLOAD_OCR_ALERT', () => {
   it('displays too_many_pages text if too_many_pages is in warnings', () => {
     const { queryByText } = render(
-      FORM_UPLOAD_OCR_ALERT('form-number', 'pdf-download-url', () => {}, [
-        'too_many_pages',
-      ]),
+      FORM_UPLOAD_OCR_ALERT('form-number', () => {}, ['too_many_pages']),
     );
 
     expect(
@@ -49,9 +47,7 @@ describe('FORM_UPLOAD_OCR_ALERT', () => {
 
   it('displays too_few_pages text if too_few_pages is in warnings', () => {
     const { queryByText } = render(
-      FORM_UPLOAD_OCR_ALERT('form-number', 'pdf-download-url', () => {}, [
-        'too_few_pages',
-      ]),
+      FORM_UPLOAD_OCR_ALERT('form-number', () => {}, ['too_few_pages']),
     );
 
     expect(
@@ -63,21 +59,19 @@ describe('FORM_UPLOAD_OCR_ALERT', () => {
 
   it('displays wrong_form text if wrong_form is in warnings', () => {
     const { queryByText } = render(
-      FORM_UPLOAD_OCR_ALERT('form-number', 'pdf-download-url', () => {}, [
-        'wrong_form',
-      ]),
+      FORM_UPLOAD_OCR_ALERT('form-number', () => {}, ['wrong_form']),
     );
 
     expect(
       queryByText(
-        'The file you uploaded doesn’t look like a recent VA Form form-number.',
+        'Check to make sure the file you uploaded is the official VA Form form-number.',
       ),
     ).to.be.visible;
   });
 
   it('displays no warning text if warnings is empty', () => {
     const { queryByText } = render(
-      FORM_UPLOAD_OCR_ALERT('form-number', 'pdf-download-url', () => {}, []),
+      FORM_UPLOAD_OCR_ALERT('form-number', () => {}, []),
     );
 
     expect(
@@ -92,7 +86,7 @@ describe('FORM_UPLOAD_OCR_ALERT', () => {
     ).to.be.null;
     expect(
       queryByText(
-        'The file you uploaded doesn’t look like a recent VA Form form-number.',
+        'Check to make sure the file you uploaded is the official VA Form form-number.',
       ),
     ).to.be.null;
   });

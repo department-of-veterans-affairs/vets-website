@@ -34,6 +34,8 @@
     margin-top: 0px;
   }
   &__inline-status-icon {
+    margin-left: 4px;
+
     &.submissions__card-check {
       color: var(--vads-color-success-dark);
     }
@@ -45,9 +47,6 @@
   &__list {
     list-style-type: none;
     padding-left: 0px;
-  }
-  &__card-attribute-text {
-    font-weight: bold;
   }
 }
 .submission {
@@ -65,7 +64,16 @@
       &--row {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
+        margin-top: 4px;
+
+        >span:last-child {
+          margin-top: 4px;
+        }
       }
+    }
+    &-attribute-text {
+      font-weight: bold;
     }
   }
 }
