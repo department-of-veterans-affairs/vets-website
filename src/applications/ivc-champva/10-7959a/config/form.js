@@ -45,6 +45,8 @@ import {
   sponsorContactSchema,
 } from '../chapters/sponsorInformation';
 
+import { claimIdentifyingNumber } from '../chapters/resubmission';
+
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
 // first name posessive
@@ -156,6 +158,16 @@ const formConfig = {
           title: 'Your relationship to the beneficiary',
           depends: formData => get('certifierRole', formData) === 'other',
           ...certifierRelationshipSchema,
+        },
+      },
+    },
+    resubmissionInformation: {
+      title: 'Resubmission',
+      pages: {
+        page1e: {
+          path: 'resubmission-claim-number',
+          title: 'Clain ID number',
+          ...claimIdentifyingNumber,
         },
       },
     },
