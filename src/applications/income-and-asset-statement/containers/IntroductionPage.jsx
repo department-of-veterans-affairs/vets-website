@@ -146,8 +146,8 @@ export const IntroductionPage = props => {
       <p>
         <va-additional-info trigger="What we consider an asset" uswds>
           Assets include the fair market value of all property that you own,
-          minus the amount of any mortgages you may have. Assets don’t
-          dependents' primary residence and lot (up to 2 acres).
+          minus the amount of any mortgages you may have. Assets don’t include
+          your or your dependents' primary residence and lot (up to 2 acres).
         </va-additional-info>
       </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
@@ -157,9 +157,9 @@ export const IntroductionPage = props => {
       <p>
         <va-additional-info trigger="What we consider child custody" uswds>
           We define child custody for pension purposes in 38 C.F.R.§ 3.57(d).
-          natural or adoptive parent has custody of a child unless custody
-          legally removed. For pension purposes, a child who has attained age 18
-          age 18 remains in the custody of the person who had custody before
+          natural or adoptive parent has custody of a child unless custody is
+          legally removed. For pension purposes, a child who has attained age
+          18 remains in the custody of the person who had custody before the
           child turned 18 unless custody is legally removed.
         </va-additional-info>
       </p>
