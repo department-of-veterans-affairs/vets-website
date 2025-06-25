@@ -660,22 +660,14 @@ export function validateTelephoneInput(
   // was validation triggered by navigation attempt
   const navState = navigationState.getNavigationEventStatus();
 
-  let valid;
-  // not required and no contact entered: valid
-  if (!_required && !contact) {
+  let valid = _isValid;
+  const notRequiredEmpty = !_required && !contact;
+  const requiredUntouchedNotNav = (!_touched || !contact) && !navState;
+  if (notRequiredEmpty || requiredUntouchedNotNav) {
     valid = true;
-    // component not touched (e.g. user still entering contact)
-    // OR no contact (blur event)
-    // AND no navigation attempted: valid
-  } else if ((!_touched || !contact) && !navState) {
-    valid = true;
-    // take actual validity state
-  } else {
-    valid = _isValid;
   }
-  const error = valid ? '' : _error;
 
-  if (error !== '') {
-    errors.addError(error);
+  if (!valid) {
+    errors.addError(_error);
   }
 }

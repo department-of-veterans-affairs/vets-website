@@ -9,8 +9,6 @@ export default function VaTelephoneInputFieldMapping(props) {
     ...commonFieldProps,
     contact: childrenProps?.formData?.contact || '',
     country: childrenProps?.formData?.countryCode || 'US',
-    // always pass errors to component from forms system, ie don't let component set its own errors
-    showInternalErrors: false,
     onVaContact: (event, value) => {
       const payload = value || event.detail || {};
       childrenProps.onChange({
@@ -23,6 +21,6 @@ export default function VaTelephoneInputFieldMapping(props) {
         _required: commonFieldProps.required,
       });
     },
-    onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
+    // onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
   };
 }
