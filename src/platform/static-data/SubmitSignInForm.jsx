@@ -11,7 +11,6 @@ import {
 // used in the injected header, which does not support web components
 export default function SubmitSignInForm({ startSentence }) {
   const helpDeskNumber = CONTACTS.HELP_DESK;
-  const ttyNumber = CONTACTS['711'];
 
   const helpDeskLink = (
     <a
@@ -22,20 +21,10 @@ export default function SubmitSignInForm({ startSentence }) {
     </a>
   );
 
-  const ttyLink = (
-    <a
-      aria-label={formatAriaLabel(ttyNumber, true)}
-      href={createHref(ttyNumber)}
-    >
-      {formatPhoneNumber(ttyNumber, true)}
-    </a>
-  );
-
   return (
     <span>
-      {startSentence ? 'Call' : 'call'} our MyVA411 main information line for
-      help at {helpDeskLink} ({ttyLink}
-      ).
+      {startSentence ? 'Call' : 'call'} our <a href="va.gov">VA.gov</a>{' '}
+      technical support line for help at {helpDeskLink}
     </span>
   );
 }
