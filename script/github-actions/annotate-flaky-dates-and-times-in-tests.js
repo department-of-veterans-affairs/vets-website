@@ -37,7 +37,12 @@ const dateTimeHelpers = [
   'toLocaleTimeString(',
 ];
 
-const waitHelpers = ['cy.wait(', 'setTimeout(', 'sleep(', 'browser.sleep('];
+const waitHelpers = [
+  /cy\.wait\(\s*\d+\s*\)/,
+  'setTimeout(',
+  'sleep(',
+  'browser.sleep(',
+];
 
 function getSpecFiles(dir) {
   let results = [];
