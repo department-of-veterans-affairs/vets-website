@@ -1,8 +1,6 @@
 import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   addDays,
   addMinutes,
@@ -11,13 +9,15 @@ import {
   startOfMonth,
 } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { onCalendarChange } from '../../new-appointment/redux/actions';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import CalendarWidget from './CalendarWidget';
 import { DATE_FORMATS } from '../../utils/constants';
+import CalendarWidget from './CalendarWidget';
 
 describe('VAOS Component: CalendarWidget', () => {
   it('should display scheduling duplicate appointment error message for conflict with booked appointment', async () => {
@@ -124,6 +124,11 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       ).to.be.ok;
     });
+
+    // Check if timezone conversion bumped open slot to the next day
+    if (nowUTC.getUTCDate() !== slot2.getUTCDate()) {
+      userEvent.click(screen.getByText(slot2.getUTCDate()));
+    }
 
     userEvent.click(
       screen.getByText(formatInTimeZone(slot2, timezone, 'h:mm')),
