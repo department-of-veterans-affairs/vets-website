@@ -6,6 +6,13 @@ import * as primaryOfficialTraining from './primaryOfficialTraining';
 import * as primaryOfficialBenefitStatus from './primaryOfficialBenefitStatus';
 import { institutionDetailsNoFacilityDescription } from './institutionDetailsNoFacilityDescription';
 import * as institutionNameAndAddress from './institutionNameAndAddress';
+import { readOnlyCertifyingOfficialIntro } from './readOnlyCertifyingOfficialIntro';
+import {
+  readOnlyCertifyingOfficialSummaryPage,
+  arrayBuilderOptions,
+} from './readOnlyCertifyingOfficialSummaryPage';
+import * as readOnlyCertifyingOfficial from './readOnlyCertifyingOfficial';
+import * as remarksPage from './remarks';
 
 export {
   designatingOfficial,
@@ -16,4 +23,9 @@ export {
   primaryOfficialBenefitStatus,
   institutionDetailsNoFacilityDescription,
   institutionNameAndAddress,
+  readOnlyCertifyingOfficialIntro,
+  readOnlyCertifyingOfficialSummaryPage,
+  arrayBuilderOptions,
+  readOnlyCertifyingOfficial,
+  remarksPage,
 };

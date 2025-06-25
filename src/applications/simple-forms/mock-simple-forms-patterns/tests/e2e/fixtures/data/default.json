@@ -6,6 +6,7 @@
       "arraySinglePage": true,
       "checkbox": true,
       "date": true,
+      "internationalPhone": true,
       "fileInput": true,
       "formsPattern": true,
       "miscellaneous": true,
@@ -144,6 +145,7 @@
           "country": "USA",
           "street": "street",
           "city": "city",
+          "state": "AL",
           "postalCode": "11111"
         },
         "fullName": {
@@ -166,6 +168,12 @@
       }
     ],
     "view:hasEmployment": false,
-    "nameCustom": "Test"
+    "nameCustom": "Test",
+    "wcv3InternationalPhone": {
+      "countryCode": "US",
+      "contact": "2345678910",
+      "callingCode": 1,
+      "isValid": true
+    }
   }
 }

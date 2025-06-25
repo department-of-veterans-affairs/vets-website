@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { titleCase } from '../utils/formatters';
+import { stripDST } from '../utils/timezone';
 import ReferralLayout from './components/ReferralLayout';
 import ProviderAddress from './components/ProviderAddress';
 import { routeToNextReferralPage } from './flow';
@@ -130,8 +132,14 @@ export const CompleteReferral = props => {
     new Date(attributes.start),
     'EEEE, MMMM do, yyyy',
   );
-  const appointmentTime = format(new Date(attributes.start), 'h:mm aaaa');
 
+  const appointmentTime = stripDST(
+    formatInTimeZone(
+      new Date(attributes.start),
+      attributes.provider.location.timezone,
+      'h:mm aaaa zzz',
+    ),
+  );
   return (
     <ReferralLayout
       hasEyebrow
@@ -201,12 +209,12 @@ export const CompleteReferral = props => {
                 Please consider taking our pilot feedback surveys
               </h3>
               <p className="vads-u-margin-top--0">
-                First, you will follow the link below to the{' '}
-                <strong>sign-up survey</strong> with our recruitment partner.
+                First, follow the link below to the sign-up survey with our
+                recruitment partner.
               </p>
               <p>
-                Next, you will be contacted by our recruitment partner and
-                provided the <strong>feedback</strong> survey.
+                Next, wait to be contacted by our recruitment partner, who will
+                provide the feedback survey.
               </p>
               <p className="vads-u-margin-y--1">
                 Our recruiting partner will provide compensation.

@@ -7,9 +7,9 @@ import {
   mockMultipleApiRequests,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import moment from 'moment';
+import { subDays } from 'date-fns';
 import ThreadDetails from '../../containers/ThreadDetails';
-import { PageTitles } from '../../util/constants';
+import { Alerts, PageTitles } from '../../util/constants';
 import reducer from '../../reducers';
 import { inbox } from '../fixtures/folder-inbox-response.json';
 import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.json';
@@ -286,9 +286,7 @@ describe('Thread Details container', () => {
           messages: [
             {
               ...replyMessage,
-              sentDate: moment()
-                .subtract(46, 'days')
-                .format(),
+              sentDate: subDays(new Date(), 46).toISOString(),
             },
             olderMessage,
           ],
@@ -332,15 +330,86 @@ describe('Thread Details container', () => {
     expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 
+  it('with a reply draft message on a replied to message is MORE than 45 days OH message', async () => {
+    const { category, subject } = replyDraftThread.threadDetails.messages[0];
+
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        triageTeams: {
+          triageTeams: recipients,
+        },
+        threadDetails: {
+          cannotReply: isOlderThan(getLastSentMessage(messages).sentDate, 45),
+          drafts: [
+            {
+              ...replyDraftMessage,
+              draftDate: new Date(),
+            },
+          ],
+          messages: [
+            {
+              ...replyMessage,
+              isOhMessage: true,
+              sentDate: subDays(new Date(), 46).toISOString(),
+            },
+            olderMessage,
+          ],
+          isLoading: false,
+          replyToName: replyMessage.senderName,
+          threadFolderId: '0',
+          replyToMessageId: replyMessage.messageId,
+        },
+      },
+    };
+
+    const screen = setup(state);
+
+    expect(await screen.queryByText('Continue to reply')).to.not.exist;
+
+    expect(
+      await screen.findByText(`Messages: ${category} - ${subject}`, {
+        exact: false,
+      }),
+    ).to.exist;
+
+    expect(global.document.title).to.equal(
+      `Messages: ${PageTitles.CONVERSATION_TITLE_TAG}`,
+    );
+
+    expect(document.querySelector('va-textarea')).to.not.exist;
+
+    expect(document.querySelector('section.old-reply-message-body')).to.exist;
+
+    expect(
+      document.querySelector('span[data-testid=draft-reply-to]').textContent,
+    ).to.equal(
+      'Draft To: FREEMAN, GORDON\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
+    );
+
+    expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
+      '2 messages in this conversation',
+    );
+    expect(screen.getByText('Find your VA health facility', { selector: 'a' }))
+      .to.exist;
+    expect(screen.getByText(Alerts.Message.CANNOT_REPLY_BODY.OH)).to.exist;
+    expect(
+      screen.getByTestId(`message-body-${olderMessage.messageId}`).textContent,
+    ).to.contain(olderMessage.body);
+    expect(screen.queryByTestId('send-button')).to.be.null;
+    expect(screen.queryByTestId('save-draft-button')).to.be.null;
+    expect(screen.getByTestId('delete-draft-button')).to.exist;
+  });
+
   it.skip('with a reply draft message on a replied to message is LESS than 45 days', async () => {
     const { category, subject } = replyDraftThread.threadDetails.messages[0];
 
     const draftMessageHistoryUpdated = [
       {
         ...replyMessage,
-        sentDate: moment()
-          .subtract(44, 'days')
-          .format(),
+        sentDate: subDays(new Date(), 44).toISOString(),
       },
       olderMessage,
     ];
@@ -433,9 +502,7 @@ describe('Thread Details container', () => {
     const draftMessageHistoryUpdated = [
       {
         ...replyMessage,
-        sentDate: moment()
-          .subtract(44, 'days')
-          .format(),
+        sentDate: subDays(new Date(), 44).toISOString(),
       },
       olderMessage,
     ];

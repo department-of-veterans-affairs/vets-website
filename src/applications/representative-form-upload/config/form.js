@@ -10,6 +10,7 @@ import * as isVeteranModule from '../pages/isVeteranPage';
 import transformForSubmit from './submit-transformer';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
+import submissionError from './submissionError';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/veteran.json';
@@ -55,13 +56,14 @@ const formConfig = {
   version: 0,
   prefillEnabled: false,
   transformForSubmit,
+  submissionError,
   title,
   subTitle,
   defaultDefinitions: {},
   v3SegmentedProgressBar: { useDiv: false },
   chapters: {
     isVeteranChapter: {
-      title: "What is the claimant's relationship to the veteran?",
+      title: 'Claimant background',
       pages: {
         isVeteranPage: {
           path: 'is-veteran',
@@ -72,11 +74,11 @@ const formConfig = {
       },
     },
     veteranInformationChapter: {
-      title: 'Claimant and representative information',
+      title: 'Claimant information',
       pages: {
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Claimant and representative information',
+          title: 'Claimant information',
           uiSchema: veteranInformationPage.uiSchema,
           depends: formData => {
             return formData.isVeteran === 'yes';
@@ -91,11 +93,11 @@ const formConfig = {
       },
     },
     claimantInformationChapter: {
-      title: 'Claimant and representative information',
+      title: 'Claimant and Veteran information',
       pages: {
         claimantInformation: {
           path: 'claimant-information',
-          title: 'Claimant and representative information',
+          title: 'Claimant and Veteran information',
           uiSchema: claimantInformationPage.uiSchema,
           depends: formData => {
             return (

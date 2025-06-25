@@ -70,7 +70,8 @@ describe('686 current marriage information: Spouse address', () => {
 
     expect($$('va-checkbox', container).length).to.equal(1);
     expect($$('va-text-input', container).length).to.equal(4);
-    expect($$('va-select', container).length).to.equal(3);
+    expect($$('va-select', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(6);
   });
 });
 

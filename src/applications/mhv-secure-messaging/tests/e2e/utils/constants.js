@@ -322,6 +322,12 @@ export const Alerts = {
     INVALID_START_DATE: `Start date must be on or before end date.`,
     INVALID_END_DATE: `End date must be on or after start date.`,
   },
+  OH_OLD_MSG: {
+    HEADER: 'This conversation is too old for new replies',
+    P_1: `The last message in this conversation is more than 45 days old.`,
+    P_2: `If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.`,
+    P_3: `Or you can send a message to other care teams in your contact list.`,
+  },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
   OLD_MSG_SUBHEAD:
