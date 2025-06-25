@@ -133,55 +133,56 @@ const DependentsInformationReview = ({ data, goToPath }) => {
       </va-additional-info>
 
       {dependents.map((dep, index) => (
-        <dl key={index} className="review vads-u-margin-y--4">
-          <h5 className="vads-u-font-size--h5">
+        <>
+          <h4 className="vads-u-font-size--h5">
             {`${dep.fullName.first} ${dep.fullName.last}`}
-          </h5>
-
-          <div className="review-row">
-            <dt>First name</dt>
-            <dd>{dep.fullName.first}</dd>
-          </div>
-          <div className="review-row">
-            <dt>Middle name</dt>
-            <dd>{dep.fullName.middle}</dd>
-          </div>
-          <div className="review-row">
-            <dt>Last name</dt>
-            <dd>{dep.fullName.last}</dd>
-          </div>
-          <div className="review-row">
-            <dt>Suffix</dt>
-            <dd>{dep.fullName.suffix}</dd>
-          </div>
-          <div className="review-row">
-            <dt>Social Security number</dt>
-            <dd
-              className="dd-privacy-hidden"
-              data-dd-action-name="Dependent SSN"
-            >
-              {maskSSN(dep.ssnLastFour)}
-            </dd>
-          </div>
-          <div className="review-row">
-            <dt>Date of birth</dt>
-            <dd>{dep.dob}</dd>
-          </div>
-          <div className="review-row">
-            <dt>Age</dt>
-            <dd>{dep.age} years old</dd>
-          </div>
-          <div className="review-row">
-            <dt>Relationship</dt>
-            <dd>{dep.relationship}</dd>
-          </div>
-        </dl>
+          </h4>
+          <dl key={index} className="review vads-u-margin-y--4">
+            <div className="review-row">
+              <dt>First name</dt>
+              <dd>{dep.fullName.first}</dd>
+            </div>
+            <div className="review-row">
+              <dt>Middle name</dt>
+              <dd>{dep.fullName.middle}</dd>
+            </div>
+            <div className="review-row">
+              <dt>Last name</dt>
+              <dd>{dep.fullName.last}</dd>
+            </div>
+            <div className="review-row">
+              <dt>Suffix</dt>
+              <dd>{dep.fullName.suffix}</dd>
+            </div>
+            <div className="review-row">
+              <dt>Social Security number</dt>
+              <dd
+                className="dd-privacy-hidden"
+                data-dd-action-name="Dependent SSN"
+              >
+                {maskSSN(dep.ssnLastFour)}
+              </dd>
+            </div>
+            <div className="review-row">
+              <dt>Date of birth</dt>
+              <dd>{dep.dob}</dd>
+            </div>
+            <div className="review-row">
+              <dt>Age</dt>
+              <dd>{dep.age} years old</dd>
+            </div>
+            <div className="review-row">
+              <dt>Relationship</dt>
+              <dd>{dep.relationship}</dd>
+            </div>
+          </dl>
+        </>
       ))}
 
       <div className="form-review-panel-page-header-row vads-u-margin-top--4">
-        <h5 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           Status of dependents
-        </h5>
+        </h4>
         <va-button
           secondary
           class="edit-page float-right"
