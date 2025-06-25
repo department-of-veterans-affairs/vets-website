@@ -58,15 +58,16 @@ const programInfo = {
     'view:fewerThan10Alert': {
       'ui:description': (
         <va-alert status="info" uswds visible>
-          <strong>Fewer than 10 supported students</strong>
+          <h3 slot="headline">Fewer than 10 supported students</h3>
           <p>
             <strong>Note:</strong> This program has fewer than 10 supported
             students. You don’t need to enter any additional information,{' '}
-            <b>
+            <strong>
               but please continue adding this program so it’s included in your
               report.
-            </b>
-            <br />
+            </strong>
+          </p>
+          <p>
             If you entered this number in error, you can go back and adjust it
             now.
           </p>
@@ -80,15 +81,21 @@ const programInfo = {
       },
     },
     fte: {
-      'ui:description': (
-        <p>
-          <strong>Note: </strong>
-          If there are fewer than 10 supported students enrolled in this
-          program, you do not have to fill out the information below, and the
-          Total enrolled FTE and supported student percentage FTE will not be
-          calculated or submitted.
-        </p>
-      ),
+      'view:fteNote': {
+        'ui:description': (
+          <p>
+            <strong>Note: </strong>
+            If there are fewer than 10 supported students enrolled in this
+            program, you do not have to fill out the information below, and the
+            Total enrolled FTE and supported student percentage FTE will not be
+            calculated or submitted.
+          </p>
+        ),
+        'ui:options': {
+          hideIf: (formData, index) =>
+            getSupportedStudents(formData, index) < 10,
+        },
+      },
       supported: _.merge(
         numberUI({
           title: 'Number of supported students FTE',
@@ -139,6 +146,7 @@ const programInfo = {
       fte: {
         type: 'object',
         properties: {
+          'view:fteNote': { type: 'object', properties: {} },
           supported: decimalSchema,
           nonSupported: decimalSchema,
         },
