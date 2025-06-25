@@ -19,6 +19,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import PrivacyPolicy from '../components/PrivacyPolicy';
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
@@ -61,6 +62,14 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  preSubmitInfo: {
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'designatingOfficial.fullName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
