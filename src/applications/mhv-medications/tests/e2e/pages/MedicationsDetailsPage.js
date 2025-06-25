@@ -719,7 +719,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPartialFillTextInRefillAccordionOnDetailsPage = text => {
-    cy.get('[data-testid="partial-fill-text"]').should('contain', text);
+    cy.get('[data-testid="partial-fill-text"]').should('have.text', text);
   };
 
   verifyMedicationDescriptionInTxtDownload = text => {
@@ -861,6 +861,17 @@ class MedicationsDetailsPage {
             : item,
       ),
     };
+  };
+
+  verifyRxNumberNotVisibleOnPendingMedicationsDetailsPage = PrescriptionNumber => {
+    cy.get('[data-testid="va-prescription-container"]').should(
+      'not.contain',
+      PrescriptionNumber,
+    );
+  };
+
+  verifyRefillHistorySectionNotVisibleForPendingPrescriptions = () => {
+    cy.get('[data-testid="refill-History"]').should('not.exist');
   };
 }
 

@@ -372,7 +372,7 @@ describe('<OverviewPage>', () => {
         expect(overviewPage).to.exist;
         getByText('Veterans Pension benefits claim process');
         getByText(
-          'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
+          'There are 8 steps in the claim process. You may need to repeat steps 3 to 6 if we need more information.',
         );
         expect($('.claim-phase-diagram', container)).to.exist;
         expect($('.claim-phase-stepper', container)).to.exist;

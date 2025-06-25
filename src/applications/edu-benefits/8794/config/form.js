@@ -2,6 +2,7 @@ import React from 'react';
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
 // Example of an imported schema:
 // In a real app this would be imported from `vets-json-schema`:
@@ -32,8 +33,12 @@ import {
   primaryOfficialBenefitStatus,
   institutionDetailsNoFacilityDescription,
   institutionNameAndAddress,
+  readOnlyCertifyingOfficialSummaryPage,
+  readOnlyCertifyingOfficial,
+  remarksPage,
 } from '../pages';
 import directDeposit from '../pages/directDeposit';
+import { readOnlyCertifyingOfficialArrayOptions } from '../helpers';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -67,6 +72,15 @@ const formConfig = {
       Designation of certifying official(s) (VA Form 22-8794)
     </p>
   ),
+  customText: {
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    finishAppLaterMessage: 'Finish this form later',
+    startNewAppButtonText: 'Start a new form',
+  },
   useCustomScrollAndFocus: true,
   defaultDefinitions: {
     fullName,
@@ -183,6 +197,37 @@ const formConfig = {
           title: 'Direct Deposit',
           uiSchema: directDeposit.uiSchema,
           schema: directDeposit.schema,
+        },
+      },
+    },
+    readOnlyCertifyingOfficialChapter: {
+      title: 'Read-only certifying officials',
+      pages: arrayBuilderPages(
+        readOnlyCertifyingOfficialArrayOptions,
+        pageBuilder => ({
+          readOnlyPrimaryOfficialSummary: pageBuilder.summaryPage({
+            title: 'Review read-only certifying officials',
+            path: 'read-only-certifying-officials/summary',
+            uiSchema: readOnlyCertifyingOfficialSummaryPage.uiSchema,
+            schema: readOnlyCertifyingOfficialSummaryPage.schema,
+          }),
+          addReadOnlyPrimaryOfficial: pageBuilder.itemPage({
+            title: 'Tell us about your read-only school certifying official',
+            path: 'read-only-certifying-officials/:index',
+            showPagePerItem: true,
+            uiSchema: readOnlyCertifyingOfficial.uiSchema,
+            schema: readOnlyCertifyingOfficial.schema,
+          }),
+        }),
+      ),
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          uiSchema: remarksPage.uiSchema,
+          schema: remarksPage.schema,
         },
       },
     },
