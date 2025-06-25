@@ -38,7 +38,7 @@ const dateTimeHelpers = [
 ];
 
 const waitRegex = /cy\.wait\(\s*\d+\s*\)/;
-const waitHelpers = [waitRegex, 'setTimeout(', 'sleep(', 'browser.sleep('];
+const waitHelpers = ['setTimeout(', 'sleep(', 'browser.sleep('];
 
 function getSpecFiles(dir) {
   let results = [];
@@ -72,16 +72,33 @@ function checkSpecsForFlakyDatesAndTimes(file) {
           'Dynamically generated date or time found. Mocked dates and times should be used in testing to avoid flakiness.',
       });
     }
-    if (waitHelpers.some(helper => line.includes(helper))) {
+    const usesWaitHelper = waitHelpers.some(helper => {
+      if (helper === 'cy.wait(') {
+        return waitRegex.test(line);
+      }
+      return line.includes(helper);
+    });
+    if (usesWaitHelper) {
       dateTimeAnnotations.push({
         path: file,
         start_line: index + 1,
         end_line: index + 1,
         annotation_level: 'warning',
-        message: 'Hard-coded wait was found. ',
+        message: waitRegex.test(line)
+          ? 'Hard-coded cy.wait(n) found.  Use alias-based waits instead.'
+          : 'Hard-coded wait was found.',
       });
     }
   });
+  // if (waitHelpers.some(helper => line.includes(helper))) {
+  //   dateTimeAnnotations.push({
+  //     path: file,
+  //     start_line: index + 1,
+  //     end_line: index + 1,
+  //     annotation_level: 'warning',
+  //     message: 'Hard-coded wait was found. ',
+  //   });
+  // }
   return dateTimeAnnotations;
 }
 
