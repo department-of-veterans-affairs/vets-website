@@ -341,7 +341,6 @@ describe('VAOS Component: CalendarWidget', () => {
     });
 
     userEvent.click(screen.getByText('2'));
-    screen.debug(null, 100000);
 
     await waitFor(() => {
       expect(
