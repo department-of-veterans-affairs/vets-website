@@ -41,18 +41,16 @@ export const IntroductionPage = ({ route }) => {
         {renderIfVeteranContent()}
       </va-accordion-item>
       <va-accordion-item header="If you’re the surviving spouse">
-        <p>
-          You’ll need to report income and assets for these individuals:
-          <ul>
-            <li>
-              Yourself, <strong>and</strong>
-            </li>
-            <li>
-              Your child or children (unless you do not have custody or not
-              contribute to your child’s or children’s support)
-            </li>
-          </ul>
-        </p>
+        <p>You’ll need to report income and assets for these individuals:</p>
+        <ul>
+          <li>
+            Yourself, <strong>and</strong>
+          </li>
+          <li>
+            Your child or children (unless you do not have custody or not
+            contribute to your child’s or children’s support)
+          </li>
+        </ul>
       </va-accordion-item>
       <va-accordion-item header="If you’re the surviving child or custodian of a surviving child">
         <p>You’ll need to report income and assets for these individuals:</p>
