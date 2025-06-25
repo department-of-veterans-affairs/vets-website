@@ -10,6 +10,8 @@ import {
   areIntervalsOverlapping,
   endOfMonth,
   isAfter,
+  isDate,
+  parseISO,
   startOfDay,
   startOfMonth,
 } from 'date-fns';
@@ -642,13 +644,24 @@ export function updateReasonForAppointmentData(page, uiSchema, data) {
   };
 }
 
-export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
+export function getAppointmentSlots(start, end, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
     const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
+
+    let startDate = start;
+    let endDate = end;
+
+    if (!isDate(start)) {
+      startDate = parseISO(start);
+    }
+
+    if (!isDate(end)) {
+      endDate = parseISO(end);
+    }
 
     const startDateMonth = format(new Date(startDate), 'yyyy-MM');
     const endDateMonth = format(new Date(endDate), 'yyyy-MM');

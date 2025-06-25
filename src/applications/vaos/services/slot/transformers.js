@@ -26,7 +26,11 @@ export function transformV2Slots(slots) {
           'UTC',
           DATE_FORMATS.ISODateTimeUTC,
         ),
-        end: slot.end,
+        end: formatInTimeZone(
+          parseISO(slot.end),
+          'UTC',
+          DATE_FORMATS.ISODateTimeUTC,
+        ),
       }))
   );
 }
