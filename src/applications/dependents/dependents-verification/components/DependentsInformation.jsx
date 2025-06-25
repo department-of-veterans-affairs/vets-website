@@ -1,13 +1,8 @@
 import React from 'react';
-import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import PropTypes from 'prop-types';
 
-const maskSSN = ssnLastFour =>
-  srSubstitute(
-    `●●●–●●-${ssnLastFour}`,
-    `ending with ${ssnLastFour.split('').join(' ')}`,
-  );
+import { maskID } from '../../shared/utils';
 
 const dependents = [
   {
@@ -59,7 +54,7 @@ const DependentsInformation = () => {
                 className="dd-privacy-mask"
                 data-dd-action-name="Dependent's SSN"
               >
-                {maskSSN(dep.ssnLastFour)}
+                {maskID(dep.ssnLastFour)}
               </span>
             </div>
             {dep.removalDate && (
@@ -160,7 +155,7 @@ const DependentsInformationReview = ({ data, goToPath }) => {
                 className="dd-privacy-hidden"
                 data-dd-action-name="Dependent SSN"
               >
-                {maskSSN(dep.ssnLastFour)}
+                {maskID(dep.ssnLastFour)}
               </dd>
             </div>
             <div className="review-row">
