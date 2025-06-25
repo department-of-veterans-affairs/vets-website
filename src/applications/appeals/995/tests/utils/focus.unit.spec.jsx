@@ -18,19 +18,31 @@ describe('focusEvidence', () => {
       </div>,
     );
 
-  it('should focus on header', async () => {
-    const { container } = await renderPage();
+  const renderPageWithError = () =>
+    render(
+      <div id="main">
+        <h3>Title</h3>
+        <div error="true" />
+        <div />
+      </div>,
+    );
 
-    await focusEvidence(null, container);
+  it('should focus on header', async () => {
+    const { container } = renderPage();
+
+    focusEvidence(null, container);
+
     await waitFor(() => {
       const target = $('h3', container);
       expect(document.activeElement).to.eq(target);
     });
   });
-  it('should focus on error', async () => {
-    const { container } = await renderPage(true);
 
-    await focusEvidence(null, container);
+  it('should focus on error', async () => {
+    const { container } = renderPageWithError();
+
+    focusEvidence(null, container);
+
     await waitFor(() => {
       const target = $('[error]', container);
       expect(document.activeElement).to.eq(target);

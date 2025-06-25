@@ -4,9 +4,7 @@ import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-
 import ConfirmationDecisionReviews from '../../components/ConfirmationDecisionReviews';
 import { parseDate } from '../../utils/dates';
 import { SELECTED, FORMAT_READABLE_DATE_FNS } from '../../constants';
@@ -66,6 +64,7 @@ describe('Confirmation page', () => {
       </Provider>,
     );
     const alert = $('va-alert[status="success"]', container);
+
     expect(alert).to.exist;
     expect(alert.innerHTML).to.contain('successfully requested a snack');
 
@@ -99,6 +98,7 @@ describe('Confirmation page', () => {
       'Foo Man Choo, Esq.',
     );
   });
+
   it('should render the user name without suffix', () => {
     const { container } = render(
       <Provider store={mockStore(getData({ suffix: '' }))}>
@@ -109,6 +109,7 @@ describe('Confirmation page', () => {
       'Foo Man Choo',
     );
   });
+
   it('should not render the user name', () => {
     const { container } = render(
       <Provider store={mockStore(getData({ renderName: false }))}>
@@ -132,6 +133,7 @@ describe('Confirmation page', () => {
     );
     expect($('va-summary-box', container).innerHTML).to.contain(date);
   });
+
   it('should render the selected contested issue', () => {
     const { container } = render(
       <Provider store={mockStore(getData())}>
@@ -143,7 +145,8 @@ describe('Confirmation page', () => {
     expect(list.textContent).not.to.contain('test 987');
     expect($$('span.dd-privacy-hidden', container).length).to.eq(1);
   });
-  it('should focus on H2 inside va-alert', async () => {
+
+  it('should focus on H2 inside va-alert', () => {
     const { container } = render(
       <Provider store={mockStore(getData())}>
         <main id="main">
@@ -152,7 +155,8 @@ describe('Confirmation page', () => {
       </Provider>,
     );
     const h2 = $('va-alert h2', container);
-    await waitFor(() => {
+
+    waitFor(() => {
       expect(document.activeElement).to.eq(h2);
     });
   });
@@ -170,11 +174,13 @@ describe('Confirmation page', () => {
         data: {},
       },
     });
+
     const { container } = render(
       <Provider store={mockStore(getEmptyData())}>
         <ConfirmationDecisionReviews />
       </Provider>,
     );
+
     expect($('va-alert', container)).to.exist;
     expect($('va-summary-box', container)).to.exist;
   });

@@ -11,7 +11,7 @@ const SubmissionError = ({ form }) => {
   useEffect(
     () => {
       if (alertRef?.current) {
-        scrollTo(alertRef.current);
+        scrollTo('.submission-error');
         focusElement('h3', {}, alertRef.current);
       }
     },
@@ -33,7 +33,7 @@ const SubmissionError = ({ form }) => {
       ref={alertRef}
       id="submission-error"
       status="error"
-      class="vads-u-margin-y--2"
+      class="submission-error vads-u-margin-y--2"
       uswds
     >
       <h3 slot="headline">Your decision review request didn’t go through</h3>

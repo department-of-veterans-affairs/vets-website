@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { cleanup, render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import {
@@ -671,7 +671,7 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect($('#upload-wrap', container).className).to.include('display--none');
+    expect($('.upload-wrap', container).className).to.include('display--none');
   });
 
   it('should not render upload or delete button on review & submit page while in review mode', () => {

@@ -32,7 +32,7 @@ describe('Supplemental Claims housing risk page', () => {
 
   // Increase test coverage
   it('should updateUiSchema for review page', () => {
-    window.location = { pathname: '/review-and-submit' };
+    global.window.location.href = '/review-and-submit';
     const result = uiSchema.housingRisk['ui:options'].updateUiSchema();
     expect(result).to.deep.equal({
       'ui:options': { labelHeaderLevel: 4 },

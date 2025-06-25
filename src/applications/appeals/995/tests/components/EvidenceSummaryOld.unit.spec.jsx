@@ -2,9 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-
 import EvidenceSummary from '../../components/EvidenceSummary';
 import { content } from '../../content/evidenceSummary';
 import {
@@ -140,11 +138,9 @@ describe('<EvidenceSummary>', () => {
     expect($$('.usa-input-error-message', container).length).to.eq(9);
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
 
-    await fireEvent.click(
-      $('.form-progress-buttons .usa-button-primary', container),
-    );
+    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(goForward.called).to.be.false;
     });
   });
@@ -201,10 +197,11 @@ describe('<EvidenceSummary>', () => {
     const goForward = sinon.spy();
     const { container } = setupSummary({ goForward });
 
-    await fireEvent.click(
-      $('.form-progress-buttons .usa-button-primary', container),
-    );
-    expect(goForward.called).to.be.true;
+    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
+
+    await waitFor(() => {
+      expect(goForward.called).to.be.true;
+    });
   });
 
   it('should not navigate forward with errors', async () => {
@@ -217,9 +214,7 @@ describe('<EvidenceSummary>', () => {
       goForward,
     });
 
-    await fireEvent.click(
-      $('.form-progress-buttons .usa-button-primary', container),
-    );
+    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
 
     waitFor(() => {
       expect(goForward.called).to.be.false;
@@ -237,14 +232,14 @@ describe('<EvidenceSummary>', () => {
       updatePage: updateSpy,
     });
 
-    await fireEvent.click($('.form-nav-buttons va-button', container));
+    fireEvent.click($('.form-nav-buttons va-button', container));
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(updateSpy.called).to.be.false;
     });
   });
 
-  it('should navigate forward with not-included partial data', () => {
+  it('should navigate forward with not-included partial data', async () => {
     const goForward = sinon.spy();
     const { container } = setupSummary({
       vaMR: false,
@@ -260,7 +255,10 @@ describe('<EvidenceSummary>', () => {
     });
 
     fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-    expect(goForward.called).to.be.true;
+
+    await waitFor(() => {
+      expect(goForward.called).to.be.true;
+    });
   });
 
   it('should call goBack to get to the private limitation page, even with errors', async () => {
@@ -273,10 +271,13 @@ describe('<EvidenceSummary>', () => {
       goBack,
     });
 
-    await fireEvent.click(
+    fireEvent.click(
       $('.form-progress-buttons .usa-button-secondary', container),
     );
-    expect(goBack.called).to.be.true;
+
+    await waitFor(() => {
+      expect(goBack.called).to.be.true;
+    });
   });
 
   // Remove entries
@@ -286,12 +287,10 @@ describe('<EvidenceSummary>', () => {
     const result = records().locations[0];
 
     // remove second VA entry
-    await fireEvent.click(
-      $('va-button[label="Remove VAMC Location 2"]', container),
-    );
+    fireEvent.click($('va-button[label="Remove VAMC Location 2"]', container));
 
     const modal = await $('va-modal', container);
-    await modal.__events.primaryButtonClick(); // Remove entry
+    modal.__events.primaryButtonClick(); // Remove entry
 
     await waitFor(() => {
       expect(setFormData.called).to.be.true;
@@ -304,12 +303,10 @@ describe('<EvidenceSummary>', () => {
     const { container } = setupSummary({ setFormData });
 
     // remove second VA entry
-    await fireEvent.click(
-      $('va-button[label="Remove VAMC Location 2"]', container),
-    );
+    fireEvent.click($('va-button[label="Remove VAMC Location 2"]', container));
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel removal
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
@@ -322,9 +319,7 @@ describe('<EvidenceSummary>', () => {
     const result = records().providerFacility[0];
 
     // remove second private entry
-    await fireEvent.click(
-      $('va-button[label="Remove Private Hospital"]', container),
-    );
+    fireEvent.click($('va-button[label="Remove Private Hospital"]', container));
 
     const modal = await $('va-modal', container);
     await modal.__events.primaryButtonClick(); // Remove entry
@@ -340,12 +335,10 @@ describe('<EvidenceSummary>', () => {
     const { container } = setupSummary({ setFormData });
 
     // remove second VA entry
-    await fireEvent.click(
-      $('va-button[label="Remove Private Hospital"]', container),
-    );
+    fireEvent.click($('va-button[label="Remove Private Hospital"]', container));
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel removal
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
@@ -359,9 +352,7 @@ describe('<EvidenceSummary>', () => {
       limit: 'Pizza addiction',
     });
     // remove limitation
-    await fireEvent.click(
-      $('va-button[label="Remove limitations"]', container),
-    );
+    fireEvent.click($('va-button[label="Remove limitations"]', container));
 
     const modal = await $('va-modal', container);
     await modal.__events.primaryButtonClick(); // Remove entry
@@ -380,12 +371,10 @@ describe('<EvidenceSummary>', () => {
     });
 
     // remove second VA entry
-    await fireEvent.click(
-      $('va-button[label="Remove limitations"]', container),
-    );
+    fireEvent.click($('va-button[label="Remove limitations"]', container));
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel removal
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
@@ -398,7 +387,7 @@ describe('<EvidenceSummary>', () => {
     const result = records().additionalDocuments[0];
 
     // remove second upload entry
-    await fireEvent.click($('va-button[label="Delete x-rays.pdf"]', container));
+    fireEvent.click($('va-button[label="Delete x-rays.pdf"]', container));
 
     const modal = await $('va-modal', container);
     await modal.__events.primaryButtonClick(); // Remove entry
@@ -416,10 +405,10 @@ describe('<EvidenceSummary>', () => {
     const { container } = setupSummary({ setFormData });
 
     // remove second VA entry
-    await fireEvent.click($('va-button[label="Delete x-rays.pdf"]', container));
+    fireEvent.click($('va-button[label="Delete x-rays.pdf"]', container));
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel delete
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
@@ -446,7 +435,7 @@ describe('<EvidenceSummary>', () => {
       updatePage: updateSpy,
     });
 
-    await fireEvent.click($('.form-nav-buttons va-button', container));
+    fireEvent.click($('.form-nav-buttons va-button', container));
     expect(updateSpy.called).to.be.true;
   });
 });

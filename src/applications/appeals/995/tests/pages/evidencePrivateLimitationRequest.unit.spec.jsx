@@ -36,7 +36,7 @@ describe('Supplemental Claims private limitation request page', () => {
 
   it('should call updateUiSchema and updateSchema and return US phone patterns when checkbox is false', () => {
     const options = uiSchema[EVIDENCE_LIMIT]['ui:options'];
-    window.location = { pathname: '/review-and-submit' };
+    global.window.location.href = '/review-and-submit';
 
     expect(options.updateUiSchema()).to.deep.equal({
       'ui:options': {

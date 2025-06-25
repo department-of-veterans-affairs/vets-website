@@ -44,7 +44,7 @@ describe('Supplemental Claims living situation page', () => {
   });
 
   it('should render an h4 on the review & submit page', () => {
-    window.location = { pathname: '/review-and-submit' };
+    global.window.location.href = '/review-and-submit';
     const { container } = render(
       <DefinitionTester
         definitions={{}}
