@@ -198,9 +198,9 @@ describe('VAOS vaccine flow: ReviewPage', () => {
 
     await screen.findByText('We couldn’t schedule this appointment');
 
-    // expect(screen.baseElement).contain.text(
-    //   'You’ll need to call your local VA medical center',
-    // );
+    expect(screen.baseElement).contain.text(
+      'You’ll need to call your local VA medical center',
+    );
 
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
