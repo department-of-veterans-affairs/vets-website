@@ -68,7 +68,6 @@ function apptRequestSort(a, b) {
  * @param {Boolean} fetchClaimStatus Boolean to fetch travel claim data
  * @param {Boolean} includeEPS Boolean to include EPS appointments
  * @param {Boolean} useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
- * @param {Boolean} useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
  * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
@@ -80,7 +79,6 @@ export async function fetchAppointments({
   fetchClaimStatus = false,
   includeEPS = false,
   useFeSourceOfTruthCC = false,
-  useFeSourceOfTruthVA = false,
   useFeSourceOfTruthModality = false,
   useFeSourceOfTruthTelehealth = false,
 }) {
@@ -98,9 +96,9 @@ export async function fetchAppointments({
     const filteredAppointments = allAppointments.data.filter(appt => {
       // Filter out appointments that are not VA or CC appointments
       return (
-        getAppointmentType(appt, useFeSourceOfTruthCC, useFeSourceOfTruthVA) ===
+        getAppointmentType(appt, useFeSourceOfTruthCC) ===
           APPOINTMENT_TYPES.vaAppointment ||
-        getAppointmentType(appt, useFeSourceOfTruthCC, useFeSourceOfTruthVA) ===
+        getAppointmentType(appt, useFeSourceOfTruthCC) ===
           APPOINTMENT_TYPES.ccAppointment
       );
     });
@@ -109,7 +107,6 @@ export async function fetchAppointments({
       ...transformVAOSAppointments(
         filteredAppointments,
         useFeSourceOfTruthCC,
-        useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       ),
@@ -137,7 +134,6 @@ export async function fetchAppointments({
  * @param {String} endDate Date in YYYY-MM-DD format
  * @param {Boolean} includeEPS Boolean to include EPS appointments
  * @param {Boolean} useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
- * @param {Boolean} useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
  * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
@@ -147,7 +143,6 @@ export async function getAppointmentRequests({
   endDate,
   includeEPS = false,
   useFeSourceOfTruthCC = false,
-  useFeSourceOfTruthVA = false,
   useFeSourceOfTruthModality = false,
   useFeSourceOfTruthTelehealth = false,
 }) {
@@ -169,7 +164,6 @@ export async function getAppointmentRequests({
     const transformRequests = transformVAOSAppointments(
       requestsWithoutAppointments,
       useFeSourceOfTruthCC,
-      useFeSourceOfTruthVA,
       useFeSourceOfTruthModality,
       useFeSourceOfTruthTelehealth,
     );
@@ -195,7 +189,6 @@ export async function getAppointmentRequests({
  * @async
  * @param {string} id Appointment request id
  * @param {Boolean} useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
- * @param {Boolean} useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
  * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {Appointment} An Appointment object for the given request id
@@ -203,7 +196,6 @@ export async function getAppointmentRequests({
 export async function fetchRequestById({
   id,
   useFeSourceOfTruthCC = false,
-  useFeSourceOfTruthVA = false,
   useFeSourceOfTruthModality = false,
   useFeSourceOfTruthTelehealth = false,
 }) {
@@ -213,7 +205,6 @@ export async function fetchRequestById({
     return transformVAOSAppointment(
       appointment,
       useFeSourceOfTruthCC,
-      useFeSourceOfTruthVA,
       useFeSourceOfTruthModality,
       useFeSourceOfTruthTelehealth,
     );
@@ -234,7 +225,6 @@ export async function fetchRequestById({
  * @param {avs} Boolean to fetch avs data
  * @param {fetchClaimStatus} Boolean to fetch travel claim data
  * @param {Boolean} useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
- * @param {Boolean} useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
  * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {Appointment} A transformed appointment with the given id
@@ -244,7 +234,6 @@ export async function fetchBookedAppointment({
   avs = true,
   fetchClaimStatus = true,
   useFeSourceOfTruthCC = false,
-  useFeSourceOfTruthVA = false,
   useFeSourceOfTruthModality = false,
   useFeSourceOfTruthTelehealth = false,
 }) {
@@ -253,7 +242,6 @@ export async function fetchBookedAppointment({
     return transformVAOSAppointment(
       appointment,
       useFeSourceOfTruthCC,
-      useFeSourceOfTruthVA,
       useFeSourceOfTruthModality,
       useFeSourceOfTruthTelehealth,
     );
@@ -571,7 +559,6 @@ export function groupAppointmentsByMonth(appointments) {
  * @param {Object} params
  * @param {VAOSAppointment} params.appointment The appointment to send
  * @param {Boolean} params.useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
- * @param {Boolean} params.useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
  * @param {Boolean} params.useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} params.useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {Appointment} The created appointment
@@ -579,7 +566,6 @@ export function groupAppointmentsByMonth(appointments) {
 export async function createAppointment({
   appointment,
   useFeSourceOfTruthCC,
-  useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
   useFeSourceOfTruthTelehealth,
 }) {
@@ -588,7 +574,6 @@ export async function createAppointment({
   return transformVAOSAppointment(
     result,
     useFeSourceOfTruthCC,
-    useFeSourceOfTruthVA,
     useFeSourceOfTruthModality,
     useFeSourceOfTruthTelehealth,
   );
@@ -603,7 +588,6 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
  * @param {Object} params
  * @param {Appointment} params.appointment The appointment to cancel
  * @param {Boolean} params.useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
- * @param {Boolean} params.useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
  * @param {Boolean} params.useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} params.useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {?Appointment} Returns either null or the updated appointment data
@@ -611,7 +595,6 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
 export async function cancelAppointment({
   appointment,
   useFeSourceOfTruthCC,
-  useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
   useFeSourceOfTruthTelehealth,
 }) {
@@ -642,7 +625,6 @@ export async function cancelAppointment({
     return transformVAOSAppointment(
       updatedAppointment,
       useFeSourceOfTruthCC,
-      useFeSourceOfTruthVA,
       useFeSourceOfTruthModality,
       useFeSourceOfTruthTelehealth,
     );
@@ -830,7 +812,6 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
 
   return (
     useFeSourceOfTruthCC,
-    useFeSourceOfTruthVA,
     useFeSourceOfTruthModality,
     useFeSourceOfTruthTelehealth,
   ) => {
@@ -868,7 +849,6 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
           startDate: curr.start,
           endDate: curr.end,
           useFeSourceOfTruthCC,
-          useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });

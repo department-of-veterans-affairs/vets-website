@@ -10,7 +10,6 @@ import { startOfMonth, endOfMonth, format, isAfter } from 'date-fns';
 import {
   selectSystemIds,
   selectFeatureFeSourceOfTruthCC,
-  selectFeatureFeSourceOfTruthVA,
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureConvertSlotsToUtc,
@@ -385,7 +384,6 @@ export function confirmAppointment(history) {
   return async (dispatch, getState) => {
     const state = getState();
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
-    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
@@ -411,7 +409,6 @@ export function confirmAppointment(history) {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
         useFeSourceOfTruthCC,
-        useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       });

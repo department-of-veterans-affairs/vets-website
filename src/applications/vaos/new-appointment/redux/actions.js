@@ -19,7 +19,6 @@ import {
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
-  selectFeatureFeSourceOfTruthVA,
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
@@ -320,7 +319,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
-    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
@@ -350,7 +348,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
             typeOfCare,
             directSchedulingEnabled,
             useFeSourceOfTruthCC,
-            useFeSourceOfTruthVA,
             useFeSourceOfTruthModality,
             useFeSourceOfTruthTelehealth,
             isCerner: true,
@@ -387,7 +384,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
           typeOfCare,
           directSchedulingEnabled,
           useFeSourceOfTruthCC,
-          useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
           usePastVisitMHFilter,
@@ -856,7 +852,6 @@ export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
-    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
@@ -889,7 +884,6 @@ export function submitAppointmentOrRequest(history) {
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
           useFeSourceOfTruthCC,
-          useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });
@@ -980,7 +974,6 @@ export function submitAppointmentOrRequest(history) {
         const requestData = await createAppointment({
           appointment: requestBody,
           useFeSourceOfTruthCC,
-          useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });

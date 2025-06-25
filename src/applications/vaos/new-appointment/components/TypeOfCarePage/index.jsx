@@ -21,7 +21,6 @@ import {
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
-  selectFeatureFeSourceOfTruthVA,
 } from '../../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
@@ -37,9 +36,6 @@ export default function TypeOfCarePage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
   const useFeSourceOfTruthCC = useSelector(state =>
     selectFeatureFeSourceOfTruthCC(state),
-  );
-  const useFeSourceOfTruthVA = useSelector(state =>
-    selectFeatureFeSourceOfTruthVA(state),
   );
   const useFeSourceOfTruthModality = useSelector(state =>
     selectFeatureFeSourceOfTruthModality(state),
@@ -160,7 +156,6 @@ export default function TypeOfCarePage() {
             if (showDirectScheduling) {
               getLongTermAppointmentHistoryV2(
                 useFeSourceOfTruthCC,
-                useFeSourceOfTruthVA,
                 useFeSourceOfTruthModality,
                 useFeSourceOfTruthTelehealth,
               );

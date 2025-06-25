@@ -6,7 +6,6 @@ import { selectPatientFacilities } from '@department-of-veterans-affairs/platfor
 import {
   selectFeatureCCDirectScheduling,
   selectFeatureFeSourceOfTruthCC,
-  selectFeatureFeSourceOfTruthVA,
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
   selectSystemIds,
@@ -94,7 +93,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const state = getState();
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
-    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
@@ -140,7 +138,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           endDate: format(endDate, 'yyyy-MM-dd'),
           includeEPS,
           useFeSourceOfTruthCC,
-          useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         }),
@@ -158,7 +155,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             endDate: format(requestEndDate, 'yyyy-MM-dd'), // End 1 day in the future for requests
             includeEPS,
             useFeSourceOfTruthCC,
-            useFeSourceOfTruthVA,
             useFeSourceOfTruthModality,
             useFeSourceOfTruthTelehealth,
           })
@@ -261,7 +257,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const state = getState();
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
-    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
@@ -291,7 +286,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         fetchClaimStatus: true,
         includeEPS,
         useFeSourceOfTruthCC,
-        useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       });
@@ -343,7 +337,6 @@ export function fetchRequestDetails(id) {
     try {
       const state = getState();
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
-      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
       const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
         state,
       );
@@ -368,7 +361,6 @@ export function fetchRequestDetails(id) {
         request = await fetchRequestById({
           id,
           useFeSourceOfTruthCC,
-          useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });
@@ -405,7 +397,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
     try {
       const state = getState();
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
-      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
       const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
         state,
       );
@@ -433,7 +424,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           id,
           type,
           useFeSourceOfTruthCC,
-          useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });
@@ -498,7 +488,6 @@ export function confirmCancelAppointment() {
     const state = getState();
     const appointment = state.appointments.appointmentToCancel;
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
-    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
@@ -514,7 +503,6 @@ export function confirmCancelAppointment() {
       const updatedAppointment = await cancelAppointment({
         appointment,
         useFeSourceOfTruthCC,
-        useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       });
