@@ -105,12 +105,7 @@ export const getAlert = (props, continueClicked) => {
   const fileUploading = props.data?.uploadedFile?.name === 'uploading';
   const formNumber = getFormNumber();
   if (warnings?.length > 0) {
-    return FORM_UPLOAD_OCR_ALERT(
-      formNumber,
-      getPdfDownloadUrl(formNumber),
-      onCloseAlert,
-      warnings,
-    );
+    return FORM_UPLOAD_OCR_ALERT(formNumber, onCloseAlert, warnings);
   }
 
   if (fileUploading && continueClicked) {
@@ -123,6 +118,25 @@ export const getAlert = (props, continueClicked) => {
 
   return null;
 };
+
+export function parseResponse({ data }) {
+  const { name, size, confirmationCode } = data.attributes;
+  return {
+    name,
+    confirmationCode,
+    size,
+  };
+}
+
+export function createPayload(file, formId, password) {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  if (password) {
+    payload.append('password', password);
+  }
+  return payload;
+}
 
 export async function addStyleToShadowDomOnPages(
   urlArray,
