@@ -62,6 +62,8 @@ describe('EZR Dependents', () => {
       statusCode: 200,
       body: mockPrefill,
     }).as('mockSip');
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(550);
     cy.intercept('POST', formConfig.submitUrl, {
       statusCode: 200,
       body: {
