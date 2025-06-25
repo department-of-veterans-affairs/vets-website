@@ -90,14 +90,7 @@ export const ConfirmationPage = ({ router, route }) => {
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
+    data: PropTypes.object,
     formId: PropTypes.string,
     submission: PropTypes.shape({
       timestamp: PropTypes.string,
