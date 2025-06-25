@@ -45,7 +45,11 @@ import {
   sponsorContactSchema,
 } from '../chapters/sponsorInformation';
 
-import { claimIdentifyingNumber } from '../chapters/resubmission';
+import {
+  claimIdentifyingNumber,
+  claimType,
+  claimDetails,
+} from '../chapters/resubmission';
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
@@ -162,12 +166,22 @@ const formConfig = {
       },
     },
     resubmissionInformation: {
-      title: 'Resubmission',
+      title: 'Claim information',
       pages: {
         page1e: {
           path: 'resubmission-claim-number',
-          title: 'Clain ID number',
+          title: 'Claim ID number',
           ...claimIdentifyingNumber,
+        },
+        page1f: {
+          path: 'resubmission-claim-type',
+          title: 'Claim type',
+          ...claimType,
+        },
+        page1g: {
+          path: 'resubmission-claim-details',
+          title: 'Claim details',
+          ...claimDetails,
         },
       },
     },
