@@ -1,43 +1,47 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { maskID } from '../../shared/utils';
 
-const dependents = [
-  {
-    fullName: {
-      first: 'Morty',
-      middle: 'Charles',
-      last: 'Smith',
-      suffix: 'None',
+export const DependentsInformation = ({
+  data,
+  goForward,
+  goToPath,
+  setFormData,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
+  const handlers = {
+    onValueChange: ({ detail }) => {
+      setFormData({
+        ...data,
+        hasDependentsStatusChanged: detail.value,
+      });
     },
-    relationship: 'Child',
-    dob: 'January 4, 2011',
-    ssnLastFour: '6791',
-    age: 14,
-  },
-  {
-    fullName: {
-      first: 'Summer',
-      middle: 'Susan',
-      last: 'Smith',
-      suffix: 'None',
+    onSubmit: () => {
+      if (data.hasDependentsStatusChanged === 'N') {
+        goToPath('/exit-form', { force: true });
+      } else {
+        goForward(data);
+      }
     },
-    relationship: 'Child',
-    dob: 'August 1, 2008',
-    ssnLastFour: '6790',
-    age: 17,
-    removalDate: 'August 1, 2026',
-  },
-];
+    goBack: () => {
+      goToPath('/veteran-contact-information', { force: true });
+    },
+    goToExitPage: event => {
+      event.preventDefault();
+      goToPath('/exit-form', { force: true });
+    },
+  };
 
-const DependentsInformation = () => {
   return (
     <>
       <h3>Dependents on your VA benefits</h3>
-
-      {dependents.map((dep, index) => (
+      {data.dependents.map((dep, index) => (
         <div className="vads-u-margin-bottom--2" key={index}>
           <va-card>
             <h4 className="vads-u-font-size--h4 vads-u-margin-top--0">
@@ -70,8 +74,9 @@ const DependentsInformation = () => {
                     child is continuing education, they need to be added back to
                     your benefits.{' '}
                     <va-link
-                      href="https://www.va.gov/view-change-dependents/add-dependent/"
-                      text="Learn about how to add a student"
+                      href="/exit-form"
+                      text="Learn about how to add a dependent"
+                      onClick={handlers.goToExitPage}
                     />
                   </p>
                 </va-alert>
@@ -80,7 +85,6 @@ const DependentsInformation = () => {
           </va-card>
         </div>
       ))}
-
       <p>
         <strong>Note:</strong> To protect your personal information, we don’t
         allow online changes to your dependents’ names, dates of birth, or
@@ -93,115 +97,68 @@ const DependentsInformation = () => {
         </dfn>
         .
       </p>
-
       <va-link
         href="/resources/how-to-change-your-dependents-name/"
         external
         text="Find more detailed instructions for how to change your dependents’ name"
       />
+      <VaRadio
+        label="Is your dependent information correct?"
+        required
+        onVaValueChange={handlers.onValueChange}
+        label-header-level="3"
+        class="vads-u-margin-top--2"
+      >
+        <va-radio-option
+          name="hasDependentsStatusChanged"
+          value="Y"
+          label="Yes, I need to add, remove, or update my dependent information."
+          tile
+          checked={data.hasDependentsStatusChanged === 'Y'}
+        />
+        <va-radio-option
+          name="hasDependentsStatusChanged"
+          value="N"
+          label="No, my dependent information is correct."
+          tile
+          checked={data.hasDependentsStatusChanged === 'N'}
+        />
+      </VaRadio>
+
+      <p className="vads-u-margin-top--4" />
+      {contentBeforeButtons}
+      <FormNavButtons
+        goBack={handlers.goBack}
+        goForward={handlers.onSubmit}
+        submitToContinue
+      />
+      {contentAfterButtons}
     </>
   );
 };
 
-const DependentsInformationReview = ({ data, goToPath }) => {
-  const { hasDependentsStatusChanged = '' } = data || {};
+DependentsInformation.propTypes = {
+  contentAfterButtons: PropTypes.node.isRequired,
+  contentBeforeButtons: PropTypes.node.isRequired,
+  goForward: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
 
-  const onEditClick = () => {
-    sessionStorage.setItem('onReviewPage', 'true');
-    goToPath('/dependents', { force: true });
-  };
-
-  return (
-    <div className="form-review-panel-page">
-      <va-additional-info trigger="Why you can’t edit your dependents’ personal information online">
-        <p>
-          To protect your dependent’s personal information, we don’t allow
-          online changes to your dependents’ names, dates of birth, or Social
-          Security numbers. If you need to change this information,{' '}
-          <strong>
-            call us at <va-telephone contact="8008271000" />
-          </strong>
-          . We’re here
-          <strong> Monday through Friday, 8:00 a.m to 9:00 p.m ET</strong>. If
-          you have hearing loss, call <va-telephone contact="711" tty />
-        </p>
-      </va-additional-info>
-
-      {dependents.map((dep, index) => (
-        <>
-          <h4 className="vads-u-font-size--h5">
-            {`${dep.fullName.first} ${dep.fullName.last}`}
-          </h4>
-          <dl key={index} className="review vads-u-margin-y--4">
-            <div className="review-row">
-              <dt>First name</dt>
-              <dd>{dep.fullName.first}</dd>
-            </div>
-            <div className="review-row">
-              <dt>Middle name</dt>
-              <dd>{dep.fullName.middle}</dd>
-            </div>
-            <div className="review-row">
-              <dt>Last name</dt>
-              <dd>{dep.fullName.last}</dd>
-            </div>
-            <div className="review-row">
-              <dt>Suffix</dt>
-              <dd>{dep.fullName.suffix}</dd>
-            </div>
-            <div className="review-row">
-              <dt>Social Security number</dt>
-              <dd
-                className="dd-privacy-hidden"
-                data-dd-action-name="Dependent SSN"
-              >
-                {maskID(dep.ssnLastFour)}
-              </dd>
-            </div>
-            <div className="review-row">
-              <dt>Date of birth</dt>
-              <dd>{dep.dob}</dd>
-            </div>
-            <div className="review-row">
-              <dt>Age</dt>
-              <dd>{dep.age} years old</dd>
-            </div>
-            <div className="review-row">
-              <dt>Relationship</dt>
-              <dd>{dep.relationship}</dd>
-            </div>
-          </dl>
-        </>
-      ))}
-
-      <div className="form-review-panel-page-header-row vads-u-margin-top--4">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
-          Status of dependents
-        </h4>
-        <va-button
-          secondary
-          class="edit-page float-right"
-          onClick={onEditClick}
-          label="Edit dependent status"
-          text="Edit"
-        />
-      </div>
-
-      <dl className="review">
-        <div className="review-row">
-          <dt>Has the status of your dependents changed</dt>
-          <dd>{hasDependentsStatusChanged === 'Y' ? 'Yes' : 'No'}</dd>
-        </div>
-      </dl>
-    </div>
-  );
-};
-
-DependentsInformationReview.propTypes = {
   data: PropTypes.shape({
-    hasDependentsStatusChanged: PropTypes.oneOf(['Y', 'N']),
+    dependents: PropTypes.arrayOf(
+      PropTypes.shape({
+        fullName: PropTypes.shape({
+          first: PropTypes.string,
+          middle: PropTypes.string,
+          last: PropTypes.string,
+        }),
+        relationship: PropTypes.string,
+        dob: PropTypes.string,
+        age: PropTypes.number,
+        ssnLastFour: PropTypes.string,
+        removalDate: PropTypes.string,
+      }),
+    ),
+    hasDependentsStatusChanged: PropTypes.string,
   }),
-  goToPath: PropTypes.func,
 };
-
-export { DependentsInformation, DependentsInformationReview };

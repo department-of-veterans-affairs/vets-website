@@ -50,7 +50,6 @@ const mockSipPut = {
  * @returns mock user data with inProgressForms
  */
 const userData = () => {
-  const lastUpdated = new Date().getTime();
   const twoMonthsAgo = dateFns.getUnixTime(
     dateFns.add(new Date(), { months: -2 }),
   );
@@ -73,7 +72,7 @@ const userData = () => {
       lastUpdated: twoMonthsAgo,
       inProgressFormId: 1234,
     },
-    lastUpdated,
+    lastUpdated: twoMonthsAgo,
   };
 
   return {
