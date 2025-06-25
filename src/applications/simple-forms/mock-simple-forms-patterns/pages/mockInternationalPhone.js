@@ -1,6 +1,6 @@
 import {
   internationalPhoneUI,
-  createInternationalPhoneSchema,
+  internationalPhoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -14,8 +14,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      wcv3InternationalPhone: createInternationalPhoneSchema(true),
-      wcv3InternationalPhoneSecondary: createInternationalPhoneSchema(),
+      wcv3InternationalPhone: internationalPhoneSchema({ required: true }),
+      wcv3InternationalPhoneSecondary: internationalPhoneSchema(),
     },
     required: ['wcv3InternationalPhone'],
   },

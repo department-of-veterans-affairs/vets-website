@@ -47,7 +47,7 @@ const internationalPhoneUI = options => {
   };
 };
 
-const createInternationalPhoneSchema = (isRequired = false) => {
+const internationalPhoneSchema = (options = { required: false }) => {
   return {
     type: 'object',
     properties: {
@@ -55,10 +55,10 @@ const createInternationalPhoneSchema = (isRequired = false) => {
       countryCode: { type: 'string', title: 'Country code' },
       contact: { type: 'string', title: 'Contact' },
     },
-    ...(isRequired
+    ...(options.required
       ? { required: ['callingCode', 'countryCode', 'contact'] }
       : {}),
   };
 };
 
-export { createInternationalPhoneSchema, internationalPhoneUI };
+export { internationalPhoneSchema, internationalPhoneUI };

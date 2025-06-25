@@ -13,9 +13,9 @@ class ProgressButton extends React.Component {
     this.id = uniqueId();
   }
 
-  handleClick = () => {
+  handleClick = e => {
     navigationState.setNavigationEvent();
-    this.props.onButtonClick();
+    this.props.onButtonClick(e);
   };
 
   render() {
