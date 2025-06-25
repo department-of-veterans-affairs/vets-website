@@ -57,7 +57,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     );
     cy.findByTestId(`continue-button`).click();
 
-    GeneralFunctionsPage.verifyPageHeader(`Start your message`);
+    GeneralFunctionsPage.verifyPageHeader(`Start message`);
     cy.findByTestId(`compose-recipient-title`).should(`not.be.empty`);
     cy.contains(`Select a different care team`)
       .should(`be.visible`)
@@ -66,6 +66,8 @@ describe('SM CURATED LIST MAIN FLOW', () => {
         `href`,
         '/my-health/secure-messages-pilot/new-message/select-care-team',
       );
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify user can send a message', () => {
@@ -100,5 +102,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     cy.findByTestId(`alert-text`)
       .should(`be.visible`)
       .and(`contain.text`, `Message Sent.`);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
