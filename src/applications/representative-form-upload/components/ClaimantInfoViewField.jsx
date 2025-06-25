@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { mask, maskVaFileNumber } from '../helpers';
 
 const ClaimantInfoViewField = props => {
   const formatDate = dateString => {
@@ -33,21 +34,16 @@ const ClaimantInfoViewField = props => {
         ? `${veteranFullName.first} ${veteranFullName.last}`
         : '',
     'Date of birth': formatDate(veteranDateOfBirth),
-    'Social Security Number': veteranSsn
-      ? veteranSsn.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3')
-      : '',
+    'Social Security Number': veteranSsn ? mask(veteranSsn) : '',
     'Postal code': address?.postalCode || '',
-    'VA file number': vaFileNumber || '',
+    'VA file number': vaFileNumber ? maskVaFileNumber(vaFileNumber) : '',
   };
 
   const claimantDisplay = isDependentClaim
     ? {
         'Full name': `${claimantFullName.first} ${claimantFullName.last}`,
         'Date of birth': formatDate(claimantDateOfBirth),
-        'Social Security Number': claimantSsn.replace(
-          /(\d{3})(\d{2})(\d{4})/,
-          '$1-$2-$3',
-        ),
+        'Social Security Number': claimantSsn ? mask(claimantSsn) : '',
       }
     : veteranDisplay;
 
@@ -55,7 +51,7 @@ const ClaimantInfoViewField = props => {
     <div className="form-review-panel-page form-review-panel-page-representative-form-upload">
       <div className="form-review-panel-page-header-row vads-u-justify-content--flex-start">
         <h4 className="vads-u-font-size--h5 vads-u-margin--0">
-          Claimant Information
+          Claimant information
         </h4>
         <dl className="review vads-u-margin-top--2 vads-u-width--full">
           {Object.entries(claimantDisplay).map(
@@ -76,7 +72,7 @@ const ClaimantInfoViewField = props => {
       {isDependentClaim && (
         <div className="form-review-panel-page-header-row vads-u-justify-content--flex-start">
           <h4 className="vads-u-font-size--h5 vads-u-margin-top--3 vads-u-margin-bottom--0">
-            Veteran Information
+            Veteran identification information
           </h4>
           <dl className="review vads-u-margin-top--2 vads-u-width--full">
             {Object.entries(veteranDisplay).map(

@@ -72,6 +72,12 @@ export const mask = value => {
   );
 };
 
+export const maskVaFileNumber = vaFileNumber => {
+  if (!vaFileNumber) return '';
+  const number = vaFileNumber.slice(-4);
+  return vaFileNumber.length === 8 ? `●●●●${number}` : `●●●●●${number}`;
+};
+
 export const onCloseAlert = e => {
   e.target.visible = false;
 };
