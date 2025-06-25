@@ -76,7 +76,7 @@ const programInfo = {
       'ui:options': {
         hideIf: (formData, index) => {
           const value = getSupportedStudents(formData, index);
-          return !value || value >= 10;
+          return (!value || value >= 10) && value !== 0;
         },
       },
     },
