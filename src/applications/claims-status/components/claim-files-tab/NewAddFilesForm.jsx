@@ -5,7 +5,7 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-function AdditionalFormInputsContent() {
+function StandaloneSelect() {
   const onVaSelect = event => {
     console.log('onVaSelect event', event);
   };
@@ -34,10 +34,14 @@ export default function NewAddFilesForm() {
     console.log('onVaMultipleChange event', event);
   };
 
+  const onVaSelect = event => {
+    console.log('onVaSelect event', event);
+  };
+
   return (
     <div>
       <h2>Add files form</h2>
-      <AdditionalFormInputsContent />
+      <StandaloneSelect />
       <VaFileInputMultiple
         label="Select a file to upload"
         name="my-file-input"
@@ -48,10 +52,18 @@ export default function NewAddFilesForm() {
         // enableAnalytics
         hint="You can upload a .pdf, .gif, .jpg, .bmp, or .txt file."
         onVaMultipleChange={onVaMultipleChange}
+        onVaSelect={onVaSelect}
         value={null}
         // slotFieldIndexes={[1, 2]}
       >
-        <AdditionalFormInputsContent />
+        <VaSelect label="What kind of file is this?" name="fileType" required>
+          <option key="1" value="1">
+            Public Document
+          </option>
+          <option key="2" value="2">
+            Private Document
+          </option>
+        </VaSelect>
       </VaFileInputMultiple>
     </div>
   );
