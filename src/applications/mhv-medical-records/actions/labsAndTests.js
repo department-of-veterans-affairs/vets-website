@@ -79,9 +79,19 @@ export const getLabsAndTestsList = (
   }
 };
 
-export const getLabsAndTestsDetails = (labId, labList) => async dispatch => {
+export const getLabsAndTestsDetails = (
+  labId,
+  labList,
+  isAccelerating,
+) => async dispatch => {
   try {
-    let getDetailsFunc = getLabOrTest;
+    let getDetailsFunc = isAccelerating
+      ? async () => {
+          // Return a notfound response because the downstream API
+          // does not support fetching a single lab or test
+          return { data: { notFound: true } };
+        }
+      : getLabOrTest;
 
     if (labId && labId.charAt(0).toLowerCase() === 'r') {
       getDetailsFunc = getMhvRadiologyDetails;
@@ -92,7 +102,9 @@ export const getLabsAndTestsDetails = (labId, labList) => async dispatch => {
       dispatch,
       getDetailsFunc,
       Actions.LabsAndTests.GET_FROM_LIST,
-      Actions.LabsAndTests.GET,
+      isAccelerating
+        ? Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST
+        : Actions.LabsAndTests.GET,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));

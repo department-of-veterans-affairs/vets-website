@@ -569,9 +569,9 @@ export const labsAndTestsReducer = (state = initialState, action) => {
     case Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST: {
       return {
         ...state,
-        labsAndTestsDetails: convertUnifiedLabsAndTestRecord(
-          action.response.data,
-        ),
+        labsAndTestsDetails: action.response.data.id
+          ? convertUnifiedLabsAndTestRecord(action.response.data)
+          : { ...action.response.data },
       };
     }
     case Actions.LabsAndTests.GET_FROM_LIST: {

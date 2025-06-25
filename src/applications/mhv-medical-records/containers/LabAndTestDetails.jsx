@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import {
   clearLabsAndTestDetails,
   getLabsAndTestsDetails,
@@ -23,6 +24,8 @@ import UnifiedLabsAndTests from '../components/LabsAndTests/UnifiedLabAndTest';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const labAndTestDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
@@ -47,12 +50,29 @@ const LabAndTestDetails = () => {
 
   useEffect(
     () => {
-      if (labId && !isLoading) {
-        dispatch(getLabsAndTestsDetails(labId, labAndTestList));
+      if (labId && !isLoading && !labAndTestDetails?.notFound) {
+        dispatch(
+          getLabsAndTestsDetails(
+            labId,
+            labAndTestList,
+            isAcceleratingLabsAndTests,
+          ),
+        );
+      }
+      if (labAndTestDetails?.notFound) {
+        navigate('/labs-and-tests');
       }
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
     },
-    [labId, labAndTestList, dispatch, isAcceleratingLabsAndTests, isLoading],
+    [
+      labId,
+      labAndTestList,
+      dispatch,
+      isAcceleratingLabsAndTests,
+      isLoading,
+      labAndTestDetails,
+      navigate,
+    ],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -65,7 +85,7 @@ const LabAndTestDetails = () => {
       />
     );
   }
-  if (isAcceleratingLabsAndTests && labAndTestDetails) {
+  if (isAcceleratingLabsAndTests && labAndTestDetails && !isLoading) {
     return <UnifiedLabsAndTests record={labAndTestDetails} user={user} />;
   }
   // TODO: Delete this with the feature toggle
