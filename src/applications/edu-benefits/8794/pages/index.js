@@ -10,6 +10,7 @@ import { additionalOfficialSummary } from './additionalOfficialSummary';
 import * as additionalOfficialDetails from './additionalOfficialDetails';
 import * as additionalOfficialTraining from './additionalOfficialTraining';
 import * as additionalOfficialBenefitStatus from './additionalOfficialBenefitStatus';
+import { additionalOfficialIntro } from './additionalOfficialIntro';
 import { readOnlyCertifyingOfficialIntro } from './readOnlyCertifyingOfficialIntro';
 import {
   readOnlyCertifyingOfficialSummaryPage,
@@ -30,6 +31,7 @@ export {
   additionalOfficialDetails,
   additionalOfficialTraining,
   additionalOfficialBenefitStatus,
+  additionalOfficialIntro,
   readOnlyCertifyingOfficialIntro,
   readOnlyCertifyingOfficialSummaryPage,
   arrayBuilderOptions,

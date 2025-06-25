@@ -2,7 +2,6 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import AdditionalOfficialIntro from './AdditionalOfficialIntro';
 
 export const arrayBuilderOptions = {
   arrayPath: 'additional-certifying-official',
@@ -13,9 +12,6 @@ export const arrayBuilderOptions = {
 
 const additionalOfficialSummary = {
   uiSchema: {
-    'view:introduction': {
-      'ui:description': AdditionalOfficialIntro,
-    },
     'view:additionalOfficialSummary': arrayBuilderYesNoUI(arrayBuilderOptions, {
       title: 'Do you have any additional certifying officials to add?',
       labels: {

@@ -8,6 +8,7 @@ import {
   readOnlyCertifyingOfficialArrayOptions,
 } from '../helpers';
 import { readOnlyCertifyingOfficialIntro } from '../pages/readOnlyCertifyingOfficialIntro';
+import { additionalOfficialIntro } from '../pages/additionalOfficialIntro';
 
 describe('8794 helpers ', () => {
   describe('getCardTitle', () => {
@@ -152,9 +153,32 @@ describe('8794 helpers ', () => {
       expect(additionalOfficialArrayOptions.text.cancelAddNo).to.equal(
         'No, continue adding information',
       );
-      expect(additionalOfficialArrayOptions.text.summaryTitle).to.equal(
+    });
+    it('summaryTitle pluralises correctly', () => {
+      const zero = { formData: { 'additional-certifying-official': [] } };
+      const two = { formData: { 'additional-certifying-official': [{}, {}] } };
+
+      expect(additionalOfficialArrayOptions.text.summaryTitle(zero)).to.equal(
+        'Review your additional certifying official',
+      );
+      expect(additionalOfficialArrayOptions.text.summaryTitle(two)).to.equal(
         'Review your additional certifying officials',
       );
+    });
+    it('summaryDescriptionWithoutItems shows intro only when list is empty', () => {
+      const empty = { formData: { 'additional-certifying-official': [] } };
+      const nonEmpty = { formData: { 'additional-certifying-official': [{}] } };
+
+      expect(
+        additionalOfficialArrayOptions.text.summaryDescriptionWithoutItems(
+          empty,
+        ),
+      ).to.equal(additionalOfficialIntro);
+      expect(
+        additionalOfficialArrayOptions.text.summaryDescriptionWithoutItems(
+          nonEmpty,
+        ),
+      ).to.equal(null);
     });
   });
 

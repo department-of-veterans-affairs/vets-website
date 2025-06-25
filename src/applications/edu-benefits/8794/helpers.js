@@ -1,6 +1,7 @@
 import React from 'react';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import { readOnlyCertifyingOfficialIntro } from './pages/readOnlyCertifyingOfficialIntro';
+import { additionalOfficialIntro } from './pages/additionalOfficialIntro';
 
 export const getCardDescription = item => {
   return item ? (
@@ -83,7 +84,18 @@ export const additionalOfficialArrayOptions = {
     cardDescription: item => getCardDescription(item),
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
-    summaryTitle: 'Review your additional certifying officials',
+    summaryTitle: props => {
+      return `Review your additional certifying ${
+        props?.formData['additional-certifying-official']?.length > 1
+          ? 'officials'
+          : 'official'
+      }`;
+    },
+    summaryDescriptionWithoutItems: props => {
+      const count =
+        props.formData['additional-certifying-official']?.length ?? 0;
+      return count > 0 ? null : additionalOfficialIntro;
+    },
   },
 };
 
