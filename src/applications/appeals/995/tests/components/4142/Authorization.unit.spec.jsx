@@ -116,25 +116,25 @@ describe('<Authorization>', () => {
 
   describe('lastUpdatedIsBeforeCutoff', () => {
     it('should return true if last updated is before cutoff date', () => {
-      const lastUpdated = 1727769600; // '2024-10-01 00:03:00' CST;
+      const lastUpdated = 1750704000; // '2025-06-23 00:00:00' CST
 
       expect(lastUpdatedIsBeforeCutoff(lastUpdated)).to.be.true;
     });
 
     it('should return true if last updated is before cutoff date', () => {
-      const lastUpdated = 1751327400; // '2025-06-30 18:50:00' CST;
+      const lastUpdated = 1750786800; // '2025-06-23 22:00:00' CST
 
       expect(lastUpdatedIsBeforeCutoff(lastUpdated)).to.be.true;
     });
 
     it('should return false if last updated is after cutoff date', () => {
-      const lastUpdated = 1751328060; // '2025-06-30 19:01:00' CST;
+      const lastUpdated = 1751328060; // '2025-06-25 09:01:00' CST
 
       expect(lastUpdatedIsBeforeCutoff(lastUpdated)).to.be.false;
     });
 
     it('should return false if last updated is exactly the cutoff date', () => {
-      const lastUpdated = 1751328000; // '2025-06-30 19:00:00' CST;
+      const lastUpdated = 1751328000; // '2025-06-25 09:00:00' CST
 
       expect(lastUpdatedIsBeforeCutoff(lastUpdated)).to.be.false;
     });

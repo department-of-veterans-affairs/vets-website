@@ -40,8 +40,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
+    showNavLinks: false,
+    collapsibleNavLinks: false,
   },
   formId: VA_FORM_IDS.FORM_DISPUTE_DEBT,
   saveInProgress: {
