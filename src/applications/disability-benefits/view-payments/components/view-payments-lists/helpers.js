@@ -191,12 +191,11 @@ export const normalizePaymentData = payments => {
       typeof payment.payCheckDt === 'string' &&
       payment.payCheckDt.includes('*');
 
+    const BANK_NAME_SUBSTRINGS = ['BANK', 'CREDIT UNION', 'FEDERAL'];
     const hasBankNameInDateField =
       payment.payCheckDt &&
       typeof payment.payCheckDt === 'string' &&
-      (payment.payCheckDt.includes('BANK') ||
-        payment.payCheckDt.includes('CREDIT UNION') ||
-        payment.payCheckDt.includes('FEDERAL'));
+      new RegExp(BANK_NAME_SUBSTRINGS.join('|'), 'i').test(payment.payCheckDt);
 
     const hasAmountInTypeField =
       payment.payCheckType &&
