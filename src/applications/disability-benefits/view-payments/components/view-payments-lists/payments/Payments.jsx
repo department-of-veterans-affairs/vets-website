@@ -94,7 +94,7 @@ const Payments = ({
               <va-table-row key={`payments-${index}`}>
                 {fields.map(field => (
                   <span key={`${field.value}-${index}`}>
-                    {row[field.value]}
+                    {row[field.value] || ''}
                   </span>
                 ))}
               </va-table-row>

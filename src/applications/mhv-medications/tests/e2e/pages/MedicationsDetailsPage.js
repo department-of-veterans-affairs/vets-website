@@ -869,6 +869,10 @@ class MedicationsDetailsPage {
       PrescriptionNumber,
     );
   };
+
+  verifyRefillHistorySectionNotVisibleForPendingPrescriptions = () => {
+    cy.get('[data-testid="refill-History"]').should('not.exist');
+  };
 }
 
 export default MedicationsDetailsPage;
