@@ -5,6 +5,8 @@ import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
+const API_BASE_PATH_V2 = `${environment.API_URL}/my_health/v2`;
+
 const headers = {
   'Content-Type': 'application/json',
 };
@@ -226,6 +228,12 @@ export const getVaccineList = async (page, useCache = true) => {
  */
 export const getVaccine = id => {
   return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
+    headers,
+  });
+};
+
+export const getAcceleratedImmunizations = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/immunizations`, {
     headers,
   });
 };

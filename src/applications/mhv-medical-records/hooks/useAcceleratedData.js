@@ -24,6 +24,12 @@ const useAcceleratedData = () => {
         FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryVitalSignsEnabled
       ],
   );
+  const isAcceleratingVaccinesEnabled = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryVaccinesEnabled
+      ],
+  );
 
   useEffect(
     () => {
@@ -66,15 +72,28 @@ const useAcceleratedData = () => {
     [isAcceleratedDeliveryEnabled, isAcceleratingVitalsEnabled, isCerner],
   );
 
+  const isAcceleratingVaccines = useMemo(
+    () => {
+      return (
+        isAcceleratedDeliveryEnabled &&
+        isAcceleratingVaccinesEnabled &&
+        isCerner
+      );
+    },
+    [isAcceleratedDeliveryEnabled, isAcceleratingVaccinesEnabled, isCerner],
+  );
+
   const isAccelerating = useMemo(
     () =>
       isAcceleratedDeliveryEnabled ||
       isAcceleratingAllergies ||
-      isAcceleratingVitals,
+      isAcceleratingVitals ||
+      isAcceleratingVaccines,
     [
       isAcceleratedDeliveryEnabled,
       isAcceleratingAllergies,
       isAcceleratingVitals,
+      isAcceleratingVaccines,
     ],
   );
 
@@ -83,6 +102,7 @@ const useAcceleratedData = () => {
     isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingVitals,
+    isAcceleratingVaccines,
   };
 };
 

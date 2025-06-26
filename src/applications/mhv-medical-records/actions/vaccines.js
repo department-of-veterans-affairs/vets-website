@@ -1,5 +1,9 @@
 import { Actions } from '../util/actionTypes';
-import { getVaccine, getVaccineList } from '../api/MrApi';
+import {
+  getVaccine,
+  getVaccineList,
+  getAcceleratedImmunizations,
+} from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
@@ -9,13 +13,17 @@ export const getVaccinesList = (
   isCurrent = false,
   page,
   useBackendPagination = false,
+  isAccelerating = false,
 ) => async dispatch => {
   dispatch({
     type: Actions.Vaccines.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getListWithRetry(dispatch, getVaccineList, page);
+    const getData = isAccelerating
+      ? getAcceleratedImmunizations
+      : getVaccineList;
+    const response = await getListWithRetry(dispatch, getData);
 
     dispatch({
       type: Actions.Vaccines.GET_LIST,

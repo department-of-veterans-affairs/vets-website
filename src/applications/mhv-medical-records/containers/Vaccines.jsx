@@ -54,6 +54,7 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
@@ -91,12 +92,23 @@ const Vaccines = props => {
   const history = useHistory();
   const paramPage = getParamValue(location.search, 'page');
 
+  const { isAcceleratingVaccines } = useAcceleratedData();
+
+  const dispatchAction = isCurrent => {
+    return getVaccinesList(
+      isCurrent,
+      paramPage,
+      useBackendPagination,
+      isAcceleratingVaccines,
+    );
+  };
+
   useListRefresh({
     listState,
     listCurrentAsOf: vaccinesCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.VPR,
-    dispatchAction: getVaccinesList,
+    dispatchAction,
     dispatch,
     page: paramPage,
     useBackendPagination,
@@ -188,7 +200,14 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
    */
   const loadUpdatedRecords = () => {
     if (paramPage === '1') {
-      dispatch(getVaccinesList(true, paramPage, useBackendPagination));
+      dispatch(
+        getVaccinesList(
+          true,
+          paramPage,
+          useBackendPagination,
+          isAcceleratingVaccines,
+        ),
+      );
     } else {
       // The page change will trigger a fetch.
       history.push(`${history.location.pathname}?page=1`);
@@ -263,12 +282,21 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
             />
             {useBackendPagination && vaccines ? (
               <RecordListNew
-                records={vaccines}
+                records={vaccines?.map(vaccine => ({
+                  ...vaccine,
+                  isOracleHealthData: isAcceleratingVaccines,
+                }))}
                 type={recordType.VACCINES}
                 metadata={metadata}
               />
             ) : (
-              <RecordList records={vaccines} type={recordType.VACCINES} />
+              <RecordList
+                records={vaccines?.map(vaccine => ({
+                  ...vaccine,
+                  isOracleHealthData: isAcceleratingVaccines,
+                }))}
+                type={recordType.VACCINES}
+              />
             )}
           </>
         ) : (
