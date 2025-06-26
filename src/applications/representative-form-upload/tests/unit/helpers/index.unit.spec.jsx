@@ -48,7 +48,7 @@ describe('Helpers', () => {
       global.window.location = {
         pathname: 'representative/representative-form-upload/21-686c/upload',
       };
-      expect(getFormContent()).to.include({ title: 'Submit VA Form 21-686c' });
+      expect(getFormContent()).to.include({ title: 'VA Form 21-686c' });
     });
   });
 

@@ -66,7 +66,7 @@ export const Nav = () => {
                     size={2}
                     className="people-search-icon"
                   />
-                  Search People
+                  Find Claimant
                 </a>
               </Toggler.Enabled>
             </Toggler>
@@ -75,7 +75,7 @@ export const Nav = () => {
               href="/representative/poa-requests"
               data-testid="desktop-poa-link"
             >
-              Power of Attorney Requests
+              Representation Requests
             </a>
             <Toggler
               toggleName={
