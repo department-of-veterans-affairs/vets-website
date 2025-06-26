@@ -20,6 +20,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { expandPhoneNumberToInternational } from './migrations';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import SubmissionError from '../../shared/components/SubmissionError';
@@ -80,7 +81,8 @@ const formConfig = {
       saved: 'Your FMP benefits registration has been saved.',
     },
   },
-  version: 0,
+  version: 1,
+  migrations: [expandPhoneNumberToInternational],
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to register for FMP benefits.',
