@@ -7,6 +7,7 @@ import {
   PRINT_FORMAT,
   DOWNLOAD_FORMAT,
   dispStatusObj,
+  NO_PROVIDER_NAME,
 } from './constants';
 
 // Cache the dynamic import promise to avoid redundant network requests
@@ -655,4 +656,19 @@ export const determineRefillLabel = (isPartialFill, rxHistory, i) => {
     return 'Partial fill';
   }
   return i + 1 === rxHistory.length ? 'Original fill' : 'Refill';
+};
+
+/**
+ * Display the full name of a provider if both first and last names are provided.
+ *
+ * @param {String} first - The first name of the provider.
+ * @param {String} last - The last name of the provider.
+ * @returns {String} - Full name in "First Last" format or the default message if names are missing.
+ */
+
+export const displayProviderName = (first, last) => {
+  if (first && last) {
+    return `${first} ${last}`;
+  }
+  return NO_PROVIDER_NAME;
 };
