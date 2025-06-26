@@ -20,7 +20,7 @@ export default function SignInModal({ visible, onClose, useSiS }) {
     [visible, useSiS, prevVisible],
   );
 
-  return visible ? (
+  return (
     <VaModal
       large
       visible={visible}
@@ -29,5 +29,5 @@ export default function SignInModal({ visible, onClose, useSiS }) {
     >
       <LoginContainer />
     </VaModal>
-  ) : null;
+  );
 }
