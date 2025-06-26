@@ -18,15 +18,6 @@ describe('focusEvidence', () => {
       </div>,
     );
 
-  const renderPageWithError = () =>
-    render(
-      <div id="main">
-        <h3>Title</h3>
-        <div error="true" />
-        <div />
-      </div>,
-    );
-
   it('should focus on header', async () => {
     const { container } = renderPage();
 
@@ -39,7 +30,7 @@ describe('focusEvidence', () => {
   });
 
   it('should focus on error', async () => {
-    const { container } = renderPageWithError();
+    const { container } = renderPage(true);
 
     focusEvidence(null, container);
 
