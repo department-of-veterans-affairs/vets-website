@@ -3,9 +3,10 @@ import EditEmailPage from '../../../components/EditEmailPage';
 /** @type {PageSchema} */
 export default {
   title: 'Edit email address',
-  path: 'contact/information/email',
+  path: 'veteran-contact-information/email',
   depends: () => false,
   hideNavButtons: true,
+  hideStepper: true,
   CustomPage: EditEmailPage,
   CustomPageReview: null,
   uiSchema: {

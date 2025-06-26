@@ -52,16 +52,21 @@
 
   form div fieldset.vads-u-margin-y--2.rjsf-object-field {
     margin-top: 32px !important;
-}
+  }
   .schemaform-block-title.schemaform-block-subtitle {
     font-size: 1.25rem !important;
     padding: 0;
   }
 
   .schemaform-chapter-progress {
-    display: none
+    display: none;
   }
-  .usa-input, input, va-text-input {
+  .usa-input,
+  input,
+  va-text-input,
+  va-memorable-date,
+  .usa-memorable-date,
+  [label="Date of birth"] {
     max-width: 311px;
   }
 
@@ -73,4 +78,8 @@
       }
     }
   }
+}
+.form-review-panel-page-representative-form-upload {
+  margin-bottom: 0;
+  margin-top: 20px
 }

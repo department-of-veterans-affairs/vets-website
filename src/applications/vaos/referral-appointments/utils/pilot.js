@@ -6,13 +6,31 @@
  * @returns {boolean} - Returns true if the patient is in the CC pilot program, otherwise false.
  */
 const getIsInCCPilot = (featureCCDirectScheduling, patientFacilities = []) => {
-  const pilotStations = ['984', '983'];
-  if (!featureCCDirectScheduling) {
-    return false;
-  }
-  return patientFacilities.some(station =>
+  const stagingStations = ['984', '983'];
+  const prodStations = [
+    '659',
+    '659BY',
+    '659BZ',
+    '659GA',
+    '657A5',
+    '657GJ',
+    '657GK',
+    '657GL',
+    '657GM',
+    '657GO',
+    '657GP',
+    '657GQ',
+    '657GR',
+    '657GT',
+    '657GU',
+    '657QD',
+  ];
+  const pilotStations = [...stagingStations, ...prodStations];
+  const hasPilotStation = patientFacilities.some(station =>
     pilotStations.includes(station.facilityId),
   );
+
+  return featureCCDirectScheduling && hasPilotStation;
 };
 
 export { getIsInCCPilot };

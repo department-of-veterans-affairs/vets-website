@@ -61,7 +61,7 @@ export default function VARequestLayout({ data: appointment }) {
   );
 
   return (
-    <PageLayout isDetailPage showNeedHelp>
+    <PageLayout showNeedHelp>
       <DetailPageLayout
         heading={heading}
         data={appointment}
