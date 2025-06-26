@@ -10,12 +10,14 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
     isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingVitals,
+    isAcceleratingVaccines,
   } = useAcceleratedData();
 
   const hideOnPage = [
     CernerAlertContent.MR_LANDING_PAGE.pageName,
     isAcceleratingVitals ? CernerAlertContent.VITALS.pageName : null,
     isAcceleratingAllergies ? CernerAlertContent.ALLERGIES.pageName : null,
+    isAcceleratingVaccines ? CernerAlertContent.VACCINES.pageName : null,
   ].filter(Boolean);
 
   if (hideOnPage.includes(pageName) && isAccelerating) {
