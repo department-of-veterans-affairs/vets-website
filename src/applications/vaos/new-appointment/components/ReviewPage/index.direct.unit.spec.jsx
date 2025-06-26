@@ -219,10 +219,13 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We couldn’t schedule this appointment');
+    await screen.findByText('We can’t schedule your appointment right now');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your appointment. You can try again later, or call your VA medical center to help with your appointment.',
+      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+    );
+    expect(screen.baseElement).contain.text(
+      'If you need to schedule now, call your VA facility.',
     );
 
     expect(
@@ -267,7 +270,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We couldn’t schedule this appointment');
+    await screen.findByText('We can’t schedule your appointment right now');
 
     expect(screen.baseElement).contain.text(
       'Something went wrong when we tried to submit your appointment. Call your VA medical center to schedule this appointment.',
@@ -309,7 +312,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We couldn’t schedule this appointment');
+    await screen.findByText('We can’t schedule your appointment right now');
 
     expect(screen.baseElement).contain.text(
       'You already have an overlapping booked appointment. Please schedule for a different day.',
@@ -351,10 +354,13 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We couldn’t schedule this appointment');
+    await screen.findByText('We can’t schedule your appointment right now');
 
     expect(screen.baseElement).contain.text(
-      `Something went wrong when we tried to submit your appointment. You can try again later, or call your VA medical center to help with your appointment`,
+      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+    );
+    expect(screen.baseElement).contain.text(
+      'If you need to schedule now, call your VA facility.',
     );
 
     expect(screen.getByTestId('facility-telephone')).to.exist;
