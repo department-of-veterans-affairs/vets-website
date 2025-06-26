@@ -41,7 +41,7 @@ class DowntimeApproaching extends React.Component {
             <p>
               We’ll be doing some work on the {appTitle} on{' '}
               {format(startTime, 'MMMM do')} between {format(startTime, 'p')}{' '}
-              and {format(endTime, 'p')} If you have trouble using this tool
+              and {format(endTime, 'p')}. If you have trouble using this tool
               during that time, please check back soon.
             </p>
           )}
