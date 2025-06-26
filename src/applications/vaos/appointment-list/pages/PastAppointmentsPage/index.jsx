@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import classNames from 'classnames';
-import moment from 'moment';
-import { format, subMonths } from 'date-fns';
+import { format, parseISO, subMonths } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../../components/InfoAlert';
 import { groupAppointmentByDay } from '../../../services/appointment';
@@ -53,8 +52,8 @@ export default function PastAppointmentsPage() {
       const selectedDateRange = dateRangeOptions[pastSelectedIndex];
       dispatch(
         fetchPastAppointments(
-          selectedDateRange.startDate,
-          selectedDateRange.endDate,
+          parseISO(selectedDateRange.startDate),
+          parseISO(selectedDateRange.endDate),
           pastSelectedIndex,
         ),
       );
@@ -77,8 +76,8 @@ export default function PastAppointmentsPage() {
     setInitialMount(false);
     dispatch(
       fetchPastAppointments(
-        selectedDateRange.startDate,
-        selectedDateRange.endDate,
+        parseISO(selectedDateRange.startDate),
+        parseISO(selectedDateRange.endDate),
         index,
       ),
     );
@@ -157,7 +156,7 @@ export default function PastAppointmentsPage() {
       </div>
 
       {keys.map(key => {
-        const monthDate = moment(key, 'YYYY-MM');
+        const monthDate = parseISO(key);
 
         let hashTable = pastAppointmentsByMonth;
         hashTable = groupAppointmentByDay(hashTable[key]);
