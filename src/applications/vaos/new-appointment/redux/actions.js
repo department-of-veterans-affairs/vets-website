@@ -5,6 +5,7 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import moment from 'moment';
 
 import {
+  parse,
   addMinutes,
   areIntervalsOverlapping,
   startOfMonth,
@@ -651,8 +652,14 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const { data } = newAppointment;
     const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
-    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
-    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
+    let startDateObject = new Date(startDate);
+    let endDateObject = new Date(endDate);
+    if (typeof startDate === 'string') {
+      startDateObject = parse(startDate, DATE_FORMATS.yearMonthDay, new Date());
+      endDateObject = parse(endDate, DATE_FORMATS.yearMonthDay, new Date());
+    }
+    const startDateMonth = format(startDateObject, DATE_FORMATS.yearMonth);
+    const endDateMonth = format(endDateObject, DATE_FORMATS.yearMonth);
 
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
@@ -677,11 +684,11 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
       try {
         const startDateString = !fetchedStartMonth
-          ? format(new Date(startDate), 'yyyy-MM-dd')
-          : format(startOfMonth(new Date(endDate)), 'yyyy-MM-dd');
+          ? format(startDateObject, DATE_FORMATS.yearMonthDay)
+          : format(startOfMonth(endDateObject), DATE_FORMATS.yearMonthDay);
         const endDateString = !fetchedEndMonth
-          ? format(new Date(endDate), 'yyyy-MM-dd')
-          : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
+          ? format(endDateObject, DATE_FORMATS.yearMonthDay)
+          : format(endOfMonth(startDateObject), DATE_FORMATS.yearMonthDay);
 
         const fetchedSlots = await getSlots({
           siteId,
