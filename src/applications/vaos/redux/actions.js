@@ -7,7 +7,6 @@ import { GA_PREFIX } from '../utils/constants';
 import { captureError } from '../utils/error';
 import {
   selectFeatureCCDirectScheduling,
-  selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
@@ -45,7 +44,6 @@ export function fetchPendingAppointments() {
 
       const state = getState();
       const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
-      const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
       const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
       const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
         state,
@@ -67,7 +65,6 @@ export function fetchPendingAppointments() {
           .add(2, 'days')
           .format('YYYY-MM-DD'),
         includeEPS,
-        useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,

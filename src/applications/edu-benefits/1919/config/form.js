@@ -62,6 +62,7 @@ const formConfig = {
   subTitle: 'VA Form 22-1919',
   customText: {
     submitButtonText: 'Continue',
+    appType: 'form',
   },
   defaultDefinitions: {
     fullName,

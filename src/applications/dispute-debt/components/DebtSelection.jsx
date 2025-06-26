@@ -94,6 +94,7 @@ const DebtSelection = ({ formContext }) => {
             data-testid="debt-selection-checkbox"
             key={debt.compositeDebtId}
             label={debt.label}
+            tile
           />
         ))}
       </VaCheckboxGroup>
