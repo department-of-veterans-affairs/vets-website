@@ -23,8 +23,7 @@ class DowntimeApproaching extends React.Component {
     } = this.props;
     const close = () => dismissDowntimeWarning(appTitle);
     const modalTitle =
-      messaging.title ||
-      `The ${appTitle} application will be down for maintenance soon`;
+      messaging.title || `The ${appTitle} will be down for maintenance soon`;
     return (
       <DowntimeNotificationWrapper
         status={externalServiceStatus.downtimeApproaching}
@@ -40,7 +39,7 @@ class DowntimeApproaching extends React.Component {
         >
           {messaging.content || (
             <p>
-              We’ll be doing some work on the {appTitle} application on{' '}
+              We’ll be doing some work on the {appTitle} on{' '}
               {format(startTime, 'MMMM do')} between {format(startTime, 'p')}{' '}
               and {format(endTime, 'p')}. If you have trouble using this tool
               during that time, please check back soon.
