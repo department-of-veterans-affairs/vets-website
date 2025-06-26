@@ -1,11 +1,10 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
-
 import formConfig from './config/form';
-import BurialsApp from './BurialsApp.jsx';
+import App from './containers/App';
 
 const route = {
   path: '/',
-  component: BurialsApp,
+  component: App,
   indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
   childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
