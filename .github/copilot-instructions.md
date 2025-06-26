@@ -5,6 +5,7 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - vets-website uses yarn, Javascript, React, RJSF, Redux, React router, platform/forms-system, platform/forms, and the va.gov design system.
 - Use prettier conventions with 2 spaces for indentation, single quotes, and trailing commas.
 - When using React, prefer web components such as va-button, va-text-input, or VaButton, VaTextInput, instead of HTML elements.
+- When working with forms, reference `.github/prompts/forms.prompt.md` for guidance on creating or updating forms.
 - When using RJSF, prefer web component patterns from `platform/forms-system/src/js/web-component-patterns` for individual fields for both uiSchema and schema such as textUI and textSchema.
 - Use `src/applications/manifest-catalog.json` to find application directories.
 - Use `src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json` to find RJSF web component patterns.
