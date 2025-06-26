@@ -16,6 +16,7 @@ import {
   decodeHtmlEntities,
 } from '../util/helpers';
 import { getIsPilotFromState } from '.';
+import { clearDraftInProgress } from './threadDetails';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
@@ -56,6 +57,7 @@ export const retrieveMessageThread = messageId => async (
   const isPilot = getIsPilotFromState(getState);
   try {
     dispatch(clearThread());
+    dispatch(clearDraftInProgress());
     const response = await getMessageThreadWithFullBody({ messageId, isPilot });
 
     // finding last sent message in a thread to check if it is not too old for replies

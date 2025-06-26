@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
 
 import { clearThread } from '../actions/threadDetails';
@@ -45,12 +44,11 @@ const Compose = ({ skipInterstitial }) => {
   const [acknowledged, setAcknowledged] = useState(skipInterstitial);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState(
-    isPilot ? 'Start your message' : 'Start a new message',
+    isPilot ? 'Start message' : 'Start a new message',
   );
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
-  const header = useRef();
 
   useEffect(
     () => {
@@ -107,10 +105,9 @@ const Compose = ({ skipInterstitial }) => {
 
   useEffect(
     () => {
-      if (acknowledged && header) focusElement(document.querySelector('h1'));
       document.title = `${pageTitle} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
     },
-    [header, acknowledged, pageTitle],
+    [pageTitle],
   );
   // make sure the thread list is fetched when navigating to the compose page
   useEffect(
@@ -169,7 +166,6 @@ const Compose = ({ skipInterstitial }) => {
         <>
           <ComposeForm
             pageTitle={pageTitle}
-            headerRef={header}
             draft={draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}

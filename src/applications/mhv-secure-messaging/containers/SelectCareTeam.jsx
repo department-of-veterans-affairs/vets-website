@@ -36,7 +36,7 @@ const SelectCareTeam = () => {
   const [showContactListLink, setShowContactListLink] = useState(false);
   const [recipientsSelectKey, setRecipientsSelectKey] = useState(0); // controls resetting the careTeam combo box when the careSystem changes
 
-  const maxRadioOptions = 6;
+  const MAX_RADIO_OPTIONS = 6;
 
   // On initial load, always clear the active care system
   // This ensures that if the user navigates back to this page, they will see
@@ -264,7 +264,10 @@ const SelectCareTeam = () => {
   );
 
   const renderCareSystems = () => {
-    if (allFacilities.length > 1 && allFacilities.length < maxRadioOptions) {
+    if (
+      allFacilities?.length > 1 &&
+      allFacilities?.length < MAX_RADIO_OPTIONS
+    ) {
       return (
         <VaRadio
           label="Select a VA health care system"
@@ -292,7 +295,7 @@ const SelectCareTeam = () => {
       );
     }
 
-    if (allFacilities.length >= maxRadioOptions) {
+    if (allFacilities?.length >= MAX_RADIO_OPTIONS) {
       return (
         <VaSelect
           enable-analytics

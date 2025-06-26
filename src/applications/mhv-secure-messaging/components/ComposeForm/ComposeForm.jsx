@@ -1,8 +1,14 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DowntimeNotification,
@@ -54,9 +60,10 @@ import {
   clearDraftInProgress,
   updateDraftInProgress,
 } from '../../actions/threadDetails';
+import SelectedRecipientTitle from './SelectedRecipientTitle';
 
 const ComposeForm = props => {
-  const { pageTitle, headerRef, draft, recipients, signature } = props;
+  const { pageTitle, draft, recipients, signature } = props;
   const {
     noAssociations,
     allTriageGroupsBlocked,
@@ -64,6 +71,7 @@ const ComposeForm = props => {
   } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
+  const headerRef = useRef();
 
   const { isComboBoxEnabled } = useFeatureToggles();
   const { isPilot } = useSelector(state => state.sm.app);
@@ -80,6 +88,13 @@ const ComposeForm = props => {
   const [formPopulated, setFormPopulated] = useState(false);
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
 
+  const recipientExists = useCallback(
+    recipientId => {
+      return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
+    },
+    [recipientsList],
+  );
+
   useEffect(
     () => {
       // Consider draftInProgress "empty" if it has no recipientId
@@ -92,36 +107,52 @@ const ComposeForm = props => {
           !draftInProgress.recipientName);
 
       if (isDraftInProgressEmpty && draft && !sendMessageFlag) {
-        const careTeam = recipients?.allRecipients?.find(
-          team => draft?.recipientId === team.id,
-        );
-        const careSystem = ehrDataByVhaId[(careTeam?.stationNumber)];
+        const careTeam =
+          recipients?.allowedRecipients?.find(
+            team => draft?.recipientId === team.id,
+          ) || null;
+        const careSystem = ehrDataByVhaId[(careTeam?.stationNumber)] || null;
 
-        dispatch(
-          updateDraftInProgress({
-            careSystemVhaId:
-              draftInProgress?.careSystemVhaId || careSystem?.vhaId,
-            careSystemName:
-              draftInProgress?.careSystemName || careSystem?.vamcSystemName,
-            recipientId: draftInProgress?.recipientId || draft.recipientId,
-            recipientName:
-              draftInProgress?.recipientName ||
-              draft.suggestedNameDisplay ||
-              draft.recipientName,
-            category: draftInProgress?.category || draft.category,
-            subject: draftInProgress?.subject || draft.subject,
-            body: draftInProgress?.body || draft.body,
-            messageId: draftInProgress.messageId || draft.messageId,
-          }),
-        );
+        if (recipientExists(draft?.recipientId)) {
+          dispatch(
+            updateDraftInProgress({
+              careSystemVhaId:
+                draftInProgress?.careSystemVhaId || careSystem?.vhaId,
+              careSystemName:
+                draftInProgress?.careSystemName || careSystem?.vamcSystemName,
+              recipientId: draftInProgress?.recipientId || draft.recipientId,
+              recipientName:
+                draftInProgress?.recipientName ||
+                draft.suggestedNameDisplay ||
+                draft.recipientName,
+              category: draftInProgress?.category || draft.category,
+              subject: draftInProgress?.subject || draft.subject,
+              body: draftInProgress?.body || draft.body,
+              messageId: draftInProgress.messageId || draft.messageId,
+            }),
+          );
+        } else {
+          dispatch(
+            updateDraftInProgress({
+              careSystemVhaId: null,
+              careSystemName: null,
+              recipientId: null,
+              recipientName: null,
+              category: draftInProgress?.category || draft.category,
+              subject: draftInProgress?.subject || draft.subject,
+              body: draftInProgress?.body || draft.body,
+              messageId: draftInProgress.messageId || draft.messageId,
+            }),
+          );
+        }
       }
     },
     [
       draft,
       dispatch,
       ehrDataByVhaId,
-      recipients?.allRecipients,
-      draftInProgress,
+      recipients?.allowedRecipients,
+      recipientExists,
     ],
   );
 
@@ -337,6 +368,12 @@ const ComposeForm = props => {
     [sendMessageFlag, isSaving, scrollToTop],
   );
 
+  useEffect(() => {
+    if (headerRef.current) {
+      focusElement(headerRef.current);
+    }
+  }, []);
+
   useEffect(
     () => {
       if (messageInvalid) {
@@ -355,51 +392,43 @@ const ComposeForm = props => {
     [alertStatus, lastFocusableElement],
   );
 
-  const recipientExists = useCallback(
-    recipientId => {
-      return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
-    },
-    [recipientsList],
-  );
-
   //  Populates form fields with recipients and categories
-  const populateForm = () => {
-    if (recipientExists(draftInProgress.recipientId)) {
-      setSelectedRecipientId(draftInProgress?.recipientId);
-    } else {
-      const newRecipient = {
-        id: draft?.recipientId,
-        name: draft?.recipientName,
-      };
-      setRecipientsList(prevRecipientsList => [
-        ...prevRecipientsList,
-        newRecipient,
-      ]);
-      setSelectedRecipientId(newRecipient.id);
-    }
-    setCategory(draftInProgress?.category ?? draft.category);
-    setSubject(draftInProgress?.subject ?? draft.subject);
-    setMessageBody(draftInProgress?.body ?? draft.body);
+  const populateForm = useCallback(
+    () => {
+      if (recipientExists(draftInProgress?.recipientId)) {
+        setSelectedRecipientId(draftInProgress.recipientId);
+      }
+      setCategory(draftInProgress?.category ?? draft.category);
+      setSubject(draftInProgress?.subject ?? draft.subject);
+      setMessageBody(draftInProgress?.body ?? draft.body);
 
-    if (draft.attachments) {
-      setAttachments(draft.attachments);
-    }
-    setFormPopulated(true);
-    setFieldsString(
-      JSON.stringify({
-        rec: draft.recipientId,
-        cat: draft.category,
-        sub: draft.subject,
-        bod: draft.body,
-      }),
-    );
-  };
+      if (draft?.attachments) {
+        setAttachments(draft.attachments);
+      }
+      setFormPopulated(true);
+      setFieldsString(
+        JSON.stringify({
+          rec: draftInProgress.recipientId,
+          cat: draftInProgress.category,
+          sub: draftInProgress.subject,
+          bod: draftInProgress.body,
+        }),
+      );
+    },
+    [recipientExists, draftInProgress, draft],
+  );
 
   useEffect(
     () => {
-      if (draft && !formPopulated) populateForm();
+      if (
+        draftInProgress.category &&
+        draftInProgress.subject &&
+        draftInProgress.body &&
+        !formPopulated
+      )
+        populateForm();
     },
-    [draft, formPopulated],
+    [draftInProgress, formPopulated, populateForm],
   );
 
   const checkMessageValidity = useCallback(
@@ -943,22 +972,7 @@ const ComposeForm = props => {
               />
             )}
           {isPilot && (
-            <div className="vads-u-margin-top--3">
-              <p className="vads-u-margin-bottom--0">To</p>
-              <p
-                className="vads-u-font-weight--bold vads-u-margin-y--0"
-                data-testid="compose-recipient-title"
-              >
-                {draftInProgress.careSystemName} -{' '}
-                {draftInProgress.recipientName}
-              </p>
-              <Link
-                to="/new-message/select-care-team"
-                data-dd-action-name="Select a different care team link"
-              >
-                Select a different care team
-              </Link>
-            </div>
+            <SelectedRecipientTitle draftInProgress={draftInProgress} />
           )}
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (

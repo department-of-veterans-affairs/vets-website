@@ -56,8 +56,8 @@ const RecipientsSelect = ({
   defaultValue,
   error,
   isSignatureRequired,
-  setCheckboxMarked = () => {},
-  setElectronicSignature = () => {},
+  setCheckboxMarked,
+  setElectronicSignature,
   setComboBoxInputValue,
 }) => {
   const dispatch = useDispatch();
@@ -79,6 +79,20 @@ const RecipientsSelect = ({
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups
       ],
+  );
+
+  const handleSetCheckboxMarked = useCallback(
+    marked => {
+      if (setCheckboxMarked) setCheckboxMarked(marked);
+    },
+    [setCheckboxMarked],
+  );
+
+  const handleSetElectronicSignature = useCallback(
+    signature => {
+      if (setElectronicSignature) setElectronicSignature(signature);
+    },
+    [setElectronicSignature],
   );
 
   useEffect(
@@ -134,15 +148,15 @@ const RecipientsSelect = ({
     () => {
       if (selectedRecipient) {
         onValueChange(selectedRecipient);
-        setCheckboxMarked(false);
-        setElectronicSignature('');
+        handleSetCheckboxMarked(false);
+        handleSetElectronicSignature('');
       }
     },
     [
       onValueChange,
       selectedRecipient,
-      setCheckboxMarked,
-      setElectronicSignature,
+      handleSetCheckboxMarked,
+      handleSetElectronicSignature,
     ],
   );
 

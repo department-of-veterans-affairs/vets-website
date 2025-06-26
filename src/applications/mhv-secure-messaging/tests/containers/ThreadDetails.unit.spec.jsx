@@ -211,7 +211,13 @@ describe('Thread Details container', () => {
           replyToName: 'SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
           threadFolderId: -2,
           cannotReply: false,
-          draftInProgress: singleDraftThread.draftInProgress,
+          draftInProgress: {
+            recipientId: singleDraftThread.draftMessage.recipientId,
+            recipientName: singleDraftThread.draftMessage.recipientName,
+            category: singleDraftThread.draftMessage.category,
+            subject: singleDraftThread.draftMessage.subject,
+            body: singleDraftThread.draftMessage.body,
+          },
         },
         recipients: {
           allRecipients: noBlockedRecipients.mockAllRecipients,

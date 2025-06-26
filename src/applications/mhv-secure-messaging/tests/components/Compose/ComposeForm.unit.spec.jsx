@@ -73,6 +73,9 @@ describe('Compose form component', () => {
           recipientId: threadDetailsReducer.threadDetails.drafts[0].recipientId,
           recipientName:
             threadDetailsReducer.threadDetails.drafts[0].recipientName,
+          category: threadDetailsReducer.threadDetails.drafts[0].category,
+          subject: threadDetailsReducer.threadDetails.drafts[0].subject,
+          body: threadDetailsReducer.threadDetails.drafts[0].body,
         },
       },
       recipients: {
@@ -365,11 +368,15 @@ describe('Compose form component', () => {
 
     const messageInput = await screen.getByTestId('message-body-field');
 
-    expect(messageInput)
-      .to.have.attribute('value')
-      .not.equal(
-        messageSignatureFormatter(signatureReducers.signatureEnabled.signature),
-      );
+    await waitFor(() => {
+      expect(messageInput)
+        .to.have.attribute('value')
+        .not.equal(
+          messageSignatureFormatter(
+            signatureReducers.signatureEnabled.signature,
+          ),
+        );
+    });
   });
 
   it('displays an error on attempt to save a draft with attachments', async () => {
@@ -378,7 +385,24 @@ describe('Compose form component', () => {
       messageValid: true,
       isSignatureRequired: false,
     };
-    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId:
+              threadDetailsReducer.threadDetails.drafts[0].recipientId,
+            recipientName:
+              threadDetailsReducer.threadDetails.drafts[0].recipientName,
+            category: threadDetailsReducer.threadDetails.drafts[0].category,
+            subject: threadDetailsReducer.threadDetails.drafts[0].subject,
+            body: threadDetailsReducer.threadDetails.drafts[0].body,
+          },
+        },
+      },
+    };
+    const screen = setup(customState, Paths.COMPOSE, { draft: customProps });
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
@@ -805,7 +829,9 @@ describe('Compose form component', () => {
           noAssociations: blockedFacility.noAssociations,
           allTriageGroupsBlocked: blockedFacility.allTriageGroupsBlocked,
         },
-        threadDetails: {},
+        threadDetails: {
+          draftInProgress: {},
+        },
       },
     };
 
@@ -846,7 +872,9 @@ describe('Compose form component', () => {
           noAssociations: blockedFacilityAndTeam.noAssociations,
           allTriageGroupsBlocked: blockedFacilityAndTeam.allTriageGroupsBlocked,
         },
-        threadDetails: {},
+        threadDetails: {
+          draftInProgress: {},
+        },
       },
     };
 
@@ -1086,10 +1114,7 @@ describe('Compose form component', () => {
         threadDetails: {
           ...draftState.sm.threadDetails,
           drafts: [customDraftMessage],
-          draftInProgress: {
-            recipientId: customDraftMessage.recipientId,
-            recipientName: customDraftMessage.recipientName,
-          },
+          draftInProgress: {},
         },
       },
     };
@@ -1138,10 +1163,7 @@ describe('Compose form component', () => {
         threadDetails: {
           ...draftState.sm.threadDetails,
           drafts: [customDraftMessage],
-          draftInProgress: {
-            recipientId: customDraftMessage.recipientId,
-            recipientName: customDraftMessage.recipientName,
-          },
+          draftInProgress: {},
         },
       },
     };
@@ -1231,10 +1253,7 @@ describe('Compose form component', () => {
         threadDetails: {
           ...draftState.sm.threadDetails,
           drafts: [customDraftMessage],
-          draftInProgress: {
-            recipientId: customDraftMessage.recipientId,
-            recipientName: customDraftMessage.recipientName,
-          },
+          draftInProgress: {},
         },
       },
     };
