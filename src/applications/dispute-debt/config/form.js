@@ -1,7 +1,6 @@
 import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
@@ -120,12 +119,25 @@ const formConfig = {
           arrayPath: 'selectedDebts',
           CustomPageReview: DebtReviewPage,
         },
+        chapterPlaceholder: {
+          // This is in place for the depends to auto increment the chapter count to match veteran expectations
+          // it does NOT render but MUST be here
+          path: 'chapter-placeholder',
+          title: 'Chapter placeholder',
+          depends: formData => {
+            return !formData?.selectedDebts?.length > 0;
+          },
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
       },
     },
   },
   getHelp,
   footerContent,
-  ...minimalHeaderFormConfigOptions(),
 };
 
 export default formConfig;

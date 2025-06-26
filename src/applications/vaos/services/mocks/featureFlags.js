@@ -12,7 +12,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingOhRequest', value: true },
   { name: 'vaOnlineSchedulingRemovePodiatry', value: false },
   { name: 'vaOnlineSchedulingFeSourceOfTruthVA', value: true },
-  { name: 'vaOnlineSchedulingFeSourceOfTruthCC', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruthModality', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruthTelehealth', value: true },
   { name: 'vaOnlineSchedulingConvertSlotsToUtc', value: true },
