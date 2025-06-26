@@ -5,6 +5,24 @@ import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents
 
 import PrivacyActStatement from './PrivacyActStatement';
 
+export const patchStatementErrorText = () => {
+  const sot = document.querySelector('va-statement-of-truth');
+  if (!sot) return () => {};
+
+  const observer = new MutationObserver(() => {
+    const err = sot.getAttribute('input-error');
+    if (err?.includes('application')) {
+      sot.setAttribute('input-error', err.replace('application', 'form'));
+    }
+  });
+
+  observer.observe(sot, {
+    attributes: true,
+    attributeFilter: ['input-error'],
+  });
+  return () => observer.disconnect();
+};
+
 const PrivacyPolicy = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -38,6 +56,7 @@ const PrivacyPolicy = () => {
   };
 
   useEffect(() => {
+    const cleanupErrorPatch = patchStatementErrorText();
     const removeElements = async () => {
       // Hide "Note" above Certification statement
       await removeNoteText();
@@ -47,6 +66,9 @@ const PrivacyPolicy = () => {
     };
 
     removeElements();
+    return () => {
+      cleanupErrorPatch();
+    };
   }, []);
 
   return (
