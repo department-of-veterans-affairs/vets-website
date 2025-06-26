@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 const Error = () => {
   const content = (
@@ -12,12 +13,29 @@ const Error = () => {
     </>
   );
 
+  const redesignContent = (
+    <h3
+      slot="headline"
+      className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans vads-u-line-height--6 vads-u-margin-bottom--0"
+    >
+      We can’t show your forms and applications right now. Refresh this page or
+      try again later.
+    </h3>
+  );
+
   return (
     <div
       className="vads-u-width--full vads-u-margin-bottom--3"
       data-testid="benefit-application-error"
     >
-      <va-alert status="warning">{content}</va-alert>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Enabled>
+          <va-alert status="warning">{redesignContent}</va-alert>
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <va-alert status="warning">{content}</va-alert>
+        </Toggler.Disabled>
+      </Toggler>
     </div>
   );
 };
