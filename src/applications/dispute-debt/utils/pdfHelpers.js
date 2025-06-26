@@ -74,7 +74,7 @@ export const handlePdfGeneration = async pdfData => {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
       Sentry.captureMessage(
-        `Dispute Debt pdf generation failed in handlePdfGeneration: ${
+        `Dispute Debt - PDF - generation failed in handlePdfGeneration: ${
           error?.detail
         }`,
       );
