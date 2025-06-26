@@ -6,10 +6,11 @@ import PublicLayoutContainer from './containers/PublicLayoutContainer';
 import AuthenticatedLayoutContainer from './containers/AuthenticatedLayoutContainer';
 import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
-import POARequestIndividualSearchPage from './containers/POARequestIndividualSearchPage';
+import ClaimantSearchPage from './containers/ClaimantSearchPage';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
+import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
-import ErrorBoundary from './components/ErrorBoundary';
+import ErrorBoundary from './components/Error/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
 import LoginContainer from './containers/LoginContainer';
 import AuthCallbackHandler from './containers/AuthCallbackHandler';
@@ -89,13 +90,24 @@ const routes = [
               {
                 path: 'poa-requests',
                 element: (
-                  <POARequestSearchPage title="Power of attorney requests | Veterans Affairs" />
+                  <POARequestSearchPage title="Representation requests | Veterans Affairs" />
                 ),
                 loader: POARequestSearchPage.loader,
               },
               {
                 path: 'poa-search',
-                element: <POARequestIndividualSearchPage />,
+                element: <POARequestSearchPage />,
+              },
+              {
+                path: 'submissions',
+                element: (
+                  <SubmissionsPage title="Form Submissions | Veterans Affairs" />
+                ),
+                loader: SubmissionsPage.loader,
+              },
+              {
+                path: 'claimant-search',
+                element: <ClaimantSearchPage />,
               },
               {
                 path: 'poa-requests/:id',

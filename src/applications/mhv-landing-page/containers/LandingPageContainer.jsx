@@ -5,6 +5,8 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getFolderList } from '../utilities/api';
 import LandingPage from '../components/LandingPage';
+import NonPatientLandingPage from '../components/nonPatientPage/NonPatientLandingPage';
+import ErrorBoundary from '../components/ErrorBoundary';
 import { useAccountCreationApi } from '../hooks';
 import {
   resolveLandingPageLinks,
@@ -13,6 +15,7 @@ import {
 } from '../utilities/data';
 import {
   isAuthenticatedWithSSOe,
+  isLOA3,
   isVAPatient,
   selectProfile,
   signInServiceEnabled,
@@ -32,6 +35,9 @@ const LandingPageContainer = () => {
     unreadMessageCount,
   );
   const userHasMessagingAccess = useSelector(hasMessagingAccess);
+  const userVerified = useSelector(isLOA3);
+  const vaPatient = useSelector(isVAPatient);
+  const verifiedNonVaPatient = userVerified && !vaPatient;
 
   const data = useMemo(
     () => {
@@ -81,13 +87,20 @@ const LandingPageContainer = () => {
         />
       </div>
     );
+
   return (
     <RequiredLoginView
       useSiS={useSiS}
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <LandingPage data={data} />
+      <ErrorBoundary>
+        {verifiedNonVaPatient ? (
+          <NonPatientLandingPage data={data} />
+        ) : (
+          <LandingPage data={data} />
+        )}
+      </ErrorBoundary>
     </RequiredLoginView>
   );
 };

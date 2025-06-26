@@ -16,17 +16,11 @@ import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
 import Alerts from '../containers/Alerts';
-import {
-  isLOA3,
-  isVAPatient,
-  personalizationEnabled,
-  isAuthenticatedWithSSOe,
-} from '../selectors';
+import { isLOA3, isVAPatient, personalizationEnabled } from '../selectors';
 import manifest from '../manifest.json';
 
 const LandingPage = ({ data = {} }) => {
   const { cards = [], hubs = [] } = data;
-  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userVerified = useSelector(isLOA3);
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
@@ -48,14 +42,11 @@ const LandingPage = ({ data = {} }) => {
             ]}
           />
           <DowntimeNotification
+            appTitle={manifest.appName}
             dependencies={[externalServices.mhvPlatform]}
             render={renderMHVDowntime}
           />
-          <HeaderLayout
-            showWelcomeMessage={showWelcomeMessage}
-            ssoe={ssoe}
-            showMhvGoBack={userRegistered}
-          />
+          <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
           <Alerts />
           {userRegistered && <CardLayout data={cards} />}
         </div>

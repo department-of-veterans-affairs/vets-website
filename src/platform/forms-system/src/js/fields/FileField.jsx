@@ -4,20 +4,18 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
 import classNames from 'classnames';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaAlert,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleValues } from '../../../../site-wide/feature-toggles/selectors';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
-import {
-  displayFileSize,
-  focusElement,
-  scrollTo,
-  scrollToFirstError,
-} from '../../../../utilities/ui';
+import { displayFileSize, focusElement } from '../../../../utilities/ui';
+import { scrollTo, scrollToFirstError } from '../../../../utilities/scroll';
 
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '../constants';
-import { ERROR_ELEMENTS } from '../../../../utilities/constants';
 import { $ } from '../utilities/ui';
 import {
   ShowPdfPassword,
@@ -224,6 +222,7 @@ const FileField = props => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
   const [initialized, setInitialized] = useState(false);
+  const [deletedFileAlerts, setDeletedFileAlerts] = useState(false);
 
   const previousValue = usePreviousValue(formData);
   const fileInputRef = useRef(null);
@@ -233,7 +232,7 @@ const FileField = props => {
 
   const maxItems = schema.maxItems || Infinity;
   const { SchemaField } = registry.fields;
-  const attachmentIdRequired = schema.additionalItems.required
+  const attachmentIdRequired = schema.additionalItems?.required
     ? schema.additionalItems.required.includes('attachmentId')
     : false;
 
@@ -359,28 +358,23 @@ const FileField = props => {
    */
   const onAddFile = async (event, index = null, password) => {
     if (event.target?.files?.length) {
+      setDeletedFileAlerts(false);
       const currentFile = event.target.files[0];
       const allFiles = props.formData || [];
       const addUiOptions = props.uiSchema['ui:options'];
-      // needed for FileField unit tests
       const { mockReadAndCheckFile } = uiOptions;
 
-      let idx = index;
-      if (idx === null) {
-        idx = allFiles.length === 0 ? 0 : allFiles.length;
-      }
+      const idx = index ?? (allFiles.length === 0 ? 0 : allFiles.length);
 
       let checkResults;
       const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
 
       if (currentFile.type === 'testing') {
-        // Skip read file for Cypress testing
         checkResults = {
           checkTypeAndExtensionMatches: true,
           checkIsEncryptedPdf: false,
         };
       } else {
-        // read file mock for unit testing
         checkResults =
           typeof mockReadAndCheckFile === 'function'
             ? mockReadAndCheckFile()
@@ -397,7 +391,6 @@ const FileField = props => {
         return;
       }
 
-      // Check if the file is an encrypted PDF
       if (
         currentFile.name?.endsWith('pdf') &&
         !password &&
@@ -408,9 +401,7 @@ const FileField = props => {
           name: currentFile.name,
           isEncrypted: true,
         };
-
         props.onChange(allFiles);
-        // wait for user to enter a password before uploading
         return;
       }
 
@@ -420,11 +411,9 @@ const FileField = props => {
           addUiOptions,
           updateProgress,
           file => {
-            // formData is undefined initially
             const newData = props.formData || [];
             newData[idx] = { ...file, isEncrypted: !!password };
             onChange(newData);
-            // Focus on the 'Cancel' button when a file is being uploaded
             if (file.uploading) {
               $('.schemaform-file-uploading .cancel-upload')?.focus();
             }
@@ -434,9 +423,7 @@ const FileField = props => {
             }
             setUploadRequest(null);
           },
-          () => {
-            setUploadRequest(null);
-          },
+          () => setUploadRequest(null),
           formContext.trackingPrefix,
           password,
           props.enableShortWorkflow,
@@ -498,6 +485,12 @@ const FileField = props => {
     setShowRemoveModal(false);
     if (remove) {
       removeFile(idx);
+      if (uiOptions?.deleteAlertText) {
+        setDeletedFileAlerts(true);
+        setTimeout(() => {
+          focusElement('#success-alert');
+        }, 110);
+      }
     } else {
       setTimeout(() => {
         focusElement(
@@ -612,8 +605,8 @@ const FileField = props => {
             const fileNameId = `${idSchema.$id}_file_name_${index}`;
 
             if (hasVisibleError) {
-              setTimeout(() => {
-                scrollToFirstError();
+              setTimeout(async () => {
+                await scrollToFirstError();
                 if (enableShortWorkflow) {
                   const retryButton = $(`[name="retry_upload_${index}"]`);
                   if (retryButton) {
@@ -621,8 +614,6 @@ const FileField = props => {
                   }
                 } else if (showPasswordInput) {
                   focusElement(`#${fileListId} .usa-input-error-message`);
-                } else {
-                  focusElement(ERROR_ELEMENTS.join(','));
                 }
               }, 250);
             } else if (showPasswordInput) {
@@ -819,13 +810,33 @@ const FileField = props => {
           })}
         </ul>
       )}
+      {deletedFileAlerts &&
+        uiOptions?.deleteAlertText && (
+          <div className="vads-u-margin-top--2">
+            <VaAlert
+              id="success-alert"
+              status="success"
+              closeable
+              visible
+              class="vads-u-margin-bottom--4"
+              uswds
+              onCloseEvent={() => setDeletedFileAlerts(false)}
+            >
+              {uiOptions?.deleteAlertText}
+            </VaAlert>
+          </div>
+        )}
       {// Don't render an upload button on review & submit page while in
       // review mode
       showButtons && (
         <>
           {(maxItems === null || files.length < maxItems) &&
             // Prevent additional upload if any upload has error state
-            checkUploadVisibility() && (
+            checkUploadVisibility() &&
+            !files.some(
+              (file, index) =>
+                errorSchema?.[index]?.__errors?.length > 0 || file.errorMessage,
+            ) && (
               // eslint-disable-next-line jsx-a11y/label-has-associated-control
               <label
                 id={`${idSchema.$id}_add_label`}

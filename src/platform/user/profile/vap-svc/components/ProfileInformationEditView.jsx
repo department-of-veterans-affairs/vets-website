@@ -8,6 +8,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
+import { ContactInfoFormAppConfigContext } from './ContactInfoFormAppConfigContext';
 import {
   createTransaction,
   refreshTransaction,
@@ -86,7 +87,7 @@ export class ProfileInformationEditView extends Component {
     ) {
       this.interval = window.setInterval(
         this.refreshTransaction,
-        window.VetsGov.pollTimeout || 1000,
+        window.VetsGov.pollTimeout || 2000,
       );
     }
     // if the transaction is no longer pending, stop refreshing it
@@ -237,6 +238,8 @@ export class ProfileInformationEditView extends Component {
   };
 
   onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
+    // Validate before updating
+
     this.props.updateFormFieldWithSchema(
       this.props.fieldName,
       value,
@@ -295,6 +298,29 @@ export class ProfileInformationEditView extends Component {
 
     const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
 
+    const formData =
+      this.context?.formFieldData?.formOnlyUpdate === true
+        ? (() => {
+            // Merge objects but also handle inputPhoneNumber explicitly
+            const merged = {
+              ...field.value,
+              ...this.context.formFieldData,
+            };
+            // For phone fields, ensure inputPhoneNumber is updated to match the new number
+            if (
+              [FIELD_NAMES.HOME_PHONE, FIELD_NAMES.MOBILE_PHONE].includes(
+                fieldName,
+              ) &&
+              this.context.formFieldData?.phoneNumber
+            ) {
+              merged.inputPhoneNumber =
+                this.context.formFieldData.areaCode +
+                this.context.formFieldData.phoneNumber;
+            }
+            return merged;
+          })()
+        : field?.value;
+
     return (
       <>
         {!!field && (
@@ -316,7 +342,7 @@ export class ProfileInformationEditView extends Component {
               name="Contact Info Form"
               title="Contact Info Form"
               schema={field.formSchema}
-              data={field.value}
+              data={formData}
               uiSchema={field.uiSchema}
               onChange={event =>
                 this.onInput(event, field.formSchema, field.uiSchema)
@@ -390,6 +416,7 @@ ProfileInformationEditView.propTypes = {
   onCancel: PropTypes.func.isRequired,
   activeEditView: PropTypes.string,
   cancelButtonText: PropTypes.string,
+  contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
   editViewData: PropTypes.object,
   field: PropTypes.shape({
@@ -400,6 +427,7 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
+  successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
@@ -459,3 +487,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ProfileInformationEditView);
+
+ProfileInformationEditView.contextType = ContactInfoFormAppConfigContext;

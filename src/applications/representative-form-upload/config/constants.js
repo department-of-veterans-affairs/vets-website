@@ -1,7 +1,8 @@
 import React from 'react';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import * as USIP from './usip';
-import * as SIS from './sis';
+import {
+  VaAlert,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
   const isLoa3 = formData?.loa === 3;
@@ -43,16 +44,6 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
   );
 };
 
-export const UPLOAD_TITLE = 'Your file';
-
-export const UPLOAD_DESCRIPTION = Object.freeze(
-  <>
-    <span className="vads-u-font-weight--bold">Note:</span> After you upload
-    your file, you’ll need to continue to the next screen to submit it. If you
-    leave before you submit it, you’ll need to upload it again.
-  </>,
-);
-
 export const FORM_UPLOAD_OCR_ALERT = (
   formNumber,
   pdfDownloadUrl,
@@ -61,7 +52,7 @@ export const FORM_UPLOAD_OCR_ALERT = (
 ) => (
   <VaAlert
     close-btn-aria-label="Close notification"
-    status="warning"
+    status="error"
     visible
     closeable
     onCloseEvent={onCloseEvent}
@@ -89,10 +80,12 @@ export const FORM_UPLOAD_OCR_ALERT = (
       <p className="vads-u-margin-y--0">
         Please check the file you uploaded is a recent VA Form {formNumber}.
       </p>
-      <a href={pdfDownloadUrl}>
-        Download VA Form {formNumber}
-        (PDF)
-      </a>
+      <VaLink
+        external
+        filetype="PDF"
+        href={pdfDownloadUrl}
+        text={`Download VA Form ${formNumber}`}
+      />
       <p>If you’re sure this is the right file, you can continue.</p>
     </React.Fragment>
   </VaAlert>
@@ -128,19 +121,3 @@ export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
     File upload must be complete to continue.
   </VaAlert>
 );
-
-export const SIGN_IN_URL = (() => {
-  const url = new URL(USIP.PATH, USIP.BASE_URL);
-  url.searchParams.set(USIP.QUERY_PARAMS.application, USIP.APPLICATIONS.ARP);
-  url.searchParams.set(USIP.QUERY_PARAMS.OAuth, true);
-  return url;
-})();
-
-export const SIGN_OUT_URL = (() => {
-  const url = new URL(SIS.API_URL({ endpoint: 'logout' }));
-  url.searchParams.set(
-    SIS.QUERY_PARAM_KEYS.CLIENT_ID,
-    sessionStorage.getItem('ci'),
-  );
-  return url;
-})();

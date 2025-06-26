@@ -26,7 +26,9 @@ describe('Verify Thread - Blocked from Facility', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
       waitForAnimations: true,
     });
-    cy.get(Locators.BUTTONS.CONTINUE).click({ waitForAnimations: true });
+    cy.findByTestId(Locators.BUTTONS.CONTINUE).click({
+      waitForAnimations: true,
+    });
 
     // TODO create a loop to check all triageGroups in facility
 

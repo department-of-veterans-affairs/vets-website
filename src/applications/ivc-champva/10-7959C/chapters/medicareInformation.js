@@ -18,6 +18,7 @@ import {
 } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 const effectiveDateHint =
   'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."';
@@ -158,6 +159,15 @@ export const applicantMedicarePartACarrierSchema = {
       title: 'Medicare Part A effective date',
       hint: effectiveDateHint,
     }),
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'applicantMedicarePartACarrier',
+        ),
+    ],
   },
   schema: {
     type: 'object',
@@ -193,6 +203,15 @@ export const applicantMedicarePartBCarrierSchema = {
       title: 'Medicare Part B effective date',
       hint: effectiveDateHint,
     }),
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'applicantMedicarePartBCarrier',
+        ),
+    ],
   },
   schema: {
     type: 'object',
@@ -304,6 +323,15 @@ export const applicantMedicarePartDCarrierSchema = {
       title: 'Medicare Part D effective date',
       hint: effectiveDateHint,
     }),
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'applicantMedicarePartDCarrier',
+        ),
+    ],
   },
   schema: {
     type: 'object',

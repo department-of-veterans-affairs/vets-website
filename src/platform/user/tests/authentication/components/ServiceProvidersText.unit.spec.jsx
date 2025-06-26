@@ -34,11 +34,11 @@ describe('ServiceProvidersText', () => {
     expect(serviceProviders.includes(wrapper.text()));
     wrapper.unmount();
   });
-  it.skip('should display bold if `isBold` is truthy', () => {
+  it('should display bold if `isBold` is truthy', () => {
     const { wrapper } = getServiceProvidersTextData({
       propsIsBold: true,
     });
-    expect(wrapper.find('strong').length).to.eql(4);
+    expect(wrapper.find('strong').length).to.eql(3);
     wrapper.unmount();
   });
   it('should display normal if `isBold` is falsy', () => {

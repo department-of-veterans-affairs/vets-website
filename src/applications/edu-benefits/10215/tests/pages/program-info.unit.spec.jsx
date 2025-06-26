@@ -31,8 +31,16 @@ describe('programInfo configuration', () => {
       const nonSupportedRequiredFn = uiSchema.fte.nonSupported['ui:required'];
       expect(nonSupportedRequiredFn).to.be.a('function');
 
+      // Scenario 1-a: supportedStudents more than 10 on "program" creation
       let formData = {
         programs: [{ supportedStudents: 15 }],
+      };
+      expect(supportedRequiredFn(formData, 0)).to.equal(true);
+      expect(nonSupportedRequiredFn(formData, 0)).to.equal(true);
+
+      // Scenario 1-b: supportedStudents more than 10 on "program" edit
+      formData = {
+        supportedStudents: 15,
       };
       expect(supportedRequiredFn(formData, 0)).to.equal(true);
       expect(nonSupportedRequiredFn(formData, 0)).to.equal(true);

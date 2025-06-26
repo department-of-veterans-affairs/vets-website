@@ -2,21 +2,20 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-
+import sinon from 'sinon-v20';
 import { inputVaTextInput } from 'platform/testing/unit/helpers';
 import PreSubmitInfo from '../../../../components/PreSubmitInfo';
 
 describe('CG <PreSubmitCheckboxGroup>', () => {
-  const getData = ({
-    dispatch = () => {},
+  let dispatch;
+  const subject = ({
     hasSecondaryOne = false,
     hasSecondaryTwo = false,
     signAsRepresentativeYesNo = 'no',
     status = false,
-  } = {}) => ({
-    props: {
-      onSectionComplete: sinon.spy(),
+  } = {}) => {
+    const props = {
+      onSectionComplete: f => f,
       formData: {
         primaryFullName: {
           first: 'Mary',
@@ -44,16 +43,14 @@ describe('CG <PreSubmitCheckboxGroup>', () => {
         'view:hasSecondaryCaregiverTwo': hasSecondaryTwo,
       },
       showError: false,
-    },
-    mockStore: {
+    };
+    const mockStore = {
       getState: () => ({
         form: { submission: { status } },
       }),
       subscribe: () => {},
       dispatch,
-    },
-  });
-  const subject = ({ mockStore, props }) => {
+    };
     const { container } = render(
       <Provider store={mockStore}>
         <PreSubmitInfo.CustomComponent {...props} />
@@ -67,12 +64,19 @@ describe('CG <PreSubmitCheckboxGroup>', () => {
     return { container, selectors };
   };
 
+  beforeEach(() => {
+    dispatch = sinon.spy();
+  });
+
+  afterEach(() => {
+    dispatch.resetHistory();
+  });
+
   context('when a representative is signing for the Veteran', () => {
     it('should render the appropriate `va-text-input` label for the Veteran signature', () => {
-      const { mockStore, props } = getData({
+      const { selectors } = subject({
         signAsRepresentativeYesNo: 'yes',
       });
-      const { selectors } = subject({ mockStore, props });
       const { vaTextInputs } = selectors();
       expect(vaTextInputs[0]).to.have.attr(
         'label',
@@ -83,8 +87,7 @@ describe('CG <PreSubmitCheckboxGroup>', () => {
 
   context('when the Veteran is signing for themselves', () => {
     it('should render the appropriate `va-text-input` label for the Veteran signature', () => {
-      const { mockStore, props } = getData({});
-      const { selectors } = subject({ mockStore, props });
+      const { selectors } = subject();
       const { vaTextInputs } = selectors();
       expect(vaTextInputs[0]).to.have.attr('label', 'Veteran’s full name');
     });
@@ -92,39 +95,30 @@ describe('CG <PreSubmitCheckboxGroup>', () => {
 
   context('when secondary caregivers are named in the application', () => {
     it('should render the appropriate number of signature checkbox components', () => {
-      const { mockStore, props } = getData({
+      const { selectors } = subject({
         hasSecondaryOne: true,
         hasSecondaryTwo: true,
       });
-      const { selectors } = subject({ mockStore, props });
       expect(selectors().signatureBoxes).to.have.lengthOf(4);
     });
   });
 
   context('when a change is made to a `va-text-input` component', () => {
-    let dispatch;
-
-    beforeEach(() => {
-      dispatch = sinon.stub();
-    });
-
     it('should not set new form data when the form has been submitted', async () => {
-      const { mockStore, props } = getData({ status: true, dispatch });
-      const { container, selectors } = subject({ mockStore, props });
+      const { container, selectors } = subject({ status: true });
       await waitFor(() => {
         const { vaTextInputs } = selectors();
         inputVaTextInput(container, 'John Smith', vaTextInputs[0]);
-        expect(dispatch.called).to.be.false;
+        sinon.assert.notCalled(dispatch);
       });
     });
 
     it('should set new form data when the form has not been submitted', async () => {
-      const { mockStore, props } = getData({ dispatch });
-      const { container, selectors } = subject({ mockStore, props });
+      const { container, selectors } = subject();
       await waitFor(() => {
         const { vaTextInputs } = selectors();
         inputVaTextInput(container, 'John Smith', vaTextInputs[0]);
-        expect(dispatch.called).to.be.true;
+        sinon.assert.called(dispatch);
       });
     });
   });

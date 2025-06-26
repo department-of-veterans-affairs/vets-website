@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { inputVaTextInput } from 'platform/testing/unit/helpers';
 import SignatureInput from '../../../../components/PreSubmitInfo/SignatureInput';
 import { replaceStrValues } from '../../../../utils/helpers';
@@ -10,7 +10,8 @@ import content from '../../../../locales/en/content.json';
 describe('CG <SignatureInput>', () => {
   const fullName = 'John Smith';
   const label = 'Veteran\u2019s';
-  const handleChangeSpy = sinon.spy();
+  let handleChange;
+
   const subject = ({
     showError = false,
     isChecked = false,
@@ -23,7 +24,7 @@ describe('CG <SignatureInput>', () => {
       isChecked,
       isRepresentative,
       setSignatures: sinon.stub().callsFake(updateFn => {
-        handleChangeSpy(updateFn({}));
+        handleChange(updateFn({}));
       }),
     };
     const { container } = render(<SignatureInput {...props} />);
@@ -33,8 +34,12 @@ describe('CG <SignatureInput>', () => {
     return { container, selectors };
   };
 
+  beforeEach(() => {
+    handleChange = sinon.spy();
+  });
+
   afterEach(() => {
-    handleChangeSpy.reset();
+    handleChange.resetHistory();
   });
 
   context('when a representative is signing for the Veteran', () => {
@@ -52,8 +57,9 @@ describe('CG <SignatureInput>', () => {
 
       await waitFor(() => {
         expect(vaTextInput).to.not.have.attr('error');
-        expect(handleChangeSpy.calledWithMatch({ [label]: 'Mary Smith' })).to.be
-          .true;
+        sinon.assert.calledWithExactly(handleChange, {
+          [label]: { value: 'Mary Smith' },
+        });
       });
     });
 
@@ -85,8 +91,9 @@ describe('CG <SignatureInput>', () => {
 
       await waitFor(() => {
         expect(vaTextInput).to.not.have.attr('error');
-        expect(handleChangeSpy.calledWithMatch({ [label]: fullName })).to.be
-          .true;
+        sinon.assert.calledWithExactly(handleChange, {
+          [label]: { value: fullName },
+        });
       });
     });
 
@@ -104,7 +111,9 @@ describe('CG <SignatureInput>', () => {
 
       await waitFor(() => {
         expect(vaTextInput).to.have.attr('error', error);
-        expect(handleChangeSpy.calledWithMatch({ [label]: '' })).to.be.true;
+        sinon.assert.calledWithExactly(handleChange, {
+          [label]: { value: '' },
+        });
       });
     });
   });

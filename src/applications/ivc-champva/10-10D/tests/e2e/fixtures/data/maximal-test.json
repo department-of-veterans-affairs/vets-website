@@ -1,5 +1,5 @@
 {
-  "description": "Is 3rd party certifier, sponsor alive, 3 applicants, spouse, child, other relationship, over 65 no Medicare no OHI, Medicare ABD and OHI",
+  "description": "Is 3rd party certifier, sponsor alive, 3 applicants, spouse + 2 children, over 65 no Medicare no OHI, Medicare ABD and OHI",
   "data": {
     "applicants": [
       {
@@ -12,7 +12,7 @@
           "state": "MD",
           "postalCode": "12312"
         },
-        "applicantSSN": "123123123",
+        "applicantSSN": "123123124",
         "applicantName": {
           "first": "Applicant1",
           "last": "Jones"
@@ -82,7 +82,13 @@
             "uploaded": false
           },
           {
-            "name": "applicantOhiCard",
+            "name": "applicantOhiCardFront",
+            "path": "applicant-other-insurance-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOhiCardBack",
             "path": "applicant-other-insurance-file/:index",
             "required": true,
             "uploaded": false
@@ -126,13 +132,31 @@
         "applicantDob": "2000-01-02",
         "missingUploads": [
           {
-            "name": "applicantMedicarePartAPartBCard",
+            "name": "applicantBirthCertOrSocialSecCard",
+            "path": "applicant-child-file/:index",
+            "required": false,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartAPartBCardFront",
             "path": "applicant-medicare-ab-file/:index",
             "required": true,
             "uploaded": false
           },
           {
-            "name": "applicantMedicarePartDCard",
+            "name": "applicantMedicarePartAPartBCardBack",
+            "path": "applicant-medicare-ab-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartDCardFront",
+            "path": "applicant-medicare-d-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartDCardBack",
             "path": "applicant-medicare-d-file/:index",
             "required": true,
             "uploaded": false
@@ -144,7 +168,13 @@
             "uploaded": false
           },
           {
-            "name": "applicantOhiCard",
+            "name": "applicantOhiCardFront",
+            "path": "applicant-other-insurance-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOhiCardBack",
             "path": "applicant-other-insurance-file/:index",
             "required": true,
             "uploaded": false
@@ -154,8 +184,10 @@
           "gender": "male"
         },
         "applicantRelationshipToSponsor": {
-          "relationshipToVeteran": "other",
-          "otherRelationshipToVeteran": "Something else"
+          "relationshipToVeteran": "child"
+        },
+        "applicantRelationshipOrigin": {
+          "relationshipToVeteran": "blood"
         },
         "applicantMedicareStatus": {
           "eligibility": "enrolled"
@@ -177,9 +209,7 @@
       "postalCode": "12312"
     },
     "sponsorIsDeceased": false,
-    "ssn": {
-      "ssn": "123123123"
-    },
+    "ssn": "123123123",
     "veteransFullName": {
       "first": "Sponsor",
       "last": "Jones"

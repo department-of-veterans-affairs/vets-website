@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import * as authUtilities from 'platform/user/authentication/utilities';
+import { useIdentityVerificationURL } from '../hooks';
 import { SERVICE_PROVIDERS, AUTH_EVENTS } from '../constants';
 
 export default function VerifyAccountLink({
@@ -9,22 +9,7 @@ export default function VerifyAccountLink({
   useOAuth = false,
   children,
 }) {
-  const [href, setHref] = useState('');
-  useEffect(() => {
-    async function generateURL() {
-      const url = await authUtilities.signupOrVerify({
-        policy,
-        allowVerification: true,
-        isSignup: false,
-        isLink: true,
-        useOAuth,
-      });
-      setHref(url);
-    }
-
-    generateURL();
-  }, []);
-
+  const { href } = useIdentityVerificationURL({ policy, useOAuth });
   return (
     <a
       href={href}

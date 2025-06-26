@@ -33,7 +33,7 @@ export const traumaticEventsExamples = (
           You experienced offensive comments about your body or sexual
           activities
         </li>
-        <li>You experienced unwanted sexual advances</li>
+        <li>You experienced repeated unwanted sexual advances</li>
         <li>
           You experienced someone touching or grabbing you against your will,
           including during hazing
@@ -165,24 +165,43 @@ export const mentalHealthSupportAlert = () => {
 };
 
 /**
- * Create a title and headingTag for a page which will be passed into ui:title so that
- * they are grouped in the same legend
- * @param {string} title - the title for the page, which displays below the stepper
- * @param {string} headingTag - the headingTag for the page, which displays above the title
- * @returns {JSX.Element} markup with title and headingTag. example below.
+ * Generates a combined heading inside a <legend> element for use in a page title.
+ * This groups a heading tag (like a form identifier) and a page-specific title
+ * into a single semantic block, styled appropriately.
  *
- * <h3 class="...">VA FORM 21-0781</h3>
- * <h3 class="...">Mental health support</h3>
+ * @param {string} title - The main title for the page, typically describing the form section
+ * @param {string} headingTag - A label or identifier that appears above the title
+ * @returns {JSX.Element} A <legend> element containing a single <h3> with two styled <span> blocks
+ *
+ * Example rendered structure:
+ * <legend>
+ *   <h3 class="vads-u-margin--0">
+ *     <span class="...">VA FORM 21-0781</span>
+ *     <span class="...">Mental health support</span>
+ *   </h3>
+ * </legend>
  */
 export function titleWithTag(title, headingTag) {
   return (
-    <>
-      <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-margin--0">
-        {`${headingTag} `}
+    <legend>
+      <h3 className="vads-u-margin--0">
+        <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+          {`${headingTag}`}{' '}
+        </span>
+        <span className="vads-u-display--block vads-u-font-size--h3 vads-u-color--base">
+          {title}
+        </span>
       </h3>
-      <h3 className="vads-u-font-size--h3 vads-u-color--base vads-u-margin--0">
+    </legend>
+  );
+}
+
+export function standardTitle(title) {
+  return (
+    <h3 className="vads-u-margin--0">
+      <span className="vads-u-display--block vads-u-font-size--h3 vads-u-color--base">
         {title}
-      </h3>
-    </>
+      </span>
+    </h3>
   );
 }

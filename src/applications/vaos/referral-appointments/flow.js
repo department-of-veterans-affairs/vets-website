@@ -1,4 +1,5 @@
 import { startReferralTimer } from './utils/timer';
+import { titleCase } from '../utils/formatters';
 
 /**
  * Function to get referral page flow.
@@ -24,7 +25,7 @@ export function getPageFlow(referralId, appointmentId) {
     },
     scheduleReferral: {
       url: `/schedule-referral?id=${referralId}`,
-      label: 'Referral for {{ categoryOfCare }}',
+      label: 'Appointment Referral',
       next: 'scheduleAppointment',
       previous: 'referralsAndRequests',
     },
@@ -41,10 +42,16 @@ export function getPageFlow(referralId, appointmentId) {
       previous: 'scheduleAppointment',
     },
     complete: {
-      url: `/schedule-referral/complete/${appointmentId}`,
+      url: `/schedule-referral/complete/${appointmentId}?id=${referralId}`,
       label: 'Your appointment is scheduled',
-      next: '',
+      next: 'details',
       previous: 'appointments',
+    },
+    details: {
+      url: `/${appointmentId}?eps=true`,
+      label: '',
+      next: '',
+      previous: 'complete',
     },
   };
 }
@@ -125,7 +132,10 @@ export function getReferralUrlLabel(currentPage, categoryOfCare = '') {
     case 'complete':
       return 'Back to appointments';
     case 'scheduleReferral':
-      return result.label.replace('{{ categoryOfCare }}', categoryOfCare);
+      return result.label.replace(
+        '{{ categoryOfCare }}',
+        titleCase(categoryOfCare),
+      );
     case 'reviewAndConfirm':
     case 'scheduleAppointment':
       return 'Back';

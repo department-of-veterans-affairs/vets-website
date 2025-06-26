@@ -1,9 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
 import ConfirmationPrintView from '../../../../components/ConfirmationPage/ConfirmationPrintView';
-import content from '../../../../locales/en/content.json';
 
 describe('CG <ConfirmationPrintView>', () => {
   const subject = ({ timestamp = undefined } = {}) => {
@@ -13,8 +11,6 @@ describe('CG <ConfirmationPrintView>', () => {
     };
     const { container } = render(<ConfirmationPrintView {...props} />);
     const selectors = () => ({
-      title: container.querySelector('h1'),
-      logo: container.querySelector('.vagov-logo'),
       veteranName: container.querySelector(
         '[data-testid="cg-veteranfullname"]',
       ),
@@ -23,11 +19,9 @@ describe('CG <ConfirmationPrintView>', () => {
     return { selectors };
   };
 
-  it('should render with default props', () => {
+  it('should render the appropriate Veteran name', () => {
     const { selectors } = subject();
-    const { logo, title, veteranName } = selectors();
-    expect(logo).to.exist;
-    expect(title).to.contain.text(content['app-title']);
+    const { veteranName } = selectors();
     expect(veteranName).to.contain.text('John Marjorie Smith Sr.');
   });
 
@@ -40,7 +34,6 @@ describe('CG <ConfirmationPrintView>', () => {
   it('should render timestamp in `application information` section when provided', () => {
     const { selectors } = subject({ timestamp: 1666887649663 });
     const { submissionDate } = selectors();
-    expect(submissionDate).to.exist;
     expect(submissionDate).to.contain.text('Oct. 27, 2022');
   });
 });

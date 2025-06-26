@@ -22,19 +22,20 @@ import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { COULD_NOT_DETERMINE_DUE_TO_EXCEPTION } from './config/enums';
 
 const cardHeadingId = 'bank-account-information';
 
 // layout wrapper for common styling
 const Wrapper = ({ children, withPaymentHistory }) => {
   return (
-    <div className="vads-u-margin-y--2">
+    <>
       <Headline dataTestId="unified-direct-deposit">
         Direct deposit information
       </Headline>
       {children}
       {withPaymentHistory && <PaymentHistoryCard />}
-    </div>
+    </>
   );
 };
 
@@ -82,6 +83,7 @@ export const DirectDeposit = () => {
     ui,
     paymentAccount,
     controlInformation,
+    veteranStatus,
     isIdentityVerified,
     isBlocked,
     useOAuth,
@@ -106,6 +108,9 @@ export const DirectDeposit = () => {
   const hideDirectDeposit = useToggleValue(
     TOGGLE_NAMES.profileHideDirectDeposit,
   );
+  const nonVeteranFeatureFlag = useToggleValue(
+    TOGGLE_NAMES.profileLimitDirectDepositForNonBeneficiaries,
+  );
 
   const togglesLoading = useToggleLoadingValue();
 
@@ -126,7 +131,11 @@ export const DirectDeposit = () => {
     );
   }
 
-  if (loadError) {
+  if (
+    loadError ||
+    (nonVeteranFeatureFlag &&
+      veteranStatus === COULD_NOT_DETERMINE_DUE_TO_EXCEPTION)
+  ) {
     return (
       <Wrapper>
         <LoadFail />

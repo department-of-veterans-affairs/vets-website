@@ -2,18 +2,19 @@ import React from 'react';
 
 const NeedHelp = () => {
   return (
-    <div className="vads-u-margin-top--6">
+    <div className="vads-u-margin-top--6 need-help-container">
       <va-need-help>
         <div slot="content">
-          <p>
-            <strong>If you have triuble using this onile form,</strong> call us
-            at <va-telephone contact="1884424551" />
-          </p>
           <p>
             <strong>
               If you need help gathering your information or filling out your
               form,{' '}
             </strong>
+            <va-link
+              text="contact your Education Liaison Representative."
+              href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/elr.asp"
+              external
+            />
           </p>
         </div>
       </va-need-help>

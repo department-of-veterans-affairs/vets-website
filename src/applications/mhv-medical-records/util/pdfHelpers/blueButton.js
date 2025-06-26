@@ -6,7 +6,6 @@ import {
 } from '../constants';
 import {
   generateChemHemContent,
-  generateEkgContent,
   generateMicrobioContent,
   generatePathologyContent,
   generateRadiologyContent,
@@ -68,9 +67,6 @@ export const generateBlueButtonData = (
             }
             if (record.type === labTypes.PATHOLOGY) {
               content = generatePathologyContent(record);
-            }
-            if (record.type === labTypes.EKG) {
-              content = generateEkgContent(record);
             }
             if (record.type === labTypes.RADIOLOGY) {
               content = generateRadiologyContent(record);
@@ -135,7 +131,7 @@ export const generateBlueButtonData = (
   data.push({
     title: 'Health conditions',
     subtitles: [
-      'Health conditions are available 36 hours after your providers enter them.',
+      'This list includes the same information as your "VA problem list" in the previous My HealtheVet experience.',
       'About the codes in some condition names: Some of your health conditions may have diagnosis codes in the name that start with SCT or ICD. Providers use these codes to track your health conditions and to communicate with other providers about your care. If you have a question about these codes or a health condition, ask your provider at your next appointment.',
       `Showing ${conditions?.length} records from newest to oldest`,
     ],

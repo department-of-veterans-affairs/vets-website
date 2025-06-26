@@ -78,9 +78,7 @@ describe('VAOS Page: ReceivedDoseScreenerPage ', () => {
     fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-covid-19-vaccine-appointment/choose-facility',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('location'),
     );
 
     fireEvent.click(await screen.findByLabelText(/yes/i));
@@ -88,7 +86,7 @@ describe('VAOS Page: ReceivedDoseScreenerPage ', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-covid-19-vaccine-appointment/contact-facility',
+        'contact-facility',
       ),
     );
   });

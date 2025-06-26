@@ -3,6 +3,7 @@ import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../components/GetFormHelp';
+import FormSavedPage from '../components/FormSavedPage';
 import { submit } from './submit';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -42,9 +43,10 @@ const formConfig = {
       inProgress: 'Your Veterans pension benefits is in progress.',
       expired:
         'Your saved Veterans pension benefits has expired. If you want to apply for Veterans pension benefits application (21-527EZ), please start a new application.',
-      saved: 'Your Veterans pension benefits application has been saved.',
+      saved: 'We saved your Veterans Pension benefits application',
     },
   },
+  formSavedPage: FormSavedPage,
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth:

@@ -12,23 +12,32 @@ import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import {
-  paymentsSuccess,
-  paymentsSuccessEmpty,
-} from '../fixtures/test-payments-response';
-import { debtsSuccessEmpty } from '../fixtures/test-debts-response';
-import { copaysSuccessEmpty } from '../fixtures/test-copays-response';
-import appointmentsEmpty from '../fixtures/appointments-empty';
-import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
-import {
   mockLocalStorage,
   makeUserObject,
 } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
+import {
+  paymentsSuccess,
+  paymentsSuccessEmpty,
+} from '../fixtures/test-payments-response';
+import { copaysSuccessEmpty } from '../fixtures/test-copays-response';
+import appointmentsEmpty from '../fixtures/appointments-empty';
+import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 
 describe('The My VA Dashboard - Benefit Payments', () => {
   Cypress.config({ defaultCommandTimeout: 12000, requestTimeout: 20000 });
   beforeEach(() => {
     mockLocalStorage();
     cy.login(mockUser);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          {
+            name: 'showGenericDebtCard',
+            value: false,
+          },
+        ],
+      },
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/benefits_claims', claimsSuccess());
@@ -43,7 +52,10 @@ describe('The My VA Dashboard - Benefit Payments', () => {
 
   describe('when the section renders correctly', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/debts', debtsSuccessEmpty()).as('noDebtsB');
+      cy.intercept('GET', '/v0/debts?countOnly=true', {
+        debtsCount: 0,
+        hasDependentDebts: false,
+      }).as('noDebtsB');
       cy.intercept('GET', '/v0/medical_copays', copaysSuccessEmpty()).as(
         'noCopaysB',
       );
@@ -161,6 +173,16 @@ describe('when the payment history claims does not exist', () => {
       },
     });
     cy.login(mockUser1);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          {
+            name: 'showGenericDebtCard',
+            value: false,
+          },
+        ],
+      },
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/benefits_claims', claimsSuccess());
@@ -171,7 +193,10 @@ describe('when the payment history claims does not exist', () => {
     );
     cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
-    cy.intercept('GET', '/v0/debts', debtsSuccessEmpty()).as('noDebtsC');
+    cy.intercept('GET', '/v0/debts?countOnly=true', {
+      debtsCount: 0,
+      hasDependentDebts: false,
+    }).as('noDebtsC');
     cy.intercept('GET', '/v0/medical_copays', copaysSuccessEmpty()).as(
       'noCopaysC',
     );
@@ -225,6 +250,16 @@ describe('when the payment history claims is false', () => {
       },
     });
     cy.login(mockUser2);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          {
+            name: 'showGenericDebtCard',
+            value: false,
+          },
+        ],
+      },
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/benefits_claims', claimsSuccess());
@@ -235,7 +270,10 @@ describe('when the payment history claims is false', () => {
     );
     cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
-    cy.intercept('GET', '/v0/debts', debtsSuccessEmpty()).as('noDebtsD');
+    cy.intercept('GET', '/v0/debts?countOnly=true', {
+      debtsCount: 0,
+      hasDependentDebts: false,
+    }).as('noDebtsD');
     cy.intercept('GET', '/v0/medical_copays', copaysSuccessEmpty()).as(
       'noCopaysD',
     );

@@ -5,8 +5,8 @@ import uniq from 'lodash/uniq';
 import {
   waitForRenderThenFocus,
   focusElement,
-  scrollTo,
-} from 'platform/utilities/ui';
+} from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 
 import {
   getChaptersLengthDisplay,
@@ -75,7 +75,10 @@ export default function FormNav(props) {
     }
   }
 
-  if (isLoggedIn && index === 0) {
+  const pageIndex = eligiblePageList.findIndex(p => p === page);
+  // Only display the helper text if the user is logged in and on the first page of the first chapter
+  // skip introduction page at index 0
+  if (isLoggedIn && index === 0 && pageIndex === 1) {
     inProgressMessage = (
       <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
         We&rsquo;ll save your application on every change.{' '}

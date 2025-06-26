@@ -1,24 +1,26 @@
 // import fullSchema from 'vets-json-schema/dist/21P-0969-schema.json';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import manifest from '../manifest.json';
+import prefillTransformer from './prefill-transformer';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { submit } from './submit';
-import veteranInformation from './chapters/01-veteran-information';
-import claimantInformation from './chapters/02-claimant-information';
-import unassociatedIncomes from './chapters/03-unassociated-incomes';
-import associatedIncomes from './chapters/04-associated-incomes';
-import ownedAssets from './chapters/05-owned-assets';
-import royaltiesAndOtherProperties from './chapters/06-royalties-and-other-properties';
-import assetTransfers from './chapters/07-asset-transfers';
-import trusts from './chapters/08-trusts';
-import annuities from './chapters/09-annuities';
-import unreportedAssets from './chapters/10-unreported-assets';
-import discontinuedIncomes from './chapters/11-discontinued-incomes';
-import incomeReceiptWaivers from './chapters/12-income-receipt-waivers';
+import veteranAndClaimantInformation from './chapters/01-veteran-and-claimant-information';
+import unassociatedIncomes from './chapters/02-unassociated-incomes';
+import associatedIncomes from './chapters/03-associated-incomes';
+import ownedAssets from './chapters/04-owned-assets';
+import royaltiesAndOtherProperties from './chapters/05-royalties-and-other-properties';
+import assetTransfers from './chapters/06-asset-transfers';
+import trusts from './chapters/07-trusts';
+import annuities from './chapters/08-annuities';
+import unreportedAssets from './chapters/09-unreported-assets';
+import discontinuedIncomes from './chapters/10-discontinued-incomes';
+import incomeReceiptWaivers from './chapters/11-income-receipt-waivers';
+import supportingDocuments from './chapters/12-supporting-documents';
 
 // const { } = fullSchema.properties;
 
@@ -43,10 +45,12 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: false,
+  prefillEnabled: true,
+  prefillTransformer,
   dev: {
     disableWindowUnloadInCI: true,
   },
+  ...minimalHeaderFormConfigOptions(),
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -58,17 +62,16 @@ const formConfig = {
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: formData =>
-        formData['view:applicantIsVeteran']
+        formData?.claimantType === 'VETERAN'
           ? 'veteranFullName'
           : 'claimantFullName',
     },
   },
-  title: 'Income and Asset Statement Form',
+  title: 'Income and Asset Statement',
   subTitle: 'VA Form 21P-0969',
   defaultDefinitions: {},
   chapters: {
-    veteranInformation,
-    claimantInformation,
+    veteranAndClaimantInformation,
     unassociatedIncomes,
     associatedIncomes,
     ownedAssets,
@@ -79,6 +82,7 @@ const formConfig = {
     unreportedAssets,
     discontinuedIncomes,
     incomeReceiptWaivers,
+    supportingDocuments,
   },
 };
 

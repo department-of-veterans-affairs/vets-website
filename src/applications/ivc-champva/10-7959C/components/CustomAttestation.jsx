@@ -2,6 +2,7 @@ import React from 'react';
 import FormSignature from 'platform/forms-system/src/js/components/FormSignature';
 import get from 'platform/utilities/data/get';
 import { nameWording } from '../../shared/utilities';
+import { validateText } from '../../shared/validations';
 
 /*
 Custom attestation/signature/statement of truth component.
@@ -81,7 +82,7 @@ export default function CustomAttestation(signatureProps) {
     ? 'Your full name'
     : 'Enter your full name to sign as the beneficiary’s representative';
 
-  const validators = isBeneficiary ? [signatureValidator] : [];
+  const validators = isBeneficiary ? [signatureValidator] : [validateText];
 
   return (
     <>

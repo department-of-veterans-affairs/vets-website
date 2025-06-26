@@ -60,18 +60,18 @@ export const fetchFacilities = async ({
       })),
       meta,
     };
-  } catch (error) {
-    const errorResponse = error?.errors?.[0];
+  } catch ({ errors }) {
+    const errorResponse = errors?.[0];
     if (
       errorResponse?.status === '403' &&
       errorResponse?.detail === 'Invalid Authenticity Token'
     ) {
-      localStorage.setItem('csrfToken', '');
+      localStorage.removeItem('csrfToken');
     }
 
     return {
       type: 'SEARCH_FAILED',
-      errorMessage: 'There was an error fetching the health care facilities.',
+      errorMessage: content['error--facilities--generic'],
     };
   }
 };

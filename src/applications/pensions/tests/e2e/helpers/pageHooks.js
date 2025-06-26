@@ -1,5 +1,6 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
+
 import {
-  fillAddressWebComponentPattern,
   fillCareExpensesPage,
   fillCurrentEmploymentHistoryPage,
   fillDependentsPage,
@@ -29,12 +30,20 @@ const replaceDefaultBehavior = context => {
   replaceDefaultPostHook(context);
 };
 
-const pageHooks = {
+const pageHooks = returnUrl => ({
   introduction: () => {
-    // skip wizard
-    cy.findAllByText(/start the pension application/i)
-      .first()
-      .click();
+    if (returnUrl) {
+      cy.get('va-alert [slot="headline"]', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'is in progress');
+      cy.injectAxeThenAxeCheck();
+
+      cy.get('va-button[data-testid="continue-your-application"]').click();
+    } else {
+      cy.findAllByText(/start the pension application/i)
+        .first()
+        .click();
+    }
   },
   ...Object.keys(pagePaths).reduce((paths, pagePath) => ({
     ...paths,
@@ -42,7 +51,7 @@ const pageHooks = {
   })),
   [pagePaths.mailingAddress]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
-      fillAddressWebComponentPattern('veteranAddress', data.veteranAddress);
+      cy.fillAddressWebComponentPattern('veteranAddress', data.veteranAddress);
       replaceDefaultPostHook({ afterHook });
     });
   },
@@ -125,7 +134,7 @@ const pageHooks = {
   },
   [pagePaths.currentSpouseAddress]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
-      fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
+      cy.fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
       afterHook(replaceDefaultPostHook);
     });
   },
@@ -214,6 +223,6 @@ const pageHooks = {
       });
     });
   },
-};
+});
 
 export default pageHooks;

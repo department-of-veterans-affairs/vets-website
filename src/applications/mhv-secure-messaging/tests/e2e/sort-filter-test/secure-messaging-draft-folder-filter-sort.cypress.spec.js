@@ -5,20 +5,25 @@ import { AXE_CONTEXT } from '../utils/constants';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientFilterPage from '../pages/PatientFilterPage';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
-import draftSearchResponse from '../fixtures/draftsResponse/drafts-search-response.json';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM DRAFT FOLDER FILTER-SORT CHECKS', () => {
+  const filterData = 'test';
+  const filteredResponse = PatientFilterPage.filterMockResponse(
+    mockDraftMessages,
+    filterData,
+  );
+
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(mockDraftMessages);
     FolderLoadPage.loadDraftMessages();
   });
 
   it('verify filter works correctly', () => {
-    PatientFilterPage.inputFilterData('test');
-    PatientFilterPage.clickApplyFilterButton(draftSearchResponse);
-    PatientFilterPage.verifyFilterResults('test', draftSearchResponse);
+    PatientFilterPage.inputFilterData(filterData);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
+    PatientFilterPage.verifyFilterResults(filterData, filteredResponse);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -39,6 +44,20 @@ describe('SM DRAFT FOLDER FILTER-SORT CHECKS', () => {
     );
 
     PatientFilterPage.verifySorting(sortedResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify filter with no matches', () => {
+    const noMatchResponse = PatientFilterPage.filterMockResponse(
+      mockDraftMessages,
+      'no match',
+    );
+
+    PatientFilterPage.inputFilterData('no match');
+    PatientFilterPage.clickApplyFilterButton(noMatchResponse);
+
+    PatientFilterPage.verifyNoMatchFilterFocusAndText();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

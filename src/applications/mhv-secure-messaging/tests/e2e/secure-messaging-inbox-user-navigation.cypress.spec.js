@@ -8,6 +8,7 @@ describe('Secure Messaging Compose', () => {
   it('can send message', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
+    PatientComposePage.interceptSentFolder();
 
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_SIGNATURE, mockSignature).as(
       'signature',
@@ -26,7 +27,7 @@ describe('Secure Messaging Compose', () => {
     });
     PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifySendMessageConfirmationMessageText();
-    PatientComposePage.verifyHeader('Inbox');
+    PatientComposePage.verifyHeader('Messages: Inbox');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

@@ -20,7 +20,7 @@ describe('Prescriptions List Txt Config', () => {
   });
   it('Should show None noted if provider name is not provided', () => {
     const txt = buildPrescriptionsTXT(prescriptions);
-    expect(txt).to.include('Prescribed by: None noted');
+    expect(txt).to.include('Prescribed by: Provider name not available');
   });
 });
 
@@ -120,24 +120,24 @@ describe('Non VA prescription Config', () => {
     };
 
     const txt = buildNonVAPrescriptionTXT(nonVaRxWithoutProviderName);
-    expect(txt).to.include('Documented by: None noted');
+    expect(txt).to.include('Documented by: Provider name not available');
   });
 });
 
 describe('Medication Information Config', () => {
-  it('should convert HTML to text (string) for TXT', () => {
+  it('should convert HTML to text (string) for TXT', async () => {
     const htmlContent = `<div><p>Test\n</p><ul><li>Item 1</li><li>Item 2</li></ul></div>`;
 
-    const txt = convertHtmlForDownload(htmlContent);
+    const txt = await convertHtmlForDownload(htmlContent);
     expect(txt).to.include('- Item 1');
     expect(txt).to.include('- Item 2');
     expect(txt).to.include('Test\n');
   });
 
-  it('should convert HTML to text (array) for PDF', () => {
+  it('should convert HTML to text (array) for PDF', async () => {
     const htmlContent = `<div><p>Test\n</p><ul><li>Item 1</li><li>Item 2</li></ul></div>`;
 
-    const txt = convertHtmlForDownload(htmlContent, DOWNLOAD_FORMAT.PDF);
+    const txt = await convertHtmlForDownload(htmlContent, DOWNLOAD_FORMAT.PDF);
     expect(txt).to.be.a('array');
   });
 });

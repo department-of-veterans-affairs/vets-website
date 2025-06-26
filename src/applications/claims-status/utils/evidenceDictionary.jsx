@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom-v5-compat';
 
 export const evidenceDictionary = {
   '21-4142/21-4142a': {
@@ -28,15 +27,14 @@ export const evidenceDictionary = {
         <p>
           You can complete and sign this form online, or use a PDF version and
           upload or mail it.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-4142"
+            text="VA Form 21-4142"
+            href="/find-forms/about-form-21-4142/"
+          />
         </p>
-        <Link
-          className="active-va-link"
-          data-testid="VA Form 21-4142"
-          to="https://www.va.gov/find-forms/about-form-21-4142a/"
-        >
-          VA Form 21-4142
-          <va-icon icon="chevron_right" size={3} aria-hidden="true" />
-        </Link>
       </>
     ),
   },
@@ -52,15 +50,14 @@ export const evidenceDictionary = {
         <p>
           Give VA Form 21-4192 to your most recent employer and ask them to mail
           us your employment information.
+          <br />
+          <va-link
+            active
+            text="VA Form 21-4192"
+            data-testid="VA Form 21-4192"
+            href="/find-forms/about-form-21-4192/"
+          />
         </p>
-        <Link
-          className="active-va-link"
-          data-testid="VA Form 21-4192"
-          to="https://www.va.gov/find-forms/about-form-21-4192/"
-        >
-          VA Form 21-4192
-          <va-icon icon="chevron_right" size={3} aria-hidden="true" />
-        </Link>
       </>
     ),
     isProperNoun: false,
@@ -77,22 +74,96 @@ export const evidenceDictionary = {
         <p>
           You can update your direct deposit information in your VA.gov profile,
           by phone, or by mail.
+          <br />
+          <va-link
+            active
+            text="Add or change direct deposit information"
+            data-testid="Add or change direct deposit information"
+            href="/profile/direct-deposit"
+          />
         </p>
+
         <p>
           If you don’t already have a bank account, the Veterans Benefits
           Banking Program (VBBP) can connect you with a bank that will help you
           set up an account.
+          <a
+            className="external-active-link vads-u-margin-top--0"
+            rel="noopener noreferrer"
+            target="_blank"
+            data-testid="Set up a bank account through VBBP (opens in new tab)"
+            href="https://veteransbenefitsbanking.org/"
+          >
+            Set up a bank account through VBBP (opens in new tab)
+            <va-icon
+              icon="chevron_right"
+              class="active-link-icon"
+              size={2}
+              aria-hidden="true"
+            />
+          </a>
         </p>
-        <Link
-          className="active-va-link"
-          data-testid="Add direct deposit information"
-          to="https://www.va.gov/resources/direct-deposit-for-your-va-benefit-payments/"
-        >
-          Add direct deposit information
-          <va-icon icon="chevron_right" size={3} aria-hidden="true" />
-        </Link>
       </>
     ),
     isProperNoun: false,
+  },
+  'RV1 - Reserve Records Request': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested your service records or
+          treatment records from your reserve unit.
+        </p>
+        <p>Your records may be used to verify:</p>
+        <ul className="bullet-disc">
+          <li>Your service</li>
+          <li>An event in your service</li>
+          <li>Treatment received during your service</li>
+        </ul>
+      </>
+    ),
+  },
+  'DBQ AUDIO Hearing Loss and Tinnitus': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested a disability exam for your
+          hearing. The examiner’s office will contact you to schedule this
+          appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+    isDBQ: true,
+  },
+  'DBQ PSYCH Mental Disorders': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested a mental health exam. The
+          examiner’s office will contact you to schedule this appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+    isDBQ: true,
+  },
+  'Proof of service (DD214, etc.)': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested all your DD Form 214's or
+          other separation papers for all your periods of military service.
+        </p>
+        <p>
+          You can also{' '}
+          <va-link
+            text="request your military service records"
+            href="/records/get-military-service-records/"
+          />{' '}
+          yourself from the National Archives.
+        </p>
+      </>
+    ),
   },
 };

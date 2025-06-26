@@ -1,0 +1,67 @@
+flow:
+  title: Health care for Audiology and hearing aids (auth)
+  runOnCI: false # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
+      value: select-category-health-care
+
+    - action: include
+      target: page
+      value: select-topic-audiology-and-hearing-aids
+
+    - action: include
+      target: page
+      value: who-is-your-question-about-someone-else
+
+    - action: include
+      target: page
+      value: what-is-your-relationship-to-the-veteran-family-member
+
+    - action: include
+      target: page
+      value: who-is-your-question-about-someone-else-or-veteran
+
+    - action: include
+      target: page
+      value: what-is-their-relationship-to-the-veteran-spouse
+
+    - action: include
+      target: page
+      value: tell-us-about-your-veteran-family-member
+
+    - action: include
+      target: page
+      value: your-family-member-va-health-facility
+
+    - action: include
+      target: page
+      value: tell-us-about-your-family-member-veteran
+
+    - action: include
+      target: page
+      value: tell-us-about-your-family-member-veteran-death
+
+    - action: include
+      target: page
+      value: your-contact-information
+
+    - action: include
+      target: page
+      value: your-question
+
+    - action: include
+      target: page
+      value: editing-answers
+
+    - action: include
+      target: page
+      value: your-confirmation-number

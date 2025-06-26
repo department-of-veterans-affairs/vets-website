@@ -1,43 +1,37 @@
-import React from 'react';
-import { expect } from 'chai';
-import moment from 'moment-timezone';
-import MockDate from 'mockdate';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/react';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import { addDays, format, subDays } from 'date-fns';
+import MockDate from 'mockdate';
+import React from 'react';
 import {
-  renderWithStoreAndRouter,
   getTestDate,
+  renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 import { AppointmentList } from '../..';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import {
   mockAppointmentApi,
-  mockGetPendingAppointmentsApi,
-  mockGetUpcomingAppointmentsApi,
-} from '../../../tests/mocks/helpers';
-import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
-import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
+  mockAppointmentsApi,
+  mockFacilitiesApi,
+  mockFacilityApi,
+} from '../../../tests/mocks/mockApis';
 
 describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   const initialState = {
     featureToggles: {
-      // eslint-disable-next-line camelcase
-      show_new_schedule_view_appointments_page: true,
-      vaOnlineSchedulingBreadcrumbUrlUpdate: true,
       vaOnlineSchedulingCancel: true,
-      vaOnlineSchedulingPast: true,
       vaOnlineSchedulingRequests: true,
-      vaOnlineSchedulingVAOSServiceRequests: true,
-      vaOnlineSchedulingVAOSServiceVAAppointments: true,
     },
   };
 
   describe('show appointment', () => {
     beforeEach(() => {
       mockFetch();
-      mockFacilitiesFetch();
+      mockFacilitiesApi({ response: [] });
       MockDate.set(getTestDate());
     });
 
@@ -52,7 +46,15 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const response = new MockAppointmentResponse({
         status: APPOINTMENT_STATUS.cancelled,
       });
-      mockAppointmentApi({ response });
+
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response,
+      });
+
+      mockFacilityApi({
+        id: '983',
+      });
 
       // Act
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -76,11 +78,18 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     it('should display who canceled the appointment for past appointments', async () => {
       // Arrange
       const response = new MockAppointmentResponse({
-        localStartTime: moment().subtract(1, 'day'),
+        localStartTime: subDays(new Date(), 1),
         status: APPOINTMENT_STATUS.cancelled,
       });
 
-      mockAppointmentApi({ response });
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response,
+      });
+
+      mockFacilityApi({
+        id: '983',
+      });
 
       // Act
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -106,13 +115,27 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       // Arrange
       const response = new MockAppointmentResponse({ future: true });
 
-      mockAppointmentApi({ response, avs: true, fetchClaimStatus: true });
-      mockGetUpcomingAppointmentsApi({
-        response: [response],
-        avs: true,
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response,
       });
-      mockGetPendingAppointmentsApi({
+
+      mockAppointmentsApi({
+        end: addDays(new Date(), 395),
+        start: subDays(new Date(), 30),
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
         response: [response],
+      });
+
+      mockAppointmentsApi({
+        end: addDays(new Date(), 1),
+        start: subDays(new Date(), 120),
+        statuses: ['proposed', 'cancelled'],
+        response: [response],
+      });
+
+      mockFacilityApi({
+        id: '983',
       });
 
       // Act
@@ -125,6 +148,12 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       await waitFor(() => {
         expect(document.activeElement).to.have.tagName('h1');
       });
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: /In-person appointment/i,
+        }),
+      ).to.be.ok;
 
       userEvent.click(
         screen.container.querySelector('va-link[text="Back to appointments"]'),
@@ -135,14 +164,18 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     describe('Document titles', () => {
       it('should display document title for ATLAS video appointment', async () => {
         // Arrange
-        const today = moment();
+        const today = new Date();
         const responses = MockAppointmentResponse.createAtlasResponses({
           localStartTime: today,
         });
+
         mockAppointmentApi({
+          includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
           response: responses[0],
-          avs: true,
-          fetchClaimStatus: true,
+        });
+
+        mockFacilityApi({
+          id: '983',
         });
 
         // Act
@@ -154,8 +187,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Upcoming Video Appointment At An ATLAS Location On ${today.format(
-              'dddd, MMMM D, YYYY',
+            `Upcoming Video Appointment At An ATLAS Location On ${format(
+              today,
+              'EEEE, MMMM d, yyyy',
             )} | Veterans Affairs`,
           );
         });
@@ -163,15 +197,19 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
       it('should display document title for past ATLAS video appointment', async () => {
         // Arrange
-        const yesterday = moment().subtract(1, 'day');
+        const yesterday = subDays(new Date(), 1);
         const responses = MockAppointmentResponse.createAtlasResponses({
           localStartTime: yesterday,
           past: true,
         });
+
         mockAppointmentApi({
+          includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
           response: responses[0],
-          avs: true,
-          fetchClaimStatus: true,
+        });
+
+        mockFacilityApi({
+          id: '983',
         });
 
         // Act
@@ -183,8 +221,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Past Video Appointment At An ATLAS Location On ${yesterday.format(
-              'dddd, MMMM D, YYYY',
+            `Past Video Appointment At An ATLAS Location On ${format(
+              yesterday,
+              'EEEE, MMMM d, yyyy',
             )} | Veterans Affairs`,
           );
         });
@@ -192,15 +231,19 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
       it('should display document title for canceled ATLAS video appointment', async () => {
         // Arrange
-        const today = moment();
+        const today = new Date();
         const responses = MockAppointmentResponse.createAtlasResponses({
           localStartTime: today,
         });
         responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+
         mockAppointmentApi({
+          includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
           response: responses[0],
-          avs: true,
-          fetchClaimStatus: true,
+        });
+
+        mockFacilityApi({
+          id: '983',
         });
 
         // Act
@@ -212,8 +255,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Canceled Video Appointment At An ATLAS Location On ${today.format(
-              'dddd, MMMM D, YYYY',
+            `Canceled Video Appointment At An ATLAS Location On ${format(
+              today,
+              'EEEE, MMMM d, yyyy',
             )} | Veterans Affairs`,
           );
         });
@@ -221,14 +265,18 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
       it('should display document title for video appointment', async () => {
         // Arrange
-        const today = moment();
+        const today = new Date();
         const responses = MockAppointmentResponse.createGfeResponses({
           localStartTime: today,
         });
+
         mockAppointmentApi({
+          includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
           response: responses[0],
-          avs: true,
-          fetchClaimStatus: true,
+        });
+
+        mockFacilityApi({
+          id: '983',
         });
 
         // Act
@@ -240,8 +288,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Upcoming Video Appointment On ${today.format(
-              'dddd, MMMM D, YYYY',
+            `Upcoming Video Appointment On ${format(
+              today,
+              'EEEE, MMMM d, yyyy',
             )} | Veterans Affairs`,
           );
         });
@@ -249,15 +298,19 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
       it('should display document title for past video appointment', async () => {
         // Arrange
-        const yesterday = moment().subtract(1, 'day');
+        const yesterday = subDays(new Date(), 1);
         const responses = MockAppointmentResponse.createGfeResponses({
           localStartTime: yesterday,
           past: true,
         });
+
         mockAppointmentApi({
+          includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
           response: responses[0],
-          avs: true,
-          fetchClaimStatus: true,
+        });
+
+        mockFacilityApi({
+          id: '983',
         });
 
         // Act
@@ -269,8 +322,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Past Video Appointment On ${yesterday.format(
-              'dddd, MMMM D, YYYY',
+            `Past Video Appointment On ${format(
+              yesterday,
+              'EEEE, MMMM d, yyyy',
             )} | Veterans Affairs`,
           );
         });
@@ -278,15 +332,19 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
       it('should display document title for canceled video appointment', async () => {
         // Arrange
-        const today = moment();
+        const today = new Date();
         const responses = MockAppointmentResponse.createGfeResponses({
           localStartTime: today,
         });
         responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+
         mockAppointmentApi({
+          includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
           response: responses[0],
-          avs: true,
-          fetchClaimStatus: true,
+        });
+
+        mockFacilityApi({
+          id: '983',
         });
 
         // Act
@@ -298,8 +356,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Canceled Video Appointment On ${today.format(
-              'dddd, MMMM D, YYYY',
+            `Canceled Video Appointment On ${format(
+              today,
+              'EEEE, MMMM d, yyyy',
             )} | Veterans Affairs`,
           );
         });
@@ -307,14 +366,18 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
       it('should display document title for video at VA location appointment', async () => {
         // Arrange
-        const today = moment();
+        const today = new Date();
         const responses = MockAppointmentResponse.createClinicResponses({
           localStartTime: today,
         });
+
         mockAppointmentApi({
+          includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
           response: responses[0],
-          avs: true,
-          fetchClaimStatus: true,
+        });
+
+        mockFacilityApi({
+          id: '983',
         });
 
         // Act
@@ -326,8 +389,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Upcoming Video Appointment At A VA Location On ${today.format(
-              'dddd, MMMM D, YYYY',
+            `Upcoming Video Appointment At A VA Location On ${format(
+              today,
+              'EEEE, MMMM d, yyyy',
             )} | Veterans Affairs`,
           );
         });
@@ -335,15 +399,19 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
       it('should display document title for past video at VA location appointment', async () => {
         // Arrange
-        const yesterday = moment().subtract(1, 'day');
+        const yesterday = subDays(new Date(), 1);
         const responses = MockAppointmentResponse.createClinicResponses({
           localStartTime: yesterday,
           past: true,
         });
+
         mockAppointmentApi({
+          includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
           response: responses[0],
-          avs: true,
-          fetchClaimStatus: true,
+        });
+
+        mockFacilityApi({
+          id: '983',
         });
 
         // Act
@@ -355,8 +423,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Past Video Appointment At A VA Location On ${yesterday.format(
-              'dddd, MMMM D, YYYY',
+            `Past Video Appointment At A VA Location On ${format(
+              yesterday,
+              'EEEE, MMMM d, yyyy',
             )} | Veterans Affairs`,
           );
         });
@@ -364,15 +433,19 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
       it('should display document title for canceled video at VA location appointment', async () => {
         // Arrange
-        const today = moment();
+        const today = new Date();
         const responses = MockAppointmentResponse.createClinicResponses({
           localStartTime: today,
         });
         responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+
         mockAppointmentApi({
+          includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
           response: responses[0],
-          avs: true,
-          fetchClaimStatus: true,
+        });
+
+        mockFacilityApi({
+          id: '983',
         });
 
         // Act
@@ -384,8 +457,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Canceled Video Appointment At A VA Location On ${today.format(
-              'dddd, MMMM D, YYYY',
+            `Canceled Video Appointment At A VA Location On ${format(
+              today,
+              'EEEE, MMMM d, yyyy',
             )} | Veterans Affairs`,
           );
         });
@@ -394,16 +468,20 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       describe('when appointment is canceled and in the past', () => {
         it('should display document title for canceled past phone appointment', async () => {
           // Arrange
-          const yesterday = moment().subtract(1, 'day');
+          const yesterday = subDays(new Date(), 1);
           const responses = MockAppointmentResponse.createPhoneResponses({
             localStartTime: yesterday,
             past: true,
           });
           responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+
           mockAppointmentApi({
+            includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
             response: responses[0],
-            avs: true,
-            fetchClaimStatus: true,
+          });
+
+          mockFacilityApi({
+            id: '983',
           });
 
           // Act
@@ -415,25 +493,29 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
           // Assert
           await waitFor(() => {
             expect(global.document.title).to.equal(
-              `Canceled Phone Appointment On ${yesterday.format(
-                'dddd, MMMM D, YYYY',
+              `Canceled Phone Appointment On ${format(
+                yesterday,
+                'EEEE, MMMM d, yyyy',
               )} | Veterans Affairs`,
             );
           });
         });
         it('should display document title for canceled past CC appointment', async () => {
           // Arrange
-
-          const yesterday = moment().subtract(1, 'day');
+          const yesterday = subDays(new Date(), 1);
           const responses = MockAppointmentResponse.createCCResponses({
             localStartTime: yesterday,
             past: true,
+            status: APPOINTMENT_STATUS.cancelled,
           });
-          responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+
           mockAppointmentApi({
+            includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
             response: responses[0],
-            avs: true,
-            fetchClaimStatus: true,
+          });
+
+          mockFacilityApi({
+            id: '983',
           });
 
           // Act
@@ -445,8 +527,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
           // Assert
           await waitFor(() => {
             expect(global.document.title).to.equal(
-              `Canceled Community Care Appointment On ${yesterday.format(
-                'dddd, MMMM D, YYYY',
+              `Canceled Community Care Appointment On ${format(
+                yesterday,
+                'EEEE, MMMM d, yyyy',
               )} | Veterans Affairs`,
             );
           });
@@ -460,6 +543,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       // Arrange
       mockFetch();
       mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
         response: new MockAppointmentResponse(),
         responseCode: 404,
       });

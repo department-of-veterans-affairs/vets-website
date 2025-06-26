@@ -12,25 +12,22 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
+  getNameDateAndTime,
+  makePdf,
+  formatUserDob,
+  formatNameFirstLast,
 } from '@department-of-veterans-affairs/mhv/exports';
-import {
-  VaLoadingIndicator,
-  VaRadio,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from './NeedHelpSection';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import {
-  getNameDateAndTime,
-  makePdf,
   generateTextFile,
   focusOnErrorField,
   getLastUpdatedText,
-  formatUserDob,
   sendDataDogAction,
-  formatNameFirstLast,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
@@ -45,6 +42,8 @@ import {
 import { Actions } from '../../util/actionTypes';
 import useFocusOutline from '../../hooks/useFocusOutline';
 import { updateReportFileType } from '../../actions/downloads';
+import { postCreateAAL } from '../../api/MrApi';
+import TrackedSpinner from '../shared/TrackedSpinner';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -93,8 +92,10 @@ const DownloadFileType = props => {
   const { fromDate, toDate, option: dateFilterOption } = dateFilter;
 
   const progressBarRef = useRef(null);
+  const noRecordsFoundRef = useRef(null);
 
   useFocusOutline(progressBarRef);
+  useFocusOutline(noRecordsFoundRef);
 
   useEffect(
     () => {
@@ -108,14 +109,19 @@ const DownloadFileType = props => {
   useEffect(
     () => {
       setTimeout(() => {
+        const noRecords = noRecordsFoundRef.current;
         const heading = progressBarRef?.current?.shadowRoot?.querySelector(
           'h2',
         );
-        focusElement(heading);
+        if (noRecordsFoundRef.current) {
+          focusElement(noRecords);
+        } else {
+          focusElement(heading);
+        }
       }, 400);
       updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
     },
-    [progressBarRef],
+    [noRecordsFoundRef, progressBarRef],
   );
 
   useEffect(
@@ -317,12 +323,25 @@ const DownloadFileType = props => {
     [recordData],
   );
 
-  const formatDateRange = () => {
-    return {
-      fromDate:
-        fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'any',
-      toDate: fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
-    };
+  const formatDateRange = useCallback(
+    () => {
+      return {
+        fromDate:
+          fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'any',
+        toDate: fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
+      };
+    },
+    [fromDate, toDate],
+  );
+
+  const logAal = status => {
+    postCreateAAL({
+      activityType: 'Download',
+      action: 'Custom Download Requested',
+      performerType: 'Self',
+      status,
+      oncePerSession: true,
+    });
   };
 
   const generatePdf = useCallback(
@@ -351,28 +370,29 @@ const DownloadFileType = props => {
           await makePdf(
             pdfName,
             pdfData,
-            title,
-            runningUnitTest,
             'blueButtonReport',
+            'Medical Records - Blue Button report - PDF generation error',
+            runningUnitTest,
           );
+          logAal(1);
           dispatch({ type: Actions.Downloads.BB_SUCCESS });
         }
       } catch (error) {
+        logAal(0);
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
     [
-      fromDate,
-      toDate,
       dispatch,
-      dob,
       isDataFetched,
-      name,
+      user,
+      formatDateRange,
       recordData,
       recordFilter,
+      name,
+      dob,
       refreshStatus,
       runningUnitTest,
-      user,
     ],
   );
 
@@ -393,13 +413,15 @@ const DownloadFileType = props => {
           const content = getTxtContent(recordData, user, dateRange);
 
           generateTextFile(content, pdfName, user);
+          logAal(1);
           dispatch({ type: Actions.Downloads.BB_SUCCESS });
         }
       } catch (error) {
+        logAal(0);
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
-    [dispatch, isDataFetched, recordData, user],
+    [dispatch, formatDateRange, isDataFetched, recordData, user],
   );
 
   const checkFileTypeValidity = useCallback(
@@ -458,14 +480,19 @@ const DownloadFileType = props => {
       <h2>Select file type</h2>
       {!isDataFetched && (
         <div className="vads-u-padding-bottom--2">
-          <VaLoadingIndicator message="Loading your records..." />
+          <TrackedSpinner
+            id="download-records-spinner"
+            message="Loading your records..."
+          />
         </div>
       )}
       {isDataFetched &&
         recordCount === 0 && (
           <div className="vads-u-padding-bottom--2">
             <va-alert data-testid="no-records-alert" status="error">
-              <h2 slot="headline">No records found</h2>
+              <h2 slot="headline" id="no-records-found" ref={noRecordsFoundRef}>
+                No records found
+              </h2>
               <p>
                 We couldn’t find any records that match your selection. Go back
                 and update the date range or select more record types.

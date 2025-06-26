@@ -17,6 +17,7 @@ import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const HealthConditions = () => {
   const ABOUT_THE_CODES_LABEL = 'About the codes in some condition names';
@@ -66,10 +67,10 @@ const HealthConditions = () => {
       <h1 className="vads-u-margin--0" data-testid="health-conditions">
         Health conditions
       </h1>
-      <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-        Health condition records are available{' '}
-        <span className="vads-u-font-weight--bold">36 hours</span> after your
-        providers enter them.
+
+      <p className="page-description">
+        This list includes the same information as your "VA problem list" in the
+        previous My HealtheVet experience.
       </p>
 
       <AcceleratedCernerFacilityAlert
@@ -110,7 +111,14 @@ const HealthConditions = () => {
             condition, ask your provider at your next appointment.
           </p>
         </va-additional-info>
-        <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
+        {conditions?.length ? (
+          <RecordList
+            records={conditions}
+            type={recordType.HEALTH_CONDITIONS}
+          />
+        ) : (
+          <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />
+        )}
       </RecordListSection>
     </>
   );

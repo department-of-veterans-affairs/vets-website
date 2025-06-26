@@ -31,9 +31,12 @@ describe('CareSummariesAndNotes list container', () => {
 
   it('renders without errors', () => {
     expect(
-      screen.getByText('Most care summaries and notes are available', {
-        exact: false,
-      }),
+      screen.getByText(
+        'This list doesn’t include care summaries from before 2013.',
+        {
+          exact: false,
+        },
+      ),
     ).to.exist;
   });
 });

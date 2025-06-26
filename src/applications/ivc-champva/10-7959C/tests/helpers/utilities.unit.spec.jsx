@@ -5,8 +5,8 @@ import {
   concatStreets,
   getObjectsWithAttachmentId,
   nameWording,
-  validateText,
 } from '../../../shared/utilities';
+import { validateText } from '../../../shared/validations';
 
 describe('isRequiredFile', () => {
   it("should return '(Required)' if required file in formContext", () => {

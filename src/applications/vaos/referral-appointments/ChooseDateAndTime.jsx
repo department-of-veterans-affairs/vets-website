@@ -13,7 +13,6 @@ import {
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
 import { getDraftAppointmentInfo } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
 export const ChooseDateAndTime = props => {
@@ -39,7 +38,12 @@ export const ChooseDateAndTime = props => {
         futureStatus === FETCH_STATUS.notStarted
       ) {
         if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-          dispatch(createDraftReferralAppointment(currentReferral.uuid));
+          dispatch(
+            createDraftReferralAppointment(
+              currentReferral.referralNumber,
+              currentReferral.referralConsultId,
+            ),
+          );
         }
         if (futureStatus === FETCH_STATUS.notStarted) {
           dispatch(fetchFutureAppointments({ includeRequests: false }));
@@ -49,22 +53,15 @@ export const ChooseDateAndTime = props => {
         futureStatus === FETCH_STATUS.succeeded
       ) {
         setLoading(false);
-        scrollAndFocus('h1');
       } else if (
         draftAppointmentCreateStatus === FETCH_STATUS.failed ||
         futureStatus === FETCH_STATUS.failed
       ) {
         setLoading(false);
         setFailed(true);
-        scrollAndFocus('h1');
       }
     },
-    [
-      currentReferral.uuid,
-      dispatch,
-      draftAppointmentCreateStatus,
-      futureStatus,
-    ],
+    [currentReferral, dispatch, draftAppointmentCreateStatus, futureStatus],
   );
   useEffect(
     () => {
@@ -75,9 +72,12 @@ export const ChooseDateAndTime = props => {
 
   if (loading) {
     return (
-      <div className="vads-u-margin-y--8" data-testid="loading">
-        <va-loading-indicator message="Loading available appointments times..." />
-      </div>
+      <ReferralLayout
+        data-testid="loading"
+        loadingMessage="Loading available appointment times..."
+        hasEyebrow
+        heading="Schedule an appointment with your provider"
+      />
     );
   }
 

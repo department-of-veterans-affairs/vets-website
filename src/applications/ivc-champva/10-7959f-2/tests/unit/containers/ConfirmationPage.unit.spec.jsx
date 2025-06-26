@@ -12,6 +12,12 @@ import mockData from '../../e2e/fixtures/data/test-data.json';
 const subDate = new Date('11/13/2023').toString();
 
 const storeBase = {
+  user: {
+    login: {
+      currentlyLoggedIn: false,
+    },
+    profile: {},
+  },
   form: {
     ...formConfig,
     pages: {

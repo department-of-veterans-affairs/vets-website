@@ -14,7 +14,7 @@ class ContactListPage {
   verifyHeaders = () => {
     cy.get(`h1`)
       .should(`be.visible`)
-      .and(`have.text`, `Contact list`);
+      .and(`have.text`, `Messages: Contact list`);
 
     cy.get(`.contactListForm`)
       .find(`h2`)
@@ -71,10 +71,7 @@ class ContactListPage {
   };
 
   verifySaveAlert = () => {
-    cy.get(Locators.ALERTS.HEADER).should(
-      `include.text`,
-      Alerts.CONTACT_LIST.SAVE,
-    );
+    cy.contains(Alerts.CONTACT_LIST.SAVE).should(`be.visible`);
 
     cy.get(Locators.ALERTS.CL_SAVE)
       .shadow()

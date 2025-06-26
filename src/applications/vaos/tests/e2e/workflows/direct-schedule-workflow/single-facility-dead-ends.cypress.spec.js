@@ -1,5 +1,12 @@
 // @ts-check
-import MockUser from '../../fixtures/MockUser';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
   mockClinicsApi,
@@ -13,16 +20,10 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import { PRIMARY_CARE } from '../../../../utils/constants';
-import { getTypeOfCareById } from '../../../../utils/appointment';
 
-const { cceType } = getTypeOfCareById(PRIMARY_CARE);
-const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.PRIMARY_CARE,
+);
 
 describe('VAOS direct schedule flow - Single facility dead ends', () => {
   beforeEach(() => {

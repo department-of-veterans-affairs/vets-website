@@ -165,3 +165,85 @@ This document was created to help front-end developers understand the prescripti
 | `trackingList` | `tracking_list` | none |
 | `rxRfRecords` | `rx_rf_records` | none |
 | `tracking` (not in use) | `tracking` | `tracking` |
+
+## Application Architecture
+
+### Routing and Data Flow
+
+The MHV Medications application architecture combines React Router, Redux Toolkit Query (RTK Query), and Redux for state management. Here's how the different pieces work together:
+
+#### Route Structure
+
+The application uses React Router V6 (via the v5-compat package) and implements route-based code splitting with lazy loading:
+
+```jsx
+// Key routes
+/                           // Prescriptions list
+/refill                     // Refill prescriptions
+/prescription/:id           // Prescription details
+/prescription/:id/documentation  // Prescription documentation
+```
+
+All routes are wrapped in an `AppWrapper` component that:
+- Handles access control via `useMyHealthAccessGuard`
+- Provides the app container and layout
+- Implements lazy loading with Suspense
+
+#### Data Loading Pattern
+
+The application uses a loader pattern to coordinate data fetching:
+
+1. **Route Loaders**: Each route can specify a loader function that pre-fetches required data
+2. **RTK Query Integration**: Loaders use RTK Query endpoints to fetch data
+3. **Deferred Loading**: The `defer` utility from React Router allows showing UI while data loads
+
+For example, the prescriptions list page:
+```javascript
+// Route definition
+{
+  path: '/',
+  element: <AppWrapper Component={Prescriptions} />,
+  loader: (...args) => {
+    return Promise.all([prescriptionsLoader(...args)]);
+  }
+}
+```
+
+#### RTK Query and Redux Integration
+
+The application uses RTK Query for API calls and caching:
+
+1. **API Slices**: Separate API slices for prescriptions and allergies
+2. **Automatic Hooks**: RTK Query generates hooks like `useGetPrescriptionsListQuery`
+3. **Transformations**: API responses are transformed into consistent formats
+4. **Caching**: RTK Query handles caching and invalidation automatically
+
+Example data flow:
+1. User visits prescriptions list
+2. Router calls the prescriptionsLoader
+3. Loader dispatches RTK Query actions
+4. RTK Query makes API calls and caches responses
+5. Components access data via generated hooks
+
+#### State Management
+
+The application uses a hybrid approach to state management:
+
+- **Server State**: Managed by RTK Query (prescriptions, allergies)
+- **UI State**: Managed by Redux (sorting, filtering preferences)
+- **Route State**: Managed by React Router (current page, IDs)
+
+#### Performance Optimizations
+
+1. **Code Splitting**: Components are lazy loaded with React.lazy
+2. **Suspense**: Loading states are handled with Suspense boundaries
+3. **Deferred Loading**: Non-critical data is loaded after initial render
+4. **Caching**: RTK Query provides automatic caching and revalidation
+
+#### Access Control
+
+Access to the application is protected by:
+1. `useMyHealthAccessGuard` hook
+2. Integration with VA.gov authentication
+3. Route-level access control in the AppWrapper
+

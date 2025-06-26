@@ -33,6 +33,10 @@ import {
   ssnOrVaFileNumberCustomUI,
   CustomSSNReviewPage,
 } from '../helpers/CustomSSN';
+import {
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -98,6 +102,10 @@ const formConfig = {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
+            'ui:validations': [
+              (errors, formData) =>
+                validObjectCharsOnly(errors, null, formData, 'veteranFullName'),
+            ],
           },
           messageAriaDescribedby: 'Name and date of birth',
           schema: {
@@ -159,6 +167,10 @@ const formConfig = {
                 },
               },
             }),
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(errors, null, formData, 'veteranAddress'),
+            ],
           },
           schema: {
             type: 'object',
@@ -209,6 +221,15 @@ const formConfig = {
                 },
               },
             }),
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(
+                  errors,
+                  null,
+                  formData,
+                  'physicalAddress',
+                ),
+            ],
           },
           schema: {
             type: 'object',

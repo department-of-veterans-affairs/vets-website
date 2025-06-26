@@ -101,6 +101,12 @@ const responses = {
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'PUT /v0/profile/telephones': (req, res) => {
+    // uncomment to test 500 error
+    // const shouldError = true;
+    // if (shouldError) {
+    //   return res.status(500).json(genericErrors.error500);
+    // }
+
     return res.json(
       updateMemDb(req, telephone.homePhoneUpdateReceivedPrefillTaskPurple),
     );
@@ -120,6 +126,12 @@ const responses = {
       .json(updateMemDb(req, emailAddress.transactions.received));
   },
   'PUT /v0/profile/email_addresses': (req, res) => {
+    // uncomment to test 500 error
+    // const shouldError = true;
+    // if (shouldError) {
+    //   return res.status(500).json(genericErrors.error500);
+    // }
+
     return res
       .status(200)
       .json(updateMemDb(req, emailAddress.transactions.received));
@@ -127,6 +139,12 @@ const responses = {
   'PUT /v0/profile/addresses': (req, res) => {
     // uncomment to test 401 error
     // return res.status(401).json(require('../tests/fixtures/401.json'));
+
+    // uncomment to test 500 error
+    // const shouldError = true;
+    // if (shouldError) {
+    //   return res.status(500).json(genericErrors.error500);
+    // }
 
     // default response
     return res.json(
@@ -148,6 +166,19 @@ const responses = {
     // this function allows some conditional logic to be added to the status endpoint
     // to simulate different responses based on the transactionId param
     return generateStatusResponse(req, res);
+  },
+  'POST /v0/evidence_documents': (req, res) => {
+    return res.status(200).json({
+      data: {
+        id: '12345',
+        type: 'evidence_document',
+        attributes: {
+          name: 'marriage-certificate.pdf',
+          size: 1024,
+          uploadedAt: new Date().toISOString(),
+        },
+      },
+    });
   },
 };
 

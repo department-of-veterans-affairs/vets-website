@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
+import { recordDatalayerEvent } from '../../utilities/analytics';
 import { getSignInUrl } from '../../utilities/constants';
 import UserNav from './UserNav';
 
@@ -27,17 +28,21 @@ export const Nav = () => {
           aria-label="VA Accredited Representative Portal"
           className="nav__link vads-u-display--flex"
           to="/"
+          onClick={recordDatalayerEvent}
+          data-eventname="nav-link-click"
         >
           <img
             data-testid="mobile-logo"
             className="nav__logo mobile"
             src="/img/va.svg"
             alt="Veteran Affairs"
+            data-eventname="nav-link-click"
           />
           <span className="nav__logo-text mobile">
             Accredited Representative Portal
           </span>
           <img
+            data-eventname="nav-link-click"
             data-testid="desktop-logo"
             className="nav__logo nav__logo--desktop desktop"
             src="/img/arp-header-logo-dark.svg"
@@ -58,15 +63,17 @@ export const Nav = () => {
               <Toggler.Enabled>
                 <Link
                   className="nav__btn desktop"
-                  to="/poa-search"
+                  to="/claimant-search"
                   data-testid="desktop-search-link"
+                  onClick={recordDatalayerEvent}
+                  data-eventname="nav-link-click"
                 >
                   <va-icon
                     icon="search"
                     size={2}
                     className="people-search-icon"
                   />
-                  Search People
+                  Find Claimant
                 </Link>
               </Toggler.Enabled>
             </Toggler>
@@ -74,16 +81,43 @@ export const Nav = () => {
               className="nav__btn desktop"
               to="/poa-requests"
               data-testid="desktop-poa-link"
+              onClick={recordDatalayerEvent}
+              data-eventname="nav-link-click"
             >
-              Power of Attorney Requests
+              Representation Requests
             </Link>
-            <Link
-              to="/get-help"
-              className="nav__btn desktop vads-u-display--none"
-              data-testid="desktop-help-link"
+            <Toggler
+              toggleName={
+                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
+              }
             >
-              Get Help
-            </Link>
+              <Toggler.Enabled>
+                <Link
+                  className="nav__btn desktop"
+                  to="/submissions"
+                  data-testid="desktop-search-link"
+                >
+                  Submissions
+                </Link>
+              </Toggler.Enabled>
+            </Toggler>
+            <Toggler
+              toggleName={
+                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp
+              }
+            >
+              <Toggler.Enabled>
+                <Link
+                  to="/get-help"
+                  className="nav__btn desktop"
+                  data-testid="desktop-help-link"
+                  onClick={recordDatalayerEvent}
+                  data-eventname="nav-link-click"
+                >
+                  Get Help
+                </Link>
+              </Toggler.Enabled>
+            </Toggler>
           </div>
         </div>
       )}

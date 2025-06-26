@@ -5,10 +5,9 @@ import {
   postReferralAppointment,
   postDraftReferralAppointment,
   getProviderById,
-  getPatientReferrals,
   getAppointmentInfo,
 } from '../../services/referral';
-import { filterReferrals } from '../utils/referrals';
+// import { filterReferrals } from '../utils/referrals';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
 
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
@@ -33,9 +32,6 @@ export const FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED =
   'FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED';
 export const FETCH_REFERRAL_APPOINTMENT_INFO_FAILED =
   'FETCH_REFERRAL_APPOINTMENT_INFO_FAILED';
-export const FETCH_REFERRALS = 'FETCH_REFERRALS';
-export const FETCH_REFERRALS_SUCCEEDED = 'FETCH_REFERRALS_SUCCEEDED';
-export const FETCH_REFERRALS_FAILED = 'FETCH_REFERRALS_FAILED';
 export const FETCH_REFERRAL = 'FETCH_REFERRAL';
 export const SET_SELECTED_SLOT = 'SET_SELECTED_SLOT';
 export const SET_INIT_REFERRAL_FLOW = 'SET_INIT_REFERRAL_FLOW';
@@ -47,13 +43,20 @@ export function setFormCurrentPage(currentPage) {
   };
 }
 
-export function createDraftReferralAppointment(referralId) {
+export function createDraftReferralAppointment(
+  referralNumber,
+  referralConsultId,
+) {
   return async dispatch => {
     try {
       dispatch({
         type: CREATE_DRAFT_REFERRAL_APPOINTMENT,
       });
-      const providerDetails = await postDraftReferralAppointment(referralId);
+
+      const providerDetails = await postDraftReferralAppointment(
+        referralNumber,
+        referralConsultId,
+      );
 
       dispatch({
         type: CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
@@ -85,28 +88,6 @@ export function fetchProviderDetails(id) {
     } catch (error) {
       dispatch({
         type: FETCH_PROVIDER_DETAILS_FAILED,
-      });
-      return captureError(error);
-    }
-  };
-}
-
-export function fetchReferrals() {
-  return async dispatch => {
-    try {
-      dispatch({
-        type: FETCH_REFERRALS,
-      });
-      const referrals = await getPatientReferrals();
-      const filteredReferrals = filterReferrals(referrals);
-      dispatch({
-        type: FETCH_REFERRALS_SUCCEEDED,
-        data: filteredReferrals,
-      });
-      return referrals;
-    } catch (error) {
-      dispatch({
-        type: FETCH_REFERRALS_FAILED,
       });
       return captureError(error);
     }
@@ -146,7 +127,7 @@ export function pollFetchAppointmentInfo(
       });
       const appointmentInfo = await getAppointmentInfo(appointmentId);
       // If the appointment is still in draft state, retry the request in 1 second to avoid spamming the api with requests
-      if (appointmentInfo.appointment.status === 'draft') {
+      if (appointmentInfo.attributes?.status !== 'booked') {
         setTimeout(() => {
           dispatch(
             pollFetchAppointmentInfo(appointmentId, {
@@ -164,6 +145,30 @@ export function pollFetchAppointmentInfo(
       return appointmentInfo;
     } catch (error) {
       dispatch({ type: FETCH_REFERRAL_APPOINTMENT_INFO_FAILED });
+      return captureError(error);
+    }
+  };
+}
+
+export function fetchAppointmentInfo(appointmentId) {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: FETCH_REFERRAL_APPOINTMENT_INFO,
+        payload: {
+          pollingRequestStart: formatISO(new Date()),
+        },
+      });
+      const appointmentInfo = await getAppointmentInfo(appointmentId);
+      dispatch({
+        type: FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
+        data: appointmentInfo,
+      });
+      return appointmentInfo;
+    } catch (error) {
+      dispatch({
+        type: FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
+      });
       return captureError(error);
     }
   };
@@ -189,9 +194,11 @@ export function startNewAppointmentFlow() {
 }
 
 export function createReferralAppointment({
-  referralId,
-  slotId,
   draftApppointmentId,
+  referralNumber,
+  slotId,
+  networkId,
+  providerServiceId,
 }) {
   return async dispatch => {
     try {
@@ -200,9 +207,11 @@ export function createReferralAppointment({
       });
 
       const appointmentInfo = await postReferralAppointment({
-        referralId,
-        slotId,
         draftApppointmentId,
+        referralNumber,
+        slotId,
+        networkId,
+        providerServiceId,
       });
 
       dispatch({

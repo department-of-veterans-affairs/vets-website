@@ -80,7 +80,7 @@ class AddressValidationView extends React.Component {
     this.props.updateSelectedAddress(address, selectedAddressId);
   };
 
-  onSubmit = event => {
+  onSubmit = async event => {
     event.preventDefault();
     const {
       validationKey,
@@ -142,22 +142,18 @@ class AddressValidationView extends React.Component {
     }
 
     if (suggestedAddressSelected) {
-      this.props.updateValidationKeyAndSave(
-        VAP_SERVICE.API_ROUTES.ADDRESSES,
-        method,
-        addressValidationType,
-        payload,
-        analyticsSectionName,
-      );
-    } else {
-      this.props.createTransaction(
-        VAP_SERVICE.API_ROUTES.ADDRESSES,
-        method,
-        addressValidationType,
-        payload,
-        analyticsSectionName,
-      );
+      // if the user selected a suggested address, we need to remove the validationKey
+      // so that the API doesn't throw an error
+      delete payload.validationKey;
+      this.props.resetAddressValidation();
     }
+    await this.props.createTransaction(
+      VAP_SERVICE.API_ROUTES.ADDRESSES,
+      method,
+      addressValidationType,
+      payload,
+      analyticsSectionName,
+    );
   };
 
   onEditClick = () => {
@@ -465,6 +461,7 @@ AddressValidationView.propTypes = {
   suggestedAddresses: PropTypes.array.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
   updateValidationKeyAndSave: PropTypes.func.isRequired,
+  resetAddressValidation: PropTypes.func.isRequired,
   analyticsSectionName: PropTypes.string,
   confirmedSuggestions: PropTypes.arrayOf(
     PropTypes.shape({

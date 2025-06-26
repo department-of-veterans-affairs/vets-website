@@ -33,7 +33,6 @@ import { getRealFacilityId } from '../../utils/appointment';
  * @async
  * @param {Object} locationParams Parameters needed for fetching locations
  * @param {Array<string>} locationParams.facilityIds A list of va facility ids to fetch
- * @param {boolean} params.useV2 Use the VAOS v2 endpoints to get locations
  * @returns {Array<Location>} A FHIR searchset of Location resources
  */
 export async function getLocations({
@@ -65,7 +64,6 @@ export async function getLocations({
  * @async
  * @param {Object} locationParams Parameters needed for fetching locations
  * @param {Array<string>} locationParams.facilityId An id for the facility to fetch info for
- * @param {boolean} locationParams.useV2 Use the VAOS v2 endpoints to get locations
  * @returns {Location} A FHIR Location resource
  */
 export async function getLocation({ facilityId }) {
@@ -282,8 +280,6 @@ export async function fetchParentLocations({ siteIds }) {
  * @export
  * @param {Object} params
  * @param {Array<Location>} params.locations The locations to find CC support at
- * @param {boolean} params.useV2 Use the V2 scheduling configurations endpoint
- *   to get the CC supported locations
  * @returns {Array<Location>} A list of locations that support CC requests
  */
 export async function fetchCommunityCareSupportedSites({ locations }) {

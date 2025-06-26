@@ -19,6 +19,7 @@ import createModernGetMedicalRecordsPage from './health-care-manage-benefits/mod
 import createModernRefillTrackPrescriptionsPage from './health-care-manage-benefits/modern-refill-track-prescriptions-page';
 import createModernScheduleViewVAAppointmentsPage from './health-care-manage-benefits/modern-schedule-view-va-appointments-page';
 import createModernSecureMessagingPage from './health-care-manage-benefits/modern-secure-messaging-page';
+import createModernOrderMedicalSuppliesPage from './health-care-manage-benefits/modern-order-medical-supplies-page';
 import createMhvPortalLandingPage from './health-care-manage-benefits/mhv-portal-landing-page';
 // Health care facility widgets.
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
@@ -97,6 +98,7 @@ import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
 import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
 
+import create1010DExtendedAccess from './ivc-champva/10-10d-extended/entry';
 import create107959CAccess from './ivc-champva/10-7959c/entry';
 import create107959AAccess from './ivc-champva/10-7959a/entry';
 import create107959F2Access from './ivc-champva/10-7959f-2/entry';
@@ -208,6 +210,10 @@ createModernSecureMessagingPage(
   store,
   widgetTypes.MODERN_SECURE_MESSAGING_PAGE,
 );
+createModernOrderMedicalSuppliesPage(
+  store,
+  widgetTypes.MODERN_ORDER_MEDICAL_SUPPLIES_PAGE,
+);
 createMhvPortalLandingPage(store, widgetTypes.MHV_PORTAL_LANDING_PAGE);
 createSituationUpdatesBanner(store, widgetTypes.SITUATION_UPDATES_BANNER);
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
@@ -244,6 +250,7 @@ createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
 createVYEEnrollmentWidget(store, widgetTypes.VYE_ENROLLMENT_LOGIN_WIDGET);
 createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 
+create1010DExtendedAccess(store, widgetTypes.FORM_1010D_EXTENDED);
 create107959CAccess(store, widgetTypes.FORM_107959C);
 create107959AAccess(store, widgetTypes.FORM_107959A);
 create107959F2Access(store, widgetTypes.FORM_107959F2);

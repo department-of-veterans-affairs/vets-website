@@ -17,6 +17,10 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording } from '../../shared/utilities';
+import {
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 export const blankSchema = { type: 'object', properties: {} };
 
@@ -32,6 +36,10 @@ export const applicantNameDobSchema = {
         } name`,
     ),
     applicantName: fullNameMiddleInitialUI,
+    'ui:validations': [
+      (errors, formData) =>
+        validObjectCharsOnly(errors, null, formData, 'applicantName'),
+    ],
   },
   schema: {
     type: 'object',
@@ -108,6 +116,10 @@ export const applicantAddressInfoSchema = {
         },
       }),
     },
+    'ui:validations': [
+      (errors, formData) =>
+        validAddressCharsOnly(errors, null, formData, 'applicantAddress'),
+    ],
   },
   schema: {
     type: 'object',

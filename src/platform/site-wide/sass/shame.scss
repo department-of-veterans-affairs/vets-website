@@ -629,6 +629,10 @@ div[data-widget-type="events"] {
    }
 }
 
+ul#header-nav-items li {
+  max-width: 100%;
+}
+
 /* Fix to mobile menu color issue */
 .header-menu-button.vads-u-background-color--gray-lightest{
   background-color: var(--vads-color-base-lightest);

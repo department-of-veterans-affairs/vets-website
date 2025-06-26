@@ -1,13 +1,5 @@
 import { apiRequestWithUrl } from '../utils';
 
-export async function getPatientReferrals() {
-  const response = await apiRequestWithUrl(`/vaos/v2/referrals`, {
-    method: 'GET',
-  });
-
-  return response.data;
-}
-
 export async function getPatientReferralById(referralId) {
   const response = await apiRequestWithUrl(`/vaos/v2/referrals/${referralId}`, {
     method: 'GET',
@@ -26,41 +18,51 @@ export async function getProviderById(providerId) {
 }
 
 export async function postReferralAppointment({
-  referralId,
-  slotId,
   draftApppointmentId,
+  referralNumber,
+  slotId,
+  networkId,
+  providerServiceId,
 }) {
-  const response = await apiRequestWithUrl(`/vaos/v2/epsApi/appointments`, {
+  const response = await apiRequestWithUrl(`/vaos/v2/appointments/submit`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      referralId,
+      id: draftApppointmentId,
+      referralNumber,
       slotId,
-      draftApppointmentId,
+      networkId,
+      providerServiceId,
     }),
   });
   return response.data;
 }
 
-export async function postDraftReferralAppointment(referralId) {
-  const response = await apiRequestWithUrl(
-    `/vaos/v2/epsApi/draftReferralAppointment`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ referralId }),
+export async function postDraftReferralAppointment(
+  referralNumber,
+  referralConsultId,
+) {
+  const response = await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify({
+      // eslint-disable-next-line camelcase
+      referral_number: referralNumber,
+      // eslint-disable-next-line camelcase
+      referral_consult_id: referralConsultId,
+    }),
+  });
+
   return response.data;
 }
 
 export async function getAppointmentInfo(appointmentId) {
   const response = await apiRequestWithUrl(
-    `/vaos/v2/epsApi/appointments/${appointmentId}`,
+    `/vaos/v2/eps_appointments/${appointmentId}`,
     {
       method: 'GET',
     },

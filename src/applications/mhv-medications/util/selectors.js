@@ -6,9 +6,6 @@ export const selectRefillContentFlag = state =>
 export const selectAllergiesFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayAllergies];
 
-export const selectFilterFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayFilter];
-
 export const selectGroupingFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayGrouping];
 
@@ -29,3 +26,6 @@ export const selectPartialFillContentFlag = state =>
 
 export const selectDontIncrementIpeCountFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDontIncrementIpeCount];
+
+export const selectBypassDowntime = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification];

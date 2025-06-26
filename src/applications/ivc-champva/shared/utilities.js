@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import React from 'react';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 /**
@@ -166,18 +167,19 @@ export function concatStreets(addr, newLines = false) {
 }
 
 /**
- * Retrieves an array of objects containing the property 'attachmentId'
+ * Retrieves an array of objects containing the property name specified
  * from the given object.
  *
- * @param {Object} obj - The input object to search for objects with 'attachmentId'.
+ * @param {Object} obj - The input object to search for objects with keyname.
+ * @param {String} [keyname="attachmentId"] - The keyname to search for within input obj
  * @returns {Array} - An array containing objects with the 'attachmentId' property.
  */
-export function getObjectsWithAttachmentId(obj) {
+export function getObjectsWithAttachmentId(obj, keyname = 'attachmentId') {
   const objectsWithAttachmentId = [];
   _.forEach(obj, value => {
     if (_.isArray(value)) {
       _.forEach(value, item => {
-        if (_.isObject(item) && _.has(item, 'attachmentId')) {
+        if (_.isObject(item) && _.has(item, keyname)) {
           objectsWithAttachmentId.push(item);
         }
       });
@@ -188,22 +190,42 @@ export function getObjectsWithAttachmentId(obj) {
 }
 
 /**
- * Tests whether a string meets regex requirements and, if not, provides
- * a clear message to be presented to users filling out text fields.
- *
- * @param {String} value The string to test against the regex
- * @returns {String | null} Error messsage explaining invalid characters or null
- * if no violations detected
+ * Produces a simple (non secure) hash of the passed in string.
+ * See https://stackoverflow.com/a/8831937
+ * @param {string} val string to be hashed
+ * @returns hash of input string
  */
-export function validateText(value) {
-  const invalidCharsPattern = /[~!@#$%^&*+=[\]{}()<>;:"`\\/_|]/g;
-  const matches = value.match(invalidCharsPattern);
+export function toHash(val) {
+  const str = val ?? '';
+  let hash = 0;
+  Object.keys(str).forEach(i => {
+    const chr = str.charCodeAt(i);
+    hash = hash * 32 - hash + chr;
+    hash = Math.floor(hash);
+  });
+  return hash.toString(16);
+}
 
-  let retVal = null;
-  if (matches) {
-    const uniqueInvalidChars = [...new Set(matches)].join(', ');
-    const staticText = 'You entered a character we can’t accept. Try removing';
-    retVal = `${staticText} ${uniqueInvalidChars}`;
-  }
-  return retVal;
+/**
+ * Converts date string in YYYY-MM-DD fmt to MM/DD/YYYY
+ * TODO: replace other functions in ivc module that do this type of thing
+ * @param {String} date date in format YYYY-MM-DD
+ * @returns d reformatted as MM/DD/YYYY
+ */
+export function fmtDate(date) {
+  const dt = new Date(date);
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(dt);
+}
+
+/**
+ * Wraps input in a <span> with dd-privacy-hidden class applied
+ * @param {JSX|String} children JSX or string to wrap in a privacy class
+ * @returns JSX
+ */
+export function privWrapper(children) {
+  return <span className="dd-privacy-hidden">{children}</span>;
 }

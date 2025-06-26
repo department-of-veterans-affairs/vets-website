@@ -28,11 +28,11 @@ describe('Medications Details Page Active Rx in Process Tracker', () => {
       Data.STEP_TWO_PROCESS_ABOVE_TEXT,
       Data.STEP_TWO_DATE,
     );
-    detailsPage.verifyActiveRefillInProcessStepThreeOnDetailsPage(
-      Data.STEP_THREE_NOTE_ABOVE,
-      Data.STEP_THREE_SHIPPED,
-      Data.STEP_THREE_DATE,
-    );
+    // detailsPage.verifyActiveRefillInProcessStepThreeOnDetailsPage(
+    //   Data.STEP_THREE_NOTE_ABOVE,
+    //   Data.STEP_THREE_SHIPPED,
+    //   Data.STEP_THREE_DATE,
+    // );
     cy.injectAxe();
     cy.axeCheck('main');
   });

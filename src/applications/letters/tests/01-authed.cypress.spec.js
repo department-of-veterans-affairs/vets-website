@@ -93,6 +93,7 @@ describe('Authed Letter Test', () => {
         cy.get(`#${id}`).should('not.be.checked');
       });
     });
+
     // collapse the bsl accordion
     cy.get('.step-content va-accordion-item:nth-of-type(4)')
       .shadow()

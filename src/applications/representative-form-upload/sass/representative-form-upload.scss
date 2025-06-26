@@ -1,5 +1,81 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
-@import "../../../../platform/forms/sass/m-form-confirmation";
-@import "../../../../platform/forms/sass/m-schemaform";
+@import "../../../platform/forms/sass/m-form-confirmation";
+@import "./Header";
+
+.form_container {
+  padding: 0 16px;
+}
+
+.representative-form {
+  padding: 0 0 48px !important;
+
+  va-process-list {
+    margin-left: 20px;
+    display: block;
+  }
+
+  &__h2 {
+    margin: 32px 0;
+  }
+
+  &__start {
+    margin-left: 20px;
+  }
+}
+//overriding default classes set at the forms level to match figma
+.form-686c {
+  .small-6.medium-5 {
+    width: unset;
+    padding-right: 0;
+  }
+  .vads-u-flex--1 {
+    flex: unset !important;
+    float: unset;
+    width: auto;
+    padding-right: 0;
+  }
+  .usa-button-secondary {
+    max-width: 105px;
+  }
+  .usa-button-primary {
+    max-width: 137px;
+  }
+  fieldset.vads-u-margin-y--2.rjsf-object-field {
+    margin-top: 0 !important;
+    margin-bottom: 8px !important;
+  }
+
+  form div fieldset.vads-u-margin-y--2.rjsf-object-field {
+    margin-top: 32px !important;
+  }
+  .schemaform-block-title.schemaform-block-subtitle {
+    font-size: 1.25rem !important;
+    padding: 0;
+  }
+
+  .schemaform-chapter-progress {
+    display: none;
+  }
+  .usa-input,
+  input,
+  va-text-input,
+  va-memorable-date,
+  .usa-memorable-date,
+  [label="Date of birth"] {
+    max-width: 311px;
+  }
+
+  form div {
+    div:nth-child(2) {
+      .schemaform-block-title.schemaform-block-subtitle {
+        font-size: 0.9375rem !important;
+        padding: 0;
+      }
+    }
+  }
+}

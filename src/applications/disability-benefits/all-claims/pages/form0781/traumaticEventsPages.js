@@ -1,5 +1,7 @@
 import React from 'react';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { focusByOrder } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { isCompletingForm0781 } from '../../utils/form0781';
 import eventDetails from './traumaticEventDetails';
 import { officialReportCustom } from './officialReport';
@@ -20,6 +22,10 @@ import {
 } from '../../content/form0781';
 import { MILITARY_REPORT_TYPES, OTHER_REPORT_TYPES } from '../../constants';
 
+const scrollAndFocusToProgressBar = () => {
+  scrollToTop('topScrollElement');
+  focusByOrder([`form h2`, 'va-segmented-progress-bar']);
+};
 const isReviewAndSubmitPage = () => {
   const pathParts = window.location.pathname.split('/');
   return pathParts[pathParts.length - 1] === 'review-and-submit';
@@ -115,6 +121,7 @@ export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
   eventsList: pageBuilder.summaryPage({
     title: summaryPageTitleWithTag,
     path: 'mental-health-form-0781/events-summary',
+    scrollAndFocusTarget: scrollAndFocusToProgressBar,
     depends: formData => isCompletingForm0781(formData),
     ContentBeforeButtons: (
       <div className="vads-u-margin-y--2p5">{mentalHealthSupportAlert()}</div>
@@ -123,6 +130,7 @@ export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
   eventDetails: pageBuilder.itemPage({
     title: eventDetailsPageTitle,
     path: 'mental-health-form-0781/:index/event-details',
+    scrollAndFocusTarget: scrollAndFocusToProgressBar,
     depends: formData => isCompletingForm0781(formData),
     uiSchema: eventDetails.uiSchema,
     schema: eventDetails.schema,
@@ -130,6 +138,7 @@ export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
   officialReport: pageBuilder.itemPage({
     title: officialReportPageTitle,
     path: `mental-health-form-0781/:index/event-report`,
+    scrollAndFocusTarget: scrollAndFocusToProgressBar,
     depends: (formData, index) => formData.events?.[index],
     CustomPage: OfficialReport,
     uiSchema: officialReportCustom.uiSchema,
@@ -138,6 +147,7 @@ export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
   policeReport: pageBuilder.itemPage({
     title: policeReportLocationPageTitle,
     path: `mental-health-form-0781/:index/event-police-report`,
+    scrollAndFocusTarget: scrollAndFocusToProgressBar,
     depends: (formData, index) =>
       isCompletingForm0781(formData) &&
       formData.events?.[index]?.otherReports?.police,
