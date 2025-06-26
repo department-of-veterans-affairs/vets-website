@@ -14,7 +14,7 @@
       "country": "UK"
     },
     "internationalPhone": "63123456789",
-    "dependents": [
+    "dependentsx": [
       {
         "fullName": {
           "first": "Morty",
@@ -41,6 +41,6 @@
         "removalDate": "August 1, 2026"
       }
     ],
-    "hasDependentsStatusChanged": "N"
+    "hasDependentsStatusChanged": ""
   }
 }

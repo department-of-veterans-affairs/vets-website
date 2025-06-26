@@ -27,52 +27,56 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
         </p>
       </va-additional-info>
 
-      {data.dependents.map((dep, index) => (
-        <React.Fragment key={index}>
-          <h4 className="vads-u-font-size--h5">
-            {`${dep.fullName.first} ${dep.fullName.last}`}
-          </h4>
-          <dl key={index} className="review vads-u-margin-y--4">
-            <div className="review-row">
-              <dt>First name</dt>
-              <dd>{dep.fullName.first}</dd>
-            </div>
-            <div className="review-row">
-              <dt>Middle name</dt>
-              <dd>{dep.fullName.middle}</dd>
-            </div>
-            <div className="review-row">
-              <dt>Last name</dt>
-              <dd>{dep.fullName.last}</dd>
-            </div>
-            <div className="review-row">
-              <dt>Suffix</dt>
-              <dd>{dep.fullName.suffix}</dd>
-            </div>
-            <div className="review-row">
-              <dt>Social Security number</dt>
-              <dd
-                className="dd-privacy-hidden"
-                data-dd-action-name="Dependent SSN"
-              >
-                {maskID(dep.ssnLastFour)}
-              </dd>
-            </div>
-            <div className="review-row">
-              <dt>Date of birth</dt>
-              <dd>{dep.dob}</dd>
-            </div>
-            <div className="review-row">
-              <dt>Age</dt>
-              <dd>{dep.age} years old</dd>
-            </div>
-            <div className="review-row">
-              <dt>Relationship</dt>
-              <dd>{dep.relationship}</dd>
-            </div>
-          </dl>
-        </React.Fragment>
-      ))}
+      {data.dependents?.length > 0 ? (
+        data.dependents?.map((dep, index) => (
+          <React.Fragment key={index}>
+            <h4 className="vads-u-font-size--h5">
+              {`${dep.fullName.first} ${dep.fullName.last}`}
+            </h4>
+            <dl key={index} className="review vads-u-margin-y--4">
+              <div className="review-row">
+                <dt>First name</dt>
+                <dd>{dep.fullName.first}</dd>
+              </div>
+              <div className="review-row">
+                <dt>Middle name</dt>
+                <dd>{dep.fullName.middle}</dd>
+              </div>
+              <div className="review-row">
+                <dt>Last name</dt>
+                <dd>{dep.fullName.last}</dd>
+              </div>
+              <div className="review-row">
+                <dt>Suffix</dt>
+                <dd>{dep.fullName.suffix}</dd>
+              </div>
+              <div className="review-row">
+                <dt>Social Security number</dt>
+                <dd
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="Dependent SSN"
+                >
+                  {maskID(dep.ssnLastFour)}
+                </dd>
+              </div>
+              <div className="review-row">
+                <dt>Date of birth</dt>
+                <dd>{dep.dob}</dd>
+              </div>
+              <div className="review-row">
+                <dt>Age</dt>
+                <dd>{dep.age} years old</dd>
+              </div>
+              <div className="review-row">
+                <dt>Relationship</dt>
+                <dd>{dep.relationship}</dd>
+              </div>
+            </dl>
+          </React.Fragment>
+        ))
+      ) : (
+        <strong>No dependents found</strong>
+      )}
 
       <div className="form-review-panel-page-header-row vads-u-margin-top--4">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
@@ -99,6 +103,21 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
 
 DependentsInformationReview.propTypes = {
   data: PropTypes.shape({
+    dependents: PropTypes.arrayOf(
+      PropTypes.shape({
+        fullName: PropTypes.shape({
+          first: PropTypes.string,
+          middle: PropTypes.string,
+          last: PropTypes.string,
+          suffix: PropTypes.string,
+        }),
+        relationship: PropTypes.string,
+        dob: PropTypes.string,
+        ssnLastFour: PropTypes.string,
+        age: PropTypes.number,
+        removalDate: PropTypes.string,
+      }),
+    ),
     hasDependentsStatusChanged: PropTypes.oneOf(['Y', 'N']),
   }),
   goToPath: PropTypes.func,
