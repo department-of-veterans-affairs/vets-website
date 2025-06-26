@@ -1,0 +1,23 @@
+button.logingov-button {
+  background: var(--vads-color-secondary);
+  width: auto;
+  max-width: 244px;
+  padding: 0.75rem 1.25rem;
+  max-height: fit-content;
+
+  &:hover {
+    background: var(--vads-color-secondary-darkest);
+  }
+
+  svg {
+    height: 15px;
+    width: auto;
+    margin-left: 5px;
+  }
+}
+
+// Handle SVG styles inside the button
+button.logingov-button svg {
+  height: 1em;
+  padding: 0 0.25em;
+}

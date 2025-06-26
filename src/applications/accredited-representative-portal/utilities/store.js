@@ -1,27 +1,30 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { FeatureToggleReducer } from 'platform/site-wide/feature-toggles/reducers';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
-export default function createReduxStore() {
-  const rootReducer = combineReducers({
-    featureToggles: FeatureToggleReducer,
+// Minimal reducer setup - just for feature toggles
+const rootReducer = combineReducers({
+  featureToggles: FeatureToggleReducer,
+});
+
+export const createReduxStore = () => {
+  const store = createStore(rootReducer, applyMiddleware(thunk));
+
+  // Initialize feature toggles
+  store.dispatch(connectFeatureToggle);
+
+  // Make the Redux state accessible globally for feature toggle checks
+  if (!window.__REDUX_STATE__) {
+    window.__REDUX_STATE__ = {};
+  }
+
+  // Sync Redux state with window object whenever state changes
+  store.subscribe(() => {
+    window.__REDUX_STATE__.featureToggles = store.getState().featureToggles;
   });
 
-  const useDevTools =
-    !environment.isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__;
-
-  const store = createStore(
-    rootReducer,
-    compose(
-      applyMiddleware(thunk),
-      useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
-    ),
-  );
-
-  connectFeatureToggle(store.dispatch);
-
   return store;
-}
+};
+
+export default createReduxStore;
