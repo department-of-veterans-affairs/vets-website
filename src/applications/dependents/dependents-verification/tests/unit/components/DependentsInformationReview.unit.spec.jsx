@@ -1,9 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { Provider } from 'react-redux';
 
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { DependentsInformationReview } from '../../../components/DependentsInformationReview';
 
@@ -46,5 +47,25 @@ describe('DependentsInformationReview', () => {
       'RelationshipChild',
       'Has the status of your dependents changedNo',
     ]);
+  });
+
+  it('should render "No dependents found" when no dependents are present', () => {
+    const { container } = renderPage({
+      data: { dependents: [], hasDependentsStatusChanged: 'Y' },
+    });
+
+    expect(container.textContent).to.contain('No dependents found');
+    expect($('.review-row', container).textContent).to.include(
+      'Has the status of your dependents changedYes',
+    );
+  });
+
+  it('should redirect edit button to dependents page', async () => {
+    const goToPathSpy = sinon.spy();
+    const { container } = renderPage({ data: null, goToPath: goToPathSpy });
+
+    await fireEvent.click($('va-button[text="Edit"]', container));
+
+    expect(goToPathSpy.calledWith('/dependents')).to.be.true;
   });
 });

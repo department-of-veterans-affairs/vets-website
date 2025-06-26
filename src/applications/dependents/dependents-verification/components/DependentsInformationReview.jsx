@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { maskID } from '../../shared/utils';
 
 export const DependentsInformationReview = ({ data, goToPath }) => {
-  const { hasDependentsStatusChanged = '' } = data || {};
+  const { dependents, hasDependentsStatusChanged = '' } = data || {};
 
   const onEditClick = () => {
     sessionStorage.setItem('onReviewPage', 'true');
@@ -27,8 +27,8 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
         </p>
       </va-additional-info>
 
-      {data.dependents?.length > 0 ? (
-        data.dependents?.map((dep, index) => (
+      {dependents?.length > 0 ? (
+        dependents?.map((dep, index) => (
           <React.Fragment key={index}>
             <h4 className="vads-u-font-size--h5">
               {`${dep.fullName.first} ${dep.fullName.last}`}
