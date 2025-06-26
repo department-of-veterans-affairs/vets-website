@@ -167,7 +167,7 @@ export default function PastAppointmentsPage() {
               data-cy="past-appointment-list-header"
               className="vads-u-margin-top--0 vads-u-font-size--h3"
             >
-              {monthDate.format('MMMM YYYY')}
+              {format(monthDate, 'MMMM yyyy')}
             </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
@@ -178,7 +178,7 @@ export default function PastAppointmentsPage() {
                 'vads-u-border-bottom--1px',
                 'vads-u-border-color--gray-medium',
               )}
-              data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
+              data-testid={`appointment-list-${format(monthDate, 'yyyy-MM')}`}
               role="list"
             >
               {UpcomingAppointmentLayout({
