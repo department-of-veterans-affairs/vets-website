@@ -61,6 +61,7 @@ const formConfig = {
       'Please sign in again to continue your application to dispute your VA debt.',
   },
   title: TITLE,
+  hideFormTitle: true,
   downtime: {
     dependencies: [
       externalServices.mvi,
