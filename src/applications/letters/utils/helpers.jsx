@@ -166,6 +166,26 @@ export const letterContent = {
     'This letter can be customized and used for many things, including to verify service history, income, disability status, and more.',
   benefit_verification:
     'This letter shows the benefits you’re receiving from VA. The letter also shows your benefit gross amount (the amount before anything is taken out) and net amount (the amount after deductions are taken out), your benefit effective date, and your disability rating.',
+  benefit_summary_dependent: (
+    <>
+      <p className="vads-u-margin-top--0">
+        The Benefit Summary Letter shows the VA benefits you receive as the
+        survivor of a disabled Veteran.
+      </p>
+
+      <p>
+        You can use this letter to apply for programs or services that ask for
+        proof of your VA benefits. Some examples include:
+      </p>
+
+      <ul className="usa-list vads-u-margin-bottom--3">
+        <li>Apply for home loans or other housing benefits</li>
+        <li>Reduce property or vehicle taxes</li>
+        <li>Apply for a civil service job</li>
+        <li>Get free or discounted state park memberships</li>
+      </ul>
+    </>
+  ),
 };
 
 // Options returned by the benefit summary letter request that should be offered in
