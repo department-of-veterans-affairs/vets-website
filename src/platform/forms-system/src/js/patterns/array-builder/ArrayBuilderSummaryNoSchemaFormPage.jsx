@@ -11,6 +11,8 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
   description,
   hideAdd,
   title,
+  hasIncompleteCards,
+  onContinue,
 }) => {
   function onSubmit(e) {
     e.preventDefault();
@@ -55,8 +57,8 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
       {customPageProps.contentBeforeButtons}
       <NavButtons
         goBack={customPageProps.goBack}
-        goForward={customPageProps.onContinue}
-        submitToContinue
+        goForward={onContinue}
+        submitToContinue={!hasIncompleteCards}
       />
       {customPageProps.contentAfterButtons}
     </form>
@@ -80,6 +82,8 @@ ArrayBuilderSummaryNoSchemaFormPage.propTypes = {
     NavButtons: PropTypes.func,
   }),
   description: PropTypes.node,
+  hasIncompleteCards: PropTypes.bool,
   hideAdd: PropTypes.bool,
   title: PropTypes.node,
+  onContinue: PropTypes.func,
 };
