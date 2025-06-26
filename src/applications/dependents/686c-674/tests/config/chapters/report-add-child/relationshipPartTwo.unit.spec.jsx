@@ -1,6 +1,5 @@
 import React from 'react';
-import sinon from 'sinon';
-import { render, waitFor, cleanup } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
@@ -22,17 +21,9 @@ describe('686 add child relationship step two', () => {
     uiSchema,
   } = formConfig.chapters.addChild.pages.addChildRelationshipPartTwo;
 
-  const scrollSpy = sinon.spy();
+  afterEach(cleanup);
 
-  before(() => {
-    Element.prototype.scrollIntoView = scrollSpy;
-  });
-
-  afterEach(() => {
-    cleanup();
-  });
-
-  it('should render', () => {
+  it('should render both checkboxes', () => {
     const form = render(
       <Provider store={defaultStore}>
         <DefinitionTester
@@ -46,11 +37,18 @@ describe('686 add child relationship step two', () => {
       </Provider>,
     );
     const formDOM = getFormDOM(form);
+
     expect(formDOM.querySelectorAll('va-checkbox').length).to.eq(2);
+
+    const group = formDOM.querySelector('va-checkbox-group');
+    expect(group).to.exist;
+    expect(group.getAttribute('label')).to.include(
+      'What’s your relationship to this child?',
+    );
   });
 
-  it('should scroll checkboxes into view when evidence appears', async () => {
-    let form = render(
+  it('should require at least one relationship', async () => {
+    const form = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -62,25 +60,26 @@ describe('686 add child relationship step two', () => {
         />
       </Provider>,
     );
-    let formDOM = getFormDOM(form);
+    const formDOM = getFormDOM(form);
 
-    const group = formDOM.querySelector('.relationship-checkbox-group');
-    expect(group).to.exist;
-    group.getBoundingClientRect = () => ({
-      top: -100, // Simulate "above the viewport"
-      bottom: -50,
-      left: 0,
-      right: 0,
-      width: 100,
-      height: 50,
+    const submit = formDOM.querySelector('button[type="submit"]');
+    submit.click();
+
+    await waitFor(() => {
+      const group = formDOM.querySelector('va-checkbox-group');
+      expect(group).to.exist;
+      expect(group.getAttribute('error')).to.include(
+        'Select at least one relationship.',
+      );
     });
+  });
 
+  it('should display evidence info when adopted is checked', async () => {
     const checkedData = {
       ...baseFormData,
       relationshipToChild: { adopted: true },
     };
-
-    form = render(
+    const form = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -92,19 +91,37 @@ describe('686 add child relationship step two', () => {
         />
       </Provider>,
     );
-    formDOM = getFormDOM(form);
-
     await waitFor(() => {
-      expect(formDOM.textContent).to.include(
+      expect(form.container.textContent).to.include(
         'Based on your answers, you’ll need to submit additional evidence',
       );
+      expect(form.container.textContent).to.include(
+        'The final decree of adoption',
+      );
     });
+  });
 
-    if (group.scrollIntoView)
-      group.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
+  it('should display stepchild evidence info when stepchild is checked', async () => {
+    const checkedData = {
+      ...baseFormData,
+      relationshipToChild: { stepchild: true },
+    };
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={checkedData}
+          arrayPath="childrenToAdd"
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
     await waitFor(() => {
-      expect(scrollSpy.called).to.be.true;
+      expect(form.container.textContent).to.include(
+        'You’ll need to submit a copy of your child’s birth certificate',
+      );
     });
   });
 });

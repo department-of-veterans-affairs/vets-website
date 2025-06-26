@@ -4,6 +4,7 @@ import {
   checkboxGroupUI,
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { scrollTo } from 'platform/utilities/scroll';
 
 const CommonEvidenceInfo = (
   <>
@@ -67,7 +68,7 @@ export const relationshipPartTwo = {
               if (el) {
                 const rect = el.getBoundingClientRect();
                 if (rect.top < 0 || rect.bottom > window.innerHeight) {
-                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  scrollTo('.relationship-checkbox-group');
                 }
               }
             }
