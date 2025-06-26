@@ -461,9 +461,7 @@ ${record.results}`;
             role="alert"
             data-testid="alert-download-started"
           >
-            <h3 className="vads-u-font-size--lg vads-u-font-family--sans no-print">
-              Images ready
-            </h3>
+            <h3 className="vads-u-font-size--lg no-print">Images ready</h3>
             {renderJobCompleteAlert()}
           </VaAlert>
         )}

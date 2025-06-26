@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { formatDateAndTime, sendDataDogAction } from '../../util/helpers';
+import {
+  formatDateAndTimeWithGenericZone,
+  sendDataDogAction,
+} from '../../util/helpers';
 
 export default function JobsCompleteAlert({ records, studyJobs }) {
-  const endDate = formatDateAndTime(
+  const endDate = formatDateAndTimeWithGenericZone(
     new Date(studyJobs[0].endDate + 3 * 24 * 60 * 60 * 1000), // Add 3 days
   );
 
