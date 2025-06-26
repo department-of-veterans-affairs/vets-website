@@ -732,6 +732,13 @@ export const MY_VA_SIP_FORMS = [
     description: 'benefits',
     trackingPrefix: 'burials-530-',
   },
+  {
+    id: VA_FORM_IDS.FORM_21P_530,
+    benefit: 'benefits',
+    title: '21P-530 Burials benefits',
+    description: 'benefits',
+    trackingPrefix: 'burials-530-',
+  },
 ];
 
 export const FORM_BENEFITS = MY_VA_SIP_FORMS.reduce((acc, form) => {
