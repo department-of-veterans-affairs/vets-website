@@ -4,16 +4,6 @@ import React from 'react';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';
-
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../22-8794-schema.json';
-
-// import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';
-
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -36,7 +26,6 @@ import {
   readOnlyCertifyingOfficialSummaryPage,
   readOnlyCertifyingOfficial,
 } from '../pages';
-import directDeposit from '../pages/directDeposit';
 import { readOnlyCertifyingOfficialArrayOptions } from '../helpers';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -53,7 +42,7 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'Edu-8794-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: confirmFormLogic,
   formId: '22-8794',
   saveInProgress: {
     // messages: {
@@ -151,46 +140,6 @@ const formConfig = {
           title: 'Benefit status',
           uiSchema: primaryOfficialBenefitStatus.uiSchema,
           schema: primaryOfficialBenefitStatus.schema,
-        },
-      },
-    },
-    additionalInformationChapter: {
-      title: 'Additional Information',
-      pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
-          },
-        },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
         },
       },
     },
