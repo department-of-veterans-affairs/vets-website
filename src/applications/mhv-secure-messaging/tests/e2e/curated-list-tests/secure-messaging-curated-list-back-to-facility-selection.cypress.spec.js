@@ -6,7 +6,7 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockSavedDraftResponse from '../fixtures/draftPageResponses/single-draft-response.json';
 
 describe('SM CURATED LIST MAIN FLOW', () => {
-  beforeEach(() => {
+  it('verify select care team page', () => {
     const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
       {
         name: 'mhv_secure_messaging_cerner_pilot',
@@ -15,30 +15,26 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     ]);
     SecureMessagingSite.login(updatedFeatureToggles);
     PilotEnvPage.loadInboxMessages();
-  });
-
-  it('verify select care team page', () => {
     PatientMessageDraftsPage.loadDrafts();
     PatientMessageDraftsPage.loadSingleDraft();
 
     cy.contains(`Select a different care team`).click();
 
-    cy.get('.usa-combo-box').click();
-
-    cy.get(`.usa-combo-box__list > li`)
-      .eq(4)
-      .click();
+    PilotEnvPage.selectTriageGroup(4);
 
     cy.get(`.usa-combo-box__list > li`)
       .eq(4)
       .invoke('text')
-      .then(text => {
-        cy.wrap(text).as(`updatedTGName`);
+      .then(name => {
+        cy.wrap(name).as(`updatedTGName`);
       });
 
-    cy.get(`@updatedTGName`).then(text => {
+    cy.get(`@updatedTGName`).then(updatedTGName => {
       cy.findByTestId(`continue-button`).click();
-      cy.findByTestId(`compose-recipient-title`).should('include.text', text);
+      cy.findByTestId(`compose-recipient-title`).should(
+        'include.text',
+        updatedTGName,
+      );
     });
 
     cy.findByTestId(`message-subject-field`).should(
