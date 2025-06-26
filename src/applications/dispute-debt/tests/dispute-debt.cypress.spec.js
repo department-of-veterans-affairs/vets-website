@@ -61,7 +61,11 @@ const testConfig = createTestConfig(
       },
       'personal-information': ({ afterHook }) => {
         afterHook(() => {
-          // TOO: add checks for personal information fields
+          cy.findByTestId('dob-display').should('exist');
+
+          // Should match dob from user.json
+          cy.findByTestId('dob-display').should('contain', 'October 4, 1950');
+          cy.findByTestId('ssn-display').should('exist');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -108,6 +112,11 @@ const testConfig = createTestConfig(
       // Comp & Pen
       'existence-or-amount/0': ({ afterHook }) => {
         afterHook(() => {
+          cy.get('h3').should(
+            'contain',
+            'Debt 1 of 3: $100.00 overpayment for Disability compensation and pension debt',
+          );
+
           cy.get(
             'va-radio-option[value="I don\'t think I owe this debt to VA"]',
           ).click();
@@ -116,6 +125,11 @@ const testConfig = createTestConfig(
       },
       'dispute-reason/0': ({ afterHook }) => {
         afterHook(() => {
+          cy.get('h3').should(
+            'contain',
+            'Debt 1 of 3: $100.00 overpayment for Disability compensation and pension debt',
+          );
+
           cy.get('va-textarea')
             .shadow()
             .find('textarea')
@@ -127,6 +141,11 @@ const testConfig = createTestConfig(
       // Books/Supplies
       'existence-or-amount/1': ({ afterHook }) => {
         afterHook(() => {
+          cy.get('h3').should(
+            'contain',
+            'Debt 2 of 3: $120.40 overpayment for Post-9/11 GI Bill debt for books and supplies',
+          );
+
           cy.get(
             'va-radio-option[value="I don\'t think the amount is correct on this debt"]',
           ).click();
@@ -135,6 +154,11 @@ const testConfig = createTestConfig(
       },
       'dispute-reason/1': ({ afterHook }) => {
         afterHook(() => {
+          cy.get('h3').should(
+            'contain',
+            'Debt 2 of 3: $120.40 overpayment for Post-9/11 GI Bill debt for books and supplies',
+          );
+
           cy.get('va-textarea')
             .shadow()
             .find('textarea')
@@ -146,6 +170,11 @@ const testConfig = createTestConfig(
       // Tuition
       'existence-or-amount/2': ({ afterHook }) => {
         afterHook(() => {
+          cy.get('h3').should(
+            'contain',
+            'Debt 3 of 3: $1,000.00 overpayment for Post-9/11 GI Bill debt for tuition',
+          );
+
           cy.get(
             'va-radio-option[value="I don\'t think I owe this debt to VA"]',
           ).click();
@@ -154,6 +183,11 @@ const testConfig = createTestConfig(
       },
       'dispute-reason/2': ({ afterHook }) => {
         afterHook(() => {
+          cy.get('h3').should(
+            'contain',
+            'Debt 3 of 3: $1,000.00 overpayment for Post-9/11 GI Bill debt for tuition',
+          );
+
           cy.get('va-textarea')
             .shadow()
             .find('textarea')
@@ -163,8 +197,6 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          // TODO: add checks for review and submit page
-          //  confirm chapter data and selected debts are present
           cy.findByText(/Submit/i, { selector: 'button' }).click();
         });
       },
