@@ -147,12 +147,24 @@ const getPdfBlob = async (templateId, data) => {
 };
 
 const pdfGenerationAnalytics = (success, count) => {
+  // API Event - tracks PDF generation process
+  const apiEvent = success ? 'letter-pdf-success' : 'letter-pdf-failure';
   recordEvent({
-    event: 'cdp-one-va-letter-download',
-    'cdp-one-va-letter-download-success': success,
+    event: apiEvent,
+    'letter-type': 'One VA Debt Letter',
     'cdp-one-va-letter-download-count-debt': count?.debt || 0,
     'cdp-one-va-letter-download-count-copay': count?.copay || 0,
   });
+
+  // Download Event - tracks the actual file download (only on success)
+  if (success) {
+    recordEvent({
+      event: 'letter-download',
+      'letter-type': 'One VA Debt Letter',
+      'cdp-one-va-letter-download-count-debt': count?.debt || 0,
+      'cdp-one-va-letter-download-count-copay': count?.copay || 0,
+    });
+  }
 };
 
 // some fancy PDF generation
@@ -161,6 +173,14 @@ export const handlePdfGeneration = async (environment, pdfData) => {
     debt: pdfData?.debts?.length || 0,
     copay: pdfData?.copays?.length || 0,
   };
+
+  // Track PDF generation start
+  recordEvent({
+    event: 'letter-pdf-pending',
+    'letter-type': 'One VA Debt Letter',
+    'cdp-one-va-letter-download-count-debt': analyticsCount.debt,
+    'cdp-one-va-letter-download-count-copay': analyticsCount.copay,
+  });
 
   try {
     const blob = await getPdfBlob('oneDebtLetter', pdfData);
