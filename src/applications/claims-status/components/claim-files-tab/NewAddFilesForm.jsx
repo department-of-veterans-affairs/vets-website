@@ -1,5 +1,6 @@
 // The following are the user stories that need to be retained as part of this implementation:
 // ~As a user, I can add multiple files to the VaFileInputMultiple~
+// - As a user, If I don't add any files, I will see the error "Please add at least one file before submitting."
 // - As a user that is adding an encrypted file, the component will detect that the file is encrypted and if so show a password input.
 // - As a user, if I try to submit an encrypted file without a password, I will see the error "Please provide a password to decrypt this file"
 // - As a user, that is adding a non-encrypted file, the component will detect that the file is not encrypted and not show the password input.
