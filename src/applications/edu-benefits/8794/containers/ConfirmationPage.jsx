@@ -24,7 +24,7 @@ export const ConfirmationPage = ({ router, route }) => {
   const form = useSelector(state => state?.form);
   const { submission } = form;
   const submitDate = submission?.timestamp;
-  const confirmationNumber = submission?.response?.confirmationNumber;
+  const confirmationNumber = submission?.response?.confirmationNumber; // submission?.response?.attributes?.confirmationNumber
 
   const dispatch = useDispatch();
 
@@ -52,23 +52,6 @@ export const ConfirmationPage = ({ router, route }) => {
   useEffect(() => {
     const firsth2 = document.querySelector('va-alert + h2');
     scrollAndFocus(firsth2);
-  }, []);
-
-  useEffect(() => {
-    const h2Element = document.querySelector('.custom-classname h2');
-    if (h2Element) {
-      const h3 = document.createElement('h3');
-      h3.innerHTML = h2Element.innerHTML;
-      h2Element.parentNode.replaceChild(h3, h2Element);
-    }
-    return () => {
-      const h3Element = document.querySelector('.custom-classname h3');
-      if (h3Element) {
-        const h2 = document.createElement('h2');
-        h2.innerHTML = h3Element.innerHTML;
-        h3Element.parentNode.replaceChild(h2, h3Element);
-      }
-    };
   }, []);
 
   return (

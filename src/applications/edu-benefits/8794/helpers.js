@@ -48,12 +48,11 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
       To submit your form, follow the steps below
     </h2>
     <va-process-list uswds>
-      <va-process-list-item>
+      <va-process-list-item header="Download and save your form">
         <div
           itemProp="itemListElement"
-          className="confirmation-save-pdf-download-section screen-only custom-classname"
+          className="confirmation-save-pdf-download-section"
         >
-          <h2>Download and save your form</h2>
           <p>
             To submit this form, make sure that your completed form is saved as
             a PDF on your device.{' '}
