@@ -7,12 +7,12 @@ import {
 } from '@department-of-veterans-affairs/platform-user/exports';
 import { format, isAfter, isDate, parseISO, startOfMinute } from 'date-fns';
 import {
-  selectSystemIds,
+  selectFeatureConvertSlotsToUtc,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureFeSourceOfTruthVA,
-  selectFeatureConvertSlotsToUtc,
+  selectSystemIds,
 } from '../../redux/selectors';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,

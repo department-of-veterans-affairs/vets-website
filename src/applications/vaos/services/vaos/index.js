@@ -154,13 +154,16 @@ export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
   ).then(parseApiList);
 }
 
-export function getAvailableV2Slots(
+export function getAvailableV2Slots({
   facilityId,
   clinicId,
+  typeOfCare,
+  provider,
   startDate,
   endDate,
   convertToUtc = false,
-) {
+}) {
+  const queryParams = [];
   const start = convertToUtc
     ? startDate.toISOString()
     : format(
@@ -177,11 +180,18 @@ export function getAvailableV2Slots(
           : lastDayOfMonth(parseISO(endDate)),
         DATE_FORMATS.ISODateTimeLocal,
       );
-  return apiRequestWithUrl(
-    `/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${encodeURIComponent(
-      start,
-    )}&end=${encodeURIComponent(end)}`,
-  ).then(parseApiList);
+
+  if (typeOfCare) queryParams.push(`clinical_service=${typeOfCare}`);
+  if (provider) queryParams.push(`provider=${provider}`);
+
+  let baseUrl = `/vaos/v2/locations/${facilityId}`;
+  if (clinicId) baseUrl = `${baseUrl}/clinics/${clinicId.split('_')[1]}`;
+
+  baseUrl = `${baseUrl}/slots?start=${encodeURIComponent(
+    start,
+  )}&end=${encodeURIComponent(end)}${queryParams.join('&')}`;
+
+  return apiRequestWithUrl(baseUrl).then(parseApiList);
 }
 
 export function getCommunityCareV2(typeOfCare) {

@@ -78,7 +78,7 @@ const formConfig = {
       title: 'Review your personal information',
       // This is the same review page title as within the accordion... will
       // consult with design on content changes
-      reviewTitle: 'Your personal information',
+      reviewTitle: 'Veteran’s personal information',
       pages: {
         veteranInformation: {
           path: 'veteran-information',
@@ -89,7 +89,7 @@ const formConfig = {
       },
     },
     veteranContactInformation: {
-      title: "Veteran's contact information",
+      title: 'Veteran’s contact information',
       pages: {
         veteranContactInformation: {
           path: 'veteran-contact-information',
