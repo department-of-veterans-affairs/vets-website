@@ -1,6 +1,4 @@
-import React from 'react';
 import {
-  titleUI,
   radioSchema,
   radioUI,
   textUI,
@@ -12,6 +10,7 @@ import {
   emailSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
+  arrayBuilderItemFirstPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
@@ -21,22 +20,20 @@ const phoneLabels = {
 };
 
 const uiSchema = {
-  designatingOfficial: {
-    ...titleUI('Your information'),
-    'ui:description': (
-      <p className="vads-u-margin-top--2">
-        <strong>Note:</strong> The person filling out and signing this form must
-        be a person authorized to enter the school or training establishment
-        into a binding agreement with the Department of Veterans Affairs as a
-        "designating official".
-      </p>
+  additionalOfficialDetails: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Tell us about your certifying official',
+    }),
+    fullName: fullNameNoSuffixUI(
+      title =>
+        `${title.charAt(0).toUpperCase() +
+          title.slice(1)} of certifying official`,
     ),
-    fullName: fullNameNoSuffixUI(false),
     title: {
       ...textUI({
-        title: 'Your title',
+        title: 'Title of certifying official',
         errorMessages: {
-          required: 'Enter your title',
+          required: 'Enter a title',
         },
         validations: [validateWhiteSpace],
       }),
@@ -50,7 +47,7 @@ const uiSchema = {
     }),
     phoneNumber: {
       ...phoneUI({
-        title: 'Phone number',
+        title: 'Phone number of certifying official',
         hint: 'For US phone numbers. Enter a 10-digit phone number.',
       }),
       'ui:errorMessages': {
@@ -60,7 +57,7 @@ const uiSchema = {
     },
     internationalPhoneNumber: {
       ...internationalPhoneDeprecatedUI({
-        title: 'International phone number',
+        title: 'International phone number of certifying official',
         hint:
           'For non-US phone numbers. Enter a phone number with up to 15 digits.',
       }),
@@ -70,21 +67,50 @@ const uiSchema = {
       },
     },
     emailAddress: emailUI({
-      title: 'Email address',
+      title: 'Email address of certifying official',
       errorMessages: {
         required:
           'Enter a valid email address without spaces using this format: email@domain.com',
       },
     }),
     'ui:options': {
-      updateSchema: (formData, formSchema) => {
-        if (formData.designatingOfficial?.phoneType === 'us') {
+      updateSchema: (formData, formSchema, ui, index) => {
+        const isAdding = !!formData['additional-certifying-official'];
+
+        if (isAdding) {
+          const addingDetails =
+            formData['additional-certifying-official'][index]
+              .additionalOfficialDetails;
+
+          if (addingDetails?.phoneType === 'us') {
+            return {
+              ...formSchema,
+              required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
+            };
+          }
+          if (addingDetails?.phoneType === 'intl') {
+            return {
+              ...formSchema,
+              required: [
+                'title',
+                'phoneType',
+                'internationalPhoneNumber',
+                'emailAddress',
+              ],
+            };
+          }
+          return { ...formSchema };
+        }
+
+        const editingDetails = formData.additionalOfficialDetails;
+
+        if (editingDetails?.phoneType === 'us') {
           return {
             ...formSchema,
             required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
           };
         }
-        if (formData.designatingOfficial?.phoneType === 'intl') {
+        if (editingDetails?.phoneType === 'intl') {
           return {
             ...formSchema,
             required: [
@@ -95,7 +121,6 @@ const uiSchema = {
             ],
           };
         }
-
         return { ...formSchema };
       },
     },
@@ -105,7 +130,7 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    designatingOfficial: {
+    additionalOfficialDetails: {
       type: 'object',
       properties: {
         fullName: fullNameNoSuffixSchema,
