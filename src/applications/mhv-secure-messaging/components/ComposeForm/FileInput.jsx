@@ -16,6 +16,7 @@ const FileInput = props => {
     attachmentScanError,
     attachFileError,
     setAttachFileError,
+    isPilot,
   } = props;
 
   const fileInputRef = useRef();
@@ -65,12 +66,7 @@ const FileInput = props => {
       return;
     }
 
-    if (
-      selectedFile.size >
-      (largeAttachmentsEnabled
-        ? Attachments.MAX_FILE_SIZE_LARGE
-        : Attachments.MAX_FILE_SIZE)
-    ) {
+    if (selectedFile.size > Attachments.MAX_FILE_SIZE) {
       setAttachFileError({
         message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE,
       });
@@ -80,7 +76,7 @@ const FileInput = props => {
 
     if (
       currentTotalSize + selectedFile.size >
-      (largeAttachmentsEnabled
+      (largeAttachmentsEnabled && isPilot
         ? Attachments.TOTAL_MAX_FILE_SIZE_LARGE
         : Attachments.TOTAL_MAX_FILE_SIZE)
     ) {
@@ -214,6 +210,7 @@ FileInput.propTypes = {
   attachmentScanError: PropTypes.bool,
   attachments: PropTypes.array,
   draftSequence: PropTypes.number,
+  isPilot: PropTypes.bool,
   setAttachFileError: PropTypes.func,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,

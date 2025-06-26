@@ -397,6 +397,7 @@ AttachmentsList.propTypes = {
   editingEnabled: PropTypes.bool,
   forPrint: PropTypes.bool,
   reply: PropTypes.bool,
+  setAttachFileError: PropTypes.func,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
   setIsModalVisible: PropTypes.func,
