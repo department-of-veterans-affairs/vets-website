@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   VaButton,
   VaRadio,
@@ -187,6 +187,9 @@ export default function ApplicantRelationshipPage({
   const [checkError, setCheckError] = useState(undefined);
   const [inputError, setInputError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
+
+  const radioRef = useRef(null); // Used to set focus when in error state
+
   const useTopBackLink =
     contentAfterButtons?.props?.formConfig?.useTopBackLink ?? false;
   const navButtons = useTopBackLink ? (
@@ -213,6 +216,14 @@ export default function ApplicantRelationshipPage({
     customWording, // For hint override when using default configuration
   });
 
+  const setFocusOnRadio = () => {
+    if (radioRef.current) {
+      const element =
+        radioRef.current.querySelector('input') || radioRef.current;
+      element.focus();
+    }
+  };
+
   const handlers = {
     validate() {
       let isValid = true;
@@ -236,6 +247,7 @@ export default function ApplicantRelationshipPage({
       } else {
         setInputError(null);
       }
+      if (!isValid) setFocusOnRadio(); // we have an error, set focus on the input
       return isValid;
     },
     radioUpdate: ({ detail }) => {
@@ -301,6 +313,7 @@ export default function ApplicantRelationshipPage({
           error={checkError}
           onVaValueChange={handlers.radioUpdate}
           name={`root_${keyname}`}
+          ref={radioRef}
         >
           {options.map(option => (
             <va-radio-option
