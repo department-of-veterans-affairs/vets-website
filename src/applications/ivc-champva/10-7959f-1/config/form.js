@@ -15,8 +15,8 @@ import {
   addressSchema,
   emailUI,
   emailSchema,
-  phoneUI,
-  phoneSchema,
+  internationalPhoneUI,
+  internationalPhoneSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -258,7 +258,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: phoneUI(),
+            veteranPhoneNumber: internationalPhoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
@@ -266,7 +266,7 @@ const formConfig = {
             required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: phoneSchema,
+              veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },

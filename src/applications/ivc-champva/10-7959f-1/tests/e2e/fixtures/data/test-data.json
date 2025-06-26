@@ -1,8 +1,12 @@
 {
   "data": {
-    "veteranPhoneNumber": "2058797651",
+    "veteranPhoneNumber": {
+      "callingCode": "1",
+      "countryCode": "US",
+      "contact": "4321432143"
+    },
     "veteranEmailAddress": "reiting@gmail.com",
-    "sameMailingAddress": "Y",
+    "sameMailingAddress": true,
     "veteranAddress": {
       "country": "USA",
       "street": "6 main",
