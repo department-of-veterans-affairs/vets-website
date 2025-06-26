@@ -50,8 +50,11 @@ function App({
   const hasV1Form = savedForms.some(
     form => form.form === VA_FORM_IDS.FORM_21_686C,
   );
+  const hasV2Form = savedForms.some(
+    form => form.form === VA_FORM_IDS.FORM_21_686CV2,
+  );
 
-  const shouldUseV2 = flipperV2 && !hasV1Form;
+  const shouldUseV2 = flipperV2 && (hasV2Form || !hasV1Form);
   if (!shouldUseV2) {
     window.location.href = '/view-change-dependents/add-remove-form-21-686c/';
     return <></>;
