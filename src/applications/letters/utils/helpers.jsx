@@ -200,8 +200,8 @@ export const newLetterContent = {
         Part D prescription drug coverage.
       </p>
       <p>
-        You may need to this submit this letter when applying for Medicare Part
-        D prescription drug coverage.
+        You may need to submit this letter when applying for Medicare Part D
+        prescription drug coverage
       </p>
     </>
   ),
@@ -224,10 +224,7 @@ export const newLetterContent = {
         The Civil Service Preference Letter proves that you’re a disabled
         Veteran and you qualify for preference for civil service jobs.
       </p>
-      <p>
-        You can use this letter when filing your taxes or applying for something
-        that requires proof of health insurance.
-      </p>
+      <p>You can use this letter when applying for a federal government job.</p>
     </>
   ),
   benefit_summary:
