@@ -48,7 +48,10 @@ import {
 import {
   claimIdentifyingNumber,
   claimType,
-  claimDetails,
+  medicalClaimDetails,
+  // medicalUploadSupportingDocs,
+  pharmacyClaimDetails,
+  // pharmacyClaimUploadDocs,
 } from '../chapters/resubmission';
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
@@ -179,10 +182,25 @@ const formConfig = {
           ...claimType,
         },
         page1g: {
-          path: 'resubmission-claim-details',
+          path: 'resubmission-medical-claim-details',
           title: 'Claim details',
-          ...claimDetails,
+          ...medicalClaimDetails,
         },
+        // page1h: {
+        //   path: 'resubmission-medical-supporting-docs',
+        //   title: 'claim details',
+        //   ...medicalUploadSupportingDocs
+        // },
+        pageij: {
+          path: 'resubmission-pharmacy-claim-details',
+          title: 'claim details',
+          ...pharmacyClaimDetails,
+        },
+        // page1k: {
+        //   path: 'resubmission-pharmacy-supporting-docs',
+        //   title: 'Upload support documents for your pharmacy claim',
+        //   ...pharmacyClaimUploadDocs
+        // }
       },
     },
     sponsorInformation: {

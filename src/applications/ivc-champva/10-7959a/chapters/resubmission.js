@@ -64,7 +64,7 @@ export const claimType = {
   },
 };
 
-export const claimDetails = {
+export const medicalClaimDetails = {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
@@ -99,3 +99,35 @@ export const claimDetails = {
     },
   },
 };
+
+export const medicalUploadSupportingDocs = {};
+
+export const pharmacyClaimDetails = {
+  uiSchema: {
+    ...titleUI(
+      ({ formData }) =>
+        `${
+          formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+        } claim details`,
+      'Enter the details for your claim to help us find your original claim.',
+    ),
+    medicationName: textUI('Medication name'),
+    prescriptionFillDate: {
+      ...currentOrPastDateUI({
+        title: 'Prescription fill date',
+        hint: null,
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['medicationName', 'prescriptionFillDate'],
+    properties: {
+      titleSchema,
+      medicationName: textSchema,
+      prescriptionFillDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+export const pharmacyClaimUploadDocs = {};
