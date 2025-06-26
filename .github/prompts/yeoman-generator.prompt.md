@@ -1,32 +1,8 @@
----
-mode: 'agent'
----
-Our goal is to create a json file representing all the necessary values for generating a new form.
+# Instructions for creating a new form application using Yeoma Generator
+`
+Our goal is to create a new form using the `yo` command
+We must provide all the necessary values for generating a new form.
 If insufficient information is provided, ask the user for more details.
-
-Create or overwrite the file `{app_folder}/tmp_yo_values.json` that contain our key value pairs for generating a new form. Instructions below on key/values.
-
-Example:
-```json
-{
-  "appName": "My Test Form",
-  "folderName": "my-test-form",
-  "entryName": "my-test-form",
-  "rootUrl": "/my-test-form",
-  "isForm": true,
-  "slackGroup": "none",
-  "contentLoc": "path.resolve('../vagov-content')",
-  "formNumber": "21P-530",
-  "trackingPrefix": "test-530-",
-  "respondentBurden": "30",
-  "ombNumber": "2900-0797",
-  "expirationDate": "12/31/2026",
-  "benefitDescription": "test benefits",
-  "usesVetsJsonSchema": false,
-  "usesMinimalHeader": false,
-  "templateType": "WITH_1_PAGE",
-}
-```
 
 ## Arguments
 appName: "What's the name of your application? This will be the default page title. Examples: '21P-530 Burials benefits form' or 'GI Bill School Feedback Tool'"
@@ -42,3 +18,22 @@ benefitDescription: "Benefit description (e.g. 'GI Bill benefits' or 'Burials be
 templateType:
   "WITH_1_PAGE" - A form with 1 page - name and date of birth
   "WITH_4_PAGES" - A form with 4 pages - name and date of birth, identification information, mailing address, and phone and email
+
+## Valid Terminal Command
+yo @department-of-veterans-affairs/vets-website \
+  --appName="My App" \
+  --folderName="my-app" \
+  --entryName="my-app" \
+  --rootUrl="/my-app" \
+  --isForm=true \
+  --slackGroup="@my-group" \
+  --contentLoc="../vagov-content" \
+  --formNumber="21P-530" \
+  --trackingPrefix="burials-530-" \
+  --respondentBurden="30" \
+  --ombNumber="2900-0797" \
+  --expirationDate="12/31/2026" \
+  --benefitDescription="burial benefits" \
+  --usesVetsJsonSchema=false \
+  --usesMinimalHeader=false \
+  --templateType="WITH_1_PAGE"

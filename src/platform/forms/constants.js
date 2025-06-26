@@ -102,6 +102,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_0304_UPLOAD: '21-0304-UPLOAD',
   FORM_21_651_UPLOAD: '21-651-UPLOAD',
   FORM_21P_4185_UPLOAD: '21P-4185-UPLOAD',
+  FORM_21_651: '21-651',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -192,6 +193,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10D-EXTENDED')}/`,
     [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl('21-0538')}/`,
+    [VA_FORM_IDS.FORM_21_651]: `${tryGetAppUrl('21-651')}/`,
   };
 };
 
@@ -723,6 +725,13 @@ export const MY_VA_SIP_FORMS = [
     title: '21-0538 Dependents verification',
     description: 'dependent-benefits',
     trackingPrefix: '0538-dependents-verification-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_651,
+    benefit: 'Disability Compensation Election',
+    title: '21-651 Election of Compensation in Lieu of Retired Pay',
+    description: 'Disability Compensation Election',
+    trackingPrefix: 'compensation-election-651-',
   },
 ];
 

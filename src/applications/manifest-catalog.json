@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 131,
+  "totalApplications": 132,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -14,6 +14,12 @@
       "appName": "Authenticated Experience Design Patterns",
       "entryName": "mock-form-ae-design-patterns",
       "rootUrl": "/mock-form-ae-design-patterns"
+    },
+    {
+      "directoryPath": "src/applications/21-651",
+      "appName": "21-651 Election of Compensation in Lieu of Retired Pay",
+      "entryName": "21-651-election-compensation",
+      "rootUrl": "/compensation-election/21-651"
     },
     {
       "directoryPath": "src/applications/accreditation/21a",

@@ -10,6 +10,7 @@ Look at [README](src/platform/forms-system/src/js/web-component-patterns/web-com
 ## Example of Usage:
 
 ```js
+// @ts-check
 import {
   addressSchema,
   addressUI,

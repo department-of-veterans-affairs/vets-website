@@ -1,5 +1,5 @@
 ---
-applyTo: "**/src/applications/**/pages/**/*.js"
+applyTo: "**/src/applications/**/pages/**/*.js(x)?"
 ---
 Instructions for creating or updating RJSF pages, prefer the following instructions:
 

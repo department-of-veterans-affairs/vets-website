@@ -23,6 +23,7 @@
 <fileStructure>
 {appFolder}
 └── manifest.json
+└── prd.md (optional)
 └── config/
     └── form.js
 └── containers/
@@ -52,6 +53,7 @@
 <fileStructure>
 {appFolder}
 └── manifest.json
+└── prd.md (optional)
 └── config/
     └── form.js
 └── chapters/
@@ -87,7 +89,7 @@
 - [ ] (Optional) What fields are required?
 - [ ] (Optional) Is the page required?
 
-### ArrayBuilder-only prerequisites (multiple response list and loop pages):
+### If array data: ArrayBuilder-only prerequisites (multiple response list and loop pages):
 - [ ] Is the data required or optional?
 - [ ] How many pages are in the loop, and what fields on each page?
 - [ ] What is the title of each page?
@@ -105,7 +107,35 @@ Step 4: Validate web component patterns are used correctly by referencing `platf
 Step 5: Fix formatting issues using
 - `yarn lint:js:working:fix`
 Step 6: Create unit tests for the new page or chapter in the appropriate test folder. Tests should confirm the title on the page, and that each individual field intended to be used is present on the page. See the [unit tests instructions](.github/instructions/unit-tests.instructions.md) for more details.
-Step 7: Run unit tests to ensure they pass.
+Step 7: Run unit tests to ensure they pass `yarn test:unit --app-folder {appName} --log-level all`
 Step 8: Go back and fix any issues that arise from the unit tests and start at Step 4 again.
 Step 9: If all tests pass and expectations are met, summarize the results for the user.
 
+### How to yarn watch to run development server (optional)
+#### Prerequisite
+- [ ] Find the entryName from the `manifest.json` file of the current form.
+
+#### Examples of yarn watch commands
+`yarn watch --env entry={entryName},auth,static-pages,login-page,verify,profile`
+`yarn watch --env entry={entryName},{appName2},auth,static-pages,login-page,verify,profile`
+`yarn watch --env entry={entryName}`
+
+### How to run yarn mock api server (optional)
+1. Check if yarn mock api is applicable to this form.
+    - Does the form have mock API responses? It might not, in which case skip this step.
+    - You can check if the form has mock API responses by looking for
+    - Check: `{appFolder}/**/*-responses.js`
+2. Run the command in a new terminal window to start the mock API server.
+    Example:
+    `yarn mock-api --responses {full-path-to-mock-api-responses.js}`
+    `yarn mock-api --responses src/applications/your-form-name/fixtures/mock-api-responses.js`
+
+### How to preview/view/open form in the browser
+#### Prerequisites
+- [ ] Ensure the form is running in the terminal with the yarn watch command specified above.
+- [ ] Determine the `rootUrl` in the `manifest.json` file of the current form.
+
+#### Steps to open the form in the browser
+1. Complete the prerequisites above.
+2. Tell the user the full URL you intend to open
+3. Open the browser and navigate to `http://localhost:3001/{rootUrl}`

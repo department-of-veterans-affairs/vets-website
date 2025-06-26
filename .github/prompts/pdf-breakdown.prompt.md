@@ -5,13 +5,31 @@ Break down a PDF form into structured context for creating digital forms on VA.g
 
 ## Process Overview
 <process>
+
+<workspace-setup>
+<find-form-path>
+- Use `/src/applications/manifest-catalog.json` to find the form. If there is any ambiguity, ask the user for more details.
+- If no context is provided, search for the nearest `manifest.json` file to find the application root.
+</find-form-path>
+<no-form-path-found>
+- If it is for a new form, suggest a new folder name based on existing patterns in `/src/applications/manifest-catalog.json`.
+- Confirm with the user before proceeding if it is a new form.
+- `yarn new:app` is the command to create a new form.
+- After creating a new form, run `yarn generate-manifest-catalog` to update the `manifest-catalog.json`.
+</no-form-path-found>
+<create-prd>
+- [ ] Create {appFolder}/prd.md for the PRD documentation.
+</create-prd>>
+</workspace-setup>
+
 <pdf-analysis>
 - Analyze the PDF form structure, layout, and content
 - Extract form metadata (title, form number, OMB info, etc.)
-- Identify logical chapters and page groupings
+- Identify logical chapters and page groupings, preferring 1 thing per page, or just a few things per page
 - Catalog all form fields with their types and requirements
 - Note any special instructions or conditional logic
 </pdf-analysis>
+
 <prd-creation>
 - Create a comprehensive PRD outlining the digital form structure
 - Map PDF sections to VA.gov form chapters and pages
@@ -19,6 +37,7 @@ Break down a PDF form into structured context for creating digital forms on VA.g
 - Document validation rules and conditional logic
 - Include accessibility considerations
 </prd-creation>
+
 </process>
 
 ## PDF Analysis Structure

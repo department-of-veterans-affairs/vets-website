@@ -1,7 +1,10 @@
 ---
-applyTo: "**/src/applications/**/*unit.spec.jsx"
+applyTo: "**/src/applications/**/*unit.spec.js(x)?"
 description: Instructions for unit tests in the forms system
 ---
+
+## File name conventions
+Unit test files should be named with the `.unit.spec.jsx` suffix.
 
 ## Terminal commands for running unit tests
 - `yarn test:unit --app-folder {appName} --log-level all`
