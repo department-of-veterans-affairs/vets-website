@@ -28,6 +28,7 @@ import {
   focusOnErrorField,
   getLastUpdatedText,
   sendDataDogAction,
+  getFailedDomainList,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
@@ -36,6 +37,7 @@ import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
 import { addAlert, clearAlerts } from '../../actions/alerts';
 import {
   ALERT_TYPE_BB_ERROR,
+  BB_DOMAIN_DISPLAY_MAP,
   pageTitles,
   refreshExtractTypes,
 } from '../../util/constants';
@@ -358,6 +360,10 @@ const DownloadFileType = props => {
           const pdfData = {
             ...formatDateRange(),
             recordSets: generateBlueButtonData(recordData, recordFilter),
+            failedDomains: getFailedDomainList(
+              failedDomains,
+              BB_DOMAIN_DISPLAY_MAP,
+            ),
             ...scaffold,
             name,
             dob,
@@ -389,6 +395,7 @@ const DownloadFileType = props => {
       formatDateRange,
       recordData,
       recordFilter,
+      failedDomains,
       name,
       dob,
       refreshStatus,

@@ -145,17 +145,15 @@ export const generateBlueButtonData = (
       : [],
   });
 
-  if (vitals?.length > 0) {
-    data.push({
-      type: recordType.VITALS,
-      title: 'Vitals',
-      subtitles: [
-        'Vitals are basic health numbers your providers check at your appointments.',
-      ],
-      selected: recordFilter.includes('vitals'),
-      records: generateVitalsContentByType(vitals),
-    });
-  }
+  data.push({
+    type: recordType.VITALS,
+    title: 'Vitals',
+    subtitles: [
+      'Vitals are basic health numbers your providers check at your appointments.',
+    ],
+    selected: recordFilter.includes('vitals'),
+    records: generateVitalsContentByType(vitals),
+  });
 
   data.push({
     type: blueButtonRecordTypes.MEDICATIONS,
@@ -185,35 +183,26 @@ export const generateBlueButtonData = (
       ? appointments.filter(appt => !appt.isUpcoming)
       : [];
 
-  const records = [];
-
-  if (upcoming.length > 0) {
-    records.push({
-      title: 'Upcoming appointments',
-      ...generateAppointmentsContent(upcoming),
-    });
-  }
-
-  if (past.length > 0) {
-    records.push({
-      title: 'Past appointments',
-      ...generateAppointmentsContent(past),
-    });
-  }
-
-  if (records.length > 0) {
-    data.push({
-      type: blueButtonRecordTypes.APPOINTMENTS,
-      title: 'Appointments',
-      subtitles: [
-        'Your VA appointments may be by telephone, video, or in person. Always bring your insurance information with you to your appointment.',
-      ],
-      selected:
-        recordFilter.includes('upcomingAppts') ||
-        recordFilter.includes('pastAppts'),
-      records,
-    });
-  }
+  data.push({
+    type: blueButtonRecordTypes.APPOINTMENTS,
+    title: 'Appointments',
+    subtitles: [
+      'Your VA appointments may be by telephone, video, or in person. Always bring your insurance information with you to your appointment.',
+    ],
+    selected:
+      recordFilter.includes('upcomingAppts') ||
+      recordFilter.includes('pastAppts'),
+    records: [
+      {
+        title: 'Upcoming appointments',
+        ...generateAppointmentsContent(upcoming),
+      },
+      {
+        title: 'Past appointments',
+        ...generateAppointmentsContent(past),
+      },
+    ],
+  });
 
   data.push({
     type: blueButtonRecordTypes.DEMOGRAPHICS,
