@@ -14,7 +14,7 @@
       "country": "UK"
     },
     "internationalPhone": "63123456789",
-    "dependentsx": [
+    "dependents": [
       {
         "fullName": {
           "first": "Morty",
