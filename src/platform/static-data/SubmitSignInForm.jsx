@@ -21,8 +21,9 @@ export default function SubmitSignInForm({ startSentence }) {
 
   return (
     <span>
-      {startSentence ? 'Call' : 'call'} our <a href="va.gov">VA.gov</a>{' '}
-      technical support line for help at {helpDeskLink}
+      {startSentence ? 'Call' : 'call'} our{' '}
+      <va-telephone contact="8662793677" /> technical support line for help at{' '}
+      {helpDeskLink}
     </span>
   );
 }
