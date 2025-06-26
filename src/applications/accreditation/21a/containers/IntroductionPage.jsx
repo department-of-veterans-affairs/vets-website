@@ -146,10 +146,6 @@ const IntroductionPage = ({ route }) => {
         </va-process-list-item>
       </va-process-list>
 
-      <div className="vads-u-margin-y--4">
-        <VerifyAlert headingLevel={3} dataTestId="ezr-identity-alert" />
-      </div>
-
       {isUserLOA1 ? (
         <div className="vads-u-margin-y--4">
           <VerifyAlert headingLevel={3} dataTestId="ezr-identity-alert" />
