@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { DEPENDENT_CHOICES } from '../constants';
 import { maskID } from '../../shared/utils';
 
 export const DependentsInformationReview = ({ data, goToPath }) => {
@@ -133,7 +134,7 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
       <dl className="review">
         <div className="review-row">
           <dt>Has the status of your dependents changed</dt>
-          <dd>{hasDependentsStatusChanged === 'Y' ? 'Yes' : 'No'}</dd>
+          <dd>{DEPENDENT_CHOICES[hasDependentsStatusChanged]}</dd>
         </div>
       </dl>
     </div>

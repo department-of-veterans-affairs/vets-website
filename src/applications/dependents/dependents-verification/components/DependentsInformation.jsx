@@ -6,6 +6,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 
+import { DEPENDENT_CHOICES } from '../constants';
 import { maskID, getFullName } from '../../shared/utils';
 
 export const DependentsInformation = ({
@@ -32,7 +33,7 @@ export const DependentsInformation = ({
         setShowError(true);
         return;
       }
-      if (data.hasDependentsStatusChanged === 'Y') {
+      if (data.hasDependentsStatusChanged === 'N') {
         goToPath('/exit-form', { force: true });
       } else {
         goForward(data);
@@ -152,14 +153,14 @@ export const DependentsInformation = ({
         <va-radio-option
           name="hasDependentsStatusChanged"
           value="Y"
-          label="Yes, I need to add, remove, or update my dependent information."
+          label={DEPENDENT_CHOICES.Y}
           tile
           checked={data.hasDependentsStatusChanged === 'Y'}
         />
         <va-radio-option
           name="hasDependentsStatusChanged"
           value="N"
-          label="No, my dependent information is correct."
+          label={DEPENDENT_CHOICES.N}
           tile
           checked={data.hasDependentsStatusChanged === 'N'}
         />
