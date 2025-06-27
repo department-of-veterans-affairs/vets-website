@@ -127,7 +127,7 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should show the correct number of errors on submit for web components', () => {
+    it('should show the correct number of errors on submit for web components', async () => {
       const { mockStore } = getProps();
 
       const { container, getByRole } = render(
@@ -143,6 +143,10 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
       );
 
       getByRole('button', { name: /submit/i }).click();
+
+      // Wait for the DOM to update after form validation
+      await new Promise(resolve => setTimeout(resolve, 0));
+
       const nodes = Array.from(
         container.querySelectorAll(
           `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
