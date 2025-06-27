@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ApplicationDownloadLink from '../ApplicationDownloadLink';
 import { normalizeFullName } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
@@ -15,10 +14,7 @@ const ConfirmationScreenView = ({ name, route, timestamp }) => {
     [timestamp],
   );
 
-  useEffect(() => {
-    focusElement('va-alert[status="success"]');
-    scrollToTop();
-  }, []);
+  useEffect(() => focusElement('va-alert[status="success"]'), []);
 
   return (
     <>

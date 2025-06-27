@@ -1,9 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
+import { fireClickEvent } from '../../../test-helpers';
 
 const {
   chapters: {
@@ -43,22 +44,17 @@ describe(`${pageTitle} page`, () => {
     return { selectors };
   };
 
-  it('should render the correct number of fields', () => {
+  it('should render the correct elements before upload', () => {
     const { selectors } = subject();
-    const { inputs } = selectors();
+    const { inputs, vaAlert } = selectors();
     expect(inputs).to.have.lengthOf(1);
-  });
-
-  it('should not render document upload warning by default', () => {
-    const { selectors } = subject();
-    const { vaAlert } = selectors();
     expect(vaAlert).to.not.exist;
   });
 
   it('should render the correct number of errors on submit', async () => {
     const { selectors } = subject();
     const { submitBtn } = selectors();
-    fireEvent.click(submitBtn);
+    fireClickEvent(submitBtn);
     await waitFor(() => {
       const { errors } = selectors();
       expect(errors).to.have.lengthOf(1);

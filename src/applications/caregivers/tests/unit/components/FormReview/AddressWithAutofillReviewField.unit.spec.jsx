@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { AddressWithAutofillReviewField } from '../../../../components/FormReview/AddressWithAutofillReviewField';
 import content from '../../../../locales/en/content.json';
 
-const defaultData = {
+const DEFAULT_DATA = {
   street: '1350 I St. NW',
   street2: 'Suite 550',
   city: 'Washington',
@@ -14,7 +14,7 @@ const defaultData = {
 };
 
 describe('CG <AddressWithAutofillReviewField>', () => {
-  const subject = ({ data = defaultData, autofill = false } = {}) => {
+  const subject = ({ data = DEFAULT_DATA, autofill = false } = {}) => {
     const props = {
       formData: { ...data, 'view:autofill': autofill },
       inputLabel: content['primary-input-label'],
@@ -43,7 +43,7 @@ describe('CG <AddressWithAutofillReviewField>', () => {
         expect(reviewRows[key]).to.contain.text('District Of Columbia');
         return;
       }
-      expect(reviewRows[key]).to.contain.text(defaultData[key]);
+      expect(reviewRows[key]).to.contain.text(DEFAULT_DATA[key]);
     });
   });
 

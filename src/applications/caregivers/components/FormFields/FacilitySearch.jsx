@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -10,6 +10,7 @@ import { replaceStrValues } from '../../utils/helpers';
 import { VaSearchInput } from '../../utils/imports';
 import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
+import { useCustomEventHandler } from '../../hooks/useCustomEventHandler';
 
 // declare page paths for review mode
 export const REVIEW_PATHS = {
@@ -32,6 +33,7 @@ const FacilitySearch = props => {
     pagination: { currentPage: 0, totalEntries: 0 },
     coordinates: { lat: '', long: '' },
   });
+  const vaSearchInputRef = useRef(null);
   const radius = 500;
   const resultsPerPage = 5;
   const hasFacilities = localState.facilities.length > 0;
@@ -241,6 +243,10 @@ const FacilitySearch = props => {
     [localState.facilities],
   );
 
+  // listen for customEvents - this is applicable for updated unit tests
+  useCustomEventHandler(vaSearchInputRef, 'submit', handleSearch);
+  useCustomEventHandler(vaSearchInputRef, 'input', handleChange);
+
   const ariaLiveMessage = useMemo(() => {
     if (localState.additionalFacilitiesCount === 0) return '';
 
@@ -391,6 +397,7 @@ const FacilitySearch = props => {
             </p>
             {localState.searchError && searchError}
             <VaSearchInput
+              ref={vaSearchInputRef}
               label={`${content['form-facilities-search-label']} ${content['validation-required-label']}`}
               value={query}
               onInput={handleChange}

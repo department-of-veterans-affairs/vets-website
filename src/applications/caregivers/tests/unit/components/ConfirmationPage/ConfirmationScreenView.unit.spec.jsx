@@ -44,7 +44,11 @@ describe('CG <ConfirmationScreenView>', () => {
   let printSpy;
 
   beforeEach(() => {
-    printSpy = sinon.spy(window, 'print');
+    printSpy = sinon.spy();
+    Object.defineProperty(window, 'print', {
+      value: printSpy,
+      configurable: true,
+    });
   });
 
   afterEach(() => {
