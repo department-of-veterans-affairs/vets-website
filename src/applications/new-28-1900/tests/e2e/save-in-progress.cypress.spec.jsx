@@ -21,10 +21,12 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
+          cy.injectAxeThenAxeCheck();
           cy.contains('button', 'Continue your application').click();
         });
       },
       'review-and-submit': () => {
+        cy.injectAxeThenAxeCheck();
         cy.get('@testData').then(testData => {
           cy.get('[data-testid="privacy-agreement-checkbox"]').then($el =>
             cy.selectVaCheckbox($el, true),
