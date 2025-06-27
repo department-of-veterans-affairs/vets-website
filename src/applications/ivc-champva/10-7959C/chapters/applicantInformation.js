@@ -124,7 +124,6 @@ export const applicantAddressInfoSchema = {
               name === 'your' ? name : 'their'
             } last CHAMPVA form submission?`,
             'ui:options': {
-              classNames: ['dd-pivacy-hidden'],
               labels,
               hint: `If yes, we will update our records with the new mailing address.`,
             },
@@ -138,6 +137,7 @@ export const applicantAddressInfoSchema = {
     ],
     'ui:options': {
       itemAriaLabel: () => 'mailing address',
+      classNames: ['dd-privacy-hidden'],
     },
     'ui:objectViewField': props => {
       return PrivWrappedReview(props);
