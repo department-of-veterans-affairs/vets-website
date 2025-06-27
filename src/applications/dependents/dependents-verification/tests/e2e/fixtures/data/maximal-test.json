@@ -11,7 +11,7 @@
       "city": "Beverly Hills",
       "state": "CA",
       "postalCode": "90210",
-      "country": "UK"
+      "country": "USA"
     },
     "internationalPhone": "63123456789",
     "dependents": [
@@ -20,7 +20,7 @@
           "first": "Morty",
           "middle": "Charles",
           "last": "Smith",
-          "suffix": "None"
+          "suffix": ""
         },
         "relationship": "Child",
         "dob": "January 4, 2011",
@@ -32,7 +32,7 @@
           "first": "Summer",
           "middle": "Susan",
           "last": "Smith",
-          "suffix": "None"
+          "suffix": ""
         },
         "relationship": "Child",
         "dob": "August 1, 2008",
