@@ -9,7 +9,7 @@
     "signIn": {
       "serviceName": "idme"
     },
-    "loa": { "current": 1 }
+    "loa": { "current": 3 }
   },
   "prefillsAvailable": [],
   "inProgressForms": []
