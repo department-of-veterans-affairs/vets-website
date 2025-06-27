@@ -4,13 +4,13 @@ import { useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
+import { useCustomEventHandler } from '../../hooks/useCustomEventHandler';
 import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
 import { replaceStrValues } from '../../utils/helpers';
 import { VaSearchInput } from '../../utils/imports';
 import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
-import { useCustomEventHandler } from '../../hooks/useCustomEventHandler';
 
 // declare page paths for review mode
 export const REVIEW_PATHS = {
