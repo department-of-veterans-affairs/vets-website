@@ -81,22 +81,44 @@ export const reviewEntry = (description, key, uiSchema, label, data) => {
     return (
       <li key={keyString} className={className}>
         <div className="vads-u-color--gray">{label}</div>
-        {data.map((item, index) => {
-          return <div key={`${keyString}-${index}`}>{item}</div>;
-        })}
+        {data.map((item, index) => (
+          <div key={`${keyString}-${index}`}>{String(item)}</div>
+        ))}
       </li>
     );
+  }
+
+  if (
+    typeof data === 'object' &&
+    !Array.isArray(data) &&
+    Object.keys(data).length === 0
+  ) {
+    return null;
+  }
+
+  let display;
+  if (React.isValidElement(data)) {
+    display = data;
+  } else if (typeof data === 'object' && data !== null) {
+    try {
+      display = JSON.stringify(data);
+    } catch {
+      display = data;
+    }
+  } else {
+    display = data;
   }
 
   return (
     <li key={keyString} className={className}>
       <div className="vads-u-color--gray">{label}</div>
-      <div>{data}</div>
+      <div>{display}</div>
     </li>
   );
 };
 
 const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
+  if (!uiSchema || !schema) return null;
   if (data === undefined || data === null) return null;
   if (key.startsWith('view:') || key.startsWith('ui:')) return null;
 
@@ -210,6 +232,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
     // multi page array data
     addMarginIfNewIndex(key, index);
+    if (!uiSchema?.items) return null;
     return Object.entries(uiSchema?.items).flatMap(([arrKey, arrVal]) => {
       return fieldEntries(
         arrKey,
