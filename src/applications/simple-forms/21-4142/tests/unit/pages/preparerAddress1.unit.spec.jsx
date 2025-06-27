@@ -54,7 +54,7 @@ if (environment.isProduction()) {
     mockData,
   );
 } else {
-  const numberOfWebComponentFields = 2;
+  const numberOfWebComponentFields = 1;
   testNumberOfWebComponentFields(
     formConfig,
     schema,

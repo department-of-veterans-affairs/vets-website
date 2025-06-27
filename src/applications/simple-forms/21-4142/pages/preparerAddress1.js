@@ -12,6 +12,10 @@ import {
 } from '../definitions/constants';
 
 const DescriptionImpl = ({ formData }) => {
+  if (!formData || !formData[veteranFields.parentObject]) {
+    return <></>;
+  }
+
   const veteransAddress =
     formData[veteranFields.parentObject][veteranFields.address];
   if (
