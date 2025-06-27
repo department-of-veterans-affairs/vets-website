@@ -10,7 +10,8 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { addMinutes, format } from 'date-fns';
+import { addMinutes } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -90,8 +91,12 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
         availableSlots: [
           {
             id: 'slot-id',
-            start: format(start, DATE_FORMATS.ISODateTime),
-            end: format(addMinutes(start, 30), DATE_FORMATS.ISODateTime),
+            start: formatInTimeZone(start, 'UTC', DATE_FORMATS.ISODateTimeUTC),
+            end: formatInTimeZone(
+              addMinutes(start, 30),
+              'UTC',
+              DATE_FORMATS.ISODateTimeUTC,
+            ),
           },
         ],
         clinics: {
@@ -107,10 +112,15 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       },
     });
     store.dispatch(startDirectScheduleFlow());
-    store.dispatch(onCalendarChange([format(start, DATE_FORMATS.ISODateTime)]));
   });
 
   it('should show form information for review', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(start, 'America/Denver', DATE_FORMATS.ISODateTime),
+      ]),
+    );
+
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
     });
@@ -138,9 +148,15 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     expect(dateHeading).to.contain.text('Date and time');
     expect(screen.baseElement).to.contain.text(
-      format(start, 'EEEE, MMMM d, yyyy'),
+      formatInTimeZone(
+        start,
+        'America/Denver',
+        DATE_FORMATS.friendlyWeekdayDate,
+      ),
     );
-    expect(screen.baseElement).to.contain.text(format(start, 'h:mm aaaa'));
+    expect(screen.baseElement).to.contain.text(
+      formatInTimeZone(start, 'America/Denver', 'h:mm aaaa'),
+    );
 
     expect(reasonHeading).to.contain.text(
       'Details to share with your provider',
@@ -165,10 +181,19 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should submit successfully', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
+
     mockAppointmentSubmitApi({
       response: new MockAppointmentResponse({ id: 'fake_id' }),
     });
-
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
     });
@@ -200,6 +225,12 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show error message on failure', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(start, 'America/Denver', DATE_FORMATS.ISODateTime),
+      ]),
+    );
+
     mockFacilityApi({
       response: new MockFacilityResponse(),
     });
@@ -227,7 +258,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     expect(
       screen.getByRole('heading', {
-        level: 4,
+        level: 3,
         name: /Cheyenne VA Medical Center/i,
       }),
     );
@@ -245,6 +276,16 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show appropriate message on bad 400 request submit error', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
+
     mockFacilityApi({
       response: new MockFacilityResponse(),
     });
@@ -287,6 +328,15 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show appropriate message on overbooked 409 error', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
     mockFacilityApi({
       response: new MockFacilityResponse(),
     });
@@ -329,6 +379,15 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show appropriate message on bad 500 request submit error', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
     mockFacilityApi({
       response: new MockFacilityResponse(),
     });

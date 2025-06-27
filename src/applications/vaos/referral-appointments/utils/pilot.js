@@ -31,7 +31,7 @@ const getIsInCCPilot = (featureCCDirectScheduling, patientFacilities = []) => {
     pilotStations.includes(station.facilityId),
   );
 
-  return featureCCDirectScheduling; // & hasPilotStation;
+  return featureCCDirectScheduling; // && hasPilotStation;
 };
 
 export { getIsInCCPilot };

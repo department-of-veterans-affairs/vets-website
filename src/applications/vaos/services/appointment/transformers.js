@@ -10,11 +10,7 @@ import {
 } from '../../utils/constants';
 import { transformFacilityV2 } from '../location/transformers';
 
-export function getAppointmentType(
-  appt,
-  useFeSourceOfTruthCC,
-  useFeSourceOfTruthVA,
-) {
+export function getAppointmentType(appt, useFeSourceOfTruthVA) {
   // TODO: Update APPOINTMENT_TYPES enum to match API response values.
   const isCerner = appt?.id?.startsWith('CERN');
 
@@ -28,13 +24,11 @@ export function getAppointmentType(
     }
   }
 
-  if (useFeSourceOfTruthCC) {
-    if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
-      return APPOINTMENT_TYPES.ccAppointment;
-    }
-    if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
-      return APPOINTMENT_TYPES.ccRequest;
-    }
+  if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
+    return APPOINTMENT_TYPES.ccAppointment;
+  }
+  if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
+    return APPOINTMENT_TYPES.ccRequest;
   }
 
   if (isCerner && isEmpty(appt?.end)) {
@@ -91,24 +85,17 @@ function getAtlasLocation(appt) {
 
 export function transformVAOSAppointment(
   appt,
-  useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
   useFeSourceOfTruthTelehealth,
 ) {
-  const appointmentType = getAppointmentType(
-    appt,
-    useFeSourceOfTruthCC,
-    useFeSourceOfTruthVA,
-  );
+  const appointmentType = getAppointmentType(appt, useFeSourceOfTruthVA);
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
   const isPast = appt.past;
   const isRequest = appt.pending;
   const isUpcoming = appt.future;
-  const isCCRequest = useFeSourceOfTruthCC
-    ? appointmentType === APPOINTMENT_TYPES.ccRequest
-    : isCC && isRequest;
+  const isCCRequest = appointmentType === APPOINTMENT_TYPES.ccRequest;
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
@@ -324,7 +311,6 @@ export function transformVAOSAppointment(
 
 export function transformVAOSAppointments(
   appts,
-  useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
   useFeSourceOfTruthTelehealth,
@@ -332,7 +318,6 @@ export function transformVAOSAppointments(
   return appts.map(appt =>
     transformVAOSAppointment(
       appt,
-      useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
       useFeSourceOfTruthModality,
       useFeSourceOfTruthTelehealth,

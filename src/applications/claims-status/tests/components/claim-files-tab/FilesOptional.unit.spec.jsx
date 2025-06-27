@@ -24,6 +24,11 @@ const DBQItem = {
   requestedDate: '2025-04-25',
   shortDescription: 'Short description',
 };
+const DBQItemNoOverride = {
+  displayName: 'DBQ no override',
+  description: 'This is a description for a DBQ no override item',
+  requestedDate: '2025-05-25',
+};
 
 const getStore = cstFriendlyEvidenceRequests =>
   createStore(() => ({
@@ -93,5 +98,17 @@ describe('<FilesOptional>', () => {
     );
 
     getByText(`Requested from examiner’s office on April 25, 2025`);
+  });
+  it(`should render Requested from examiner’s office when cstFriendlyEvidenceRequests is true and track item is a DBQ`, () => {
+    const { getByText } = renderWithRouter(
+      <Provider store={getStore(true)}>
+        <FilesOptional item={DBQItemNoOverride} />
+      </Provider>,
+    );
+
+    getByText(`Requested from examiner’s office on May 25, 2025`);
+    getByText(
+      `We’ve requested an exam related to your claim. The examiner’s office will contact you to schedule this appointment.`,
+    );
   });
 });

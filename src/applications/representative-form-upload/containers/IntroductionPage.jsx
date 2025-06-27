@@ -82,7 +82,7 @@ const IntroductionPage = ({ route, router }) => {
             external
             filetype="PDF"
             href={pdfDownloadUrl}
-            text={`Download VA Form ${formNumber} (PDF)`}
+            text={`Download VA Form ${formNumber}`}
           />
         </VaProcessListItem>
         <VaProcessListItem header="Upload and submit the form">
