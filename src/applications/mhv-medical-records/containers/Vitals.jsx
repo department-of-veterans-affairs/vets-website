@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format } from 'date-fns';
-import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   updatePageTitle,
   usePrintTitle,
@@ -28,6 +27,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import RecordListSection from '../components/shared/RecordListSection';
+import DatePicker from '../components/shared/DatePicker';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 
@@ -240,31 +240,6 @@ const Vitals = () => {
     });
   };
 
-  const datePicker = () => {
-    return (
-      <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <div style={{ flex: 'inherit' }}>
-          <VaDate
-            label="Choose a month and year"
-            name="vitals-date-picker"
-            monthYearOnly
-            onDateChange={updateDate}
-            value={acceleratedVitalsDate}
-            data-testid="date-picker"
-          />
-        </div>
-        <div className="vads-u-margin-top--2">
-          <va-button
-            text="Update time frame"
-            onClick={triggerApiUpdate}
-            disabled={isLoadingAcceleratedData}
-            data-testid="update-time-frame-button"
-          />
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div id="vitals">
       <PrintHeader />
@@ -292,7 +267,18 @@ const Vitals = () => {
       )}
       {!isLoading && (
         <>
-          {isAcceleratingVitals && datePicker()}
+          {isAcceleratingVitals && (
+            <>
+              <DatePicker
+                {...{
+                  updateDate,
+                  triggerApiUpdate,
+                  isLoadingAcceleratedData,
+                  dateValue: acceleratedVitalsDate,
+                }}
+              />
+            </>
+          )}
           {isLoadingAcceleratedData && (
             <>
               <div className="vads-u-margin-y--8">
