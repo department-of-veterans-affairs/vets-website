@@ -49,7 +49,6 @@ describe('Accredited Representative Portal', () => {
 
     it('allows navigation from the 21a form intro to unified sign-in page', () => {
       cy.axeCheck();
-      cy.wait('@fetchUser');
       cy.get('a')
         .contains('Sign in to start your application')
         .click();

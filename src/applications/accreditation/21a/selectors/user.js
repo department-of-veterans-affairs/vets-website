@@ -6,5 +6,5 @@ export const selectUserProfile = state =>
   selectIsUserLoggedIn(state) ? state.user.profile : null;
 
 export const selectAuthStatus = state => ({
-  isUserLOA1: isLOA1(state),
+  isUserLOA1: isLOA1(state) && selectIsUserLoggedIn(state),
 });
