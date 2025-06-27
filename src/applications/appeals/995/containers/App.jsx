@@ -136,7 +136,7 @@ export const App = ({
   let content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       <DowntimeNotification
-        appTitle="Supplemental Claims"
+        appTitle="Supplemental Claims application"
         dependencies={[externalServices.decisionReviews]}
       >
         <ITFWrapper

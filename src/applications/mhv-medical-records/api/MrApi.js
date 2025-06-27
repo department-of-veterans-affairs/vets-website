@@ -69,6 +69,16 @@ export const getLabsAndTests = async () => {
     headers,
   });
 };
+export const getAcceleratedLabsAndTests = async timeFrame => {
+  const from = `start_date=${timeFrame}`;
+  const to = `&end_date=${timeFrame}`;
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/labs_and_tests?${from}${to}`,
+    {
+      headers,
+    },
+  );
+};
 
 export const getLabOrTest = id => {
   return apiRequest(`${apiBasePath}/medical_records/labs_and_tests/${id}`, {

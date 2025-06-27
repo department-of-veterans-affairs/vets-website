@@ -114,11 +114,11 @@ const formConfig = {
       },
     },
     uploadChapter: {
-      title: 'Upload Files',
+      title: 'Upload files',
       pages: {
         uploadPage: {
           path: 'upload',
-          title: 'Upload Your File',
+          title: `Upload VA Form ${formNumber}`,
           uiSchema: uploadPage.uiSchema,
           schema: uploadPage.schema,
           CustomPage: UploadPage,

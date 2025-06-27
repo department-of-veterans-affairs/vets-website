@@ -5,6 +5,7 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import moment from 'moment';
 
 import {
+  parse,
   addMinutes,
   areIntervalsOverlapping,
   startOfMonth,
@@ -16,7 +17,6 @@ import {
 import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
-  selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureFeSourceOfTruthVA,
@@ -319,7 +319,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
@@ -349,7 +348,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
             location,
             typeOfCare,
             directSchedulingEnabled,
-            useFeSourceOfTruthCC,
             useFeSourceOfTruthVA,
             useFeSourceOfTruthModality,
             useFeSourceOfTruthTelehealth,
@@ -386,7 +384,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
@@ -651,8 +648,14 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const { data } = newAppointment;
     const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
-    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
-    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
+    let startDateObject = new Date(startDate);
+    let endDateObject = new Date(endDate);
+    if (typeof startDate === 'string') {
+      startDateObject = parse(startDate, DATE_FORMATS.yearMonthDay, new Date());
+      endDateObject = parse(endDate, DATE_FORMATS.yearMonthDay, new Date());
+    }
+    const startDateMonth = format(startDateObject, DATE_FORMATS.yearMonth);
+    const endDateMonth = format(endDateObject, DATE_FORMATS.yearMonth);
 
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
@@ -677,11 +680,11 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
       try {
         const startDateString = !fetchedStartMonth
-          ? format(new Date(startDate), 'yyyy-MM-dd')
-          : format(startOfMonth(new Date(endDate)), 'yyyy-MM-dd');
+          ? format(startDateObject, DATE_FORMATS.yearMonthDay)
+          : format(startOfMonth(endDateObject), DATE_FORMATS.yearMonthDay);
         const endDateString = !fetchedEndMonth
-          ? format(new Date(endDate), 'yyyy-MM-dd')
-          : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
+          ? format(endDateObject, DATE_FORMATS.yearMonthDay)
+          : format(endOfMonth(startDateObject), DATE_FORMATS.yearMonthDay);
 
         const fetchedSlots = await getSlots({
           siteId,
@@ -855,7 +858,6 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
@@ -888,7 +890,6 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
-          useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
@@ -979,7 +980,6 @@ export function submitAppointmentOrRequest(history) {
 
         const requestData = await createAppointment({
           appointment: requestBody,
-          useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,

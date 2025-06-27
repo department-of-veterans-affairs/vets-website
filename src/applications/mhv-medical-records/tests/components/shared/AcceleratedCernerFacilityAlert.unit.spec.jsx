@@ -159,18 +159,18 @@ describe('Accelerated Cerner Facility Alert', () => {
     expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
   });
 
-  it('hides correctly when isAcceleratingVaccines is true', () => {
+  it('hides correctly when isAcceleratingLabsAndTest is false', () => {
     const screen = setup(
       {
         ...initialState,
         featureToggles: createFeatureToggles({
           isAccelerating: true,
-          isAcceleratingVaccines: true,
+          isAcceleratingLabsAndTest: false,
         }),
         user: { profile: { facilities: [] } },
       },
       { facilities: [] },
-      CernerAlertContent.VACCINES,
+      CernerAlertContent.LABS_AND_TESTS,
     );
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;

@@ -181,10 +181,12 @@ describe('focusEvidence', () => {
       expect(document.activeElement).to.eq(target);
     });
   });
+
   it('should focus on error', async () => {
     const { container } = await renderPage(true);
 
     await focusEvidence(null, container);
+
     await waitFor(() => {
       const target = $('[error]', container);
       expect(document.activeElement).to.eq(target);

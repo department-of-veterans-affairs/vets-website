@@ -20,6 +20,7 @@ import {
   claimantTitleAndDescription,
   veteranTitleAndDescription,
 } from './helpers';
+import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
 
 const claimantSubPageUI = {
   claimantFullName: firstNameLastNameNoSuffixUI(),
@@ -84,6 +85,7 @@ const veteranSubPageSchema = {
 export const claimantInformationPage = {
   uiSchema: {
     ...claimantTitleAndDescription,
+    'ui:objectViewField': ClaimantInfoViewField,
     ...claimantSubPageUI,
     ...veteranTitleAndDescription,
     ...veteranSubPageUI,
