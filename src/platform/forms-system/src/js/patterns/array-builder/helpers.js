@@ -57,6 +57,9 @@ export function initGetText({
       let text = keyVal;
 
       if (typeof keyVal === 'function') {
+        // a try/catch is already done for getItemName in arrayBuilder.jsx,
+        // so only handle cardDescription here, possibly extend this to
+        // other text functions in the future
         try {
           text = keyVal(itemData, index, formData);
         } catch (e) {
