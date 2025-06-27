@@ -9,6 +9,7 @@ import { getRequestedAppointmentListInfo } from '../redux/selectors';
 import RequestList from './components/RequestsList';
 import { useGetPatientReferralsQuery } from '../redux/api/vaosApi';
 import { FETCH_STATUS } from '../utils/constants';
+import { filterReferrals } from './utils/referrals';
 
 export default function ReferralsAndRequests() {
   const dispatch = useDispatch();
@@ -47,6 +48,8 @@ export default function ReferralsAndRequests() {
     );
   }
 
+  const filteredReferrals = filterReferrals(referrals || []);
+
   if (referralError && appointmentError) {
     return (
       <ReferralLayout>
@@ -76,7 +79,10 @@ export default function ReferralsAndRequests() {
           text="Find out more about community care referrals"
         />
       </p>
-      <ReferralList referrals={referrals} referralsError={!!referralError} />
+      <ReferralList
+        referrals={filteredReferrals}
+        referralsError={!!referralError}
+      />
       <h2>Active requests</h2>
       <p className="vaos-hide-for-print">
         We’ll contact you to finish scheduling these appointments.
