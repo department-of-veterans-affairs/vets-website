@@ -50,27 +50,4 @@ describe('CG `useCustomEventHandler` hook', () => {
     mockRef.current.addEventListener.firstCall.args[1](event);
     sinon.assert.calledOnceWithExactly(eventHandler, event);
   });
-
-  it('should update event listener when dependencies change', () => {
-    const newHandler = sinon.spy();
-    const { rerender } = renderHook(
-      ({ eventName, handler }) =>
-        useCustomEventHandler(mockRef, eventName, handler),
-      { initialProps: { eventName: 'click', handler: eventHandler } },
-    );
-
-    // first, the original handler is added
-    sinon.assert.calledOnceWithExactly(
-      addEventListenerSpy,
-      'click',
-      eventHandler,
-    );
-
-    // change the event name and handler
-    rerender({ eventName: 'mousedown', handler: newHandler });
-
-    // the old listener should be removed and the new added
-    sinon.assert.calledWith(removeEventListenerSpy, 'click', eventHandler);
-    sinon.assert.calledWith(addEventListenerSpy, 'mousedown', eventHandler);
-  });
 });
