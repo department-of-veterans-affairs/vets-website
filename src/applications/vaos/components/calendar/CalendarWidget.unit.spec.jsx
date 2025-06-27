@@ -52,7 +52,7 @@ describe('VAOS Component: CalendarWidget', () => {
     const upcomingAppointments = {
       [startMonth]: [
         {
-          start: formatInTimeZone(
+          startUtc: formatInTimeZone(
             offset,
             timezone,
             DATE_FORMATS.ISODateTimeLocal,
@@ -166,7 +166,7 @@ describe('VAOS Component: CalendarWidget', () => {
     const upcomingAppointments = {
       [startMonth]: [
         {
-          start: formatInTimeZone(
+          startUtc: formatInTimeZone(
             offset,
             timezone,
             DATE_FORMATS.ISODateTimeLocal,
@@ -273,7 +273,7 @@ describe('VAOS Component: CalendarWidget', () => {
     const upcomingAppointments = {
       [startMonth]: [
         {
-          start: formatInTimeZone(
+          startUtc: formatInTimeZone(
             offset,
             timezone,
             DATE_FORMATS.ISODateTimeLocal,

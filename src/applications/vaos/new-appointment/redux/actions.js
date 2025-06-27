@@ -754,7 +754,7 @@ export function onCalendarChange(
           start: new Date(selectedSlot.start),
           end: new Date(selectedSlot.end),
         };
-        const appointmentStart = new Date(appointment.start);
+        const appointmentStart = new Date(appointment.startUtc);
         const appointmentInterval = {
           start: appointmentStart,
           end: addMinutes(appointmentStart, appointment.minutesDuration),
