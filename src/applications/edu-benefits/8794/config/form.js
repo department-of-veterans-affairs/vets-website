@@ -11,7 +11,9 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import SubmissionInstructions from '../components/SubmissionInstructions';
 import PrivacyPolicy from '../components/PrivacyPolicy';
+
 import {
   additionalOfficialArrayOptions,
   readOnlyCertifyingOfficialArrayOptions,
@@ -226,6 +228,23 @@ const formConfig = {
           path: 'remarks',
           uiSchema: remarksPage.uiSchema,
           schema: remarksPage.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },

@@ -44,22 +44,25 @@ describe('DependentsInformation', () => {
 
     const cards = $$('va-card', container);
     expect(cards).to.have.lengthOf(2);
-    const firstList = $$('li', cards[0]);
+    const firstList = $$('div.item', cards[0]);
     expect($('h4', cards[0]).textContent).to.include('Morty Charles Smith');
-    expect(firstList[0].textContent).to.include('Relationship: Child');
+    expect(firstList[0].textContent).to.include('Relationship:\u00a0Child');
     expect(firstList[1].textContent).to.include(
-      'Date of birth: January 4, 2011',
+      'Date of birth:\u00a0January 4, 2011',
     );
-    expect(firstList[2].textContent).to.include('Age: 14 years old');
-    expect(firstList[3].textContent).to.include('SSN: ●●●–●●-6791');
+    expect(firstList[2].textContent).to.include('Age:\u00a014 years old');
+    expect(firstList[3].textContent).to.include('SSN:\u00a0●●●–●●-6791');
 
     expect($('h4', cards[1]).textContent).to.include('Summer Susan Smith');
-    expect($('li:last-child', cards[1]).textContent).to.include(
-      'Automatic removal date: August 1, 2026',
+    expect($('.removal-date', cards[1]).textContent).to.include(
+      'Automatic removal date:\u00a0August 1, 2026',
     );
     expect($('va-alert[status="info"]', cards[1]));
 
     expect($$('va-radio-option', container)).to.have.lengthOf(2);
+    expect(
+      $$('.dd-privacy-mask[data-dd-action-name]', container),
+    ).to.have.lengthOf(5);
   });
 
   it('should set form data with radio choice', () => {
@@ -89,10 +92,10 @@ describe('DependentsInformation', () => {
     );
   });
 
-  it('navigates forward to exit page when "Yes" is selected', () => {
+  it('navigates forward to exit page when "No" is selected', () => {
     const goToPathSpy = sinon.spy();
     const { container } = renderPage({
-      data: { hasDependentsStatusChanged: 'Y' },
+      data: { hasDependentsStatusChanged: 'N' },
       goToPath: goToPathSpy,
     });
 
@@ -101,11 +104,11 @@ describe('DependentsInformation', () => {
     expect(goToPathSpy.calledWith('/exit-form')).to.be.true;
   });
 
-  it('navigates forward when "No" is selected', () => {
+  it('navigates forward when "Yes" is selected', () => {
     const goToPathSpy = sinon.spy();
     const goForwardSpy = sinon.spy();
     const { container } = renderPage({
-      data: { hasDependentsStatusChanged: 'N' },
+      data: { hasDependentsStatusChanged: 'Y' },
       goToPath: goToPathSpy,
       goForward: goForwardSpy,
     });

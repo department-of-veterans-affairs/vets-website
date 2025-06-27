@@ -277,3 +277,5 @@ export const tooltipHintContent = {
     HINT: 'Filter your list to find a specific medication.',
   },
 };
+
+export const recordNotFoundMessage = 'Record not found';

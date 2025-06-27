@@ -45,8 +45,11 @@ describe('DependentsInformationReview', () => {
       'Date of birthAugust 1, 2008',
       'Age17 years old',
       'RelationshipChild',
-      'Has the status of your dependents changedNo',
+      'Has the status of your dependents changedYes, my dependent information is correct.',
     ]);
+    expect(
+      $$('.dd-privacy-mask[data-dd-action-name]', container),
+    ).to.have.lengthOf(14);
   });
 
   it('should render "No dependents found" when no dependents are present', () => {
