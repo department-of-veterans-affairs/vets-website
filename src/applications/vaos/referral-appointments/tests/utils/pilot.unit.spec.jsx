@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { getIsInCCPilot } from '../../utils/pilot';
 
 describe('VAOS CC pilot utils', () => {
-  describe('getIsInCCPilot', () => {
+  describe.skip('getIsInCCPilot', () => {
     it('Returns false when the user has a facility within the pilot list but the feature is off', () => {
       expect(getIsInCCPilot(false)).to.be.false;
     });

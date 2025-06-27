@@ -49,7 +49,7 @@ const VeteranInformation = ({ formData }) => {
               {suffix ? `, ${suffix}` : null}
             </p>
             {ssn ? (
-              <p className="ssn">
+              <p className="ssn" data-testid="ssn-display">
                 <strong>Last 4 digits of Social Security number: </strong>{' '}
                 <span
                   className="dd-privacy-mask"
@@ -65,6 +65,7 @@ const VeteranInformation = ({ formData }) => {
                 <span
                   className="dob dd-privacy-mask"
                   data-dd-action-name="Veteran's date of birth"
+                  data-testid="dob-display"
                 >
                   {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
                 </span>
