@@ -79,7 +79,9 @@ export const FORM_UPLOAD_OCR_ALERT = (
       </p>
     )}
 
-    <p>If you’re sure this is the right file, you can continue.</p>
+    <p className="arp-alert-right-file-p">
+      If you’re sure this is the right file, you can continue.
+    </p>
   </VaAlert>
 );
 
