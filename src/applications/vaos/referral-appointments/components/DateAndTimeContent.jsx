@@ -143,13 +143,17 @@ export const DateAndTimeContent = props => {
     <>
       <div>
         <p className="vads-u-font-weight--bold vads-u-margin--0">
-          {currentReferral.provider.name}
+          <span data-dd-privacy="mask">{currentReferral.provider.name}</span>
         </p>
         <p className="vads-u-margin-top--0">
-          {titleCase(currentReferral.categoryOfCare)}
+          <span data-dd-privacy="mask">
+            {titleCase(currentReferral.categoryOfCare)}
+          </span>
         </p>
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
-          {draftAppointmentInfo.attributes.provider.providerOrganization.name}
+          <span data-dd-privacy="mask">
+            {draftAppointmentInfo.attributes.provider.providerOrganization.name}
+          </span>
         </p>
         <ProviderAddress
           address={draftAppointmentInfo.attributes.provider.location.address}

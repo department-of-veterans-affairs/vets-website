@@ -181,23 +181,32 @@ const ReviewAndConfirm = props => {
           <div className="vads-l-row">
             <div className="vads-l-col">
               <h2 className={headingStyles}>
-                {`${titleCase(currentReferral.categoryOfCare)} provider`}
+                <span data-dd-privacy="mask">
+                  {`${titleCase(currentReferral.categoryOfCare)} provider`}
+                </span>
               </h2>
             </div>
           </div>
         </div>
         <p className="vads-u-margin--0">
-          {draftAppointmentInfo.attributes.provider.name} <br />
-          {draftAppointmentInfo.attributes.provider.providerOrganization.name}
+          <span data-dd-privacy="mask">
+            {draftAppointmentInfo.attributes.provider.name}
+          </span>{' '}
+          <br />
+          <span data-dd-privacy="mask">
+            {draftAppointmentInfo.attributes.provider.providerOrganization.name}
+          </span>
         </p>
         {draftAppointmentInfo.attributes.provider.location.address}
         {currentReferral.provider?.telephone && (
           <p className="vads-u-margin--0" data-testid="phone">
             Phone:{' '}
-            <va-telephone
-              contact={currentReferral.provider?.telephone}
-              data-testid="provider-telephone"
-            />
+            <span data-dd-privacy="mask">
+              <va-telephone
+                contact={currentReferral.provider?.telephone}
+                data-testid="provider-telephone"
+              />
+            </span>
           </p>
         )}
         <hr className="vads-u-margin-y--2" />
