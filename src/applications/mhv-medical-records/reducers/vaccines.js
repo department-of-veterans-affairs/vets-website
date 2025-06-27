@@ -160,6 +160,39 @@ export const vaccineReducer = (state = initialState, action) => {
         vaccineDetails: action.response,
       };
     }
+    case Actions.Vaccines.GET_UNIFIED_LIST: {
+      const oldList = state.vaccinesList;
+      let newList;
+      let metadata;
+      // TODO: upate this
+      if (action.response.resourceType) {
+        newList =
+          action.response.entry
+            ?.map(record => {
+              const vaccine = record.resource;
+              return convertVaccine(vaccine);
+            })
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+      } else {
+        newList = action.response.data?.map(record =>
+          convertNewVaccine(record.attributes),
+        );
+        metadata = action.response.meta;
+      }
+
+      const vaccinesList = typeof oldList === 'undefined' ? newList : oldList;
+      const updatedList = typeof oldList !== 'undefined' ? newList : undefined;
+
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        vaccinesList,
+        updatedList,
+        listMetadata: metadata,
+        updateNeeded: false,
+      };
+    }
     case Actions.Vaccines.GET_LIST: {
       const { useBackendPagination } = action;
       const oldList = state.vaccinesList;

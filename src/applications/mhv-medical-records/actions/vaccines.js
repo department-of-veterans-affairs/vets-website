@@ -23,10 +23,13 @@ export const getVaccinesList = (
     const getData = isAccelerating
       ? getAcceleratedImmunizations
       : getVaccineList;
-    const response = await getListWithRetry(dispatch, getData);
 
+    const response = await getListWithRetry(dispatch, getData);
+    // console.log('Vaccines list response:', response);
     dispatch({
-      type: Actions.Vaccines.GET_LIST,
+      type: isAccelerating
+        ? Actions.Vaccines.GET_UNIFIED_LIST
+        : Actions.Vaccines.GET_LIST,
       response,
       isCurrent,
       useBackendPagination,
