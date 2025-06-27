@@ -371,12 +371,10 @@ const VaPrescription = prescription => {
                   Prescribed by
                 </h3>
                 <p>
-                  {prescription?.providerFirstName &&
-                    prescription?.providerLastName &&
-                    displayProviderName(
-                      prescription.providerFirstName,
-                      prescription.providerLastName,
-                    )}
+                  {displayProviderName(
+                    prescription.providerFirstName,
+                    prescription.providerLastName,
+                  )}
                 </p>
               </>
             )}
@@ -438,12 +436,10 @@ const VaPrescription = prescription => {
                   Prescribed by
                 </h3>
                 <p>
-                  {prescription?.providerFirstName &&
-                    prescription?.providerLastName &&
-                    displayProviderName(
-                      prescription.providerFirstName,
-                      prescription.providerLastName,
-                    )}
+                  {displayProviderName(
+                    prescription.providerFirstName,
+                    prescription.providerLastName,
+                  )}
                 </p>
               </>
             )}
