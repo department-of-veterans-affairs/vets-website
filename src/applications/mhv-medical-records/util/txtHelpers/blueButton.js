@@ -95,11 +95,11 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
     },
   ];
 
-  const dateRangeText = `Date range: ${
-    dateRange.fromDate === 'any'
-      ? 'All time'
-      : `${dateRange.fromDate} to ${dateRange.toDate}`
-  }`;
+  // helper to split “Appointments” into Past/Upcoming
+  const expandAppointments = label =>
+    label === 'Appointments' || label === 'VA appointments'
+      ? ['Past appointments', 'Upcoming appointments']
+      : [label];
 
   // Sections with data (arrays with items, or non-array truthy)
   const nonEmptySections = sections.filter(
@@ -113,31 +113,46 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
     return noData && !failedDomains.includes(section.label);
   });
 
-  // Build bullet list of included sections
-  const inReport = nonEmptySections.map(s => `  • ${s.label}`).join('\n');
+  // Build bullet list of included sections, expanding Appointments
+  const inReport = nonEmptySections
+    .flatMap(s => expandAppointments(s.label))
+    .map(l => `  • ${l}`)
+    .join('\n');
 
-  // Build bullet list of failed domains
+  // Build bullet list of failed domains, also expanding if needed
   const failedList = failedDomains.length
-    ? failedDomains.map(d => `  • ${d}`).join('\n')
+    ? failedDomains
+        .flatMap(d => expandAppointments(d))
+        .map(l => `  • ${l}`)
+        .join('\n')
     : '';
 
   // Assemble records section lines
   const recordsParts = [
     'Records in this report',
     '',
-    dateRangeText,
+    `Date range: ${
+      dateRange.fromDate === 'any'
+        ? 'All time'
+        : `${dateRange.fromDate} to ${dateRange.toDate}`
+    }`,
     '',
     inReport,
   ];
 
   if (emptySections.length) {
+    const emptyList = emptySections
+      .flatMap(s => expandAppointments(s.label))
+      .map(l => `  • ${l}`)
+      .join('\n');
+
     recordsParts.push(
       '',
       'Records not in this report',
       '',
       "You don't have any VA medical reports in these categories you selected for this report. If you think you should have records in these categories, contact your VA health facility.",
       '',
-      emptySections.map(s => `  • ${s.label}`).join('\n'),
+      emptyList,
     );
   }
 
