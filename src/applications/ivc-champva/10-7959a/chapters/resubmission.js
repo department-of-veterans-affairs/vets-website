@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -10,6 +12,7 @@ import {
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 
 export const claimIdentifyingNumberOptions = [
   'PDI number',
@@ -77,7 +80,6 @@ export const medicalClaimDetails = {
     beginningDateOfService: {
       ...currentOrPastDateUI({
         title: 'Beginning date of service',
-        hint: '',
       }),
     },
     endDateOfService: {
@@ -100,7 +102,53 @@ export const medicalClaimDetails = {
   },
 };
 
-export const medicalUploadSupportingDocs = {};
+export const medicalUploadSupportingDocs = {
+  uiSchema: {
+    ...titleUI(
+      'Upload supporting documents for your medical claim',
+      <>
+        <p>You’ll need to submit the following documents:</p>
+        <ul>
+          <li>
+            Copies of documents including missing information listed ont he
+            letter you received from CHAMPVA, <b> and</b>
+          </li>
+          <li>The documents that you originally submitted with your claim</li>
+        </ul>
+        <p>
+          These documents may be an itemized or a superbill from your provider
+          an explanation of benefits from your insurance company.
+        </p>
+        <a href="https://www.va.gov/resources/how-to-file-a-champva-claim/">
+          Learn how to file a CHAMPVA claim
+        </a>
+      </>,
+    ),
+    medicalUpload: fileUploadUI({
+      label: 'Upload supporting document',
+      attachmentName: true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicalUpload'],
+    properties: {
+      titleSchema,
+      medicalUpload: {
+        type: 'array',
+        minItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  },
+};
 
 export const pharmacyClaimDetails = {
   uiSchema: {
@@ -115,7 +163,6 @@ export const pharmacyClaimDetails = {
     prescriptionFillDate: {
       ...currentOrPastDateUI({
         title: 'Prescription fill date',
-        hint: null,
       }),
     },
   },

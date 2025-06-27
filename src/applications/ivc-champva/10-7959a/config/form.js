@@ -49,7 +49,7 @@ import {
   claimIdentifyingNumber,
   claimType,
   medicalClaimDetails,
-  // medicalUploadSupportingDocs,
+  medicalUploadSupportingDocs,
   pharmacyClaimDetails,
   // pharmacyClaimUploadDocs,
 } from '../chapters/resubmission';
@@ -186,11 +186,11 @@ const formConfig = {
           title: 'Claim details',
           ...medicalClaimDetails,
         },
-        // page1h: {
-        //   path: 'resubmission-medical-supporting-docs',
-        //   title: 'claim details',
-        //   ...medicalUploadSupportingDocs
-        // },
+        page1h: {
+          path: 'resubmission-medical-supporting-docs',
+          title: 'claim details',
+          ...medicalUploadSupportingDocs,
+        },
         pageij: {
           path: 'resubmission-pharmacy-claim-details',
           title: 'claim details',
