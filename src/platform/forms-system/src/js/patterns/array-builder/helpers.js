@@ -54,11 +54,13 @@ export function initGetText({
     }
 
     if (key === 'cardDescription') {
-      let result;
+      let text = keyVal;
+
       if (typeof keyVal === 'function') {
         try {
-          result = keyVal(itemData, index, formData);
+          text = keyVal(itemData, index, formData);
         } catch (e) {
+          text = '';
           if (!environment.isProduction()) {
             // eslint-disable-next-line no-console
             console.error(
@@ -68,7 +70,7 @@ export function initGetText({
           }
         }
       }
-      return result;
+      return text;
     }
 
     return typeof keyVal === 'function'
