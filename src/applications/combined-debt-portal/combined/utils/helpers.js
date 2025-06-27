@@ -147,22 +147,25 @@ const getPdfBlob = async (templateId, data) => {
 };
 
 const pdfGenerationAnalytics = (success, count) => {
+  // Shared parameters for all One VA Debt Letter events
+  const baseEventParams = {
+    'letter-type': 'One VA Debt Letter',
+    'cdp-one-va-letter-download-count-debt': count?.debt || 0,
+    'cdp-one-va-letter-download-count-copay': count?.copay || 0,
+  };
+
   // API Event - tracks PDF generation process
   const apiEvent = success ? 'letter-pdf-success' : 'letter-pdf-failure';
   recordEvent({
     event: apiEvent,
-    'letter-type': 'One VA Debt Letter',
-    'cdp-one-va-letter-download-count-debt': count?.debt || 0,
-    'cdp-one-va-letter-download-count-copay': count?.copay || 0,
+    ...baseEventParams,
   });
 
   // Download Event - tracks the actual file download (only on success)
   if (success) {
     recordEvent({
       event: 'letter-download',
-      'letter-type': 'One VA Debt Letter',
-      'cdp-one-va-letter-download-count-debt': count?.debt || 0,
-      'cdp-one-va-letter-download-count-copay': count?.copay || 0,
+      ...baseEventParams,
     });
   }
 };
@@ -174,12 +177,17 @@ export const handlePdfGeneration = async (environment, pdfData) => {
     copay: pdfData?.copays?.length || 0,
   };
 
-  // Track PDF generation start
-  recordEvent({
-    event: 'letter-pdf-pending',
+  // Shared parameters for all One VA Debt Letter events
+  const baseEventParams = {
     'letter-type': 'One VA Debt Letter',
     'cdp-one-va-letter-download-count-debt': analyticsCount.debt,
     'cdp-one-va-letter-download-count-copay': analyticsCount.copay,
+  };
+
+  // Track PDF generation start
+  recordEvent({
+    event: 'letter-pdf-pending',
+    ...baseEventParams,
   });
 
   try {
