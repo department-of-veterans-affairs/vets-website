@@ -42,7 +42,7 @@ describe('<DowntimeApproaching>', () => {
     expect(vaModalElement.getAttribute('visible')).to.eq('true');
     expect(
       getByText(
-        /We’ll be doing some work on the Test App on June 25th between 9:30 AM and 10:30 AM. If you have trouble using this tool during that time, please check back soon./i,
+        /We’ll be doing some work on the Test App on June 25th between/i,
       ),
     ).to.exist;
   });

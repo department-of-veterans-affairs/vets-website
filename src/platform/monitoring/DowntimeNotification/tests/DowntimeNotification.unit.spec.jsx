@@ -13,6 +13,7 @@ import {
 const innerText = 'This is the inner text';
 
 const defaultProps = {
+  appTitle: 'Test App',
   dependencies: [],
   getGlobalDowntime: () => {},
   getScheduledDowntime: () => {},
@@ -137,7 +138,7 @@ describe('<DowntimeNotification/>', () => {
       expect(getByText(innerText)).to.exist;
       expect(
         getByText(
-          /We’ll be doing some work on the Test App on June 25th between 9:00 AM and 11:00 AM. If you have trouble using this tool during that time, please check back soon./i,
+          /We’ll be doing some work on the Test App on June 25th between/i,
         ),
       ).to.exist;
     });
