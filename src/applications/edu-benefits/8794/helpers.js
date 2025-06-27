@@ -224,8 +224,8 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
               submitting the form because your institution has changed
               ownership:
             </strong>{' '}
-            Email your downloaded PDF to your State Approving Agency (SAA). you
-            need help finding their email address,{' '}
+            Email your downloaded PDF to your State Approving Agency (SAA). If
+            you need help finding their email address,{' '}
             <va-link
               external
               text="search the SAA contact directory"
