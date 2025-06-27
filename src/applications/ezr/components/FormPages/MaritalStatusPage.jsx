@@ -10,10 +10,11 @@ import { getFormContext } from 'platform/forms/save-in-progress/selectors';
 import content from 'applications/ezr/locales/en/content.json';
 
 /**
- * This page is used to change the marital status of a Veteran, and if the
- * Veteran marriage status is changed from married/separated to unmarried, or
- * from unmarried to married/separated, it displays a modal to confirm the
- * change. It also updates the marital status in the form data.
+ * This page is used to set or update the marital status of a Veteran.
+ *
+ * It uses a CustomPage rather than an ArrayBuilderItem page because it needs to
+ * display a modal to confirm the change, requiring a custom onChange handler and
+ * local state to track the pending marital status.
  *
  * @type {CustomPageType}
  *
@@ -60,13 +61,17 @@ function MaritalStatusPage(props) {
     onChange: props.onChange,
     onSubmit: props.onSubmit,
   });
+  // Local state for the modal and the pending marital status.
   const [modal, setModal] = useState(false);
   const [pendingMaritalStatus, setPendingMaritalStatus] = useState(null);
-  const [tempFormData, setTempFormData] = useState(null);
+  const [localData, setLocalData] = useState(null);
+
+  // Helper function to determine if a status is married or separated.
   const marriedOrSeparated = status =>
     ['married' || 'separated'].includes(status.toLowerCase());
   const currentMaritalStatus = data['view:maritalStatus']?.maritalStatus ?? '';
 
+  // Modal content.
   const modalTitle = content['household-spouse-status-change-modal-title'];
   const modalCancelDescription = replaceStrValues(
     content['household-spouse-status-change-modal-text'],
@@ -109,16 +114,16 @@ function MaritalStatusPage(props) {
     onCancel: () => {
       setModal(false);
       setPendingMaritalStatus(null);
-      setTempFormData(null);
+      setLocalData(null);
     },
     onConfirm: () => {
       // User confirmed the change, apply the temporary data.
-      if (tempFormData) {
-        onChange(tempFormData);
+      if (localData) {
+        onChange(localData);
       }
       setModal(false);
       setPendingMaritalStatus(null);
-      setTempFormData(null);
+      setLocalData(null);
     },
     onChange: eventData => {
       const incomingMaritalStatus =
@@ -131,7 +136,7 @@ function MaritalStatusPage(props) {
 
       if (shouldShow) {
         setPendingMaritalStatus(incomingMaritalStatus);
-        setTempFormData(eventData);
+        setLocalData(eventData);
         setModal(true);
       } else {
         onChange(eventData);
@@ -144,7 +149,7 @@ function MaritalStatusPage(props) {
       <SchemaForm
         name={name}
         title={title}
-        data={tempFormData || data}
+        data={localData || data}
         appStateData={appStateData}
         schema={schema}
         uiSchema={uiSchema}
