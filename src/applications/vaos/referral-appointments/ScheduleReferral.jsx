@@ -82,16 +82,18 @@ export default function ScheduleReferral(props) {
           ${format(new Date(currentReferral.expirationDate), 'MMMM d, yyyy')}`}
           <br />
           <strong>Type of care: </strong>
-          {categoryOfCare}
+          <span data-dd-privacy="mask">{categoryOfCare}</span>
           <br />
           <strong>Provider: </strong>
-          {currentReferral.provider.name}
+          <span data-dd-privacy="mask">{currentReferral.provider.name}</span>
           <br />
           <strong>Location: </strong>
-          {currentReferral.provider.facilityName}
+          <span data-dd-privacy="mask">
+            {currentReferral.provider.facilityName}
+          </span>
           <br />
           <strong>Referral number: </strong>
-          {currentReferral.referralNumber}
+          <span data-dd-privacy="mask">{currentReferral.referralNumber}</span>
         </p>
         <h2>If you have questions about your referral</h2>
         <p>
@@ -101,10 +103,14 @@ export default function ScheduleReferral(props) {
         </p>
         <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
-          {currentReferral.referringFacility.name}
+          <span data-dd-privacy="mask">
+            {currentReferral.referringFacility.name}
+          </span>
           <br />
           <strong>Phone: </strong>
-          {currentReferral.referringFacility.phone}
+          <span data-dd-privacy="mask">
+            {currentReferral.referringFacility.phone}
+          </span>
         </p>
       </div>
     </ReferralLayout>
