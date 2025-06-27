@@ -6,10 +6,7 @@ const BCList = [
     href: '/representative',
     label: 'VA.gov/representative home',
   },
-  {
-    href: '/representative/accreditation/attorney-claims-agent-form-21a',
-    label: 'VA accreditation representatives',
-  },
+
   {
     href: '/representative/accreditation/attorney-claims-agent-form-21a',
     label: 'Apply to become a VA accredited attorney or claims agent',

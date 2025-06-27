@@ -1,4 +1,5 @@
 // import { externalServices } from 'platform/monitoring/DowntimeNotification';
+// import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -9,6 +10,19 @@ import prefillTransformer from '../prefill-transformer';
 
 // Chapter imports
 import { veteranInformation } from './chapters/veteran-information/veteranInformation';
+import editAddressPage from './chapters/veteran-contact-information/editAddressPage';
+import editPhonePage from './chapters/veteran-contact-information/editPhonePage';
+import editInternationalPhonePage from './chapters/veteran-contact-information/editInternationalPhonePage';
+import editEmailPage from './chapters/veteran-contact-information/editEmailPage';
+
+import VeteranContactInformationPage from '../components/VeteranContactInformationPage';
+import VeteranContactInformationReviewPage from '../components/VeteranContactInformationReviewPage';
+import NeedHelp from '../components/NeedHelp';
+
+import { dependents } from './chapters/dependents/dependents';
+import { DependentsInformation } from '../components/DependentsInformation';
+import { DependentsInformationReview } from '../components/DependentsInformationReview';
+import { ExitPageComponent } from '../components/ExitPageComponent.jsx';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -61,20 +75,63 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  additionalRoutes: [
+    {
+      path: 'exit-form',
+      component: ExitPageComponent,
+      pageKey: 'exitForm',
+      depends: () => false,
+    },
+  ],
   chapters: {
     veteranInformation: {
-      title: "Veteran's information",
+      title: 'Review your personal information',
+      // This is the same review page title as within the accordion... will
+      // consult with design on content changes
+      reviewTitle: 'Veteran’s personal information',
       pages: {
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran information',
+          title: 'Your personal information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
       },
     },
+    veteranContactInformation: {
+      title: 'Veteran’s contact information',
+      pages: {
+        veteranContactInformation: {
+          path: 'veteran-contact-information',
+          title: 'Veteran contact information',
+          initialData: {},
+          CustomPage: VeteranContactInformationPage,
+          CustomPageReview: VeteranContactInformationReviewPage,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editAddressPage,
+        editEmailPage,
+        editPhonePage,
+        editInternationalPhonePage,
+      },
+    },
+
+    dependents: {
+      title: 'Review your dependents',
+      pages: {
+        dependents: {
+          path: 'dependents',
+          title: 'Dependents on your VA benefits',
+          CustomPage: DependentsInformation,
+          CustomPageReview: DependentsInformationReview,
+          uiSchema: dependents.uiSchema,
+          schema: dependents.schema,
+        },
+      },
+    },
   },
-  // getHelp,
+  getHelp: NeedHelp,
   footerContent,
 };
 

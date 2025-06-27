@@ -136,7 +136,9 @@ const MedicationsListCard = ({ rx }) => {
               (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
           </span>
         </Link>
-        {rx.dispStatus !== 'Unknown' &&
+        {!pendingMed &&
+          !pendingRenewal &&
+          rx.dispStatus !== 'Unknown' &&
           rx.dispStatus !== 'Active: Non-VA' && (
             <p
               data-testid="rx-number"

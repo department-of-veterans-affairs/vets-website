@@ -18,14 +18,14 @@ export const Data = {
     'Showing 11 to 20 of 26 prescriptions, from newest to oldest',
   PREVIOUS_PRESCRIPTION_PAGINATION_THIRD:
     'Showing 21 to 26 of 26 prescriptions, from newest to oldest',
-  REFILL_HISTORY_INFO: 'Showing 11 refills, from newest to oldest',
+  REFILL_HISTORY_INFO: 'Showing 11 fills, from newest to oldest',
   FILL_DATE_FIELD: 'Filled by pharmacy on',
   IMAGE_FIELD: 'Image',
   MED_DESCRIPTION: 'Medication description',
   LAST_FILLED_DATE: 'Last filled on March 18, 2024',
   REFILL_LINK_TEXT: 'Request a refill',
   ORIGINAL_FILL_LINK_TEXT: 'Request a fill',
-  SINGLE_REFILL_HISTORY_INFO: 'Showing 1 refill',
+  SINGLE_REFILL_HISTORY_INFO: 'Showing 1 fill',
   SINGLE_PREVIOUS_RX_INFO: 'Showing 1 prescription',
   SINGLE_CERNER_FACILITY_USER:
     'Some of your medications may be in a different portal. To view or manage medications at VA Spokane health care, go to My VA Health.',
@@ -83,8 +83,7 @@ export const Data = {
   PHARMACY_PHONE_NUMBER_EMPTY: 'Pharmacy phone number not available',
   REASON_FOR_USE_EMPTY: 'Reason for use not available',
   INSTRUCTIONS_EMPTY: 'Instructions not available',
-  PARTIAL_FILL_TEXT:
-    'This fill has a smaller quantity on purpose. This is temporary.',
+  PARTIAL_FILL_TEXT: 'This fill has a smaller quantity on purpose.',
   DOWNLOAD_TXT_REFILL_HISTORY: 'Medication description',
   TRACKING_HEADING: 'Track the shipment of your most recent refill',
   PRESCRIPTION_INFO_TRACKING: 'Prescriptions in this package',
@@ -98,6 +97,7 @@ export const Data = {
   FAILED_REQUEST_RETRY_TEXT:
     'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
   PARTIAL_FAILED_REQUEST_ALERT_TEXT: 'Only part of your request was submitted',
+  PENDING_RX_FILL_DATE_TEXT: 'Not filled yet',
 };
 export const Paths = {
   LANDING_LIST:

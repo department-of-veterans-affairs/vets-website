@@ -89,7 +89,7 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
       {!isLOA1 && (
         <IconCTALink
           text="Manage all claims and appeals"
-          href="/claim-or-appeal-status/"
+          href="/track-claims/your-claims/"
           icon="assignment"
           onClick={() => {
             recordEvent({

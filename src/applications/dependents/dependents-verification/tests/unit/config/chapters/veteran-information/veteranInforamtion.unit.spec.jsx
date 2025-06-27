@@ -38,11 +38,7 @@ describe('veteranInformation config', () => {
   it('should export a uiSchema object', () => {
     expect(veteranInformation).to.have.property('uiSchema');
     expect(veteranInformation.uiSchema).to.have.property('ui:description');
-    expect(veteranInformation.uiSchema).to.have.property('ui:options');
-  });
-
-  it('should set hideOnReview to true', () => {
-    expect(veteranInformation.uiSchema['ui:options'].hideOnReview).to.be.true;
+    expect(veteranInformation.uiSchema).to.have.property('ui:objectViewField');
   });
 
   it('should render the VeteranInformation component as description', () => {
@@ -136,7 +132,7 @@ describe('VeteranInformation component', () => {
       { veteranInformation: { ssnLastFour: '1234' } },
       {
         dob: '1985-04-12',
-        userFullName: undefined,
+        userFullName: { last: 'Doe' },
       },
     );
 
@@ -144,7 +140,7 @@ describe('VeteranInformation component', () => {
       '[data-dd-action-name="Veteran\'s name"]',
     );
     expect(nameText).to.exist;
-    expect(nameText.textContent).to.include('Name:');
+    expect(nameText.textContent).to.include('Doe');
   });
 
   it('should skip DOB if not provided', () => {
@@ -158,7 +154,7 @@ describe('VeteranInformation component', () => {
     const dobField = container.querySelector(
       '[data-dd-action-name="Veteran\'s date of birth"]',
     );
-    expect(dobField).to.be.null;
+    expect(dobField.textContent).to.eq('');
   });
 
   it('should render alert message', () => {

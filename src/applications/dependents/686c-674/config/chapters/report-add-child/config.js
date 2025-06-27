@@ -46,14 +46,6 @@ function isChildDisabilityInfoIncomplete(item) {
   );
 }
 
-function isMarriageInfoMissing(item) {
-  return (
-    item.hasChildEverBeenMarried &&
-    (isFieldMissing(item.marriageEndDate) ||
-      isFieldMissing(item.marriageEndReason))
-  );
-}
-
 function isOtherMarriageReasonMissing(item) {
   return (
     item.marriageEndReason === 'other' &&
@@ -107,7 +99,6 @@ function isItemIncomplete(item) {
   );
 
   fail(isStepchildInfoIncomplete(item), 'Stepchild info is incomplete');
-  fail(isMarriageInfoMissing(item), 'Marriage end date or reason missing');
   fail(
     isOtherMarriageReasonMissing(item),
     'Marriage end reason "other" description missing',
