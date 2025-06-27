@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import {
   ariaLabels,
   POST_911_ARRAY,
@@ -235,9 +234,13 @@ const BenefitsForm = ({
             <div className="military-status-info info form-group">
               <va-icon icon="info" />
               To apply for VR&E benefits, please{' '}
-              <EbenefitsLink path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">
+              <a
+                href="https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 visit this site
-              </EbenefitsLink>
+              </a>
               .
             </div>
           )}
