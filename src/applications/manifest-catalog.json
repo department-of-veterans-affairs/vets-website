@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 131,
+  "totalApplications": 132,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -253,7 +253,7 @@
       "directoryPath": "src/applications/edu-benefits/1919",
       "appName": "Conflicting Interests Certification For Proprietary Schools",
       "entryName": "1919-edu-benefits",
-      "rootUrl": "/education/apply-for-education-benefits/application/1919"
+      "rootUrl": "/school-administrators/report-conflicting-interests"
     },
     {
       "directoryPath": "src/applications/edu-benefits/1995",
@@ -392,6 +392,12 @@
       "appName": "Your VA home loan COE",
       "entryName": "coe-status",
       "rootUrl": "/housing-assistance/home-loans/check-coe-status/your-coe"
+    },
+    {
+      "directoryPath": "src/applications/lint-baseline",
+      "appName": "Lint Baseline App",
+      "entryName": "lint-baseline",
+      "rootUrl": "/lint-baseline"
     },
     {
       "directoryPath": "src/applications/login",
