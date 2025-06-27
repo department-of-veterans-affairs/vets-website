@@ -201,10 +201,11 @@ const getEmptyRecordSets = (recordSets, failedDomains) => {
   return recordSets.filter(recordSet => {
     if (!recordSet.selected) return false;
     // appointments records are broken into two sub-lists: past and upcoming
-    if (failedDomains.some(domain => recordSet.title === domain)) return false;
+    if (failedDomains.includes(recordSet.title)) return false;
     if (recordSet.type === 'appointments') {
-      return recordSet.records.every(
-        type => type?.results?.items?.length === 0,
+      return (
+        recordSet.records.every(type => type?.results?.items?.length === 0) &&
+        !failedDomains.includes('VA appointments')
       );
     }
     if (Array.isArray(recordSet.records)) {
@@ -215,6 +216,15 @@ const getEmptyRecordSets = (recordSets, failedDomains) => {
       recordSet.records.results?.items?.length === 0
     );
   });
+};
+
+const separateAppointments = items => {
+  return items.flatMap(
+    item =>
+      item === 'Appointments' || item === 'VA appointments'
+        ? ['Past appointments', 'Upcoming appointments']
+        : [item],
+  );
 };
 
 const generateInfoForAvailableRecords = (infoSection, doc, data) => {
@@ -229,8 +239,8 @@ const generateInfoForAvailableRecords = (infoSection, doc, data) => {
 
   doc.moveDown(0.75);
 
-  const items = getAvailableRecordSets(data.recordSets).map(
-    recordSet => recordSet.title,
+  const items = separateAppointments(
+    getAvailableRecordSets(data.recordSets).map(recordSet => recordSet.title),
   );
 
   addBulletList(infoSection, doc, items, config, {
@@ -267,7 +277,9 @@ const generateInfoForEmptyRecords = (infoSection, doc, recordSets) => {
 
   doc.moveDown(0.75);
 
-  const items = recordSets.map(recordSet => recordSet.title);
+  const items = separateAppointments(
+    recordSets.map(recordSet => recordSet.title),
+  );
 
   addBulletList(infoSection, doc, items, config, {
     bulletRadius: 2,
@@ -293,7 +305,7 @@ const generateInfoForFailedRecordsets = (infoSection, doc, failedDomains) => {
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          "We're sorry, There was a problem with our system. Try downloading your report again later.",
+          "We're sorry, there was a problem with our system. Try downloading your report again later.",
           config.margins.left,
           doc.y,
         );
@@ -302,7 +314,9 @@ const generateInfoForFailedRecordsets = (infoSection, doc, failedDomains) => {
 
   doc.moveDown(0.75);
 
-  addBulletList(infoSection, doc, failedDomains, config, {
+  const items = separateAppointments(failedDomains);
+
+  addBulletList(infoSection, doc, items, config, {
     bulletRadius: 2,
     bulletIndent: config.indents.bulletList,
     paragraphGap: 4,

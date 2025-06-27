@@ -417,7 +417,16 @@ const DownloadFileType = props => {
             subject,
           )}`;
           const dateRange = formatDateRange();
-          const content = getTxtContent(recordData, user, dateRange);
+          const failedDomainsList = getFailedDomainList(
+            failedDomains,
+            BB_DOMAIN_DISPLAY_MAP,
+          );
+          const content = getTxtContent(
+            recordData,
+            user,
+            dateRange,
+            failedDomainsList,
+          );
 
           generateTextFile(content, pdfName, user);
           logAal(1);
@@ -428,7 +437,7 @@ const DownloadFileType = props => {
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
-    [dispatch, formatDateRange, isDataFetched, recordData, user],
+    [dispatch, failedDomains, formatDateRange, isDataFetched, recordData, user],
   );
 
   const checkFileTypeValidity = useCallback(
