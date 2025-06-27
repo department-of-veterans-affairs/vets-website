@@ -11,6 +11,7 @@ import { datadogRum } from '@datadog/browser-rum';
 import {
   dateFormat,
   determineRefillLabel,
+  displayProviderName,
   getImageUri,
   getRefillHistory,
   getShowRefillHistory,
@@ -31,7 +32,6 @@ import {
   selectRefillProgressFlag,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
-import { FIELD_NONE_NOTED } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import GroupedMedications from './GroupedMedications';
 import CallPharmacyPhone from '../shared/CallPharmacyPhone';
@@ -371,14 +371,10 @@ const VaPrescription = prescription => {
                   Prescribed by
                 </h3>
                 <p>
-                  {prescription?.providerFirstName &&
-                  prescription?.providerLastName
-                    ? validateField(
-                        `${prescription.providerLastName}, ${
-                          prescription.providerFirstName
-                        }`,
-                      )
-                    : FIELD_NONE_NOTED}
+                  {displayProviderName(
+                    prescription.providerFirstName,
+                    prescription.providerLastName,
+                  )}
                 </p>
               </>
             )}
@@ -440,12 +436,10 @@ const VaPrescription = prescription => {
                   Prescribed by
                 </h3>
                 <p>
-                  {prescription?.providerFirstName &&
-                  prescription?.providerLastName
-                    ? `${prescription.providerLastName}, ${
-                        prescription.providerFirstName
-                      }`
-                    : validateIfAvailable('Provider name')}
+                  {displayProviderName(
+                    prescription.providerFirstName,
+                    prescription.providerLastName,
+                  )}
                 </p>
               </>
             )}
