@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { addDays, addHours } from 'date-fns';
@@ -74,7 +74,7 @@ describe('mapStateToProps', () => {
 });
 
 describe('<DowntimeNotification/>', () => {
-  it('calls getScheduledDowntime when rendered', () => {
+  it('calls getScheduledDowntime when rendered', async () => {
     const getScheduledDowntime = sinon.spy();
     // const getGlobalDowntime = sinon.spy();
     render(
@@ -86,8 +86,10 @@ describe('<DowntimeNotification/>', () => {
         <span>{innerText}</span>
       </DowntimeNotification>,
     );
-    expect(getScheduledDowntime.calledOnce).to.be.true;
-    // expect(getGlobalDowntime.calledOnce).to.be.true;
+    await waitFor(() => {
+      expect(getScheduledDowntime.calledOnce).to.be.true;
+      // expect(getGlobalDowntime.calledOnce).to.be.true;
+    });
   });
 
   describe('No impending downtime', () => {
