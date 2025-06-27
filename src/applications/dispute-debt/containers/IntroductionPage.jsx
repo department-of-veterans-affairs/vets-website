@@ -48,18 +48,13 @@ export const IntroductionPage = props => {
       <FormTitle title={TITLE} />
       {disputeDebtActive ? (
         <>
-          <h3 className="vads-u-font-weight--normal">
+          <h2 className="vads-u-font-weight--normal">
             If you think your VA debt is an error, use this form to dispute all
             or part of the debt.{' '}
-          </h3>
-          <ShowAlertOrSip
-            user={user}
-            basename={location?.basename || ''}
-            sipOptions={sipOptions}
-            pageList={pageList}
-            formConfig={formConfig}
-          />
-          <h2>What to know before you fill out this form</h2>
+          </h2>
+          <h3 className="vads-u-font-size--h2">
+            What to know before you fill out this form
+          </h3>{' '}
           <div>
             <ul>
               <li>
@@ -75,7 +70,6 @@ export const IntroductionPage = props => {
             </ul>
           </div>
           <br />
-
           <ShowAlertOrSip
             user={user}
             basename={location?.basename || ''}

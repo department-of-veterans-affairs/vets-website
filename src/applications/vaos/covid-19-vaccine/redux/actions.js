@@ -5,12 +5,10 @@ import {
   selectVAPMobilePhoneString,
 } from '@department-of-veterans-affairs/platform-user/exports';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { startOfMonth, endOfMonth, format, isAfter } from 'date-fns';
+import { startOfMonth, endOfMonth, format, isAfter, parse } from 'date-fns';
 
 import {
   selectSystemIds,
-  selectFeatureFeSourceOfTruth,
-  selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
@@ -23,6 +21,7 @@ import {
 } from '../../services/location';
 import { getPreciseLocation } from '../../utils/address';
 import {
+  DATE_FORMATS,
   FACILITY_SORT_METHODS,
   GA_PREFIX,
   TYPES_OF_CARE,
@@ -270,8 +269,15 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
     const { data } = newBooking;
     const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
-    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
-    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
+    let startDateObject = new Date(startDate);
+    let endDateObject = new Date(endDate);
+    if (typeof startDate === 'string') {
+      startDateObject = parse(startDate, DATE_FORMATS.yearMonthDay, new Date());
+      endDateObject = parse(endDate, DATE_FORMATS.yearMonthDay, new Date());
+    }
+
+    const startDateMonth = format(startDateObject, DATE_FORMATS.yearMonth);
+    const endDateMonth = format(endDateObject, DATE_FORMATS.yearMonth);
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -294,11 +300,11 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
 
       try {
         const startDateString = !fetchedStartMonth
-          ? format(new Date(startDate), 'yyyy-MM-dd')
-          : format(startOfMonth(new Date(endDate)), 'yyyy-MM-dd');
+          ? format(startDateObject, DATE_FORMATS.yearMonthDay)
+          : format(startOfMonth(endDateObject), DATE_FORMATS.yearMonthDay);
         const endDateString = !fetchedEndMonth
-          ? format(new Date(endDate), 'yyyy-MM-dd')
-          : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
+          ? format(endDateObject, DATE_FORMATS.yearMonthDay)
+          : format(endOfMonth(startDateObject), DATE_FORMATS.yearMonthDay);
 
         const fetchedSlots = await getSlots({
           siteId,
@@ -385,8 +391,6 @@ export function prefillContactInfo() {
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
-    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
@@ -412,8 +416,6 @@ export function confirmAppointment(history) {
     try {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
-        useFeSourceOfTruth,
-        useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,

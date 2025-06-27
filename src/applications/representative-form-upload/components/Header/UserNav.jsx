@@ -17,7 +17,7 @@ const UserHelpLinks = () => {
               href="/representative/poa-search"
             >
               <va-icon icon="search" size={2} className="people-search-icon" />
-              Search People
+              Find Claimant
             </a>
           </li>
         </Toggler.Enabled>
@@ -28,7 +28,7 @@ const UserHelpLinks = () => {
           className="vads-u-color--white"
           href="/representative/poa-requests"
         >
-          Power of Attorney Requests
+          Representation Requests
         </a>
       </li>
       <Toggler
