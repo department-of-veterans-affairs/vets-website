@@ -31,6 +31,17 @@ const options = {
     cardDescription: item => {
       return item && <SpouseSummaryCardDescription item={item} />;
     },
+    cancelAddDescription: () =>
+      content['household-spouse-add-cancel-modal-text'],
+    cancelEditDescription: () =>
+      content['household-spouse-edit-cancel-modal-text'],
+    cancelAddYes: () => content['household-spouse-add-cancel-modal-button-yes'],
+    cancelAddNo: () => content['household-spouse-add-cancel-modal-button-no'],
+    cancelEditNo: () => content['household-spouse-edit-cancel-modal-button-no'],
+    cancelEditYes: () =>
+      content['household-spouse-edit-cancel-modal-button-yes'],
+    cancelAddTitle: () => content['household-spouse-add-cancel-modal-title'],
+    cancelEditTitle: () => content['household-spouse-edit-cancel-modal-title'],
   },
 };
 
