@@ -561,7 +561,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         expect(
           screen.getByRole('heading', {
             level: 1,
-            name: 'We’re sorry. We’ve run into a problem',
+            name: 'We can’t access your appointment details right now',
           }),
         ).to.be.ok;
       });
