@@ -84,9 +84,6 @@ export const selectFeatureOHRequest = state =>
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
 
-export const selectFeatureFeSourceOfTruthVA = state =>
-  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthVA;
-
 export const selectFeatureFeSourceOfTruthModality = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruthModality;
 
