@@ -27,7 +27,6 @@ const formatStatus = submission => {
             />
             {' Processing error'}
           </span>
-          <br />
           <span>Resubmit or contact 800-827-1000 for assistance</span>
         </>
       );

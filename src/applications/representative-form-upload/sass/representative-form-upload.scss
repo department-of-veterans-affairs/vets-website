@@ -76,7 +76,46 @@
         font-size: 0.9375rem !important;
         padding: 0;
       }
+      .vads-u-margin-y--2.rjsf-object-field {
+        margin-top: 0 !important;
+      }
     }
+  }
+  .schemaform-block-title {
+    color: $vads-color-base;
+    padding: 0;
+    h3 {
+      margin: 0;
+      color: $vads-color-base !important;
+    }
+  }
+  va-radio {
+    margin-top: 16px;
+  }
+  va-alert {
+    width: 627px;
+  }
+  #root_supportingDocuments_add_label {
+    margin: 0;
+    padding: 0;
+  }
+  .schemaform-file-upload {
+    margin-top: 32px !important;
+  }
+
+  #upload-button {
+    padding-top: 0 !important;
+  }
+
+  &__upload-text {
+    margin: 8px 0;
+  }
+  &__upload-hint {
+    margin: 8px 0 16px;
+    color: $vads-label-hint-text-color-on-light;
+  }
+  #root_supportingDocuments-label {
+    font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
   }
 }
 .form-review-panel-page-representative-form-upload {
