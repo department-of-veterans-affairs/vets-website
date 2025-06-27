@@ -130,14 +130,16 @@ describe('Datadog RUM & monitoring initialization', () => {
       expect(window.DD_LOGS).to.exist;
     });
 
-    it('it should show an error in console when missing settings', () => {
+    it('it should show an error in console when missing settings', async () => {
       render(
         <Provider store={getStore()}>
           <TestComponent />
         </Provider>,
       );
 
-      expect(stubConsole.called).to.be.true;
+      await waitFor(() => {
+        expect(stubConsole.called).to.be.true;
+      });
       expect(stubConsole.args[0][0]).to.equal(
         'Datadog RUM & monitoring initialization requires applicationId, clientToken, service, and version.',
       );
