@@ -21,7 +21,9 @@ export const form686cBcList = [
 
 export const uploadTitleAndDescription = {
   'view:uploadTitle': {
-    'ui:title': `Upload VA Form ${getFormNumber()}`,
+    'ui:description': Object.freeze(
+      <h3>{`Upload VA Form ${getFormNumber()}`}</h3>
+    ),
   },
   'view:uploadDescription': {
     'ui:description': Object.freeze(
