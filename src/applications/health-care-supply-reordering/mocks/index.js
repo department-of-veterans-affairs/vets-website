@@ -7,7 +7,7 @@ const mdot = require('./mdot/index');
 const maintenance_windows = require('./maintenance-windows/index');
 
 const toggleVeteranNotFoundError = false;
-const toggleInternalServerError = false;
+const toggleInternalServerError = true;
 
 // eslint-disable-next-line no-unused-vars
 const signedOut = {

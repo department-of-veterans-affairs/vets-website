@@ -1,13 +1,13 @@
-import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
-import formConfig from './config/form';
-import App from './containers/App';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom-v5-compat';
+import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
+import AppIsDown from './containers/AppIsDown';
 
-const route = {
-  path: '/',
-  component: App,
-  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+const routes = (
+  <Routes>
+    <Route path="/" element={<AppIsDown />} />
+    <Route path="*" element={<MhvPageNotFound />} />
+  </Routes>
+);
 
-  childRoutes: createRoutesWithSaveInProgress(formConfig),
-};
-
-export default route;
+export default routes;
