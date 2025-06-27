@@ -149,7 +149,7 @@ describe('Datadog RUM & monitoring initialization', () => {
       expect(window.DD_LOGS).to.exist;
     });
 
-    it('it should return & remove Datadog when toggles are disabled', () => {
+    it('it should return & remove Datadog when toggles are disabled', async () => {
       render(
         <Provider store={getStore(false)}>
           <TestComponent options={settings} />
@@ -159,8 +159,10 @@ describe('Datadog RUM & monitoring initialization', () => {
       expect(stubConsole.notCalled).to.be.true;
       expect(stubRum.notCalled).to.be.true;
       expect(stubLog.notCalled).to.be.true;
-      expect(window.DD_RUM).to.not.exist;
-      expect(window.DD_LOGS).to.not.exist;
+      await waitFor(() => {
+        expect(window.DD_RUM).to.not.exist;
+        expect(window.DD_LOGS).to.not.exist;
+      });
     });
 
     it('it should call initialize RUM & LOGS', () => {
