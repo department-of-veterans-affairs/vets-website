@@ -4,6 +4,7 @@ import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo, scrollToTop } from 'platform/utilities/scroll';
+import environment from 'platform/utilities/environment';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
@@ -45,11 +46,29 @@ export function initGetText({
    */
   return (key, itemData, formData, index) => {
     const keyVal = getTextValues?.[key];
-    if (key === 'getItemName' || key === 'cardDescription') {
-      // pass in full form data into getItemName & cardDescription functions
+
+    if (key === 'getItemName') {
       return typeof keyVal === 'function'
         ? keyVal(itemData, index, formData)
         : keyVal;
+    }
+
+    if (key === 'cardDescription') {
+      let result;
+      if (typeof keyVal === 'function') {
+        try {
+          result = keyVal(itemData, index, formData);
+        } catch (e) {
+          if (!environment.isProduction()) {
+            // eslint-disable-next-line no-console
+            console.error(
+              `Error in array builder option "cardDescription":`,
+              e,
+            );
+          }
+        }
+      }
+      return result;
     }
 
     return typeof keyVal === 'function'
