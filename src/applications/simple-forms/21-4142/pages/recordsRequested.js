@@ -197,13 +197,12 @@ const getWebComponentImplementation = () => {
     maxItems: 5,
     text: {
       getItemName: item => item[providerFacilityFields.providerFacilityName],
-      cardDescription: item => {
-        return `${formatReviewDate(
+      cardDescription: item =>
+        `${formatReviewDate(
           item?.[providerFacilityFields.treatmentDateRange].from,
         )} - ${formatReviewDate(
           item?.[providerFacilityFields.treatmentDateRange].to,
-        )}`;
-      },
+        )}`,
     },
   };
 
