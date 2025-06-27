@@ -15,7 +15,7 @@ const IntroductionPage = ({ route }) => {
       {' '}
       <FormTitle title="Order hearing aid and CPAP supplies" />
       <div>
-        <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--base medium-screen:vads-u-line-height--6">
+        <p className="vads-u-font-family--sans vads-u-line-height--5 medium-screen:vads-u-font-size--base medium-screen:vads-u-line-height--6">
           If you receive hearing aid or CPAP supplies from VA, you may be able
           to reorder items like batteries, parts, and accessories. These
           supplies must have been prescribed by a VA provider and received
@@ -27,8 +27,9 @@ const IntroductionPage = ({ route }) => {
           online. If you’d like to order other medical supplies available
           through VA, contact the VA Denver Logistics Center (DLC) at{' '}
           <va-telephone contact="8776778710" /> (
-          <va-telephone contact="711" tty="true" />) or email dalc.css@va.gov.
-          We’re available Monday through Friday, 8:15 a.m. to 5:00 p.m. ET.
+          <va-telephone contact="711" tty="true" />) or email{' '}
+          <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>. We’re available
+          Monday through Friday, 8:15 a.m. to 5:00 p.m. ET.
         </p>
       </div>
       <DowntimeNotification
@@ -84,7 +85,7 @@ const IntroductionPage = ({ route }) => {
                 <ul>
                   <li>Hearing aids that need batteries</li>
                   <li>Hearing aid accessories</li>
-                  <li>SCPAP supplies</li>
+                  <li>CPAP supplies</li>
                 </ul>
                 <p>
                   After submitting the order form, you’ll get a confirmation
@@ -118,8 +119,8 @@ const IntroductionPage = ({ route }) => {
             unauthStartText="Sign in to start your order"
             formConfig={route.formConfig}
           />
-          <h4 className="vads-u-font-size--h2">Frequently asked questions </h4>
-          <va-accordion data-testid="accordion-dropdown">
+          <h2 className="vads-u-font-size--h3">Frequently asked questions</h2>
+          <va-accordion open-single data-testid="accordion-dropdown">
             <va-accordion-item>
               <h3 className="vads-u-font-size--h6" slot="headline">
                 What if I need help or have questions about my order?
@@ -128,8 +129,8 @@ const IntroductionPage = ({ route }) => {
                 If you need help or have questions about your order, contact the
                 DLC at <va-telephone contact="8776778710" /> (
                 <va-telephone contact="711" tty="true" />) or email
-                dalc.css@va.gov. We’re available Monday through Friday, 8:15
-                a.m. to 5:00 p.m. ET.
+                <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>. We’re
+                available Monday through Friday, 8:15 a.m. to 5:00 p.m. ET.
               </p>
             </va-accordion-item>
             <va-accordion-item>
