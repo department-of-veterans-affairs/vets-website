@@ -105,11 +105,17 @@ export const prescriptionsApi = createApi({
             prescriptions: response.data.map(prescription =>
               convertPrescription(prescription),
             ),
+            recentlyRequested: response.meta?.recentlyRequested || [],
             pagination: response.meta?.pagination || {},
             meta: response.meta || {},
           };
         }
-        return { prescriptions: [], pagination: {}, meta: {} };
+        return {
+          prescriptions: [],
+          recentlyRequested: [],
+          pagination: {},
+          meta: {},
+        };
       },
     }),
     getPrescriptionById: builder.query({
@@ -142,10 +148,15 @@ export const prescriptionsApi = createApi({
                 a.prescriptionName.localeCompare(b.prescriptionName),
               )
               .filter(prescription => prescription?.isRefillable),
+            recentlyRequested: response.meta?.recentlyRequested || [],
             meta: response.meta || {},
           };
         }
-        return { prescriptions: [], meta: {} };
+        return {
+          prescriptions: [],
+          recentlyRequested: [],
+          meta: {},
+        };
       },
     }),
     getPrescriptionDocumentation: builder.query({
@@ -180,25 +191,6 @@ export const prescriptionsApi = createApi({
           successfulIds: response?.successfulIds || [],
           failedIds: response?.failedIds || [],
         };
-      },
-    }),
-    getRecentlyRequestedPrescriptions: builder.query({
-      query: () => ({
-        path: `${apiBasePath}/prescriptions?${
-          filterOptions.RECENTLY_REQUESTED.url
-        }${rxListSortingOptions.alphabeticalOrder.API_ENDPOINT}`,
-      }),
-      providesTags: ['Prescription'],
-      transformResponse: response => {
-        if (response?.data && Array.isArray(response.data)) {
-          return {
-            prescriptions: response.data.map(prescription =>
-              convertPrescription(prescription),
-            ),
-            meta: response.meta || {},
-          };
-        }
-        return { prescriptions: [], meta: {} };
       },
     }),
     getRefillAlertPrescriptions: builder.query({
@@ -239,7 +231,6 @@ export const {
   useGetPrescriptionDocumentationQuery,
   useRefillPrescriptionMutation,
   useBulkRefillPrescriptionsMutation,
-  useGetRecentlyRequestedPrescriptionsQuery,
   useGetRefillAlertPrescriptionsQuery,
   useGetPrescriptionSortedListQuery,
   endpoints: {
@@ -250,7 +241,6 @@ export const {
     getPrescriptionDocumentation,
     refillPrescription,
     bulkRefillPrescriptions,
-    getRecentlyRequestedPrescriptions,
     getRefillAlertPrescriptions,
     getPrescriptionSortedList,
   },
