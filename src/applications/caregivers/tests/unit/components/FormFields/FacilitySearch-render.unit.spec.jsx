@@ -1,9 +1,9 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import FacilitySearch from '../../../../components/FormFields/FacilitySearch';
-import { fireClickEvent, inputVaSearchInput } from '../../../test-helpers';
+import { inputVaSearchInput } from '../../../test-helpers';
 import content from '../../../../locales/en/content.json';
 
 // declare error message content
@@ -61,7 +61,7 @@ describe('CG <FacilitySearch>', () => {
     const parentElClass = 'caregiver-facilities-search-input-error';
 
     // try to continue without any search interactions
-    fireClickEvent(continueBtn);
+    fireEvent.click(continueBtn);
     await waitFor(() => {
       const { searchInputError } = selectors();
       expect(searchInputError.textContent).to.eq(`Error${ERROR_MSG_SEARCH}`);
@@ -70,7 +70,7 @@ describe('CG <FacilitySearch>', () => {
 
     // try to contiue after inputting a value into the search input
     inputVaSearchInput({ container, query, submit: false });
-    fireClickEvent(continueBtn);
+    fireEvent.click(continueBtn);
     await waitFor(() => {
       const { searchInputError } = selectors();
       expect(searchInputError.textContent).to.eq(`Error${ERROR_MSG_SUBMIT}`);

@@ -1,10 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
-import { fireClickEvent } from '../../../test-helpers';
 
 const {
   chapters: {
@@ -54,7 +53,7 @@ describe(`${pageTitle} page`, () => {
   it('should render the correct number of errors on submit', async () => {
     const { selectors } = subject();
     const { submitBtn } = selectors();
-    fireClickEvent(submitBtn);
+    fireEvent.click(submitBtn);
     await waitFor(() => {
       const { errors } = selectors();
       expect(errors).to.have.lengthOf(1);

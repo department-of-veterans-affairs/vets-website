@@ -1,14 +1,6 @@
-import { fireEvent, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import './dom-extensions';
-
-export const fireClickEvent = selector => {
-  const mouseClick = new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
-  });
-  fireEvent(selector, mouseClick);
-};
 
 export const inputVaSearchInput = ({
   container,

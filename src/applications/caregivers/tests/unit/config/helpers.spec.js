@@ -1,8 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { fireClickEvent } from '../../test-helpers';
 
 const expectedFieldTypesWebComponents =
   'va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
@@ -59,7 +58,7 @@ export const testNumberOfErrorsOnSubmit = (
         data,
       });
       const submitButton = getByRole('button', { name: /submit/i });
-      fireClickEvent(submitButton);
+      fireEvent.click(submitButton);
       await waitFor(() => {
         const fields = Array.from(
           container.querySelectorAll(expectedFieldTypesWebComponents),
