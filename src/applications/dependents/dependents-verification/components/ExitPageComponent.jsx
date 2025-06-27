@@ -1,5 +1,6 @@
 import React from 'react';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import manifest from '../../686c-674/manifest.json';
 
 export const ExitPageComponent = props => {
   return (
@@ -33,10 +34,8 @@ export const ExitPageComponent = props => {
       <FormNavButtons
         goBack={props.router.goBack}
         goForward={() => {
-          window.location.href =
-            '/view-change-dependents/add-remove-form-21-686c-674/introduction';
+          window.location.href = manifest.rootUrl;
         }}
-        submitToContinue
       />
     </div>
   );
