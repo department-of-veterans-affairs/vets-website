@@ -20,7 +20,9 @@ import VeteranContactInformationReviewPage from '../components/VeteranContactInf
 import NeedHelp from '../components/NeedHelp';
 
 import { dependents } from './chapters/dependents/dependents';
-import { DependentsInformationReview } from '../components/DependentsInformation';
+import { DependentsInformation } from '../components/DependentsInformation';
+import { DependentsInformationReview } from '../components/DependentsInformationReview';
+import { ExitPageComponent } from '../components/ExitPageComponent.jsx';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -73,12 +75,20 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  additionalRoutes: [
+    {
+      path: 'exit-form',
+      component: ExitPageComponent,
+      pageKey: 'exitForm',
+      depends: () => false,
+    },
+  ],
   chapters: {
     veteranInformation: {
       title: 'Review your personal information',
       // This is the same review page title as within the accordion... will
       // consult with design on content changes
-      reviewTitle: 'Your personal information',
+      reviewTitle: 'Veteran’s personal information',
       pages: {
         veteranInformation: {
           path: 'veteran-information',
@@ -89,7 +99,7 @@ const formConfig = {
       },
     },
     veteranContactInformation: {
-      title: "Veteran's contact information",
+      title: 'Veteran’s contact information',
       pages: {
         veteranContactInformation: {
           path: 'veteran-contact-information',
@@ -106,12 +116,14 @@ const formConfig = {
         editInternationalPhonePage,
       },
     },
+
     dependents: {
       title: 'Review your dependents',
       pages: {
         dependents: {
           path: 'dependents',
           title: 'Dependents on your VA benefits',
+          CustomPage: DependentsInformation,
           CustomPageReview: DependentsInformationReview,
           uiSchema: dependents.uiSchema,
           schema: dependents.schema,
