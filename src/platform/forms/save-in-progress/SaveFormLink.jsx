@@ -7,6 +7,7 @@ import {
   scrollToTop,
 } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui/focus';
+import recordEvent from '../../monitoring/record-event';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
@@ -23,8 +24,13 @@ class SaveFormLink extends React.Component {
   handleSave = event => {
     event.preventDefault();
     const { route = {}, form, locationPathname } = this.props;
-    const { formId, version, submission } = form;
+    const { formId, version, submission, trackingPrefix } = form;
     let { data } = form;
+    if (trackingPrefix) {
+      recordEvent({
+        event: `${trackingPrefix}sip-form-save-intent`,
+      });
+    }
 
     // Save form on a specific page form exit callback
     if (typeof route.pageConfig?.onFormExit === 'function') {
