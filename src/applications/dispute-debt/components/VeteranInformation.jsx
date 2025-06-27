@@ -34,39 +34,44 @@ const VeteranInformation = ({ formData }) => {
         <h2 className="vads-u-margin-top--0">Your personal information</h2>
         <p>This is the personal information we have on file for you</p>
         <div className="personal-information-box">
-          <h4 className="vads-u-margin-top--0">Personal information</h4>
-          <p>
-            <strong
-              className="name dd-privacy-hidden"
-              data-dd-action-name="Veteran's name"
-            >
-              Name:
-            </strong>{' '}
-            {`${first || ''} ${middle || ''} ${last || ''}`}
-            {suffix ? `, ${suffix}` : null}
-          </p>
-          {ssn ? (
-            <p className="ssn">
-              <strong>Last 4 digits of Social Security number: </strong>{' '}
-              <span
-                className="dd-privacy-mask"
-                data-dd-action-name="Veteran's SSN"
+          <div className="vads-u-padding-left--1">
+            <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
+              Personal information
+            </h3>{' '}
+            <p>
+              <strong
+                className="name dd-privacy-hidden"
+                data-dd-action-name="Veteran's name"
               >
-                {mask(ssn)}
-              </span>
+                Name:
+              </strong>{' '}
+              {`${first || ''} ${middle || ''} ${last || ''}`}
+              {suffix ? `, ${suffix}` : null}
             </p>
-          ) : null}
-          <p className="vads-u-margin-bottom--0">
-            <strong>Date of birth:</strong>{' '}
-            {isValid(dobDateObj) ? (
-              <span
-                className="dob dd-privacy-mask"
-                data-dd-action-name="Veteran's date of birth"
-              >
-                {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
-              </span>
+            {ssn ? (
+              <p className="ssn" data-testid="ssn-display">
+                <strong>Last 4 digits of Social Security number: </strong>{' '}
+                <span
+                  className="dd-privacy-mask"
+                  data-dd-action-name="Veteran's SSN"
+                >
+                  {mask(ssn)}
+                </span>
+              </p>
             ) : null}
-          </p>
+            <p>
+              <strong>Date of birth:</strong>{' '}
+              {isValid(dobDateObj) ? (
+                <span
+                  className="dob dd-privacy-mask"
+                  data-dd-action-name="Veteran's date of birth"
+                  data-testid="dob-display"
+                >
+                  {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
+                </span>
+              ) : null}
+            </p>
+          </div>
         </div>
       </div>
 

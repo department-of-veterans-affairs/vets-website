@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -55,7 +55,7 @@ describe('NOD board review page', () => {
   });
 
   // board option is required
-  it('should prevent continuing', () => {
+  it('should prevent continuing', async () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -70,8 +70,10 @@ describe('NOD board review page', () => {
 
     fireEvent.submit($('form', container));
 
-    expect($$('[error]').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      expect($$('[error]').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 });
 

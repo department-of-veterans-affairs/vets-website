@@ -1,3 +1,4 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 .submissions {
   -webkit-font-smoothing: antialiased;
   hr {
@@ -34,6 +35,8 @@
     margin-top: 0px;
   }
   &__inline-status-icon {
+    margin-left: 4px;
+
     &.submissions__card-check {
       color: var(--vads-color-success-dark);
     }
@@ -45,9 +48,6 @@
   &__list {
     list-style-type: none;
     padding-left: 0px;
-  }
-  &__card-attribute-text {
-    font-weight: bold;
   }
 }
 .submission {
@@ -64,8 +64,27 @@
       margin: 0;
       &--row {
         display: flex;
-        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 4px;
+        flex-direction: column;
+        align-items: baseline;
+
+        @media (min-width: $small-desktop-screen) {
+          flex-direction: row;
+          align-items: center;
+        }
+
+        >span:last-child {
+          margin-top: 4px;
+          padding-left: 32px;
+          @media (min-width: $small-desktop-screen) {
+            padding-left: 0;
+          }
+        }
       }
+    }
+    &-attribute-text {
+      font-weight: bold;
     }
   }
 }

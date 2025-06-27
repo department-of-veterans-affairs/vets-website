@@ -40,11 +40,7 @@ export default function ScheduleReferral(props) {
   };
 
   return (
-    <ReferralLayout
-      hasEyebrow
-      heading={`Referral for ${categoryOfCare}`}
-      categoryOfCare={currentReferral?.categoryOfCare}
-    >
+    <ReferralLayout hasEyebrow heading={`Referral for ${categoryOfCare}`}>
       <div>
         <p data-testid="subtitle">
           We’ve approved your referral for community care. You can schedule your
