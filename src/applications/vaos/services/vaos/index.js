@@ -64,9 +64,10 @@ export function getAppointments({
   return apiRequestWithUrl(
     `/vaos/v2/appointments?_include=${includeParams
       .map(String)
-      .join(',')}&start=${startDate}&end=${endDate}&${statuses
-      .map(status => `statuses[]=${status}`)
-      .join('&')}`,
+      .join(',')}&start=${format(startDate, 'yyyy-MM-dd')}&end=${format(
+      endDate,
+      'yyy-MM-dd',
+    )}&${statuses.map(status => `statuses[]=${status}`).join('&')}`,
     { ...options, ...acheronHeader },
   ).then(parseApiListWithErrors);
 }

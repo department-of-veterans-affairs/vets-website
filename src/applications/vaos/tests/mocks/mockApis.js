@@ -654,7 +654,7 @@ export function mockEligibilityFetches({
     mockAppointmentsApi({
       start: range.start,
       end: range.end,
-      useRFC3339: true,
+      useRFC3339: false,
       response: pastClinics ? pastAppointments : [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
