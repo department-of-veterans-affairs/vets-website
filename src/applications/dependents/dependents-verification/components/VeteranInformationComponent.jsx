@@ -35,7 +35,7 @@ export const VeteranInformation = ({ formData }) => {
           Personal information
         </h4>
         <dl>
-          <div className="vads-u-display--flex vads-u-justify-content--start">
+          <div className="item vads-u-display--flex vads-u-justify-content--start">
             <dt className="vads-u-margin-bottom--1">
               <strong>Name:&nbsp;</strong>
             </dt>
@@ -47,7 +47,7 @@ export const VeteranInformation = ({ formData }) => {
             </dd>
           </div>
           {ssnLastFour ? (
-            <div className="vads-u-display--flex vads-u-justify-content--start">
+            <div className="item vads-u-display--flex vads-u-justify-content--start">
               <dt className="ssn vads-u-margin-bottom--1">
                 <strong>Last 4 digits of Social Security number:&nbsp;</strong>
               </dt>
@@ -59,7 +59,7 @@ export const VeteranInformation = ({ formData }) => {
               </dd>
             </div>
           ) : null}
-          <div className="vads-u-display--flex vads-u-justify-content--start">
+          <div className="item vads-u-display--flex vads-u-justify-content--start">
             <dt>
               <strong>Date of birth:&nbsp;</strong>
             </dt>

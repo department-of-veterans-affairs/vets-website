@@ -61,16 +61,16 @@ export const DependentsInformation = ({
                 {getFullName(dep.fullName)}
               </h4>
               <dl>
-                <div className="vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
+                <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
                   <dt>Relationship:&nbsp;</dt>
                   <dd>{dep.relationship}</dd>
                 </div>
-                <div className="vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
+                <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
                   <dt>Date of birth:&nbsp;</dt>
                   <dd>{dep.dob}</dd>
                 </div>
                 {dep.age && (
-                  <div className="vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
+                  <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
                     <dt>Age:&nbsp;</dt>
                     <dd
                       className="dd-privacy-mask"
@@ -80,7 +80,7 @@ export const DependentsInformation = ({
                     </dd>
                   </div>
                 )}
-                <div className="vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
+                <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
                   <dt>SSN:&nbsp;</dt>
                   <dd
                     className="dd-privacy-mask"
@@ -90,7 +90,7 @@ export const DependentsInformation = ({
                   </dd>
                 </div>
                 {dep.removalDate && (
-                  <div className="vads-u-margin-top--2">
+                  <div className="removal-date vads-u-margin-top--2">
                     <dt className="vads-u-display--inline-block vads-u-width--auto">
                       <strong>Automatic removal date:&nbsp;</strong>
                     </dt>
