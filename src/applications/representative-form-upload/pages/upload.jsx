@@ -58,7 +58,11 @@ export const uploadPage = {
     },
     'ui:objectViewField': SupportingEvidenceViewField,
     supportingDocuments: {
-      'ui:title': <strong>Upload supporting evidence</strong>,
+      'ui:title': (
+        <div className="vads-u-font-size--h3 vads-u-font-weight--bold">
+          Upload supporting evidence
+        </div>
+      ),
       'ui:description': Object.freeze(
         <>
           <p className="form-686c__upload-text">
