@@ -382,7 +382,7 @@ export function spouseDidNotCohabitateWithVeteranV2(formData) {
   // Check both root level and array level for cohabitedLastYear
   const rootCohabitedLastYear = formData.cohabitedLastYear;
   const arrayCohabitedLastYear =
-    formData.spouseFinancialSupport?.[0]?.cohabitedLastYear;
+    formData.spouseInformation?.[0]?.cohabitedLastYear;
 
   // Use array value if it exists, otherwise fall back to root value
   const cohabitedLastYear = arrayCohabitedLastYear ?? rootCohabitedLastYear;
@@ -410,8 +410,8 @@ export function spouseAddressDoesNotMatchVeteransV1(formData) {
 export function spouseAddressDoesNotMatchVeteransV2(formData) {
   // Check both root level and array level for sameAddress
   const rootSameAddress = formData.sameAddress;
-  const arraySameAddress = formData.spouseFinancialSupport?.[0]?.sameAddress;
+  const arraySameAddress = formData.spouseInformation?.[0]?.sameAddress;
   // Use array value if it exists, otherwise fall back to root value
-  const sameAddress = arraySameAddress ?? rootSameAddress;
+  const sameAddress = arraySameAddress || rootSameAddress;
   return includeSpousalInformationV2(formData) && !sameAddress;
 }
