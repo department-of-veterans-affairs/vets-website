@@ -95,31 +95,38 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
     },
   ];
 
-  // helper to split “Appointments” into Past/Upcoming
+  // helper to split “Appointments” or “VA appointments” into Past/Upcoming
   const expandAppointments = label =>
     label === 'Appointments' || label === 'VA appointments'
       ? ['Past appointments', 'Upcoming appointments']
       : [label];
 
-  // Sections with data (arrays with items, or non-array truthy)
+  // 1) which sections actually have data?
   const nonEmptySections = sections.filter(
     section =>
       section.isArray ? section.data.length > 0 : Boolean(section.data),
   );
 
-  // Sections selected but empty (arrays empty, or non-array falsey), excluding failures
+  // 2) which sections are empty (but *not* failed)?
   const emptySections = sections.filter(section => {
     const noData = section.isArray ? section.data.length === 0 : !section.data;
-    return noData && !failedDomains.includes(section.label);
+
+    // consider both labels when checking “failed”
+    const isAppts = section.label === 'Appointments';
+    const failedForThis =
+      failedDomains.includes(section.label) ||
+      (isAppts && failedDomains.includes('VA appointments'));
+
+    return noData && !failedForThis;
   });
 
-  // Build bullet list of included sections, expanding Appointments
+  // 3) build “in report” list (splitting appointments)
   const inReport = nonEmptySections
     .flatMap(s => expandAppointments(s.label))
     .map(l => `  • ${l}`)
     .join('\n');
 
-  // Build bullet list of failed domains, also expanding if needed
+  // 4) build “failed” list (splitting appointments)
   const failedList = failedDomains.length
     ? failedDomains
         .flatMap(d => expandAppointments(d))
@@ -127,7 +134,7 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
         .join('\n')
     : '';
 
-  // Assemble records section lines
+  // 5) assemble the records section
   const recordsParts = [
     'Records in this report',
     '',
