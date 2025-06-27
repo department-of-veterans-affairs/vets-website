@@ -178,6 +178,25 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'preparer-address-2': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.checkWebComponent(hasWebComponent => {
+              // if the environment is non-production
+              if (hasWebComponent) {
+                cy.fillAddressWebComponentPattern(
+                  'preparerIdentification_preparerAddress',
+                  data.preparerIdentification.preparerAddress,
+                );
+              }
+            });
+            cy.findByText(/continue/i, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
