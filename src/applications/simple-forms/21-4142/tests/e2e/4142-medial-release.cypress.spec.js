@@ -1,4 +1,5 @@
 import path from 'path';
+import environment from 'platform/utilities/environment';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
@@ -95,7 +96,7 @@ const testConfig = createTestConfig(
       },
       // if the environment is production
       'records-requested': ({ afterHook }) => {
-        if (Cypress.env('CI')) {
+        if (environment.isProduction()) {
           cy.injectAxeThenAxeCheck();
           afterHook(() => {
             cy.get('@testData').then(data => {
@@ -189,6 +190,8 @@ const testConfig = createTestConfig(
                   'preparerIdentification_preparerAddress',
                   data.preparerIdentification.preparerAddress,
                 );
+              } else {
+                cy.fillPage();
               }
             });
             cy.findByText(/continue/i, { selector: 'button' })
