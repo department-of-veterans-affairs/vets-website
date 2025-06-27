@@ -36,8 +36,8 @@ const App = ({ children }) => {
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(
       [''],
-      ['va-memorable-date'],
-      '#dateHint {display: none} .usa-form-group--month-select {width: 159px}',
+      ['va-memorable-date', 'va-accordion-item'],
+      '#dateHint {display: none} .usa-form-group--month-select {width: 159px} .usa-accordion, .usa-accordion-bordered, .usa-accordion--bordered {margin: 15px 0 !important}',
     );
   });
 

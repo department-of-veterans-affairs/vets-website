@@ -1,11 +1,19 @@
 import appendQuery from 'append-query';
+import {
+  format,
+  isDate,
+  lastDayOfMonth,
+  parseISO,
+  startOfMonth,
+} from 'date-fns';
 import { getTestFacilityId } from '../../utils/appointment';
 import {
   apiRequestWithUrl,
-  parseApiListWithErrors,
   parseApiList,
+  parseApiListWithErrors,
   parseApiObject,
 } from '../utils';
+import { DATE_FORMATS } from '../../utils/constants';
 
 const acheronHeader = {
   headers: { ACHERON_REQUESTS: 'true' },
@@ -56,9 +64,10 @@ export function getAppointments({
   return apiRequestWithUrl(
     `/vaos/v2/appointments?_include=${includeParams
       .map(String)
-      .join(',')}&start=${startDate}&end=${endDate}&${statuses
-      .map(status => `statuses[]=${status}`)
-      .join('&')}`,
+      .join(',')}&start=${format(startDate, 'yyyy-MM-dd')}&end=${format(
+      endDate,
+      'yyy-MM-dd',
+    )}&${statuses.map(status => `statuses[]=${status}`).join('&')}`,
     { ...options, ...acheronHeader },
   ).then(parseApiListWithErrors);
 }
@@ -153,26 +162,37 @@ export function getAvailableV2Slots({
   provider,
   startDate,
   endDate,
+  convertToUtc = false,
 }) {
-  let clinicIdParam = '';
-  let typeOfCareParam = '';
-  let providerParam = '';
+  const queryParams = [];
+  const start = convertToUtc
+    ? startDate.toISOString()
+    : format(
+        isDate(startDate)
+          ? startOfMonth(startDate)
+          : startOfMonth(parseISO(startDate)),
+        DATE_FORMATS.ISODateTimeLocal,
+      );
+  const end = convertToUtc
+    ? endDate.toISOString()
+    : format(
+        isDate(endDate)
+          ? lastDayOfMonth(endDate)
+          : lastDayOfMonth(parseISO(endDate)),
+        DATE_FORMATS.ISODateTimeLocal,
+      );
 
-  if (clinicId !== null) {
-    clinicIdParam = `/clinics/${clinicId}`;
-  }
+  if (typeOfCare) queryParams.push(`clinical_service=${typeOfCare}`);
+  if (provider) queryParams.push(`provider=${provider}`);
 
-  if (typeOfCare !== null) {
-    typeOfCareParam = `&clinical_service=${typeOfCare}`;
-  }
+  let baseUrl = `/vaos/v2/locations/${facilityId}`;
+  if (clinicId) baseUrl = `${baseUrl}/clinics/${clinicId.split('_')[1]}`;
 
-  if (provider !== null) {
-    providerParam = `&provider=${provider}`;
-  }
+  baseUrl = `${baseUrl}/slots?start=${encodeURIComponent(
+    start,
+  )}&end=${encodeURIComponent(end)}${queryParams.join('&')}`;
 
-  return apiRequestWithUrl(
-    `/vaos/v2/locations/${facilityId}${clinicIdParam}/slots?start=${startDate}&end=${endDate}${typeOfCareParam}${providerParam}`,
-  ).then(parseApiList);
+  return apiRequestWithUrl(baseUrl).then(parseApiList);
 }
 
 export function getCommunityCareV2(typeOfCare) {
