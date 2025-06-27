@@ -3,10 +3,9 @@ import GeneralFunctionsPage from './GeneralFunctionsPage';
 import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
-import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import FolderLoadPage from './FolderLoadPage';
 import mockMessages from '../fixtures/threads-response.json';
-import mockCategories from '../fixtures/categories-response.json';
+import mockSentFolderMetaResponse from '../fixtures/sentResponse/folder-sent-metadata.json';
 
 class PatientErrorPage {
   loadFolders500Error = () => {
@@ -24,19 +23,23 @@ class PatientErrorPage {
       ],
     }).as('errorFolders');
 
-    cy.visit(Paths.UI_MAIN + Paths.INBOX, {
-      onBeforeLoad: win => {
-        cy.stub(win, 'print');
-      },
-    });
+    cy.visit(Paths.UI_MAIN + Paths.INBOX);
   };
 
   loadRecipients500Error = () => {
+    cy.intercept('GET', Paths.INTERCEPT.INBOX_FOLDER, mockInboxFolder).as(
+      'inboxFolderMetaData',
+    );
+
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.SENT_FOLDER_THREADS}/*`,
-      mockSentMessages,
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      mockFolders,
     ).as('folders');
+
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, mockMessages).as(
+      'inboxMessages',
+    );
 
     cy.intercept('GET', `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`, {
       errors: [
@@ -46,11 +49,7 @@ class PatientErrorPage {
       ],
     }).as('errorRecipients');
 
-    cy.visit(Paths.UI_MAIN + Paths.COMPOSE, {
-      onBeforeLoad: win => {
-        cy.stub(win, 'print');
-      },
-    });
+    cy.visit(Paths.UI_MAIN + Paths.INBOX);
   };
 
   loadInboxFolderThreads500Error = () => {
@@ -60,13 +59,34 @@ class PatientErrorPage {
       mockFolders,
     ).as('folders');
 
-    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, {
-      statusCode: 503,
-    }).as(`inboxMessages`);
+    cy.intercept(
+      'GET',
+      Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,
+      mockRecipients,
+    ).as('recipients');
 
     cy.intercept('GET', Paths.INTERCEPT.INBOX_FOLDER, mockInboxFolder).as(
       'inboxFolderMetaData',
     );
+
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, {
+      errors: [
+        {
+          status: '503',
+        },
+      ],
+    }).as(`inboxMessagesError`);
+
+    cy.visit(Paths.UI_MAIN + Paths.INBOX);
+    cy.wait('@inboxMessagesError', { requestTimeout: 10000 });
+  };
+
+  loadSentFolder500Error = () => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      mockFolders,
+    ).as('folders');
 
     cy.intercept(
       'GET',
@@ -74,8 +94,18 @@ class PatientErrorPage {
       mockRecipients,
     ).as('recipients');
 
-    cy.visit(Paths.UI_MAIN + Paths.INBOX);
-    cy.wait('@inboxMessages', { requestTimeout: 10000 });
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1*`,
+      mockSentFolderMetaResponse,
+    ).as('sentFolderMetaData');
+
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/threads**`, {
+      statusCode: 500,
+    }).as('sentMessagesError');
+
+    cy.visit(Paths.UI_MAIN + Paths.SENT);
+    cy.wait('@sentMessagesError', { requestTimeout: 10000 });
   };
 
   loadCustomFolderThreads500Error = () => {
@@ -140,39 +170,6 @@ class PatientErrorPage {
 
     cy.findByTestId(`folder-header`).should(`not.exist`);
     cy.findByTestId(`inbox-footer`).should(`not.exist`);
-  };
-
-  loadInboxMessages = (
-    inboxMessages = mockMessages,
-    recipients = mockRecipients,
-  ) => {
-    cy.intercept(
-      'GET',
-      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
-      mockCategories,
-    ).as('categories');
-
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
-      mockFolders,
-    ).as('folders');
-
-    cy.intercept(
-      'GET',
-      Paths.INTERCEPT.MESSAGE_FOLDER_THREAD,
-      inboxMessages,
-    ).as('inboxMessages');
-
-    cy.intercept('GET', Paths.INTERCEPT.INBOX_FOLDER, mockInboxFolder).as(
-      'inboxFolderMetaData',
-    );
-
-    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS, recipients).as(
-      'recipients',
-    );
-
-    cy.visit(Paths.UI_MAIN + Paths.INBOX);
   };
 }
 
