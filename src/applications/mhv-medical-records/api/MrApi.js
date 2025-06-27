@@ -69,7 +69,10 @@ export const getLabsAndTests = async () => {
     headers,
   });
 };
-export const getAcceleratedLabsAndTests = async ({ startDate, endDate }) => {
+export const getAcceleratedLabsAndTests = async ({
+  startDate,
+  endDate,
+} = {}) => {
   const startDateParam = `start_date=${startDate}`;
   const endDateParam = `&end_date=${endDate}`;
   return apiRequest(
