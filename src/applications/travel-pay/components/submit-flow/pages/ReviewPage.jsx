@@ -143,7 +143,7 @@ const ReviewPage = ({
         className="vads-u-margin-top--2"
         continue
         disable-analytics
-        rightButtonText="File claim"
+        rightButtonText="Submit claim"
         leftButtonText="Start over"
         onPrimaryClick={onSubmit}
         onSecondaryClick={onBack}
