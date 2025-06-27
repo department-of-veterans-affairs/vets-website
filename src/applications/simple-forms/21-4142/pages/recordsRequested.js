@@ -198,14 +198,10 @@ const getWebComponentImplementation = () => {
     text: {
       getItemName: item => item[providerFacilityFields.providerFacilityName],
       cardDescription: item => {
-        if (!item || !item[providerFacilityFields.treatmentDateRange]) {
-          return '';
-        }
-
         return `${formatReviewDate(
-          item[providerFacilityFields.treatmentDateRange].from,
+          item?.[providerFacilityFields.treatmentDateRange].from,
         )} - ${formatReviewDate(
-          item[providerFacilityFields.treatmentDateRange].to,
+          item?.[providerFacilityFields.treatmentDateRange].to,
         )}`;
       },
     },
