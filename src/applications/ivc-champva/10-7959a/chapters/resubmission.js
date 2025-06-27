@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -13,6 +13,53 @@ import {
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
+// import VaDateField from 'platform/forms-system/src/js/web-component-fields/VaDateField';
+
+// export const dateNoHint = options => {
+//     const {
+//         hint,
+//         title,
+//         errorMessages,
+//         required,
+//         dataDogHidden = false,
+//         ...uiOptions
+//       } = typeof options === 'object' ? options : { title: options };
+
+//       const uiTitle = title ?? 'Date';
+
+//       return {
+//         'ui:title': uiTitle,
+//         'ui:hint': hint,
+//         'ui:webComponentField': VaDateField,
+//         'ui:required': required,
+//         'ui:errorMessages': {
+//           pattern:
+//             errorMessages?.pattern || 'Please enter a valid current or past date',
+//           required: errorMessages?.required || 'Please enter a date',
+//         },
+//         'ui:options': {
+//           ...uiOptions,
+//         },
+//         'ui:reviewField': ({ children }) => (
+//           <div className="review-row">
+//             <dt>{uiTitle}</dt>
+//             <dd
+//               className={dataDogHidden ? 'dd-privacy-hidden' : undefined}
+//               data-dd-action-name={dataDogHidden ? uiTitle : undefined}
+//             >
+//               {children.props.formData && (
+//                 <>
+//                   {new Date(
+//                     `${children.props.formData}T00:00:00`,
+//                   ).toLocaleDateString('en-us', localeDateStringOptions)}
+//                 </>
+//               )}
+//             </dd>
+//           </div>
+//         ),
+//       };
+//     };
 
 export const claimIdentifyingNumberOptions = [
   'PDI number',
@@ -124,6 +171,7 @@ export const medicalUploadSupportingDocs = {
         </a>
       </>,
     ),
+    ...fileUploadBlurb,
     medicalUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
@@ -134,6 +182,7 @@ export const medicalUploadSupportingDocs = {
     required: ['medicalUpload'],
     properties: {
       titleSchema,
+      'view:fileUploadBlurb': blankSchema,
       medicalUpload: {
         type: 'array',
         minItems: 1,
@@ -177,4 +226,52 @@ export const pharmacyClaimDetails = {
   },
 };
 
-export const pharmacyClaimUploadDocs = {};
+export const pharmacyClaimUploadDocs = {
+  uiSchema: {
+    ...titleUI(
+      'Upload supporting documents for your pharmacy claim',
+      <>
+        <p>You’ll need to submit the following documents:</p>
+        <ul>
+          <li>
+            Copies of documents with missing information we requested in the
+            letter we mailed you, <b> and</b>
+          </li>
+          <li>All documents you submitted with your original claim</li>
+        </ul>
+        <p>
+          These documents may be an itemized or a superbill from your provider
+          an explanation of benefits from your insurance company.
+        </p>
+        <a href="https://www.va.gov/resources/how-to-file-a-champva-claim/">
+          Learn how to file a CHAMPVA claim
+        </a>
+      </>,
+    ),
+    ...fileUploadBlurb,
+    pharmacyUpload: fileUploadUI({
+      label: 'Upload supporting document',
+      attachmentName: true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['pharmacyUpload'],
+    properties: {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      pharmacyUpload: {
+        type: 'array',
+        minItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  },
+};

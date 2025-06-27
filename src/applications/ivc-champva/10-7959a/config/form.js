@@ -51,7 +51,7 @@ import {
   medicalClaimDetails,
   medicalUploadSupportingDocs,
   pharmacyClaimDetails,
-  // pharmacyClaimUploadDocs,
+  pharmacyClaimUploadDocs,
 } from '../chapters/resubmission';
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
@@ -196,11 +196,11 @@ const formConfig = {
           title: 'claim details',
           ...pharmacyClaimDetails,
         },
-        // page1k: {
-        //   path: 'resubmission-pharmacy-supporting-docs',
-        //   title: 'Upload support documents for your pharmacy claim',
-        //   ...pharmacyClaimUploadDocs
-        // }
+        page1k: {
+          path: 'resubmission-pharmacy-supporting-docs',
+          title: 'Upload support documents for your pharmacy claim',
+          ...pharmacyClaimUploadDocs,
+        },
       },
     },
     sponsorInformation: {
