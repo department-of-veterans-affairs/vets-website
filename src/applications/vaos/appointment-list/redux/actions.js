@@ -1,8 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import * as Sentry from '@sentry/browser';
-import { format } from 'date-fns';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
+import * as Sentry from '@sentry/browser';
 import {
   selectFeatureCCDirectScheduling,
   selectFeatureFeSourceOfTruthVA,
@@ -40,6 +39,7 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
   STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
+import { getIsInCCPilot } from '../../referral-appointments/utils/pilot';
 import { fetchHealthcareServiceById } from '../../services/healthcare-service';
 import {
   captureError,
@@ -47,7 +47,6 @@ import {
   has404AppointmentIdError,
 } from '../../utils/error';
 import { selectAppointmentById } from './selectors';
-import { getIsInCCPilot } from '../../referral-appointments/utils/pilot';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
@@ -134,8 +133,8 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
 
       const promises = [
         fetchAppointments({
-          startDate: format(startDate, 'yyyy-MM-dd'), // Start 30 days in the past for canceled appointments
-          endDate: format(endDate, 'yyyy-MM-dd'),
+          startDate, // Start 30 days in the past for canceled appointments
+          endDate,
           includeEPS,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
@@ -151,8 +150,8 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
 
         promises.push(
           getAppointmentRequests({
-            startDate: format(requestStartDate, 'yyyy-MM-dd'), // Start 120 days in the past for requests
-            endDate: format(requestEndDate, 'yyyy-MM-dd'), // End 1 day in the future for requests
+            startDate: requestStartDate, // Start 120 days in the past for requests
+            endDate: requestEndDate, // End 1 day in the future for requests
             includeEPS,
             useFeSourceOfTruthVA,
             useFeSourceOfTruthModality,
