@@ -148,7 +148,11 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     expect(dateHeading).to.contain.text('Date and time');
     expect(screen.baseElement).to.contain.text(
-      formatInTimeZone(start, 'America/Denver', 'EEEE, MMMM d, yyyy'),
+      formatInTimeZone(
+        start,
+        'America/Denver',
+        DATE_FORMATS.friendlyWeekdayDate,
+      ),
     );
     expect(screen.baseElement).to.contain.text(
       formatInTimeZone(start, 'America/Denver', 'h:mm aaaa'),

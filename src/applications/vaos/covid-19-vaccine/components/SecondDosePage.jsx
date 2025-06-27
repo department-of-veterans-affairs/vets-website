@@ -11,6 +11,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../flow';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
+import { DATE_FORMATS } from '../../utils/constants';
 
 const pageKey = 'secondDosePage';
 const pageTitle = 'When to plan for a second dose';
@@ -39,7 +40,11 @@ export default function SecondDosePage() {
         <p>
           If you get your first dose of a 2-dose vaccine on{' '}
           <strong>
-            {formatInTimeZone(selectedDate, timezone, 'EEEE, MMMM d, yyyy')}
+            {formatInTimeZone(
+              selectedDate,
+              timezone,
+              DATE_FORMATS.friendlyWeekdayDate,
+            )}
           </strong>
           , here’s when to plan to come back for your second dose.
         </p>
@@ -55,7 +60,7 @@ export default function SecondDosePage() {
             {formatInTimeZone(
               addDays(selectedDate, 28),
               timezone,
-              'EEEE, MMMM d, yyyy',
+              DATE_FORMATS.friendlyWeekdayDate,
             )}
           </strong>
         </div>
@@ -69,7 +74,7 @@ export default function SecondDosePage() {
             {formatInTimeZone(
               addDays(selectedDate, 21),
               timezone,
-              'EEEE, MMMM d, yyyy',
+              DATE_FORMATS.friendlyWeekdayDate,
             )}
           </strong>
         </div>

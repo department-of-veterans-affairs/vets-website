@@ -65,7 +65,11 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `${formatInTimeZone(start, 'America/Denver', 'EEEE, MMMM d, yyyy')}`,
+          `${formatInTimeZone(
+            start,
+            'America/Denver',
+            DATE_FORMATS.friendlyWeekdayDate,
+          )}`,
           'i',
         ),
       ),
@@ -87,7 +91,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
           `after ${formatInTimeZone(
             addDays(start, 21),
             'America/Denver',
-            'EEEE, MMMM d, yyyy',
+            DATE_FORMATS.friendlyWeekdayDate,
           )}`,
           'i',
         ),
@@ -99,7 +103,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
           `after ${formatInTimeZone(
             addDays(start, 28),
             'America/Denver',
-            'EEEE, MMMM d, yyyy',
+            DATE_FORMATS.friendlyWeekdayDate,
           )}`,
           'i',
         ),
