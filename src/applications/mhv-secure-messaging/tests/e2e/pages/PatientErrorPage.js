@@ -5,6 +5,8 @@ import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import FolderLoadPage from './FolderLoadPage';
+import mockMessages from '../fixtures/threads-response.json';
+import mockCategories from '../fixtures/categories-response.json';
 
 class PatientErrorPage {
   loadFolders500Error = () => {
@@ -125,7 +127,7 @@ class PatientErrorPage {
       .and(`have.attr`, `text`, Data.NOT_FOUND.LINK);
   };
 
-  verifyOnlyError500Content = () => {
+  verifyError500Content = () => {
     cy.get(`va-alert`).should('be.focused');
 
     cy.findByTestId(`alert-heading`)
@@ -140,16 +142,37 @@ class PatientErrorPage {
     cy.findByTestId(`inbox-footer`).should(`not.exist`);
   };
 
-  verifyError500Content = () => {
-    cy.get(`va-alert`).should('be.focused');
+  loadInboxMessages = (
+    inboxMessages = mockMessages,
+    recipients = mockRecipients,
+  ) => {
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
 
-    cy.findByTestId(`alert-heading`)
-      .should(`be.visible`)
-      .and(`have.text`, Data.ERROR_500.HEADER);
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      mockFolders,
+    ).as('folders');
 
-    cy.findByTestId(`alert-text`)
-      .should(`be.visible`)
-      .and(`include.text`, Data.ERROR_500.TEXT);
+    cy.intercept(
+      'GET',
+      Paths.INTERCEPT.MESSAGE_FOLDER_THREAD,
+      inboxMessages,
+    ).as('inboxMessages');
+
+    cy.intercept('GET', Paths.INTERCEPT.INBOX_FOLDER, mockInboxFolder).as(
+      'inboxFolderMetaData',
+    );
+
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS, recipients).as(
+      'recipients',
+    );
+
+    cy.visit(Paths.UI_MAIN + Paths.INBOX);
   };
 }
 

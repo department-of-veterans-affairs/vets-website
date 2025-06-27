@@ -7,8 +7,9 @@ import FolderLoadPage from './pages/FolderLoadPage';
 describe('SM 500 ERRORS', () => {
   it('verify 500 error on folders call', () => {
     SecureMessagingSite.login();
+
     PatientErrorPage.loadFolders500Error();
-    PatientErrorPage.verifyOnlyError500Content();
+    PatientErrorPage.verifyError500Content();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -16,7 +17,7 @@ describe('SM 500 ERRORS', () => {
   it('verify 500 error on allRecipients call', () => {
     SecureMessagingSite.login();
     PatientErrorPage.loadRecipients500Error();
-    PatientErrorPage.verifyOnlyError500Content();
+    PatientErrorPage.verifyError500Content();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
