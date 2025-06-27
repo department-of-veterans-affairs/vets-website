@@ -20,10 +20,6 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-yourself-general-empty
-
-    - action: include
-      target: page
       value: your-contact-information-radio-buttons-phone-call
 
     - action: include
