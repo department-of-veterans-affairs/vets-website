@@ -13,6 +13,7 @@ const profile = {
   signIn: {
     serviceName: 'idme',
   },
+  loa: { current: 1 },
 };
 
 const rootReducer = combineReducers({
