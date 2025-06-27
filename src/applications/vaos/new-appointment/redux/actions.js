@@ -659,8 +659,8 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
       endDate = parseISO(end);
     }
 
-    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
-    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
+    const startDateMonth = format(startDate, DATE_FORMATS.yearMonth);
+    const endDateMonth = format(endDate, DATE_FORMATS.yearMonth);
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
