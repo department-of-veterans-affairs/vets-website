@@ -4,7 +4,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { selectFeatureToggles } from '../utils/selectors';
 
 export const useDefaultFormData = () => {
-  const { data: formData } = useSelector(state => state.form);
+  const formData = useSelector(state => state.form.data);
   const featureToggles = useSelector(selectFeatureToggles);
   const dispatch = useDispatch();
 

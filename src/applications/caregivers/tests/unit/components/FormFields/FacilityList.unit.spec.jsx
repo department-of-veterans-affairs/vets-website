@@ -30,7 +30,7 @@ describe('CG <FacilityList>', () => {
     };
     const { container } = render(<FacilityList {...props} />);
     const selectors = () => ({
-      name: container.querySelector('[ data-testid="cg-facility-name"]'),
+      name: container.querySelector('[data-testid="cg-facility-name"]'),
       vaRadio: container.querySelector('va-radio'),
     });
     return { selectors };

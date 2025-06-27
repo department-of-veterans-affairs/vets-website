@@ -1,18 +1,16 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import sinon from 'sinon-v20';
 import { useDefaultFormData } from '../../../hooks/useDefaultFormData';
 
-// create wrapper component for our hook
-const TestComponent = () => {
-  useDefaultFormData();
-  return null;
-};
-
 describe('CG `useDefaultFormData` hook', () => {
   let dispatch;
-  const subject = () => {
+  let wrapper;
+
+  beforeEach(() => {
+    dispatch = sinon.spy();
+
     const mockStore = {
       getState: () => ({
         form: { data: {} },
@@ -25,15 +23,9 @@ describe('CG `useDefaultFormData` hook', () => {
       subscribe: () => {},
       dispatch,
     };
-    return render(
-      <Provider store={mockStore}>
-        <TestComponent />
-      </Provider>,
+    wrapper = ({ children }) => (
+      <Provider store={mockStore}>{children}</Provider>
     );
-  };
-
-  beforeEach(() => {
-    dispatch = sinon.spy();
   });
 
   afterEach(() => {
@@ -41,7 +33,7 @@ describe('CG `useDefaultFormData` hook', () => {
   });
 
   it('should fire the `setData` dispatch with the correct data', () => {
-    subject();
+    renderHook(() => useDefaultFormData(), { wrapper });
     sinon.assert.calledOnceWithExactly(dispatch, {
       type: 'SET_DATA',
       data: { 'view:useFacilitiesAPI': false },

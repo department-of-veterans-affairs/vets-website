@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfWebComponentFields,
+  testNumberOfErrorsOnSubmit,
+  testNumberOfFormFields,
 } from '../helpers.spec';
 import formConfig from '../../../../config/form';
 
@@ -14,21 +14,21 @@ const {
 const { title: pageTitle, schema, uiSchema } = hasPrimaryCaregiver;
 
 // run test for correct number of fields on the page
-const expectedNumberOfWebComponentFields = 1;
-testNumberOfWebComponentFields(
+const expectedNumberOfFields = 1;
+testNumberOfFormFields(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfWebComponentFields,
+  expectedNumberOfFields,
   pageTitle,
 );
 
 // run test for correct number of error messages on submit
-const expectedNumberOfWebComponentErrors = 1;
-testNumberOfErrorsOnSubmitForWebComponents(
+const expectedNumberOfErrors = 1;
+testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfWebComponentErrors,
+  expectedNumberOfErrors,
   pageTitle,
 );
