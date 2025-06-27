@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { displayFileSize } from 'platform/utilities/ui/index';
 import { getFormNumber } from '../helpers';
 
 const SupportingEvidenceViewField = props => {
@@ -9,28 +8,42 @@ const SupportingEvidenceViewField = props => {
   const { supportingDocuments, uploadedFile } = formData;
 
   return (
-    <div className="form-review-panel-page-header-row">
-      <div className="vads-u-width--full vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
-        <h3 className="vads-u-margin-y--0">Uploaded files</h3>
+    <div className="form-review-panel-page form-review-panel-page-representative-form-upload">
+      <div className="form-review-panel-page-header-row vads-u-justify-content--flex-start">
+        <h4 className="vads-u-font-size--h5 vads-u-margin-top--0 vads-u-margin-bottom--1">
+          Upload VA Form {getFormNumber()}
+        </h4>
+
+        <dl className="review vads-u-margin-top--2 vads-u-width--full">
+          {uploadedFile && (
+            <div className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-padding-y--1 vads-u-width--full">
+              <dt className="vads-u-font-weight--normal">
+                VA Form {getFormNumber()}
+              </dt>
+              <dd className="vads-u-font-weight--bold">{uploadedFile.name}</dd>
+            </div>
+          )}
+        </dl>
       </div>
-      <div className="attachment-list">
-        <h4>VA Form {getFormNumber()}</h4>
-        <span className="va-growable-background">
-          {uploadedFile.name} ({displayFileSize(uploadedFile.size)})
-        </span>
-      </div>
-      {supportingDocuments && (
-        <div className="attachment-list">
-          <h4>Supporting Evidence</h4>
-          <ul className="schemaform-file-list vads-u-width--full">
-            {supportingDocuments.map((doc, index) => (
-              <li key={index} className="va-growable-background">
-                <strong>{doc.name}</strong>
-                <br />
-                {displayFileSize(doc.size)}
-              </li>
+
+      {supportingDocuments?.length > 0 && (
+        <div className="form-review-panel-page-header-row vads-u-justify-content--flex-start">
+          <h4 className="vads-u-font-size--h5 vads-u-margin-top--3 vads-u-margin-bottom--1">
+            Upload supporting evidence
+          </h4>
+          <dl className="review vads-u-margin-top--2 vads-u-width--full">
+            {supportingDocuments.map(doc => (
+              <div
+                key={doc.name}
+                className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-padding-y--1 vads-u-width--full"
+              >
+                <dt className="vads-u-font-weight--normal">
+                  Supporting evidence
+                </dt>
+                <dd className="vads-u-font-weight--bold">{doc.name}</dd>
+              </div>
             ))}
-          </ul>
+          </dl>
         </div>
       )}
     </div>
@@ -38,16 +51,17 @@ const SupportingEvidenceViewField = props => {
 };
 
 SupportingEvidenceViewField.propTypes = {
-  defaultEditButton: PropTypes.func.isRequired,
   formData: PropTypes.shape({
     supportingDocuments: PropTypes.arrayOf(
       PropTypes.shape({
-        fileName: PropTypes.string,
-        fileSize: PropTypes.number,
-        confirmationNumber: PropTypes.string,
-        errorMessage: PropTypes.string,
+        name: PropTypes.string,
+        size: PropTypes.number,
       }),
     ),
+    uploadedFile: PropTypes.shape({
+      name: PropTypes.string,
+      size: PropTypes.number,
+    }),
   }).isRequired,
 };
 

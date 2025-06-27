@@ -34,7 +34,7 @@ export const getFormContent = (pathname = null) => {
     ombInfo,
     subTitle,
     pdfDownloadUrl,
-    title: `Submit VA Form ${formNumber}`,
+    title: `VA Form ${formNumber}`,
     message: 'Select a file to upload',
   };
 };
@@ -70,6 +70,12 @@ export const mask = value => {
     `●●●–●●–${number}`,
     `ending with ${number.split('').join(' ')}`,
   );
+};
+
+export const maskVaFileNumber = vaFileNumber => {
+  if (!vaFileNumber) return '';
+  const number = vaFileNumber.slice(-4);
+  return vaFileNumber.length === 8 ? `●●●●${number}` : `●●●●●${number}`;
 };
 
 export const onCloseAlert = e => {

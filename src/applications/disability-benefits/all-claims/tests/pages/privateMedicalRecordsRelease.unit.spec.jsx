@@ -7,10 +7,10 @@ import {
   DefinitionTester,
   fillData,
   fillDate,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
-import initialData from '../initialData.js';
-import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
+} from 'platform/testing/unit/schemaform-utils';
+import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
+import formConfig from '../../config/form';
+import initialData from '../initialData';
 
 const {
   schema,
