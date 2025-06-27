@@ -1,0 +1,7 @@
+{
+  "appName": "Lint Baseline App",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "lint-baseline",
+  "rootUrl": "/lint-baseline",
+  "productId": "a3c4a48c-5591-4732-b170-7ab974d4f1ea"
+}
