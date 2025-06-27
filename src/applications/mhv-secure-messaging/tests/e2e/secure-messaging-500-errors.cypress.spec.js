@@ -1,7 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientErrorPage from './pages/PatientErrorPage';
 import { AXE_CONTEXT } from './utils/constants';
-// import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('SM 500 ERRORS', () => {
   beforeEach(() => {
@@ -21,27 +20,38 @@ describe('SM 500 ERRORS', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('verify 500 error on inbox threads call', () => {
+  it('verify 500 error of inbox threads call', () => {
     PatientErrorPage.loadInboxFolderThreads500Error();
     PatientErrorPage.verifyError500Content();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('verify 500 error in sent threads call', () => {
-    PatientErrorPage.loadSentFolder500Error();
+  it('verify 500 error of sent threads call', () => {
+    PatientErrorPage.loadSentFolderThreads500Error();
     PatientErrorPage.verifyError500Content();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  // it('verify 500 error on custom folder threads call', () => {
-  //   PatientInboxPage.loadInboxMessages();
-  //   FolderLoadPage.loadFolders();
-  //
-  //   PatientErrorPage.loadCustomFolderThreads500Error();
-  //   PatientErrorPage.verifyError500Content();
-  //
-  //   cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-  // });
+  it('verify 500 error of drafts threads call', () => {
+    PatientErrorPage.loadDraftsFolderThreads500Error();
+    PatientErrorPage.verifyError500Content();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify 500 error of trash threads call', () => {
+    PatientErrorPage.loadTrashFolderThreads500Error();
+    PatientErrorPage.verifyError500Content();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify 500 error on custom folder threads call', () => {
+    PatientErrorPage.loadCustomFolderThreads500Error();
+    PatientErrorPage.verifyError500Content();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
 });

@@ -3,9 +3,11 @@ import GeneralFunctionsPage from './GeneralFunctionsPage';
 import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
-import FolderLoadPage from './FolderLoadPage';
 import mockMessages from '../fixtures/threads-response.json';
 import mockSentFolderMetaResponse from '../fixtures/sentResponse/folder-sent-metadata.json';
+import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json';
+import mockTrashFolderMetaResponse from '../fixtures/trashResponse/folder-deleted-metadata.json';
+import mockCustomFolderMetaResponse from '../fixtures/customResponse/folder-custom-metadata.json';
 
 class PatientErrorPage {
   loadFolders500Error = () => {
@@ -72,6 +74,8 @@ class PatientErrorPage {
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, {
       errors: [
         {
+          title: 'Service unavailable',
+          code: '503',
           status: '503',
         },
       ],
@@ -81,7 +85,7 @@ class PatientErrorPage {
     cy.wait('@inboxMessagesError', { requestTimeout: 10000 });
   };
 
-  loadSentFolder500Error = () => {
+  loadSentFolderThreads500Error = () => {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
@@ -101,37 +105,120 @@ class PatientErrorPage {
     ).as('sentFolderMetaData');
 
     cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/threads**`, {
-      statusCode: 500,
+      errors: [
+        {
+          title: 'Service unavailable',
+          code: '503',
+          status: '503',
+        },
+      ],
     }).as('sentMessagesError');
 
     cy.visit(Paths.UI_MAIN + Paths.SENT);
     cy.wait('@sentMessagesError', { requestTimeout: 10000 });
   };
 
-  loadCustomFolderThreads500Error = () => {
-    const folder = mockFolders.data[mockFolders.data.length - 1];
-    const { folderId } = mockFolders.data[
-      mockFolders.data.length - 1
-    ].attributes;
-    const folderName =
-      mockFolders.data[mockFolders.data.length - 1].attributes.name;
-
-    cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}*`, {
-      data: folder,
-    }).as('customFolder');
+  loadDraftsFolderThreads500Error = () => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      mockFolders,
+    ).as('folders');
 
     cy.intercept(
       'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads*`,
-      { statusCode: 503 },
-    ).as('customFolderThread');
-    FolderLoadPage.loadFolders();
+      Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,
+      mockRecipients,
+    ).as('recipients');
 
-    cy.get(`[data-testid=${folderName}]`).click({ force: true });
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
+      mockDraftFolderMetaResponse,
+    ).as('draftFolderMetaData');
 
-    cy.visit(`${Paths.UI_MAIN + Paths.FOLDERS}/${folderId}`);
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`, {
+      errors: [
+        {
+          title: 'Service unavailable',
+          code: '503',
+          status: '503',
+        },
+      ],
+    }).as('draftMessagesError');
 
-    cy.wait(`@customFolderThread`);
+    cy.visit(Paths.UI_MAIN + Paths.DRAFTS);
+    cy.wait('@draftMessagesError', { requestTimeout: 10000 });
+  };
+
+  loadTrashFolderThreads500Error = () => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      mockFolders,
+    ).as('folders');
+
+    cy.intercept(
+      'GET',
+      Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,
+      mockRecipients,
+    ).as('recipients');
+
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-3*`,
+      mockTrashFolderMetaResponse,
+    ).as('trashFolderMetaData');
+
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-3/threads**`, {
+      errors: [
+        {
+          title: 'Service unavailable',
+          code: '503',
+          status: '503',
+        },
+      ],
+    }).as('trashMessagesError');
+
+    cy.visit(Paths.UI_MAIN + Paths.DELETED);
+    cy.wait('@trashMessagesError', { requestTimeout: 10000 });
+  };
+
+  loadCustomFolderThreads500Error = () => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      mockFolders,
+    ).as('folders');
+
+    cy.intercept(
+      'GET',
+      Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,
+      mockRecipients,
+    ).as('recipients');
+
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/*`,
+      mockCustomFolderMetaResponse,
+    ).as('customFolderMetaData');
+
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/*/threads**`, {
+      errors: [
+        {
+          title: 'Service unavailable',
+          code: '503',
+          status: '503',
+        },
+      ],
+    }).as('customFolderMessagesError');
+
+    cy.visit(
+      `${Paths.UI_MAIN + Paths.FOLDERS}/${
+        mockCustomFolderMetaResponse.data.attributes.folderId
+      }`,
+    );
+    cy.wait('@customFolderMessagesError', { requestTimeout: 10000 });
   };
 
   verifyPageNotFoundContent = () => {
