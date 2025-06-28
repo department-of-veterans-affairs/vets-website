@@ -289,16 +289,20 @@ const FileField = props => {
       }));
 
   const focusAddAnotherButton = () => {
-    // Add a timeout to allow for the upload button to reappear in the DOM
-    // before trying to focus on it
-    //
-    // FIXME: Can this `setTimeout` now be removed? This FIXME was added
-    // alongside a change elsewhere in this file  that _might_ fix what this was
-    // attempting to address, in at least a slightly better way.
-    //
-    // Before said change, this 100ms interval would outrace the file upload web
-    // request, at which point the first button from the top of the DOM would
-    // get focused instead.
+    /**
+     * Add a timeout to allow for the upload button to reappear in the DOM
+     * before trying to focus on it.
+     *
+     * FIXME: Can this `setTimeout` now be removed? This FIXME was added
+     * alongside a change elsewhere in this file.
+     *
+     * Said change _might_ fix what this was attempting to fix, in an at least
+     * slightly better way.
+     *
+     * Before said change, this 100ms timeout would out-race the file upload web
+     * request. At this point, the first button from the top of the DOM would
+     * gain focus instead of the "add file" button that was intended.
+     */
     setTimeout(() => {
       // focus on upload button, not the label
       focusElement(
@@ -314,6 +318,39 @@ const FileField = props => {
     setProgress(percent);
   };
 
+  /**
+   * This implementation purports to answer the question:
+   *   "Is it _newly_ the case that there are no longer any in-progress changes
+   *   to the file list?"
+   *
+   * It is (only?) correct provided the following assumptions hold:
+   *   - Any mutation of any file within the file list is accompanied by no
+   *     other changes to the file list, and is broadcast immediately
+   *   - Any addition or removal of any file to the file list is accompanied by
+   *     no other changes to the file list, and it is broadcast immediately
+   *
+   * Do these assumptions hold?
+   */
+  const justFinishedAllFileChanges = (
+    fileCountDifference,
+    wasUploading,
+    hasUploading,
+  ) => {
+    /**
+     * File additions have an upload web request to wait for.
+     */
+    const justFinishedFileAdd = wasUploading && !hasUploading;
+    if (justFinishedFileAdd) return true;
+
+    /**
+     * File removals have no processing to wait for.
+     */
+    const justFinishedFileRemove = fileCountDifference < 0;
+    if (justFinishedFileRemove) return true;
+
+    return false;
+  };
+
   useEffect(
     () => {
       const prevFiles = previousValue || [];
@@ -322,6 +359,7 @@ const FileField = props => {
         !checkUploadVisibility(),
       );
 
+      const fileCountDifference = files.length - prevFiles.length;
       const hasUploading = files.some(file => file.uploading);
       const wasUploading = prevFiles.some(file => file.uploading);
       setIsUploading(hasUploading);
@@ -329,23 +367,15 @@ const FileField = props => {
         setProgress(0);
       }
 
-      if (initialized) {
-        const fileCountChange = files.length - prevFiles.length;
-
-        // We ought to focus the button for uploading a file after the
-        // completions of both removals and additions. For removals, there is
-        // no corresponding web request we need to wait for. For additions,
-        // there's a web request for uploading the file that we do need to wait
-        // for, at which point the previous and current file counts will already
-        // have equalized.
-        //
-        /* eslint-disable sonarjs/no-duplicated-branches */
-        if (fileCountChange < 0) {
-          focusAddAnotherButton();
-        } else if (fileCountChange === 0 && wasUploading && !hasUploading) {
-          focusAddAnotherButton();
-        }
-        /* eslint-enable sonarjs/no-duplicated-branches */
+      if (
+        initialized &&
+        justFinishedAllFileChanges(
+          fileCountDifference,
+          wasUploading,
+          hasUploading,
+        )
+      ) {
+        focusAddAnotherButton();
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
