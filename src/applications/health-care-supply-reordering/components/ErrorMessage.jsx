@@ -91,20 +91,12 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
     case 'MDOT_SERVICE_UNAVAILABLE':
     case 'MDOT_SERVER_ERROR':
       content = (
-        <va-alert status="error">
-          <h3 slot="headline">We’re sorry. Something went wrong on our end.</h3>
+        <va-alert status="warning">
+          <h3 slot="headline">This application is down for maintenance.</h3>
           <div className="mdot-server-error-alert">
             <p>
-              You can’t place an order for {supplyDescription}
-              because something went wrong on our end.
-            </p>
-            <p className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-font-family--serif">
-              What you can do
-            </p>
-            <p className="vads-u-margin-top--0">
-              For help ordering {supplyDescription}, please call the DLC
-              Customer Service Section at <va-telephone contact="3032736200" />{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              We’re making some updates to this tool. We’re sorry it’s not
+              working right now. Please check back soon."
             </p>
           </div>
         </va-alert>

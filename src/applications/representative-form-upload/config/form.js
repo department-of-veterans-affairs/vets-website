@@ -21,7 +21,7 @@ export function isLocalhost() {
 }
 
 const mockData = testData.data;
-const { title, subTitle, formNumber } = getFormContent();
+const { subTitle, formNumber } = getFormContent();
 const formId = `${formNumber.toUpperCase()}-UPLOAD`;
 const trackingPrefix = `form-${formNumber.toLowerCase()}-upload-`;
 
@@ -49,6 +49,7 @@ const formConfig = {
   customText: {
     appType: 'form',
     finishAppLaterMessage: ' ',
+    reviewPageTitle: 'Review and submit',
   },
   hideReviewChapters: true,
   introduction: IntroductionPage,
@@ -57,7 +58,7 @@ const formConfig = {
   prefillEnabled: false,
   transformForSubmit,
   submissionError,
-  title,
+  title: `Submit VA Form ${formNumber}`,
   subTitle,
   defaultDefinitions: {},
   v3SegmentedProgressBar: { useDiv: false },
@@ -67,7 +68,7 @@ const formConfig = {
       pages: {
         isVeteranPage: {
           path: 'is-veteran',
-          title: "What is the claimant's relationship to the veteran?",
+          title: "Claimant's background",
           uiSchema: isVeteranPage.uiSchema,
           schema: isVeteranPage.schema,
         },
