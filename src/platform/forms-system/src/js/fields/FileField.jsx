@@ -291,6 +291,14 @@ const FileField = props => {
   const focusAddAnotherButton = () => {
     // Add a timeout to allow for the upload button to reappear in the DOM
     // before trying to focus on it
+    //
+    // FIXME: Can this `setTimeout` now be removed? This FIXME was added
+    // alongside a change elsewhere in this file  that _might_ fix what this was
+    // attempting to address, in at least a slightly better way.
+    //
+    // Before said change, this 100ms interval would outrace the file upload web
+    // request, at which point the first button from the top of the DOM would
+    // get focused instead.
     setTimeout(() => {
       // focus on upload button, not the label
       focusElement(
@@ -313,15 +321,31 @@ const FileField = props => {
         'vads-u-display--none',
         !checkUploadVisibility(),
       );
-      if (initialized && files.length !== prevFiles.length) {
-        focusAddAnotherButton();
-      }
 
       const hasUploading = files.some(file => file.uploading);
       const wasUploading = prevFiles.some(file => file.uploading);
       setIsUploading(hasUploading);
       if (hasUploading && !wasUploading) {
         setProgress(0);
+      }
+
+      if (initialized) {
+        const fileCountChange = files.length - prevFiles.length;
+
+        // We ought to focus the button for uploading a file after the
+        // completions of both removals and additions. For removals, there is
+        // no corresponding web request we need to wait for. For additions,
+        // there's a web request for uploading the file that we do need to wait
+        // for, at which point the previous and current file counts will already
+        // have equalized.
+        //
+        /* eslint-disable sonarjs/no-duplicated-branches */
+        if (fileCountChange < 0) {
+          focusAddAnotherButton();
+        } else if (fileCountChange === 0 && wasUploading && !hasUploading) {
+          focusAddAnotherButton();
+        }
+        /* eslint-enable sonarjs/no-duplicated-branches */
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
