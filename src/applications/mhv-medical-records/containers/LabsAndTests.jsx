@@ -49,10 +49,28 @@ const LabsAndTests = () => {
   const { isAcceleratingLabsAndTests } = useAcceleratedData();
 
   const urlTimeFrame = new URLSearchParams(location.search).get('timeFrame');
+
+  // for the dropdown
   const [acceleratedLabsAndTestDate, setAcceleratedLabsAndTestDate] = useState(
     urlTimeFrame || format(new Date(), 'yyyy-MM'),
   );
+  // for the display message
   const [displayDate, setDisplayDate] = useState(acceleratedLabsAndTestDate);
+
+  // for the api call
+  const timeFrameApiParameters = useMemo(
+    () => {
+      // set end date to the last day of the month
+      const [year, month] = acceleratedLabsAndTestDate.split('-');
+      const lastDayOfMonth = new Date(year, month, 0).getDate();
+      const formattedMonth = month.padStart(2, '0');
+      return {
+        startDate: `${year}-${formattedMonth}-01`,
+        endDate: `${year}-${formattedMonth}-${lastDayOfMonth}`,
+      };
+    },
+    [acceleratedLabsAndTestDate],
+  );
 
   const dispatchAction = useMemo(
     () => {
@@ -60,11 +78,11 @@ const LabsAndTests = () => {
         return getLabsAndTestsList(
           isCurrent,
           isAcceleratingLabsAndTests,
-          acceleratedLabsAndTestDate,
+          timeFrameApiParameters,
         );
       };
     },
-    [isAcceleratingLabsAndTests, acceleratedLabsAndTestDate],
+    [isAcceleratingLabsAndTests, timeFrameApiParameters],
   );
 
   useListRefresh({
