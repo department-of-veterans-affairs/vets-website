@@ -15,7 +15,7 @@ describe('<JobsCompleteAlert />', () => {
   beforeEach(() => {
     // stub the formatter
     formatStub = sinon
-      .stub(helpers, 'formatDateAndTime')
+      .stub(helpers, 'formatDateAndTimeWithGenericZone')
       .returns({ date: '2025-06-22', time: '11:30 AM', timeZone: 'EST' });
     // stub DataDog sender
     dataDogStub = sinon.stub(helpers, 'sendDataDogAction');
