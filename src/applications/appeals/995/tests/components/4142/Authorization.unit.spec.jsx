@@ -114,6 +114,122 @@ describe('<Authorization>', () => {
     expect(goSpy.called).to.be.true;
   });
 
+  describe('Authorization Checkbox Validation', () => {
+    it('should NOT show error immediately when unchecking checkbox', () => {
+      const setFormDataSpy = sinon.spy();
+      const { container } = render(
+        <Provider store={mockStore}>
+          <Authorization setFormData={setFormDataSpy} />
+        </Provider>,
+      );
+
+      $('#privacy-agreement', container).__events.vaChange({
+        target: { checked: true },
+      });
+
+      $('#privacy-agreement', container).__events.vaChange({
+        target: { checked: false },
+      });
+
+      const alert = $('va-alert[visible="true"]', container);
+      expect(alert).to.not.exist;
+    });
+
+    it('should show error ONLY when clicking Continue without checkbox checked', () => {
+      const goSpy = sinon.spy();
+      const setFormDataSpy = sinon.spy();
+      const { container } = render(
+        <Provider store={mockStore}>
+          <Authorization
+            goForward={goSpy}
+            setFormData={setFormDataSpy}
+            data={{ privacyAgreementAccepted: false }}
+          />
+        </Provider>,
+      );
+
+      // Ensure checkbox is unchecked (no error should show yet)
+      const alert = $('va-alert[visible="true"]', container);
+      expect(alert).to.not.exist;
+
+      // Click Continue button - this SHOULD trigger error
+      fireEvent.click($('button.usa-button-primary', container));
+
+      const errorAlert = $('va-alert[visible="true"]', container);
+      expect(errorAlert).to.exist;
+      expect(goSpy.called).to.be.false;
+    });
+
+    it('should clear error when checkbox is checked after error is shown', () => {
+      const goSpy = sinon.spy();
+      const setFormDataSpy = sinon.spy();
+      const { container, rerender } = render(
+        <Provider store={mockStore}>
+          <Authorization
+            goForward={goSpy}
+            setFormData={setFormDataSpy}
+            data={{ privacyAgreementAccepted: false }}
+          />
+        </Provider>,
+      );
+
+      // Trigger error by clicking Continue without checkbox
+      fireEvent.click($('button.usa-button-primary', container));
+
+      // Verify error is shown
+      let alert = $('va-alert[visible="true"]', container);
+      expect(alert).to.exist;
+
+      // Now check the checkbox - this should clear the error
+      $('#privacy-agreement', container).__events.vaChange({
+        target: { checked: true },
+      });
+
+      // Rerender with updated data showing checkbox is checked
+      rerender(
+        <Provider store={mockStore}>
+          <Authorization
+            goForward={goSpy}
+            setFormData={setFormDataSpy}
+            data={{ privacyAgreementAccepted: true }}
+          />
+        </Provider>,
+      );
+
+      // Error should be cleared
+      alert = $('va-alert[visible="true"]', container);
+      expect(alert).to.not.exist;
+    });
+
+    it('should allow multiple check/uncheck cycles without showing errors', () => {
+      const setFormDataSpy = sinon.spy();
+      const { container } = render(
+        <Provider store={mockStore}>
+          <Authorization setFormData={setFormDataSpy} />
+        </Provider>,
+      );
+
+      $('#privacy-agreement', container).__events.vaChange({
+        target: { checked: true },
+      });
+
+      $('#privacy-agreement', container).__events.vaChange({
+        target: { checked: false },
+      });
+
+      $('#privacy-agreement', container).__events.vaChange({
+        target: { checked: true },
+      });
+
+      $('#privacy-agreement', container).__events.vaChange({
+        target: { checked: false },
+      });
+
+      const alert = $('va-alert[visible="true"]', container);
+      expect(alert).to.not.exist;
+    });
+  });
+
   describe('lastUpdatedIsBeforeCutoff', () => {
     it('should return true if last updated is before cutoff date', () => {
       const lastUpdated = 1750704000; // '2025-06-23 00:00:00' CST
