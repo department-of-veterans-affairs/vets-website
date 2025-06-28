@@ -36,8 +36,8 @@ const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
     pattern: 'Enter a valid 5-digit postal code',
   },
   USA: {
-    required: 'Enter a ZIP code',
-    pattern: 'Enter a valid 5-digit ZIP code',
+    required: 'Enter a zip code',
+    pattern: 'Enter a valid 5-digit zip code',
   },
   NONE: {
     required: 'Enter a postal code',

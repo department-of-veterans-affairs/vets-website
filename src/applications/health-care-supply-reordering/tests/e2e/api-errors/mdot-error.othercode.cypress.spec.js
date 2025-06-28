@@ -27,7 +27,7 @@ describe('health-care-supplies-reordering - api failures - other', () => {
     cy.visit('/health-care/order-hearing-aid-or-CPAP-supplies-form');
     cy.injectAxeThenAxeCheck();
     cy.get('[slot=headline]').contains(
-      'We’re sorry. Something went wrong on our end.',
+      'This application is down for maintenance.',
     );
   });
 });
