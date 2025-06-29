@@ -335,11 +335,11 @@ const generateInfoSection = (doc, parent, data) => {
 
   const emptyRecordSets = getEmptyRecordSets(recordSets, failedDomains);
 
-  if (emptyRecordSets) {
+  if (emptyRecordSets?.length) {
     generateInfoForEmptyRecords(infoSection, doc, emptyRecordSets);
   }
 
-  if (failedDomains.length) {
+  if (failedDomains?.length) {
     generateInfoForFailedRecordsets(infoSection, doc, failedDomains);
   }
 
