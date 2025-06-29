@@ -4,7 +4,7 @@
   "formData": {
     "veteranSsn": "234232345",
     "postalCode": "12345",
-    "veteranDateOfBirth": "1932-02-05",
+    "veteranDateOfBirth": {},
     "veteranFullName": {
       "first": "John",
       "last": "Veteran"

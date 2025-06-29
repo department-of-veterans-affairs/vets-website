@@ -41,7 +41,6 @@ const claimantSubPageSchema = {
 const veteranSubPageUI = {
   veteranFullName: firstNameLastNameNoSuffixUI(),
   veteranSsn: ssnUI(),
-  veteranDateOfBirth: dateOfBirthUI(),
   address: addressUI({
     labels: {
       postalCode: 'Postal code',
@@ -66,7 +65,6 @@ const veteranSubPageUI = {
 const veteranSubPageSchema = {
   veteranFullName: firstNameLastNameNoSuffixSchema,
   veteranSsn: ssnSchema,
-  veteranDateOfBirth: dateOfBirthSchema,
   address: addressSchema({
     omit: [
       'country',
@@ -104,7 +102,6 @@ export const claimantInformationPage = {
       'claimantSsn',
       'claimantDateOfBirth',
       'veteranSsn',
-      'veteranDateOfBirth',
       'address',
       'veteranFullName',
     ],
