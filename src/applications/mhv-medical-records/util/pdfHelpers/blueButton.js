@@ -152,7 +152,7 @@ export const generateBlueButtonData = (
       'Vitals are basic health numbers your providers check at your appointments.',
     ],
     selected: recordFilter.includes('vitals'),
-    records: generateVitalsContentByType(vitals),
+    records: vitals?.length ? generateVitalsContentByType(vitals) : [],
   });
 
   data.push({
