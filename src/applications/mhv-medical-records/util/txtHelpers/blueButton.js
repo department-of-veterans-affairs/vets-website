@@ -28,7 +28,7 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
   const { userFullName } = user;
   const sections = [
     {
-      label: 'Labs and Tests',
+      label: 'Lab and test results',
       data: data?.labsAndTests ?? [],
       parse: parseLabsAndTests,
       isArray: true,
