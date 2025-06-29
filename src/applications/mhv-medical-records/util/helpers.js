@@ -785,3 +785,15 @@ export const getAppointmentsDateRange = (fromDate, toDate) => {
     endDate: formatISO(clampedTo),
   };
 };
+
+/**
+ * Formats failed domain lists with display names.
+ * Special logic: If allergies fail but medications don't fail, push medications for completeness.
+ */
+export const getFailedDomainList = (failed, displayMap) => {
+  const modFailed = [...failed];
+  if (modFailed.includes('allergies') && !modFailed.includes('medications')) {
+    modFailed.push('medications');
+  }
+  return modFailed.map(domain => displayMap[domain]);
+};

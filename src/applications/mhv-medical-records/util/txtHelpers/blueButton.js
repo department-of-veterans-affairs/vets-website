@@ -15,82 +15,171 @@ import { parseDemographics } from './demographics';
 import { parseMilitaryService } from './militaryService';
 import { parseAccountSummary } from './accountSummary';
 
-// TODO: figure out a way to reduce complexity of the functions in this file
 /**
  * Helper function to parse consolidated downloads data for txt files.
  *
  * @param {Object} data - The data from content downloads.
- * @returns a string parsed from the data being passed for all record downloads txt.
+ * @param {Object} user - The user object, containing userFullName and date of birth.
+ * @param {Object} dateRange - The selected date range for the report.
+ * @param {string[]} failedDomains - Labels of sections that failed to load.
+ * @returns {string} The generated report content as a string.
  */
-export const getTxtContent = (data, user, dateRange) => {
+export const getTxtContent = (data, user, dateRange, failedDomains) => {
   const { userFullName } = user;
   const sections = [
     {
-      label: 'Labs and Tests',
-      data: data?.labsAndTests,
+      label: 'Lab and test results',
+      data: data?.labsAndTests ?? [],
       parse: parseLabsAndTests,
+      isArray: true,
     },
     {
       label: 'Care Summaries and Notes',
-      data: data?.notes,
+      data: data?.notes ?? [],
       parse: parseCareSummariesAndNotes,
+      isArray: true,
     },
-    { label: 'Vaccines', data: data?.vaccines, parse: parseVaccines },
-    { label: 'Allergies', data: data?.allergies, parse: parseAllergies },
+    {
+      label: 'Vaccines',
+      data: data?.vaccines ?? [],
+      parse: parseVaccines,
+      isArray: true,
+    },
+    {
+      label: 'Allergies',
+      data: data?.allergies ?? [],
+      parse: parseAllergies,
+      isArray: true,
+    },
     {
       label: 'Health Conditions',
-      data: data?.conditions,
+      data: data?.conditions ?? [],
       parse: parseHealthConditions,
+      isArray: true,
     },
-    { label: 'Vitals', data: data?.vitals, parse: parseVitals },
-    { label: 'Medications', data: data?.medications, parse: parseMedications },
+    {
+      label: 'Vitals',
+      data: data?.vitals ?? [],
+      parse: parseVitals,
+      isArray: true,
+    },
+    {
+      label: 'Medications',
+      data: data?.medications ?? [],
+      parse: parseMedications,
+      isArray: true,
+    },
     {
       label: 'Appointments',
-      data: data?.appointments,
+      data: data?.appointments ?? [],
       parse: parseAppointments,
+      isArray: true,
     },
     {
       label: 'Demographics',
-      data: data?.demographics,
+      data: data?.demographics ?? [],
       parse: parseDemographics,
+      isArray: true,
     },
     {
       label: 'Military Service',
-      data: data?.militaryService,
+      data: data?.militaryService ?? '',
       parse: parseMilitaryService,
+      isArray: false,
     },
     {
       label: 'Account Summary',
-      data: data?.accountSummary,
+      data: data?.accountSummary ?? null,
       parse: parseAccountSummary,
+      isArray: false,
     },
   ];
 
-  const dateRangeText = `Date range: ${
-    dateRange.fromDate === 'any'
-      ? 'All time'
-      : `${dateRange.fromDate} to ${dateRange.toDate}`
-  }`;
+  // helper to split “Appointments” or “VA appointments” into Past/Upcoming
+  const expandAppointments = label =>
+    label === 'Appointments' || label === 'VA appointments'
+      ? ['Past appointments', 'Upcoming appointments']
+      : [label];
 
-  const inReport = sections
-    .filter(section => section.data)
-    .map(section => `  • ${section.label}`)
+  // 1) which sections actually have data?
+  const nonEmptySections = sections.filter(
+    section =>
+      section.isArray ? section.data.length > 0 : Boolean(section.data),
+  );
+
+  // 2) which sections are empty (but *not* failed)?
+  const emptySections = sections.filter(section => {
+    const noData = section.isArray ? section.data.length === 0 : !section.data;
+
+    // consider both labels when checking “failed”
+    const isAppts = section.label === 'Appointments';
+    const failedForThis =
+      failedDomains.includes(section.label) ||
+      (isAppts && failedDomains.includes('VA appointments'));
+
+    return noData && !failedForThis;
+  });
+
+  // 3) build “in report” list (splitting appointments)
+  const inReport = nonEmptySections
+    .flatMap(s => expandAppointments(s.label))
+    .map(l => `  • ${l}`)
     .join('\n');
 
-  const notInReportList = sections
-    .filter(section => !section.data)
-    .map(section => `  • ${section.label}`)
-    .join('\n');
+  // 4) build “failed” list (splitting appointments)
+  const failedList = failedDomains.length
+    ? failedDomains
+        .flatMap(d => expandAppointments(d))
+        .map(l => `  • ${l}`)
+        .join('\n')
+    : '';
 
-  const recordsSection = `Records in this report\n\n${dateRangeText}\n\n${inReport}${
-    notInReportList ? `\n\nRecords not in this report\n${notInReportList}` : ''
-  }`;
+  // 5) assemble the records section
+  const recordsParts = [
+    'Records in this report',
+    '',
+    `Date range: ${
+      dateRange.fromDate === 'any'
+        ? 'All time'
+        : `${dateRange.fromDate} to ${dateRange.toDate}`
+    }`,
+    '',
+    inReport,
+  ];
 
-  const contentSection = sections
-    .filter(section => section.data)
+  if (emptySections.length) {
+    const emptyList = emptySections
+      .flatMap(s => expandAppointments(s.label))
+      .map(l => `  • ${l}`)
+      .join('\n');
+
+    recordsParts.push(
+      '',
+      'Records not in this report',
+      '',
+      "You don't have any VA medical reports in these categories you selected for this report. If you think you should have records in these categories, contact your VA health facility.",
+      '',
+      emptyList,
+    );
+  }
+
+  if (failedList) {
+    recordsParts.push(
+      '',
+      "Information we can't access right now",
+      '',
+      "We're sorry, there was a problem with our system. Try downloading your report again later.",
+      '',
+      failedList,
+    );
+  }
+
+  const recordsSection = recordsParts.join('\n');
+
+  // Detailed content for each non-empty section
+  const contentSection = nonEmptySections
     .map(
-      (section, index) =>
-        `${txtLine}\n${section.parse(section.data, index + 1)}`,
+      (section, idx) => `${txtLine}\n${section.parse(section.data, idx + 1)}`,
     )
     .join('\n\n');
 
@@ -98,8 +187,9 @@ export const getTxtContent = (data, user, dateRange) => {
 VA Blue Button® report
 
 This report includes key information from your VA medical records.
-${userFullName.first} ${userFullName.last}\n
-Date of birth: ${formatUserDob(user)}\n
+${userFullName.first} ${userFullName.last}
+
+Date of birth: ${formatUserDob(user)}
 
 What to know about your Blue Button report
 - If you print or download your Blue Button report, you'll need to take responsibility for protecting the information in the report.

@@ -161,9 +161,10 @@ describe('getTxtContent', () => {
     dob: '1974-04-06',
   };
   const dateRange = { fromDate: 'any', toDate: 'any' };
+  const failedDomainsList = [];
 
   it('should handle data with all fields populated', () => {
-    const result = getTxtContent(data, user, dateRange);
+    const result = getTxtContent(data, user, dateRange, failedDomainsList);
     expect(result).to.include('Date range: All time');
     expect(result).to.include('Lab and test results');
     expect(result).to.include('Test 1 on');
@@ -182,5 +183,39 @@ describe('getTxtContent', () => {
     expect(result).to.include('Title: DOD Military Service Information');
     expect(result).to.include('Branch: Army');
     expect(result).to.include('VA Treatment Facilities');
+  });
+
+  it('splits “Appointments” into Past and Upcoming in the records list', () => {
+    const result = getTxtContent(data, user, dateRange, []);
+    expect(result).to.include('Past appointments');
+    expect(result).to.include('Upcoming appointments');
+    // and make sure we no longer render a bullet for the old generic label
+    expect(result).not.to.match(/• Appointments/);
+  });
+
+  it('shows empty-array sections under “Records not in this report”', () => {
+    // e.g. simulate no labsAndTests
+    const partialData = { ...data, labsAndTests: [] };
+    const result = getTxtContent(partialData, user, dateRange, []);
+    expect(result).to.include('Records not in this report');
+    expect(result).to.include('• Lab and test results');
+    // and still include at least one non-empty section
+    expect(result).to.include('Lab and test results');
+  });
+
+  it("lists failedDomains under “Information we can't access right now”", () => {
+    const failed = ['Vaccines', 'VA appointments'];
+    const result = getTxtContent(data, user, dateRange, failed);
+    expect(result).to.include("Information we can't access right now");
+    expect(result).to.include('• Vaccines');
+    // VA appointments should expand to both labels
+    expect(result).to.include('• Past appointments');
+    expect(result).to.include('• Upcoming appointments');
+  });
+
+  it('renders a specific date range when fromDate ≠ “any”', () => {
+    const customDateRange = { fromDate: '2022-01-01', toDate: '2022-12-31' };
+    const result = getTxtContent(data, user, customDateRange, []);
+    expect(result).to.include('Date range: 2022-01-01 to 2022-12-31');
   });
 });

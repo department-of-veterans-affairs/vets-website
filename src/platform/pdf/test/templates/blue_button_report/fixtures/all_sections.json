@@ -1,6 +1,7 @@
 {
   "fromDate": "Any",
   "toDate": "any",
+  "failedDomains": [],
   "recordSets": [
     {
       "type": "lab and test results",
