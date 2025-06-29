@@ -14,7 +14,7 @@ export default {
   uiSchema: {
     ...descriptionUI(PrefillMessage, { hideOnReview: true }),
     'view:maritalStatus': {
-      ...titleUI(content['household-marital-status-title']),
+      ...titleUI('Marital status'),
       ...descriptionUI(MaritalStatusDescription, { hideOnReview: true }),
       maritalStatus: {
         'ui:title': content['household-marital-status-label'],
