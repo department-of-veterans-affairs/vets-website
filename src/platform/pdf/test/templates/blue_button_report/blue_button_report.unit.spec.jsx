@@ -115,7 +115,12 @@ describe('Blue Button report PDF template', () => {
       const listItemsText = listItems
         .filter(item => item.str)
         .map(item => item.str);
-      expect(listItemsText.length).to.equal(data.recordSets.length);
+      let recordSetsLength = data.recordSets.length;
+      const hasBothAppointmentTypes = data.recordSets.some(
+        item => item.type === 'appointments' && item.records.length === 2,
+      );
+      if (hasBothAppointmentTypes) recordSetsLength += 1;
+      expect(listItemsText.length).to.equal(recordSetsLength);
     });
 
     it('Displays the Records not in this report section when some sections have no records', async () => {
