@@ -30,7 +30,9 @@ const SelectCareTeam = () => {
 
   const [careTeamError, setCareTeamError] = useState('');
   const [careTeamsList, setCareTeamsList] = useState([]);
-  const [selectedCareTeamId, setSelectedCareTeamId] = useState(null);
+  const [selectedCareTeamId, setSelectedCareTeamId] = useState(
+    draftInProgress?.recipientId || null,
+  );
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [careTeamComboInputValue, setCareTeamComboInputValue] = useState('');
   const [showContactListLink, setShowContactListLink] = useState(false);

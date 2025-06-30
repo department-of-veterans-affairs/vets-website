@@ -58,7 +58,7 @@ describe('messages actions', () => {
     const req2 = { shouldResolve: true, response: messageResponse };
     mockMultipleApiRequests([req1, req2]);
     await store.dispatch(retrieveMessageThread('1234')).then(() => {
-      expect(store.getActions()[2]).to.include({
+      expect(store.getActions()[1]).to.include({
         type: Actions.Thread.GET_THREAD,
       });
     });
@@ -110,7 +110,7 @@ describe('messages actions', () => {
     mockMultipleApiRequests([req1, req2, req3]);
 
     await store.dispatch(retrieveMessageThread('1234')).then(() => {
-      expect(store.getActions()[2]).to.include({
+      expect(store.getActions()[1]).to.include({
         type: Actions.Thread.GET_THREAD,
       });
     });
@@ -133,7 +133,7 @@ describe('messages actions', () => {
     const req2 = { shouldResolve: true, response: messageResponse };
     mockMultipleApiRequests([req1, req2]);
     await store.dispatch(retrieveMessageThread('1234')).then(() => {
-      expect(store.getActions()[2]).to.include({
+      expect(store.getActions()[1]).to.include({
         type: Actions.Thread.GET_THREAD,
       });
     });
