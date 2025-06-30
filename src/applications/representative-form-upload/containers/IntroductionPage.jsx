@@ -18,7 +18,7 @@ const IntroductionPage = ({ route, router }) => {
   const [visibleAlert, setVisibleAlert] = useState(true);
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
-  const { title, subTitle, pdfDownloadUrl } = getFormContent();
+  const { subTitle, pdfDownloadUrl } = getFormContent();
 
   const goToSignIn = () => {
     window.location = SIGN_IN_URL;
@@ -62,7 +62,7 @@ const IntroductionPage = ({ route, router }) => {
           has limited functionality.
         </p>
       </VaAlert>
-      <FormTitle title={title} subTitle={subTitle} />
+      <FormTitle title={`Submit VA Form ${formNumber}`} subTitle={subTitle} />
       <h2 className="representative-form__h2">
         Follow these steps to submit the form
       </h2>
