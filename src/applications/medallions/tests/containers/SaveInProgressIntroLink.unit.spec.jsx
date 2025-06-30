@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { externalServiceStatus } from '~/platform/monitoring/DowntimeNotification';
 import { SaveInProgressIntroLink } from '../../containers/SaveInProgressIntroLink';
 
-// base props from your existing tests
 const baseProps = {
   fetchInProgressForm: () => {},
   removeInProgressForm: () => {},
@@ -63,7 +62,6 @@ describe('SaveInProgressIntroLink — internal methods coverage', () => {
     const inst = new SaveInProgressIntroLink(props);
     const { includesFormControls, alert } = inst.getAlert(null);
     expect(includesFormControls).to.be.false;
-    // alert should be a React element
     expect(React.isValidElement(alert)).to.be.true;
   });
 
