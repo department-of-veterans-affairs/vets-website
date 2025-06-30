@@ -140,3 +140,9 @@
 .arp-alert-right-file-p {
   margin: 0;
 }
+
+.form-review-panel-page {
+  va-button[text="Edit"] {
+    display: none;
+  }
+}
