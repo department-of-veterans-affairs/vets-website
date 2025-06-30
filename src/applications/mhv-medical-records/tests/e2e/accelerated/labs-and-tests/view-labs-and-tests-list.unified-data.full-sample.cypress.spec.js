@@ -32,8 +32,11 @@ describe('Medical Records View Lab and Tests', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    const CARDS_PER_PAGE = 6; // 3 per page * 2 for printing
-    cy.get('va-card').should('have.length', CARDS_PER_PAGE);
+    const CARDS_PER_PAGE = 3;
+    cy.get(':nth-child(4) > [data-testid="record-list-item"]').should(
+      'have.length',
+      CARDS_PER_PAGE,
+    );
     cy.get("[data-testid='filter-display-message']").should('be.visible');
     cy.get("[data-testid='filter-display-message']").should('not.be.empty');
     // go to a specific lab
