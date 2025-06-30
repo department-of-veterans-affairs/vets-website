@@ -73,6 +73,10 @@ const schema = {
       type: 'object',
       properties: {
         trainingCompletionDate: currentOrPastDateSchema,
+        'view:trainingExemptLabel': {
+          type: 'object',
+          properties: {},
+        },
         trainingExempt: {
           type: 'boolean',
         },
