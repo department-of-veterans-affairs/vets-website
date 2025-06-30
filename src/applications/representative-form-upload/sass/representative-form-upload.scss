@@ -149,6 +149,9 @@
         border-bottom: none;
       }
     }
+
+  va-link-action[href="/"] {
+    display: none;
   }
 }
 .form-review-panel-page-representative-form-upload {
@@ -158,4 +161,10 @@
 
 .arp-alert-right-file-p {
   margin: 0;
+}
+
+.form-review-panel-page {
+  va-button[text="Edit"] {
+    display: none;
+  }
 }
