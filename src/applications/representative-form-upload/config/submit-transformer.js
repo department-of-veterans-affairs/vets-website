@@ -33,6 +33,7 @@ const transformForSubmit = (formConfig, form) => {
   return JSON.stringify({
     confirmationCode,
     formName: subTitle,
+    supportingDocuments: transformedData.supportingDocuments,
     formData: {
       veteranSsn,
       postalCode: address.postalCode,

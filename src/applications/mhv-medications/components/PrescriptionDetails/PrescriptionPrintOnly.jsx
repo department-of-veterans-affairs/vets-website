@@ -11,12 +11,14 @@ import {
   dateFormat,
   pharmacyPhoneNumber,
   determineRefillLabel,
+  getShowRefillHistory,
 } from '../../util/helpers';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { selectPendingMedsFlag } from '../../util/selectors';
 
 const PrescriptionPrintOnly = props => {
   const { rx, refillHistory, isDetailsRx } = props;
+  const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const latestTrackingStatus = rx?.trackingList?.[0];
   const showPendingMedsContent = useSelector(selectPendingMedsFlag);
@@ -206,7 +208,7 @@ const PrescriptionPrintOnly = props => {
                 </p>
               )}
           </div>
-          {refillHistory && (
+          {showRefillHistory && (
             <div className="print-only-refill-container vads-u-margin-left--2">
               <h4>Refill history</h4>
               <p className="vads-u-margin-y--1p5">

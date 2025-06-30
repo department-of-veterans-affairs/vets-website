@@ -121,7 +121,7 @@ export default function RequestedAppointmentDetailsPage() {
   }
   if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted) {
     return (
-      <PageLayout showNeedHelp isDetailPage>
+      <PageLayout showNeedHelp>
         <CancelWarningPage
           {...{
             appointment,
@@ -133,7 +133,7 @@ export default function RequestedAppointmentDetailsPage() {
   }
   if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
     return (
-      <PageLayout showNeedHelp isDetailPage>
+      <PageLayout showNeedHelp>
         <CancelConfirmationPage {...{ appointment, cancelInfo }} />
       </PageLayout>
     );

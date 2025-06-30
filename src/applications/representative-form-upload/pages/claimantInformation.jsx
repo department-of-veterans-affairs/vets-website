@@ -20,17 +20,12 @@ import {
   claimantTitleAndDescription,
   veteranTitleAndDescription,
 } from './helpers';
+import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
 
 const claimantSubPageUI = {
   claimantFullName: firstNameLastNameNoSuffixUI(),
-  claimantSsn: {
-    ...ssnUI,
-    'ui:title': 'Social Security number',
-  },
-  claimantDateOfBirth: {
-    ...dateOfBirthUI,
-    'ui:title': 'Date of birth',
-  },
+  claimantSsn: ssnUI(),
+  claimantDateOfBirth: dateOfBirthUI(),
   vaFileNumber: {
     ...vaFileNumberUI,
     'ui:title': 'VA file number',
@@ -45,14 +40,7 @@ const claimantSubPageSchema = {
 
 const veteranSubPageUI = {
   veteranFullName: firstNameLastNameNoSuffixUI(),
-  veteranSsn: {
-    ...ssnUI,
-    'ui:title': 'Social Security number',
-  },
-  veteranDateOfBirth: {
-    ...dateOfBirthUI,
-    'ui:title': 'Date of birth',
-  },
+  veteranSsn: ssnUI(),
   address: addressUI({
     labels: {
       postalCode: 'Postal code',
@@ -77,7 +65,6 @@ const veteranSubPageUI = {
 const veteranSubPageSchema = {
   veteranFullName: firstNameLastNameNoSuffixSchema,
   veteranSsn: ssnSchema,
-  veteranDateOfBirth: dateOfBirthSchema,
   address: addressSchema({
     omit: [
       'country',
@@ -96,6 +83,7 @@ const veteranSubPageSchema = {
 export const claimantInformationPage = {
   uiSchema: {
     ...claimantTitleAndDescription,
+    'ui:objectViewField': ClaimantInfoViewField,
     ...claimantSubPageUI,
     ...veteranTitleAndDescription,
     ...veteranSubPageUI,
@@ -114,8 +102,6 @@ export const claimantInformationPage = {
       'claimantSsn',
       'claimantDateOfBirth',
       'veteranSsn',
-      'veteranDateOfBirth',
-      'email',
       'address',
       'veteranFullName',
     ],

@@ -18,7 +18,6 @@ import { childAddressPartTwo } from './childAddressPartTwo';
 import { marriageEndDetails } from './marriageEndDetails';
 import { disabilityPartOne } from './disabilityPartOne';
 import { disabilityPartTwo } from './disabilityPartTwo';
-import { marriageEndDescription } from './marriageEndDescription';
 
 const shouldIncludePage = formData => {
   return (
@@ -119,7 +118,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       uiSchema: additionalInformationPartOne.uiSchema,
       schema: additionalInformationPartOne.schema,
     }),
-    addChildMarriageEndDetailsPartOne: pages.itemPage({
+    addChildMarriageEndDetails: pages.itemPage({
       depends: (formData, index) =>
         shouldIncludePage(formData) &&
         formData?.childrenToAdd[index]?.hasChildEverBeenMarried,
@@ -127,15 +126,6 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       path: '686-report-add-child/:index/marriage-end-details',
       uiSchema: marriageEndDetails.uiSchema,
       schema: marriageEndDetails.schema,
-    }),
-    addChildMarriageEndDetailsPartTwo: pages.itemPage({
-      depends: (formData, index) =>
-        shouldIncludePage(formData) &&
-        formData?.childrenToAdd[index]?.marriageEndReason === 'other',
-      title: 'How and when marriage ended',
-      path: '686-report-add-child/:index/other-marriage-end-details',
-      uiSchema: marriageEndDescription.uiSchema,
-      schema: marriageEndDescription.schema,
     }),
     addChildAdditionalInformationPartTwo: pages.itemPage({
       depends: shouldIncludePage,
