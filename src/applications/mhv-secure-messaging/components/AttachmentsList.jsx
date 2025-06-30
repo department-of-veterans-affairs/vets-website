@@ -160,9 +160,9 @@ const AttachmentsList = props => {
     <div>
       <div className="message-body-attachments-label vads-u-margin-bottom--1 vads-u-margin-top--3">
         {isPilot ? (
-          <h3 className="vads-u-margin-top--4 vads-u-margin-bottom--0">
+          <h2 className="vads-u-font-size--h3 vads-u-margin-top--4 vads-u-margin-bottom--0">
             Attachments
-          </h3>
+          </h2>
         ) : (
           'Attachments'
         )}
