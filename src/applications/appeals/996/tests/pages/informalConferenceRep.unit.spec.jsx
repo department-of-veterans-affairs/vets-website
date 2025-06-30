@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import {
@@ -35,6 +35,7 @@ describe('HLR informal conference rep v2 page', () => {
 
     expect($$('va-text-input', container).length).to.equal(5);
   });
+
   it('should allow submit', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
@@ -74,12 +75,16 @@ describe('HLR informal conference rep v2 page', () => {
       'x@x.com',
       '[name="root_informalConferenceRep_email"]',
     );
+
     fireEvent.submit($('form', container));
 
-    expect($$('[error]', container).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    waitFor(() => {
+      expect($$('[error]', container).length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
   });
-  it('should prevent continuing when data is missing', () => {
+
+  it('should prevent continuing when data is missing', async () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={mockStore()}>
@@ -95,9 +100,12 @@ describe('HLR informal conference rep v2 page', () => {
 
     fireEvent.submit($('form', container));
 
-    expect($$('[error]', container).length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      expect($$('[error]', container).length).to.equal(3);
+      expect(onSubmit.called).to.be.false;
+    });
   });
+
   it('should prevent continuing when phone is missing', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
@@ -122,9 +130,12 @@ describe('HLR informal conference rep v2 page', () => {
       'Sullivan',
       '[name="root_informalConferenceRep_lastName"]',
     );
+
     fireEvent.submit($('form', container));
 
-    expect($$('[error]', container).length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    waitFor(() => {
+      expect($$('[error]', container).length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 });

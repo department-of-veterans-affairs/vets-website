@@ -39,7 +39,7 @@ const PendingReferralCard = ({ referral, index }) => {
                     data-testid="typeOfCare"
                     id={`ref-title-${index}`}
                   >
-                    {`${categoryOfCare} referral`}
+                    <span data-dd-privacy="mask">{`${categoryOfCare} referral`}</span>
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0p5"
