@@ -10,8 +10,8 @@ describe('<FrequentlyAskedQuestions />', () => {
     expect(screen.getByText('Frequently asked questions')).to.exist;
   });
 
-  it('renders all FAQ items with correct headers', () => {
-    render(<FrequentlyAskedQuestions />);
+  it('renders all FAQ items when createPdf is provided', () => {
+    render(<FrequentlyAskedQuestions createPdf={() => {}} />);
 
     // Check that all headers are rendered
     expect(
@@ -36,17 +36,6 @@ describe('<FrequentlyAskedQuestions />', () => {
     ).to.exist;
   });
 
-  it('renders "Print your Veteran Status Card" link when createPdf is provided', () => {
-    render(<FrequentlyAskedQuestions createPdf={() => {}} />);
-
-    // Check that the link is rendered
-    expect(
-      document.querySelector(
-        'va-link[text="Print your Veteran Status Card (PDF)"]',
-      ),
-    ).to.exist;
-  });
-
   it('does not render "Print your Veteran Status Card" link when createPdf is not provided', () => {
     render(<FrequentlyAskedQuestions />);
 
@@ -59,7 +48,9 @@ describe('<FrequentlyAskedQuestions />', () => {
   });
 
   it('renders PDF error alert when pdfError is true', () => {
-    const { getByText } = render(<FrequentlyAskedQuestions pdfError />);
+    const { getByText } = render(
+      <FrequentlyAskedQuestions createPdf={() => {}} pdfError />,
+    );
 
     // Check that the link is not rendered
     expect(

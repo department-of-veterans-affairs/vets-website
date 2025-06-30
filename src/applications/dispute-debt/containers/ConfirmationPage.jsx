@@ -62,7 +62,7 @@ export const ConfirmationPage = () => {
         <h4>Requested Dispute</h4>
         <ul>
           {selectedDebts.map(item => (
-            <li key={item.id}>
+            <li key={item.compositeDebtId}>
               <span>{item.label}</span>
             </li>
           ))}

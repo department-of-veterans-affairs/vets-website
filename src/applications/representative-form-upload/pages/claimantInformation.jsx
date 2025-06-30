@@ -20,6 +20,7 @@ import {
   claimantTitleAndDescription,
   veteranTitleAndDescription,
 } from './helpers';
+import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
 
 const claimantSubPageUI = {
   claimantFullName: firstNameLastNameNoSuffixUI(),
@@ -40,7 +41,6 @@ const claimantSubPageSchema = {
 const veteranSubPageUI = {
   veteranFullName: firstNameLastNameNoSuffixUI(),
   veteranSsn: ssnUI(),
-  veteranDateOfBirth: dateOfBirthUI(),
   address: addressUI({
     labels: {
       postalCode: 'Postal code',
@@ -65,7 +65,6 @@ const veteranSubPageUI = {
 const veteranSubPageSchema = {
   veteranFullName: firstNameLastNameNoSuffixSchema,
   veteranSsn: ssnSchema,
-  veteranDateOfBirth: dateOfBirthSchema,
   address: addressSchema({
     omit: [
       'country',
@@ -84,6 +83,7 @@ const veteranSubPageSchema = {
 export const claimantInformationPage = {
   uiSchema: {
     ...claimantTitleAndDescription,
+    'ui:objectViewField': ClaimantInfoViewField,
     ...claimantSubPageUI,
     ...veteranTitleAndDescription,
     ...veteranSubPageUI,
@@ -102,7 +102,6 @@ export const claimantInformationPage = {
       'claimantSsn',
       'claimantDateOfBirth',
       'veteranSsn',
-      'veteranDateOfBirth',
       'address',
       'veteranFullName',
     ],

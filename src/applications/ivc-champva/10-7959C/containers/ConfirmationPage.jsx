@@ -15,7 +15,7 @@ import {
   officeAddress,
   officeFaxNum,
 } from '../config/constants';
-import { applicantWording } from '../../shared/utilities';
+import { applicantWording, privWrapper } from '../../shared/utilities';
 import { prefixFileNames } from '../components/MissingFileConsentPage';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 import { ConfirmationPagePropTypes } from '../../shared/constants';
@@ -117,14 +117,14 @@ export function ConfirmationPage(props) {
             <span className="veterans-full-name">
               <strong>Applicant’s name</strong>
               <br />
-              {applicantWording(form.data, false, false, false)}
+              {privWrapper(applicantWording(form.data, false, false, false))}
             </span>
             <br />
             <br />
             <span className="signer-name">
               <strong>Who submitted this form</strong>
               <br />
-              {data.statementOfTruthSignature || data.signature}
+              {privWrapper(data.statementOfTruthSignature || data.signature)}
             </span>
           </>
         )}

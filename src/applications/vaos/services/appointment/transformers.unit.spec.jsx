@@ -7,75 +7,40 @@ import { parseApiObject } from '../utils';
 import { getAppointmentType, transformVAOSAppointment } from './transformers';
 
 describe('getAppointmentType util', () => {
-  it('should return appointment type as request', async () => {
-    const appointment = {
-      id: 'CERN123',
-    };
-    const result = getAppointmentType(appointment, false, false);
-    expect(result).to.equal('request');
-  });
-  it('should return appointment type as vaAppointment for cerner appointment', async () => {
-    const appointment = {
-      id: 'CERN123',
-      end: '2021-08-31T17:00:00Z',
-    };
-    const result = getAppointmentType(appointment, false, false);
-    expect(result).to.equal('vaAppointment');
-  });
-  it('should return appointment type as ccAppointment, useFeSourceOfTruthCC=false', async () => {
-    const appointment = {
-      id: '123',
-      kind: 'cc',
-      start: '2021-08-31T17:00:00Z',
-    };
-    const result = getAppointmentType(appointment, false, false);
-    expect(result).to.equal('ccAppointment');
-  });
-  it('should return appointment type as ccAppointment, useFeSourceOfTruthCC=true', async () => {
+  it('should return appointment type as ccAppointment', async () => {
     const appointment = {
       id: '123',
       type: 'COMMUNITY_CARE_APPOINTMENT',
     };
-    const result = getAppointmentType(appointment, true, false);
+    const result = getAppointmentType(appointment);
     expect(result).to.equal('ccAppointment');
   });
-  it('should return appointment type as ccRequest, useFeSourceOfTruthCC=false', async () => {
-    const appointment = {
-      id: '123',
-      kind: 'cc',
-      requestedPeriods: [
-        {
-          start: '2021-08-31T17:00:00Z',
-        },
-      ],
-    };
-    const result = getAppointmentType(appointment, false, false);
-    expect(result).to.equal('ccRequest');
-  });
-  it('should return appointment type as ccRequest, useFeSourceOfTruthCC=true', async () => {
+
+  it('should return appointment type as ccRequest', async () => {
     const appointment = {
       id: '123',
       type: 'COMMUNITY_CARE_REQUEST',
     };
-    const result = getAppointmentType(appointment, true, false);
+    const result = getAppointmentType(appointment);
     expect(result).to.equal('ccRequest');
   });
-  it('should return appointment type as vaAppointment, useFeSourceOfTruthVA=false', async () => {
-    const appointment = {
-      id: '123',
-      kind: 'clinic',
-      start: '2021-08-31T17:00:00Z',
-    };
-    const result = getAppointmentType(appointment, false, false);
-    expect(result).to.equal('vaAppointment');
-  });
-  it('should return appointment type as vaAppointment, useFeSourceOfTruthVA=true', async () => {
+
+  it('should return appointment type as vaAppointment', async () => {
     const appointment = {
       id: '123',
       type: 'VA',
     };
-    const result = getAppointmentType(appointment, false, true);
+    const result = getAppointmentType(appointment);
     expect(result).to.equal('vaAppointment');
+  });
+
+  it('should return appointment type as vaRequest', async () => {
+    const appointment = {
+      id: '123',
+      type: 'REQUEST',
+    };
+    const result = getAppointmentType(appointment);
+    expect(result).to.equal('request');
   });
 });
 
@@ -92,8 +57,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -116,8 +79,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -140,8 +101,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -164,8 +123,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -188,8 +145,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -228,8 +183,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -253,8 +206,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         parseApiObject({ data: response }),
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -293,8 +244,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -317,8 +266,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -341,8 +288,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -364,8 +309,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -396,15 +339,11 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         mobile,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
       const b = transformVAOSAppointment(
         adhoc,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -440,15 +379,11 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         parseApiObject({ data: mobile }),
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
       const b = transformVAOSAppointment(
         parseApiObject({ data: storeForward }),
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
@@ -497,8 +432,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        false,
-        false,
         useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );

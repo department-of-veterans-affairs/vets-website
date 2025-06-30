@@ -4,14 +4,6 @@ import React from 'react';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';
-
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../22-8794-schema.json';
-
 // import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';
 
 import manifest from '../manifest.json';
@@ -19,25 +11,32 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
+import SubmissionInstructions from '../components/SubmissionInstructions';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 
-// const { } = fullSchema.definitions;
+import {
+  additionalOfficialArrayOptions,
+  readOnlyCertifyingOfficialArrayOptions,
+} from '../helpers';
 
 // pages
 import {
   designatingOfficial,
-  primaryOfficial,
+  primaryOfficialDetails,
   institutionDetails,
   institutionDetailsFacility,
   primaryOfficialTraining,
   primaryOfficialBenefitStatus,
   institutionDetailsNoFacilityDescription,
   institutionNameAndAddress,
+  additionalOfficialSummary,
+  additionalOfficialDetails,
+  additionalOfficialTraining,
+  additionalOfficialBenefitStatus,
   readOnlyCertifyingOfficialSummaryPage,
   readOnlyCertifyingOfficial,
+  remarksPage,
 } from '../pages';
-import directDeposit from '../pages/directDeposit';
-import { readOnlyCertifyingOfficialArrayOptions } from '../helpers';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -60,6 +59,14 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  preSubmitInfo: {
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'designatingOfficial.fullName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
@@ -71,6 +78,15 @@ const formConfig = {
       Designation of certifying official(s) (VA Form 22-8794)
     </p>
   ),
+  customText: {
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    finishAppLaterMessage: 'Finish this form later',
+    startNewAppButtonText: 'Start a new form',
+  },
   useCustomScrollAndFocus: true,
   defaultDefinitions: {
     fullName,
@@ -133,8 +149,8 @@ const formConfig = {
         primaryOfficialDetails: {
           path: 'primary-certifying-official',
           title: 'Tell us about your primary certifying official',
-          uiSchema: primaryOfficial.uiSchema,
-          schema: primaryOfficial.schema,
+          uiSchema: primaryOfficialDetails.uiSchema,
+          schema: primaryOfficialDetails.schema,
         },
         primaryOfficialTraining: {
           path: 'primary-certifying-official-1',
@@ -150,44 +166,38 @@ const formConfig = {
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    additionalOfficialChapter: {
+      title: 'Additional certifying officials',
       pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
-          },
-        },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
-        },
+        ...arrayBuilderPages(additionalOfficialArrayOptions, pageBuilder => ({
+          additionalOfficialSummary: pageBuilder.summaryPage({
+            path: 'additional-certifying-officials',
+            title: 'Add additional certifying officials',
+            uiSchema: additionalOfficialSummary.uiSchema,
+            schema: additionalOfficialSummary.schema,
+          }),
+          additionalOfficialDetails: pageBuilder.itemPage({
+            path: 'additional-certifying-officials/:index',
+            title: 'Tell us about your certifying official',
+            showPagePerItem: true,
+            uiSchema: additionalOfficialDetails.uiSchema,
+            schema: additionalOfficialDetails.schema,
+          }),
+          additionalOfficialTraining: pageBuilder.itemPage({
+            path: 'additional-certifying-officials-1/:index',
+            title: 'Section 305 training',
+            showPagePerItem: true,
+            uiSchema: additionalOfficialTraining.uiSchema,
+            schema: additionalOfficialTraining.schema,
+          }),
+          additionalOfficialBenefitStatus: pageBuilder.itemPage({
+            path: 'additional-certifying-officials-2/:index',
+            title: 'Benefit status',
+            showPagePerItem: true,
+            uiSchema: additionalOfficialBenefitStatus.uiSchema,
+            schema: additionalOfficialBenefitStatus.schema,
+          }),
+        })),
       },
     },
     readOnlyCertifyingOfficialChapter: {
@@ -210,6 +220,33 @@ const formConfig = {
           }),
         }),
       ),
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          uiSchema: remarksPage.uiSchema,
+          schema: remarksPage.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      },
     },
   },
 };
