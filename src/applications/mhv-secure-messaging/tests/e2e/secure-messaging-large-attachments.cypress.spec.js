@@ -106,21 +106,4 @@ describe('SM MESSAGING OH LARGE ATTACHMENT', () => {
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
-
-  // not sure if I'm allowed to add large files to the project. Git will prevent me to do so. Fazil.
-  // it('verify error of exceeded total size of files attached', () => {
-  //   const fileList = [
-  //     Data.TEST_LARGE_IMAGE,
-  //     Data.TEST_LARGE_IMAGE,
-  //     Data.TEST_LARGE_IMAGE,
-  //   ];
-  //
-  //   PatientComposePage.attachFewFiles(fileList);
-  //
-  //   PatientErrorPage.verifyAttachmentErrorMessage(
-  //     Alerts.ATTACHMENT.OH_TOO_LARGE,
-  //   );
-  //
-  //   cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-  // });
 });
