@@ -6,7 +6,6 @@ import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import {
   VaAlert,
   VaButton,
-  VaLink,
   VaProcessList,
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -17,7 +16,7 @@ import { SIGN_IN_URL } from '../constants';
 const IntroductionPage = ({ route, router }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
-  const { subTitle, pdfDownloadUrl } = getFormContent();
+  const { subTitle } = getFormContent();
 
   const goToSignIn = () => {
     window.location = SIGN_IN_URL;
@@ -41,6 +40,23 @@ const IntroductionPage = ({ route, router }) => {
     },
     [route.pageList, router],
   );
+
+  const createExternalPDFLink = (docName, href) => {
+    return (
+      <>
+        <va-link
+          download
+          filetype="PDF"
+          href={href}
+          onClick={e => {
+            e.preventDefault();
+            window.open(href, '_blank');
+          }}
+          text={`Download ${docName}`}
+        />
+      </>
+    );
+  };
 
   return (
     <article className="schemaform-intro representative-form">
@@ -77,13 +93,12 @@ const IntroductionPage = ({ route, router }) => {
             <li>Provide all the required information</li>
             <li>Sign the form</li>
           </ul>
-          <VaLink
-            download
-            external
-            filetype="PDF"
-            href={pdfDownloadUrl}
-            text={`Download VA Form ${formNumber}`}
-          />
+          <p>
+            {createExternalPDFLink(
+              'VA Form 21-686c',
+              'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
+            )}
+          </p>
         </VaProcessListItem>
         <VaProcessListItem header="Upload and submit the form">
           <p>
