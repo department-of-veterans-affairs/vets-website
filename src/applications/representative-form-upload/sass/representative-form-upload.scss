@@ -127,6 +127,10 @@
       max-width: unset;
     }
   }
+
+  va-link-action[href="/"] {
+    display: none;
+  }
 }
 .form-review-panel-page-representative-form-upload {
   margin-bottom: 0;
@@ -139,4 +143,10 @@
 
 .vads-u-margin-y--2.rjsf-object-field:has(> .veteran-note) {
   margin-top: 0 !important;
+}
+
+.form-review-panel-page {
+  va-button[text="Edit"] {
+    display: none;
+  }
 }
