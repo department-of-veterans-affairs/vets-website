@@ -756,7 +756,7 @@ const staging = [
 const empty = [];
 
 const single = id => {
-  const sampleData = sample.data.find(item => item.id === id);
+  const sampleData = sample.find(item => item.id === id);
   if (!sampleData) {
     return null;
   }
