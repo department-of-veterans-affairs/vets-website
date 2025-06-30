@@ -221,7 +221,6 @@ const FileField = props => {
   );
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
-  const [initialized, setInitialized] = useState(false);
   const [deletedFileAlerts, setDeletedFileAlerts] = useState(false);
 
   const previousValue = usePreviousValue(formData);
@@ -288,67 +287,8 @@ const FileField = props => {
         return errors.length > 0;
       }));
 
-  const focusAddAnotherButton = () => {
-    /**
-     * Add a timeout to allow for the upload button to reappear in the DOM
-     * before trying to focus on it.
-     *
-     * FIXME: Can this `setTimeout` now be removed? This FIXME was added
-     * alongside a change elsewhere in this file.
-     *
-     * Said change _might_ fix what this was attempting to fix, in an at least
-     * slightly better way.
-     *
-     * Before said change, this 100ms timeout would out-race the file upload web
-     * request. At this point, the first button from the top of the DOM would
-     * gain focus instead of the "add file" button that was intended.
-     */
-    setTimeout(() => {
-      // focus on upload button, not the label
-      focusElement(
-        // including `#upload-button` because RTL can't access the shadowRoot
-        'button, #upload-button',
-        {},
-        $(`#upload-button`)?.shadowRoot,
-      );
-    }, 100);
-  };
-
   const updateProgress = percent => {
     setProgress(percent);
-  };
-
-  /**
-   * This implementation purports to answer the question:
-   *   "Is it _newly_ the case that there are no longer any in-progress changes
-   *   to the file list?"
-   *
-   * It is (only?) correct provided the following assumptions hold:
-   *   - Any mutation of any file within the file list is accompanied by no
-   *     other changes to the file list, and is broadcast immediately
-   *   - Any addition or removal of any file to the file list is accompanied by
-   *     no other changes to the file list, and it is broadcast immediately
-   *
-   * Do these assumptions hold?
-   */
-  const justFinishedAllFileChanges = (
-    fileCountDifference,
-    wasUploading,
-    hasUploading,
-  ) => {
-    /**
-     * File additions have an upload web request to wait for.
-     */
-    const justFinishedFileAdd = wasUploading && !hasUploading;
-    if (justFinishedFileAdd) return true;
-
-    /**
-     * File removals have no processing to wait for.
-     */
-    const justFinishedFileRemove = fileCountDifference < 0;
-    if (justFinishedFileRemove) return true;
-
-    return false;
   };
 
   useEffect(
@@ -359,23 +299,11 @@ const FileField = props => {
         !checkUploadVisibility(),
       );
 
-      const fileCountDifference = files.length - prevFiles.length;
       const hasUploading = files.some(file => file.uploading);
       const wasUploading = prevFiles.some(file => file.uploading);
       setIsUploading(hasUploading);
       if (hasUploading && !wasUploading) {
         setProgress(0);
-      }
-
-      if (
-        initialized &&
-        justFinishedAllFileChanges(
-          fileCountDifference,
-          wasUploading,
-          hasUploading,
-        )
-      ) {
-        focusAddAnotherButton();
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -397,10 +325,31 @@ const FileField = props => {
       if (newData.length !== files.length) {
         onChange(newData);
       }
-      setInitialized(true);
     },
     [files, onChange],
   );
+
+  const enqueueFocusElement = (elementSelector, shadowRootSelector) => {
+    setTimeout(() => {
+      if (!shadowRootSelector) {
+        focusElement(elementSelector, {});
+        return;
+      }
+
+      const shadowRoot = $(shadowRootSelector)?.shadowRoot;
+      if (!shadowRoot) return;
+
+      /**
+       * Including `shadowRootSelector` because RTL can't access the shadowRoot.
+       */
+      const fallbackElementSelector = [
+        elementSelector,
+        shadowRootSelector,
+      ].join(', ');
+
+      focusElement(fallbackElementSelector, {}, shadowRoot);
+    });
+  };
 
   /**
    * Add file to list and upload
@@ -469,11 +418,13 @@ const FileField = props => {
             newData[idx] = { ...file, isEncrypted: !!password };
             onChange(newData);
             if (file.uploading) {
-              $('.schemaform-file-uploading .cancel-upload')?.focus();
+              enqueueFocusElement(
+                'button',
+                '.schemaform-file-uploading .cancel-upload',
+              );
             }
-            // Focus on the file card after the file has finished uploading
             if (!file.uploading) {
-              $(getFileListId(idx))?.focus();
+              enqueueFocusElement('button', '#upload-button');
             }
             setUploadRequest(null);
           },
@@ -524,7 +475,7 @@ const FileField = props => {
 
     // When other actions follow removeFile, we do not want to apply this focus
     if (focusAddButton) {
-      focusAddAnotherButton();
+      enqueueFocusElement('button', '#upload-button');
     }
   };
 
@@ -538,21 +489,15 @@ const FileField = props => {
     setRemoveIndex(null);
     setShowRemoveModal(false);
     if (remove) {
-      removeFile(idx);
+      let focusAddButton = true;
       if (uiOptions?.deleteAlertText) {
+        focusAddButton = false;
         setDeletedFileAlerts(true);
-        setTimeout(() => {
-          focusElement('#success-alert');
-        }, 110);
+        enqueueFocusElement('#success-alert');
       }
+      removeFile(idx, focusAddButton);
     } else {
-      setTimeout(() => {
-        focusElement(
-          'button, .delete-upload',
-          {},
-          $(`#${getFileListId(idx)} .delete-upload`)?.shadowRoot,
-        );
-      });
+      enqueueFocusElement('button', `#${getFileListId(idx)} .delete-upload`);
     }
   };
 
@@ -659,25 +604,21 @@ const FileField = props => {
             const fileNameId = `${idSchema.$id}_file_name_${index}`;
 
             if (hasVisibleError) {
-              setTimeout(async () => {
-                await scrollToFirstError();
+              scrollToFirstError().finally(() => {
                 if (enableShortWorkflow) {
-                  const retryButton = $(`[name="retry_upload_${index}"]`);
-                  if (retryButton) {
-                    focusElement('button', {}, retryButton?.shadowRoot);
-                  }
+                  enqueueFocusElement(
+                    'button',
+                    `[name="retry_upload_${index}"]`,
+                  );
                 } else if (showPasswordInput) {
-                  focusElement(`#${fileListId} .usa-input-error-message`);
+                  enqueueFocusElement(
+                    `#${fileListId} .usa-input-error-message`,
+                  );
                 }
-              }, 250);
+              });
             } else if (showPasswordInput) {
-              setTimeout(() => {
-                const passwordInput = $(`[name="get_password_${index}"]`);
-                if (passwordInput) {
-                  focusElement('input', {}, passwordInput?.shadowRoot);
-                  scrollTo(`get_password_${index}"]`);
-                }
-              }, 100);
+              enqueueFocusElement('input', `[name="get_password_${index}"]`);
+              scrollTo(`[name="get_password_${index}"]`);
             }
 
             const allowRetry = errors[0] === FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
