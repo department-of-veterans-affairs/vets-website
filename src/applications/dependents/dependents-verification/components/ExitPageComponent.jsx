@@ -42,26 +42,21 @@ export const ExitPageComponent = props => {
         Once they do, you can complete the verification process.
       </p>
 
-      {/* / Copied from FormNavButtons to adjust buttonText */}
-      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-        <div className="small-6 medium-5 columns">
-          <ProgressButton
-            onButtonClick={props.router.goBack}
-            buttonText="Back"
-            buttonClass="usa-button-secondary"
-            beforeText="«"
-          />
-        </div>
-        <div className="small-6 medium-5 end columns">
-          <ProgressButton
-            onButtonClick={() => {
-              window.location.href = manifest.rootUrl;
-            }}
-            buttonText="Continue to add or remove dependents"
-            buttonClass="usa-button-primary"
-            afterText="»"
-          />
-        </div>
+      <div className="">
+        <ProgressButton
+          onButtonClick={props.router.goBack}
+          buttonText="Back"
+          buttonClass="usa-button-secondary"
+          beforeText="«"
+        />
+        <ProgressButton
+          onButtonClick={() => {
+            window.location.href = manifest.rootUrl;
+          }}
+          buttonText="Continue to add or remove dependents"
+          buttonClass="usa-button-primary"
+          afterText="»"
+        />
       </div>
     </div>
   );
