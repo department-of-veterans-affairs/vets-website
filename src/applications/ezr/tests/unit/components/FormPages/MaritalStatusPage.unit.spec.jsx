@@ -82,6 +82,19 @@ describe('ezr MaritalStatusPage', () => {
       expect(continueButton).to.exist;
       expect(continueButton.textContent).to.include('Continue');
     });
+
+    it('should render continue button when no form data is present.', () => {
+      const { props } = getData();
+      const { container } = renderProviderWrappedComponent(
+        {},
+        <MaritalStatusPage {...props} />,
+        defaultExtra,
+      );
+      expect(container).to.exist;
+      const continueButton = container.querySelector('.usa-button-primary');
+      expect(continueButton).to.exist;
+      expect(continueButton.textContent).to.include('Continue');
+    });
   });
 
   context('when rendered with different data', () => {
@@ -99,6 +112,12 @@ describe('ezr MaritalStatusPage', () => {
         defaultExtra,
       );
       expect(container).to.exist;
+      // Verify the marital status field shows "married" as selected
+      const maritalStatusField = container.querySelector(
+        '[name="root_view:maritalStatus_maritalStatus"]',
+      );
+      expect(maritalStatusField).to.exist;
+      expect(maritalStatusField.getAttribute('value')).to.equal('married');
     });
 
     it('should render with never married status.', () => {
@@ -115,6 +134,14 @@ describe('ezr MaritalStatusPage', () => {
         defaultExtra,
       );
       expect(container).to.exist;
+      // Verify the marital status field shows "never married" as selected
+      const maritalStatusField = container.querySelector(
+        '[name="root_view:maritalStatus_maritalStatus"]',
+      );
+      expect(maritalStatusField).to.exist;
+      expect(maritalStatusField.getAttribute('value')).to.equal(
+        'never married',
+      );
     });
   });
 
@@ -127,6 +154,8 @@ describe('ezr MaritalStatusPage', () => {
         { ...defaultExtra, onReviewPage: true },
       );
       expect(container).to.exist;
+      // In review mode, the component should render without errors
+      // The specific field rendering may differ in review mode
     });
   });
 
@@ -160,7 +189,7 @@ describe('ezr MaritalStatusPage', () => {
 
   // NavButtons is mocked, so we only check rendering, not button clicks.
   context('when the Continue button is clicked', () => {
-    it('should render without errors when no form data is present.', () => {
+    it('should render continue button when no form data is present.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
         {},
@@ -168,9 +197,12 @@ describe('ezr MaritalStatusPage', () => {
         defaultExtra,
       );
       expect(container).to.exist;
+      const continueButton = container.querySelector('.usa-button-primary');
+      expect(continueButton).to.exist;
+      expect(continueButton.textContent).to.include('Continue');
     });
 
-    it('should render with data when marital status is selected.', () => {
+    it('should call goForward when the continue button is clicked.', () => {
       const { props } = getData({
         data: {
           'view:maritalStatus': {
@@ -184,11 +216,18 @@ describe('ezr MaritalStatusPage', () => {
         defaultExtra,
       );
       expect(container).to.exist;
+      const continueButton = container.querySelector('.usa-button-primary');
+      expect(continueButton).to.exist;
+      expect(continueButton.textContent).to.include('Continue');
+
+      // Click the continue button and verify goForward is called
+      continueButton.click();
+      expect(props.goForward.called).to.be.true;
     });
   });
 
   context('when the Back button is clicked', () => {
-    it('should render the component.', () => {
+    it('should call goBack when the back button is clicked.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
         {},
@@ -196,6 +235,13 @@ describe('ezr MaritalStatusPage', () => {
         defaultExtra,
       );
       expect(container).to.exist;
+      const backButton = container.querySelector('.usa-button-secondary');
+      expect(backButton).to.exist;
+      expect(backButton.textContent).to.include('Back');
+
+      // Click the back button and verify goBack is called
+      backButton.click();
+      expect(props.goBack.called).to.be.true;
     });
   });
 
