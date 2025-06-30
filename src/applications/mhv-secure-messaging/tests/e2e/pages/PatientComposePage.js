@@ -378,6 +378,12 @@ class PatientComposePage {
       .click({ force: true });
   };
 
+  openAttachmentInfo = () => {
+    cy.get(`.attachments-section`)
+      .find(`.additional-info-title`)
+      .click();
+  };
+
   verifyDeleteDraftSuccessfulMessageText = () => {
     cy.get('[data-testid="alert-text"]').should(
       'contain.text',

@@ -306,11 +306,13 @@ export const Alerts = {
     LOAD_API_ERROR: `We can’t load your contact list right now`,
   },
   ATTACHMENT: {
-    TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+    TYPES: `We can't attach this file type.`,
     EMPTY: `Your file is empty. Try attaching a different file.`,
-    FILE_IS_TOO_LARGE_TEXT:
+    VISTA_TOO_LARGE:
       'Your file is too large. Try attaching a file smaller than 6MB.',
-    ALREADY_ATTACHED_FILE: 'You have already attached this file.',
+    OH_TOO_LARGE:
+      'Your file is too large. Try attaching a file smaller than 25MB.',
+    ALREADY_ATTACHED: 'You have already attached this file.',
   },
   MAINTENANCE: {
     ACTIVE: `Maintenance on My HealtheVet`,
@@ -351,11 +353,16 @@ export const Data = {
   TEST_SUBJECT: 'Test Subject',
   TEST_IMAGE: 'test_image.jpg',
   TEST_LARGE_IMAGE: 'test_image_10mb.jpg',
+  TEST_VIDEO_MKV: 'test_video.mkv',
   MESSAGE_WAS_SAVED: 'message was saved',
   TEST_MESSAGE_SUBJECT: 'Test Message Subject',
   SAMPLE_DOC: 'sample_docx.docx',
-  SAMPLE_PDF: 'sample_pdf.pdf',
   SAMPLE_XLS: 'sample_XLS.xls',
+  SAMPLE_PDF: 'sample_pdf.pdf',
+  SAMPLE_TXT_1: 'test_txt_1.txt',
+  SAMPLE_TXT_2: 'test_txt_2.txt',
+  SAMPLE_TXT_3: 'test_txt_3.txt',
+  SAMPLE_TXT_4: 'test_txt_4.txt',
   SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
   EDIT_DRAFT: 'Edit draft',
@@ -395,7 +402,13 @@ export const Data = {
     'The maximum size for each file is 6 MB',
     'The maximum total size for all files attached to 1 message is 10 MB',
   ],
-  LARGE_ATTACH_INFO: [
+  VISTA_LARGE_ATTACH_INFO: [
+    'You can attach up to 10 files to each message',
+    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
+    'The maximum size for each file is 6 MB',
+    'The maximum total size for all files attached to 1 message is 10 MB',
+  ],
+  OH_LARGE_ATTACH_INFO: [
     'You can attach up to 10 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
     'The maximum size for each file is 6 MB',

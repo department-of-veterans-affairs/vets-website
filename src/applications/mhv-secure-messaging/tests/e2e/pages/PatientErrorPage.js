@@ -77,7 +77,7 @@ class PatientErrorPage {
 
   verifyAttachmentErrorMessage = errormessage => {
     cy.get(Locators.ALERTS.ERROR_MESSAGE)
-      .should('have.text', errormessage)
+      .should('include.text', errormessage)
       .should('be.visible');
   };
 }
