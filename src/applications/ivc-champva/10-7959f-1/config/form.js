@@ -260,7 +260,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: internationalPhoneUI(),
+            veteranPhoneNumber: internationalPhoneUI({}),
             veteranEmailAddress: emailUI(),
           },
           schema: {
@@ -268,7 +268,7 @@ const formConfig = {
             required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: internationalPhoneSchema,
+              veteranPhoneNumber: internationalPhoneSchema({ required: true }),
               veteranEmailAddress: emailSchema,
             },
           },
