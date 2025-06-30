@@ -191,6 +191,36 @@ describe('Supplemental Claim keyboard only navigation', () => {
       );
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
+
+      cy.tabToElement('#privacy-modal-button-1');
+      cy.realPress('Enter');
+
+      cy.get('va-modal[modal-title="Privacy Act Statement"]').should(
+        'have.attr',
+        'visible',
+        'true',
+      );
+
+      cy.realPress('Escape');
+
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
+      cy.focused().should('have.id', 'privacy-modal-button-1');
+
+      cy.tabToElement('#privacy-modal-button-2');
+      cy.realPress('Enter');
+
+      cy.get('va-modal[modal-title="Privacy Act Statement"]').should(
+        'have.attr',
+        'visible',
+        'true',
+      );
+
+      cy.realPress('Tab');
+      cy.realPress('Enter');
+
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
+      cy.focused().should('have.id', 'privacy-modal-button-2');
+
       cy.setCheckboxFromData('[name="privacy-agreement"]', true);
       cy.tabToSubmitForm();
 
