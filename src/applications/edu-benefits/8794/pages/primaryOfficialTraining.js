@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -25,6 +26,22 @@ const uiSchema = {
               ?.primaryOfficialTraining?.trainingExempt;
           }
           return formData?.primaryOfficialTraining?.trainingExempt;
+        },
+      },
+    },
+    'view:trainingExemptLabel': {
+      'ui:description': (
+        <p className="vads-u-margin-top--4">
+          <strong>This individual is exempt</strong>
+        </p>
+      ),
+      'ui:options': {
+        hideIf: (formData, index) => {
+          if (formData['additional-certifying-official']) {
+            return !formData['additional-certifying-official'][index]
+              ?.primaryOfficialTraining?.trainingExempt;
+          }
+          return !formData?.primaryOfficialTraining?.trainingExempt;
         },
       },
     },
