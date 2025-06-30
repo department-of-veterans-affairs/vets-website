@@ -79,7 +79,7 @@ const SubmissionCard = ({ submission }) => {
           <br />
           <span className="submission__card-status--row">
             <span className="submission__card-attribute-text">
-              {'VBMS efolder status: '}
+              {'VBMS eFolder status: '}
             </span>
             {formatStatus(submission)}
           </span>
