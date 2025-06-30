@@ -37,7 +37,7 @@ const App = ({ children }) => {
     addStyleToShadowDomOnPages(
       [''],
       ['va-memorable-date', 'va-accordion-item'],
-      '#dateHint {display: none} .usa-form-group--month-select {width: 159px} .usa-accordion, .usa-accordion-bordered, .usa-accordion--bordered {margin: 15px 0 !important; border: 1px solid #F0F0F0 !important; .usa-accordion__content.usa-prose {border:none;}}',
+      '#dateHint {display: none} .usa-form-group--month-select {width: 159px} .usa-accordion, .usa-accordion-bordered, .usa-accordion--bordered {margin: 15px 0 !important;} .usa-accordion__content.usa-prose {border:1px solid #f0f0f0;}}',
     );
   });
 
