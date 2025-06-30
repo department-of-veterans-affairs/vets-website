@@ -16,7 +16,7 @@ import { SIGN_IN_URL } from '../constants';
 const IntroductionPage = ({ route, router }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
-  const { subTitle } = getFormContent();
+  const { subTitle, pdfDownloadUrl } = getFormContent();
 
   const goToSignIn = () => {
     window.location = SIGN_IN_URL;
@@ -40,23 +40,6 @@ const IntroductionPage = ({ route, router }) => {
     },
     [route.pageList, router],
   );
-
-  const createExternalPDFLink = (docName, href) => {
-    return (
-      <>
-        <va-link
-          download
-          filetype="PDF"
-          href={href}
-          onClick={e => {
-            e.preventDefault();
-            window.open(href, '_blank');
-          }}
-          text={`Download ${docName}`}
-        />
-      </>
-    );
-  };
 
   return (
     <article className="schemaform-intro representative-form">
@@ -93,12 +76,16 @@ const IntroductionPage = ({ route, router }) => {
             <li>Provide all the required information</li>
             <li>Sign the form</li>
           </ul>
-          <p>
-            {createExternalPDFLink(
-              'VA Form 21-686c',
-              'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
-            )}
-          </p>
+          <va-link
+            download
+            filetype="PDF"
+            href={pdfDownloadUrl}
+            onClick={e => {
+              e.preventDefault();
+              window.open(pdfDownloadUrl, '_blank');
+            }}
+            text={`Download VA Form ${formNumber}`}
+          />
         </VaProcessListItem>
         <VaProcessListItem header="Upload and submit the form">
           <p>
