@@ -77,7 +77,7 @@ describe('behavior change description pages', () => {
     });
 
     it('should submit if text entered', () => {
-      const { textContainer, getByText } = render(
+      const { container: testContainer, getByText } = render(
         <DefinitionTester
           schema={pageSchema.schema}
           uiSchema={pageSchema.uiSchema}
@@ -87,7 +87,7 @@ describe('behavior change description pages', () => {
       );
 
       inputVaTextInput(
-        textContainer,
+        testContainer,
         'Here is a description of a behavioral change',
         'va-textarea',
       );

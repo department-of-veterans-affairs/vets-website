@@ -1,19 +1,15 @@
-import React from 'react';
-
 import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 import {
   otherSourcesDescription,
   otherSourcesHelpText,
 } from '../content/secondaryOtherSources';
 
 export const uiSchema = index => ({
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
-  ),
+  'ui:title': ptsd781aNameTitle,
   'ui:description': otherSourcesDescription,
   [`secondaryIncident${index}`]: {
     otherSources: yesNoUI({
