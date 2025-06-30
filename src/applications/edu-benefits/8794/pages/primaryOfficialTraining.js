@@ -17,6 +17,16 @@ const uiSchema = {
           required: 'Please select a date',
         },
       }),
+      'ui:options': {
+        hint: 'If exempt, see information below',
+        hideIf: (formData, index) => {
+          if (formData['additional-certifying-official']) {
+            return formData['additional-certifying-official'][index]
+              ?.primaryOfficialTraining?.trainingExempt;
+          }
+          return formData?.primaryOfficialTraining?.trainingExempt;
+        },
+      },
     },
     trainingExempt: {
       'ui:field': PrimaryOfficialExemptInfo,
