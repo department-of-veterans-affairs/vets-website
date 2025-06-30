@@ -50,6 +50,7 @@ export const Paths = {
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
+    SENT_THREADS: `/my_health/v1/messaging/folders/-1/threads*`,
   },
 };
 
@@ -393,6 +394,12 @@ export const Data = {
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',
     'The maximum size for each file is 6 MB',
     'The maximum total size for all files attached to 1 message is 10 MB',
+  ],
+  LARGE_ATTACH_INFO: [
+    'You can attach up to 10 files to each message',
+    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
+    'The maximum size for each file is 6 MB',
+    'The maximum total size for all files attached to 1 message is 25 MB',
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   EDIT_SIGNATURE: `Edit signature for all messages`,
