@@ -56,6 +56,10 @@
 }
 .submission {
   &__card {
+    &-date {
+      font-size: 17px;
+      line-height: 25.4px;
+    }
     &-date,
     &-name {
       margin: 0 0 4px;
@@ -66,6 +70,8 @@
     }
     &-status {
       margin: 0;
+      font-size: 17px;
+      line-height: 25.4px;
       &--row {
         display: flex;
         flex-wrap: wrap;
