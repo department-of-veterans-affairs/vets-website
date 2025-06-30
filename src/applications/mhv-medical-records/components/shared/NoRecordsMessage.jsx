@@ -14,7 +14,7 @@ const NoRecordsMessage = ({ type, timeFrame }) => {
         data-testid="no-records-message"
       >
         {`There are no ${type} in your VA medical records${
-          timeFrame ? ` for ${timeFrame}` : ' '
+          timeFrame ? ` for ${timeFrame}` : ''
         }.`}
       </h2>
     </va-card>

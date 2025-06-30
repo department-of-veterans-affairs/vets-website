@@ -240,9 +240,13 @@ const LabsAndTests = () => {
             ) : (
               <NoRecordsMessage
                 type={recordType.LABS_AND_TESTS}
-                timeFrame={getMonthFromSelectedDate({
-                  date: displayDate,
-                })}
+                timeFrame={
+                  isAcceleratingLabsAndTests
+                    ? getMonthFromSelectedDate({
+                        date: displayDate,
+                      })
+                    : ''
+                }
               />
             )}
           </>
