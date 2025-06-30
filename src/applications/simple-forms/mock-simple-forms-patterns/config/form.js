@@ -29,6 +29,7 @@ import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateIte
 import mockData from '../tests/e2e/fixtures/data/default.json';
 import mockArrayBuilderData from '../tests/e2e/fixtures/data/arrayBuilder.json';
 // import arrayAddresses from '../pages/mockArrayAddresses';
+import internationalPhone from '../pages/mockInternationalPhone';
 
 import {
   employersDatesPage,
@@ -49,6 +50,7 @@ const initialData = {
     checkbox: true,
     date: true,
     fileInput: true,
+    internationalPhone: true,
     formsPattern: true,
     miscellaneous: true,
     numberInput: true,
@@ -247,6 +249,18 @@ const formConfig = {
           uiSchema: date.uiSchema,
           schema: date.schema,
           depends: includeChapter('date'),
+        },
+      },
+    },
+    internationalPhone: {
+      title: 'International phone',
+      pages: {
+        internationalPhone: {
+          title: 'International phone',
+          path: 'international-phone',
+          uiSchema: internationalPhone.uiSchema,
+          schema: internationalPhone.schema,
+          depends: includeChapter('internationalPhone'),
         },
       },
     },

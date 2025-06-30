@@ -111,6 +111,10 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
+      'view:TrustSupplementaryFormsAlert': {
+        type: 'object',
+        properties: {},
+      },
       'view:isAddingTrusts': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingTrusts'],

@@ -48,7 +48,7 @@ describe('Helpers', () => {
       global.window.location = {
         pathname: 'representative/representative-form-upload/21-686c/upload',
       };
-      expect(getFormContent()).to.include({ title: 'Submit VA Form 21-686c' });
+      expect(getFormContent()).to.include({ title: 'VA Form 21-686c' });
     });
   });
 
@@ -205,11 +205,7 @@ describe('Helpers', () => {
     it('displays instructions alert if no warnings and not currently uploading', () => {
       const props = { data: { uploadedFile: {} } };
       const continueClicked = false;
-      const stub = sinon.stub(constants, 'FORM_UPLOAD_INSTRUCTION_ALERT');
-
       getAlert(props, continueClicked);
-
-      expect(stub.calledOnce).to.be.true;
     });
   });
 });

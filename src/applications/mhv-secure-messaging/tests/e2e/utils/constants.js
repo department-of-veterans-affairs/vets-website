@@ -321,6 +321,12 @@ export const Alerts = {
     INVALID_START_DATE: `Start date must be on or before end date.`,
     INVALID_END_DATE: `End date must be on or after start date.`,
   },
+  OH_OLD_MSG: {
+    HEADER: 'This conversation is too old for new replies',
+    P_1: `The last message in this conversation is more than 45 days old.`,
+    P_2: `If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.`,
+    P_3: `Or you can send a message to other care teams in your contact list.`,
+  },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
   OLD_MSG_SUBHEAD:
@@ -446,11 +452,9 @@ export const Data = {
 
   NOT_FOUND: {
     H2: `Or try these other health resources`,
-    P_O: `If you typed or copied the web address, check that it’s correct.`,
-    P_1: `If you still can’t find what you’re looking for, try visiting the My HealtheVet homepage.`,
-    LINK_0: `Go to our My HealtheVet on VA.gov homepage`,
-    LINK_1: `Chat live with a health professional on VA health chat`,
-    LINK_2: `Find a VA facility`,
+    P_O: `If you typed or copied the URL into your web browser, check that it’s correct.`,
+    P_1: `If that doesn’t work, try going to the My HealtheVet homepage.`,
+    LINK: `Go to the My HealtheVet on VA.gov homepage`,
   },
 };
 

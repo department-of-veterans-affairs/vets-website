@@ -156,8 +156,13 @@ export const formConfig = {
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
+          // Hide this question incase we need it later. The previous question skips this, but the 'depends' statement makes it show up on the review page even if
+          // the question doesn't show up in the questionnaire.
           depends: formData => {
-            return formData.militaryServiceCurrentlyServing === true;
+            return (
+              environment.isTest() &&
+              formData.militaryServiceCurrentlyServing === true
+            );
           },
           onNavForward: ({ formData, goPath }) => {
             if (formData.militaryServiceCurrentlyServing === true) {
