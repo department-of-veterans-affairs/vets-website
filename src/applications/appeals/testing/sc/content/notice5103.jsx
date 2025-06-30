@@ -34,7 +34,7 @@ export const Notice5103Description = ({ onReviewPage }) => {
         status="info"
         closeBtnAriaLabel="Close notification"
         closeable
-        onCloseEvent={hideAlert}
+        onCloseEvent={() => hideAlert}
         showIcon
         visible={visibleAlert}
         uswds

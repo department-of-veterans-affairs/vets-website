@@ -116,6 +116,18 @@
   }
   #root_supportingDocuments-label {
     font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 1.25rem !important;
+    strong {
+      font-weight: 700;
+    }
+  }
+  .schemaform-title > .schemaform-subtitle {
+    font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 20px;
+    line-height: 34px;
+  }
+  &__alert {
+    margin-bottom: 32px;
   }
 }
 .form-review-panel-page-representative-form-upload {

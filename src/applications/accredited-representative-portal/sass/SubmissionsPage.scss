@@ -17,18 +17,22 @@
   &-subtext__copy {
     font-size: 20px;
     margin: 0 0 32px;
+    line-height: 34px;
 
     &--secondary {
       margin: 0;
+      font-size: 20px;
+      line-height: 34px;
     }
   }
   &__subtext {
     margin: 8px 0;
-
   }
   &__list {
     li {
       margin-bottom: 16px;
+      max-width: 627px;
+      width: 100%;
     }
   }
   &__card-name {
@@ -74,7 +78,7 @@
           align-items: center;
         }
 
-        >span:last-child {
+        > span:last-child {
           margin-top: 4px;
           padding-left: 32px;
           @media (min-width: $small-desktop-screen) {
