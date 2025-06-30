@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DOMPurify from 'dompurify';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
@@ -10,6 +11,14 @@ import { toPascalCase } from '../util/string-helpers';
 import DocumentDownload from './DocumentDownload';
 
 const title = 'Your travel reimbursement claim';
+
+const injectCfrLink = content => {
+  const cfrRegex = /Authority (\d+) CFR (\d+)\.(\d+)/g;
+  return content.replaceAll(
+    cfrRegex,
+    '<a href="https://www.ecfr.gov/current/title-$1/chapter-I/section-$2.$3">$&</a>',
+  );
+};
 
 export default function ClaimDetailsContent({
   createdOn,
@@ -22,7 +31,7 @@ export default function ClaimDetailsContent({
   totalCostRequested,
   reimbursementAmount,
   documents,
-  allDenialReasons,
+  decisionLetterReason,
 }) {
   useSetPageTitle(title);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -88,17 +97,28 @@ export default function ClaimDetailsContent({
       </span>
 
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
-      <va-summary-box>
-        <h3 className="vads-u-font-size--h4">
-          Denial reasons from your decision letter:
-        </h3>
-        <p>{allDenialReasons}</p>
-
-        <p>Download your decision letter to learn more</p>
-      </va-summary-box>
-
       {claimsMgmtToggle && (
         <>
+          {decisionLetterReason && (
+            // && decision letter reason flag
+            <va-summary-box>
+              <h3 slot="headline">Denial reasons from your decision letter:</h3>
+              <p
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(
+                    injectCfrLink(decisionLetterReason),
+                  ),
+                }}
+              />
+              <DocumentDownload
+                text="Download your decision letter to learn more"
+                claimId={claimId}
+                documentId={documentCategories.clerk[0].documentId}
+                filename={documentCategories.clerk[0].filename}
+              />
+            </va-summary-box>
+          )}
           {STATUSES[toPascalCase(claimStatus)] ? (
             <>
               <p className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0">
@@ -240,6 +260,7 @@ ClaimDetailsContent.propTypes = {
   createdOn: PropTypes.string.isRequired,
   facilityName: PropTypes.string.isRequired,
   modifiedOn: PropTypes.string.isRequired,
+  decisionLetterReason: PropTypes.string,
   documents: PropTypes.array,
   reimbursementAmount: PropTypes.number,
   totalCostRequested: PropTypes.number,
