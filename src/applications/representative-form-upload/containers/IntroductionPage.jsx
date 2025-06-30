@@ -17,7 +17,7 @@ import { SIGN_IN_URL } from '../constants';
 const IntroductionPage = ({ route, router }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
-  const { title, subTitle, pdfDownloadUrl } = getFormContent();
+  const { subTitle, pdfDownloadUrl } = getFormContent();
 
   const goToSignIn = () => {
     window.location = SIGN_IN_URL;
@@ -44,7 +44,7 @@ const IntroductionPage = ({ route, router }) => {
 
   return (
     <article className="schemaform-intro representative-form">
-      <FormTitle title={title} subTitle={subTitle} />
+      <FormTitle title={`Submit VA Form ${formNumber}`} subTitle={subTitle} />
 
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 id="track-your-status-on-mobile" slot="headline">
@@ -82,7 +82,7 @@ const IntroductionPage = ({ route, router }) => {
             external
             filetype="PDF"
             href={pdfDownloadUrl}
-            text={`Download VA Form ${formNumber} (PDF)`}
+            text={`Download VA Form ${formNumber}`}
           />
         </VaProcessListItem>
         <VaProcessListItem header="Upload and submit the form">

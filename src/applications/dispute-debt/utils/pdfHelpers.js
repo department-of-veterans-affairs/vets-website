@@ -8,11 +8,22 @@ let pdfModulePromise = null;
 const getPdfBlob = async (templateId, data) => {
   // Use cached module promise if available, otherwise create a new one
   if (!pdfModulePromise) {
-    pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
+    pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports').catch(
+      () => {
+        // Fallback for test environments where PDF module isn't available
+        return { templates: {} };
+      },
+    );
   }
 
   // Wait for the module to load and extract the templates
   const { templates } = await pdfModulePromise;
+
+  // Throw error for test environments or when template doesn't exist
+  if (!templates[templateId]) {
+    throw new Error(`PDF template '${templateId}' not available`);
+  }
+
   const template = templates[templateId]();
   const doc = await template.generate(data);
 
@@ -63,7 +74,7 @@ export const handlePdfGeneration = async pdfData => {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
       Sentry.captureMessage(
-        `Dispute Debt pdf generation failed in handlePdfGeneration: ${
+        `Dispute Debt - PDF - generation failed in handlePdfGeneration: ${
           error?.detail
         }`,
       );

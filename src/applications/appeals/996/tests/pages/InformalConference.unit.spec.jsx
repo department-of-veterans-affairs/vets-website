@@ -48,6 +48,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
     );
 
     fireEvent.submit($('form', container));
+
     waitFor(() => {
       expect($$('[error]', container).length).to.equal(0);
       expect(onSubmit.called).to.be.true;
@@ -55,7 +56,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
   });
 
   /* Unsuccessful submits */
-  it('prevents submit when informal conference is not selected', () => {
+  it('prevents submit when informal conference is not selected', async () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={mockStore()}>
@@ -71,7 +72,10 @@ describe('Higher-Level Review 0996 informal conference', () => {
     );
 
     fireEvent.submit($('form', container));
-    expect($$('[error]', container).length).to.equal(1);
-    expect(onSubmit.called).not.to.be.true;
+
+    await waitFor(() => {
+      expect($$('[error]', container).length).to.equal(1);
+      expect(onSubmit.called).not.to.be.true;
+    });
   });
 });

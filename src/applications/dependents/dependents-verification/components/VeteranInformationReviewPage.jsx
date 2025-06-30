@@ -51,7 +51,7 @@ const VeteranInformationReviewPage = ({ formData }) => {
         <div className="review-row">
           <dt>First Name</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="first name">
-            {first ?? ''}
+            {first || ''}
           </dd>
         </div>
         {middle ? (
@@ -65,7 +65,7 @@ const VeteranInformationReviewPage = ({ formData }) => {
         <div className="review-row">
           <dt>Last name</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="last name">
-            <strong>{last ?? showError('Missing last name')}</strong>
+            <strong>{last || showError('Missing last name')}</strong>
           </dd>
         </div>
         {suffix ? (
@@ -80,7 +80,7 @@ const VeteranInformationReviewPage = ({ formData }) => {
           <dt>Social Security number</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="SSN">
             <strong>
-              {(ssnLastFour && maskID(ssnLastFour)) ?? showError('Missing SSN')}
+              {(ssnLastFour && maskID(ssnLastFour)) || showError('Missing SSN')}
             </strong>
           </dd>
         </div>
