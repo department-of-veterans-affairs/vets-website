@@ -3,6 +3,7 @@ import { AXE_CONTEXT, Paths, Data } from '../utils/constants';
 import mockFeatureToggles from '../fixtures/toggles-response.json';
 import PilotEnvPage from '../pages/PilotEnvPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
+import PatientComposePage from '../pages/PatientComposePage';
 
 describe('SM PILOT NEW MESSAGE', () => {
   const pilotFeatureFlag = {
@@ -21,11 +22,13 @@ describe('SM PILOT NEW MESSAGE', () => {
     SecureMessagingSite.login(mockPilotFeatureToggles);
     PilotEnvPage.loadInboxMessages();
 
-    cy.visit(`${Paths.UI_PILOT}/new-message/select-health-care-system`);
+    cy.visit(`${Paths.UI_PILOT}/new-message/select-care-team`);
     GeneralFunctionsPage.verifyPageHeader(Data.HCS_SELECT);
 
+    PatientComposePage.interceptSentFolder();
+
     cy.visit(`${Paths.UI_PILOT}/new-message/start-message`);
-    GeneralFunctionsPage.verifyPageHeader(Data.START_NEW_MSG);
+    GeneralFunctionsPage.verifyPageHeader('Start message');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
