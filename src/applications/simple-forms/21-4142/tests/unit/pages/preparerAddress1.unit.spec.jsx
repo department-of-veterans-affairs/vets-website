@@ -1,6 +1,9 @@
+import environment from 'platform/utilities/environment';
 import {
   testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
+  testNumberOfWebComponentFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import {
   preparerIdentificationFields,
@@ -30,22 +33,44 @@ const mockData = {
   },
 };
 
-const expectedNumberOfFields = 2;
-testNumberOfFields(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfFields,
-  pageTitle,
-  mockData,
-);
+if (environment.isProduction()) {
+  const expectedNumberOfFields = 2;
+  testNumberOfFields(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfFields,
+    pageTitle,
+    mockData,
+  );
 
-const expectedNumberOfErrors = 1;
-testNumberOfErrorsOnSubmit(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfErrors,
-  pageTitle,
-  mockData,
-);
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmit(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfErrors,
+    pageTitle,
+    mockData,
+  );
+} else {
+  const numberOfWebComponentFields = 1;
+  testNumberOfWebComponentFields(
+    formConfig,
+    schema,
+    uiSchema,
+    numberOfWebComponentFields,
+    pageTitle,
+    mockData,
+  );
+
+  const numberOfWebComponentErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
+    formConfig,
+    schema,
+    uiSchema,
+    numberOfWebComponentErrors,
+    pageTitle,
+    mockData,
+  );
+}

@@ -201,7 +201,7 @@ export const newLetterContent = {
       </p>
       <p>
         You may need to submit this letter when applying for Medicare Part D
-        prescription drug coverage
+        prescription drug coverage.
       </p>
     </>
   ),
