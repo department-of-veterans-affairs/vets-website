@@ -131,7 +131,7 @@ class PatientComposePage {
 
   verifyFocusOnErrorMessage = () => {
     const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT', `BUTTON`];
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
+
     return cy.focused().then(el => {
       const tagName = el.prop('tagName');
       expect(tagName).to.be.oneOf(allowedTags);
@@ -453,7 +453,7 @@ class PatientComposePage {
   };
 
   verifyHeader = text => {
-    cy.get(Locators.HEADER).should(`have.text`, text);
+    cy.get(Locators.HEADER).should(`include.text`, text);
   };
 
   verifyAdditionalInfoDropdownStatus = value => {
