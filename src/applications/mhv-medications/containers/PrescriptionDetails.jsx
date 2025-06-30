@@ -8,6 +8,7 @@ import {
   reportGeneratedBy,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import PrintOnlyPage from './PrintOnlyPage';
 import {
   dateFormat,
@@ -38,6 +39,7 @@ import {
   filterOptions,
   PDF_TXT_GENERATE_STATUS,
   DOWNLOAD_FORMAT,
+  recordNotFoundMessage,
 } from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -406,6 +408,10 @@ const PrescriptionDetails = () => {
           data-testid="loading-indicator"
         />
       );
+    }
+
+    if (prescriptionApiError.message === recordNotFoundMessage) {
+      return <PageNotFound />;
     }
 
     if (prescription || prescriptionApiError) {

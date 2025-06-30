@@ -79,7 +79,7 @@ const App = ({ children }) => {
     <AccessTokenManager userLoggedIn={userLoggedIn}>
       <div className="container">
         <Header />
-        <div className="form_container form-686c row">{content}</div>
+        <div className="form_container row form-686c">{content}</div>
         <Footer />
       </div>
     </AccessTokenManager>
