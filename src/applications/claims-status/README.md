@@ -75,4 +75,4 @@ This tool allows va users to check the status of thier VA claim, decision review
 
    Mock data lives in `src/applications/claims-status/tests/local-dev-mock-api/common.js`
    
-   You can quickly create as many claims as you may need by updating the variable passed into the `generateMockClaims()` method and toggling the commented code in the `/v0/benefits_claims` GET request. 
+   You can quickly create as many claims as you like by updating the variable passed into the `generateMockClaims()` method and toggling the commented code in the `/v0/benefits_claims` GET request. 
