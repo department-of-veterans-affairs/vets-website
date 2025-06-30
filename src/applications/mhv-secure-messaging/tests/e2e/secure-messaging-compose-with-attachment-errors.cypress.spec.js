@@ -35,13 +35,8 @@ describe('Verify compose message attachments errors', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
 
     PatientErrorPage.verifyAttachmentErrorMessage(
-      Alerts.ATTACHMENT.ALREADY_ATTACHED_FILE,
+      Alerts.ATTACHMENT.ALREADY_ATTACHED,
     );
-
-    // cy.get(Locators.ALERTS.ERROR_MESSAGE).should(
-    //   'have.text',
-    //   Alerts.ATTACHMENT.ALREADY_ATTACHED_FILE,
-    // );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -50,7 +45,7 @@ describe('Verify compose message attachments errors', () => {
   it(`verify large attachment error`, () => {
     PatientComposePage.attachMessageFromFile(Data.TEST_LARGE_IMAGE);
     PatientErrorPage.verifyAttachmentErrorMessage(
-      Alerts.ATTACHMENT.FILE_IS_TOO_LARGE_TEXT,
+      Alerts.ATTACHMENT.VISTA_TOO_LARGE,
     );
 
     cy.injectAxe();
