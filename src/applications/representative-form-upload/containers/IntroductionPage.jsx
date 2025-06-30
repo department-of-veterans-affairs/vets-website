@@ -6,6 +6,7 @@ import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import {
   VaAlert,
   VaButton,
+  VaLink,
   VaProcessList,
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -76,7 +77,7 @@ const IntroductionPage = ({ route, router }) => {
             <li>Provide all the required information</li>
             <li>Sign the form</li>
           </ul>
-          <va-link
+          <VaLink
             download
             filetype="PDF"
             href={pdfDownloadUrl}
