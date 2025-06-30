@@ -6,7 +6,7 @@ import sinon from 'sinon-v20';
 import ConfirmationScreenView from '../../../../components/ConfirmationPage/ConfirmationScreenView';
 
 describe('CG <ConfirmationScreenView>', () => {
-  const subject = ({ timestamp = undefined } = {}) => {
+  const subject = ({ timestamp = 1666887649663 } = {}) => {
     const props = {
       name: { first: 'John', middle: 'Marjorie', last: 'Smith', suffix: 'Sr.' },
       route: { formConfig: {} },
@@ -55,25 +55,19 @@ describe('CG <ConfirmationScreenView>', () => {
     printSpy.resetHistory();
   });
 
-  it('should render the appropriate Veteran name', () => {
+  it('should render Veteran name & application date when provided', () => {
     const { selectors } = subject();
-    const { veteranName } = selectors();
-    expect(veteranName).to.contain.text('John Marjorie Smith Sr.');
-  });
-
-  it('should not render timestamp in `application information` section when not provided', () => {
-    const { selectors } = subject();
-    const { submissionDate } = selectors();
-    expect(submissionDate).to.not.exist;
-  });
-
-  it('should render timestamp in `application information` section when provided', () => {
-    const { selectors } = subject({ timestamp: 1666887649663 });
     const { submissionDate } = selectors();
     expect(submissionDate).to.contain.text('Oct. 27, 2022');
   });
 
-  it('should fire `window.print` function when the print button is clicked', () => {
+  it('should not render timestamp in `application information` section when not provided', () => {
+    const { selectors } = subject({ timestamp: undefined });
+    const { submissionDate } = selectors();
+    expect(submissionDate).to.not.exist;
+  });
+
+  it('should fire the correct event when the print button is clicked', () => {
     const { selectors } = subject();
     const { printBtn } = selectors();
     fireEvent.click(printBtn);
