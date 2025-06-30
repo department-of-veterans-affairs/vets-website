@@ -34,7 +34,7 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
       isArray: true,
     },
     {
-      label: 'Care Summaries and Notes',
+      label: 'Care summaries and notes',
       data: data?.notes ?? [],
       parse: parseCareSummariesAndNotes,
       isArray: true,
@@ -52,7 +52,7 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
       isArray: true,
     },
     {
-      label: 'Health Conditions',
+      label: 'Health conditions',
       data: data?.conditions ?? [],
       parse: parseHealthConditions,
       isArray: true,
@@ -82,13 +82,13 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
       isArray: true,
     },
     {
-      label: 'Military Service',
+      label: 'Military service',
       data: data?.militaryService ?? '',
       parse: parseMilitaryService,
       isArray: false,
     },
     {
-      label: 'Account Summary',
+      label: 'Account summary',
       data: data?.accountSummary ?? null,
       parse: parseAccountSummary,
       isArray: false,
