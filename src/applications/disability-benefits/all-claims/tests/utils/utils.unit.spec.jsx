@@ -50,6 +50,7 @@ import {
   makeConditionsSchema,
   validateConditions,
   formatFullName,
+  showNewDisabilityFollowUpPage,
 } from '../../utils';
 import { testBranches } from '../../utils/serviceBranches';
 
@@ -1264,6 +1265,41 @@ describe('truncateDescriptions', () => {
     ].forEach(key => {
       expect(getResult(key, +20)[key].length).to.eq(CHAR_LIMITS[key]);
     });
+  });
+});
+
+describe('showNewDisabilityFollowUpPage', () => {
+  const getModernFlowData = ({ condition } = {}) => ({
+    syncModern0781Flow: true,
+    newDisabilities: [{ condition }],
+    'view:claimType': {
+      'view:claimingNew': true,
+    },
+  });
+  const getLegacyFlowData = ({ condition } = {}) => ({
+    syncModern0781Flow: false,
+    newDisabilities: [{ condition }],
+    'view:claimType': {
+      'view:claimingNew': true,
+    },
+  });
+
+  it('should return true to show the newDisabilityFollowUp page for modern 0781 flow', () => {
+    const formData = getModernFlowData({ condition: 'PTSD' });
+    const item = formData.newDisabilities[0];
+    expect(showNewDisabilityFollowUpPage(item, formData)).to.be.true;
+  });
+
+  it('should return false to not show the newDisabilityFollowUp page for legacy 0781 flow', () => {
+    const formData = getLegacyFlowData({ condition: 'PTSD' });
+    const item = formData.newDisabilities[0];
+    expect(showNewDisabilityFollowUpPage(item, formData)).to.be.false;
+  });
+
+  it('should return true to show the newDisabilityFollowUpPage for legacy 0781 flow for non-PTSD conditions', () => {
+    const formData = getLegacyFlowData({ condition: 'broken leg' });
+    const item = formData.newDisabilities[0];
+    expect(showNewDisabilityFollowUpPage(item, formData)).to.be.true;
   });
 });
 

@@ -251,20 +251,35 @@ describe('arrayBuilder helpers', () => {
 });
 
 describe('arrayBuilderText', () => {
-  const getText = helpers.initGetText({
-    getItemName: item => item?.name,
-    nounPlural: 'employers',
-    nounSingular: 'employer',
-    cancelEditDescription: 'cancelEditDescription',
-    cancelAddDescription: props => props.nounPlural,
+  it('should match expected types', () => {
+    const getText = helpers.initGetText({
+      getItemName: item => item?.name,
+      nounPlural: 'employers',
+      nounSingular: 'employer',
+      cancelEditDescription: 'cancelEditDescription',
+      cancelAddDescription: props => props.nounPlural,
+    });
+    Object.keys(DEFAULT_ARRAY_BUILDER_TEXT).forEach(key => {
+      if (key === 'getItemName') {
+        return;
+      }
+      expect(getText(key)).to.be.a('string');
+    });
+    expect(getText).to.be.a('function');
   });
-  Object.keys(DEFAULT_ARRAY_BUILDER_TEXT).forEach(key => {
-    if (key === 'getItemName') {
-      return;
-    }
-    expect(getText(key)).to.be.a('string');
+
+  it('should gracefully fail type errors for cardDescription', () => {
+    const getText = helpers.initGetText({
+      // getItemName is already gracefully handled in arrayBuilder.jsx
+      getItemName: () => 'test',
+      cardDescription: data => data.not.a.real.value,
+      nounPlural: 'employers',
+      nounSingular: 'employer',
+    });
+
+    expect(getText('getItemName')).to.eq('test');
+    expect(getText('cardDescription')).to.eq('');
   });
-  expect(getText).to.be.a('function');
 });
 
 describe('maxItemsHint', () => {

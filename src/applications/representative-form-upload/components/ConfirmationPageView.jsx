@@ -44,8 +44,13 @@ export const ConfirmationPageView = ({
             <strong>{formattedSubmitDate}</strong>
           </p>
         ) : null}
-        <p>Your confirmation number is: {confirmationNumber}.</p>
-        <p>We’ve emailed this confirmation number to you for your records.</p>
+        <p>
+          Your confirmation number is: <strong>{confirmationNumber}</strong>
+        </p>
+        <p>
+          <strong>Note:</strong> Print this page or copy the confirmation number
+          for your records.
+        </p>
       </va-alert>
       <section>
         <h2>What to expect</h2>

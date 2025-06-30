@@ -93,7 +93,7 @@ function isTitleObject(obj) {
  */
 
 /**
- * Title for the top of a form page
+ * uiSchema title for the form page, which appears at the top of the page, implemented with object spread into the uiSchema like such: ...titleUI('title')
  *
  * ```js
  * uiSchema: {
@@ -163,7 +163,7 @@ export const titleUI = (titleOption, descriptionOption) => {
 };
 
 /**
- * Simple text description
+ * uiSchema for a description. Prefer to use second argument of titleUI instead.
  *
  * ```js
  * exampleText: descriptionUI('A block of text goes here')
@@ -193,7 +193,7 @@ export const descriptionUI = (text, uiOptions = {}) => {
 };
 
 /**
- * Inline title for (in the middle of) a form page
+ * uiSchema for an inline title for (in the middle of) a form page. Try not to use this.
  *
  * ```js
  * exampleTitle: inlineTitleUI('Your contact information')
