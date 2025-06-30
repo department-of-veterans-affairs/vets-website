@@ -27,6 +27,13 @@ export const ConfirmationPage = props => {
     </>
   );
 
+  const step1Content = (
+    <p>
+      This can take up to 10 days. When we receive your form, we’ll update the
+      status on My VA.
+    </p>
+  );
+
   return (
     <ConfirmationView
       formConfig={props.route?.formConfig}
@@ -62,7 +69,7 @@ export const ConfirmationPage = props => {
           }}
         />
       </va-summary-box>
-      <ConfirmationView.WhatsNextProcessList />
+      <ConfirmationView.WhatsNextProcessList item1Content={step1Content} />
       <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink text="Go back to VA.gov" />
 
