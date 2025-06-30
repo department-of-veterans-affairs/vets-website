@@ -238,7 +238,12 @@ const LabsAndTests = () => {
                 }}
               />
             ) : (
-              <NoRecordsMessage type={recordType.LABS_AND_TESTS} />
+              <NoRecordsMessage
+                type={recordType.LABS_AND_TESTS}
+                timeFrame={getMonthFromSelectedDate({
+                  date: displayDate,
+                })}
+              />
             )}
           </>
         )}
