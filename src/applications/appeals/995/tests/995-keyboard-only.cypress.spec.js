@@ -22,6 +22,19 @@ describe('Supplemental Claim keyboard only navigation', () => {
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     cy.intercept('GET', ITF_API, fetchItf());
 
+    // Mock the feature flag to enable new authorization content
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'decision_reviews_4142_banner',
+            value: true,
+          },
+        ],
+      },
+    });
+
     cy.get('@testData').then(data => {
       const { chapters } = formConfig;
 
