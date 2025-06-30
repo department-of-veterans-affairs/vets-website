@@ -873,6 +873,14 @@ class MedicationsDetailsPage {
   verifyRefillHistorySectionNotVisibleForPendingPrescriptions = () => {
     cy.get('[data-testid="refill-History"]').should('not.exist');
   };
+
+  verifyProviderFirstLastNameOnDetailsPage = FullName => {
+    cy.get('[data-testid="prescribed-by"]').should('have.text', FullName);
+  };
+
+  verifyDocumentedByFullNameOnNonVAMedicationDetailsPage = FullName => {
+    cy.get('[data-testid="documented-by"]').should('have.text', FullName);
+  };
 }
 
 export default MedicationsDetailsPage;

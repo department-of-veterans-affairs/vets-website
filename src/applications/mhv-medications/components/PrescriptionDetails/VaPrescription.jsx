@@ -435,7 +435,7 @@ const VaPrescription = prescription => {
                 <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Prescribed by
                 </h3>
-                <p>
+                <p data-testid="prescribed-by">
                   {displayProviderName(
                     prescription.providerFirstName,
                     prescription.providerLastName,

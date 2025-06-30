@@ -96,7 +96,7 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Documented by
           </h3>
-          <p data-dd-privacy="mask">
+          <p data-testid="documented-by" data-dd-privacy="mask">
             {displayProviderName(
               prescription.providerFirstName,
               prescription.providerLastName,
