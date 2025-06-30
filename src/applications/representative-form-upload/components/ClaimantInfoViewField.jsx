@@ -9,7 +9,7 @@ const ClaimantInfoViewField = props => {
     return `${month}-${day}-${year}`;
   };
 
-  const { formData } = props;
+  const { formData, defaultEditButton } = props;
 
   const {
     veteranSsn,
@@ -53,6 +53,7 @@ const ClaimantInfoViewField = props => {
         <h4 className="vads-u-font-size--h5 vads-u-margin--0">
           Claimant information
         </h4>
+        {defaultEditButton()}
         <dl className="review vads-u-margin-top--2 vads-u-width--full">
           {Object.entries(claimantDisplay).map(
             ([label, value]) =>
