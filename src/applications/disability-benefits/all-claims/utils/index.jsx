@@ -1,6 +1,11 @@
 /* eslint-disable react/jsx-key */
 import PropTypes from 'prop-types';
 import React from 'react';
+/**
+ * TODO: tech-debt(you-dont-need-momentjs/no-import-moment): Waiting for Node upgrade to support Temporal API
+ * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
+ */
+// eslint-disable-next-line you-dont-need-momentjs/no-import-moment
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { createSelector } from 'reselect';
