@@ -13,7 +13,7 @@ describe('NoRecordsMessage', () => {
     const message = getByTestId('no-records-message');
     expect(message).to.exist;
     expect(message.textContent).to.equal(
-      'There are no allergies or reactions in your VA medical records .',
+      'There are no allergies or reactions in your VA medical records.',
     );
   });
 
@@ -60,7 +60,7 @@ describe('NoRecordsMessage', () => {
     // Check that the standard message is still rendered
     const message = getByTestId('no-records-message');
     expect(message.textContent).to.equal(
-      'There are no vitals in your VA medical records .',
+      'There are no vitals in your VA medical records.',
     );
   });
 
@@ -93,7 +93,7 @@ describe('NoRecordsMessage', () => {
 
     const message = getByTestId('no-records-message');
     expect(message.textContent).to.equal(
-      'There are no care summaries and notes in your VA medical records .',
+      'There are no care summaries and notes in your VA medical records.',
     );
   });
 
@@ -117,7 +117,7 @@ describe('NoRecordsMessage', () => {
     const message = getByTestId('no-records-message');
     expect(message).to.exist;
     expect(message.textContent).to.equal(
-      'There are no undefined in your VA medical records .',
+      'There are no undefined in your VA medical records.',
     );
   });
 
