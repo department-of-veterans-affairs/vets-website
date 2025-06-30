@@ -5,9 +5,9 @@ const {
 const user = require('../../common/mocks/users');
 const notifications = require('../../common/mocks/notifications');
 const { createSuccessPayment } = require('./payment-history');
-const { createAppealsSuccess } = require('./appeals');
+const { createAppealsSuccess, createAppealsFailure } = require('./appeals');
 const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
-const { createClaimsSuccess } = require('./claims');
+const { createClaimsSuccess, createClaimsFailure } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createApplications } = require('./benefit-applications');
 const { allFoldersWithUnreadMessages } = require('./messaging');
@@ -16,6 +16,10 @@ const { v2 } = require('./appointments');
 const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
 const { boot } = require('../../common/mocks/script/utils');
 const { delaySingleResponse } = require('../../profile/mocks/script/utils');
+const {
+  createDisabilityRatingFailure,
+  createDisabilityRatingSuccess,
+} = require('./disability-rating');
 
 // set to true to simulate a user with debts for /v0/debts endpoint
 const hasDebts = false;
@@ -61,8 +65,20 @@ const responses = {
       },
     },
   },
-  'GET /v0/appeals': createAppealsSuccess(),
-  'GET /v0/benefits_claims': createClaimsSuccess(),
+  'GET /v0/appeals': (_req, res) => {
+    // true for success, false for failure
+    const appealsSuccess = true;
+    return appealsSuccess
+      ? res.status(200).json(createAppealsSuccess())
+      : res.status(400).json(createAppealsFailure());
+  },
+  'GET /v0/benefits_claims': (_req, res) => {
+    // true for success, false for failure
+    const claimsSuccess = true;
+    return claimsSuccess
+      ? res.status(200).json(createClaimsSuccess())
+      : res.status(400).json(createClaimsFailure());
+  },
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
   'GET /my_health/v1/messaging/folders': allFoldersWithUnreadMessages,
   'GET /v0/my_va/submission_statuses': createApplications(),
@@ -107,14 +123,12 @@ const responses = {
 
     return res.json({ data: [] });
   },
-  'GET /v0/disability_compensation_form/rating_info': {
-    data: {
-      id: '',
-      type: 'evss_disability_compensation_form_rating_info_responses',
-      attributes: {
-        userPercentOfDisability: 40,
-      },
-    },
+  'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
+    // true for success, false for failure
+    const disabilityRatingSuccess = true;
+    return disabilityRatingSuccess
+      ? res.status(200).json(createDisabilityRatingSuccess())
+      : res.status(400).json(createDisabilityRatingFailure());
   },
   'GET /vaos/v2/appointments': (_req, res) => {
     const rv = v2.createAppointmentSuccess({ startsInDays: [31] });
