@@ -30,7 +30,14 @@ const NoClaimsOrAppealsText = () => {
       className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
       data-testid="no-outstanding-claims-or-appeals-text"
     >
-      You have no claims or appeals to show.
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          You have no claims or appeals to show.
+        </Toggler.Disabled>
+        <Toggler.Enabled>
+          You don’t have any open claims or appeals.
+        </Toggler.Enabled>
+      </Toggler>
     </p>
   );
 };
@@ -215,6 +222,16 @@ const ClaimsAndAppeals = ({
             </DashboardWidgetWrapper>
           )}
       </div>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Enabled>
+          <p className="vads-u-margin-top--0">
+            <va-link
+              href="/track-claims/your-claims"
+              text="Check claims and appeals"
+            />
+          </p>
+        </Toggler.Enabled>
+      </Toggler>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
           <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
