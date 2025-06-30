@@ -214,6 +214,34 @@ describe('<DefaultPage>', () => {
       );
       getByText(`Requested from examiner’s office on March 25, 2024`);
     });
+    it('should display pass due alert when suspense date is in the past', () => {
+      const item = {
+        closedDate: null,
+        description: 'Buddy statement text',
+        displayName: 'Submit buddy statement(s)',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: nineMonthsAgoSuspenseDate,
+        uploadsAllowed: true,
+        canUploadFile: true,
+        documents: [],
+        date: '2024-03-07',
+      };
+      const { getByText, container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      expect($('#default-page', container)).to.exist;
+      expect($('.add-files-form', container)).to.exist;
+      getByText('Deadline passed for requested information');
+      getByText(
+        'We haven’t received the information we asked for. You can still upload or mail it to us, but we may review your claim without it.',
+      );
+    });
   });
 
   it('should render component when status is NEEDED_FROM_YOU', () => {
