@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/dom';
 import {
   renderWithStoreAndRouter,
   createTestStore,
@@ -127,7 +128,7 @@ describe('VAOS ChooseDateAndTime component', () => {
     appointmentApi: {
       mutations: {
         postDraftReferralAppointmentCache: {
-          status: 'rejected',
+          status: 'uninitialized',
           data: null,
         },
       },
@@ -139,9 +140,7 @@ describe('VAOS ChooseDateAndTime component', () => {
   };
   beforeEach(() => {
     global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
-    sandbox
-      .stub(utils, 'apiRequestWithUrl')
-      .resolves({ data: createDraftAppointmentInfo(1) });
+
     sandbox
       .stub(fetchAppointmentsModule, 'fetchAppointments')
       .resolves(confirmedV2);
@@ -153,6 +152,9 @@ describe('VAOS ChooseDateAndTime component', () => {
     sandbox.restore();
   });
   it('should fetch provider or appointments from store if it exists and not call API', async () => {
+    sandbox
+      .stub(utils, 'apiRequestWithUrl')
+      .resolves({ data: createDraftAppointmentInfo(1) });
     renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -165,6 +167,9 @@ describe('VAOS ChooseDateAndTime component', () => {
     sandbox.assert.notCalled(fetchAppointmentsModule.fetchAppointments);
   });
   it('should call API for provider or appointment data if not in store', async () => {
+    sandbox
+      .stub(utils, 'apiRequestWithUrl')
+      .resolves({ data: createDraftAppointmentInfo(1) });
     const screen = renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -178,6 +183,7 @@ describe('VAOS ChooseDateAndTime component', () => {
     sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
   });
   it('should show error if any fetch fails', async () => {
+    sandbox.stub(utils, 'apiRequestWithUrl').throws();
     const screen = renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -186,6 +192,8 @@ describe('VAOS ChooseDateAndTime component', () => {
         store: createTestStore(failedState),
       },
     );
-    expect(await screen.getByTestId('error')).to.exist;
+    waitFor(() => {
+      expect(screen.getByTestId('error')).to.exist;
+    });
   });
 });
