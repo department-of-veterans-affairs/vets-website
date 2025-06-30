@@ -148,7 +148,6 @@ describe('<Authorization>', () => {
         </Provider>,
       );
 
-      // Ensure checkbox is unchecked (no error should show yet)
       const alert = $('va-alert[visible="true"]', container);
       expect(alert).to.not.exist;
 
@@ -163,7 +162,7 @@ describe('<Authorization>', () => {
     it('should clear error when checkbox is checked after error is shown', () => {
       const goSpy = sinon.spy();
       const setFormDataSpy = sinon.spy();
-      const { container, rerender } = render(
+      const { container } = render(
         <Provider store={mockStore}>
           <Authorization
             goForward={goSpy}
@@ -173,32 +172,15 @@ describe('<Authorization>', () => {
         </Provider>,
       );
 
-      // Trigger error by clicking Continue without checkbox
       fireEvent.click($('button.usa-button-primary', container));
 
-      // Verify error is shown
-      let alert = $('va-alert[visible="true"]', container);
-      expect(alert).to.exist;
+      expect($('va-alert[visible="true"]', container)).to.exist;
 
-      // Now check the checkbox - this should clear the error
       $('#privacy-agreement', container).__events.vaChange({
         target: { checked: true },
       });
 
-      // Rerender with updated data showing checkbox is checked
-      rerender(
-        <Provider store={mockStore}>
-          <Authorization
-            goForward={goSpy}
-            setFormData={setFormDataSpy}
-            data={{ privacyAgreementAccepted: true }}
-          />
-        </Provider>,
-      );
-
-      // Error should be cleared
-      alert = $('va-alert[visible="true"]', container);
-      expect(alert).to.not.exist;
+      expect($('va-alert[visible="true"]', container)).to.not.exist;
     });
 
     it('should allow multiple check/uncheck cycles without showing errors', () => {
