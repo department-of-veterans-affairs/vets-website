@@ -262,6 +262,23 @@ const responses = {
   'GET /my_health/v1/tooltips': (_req, res) => {
     return res.json(getMockTooltips());
   },
+
+  'POST /my_health/v1/aal': (req, res) => {
+    const { data } = req.body;
+    if (data && data.attributes && data.attributes.allergy) {
+      return res.json({
+        data: {
+          type: 'allergy',
+          id: '12345',
+          attributes: {
+            ...data.attributes.allergy,
+            id: '12345',
+          },
+        },
+      });
+    }
+    return res.status(400).json({ errors: [{ title: 'Bad Request' }] });
+  },
 };
 
 module.exports = delay(responses, 750);
