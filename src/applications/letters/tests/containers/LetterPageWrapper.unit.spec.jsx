@@ -23,10 +23,10 @@ describe('<LetterPageWrapper>', () => {
       </MemoryRouter>,
     );
 
-    expect(getByText('Your VA letters and documents').exist);
+    expect(getByText('Your VA benefit letters and documents').exist);
     expect(
       getByText(
-        `When you request a VA benefit, you may be asked to provide one of the following benefit letters or other documentation to prove you're eligible.`,
+        `When you apply for a benefit based on your VA status, you may need to provide a VA benefit letter or other documentation to prove you’re eligible.`,
       ).exist,
     );
   });

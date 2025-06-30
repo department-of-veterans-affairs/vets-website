@@ -3,38 +3,39 @@
  * Functions related to fetching Apppointment data and pulling information from that data
  * @module services/Appointment
  */
-import moment from 'moment-timezone';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { startOfDay, subYears } from 'date-fns';
+import moment from 'moment-timezone';
+import { getProviderName } from '../../utils/appointment';
+import {
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+  GA_PREFIX,
+} from '../../utils/constants';
+import { captureError } from '../../utils/error';
+import { resetDataLayer } from '../../utils/events';
+import {
+  getTimezoneAbbrByFacilityId,
+  getTimezoneAbbrFromApi,
+  getTimezoneByFacilityId,
+  getTimezoneNameFromAbbr,
+  getUserTimezone,
+  getUserTimezoneAbbr,
+  stripDST,
+} from '../../utils/timezone';
+import { formatFacilityAddress, getFacilityPhone } from '../location';
+import { mapToFHIRErrors } from '../utils';
 import {
   getAppointment,
   getAppointments,
   postAppointment,
   putAppointment,
 } from '../vaos';
-import { mapToFHIRErrors } from '../utils';
 import {
-  APPOINTMENT_TYPES,
-  APPOINTMENT_STATUS,
-  GA_PREFIX,
-} from '../../utils/constants';
-import { formatFacilityAddress, getFacilityPhone } from '../location';
-import {
+  getAppointmentType,
   transformVAOSAppointment,
   transformVAOSAppointments,
-  getAppointmentType,
 } from './transformers';
-import { captureError } from '../../utils/error';
-import { resetDataLayer } from '../../utils/events';
-import {
-  getTimezoneAbbrByFacilityId,
-  getTimezoneByFacilityId,
-  getTimezoneAbbrFromApi,
-  getTimezoneNameFromAbbr,
-  getUserTimezone,
-  getUserTimezoneAbbr,
-  stripDST,
-} from '../../utils/timezone';
-import { getProviderName } from '../../utils/appointment';
 
 const CONFIRMED_APPOINTMENT_TYPES = new Set([
   APPOINTMENT_TYPES.ccAppointment,
@@ -819,17 +820,8 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
       // Creating an array of start and end dates for each chunk
       const ranges = Array.from(Array(chunks).keys()).map(i => {
         return {
-          start: moment()
-            .startOf('day')
-            .subtract(i + 1, 'year')
-            .utc()
-            .format(),
-
-          end: moment()
-            .startOf('day')
-            .subtract(i, 'year')
-            .utc()
-            .format(),
+          start: subYears(startOfDay(new Date()), i + 1),
+          end: subYears(startOfDay(new Date()), i),
         };
       });
 

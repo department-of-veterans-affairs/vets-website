@@ -465,6 +465,63 @@ export const CernerAlertContent = {
   },
 };
 
+export const LABS_AND_TESTS_DISPLAY_LABELS = {
+  DATE: 'Date and time collected',
+  TEST_CODE: 'Type of test',
+  SAMPLE_TESTED: 'Site or sample tested',
+  BODY_SITE: 'Body site tested',
+  ORDERED_BY: 'Ordered by',
+  LOCATION: 'Location',
+  COMMENTS: 'Lab comments',
+  RESULTS: 'Results',
+};
+
+export const LABS_AND_TESTS_DISPLAY_DISPLAY_MAP = {
+  date: LABS_AND_TESTS_DISPLAY_LABELS.DATE,
+  testCode: LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE,
+  sampleTested: LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED,
+  bodySite: LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE,
+  orderedBy: LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY,
+  location: LABS_AND_TESTS_DISPLAY_LABELS.LOCATION,
+  comments: LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS,
+  result: LABS_AND_TESTS_DISPLAY_LABELS.RESULTS,
+};
+
+export const OBSERVATION_DISPLAY_LABELS = {
+  TEST_CODE: 'Type of test',
+  SAMPLE_TESTED: 'Site or sample tested',
+  BODY_SITE: 'Body site tested',
+  STATUS: 'Status',
+  COMMENTS: 'Lab comments',
+  REFERENCE_RANGE: 'Reference range',
+  VALUE: 'Result',
+};
+export const OBSERVATION_DISPLAY_DISPLAY_MAP = {
+  testCode: OBSERVATION_DISPLAY_LABELS.TEST_CODE,
+  sampleTested: OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED,
+  bodySite: OBSERVATION_DISPLAY_LABELS.BODY_SITE,
+  status: OBSERVATION_DISPLAY_LABELS.STATUS,
+  comments: OBSERVATION_DISPLAY_LABELS.COMMENTS,
+  referenceRange: OBSERVATION_DISPLAY_LABELS.REFERENCE_RANGE,
+  value: OBSERVATION_DISPLAY_LABELS.VALUE,
+};
+
+export const SortTypes = {
+  ALPHABETICAL: {
+    value: 'alphatetically',
+    label: 'alphabetically',
+  },
+  ASC_DATE: {
+    value: 'ascDate',
+    label: 'newest to oldest',
+    labelWithDateEntered: 'newest to oldest (date entered)',
+  },
+  DSC_DATE: {
+    value: 'dscDate',
+    label: 'oldest to newest',
+    labelWithDateEntered: 'oldest to newest (date entered)',
+  },
+};
 export const radiologyErrors = {
   ERROR_REQUEST_AGAIN:
     'We’re sorry. There was a problem with our system. Try requesting your images again.',

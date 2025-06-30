@@ -257,8 +257,8 @@ const ReviewAndConfirm = props => {
             data-testid="continue-button"
             loading={createLoading}
             class="vads-u-margin-left--2"
-            label="Continue"
-            text="Continue"
+            label="Confirm"
+            text="Confirm"
             uswds
             onClick={e => {
               e.preventDefault();
