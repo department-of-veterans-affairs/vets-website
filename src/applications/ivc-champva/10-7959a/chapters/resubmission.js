@@ -14,52 +14,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
-// import VaDateField from 'platform/forms-system/src/js/web-component-fields/VaDateField';
-
-// export const dateNoHint = options => {
-//     const {
-//         hint,
-//         title,
-//         errorMessages,
-//         required,
-//         dataDogHidden = false,
-//         ...uiOptions
-//       } = typeof options === 'object' ? options : { title: options };
-
-//       const uiTitle = title ?? 'Date';
-
-//       return {
-//         'ui:title': uiTitle,
-//         'ui:hint': hint,
-//         'ui:webComponentField': VaDateField,
-//         'ui:required': required,
-//         'ui:errorMessages': {
-//           pattern:
-//             errorMessages?.pattern || 'Please enter a valid current or past date',
-//           required: errorMessages?.required || 'Please enter a date',
-//         },
-//         'ui:options': {
-//           ...uiOptions,
-//         },
-//         'ui:reviewField': ({ children }) => (
-//           <div className="review-row">
-//             <dt>{uiTitle}</dt>
-//             <dd
-//               className={dataDogHidden ? 'dd-privacy-hidden' : undefined}
-//               data-dd-action-name={dataDogHidden ? uiTitle : undefined}
-//             >
-//               {children.props.formData && (
-//                 <>
-//                   {new Date(
-//                     `${children.props.formData}T00:00:00`,
-//                   ).toLocaleDateString('en-us', localeDateStringOptions)}
-//                 </>
-//               )}
-//             </dd>
-//           </div>
-//         ),
-//       };
-//     };
 
 export const claimIdentifyingNumberOptions = [
   'PDI number',
@@ -72,18 +26,58 @@ export const claimIdentifyingNumber = {
       ({ formData }) =>
         `${
           formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-        } claim identifying number`,
-      'The PDI number or claim control number is used to identify the original claim that was submitted. These can be found on the letter you received from CHAMPVA requesting further action on your claim.',
+        } claim identification number`,
+      `We'll use the Program Document Identifier (PDI) or claim control number to identify the original claim that was submitted. These can be found on the letter you received from CHAMPVA requesting further action on your claim.`,
     ),
     pdiOrClaimNumber: selectUI({
       title: 'Is this a PDI or claim control number?',
     }),
+    'view:adtlInfo': {
+      'ui:description': (
+        <div>
+          <va-additional-info trigger="Where to find the PDI number">
+            <p>
+              The PDI number is located at the bottom of the letter we mailed
+              you. It begins with the letters "VA" and includes an 8-digit code
+              (example: VA12345678).
+            </p>
+            <br />
+            <p>
+              If you can’t find the PDI number, call us at{' '}
+              <va-telephone contact="8007338387" />{' '}
+              <va-telephone contact="711" tty="true" />
+              {'. '}
+              We’re here Monday through Friday, 8:05a.m. to 7:30 p.m. ET.
+            </p>
+          </va-additional-info>
+          <va-additional-info trigger="Where to find the claim control number">
+            <p>
+              The claim control number is located on the CHAMPVA Explanation of
+              Benefits we mailed you. It begins with a letter followed by an
+              11-digit code (example: M00001234567).
+            </p>
+            <br />
+            <p>
+              If you can’t find the claim control number, call us at{' '}
+              <va-telephone contact="8007338387" />
+              <va-telephone contact="711" tty="true" />
+              {'. '}
+              We’re here Monday through Friday, 8:05a.m. to 7:30 p.m. ET.
+            </p>
+          </va-additional-info>
+        </div>
+      ),
+    },
   },
   schema: {
     type: 'object',
     properties: {
       titleSchema,
       pdiOrClaimNumber: selectSchema(claimIdentifyingNumberOptions),
+      'view:adtlInfo': {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };
@@ -97,7 +91,7 @@ export const claimType = {
         } claim type`,
     ),
     claimType: radioUI({
-      title: 'What type of claim was the original submission for?',
+      title: 'What was the original type of claim?',
       labels: {
         medical: 'Medical claim',
         pharmacy: 'Pharmacy claim',
@@ -121,7 +115,7 @@ export const medicalClaimDetails = {
         `${
           formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
         } claim details`,
-      'Enter the details for your claim to help us find your original claim.',
+      'This information will help us find your original claim.',
     ),
     providerName: textUI('Provider name'),
     beginningDateOfService: {
@@ -131,9 +125,8 @@ export const medicalClaimDetails = {
     },
     endDateOfService: {
       ...currentOrPastDateUI({
-        title: 'End date of service date',
-        hint:
-          'Enter end date of service if service occurred over multiple days',
+        title: 'End date of service',
+        hint: 'If service occurred over multiple days.',
       }),
     },
   },
@@ -154,21 +147,18 @@ export const medicalUploadSupportingDocs = {
     ...titleUI(
       'Upload supporting documents for your medical claim',
       <>
-        <p>You’ll need to submit the following documents:</p>
+        <p>You’ll need to submit these documents:</p>
         <ul>
           <li>
-            Copies of documents including missing information listed ont he
-            letter you received from CHAMPVA, <b> and</b>
+            Copies of documents with missing information we requested in the
+            letter we mailed you, <b> and</b>
           </li>
-          <li>The documents that you originally submitted with your claim</li>
+          <li>All documents you submitted with your claim</li>
         </ul>
         <p>
-          These documents may be an itemized or a superbill from your provider
-          an explanation of benefits from your insurance company.
+          These documents could include paperwork attached to your prescription
+          or pharmacy statements.
         </p>
-        <a href="https://www.va.gov/resources/how-to-file-a-champva-claim/">
-          Learn how to file a CHAMPVA claim
-        </a>
       </>,
     ),
     ...fileUploadBlurb,
@@ -176,6 +166,16 @@ export const medicalUploadSupportingDocs = {
       label: 'Upload supporting document',
       attachmentName: true,
     }),
+    'view:fileClaim': {
+      'ui:description': (
+        <a
+          href="https://www.va.gov/resources/how-to-file-a-champva-claim/"
+          rel="noopener noreferrer"
+        >
+          Learn how to file a CHAMPVA claim (opens in a new tab)
+        </a>
+      ),
+    },
   },
   schema: {
     type: 'object',
@@ -183,6 +183,10 @@ export const medicalUploadSupportingDocs = {
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
+      'view:fileClaim': {
+        type: 'object',
+        properties: {},
+      },
       medicalUpload: {
         type: 'array',
         minItems: 1,
@@ -206,7 +210,7 @@ export const pharmacyClaimDetails = {
         `${
           formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
         } claim details`,
-      'Enter the details for your claim to help us find your original claim.',
+      'This information will help us find your original claim.',
     ),
     medicationName: textUI('Medication name'),
     prescriptionFillDate: {
@@ -231,7 +235,7 @@ export const pharmacyClaimUploadDocs = {
     ...titleUI(
       'Upload supporting documents for your pharmacy claim',
       <>
-        <p>You’ll need to submit the following documents:</p>
+        <p>You’ll need to submit these documents:</p>
         <ul>
           <li>
             Copies of documents with missing information we requested in the
@@ -240,12 +244,13 @@ export const pharmacyClaimUploadDocs = {
           <li>All documents you submitted with your original claim</li>
         </ul>
         <p>
-          These documents may be an itemized or a superbill from your provider
-          an explanation of benefits from your insurance company.
+          These documents could include itemized billing statements (often
+          called a superbill) from your provider or Explanation of Benefits from
+          your insurance company.
         </p>
-        <a href="https://www.va.gov/resources/how-to-file-a-champva-claim/">
-          Learn how to file a CHAMPVA claim
-        </a>
+        {/* <a href="/"rel="noopener noreferrer">
+          Learn more about supporting pharmacy claim documents (opens in a new tab)
+        </a> */}
       </>,
     ),
     ...fileUploadBlurb,
