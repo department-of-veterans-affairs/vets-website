@@ -41,8 +41,7 @@ export const uploadPage = {
         name: 'form-upload-file-input',
         fileUploadUrl,
         title,
-        hint:
-          'You can only upload one file no larger than 25MB. Your file can be .pdf, .png or .jpg.',
+        hint: 'Your file must be .pdf format.',
         formNumber,
         required: () => true,
         // Disallow uploads greater than 25 MB
