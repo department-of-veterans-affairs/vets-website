@@ -18,7 +18,7 @@ const DisabilityRatingCard = ({
   );
 
   if (!totalDisabilityRatingServerError) {
-    if (totalDisabilityRating) {
+    if (totalDisabilityRating != null) {
       // User has a disability rating
       return (
         <va-card>
