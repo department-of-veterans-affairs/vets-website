@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import BackLink from '../../../components/BackLink';
-import AppointmentDetailsErrorMessage from '../../../components/AppointmentDetailsErrorMessage';
+import AppointmentDetailsErrorMessage from '../../components/AppointmentDetailsErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import FacilityPhone from '../../../components/FacilityPhone';
 import FullWidthLayout from '../../../components/FullWidthLayout';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import InfoAlert from './InfoAlert';
+import InfoAlert from '../../components/InfoAlert';
 
 export default function AppointmentDetailsErrorMessage() {
   return (
