@@ -123,17 +123,17 @@ export const DependentsInformation = ({
       >
         <va-radio-option
           name="hasDependentsStatusChanged"
-          value="Y"
-          label="Yes, I need to add, remove, or update my dependent information."
+          value="N"
+          label="Yes, my dependent information is correct."
           tile
-          checked={data.hasDependentsStatusChanged === 'Y'}
+          checked={data.hasDependentsStatusChanged === 'N'}
         />
         <va-radio-option
           name="hasDependentsStatusChanged"
-          value="N"
-          label="No, my dependent information is correct."
+          value="Y"
+          label="No, I need to add, remove, or update my dependent information."
           tile
-          checked={data.hasDependentsStatusChanged === 'N'}
+          checked={data.hasDependentsStatusChanged === 'Y'}
         />
       </VaRadio>
 
