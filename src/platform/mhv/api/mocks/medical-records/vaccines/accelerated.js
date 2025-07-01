@@ -426,4 +426,15 @@ const all = {
   },
 };
 
-module.exports = { all };
+const single = (req, res) => {
+  const { id } = req.params;
+  const vaccine = all.data.find(v => v.id === id);
+  if (vaccine) {
+    res.json({ data: vaccine });
+  } else {
+    res
+      .status(404)
+      .json({ errors: [{ title: 'Not Found', detail: 'Vaccine not found' }] });
+  }
+};
+module.exports = { all, single };
