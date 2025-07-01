@@ -484,6 +484,7 @@ const LandingPage = () => {
                     You can find this information in your medication details in
                     this tool.
                   </section>
+
                   <p className="vads-u-margin-bottom--0">
                     <strong>Note:</strong> If you’re requesting renewals for
                     more than 1 prescription from the same care team, send 1
