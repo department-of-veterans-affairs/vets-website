@@ -5,6 +5,7 @@ import mockPrescriptionDetails from './fixtures/prescription-details.json';
 import nonVARx from './fixtures/non-VA-prescription-on-list-page.json';
 import rxList from './fixtures/listOfPrescriptions.json';
 import { Data } from './utils/constants';
+import rxNoProvider from './fixtures/active-prescriptions-with-refills.json';
 
 describe('Medications Details Page Provider Name', () => {
   const site = new MedicationsSite();
@@ -34,5 +35,13 @@ describe('Medications Details Page Provider Name', () => {
     detailsPage.verifyDocumentedByFullNameOnNonVAMedicationDetailsPage(
       Data.DOCUMENTED_BY_FULL_NAME,
     );
+  });
+  it('visits Medications Details Page Provider No Name', () => {
+    const cardNumber = 2;
+    listPage.visitMedicationsListPageURL(rxList);
+    detailsPage.clickMedicationDetailsLink(rxNoProvider, cardNumber);
+    detailsPage.verifyProviderNameNotAvailableOnDetailsPage(Data.PROVIDER_NAME);
+    cy.injectAxe();
+    cy.axeCheck('main');
   });
 });

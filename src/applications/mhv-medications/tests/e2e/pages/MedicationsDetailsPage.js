@@ -683,7 +683,7 @@ class MedicationsDetailsPage {
   };
 
   verifyProviderNameNotAvailableOnDetailsPage = text => {
-    cy.get('[data-testid="provider-name"]').should('contain', text);
+    cy.get('[data-testid="prescribed-by"]').should('contain', text);
   };
 
   verifyMedDescriptionFieldInRefillAccordionDetailsPage = text => {
@@ -881,6 +881,7 @@ class MedicationsDetailsPage {
   verifyDocumentedByFullNameOnNonVAMedicationDetailsPage = FullName => {
     cy.get('[data-testid="documented-by"]').should('have.text', FullName);
   };
+
   verifyResponseForRecordNotFoundForStandardizeErrorMessage = () => {
     cy.wait('@errorResponse').then(interception => {
       expect(interception.response.body.errors[0].status).to.eq('404');
