@@ -3,6 +3,7 @@ import {
   getVaccine,
   getVaccineList,
   getAcceleratedImmunizations,
+  getAcceleratedImmunization,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
@@ -52,15 +53,22 @@ export const checkForVaccineUpdates = () => async dispatch => {
   }
 };
 
-export const getVaccineDetails = (vaccineId, vaccineList) => async dispatch => {
+export const getVaccineDetails = (
+  vaccineId,
+  vaccineList,
+  isAccelerating,
+) => async dispatch => {
   try {
+    const getData = isAccelerating ? getAcceleratedImmunization : getVaccine;
     await dispatchDetails(
       vaccineId,
       vaccineList,
       dispatch,
-      getVaccine,
+      getData,
       Actions.Vaccines.GET_FROM_LIST,
-      Actions.Vaccines.GET,
+      isAccelerating
+        ? Actions.Vaccines.GET_UNIFIED_VACCINE
+        : Actions.Vaccines.GET,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
