@@ -4,7 +4,6 @@ import { selectPatientFacilities } from '@department-of-veterans-affairs/platfor
 import * as Sentry from '@sentry/browser';
 import {
   selectFeatureCCDirectScheduling,
-  selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
   selectSystemIds,
 } from '../../redux/selectors';
@@ -90,9 +89,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
   return async (dispatch, getState) => {
     const state = getState();
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
-    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-      state,
-    );
     const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
       state,
     );
@@ -134,7 +130,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           startDate, // Start 30 days in the past for canceled appointments
           endDate,
           includeEPS,
-          useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         }),
       ];
@@ -150,7 +145,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             startDate: requestStartDate, // Start 120 days in the past for requests
             endDate: requestEndDate, // End 1 day in the future for requests
             includeEPS,
-            useFeSourceOfTruthModality,
             useFeSourceOfTruthTelehealth,
           })
             .then(requests => {
@@ -251,9 +245,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
     const state = getState();
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
-    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-      state,
-    );
     const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
       state,
     );
@@ -279,7 +270,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         avs: true,
         fetchClaimStatus: true,
         includeEPS,
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       });
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
@@ -329,9 +319,6 @@ export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-      const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-        state,
-      );
       const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
         state,
       );
@@ -352,7 +339,6 @@ export function fetchRequestDetails(id) {
       if (!request) {
         request = await fetchRequestById({
           id,
-          useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });
         facilityId = getVAAppointmentLocationId(request);
@@ -387,9 +373,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-      const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-        state,
-      );
       const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
         state,
       );
@@ -413,7 +396,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment = await fetchBookedAppointment({
           id,
           type,
-          useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });
       }
@@ -476,9 +458,6 @@ export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const state = getState();
     const appointment = state.appointments.appointmentToCancel;
-    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-      state,
-    );
     const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
       state,
     );
@@ -490,7 +469,6 @@ export function confirmCancelAppointment() {
 
       const updatedAppointment = await cancelAppointment({
         appointment,
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       });
 
