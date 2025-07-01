@@ -67,7 +67,7 @@ export const IntroductionPage = props => {
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for dependent-benefits.
       </h2>
-      <Gateway top route={route} />
+      <Gateway route={route} top />
       <ProcessList />
       <Gateway route={route} />
       <p />

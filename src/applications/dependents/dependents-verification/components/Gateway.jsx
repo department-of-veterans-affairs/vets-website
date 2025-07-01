@@ -34,14 +34,11 @@ const Gateway = ({ route, top = false }) => {
           // If the user is logged in but not verified, we might want to show a
           // verification alert or redirect them to a verification page.
           // This is a placeholder for any additional logic needed.
-          console.log('loading dependents');
           dispatch(fetchDependents());
         } else if (dependents?.data?.length > 0) {
-          console.log('dependents found', { data: dependents.data });
           const onAwardDependents = dependents.data.filter(
             dependent => dependent.awardIndicator === 'Y',
           );
-          console.log('onAwardDependents', onAwardDependents);
           if (onAwardDependents.length > 0) {
             setApiState('loaded');
             dispatch(
@@ -58,7 +55,7 @@ const Gateway = ({ route, top = false }) => {
         }
       }
     },
-    [userLoggedIn, userIdVerified, isFetching, dependents],
+    [userLoggedIn, userIdVerified, isFetching, dependents, dispatch, formData],
   );
 
   switch (apiState) {
@@ -117,6 +114,7 @@ Gateway.propTypes = {
     }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
+  top: PropTypes.bool,
 };
 
 export default Gateway;
