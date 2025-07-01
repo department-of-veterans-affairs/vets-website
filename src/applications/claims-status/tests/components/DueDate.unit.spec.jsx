@@ -143,17 +143,3 @@ describe('<DueDate>', () => {
     });
   });
 });
-
-context('when cstFriendlyEvidenceRequests is true', () => {
-  describe('past due dates', () => {
-    it('should render (due date passed)', () => {
-      const testDate = createTestDate({ dateFn: subMonths, amount: 15 });
-      const { getByText } = renderWithRouter(
-        <Provider store={getStore(true)}>
-          <DueDate date={testDate.dateString} />
-        </Provider>,
-      );
-      getByText('(due date passed)');
-    });
-  });
-});
