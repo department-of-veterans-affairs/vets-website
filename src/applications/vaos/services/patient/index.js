@@ -234,7 +234,6 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
-  useFeSourceOfTruthModality = false,
   useFeSourceOfTruthTelehealth = false,
   usePastVisitMHFilter = false,
   isCerner = false,
@@ -270,7 +269,6 @@ export async function fetchFlowEligibilityAndClinics({
 
     if (isDirectAppointmentHistoryRequired) {
       apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
     }
