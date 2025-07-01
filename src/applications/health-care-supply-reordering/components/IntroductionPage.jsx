@@ -15,14 +15,14 @@ const IntroductionPage = ({ route }) => {
       {' '}
       <FormTitle title="Order hearing aid and CPAP supplies" />
       <div className="vads-u-margin-y--4">
-        <p className="vads-u-font-family--sans medium-screen:vads-u-font-size--base">
+        <p>
           If you receive hearing aid or CPAP supplies from VA, you may be able
           to reorder items like batteries, parts, and accessories. These
           supplies must have been prescribed by a VA provider and received
           within the past 2 years. Each item comes as a 6-month supply and can
           be reordered every 5 months.
         </p>
-        <p className="vads-u-font-family--sans medium-screen:vads-u-font-size--base">
+        <p>
           Right now, only hearing aid and CPAP supplies are available to reorder
           online. If you’d like to order other medical supplies available
           through VA, contact the VA Denver Logistics Center (DLC) at{' '}
