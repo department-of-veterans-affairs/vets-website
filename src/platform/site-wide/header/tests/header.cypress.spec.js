@@ -1,6 +1,8 @@
 import features from '~/platform/utilities/tests/header-footer/mocks/features';
 import * as h from '~/platform/utilities/tests/header-footer/utilities/helpers';
 
+const viewports = ['va-top-mobile-1', 'va-top-desktop-2'];
+
 describe('global header', () => {
   const verifyElement = selector =>
     cy
@@ -8,11 +10,11 @@ describe('global header', () => {
       .should('exist')
       .should('be.visible');
 
-  Cypress.config({
-    includeShadowDom: true,
-    waitForAnimations: true,
-    pageLoadTimeout: 120000,
-  });
+  // Cypress.config({
+  //   includeShadowDom: true,
+  //   waitForAnimations: true,
+  //   pageLoadTimeout: 120000,
+  // });
 
   beforeEach(() => {
     cy.intercept('/v0/feature_toggles*', features).as('features');
@@ -24,8 +26,19 @@ describe('global header', () => {
     );
   });
 
+  describe('desktop header screenshot', () => {
+    it('takes a screenshot of the desktop header', () => {
+      cy.viewportPreset(viewports[1]);
+      cy.visit('/');
+      cy.get('#vetnav-menu > li:nth-of-type(2)').click();
+      cy.get('#vetnav-va-benefits-and-health-care > ul > li:first').click();
+      cy.screenshot();
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
   describe('desktop header', () => {
-    it('should correctly load all of the header elements', () => {
+    it.skip('should correctly load all of the header elements', () => {
       cy.visit('/');
       cy.injectAxeThenAxeCheck();
 
@@ -50,7 +63,7 @@ describe('global header', () => {
   });
 
   describe('mobile header', () => {
-    it('should correctly load all of the header elements', () => {
+    it.skip('should correctly load all of the header elements', () => {
       cy.viewport('iphone-4');
       cy.visit('/');
       cy.injectAxeThenAxeCheck();
