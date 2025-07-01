@@ -27,7 +27,6 @@ import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
 import TravelClaimsSection from '../components/TravelClaimsSection';
 import NewAddFilesForm from '../components/claim-files-tab/file-input-multiple/NewAddFilesForm';
-import ChildOnlyAddFilesForm from '../components/claim-files-tab/file-input-multiple/ChildOnlyAddFilesForm';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
@@ -244,8 +243,6 @@ class YourClaimsPageV2 extends React.Component {
             <va-on-this-page />
             <h2>New Add Files Form</h2>
             <NewAddFilesForm />
-            <h2>Child Only - New Add Files Form</h2>
-            <ChildOnlyAddFilesForm />
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>

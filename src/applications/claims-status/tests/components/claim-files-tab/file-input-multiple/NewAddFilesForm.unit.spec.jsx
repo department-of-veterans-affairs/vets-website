@@ -67,4 +67,52 @@ describe('NewAddFilesForm with va-file-input-multiple', () => {
       expect(onChangeSpy.firstCall.args[0].detail.file).to.equal(mockFile);
     });
   });
+
+  describe('User Story #5: Submit validation with no files', () => {
+    it('should have a submit button', () => {
+      const { container: newContainer } = render(<NewAddFilesForm />);
+
+      // Find the submit button
+      const submitButton = $(
+        'va-button[text="Submit documents for review"]',
+        newContainer,
+      );
+
+      expect(submitButton).to.exist;
+    });
+
+    it('should call onSubmit when submit button is clicked', () => {
+      const onSubmitSpy = sinon.spy();
+      const { container: newContainer } = render(
+        <NewAddFilesForm onSubmit={onSubmitSpy} />,
+      );
+
+      // Find and click the submit button
+      const submitButton = $(
+        'va-button[text="Submit documents for review"]',
+        newContainer,
+      );
+
+      submitButton.click();
+
+      expect(onSubmitSpy.called).to.be.true;
+    });
+
+    it('should prevent submission when no files are selected and required=true', () => {
+      const onSubmitSpy = sinon.spy();
+      const { container: newContainer } = render(
+        <NewAddFilesForm onSubmit={onSubmitSpy} required />,
+      );
+
+      // Find and click the submit button
+      const submitButton = $(
+        'va-button[text="Submit documents for review"]',
+        newContainer,
+      );
+      submitButton.click();
+
+      // Core validation behavior: submission should be prevented
+      expect(onSubmitSpy.called).to.be.false;
+    });
+  });
 });
