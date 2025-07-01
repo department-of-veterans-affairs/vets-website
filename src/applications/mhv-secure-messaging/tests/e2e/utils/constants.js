@@ -32,24 +32,27 @@ export const Paths = {
   CONTACT_LIST: '/contact-list',
   NEW_MESSAGE: '/my-health/secure-messages/new-message/',
   AAL: '/my_health/v1/aal',
+  PARTICULAR_THREAD: '/my-health/secure-messages/thread/',
   INTERCEPT: {
     MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
     MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
     MESSAGE_FOLDER: '/my_health/v1/messaging/folders*',
     MESSAGE_FOLDERS: '/my_health/v1/messaging/folders',
     MESSAGE_FOLDER_THREAD: '/my_health/v1/messaging/folders/0/threads?*',
-    MESSAGE_FOLDER_MESS: '/my_health/v1/messaging//folders/0/messages*',
+    INBOX_FOLDER: '/my_health/v1/messaging/folders/0*',
+    SENT_FOLDER_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
     MESSAGE_DRAFTS: '/my_health/v1/messaging/message_drafts',
     MESSAGE_FOLDERS_SEARCH: '/my_health/v1/messaging/folders/*/search',
     MESSAGE_FOLDERS_2: '/my_health/v1/messaging/folders/-2*',
     FEATURE_TOGGLES: '/v0/feature_toggles?*',
     MESSAGE_THREADS: '/my_health/v1/messaging/threads/',
     MESSAGE_SIGNATURE: '/my_health/v1/messaging/preferences/signature',
-    MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
+    MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients*',
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
+    PARTICULAR_THREAD: '/my_health/v1/messaging/messages/*/thread*',
     SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
   },
 };
@@ -467,6 +470,11 @@ export const Data = {
     P_O: `If you typed or copied the URL into your web browser, check that it’s correct.`,
     P_1: `If that doesn’t work, try going to the My HealtheVet homepage.`,
     LINK: `Go to the My HealtheVet on VA.gov homepage`,
+  },
+
+  ERROR_500: {
+    HEADER: `We can't access your messages right now`,
+    TEXT: `We’re sorry. There's a problem with our system. Refresh this page or try again later.`,
   },
 };
 

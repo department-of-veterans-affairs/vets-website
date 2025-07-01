@@ -1,5 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
+import mockSentThreadsResponse from '../fixtures/sentResponse/sent-messages-response.json';
 import PatientComposePage from '../pages/PatientComposePage';
 import { AXE_CONTEXT, Data, Locators } from '../utils/constants';
 
@@ -9,6 +10,12 @@ describe('SM KEYBOARD NAVIGATION TO COMPOSE', () => {
     PatientInboxPage.loadInboxMessages();
   });
   it('validate user can navigate to compose page', () => {
+    cy.intercept(
+      `GET`,
+      `my_health/v1/messaging/folders/-1/threads*`,
+      mockSentThreadsResponse,
+    ).as(`threadsCall`);
+
     cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE);
     cy.realPress(['Enter']);
     cy.injectAxe();
