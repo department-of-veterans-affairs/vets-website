@@ -17,10 +17,6 @@ export const cstIncludeDdlBoaLetters = state =>
 export const cstIncludeDdl5103Letters = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.cstIncludeDdl5103Letters];
 
-// 'benefits_documents_use_lighthouse'
-export const benefitsDocumentsUseLighthouse = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.benefitsDocumentsUseLighthouse];
-
 // 'cst_use_dd_rum'
 export const cstUseDataDogRUM = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.cstUseDataDogRUM];

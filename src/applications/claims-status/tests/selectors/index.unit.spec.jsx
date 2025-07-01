@@ -89,28 +89,6 @@ describe('selectors', () => {
     });
   });
 
-  describe('benefitsDocumentsUseLighthouse', () => {
-    const state = {
-      featureToggles: {
-        benefitsDocumentsUseLighthouse: true,
-        // eslint-disable-next-line camelcase
-        benefits_documents_use_lighthouse: true,
-      },
-    };
-
-    it('should return true', () => {
-      expect(selectors.benefitsDocumentsUseLighthouse(state)).to.be.true;
-    });
-
-    it('should return false', () => {
-      state.featureToggles.benefitsDocumentsUseLighthouse = false;
-      // eslint-disable-next-line camelcase
-      state.featureToggles.benefits_documents_use_lighthouse = false;
-
-      expect(selectors.benefitsDocumentsUseLighthouse(state)).to.be.false;
-    });
-  });
-
   describe('getBackendServices', () => {
     const state = {
       user: {
