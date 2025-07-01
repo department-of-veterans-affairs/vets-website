@@ -7,6 +7,7 @@ import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import mockSignature from '../fixtures/signature-response.json';
 import mockCategories from '../fixtures/categories-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
+import mockThreadsResponse from '../fixtures/pilot-responses/threads-recent-recipients-response.json';
 
 class PilotEnvPage {
   loadInboxMessages = (
@@ -192,6 +193,24 @@ class PilotEnvPage {
   };
 
   navigateToSelectCareTeamPage = () => {
+    // cy.intercept(
+    //   `POST`,
+    //   `http://localhost:3000/my_health/v1/messaging/folders/-1/search?requires_oh_messages=1`,
+    //   req => {
+    //     req.body = {
+    //       fromDate: '2025-01-01T17:41:22.092Z',
+    //       toDate: '2025-05-01T16:41:22.092Z',
+    //     };
+    //     req.reply(mockRecipients);
+    //   },
+    // );
+
+    cy.intercept(
+      `POST`,
+      `http://localhost:3000/my_health/v1/messaging/folders/-1/search?requires_oh_messages=1`,
+      mockThreadsResponse,
+    ).as(`searchRecipients`);
+
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
     PatientInterstitialPage.getContinueButton().click({ force: true });
   };
