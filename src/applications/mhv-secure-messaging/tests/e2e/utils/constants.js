@@ -51,6 +51,7 @@ export const Paths = {
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
     SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
+    RECENT_RECIPIENTS_SEARCH: `http://localhost:3000/my_health/v1/messaging/folders/-1/search?requires_oh_messages=1`,
   },
 };
 
@@ -385,6 +386,7 @@ export const Data = {
   SAVE_MEG_AS_DRAFT: 'If you save this message as a draft',
   NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
   WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
+  RECENT_RECIPIENTS: `Select a team from those you've sent messages to in the past 6 months. Or select "A different care team" to find another team.`,
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
   REMOVE_FOLDER: 'Remove folder',

@@ -17,6 +17,7 @@ import manifest from '../manifest.json';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
+import RecentCareTeams from './RecentCareTeams';
 import SelectCareTeam from './SelectCareTeam';
 import { clearDraftInProgress } from '../actions/threadDetails';
 
@@ -133,6 +134,16 @@ const AuthorizedRoutes = () => {
             key="Compose"
           >
             <Compose skipInterstitial />
+          </AppRoute>
+        )}
+
+        {isPilot && (
+          <AppRoute
+            exact
+            path={`${Paths.COMPOSE}${Paths.RECENT_CARE_TEAMS}`}
+            key="RecentCareTeams"
+          >
+            <RecentCareTeams />
           </AppRoute>
         )}
         {isPilot && (

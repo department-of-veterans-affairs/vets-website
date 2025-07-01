@@ -68,6 +68,9 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
         },
       },
     });
+    dispatch({
+      type: Actions.AllRecipients.RESET_RECENT,
+    });
   }
   if (response.errors) {
     const error = response.errors[0];
@@ -127,6 +130,9 @@ export const saveReplyDraft = (
           },
         },
       },
+    });
+    dispatch({
+      type: Actions.AllRecipients.RESET_RECENT,
     });
     return response.data.attributes;
   }

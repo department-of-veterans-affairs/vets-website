@@ -7,6 +7,7 @@ import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import mockSignature from '../fixtures/signature-response.json';
 import mockCategories from '../fixtures/categories-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
+import mockThreadsResponse from '../fixtures/pilot-responses/threads-recent-recipients-response.json';
 
 class PilotEnvPage {
   loadInboxMessages = (
@@ -196,6 +197,19 @@ class PilotEnvPage {
     PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
+  navigateToRecentCareTeamsPage = (
+    mockSearchResponse = mockThreadsResponse,
+  ) => {
+    cy.intercept(
+      `POST`,
+      Paths.INTERCEPT.RECENT_RECIPIENTS_SEARCH,
+      mockSearchResponse,
+    ).as(`searchRecipients`);
+
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
+  };
+
   verifySelectCareTeamPageInterface = () => {
     cy.get(`va-radio-option`).should('have.length', 4);
     cy.get(`.vads-u-margin-bottom--1 > a`)
@@ -205,6 +219,22 @@ class PilotEnvPage {
     cy.get(`.vads-u-margin-top--2 > a`)
       .should(`have.attr`, `href`, Data.LINKS.PILOT_CONTACT_LIST)
       .and('have.text', Data.CURATED_LIST.CONTACT_LIST_UPDATE);
+  };
+
+  verifyRecentCareTeamsList = (threadsResponse = mockThreadsResponse) => {
+    const TGList = threadsResponse.data.map(
+      item => item.attributes.triageGroupName,
+    );
+    TGList.push(`A different care team`);
+
+    cy.get(`va-radio-option`).should('have.length', 5);
+    cy.get(`va-radio-option`).each(el => {
+      cy.wrap(el)
+        .invoke(`attr`, `label`)
+        .then(tgName => {
+          expect(tgName).to.be.oneOf(TGList);
+        });
+    });
   };
 
   selectCareTeam = (index = 0) => {

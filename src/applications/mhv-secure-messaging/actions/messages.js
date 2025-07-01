@@ -171,6 +171,9 @@ export const sendMessage = (message, attachments) => async dispatch => {
         Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
       ),
     );
+    dispatch({
+      type: Actions.AllRecipients.RESET_RECENT,
+    });
   } catch (e) {
     if (
       e.errors &&
@@ -226,6 +229,9 @@ export const sendReply = (
         Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
       ),
     );
+    dispatch({
+      type: Actions.AllRecipients.RESET_RECENT,
+    });
   } catch (e) {
     if (
       e.errors &&
