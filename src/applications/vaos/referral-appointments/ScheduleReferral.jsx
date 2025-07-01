@@ -91,6 +91,11 @@ export default function ScheduleReferral(props) {
           <strong>Referral number: </strong>
           <span data-dd-privacy="mask">{currentReferral.referralNumber}</span>
         </p>
+        <p data-testid="referral-informational-text">
+          You can schedule your first appointment online. Contact your community
+          care provider directly to schedule the remaining appointments for this
+          referral.
+        </p>
         <h2>If you have questions about your referral</h2>
         <p>
           Contact the team at your referring VA facility. They can answer
