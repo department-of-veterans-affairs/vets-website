@@ -971,10 +971,10 @@ class MedicationsListPage {
     cardNumber,
   ) => {
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="rx-number"]`,
+      `.landing-page-content > [data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"]`,
     )
       .first()
-      .should('contain', prescriptionNumber);
+      .should('not.contain', prescriptionNumber);
   };
 
   verifyPendingNewRxInfoTextOnMedicationCardOnListPage = text => {
@@ -1125,6 +1125,12 @@ class MedicationsListPage {
       expect(fileContent).to.contain('not available');
       expect(fileContent).to.not.contain('None noted');
     });
+  };
+
+  verifyPageNotFoundTextDisplayed = () => {
+    cy.get('[data-testid="page-not-found"]')
+      .should('be.visible')
+      .and('contain', 'Page not found');
   };
 }
 

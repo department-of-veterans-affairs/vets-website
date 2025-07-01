@@ -1,5 +1,6 @@
 {
   "data": {
+    "dateReceivedByVa": false,
     "incomeNetWorthDateRange": {
       "from": "2023-07-01",
       "to": "2024-01-01"

@@ -115,6 +115,7 @@ const createReferrals = (
   numberOfReferrals = 3,
   baseDate,
   numberOfExpiringReferrals = 0,
+  includeErrorReferrals = false,
 ) => {
   // create a date object for today that is not affected by the time zone
   const dateOjbect = baseDate ? new Date(baseDate) : new Date();
@@ -144,8 +145,11 @@ const createReferrals = (
       ),
     );
   }
+  if (includeErrorReferrals) {
+    return [...referrals, ...errorReferralsList];
+  }
 
-  return [...referrals, ...errorReferralsList];
+  return [...referrals];
 };
 
 /**
@@ -169,7 +173,8 @@ const filterReferrals = referrals => {
   }
 
   return referrals.filter(
-    referral => referral.attributes.categoryOfCare === 'Physical Therapy',
+    referral =>
+      referral.attributes.categoryOfCare?.toLowerCase() === 'optometry',
   );
 };
 

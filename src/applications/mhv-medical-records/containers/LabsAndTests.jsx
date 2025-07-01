@@ -1,7 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { useHistory, useLocation } from 'react-router-dom';
+import { format } from 'date-fns';
+import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList, reloadRecords } from '../actions/labsAndTests';
 import {
@@ -11,16 +15,24 @@ import {
   pageTitles,
   recordType,
   refreshExtractTypes,
+  loadStates,
 } from '../util/constants';
+import { getMonthFromSelectedDate } from '../util/helpers';
+
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import useAcceleratedData from '../hooks/useAcceleratedData';
+import DatePicker from '../components/shared/DatePicker';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
+
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
   );
@@ -34,12 +46,51 @@ const LabsAndTests = () => {
     state => state.mr.labsAndTests.listCurrentAsOf,
   );
 
+  const { isAcceleratingLabsAndTests } = useAcceleratedData();
+
+  const urlTimeFrame = new URLSearchParams(location.search).get('timeFrame');
+
+  // for the dropdown
+  const [acceleratedLabsAndTestDate, setAcceleratedLabsAndTestDate] = useState(
+    urlTimeFrame || format(new Date(), 'yyyy-MM'),
+  );
+  // for the display message
+  const [displayDate, setDisplayDate] = useState(acceleratedLabsAndTestDate);
+
+  // for the api call
+  const timeFrameApiParameters = useMemo(
+    () => {
+      // set end date to the last day of the month
+      const [year, month] = acceleratedLabsAndTestDate.split('-');
+      const lastDayOfMonth = new Date(year, month, 0).getDate();
+      const formattedMonth = month.padStart(2, '0');
+      return {
+        startDate: `${year}-${formattedMonth}-01`,
+        endDate: `${year}-${formattedMonth}-${lastDayOfMonth}`,
+      };
+    },
+    [acceleratedLabsAndTestDate],
+  );
+
+  const dispatchAction = useMemo(
+    () => {
+      return isCurrent => {
+        return getLabsAndTestsList(
+          isCurrent,
+          isAcceleratingLabsAndTests,
+          timeFrameApiParameters,
+        );
+      };
+    },
+    [isAcceleratingLabsAndTests, timeFrameApiParameters],
+  );
+
   useListRefresh({
     listState,
     listCurrentAsOf: labsAndTestsCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: [refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR],
-    dispatchAction: getLabsAndTestsList,
+    dispatchAction,
     dispatch,
   });
 
@@ -54,6 +105,8 @@ const LabsAndTests = () => {
     },
     [dispatch],
   );
+  const isLoadingAcceleratedData =
+    isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 
   useEffect(
     () => {
@@ -63,13 +116,50 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
+  useEffect(
+    () => {
+      // Only update if there is no time frame. This is only for on initial page load.
+      const timeFrame = new URLSearchParams(location.search).get('timeFrame');
+      if (!timeFrame) {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set('timeFrame', acceleratedLabsAndTestDate);
+        history.push({
+          pathname: location.pathname,
+          search: searchParams.toString(),
+        });
+      }
+    },
+    [acceleratedLabsAndTestDate, history, location.pathname, location.search],
+  );
+  const updateDate = event => {
+    const [year, month] = event.target.value.split('-');
+    // Ignore transient date changes.
+    if (year?.length === 4 && month?.length === 2) {
+      setAcceleratedLabsAndTestDate(`${year}-${month}`);
+    }
+  };
+
+  const triggerApiUpdate = () => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set('timeFrame', acceleratedLabsAndTestDate);
+    history.push({
+      pathname: location.pathname,
+      search: searchParams.toString(),
+    });
+    setDisplayDate(acceleratedLabsAndTestDate);
+    dispatch({
+      type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+      payload: loadStates.PRE_FETCH,
+    });
+  };
+
   return (
     <div id="labs-and-tests">
       <h1 className="page-title vads-u-margin-bottom--1">
         Lab and test results
       </h1>
 
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         Most lab and test results are available{' '}
         <span className="vads-u-font-weight--bold">36 hours</span> after the lab
         confirms them. Pathology results may take{' '}
@@ -87,22 +177,70 @@ const LabsAndTests = () => {
         listCurrentAsOf={labsAndTestsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={[refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR]}
-          newRecordsFound={
-            Array.isArray(labsAndTests) &&
-            Array.isArray(updatedRecordList) &&
-            labsAndTests.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
-        {labsAndTests?.length ? (
-          <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
-        ) : (
-          <NoRecordsMessage type={recordType.LABS_AND_TESTS} />
+        {!isAcceleratingLabsAndTests && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={[
+              refreshExtractTypes.CHEM_HEM,
+              refreshExtractTypes.VPR,
+            ]}
+            newRecordsFound={
+              Array.isArray(labsAndTests) &&
+              Array.isArray(updatedRecordList) &&
+              labsAndTests.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
+        {isAcceleratingLabsAndTests && (
+          <>
+            <div className="vads-u-margin-bottom--2">
+              <DatePicker
+                {...{
+                  updateDate,
+                  triggerApiUpdate,
+                  isLoadingAcceleratedData,
+                  dateValue: acceleratedLabsAndTestDate,
+                }}
+              />
+            </div>
+          </>
+        )}
+        {isLoadingAcceleratedData && (
+          <>
+            <div className="vads-u-margin-y--8">
+              <va-loading-indicator
+                message="We’re loading your records."
+                setFocus
+                data-testid="loading-indicator"
+              />
+            </div>
+          </>
+        )}
+
+        {!isLoadingAcceleratedData && (
+          <>
+            {labsAndTests?.length ? (
+              <RecordList
+                type={recordType.LABS_AND_TESTS}
+                records={labsAndTests?.map(data => ({
+                  ...data,
+                  isOracleHealthData: isAcceleratingLabsAndTests,
+                }))}
+                domainOptions={{
+                  isAccelerating: isAcceleratingLabsAndTests,
+                  timeFrame: acceleratedLabsAndTestDate,
+                  displayTimeFrame: getMonthFromSelectedDate({
+                    date: displayDate,
+                  }),
+                }}
+              />
+            ) : (
+              <NoRecordsMessage type={recordType.LABS_AND_TESTS} />
+            )}
+          </>
         )}
       </RecordListSection>
     </div>

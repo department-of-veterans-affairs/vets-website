@@ -18,7 +18,7 @@ import { migrateBranches } from './serviceBranches';
 
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
 
-import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
+import { form0781WorkflowChoices } from '../content/form0781/workflowChoices';
 
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with

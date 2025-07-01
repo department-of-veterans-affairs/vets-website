@@ -30,6 +30,7 @@ import {
   mockEligibilityApi,
   mockEligibilityCCApi,
   mockFacilitiesApi,
+  mockFacilityApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
   mockSlotsApi,
@@ -99,6 +100,12 @@ describe('VAOS request schedule flow - Audiology', () => {
         mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
+        });
+        mockFacilityApi({
+          id: '983',
+          response: MockFacilityResponse.createResponses({
+            facilityIds: ['983'],
+          })[0],
         });
 
         // Act

@@ -57,6 +57,7 @@ import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntime
 import BenefitApplications from './benefit-application-drafts/BenefitApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
+import FormsAndApplications from './benefit-application-drafts/FormsAndApplications';
 
 const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -163,7 +164,14 @@ const LOA1Content = ({
         </Toggler.Disabled>
       </Toggler>
 
-      <BenefitApplications />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          <BenefitApplications />
+        </Toggler.Disabled>
+        <Toggler.Enabled>
+          <FormsAndApplications />
+        </Toggler.Enabled>
+      </Toggler>
 
       {showWelcomeToMyVaMessage &&
         userIsNew && (
@@ -383,7 +391,7 @@ const Dashboard = ({
                     <BenefitApplications />
                   </Toggler.Disabled>
                   <Toggler.Enabled>
-                    <BenefitApplications />
+                    <FormsAndApplications />
                     <HealthCare isVAPatient={isVAPatient} />
                     <BenefitPayments
                       payments={payments}

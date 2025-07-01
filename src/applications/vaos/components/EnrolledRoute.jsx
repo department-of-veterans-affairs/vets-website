@@ -11,16 +11,12 @@ import { selectUser, isLOA3 } from 'platform/user/selectors';
 import FullWidthLayout from './FullWidthLayout';
 
 import { useDatadogRum } from '../utils/useDatadogRum';
-import NoRegistrationMessage from './NoRegistrationMessage';
 
 export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
   const user = useSelector(selectUser);
   const sites = useSelector(selectPatientFacilities);
   const isUserLOA3 = useSelector(isLOA3);
   const hasRegisteredSystems = sites?.length > 0;
-  const featureMhvRouteGuards = useSelector(
-    state => state.featureToggles.vaOnlineSchedulingMHVRouteGuards,
-  );
   const isToggleLoading = useSelector(state => state.featureToggles.loading);
   const userProfileLoading = user?.profile?.loading;
   useDatadogRum();
@@ -39,12 +35,11 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
 
   // Determine if the user should be redirected to the `/my-health` page.
   // Redirect if:
-  //   1. The `featureMhvRouteGuards` flag is enabled,
-  //   2. AND the user is either not LOA3 authenticated OR not registered with any facilities.
-  const shouldRedirectToMyHealtheVet = () =>
-    featureMhvRouteGuards && (!isUserLOA3 || !hasRegisteredSystems);
+  //   1. The user is not LOA3 authenticated
+  //   2. OR not registered with any facilities.
+  const shouldRedirectToMyHealtheVet = !isUserLOA3 || !hasRegisteredSystems;
 
-  if (shouldRedirectToMyHealtheVet()) {
+  if (shouldRedirectToMyHealtheVet) {
     window.location.replace(`${window.location.origin}/my-health`);
     return null;
   }
@@ -58,12 +53,7 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
       user={user}
       verify={!environment.isLocalhost()}
     >
-      <Route {...rest}>
-        {/* Show NoRegistrationMessage only if the feature flag is off and user is not registered */}
-        {!featureMhvRouteGuards &&
-          !hasRegisteredSystems && <NoRegistrationMessage />}
-        {hasRegisteredSystems && <RouteComponent />}
-      </Route>
+      <Route {...rest}>{hasRegisteredSystems && <RouteComponent />}</Route>
     </RequiredLoginView>
   );
 }
