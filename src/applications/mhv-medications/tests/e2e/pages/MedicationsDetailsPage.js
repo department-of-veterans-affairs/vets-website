@@ -881,6 +881,18 @@ class MedicationsDetailsPage {
   verifyDocumentedByFullNameOnNonVAMedicationDetailsPage = FullName => {
     cy.get('[data-testid="documented-by"]').should('have.text', FullName);
   };
+  verifyResponseForRecordNotFoundForStandardizeErrorMessage = () => {
+    cy.wait('@errorResponse').then(interception => {
+      expect(interception.response.body.errors[0].status).to.eq('404');
+      expect(interception.response.body.errors[0].code).to.eq('404');
+      expect(interception.response.body.errors[0].title).to.eq(
+        'Record not found',
+      );
+      expect(interception.response.body.errors[0].detail).to.eq(
+        'The record identified by 232323 could not be found',
+      );
+    });
+  };
 }
 
 export default MedicationsDetailsPage;

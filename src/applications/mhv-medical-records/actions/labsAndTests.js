@@ -16,7 +16,7 @@ import { radiologyRecordHash } from '../util/radiologyUtil';
 export const getLabsAndTestsList = (
   isCurrent = false,
   isAccelerating = false,
-  timeFrame = '',
+  timeFrame = {},
 ) => async dispatch => {
   dispatch({
     type: Actions.LabsAndTests.UPDATE_LIST_STATE,
