@@ -42,4 +42,35 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       cy.axeCheck();
     });
   });
+
+  describe('User Story #3: Adding files', () => {
+    it('should allow users to add files', () => {
+      setupComponentTest();
+
+      const fileName = 'test-document.pdf';
+
+      // Select a file (simulates the result of user interaction with file picker)
+      // Note: "choose from folder" text is not clickable (pointer-events: none)
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find('input[type="file"]')
+        .selectFile({
+          contents: Cypress.Buffer.from('test content'),
+          fileName,
+        });
+
+      // Verify the file name is visible to the user
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .should('contain.text', fileName);
+
+      cy.axeCheck();
+    });
+  });
 });
