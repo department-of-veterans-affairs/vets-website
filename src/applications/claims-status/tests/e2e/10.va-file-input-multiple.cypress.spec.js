@@ -43,13 +43,14 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     });
   });
 
-  describe('User Story #3: Adding files', () => {
-    it('should allow users to add files', () => {
+  describe('User Story #3 and #4: Adding files by clicking and dragging', () => {
+    it('should allow users to add files by clicking and dragging', () => {
       setupComponentTest();
 
-      const fileName = 'test-document.pdf';
+      const clickFile = 'click-file.pdf';
+      const dragFile = 'drag-file.pdf';
 
-      // Select a file (simulates the result of user interaction with file picker)
+      // Select first file (simulates clicking to choose file)
       // Note: "choose from folder" text is not clickable (pointer-events: none)
       cy.get('va-file-input-multiple')
         .shadow()
@@ -59,16 +60,40 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .find('input[type="file"]')
         .selectFile({
           contents: Cypress.Buffer.from('test content'),
-          fileName,
+          fileName: clickFile,
         });
 
-      // Verify the file name is visible to the user
+      // Select second file (simulates dragging another file)
+      // After first file, component creates a new input for additional files
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .last() // Use .last() to get the newest input
+        .shadow()
+        .find('input[type="file"]')
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from('dragged content'),
+            fileName: dragFile,
+          },
+          { action: 'drag-drop' },
+        );
+
+      // Verify both file names are visible to the user
       cy.get('va-file-input-multiple')
         .shadow()
         .find('va-file-input')
         .first()
         .shadow()
-        .should('contain.text', fileName);
+        .should('contain.text', clickFile);
+
+      // Verify second file appears in the second file input
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .eq(1)
+        .shadow()
+        .should('contain.text', dragFile);
 
       cy.axeCheck();
     });
