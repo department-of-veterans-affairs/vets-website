@@ -1,8 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
 
-import { createSecondaryEnhancedDescriptionString } from './secondaryEnhanced';
-
 export const ConditionsIntroDescription = () => (
   <p>
     On the following screens, we’ll ask you about the disabilities and
@@ -42,13 +40,6 @@ const createCauseFollowUpDescriptions = (item, fullData = {}) => {
       return 'caused by an injury, event, disease or exposure during my service';
 
     case 'SECONDARY': {
-      if (typeof item.causedByCondition === 'object') {
-        return createSecondaryEnhancedDescriptionString(
-          item.causedByCondition,
-          fullData,
-        );
-      }
-
       const target = item.causedByCondition?.toLowerCase()?.trim();
       const foundInConditions = conditions.some(
         c => c.newCondition?.toLowerCase()?.trim() === target,
