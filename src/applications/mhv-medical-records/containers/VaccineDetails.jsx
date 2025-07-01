@@ -33,6 +33,7 @@ import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -50,13 +51,17 @@ const VaccineDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
+  const { isAcceleratingVaccines, isLoading } = useAcceleratedData();
+
   useEffect(
     () => {
-      if (vaccineId) {
-        dispatch(getVaccineDetails(vaccineId, vaccines));
+      if (vaccineId && !isLoading) {
+        dispatch(
+          getVaccineDetails(vaccineId, vaccines, isAcceleratingVaccines),
+        );
       }
     },
-    [vaccineId, vaccines, dispatch],
+    [vaccineId, vaccines, dispatch, isAcceleratingVaccines, isLoading],
   );
 
   useEffect(
@@ -163,10 +168,18 @@ const VaccineDetails = props => {
             <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
             <div>
               <LabelValue
-                label="Location"
+                label={isAcceleratingVaccines ? 'Provider' : 'Location'}
                 value={record.location}
-                testId="vaccine-location"
-                actionName="[vaccine details - location]"
+                testId={
+                  isAcceleratingVaccines
+                    ? 'vaccine-provider'
+                    : 'vaccine-location'
+                }
+                actionName={
+                  isAcceleratingVaccines
+                    ? '[vaccine details - provider]'
+                    : '[vaccine details - location]'
+                }
               />
               {/* <LabelValue
                 label="Reactions recorded by provider"
