@@ -4,8 +4,10 @@ import oracleHealthUser from '../fixtures/user/oracle-health.json';
 
 describe('Medical Records View Lab and Tests', () => {
   const site = new MedicalRecordsSite();
-
+  const mockDate = new Date(2024, 0, 25); // January 25, 2024
   beforeEach(() => {
+    cy.clock(mockDate, ['Date']);
+
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
@@ -13,6 +15,10 @@ describe('Medical Records View Lab and Tests', () => {
       isAcceleratingLabsAndTests: true,
     });
     LabsAndTests.setIntercepts({ labsAndTestData: [] });
+  });
+
+  afterEach(() => {
+    cy.clock().invoke('restore');
   });
 
   it('Visits View Labs And Test Page List', () => {
@@ -23,7 +29,7 @@ describe('Medical Records View Lab and Tests', () => {
 
     LabsAndTests.goToLabAndTestPage();
 
-    const today = new Date();
+    const today = mockDate;
     const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
       .toString()
       .padStart(2, '0')}`;
