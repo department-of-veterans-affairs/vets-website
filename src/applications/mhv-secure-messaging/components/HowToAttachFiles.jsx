@@ -1,10 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 
-const HowToAttachFiles = () => {
+const HowToAttachFiles = ({ isPilot }) => {
   const { largeAttachmentsEnabled } = useFeatureToggles();
-
+  const MAX_TOTAL_SIZE_DESCRIPTION = ` The maximum total size for all files attached to 1 message is ${
+    isPilot ? '25 MB' : '10 MB'
+  }.`;
   return (
     <VaAdditionalInfo
       trigger="What to know about attaching files"
@@ -23,10 +26,7 @@ const HowToAttachFiles = () => {
                 mp4, m4v, mov, wmv, mpg
               </li>
               <li>The maximum size for each file is 6 MB</li>
-              <li>
-                The maximum total size for all files attached to 1 message is 25
-                MB
-              </li>
+              <li>{MAX_TOTAL_SIZE_DESCRIPTION}</li>
             </>
           ) : (
             <>
@@ -46,6 +46,10 @@ const HowToAttachFiles = () => {
       </section>
     </VaAdditionalInfo>
   );
+};
+
+HowToAttachFiles.propTypes = {
+  isPilot: PropTypes.bool,
 };
 
 export default HowToAttachFiles;

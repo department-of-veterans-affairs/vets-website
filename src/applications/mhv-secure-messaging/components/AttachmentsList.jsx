@@ -172,7 +172,7 @@ const AttachmentsList = props => {
           ''
         )}
       </div>
-      {editingEnabled && <HowToAttachFiles />}
+      {editingEnabled && <HowToAttachFiles isPilot={isPilot} />}
 
       {attachFileSuccess &&
         attachments.length > 0 &&
