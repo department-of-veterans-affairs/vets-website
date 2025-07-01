@@ -230,7 +230,7 @@ export function uploadFile(
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     // PDFs may have a different max size based on where it is being uploaded
     // (form 526 & claim status)
     const maxSize =
@@ -313,7 +313,7 @@ export function uploadFile(
       onChange({ name: file.name, uploading: true });
     }
 
-    const payload = uiOptions.createPayload(
+    const payload = await uiOptions.createPayload(
       file,
       getState().form.formId,
       password,
