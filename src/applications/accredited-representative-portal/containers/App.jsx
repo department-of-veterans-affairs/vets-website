@@ -5,9 +5,6 @@ import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-li
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-
 function App() {
   const {
     TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },
@@ -34,13 +31,7 @@ function App() {
     return null;
   }
 
-  return (
-    <div className="container">
-      <Header />
-      <Outlet />
-      <Footer />
-    </div>
-  );
+  return <Outlet />;
 }
 
 export default App;
