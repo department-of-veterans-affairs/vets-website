@@ -126,6 +126,7 @@ When refactoring existing code to use this module:
 2. Use validation functions instead of inline validation
 3. Use form integration utilities for form date handling
 4. Move product-specific logic to product-specific.js
+   1. We can break it out into a dir with subfiles as well
 
 ### Example Migration
 
@@ -152,7 +153,8 @@ const isValid = parseDate(date) !== null;
 ### MomentJS Usage
 
 - All MomentJS usage is centralized in this module
-- MomentJS warnings are expected and should NOT be fixed (per requirements)
+- MomentJS warnings are expected and should not be fixed for now
+- We will migrate away from moment in future work
 - ESLint warnings are disabled with the following format:
 
 ```javascript
