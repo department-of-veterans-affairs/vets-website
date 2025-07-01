@@ -237,7 +237,6 @@ src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe @department-of
 
 # Benefits Accredited Representative Facing (ARF)
 src/applications/accredited-representative-portal @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/accreditation @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/representative-form-upload @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Accredited Representation Management (ARM)

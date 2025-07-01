@@ -2100,8 +2100,20 @@
 },
 {
   "domain": "www.benefits.va.gov",
-  "src": "/compensation/claimexam.aspp",
+  "src": "/compensation/claimexam.asp",
   "dest": "/resources/va-claim-exam/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/indianapolis",
+  "dest": "/indianapolis-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/ROINDIANAPOLIS",
+  "dest": "/indianapolis-va-regional-benefit-office/",
   "catchAll": true
 }
 ]

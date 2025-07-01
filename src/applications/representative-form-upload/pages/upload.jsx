@@ -41,8 +41,7 @@ export const uploadPage = {
         name: 'form-upload-file-input',
         fileUploadUrl,
         title,
-        hint:
-          'You can only upload one file no larger than 25MB. Your file can be .pdf, .png or .jpg.',
+        hint: 'Your file must be .pdf format.',
         formNumber,
         required: () => true,
         // Disallow uploads greater than 25 MB
@@ -58,9 +57,22 @@ export const uploadPage = {
     },
     'ui:objectViewField': SupportingEvidenceViewField,
     supportingDocuments: {
-      'ui:title': <strong>Upload additional evidence</strong>,
-      'ui:description':
-        'Select supporting documents to upload. You can upload one file at a time no larger than 25MB. Your file can be .pdf, .png or .jpg.',
+      'ui:title': (
+        <div className="vads-u-font-size--h3 vads-u-font-weight--bold">
+          Upload supporting evidence
+        </div>
+      ),
+      'ui:description': Object.freeze(
+        <>
+          <p className="form-686c__upload-text">
+            Select supporting documents to upload.
+          </p>
+          <p className="form-686c__upload-hint">
+            You can only upload one file no larger than 25MB. Your file can be
+            .pdf, .png or .jpg.
+          </p>
+        </>,
+      ),
       'ui:field': FileField,
       'ui:confirmationField': ({ formData }) => ({
         data: formData?.map(item => item.name || item.fileName),
