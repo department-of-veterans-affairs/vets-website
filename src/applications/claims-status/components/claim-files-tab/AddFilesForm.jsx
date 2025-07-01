@@ -7,7 +7,6 @@ import {
   VaModal,
   VaSelect,
   VaTextInput,
-  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -266,10 +265,16 @@ class AddFilesForm extends React.Component {
             </div>
           ),
         )}
-        <VaButton
+        <va-button
           id="submit"
-          text="Submit documents for review"
+          className="submit-files-button"
+          disabled={
+            this.props.uploading ||
+            this.props.files.length === 0 ||
+            !this.props.files.every(isValidDocument)
+          }
           onClick={this.submit}
+          text={this.props.uploading ? 'Uploading...' : 'Upload files'}
         />
         <va-additional-info
           class="vads-u-margin-y--3"
