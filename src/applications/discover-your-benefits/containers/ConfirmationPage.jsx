@@ -4,7 +4,10 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { scrollToTop } from 'platform/utilities/scroll';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
+import {
+  setSubmission as setSubmissionAction,
+  setData as setDataAction,
+} from 'platform/forms-system/src/js/actions';
 import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
@@ -68,6 +71,10 @@ export class ConfirmationPage extends React.Component {
     e.preventDefault();
 
     if (window.history.length > 2) {
+      this.props.setData({
+        ...this.props.data,
+        privacyAgreementAccepted: false,
+      });
       this.props.router.goBack();
     }
   };
@@ -485,6 +492,7 @@ export class ConfirmationPage extends React.Component {
 
 const mapDispatchToProps = {
   setSubmission: setSubmissionAction,
+  setData: setDataAction,
   displayResults: displayResultsAction,
 };
 
@@ -492,6 +500,7 @@ function mapStateToProps(state) {
   return {
     form: state.form,
     results: state.results,
+    data: state.form.data,
   };
 }
 
