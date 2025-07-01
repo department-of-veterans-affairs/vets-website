@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   acceptedFileTypes,
+  acceptedFileTypesExtended,
   Attachments,
   ErrorMessages,
 } from '../../util/constants';
@@ -23,6 +24,16 @@ const FileInput = props => {
   const errorRef = useRef(null);
   const [selectedFileId, setSelectedFileId] = useState(null);
   const { largeAttachmentsEnabled } = useFeatureToggles();
+
+  const acceptedFileTypesToUse = useMemo(
+    () => {
+      if (largeAttachmentsEnabled) {
+        return acceptedFileTypesExtended;
+      }
+      return acceptedFileTypes;
+    },
+    [largeAttachmentsEnabled],
+  );
 
   // Validation for files
   const handleFiles = event => {
@@ -50,9 +61,14 @@ const FileInput = props => {
       return;
     }
 
-    if (!fileExtension || !acceptedFileTypes[fileExtension.toLowerCase()]) {
+    if (
+      !fileExtension ||
+      !acceptedFileTypesToUse[fileExtension.toLowerCase()]
+    ) {
       setAttachFileError({
-        message: ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE,
+        message: largeAttachmentsEnabled
+          ? ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE_EXTENDED
+          : ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE,
       });
       fileInputRef.current.value = null;
       return;
@@ -81,10 +97,12 @@ const FileInput = props => {
         : Attachments.TOTAL_MAX_FILE_SIZE)
     ) {
       setAttachFileError({
-        message: largeAttachmentsEnabled
-          ? ErrorMessages.ComposeForm.ATTACHMENTS
-              .TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE
-          : ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
+        message:
+          largeAttachmentsEnabled && isPilot
+            ? ErrorMessages.ComposeForm.ATTACHMENTS
+                .TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE
+            : ErrorMessages.ComposeForm.ATTACHMENTS
+                .TOTAL_MAX_FILE_SIZE_EXCEEDED,
       });
       fileInputRef.current.value = null;
       return;

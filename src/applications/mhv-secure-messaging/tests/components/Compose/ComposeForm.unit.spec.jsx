@@ -1313,7 +1313,7 @@ describe('Compose form component', () => {
     );
     const error = screen.getByTestId('file-input-error-message');
     expect(error.textContent).to.equal(
-      ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE,
+      ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
     );
   });
 
