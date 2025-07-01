@@ -103,12 +103,10 @@ const GroupedMedications = props => {
                   )}
                 </dd>
                 <dd data-testid="provider-name">
-                  {rx.providerFirstName && rx.providerLastName
-                    ? `Prescribed by ${displayProviderName(
-                        rx.providerFirstName,
-                        rx.providerLastName,
-                      )}`
-                    : validateIfAvailable('Provider name')}
+                  {`Prescribed by ${displayProviderName(
+                    rx?.providerFirstName,
+                    rx?.providerLastName,
+                  )}`}
                 </dd>
               </dl>
             );

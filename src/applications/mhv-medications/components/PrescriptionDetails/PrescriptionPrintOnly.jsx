@@ -69,7 +69,7 @@ const PrescriptionPrintOnly = props => {
       </p>
       <p>
         <strong>Documented by: </strong>
-        {displayProviderName(pres.providerFirstName, pres.providerLastName)}
+        {displayProviderName(pres?.providerFirstName, pres?.providerLastName)}
       </p>
       <p>
         <strong>Documented at this facility: </strong>
@@ -189,7 +189,7 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Prescribed by:</strong>{' '}
-              {displayProviderName(rx.providerFirstName, rx.providerLastName)}
+              {displayProviderName(rx?.providerFirstName, rx?.providerLastName)}
             </p>
             {!isDetailsRx &&
               rx.groupedMedications?.length > 0 && (
@@ -344,8 +344,8 @@ const PrescriptionPrintOnly = props => {
                           <p>
                             <strong>Prescribed by:</strong>{' '}
                             {displayProviderName(
-                              entry.providerFirstName,
-                              entry.providerLastName,
+                              entry?.providerFirstName,
+                              entry?.providerLastName,
                             )}
                           </p>
                         </div>

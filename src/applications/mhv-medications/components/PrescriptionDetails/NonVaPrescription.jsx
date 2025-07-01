@@ -98,8 +98,8 @@ const NonVaPrescription = prescription => {
           </h3>
           <p data-testid="documented-by" data-dd-privacy="mask">
             {displayProviderName(
-              prescription.providerFirstName,
-              prescription.providerLastName,
+              prescription?.providerFirstName,
+              prescription?.providerLastName,
             )}
           </p>
         </section>

@@ -491,6 +491,7 @@ export const buildVAPrescriptionPDFList = prescription => {
                 prescription.providerFirstName,
                 prescription.providerLastName,
               ),
+              inline: true,
             },
           ],
         },
