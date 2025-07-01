@@ -287,7 +287,8 @@ Prescribed on: ${dateFormat(
 Prescribed by: ${displayProviderName(
     prescription.providerFirstName,
     prescription.providerLastName,
-  )}`;
+  )}
+  `;
 
   if (showRefillHistory) {
     result += `
