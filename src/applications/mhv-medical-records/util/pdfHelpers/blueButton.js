@@ -191,7 +191,12 @@ export const generateBlueButtonData = (
     ],
     selected:
       recordFilter.includes('upcomingAppts') ||
-      recordFilter.includes('pastAppts'),
+      recordFilter.includes('pastAppts')
+        ? {
+            upcoming: recordFilter.includes('upcomingAppts'),
+            past: recordFilter.includes('pastAppts'),
+          }
+        : false,
     records: [
       {
         title: 'Upcoming appointments',

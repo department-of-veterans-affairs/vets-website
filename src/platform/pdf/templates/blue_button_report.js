@@ -185,7 +185,7 @@ const getAvailableRecordSets = recordSets => {
     if (!recordSet.selected) return false;
     // appointments records are broken into two sub-lists: past and upcoming
     if (recordSet.type === 'appointments') {
-      return !recordSet.records.every(type => !type?.results?.items?.length);
+      return recordSet.records.some(type => type?.results?.items?.length);
     }
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length;
@@ -218,13 +218,17 @@ const getEmptyRecordSets = (recordSets, failedDomains) => {
   });
 };
 
-const separateAppointments = items => {
-  return items.flatMap(
-    item =>
-      item === 'Appointments' || item === 'VA appointments'
-        ? ['Past appointments', 'Upcoming appointments']
-        : [item],
-  );
+const separateAppointments = (items, recordSets) => {
+  return items.flatMap(item => {
+    if (item === 'Appointments' || item === 'VA appointments') {
+      const { selected } = recordSets.find(set => set.type === 'appointments');
+      const displayList = [];
+      if (selected.past) displayList.push('Past appointments');
+      if (selected.upcoming) displayList.push('Upcoming appointments');
+      return displayList;
+    }
+    return [item];
+  });
 };
 
 const generateInfoForAvailableRecords = (infoSection, doc, data) => {
@@ -241,6 +245,7 @@ const generateInfoForAvailableRecords = (infoSection, doc, data) => {
 
   const items = separateAppointments(
     getAvailableRecordSets(data.recordSets).map(recordSet => recordSet.title),
+    data.recordSets,
   );
 
   addBulletList(infoSection, doc, items, config, {
@@ -279,6 +284,7 @@ const generateInfoForEmptyRecords = (infoSection, doc, recordSets) => {
 
   const items = separateAppointments(
     recordSets.map(recordSet => recordSet.title),
+    recordSets,
   );
 
   addBulletList(infoSection, doc, items, config, {
@@ -289,7 +295,12 @@ const generateInfoForEmptyRecords = (infoSection, doc, recordSets) => {
   });
 };
 
-const generateInfoForFailedRecordsets = (infoSection, doc, failedDomains) => {
+const generateInfoForFailedRecordsets = (
+  infoSection,
+  doc,
+  failedDomains,
+  recordSets,
+) => {
   doc.moveDown(0.75);
 
   infoSection.add(
@@ -314,7 +325,7 @@ const generateInfoForFailedRecordsets = (infoSection, doc, failedDomains) => {
 
   doc.moveDown(0.75);
 
-  const items = separateAppointments(failedDomains);
+  const items = separateAppointments(failedDomains, recordSets);
 
   addBulletList(infoSection, doc, items, config, {
     bulletRadius: 2,
@@ -340,7 +351,12 @@ const generateInfoSection = (doc, parent, data) => {
   }
 
   if (failedDomains?.length) {
-    generateInfoForFailedRecordsets(infoSection, doc, failedDomains);
+    generateInfoForFailedRecordsets(
+      infoSection,
+      doc,
+      failedDomains,
+      data.recordSets,
+    );
   }
 
   // Add horizontal rule
