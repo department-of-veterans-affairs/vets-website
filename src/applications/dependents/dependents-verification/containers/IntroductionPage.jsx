@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+
+import Gateway from '../components/Gateway';
 import { TITLE, SUBTITLE } from '../constants';
 
 const OMB_RES_BURDEN = 10;
@@ -54,11 +54,7 @@ const ProcessList = () => {
 };
 
 export const IntroductionPage = props => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
   const { route } = props;
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
     scrollToTop();
@@ -71,19 +67,9 @@ export const IntroductionPage = props => {
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for dependent-benefits.
       </h2>
+      <Gateway top route={route} />
       <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          hideUnauthedStartLink
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the application"
-        />
-      )}
+      <Gateway route={route} />
       <p />
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
@@ -102,9 +88,6 @@ IntroductionPage.propTypes = {
     }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    basename: PropTypes.string,
-  }),
 };
 
 export default IntroductionPage;
