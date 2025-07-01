@@ -8,7 +8,6 @@ import {
 import { format, isAfter, isDate, parseISO, startOfMinute } from 'date-fns';
 import {
   selectFeatureConvertSlotsToUtc,
-  selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
   selectSystemIds,
 } from '../../redux/selectors';
@@ -388,9 +387,6 @@ export function prefillContactInfo() {
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-      state,
-    );
     const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
       state,
     );
@@ -412,7 +408,6 @@ export function confirmAppointment(history) {
     try {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       });
 

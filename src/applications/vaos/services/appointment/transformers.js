@@ -3,7 +3,6 @@ import moment from 'moment';
 import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
-  TYPE_OF_CARE_IDS,
   PURPOSE_TEXT_V2,
   TYPE_OF_VISIT,
   VIDEO_TYPES,
@@ -59,11 +58,7 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function transformVAOSAppointment(
-  appt,
-  useFeSourceOfTruthModality,
-  useFeSourceOfTruthTelehealth,
-) {
+export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
   const appointmentType = getAppointmentType(appt);
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
@@ -73,7 +68,6 @@ export function transformVAOSAppointment(
   const isCCRequest = appointmentType === APPOINTMENT_TYPES.ccRequest;
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
-  const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   const vvsKind = appt.telehealth?.vvsKind;
   let isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   let isAtlas = !!appt.telehealth?.atlas;
@@ -82,16 +76,11 @@ export function transformVAOSAppointment(
     (vvsKind === VIDEO_TYPES.mobile || vvsKind === VIDEO_TYPES.adhoc);
   let isVideoAtVA =
     vvsKind === VIDEO_TYPES.clinic || vvsKind === VIDEO_TYPES.storeForward;
-  let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
-  let isPhone = appt.kind === 'phone';
-  let isCovid = appt.serviceType === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
-  let isInPersonVisit = !isVideo && !isCC && !isPhone;
-  if (useFeSourceOfTruthModality) {
-    isCompAndPen = appt.modality === 'claimExamAppointment';
-    isPhone = appt.modality === 'vaPhone';
-    isCovid = appt.modality === 'vaInPersonVaccine';
-    isInPersonVisit = isCompAndPen || isCovid || appt.modality === 'vaInPerson';
-  }
+  const isCompAndPen = appt.modality === 'claimExamAppointment';
+  const isPhone = appt.modality === 'vaPhone';
+  const isCovid = appt.modality === 'vaInPersonVaccine';
+  const isInPersonVisit =
+    isCompAndPen || isCovid || appt.modality === 'vaInPerson';
   if (useFeSourceOfTruthTelehealth) {
     isVideo =
       appt.modality === 'vaVideoCareAtHome' ||
@@ -284,16 +273,8 @@ export function transformVAOSAppointment(
   };
 }
 
-export function transformVAOSAppointments(
-  appts,
-  useFeSourceOfTruthModality,
-  useFeSourceOfTruthTelehealth,
-) {
+export function transformVAOSAppointments(appts, useFeSourceOfTruthTelehealth) {
   return appts.map(appt =>
-    transformVAOSAppointment(
-      appt,
-      useFeSourceOfTruthModality,
-      useFeSourceOfTruthTelehealth,
-    ),
+    transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth),
   );
 }
