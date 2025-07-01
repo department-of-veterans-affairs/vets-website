@@ -307,5 +307,52 @@ export const createAddressValidationResponse = type => {
       validationKey: 1786974931,
     };
   }
+
+  if (type === 'show-suggestions-no-confirmed-override') {
+    return {
+      addresses: [
+        {
+          address: {
+            addressLine1: '999 Unknown Ave',
+            city: 'Springfield',
+            stateCode: 'IL',
+            zipCode: '62704',
+            countryName: 'United States',
+            addressType: 'DOMESTIC',
+          },
+          addressMetaData: {
+            confidenceScore: 80,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'UNDELIVERABLE',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
+        },
+      ],
+      validationKey: 1785474938,
+    };
+  }
+
+  if (type === 'validation-error') {
+    return {
+      errors: [
+        {
+          title: 'Address Validation Error',
+          detail: {
+            messages: [
+              {
+                code: 'ADDRVAL108',
+                key: 'CandidateAddressNotFound',
+                severity: 'INFO',
+                text: 'No Candidate Address Found',
+              },
+            ],
+          },
+          code: 'VET360_AV_ERROR',
+          status: '400',
+        },
+      ],
+    };
+  }
+
   return {};
 };
