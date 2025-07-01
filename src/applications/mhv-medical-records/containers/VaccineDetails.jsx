@@ -103,19 +103,20 @@ const VaccineDetails = props => {
 
   const generateVaccineTxt = async () => {
     setDownloadStarted(true);
-    const content = `
-${crisisLineHeader}\n\n
-${record.name}\n
-${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatUserDob(user)}\n
-${reportGeneratedBy}\n
-${txtLine}\n\n
-Date received: ${record.date}\n
-Location: ${record.location}\n`;
+    const content = [
+      `${crisisLineHeader}\n\n`,
+      `${record.name}\n`,
+      `${formatNameFirstLast(user.userFullName)}\n`,
+      `Date of birth: ${formatUserDob(user)}\n`,
+      `${reportGeneratedBy}\n`,
+      `${txtLine}\n\n`,
+      `Date received: ${record.date}\n`,
+      `Location: ${record.location}\n`,
+    ];
 
     const fileName = `VA-vaccines-details-${getNameDateAndTime(user)}`;
 
-    generateTextFile(content, fileName);
+    generateTextFile(content.join(''), fileName);
   };
 
   const content = () => {

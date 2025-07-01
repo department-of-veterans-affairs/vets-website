@@ -172,27 +172,29 @@ const Vaccines = props => {
 
   const generateVaccineListItemTxt = item => {
     setDownloadStarted(true);
-    return `
-${txtLine}\n\n
-${item.name}\n
-Date received: ${item.date}\n
-Location: ${item.location}\n`;
+    return [
+      `${txtLine}\n\n`,
+      `${item.name}\n`,
+      `Date received: ${item.date}\n`,
+      `Location: ${item.location}\n`,
+    ].join('');
   };
 
   const generateVaccinesTxt = async () => {
-    const content = `
-${crisisLineHeader}\n\n
-Vaccines\n
-${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatUserDob(user)}\n
-${reportGeneratedBy}\n
-This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records. \n
-Showing ${vaccines.length} records from newest to oldest
-${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
+    const content = [
+      `${crisisLineHeader}\n\n`,
+      `Vaccines\n`,
+      `${formatNameFirstLast(user.userFullName)}\n`,
+      `Date of birth: ${formatUserDob(user)}\n`,
+      `${reportGeneratedBy}\n`,
+      `This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records. \n`,
+      `Showing ${vaccines.length} records from newest to oldest`,
+      `${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`,
+    ];
 
     const fileName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
 
-    generateTextFile(content, fileName);
+    generateTextFile(content.join(''), fileName);
   };
 
   /**
