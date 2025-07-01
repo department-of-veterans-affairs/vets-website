@@ -37,6 +37,7 @@ export const uploadPage = {
     ...uploadTitleAndDescription,
     uploadedFile: {
       ...fileInputUI({
+        createPayload,
         errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
         name: 'form-upload-file-input',
         fileUploadUrl,

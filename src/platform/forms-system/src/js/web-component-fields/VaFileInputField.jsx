@@ -18,7 +18,7 @@ const useFileValidator = options => {
   return { validateFileSize };
 };
 
-const useFileUpload = (fileUploadUrl, formNumber, dispatch) => {
+const useFileUpload = (fileUploadUrl, formNumber, createPayload, dispatch) => {
   const [isUploading, setIsUploading] = useState(false);
 
   const uploadFile = (file, onSuccess) => {
@@ -37,6 +37,7 @@ const useFileUpload = (fileUploadUrl, formNumber, dispatch) => {
       uploadScannedForm(
         fileUploadUrl,
         formNumber,
+        createPayload,
         file,
         onFileUploaded,
         onFileUploading,
@@ -78,7 +79,7 @@ const useFileUpload = (fileUploadUrl, formNumber, dispatch) => {
  * @param {WebComponentFieldProps} props */
 const VaFileInputField = props => {
   const { uiOptions = {}, childrenProps } = props;
-  const { formNumber } = uiOptions;
+  const { formNumber, createPayload } = uiOptions;
   const mappedProps = vaFileInputFieldMapping(props);
   const { fileUploadUrl } = mappedProps;
   const dispatch = useDispatch();
@@ -87,6 +88,7 @@ const VaFileInputField = props => {
   const { isUploading, uploadFile } = useFileUpload(
     fileUploadUrl,
     formNumber,
+    createPayload,
     dispatch,
   );
 
