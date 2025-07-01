@@ -69,7 +69,6 @@ export function applicantHasInsuranceSchema(isPrimary) {
               } medical health insurance information to provide or update at this time?`,
               'ui:options': {
                 hint: ADDITIONAL_FILES_HINT,
-                classNames: ['dd-pivacy-hidden'],
               },
             };
           },
@@ -77,6 +76,7 @@ export function applicantHasInsuranceSchema(isPrimary) {
       },
       'ui:options': {
         itemAriaLabel: () => 'health insurance',
+        classNames: ['dd-privacy-hidden'],
       },
       'ui:objectViewField': props => {
         return PrivWrappedReview(props);
@@ -174,15 +174,13 @@ export function applicantInsuranceThroughEmployerSchema(isPrimary) {
                 false,
                 true,
               )} employer?`,
-              'ui:options': {
-                classNames: ['dd-pivacy-hidden'],
-              },
             };
           },
         }),
       },
       'ui:options': {
         itemAriaLabel: () => 'insurance type',
+        classNames: ['dd-privacy-hidden'],
       },
       'ui:objectViewField': props => {
         return PrivWrappedReview(props);
@@ -228,7 +226,6 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
               'ui:options': {
                 hint:
                   'You may find this information on the front of your health insurance card. You can also contact the phone number listed on the back of the card.',
-                classNames: ['dd-pivacy-hidden'],
               },
             };
           },
@@ -236,6 +233,7 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
       },
       'ui:options': {
         itemAriaLabel: () => 'prescription coverage',
+        classNames: ['dd-privacy-hidden'],
       },
       'ui:objectViewField': props => {
         return PrivWrappedReview(props);
@@ -386,7 +384,6 @@ export function applicantInsuranceTypeSchema(isPrimary) {
                 hint: `You may find this information on the front of ${
                   wording.posessive
                 } health insurance card.`,
-                classNames: ['dd-pivacy-hidden'],
               },
             };
           },
@@ -394,6 +391,7 @@ export function applicantInsuranceTypeSchema(isPrimary) {
       },
       'ui:options': {
         itemAriaLabel: () => 'insurance plan',
+        classNames: ['dd-privacy-hidden'],
       },
       'ui:objectViewField': props => {
         return PrivWrappedReview(props);
@@ -488,15 +486,13 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
               false,
               true,
             )} health insurance?`,
-            'ui:options': {
-              classNames: ['dd-pivacy-hidden'],
-            },
           };
         },
         charcount: true,
       }),
       'ui:options': {
         itemAriaLabel: () => 'health insurance additional comments',
+        classNames: ['dd-privacy-hidden'],
       },
       'ui:objectViewField': props => {
         return PrivWrappedReview(props);

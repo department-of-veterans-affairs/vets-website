@@ -64,7 +64,7 @@ describe('FORM_UPLOAD_OCR_ALERT', () => {
 
     expect(
       queryByText(
-        'Check to make sure the file you uploaded is the official VA Form form-number.',
+        'The file you uploaded doesn’t look like VA Form form-number. Check to make sure the file uploaded is the official VA form',
       ),
     ).to.be.visible;
   });

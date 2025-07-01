@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { DEPENDENT_CHOICES } from '../constants';
 import { maskID } from '../../shared/utils';
 
 export const DependentsInformationReview = ({ data, goToPath }) => {
@@ -36,20 +37,44 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
             <dl key={index} className="review vads-u-margin-y--4">
               <div className="review-row">
                 <dt>First name</dt>
-                <dd>{dep.fullName.first}</dd>
+                <dd
+                  className="dd-privacy-mask"
+                  data-dd-action-name="Dependent's first name"
+                >
+                  {dep.fullName.first}
+                </dd>
               </div>
-              <div className="review-row">
-                <dt>Middle name</dt>
-                <dd>{dep.fullName.middle}</dd>
-              </div>
+              {dep.fullName.middle && (
+                <div className="review-row">
+                  <dt>Middle name</dt>
+                  <dd
+                    className="dd-privacy-mask"
+                    data-dd-action-name="Dependent's middle name"
+                  >
+                    {dep.fullName.middle}
+                  </dd>
+                </div>
+              )}
               <div className="review-row">
                 <dt>Last name</dt>
-                <dd>{dep.fullName.last}</dd>
+                <dd
+                  className="dd-privacy-mask"
+                  data-dd-action-name="Dependent's last name"
+                >
+                  {dep.fullName.last}
+                </dd>
               </div>
-              <div className="review-row">
-                <dt>Suffix</dt>
-                <dd>{dep.fullName.suffix}</dd>
-              </div>
+              {dep.fullName.suffix && (
+                <div className="review-row">
+                  <dt>Suffix</dt>
+                  <dd
+                    className="dd-privacy-mask"
+                    data-dd-action-name="Dependent's name suffix"
+                  >
+                    {dep.fullName.suffix}
+                  </dd>
+                </div>
+              )}
               <div className="review-row">
                 <dt>Social Security number</dt>
                 <dd
@@ -61,15 +86,30 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
               </div>
               <div className="review-row">
                 <dt>Date of birth</dt>
-                <dd>{dep.dob}</dd>
+                <dd
+                  className="dd-privacy-mask"
+                  data-dd-action-name="Dependent's date of birth"
+                >
+                  {dep.dob}
+                </dd>
               </div>
               <div className="review-row">
                 <dt>Age</dt>
-                <dd>{dep.age} years old</dd>
+                <dd
+                  className="dd-privacy-mask"
+                  data-dd-action-name="Dependent's age"
+                >
+                  {dep.age} years old
+                </dd>
               </div>
               <div className="review-row">
                 <dt>Relationship</dt>
-                <dd>{dep.relationship}</dd>
+                <dd
+                  className="dd-privacy-mask"
+                  data-dd-action-name="Dependent's relationship"
+                >
+                  {dep.relationship}
+                </dd>
               </div>
             </dl>
           </React.Fragment>
@@ -94,7 +134,7 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
       <dl className="review">
         <div className="review-row">
           <dt>Has the status of your dependents changed</dt>
-          <dd>{hasDependentsStatusChanged === 'Y' ? 'Yes' : 'No'}</dd>
+          <dd>{DEPENDENT_CHOICES[hasDependentsStatusChanged]}</dd>
         </div>
       </dl>
     </div>

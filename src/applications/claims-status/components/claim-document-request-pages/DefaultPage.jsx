@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Toggler } from '~/platform/utilities/feature-toggles';
+import { isBefore, parseISO } from 'date-fns';
 import {
   scrubDescription,
   buildDateFormatter,
@@ -25,7 +26,9 @@ export default function DefaultPage({
   uploading,
 }) {
   const dateFormatter = buildDateFormatter();
-
+  const now = new Date();
+  const dueDate = parseISO(item.suspenseDate);
+  const pastDueDate = isBefore(dueDate, now);
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}>
       <Toggler.Enabled>
@@ -36,7 +39,6 @@ export default function DefaultPage({
                 {item.friendlyName || item.displayName}
                 <span className="vads-u-font-family--sans vads-u-margin-bottom--1 vads-u-margin-top--1">
                   Respond by {dateFormatter(item.suspenseDate)}
-                  <DueDate date={item.suspenseDate} />
                 </span>
               </>
             ) : (
@@ -54,7 +56,25 @@ export default function DefaultPage({
               </>
             )}
           </h1>
-
+          {item.status === 'NEEDED_FROM_YOU' &&
+            pastDueDate && (
+              <va-alert status="warning" class="vads-u-margin-top--4">
+                <h2 slot="headline">
+                  Deadline passed for requested information
+                </h2>
+                <p className="vads-u-margin-y--0">
+                  We haven’t received the information we asked for. You can
+                  still upload or mail it to us, but we may review your claim
+                  without it.
+                </p>
+                <p>
+                  If you have questions, call the VA benefits hotline at{' '}
+                  <va-telephone contact="8008271000" /> (
+                  <va-telephone contact="711" tty="true" />
+                  ).
+                </p>
+              </va-alert>
+            )}
           {item.status === 'NEEDED_FROM_YOU' ? (
             <h2>What we need from you</h2>
           ) : (

@@ -37,10 +37,10 @@ export const IntroductionPage = ({ route }) => {
 
   const renderAccordionContent = () => (
     <va-accordion>
-      <va-accordion-item header="If you’re the Veteran">
+      <va-accordion-item header="If you’re the Veteran" level="3">
         {renderIfVeteranContent()}
       </va-accordion-item>
-      <va-accordion-item header="If you’re the surviving spouse">
+      <va-accordion-item header="If you’re the surviving spouse" level="3">
         <p>You’ll need to report income and assets for these individuals:</p>
         <ul>
           <li>
@@ -52,7 +52,10 @@ export const IntroductionPage = ({ route }) => {
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="If you’re the surviving child or custodian of a surviving child">
+      <va-accordion-item
+        header="If you’re the surviving child or custodian of a surviving child"
+        level="3"
+      >
         <p>You’ll need to report income and assets for these individuals:</p>
         <ul>
           <li>
@@ -65,7 +68,7 @@ export const IntroductionPage = ({ route }) => {
           <li>Custodian’s spouse</li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="If you’re the parent">
+      <va-accordion-item header="If you’re the parent" level="3">
         <p>You’ll need to report income and assets for these individuals:</p>
         <ul>
           <li>
@@ -91,12 +94,12 @@ export const IntroductionPage = ({ route }) => {
         title="Submit income and asset statement to support your claim"
         subTitle="Pension or DIC income and asset statement (VA Form 21P-0969)"
       />
-      <p>
+      <p className="va-introtext">
         Complete this form if you need to report or verify income and net worth
         to support your Claim for Pension or Parents’ Dependency Indemnity
         Compensation (DIC).
       </p>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+      <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
         What to know before you fill out this form
       </h2>
       <p>There are different reasons why you may need to submit this form:</p>
@@ -137,7 +140,7 @@ export const IntroductionPage = ({ route }) => {
         the amount of any mortgages you may have. Assets don’t include your or
         your dependents’ primary residence and lot (up to 2 acres).
       </va-additional-info>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+      <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
         What you’ll need to report
       </h2>
       {loggedIn ? renderIfVeteranContent() : renderAccordionContent()}
