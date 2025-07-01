@@ -8,6 +8,39 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     cy.injectAxe();
   };
 
+  // Helper function to click submit button
+  const clickSubmitButton = () => {
+    cy.get('va-button[text="Submit documents for review"]')
+      .shadow()
+      .find('button')
+      .click();
+  };
+
+  // Helper function to find error element in shadow DOM
+  const getErrorElement = () => {
+    return cy
+      .get('va-file-input-multiple')
+      .shadow()
+      .find('va-file-input')
+      .first()
+      .shadow()
+      .find('#error-message, .usa-error-message, [role="alert"]');
+  };
+
+  // Helper function to upload a file to the first file input
+  const uploadFile = fileName => {
+    cy.get('va-file-input-multiple')
+      .shadow()
+      .find('va-file-input')
+      .first()
+      .shadow()
+      .find('input[type="file"]')
+      .selectFile({
+        contents: Cypress.Buffer.from('test content'),
+        fileName,
+      });
+  };
+
   describe('User Story #1: Label and hint text', () => {
     it('should display correct label and hint text', () => {
       setupComponentTest();
@@ -52,16 +85,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       // Select first file (simulates clicking to choose file)
       // Note: "choose from folder" text is not clickable (pointer-events: none)
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
-        .shadow()
-        .find('input[type="file"]')
-        .selectFile({
-          contents: Cypress.Buffer.from('test content'),
-          fileName: clickFile,
-        });
+      uploadFile(clickFile);
 
       // Select second file (simulates dragging another file)
       // After first file, component creates a new input for additional files
@@ -94,6 +118,44 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .eq(1)
         .shadow()
         .should('contain.text', dragFile);
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('User Story #5: Submit validation with no files', () => {
+    it('should show error message when submit clicked without files', () => {
+      setupComponentTest();
+
+      // Click submit without selecting any files
+      clickSubmitButton();
+
+      // Verify error message appears in the file input shadow DOM
+      // Note: Web component content may not be visible in Cypress UI but tests work correctly
+      // To debug visually, add .then(() => cy.pause()) after this assertion
+      getErrorElement()
+        .should('be.visible')
+        .and('contain.text', 'Please select a file first');
+
+      cy.axeCheck();
+    });
+
+    it('should clear error when file is added after validation error', () => {
+      setupComponentTest();
+
+      const fileName = 'test-file.pdf';
+
+      // First trigger error by submitting without files
+      clickSubmitButton();
+
+      // Verify error appears
+      getErrorElement().should('contain.text', 'Please select a file first');
+
+      // Add a file
+      uploadFile(fileName);
+
+      // Verify error is cleared after adding file
+      getErrorElement().should('not.exist');
 
       cy.axeCheck();
     });

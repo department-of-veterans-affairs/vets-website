@@ -242,7 +242,7 @@ class YourClaimsPageV2 extends React.Component {
             </h1>
             <va-on-this-page />
             <h2>New Add Files Form</h2>
-            <NewAddFilesForm />
+            <NewAddFilesForm required />
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>
