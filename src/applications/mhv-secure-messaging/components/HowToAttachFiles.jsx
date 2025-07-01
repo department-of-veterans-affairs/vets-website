@@ -22,8 +22,8 @@ const HowToAttachFiles = ({ isPilot }) => {
               <li>You can attach up to 10 files to each message</li>
               <li>
                 You can attach only these file types: doc, docx, gif, jpg, pdf,
-                png, rtf, txt, xls, xlxs, bmp, tiff, ppt, pptx, pps, ppsx, odt,
-                mp4, m4v, mov, wmv, mpg
+                png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff,
+                ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg
               </li>
               <li>The maximum size for each file is 6 MB</li>
               <li>{MAX_TOTAL_SIZE_DESCRIPTION}</li>
