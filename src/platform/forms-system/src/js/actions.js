@@ -333,7 +333,8 @@ export function uploadFile(
         let errorMessage = req.statusText;
         try {
           // detail contains a better error message
-          errorMessage = JSON.parse(req?.response)?.errors?.[0]?.detail;
+          errorMessage =
+            JSON.parse(req?.response)?.errors?.[0]?.detail ?? errorMessage;
         } catch (error) {
           // intentionally empty
         }
