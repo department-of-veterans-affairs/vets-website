@@ -427,7 +427,7 @@ function generateMockClaims(count, startId = 100) {
 }
 
 // Toggle this flag to switch between just baseClaims or baseClaims + manyClaims
-const USE_MANY_CLAIMS = true;
+const USE_MANY_CLAIMS = false;
 
 const claimsToUse = (() => {
   if (USE_MANY_CLAIMS) {
