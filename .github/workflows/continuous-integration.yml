@@ -341,7 +341,7 @@ jobs:
       - name: Run unit tests
         id: run-tests
         run: |
-            yarn test:unit:gha --app-folder 'appeals' --coverage --log-level verbose
+            yarn test:unit:gha --app-folder appeals --coverage --log-level verbose
           
         env:
           MOCHA_FILE: test-results/unit-tests.xml
