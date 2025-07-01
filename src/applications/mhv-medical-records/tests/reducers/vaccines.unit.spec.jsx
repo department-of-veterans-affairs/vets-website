@@ -906,3 +906,94 @@ describe('vaccineReducer - GET_UNIFIED_LIST action', () => {
     expect(newState.listState).to.equal(loadStates.FETCHED);
   });
 });
+
+describe('vaccineReducer - GET_UNIFIED_VACCINE action', () => {
+  it('should use convertUnifiedVaccine to set vaccineDetails', () => {
+    const unifiedResponse = {
+      data: {
+        id: '123',
+        attributes: {
+          groupName: 'COVID-19',
+          date: '2023-05-15T10:30:00-04:00',
+          location: 'VA Medical Center',
+          manufacturer: 'Pfizer',
+          reaction: 'Mild soreness',
+          note: 'First dose',
+        },
+      },
+    };
+
+    const expectedVaccine = convertUnifiedVaccine(unifiedResponse.data);
+
+    const newState = vaccineReducer(
+      {},
+      { type: Actions.Vaccines.GET_UNIFIED_VACCINE, response: unifiedResponse },
+    );
+
+    expect(newState.vaccineDetails).to.deep.equal(expectedVaccine);
+  });
+
+  it('should handle null data gracefully', () => {
+    const unifiedResponse = {
+      data: null,
+    };
+
+    const newState = vaccineReducer(
+      {},
+      { type: Actions.Vaccines.GET_UNIFIED_VACCINE, response: unifiedResponse },
+    );
+
+    expect(newState.vaccineDetails).to.equal(null);
+  });
+
+  it('should handle undefined data gracefully', () => {
+    const unifiedResponse = {
+      data: undefined,
+    };
+
+    const newState = vaccineReducer(
+      {},
+      { type: Actions.Vaccines.GET_UNIFIED_VACCINE, response: unifiedResponse },
+    );
+
+    expect(newState.vaccineDetails).to.equal(null);
+  });
+
+  it('should preserve existing state except for vaccineDetails', () => {
+    const initialState = {
+      listCurrentAsOf: new Date('2023-01-01'),
+      listState: loadStates.FETCHED,
+      vaccinesList: [{ id: '1', name: 'Previous vaccine' }],
+      vaccineDetails: { id: '999', name: 'Old vaccine' },
+    };
+
+    const unifiedResponse = {
+      data: {
+        id: '123',
+        attributes: {
+          groupName: 'Hepatitis B',
+          date: '2023-06-20T10:30:00-04:00',
+          location: 'Community Clinic',
+        },
+      },
+    };
+
+    const newState = vaccineReducer(initialState, {
+      type: Actions.Vaccines.GET_UNIFIED_VACCINE,
+      response: unifiedResponse,
+    });
+
+    expect(newState.listCurrentAsOf).to.equal(initialState.listCurrentAsOf);
+    expect(newState.listState).to.equal(initialState.listState);
+    expect(newState.vaccinesList).to.deep.equal(initialState.vaccinesList);
+    expect(newState.vaccineDetails).to.deep.equal({
+      id: '123',
+      name: 'Hepatitis B',
+      date: 'June 20, 2023',
+      location: 'Community Clinic',
+      manufacturer: 'None recorded',
+      reaction: 'None recorded',
+      note: 'None recorded',
+    });
+  });
+});

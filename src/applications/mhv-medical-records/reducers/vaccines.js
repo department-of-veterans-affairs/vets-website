@@ -175,6 +175,14 @@ export const vaccineReducer = (state = initialState, action) => {
         vaccineDetails: action.response,
       };
     }
+    case Actions.Vaccines.GET_UNIFIED_VACCINE: {
+      const vaccine = action.response.data;
+      // Convert the unified vaccine to the
+      return {
+        ...state,
+        vaccineDetails: convertUnifiedVaccine(vaccine),
+      };
+    }
     case Actions.Vaccines.GET_UNIFIED_LIST: {
       const oldList = state.vaccinesList;
       const metadata = action.response.meta;
