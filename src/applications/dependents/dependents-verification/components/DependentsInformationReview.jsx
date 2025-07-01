@@ -133,7 +133,7 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
 
       <dl className="review">
         <div className="review-row">
-          <dt>Has the status of your dependents changed</dt>
+          <dt>Is your dependent information correct?</dt>
           <dd>{DEPENDENT_CHOICES[hasDependentsStatusChanged]}</dd>
         </div>
       </dl>
