@@ -2,6 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT, Locators, Data } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
+import mockThreadsResponse from '../fixtures/pilot-responses/threads-recent-recipients-response.json';
 
 describe('SM CURATED LIST MAIN FLOW', () => {
   beforeEach(() => {
@@ -13,7 +14,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     ]);
     SecureMessagingSite.login(updatedFeatureToggles);
     PilotEnvPage.loadInboxMessages();
-    PilotEnvPage.navigateToSelectCareTeamPage();
+    PilotEnvPage.navigateToRecentCareTeamsPage();
   });
 
   it('verify recent recipients list', () => {
@@ -22,6 +23,13 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     cy.get(Locators.CARE_SYSTEM).should(`not.exist`);
 
     cy.get(`.usa-legend`).should('include.text', Data.RECENT_RECIPIENTS);
+
+    const TGList = mockThreadsResponse.data.map(
+      item => item.attributes.triageGroupName,
+    );
+    TGList.push(`A different care team`);
+
+    PilotEnvPage.verifyRecentCareTeamsList(TGList);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

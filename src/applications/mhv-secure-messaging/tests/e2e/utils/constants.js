@@ -51,6 +51,7 @@ export const Paths = {
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
     SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
+    RECENT_RECIPIENTS_SEARCH: `http://localhost:3000/my_health/v1/messaging/folders/-1/search?requires_oh_messages=1`,
   },
 };
 

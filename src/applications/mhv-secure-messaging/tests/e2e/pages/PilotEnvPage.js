@@ -193,22 +193,17 @@ class PilotEnvPage {
   };
 
   navigateToSelectCareTeamPage = () => {
-    // cy.intercept(
-    //   `POST`,
-    //   `http://localhost:3000/my_health/v1/messaging/folders/-1/search?requires_oh_messages=1`,
-    //   req => {
-    //     req.body = {
-    //       fromDate: '2025-01-01T17:41:22.092Z',
-    //       toDate: '2025-05-01T16:41:22.092Z',
-    //     };
-    //     req.reply(mockRecipients);
-    //   },
-    // );
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
+  };
 
+  navigateToRecentCareTeamsPage = (
+    mockSearchResponse = mockThreadsResponse,
+  ) => {
     cy.intercept(
       `POST`,
-      `http://localhost:3000/my_health/v1/messaging/folders/-1/search?requires_oh_messages=1`,
-      mockThreadsResponse,
+      Paths.INTERCEPT.RECENT_RECIPIENTS_SEARCH,
+      mockSearchResponse,
     ).as(`searchRecipients`);
 
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
@@ -224,6 +219,16 @@ class PilotEnvPage {
     cy.get(`.vads-u-margin-top--2 > a`)
       .should(`have.attr`, `href`, Data.LINKS.PILOT_CONTACT_LIST)
       .and('have.text', Data.CURATED_LIST.CONTACT_LIST_UPDATE);
+  };
+
+  verifyRecentCareTeamsList = TGList => {
+    cy.get(`va-radio-option`).each(el => {
+      cy.wrap(el)
+        .invoke(`attr`, `label`)
+        .then(tgName => {
+          expect(tgName).to.be.oneOf(TGList);
+        });
+    });
   };
 
   selectCareTeam = (index = 0) => {
