@@ -149,7 +149,7 @@ const LOA1Content = ({
   return (
     <>
       <div className="vads-l-row">
-        <div className="vads-l-col--12">
+        <div className="small-screen:vads-l-col--12 medium-screen:vads-l-col--10">
           <IdentityNotVerified />
         </div>
       </div>
