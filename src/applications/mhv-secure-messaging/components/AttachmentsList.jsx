@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { datadogRum } from '@datadog/browser-rum';
@@ -26,6 +26,7 @@ const AttachmentsList = props => {
     setAttachFileError,
   } = props;
   const dispatch = useDispatch();
+  const { isPilot } = useSelector(state => state.sm.app);
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAttachmentRemoved, setIsAttachmentRemoved] = useState(false);
@@ -158,7 +159,13 @@ const AttachmentsList = props => {
   return (
     <div>
       <div className="message-body-attachments-label vads-u-margin-bottom--1 vads-u-margin-top--3">
-        Attachments
+        {isPilot ? (
+          <h2 className="vads-u-font-size--h3 vads-u-margin-top--4 vads-u-margin-bottom--0">
+            Attachments
+          </h2>
+        ) : (
+          'Attachments'
+        )}
         {attachments.length > 0 ? (
           <span data-testid="attachments-count"> ({attachments.length})</span>
         ) : (

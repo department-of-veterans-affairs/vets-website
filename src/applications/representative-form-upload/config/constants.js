@@ -66,26 +66,22 @@ export const FORM_UPLOAD_OCR_ALERT = (
     <h2 slot="headline">
       Are you sure the file you uploaded is VA Form {formNumber}?
     </h2>
-    <React.Fragment key=".1">
-      <ul>
-        {warnings.includes('too_many_pages') && (
-          <li>
-            The file you uploaded has more pages than the form usually has.
-          </li>
-        )}
-        {warnings.includes('too_few_pages') && (
-          <li>The file you uploaded has fewer pages than the original form.</li>
-        )}
-        {warnings.includes('wrong_form') && (
-          <li>
-            Check to make sure the file you uploaded is the official VA Form{' '}
-            {formNumber}.
-          </li>
-        )}
-      </ul>
+    {warnings.includes('too_many_pages') && (
+      <p>The file you uploaded has more pages than the form usually has.</p>
+    )}
+    {warnings.includes('too_few_pages') && (
+      <p>The file you uploaded has fewer pages than the original form.</p>
+    )}
+    {warnings.includes('wrong_form') && (
+      <p>
+        The file you uploaded doesn’t look like VA Form {formNumber}. Check to
+        make sure the file uploaded is the official VA form
+      </p>
+    )}
 
-      <p>If you’re sure this is the right file, you can continue.</p>
-    </React.Fragment>
+    <p className="arp-alert-right-file-p">
+      If you’re sure this is the right file, you can continue.
+    </p>
   </VaAlert>
 );
 

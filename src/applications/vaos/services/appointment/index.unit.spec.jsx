@@ -208,8 +208,6 @@ describe('VAOS Services: Appointment ', () => {
       // Given VA appointment request
       const start = subDays(new Date(), 30);
       const end = addDays(new Date(), 30);
-      const startDate = format(start, 'yyyy-MM-dd');
-      const endDate = format(end, 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 APIs
       mockAppointmentsApi({
@@ -219,7 +217,10 @@ describe('VAOS Services: Appointment ', () => {
         response: MockAppointmentResponse.createVAResponses(),
       });
 
-      const v2Result = await getAppointmentRequests({ startDate, endDate });
+      const v2Result = await getAppointmentRequests({
+        startDate: start,
+        endDate: end,
+      });
 
       // Then expect a VA appointment request to be returned.
       expect(v2Result.length).to.be.gt(0);
@@ -229,8 +230,6 @@ describe('VAOS Services: Appointment ', () => {
       // Given CC appointment request
       const start = subDays(new Date(), 30);
       const end = addDays(new Date(), 30);
-      const startDate = format(start, 'yyyy-MM-dd');
-      const endDate = format(end, 'yyyy-MM-dd');
 
       mockAppointmentsApi({
         start,
@@ -239,7 +238,10 @@ describe('VAOS Services: Appointment ', () => {
         response: MockAppointmentResponse.createCCResponses(),
       });
 
-      const v2Result = await getAppointmentRequests({ startDate, endDate });
+      const v2Result = await getAppointmentRequests({
+        startDate: start,
+        endDate: end,
+      });
 
       // Then expect a CC appointment request to be returned.
       expect(v2Result.length).to.be.gt(0);
@@ -249,8 +251,6 @@ describe('VAOS Services: Appointment ', () => {
       // Given cancelled VA appointment request
       const start = subDays(new Date(), 30);
       const end = addDays(new Date(), 30);
-      const startDate = format(start, 'yyyy-MM-dd');
-      const endDate = format(end, 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 and v0 APIs
       mockAppointmentsApi({
@@ -260,7 +260,10 @@ describe('VAOS Services: Appointment ', () => {
         response: MockAppointmentResponse.createCCResponses(),
       });
 
-      const v2Result = await getAppointmentRequests({ startDate, endDate });
+      const v2Result = await getAppointmentRequests({
+        startDate: start,
+        endDate: end,
+      });
 
       // Then expect a canceled appointment request to be returned.
       expect(v2Result.length).to.be.gt(0);
@@ -276,8 +279,6 @@ describe('VAOS Services: Appointment ', () => {
       };
       const start = subDays(new Date(), 30);
       const end = addDays(new Date(), 30);
-      const startDate = format(start, 'yyyy-MM-dd');
-      const endDate = format(end, 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 and v0 APIs
       mockAppointmentsApi({
@@ -291,7 +292,7 @@ describe('VAOS Services: Appointment ', () => {
       let v2Result = null;
 
       try {
-        await getAppointmentRequests({ startDate, endDate });
+        await getAppointmentRequests({ startDate: start, endDate: end });
       } catch (e) {
         v2Result = e;
       }
@@ -312,31 +313,31 @@ describe('VAOS Services: Appointment ', () => {
         mockAppointmentsApi({
           start: range.start,
           end: range.end,
-          useRFC3339: true,
+          useRFC3339: false,
           response: [],
           statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
         });
       });
 
-      await getLongTermAppointmentHistoryV2(true, true, true);
+      await getLongTermAppointmentHistoryV2(true);
       expect(global.fetch.callCount).to.equal(3);
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `${dateRanges[0].start.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[0].start, 'yyyy-MM-dd')}`,
       );
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `${dateRanges[0].end.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[0].end, 'yyyy-MM-dd')}`,
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        `${dateRanges[1].start.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[1].start, 'yyyy-MM-dd')}`,
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        `${dateRanges[1].end.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[1].end, 'yyyy-MM-dd')}`,
       );
       expect(global.fetch.thirdCall.args[0]).to.contain(
-        `${dateRanges[2].start.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[2].start, 'yyyy-MM-dd')}`,
       );
       expect(global.fetch.thirdCall.args[0]).to.contain(
-        `${dateRanges[2].end.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[2].end, 'yyyy-MM-dd')}`,
       );
     });
   });

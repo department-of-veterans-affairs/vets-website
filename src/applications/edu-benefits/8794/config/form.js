@@ -4,14 +4,14 @@ import React from 'react';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
-// import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';
-
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import SubmissionInstructions from '../components/SubmissionInstructions';
 import PrivacyPolicy from '../components/PrivacyPolicy';
+
 import {
   additionalOfficialArrayOptions,
   readOnlyCertifyingOfficialArrayOptions,
@@ -38,6 +38,10 @@ import {
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
+export const confirmFormLogic = ({ router, route }) => (
+  <ConfirmationPage router={router} route={route} />
+);
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -46,7 +50,7 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'Edu-8794-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: confirmFormLogic,
   formId: '22-8794',
   saveInProgress: {
     // messages: {
@@ -226,6 +230,23 @@ const formConfig = {
           path: 'remarks',
           uiSchema: remarksPage.uiSchema,
           schema: remarksPage.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },
