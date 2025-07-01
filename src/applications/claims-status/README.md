@@ -62,17 +62,9 @@ This tool allows va users to check the status of thier VA claim, decision review
 7. You should now see claims for that staging user ![Screenshot 2025-03-06 at 9 24 56 AM](https://github.com/user-attachments/assets/034e484d-a455-4d76-a845-a79096954c62)
 
 ### Run vets-website locally with mock data
-   1. If you just did a git pull or this is your first time running the project.
-     `yarn install`
-
-   2. Run your local server.
-     `yarn run watch --env entry=auth,claims-status,static-pages,login-page,terms-of-use,verify`
-
-   3. Run the mock data is a seperate terminal window. 
-    ` yarn mock-api --responses src/applications/claims-status/tests/local-dev-mock-api/common.js`
-
-   4. Visit `http://localhost:3001/track-claims/your-claims` 
-
-   Mock data lives in `src/applications/claims-status/tests/local-dev-mock-api/common.js`
+1. See ixnstructions to [Run vets-website locally](#run-vets-website-locally).
+2. Run the mock data is a seperate terminal window. 
+    `yarn mock-api --responses src/applications/claims-status/tests/local-dev-mock-api/common.js`
+3. Update mock data in `src/applications/claims-status/tests/local-dev-mock-api/common.js`
    
    You can quickly create as many claims as you like by updating the variable passed into the `generateMockClaims()` method and toggling the commented code in the `/v0/benefits_claims` GET request. 

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 // Helpers
 const createClaimPhaseDates = (claimDate, phaseType, previousPhases = {}) => ({
   phaseChangeDate: claimDate,
@@ -206,7 +204,6 @@ const baseClaims = [
       },
     ],
   }),
-
   // Ask va to decide. `/track-claims/your-claims/2/ask-va-to-decide`
   createClaim('2', {
     baseEndProductCode: '020',
@@ -429,8 +426,16 @@ function generateMockClaims(count, startId = 100) {
   return claims;
 }
 
-const manyClaims = generateMockClaims(30);
-const allClaims = baseClaims.concat(manyClaims);
+// Toggle this flag to switch between just baseClaims or baseClaims + manyClaims
+const USE_MANY_CLAIMS = true;
+
+const claimsToUse = (() => {
+  if (USE_MANY_CLAIMS) {
+    const manyClaims = generateMockClaims(30);
+    return baseClaims.concat(manyClaims);
+  }
+  return baseClaims;
+})();
 
 // Responses
 const responses = {
@@ -541,8 +546,7 @@ const responses = {
   },
 
   'GET /v0/benefits_claims': {
-    data: baseClaims.map(getClaimSummary),
-    // data: manyClaims.map(getClaimSummary),  // toggle for testing pagination
+    data: claimsToUse.map(getClaimSummary),
     meta: {
       pagination: {
         currentPage: 1,
