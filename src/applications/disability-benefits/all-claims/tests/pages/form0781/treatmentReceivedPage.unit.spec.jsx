@@ -97,7 +97,7 @@ describe('Treatment Received Page', () => {
 describe('validating selections', () => {
   describe('invalid: conflicting selections', () => {
     const errors = {
-      'view:treatmentNoneCheckbox': {
+      treatmentNoneCheckbox: {
         addError: sinon.spy(),
       },
       treatmentReceivedNonVaProvider: { addError: sinon.spy() },
@@ -111,12 +111,12 @@ describe('validating selections', () => {
           vaCenters: false,
         },
         treatmentReceivedVaProvider: {
-          medicalCenter: false,
+          medicalCenter: true,
           communityOutpatient: false,
           vaPaid: false,
           dod: false,
         },
-        'view:treatmentNoneCheckbox': { none: true },
+        treatmentNoneCheckbox: { none: true },
       };
 
       validateProviders(errors, formData);
@@ -125,13 +125,13 @@ describe('validating selections', () => {
 
       expect(errors.treatmentReceivedNonVaProvider.addError.called).to.be.false;
       expect(errors.treatmentReceivedVaProvider.addError.called).to.be.false;
-      expect(errors['view:treatmentNoneCheckbox'].addError.called).to.be.true;
+      expect(errors.treatmentNoneCheckbox.addError.called).to.be.true;
     });
   });
 
   describe('valid selections', () => {
     const errors = {
-      'view:treatmentNoneCheckbox': {
+      treatmentNoneCheckbox: {
         addError: sinon.spy(),
       },
       treatmentReceivedNonVaProvider: { addError: sinon.spy() },
@@ -144,7 +144,7 @@ describe('validating selections', () => {
           nonVa: false,
           vaCenters: false,
         },
-        'view:treatmentNoneCheckbox': { none: true },
+        treatmentNoneCheckbox: { none: true },
       };
 
       validateProviders(errors, formData);
@@ -153,7 +153,7 @@ describe('validating selections', () => {
 
       expect(errors.treatmentReceivedVaProvider.addError.called).to.be.false;
       expect(errors.treatmentReceivedNonVaProvider.addError.called).to.be.false;
-      expect(errors['view:treatmentNoneCheckbox'].addError.called).to.be.false;
+      expect(errors.treatmentNoneCheckbox.addError.called).to.be.false;
     });
 
     it('should not add errors when none is unselected and providers are selected', () => {
@@ -163,7 +163,7 @@ describe('validating selections', () => {
           nonVa: false,
           vaCenters: true,
         },
-        'view:treatmentNoneCheckbox': { none: false },
+        treatmentNoneCheckbox: { none: false },
       };
 
       validateProviders(errors, formData);
@@ -172,7 +172,7 @@ describe('validating selections', () => {
 
       expect(errors.treatmentReceivedVaProvider.addError.called).to.be.false;
       expect(errors.treatmentReceivedNonVaProvider.addError.called).to.be.false;
-      expect(errors['view:treatmentNoneCheckbox'].addError.called).to.be.false;
+      expect(errors.treatmentNoneCheckbox.addError.called).to.be.false;
     });
   });
 });

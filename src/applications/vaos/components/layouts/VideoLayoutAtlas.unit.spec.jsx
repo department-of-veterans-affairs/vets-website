@@ -46,6 +46,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       const appointment = {
         type: 'VA',
         modality: 'vaVideoCareAtAnAtlasLocation',
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -58,13 +60,13 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
           },
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -80,6 +82,9 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
         type: 'VA',
         modality: 'vaVideoCareAtAnAtlasLocation',
         isCerner: false,
+        'fields-load-success': '',
+        'fields-load-fail':
+          'type-of-care,provider,clinic-phone,facility-details,facility-phone',
       };
 
       // Act
@@ -120,45 +125,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       expect(screen.getByText(/Facility not available/i));
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-any',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
         ...nullAttributes,
       });
     });
@@ -170,6 +137,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -182,7 +151,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -198,6 +166,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: true,
           isCOVIDVaccine: false,
@@ -226,6 +195,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -238,7 +209,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -254,6 +224,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: true,
           isCOVIDVaccine: false,
@@ -283,6 +254,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
+        type: 'VA',
+        modality: 'vaVideoCareAtAnAtlasLocation',
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -290,6 +263,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -302,7 +277,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -318,17 +292,27 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
           isVideo: true,
+          isCerner: false,
           apiData: {
             serviceType: 'primaryCare',
           },
         },
         status: 'booked',
+      };
+      const nullAttributes = {
+        type: 'VA',
+        modality: 'vaVideoCareAtAnAtlasLocation',
+        isCerner: false,
+        'fields-load-success':
+          'type-of-care,provider,clinic-phone,facility-details,facility-phone',
+        'fields-load-fail': '',
       };
 
       // Act
@@ -434,7 +418,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -444,51 +428,19 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Get your device ready to join./i));
+      expect(screen.getByText(/Get your device ready to join/i));
       expect(
         screen.container.querySelector(
-          'va-additional-info[trigger="How to setup your device"]',
+          'va-link[text="Learn how to prepare for your video appointment"]',
         ),
       ).to.be.ok;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-any',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
+        ...nullAttributes,
       });
     });
   });
@@ -517,7 +469,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -533,6 +484,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -657,7 +609,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -673,6 +624,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -705,7 +657,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
 
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(
@@ -780,7 +732,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -790,13 +742,13 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Get your device ready to join./i));
+      expect(screen.getByText(/Get your device ready to join/i));
       expect(
         screen.container.querySelector(
-          'va-additional-info[trigger="How to setup your device"]',
+          'va-link[text="Learn how to prepare for your video appointment"]',
         ),
       ).to.be.ok;
     });
@@ -823,7 +775,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -839,6 +790,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -869,7 +821,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
 
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(

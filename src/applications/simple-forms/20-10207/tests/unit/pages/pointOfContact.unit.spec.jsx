@@ -44,7 +44,7 @@ testNumberOfErrorsOnSubmitForWebComponents(
 );
 
 // veteran without email - point of contact should be required
-expectedNumberOfWebComponentErrors = 1;
+expectedNumberOfWebComponentErrors = 2;
 
 data = {
   preparerType: 'veteran',

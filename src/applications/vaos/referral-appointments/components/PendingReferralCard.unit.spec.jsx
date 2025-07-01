@@ -17,7 +17,7 @@ describe('VAOS Component: PendingReferralCard', () => {
   const referral = createReferralById(
     '2025-01-01',
     'add2f0f4-a1ea-4dea-a504-a54ab57c68',
-  );
+  ).attributes;
 
   const handleClick = sinon.spy();
 

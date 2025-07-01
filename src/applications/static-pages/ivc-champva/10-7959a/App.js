@@ -7,6 +7,8 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 // eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
 import manifest from '../../../ivc-champva/10-7959a/manifest.json';
+// eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
+import { CHAMPVA_PHONE_NUMBER } from '../../../ivc-champva/shared/constants';
 
 const baseContent = (
   <>
@@ -55,7 +57,7 @@ const App = ({ formEnabled }) => {
       </a>
       <p>
         If you need help filing your claim, call us at{' '}
-        <va-telephone contact="8007338387" /> (
+        <va-telephone contact={CHAMPVA_PHONE_NUMBER} /> (
         <va-telephone contact={CONTACTS['711']} tty />
         ). We’re here Monday through Friday, 8:00 a.m. to 7:30 p.m. ET.
       </p>

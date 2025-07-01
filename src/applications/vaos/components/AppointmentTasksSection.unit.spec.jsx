@@ -34,6 +34,7 @@ describe('VAOS Component: AppointmentTasks', () => {
           isCommunityCare: false,
           isPhoneAppointment: false,
           isVideo: true,
+          isVideoAtVA: true,
         },
         videoData: {
           kind,
@@ -55,6 +56,9 @@ describe('VAOS Component: AppointmentTasks', () => {
     const appointment = {
       id: appointmentId,
       start: '2021-09-01T10:00:00Z',
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -69,6 +73,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         isCommunityCare: false,
         isPhoneAppointment: false,
         isVideo: false,
+        isInPersonVisit: true,
       },
     };
     const screen = render(

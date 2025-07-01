@@ -36,7 +36,7 @@ describe('<TuitionAndHousingEstimates>', () => {
         },
       },
     );
-    fireEvent.click(screen.container.querySelector('va-accordion-item'));
+    fireEvent.click(screen.getByTestId('update-tuition-housing'));
     const actionsCalled = screen?.store?.getActions();
     expect(
       actionsCalled?.some(
@@ -60,10 +60,8 @@ describe('<TuitionAndHousingEstimates>', () => {
         },
       },
     );
-    fireEvent.click(screen.container.querySelector('va-accordion-item'));
-    const UpdateEstimatesButton = screen.container.querySelector(
-      'va-accordion-item',
-    );
+    fireEvent.click(screen.getByTestId('update-tuition-housing'));
+    const UpdateEstimatesButton = screen.getByTestId('update-tuition-housing');
     fireEvent.click(UpdateEstimatesButton);
     await waitFor(() => {
       expect(screen).to.not.be.null;
@@ -111,15 +109,19 @@ describe('<TuitionAndHousingEstimates>', () => {
       },
     );
 
-    const updateTuitionEstimatesButton = screen.container.querySelector(
-      'va-accordion-item',
+    const updateTuitionEstimatesButton = screen.getByTestId(
+      'update-tuition-housing',
     );
-    expect(updateTuitionEstimatesButton.getAttribute('open')).to.equal('false');
+    expect(updateTuitionEstimatesButton).to.have.attribute(
+      'aria-expanded',
+      'false',
+    );
 
     fireEvent.click(updateTuitionEstimatesButton); // first click opens accordion
 
     await waitFor(() => {
-      expect(updateTuitionEstimatesButton.getAttribute('open')).to.equal(
+      expect(updateTuitionEstimatesButton).to.have.attribute(
+        'aria-expanded',
         'true',
       );
     });
@@ -127,7 +129,8 @@ describe('<TuitionAndHousingEstimates>', () => {
     fireEvent.click(updateTuitionEstimatesButton); // second click closes accordion
 
     await waitFor(() => {
-      expect(updateTuitionEstimatesButton.getAttribute('open')).to.equal(
+      expect(updateTuitionEstimatesButton).to.have.attribute(
+        'aria-expanded',
         'false',
       );
     });

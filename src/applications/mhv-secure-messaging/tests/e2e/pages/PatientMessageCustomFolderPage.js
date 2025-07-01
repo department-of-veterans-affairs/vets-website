@@ -1,11 +1,9 @@
-import mockCustomFolderMessages from '../fixtures/customResponse/custom-folder-messages-response.json';
 import mockSingleMessageResponse from '../fixtures/customResponse/custom-single-message-response.json';
-import mockSortedMessages from '../fixtures/customResponse/sorted-custom-folder-messages-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { Paths, Locators, Data, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
-import customSearchResponse from '../fixtures/customResponse/custom-search-response.json';
+import mockThreadsResponse from '../fixtures/threads-response.json';
 import FolderLoadPage from './FolderLoadPage';
 
 class PatientMessageCustomFolderPage {
@@ -68,7 +66,7 @@ class PatientMessageCustomFolderPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads?*`,
-      mockSingleThreadResponse,
+      mockThreadsResponse,
     ).as('singleFolderThread');
 
     cy.contains(folderName).click({ waitForAnimations: true });
@@ -77,7 +75,7 @@ class PatientMessageCustomFolderPage {
   };
 
   loadMessages = (
-    threadResponse = mockSingleThreadResponse,
+    threadResponse = mockThreadsResponse,
     folderName = this.folderName,
     folderId = this.folderId,
   ) => {
@@ -103,6 +101,8 @@ class PatientMessageCustomFolderPage {
         cy.stub(win, 'print');
       },
     });
+
+    cy.wait(`@customFolderThread`);
   };
 
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
@@ -131,54 +131,15 @@ class PatientMessageCustomFolderPage {
     cy.get('[data-testid="edit-folder-button"]')
       .should('be.visible')
       .then(() => {
-        cy.get(Locators.HEADER).should('have.text', `${text}`);
+        cy.get(Locators.HEADER).should('have.text', `Messages: ${text}`);
       });
   };
 
-  verifyResponseBodyLength = (responseData = mockCustomFolderMessages) => {
+  verifyResponseBodyLength = (responseData = mockThreadsResponse) => {
     cy.get('[data-testid="thread-list-item"]').should(
       'have.length',
-      `${responseData.data.length}`,
+      responseData.data.length,
     );
-  };
-
-  clickSortMessagesByDateButton = (
-    text,
-    sortedResponse = mockSortedMessages,
-    folderId = this.folderId,
-  ) => {
-    cy.get(Locators.DROPDOWN.SORT)
-      .shadow()
-      .find('select')
-      .select(`${text}`);
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/folders/${folderId}/threads**`,
-      sortedResponse,
-    );
-    cy.get(Locators.BUTTONS.SORT).click({ force: true });
-  };
-
-  verifySorting = () => {
-    let listBefore;
-    let listAfter;
-    cy.get(Locators.THREAD_LIST)
-      .find(Locators.DATE_RECEIVED)
-      .then(list => {
-        listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(`List before sorting: ${listBefore.join(',')}`);
-      })
-      .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest');
-        cy.get(Locators.THREAD_LIST)
-          .find(Locators.DATE_RECEIVED)
-          .then(list2 => {
-            listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(`List after sorting: ${listAfter.join(',')}`);
-            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
-          });
-      });
   };
 
   verifyMainButtons = () => {
@@ -194,52 +155,6 @@ class PatientMessageCustomFolderPage {
       .should('be.visible')
       .and('contain.text', `Sort`);
     cy.get(Locators.BUTTONS.FILTER).contains('filter');
-  };
-
-  inputFilterDataText = text => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .type(`${text}`, { force: true });
-  };
-
-  clickFilterMessagesButton = (folderId = this.folderId) => {
-    cy.intercept(
-      'POST',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}/search`,
-      customSearchResponse,
-    );
-    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
-  };
-
-  verifyFilterResultsText = (
-    filterValue,
-    responseData = customSearchResponse,
-  ) => {
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`test`);
-        });
-    });
-  };
-
-  clickClearFilterButton = () => {
-    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
-  };
-
-  verifyFilterFieldCleared = () => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .should('be.empty');
   };
 
   createCustomFolder = (
@@ -348,20 +263,18 @@ class PatientMessageCustomFolderPage {
       .and('have.text', Data.REMOVE_FOLDER);
   };
 
-  tabAndPressToRemoveFolderButton = () => {
-    cy.tabToElement(Locators.BUTTONS.REMOVE_FOLDER).should(
+  clickRemoveFolderButton = () => {
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER).should(
       'have.text',
       Data.REMOVE_FOLDER,
     );
-
-    cy.realPress('Enter');
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER).click({ waitForAnimations: true });
   };
 
   verifyEmptyFolderAlert = () => {
-    cy.get(Locators.ALERTS.HEADER).should(
-      'have.text',
-      Assertions.EMPTY_THIS_FOLDER,
-    );
+    cy.get(Locators.ALERTS.HEADER)
+      .find(`#heading`)
+      .should('have.text', Assertions.EMPTY_THIS_FOLDER);
     cy.contains(Data.CANNOT_REMOVE_FOLDER).should('be.visible');
     cy.contains('button', 'Ok');
   };
@@ -379,85 +292,6 @@ class PatientMessageCustomFolderPage {
       .should('be.visible')
       .then(() => {
         cy.get(Locators.BUTTONS.REMOVE_FOLDER).should('have.focus');
-      });
-  };
-
-  inputFilterDataByKeyboard = text => {
-    cy.tabToElement('#inputField')
-      .first()
-      .type(`${text}`, { force: true });
-  };
-
-  submitFilterByKeyboard = (mockFilterResponse, folderId = this.folderId) => {
-    cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/search`,
-      mockFilterResponse,
-    ).as('filterResult');
-
-    cy.realPress('Enter');
-  };
-
-  verifyFilterResults = (filterValue, responseData) => {
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`${filterValue}`);
-        });
-    });
-  };
-
-  clearFilterByKeyboard = () => {
-    // next line required to start tab navigation from the header of the page
-    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
-    cy.contains('Clear filters').then(el => {
-      cy.tabToElement(el)
-        .first()
-        .click();
-    });
-  };
-
-  sortMessagesByKeyboard = (text, data, folderId = this.folderId) => {
-    cy.get(Locators.DROPDOWN.SORT)
-      .shadow()
-      .find('select')
-      .select(`${text}`, { force: true });
-
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}/threads**`,
-      data,
-    );
-    cy.tabToElement('[data-testid="sort-button"]');
-    cy.realPress('Enter');
-  };
-
-  verifySortingByKeyboard = (text, data, folderId = this.folderId) => {
-    let listBefore;
-    let listAfter;
-    cy.get(Locators.THREAD_LIST)
-      .find(Locators.DATE_RECEIVED)
-      .then(list => {
-        listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
-      })
-      .then(() => {
-        this.sortMessagesByKeyboard(`${text}`, data, folderId);
-        cy.get(Locators.THREAD_LIST)
-          .find(Locators.DATE_RECEIVED)
-          .then(list2 => {
-            listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
-            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
-          });
       });
   };
 }

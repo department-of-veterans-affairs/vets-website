@@ -4,12 +4,9 @@ import { Locators, Data } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
   beforeEach(() => {
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles(
+      [],
+    );
 
     PersonalInformationPage.load(updatedFeatureToggles);
   });
@@ -37,6 +34,8 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
       .shadow()
       .find(`button`)
       .should(`have.text`, Data.SIGNATURE.ALERTS.CANCEL_REMOVE_BTN);
+
+    cy.injectAxeThenAxeCheck();
   });
 
   it('verify user can cancel remove signature', () => {
@@ -48,13 +47,19 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
       .find(`button`)
       .click();
 
-    cy.get(Locators.SIGNATURE.REMOVE_BTN).should('be.focused');
+    cy.get(Locators.SIGNATURE.REMOVE_BTN)
+      .shadow()
+      .find(`button`)
+      .should('be.focused');
 
     // close modal by cross btn
     cy.get(Locators.SIGNATURE.REMOVE_BTN).click();
     cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN).click();
 
-    cy.get(Locators.SIGNATURE.REMOVE_BTN).should('be.focused');
+    cy.get(Locators.SIGNATURE.REMOVE_BTN)
+      .shadow()
+      .find(`button`)
+      .should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });
@@ -77,12 +82,17 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
     cy.get(Locators.SIGNATURE.ALERTS.SUCCESS)
       .should(`be.visible`)
       .and('have.text', Data.SIGNATURE.UPDATE_SAVED);
-    cy.get(Locators.SIGNATURE.EDIT_BTN).should(`be.focused`);
+
+    cy.get(Locators.SIGNATURE.EDIT_BTN)
+      .shadow()
+      .find(`button`)
+      .should('be.focused');
 
     cy.get(Locators.SIGNATURE.GENERAL).should(
       `contain.text`,
       Data.SIGNATURE.CHOOSE_EDIT,
     );
+
     cy.injectAxeThenAxeCheck();
   });
 });

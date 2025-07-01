@@ -1,3 +1,4 @@
+import React from 'react';
 import { VaFileInputField } from '../web-component-fields';
 
 export const filePresenceValidation = (
@@ -15,7 +16,7 @@ export const filePresenceValidation = (
 };
 
 /**
- * Web component v3 uiSchema for generic fileInput field
+ * uiSchema for file input field
  *
  * Usage uiSchema:
  * ```js
@@ -61,52 +62,68 @@ export const filePresenceValidation = (
  *  formHeading?: UIOptions['formHeading'],
  *  formDescription?: UIOptions['formDescription'],
  *  formHeadingLevel?: UIOptions['formHeadingLevel'],
- * }} stringOrOptions
+ * }} options
  * @returns {UISchemaOptions}
  */
-export const fileInputUI = stringOrOptions => {
-  if (typeof stringOrOptions === 'string') {
-    return {
-      'ui:title': stringOrOptions,
-      'ui:webComponentField': VaFileInputField,
-    };
-  }
+export const fileInputUI = options => {
+  const { title, description, errorMessages, required, ...uiOptions } = options;
 
-  const {
-    title,
-    description,
-    errorMessages,
-    required,
-    reviewField,
-    hidden,
-    ...uiOptions
-  } = stringOrOptions;
+  if (required === undefined) {
+    throw new Error(
+      `"required" property should be explicitly set for fileInputUI for
+      title: "${title}". Please set "required" to a boolean, or a function
+      that returns a boolean. Also you will still need to set required in
+      the schema as well.`,
+    );
+  }
 
   return {
     'ui:title': title,
     'ui:description': description,
-    'ui:required': required,
     'ui:webComponentField': VaFileInputField,
-    'ui:reviewField': reviewField,
-    'ui:hidden': hidden,
+    'ui:required': typeof required === 'function' ? required : () => !!required,
+    'ui:errorMessages': {
+      required: 'A file is required to submit your application',
+      ...errorMessages,
+    },
     'ui:validations': [
-      (errors, data, formData, schema, errMessages) => {
+      (errors, data, formData, schema, uiErrorMessages) => {
         const isRequired =
-          typeof required === 'function' ? required(formData) : required;
+          typeof required === 'function' ? required(formData) : !!required;
         if (isRequired) {
-          filePresenceValidation(errors, data, formData, schema, errMessages);
+          filePresenceValidation(
+            errors,
+            data,
+            formData,
+            schema,
+            uiErrorMessages,
+          );
         }
       },
     ],
     'ui:options': {
       ...uiOptions,
     },
-    'ui:errorMessages': errorMessages,
+    'ui:reviewField': ({ children }) => (
+      <div className="review-row">
+        <dt>{title}</dt>
+        <dd>{children.props?.formData?.name}</dd>
+      </div>
+    ),
+    'ui:confirmationField': ({ formData }) => ({
+      data: formData?.name,
+      label: title,
+    }),
+    warnings: {
+      'ui:options': {
+        keepInPageOnReview: true,
+      },
+    },
   };
 };
 
 /**
- * Schema for generic fileInput field
+ * Schema for fileInputUI
  *
  * ```js
  * exampleFileInput: {

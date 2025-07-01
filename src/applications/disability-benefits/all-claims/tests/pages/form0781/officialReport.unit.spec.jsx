@@ -13,13 +13,12 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
+  officialReportCustom,
   officialReport,
   officialReportMst,
 } from '../../../pages/form0781/officialReport';
 import {
   officialReportPageTitle,
-  reportTypesQuestion,
-  otherReportTypesTitle,
   selectedReportTypes,
   showConflictingAlert,
   validateReportSelections,
@@ -29,7 +28,20 @@ import {
   MILITARY_REPORT_TYPES,
   OTHER_REPORT_TYPES,
   NO_REPORT_TYPE,
+  OFFICIAL_REPORT_TYPES_HINTS,
 } from '../../../constants';
+
+describe('Official report custom schemas', () => {
+  const { schema, uiSchema } = officialReportCustom;
+
+  it('should define a uiSchema object', () => {
+    expect(uiSchema).to.be.a('object');
+  });
+
+  it('should define a schema object', () => {
+    expect(schema).to.be.a('object');
+  });
+});
 
 describe('Official report without MST event type', () => {
   const { schema, uiSchema } = officialReport;
@@ -47,11 +59,14 @@ describe('Official report without MST event type', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
 
-    getByText(officialReportPageTitle);
+    expect(getByText(officialReportPageTitle)).to.exist;
 
     expect($$('va-checkbox-group', container).length).to.equal(2);
     expect($('va-checkbox-group', container).getAttribute('label')).to.equal(
-      reportTypesQuestion,
+      OFFICIAL_REPORT_TYPES_SUBTITLES.other,
+    );
+    expect($('va-checkbox-group', container).getAttribute('hint')).to.equal(
+      OFFICIAL_REPORT_TYPES_HINTS.other,
     );
 
     Object.values(OTHER_REPORT_TYPES).forEach(option => {
@@ -76,7 +91,9 @@ describe('Official report without MST event type', () => {
     expect(textInputs.length).to.eq(1);
 
     const otherReportTextInput = Array.from(textInputs).find(
-      input => input.getAttribute('label') === otherReportTypesTitle,
+      input =>
+        input.getAttribute('label') ===
+        OFFICIAL_REPORT_TYPES_SUBTITLES.unlisted,
     );
     expect(otherReportTextInput).to.not.be.null;
     expect(otherReportTextInput.getAttribute('required')).to.eq('false');
@@ -150,11 +167,14 @@ describe('Official Report with MST event type', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
 
-    getByText(officialReportPageTitle);
+    expect(getByText(officialReportPageTitle)).to.exist;
 
     expect($$('va-checkbox-group', container).length).to.equal(3);
     expect($('va-checkbox-group', container).getAttribute('label')).to.equal(
       OFFICIAL_REPORT_TYPES_SUBTITLES.military,
+    );
+    expect($('va-checkbox-group', container).getAttribute('hint')).to.equal(
+      OFFICIAL_REPORT_TYPES_HINTS.military,
     );
 
     Object.values(MILITARY_REPORT_TYPES).forEach(option => {
@@ -179,7 +199,9 @@ describe('Official Report with MST event type', () => {
     expect(textInputs.length).to.eq(1);
 
     const otherReportTextInput = Array.from(textInputs).find(
-      input => input.getAttribute('label') === otherReportTypesTitle,
+      input =>
+        input.getAttribute('label') ===
+        OFFICIAL_REPORT_TYPES_SUBTITLES.unlisted,
     );
     expect(otherReportTextInput).to.not.be.null;
     expect(otherReportTextInput.getAttribute('required')).to.eq('false');

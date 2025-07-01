@@ -18,7 +18,7 @@ export const submissionForm = {
   trackingPrefix: 'edu-22-5490-',
   formErrors: {},
   data: {
-    relativeDateOfBirth: '1932-02-05',
+    claimantDateOfBirth: '1932-02-05',
     claimantFullName: {
       first: 'Hector',
       middle: 'M',
@@ -70,7 +70,7 @@ export const submissionForm = {
     'view:dea': {},
     'view:benefitInfo': {},
     chosenBenefit: 'dea',
-    relationShipToMember: 'spouse',
+    relationshipToMember: 'spouse',
     relativeSocialSecurityNumber: '321321321',
     fullName: {
       first: 'test',
@@ -89,7 +89,7 @@ export const submissionForm = {
   pages: {
     applicantInformation: {
       uiSchema: {
-        relationShipToMember: {
+        relationshipToMember: {
           'ui:title':
             "What's your relationship to the Veteran or service member whose benefits you'd like to use?",
           'ui:widget': 'radio',
@@ -155,9 +155,9 @@ export const submissionForm = {
       },
       schema: {
         type: 'object',
-        required: ['relationShipToMember', 'fullName', 'ssn', 'dateOfBirth'],
+        required: ['relationshipToMember', 'fullName', 'ssn', 'dateOfBirth'],
         properties: {
-          relationShipToMember: {
+          relationshipToMember: {
             type: 'string',
             enum: ['spouse', 'child'],
           },
@@ -887,7 +887,7 @@ export const submissionForm = {
                 key: null,
                 ref: null,
                 props: {
-                  children: 'Marriage Date',
+                  children: 'Marriage date',
                 },
                 _owner: null,
                 _store: {},
@@ -986,7 +986,7 @@ export const submissionForm = {
                 key: null,
                 ref: null,
                 props: {
-                  children: 'Remarriage Date',
+                  children: 'Remarriage date',
                 },
                 _owner: null,
                 _store: {},

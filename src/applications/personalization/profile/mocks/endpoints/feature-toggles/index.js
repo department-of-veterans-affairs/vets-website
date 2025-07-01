@@ -5,9 +5,8 @@ const { snakeCase } = require('lodash');
 const profileToggles = {
   authExpVbaDowntimeMessage: false,
   profileShowPronounsAndSexualOrientation: false,
+  representativeStatusEnableV2Features: true,
   profileHideDirectDeposit: false,
-  profileShowPaymentsNotificationSetting: false,
-  profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
   profileShowNewHealthCareCopayBillNotificationSetting: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,

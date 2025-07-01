@@ -34,16 +34,17 @@ describe('Health conditions list container', () => {
     expect(screen.getByText('Health conditions', { exact: true })).to.exist;
   });
 
-  it('displays a page description', () => {
-    expect(
-      screen.getByText('Health condition records are available', {
-        exact: false,
-      }),
-    ).to.exist;
+  it('displays active condition', () => {
+    expect(screen.getAllByText('None recorded', { exact: false })).to.exist;
   });
 
-  it('displays active condition', () => {
-    expect(screen.getAllByText('None noted', { exact: false })).to.exist;
+  it('displays intro text for conditions', () => {
+    expect(
+      screen.getAllByText(
+        'This list includes the same information as your "VA problem list"',
+        { exact: false },
+      ),
+    ).to.exist;
   });
 
   it('displays about codes info', () => {

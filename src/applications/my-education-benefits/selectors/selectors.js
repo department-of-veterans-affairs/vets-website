@@ -49,7 +49,6 @@ export const getAppData = state => ({
   showMeb1990EZR6MaintenanceMessage: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb1990EZR6MaintenanceMessage
   ],
-  // Add the new feature flag: showMebEnhancements
   showMebEnhancements06: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements06
   ],
@@ -76,5 +75,8 @@ export const getAppData = state => ({
   ],
   mebAddressValidationApi: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebAddressValidationApi
+  ],
+    showMeb54901990eTextUpdate: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMeb54901990eTextUpdate
   ],
 });

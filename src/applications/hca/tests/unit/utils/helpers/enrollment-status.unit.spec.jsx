@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import * as api from 'platform/utilities/api';
 import {
   callAPI,
   callFake404,
@@ -8,15 +8,21 @@ import {
 } from '../../../../utils/helpers';
 
 describe('hca enrollment status helpers', () => {
+  let apiRequestStub;
   let dispatch;
 
   beforeEach(() => {
+    apiRequestStub = sinon.stub(api, 'apiRequest');
     dispatch = sinon.spy();
+  });
+
+  afterEach(() => {
+    apiRequestStub.restore();
   });
 
   context('when `callAPI` executes', done => {
     it('should execute the dispatch function', () => {
-      mockApiRequest({ data: 'data' });
+      apiRequestStub.onFirstCall().resolves({ data: 'data' });
       callAPI(dispatch)
         .then(() => {
           expect(dispatch).to.be.called;

@@ -64,11 +64,10 @@ const wrapperClasses = prefixUtilityClasses([
   'align-items--flex-start',
 ]);
 
-const editButtonClasses = [...prefixUtilityClasses(['margin-top--1p5'])];
-
 const classes = {
   wrapper: wrapperClasses.join(' '),
-  editButton: editButtonClasses.join(' '),
+  buttons:
+    'vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto',
 };
 
 class ProfileInformationFieldController extends React.Component {
@@ -125,13 +124,31 @@ class ProfileInformationFieldController extends React.Component {
         if (forceEditView && typeof successCallback === 'function') {
           successCallback();
         }
+        // Focus on the edit button after the update success alert is shown
+        waitForRenderThenFocus(
+          `#${getEditButtonId(fieldName)}`,
+          document,
+          50,
+          'button',
+        );
       } else if (!forceEditView) {
         if (prevProps.showRemoveModal && !this.props.showRemoveModal) {
-          waitForRenderThenFocus(
-            `#${getRemoveButtonId(fieldName)}`,
-            document,
-            50,
-          );
+          // Focus on the remove button if it exists, otherwise focus on the edit button
+          if (document.querySelector(`#${getRemoveButtonId(fieldName)}`)) {
+            waitForRenderThenFocus(
+              `#${getRemoveButtonId(fieldName)}`,
+              document,
+              50,
+              'button',
+            );
+          } else {
+            waitForRenderThenFocus(
+              `#${getEditButtonId(fieldName)}`,
+              document,
+              50,
+              'button',
+            );
+          }
         } else {
           // forcesEditView will result in now standard edit button being rendered, so we don't want to focus on it
           // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
@@ -139,6 +156,7 @@ class ProfileInformationFieldController extends React.Component {
             `#${getEditButtonId(fieldName)}`,
             document,
             50,
+            'button',
           );
         }
       }
@@ -315,6 +333,50 @@ class ProfileInformationFieldController extends React.Component {
     return newFormSchema;
   };
 
+  getEditViewProps = () => {
+    const baseProps = {
+      getInitialFormValues: () =>
+        getInitialFormValues({
+          fieldName: this.props.fieldName,
+          data: this.props.data,
+          modalData: this.props.editViewData,
+        }),
+      onCancel: this.onCancel,
+      fieldName: this.props.fieldName,
+      apiRoute: this.props.apiRoute,
+      convertCleanDataToPayload: this.props.convertCleanDataToPayload,
+      uiSchema: this.props.uiSchema,
+      formSchema: this.requireFieldBasedOnInitialValue(this.props.formSchema),
+      title: this.props.title,
+      recordCustomProfileEvent,
+      forceEditView: this.props.forceEditView,
+      cancelButtonText: this.props?.cancelButtonText,
+      saveButtonText: this.props?.saveButtonText,
+      showMailingAddressUpdateProfileChoice:
+        this.props?.prefillPatternEnabled &&
+        this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS,
+      successCallback: this.props.successCallback,
+    };
+
+    // Add flag for email/phone fields to indicate they should use formOnlyUpdate
+    if (
+      [
+        FIELD_NAMES.EMAIL,
+        FIELD_NAMES.HOME_PHONE,
+        FIELD_NAMES.MOBILE_PHONE,
+      ].includes(this.props.fieldName) ||
+      (this.props?.prefillPatternEnabled &&
+        this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS)
+    ) {
+      return {
+        ...baseProps,
+        useFormOnlyUpdate: true, // Flag to indicate this field should use formOnlyUpdate
+      };
+    }
+
+    return baseProps;
+  };
+
   render() {
     const {
       activeEditView,
@@ -363,13 +425,6 @@ class ProfileInformationFieldController extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        <ProfileInformationView
-          data={data}
-          fieldName={fieldName}
-          title={title}
-          id={ariaDescribedBy}
-        />
-
         {this.props.showUpdateSuccessAlert ? (
           <div
             data-testid="update-success-alert"
@@ -379,35 +434,38 @@ class ProfileInformationFieldController extends React.Component {
           </div>
         ) : null}
 
+        <ProfileInformationView
+          data={data}
+          fieldName={fieldName}
+          title={title}
+          id={ariaDescribedBy}
+        />
         <div className="vads-u-width--full">
           <div>
             {this.isEditLinkVisible() && (
-              <button
-                aria-label={`Edit ${title}`}
-                type="button"
-                data-action="edit"
-                aria-describedby={ariaDescribedBy}
+              <va-button
+                text="Edit"
+                label={`Edit ${title}`}
+                message-aria-describedby={ariaDescribedBy}
                 onClick={() => {
                   this.onEdit(isEmpty ? 'add-link' : 'edit-link');
                 }}
                 id={getEditButtonId(fieldName)}
-                className={classes.editButton}
-              >
-                Edit
-              </button>
+                class={`vads-u-margin-top--1p5 ${classes.buttons}`}
+                primary
+              />
             )}
             {data &&
               !isDeleteDisabled &&
               fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
-                <button
-                  aria-label={`Remove ${title}`}
-                  type="button"
+                <va-button
+                  text="Remove"
+                  label={`Remove ${title}`}
                   id={getRemoveButtonId(fieldName)}
-                  className="mobile-lg:vads-u-margin--0 usa-button-secondary"
+                  class={`vads-u-margin-top--1 ${classes.buttons}`}
                   onClick={this.handleDeleteInitiated}
-                >
-                  Remove
-                </button>
+                  secondary
+                />
               )}
           </div>
         </div>
@@ -419,64 +477,9 @@ class ProfileInformationFieldController extends React.Component {
         this.props?.prefillPatternEnabled &&
         this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
       ) {
-        content = (
-          <ProfileInformationEditViewFc
-            getInitialFormValues={() =>
-              getInitialFormValues({
-                fieldName,
-                data: this.props.data,
-                modalData: this.props.editViewData,
-              })
-            }
-            onCancel={this.onCancel}
-            fieldName={this.props.fieldName}
-            apiRoute={this.props.apiRoute}
-            convertCleanDataToPayload={this.props.convertCleanDataToPayload}
-            uiSchema={this.props.uiSchema}
-            formSchema={this.requireFieldBasedOnInitialValue(
-              this.props.formSchema,
-            )}
-            title={title}
-            recordCustomProfileEvent={recordCustomProfileEvent}
-            forceEditView={forceEditView}
-            cancelButtonText={this.props?.cancelButtonText}
-            saveButtonText={this.props?.saveButtonText}
-            showMailingAddressUpdateProfileChoice={
-              this.props?.prefillPatternEnabled &&
-              this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
-            }
-            successCallback={this.props.successCallback}
-          />
-        );
+        content = <ProfileInformationEditViewFc {...this.getEditViewProps()} />;
       } else {
-        content = (
-          <ProfileInformationEditView
-            getInitialFormValues={() =>
-              getInitialFormValues({
-                fieldName,
-                data: this.props.data,
-                modalData: this.props.editViewData,
-              })
-            }
-            onCancel={this.onCancel}
-            fieldName={this.props.fieldName}
-            apiRoute={this.props.apiRoute}
-            convertCleanDataToPayload={this.props.convertCleanDataToPayload}
-            uiSchema={this.props.uiSchema}
-            formSchema={this.requireFieldBasedOnInitialValue(
-              this.props.formSchema,
-            )}
-            title={title}
-            recordCustomProfileEvent={recordCustomProfileEvent}
-            forceEditView={forceEditView}
-            cancelButtonText={this.props?.cancelButtonText}
-            saveButtonText={this.props?.saveButtonText}
-            showMailingAddressUpdateProfileChoice={
-              this.props?.prefillPatternEnabled &&
-              this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
-            }
-          />
-        );
+        content = <ProfileInformationEditView {...this.getEditViewProps()} />;
       }
     }
 
@@ -582,11 +585,13 @@ ProfileInformationFieldController.propTypes = {
   ariaDescribedBy: PropTypes.string,
   cancelButtonText: PropTypes.string,
   cancelCallback: PropTypes.func,
+  contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
   editViewData: PropTypes.object,
   forceEditView: PropTypes.bool,
   isDeleteDisabled: PropTypes.bool,
   prefillPatternEnabled: PropTypes.bool,
+  recordCustomProfileEvent: PropTypes.func,
   refreshTransaction: PropTypes.func,
   refreshTransactionRequest: PropTypes.func,
   saveButtonText: PropTypes.string,

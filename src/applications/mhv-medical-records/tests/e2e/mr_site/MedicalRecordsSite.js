@@ -1,6 +1,7 @@
 import mockUser from '../fixtures/user.json';
 import vamc from '../fixtures/facilities/vamc-ehr.json';
 import sessionStatus from '../fixtures/session-status.json';
+import createAal from '../fixtures/create-aal.json';
 // import mockNonMRuser from '../fixtures/non_mr_user.json';
 // import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
 
@@ -19,6 +20,10 @@ class MedicalRecordsSite {
       statusCode: 200,
       body: sessionStatus, // status response copied from staging
     }).as('status');
+    cy.intercept('POST', '/my_health/v1/aal', {
+      statusCode: 200,
+      body: createAal,
+    }).as('aal');
     cy.login(userFixture);
   };
 
@@ -26,6 +31,7 @@ class MedicalRecordsSite {
     isAcceleratingEnabled = false,
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
+    isAcceleratingLabsAndTests = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -42,6 +48,10 @@ class MedicalRecordsSite {
           {
             name: 'mhv_accelerated_delivery_vital_signs_enabled',
             value: isAcceleratingVitals,
+          },
+          {
+            name: 'mhv_accelerated_delivery_labs_and_tests_enabled',
+            value: isAcceleratingLabsAndTests,
           },
           {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',
@@ -94,6 +104,32 @@ class MedicalRecordsSite {
           {
             name: 'mhv_medical_records_display_sidenav',
             value: true,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_allergy',
+            value: false,
+          },
+          {
+            name:
+              'mhv_medical_records_support_backend_pagination_care_summary_note',
+            value: false,
+          },
+          {
+            name:
+              'mhv_medical_records_support_backend_pagination_health_condition',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_lab_test',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_vaccine',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_vital',
+            value: false,
           },
         ],
       },

@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
 
 import VehiclePage from '../../../../components/submit-flow/pages/VehiclePage';
 
@@ -22,7 +23,17 @@ describe('Vehicle page', () => {
     setIsUnsupportedClaimType,
   };
 
-  it('should render correctly', () => {
+  let recordEventStub;
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+  });
+
+  it('should render correctly and record pageview', () => {
     const screen = render(<VehiclePage {...props} />);
 
     expect(screen.getByTestId('vehicle-test-id')).to.exist;
@@ -30,6 +41,15 @@ describe('Vehicle page', () => {
       'label',
       'Did you travel in your own vehicle?',
     );
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect($('va-radio')).to.not.have.attribute('error');
     expect($('va-button-pair')).to.exist;
 
@@ -62,6 +82,16 @@ describe('Vehicle page', () => {
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
   });
 
@@ -71,6 +101,16 @@ describe('Vehicle page', () => {
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
     expect(setPageIndex.calledWith(3)).to.be.true;
   });
@@ -79,6 +119,16 @@ describe('Vehicle page', () => {
     render(<VehiclePage {...props} />);
     $('va-button-pair').__events.secondaryClick(); // back
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        link_text: 'back',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(setPageIndex.calledWith(1)).to.be.true;
   });
 });

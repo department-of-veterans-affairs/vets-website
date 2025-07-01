@@ -52,16 +52,16 @@ const childContent = (
         <a
           target="_blank"
           rel="noreferrer"
-          href="https://github.com/department-of-veterans-affairs/VA.gov-team-forms/blob/main/Design/patterns/Minimal%20Header%20for%20Forms/form-step-WIP.md"
+          href="https://design.va.gov/templates/forms/form-step-minimal"
         >
-          Design guidance for new forms
+          Design guidance for using Form Step - Minimal template
         </a>
       </li>
       <li>
         <a
           target="_blank"
           rel="noreferrer"
-          href="https://github.com/department-of-veterans-affairs/VA.gov-team-forms/blob/main/Design/patterns/Minimal%20Header%20for%20Forms/form-step-WIP.md#migrating-existing-forms-to-use-the-new-form-page-template"
+          href="https://www.figma.com/design/WzqnYSC2B42aFaSCu7L3Dk/Minimal-Form-Flow-Template?node-id=2-13012&p=f&t=Ird6yObA057l9RHY-11"
         >
           Design guidance for migrating existing forms to use the new minimal
           form flow

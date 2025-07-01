@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import userEvent from '@testing-library/user-event';
 import { mockFetchFacilitiesResponse } from '../../../mocks/fetchFacility';
 import FacilityConfirmation, {
@@ -12,10 +12,9 @@ describe('CG <FacilityConfirmation>', () => {
   const { facilities } = mockFetchFacilitiesResponse;
   const selectedFacility = facilities[0];
   const caregiverFacility = facilities[1];
-
-  const goBack = sinon.spy();
-  const goForward = sinon.spy();
-  const goToPath = sinon.spy();
+  let goBack;
+  let goForward;
+  let goToPath;
 
   const subject = ({
     selected = selectedFacility,
@@ -40,10 +39,16 @@ describe('CG <FacilityConfirmation>', () => {
     return { selectors, queryByText };
   };
 
+  beforeEach(() => {
+    goBack = sinon.spy();
+    goForward = sinon.spy();
+    goToPath = sinon.spy();
+  });
+
   afterEach(() => {
-    goBack.reset();
-    goForward.reset();
-    goToPath.reset();
+    goBack.resetHistory();
+    goForward.resetHistory();
+    goToPath.resetHistory();
   });
 
   context('when the page renders in the normal form flow', () => {
@@ -79,34 +84,34 @@ describe('CG <FacilityConfirmation>', () => {
     it('should call `goBack` when the Back button is clicked', () => {
       const { selectors } = subject();
       userEvent.click(selectors().backBtn);
-      expect(goBack.calledOnce).to.be.true;
+      sinon.assert.calledOnce(goBack);
     });
 
     it('should call `goForward` when the Continue button is clicked', () => {
       const { selectors } = subject();
       userEvent.click(selectors().continueBtn);
-      expect(goForward.calledOnce).to.be.true;
+      sinon.assert.calledOnce(goForward);
     });
   });
 
   context('when the page renders in review mode', () => {
     beforeEach(() => {
       Object.defineProperty(window, 'location', {
-        configurable: true,
         value: { search: '?review=true' },
+        configurable: true,
       });
     });
 
     it('should call `goToPath` with the correct route when the Back button is clicked', () => {
       const { selectors } = subject();
       userEvent.click(selectors().backBtn);
-      expect(goToPath.calledWith(reviewModeRoutes.back)).to.be.true;
+      sinon.assert.calledWithExactly(goToPath, reviewModeRoutes.back);
     });
 
     it('should call `goToPath` with the correct route when the Continue button is clicked', () => {
       const { selectors } = subject();
       userEvent.click(selectors().continueBtn);
-      expect(goToPath.calledWith(reviewModeRoutes.forward)).to.be.true;
+      sinon.assert.calledWithExactly(goToPath, reviewModeRoutes.forward);
     });
   });
 

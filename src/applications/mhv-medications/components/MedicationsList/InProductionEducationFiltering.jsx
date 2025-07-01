@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
-import {
-  VaButton,
-  VaIcon,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { tooltipHintContent } from '../../util/constants';
@@ -15,8 +12,7 @@ import {
   updateTooltipVisibility,
   getTooltip,
 } from '../../actions/tooltip'; // Adjust the import path according to your project structure
-
-export const RX_IPE_FILTERING_DESCRIPTION_ID = 'rx-ipe-filtering-description';
+import { selectDontIncrementIpeCountFlag } from '../../util/selectors';
 
 const InProductionEducationFiltering = () => {
   const dispatch = useDispatch();
@@ -27,6 +23,9 @@ const InProductionEducationFiltering = () => {
   const tooltipId = useSelector(
     state => state?.rx?.inProductEducation?.tooltipId,
   );
+  const dontIncrementTooltipCount = useSelector(
+    selectDontIncrementIpeCountFlag,
+  );
 
   useEffect(
     () => {
@@ -36,7 +35,7 @@ const InProductionEducationFiltering = () => {
         if (filterTooltip) {
           dispatch(setTooltip(filterTooltip.id, !filterTooltip.hidden));
 
-          if (!filterTooltip.hidden) {
+          if (!filterTooltip.hidden && !dontIncrementTooltipCount) {
             dispatch(incrementTooltip(filterTooltip.id));
           }
         } else {
@@ -60,39 +59,25 @@ const InProductionEducationFiltering = () => {
       dataDogActionNames.medicationsListPage.STOP_SHOWING_IPE_FILTERING_HINT,
     );
     await dispatch(updateTooltipVisibility(tooltipId, false));
-    const filterAccordionElement = document.getElementById('filter');
-    focusElement(filterAccordionElement);
+    const filterAccordionShadowRoot = document.getElementById('filter');
+    focusElement('button', {}, filterAccordionShadowRoot);
   };
 
   return (
     <>
       {tooltipVisible && (
-        <div
+        <aside
           id="rx-ipe-filtering-container"
           data-testid="rx-ipe-filtering-container"
           className="vads-u-margin-top--3 vads-u-padding--2p5"
+          aria-label="Filter your list to find a specific medication"
         >
           <p
             className="vads-u-margin--0 vads-u-padding-right--5"
-            id={RX_IPE_FILTERING_DESCRIPTION_ID}
+            id="rx-ipe-filtering-description"
           >
             {tooltipHintContent.filterAccordion.HINT}
           </p>
-          <button
-            aria-label="Dismiss filtering hint"
-            id="rx-ipe-filtering-close"
-            data-testid="rx-ipe-filtering-close"
-            onClick={handleStopShowing}
-          >
-            <VaIcon
-              size={3}
-              icon="cancel"
-              aria-label="dismiss icon"
-              alt="dismiss icon"
-              onClick={handleStopShowing}
-              role="img"
-            />
-          </button>
           <VaButton
             className="vads-u-margin-top--3"
             secondary
@@ -107,7 +92,7 @@ const InProductionEducationFiltering = () => {
           >
             This hint for filtering will not appear anymore
           </span>
-        </div>
+        </aside>
       )}
     </>
   );

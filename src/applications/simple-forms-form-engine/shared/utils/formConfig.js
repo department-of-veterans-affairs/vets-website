@@ -23,6 +23,7 @@ export const formatPages = chapter => {
     case 'digital_form_custom_step':
       return customStepPages(chapter);
     case 'digital_form_list_loop':
+    case 'list_loop_employment_history':
       return listLoopPages(chapter);
     case 'digital_form_phone_and_email':
       return phoneAndEmailPages(chapter);

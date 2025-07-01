@@ -125,7 +125,9 @@ describe('Schemaform review: <GenericError />', () => {
       </Provider>,
     );
 
-    const submitButton = tree.getByText('Submit again');
+    const submitButton = tree.container.querySelector(
+      'va-button[text="Submit again"]',
+    );
     expect(submitButton).to.not.be.null;
     fireEvent.click(submitButton);
     expect(onSubmit.called).to.be.true;
@@ -161,7 +163,9 @@ describe('Schemaform review: <GenericError />', () => {
     );
 
     expect(tree.getByTestId('12345')).to.have.attribute('role', 'alert');
-    expect(tree.getByText('Go Back to VA.gov')).to.not.be.null;
+    expect(
+      tree.container.querySelector('va-link-action[text="Go Back to VA.gov"]'),
+    ).to.not.be.null;
 
     tree.unmount();
 

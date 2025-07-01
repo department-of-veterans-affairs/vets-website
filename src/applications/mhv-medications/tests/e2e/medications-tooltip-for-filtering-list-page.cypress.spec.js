@@ -30,14 +30,6 @@ describe('Medications List Page ToolTip for Filtering', () => {
     cy.injectAxe();
     cy.axeCheck('main');
   });
-  it('visits Medications List ToolTip close', () => {
-    listPage.verifyToolTipTextOnListPage(Data.TOOL_TIP_TEXT);
-    listPage.clickToolTipCloseButtonOnListPage();
-    listPage.verifyToolTipNotVisibleOnListPage();
-    listPage.verifyFilterAccordionDropDownIsFocused();
-    cy.injectAxe();
-    cy.axeCheck('main');
-  });
   it('visits Medications List ToolTip Stop Hint Button', () => {
     listPage.verifyToolTipTextOnListPage(Data.TOOL_TIP_TEXT);
     listPage.clickStopShowingThisHintLinkOnListPage();

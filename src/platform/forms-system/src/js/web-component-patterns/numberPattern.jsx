@@ -1,15 +1,23 @@
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
+// Suppor negative numbers and scientific notation
+export const NUMBER_PARSE_REGEXP = /[^0-9.e+-]/g;
+
+export const parseNumber = value =>
+  parseFloat((value || '').toString().replace(NUMBER_PARSE_REGEXP, ''));
+
 export function minMaxValidation(min, max) {
   return (errors, formData, uiSchema, schema, errorMessages) => {
-    const value = parseInt(formData, 10);
+    // formData could be a number or string, make sure not to strip out
+    // scientific notation before parsing & comparing to min and max
+    const value = parseNumber(formData);
 
     let defaultErrorMessage = `Enter a number between ${min} and ${max}`;
-    if (min !== undefined && max === undefined) {
+    if (typeof min !== 'undefined' && typeof max === 'undefined') {
       defaultErrorMessage = `Enter a number larger than ${
         min - 1 > 0 ? min - 1 : 0
       }`;
-    } else if (min === undefined && max !== undefined) {
+    } else if (typeof min === 'undefined' && typeof max !== 'undefined') {
       defaultErrorMessage = `Enter a number smaller than ${max + 1}`;
     }
 
@@ -22,7 +30,7 @@ export function minMaxValidation(min, max) {
 }
 
 /**
- * Web component v3 uiSchema for a number based input which uses VaTextInputField
+ * uiSchema for a number based input which uses VaTextInputField
  *
  * Used for simple number amounts containing only digits
  *
@@ -89,6 +97,7 @@ export const numberUI = options => {
 };
 
 /**
+ * schema for numberUI
  * ```js
  * schema: {
  *    exampleNumber: numberSchema

@@ -2,20 +2,59 @@ import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 const useFeatureToggles = () => {
-  const { featureTogglesLoading, isSignatureSettingsEnabled } = useSelector(
+  const {
+    featureTogglesLoading,
+    isComboBoxEnabled,
+    isAalEnabled,
+    readReceiptsEnabled,
+    customFoldersRedesignEnabled,
+    isDowntimeBypassEnabled,
+    cernerPilotSmFeatureFlag,
+    mhvMockSessionFlag,
+  } = useSelector(
     state => {
       return {
         featureTogglesLoading: state.featureToggles.loading,
-        isSignatureSettingsEnabled:
+        isComboBoxEnabled:
           state.featureToggles[
-            FEATURE_FLAG_NAMES.mhvSecureMessagingSignatureSettings
+            FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientCombobox
           ],
+        isAalEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingMilestone2AAL
+          ],
+        readReceiptsEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts
+          ],
+        customFoldersRedesignEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingCustomFoldersRedesign
+          ],
+        isDowntimeBypassEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification
+          ],
+        cernerPilotSmFeatureFlag:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+          ],
+        mhvMockSessionFlag: state.featureToggles['mhv-mock-session'],
       };
     },
     state => state.featureToggles,
   );
 
-  return { featureTogglesLoading, isSignatureSettingsEnabled };
+  return {
+    featureTogglesLoading,
+    isComboBoxEnabled,
+    readReceiptsEnabled,
+    isAalEnabled,
+    customFoldersRedesignEnabled,
+    isDowntimeBypassEnabled,
+    cernerPilotSmFeatureFlag,
+    mhvMockSessionFlag,
+  };
 };
 
 export default useFeatureToggles;

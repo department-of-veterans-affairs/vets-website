@@ -1,8 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
-import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { useDefaultFormData } from '../../../hooks/useDefaultFormData';
 
 // create wrapper component for our hook
@@ -12,8 +11,9 @@ const TestComponent = () => {
 };
 
 describe('CG `useDefaultFormData` hook', () => {
-  const getData = () => ({
-    mockStore: {
+  let dispatch;
+  const subject = () => {
+    const mockStore = {
       getState: () => ({
         form: { data: {} },
         featureToggles: {
@@ -23,25 +23,28 @@ describe('CG `useDefaultFormData` hook', () => {
         },
       }),
       subscribe: () => {},
-      dispatch: sinon.stub(),
-    },
-  });
-  const subject = ({ mockStore }) =>
-    render(
+      dispatch,
+    };
+    return render(
       <Provider store={mockStore}>
         <TestComponent />
       </Provider>,
     );
+  };
+
+  beforeEach(() => {
+    dispatch = sinon.spy();
+  });
+
+  afterEach(() => {
+    dispatch.resetHistory();
+  });
 
   it('should fire the `setData` dispatch with the correct data', () => {
-    const { mockStore } = getData();
-    const { dispatch } = mockStore;
-    const expectedData = {
-      'view:useFacilitiesAPI': false,
-    };
-
-    subject({ mockStore });
-    expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
-    expect(dispatch.firstCall.args[0].data).to.deep.eq(expectedData);
+    subject();
+    sinon.assert.calledOnceWithExactly(dispatch, {
+      type: 'SET_DATA',
+      data: { 'view:useFacilitiesAPI': false },
+    });
   });
 });

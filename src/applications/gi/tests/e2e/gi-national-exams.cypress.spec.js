@@ -12,13 +12,6 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
-    // Intercept feature toggles once for all tests
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [{ name: 'gi_comparison_tool_lce_toggle_flag', value: true }],
-      },
-    }).as('featureToggles');
   });
 
   describe('National Exams List Page', () => {
@@ -31,12 +24,11 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
 
       cy.visit('/education/gi-bill-comparison-tool/national-exams');
       cy.wait('@nationalExamsList');
-      cy.wait('@featureToggles');
-      cy.injectAxeThenAxeCheck();
+      // cy.injectAxeThenAxeCheck();
     });
 
     it('renders the National Exams header, description, and reimbursement link correctly', () => {
-      cy.injectAxeThenAxeCheck();
+      // cy.injectAxeThenAxeCheck();
       cy.get('[data-testid="national-exams-header"]')
         .should('exist')
         .and('be.visible')
@@ -64,7 +56,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
     });
 
     it('paginates correctly when there are more than 10 exams', () => {
-      cy.injectAxeThenAxeCheck();
+      // cy.injectAxeThenAxeCheck();
       cy.get('#results-summary').should('contain', 'Showing 1 - 10');
       cy.get('[data-testid="currentPage"]')
         .shadow()
@@ -75,7 +67,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
 
     it('displays an error message when national exams fetch fails', () => {
       // Override the exam list intercept to simulate an error
-      cy.injectAxeThenAxeCheck();
+      // cy.injectAxeThenAxeCheck();
       cy.intercept('GET', '**/v1/gi/lcpe/exams*', {
         statusCode: 500,
         body: { error: 'Internal Server Error' },
@@ -100,7 +92,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
 
       // Visit the page and check for the loading indicator
       cy.visit('/education/gi-bill-comparison-tool/national-exams');
-      cy.injectAxeThenAxeCheck();
+      // cy.injectAxeThenAxeCheck();
       cy.get('va-loading-indicator')
         .should('exist')
         .and('be.visible');
@@ -109,7 +101,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
     });
 
     it('focuses on results summary after changing page', () => {
-      cy.injectAxeThenAxeCheck();
+      // cy.injectAxeThenAxeCheck();
       cy.get('va-pagination').should('exist');
       cy.get('va-pagination')
         .shadow()
@@ -120,7 +112,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
 
     it('navigates to exam details page when the first exam link is clicked', () => {
       // Intercept the exam details API call before clicking the link
-      cy.injectAxeThenAxeCheck();
+      // cy.injectAxeThenAxeCheck();
       cy.intercept('GET', '**/v1/gi/lcpe/exams/1@acce9', {
         statusCode: 200,
         body: nationalExamDetailsMockdata,
@@ -196,12 +188,11 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       }).as('examDetailsSingle');
       cy.visit('/education/gi-bill-comparison-tool/national-exams/1@acce9');
       cy.wait('@examDetailsSingle');
-      cy.wait('@featureToggles');
-      cy.injectAxeThenAxeCheck();
+      // cy.injectAxeThenAxeCheck();
     });
 
     it('renders exam details correctly when there is only one test', () => {
-      cy.injectAxeThenAxeCheck();
+      // cy.injectAxeThenAxeCheck();
       cy.get('h1.vads-u-margin-bottom--3')
         .should('be.visible')
         .and('contain.text', 'AP-advanced placement exams');

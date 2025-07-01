@@ -11,7 +11,6 @@ import manifest from '../manifest.json';
 import {
   verifyAllDataWasSubmitted,
   reviewAndSubmitPageFlow,
-  fillAddressWebComponentPattern,
   selectRadioWebComponent,
   getAllPages,
 } from '../../shared/tests/helpers';
@@ -32,6 +31,7 @@ const testConfig = createTestConfig(
 
     // Rename and modify the test data as needed.
     dataSets: [
+      'basic-resubmission.json',
       'test-data.json',
       'military-address-no-ohi-pharmacy-work.json',
       'third-party-foreign-address-ohi-medical-claim-work-auto.json',
@@ -83,7 +83,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'certifierAddress',
               data.certifierAddress,
             );
@@ -96,7 +96,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'applicantAddress',
               data.applicantAddress,
             );
@@ -193,7 +193,7 @@ const testConfig = createTestConfig(
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

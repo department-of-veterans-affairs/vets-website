@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
 import AppointmentRow from '../../../components/AppointmentRow';
 import {
   selectAppointmentLocality,
@@ -14,8 +13,6 @@ import {
   selectTimeZoneAbbr,
   selectApptDetailAriaText,
   selectApptDateAriaText,
-  selectTypeOfCareAriaText,
-  selectModalityAriaText,
   selectIsCommunityCare,
 } from '../../redux/selectors';
 import AppointmentColumn from '../../../components/AppointmentColumn';
@@ -29,23 +26,16 @@ export default function AppointmentColumnLayout({
   const appointmentLocality = useSelector(() =>
     selectAppointmentLocality(data),
   );
-  const useFeSourceOfTruth = useSelector(state =>
-    selectFeatureFeSourceOfTruth(state),
-  );
   const isCanceled = useSelector(() => selectIsCanceled(data));
   const isCommunityCare = useSelector(() => selectIsCommunityCare(data));
   const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
-  const startDate = useSelector(() =>
-    selectStartDate(data, useFeSourceOfTruth),
-  );
+  const startDate = useSelector(() => selectStartDate(data));
   const parsedDate = moment.parseZone(startDate);
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
   const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
   const dateAriaLabel = useSelector(() => selectApptDateAriaText(data));
-  const typeOfCareAriaLabel = useSelector(() => selectTypeOfCareAriaText(data));
-  const modalityAriaLabel = useSelector(() => selectModalityAriaText(data));
 
   return (
     <>
@@ -159,7 +149,6 @@ export default function AppointmentColumnLayout({
                 size="2"
                 className="vads-u-font-weight--bold vaos-appts__display--table"
                 canceled={isCanceled}
-                aria-label={typeOfCareAriaLabel}
               >
                 <span
                   className={classNames(
@@ -176,7 +165,6 @@ export default function AppointmentColumnLayout({
                 size="3"
                 className="vaos-appts__display--table"
                 canceled={isCanceled}
-                aria-label={modalityAriaLabel}
               >
                 <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
                   {!isCommunityCare && (

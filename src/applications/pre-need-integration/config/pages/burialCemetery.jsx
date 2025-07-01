@@ -30,6 +30,9 @@ export const uiSchema = {
       ),
     },
   },
+  'ui:options': {
+    itemName: 'preferred cemetery',
+  },
 };
 export const schema = {
   type: 'object',

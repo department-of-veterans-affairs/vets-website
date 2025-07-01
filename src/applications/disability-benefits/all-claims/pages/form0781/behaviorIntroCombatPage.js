@@ -15,7 +15,7 @@ import {
 export const uiSchema = {
   'ui:title': titleWithTag(behaviorPageTitle, form0781HeadingTag),
   'ui:description': behaviorIntroCombatDescription,
-  'view:answerCombatBehaviorQuestions': radioUI({
+  answerCombatBehaviorQuestions: radioUI({
     title: 'Do you want to answer questions about behavioral changes?',
     labelHeaderLevel: '4',
     required: () => true,
@@ -32,7 +32,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:answerCombatBehaviorQuestions': radioSchema(['true', 'false']),
+    answerCombatBehaviorQuestions: radioSchema(['true', 'false']),
     'view:mentalHealthSupportAlert': {
       type: 'object',
       properties: {},

@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
 import champvaApplicationManifest from '../../10-10D/manifest.json';
-import { CHAMPVA_ADDRESS, CHAMPVA_FAX_NUMBER } from '../../shared/constants';
+import {
+  CHAMPVA_CLAIMS_ADDRESS,
+  CHAMPVA_FAX_NUMBER,
+} from '../../shared/constants';
 
 export function NotEnrolledChampvaPage({ goBack }) {
   return (
@@ -42,7 +45,7 @@ export function NotEnrolledChampvaPage({ goBack }) {
         <p>
           Mail your completed form and supporting documents to this address:
         </p>
-        {CHAMPVA_ADDRESS}
+        {CHAMPVA_CLAIMS_ADDRESS}
         <p>
           Or fax it to: <va-telephone contact={CHAMPVA_FAX_NUMBER} />
         </p>

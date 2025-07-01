@@ -18,7 +18,7 @@ const HEALTH_TOOL_LINKS = freeze({
       text: 'Schedule a new appointment',
     },
     {
-      href: '/health-care/schedule-view-va-appointments/appointments',
+      href: '/my-health/appointments/',
       text: 'Manage upcoming appointments',
     },
   ]),
@@ -60,6 +60,7 @@ const HEALTH_TOOL_LINKS = freeze({
       isExternal: true,
     },
   ]),
+
   MEDICAL_SUPPLIES: freeze([
     {
       href: '/health-care/order-hearing-aid-or-CPAP-supplies-form/introduction',

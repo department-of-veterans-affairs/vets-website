@@ -1,32 +1,35 @@
-import React from 'react';
-import moment from 'moment';
-import { expect } from 'chai';
-import userEvent from '@testing-library/user-event';
 import { waitFor, within } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import React from 'react';
 import { Route } from 'react-router-dom';
 
 import {
-  setFetchJSONFailure,
   mockFetch,
+  setFetchJSONFailure,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
+import { addMinutes } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
 
 import ReviewPage from '.';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
+import {
+  mockAppointmentSubmitApi,
+  mockFacilityApi,
+} from '../../../tests/mocks/mockApis';
+import { DATE_FORMATS, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
-import { mockAppointmentSubmit } from '../../../tests/mocks/helpers';
-import { createMockCheyenneFacility } from '../../../tests/mocks/data';
-import { mockFacilityFetch } from '../../../tests/mocks/fetch';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
   },
 };
 
@@ -36,16 +39,16 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
   beforeEach(() => {
     mockFetch();
-    start = moment.tz();
+    mockFacilityApi({
+      id: '983',
+    });
+    start = new Date();
     store = createTestStore({
       ...initialState,
-      featureToggles: {
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      },
       newAppointment: {
         pages: {},
         data: {
-          typeOfCareId: '323',
+          typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
           phoneNumber: '2234567890',
           email: 'joeblow@gmail.com',
           reasonForAppointment: 'routine-follow-up',
@@ -56,7 +59,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
           preferredDate: '2021-05-06',
         },
         facilityDetails: {
-          '983': {
+          983: {
             id: '983',
             name: 'Cheyenne VA Medical Center',
             address: {
@@ -68,7 +71,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
           },
         },
         facilities: {
-          '323': [
+          323: [
             {
               id: '983',
               name: 'Cheyenne VA Medical Center',
@@ -88,11 +91,12 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
         availableSlots: [
           {
             id: 'slot-id',
-            start: start.format(),
-            end: start
-              .clone()
-              .add(30, 'minutes')
-              .format(),
+            start: formatInTimeZone(start, 'UTC', DATE_FORMATS.ISODateTimeUTC),
+            end: formatInTimeZone(
+              addMinutes(start, 30),
+              'UTC',
+              DATE_FORMATS.ISODateTimeUTC,
+            ),
           },
         ],
         clinics: {
@@ -108,10 +112,15 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       },
     });
     store.dispatch(startDirectScheduleFlow());
-    store.dispatch(onCalendarChange([start.format()]));
   });
 
   it('should show form information for review', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(start, 'America/Denver', DATE_FORMATS.ISODateTime),
+      ]),
+    );
+
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
     });
@@ -139,10 +148,14 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     expect(dateHeading).to.contain.text('Date and time');
     expect(screen.baseElement).to.contain.text(
-      start.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+      formatInTimeZone(
+        start,
+        'America/Denver',
+        DATE_FORMATS.friendlyWeekdayDate,
+      ),
     );
     expect(screen.baseElement).to.contain.text(
-      start.tz('America/Denver').format('h:mm a'),
+      formatInTimeZone(start, 'America/Denver', 'h:mm aaaa'),
     );
 
     expect(reasonHeading).to.contain.text(
@@ -168,13 +181,19 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should submit successfully', async () => {
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
-    });
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
 
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
+    });
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
     });
@@ -184,7 +203,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/va/fake_id?confirmMsg=true',
+        '/fake_id?confirmMsg=true',
       );
     });
 
@@ -206,8 +225,14 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch({
-      facility: createMockCheyenneFacility({}),
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(start, 'America/Denver', DATE_FORMATS.ISODateTime),
+      ]),
+    );
+
+    mockFacilityApi({
+      response: new MockFacilityResponse(),
     });
 
     setFetchJSONFailure(
@@ -233,7 +258,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     expect(
       screen.getByRole('heading', {
-        level: 4,
+        level: 3,
         name: /Cheyenne VA Medical Center/i,
       }),
     );
@@ -251,6 +276,19 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show appropriate message on bad 400 request submit error', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
+
+    mockFacilityApi({
+      response: new MockFacilityResponse(),
+    });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
       {
@@ -290,6 +328,18 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show appropriate message on overbooked 409 error', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
+    mockFacilityApi({
+      response: new MockFacilityResponse(),
+    });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
       {
@@ -329,6 +379,18 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show appropriate message on bad 500 request submit error', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
+    mockFacilityApi({
+      response: new MockFacilityResponse(),
+    });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
       {

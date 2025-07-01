@@ -11,11 +11,8 @@ import {
   selectChosenFacilityInfo,
   selectPastAppointments,
 } from '../../redux/selectors';
-import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
-import {
-  selectFeatureClinicFilter,
-  selectFeatureVAOSServiceVAAppointments,
-} from '../../../redux/selectors';
+import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
+import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -35,39 +32,27 @@ export default function useClinicFormState(pageTitle) {
   const selectedTypeOfCare = getTypeOfCare(initialData);
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
-  const featureClinicFilter = useSelector(state =>
-    selectFeatureClinicFilter(state),
-  );
-  const useV2 = useSelector(state =>
-    selectFeatureVAOSServiceVAAppointments(state),
-  );
 
-  let filteredClinics = clinics;
+  // Retrieves flipper state for mental health history filtering
+  const usePastVisitMHFilter = useSelector(
+    selectFeatureMentalHealthHistoryFiltering,
+  );
 
   // filter the clinics based on Direct Scheduling value from VATS
   // v2 uses boolean while v0 uses Y/N string
-  if (featureClinicFilter) {
-    if (useV2) {
-      filteredClinics = clinics.filter(
-        clinic => clinic.patientDirectScheduling === true,
-      );
-    } else {
-      // v0 is pre-filtered; don't need this this line
-      filteredClinics = clinics.filter(
-        clinic => clinic.patientDirectScheduling === 'Y',
-      );
-    }
-  }
+  let filteredClinics = clinics.filter(
+    clinic => clinic.patientDirectScheduling === true,
+  );
 
   // Past appointment history check
   // primary care and mental health are exempt
   // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
-  const isCheckTypeOfCare = featureClinicFilter
-    ? initialData.typeOfCareId !== MENTAL_HEALTH &&
-      initialData.typeOfCareId !== PRIMARY_CARE &&
-      location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
-        ?.patientHistoryRequired === true
-    : !!pastAppointments;
+  const isCheckTypeOfCare =
+    (initialData.typeOfCareId !== TYPE_OF_CARE_IDS.MENTAL_HEALTH ||
+      usePastVisitMHFilter) &&
+    initialData.typeOfCareId !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
+    location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
+      ?.patientHistoryRequired === true;
   if (isCheckTypeOfCare) {
     const pastAppointmentDateMap = new Map();
     const siteId = getSiteIdFromFacilityId(initialData.vaFacility);

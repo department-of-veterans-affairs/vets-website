@@ -16,8 +16,8 @@ describe('CG <CustomYesNoReviewField>', () => {
       </CustomYesNoReviewField>,
     );
     const selectors = () => ({
-      title: container.querySelector('dt', '.review-row'),
-      value: container.querySelector('dd', '.review-row'),
+      title: container.querySelector('dt'),
+      value: container.querySelector('dd'),
     });
     return { selectors };
   };

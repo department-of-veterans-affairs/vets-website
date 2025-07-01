@@ -96,3 +96,169 @@ padding-left: 0;
   width: 23rem;
   }
 }
+
+
+// PATTERN 6 MARITAL STATUS
+[data-location="6/marital-information/current-marital-status"] {
+  va-radio::part(legend) {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: "Bitter", serif !important;
+  }
+  va-radio::part(required) {
+    font-size: 1.06rem;
+    font-weight: normal;
+    font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  }
+}
+
+[data-location="6/marital-information/current-marital-status-simple"] {
+  va-radio::part(legend) {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: "Bitter", serif !important;
+  }
+  va-radio::part(required) {
+    font-size: 1.06rem;
+    font-weight: normal;
+    font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  }
+}
+
+.masked-ssn {
+  margin-bottom: 1.875rem;
+}
+
+[data-location="6/marital-information/spouse-personal-information"] {
+  va-checkbox {
+    margin-top: 1.5rem;
+  }
+}
+
+[data-location="6/marital-information/current-spouse-marriage-history"] {
+  va-radio::part(legend) {
+    margin-top: 0 !important;
+  }
+}
+
+[data-location="6/marital-information/veteran-marriage-history"] {
+  va-radio::part(legend) {
+    margin-top: 0 !important;
+  }
+}
+
+[data-location*="/reason-former-marriage-ended"] {
+  va-radio::part(legend) {
+    display: none;
+  }
+
+  .schemaform-field-template.schemaform-first-field {
+    margin-top: 1.25rem !important;
+  }
+
+  .rjsf-web-component-field {
+    margin-top: 0 !important;
+  }
+
+.form-expanding-group {
+  .vads-u-padding-left--4 {
+    padding-left: 0 !important;
+  }
+}
+}
+
+[data-location*="/current-spouse-marriage-history"] {
+  .rjsf-object-field {
+    margin-top: 0 !important;
+  }
+}
+
+[data-location*="/veteran-marriage-history"] {
+  .rjsf-object-field {
+    margin-top: 0 !important;
+  }
+}
+
+[label="Has your spouse been married before?"]{
+  margin-top: 0 !important;
+}
+
+[label="Do you have any previous marriages?"]{
+  margin-top: 0 !important;
+}
+
+[name="root_view:previousSpouseIsDeceased"]{
+margin-top: 1.5rem;
+}
+
+[name="root_view:marriedOutsideUS"] {
+  margin-top: 1.5rem;
+}
+
+[name="root_view:marriageEndedOutsideUS"] {
+  margin-top: 1.5rem;
+}
+
+[data-location="6/marital-information/additional-living-situation"] {
+legend.schemaform-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+span.schemaform-required-span {
+  font-size: 1.06rem;
+  font-weight: normal;
+}
+}
+
+[data-location="6/marital-information/marriage-type"] {
+  legend.schemaform-label {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+  span.schemaform-required-span {
+    font-size: 1.06rem;
+    font-weight: normal;
+  }
+}
+
+.end-title-span {
+  color: rgb(181, 9, 9) !important;
+  font-size: 1.06rem;
+  font-weight: normal;
+  font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+.schemaform-block-title {
+  h3 {
+    color: var(--vads-color-black) !important;
+  }
+}
+
+#root_marriageType-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-family: "Bitter", serif !important;
+}
+
+span.schemaform-required-span {
+  font-size: 1.06rem;
+  font-weight: normal;
+  font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+va-radio[label="Do you have any other previous marriages?"]::part(required) {
+  font-size: 1.06rem !important;
+  font-weight: normal !important;
+  font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+va-radio[label="Does your spouse have any other previous marriages?"]::part(required) {
+  font-size: 1.06rem !important;
+  font-weight: normal !important;
+  font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+
+#react-root > div.vads-u-margin-top--4 > div:nth-child(1) > div.form-app > div > div > div.progress-box.progress-box-schemaform > div > form > div.vads-u-margin-y--2.rjsf-object-field > div > fieldset > p {
+color: var(--vads-label-hint-text-color-on-light);
+}

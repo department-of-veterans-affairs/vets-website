@@ -13,8 +13,7 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { Element } from 'platform/utilities/scroll';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { Element, getScrollOptions, scrollTo } from 'platform/utilities/scroll';
 import set from 'platform/utilities/data/set';
 import {
   scrollToFirstError,
@@ -23,7 +22,7 @@ import {
 } from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
-import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
+import { isReactComponent } from '../../../../utilities/ui';
 import { isMinimalHeaderPath } from '../patterns/minimal-header';
 
 /* Non-review growable table (array) field */
@@ -463,8 +462,7 @@ export default class ArrayField extends React.Component {
                             {(!isLast || showSave) && (
                               <VaButton
                                 className="float-left"
-                                label={`${updateText} ${ariaItemName} ${index +
-                                  1}`}
+                                label={`${updateText} ${ariaItemName}`}
                                 onClick={() => this.handleUpdate(index)}
                                 text={updateText}
                               />
@@ -475,7 +473,7 @@ export default class ArrayField extends React.Component {
                               <VaButton
                                 secondary
                                 className="float-right"
-                                label={`Remove ${ariaItemName} ${index + 1}`}
+                                label={`Remove ${ariaItemName}`}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
@@ -541,7 +539,7 @@ export default class ArrayField extends React.Component {
                   </div>
                   <VaButton
                     secondary
-                    label={`Edit ${ariaItemName} ${index + 1}`}
+                    label={`Edit ${ariaItemName}`}
                     onClick={() => this.handleEdit(index)}
                     text="Edit"
                   />

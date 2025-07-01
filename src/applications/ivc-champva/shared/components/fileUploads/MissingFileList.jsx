@@ -26,12 +26,16 @@ function alertOrLink(file, entryName, index, fileNameMap = {}) {
     <>
       {file.uploaded ? (
         <VaAlert status="success" showIcon uswds>
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 dd-privacy-hidden">
             {`${entryName}’s`} {fn} uploaded
           </p>
         </VaAlert>
       ) : (
-        <Link aria-label={t} to={href} className="vads-c-action-link--blue">
+        <Link
+          aria-label={t}
+          to={href}
+          className="vads-c-action-link--blue dd-privacy-hidden"
+        >
           {t}
         </Link>
       )}
@@ -150,7 +154,9 @@ export default function MissingFileList({
         const entryName = `${entry[nameKey]?.first ?? ''}`;
         return (
           <div key={`${entryName}-${subset}`}>
-            {showNameHeader ? <h3>{entryName}</h3> : null}
+            {showNameHeader ? (
+              <h3 className="dd-privacy-hidden">{entryName}</h3>
+            ) : null}
             <ul
               style={
                 !disableLinks && !showFileBullets

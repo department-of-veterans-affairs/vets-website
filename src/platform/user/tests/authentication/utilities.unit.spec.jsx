@@ -18,7 +18,6 @@ import {
   API_SESSION_URL,
   SIGNUP_TYPES,
   GA,
-  EBENEFITS_DEFAULT_PATH,
   POLICY_TYPES,
   AUTH_EVENTS,
 } from '../../authentication/constants';
@@ -32,7 +31,7 @@ const usipPath = '/sign-in';
 const nonUsipPath = '/about';
 const trickyNonUsipPath = '/sign-in-app';
 const mhvUsipParams = '?application=mhv&to=home';
-const ebenefitsUsipParams = '?application=ebnefits';
+const smhdUsipParams = `?application=smhdweb`;
 const cernerUsipParams = '?application=myvahealth';
 const cernerComplicatedParams = `&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252Fstaging-patientportal.myhealth.va.gov%252F&oauth=false`;
 const cernerSandbox = `&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252Fsandbox-patientportal.myhealth.va.gov%252F&oauth=false`;
@@ -271,7 +270,7 @@ describe('Authentication Utilities', () => {
     });
 
     it('should NOT return session url with _verified appended for external applications other than OCC/Flagship', () => {
-      setup({ path: usipPathWithParams(ebenefitsUsipParams) });
+      setup({ path: usipPathWithParams(smhdUsipParams) });
       expect(authUtilities.sessionTypeUrl({ type })).to.not.include(
         '_verified',
       );
@@ -346,8 +345,6 @@ describe('Authentication Utilities', () => {
 
         const pathAppend = () => {
           switch (application) {
-            case EXTERNAL_APPS.EBENEFITS:
-              return EBENEFITS_DEFAULT_PATH;
             case EXTERNAL_APPS.VA_OCC_MOBILE:
               return `${global.window.location.search}`;
             case EXTERNAL_APPS.MY_VA_HEALTH:
@@ -427,11 +424,13 @@ describe('Authentication Utilities', () => {
         setup({});
       });
 
-      it('should return "/" when pathname is "/verify/"', () => {
+      it('should return "/my-va" when pathname is "/verify/"', () => {
         setup({ path: '/verify/' });
 
-        expect(authUtilities.createAndStoreReturnUrl()).to.equal('/');
-        expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal('/');
+        expect(authUtilities.createAndStoreReturnUrl()).to.equal('/my-va');
+        expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
+          '/my-va',
+        );
       });
     });
 

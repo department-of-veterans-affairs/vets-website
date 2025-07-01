@@ -7,11 +7,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import moment from 'moment';
-import {
-  DateRangeOptions,
-  DateRangeValues,
-  SelectCategories,
-} from '../../util/inputContants';
+import { DateRangeOptions, SelectCategories } from '../../util/inputContants';
 import { ErrorMessages } from '../../util/constants';
 
 const FilterBox = forwardRef((props, ref) => {
@@ -30,6 +26,22 @@ const FilterBox = forwardRef((props, ref) => {
   const [toDateError, setToDateError] = useState('');
   const [formError, setFormError] = useState('');
   const [isItemExpanded, setIsItemExpanded] = useState(false);
+
+  const handleCategoryChange = e => {
+    setCategory(SelectCategories.find(item => item?.value === e.detail.value));
+    if (e.target?.children) {
+      const selectedOption = Array.from(e.target.children).find(
+        item => item.value === e.detail.value,
+      );
+      datadogRum.addAction(`Filter category option - ${selectedOption?.label}`);
+    }
+  };
+
+  const handleDateRangeChange = e => {
+    const { value } = e.detail;
+    setDateRange(value);
+    datadogRum.addAction(`${value} Months Date Range Dropdown`);
+  };
 
   const checkFormValidity = () => {
     const today = new Date();
@@ -125,20 +137,12 @@ const FilterBox = forwardRef((props, ref) => {
               name="category"
               class="advanced-search-field"
               value={category?.value}
-              onVaSelect={e => {
-                setCategory(
-                  SelectCategories.find(item => item?.value === e.detail.value),
-                );
-              }}
+              onVaSelect={handleCategoryChange}
               data-testid="category-dropdown"
               data-dd-action-name="Filter category dropdown"
             >
               {SelectCategories.map(item => (
-                <option
-                  key={item.value}
-                  value={item.value}
-                  data-dd-action-name={`Filter category option - ${item.label}`}
-                >
+                <option key={item.value} value={item.value}>
                   {item.label}
                 </option>
               ))}
@@ -150,20 +154,12 @@ const FilterBox = forwardRef((props, ref) => {
               name="dateRange"
               class="advanced-search-field"
               value={dateRange}
-              onVaSelect={e => setDateRange(e.detail.value)}
+              onVaSelect={handleDateRangeChange}
               data-testid="date-range-dropdown"
               data-dd-action-name="Filter Date Range Dropdown"
             >
               {DateRangeOptions.map(item => (
-                <option
-                  key={item.value}
-                  value={item.value}
-                  data-dd-action-name={`Filter ${
-                    item.label.toLocaleLowerCase() === DateRangeValues.CUSTOM
-                      ? 'Custom date'
-                      : item.label
-                  }`}
-                >
+                <option key={item.value} value={item.value}>
                   {item.label}
                 </option>
               ))}

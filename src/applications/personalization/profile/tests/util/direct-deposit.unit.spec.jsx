@@ -111,5 +111,23 @@ describe('DirectDepositClient', () => {
         'api-status': API_STATUS.SUCCESSFUL,
       });
     });
+
+    it('records lighthouse analytics event with veteranStatus and a supplied endpoint', () => {
+      client.recordDirectDepositEvent({
+        endpoint: '/profile/direct_deposits',
+        status: API_STATUS.SUCCESSFUL,
+        method: 'GET',
+        extraProperties: {
+          veteranStatus: 'DEPENDENT',
+        },
+      });
+
+      expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
+        event: 'api_call',
+        'api-name': 'GET /profile/direct_deposits',
+        'api-status': API_STATUS.SUCCESSFUL,
+        'veteran-status': 'DEPENDENT',
+      });
+    });
   });
 });

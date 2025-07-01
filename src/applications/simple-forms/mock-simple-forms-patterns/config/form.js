@@ -12,12 +12,13 @@ import numberInput from '../pages/mockNumberInput';
 import fullName from '../pages/mockFullName';
 import address from '../pages/mockAddress';
 import ssn from '../pages/mockSsn';
-import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
+import checkbox from '../pages/mockCheckbox';
 import checkboxGroup from '../pages/mockCheckboxGroup';
 import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
+import fileInput from '../pages/mockFileInput';
 import dynamicFields from '../pages/mockDynamicFields';
 import formsPatternSingleRadio from '../pages/mockFormsPatternSingleRadio';
 import formsPatternSingleCheckboxGroup from '../pages/mockFormsPatternSingleCheckboxGroup';
@@ -28,6 +29,7 @@ import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateIte
 import mockData from '../tests/e2e/fixtures/data/default.json';
 import mockArrayBuilderData from '../tests/e2e/fixtures/data/arrayBuilder.json';
 // import arrayAddresses from '../pages/mockArrayAddresses';
+import internationalPhone from '../pages/mockInternationalPhone';
 
 import {
   employersDatesPage,
@@ -47,6 +49,8 @@ const initialData = {
     arraySinglePage: true,
     checkbox: true,
     date: true,
+    fileInput: true,
+    internationalPhone: true,
     formsPattern: true,
     miscellaneous: true,
     numberInput: true,
@@ -189,11 +193,11 @@ const formConfig = {
     checkbox: {
       title: 'Checkbox',
       pages: {
-        checkboxAndTextInput: {
+        checkbox: {
           title: 'Checkbox and text input', // for review page (has to be more than one word)
-          path: 'checkbox-and-text-input',
-          uiSchema: checkboxAndTextInput.uiSchema,
-          schema: checkboxAndTextInput.schema,
+          path: 'checkbox',
+          uiSchema: checkbox.uiSchema,
+          schema: checkbox.schema,
           depends: includeChapter('checkbox'),
         },
         checkboxGroup: {
@@ -245,6 +249,30 @@ const formConfig = {
           uiSchema: date.uiSchema,
           schema: date.schema,
           depends: includeChapter('date'),
+        },
+      },
+    },
+    internationalPhone: {
+      title: 'International phone',
+      pages: {
+        internationalPhone: {
+          title: 'International phone',
+          path: 'international-phone',
+          uiSchema: internationalPhone.uiSchema,
+          schema: internationalPhone.schema,
+          depends: includeChapter('internationalPhone'),
+        },
+      },
+    },
+    fileInput: {
+      title: 'File input',
+      pages: {
+        fileInput: {
+          title: 'File input',
+          path: 'file-input',
+          uiSchema: fileInput.uiSchema,
+          schema: fileInput.schema,
+          depends: includeChapter('fileInput'),
         },
       },
     },

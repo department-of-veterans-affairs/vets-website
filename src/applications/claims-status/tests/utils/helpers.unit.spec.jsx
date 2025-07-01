@@ -1,9 +1,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
-import * as scroll from 'platform/utilities/ui/scroll';
+import {
+  createGetHandler,
+  networkError,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
+import * as scrollUtils from 'platform/utilities/scroll/scroll';
 import * as page from '../../utils/page';
 
 import {
@@ -43,6 +47,7 @@ import {
   sentenceCase,
   generateClaimTitle,
   isStandard5103Notice,
+  getShowEightPhases,
 } from '../../utils/helpers';
 
 import {
@@ -631,6 +636,54 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
+  describe('getShowEightPhases', () => {
+    context('when claimTypeCode is a disability compensation claim', () => {
+      context('when claimTypeCode is null', () => {
+        it('should return false', () => {
+          expect(getShowEightPhases(null, true)).to.be.false;
+        });
+      });
+      // Submit Buddy Statement
+      context(
+        'when claimTypeCode is eBenefits 526EZ-Supplemental (020)',
+        () => {
+          const claimTypeCode = '020SUPP';
+          it('should return true', () => {
+            expect(getShowEightPhases(claimTypeCode, true)).to.be.true;
+          });
+        },
+      );
+      // 5103 Notice
+      context('when claimTypeCode is IDES Initial Live Comp <8 Issues', () => {
+        const claimTypeCode = '110LCMP7IDES';
+        it('should return true', () => {
+          expect(getShowEightPhases(claimTypeCode, true)).to.be.true;
+        });
+      });
+    });
+
+    context('when claimTypeCode is not a disability compensation claim', () => {
+      context('when claimTypeCode is a claim for dependency', () => {
+        const claimTypeCode = '400PREDSCHRG';
+        it('should return false', () => {
+          expect(getShowEightPhases(claimTypeCode, true)).to.be.false;
+        });
+      });
+    });
+    context('when claimTypeCode is Pension', () => {
+      const claimTypeCode = '190ORGDPNPMC';
+      it('should return true', () => {
+        expect(getShowEightPhases(claimTypeCode, true)).to.be.true;
+      });
+    });
+    context('when claimTypeCode is not Pension', () => {
+      const claimTypeCode = '130RD';
+      it('should return false', () => {
+        expect(getShowEightPhases(claimTypeCode, true)).to.be.false;
+      });
+    });
+  });
+
   describe('isClaimOpen', () => {
     context('when status is COMPLETE', () => {
       const status = 'COMPLETE';
@@ -739,10 +792,10 @@ describe('Disability benefits helpers: ', () => {
 
     it('should make an apiRequest request', done => {
       server.use(
-        rest.get(
+        createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json({}));
+          () => {
+            return jsonResponse({}, { status: 200 });
           },
         ),
       );
@@ -762,9 +815,9 @@ describe('Disability benefits helpers: ', () => {
 
     it('should reject promise when there is an error', done => {
       server.use(
-        rest.get(
+        createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          (req, res) => res.networkError('Claims Status Failed'),
+          networkError('Claims Status Failed'),
         ),
       );
 
@@ -788,9 +841,9 @@ describe('Disability benefits helpers: ', () => {
 
     it('should dispatch auth error', done => {
       server.use(
-        rest.get(
+        createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          (req, res, ctx) => res(ctx.status(401), ctx.json({ status: 401 })),
+          () => jsonResponse({ status: 401 }, { status: 401 }),
         ),
       );
       const onError = sinon.spy();
@@ -1284,7 +1337,7 @@ describe('Disability benefits helpers: ', () => {
     });
     context('when last page was not a tab and loading is true', () => {
       it('should run scrollToTop', () => {
-        const scrollToTop = sinon.spy(scroll, 'scrollToTop');
+        const scrollToTop = sinon.spy(scrollUtils, 'scrollToTop');
         setPageFocus('/test', true);
 
         expect(scrollToTop.called).to.be.true;
@@ -1292,7 +1345,7 @@ describe('Disability benefits helpers: ', () => {
     });
     context('when last page was a tab', () => {
       it('should run scrollAndFocus', () => {
-        const scrollAndFocus = sinon.spy(scroll, 'scrollAndFocus');
+        const scrollAndFocus = sinon.spy(scrollUtils, 'scrollAndFocus');
         setPageFocus('/status', false);
 
         expect(scrollAndFocus.called).to.be.true;
@@ -1472,6 +1525,18 @@ describe('Disability benefits helpers: ', () => {
     const addOrRemoveDependentClaim = {
       attributes: { claimTypeCode: '130DPNDCYAUT', claimDate },
     };
+    const pensionClaim = {
+      attributes: { claimTypeCode: '150AIA' },
+    };
+    const survivorsPensionClaim = {
+      attributes: { claimTypeCode: '190ORGDPNPMC' },
+    };
+    const DICClaim = {
+      attributes: { claimTypeCode: '290DICEDPMC' },
+    };
+    const venteransPensionClaim = {
+      attributes: { claimTypeCode: '180ORGPENPMC' },
+    };
     context('when generating a card title', () => {
       it('should generate a default title', () => {
         expect(generateClaimTitle()).to.equal(
@@ -1488,22 +1553,40 @@ describe('Disability benefits helpers: ', () => {
           'Request to add or remove a dependent',
         );
       });
+      it('should generate a different title for pension claim', () => {
+        expect(generateClaimTitle(pensionClaim)).to.equal('Claim for pension');
+      });
+      it('should generate a different title for Survivors Pension claim', () => {
+        expect(generateClaimTitle(survivorsPensionClaim)).to.equal(
+          'Claim for Survivors Pension',
+        );
+      });
+      it('should generate a different title for DIC pension claim', () => {
+        expect(generateClaimTitle(DICClaim)).to.equal(
+          'Claim for Dependency and Indemnity Compensation',
+        );
+      });
+      it('should generate a different title for Veterans Pension claim', () => {
+        expect(generateClaimTitle(venteransPensionClaim)).to.equal(
+          'Claim for Veterans Pension',
+        );
+      });
     });
     context('when generating a detail page heading', () => {
       it('should generate a default title', () => {
         expect(generateClaimTitle({}, 'detail')).to.equal(
-          'Your disability compensation claim',
+          'Claim for disability compensation',
         );
       });
       it('should generate a title based on the claim type', () => {
         expect(generateClaimTitle(compensationClaim, 'detail')).to.equal(
-          'Your compensation claim',
+          'Claim for compensation',
         );
       });
       it('should generate a different title for requests to add or remove a dependent', () => {
         expect(
           generateClaimTitle(addOrRemoveDependentClaim, 'detail'),
-        ).to.equal('Your request to add or remove a dependent');
+        ).to.equal('Request to add or remove a dependent');
       });
     });
     context('when generating a breadcrumb title', () => {

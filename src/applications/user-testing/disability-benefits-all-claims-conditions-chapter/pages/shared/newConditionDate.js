@@ -1,29 +1,63 @@
+import { useEffect } from 'react';
 import {
   arrayBuilderItemSubsequentPageTitleUI,
-  currentOrPastMonthYearDateSchema,
-  currentOrPastMonthYearDateUI,
+  currentOrPastDateSchema,
+  currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { createNewConditionName } from './utils';
+import {
+  addStyleToShadowDomOnPages,
+  createNewConditionName,
+  ForceFieldBlur,
+  validateApproximateDate,
+} from './utils';
 
-/** @returns {PageSchema} */
+// Hides the built-in “For example: January 19 2000”
+const HideDefaultDateHint = () => {
+  useEffect(() => {
+    // Inject the style into every <va-memorable-date> on the page
+    addStyleToShadowDomOnPages(
+      [''],
+      ['va-memorable-date'],
+      '#dateHint {display:none}',
+    );
+  }, []);
+
+  return null; // nothing visual – side-effect only
+};
+
+const baseDateUI = currentOrPastDateUI({
+  title: 'When did your condition start?',
+  hint:
+    'You can share an approximate date. If your back pain started in the winter of 2020, you would enter December 1, 2020.',
+});
+
+/** @type {PageSchema} */
 const newConditionDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Start date of ${createNewConditionName(formData)}`,
+      ({ formData }) => createNewConditionName(formData, true),
+      undefined,
+      false,
     ),
-    // TODO: Can we make just year required?
-    // Could use month-optional https://design.va.gov/storybook/?path=/story/components-va-date--month-optional
-    // TODO: Why is there the empty option when both are required?
-    conditionDate: currentOrPastMonthYearDateUI({
-      title: 'What’s the approximate date your condition started?',
-      hint: 'For example, summer of 1988 can be entered as June 1, 1988.',
-    }),
+
+    conditionDate: {
+      ...baseDateUI,
+      // run the effect here
+      'ui:description': HideDefaultDateHint,
+      'ui:validations': [validateApproximateDate],
+    },
+
+    _forceFieldBlur: {
+      'ui:field': ForceFieldBlur,
+    },
   },
+
   schema: {
     type: 'object',
     properties: {
-      conditionDate: currentOrPastMonthYearDateSchema,
+      conditionDate: currentOrPastDateSchema,
+      _forceFieldBlur: { type: 'boolean' },
     },
   },
 };

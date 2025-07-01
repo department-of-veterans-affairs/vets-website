@@ -289,18 +289,22 @@ PersonalInformation.propTypes = {
 export const PersonalInformationNote = ({ children }) => {
   return <>{children}</>;
 };
+PersonalInformationNote.componentType = 'note';
 
 export const PersonalInformationHeader = ({ children }) => {
   return <>{children}</>;
 };
+PersonalInformationHeader.componentType = 'header';
 
 export const PersonalInformationFooter = ({ children }) => {
   return <>{children}</>;
 };
+PersonalInformationFooter.componentType = 'footer';
 
 export const PersonalInformationCardHeader = ({ children }) => {
   return <>{children}</>;
 };
+PersonalInformationCardHeader.componentType = 'cardHeader';
 
 const ChildPropTypes = PropTypes.oneOfType([
   PropTypes.node,

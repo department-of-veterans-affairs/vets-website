@@ -7,6 +7,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
+import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 
 const defaultState = {
   featureToggles: {
@@ -18,16 +19,16 @@ const defaultState = {
     data: {
       vaFacility: '692',
       facilityType: 'vamc',
-      typeOfCareId: '123',
+      typeOfCareId: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
     },
     facilities: {
-      '123': [
+      [TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID]: [
         {
           vistaId: '692',
           legacyVAR: {
             settings: {
-              '123': {
-                id: '123',
+              [TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID]: {
+                id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
                 name: 'Food and Nutrition',
                 stopCodes: [
                   {
@@ -222,6 +223,44 @@ describe('VAOS Page: ProviderSelectPage', () => {
 
       expect(screen.getByText(/Which provider do you want to schedule with?/i))
         .to.exist;
+    });
+  });
+
+  describe('when a provider has availability and is selected', () => {
+    it('should update selected provider in state', async () => {
+      const store = createTestStore({
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          patientProviderRelationships: [
+            {
+              resourceType: 'PatientProviderRelationship',
+              providerName: 'Doe, John D, MD',
+              providerId: 'Practitioner/123456',
+              serviceType: 'Routine Follow-up',
+              locationName: 'Marion VA Clinic',
+              clinicName: 'Zanesville Primary Care',
+              vistaId: '534',
+              lastSeen: '2024-11-26T00:32:34.216Z',
+              hasAvailability: true,
+            },
+          ],
+        },
+      });
+
+      const screen = renderWithStoreAndRouter(<SelectProviderPage />, {
+        store,
+      });
+
+      const chooseDateTimeLink = await screen.queryByTestId('choose-date-time');
+
+      chooseDateTimeLink.click();
+
+      await waitFor(() => {
+        expect(store.getState().newAppointment.data.selectedProvider).to.equal(
+          'Practitioner/123456',
+        );
+      });
     });
   });
 });

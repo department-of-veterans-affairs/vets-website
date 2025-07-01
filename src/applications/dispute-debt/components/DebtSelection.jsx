@@ -79,7 +79,7 @@ const DebtSelection = ({ formContext }) => {
         className="vads-u-margin-y--3 debt-selection-checkbox-group"
         error={selectionError}
         id="debt-selection-checkbox-group"
-        label="Select one or more debts you want to request relief for: "
+        label="Select at least one debt to dispute: "
         onVaChange={onGroupChange}
         required
       >
@@ -94,12 +94,13 @@ const DebtSelection = ({ formContext }) => {
             data-testid="debt-selection-checkbox"
             key={debt.compositeDebtId}
             label={debt.label}
+            tile
           />
         ))}
       </VaCheckboxGroup>
-      <va-additional-info trigger="What if my debt isn’t listed here?">
-        If you received a letter about a VA benefit debt that isn’t listed here,
-        call us at <va-telephone contact="8008270648" /> (or{' '}
+      <va-additional-info trigger="If your debt isn't listed here">
+        To dispute a benefit overpayment debt that’s not listed here, call us at{' '}
+        <va-telephone contact="8008270648" /> (or{' '}
         <va-telephone contact="6127136415" international /> from overseas).
         We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </va-additional-info>

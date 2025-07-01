@@ -40,7 +40,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.get('a.vads-c-action-link--green')
-            .contains('Start the Application')
+            .contains('Start the Income and Asset Statement application')
             .click({ force: true });
         });
       },
@@ -241,6 +241,24 @@ const testConfig = createTestConfig(
           });
         });
       },
+
+      'asset-transfers/0/transfer-date': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { assetTransfers } = data;
+            const { transferDate } = assetTransfers[0];
+
+            fillDateWebComponentPattern('transferDate', transferDate);
+
+            addedTrustItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+
       'asset-transfers/0/market-value': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {

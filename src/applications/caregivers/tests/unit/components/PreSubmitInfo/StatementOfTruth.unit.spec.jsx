@@ -1,14 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { SIGNATURE_CERTIFICATION_STATEMENTS } from '../../../../components/PreSubmitInfo';
+import { STATEMENTS } from '../../../../components/PreSubmitInfo';
 import StatementOfTruth from '../../../../components/PreSubmitInfo/StatementOfTruth';
 
 describe('CG <StatementOfTruth>', () => {
-  const getData = ({ label = undefined, text = undefined }) => ({
-    props: { content: { label, text } },
-  });
-  const subject = ({ props }) => {
+  const subject = ({ label = undefined, text = undefined } = {}) => {
+    const props = { content: { label, text } };
     const { container } = render(<StatementOfTruth {...props} />);
     const selectors = () => ({
       legend: container.querySelector('.signature-box--legend'),
@@ -16,24 +14,19 @@ describe('CG <StatementOfTruth>', () => {
         '[data-testid="cg-statement-copy"]',
       ),
     });
-    return { container, selectors };
+    return { selectors };
   };
 
   it('should render the appropriate content when the props are fully provided', () => {
-    const { props } = getData({
-      label: 'Veteran\u2019s',
-      text: SIGNATURE_CERTIFICATION_STATEMENTS.veteran,
-    });
-    const { selectors } = subject({ props });
-    expect(selectors().legend).to.contain.text(
-      'Veteran\u2019s statement of truth',
-    );
-    expect(selectors().statements).to.have.lengthOf(props.content.text.length);
+    const text = STATEMENTS.veteran;
+    const { selectors } = subject({ label: 'Veteran\u2019s', text });
+    const { legend, statements } = selectors();
+    expect(legend).to.contain.text('Veteran\u2019s statement of truth');
+    expect(statements).to.have.lengthOf(text.length);
   });
 
   it('should gracefully render when the props are absent', () => {
-    const { props } = getData({});
-    const { selectors } = subject({ props });
+    const { selectors } = subject();
     expect(selectors().statements).to.have.lengthOf(0);
   });
 });

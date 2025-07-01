@@ -17,7 +17,7 @@ describe('22-10215 Form Config', () => {
   });
   it('should have a required properties', () => {
     expect(formConfig.rootUrl).to.contain(manifest.rootUrl);
-    expect(formConfig.title).to.contain('Report 85/15 Rule enrollment ratio');
+    expect(formConfig.title).to.contain('Report 85/15 rule enrollment ratio');
     const { getByText } = render(formConfig.subTitle()); // Render the subTitle component
     expect(
       getByText(
@@ -77,5 +77,15 @@ describe('22-10215 Form Config', () => {
     expect(arrayBuilderOptions.text.cardDescription(item)).to.be.equal(null);
 
     delete global.getFTECalcs;
+  });
+
+  it('card description should read "Fewer than 10 supported students" when supported students is less than 10', () => {
+    const item = {
+      programName: 'Test Program',
+      supportedStudents: '5',
+    };
+
+    const description = arrayBuilderOptions.text.cardDescription(item);
+    expect(description).to.equal('Fewer than 10 supported students');
   });
 });

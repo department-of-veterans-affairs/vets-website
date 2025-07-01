@@ -6,7 +6,7 @@ import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-sys
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo, getNewAppointment } from '../redux/selectors';
 import { FLOW_TYPES, TYPE_OF_VISIT } from '../../utils/constants';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
 import {
   openFormPage,
   routeToNextAppointmentPage,
@@ -62,8 +62,15 @@ export default function TypeOfVisitPage() {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
   }, []);
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div className="vads-u-margin-top--neg3">

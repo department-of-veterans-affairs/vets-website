@@ -448,6 +448,10 @@
   .state-dropdown label {
     margin-top: 0.25rem;
   }
+
+  .filter-header {
+    font-size: 1.5rem;
+  }
 }
 
 .inst-remove-btn::part(button) {
@@ -583,8 +587,4 @@
       }
     }
   }
-}
-
-.search-accordion-button {
-  width: calc(100% - 1.25rem);
 }

@@ -9,7 +9,7 @@ const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 const FIELD_SELECTOR = 'input, select, textarea';
 const WEB_COMPONENT_SELECTORS =
-  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-date, va-memorable-date';
+  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-date, va-memorable-date, va-telephone-input';
 
 const LOADING_SELECTOR = 'va-loading-indicator';
 
@@ -157,7 +157,13 @@ const getFieldSelectors = () => {
  * @param {string} pathname - The pathname of the page to run the page hook on.
  */
 const performPageActions = (pathname, _13647Exception = false) => {
-  cy.axeCheck('main', { _13647Exception });
+  cy.axeCheck('main', {
+    _13647Exception,
+    // Ignore heading order from the first axe check because headers
+    // may be in the shadow dom which may not be loaded yet.
+    // There is another axe check below which DOES check heading order.
+    headingOrder: false,
+  });
 
   cy.execHook(pathname).then(({ hookExecuted, postHook }) => {
     const shouldAutofill = !pathname.match(
@@ -183,8 +189,12 @@ const performPageActions = (pathname, _13647Exception = false) => {
  * Top level loop that invokes all of the processing for a form page and
  * asserts that it proceeds to the next page until it gets to the confirmation.
  */
-const processPage = ({ _13647Exception }) => {
+const processPage = ({ _13647Exception, stopTestAfterPath }) => {
   cy.location('pathname', NO_LOG_OPTION).then(pathname => {
+    if (pathname.endsWith(stopTestAfterPath)) {
+      return;
+    }
+
     performPageActions(pathname, _13647Exception);
 
     if (!pathname.endsWith('/confirmation')) {
@@ -194,7 +204,7 @@ const processPage = ({ _13647Exception }) => {
             throw new Error(`Expected to navigate away from ${pathname}`);
           }
         })
-        .then(() => processPage({ _13647Exception }));
+        .then(() => processPage({ _13647Exception, stopTestAfterPath }));
     }
   });
 };
@@ -545,6 +555,9 @@ Cypress.Commands.add('fillPage', () => {
  * @property {(boolean|string[])} [skip] - Skips specific tests if it's an array
  *     that contains the test names as strings. Skips the whole suite
  *     if it's otherwise truthy.
+ * @property {string} [stopTestAfterPath] - The pathname of the page to stop the
+ *     e2e test on. Useful for testing a set range of pages within a form. See
+ *     setupInProgressReturnUrl in the utilities folder to set a start page.
  * ---
  * @param {TestConfig} testConfig
  */
@@ -561,6 +574,8 @@ const testForm = testConfig => {
     setup = () => {},
     setupPerTest = () => {},
     skip,
+    // null prevents endsWith string comparison returning true
+    stopTestAfterPath = null,
     _13647Exception = false,
     // whether or not to auto fill web component fields
     // (using RJSF naming convention #root_field_subField)
@@ -633,7 +648,7 @@ const testForm = testConfig => {
 
           cy.get(LOADING_SELECTOR)
             .should('not.exist')
-            .then(() => processPage({ _13647Exception }));
+            .then(() => processPage({ stopTestAfterPath, _13647Exception }));
         });
       });
     };

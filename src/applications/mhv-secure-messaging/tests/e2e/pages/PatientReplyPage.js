@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { dateFormat } from '../../../util/helpers';
 import mockMessage from '../fixtures/message-response.json';
 import { Locators, Paths, Data } from '../utils/constants';
 
@@ -109,32 +108,6 @@ class PatientReplyPage {
 
   verifySendMessageConfirmationHasFocus = () => {
     cy.get('va-alert').should('have.focus');
-  };
-
-  verifyExpandedMessageDate = (messageDetails, messageIndex = 0) => {
-    cy.log(`messageIndex = ${messageIndex}`);
-    if (messageIndex === 0) {
-      cy.log('message index = 0');
-      cy.get(Locators.MSG_DATE)
-        .eq(messageIndex)
-        .should(
-          'have.text',
-          `Date: ${dateFormat(
-            messageDetails.data.attributes.sentDate,
-            'MMMM D, YYYY [at] h:mm a z',
-          )}`,
-        );
-    } else {
-      cy.get(Locators.MSG_DATE)
-        .eq(messageIndex)
-        .should(
-          'have.text',
-          `${dateFormat(
-            messageDetails.data.attributes.sentDate,
-            'MMMM D, YYYY, [at] h:mm a z',
-          )}`,
-        );
-    }
   };
 
   verifyModalMessageDisplayAndButtonsCantSaveDraft = () => {

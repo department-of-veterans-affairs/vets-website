@@ -27,7 +27,7 @@ export default function AppointmentListNavigation({
       )}
     >
       <nav
-        aria-label="Appointment list navigation"
+        aria-label="Appointment list"
         className="vaos-appts__breadcrumb vads-u-flex--1 vads-u-padding-top--0p5"
       >
         <ul>

@@ -5,7 +5,7 @@ import ReferralList from './ReferralList';
 import { createReferrals } from '../utils/referrals';
 
 describe('VAOS Component: ReferralList', () => {
-  const referrals = createReferrals(2, '2024-11-27');
+  const referrals = createReferrals(2);
   const emptyReferrals = [];
 
   it('should render the referral list with referrals', () => {

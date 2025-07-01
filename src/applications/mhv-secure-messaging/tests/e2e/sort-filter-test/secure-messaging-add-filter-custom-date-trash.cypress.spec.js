@@ -11,8 +11,8 @@ describe('SM TRASH ADD FILTER CUSTOM DATE RANGE', () => {
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
     FolderLoadPage.loadDeletedMessages();
-    PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectDateRange('Custom');
+    PatientFilterPage.openAdditionalFilter();
+    PatientFilterPage.selectDateRange('Custom');
   });
 
   it('verify advanced filter form elements', () => {
@@ -24,17 +24,17 @@ describe('SM TRASH ADD FILTER CUSTOM DATE RANGE', () => {
   });
 
   it('verify month and day range', () => {
-    PatientFilterPage.verifyMonthFilterRange(14);
-    PatientFilterPage.verifyDayFilterRange(2);
-
-    PatientFilterPage.selectStartMonth(`February`);
-    PatientFilterPage.verifyDayFilterRange(31);
-
-    PatientFilterPage.selectStartMonth(`June`);
+    PatientFilterPage.verifyMonthFilterRange(13);
     PatientFilterPage.verifyDayFilterRange(32);
 
+    PatientFilterPage.selectStartMonth(`February`);
+    PatientFilterPage.verifyDayFilterRange(30);
+
+    PatientFilterPage.selectStartMonth(`June`);
+    PatientFilterPage.verifyDayFilterRange(31);
+
     PatientFilterPage.selectStartMonth(`October`);
-    PatientFilterPage.verifyDayFilterRange(33);
+    PatientFilterPage.verifyDayFilterRange(32);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -112,7 +112,7 @@ describe('SM TRASH ADD FILTER CUSTOM DATE RANGE', () => {
     PatientFilterPage.selectEndDay(`11`);
     PatientFilterPage.getEndYear(year);
 
-    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    PatientFilterPage.clickApplyFilterButton(searchResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(searchResultResponse);
     PatientFilterPage.verifyMessageDate(2);

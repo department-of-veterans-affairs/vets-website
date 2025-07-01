@@ -2,9 +2,14 @@ import React from 'react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
 import sinon from 'sinon';
+import {
+  createGetHandler,
+  createPutHandler,
+  createPostHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import { handleTokenRequest } from '../helpers';
 
 import AuthApp from '../containers/AuthApp';
@@ -14,12 +19,7 @@ describe('AuthApp', () => {
   const mockStore = {
     dispatch: sinon.spy(),
     subscribe: sinon.spy(),
-    getState: () => ({
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_interstitial_enabled: false,
-      },
-    }),
+    getState: () => ({}),
   };
 
   before(() => {
@@ -49,10 +49,9 @@ describe('AuthApp', () => {
   it('should display loading indicator after call to v0/user', async () => {
     sessionStorage.setItem('authReturnUrl', 'http://localhost:3001/my-va');
     server.use(
-      rest.get('https://dev-api.va.gov/v0/user', (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json({
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
             data: {
               attributes: {
                 profile: {
@@ -60,7 +59,8 @@ describe('AuthApp', () => {
                 },
               },
             },
-          }),
+          },
+          { status: 200 },
         );
       }),
     );
@@ -76,12 +76,12 @@ describe('AuthApp', () => {
 
   it('should throw an error after a failed call to v0/user', async () => {
     server.use(
-      rest.get('https://dev-api.va.gov/v0/user', (req, res, ctx) => {
-        return res(
-          ctx.status(400),
-          ctx.json({
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
             errors: [{ code: '001' }],
-          }),
+          },
+          { status: 400 },
         );
       }),
     );
@@ -97,10 +97,9 @@ describe('AuthApp', () => {
 
   it('should display loading indicator after call to token request', async () => {
     server.use(
-      rest.get('https://dev-api.va.gov/v0/user', (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json({
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
             data: {
               attributes: {
                 profile: {
@@ -108,11 +107,12 @@ describe('AuthApp', () => {
                 },
               },
             },
-          }),
+          },
+          { status: 200 },
         );
       }),
-      rest.get('https://dev-api.va.gov/v0/sign_in/token', (req, res, ctx) => {
-        return res(ctx.status(200));
+      createGetHandler('https://dev-api.va.gov/v0/sign_in/token', () => {
+        return new Response(null, { status: 200 });
       }),
     );
     const state = 'some-random-state';
@@ -137,8 +137,8 @@ describe('AuthApp', () => {
 
   it('should call force-needed', async () => {
     server.use(
-      rest.get('https://dev-api.va.gov/v0/user', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json({ errors: [{ code: '001' }] }));
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse({ errors: [{ code: '001' }] }, { status: 200 });
       }),
     );
 
@@ -156,8 +156,8 @@ describe('AuthApp', () => {
 
   it('should call skipToRedirect when no error and return URL is external', async () => {
     server.use(
-      rest.get('https://dev-api.va.gov/v0/user', (req, res, ctx) => {
-        return res(ctx.status(400), ctx.json({ errors: [{ code: '001' }] }));
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse({ errors: [{ code: '001' }] }, { status: 400 });
       }),
     );
     sessionStorage.setItem(
@@ -184,10 +184,9 @@ describe('AuthApp', () => {
 
   it('should call the handleTokenRequest', async () => {
     server.use(
-      rest.get('https://dev-api.va.gov/v0/user', (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json({
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
             data: {
               attributes: {
                 profile: {
@@ -195,7 +194,8 @@ describe('AuthApp', () => {
                 },
               },
             },
-          }),
+          },
+          { status: 200 },
         );
       }),
     );
@@ -226,10 +226,9 @@ describe('AuthApp', () => {
     it('should call when user is redirecting to My VA Health', () => {
       sessionStorage.setItem('authReturnUrl', mvhReturnUrl);
       server.use(
-        rest.get('https://dev-api.va.gov/v0/user', (_, res, ctx) => {
-          return res(
-            ctx.status(200),
-            ctx.json({
+        createGetHandler('https://dev-api.va.gov/v0/user', () => {
+          return jsonResponse(
+            {
               data: {
                 attributes: {
                   profile: {
@@ -237,13 +236,14 @@ describe('AuthApp', () => {
                   },
                 },
               },
-            }),
+            },
+            { status: 200 },
           );
         }),
-        rest.put(
+        createPutHandler(
           'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
-          (_, res, ctx) => {
-            return res(ctx.status(200), ctx.json({ provisioned: true }));
+          () => {
+            return jsonResponse({ provisioned: true }, { status: 200 });
           },
         ),
       );
@@ -265,10 +265,9 @@ describe('AuthApp', () => {
       it(`should respond to TOU update_provisioning with ${error}`, () => {
         sessionStorage.setItem('authReturnUrl', mvhReturnUrl);
         server.use(
-          rest.get('https://dev-api.va.gov/v0/user', (_, res, ctx) => {
-            return res(
-              ctx.status(200),
-              ctx.json({
+          createGetHandler('https://dev-api.va.gov/v0/user', () => {
+            return jsonResponse(
+              {
                 data: {
                   attributes: {
                     profile: {
@@ -276,13 +275,14 @@ describe('AuthApp', () => {
                     },
                   },
                 },
-              }),
+              },
+              { status: 200 },
             );
           }),
-          rest.put(
+          createPutHandler(
             'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
-            (_, res, ctx) => {
-              return res(ctx.status(400), ctx.json({ error }));
+            () => {
+              return jsonResponse({ error }, { status: 400 });
             },
           ),
         );
@@ -300,10 +300,9 @@ describe('AuthApp', () => {
     it('should return to error page if user is not provisioned', () => {
       sessionStorage.setItem('authReturnUrl', mvhReturnUrl);
       server.use(
-        rest.get('https://dev-api.va.gov/v0/user', (_, res, ctx) =>
-          res(
-            ctx.status(200),
-            ctx.json({
+        createGetHandler('https://dev-api.va.gov/v0/user', () => {
+          return jsonResponse(
+            {
               data: {
                 attributes: {
                   profile: {
@@ -311,13 +310,14 @@ describe('AuthApp', () => {
                   },
                 },
               },
-            }),
-          ),
-        ),
-        rest.put(
+            },
+            { status: 200 },
+          );
+        }),
+        createPutHandler(
           'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
-          (_, res, ctx) => {
-            return res(ctx.status(200), ctx.json({ provisioned: false }));
+          () => {
+            return jsonResponse({ provisioned: false }, { status: 200 });
           },
         ),
       );
@@ -333,42 +333,51 @@ describe('AuthApp', () => {
     });
   });
 
-  it('should redirect to /sign-in-changes-reminder interstitial page', () => {
+  it('should redirect to /sign-in-changes-reminder interstitial page', async () => {
+    const originalLocation = window.location;
+    if (!Location.prototype.replace) {
+      window.location = { replace: sinon.spy() };
+    } else {
+      window.location.replace = sinon.spy();
+    }
+
     const store = {
       dispatch: sinon.spy(),
       subscribe: sinon.spy(),
       getState: () => ({
         featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_interstitial_enabled: true,
+          dslogonInterstitialRedirect: true,
         },
       }),
     };
     sessionStorage.setItem('authReturnUrl', 'https://dev.va.gov/my-va');
     server.use(
-      rest.get('https://dev-api.va.gov/v0/user', (_, res, ctx) =>
-        res(
-          ctx.status(200),
-          ctx.json({
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
             data: {
               attributes: {
                 profile: {
-                  signIn: { serviceName: 'mhv', ssoe: true },
+                  signIn: { serviceName: 'dslogon', ssoe: true },
                 },
               },
             },
-          }),
-        ),
-      ),
+          },
+          { status: 200 },
+        );
+      }),
     );
 
-    const { queryByTestId } = render(
+    render(
       <Provider store={store}>
-        <AuthApp location={{ query: { auth: 'success', type: 'mhv' } }} />
+        <AuthApp location={{ query: { auth: 'success', type: 'dslogon' } }} />
       </Provider>,
     );
 
-    expect(queryByTestId('loading')).to.not.be.null;
+    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
+    expect(window.location.replace.calledWith('/sign-in-changes-reminder'));
+
+    window.location = originalLocation;
     sessionStorage.clear();
   });
 });
@@ -411,8 +420,8 @@ describe('handleTokenRequest', () => {
 
   it('should NOT call generateOAuthError when `requestToken` succeeds', async () => {
     server.use(
-      rest.post('https://dev-api.va.gov/v0/sign_in/token?*', (_, res, ctx) => {
-        return res(ctx.status(200), ctx.json({ status: 'ok' }));
+      createPostHandler('https://dev-api.va.gov/v0/sign_in/token?*', () => {
+        return jsonResponse({ status: 'ok' }, { status: 200 });
       }),
     );
     const handleTokenSpy = sinon.spy();

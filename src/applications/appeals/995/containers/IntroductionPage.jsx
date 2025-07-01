@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { Toggler } from 'platform/utilities/feature-toggles';
 
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
@@ -59,9 +59,11 @@ const IntroductionPage = props => {
             <li>
               You have a condition that we now consider presumptive (such as
               under the{' '}
-              <a href="/resources/the-pact-act-and-your-va-benefits/">
-                PACT Act
-              </a>
+              <va-link
+                disable-analytics
+                href="/resources/the-pact-act-and-your-va-benefits/"
+                text="PACT Act"
+              />
               )
             </li>
           </ul>
@@ -78,9 +80,11 @@ const IntroductionPage = props => {
                 the service requirements for the presumption.
               </p>
               <p className="vads-u-margin-bottom--0">
-                <a href="/resources/the-pact-act-and-your-va-benefits/">
-                  Learn more about the PACT act
-                </a>
+                <va-link
+                  disable-analytics
+                  href="/resources/the-pact-act-and-your-va-benefits/"
+                  text="Learn more about the PACT Act"
+                />
               </p>
             </div>
           </va-additional-info>
@@ -93,21 +97,29 @@ const IntroductionPage = props => {
             have a fiduciary claim or a contested claim.
           </p>
           <p>
-            <a href="/decision-reviews/fiduciary-claims">
-              Learn more about fiduciary claims
-            </a>
+            <va-link
+              disable-analytics
+              href="/decision-reviews/fiduciary-claims"
+              text="Learn more about fiduciary claims"
+            />
           </p>
           <p>
-            <a href="/decision-reviews/contested-claims">
-              Learn more about contested claims
-            </a>
+            <va-link
+              disable-analytics
+              href="/decision-reviews/contested-claims"
+              text="Learn more about contested claims"
+            />
           </p>
           <p>
             If you don’t think this is the right form for you, you can go back
             to answer the questions again.
           </p>
           <p>
-            <a href={`${formConfig.rootUrl}/start`}>Go back to the questions</a>
+            <va-link
+              disable-analytics
+              href={`${formConfig.rootUrl}/start`}
+              text="Go back to the questions"
+            />
           </p>
         </va-process-list-item>
         <va-process-list-item header="Gather your information">

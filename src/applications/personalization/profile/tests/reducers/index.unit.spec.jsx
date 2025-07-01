@@ -64,4 +64,23 @@ describe('index reducer', () => {
 
     expect(state.militaryInformation.errors).to.eql(['error']);
   });
+  it('should fetch power of attorney', () => {
+    const state = vaProfile(undefined, {
+      type: 'FETCH_POWER_OF_ATTORNEY_SUCCESS',
+      poa: 'poa info',
+    });
+
+    expect(state.powerOfAttorney).to.eql('poa info'); // <- fixed line
+  });
+
+  it('should populate power of attorney with errors when errors are present', () => {
+    const state = vaProfile(undefined, {
+      type: 'FETCH_POWER_OF_ATTORNEY_FAILED',
+      poa: {
+        errors: ['error'],
+      },
+    });
+
+    expect(state.powerOfAttorney.errors).to.eql(['error']);
+  });
 });

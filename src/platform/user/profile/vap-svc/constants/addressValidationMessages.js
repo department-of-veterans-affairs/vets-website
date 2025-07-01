@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export const ADDRESS_VALIDATION_TYPES = Object.freeze({
   BAD_UNIT_OVERRIDE: 'badUnitNumberOverride',
@@ -18,25 +17,6 @@ export const BAD_UNIT_NUMBER = 'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER';
 export const MISSING_UNIT_NUMBER =
   'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER';
 export const CONFIRMED = 'CONFIRMED';
-
-// just used for one address validation type/case
-// a validation error is a special case of a validation warning in that is still includes the edit button
-const ValidationErrorText = ({ editFunction }) => (
-  <p>
-    We’re sorry. We couldn’t verify your address with the U.S. Postal Service,
-    so we will not be able to deliver your VA mail to that address. Please{' '}
-    <va-button
-      class="va-button-link"
-      onClick={editFunction}
-      text="edit the address"
-    />{' '}
-    you entered.
-  </p>
-);
-
-ValidationErrorText.propTypes = {
-  editFunction: PropTypes.func.isRequired,
-};
 
 export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
   [ADDRESS_VALIDATION_TYPES.BAD_UNIT_OVERRIDE]: {
@@ -98,6 +78,11 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
   },
   [ADDRESS_VALIDATION_TYPES.VALIDATION_ERROR]: {
     headline: `We couldn’t verify your address`,
-    ModalText: ValidationErrorText,
+    ModalText: () => (
+      <p>
+        We can’t deliver your VA mail to this address because we can’t confirm
+        it with the U.S. Postal Service. Try editing it.
+      </p>
+    ),
   },
 });

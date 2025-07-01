@@ -1,18 +1,17 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
+import { addDays, format, subDays } from 'date-fns';
 import MockDate from 'mockdate';
-import { format, subDays, addDays } from 'date-fns';
 import React from 'react';
 import reducers from '../../../redux/reducer';
-import {
-  mockAppointmentsApi,
-  mockVAOSAppointmentsFetch,
-} from '../../../tests/mocks/helpers';
-import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
+import { mockAppointmentsApi } from '../../../tests/mocks/mockApis';
 import {
   getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import UpcomingAppointmentsPage from './UpcomingAppointmentsPage';
 
 const initialState = {
@@ -33,133 +32,41 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   const start = subDays(now, 30); // Subtract 30 days
   const end = addDays(now, 395); // Add 395 days
 
-  it('should show VA appointment text, useFeSourceOfTruthVA=false', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-      },
-    };
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '123';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'clinic',
-      status: 'booked',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-      localStartTime: format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
-      start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-      end: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
+  it('should show VA appointment text', async () => {
+    // Arrange
+    const appointment = new MockAppointmentResponse({
+      localStartTime: now,
       future: true,
-    };
+    })
+      .setLocation(new MockFacilityResponse())
+      .setTypeOfCare(null);
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
-      reducers,
-    });
-
-    await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
-    );
-    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-  });
-
-  it('should show VA appointment text, useFeSourceOfTruthVA=true', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-      },
-    };
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '123';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'clinic',
-      type: 'VA',
-      status: 'booked',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
+      initialState: {
+        ...initialState,
+        featureToggles: {
+          ...initialState.featureToggles,
         },
       },
-      localStartTime: format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
-      start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-      end: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-      future: true,
-    };
-
-    mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
-      statuses: ['proposed', 'cancelled'],
-      response: [],
-    });
-
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-    });
-
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
       reducers,
     });
 
+    // Assert
     await screen.findAllByLabelText(
       new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
     );
@@ -167,47 +74,34 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show CC appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '123';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'cc',
-      status: 'booked',
-      localStartTime: format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
-      start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-      end: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
+    // Arrange
+    const appointments = MockAppointmentResponse.createCCResponses({
+      localStartTime: now,
+      status: APPOINTMENT_STATUS.booked,
       future: true,
-    };
+    });
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: appointments,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
+    // Assert
     await screen.findAllByLabelText(
       new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
     );
@@ -215,48 +109,33 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show at home video appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '123';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'telehealth',
-      type: 'VA',
-      status: 'booked',
-      localStartTime: format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
-      start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-      end: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-      telehealth: { vvsKind: 'MOBILE_ANY' },
+    // Arrange
+    const appointments = MockAppointmentResponse.createGfeResponses({
+      localStartTime: now,
       future: true,
-    };
+    });
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: appointments,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
+
+    // Assert
     await screen.findAllByLabelText(
       new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
     );
@@ -264,48 +143,33 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show phone appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '123';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'phone',
-      type: 'VA',
-      status: 'booked',
-      localStartTime: format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
-      start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-      end: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
+    // Arrange
+    const appointments = MockAppointmentResponse.createPhoneResponses({
+      localStartTime: now,
       future: true,
-    };
+    });
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: appointments,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
+    // Assert
     await screen.findAllByLabelText(
       new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
     );
@@ -314,45 +178,28 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show cancelled appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '123';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'cc',
-      status: 'cancelled',
-      localStartTime: format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
-      start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-      end: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-      name: { firstName: 'Jane', lastName: 'Doctor' },
+    const appointments = MockAppointmentResponse.createCCResponses({
+      localStartTime: now,
+      status: APPOINTMENT_STATUS.cancelled,
       future: true,
-    };
+    });
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: appointments,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
@@ -364,64 +211,31 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     expect(screen.baseElement).to.contain.text('Community care');
   });
   it('should show VA appointment text for telehealth appointments without vvsKind', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '123';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'telehealth',
-      type: 'VA',
-      status: 'booked',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-      localStartTime: format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
-      start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-      end: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
+    const appointments = MockAppointmentResponse.createVAResponses({
+      localStartTime: now,
       future: true,
-    };
+    });
+    appointments[0]
+      .setLocation(new MockFacilityResponse())
+      .setTypeOfCare(null)
+      .setVvsKind(null);
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: appointments,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 

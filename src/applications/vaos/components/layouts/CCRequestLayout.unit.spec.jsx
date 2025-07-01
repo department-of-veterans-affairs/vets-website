@@ -8,9 +8,6 @@ import CCRequestLayout from './CCRequestLayout';
 
 describe('VAOS Component: CCRequestLayout', () => {
   const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingVAOSServiceCCAppointments: true,
-    },
     appointments: {
       facilityData: {
         '983': {
@@ -37,6 +34,8 @@ describe('VAOS Component: CCRequestLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
+        type: 'COMMUNITY_CARE_REQUEST',
+        modality: 'communityCare',
         patientComments: 'This is a test:Additional information',
         created: new Date().toISOString(),
         contact: {
@@ -65,11 +64,19 @@ describe('VAOS Component: CCRequestLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: true,
           isUpcomingAppointment: false,
+          isCerner: false,
           apiData: {
             serviceType: 'primaryCare',
           },
         },
         status: 'proposed',
+      };
+      const nullAttributes = {
+        type: 'COMMUNITY_CARE_REQUEST',
+        modality: 'communityCare',
+        isCerner: false,
+        'fields-load-success': 'type-of-care,provider',
+        'fields-load-fail': '',
       };
 
       // Act
@@ -170,22 +177,8 @@ describe('VAOS Component: CCRequestLayout', () => {
         .to.be.ok;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-any',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-provider',
+        event: 'vaos-null-states',
+        ...nullAttributes,
       });
     });
   });

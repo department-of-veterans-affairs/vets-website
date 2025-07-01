@@ -12,6 +12,7 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import HorizontalRule from '../shared/HorizontalRule';
 import {
+  decodeHtmlEntities,
   messageSignatureFormatter,
   navigateToFolderByFolderId,
   resetUserSession,
@@ -345,15 +346,24 @@ const ReplyDraftItem = props => {
         messageData[`${'recipient_id'}`] = selectedRecipient;
         setIsAutosave(false);
 
-        let sendData;
+        const decodedMessageData = {
+          ...messageData,
+          body: decodeHtmlEntities(messageData.body),
+          subject: decodeHtmlEntities(messageData.subject),
+        };
 
-        if (attachments.length > 0) {
-          sendData = new FormData();
-          sendData.append('message', JSON.stringify(messageData));
-          attachments.map(upload => sendData.append('uploads[]', upload));
-        } else {
-          sendData = JSON.stringify(messageData);
-        }
+        const sendData =
+          attachments.length > 0
+            ? (() => {
+                const formData = new FormData();
+                formData.append('message', JSON.stringify(decodedMessageData));
+                attachments.forEach(upload =>
+                  formData.append('uploads[]', upload),
+                );
+                return formData;
+              })()
+            : JSON.stringify(decodedMessageData);
+
         setIsSending(true);
         dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
           .then(() => {

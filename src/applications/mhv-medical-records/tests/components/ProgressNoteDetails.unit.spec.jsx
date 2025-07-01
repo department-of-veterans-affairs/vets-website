@@ -113,12 +113,12 @@ describe('ProgressNoteDetails component with fields missing', () => {
 
   it('should not display the formatted date if dateSigned is missing', () => {
     expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-      'None noted',
+      'None recorded',
     );
   });
 
   it('should display none noted for signer if signer is not present in the data', () => {
-    const signer = screen.getAllByText('None noted', {
+    const signer = screen.getAllByText('None recorded', {
       exact: true,
       selector: 'p',
     });

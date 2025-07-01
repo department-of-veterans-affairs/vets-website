@@ -30,25 +30,21 @@ describe('VAOS Component: ScheduleReferral', () => {
     const details = await screen.findByTestId('referral-details');
     const facility = await screen.findByTestId('referral-facility');
     const helpText = await screen.findByTestId('help-text');
-    const additionalAppointmentHelpText = await screen.findByTestId(
-      'additional-appointment-help-text',
-    );
 
     const expectedDate = format(
-      new Date(referral.expirationDate),
+      new Date(referral.attributes.expirationDate),
       'MMMM d, yyyy',
     );
 
     expect(details).to.exist;
     expect(details).to.contain.text(expectedDate);
     expect(helpText).to.exist;
-    expect(additionalAppointmentHelpText).to.exist;
 
     expect(facility).to.exist;
   });
   it('should reset slot selection', async () => {
     const referral = createReferralById(referralDate, '222');
-    const selectedSlotKey = getReferralSlotKey(referral.uuid);
+    const selectedSlotKey = getReferralSlotKey(referral.attributes.uuid);
     sessionStorage.setItem(selectedSlotKey, '0');
     const initialState = {
       featureToggles: {
