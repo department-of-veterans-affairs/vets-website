@@ -113,3 +113,29 @@ export const getRecentRecipients = (numberOfMonths = 6) => async (
     });
   }
 };
+export const setActiveCareSystem = selectedCareSystem => dispatch => {
+  dispatch({
+    type: Actions.AllRecipients.SELECT_HEALTH_CARE_SYSTEM,
+    payload: {
+      careSystem: selectedCareSystem,
+    },
+  });
+};
+
+export const setActiveCareTeam = selectedCareTeam => dispatch => {
+  dispatch({
+    type: Actions.AllRecipients.SELECT_CARE_TEAM,
+    payload: {
+      careTeam: selectedCareTeam,
+    },
+  });
+};
+
+export const setActiveDraftId = draftId => dispatch => {
+  dispatch({
+    type: Actions.AllRecipients.SET_ACTIVE_DRAFT_ID,
+    payload: {
+      activeDraftId: draftId,
+    },
+  });
+};

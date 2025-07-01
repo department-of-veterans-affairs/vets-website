@@ -1,18 +1,15 @@
 /* eslint-disable no-prototype-builtins */
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import moment from 'moment';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
+import { addDays, subDays } from 'date-fns';
+import { getIsInCCPilot } from '../referral-appointments/utils/pilot';
 import { getAppointmentRequests } from '../services/appointment';
 import { GA_PREFIX } from '../utils/constants';
 import { captureError } from '../utils/error';
 import {
   selectFeatureCCDirectScheduling,
-  selectFeatureFeSourceOfTruthCC,
-  selectFeatureFeSourceOfTruthVA,
-  selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
 } from './selectors';
-import { getIsInCCPilot } from '../referral-appointments/utils/pilot';
 
 export const FETCH_FACILITY_LIST_DATA_SUCCEEDED =
   'vaos/FETCH_FACILITY_LIST_DATA_SUCCEEDED';
@@ -45,11 +42,6 @@ export function fetchPendingAppointments() {
 
       const state = getState();
       const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
-      const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
-      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
-      const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-        state,
-      );
       const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
         state,
       );
@@ -60,16 +52,9 @@ export function fetchPendingAppointments() {
       );
 
       const pendingAppointments = await getAppointmentRequests({
-        startDate: moment()
-          .subtract(120, 'days')
-          .format('YYYY-MM-DD'),
-        endDate: moment()
-          .add(2, 'days')
-          .format('YYYY-MM-DD'),
+        startDate: subDays(new Date(), 120),
+        endDate: addDays(new Date(), 2),
         includeEPS,
-        useFeSourceOfTruthCC,
-        useFeSourceOfTruthVA,
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       });
 
