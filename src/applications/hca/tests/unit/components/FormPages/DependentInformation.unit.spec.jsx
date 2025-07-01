@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import DependentInformation from '../../../../components/FormPages/DependentInformation';
-import { simulateInputChange } from '../../../helpers';
+import { simulateInputChange } from '../../../helpers.spec';
 
 describe('hca DependentInformation page', () => {
   const getData = ({ dependents = undefined }) => ({
