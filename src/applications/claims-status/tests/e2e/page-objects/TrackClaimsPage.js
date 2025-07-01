@@ -371,7 +371,7 @@ class TrackClaimsPage {
   }
 
   submitFilesForReview() {
-    cy.intercept('POST', `/v0/benefits_claims/189685/benefits_documents`, {
+    cy.intercept('POST', `/v0/evss_claims/189685/documents`, {
       body: {},
     }).as('documents');
     cy.get('#file-upload')
