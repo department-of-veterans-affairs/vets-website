@@ -89,16 +89,19 @@ describe('DependentsInformation', () => {
     );
   });
 
-  it('navigates forward to exit page when "Yes" is selected', () => {
+  it('navigates forward when "Yes" is selected', () => {
     const goToPathSpy = sinon.spy();
+    const goForwardSpy = sinon.spy();
     const { container } = renderPage({
       data: { hasDependentsStatusChanged: 'Y' },
       goToPath: goToPathSpy,
+      goForward: goForwardSpy,
     });
 
     fireEvent.click($('button[type="submit"]', container));
 
-    expect(goToPathSpy.calledWith('/exit-form')).to.be.true;
+    expect(goToPathSpy.notCalled).to.be.true;
+    expect(goForwardSpy.called).to.be.true;
   });
 
   it('navigates forward when "No" is selected', () => {

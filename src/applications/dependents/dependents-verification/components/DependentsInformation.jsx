@@ -32,18 +32,10 @@ export const DependentsInformation = ({
         setShowError(true);
         return;
       }
-      if (data.hasDependentsStatusChanged === 'Y') {
-        goToPath('/exit-form', { force: true });
-      } else {
-        goForward(data);
-      }
+      goForward(data);
     },
     goBack: () => {
       goToPath('/veteran-contact-information', { force: true });
-    },
-    goToExitPage: event => {
-      event.preventDefault();
-      goToPath('/exit-form', { force: true });
     },
   };
 
@@ -84,7 +76,6 @@ export const DependentsInformation = ({
                       <va-link
                         href="/exit-form"
                         text="Learn about how to add a dependent"
-                        onClick={handlers.goToExitPage}
                       />
                     </va-alert>
                   </li>
