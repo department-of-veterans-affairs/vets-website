@@ -86,9 +86,12 @@ const IntroductionPage = ({ route, router }) => {
           </ul>
           <VaLink
             download
-            external
             filetype="PDF"
             href={pdfDownloadUrl}
+            onClick={e => {
+              e.preventDefault();
+              window.open(pdfDownloadUrl, '_blank');
+            }}
             text={`Download VA Form ${formNumber}`}
           />
         </VaProcessListItem>

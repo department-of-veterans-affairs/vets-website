@@ -66,11 +66,11 @@ export const veteranTitleAndDescription = {
   },
   'view:veteranDescription': {
     'ui:description': Object.freeze(
-      <>
+      <div className="veteran-note">
         <span className="vads-u-font-weight--bold">Note:</span> If the veteran’s
         information here doesn’t match the uploaded PDF, it will cause
         processing delays.
-      </>,
+      </div>,
     ),
   },
 };
