@@ -6,7 +6,7 @@ import chai, { expect } from 'chai';
 import sinon from 'sinon';
 
 import { axeCheck } from '../../config/helpers';
-import ProgressButton from '../../../src/js/components/ProgressButton.jsx';
+import ProgressButton from '../../../src/js/components/ProgressButton';
 
 chai.use(chaiAsPromised);
 
