@@ -244,7 +244,7 @@ const VeteranStatus = ({
   return (
     <>
       <Headline>Veteran Status Card</Headline>
-      <p className="veteran-status-description">
+      <p>
         This card makes it easy to prove your service and access Veteran
         discounts, all while keeping your personal information secure.
       </p>
