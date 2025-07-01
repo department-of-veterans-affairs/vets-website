@@ -14,22 +14,41 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     ]);
     SecureMessagingSite.login(updatedFeatureToggles);
     PilotEnvPage.loadInboxMessages();
-    PilotEnvPage.navigateToRecentCareTeamsPage();
   });
 
-  it('verify recent recipients list', () => {
+  it('verify recent recipients list with maximum recipients', () => {
+    PilotEnvPage.navigateToRecentCareTeamsPage();
+
     GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
 
     cy.get(Locators.CARE_SYSTEM).should(`not.exist`);
 
     cy.get(`.usa-legend`).should('include.text', Data.RECENT_RECIPIENTS);
 
-    const TGList = mockThreadsResponse.data.map(
-      item => item.attributes.triageGroupName,
-    );
-    TGList.push(`A different care team`);
+    PilotEnvPage.verifyRecentCareTeamsList();
 
-    PilotEnvPage.verifyRecentCareTeamsList(TGList);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify recent recipients list with only one recipient', () => {
+    const oneRecipientResponse = { data: [mockThreadsResponse.data[0]] };
+
+    PilotEnvPage.navigateToRecentCareTeamsPage(oneRecipientResponse);
+
+    GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
+
+    cy.get(Locators.CARE_SYSTEM).should(`not.exist`);
+
+    cy.get(`.usa-legend`).should('include.text', Data.RECENT_RECIPIENTS);
+
+    cy.get(`va-radio-option`)
+      .eq(0)
+      .invoke(`attr`, `label`)
+      .then(label => {
+        expect(label).to.eq(
+          oneRecipientResponse.data[0].attributes.triageGroupName,
+        );
+      });
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

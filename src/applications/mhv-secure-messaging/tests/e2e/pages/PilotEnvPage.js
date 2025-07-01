@@ -221,7 +221,13 @@ class PilotEnvPage {
       .and('have.text', Data.CURATED_LIST.CONTACT_LIST_UPDATE);
   };
 
-  verifyRecentCareTeamsList = TGList => {
+  verifyRecentCareTeamsList = (threadsResponse = mockThreadsResponse) => {
+    const TGList = threadsResponse.data.map(
+      item => item.attributes.triageGroupName,
+    );
+    TGList.push(`A different care team`);
+
+    cy.get(`va-radio-option`).should('have.length', 5);
     cy.get(`va-radio-option`).each(el => {
       cy.wrap(el)
         .invoke(`attr`, `label`)
