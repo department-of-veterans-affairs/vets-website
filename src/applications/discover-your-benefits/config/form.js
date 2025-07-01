@@ -102,7 +102,6 @@ export const formConfig = {
           title: 'Military Branch Served',
           uiSchema: militaryBranch.uiSchema,
           schema: militaryBranch.schema,
-          depends: () => !environment.isProduction(),
         },
         titleTenActiveDuty: {
           path: 'service/active-duty',
@@ -110,17 +109,14 @@ export const formConfig = {
           uiSchema: activeDuty.uiSchema,
           schema: activeDuty.schema,
           depends: formData => {
-            return (
-              !environment.isProduction() &&
-              Object.values(formData.branchComponents).some(
-                branchComponent =>
-                  branchComponent[
-                    militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
-                  ] === true ||
-                  branchComponent[
-                    militaryBranchComponentTypes.RESERVE_SERVICE
-                  ] === true,
-              )
+            return Object.values(formData.branchComponents).some(
+              branchComponent =>
+                branchComponent[
+                  militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
+                ] === true ||
+                branchComponent[
+                  militaryBranchComponentTypes.RESERVE_SERVICE
+                ] === true,
             );
           },
         },
@@ -130,10 +126,7 @@ export const formConfig = {
           uiSchema: titleTenServiceTime.uiSchema,
           schema: titleTenServiceTime.schema,
           depends: formData => {
-            return (
-              !environment.isProduction() &&
-              formData.titleTenActiveDuty === true
-            );
+            return formData.titleTenActiveDuty === true;
           },
         },
         militaryService: {
