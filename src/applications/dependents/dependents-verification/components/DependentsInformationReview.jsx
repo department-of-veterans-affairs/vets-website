@@ -16,15 +16,27 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
     <div className="form-review-panel-page">
       <va-additional-info trigger="Why you can’t edit your dependents’ personal information online">
         <p>
-          To protect your dependent’s personal information, we don’t allow
-          online changes to your dependents’ names, dates of birth, or Social
-          Security numbers. If you need to change this information,{' '}
+          To protect your dependent’s personal information,{' '}
+          <strong>
+            we don’t allow online changes to your dependents’ names, dates of
+            birth, or Social Security numbers.
+          </strong>{' '}
+          If you need to change this information,{' '}
           <strong>
             call us at <va-telephone contact="8008271000" />
           </strong>
-          . We’re here
-          <strong> Monday through Friday, 8:00 a.m to 9:00 p.m ET</strong>. If
-          you have hearing loss, call <va-telephone contact="711" tty />
+          . We’re here Monday through Friday, 8:00 a.m to 9:00 p.m{' '}
+          <dfn>
+            <abbr title="Eastern Time">ET</abbr>
+          </dfn>
+          . If you have hearing loss, call <va-telephone contact="711" tty />.
+        </p>
+        <p className="vads-u-padding-top--2">
+          <va-link
+            external
+            href="/resources/how-to-change-your-legal-name-on-file-with-va/"
+            text="Find more detailed instructions for how to change your dependents’ name"
+          />
         </p>
       </va-additional-info>
 
