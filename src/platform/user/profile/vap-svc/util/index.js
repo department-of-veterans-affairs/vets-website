@@ -54,6 +54,13 @@ export const getValidationMessageKey = ({
     ).length > 0;
 
   if (addressValidationError) {
+    if (
+      isNoValidationKeyAlertEnabled &&
+      !validationKey &&
+      !confirmedSuggestions.length
+    ) {
+      return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
+    }
     return ADDRESS_VALIDATION_TYPES.VALIDATION_ERROR;
   }
 
@@ -63,14 +70,6 @@ export const getValidationMessageKey = ({
 
   if (singleSuggestion && containsMissingUnitNumber) {
     return ADDRESS_VALIDATION_TYPES.MISSING_UNIT_OVERRIDE;
-  }
-
-  if (
-    !confirmedSuggestions.length &&
-    !validationKey &&
-    isNoValidationKeyAlertEnabled
-  ) {
-    return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
   }
 
   if (
