@@ -15,7 +15,10 @@ class ProgressButton extends React.Component {
 
   handleClick = e => {
     navigationState.setNavigationEvent();
-    this.props.onButtonClick(e);
+    // onButtonClick may not be present (see FormNavButtons)
+    if (this.props.onButtonClick) {
+      this.props.onButtonClick(e);
+    }
   };
 
   render() {

@@ -20,7 +20,6 @@ import { selectTypeOfCarePage } from '../../redux/selectors';
 import {
   selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
-  selectFeatureFeSourceOfTruthVA,
 } from '../../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
@@ -34,9 +33,6 @@ const pageKey = 'typeOfCare';
 
 export default function TypeOfCarePage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
-  const useFeSourceOfTruthVA = useSelector(state =>
-    selectFeatureFeSourceOfTruthVA(state),
-  );
   const useFeSourceOfTruthModality = useSelector(state =>
     selectFeatureFeSourceOfTruthModality(state),
   );
@@ -155,7 +151,6 @@ export default function TypeOfCarePage() {
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
               getLongTermAppointmentHistoryV2(
-                useFeSourceOfTruthVA,
                 useFeSourceOfTruthModality,
                 useFeSourceOfTruthTelehealth,
               );
