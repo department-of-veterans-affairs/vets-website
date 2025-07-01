@@ -13,6 +13,14 @@ class LabsAndTests {
       if (useOhData) {
         expect(req.url).to.contain('start_date=');
         expect(req.url).to.contain('end_date=');
+
+        // Extract and validate date parameter values (yyyy-mm-dd format)
+        const url = new URL(req.url);
+        const startDate = url.searchParams.get('start_date');
+        const endDate = url.searchParams.get('end_date');
+
+        expect(startDate).to.match(/^\d{4}-\d{2}-\d{2}$/);
+        expect(endDate).to.match(/^\d{4}-\d{2}-\d{2}$/);
       }
       req.reply(labsAndTestData);
     }).as('labs-and-test-list');

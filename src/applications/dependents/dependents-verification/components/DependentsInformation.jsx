@@ -6,10 +6,11 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 
+import { DEPENDENT_CHOICES } from '../constants';
 import { maskID, getFullName } from '../../shared/utils';
 
 export const DependentsInformation = ({
-  data,
+  data = {},
   goForward,
   goToPath,
   setFormData,
@@ -32,7 +33,7 @@ export const DependentsInformation = ({
         setShowError(true);
         return;
       }
-      if (data.hasDependentsStatusChanged === 'Y') {
+      if (data.hasDependentsStatusChanged === 'N') {
         goToPath('/exit-form', { force: true });
       } else {
         goForward(data);
@@ -47,49 +48,77 @@ export const DependentsInformation = ({
     },
   };
 
+  const dependents = Array.isArray(data.dependents) ? data.dependents : [];
+
   return (
     <>
       <h3>Dependents on your VA benefits</h3>
-      {data.dependents?.length > 0 ? (
-        data.dependents.map((dep = {}, index) => (
+      {dependents.length > 0 ? (
+        dependents.map((dep = {}, index) => (
           <div className="vads-u-margin-bottom--2" key={index}>
             <va-card>
               <h4 className="vads-u-font-size--h4 vads-u-margin-top--0">
                 {getFullName(dep.fullName)}
               </h4>
-              <ul className="remove-bullets">
-                <li>Relationship: {dep.relationship}</li>
-                <li>Date of birth: {dep.dob}</li>
-                {dep.age && <li>Age: {dep.age} years old</li>}
-                <li>
-                  SSN:{' '}
-                  <span
+              <dl>
+                <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
+                  <dt>Relationship:&nbsp;</dt>
+                  <dd>{dep.relationship}</dd>
+                </div>
+                <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
+                  <dt>Date of birth:&nbsp;</dt>
+                  <dd>{dep.dob}</dd>
+                </div>
+                {dep.age && (
+                  <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
+                    <dt>Age:&nbsp;</dt>
+                    <dd
+                      className="dd-privacy-mask"
+                      data-dd-action-name="Dependent's age"
+                    >
+                      {dep.age} years old
+                    </dd>
+                  </div>
+                )}
+                <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
+                  <dt>SSN:&nbsp;</dt>
+                  <dd
                     className="dd-privacy-mask"
                     data-dd-action-name="Dependent's SSN"
                   >
                     {maskID(dep.ssnLastFour)}
-                  </span>
-                </li>
+                  </dd>
+                </div>
                 {dep.removalDate && (
-                  <li>
-                    <p>
-                      <strong>Automatic removal date:</strong> {dep.removalDate}
-                    </p>
-                    <va-alert status="info" background-only visible>
-                      <strong>Note:</strong> If no other action is taken, this
-                      dependent will be removed automatically when they turn 18,
-                      which may reduce the amount you receive each month. If
-                      this child is continuing education, they need to be added
-                      back to your benefits.{' '}
-                      <va-link
-                        href="/exit-form"
-                        text="Learn about how to add a dependent"
-                        onClick={handlers.goToExitPage}
-                      />
-                    </va-alert>
-                  </li>
+                  <div className="removal-date vads-u-margin-top--2">
+                    <dt className="vads-u-display--inline-block vads-u-width--auto">
+                      <strong>Automatic removal date:&nbsp;</strong>
+                    </dt>
+                    <dd className="vads-u-display--inline-block vads-u-width--auto">
+                      <span
+                        className="dd-privacy-mask"
+                        data-dd-action-name="Dependent's removal date"
+                      >
+                        {dep.removalDate}
+                      </span>
+                    </dd>
+                    <dd className="vads-u-margin-top--1">
+                      <va-alert status="info" background-only visible>
+                        <strong>Note:</strong> If no other action is taken, this
+                        dependent will be removed automatically when they turn
+                        18, which may reduce the amount you receive each month.
+                        If this child is continuing education, they need to be
+                        added back to your benefits.{' '}
+                        <va-link
+                          href="/exit-form"
+                          text="Learn about how to add a dependent"
+                          onClick={handlers.goToExitPage}
+                        />
+                      </va-alert>
+                    </dd>
+                  </div>
                 )}
-              </ul>
+              </dl>
             </va-card>
           </div>
         ))
@@ -124,14 +153,14 @@ export const DependentsInformation = ({
         <va-radio-option
           name="hasDependentsStatusChanged"
           value="Y"
-          label="Yes, I need to add, remove, or update my dependent information."
+          label={DEPENDENT_CHOICES.Y}
           tile
           checked={data.hasDependentsStatusChanged === 'Y'}
         />
         <va-radio-option
           name="hasDependentsStatusChanged"
           value="N"
-          label="No, my dependent information is correct."
+          label={DEPENDENT_CHOICES.N}
           tile
           checked={data.hasDependentsStatusChanged === 'N'}
         />

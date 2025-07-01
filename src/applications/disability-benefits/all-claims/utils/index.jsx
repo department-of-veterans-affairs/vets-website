@@ -406,16 +406,6 @@ export const showPtsdNonCombat = formData =>
   // skip non-combat question if Veteran says yes to combat question
   !_.get('skip781ForCombatReason', formData, false);
 
-// This function returns a boolean based on whether the user is on the legacy 0781 flow which
-// skips PTSD in the new disability follow-up pages, or
-// the modern 0781 flow which includes PTSD in new disability follow-up pages
-export function showNewDisabilityFollowUpPage(item, formData) {
-  if (formData?.syncModern0781Flow === true && isClaimingNew(formData)) {
-    return !!item.condition;
-  }
-  return !isDisabilityPtsd(item.condition);
-}
-
 export const skip781 = formData =>
   _.get('skip781ForCombatReason', formData) === true ||
   _.get('skip781ForNonCombatReason', formData) === true;

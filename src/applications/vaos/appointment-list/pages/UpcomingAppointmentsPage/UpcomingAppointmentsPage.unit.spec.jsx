@@ -32,43 +32,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   const start = subDays(now, 30); // Subtract 30 days
   const end = addDays(now, 395); // Add 395 days
 
-  it('should show VA appointment text, useFeSourceOfTruthVA=false', async () => {
-    // Arrange
-    const appointment = new MockAppointmentResponse({
-      localStartTime: now,
-      future: true,
-    })
-      .setLocation(new MockFacilityResponse())
-      .setTypeOfCare(null);
-
-    mockAppointmentsApi({
-      start: subDays(now, 120), // Subtract 120 days
-      end: addDays(now, 1), // Current date + 1
-      statuses: ['proposed', 'cancelled'],
-      response: [],
-    });
-
-    mockAppointmentsApi({
-      start,
-      end,
-      response: [appointment],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-    });
-
-    // Act
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState,
-      reducers,
-    });
-
-    // Assert
-    await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
-    );
-    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-  });
-
-  it('should show VA appointment text, useFeSourceOfTruthVA=true', async () => {
+  it('should show VA appointment text', async () => {
     // Arrange
     const appointment = new MockAppointmentResponse({
       localStartTime: now,
@@ -97,7 +61,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
         ...initialState,
         featureToggles: {
           ...initialState.featureToggles,
-          vaOnlineSchedulingFeSourceOfTruthVA: true,
         },
       },
       reducers,
