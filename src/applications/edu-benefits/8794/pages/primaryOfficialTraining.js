@@ -5,6 +5,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PrimaryOfficialExemptInfo from '../components/PrimaryOfficialExemptInfo';
 import PrimaryOfficialTrainingInfo from '../components/PrimaryOfficialTrainingInfo';
+import TrainingExemptCustomReviewField from '../components/TrainingExemptCustomReviewField';
 
 const uiSchema = {
   primaryOfficialTraining: {
@@ -47,6 +48,7 @@ const uiSchema = {
     },
     trainingExempt: {
       'ui:field': PrimaryOfficialExemptInfo,
+      'ui:reviewField': TrainingExemptCustomReviewField,
     },
     'ui:options': {
       updateSchema: (formData, formSchema) => {
