@@ -1126,6 +1126,12 @@ class MedicationsListPage {
       expect(fileContent).to.not.contain('None noted');
     });
   };
+
+  verifyPageNotFoundTextDisplayed = () => {
+    cy.get('[data-testid="page-not-found"]')
+      .should('be.visible')
+      .and('contain', 'Page not found');
+  };
 }
 
 export default MedicationsListPage;

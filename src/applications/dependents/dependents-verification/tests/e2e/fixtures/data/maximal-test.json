@@ -41,6 +41,8 @@
         "removalDate": "August 1, 2026"
       }
     ],
-    "hasDependentsStatusChanged": ""
+    "hasDependentsStatusChanged": "Y",
+    "statementOfTruthSignature": "John Doe",
+    "statementOfTruthCertified": true
   }
 }
