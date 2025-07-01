@@ -27,6 +27,13 @@ export const API_ENDPOINTS = {
   submission: '/v0/caregivers_assistance_claims',
 };
 
+export const DEFAULT_SIGNATURE_STATE = {
+  checked: false,
+  dirty: false,
+  matches: false,
+  value: '',
+};
+
 export const MAX_FILE_SIZE_MB = 10;
 
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
