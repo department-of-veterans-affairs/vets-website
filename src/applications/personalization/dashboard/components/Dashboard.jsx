@@ -156,7 +156,11 @@ const LOA1Content = ({
 
       <ClaimsAndAppeals isLOA1={isLOA1} />
 
-      <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
+        </Toggler.Disabled>
+      </Toggler>
 
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Disabled>
@@ -170,6 +174,12 @@ const LOA1Content = ({
         </Toggler.Disabled>
         <Toggler.Enabled>
           <FormsAndApplications />
+        </Toggler.Enabled>
+      </Toggler>
+
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Enabled>
+          <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
         </Toggler.Enabled>
       </Toggler>
 
