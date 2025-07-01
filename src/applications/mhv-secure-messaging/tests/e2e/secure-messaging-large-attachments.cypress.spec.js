@@ -64,11 +64,9 @@ describe('SM MESSAGING OH LARGE ATTACHMENT', () => {
     SecureMessagingSite.login(updatedFeatureToggles);
     PilotEnvPage.loadInboxMessages();
     PilotEnvPage.navigateToComposePage();
-
-    cy.get(`[data-testid^="facility-"]`)
-      .eq(0)
-      .click();
-    cy.contains(`Continue`).click();
+    PilotEnvPage.selectCareTeam();
+    PilotEnvPage.selectTriageGroup();
+    cy.findByTestId(`continue-button`).click();
   });
 
   it('verify attachment information block', () => {

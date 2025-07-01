@@ -5,9 +5,9 @@ import useFeatureToggles from '../hooks/useFeatureToggles';
 
 const HowToAttachFiles = ({ isPilot }) => {
   const { largeAttachmentsEnabled } = useFeatureToggles();
-  const MAX_TOTAL_SIZE_DESCRIPTION = ` The maximum total size for all files attached to 1 message is ${
+  const MAX_TOTAL_SIZE_DESCRIPTION = `The maximum total size for all files attached to 1 message is ${
     isPilot ? '25 MB' : '10 MB'
-  }.`;
+  }`;
   return (
     <VaAdditionalInfo
       trigger="What to know about attaching files"
