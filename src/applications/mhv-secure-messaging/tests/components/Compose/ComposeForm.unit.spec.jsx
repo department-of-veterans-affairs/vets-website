@@ -1380,7 +1380,7 @@ describe('Compose form component', () => {
 
     expect(
       screen.getByText('Attachments', {
-        selector: 'h3',
+        selector: 'h2',
       }),
     ).to.exist;
   });
