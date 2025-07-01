@@ -781,10 +781,22 @@ export function transform(formConfig, form) {
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {
-  first: { 'ui:title': 'First name' },
-  middle: { 'ui:title': 'Middle name' },
-  last: { 'ui:title': 'Last name' },
-  maiden: { 'ui:title': 'Maiden name' },
+  first: {
+    'ui:title': 'First name',
+  },
+  middle: {
+    'ui:title': 'Middle name',
+  },
+  last: {
+    'ui:title': 'Last name',
+  },
+  suffix: {
+    'ui:webComponentField': VaSelectField,
+    'ui:options': { classNames: 'form-select-medium' },
+  },
+  maiden: {
+    'ui:title': 'Maiden name',
+  },
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
 

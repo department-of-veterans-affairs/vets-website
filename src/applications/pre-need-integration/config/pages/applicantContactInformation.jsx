@@ -1,6 +1,7 @@
 import React from 'react';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 import { merge } from 'lodash';
+// import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import phoneUI from '../../components/Phone';
 import emailUI from '../../definitions/email';
 import * as address from '../../definitions/address';
@@ -28,6 +29,9 @@ export function uiSchema(
     application: {
       claimant: {
         address: merge({}, address.uiSchema(addressTitle), {
+          // country: {
+          //   'ui:webComponentField': VaSelectField,
+          // },
           street: {
             'ui:title': 'Street address',
           },
@@ -36,8 +40,10 @@ export function uiSchema(
           },
           state: {
             'ui:title': applicantMailingAddressStateTitleWrapper,
+            // 'ui:webComponentField': VaSelectField,
             'ui:options': {
               hideIf: formData => !applicantsMailingAddressHasState(formData),
+              // classNames: 'schemaform-widget-wrapper',
             },
           },
         }),
