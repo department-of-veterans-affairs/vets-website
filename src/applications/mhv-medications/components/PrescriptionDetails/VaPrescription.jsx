@@ -540,7 +540,7 @@ const VaPrescription = prescription => {
                         Refill history
                       </h3>
                     )}
-                    {refillHistory?.length > 1 &&
+                    {refillHistory?.length >= 1 &&
                       hasCmopNdcNumber(refillHistory) && (
                         <p className="vads-u-margin--0">
                           <strong>Note:</strong> Images on this page are for
