@@ -160,4 +160,55 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       cy.axeCheck();
     });
   });
+
+  describe('User Story #6: Encrypted file password input', () => {
+    it('should show password input when encrypted PDF is uploaded', () => {
+      setupComponentTest();
+
+      // Upload an encrypted PDF file
+      // Note: Must contain "/Encrypt" signature for checkIsEncryptedPdf to detect encryption
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find('input[type="file"]')
+        .selectFile({
+          contents: Cypress.Buffer.from('%PDF-1.4\n/Encrypt\nsome content'),
+          fileName: 'encrypted-document.pdf',
+          mimeType: 'application/pdf',
+        });
+
+      // Verify password input appears and is visible to the user
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find('va-text-input')
+        .should('be.visible')
+        .shadow()
+        .should('contain.text', 'File password');
+
+      cy.axeCheck();
+    });
+
+    it('should not show password input when non-encrypted PDF is uploaded', () => {
+      setupComponentTest();
+
+      // Upload a regular PDF file without encryption signature
+      uploadFile('regular-document.pdf');
+
+      // Verify no password input appears
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find('va-text-input')
+        .should('not.exist');
+
+      cy.axeCheck();
+    });
+  });
 });

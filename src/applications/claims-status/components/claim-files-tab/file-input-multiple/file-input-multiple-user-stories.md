@@ -14,8 +14,8 @@ As a user,
 5. If I don't add any files and click submit, I will see an error
     - Error: "Please select a file first"
 6. If I add an encrypted file, the component will show a password input
-    - Instructions: "This is an encrypted PDF document. In order for us to be able to view the document, we will need the password to decrypt it."
-    - Label: PDF password (*Required)
+    - NOT FEASIBLE - Instructions: "This is an encrypted PDF document. In order for us to be able to view the document, we will need the password to decrypt it." - **Cannot pass instructions above the password input since it is generated through a simple encryption prop which is an array of booleans**
+    - SAME WORDING NOT FEASIBLE - Label: PDF password (*Required) **Hardcoded in web component to be "File password (*Required)**
 7. If I add an encrypted file without inputting a password, I will see an error
     - Error: "Please provide a password to decrypt this file"
 8. If I add another file while I have an existing validation error, the validation error will persist
