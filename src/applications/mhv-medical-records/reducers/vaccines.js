@@ -137,6 +137,21 @@ export const convertNewVaccine = vaccine => {
   return null;
 };
 
+export const convertUnifiedVaccine = record => {
+  if (!record) {
+    return null;
+  }
+  return {
+    id: record.id,
+    name: record.attributes?.groupName || EMPTY_FIELD,
+    date: formatDate(record.attributes?.date),
+    location: record.attributes?.location || EMPTY_FIELD,
+    manufacturer: record.attributes?.manufacturer || EMPTY_FIELD,
+    reaction: record.attributes?.reaction || EMPTY_FIELD,
+    note: record.attributes?.note || EMPTY_FIELD,
+  };
+};
+
 export const vaccineReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Vaccines.GET: {
@@ -162,23 +177,12 @@ export const vaccineReducer = (state = initialState, action) => {
     }
     case Actions.Vaccines.GET_UNIFIED_LIST: {
       const oldList = state.vaccinesList;
-      let newList;
-      let metadata;
-      // TODO: upate this
-      if (action.response.resourceType) {
-        newList =
-          action.response.entry
-            ?.map(record => {
-              const vaccine = record.resource;
-              return convertVaccine(vaccine);
-            })
-            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
-      } else {
-        newList = action.response.data?.map(record =>
-          convertNewVaccine(record.attributes),
-        );
-        metadata = action.response.meta;
-      }
+      const metadata = action.response.meta;
+      const newList =
+        action.response.data
+          ?.map(convertUnifiedVaccine)
+          .filter(record => record !== null)
+          .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
 
       const vaccinesList = typeof oldList === 'undefined' ? newList : oldList;
       const updatedList = typeof oldList !== 'undefined' ? newList : undefined;

@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   convertVaccine,
   convertNewVaccine,
+  convertUnifiedVaccine,
   extractNote,
   extractReaction,
   extractLocation,
@@ -597,5 +598,311 @@ describe('vaccineReducer', () => {
 
       expect(newState.listState).to.equal('FETCHING');
     });
+  });
+});
+
+describe('convertUnifiedVaccine', () => {
+  const MISSING_FIELD_VAL = 'None recorded';
+
+  it('should return null if no record is passed', () => {
+    expect(convertUnifiedVaccine()).to.eq(null);
+  });
+
+  it('should return null if null is passed as argument', () => {
+    expect(convertUnifiedVaccine(null)).to.eq(null);
+  });
+
+  it('should return null if undefined is passed as argument', () => {
+    expect(convertUnifiedVaccine(undefined)).to.eq(null);
+  });
+
+  it('should correctly convert a unified vaccine record with all fields', () => {
+    const record = {
+      id: '456',
+      attributes: {
+        groupName: 'Hepatitis B',
+        date: '2023-06-20T10:30:00-04:00',
+        location: 'VA Medical Center',
+        manufacturer: 'Pfizer',
+        reaction: 'Mild soreness',
+        note: 'First dose in series',
+      },
+    };
+
+    const result = convertUnifiedVaccine(record);
+
+    expect(result).to.deep.equal({
+      id: '456',
+      name: 'Hepatitis B',
+      date: 'June 20, 2023',
+      location: 'VA Medical Center',
+      manufacturer: 'Pfizer',
+      reaction: 'Mild soreness',
+      note: 'First dose in series',
+    });
+  });
+
+  it('should use "None recorded" for missing optional fields', () => {
+    const record = {
+      id: '789',
+      attributes: {
+        groupName: 'Flu Shot',
+        date: '2024-01-15T14:20:00-05:00',
+        // Missing location, manufacturer, reaction, note
+      },
+    };
+
+    const result = convertUnifiedVaccine(record);
+
+    expect(result).to.deep.equal({
+      id: '789',
+      name: 'Flu Shot',
+      date: 'January 15, 2024',
+      location: MISSING_FIELD_VAL,
+      manufacturer: MISSING_FIELD_VAL,
+      reaction: MISSING_FIELD_VAL,
+      note: MISSING_FIELD_VAL,
+    });
+  });
+
+  it('should handle empty string values for optional fields', () => {
+    const record = {
+      id: '101',
+      attributes: {
+        groupName: 'COVID-19',
+        date: '2023-12-01T09:15:00-06:00',
+        location: '',
+        manufacturer: '',
+        reaction: '',
+        note: '',
+      },
+    };
+
+    const result = convertUnifiedVaccine(record);
+
+    expect(result).to.deep.equal({
+      id: '101',
+      name: 'COVID-19',
+      date: 'December 1, 2023',
+      location: MISSING_FIELD_VAL,
+      manufacturer: MISSING_FIELD_VAL,
+      reaction: MISSING_FIELD_VAL,
+      note: MISSING_FIELD_VAL,
+    });
+  });
+
+  it('should handle record with missing attributes object', () => {
+    const record = {
+      id: '202',
+      // Missing attributes object
+    };
+
+    const result = convertUnifiedVaccine(record);
+    expect(result).to.deep.equal({
+      id: '202',
+      name: MISSING_FIELD_VAL,
+      date: MISSING_FIELD_VAL,
+      location: MISSING_FIELD_VAL,
+      manufacturer: MISSING_FIELD_VAL,
+      reaction: MISSING_FIELD_VAL,
+      note: MISSING_FIELD_VAL,
+    });
+  });
+});
+
+describe('vaccineReducer - GET_UNIFIED_LIST action', () => {
+  it('should create a new list using convertUnifiedVaccine', () => {
+    const response = {
+      data: [
+        {
+          id: '123',
+          attributes: {
+            groupName: 'COVID-19',
+            date: '2023-05-15T10:30:00-04:00',
+            location: 'VA Medical Center',
+            manufacturer: 'Pfizer',
+            reaction: 'Mild soreness',
+            note: 'First dose',
+          },
+        },
+        {
+          id: '456',
+          attributes: {
+            groupName: 'Flu Shot',
+            date: '2023-01-10T14:20:00-05:00',
+            location: 'Community Clinic',
+            manufacturer: 'Moderna',
+            reaction: 'None',
+            note: 'Annual flu shot',
+          },
+        },
+      ],
+      meta: {
+        pagination: {
+          totalEntries: 2,
+        },
+      },
+    };
+
+    const newState = vaccineReducer(
+      {},
+      {
+        type: Actions.Vaccines.GET_UNIFIED_LIST,
+        response,
+        isCurrent: true,
+      },
+    );
+
+    expect(newState.vaccinesList).to.have.lengthOf(2);
+    expect(newState.vaccinesList[0]).to.deep.equal({
+      id: '123',
+      name: 'COVID-19',
+      date: 'May 15, 2023',
+      location: 'VA Medical Center',
+      manufacturer: 'Pfizer',
+      reaction: 'Mild soreness',
+      note: 'First dose',
+    });
+    expect(newState.vaccinesList[1]).to.deep.equal({
+      id: '456',
+      name: 'Flu Shot',
+      date: 'January 10, 2023',
+      location: 'Community Clinic',
+      manufacturer: 'Moderna',
+      reaction: 'None',
+      note: 'Annual flu shot',
+    });
+    expect(newState.listState).to.equal(loadStates.FETCHED);
+    expect(newState.listCurrentAsOf).to.be.instanceOf(Date);
+    expect(newState.listMetadata).to.deep.equal(response.meta);
+  });
+
+  it('should filter out null records from convertUnifiedVaccine', () => {
+    const response = {
+      data: [
+        {
+          id: '123',
+          attributes: {
+            groupName: 'COVID-19',
+            date: '2023-05-15T10:30:00-04:00',
+          },
+        },
+        null, // This should be filtered out
+        {
+          id: '456',
+          attributes: {
+            groupName: 'Flu Shot',
+            date: '2023-01-10T14:20:00-05:00',
+          },
+        },
+      ],
+      meta: {},
+    };
+
+    const newState = vaccineReducer(
+      {},
+      {
+        type: Actions.Vaccines.GET_UNIFIED_LIST,
+        response,
+        isCurrent: true,
+      },
+    );
+
+    expect(newState.vaccinesList).to.have.lengthOf(2);
+    expect(newState.vaccinesList[0].id).to.equal('123');
+    expect(newState.vaccinesList[1].id).to.equal('456');
+  });
+
+  it('should sort vaccines by date in descending order', () => {
+    const response = {
+      data: [
+        {
+          id: '123',
+          attributes: {
+            groupName: 'COVID-19',
+            date: '2023-01-15T10:30:00-04:00', // Older date
+          },
+        },
+        {
+          id: '456',
+          attributes: {
+            groupName: 'Flu Shot',
+            date: '2023-05-20T14:20:00-05:00', // Newer date
+          },
+        },
+      ],
+      meta: {},
+    };
+
+    const newState = vaccineReducer(
+      {},
+      {
+        type: Actions.Vaccines.GET_UNIFIED_LIST,
+        response,
+        isCurrent: true,
+      },
+    );
+
+    expect(newState.vaccinesList).to.have.lengthOf(2);
+    // Newer date should come first
+    expect(newState.vaccinesList[0].id).to.equal('456');
+    expect(newState.vaccinesList[0].date).to.equal('May 20, 2023');
+    expect(newState.vaccinesList[1].id).to.equal('123');
+    expect(newState.vaccinesList[1].date).to.equal('January 15, 2023');
+  });
+
+  it('should preserve existing list and put new data in updatedList when oldList exists', () => {
+    const initialState = {
+      vaccinesList: [
+        { id: '1', name: 'Previous Vaccine 1' },
+        { id: '2', name: 'Previous Vaccine 2' },
+      ],
+    };
+
+    const response = {
+      data: [
+        {
+          id: '123',
+          attributes: {
+            groupName: 'COVID-19',
+            date: '2023-05-15T10:30:00-04:00',
+          },
+        },
+      ],
+      meta: {},
+    };
+
+    const newState = vaccineReducer(initialState, {
+      type: Actions.Vaccines.GET_UNIFIED_LIST,
+      response,
+      isCurrent: true,
+    });
+
+    // Should preserve the original list
+    expect(newState.vaccinesList).to.have.lengthOf(2);
+    expect(newState.vaccinesList[0].id).to.equal('1');
+    expect(newState.vaccinesList[1].id).to.equal('2');
+    // Should store new items in updatedList
+    expect(newState.updatedList).to.have.lengthOf(1);
+    expect(newState.updatedList[0].id).to.equal('123');
+  });
+
+  it('should handle empty data array', () => {
+    const response = {
+      data: [],
+      meta: {},
+    };
+
+    const newState = vaccineReducer(
+      {},
+      {
+        type: Actions.Vaccines.GET_UNIFIED_LIST,
+        response,
+        isCurrent: true,
+      },
+    );
+
+    expect(newState.vaccinesList).to.have.lengthOf(0);
+    expect(newState.listState).to.equal(loadStates.FETCHED);
   });
 });
