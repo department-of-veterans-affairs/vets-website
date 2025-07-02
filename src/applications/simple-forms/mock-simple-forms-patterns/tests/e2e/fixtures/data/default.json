@@ -145,6 +145,7 @@
           "country": "USA",
           "street": "street",
           "city": "city",
+          "state": "AL",
           "postalCode": "11111"
         },
         "fullName": {
@@ -170,9 +171,10 @@
     "nameCustom": "Test",
     "wcv3InternationalPhone": {
       "countryCode": "US",
-      "contact": "2345678910",
-      "callingCode": 1,
-      "isValid": true
+      "contact": "(234) 567-8910",
+      "callingCode": "1",
+      "isValid": true,
+      "error": null
     }
   }
 }

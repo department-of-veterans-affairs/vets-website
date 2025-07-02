@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { getlabsAndTestsDetails } from '../actions/labsAndTests';
+import { getLabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintHeader from '../components/shared/PrintHeader';
 import ImageGallery from '../components/shared/ImageGallery';
 import DateSubheading from '../components/shared/DateSubheading';
@@ -68,7 +68,7 @@ const RadiologyImagesList = ({ isTesting }) => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getlabsAndTestsDetails(labId)).then(() => {
+        dispatch(getLabsAndTestsDetails(labId)).then(() => {
           setRadiologyDetailsLoaded(true);
         });
       }

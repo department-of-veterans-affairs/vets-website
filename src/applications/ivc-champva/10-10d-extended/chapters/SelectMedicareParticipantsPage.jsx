@@ -9,7 +9,12 @@ import {
   radioUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, toHash, getAgeInYears } from '../../shared/utilities';
+import { nameWording, toHash } from '../../shared/utilities';
+
+// similar to `toSpliced`, but simpler and actually works in testing framework
+function dropItem(arr, targetIdx) {
+  return arr.filter((_i, idx) => idx !== targetIdx);
+}
 
 /**
  * Gets applicants eligible for Medicare selection
@@ -18,9 +23,7 @@ import { nameWording, toHash, getAgeInYears } from '../../shared/utilities';
  * @returns {Array} Filtered array of eligible applicants
  */
 function getEligibleApplicants(data, idx) {
-  // Get applicants at or over 65 y/o
-  const applicants =
-    data?.applicants?.filter(a => getAgeInYears(a.applicantDob) >= 65) ?? [];
+  const applicants = data?.applicants ?? [];
   const medicareData = data?.medicare;
 
   // If no Medicare data exists, return all applicants
@@ -29,7 +32,7 @@ function getEligibleApplicants(data, idx) {
   }
 
   // Get Medicare entries excluding current one
-  const otherMedicareEntries = medicareData.toSpliced(idx, 1) ?? [];
+  const otherMedicareEntries = dropItem(medicareData, idx) ?? [];
 
   // Return applicants not already selected for Medicare
   return applicants.filter(applicant => {

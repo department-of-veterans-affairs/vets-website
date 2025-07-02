@@ -251,7 +251,7 @@ const responses = {
       appt => appt.id === req.params.id,
     );
 
-    if (appointment.start) {
+    if (appointment?.start) {
       appointment.future = moment(appointment.start).isAfter(moment());
     }
     return res.json({
@@ -401,7 +401,7 @@ const responses = {
   },
   'GET /vaos/v2/referrals': (req, res) => {
     return res.json({
-      data: referralUtils.createReferrals(4),
+      data: referralUtils.createReferrals(4, null, null, true),
     });
   },
   'GET /vaos/v2/referrals/:referralId': (req, res) => {
