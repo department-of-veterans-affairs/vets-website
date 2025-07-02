@@ -6,9 +6,6 @@ import {
   CREATE_REFERRAL_APPOINTMENT,
   CREATE_REFERRAL_APPOINTMENT_FAILED,
   CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
-  CREATE_DRAFT_REFERRAL_APPOINTMENT,
-  CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED,
-  CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
   FETCH_REFERRAL_APPOINTMENT_INFO,
   FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
   FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
@@ -42,30 +39,6 @@ describe('ccAppointmentReducer', () => {
       type: CREATE_REFERRAL_APPOINTMENT_FAILED,
     });
     expect(state.appointmentCreateStatus).to.equal(FETCH_STATUS.failed);
-  });
-
-  it('should handle CREATE_DRAFT_REFERRAL_APPOINTMENT', () => {
-    const state = reducer(undefined, {
-      type: CREATE_DRAFT_REFERRAL_APPOINTMENT,
-    });
-    expect(state.draftAppointmentCreateStatus).to.equal(FETCH_STATUS.loading);
-  });
-
-  it('should handle CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED', () => {
-    const draftData = { note: 'Draft created' };
-    const state = reducer(undefined, {
-      type: CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
-      data: draftData,
-    });
-    expect(state.draftAppointmentCreateStatus).to.equal(FETCH_STATUS.succeeded);
-    expect(state.draftAppointmentInfo).to.deep.equal(draftData);
-  });
-
-  it('should handle CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED', () => {
-    const state = reducer(undefined, {
-      type: CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED,
-    });
-    expect(state.draftAppointmentCreateStatus).to.equal(FETCH_STATUS.failed);
   });
 
   it('should handle FETCH_REFERRAL_APPOINTMENT_INFO', () => {
@@ -108,8 +81,6 @@ describe('ccAppointmentReducer', () => {
   it('should handle SET_INIT_REFERRAL_FLOW and reset part of the state', () => {
     const modifiedState = {
       ...reducer(undefined, {}),
-      draftAppointmentInfo: { draft: true },
-      draftAppointmentCreateStatus: FETCH_STATUS.succeeded,
       appointmentInfoTimeout: true,
       appointmentInfoError: true,
       appointmentInfoLoading: true,
@@ -119,10 +90,6 @@ describe('ccAppointmentReducer', () => {
 
     const state = reducer(modifiedState, { type: SET_INIT_REFERRAL_FLOW });
 
-    expect(state.draftAppointmentInfo).to.deep.equal({});
-    expect(state.draftAppointmentCreateStatus).to.equal(
-      FETCH_STATUS.notStarted,
-    );
     expect(state.appointmentInfoTimeout).to.be.false;
     expect(state.appointmentInfoError).to.be.false;
     expect(state.appointmentInfoLoading).to.be.false;
