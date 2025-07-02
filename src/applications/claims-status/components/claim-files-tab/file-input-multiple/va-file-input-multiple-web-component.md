@@ -428,3 +428,71 @@ export class VaFileInputMultiple {
   }
 }
 ```
+
+## Key Functions Analysis
+
+### 1. **handleChange(event, fileKey, pageIndex)** - Main orchestration function
+- Handles three actions: FILE_ADDED, FILE_UPDATED, FILE_REMOVED
+- Updates internal files state array
+- Builds output state array via buildFilesArray() with `{ file, changed }` objects
+- Emits `vaMultipleChange` event with `{ action, file, state }` structure
+- Manages dynamic addition of new empty file inputs
+- Updates status messages for screen readers on file removal
+
+### 2. **buildFilesArray(files, deleted, fileIndex)** - State formatting function
+- Filters out null files from the array
+- Maps files to `{ file: File, changed: boolean }` objects
+- Sets `changed=true` for the file at fileIndex (unless deleted)
+- Returns clean array for parent component consumption
+
+### 3. **Error and Encryption Handling**
+- Takes `errors` array prop - each index maps to a file input
+- Takes `encrypted` array prop - each index maps to a file input
+- Passes `error[index]` to corresponding va-file-input child component
+- Passes `encrypted[index]` to corresponding va-file-input child component
+- No built-in validation logic - parent must manage
+
+### 4. **State Management**
+- Internal `files` state: Array of `{ key, file, content }` objects
+- Unique key generation via fileKeyCounter for React reconciliation
+- Always maintains one empty file input at the end (unless readOnly)
+- Tracks slot content for each file input separately
+
+### 5. **Slot Content Management**
+- `setSlotContent()` - Captures and removes default slot content
+- `getAdditionalContent()` - Clones slot content for reuse
+- `componentDidRender()` - Injects cloned content into each file input
+- `slotFieldIndexes` prop controls which inputs get slot content
+
+### 6. **findFileByKey(fileKey)** and **findIndexByKey(fileKey)**
+- Helper methods to locate files in the state array
+- Used to update specific files without array index confusion
+- Critical for maintaining correct file-to-input mapping
+
+### 7. **isEmpty()** - State check helper
+- Returns true if first file input has no file
+- Used to conditionally render "Selected files" label
+
+### 8. **renderLabelOrHeader()** - Flexible label rendering
+- Supports standard label or h1-h6 headers via headerSize prop
+- Adds "(Required)" text when `required=true`
+- Consistent with va-file-input component styling
+
+### 9. **addValueFiles()** - Initial value population
+- Processes `value` prop array of File objects
+- Adds each file to internal state with unique keys
+- Maintains empty input at end for additional files
+- Sets `valueAdded` flag to prevent re-processing
+
+### 10. **Event Flow**
+- Child va-file-input emits `vaChange` event
+- Parent `handleChange()` processes the event
+- Parent emits `vaMultipleChange` with full state context
+- Consumer receives action type, triggering file, and complete state
+
+### 11. **Key Component Props Passed to Children**
+- `headless=true` (except first input)
+- Custom `uploadMessage` for inputs after the first
+- `error[pageIndex]` for validation display
+- `encrypted[pageIndex]` for password field display
+- Individual name attributes with unique keys

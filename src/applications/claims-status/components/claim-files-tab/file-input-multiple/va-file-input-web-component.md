@@ -689,3 +689,58 @@ export class VaFileInput {
   }
 }
 ```
+
+## Key Functions Analysis
+
+### 1. **handleFile(file, emitChange)** - Main file processing function
+- Validates file type against `accept` prop using normalizeAcceptProp() and isAcceptedFileType()
+- Validates file size against `maxFileSize` prop
+- Sets internal state (this.file, this.uploadStatus, this.internalError)
+- Emits `vaChange` event with `{ files: [file] }` structure
+- Updates status messages for screen readers via updateStatusMessage()
+- Triggers analytics events if enableAnalytics is true
+
+### 2. **removeFile(notifyParent)** - Removes the current file
+- Closes any open modal
+- Resets internal state (uploadStatus, internalError, file, uploadedFile)
+- Emits `vaChange` event with `{ files: [] }` if notifyParent is true
+- Updates status message to "File removed. No file selected."
+- Sets focus back to the component
+
+### 3. **handleChange(e)** - Handles file input change events
+- Extracts file from input element
+- Calls handleFile() to process it
+- Clears input value to allow re-selecting same file
+
+### 4. **handleDrop(event)** - Handles drag-and-drop file uploads
+- Prevents default browser behavior
+- Extracts first file from dataTransfer
+- Calls handleFile() to process it
+
+### 5. **File Validation Built-ins**
+- File type validation: Checks against `accept` prop patterns
+- File size validation: Checks against `maxFileSize` prop
+- Shows error via internal `internalError` state
+- Error messages are specific to validation type
+
+### 6. **Password Field Rendering**
+When `encrypted=true` prop is set:
+- Renders `<va-text-input label="File password" required />`
+- No built-in password validation logic
+- No password value tracking or event handling
+- Parent component must handle password state separately
+
+### 7. **updateStatusMessage(message)** - Accessibility helper
+- Updates screen reader announcement div
+- Uses 1-second delay to ensure announcement is read
+- Targets #statusMessage element with aria-live="polite"
+
+### 8. **Error Display**
+- Supports both external `error` prop and internal `internalError`
+- Displays in #input-error-message with proper ARIA attributes
+- Includes screen reader announcement of "Error" prefix
+
+### 9. **State Management**
+- Internal state: file, fileContents, internalError, uploadStatus
+- Props: value (external file), uploadedFile (previously uploaded)
+- Emits vaChange events for parent state synchronization

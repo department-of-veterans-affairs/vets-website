@@ -28,16 +28,31 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
   };
 
   // Helper function to upload a file to the first file input
-  const uploadFile = fileName => {
+  const uploadFile = (fileName, fileIndex = 0) => {
     cy.get('va-file-input-multiple')
       .shadow()
       .find('va-file-input')
-      .first()
+      .eq(fileIndex)
       .shadow()
       .find('input[type="file"]')
       .selectFile({
         contents: Cypress.Buffer.from('test content'),
         fileName,
+      });
+  };
+
+  // Helper function to upload an encrypted PDF
+  const uploadEncryptedPDF = (fileName, fileIndex = 0) => {
+    cy.get('va-file-input-multiple')
+      .shadow()
+      .find('va-file-input')
+      .eq(fileIndex)
+      .shadow()
+      .find('input[type="file"]')
+      .selectFile({
+        contents: Cypress.Buffer.from('%PDF-1.4\n/Encrypt\nsome content'),
+        fileName,
+        mimeType: 'application/pdf',
       });
   };
 
@@ -166,18 +181,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       setupComponentTest();
 
       // Upload an encrypted PDF file
-      // Note: Must contain "/Encrypt" signature for checkIsEncryptedPdf to detect encryption
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
-        .shadow()
-        .find('input[type="file"]')
-        .selectFile({
-          contents: Cypress.Buffer.from('%PDF-1.4\n/Encrypt\nsome content'),
-          fileName: 'encrypted-document.pdf',
-          mimeType: 'application/pdf',
-        });
+      uploadEncryptedPDF('encrypted-document.pdf');
 
       // Verify password input appears and is visible to the user
       cy.get('va-file-input-multiple')
@@ -207,6 +211,39 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .shadow()
         .find('va-text-input')
         .should('not.exist');
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('User Story #7: Password validation for encrypted files', () => {
+    it('should show error when submitting encrypted file without password', () => {
+      setupComponentTest();
+
+      // Upload an encrypted PDF file
+      uploadEncryptedPDF('encrypted-document.pdf');
+
+      // Wait for password input to appear
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find('va-text-input')
+        .should('be.visible');
+
+      // Submit without entering password
+      clickSubmitButton();
+
+      // Verify error message appears in the file input shadow DOM
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find('#input-error-message')
+        .should('be.visible')
+        .and('contain.text', 'Please provide a password to decrypt this file');
 
       cy.axeCheck();
     });

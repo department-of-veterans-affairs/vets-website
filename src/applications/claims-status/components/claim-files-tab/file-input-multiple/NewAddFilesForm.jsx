@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -16,7 +16,9 @@ const HINT_TEXT =
 const LABEL_TEXT = 'Upload additional evidence';
 const SUBMIT_TEXT = 'Submit documents for review';
 const VALIDATION_ERROR = 'Please select a file first';
+const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
 
+// Pure utility functions moved outside component
 const checkFileEncryption = async file => {
   if (!file.name?.toLowerCase().endsWith('.pdf')) {
     return false;
@@ -31,26 +33,56 @@ const checkFileEncryption = async file => {
   }
 };
 
-const NewAddFilesForm = ({ onChange, onSubmit, required }) => {
+const createEncryptedFilesList = async files => {
+  return Promise.all(
+    files.map(async fileInfo => checkFileEncryption(fileInfo.file)),
+  );
+};
+
+const validateFilesForSubmission = (files, encrypted) => {
+  // Check if no files provided (always required)
+  if (files.length === 0) {
+    return { isValid: false, errors: [VALIDATION_ERROR] };
+  }
+
+  // Check for encrypted files without passwords
+  const errors = [];
+  let hasPasswordErrors = false;
+
+  files.forEach((fileInfo, index) => {
+    // Check if file is encrypted and missing password
+    if (
+      encrypted[index] &&
+      (!fileInfo.password || fileInfo.password.trim() === '')
+    ) {
+      errors[index] = PASSWORD_ERROR;
+      hasPasswordErrors = true;
+    } else {
+      errors[index] = null;
+    }
+  });
+
+  return {
+    isValid: !hasPasswordErrors,
+    errors: hasPasswordErrors ? errors : [],
+  };
+};
+
+const NewAddFilesForm = ({ onChange, onSubmit }) => {
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
+  const fileInputRef = useRef(null);
 
-  const checkForEncryptedFiles = async newFiles => {
-    const encryptedStatus = await Promise.all(
-      newFiles.map(async fileInfo => checkFileEncryption(fileInfo.file)),
-    );
-    setEncrypted(encryptedStatus);
-  };
-
-  const handleFileChange = event => {
+  const handleFileChange = async event => {
     const { state } = event.detail;
     setFiles(state || []);
 
     // Clear errors when files are added
     if (state && state.length > 0) {
       setErrors([]);
-      checkForEncryptedFiles(state);
+      const encryptedStatus = await createEncryptedFilesList(state);
+      setEncrypted(encryptedStatus);
     } else {
       setEncrypted([]);
     }
@@ -61,8 +93,10 @@ const NewAddFilesForm = ({ onChange, onSubmit, required }) => {
   };
 
   const handleSubmit = () => {
-    if (required && files.length === 0) {
-      setErrors([VALIDATION_ERROR]);
+    const validation = validateFilesForSubmission(files, encrypted);
+
+    if (!validation.isValid) {
+      setErrors(validation.errors);
       return;
     }
 
@@ -74,6 +108,7 @@ const NewAddFilesForm = ({ onChange, onSubmit, required }) => {
   return (
     <>
       <VaFileInputMultiple
+        ref={fileInputRef}
         hint={HINT_TEXT}
         label={LABEL_TEXT}
         onVaMultipleChange={handleFileChange}
@@ -86,7 +121,6 @@ const NewAddFilesForm = ({ onChange, onSubmit, required }) => {
 };
 
 NewAddFilesForm.propTypes = {
-  required: PropTypes.bool,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
 };
