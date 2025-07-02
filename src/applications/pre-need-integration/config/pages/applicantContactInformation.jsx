@@ -31,6 +31,9 @@ export function uiSchema(
         address: merge({}, address.uiSchema(addressTitle), {
           country: {
             'ui:webComponentField': VaSelectField,
+            'ui:options': {
+              classNames: 'selectNonImposter',
+            },
           },
           street: {
             'ui:title': 'Street address',
@@ -44,6 +47,7 @@ export function uiSchema(
               // THIS IS RETURNING STATE INSTEAD OF STATE OR TERRITORY
               label: applicantMailingAddressStateTitleWrapper,
               hideIf: formData => !applicantsMailingAddressHasState(formData),
+              classNames: 'selectNonImposter',
             },
           },
         }),
