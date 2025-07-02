@@ -36,29 +36,73 @@
 ## After (NOTE: This is incomplete and should just be looked at for reference not as a source of truth)
 ```html
 <va-file-input-multiple
-  accept=".pdf,.gif,.jpeg,.jpg,.bmp,.txt"
-  error=""
   hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
-  label="Upload additional evidence"
-  class="hydrated"
->
-#shadow-root
-<div class="label-header"><span part="label" class="usa-label">Upload additional evidence</span></div>
-<div class="usa-hint" id="input-hint-message">You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only).</div>
-<div class="outer-wrap"><div class="usa-sr-only" aria-live="polite" id="statusMessage"></div><div class="selected-files-label">Selected files</div><va-file-input class="hydrated has-file"></va-file-input><va-file-input class="no-file hydrated">
-#shadow-root
-<span class="usa-sr-only"><div class="label-header"><label for="fileInputField" part="label" class="usa-label">Upload additional evidence</label></div></span>
-<div class="usa-hint usa-sr-only" id="input-hint-message">You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only).</div>
-  <div class="file-input-wrapper"><input id="fileInputField" class="file-input" aria-label="Upload additional evidence. Drag a file here or choose from folder" type="file" name="undefined-0" aria-describedby="input-hint-message" style="visibility: hidden;"><div class="headless-selected-files-wrapper"><div class="usa-sr-only" aria-live="polite" id="statusMessage">You have selected the file: 12-2024 Benefits Portfolio Product All Hands.pdf</div><va-card class="va-card hydrated"><div class="file-info-section"><div class="thumbnail-container" aria-hidden="true"><object class="thumbnail-preview" data="data:application/pdf;base64,[really long string]" type="application/pdf"></object></div><div class="file-info-group vads-u-line-height--2"><span class="file-label">12-2024 Benefits Portfolio Product All Hands.pdf</span><span id="input-error-message" role="alert"><span class="usa-sr-only">Error</span><span aria-live="polite" class="usa-error-message">Please provide a password to decrypt this file</span></span><span class="file-size-label">982&nbsp;KB</span><span class="file-status-label" aria-live="polite"></span></div></div><div><hr class="separator"><va-text-input show-input-error="" class="hydrated"></va-text-input><div class="additional-info-slot"><slot></slot></div><div class="file-button-section"><va-button-icon aria-label="change file 12-2024 Benefits Portfolio Product All Hands.pdf" class="hydrated"></va-button-icon><va-button-icon aria-label="delete file 12-2024 Benefits Portfolio Product All Hands.pdf" class="hydrated"></va-button-icon></div><va-modal class="hydrated">We'll remove the uploaded document <span class="file-label">12-2024 Benefits Portfolio Product All Hands.pdf</span></va-modal></div></va-card></div></div>
-  </va-file-input></div>
-  <va-select
-    label="What type of document is this?"
-    required="true"
-    class="hydrated"
-  >
+  label="Upload additional evidence" class="hydrated">
+  #shadow-root
+  <div class="label-header"><span part="label" class="usa-label">Upload additional evidence</span></div>
+  <div class="usa-hint" id="input-hint-message">You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file
+    should be no larger than 50 MB (non-PDF) or 150 MB (PDF only).</div>
+  <div class="outer-wrap">
+    <div class="usa-sr-only" aria-live="polite" id="statusMessage"></div>
+    <div class="selected-files-label">Selected files</div>
+    <va-file-input class="hydrated has-file">
+      #shadow-root
+      <span class="usa-sr-only">
+        <div class="label-header"><label for="fileInputField" part="label" class="usa-label">Upload additional
+            evidence</label></div>
+      </span>
+      <div class="usa-hint usa-sr-only" id="input-hint-message">You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt
+        file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only).</div>
+      <div class="file-input-wrapper"><input id="fileInputField" class="file-input"
+          aria-label="Upload additional evidence. Drag a file here or choose from folder" type="file" name="undefined-0"
+          aria-describedby="input-hint-message" style="visibility: hidden;">
+        <div class="headless-selected-files-wrapper">
+          <div class="usa-sr-only" aria-live="polite" id="statusMessage">You have selected the file: 12-2024 Benefits
+            Portfolio Product All Hands.pdf</div><va-card class="va-card hydrated">
+            #shadow-root
+            <div class="file-info-section">
+              <div class="thumbnail-container" aria-hidden="true"><object class="thumbnail-preview"
+                  data="data:application/pdf;base64,JVBE..." type="application/pdf"></object></div>
+              <div class="file-info-group vads-u-line-height--2"><span class="file-label">12-2024 Benefits Portfolio
+                  Product All Hands.pdf</span><span class="file-size-label">982&nbsp;KB</span><span
+                  class="file-status-label" aria-live="polite"></span></div>
+            </div>
+            <div>
+              <hr class="separator"><va-text-input show-input-error="" class="hydrated"
+                value="testpassword"></va-text-input>
+              <div class="additional-info-slot">
+                <slot></slot>
+              </div>
+              <div class="file-button-section"><va-button-icon
+                  aria-label="change file 12-2024 Benefits Portfolio Product All Hands.pdf"
+                  class="hydrated"></va-button-icon><va-button-icon
+                  aria-label="delete file 12-2024 Benefits Portfolio Product All Hands.pdf"
+                  class="hydrated"></va-button-icon></div><va-modal class="hydrated">We'll remove the uploaded document
+                <span class="file-label">12-2024 Benefits Portfolio Product All Hands.pdf</span></va-modal>
+            </div>
+          </va-card>
+        </div>
+      </div>
+      <va-select required="true" name="docType" label="What type of document is this?" value="L014" class="hydrated">
+        <option value="L014">Birth Certificate</option>
+      </va-select>
+    </va-file-input><va-file-input class="no-file hydrated"></va-file-input>
+  </div>
+  <va-select required="true" name="docType" label="What type of document is this?" value="" class="hydrated">
+    #shadow-root
+    <label for="options" class="usa-label" part="label">What type of document is this?<span class="usa-label--required">
+        (*Required)</span></label>
+    <span id="input-error-message" role="alert"></span>
+    <div id="select-container">
+      <slot></slot><select class="usa-select" aria-invalid="false" id="options" name="docType" required=""
+        part="select">
+        <option value="">- Select -</option>
+        <option value="L014">Birth Certificate</option>
+        <option value="L029">Copy of a DD214</option>
+      </select>
+    </div>
     <option value="L014">Birth Certificate</option>
     <option value="L029">Copy of a DD214</option>
-    <option value="L418">Court papers / documents</option>
   </va-select>
 </va-file-input-multiple>
 ```

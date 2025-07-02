@@ -4,12 +4,16 @@ import PropTypes from 'prop-types';
 import {
   VaFileInputMultiple,
   VaButton,
+  VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
   readAndCheckFile,
   checkIsEncryptedPdf,
 } from 'platform/forms-system/src/js/utilities/file';
+
+import { DOC_TYPES } from '../../../utils/helpers';
+import DebugInfo from './DebugInfo';
 
 const HINT_TEXT =
   'You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only).';
@@ -99,6 +103,17 @@ const extractPasswordsFromShadowDOM = (fileInputRef, files, encrypted) => {
   return updatedFiles;
 };
 
+const extractDocumentTypesFromShadowDOM = fileInputRef => {
+  const fileInputs = Array.from(
+    fileInputRef.current?.shadowRoot?.querySelectorAll('va-file-input') || [],
+  );
+
+  return fileInputs.map(fileInput => {
+    const vaSelect = fileInput.querySelector('va-select');
+    return vaSelect?.value || '';
+  });
+};
+
 const validateFilesForSubmission = (files, encrypted) => {
   // Check if no files provided (always required)
   if (files.length === 0) {
@@ -132,6 +147,7 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
+  const [lastPayload, setLastPayload] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleFileChange = async event => {
@@ -186,12 +202,34 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
       encrypted,
     );
 
+    // Extract document types from shadow DOM
+    const currentDocTypes = extractDocumentTypesFromShadowDOM(fileInputRef);
+
     const validation = validateFilesForSubmission(updatedFiles, encrypted);
 
     if (!validation.isValid) {
       setErrors(validation.errors);
       return;
     }
+
+    // Create complete payload for submission
+    const payload = updatedFiles.map((fileInfo, index) => ({
+      file: fileInfo.file,
+      // Include file metadata for better debugging (File objects don't serialize)
+      fileMetadata: fileInfo.file
+        ? {
+            name: fileInfo.file.name,
+            size: fileInfo.file.size,
+            type: fileInfo.file.type,
+            lastModified: fileInfo.file.lastModified,
+          }
+        : null,
+      password: fileInfo.password || '',
+      docType: currentDocTypes[index] || '',
+    }));
+
+    // Store payload for debug display
+    setLastPayload(payload);
 
     if (onSubmit) {
       onSubmit();
@@ -207,8 +245,25 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
         onVaMultipleChange={handleFileChange}
         errors={errors}
         encrypted={encrypted}
-      />
+      >
+        <VaSelect
+          required
+          name="docType"
+          label="What type of document is this?"
+        >
+          {DOC_TYPES.map(doc => (
+            <option key={doc.value} value={doc.value}>
+              {doc.label}
+            </option>
+          ))}
+        </VaSelect>
+      </VaFileInputMultiple>
       <VaButton text={SUBMIT_TEXT} onClick={handleSubmit} />
+      <DebugInfo
+        files={files}
+        encrypted={encrypted}
+        lastPayload={lastPayload}
+      />
     </>
   );
 };

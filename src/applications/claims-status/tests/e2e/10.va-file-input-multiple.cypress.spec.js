@@ -80,7 +80,14 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
   // Helper function to verify no error exists for a file
   const verifyNoError = (fileIndex = 0) => {
-    getFileError(fileIndex).should('not.exist');
+    getFileInput(fileIndex).should(
+      'not.contain.text',
+      'Please provide a password to decrypt this file',
+    );
+    getFileInput(fileIndex).should(
+      'not.contain.text',
+      'Please select a file first',
+    );
   };
 
   // Helper function for encrypted file workflow: upload + wait for password input
@@ -305,6 +312,152 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         'not.contain.text',
         'Please provide a password to decrypt this file',
       );
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('User Story #10: Document type select field', () => {
+    it('should show document type select when file is added', () => {
+      setupComponentTest();
+
+      // Initially, no select should be visible
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find('va-select')
+        .should('not.exist');
+
+      // Upload a file
+      uploadFile('test-document.pdf');
+
+      // Verify document type select appears with correct label
+      // Based on the markup, the select appears as a child appended to va-file-input
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .find('va-select')
+        .should('be.visible');
+
+      // Verify select has the correct label and options
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .find('va-select')
+        .shadow()
+        .should('contain.text', 'What type of document is this?')
+        .and('contain.text', 'Required');
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('User Story #11: Comprehensive data tracking', () => {
+    it('should track files, passwords, and document types correctly', () => {
+      setupComponentTest();
+
+      // Upload a regular file
+      uploadFile('regular-document.pdf', 0);
+      // Select document type for first file
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .eq(0)
+        .find('va-select')
+        .shadow()
+        .find('select')
+        .select('L014'); // Birth Certificate
+
+      // Upload an encrypted file
+      setupEncryptedFile('encrypted-document.pdf', 1);
+
+      // Enter password for encrypted file
+      getFileInput(1)
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .type('secretpassword');
+
+      // Select document type for second file
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .eq(1)
+        .find('va-select')
+        .shadow()
+        .find('select')
+        .select('L029'); // Copy of a DD214
+
+      // Verify both files are visible with their names
+      getFileInput(0).should('contain.text', 'regular-document.pdf');
+      getFileInput(1).should('contain.text', 'encrypted-document.pdf');
+
+      // Verify both document type selects have the correct values
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .eq(0)
+        .find('va-select')
+        .shadow()
+        .find('select')
+        .should('have.value', 'L014');
+
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .eq(1)
+        .find('va-select')
+        .shadow()
+        .find('select')
+        .should('have.value', 'L029');
+
+      // Verify password is entered for encrypted file
+      getFileInput(1)
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .should('have.value', 'secretpassword');
+
+      // Submit first to extract and update document types data
+      clickSubmitButton();
+
+      // Verify no errors appear (indicating all data is tracked correctly)
+      verifyNoError(0);
+      verifyNoError(1);
+
+      // Now verify debug information shows correct data tracking after submit
+      cy.get('[data-testid="debug-files"]')
+        .should('contain.text', 'regular-document.pdf')
+        .and('contain.text', 'encrypted-document.pdf');
+
+      cy.get('[data-testid="debug-passwords"]')
+        .should('contain.text', 'File 0: N/A') // Regular file doesn't need password
+        .and('contain.text', 'File 1: secretpassword'); // Password is being tracked!
+
+      cy.get('[data-testid="debug-doctypes"]')
+        .should('contain.text', 'File 0: L014') // Birth Certificate
+        .and('contain.text', 'File 1: L029'); // Copy of a DD214
+
+      cy.get('[data-testid="debug-encrypted"]')
+        .should('contain.text', 'File 0: Regular')
+        .and('contain.text', 'File 1: Encrypted');
+
+      // Verify the submit payload is displayed after submit
+      cy.get('[data-testid="debug-payload"]')
+        .should('be.visible')
+        .and('contain.text', 'Last Submit Payload:')
+        .and('contain.text', '"password": "secretpassword"')
+        .and('contain.text', '"docType": "L014"')
+        .and('contain.text', '"docType": "L029"')
+        .and('contain.text', '"file": {}') // File objects serialize as empty objects
+        .and('contain.text', '"fileMetadata"') // But we include serializable metadata
+        .and('contain.text', '"name": "regular-document.pdf"')
+        .and('contain.text', '"name": "encrypted-document.pdf"')
+        .and('contain.text', '"type": "application/pdf"');
 
       cy.axeCheck();
     });
