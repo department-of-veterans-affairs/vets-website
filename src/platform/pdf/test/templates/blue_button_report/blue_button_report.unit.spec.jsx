@@ -117,7 +117,10 @@ describe('Blue Button report PDF template', () => {
         .map(item => item.str);
       let recordSetsLength = data.recordSets.length;
       const hasBothAppointmentTypes = data.recordSets.some(
-        item => item.type === 'appointments' && item.records.length === 2,
+        item =>
+          item.type === 'appointments' &&
+          item.records.length === 2 &&
+          item.records.every(type => type.results.items.length),
       );
       if (hasBothAppointmentTypes) recordSetsLength += 1;
       expect(listItemsText.length).to.equal(recordSetsLength);
@@ -129,7 +132,10 @@ describe('Blue Button report PDF template', () => {
       // Mark some sections as having no records.
       data.recordSets[0].records = []; // lab and test results
       data.recordSets[3].records = []; // allergies
-      data.recordSets[7].records = []; // appointments
+      data.recordSets[7].records = [
+        { title: 'Past appointments', results: { items: [] } },
+        { title: 'Upcoming appointments', results: { items: [] } },
+      ]; // appointments
 
       const { pdf } = await generateAndParsePdf(data);
 
