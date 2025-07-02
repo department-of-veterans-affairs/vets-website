@@ -19,6 +19,8 @@ const { delaySingleResponse } = require('../../profile/mocks/script/utils');
 const {
   createDisabilityRatingFailure,
   createDisabilityRatingSuccess,
+  createDisabilityRatingEmpty,
+  createDisabilityRatingZero,
 } = require('./disability-rating');
 
 // set to true to simulate a user with debts for /v0/debts endpoint
@@ -34,7 +36,7 @@ const responses = {
       myVaFormSubmissionStatuses: true,
       myVaFormPdfLink: true,
       veteranOnboardingShowWelcomeMessageToNewUsers: true,
-      myVaAuthExpRedesignEnabled: false,
+      myVaAuthExpRedesignEnabled: true,
     },
     true,
   ),
@@ -66,18 +68,30 @@ const responses = {
     },
   },
   'GET /v0/appeals': (_req, res) => {
-    // true for success, false for failure
-    const appealsSuccess = true;
-    return appealsSuccess
-      ? res.status(200).json(createAppealsSuccess())
-      : res.status(400).json(createAppealsFailure());
+    const appealsStatus = 'empty'; // 'success', 'failure', or 'empty'
+    switch (appealsStatus) {
+      case 'success':
+        return res.status(200).json(createAppealsSuccess());
+      case 'empty':
+        return res.status(200).json({ data: [] });
+      case 'failure':
+        return res.status(400).json(createAppealsFailure());
+      default:
+        return '';
+    }
   },
   'GET /v0/benefits_claims': (_req, res) => {
-    // true for success, false for failure
-    const claimsSuccess = true;
-    return claimsSuccess
-      ? res.status(200).json(createClaimsSuccess())
-      : res.status(400).json(createClaimsFailure());
+    const claimsStatus = 'empty'; // 'success', 'failure', or 'empty'
+    switch (claimsStatus) {
+      case 'success':
+        return res.status(200).json(createClaimsSuccess());
+      case 'empty':
+        return res.status(200).json({ data: [] });
+      case 'failure':
+        return res.status(400).json(createClaimsFailure());
+      default:
+        return '';
+    }
   },
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
   'GET /my_health/v1/messaging/folders': allFoldersWithUnreadMessages,
@@ -124,11 +138,19 @@ const responses = {
     return res.json({ data: [] });
   },
   'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
-    // true for success, false for failure
-    const disabilityRatingSuccess = true;
-    return disabilityRatingSuccess
-      ? res.status(200).json(createDisabilityRatingSuccess())
-      : res.status(400).json(createDisabilityRatingFailure());
+    const disabilityRatingStatus = 'empty'; // 'success', 'failure', 'empty', or 'zero'
+    switch (disabilityRatingStatus) {
+      case 'success':
+        return res.status(200).json(createDisabilityRatingSuccess());
+      case 'empty':
+        return res.status(200).json(createDisabilityRatingEmpty());
+      case 'zero':
+        return res.status(200).json(createDisabilityRatingZero());
+      case 'failure':
+        return res.status(400).json(createDisabilityRatingFailure());
+      default:
+        return '';
+    }
   },
   'GET /vaos/v2/appointments': (_req, res) => {
     const rv = v2.createAppointmentSuccess({ startsInDays: [31] });

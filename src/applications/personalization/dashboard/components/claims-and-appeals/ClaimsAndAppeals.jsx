@@ -22,7 +22,7 @@ import { API_NAMES } from '../../../common/constants';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import useHighlightedClaimOrAppeal from './hooks/useHighlightedClaimOrAppeal';
 import HighlightedClaimAppeal from './HighlightedClaimAppeal';
-import DisabilityRatingCard from './DisabilityRatingCard';
+import DisabilityRating from './DisabilityRating';
 
 const NoClaimsOrAppealsText = () => {
   return (
@@ -43,7 +43,37 @@ const NoClaimsOrAppealsText = () => {
 };
 
 const ClaimsAndAppealsError = () => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+
+  const useRedesignContent = useToggleValue(
+    TOGGLE_NAMES.myVaAuthExpRedesignEnabled,
+  );
+
+  const content = useRedesignContent ? (
+    <h3
+      slot="headline"
+      className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans vads-u-line-height--6 vads-u-margin-bottom--0"
+      data-testId="benefit-application-error-redesign"
+    >
+      We can’t show your claims or appeals information right now. Refresh this
+      page or try again later.
+    </h3>
+  ) : (
+    <>
+      <h3
+        slot="headline"
+        className="vads-u-margin-top--0"
+        data-testId="benefit-application-error-original"
+      >
+        We can’t access your claims or appeals information
+      </h3>
+      <p className="vads-u-margin-bottom--0">
+        We’re sorry. Something went wrong on our end. If you have any claims and
+        appeals, you won’t be able to access your claims and appeals information
+        right now. Please refresh or try again later.
+      </p>
+    </>
+  );
 
   // status will be 'warning' if toggle is on
   const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
@@ -55,18 +85,7 @@ const ClaimsAndAppealsError = () => {
       data-testid="dashboard-section-claims-and-appeals-error"
       className="vads-u-margin-bottom--2p5"
     >
-      <va-alert status={status}>
-        <h2 slot="headline">
-          We can’t access your claims or appeals information
-        </h2>
-        <div>
-          <p>
-            We’re sorry. Something went wrong on our end. If you have any claims
-            and appeals, you won’t be able to access your claims and appeals
-            information right now. Please refresh or try again later.
-          </p>
-        </div>
-      </va-alert>
+      <va-alert status={status}>{content}</va-alert>
     </div>
   );
 };
@@ -234,11 +253,8 @@ const ClaimsAndAppeals = ({
       </Toggler>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
-          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-            Disability rating
-          </h3>
           <DashboardWidgetWrapper>
-            <DisabilityRatingCard />
+            <DisabilityRating />
           </DashboardWidgetWrapper>
         </Toggler.Enabled>
       </Toggler>

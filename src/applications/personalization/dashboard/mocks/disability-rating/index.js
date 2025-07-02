@@ -10,6 +10,30 @@ const createDisabilityRatingSuccess = () => {
   };
 };
 
+const createDisabilityRatingEmpty = () => {
+  return {
+    data: {
+      id: '',
+      type: 'evss_disability_compensation_form_rating_info_responses',
+      attributes: {
+        userPercentOfDisability: null,
+      },
+    },
+  };
+};
+
+const createDisabilityRatingZero = () => {
+  return {
+    data: {
+      id: '',
+      type: 'evss_disability_compensation_form_rating_info_responses',
+      attributes: {
+        userPercentOfDisability: 0,
+      },
+    },
+  };
+};
+
 const createDisabilityRatingFailure = () => {
   return {
     errors: [
@@ -26,6 +50,8 @@ const createDisabilityRatingFailure = () => {
 };
 
 module.exports = {
+  createDisabilityRatingEmpty,
   createDisabilityRatingFailure,
   createDisabilityRatingSuccess,
+  createDisabilityRatingZero,
 };
