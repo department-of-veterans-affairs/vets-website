@@ -10,7 +10,7 @@ const ZeroDebtsAlert = () => {
       <va-card
         show-shadow
         class="vads-u-padding--3 vads-u-margin-bottom--3"
-        data-testid="debt-summary-item"
+        data-testid="zero-debts-alert-card"
       >
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h3">
           You don’t have any current VA debt
