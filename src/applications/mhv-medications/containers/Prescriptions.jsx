@@ -179,8 +179,6 @@ const Prescriptions = () => {
   const scrollLocation = useRef();
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
 
-  const recentlyRequested = prescriptionsData?.recentlyRequested || [];
-
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
     if (newIsLoading !== null) setLoading(newIsLoading);
     if (newLoadingMessage) setLoadingMessage(newLoadingMessage);
@@ -709,7 +707,6 @@ const Prescriptions = () => {
           dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
         }
         activeRefills={activeRefills}
-        refillAlertList={recentlyRequested}
       />
     );
   };
