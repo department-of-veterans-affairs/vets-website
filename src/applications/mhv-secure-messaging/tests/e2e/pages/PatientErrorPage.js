@@ -20,6 +20,8 @@ class PatientErrorPage {
     cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/*`, {
       errors: [
         {
+          title: 'Service unavailable',
+          code: '503',
           status: '503',
         },
       ],
@@ -46,12 +48,14 @@ class PatientErrorPage {
     cy.intercept('GET', `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`, {
       errors: [
         {
+          title: 'Service unavailable',
+          code: '503',
           status: '503',
         },
       ],
     }).as('errorRecipients');
 
-    cy.visit(Paths.UI_MAIN + Paths.INBOX);
+    cy.visit(Paths.UI_MAIN + Paths.COMPOSE);
   };
 
   loadInboxFolderThreads500Error = () => {
