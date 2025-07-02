@@ -92,7 +92,7 @@ export const prescriptionsApi = createApi({
             prescriptions: response.data.map(prescription =>
               convertPrescription(prescription),
             ),
-            recentlyRequested: filterRecentlyRequestedForAlerts(
+            refillAlertList: filterRecentlyRequestedForAlerts(
               response.meta?.recentlyRequested || [],
             ),
             pagination: response.meta?.pagination || {},
@@ -101,7 +101,7 @@ export const prescriptionsApi = createApi({
         }
         return {
           prescriptions: [],
-          recentlyRequested: [],
+          refillAlertList: [],
           pagination: {},
           meta: {},
         };
@@ -137,7 +137,7 @@ export const prescriptionsApi = createApi({
                 a.prescriptionName.localeCompare(b.prescriptionName),
               )
               .filter(prescription => prescription?.isRefillable),
-            recentlyRequested: filterRecentlyRequestedForAlerts(
+            refillAlertList: filterRecentlyRequestedForAlerts(
               response.meta?.recentlyRequested || [],
             ),
             meta: response.meta || {},
@@ -145,7 +145,7 @@ export const prescriptionsApi = createApi({
         }
         return {
           prescriptions: [],
-          recentlyRequested: [],
+          refillAlertList: [],
           meta: {},
         };
       },
