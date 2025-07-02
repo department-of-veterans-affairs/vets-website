@@ -30,10 +30,20 @@ const baseURL = `${environment.API_URL}/accredited_representative_portal/v0`;
 const fileUploadUrl = `${baseURL}/representative_form_upload`;
 const warningsPresent = formData =>
   formData.uploadedFile?.warnings?.length > 0 ||
-  formData.supportingDocuments?.warnings?.length > 0;
+  formData.supportingDocuments?.some(doc => doc.warnings?.length > 0);
 
 export const uploadPage = {
   uiSchema: {
+    'ui:description': props => {
+      const formData = props?.formData || {};
+      const warnings = (formData?.uploadedFile?.warnings || []).concat(
+        formData?.supportingDocuments?.flatMap(doc => doc.warnings) || [],
+      );
+
+      return warnings.length > 0
+        ? FORM_UPLOAD_OCR_ALERT(formNumber, onCloseAlert, warnings)
+        : FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
+    },
     ...uploadTitleAndDescription,
     uploadedFile: {
       ...fileInputUI({

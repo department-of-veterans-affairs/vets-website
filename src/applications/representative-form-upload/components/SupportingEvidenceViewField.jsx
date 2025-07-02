@@ -9,11 +9,11 @@ const SupportingEvidenceViewField = props => {
 
   return (
     <div className="form-review-panel-page form-review-panel-page-representative-form-upload">
-      <div className="form-review-panel-page-header-row vads-u-justify-content--flex-start">
+      <div className="form-review-panel-page-header-row vads-u-justify-content--space-between">
         <h4 className="vads-u-font-size--h5 vads-u-margin-top--0 vads-u-margin-bottom--1">
           Upload VA Form {getFormNumber()}
         </h4>
-
+        {defaultEditButton()}
         <dl className="review vads-u-margin-top--2 vads-u-width--full">
           {uploadedFile && (
             <div className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-padding-y--1 vads-u-width--full">
