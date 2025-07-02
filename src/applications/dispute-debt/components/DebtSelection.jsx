@@ -32,11 +32,6 @@ const DebtSelection = ({ formContext }) => {
     [dispatch, formContext.submitted, selectedDebts?.length],
   );
 
-  // nothing to actually display so we short circuit and return just the error (no question info)
-  if (isDebtError || !availableDebts.length) {
-    return <AlertCard debtType={DEBT_TYPES.DEBT} />;
-  }
-
   const onGroupChange = ({ detail, target }) => {
     // adding new prop selectedDebtId to selectedDebts so it's easier to filter on uncheck
     if (detail.checked) {
@@ -74,6 +69,11 @@ const DebtSelection = ({ formContext }) => {
       }),
     );
   };
+
+  // nothing to actually display so we short circuit and return just the error (no question info)
+  if (isDebtError) {
+    return <AlertCard debtType={DEBT_TYPES.DEBT} />;
+  }
 
   // if no debts are available, we show a zero debts alert
   if (availableDebts.length === 0) {
