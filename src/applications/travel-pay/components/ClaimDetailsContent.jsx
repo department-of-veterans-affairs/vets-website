@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DOMPurify from 'dompurify';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
@@ -16,7 +15,7 @@ const injectCfrLink = content => {
   const cfrRegex = /Authority (\d+) CFR (\d+)\.(\d+)/g;
   return content.replaceAll(
     cfrRegex,
-    '<a href="https://www.ecfr.gov/current/title-$1/chapter-I/section-$2.$3">$&</a>',
+    '<a target="_blank" rel="noreferrer" href="https://www.ecfr.gov/current/title-$1/chapter-I/section-$2.$3">$&</a>',
   );
 };
 
@@ -37,6 +36,9 @@ export default function ClaimDetailsContent({
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
+  );
+  const claimsMgmtDecisionReasonToggle = useToggleValue(
+    TOGGLE_NAMES.travelPayClaimsManagementDecisionReason,
   );
 
   const [appointmentDate, appointmentTime] = formatDateTime(
@@ -99,26 +101,40 @@ export default function ClaimDetailsContent({
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
       {claimsMgmtToggle && (
         <>
-          {decisionLetterReason && (
-            // && decision letter reason flag
-            <va-summary-box>
-              <h3 slot="headline">Denial reasons from your decision letter:</h3>
-              <p
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(
-                    injectCfrLink(decisionLetterReason),
-                  ),
-                }}
-              />
-              <DocumentDownload
-                text="Download your decision letter to learn more"
-                claimId={claimId}
-                documentId={documentCategories.clerk[0].documentId}
-                filename={documentCategories.clerk[0].filename}
-              />
-            </va-summary-box>
+          {claimStatus === STATUSES.Denied.name && (
+            <p>
+              We denied your claim. You can review the decision letter for more
+              information and how to appeal.
+            </p>
           )}
+          {claimStatus === STATUSES.PartialPayment.name && (
+            <p>
+              Some of the expenses you submitted aren't eligible for
+              reimbursement. You can review the decision letter for more
+              information.
+            </p>
+          )}
+          {decisionLetterReason &&
+            claimsMgmtDecisionReasonToggle &&
+            (claimStatus === STATUSES.Denied.name ||
+              claimStatus === STATUSES.PartialPayment.name) && (
+              <>
+                <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
+                  {claimStatus === STATUSES.Denied.name
+                    ? 'Why we denied your claim'
+                    : 'Why we made a partial payment'}{' '}
+                </p>
+                <p
+                  className="vads-u-margin-top--0"
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{
+                    __html: injectCfrLink(decisionLetterReason),
+                  }}
+                />
+              </>
+            )}
+          {documentCategories.clerk.length > 0 &&
+            getDocLinkList(documentCategories.clerk)}
           {STATUSES[toPascalCase(claimStatus)] ? (
             <>
               <p className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0">
@@ -140,8 +156,6 @@ export default function ClaimDetailsContent({
               you call.
             </p>
           )}
-          {documentCategories.clerk.length > 0 &&
-            getDocLinkList(documentCategories.clerk)}
         </>
       )}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
