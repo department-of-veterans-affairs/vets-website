@@ -12,10 +12,13 @@ const vaFileInputFieldMapping = props => {
     ...commonFieldProps,
     ...formsPatternProps,
     accept: uiOptions?.accept || '.pdf,.jpeg,.png', // A comma-separated list of unique file type specifiers.
+    maxFileSize: uiOptions?.maxFileSize || Infinity,
+    statusText: uiOptions?.statusText || '',
+    encrypted: uiOptions?.encrypted || false,
     buttonText: uiOptions?.buttonText,
     fileUploadUrl: uiOptions?.fileUploadUrl,
     readOnly: uiOptions?.readOnly,
-    headerSize: commonFieldProps.labelHeaderLevel,
+    headerSize: commonFieldProps.labelHeaderLevel || uiOptions?.headerSize,
     messageAriaDescribedby:
       commonFieldProps.messageAriaDescribedby || textDescription || undefined,
     name,
@@ -23,6 +26,10 @@ const vaFileInputFieldMapping = props => {
     uploadedFile: allKeysAreEmpty(childrenProps.formData)
       ? null
       : childrenProps.formData,
+    additionalInput: uiOptions.additionalInput
+      ? uiOptions.additionalInput
+      : null,
+    handleAdditionalInput: uiOptions.handleAdditionalInput,
   };
 };
 
