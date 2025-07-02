@@ -13,7 +13,7 @@ const DebtSelection = ({ formContext }) => {
   const { availableDebts, isDebtError } = useSelector(
     state => state.availableDebts,
   );
-  const noDebts = [];
+
   const { data } = useSelector(state => state.form);
   const { selectedDebts = [] } = data;
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ const DebtSelection = ({ formContext }) => {
   };
 
   // if no debts are available, we show a zero debts alert
-  if (noDebts.length === 0) {
+  if (availableDebts.length === 0) {
     return <ZeroDebtsAlert />;
   }
 
