@@ -375,7 +375,9 @@ const formConfig = {
         page10: {
           path: 'pharmacy-claim-upload',
           title: 'Upload supporting document for prescription medication claim',
-          depends: formData => get('claimType', formData) === 'pharmacy',
+          depends: formData =>
+            get('claimType', formData) === 'pharmacy' &&
+            get('claimStatus', formData) !== 'resubmission',
           ...pharmacyClaimUploadSchema,
         },
       },
