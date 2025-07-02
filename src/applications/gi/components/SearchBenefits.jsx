@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import LearnMoreLabel from './LearnMoreLabel';
@@ -227,9 +226,13 @@ const SearchBenefits = ({
         >
           <va-icon icon="info" />
           To apply for VR&E benefits, please{' '}
-          <EbenefitsLink path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">
+          <a
+            href="https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             visit this site
-          </EbenefitsLink>
+          </a>
           .
         </div>
       )}

@@ -14,8 +14,8 @@ const BenefitCard = ({ benefit }) => {
 
   const handleClick = (url, text, label) => {
     return recordEvent({
-      event: 'discover-benefits-link-click',
-      'display-text': text,
+      event: 'nav-link-click',
+      'link-label': text,
       'link-destination': url,
       'link-origin': label,
     });
@@ -30,7 +30,9 @@ const BenefitCard = ({ benefit }) => {
           label={label}
           type="secondary"
           disable-analytics
-          onClick={handleClick(url, text, label)}
+          onClick={() => {
+            handleClick(url, text, label);
+          }}
         />
       ) : (
         <va-link
@@ -39,7 +41,9 @@ const BenefitCard = ({ benefit }) => {
           text={text}
           label={label}
           disable-analytics
-          onClick={handleClick(url, text, label)}
+          onClick={() => {
+            handleClick(url, text, label);
+          }}
         />
       );
     }

@@ -18,7 +18,7 @@ describe('VAOS past appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles({ vaOnlineSchedulingFeSourceOfTruth: false });
+      mockFeatureToggles({});
       mockVamcEhrApi();
 
       cy.login(new MockUser());
@@ -131,7 +131,7 @@ describe('VAOS past appointment flow', () => {
       PastAppointmentListPageObject.visit();
 
       // Assert
-      cy.findByText(/We.re sorry\. We.ve run into a problem/i);
+      cy.findByText(/We can’t access your appointments right now/i);
       cy.axeCheckBestPractice();
     });
   });

@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { externalServiceStatus } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import MHVDown from '../components/MHVDown';
 import MHVDowntimeApproaching from '../components/MHVDowntimeApproaching';
-import {
-  coerceToDate,
-  formatDatetime,
-  formatElapsedHours,
-} from '../utils/date';
+import { formatDatetime, formatElapsedHours } from '../utils/date';
 
 function MHVDowntime({
   appTitle = 'our health tools',
@@ -16,15 +12,12 @@ function MHVDowntime({
   status,
   startTime,
 }) {
-  const start = coerceToDate(startTime);
-  const end = coerceToDate(endTime);
-
-  const startString = start ? formatDatetime(start) : '';
-  const endString = end ? formatDatetime(end) : '';
+  const startString = startTime ? formatDatetime(startTime) : '';
+  const endString = endTime ? formatDatetime(endTime) : '';
   let timeInterval = 'some time';
 
-  if (start && end) {
-    timeInterval = formatElapsedHours(start, end);
+  if (startTime instanceof Date && endTime instanceof Date) {
+    timeInterval = formatElapsedHours(startTime, endTime);
   }
 
   const props = {
@@ -51,8 +44,8 @@ function MHVDowntime({
 MHVDowntime.propTypes = {
   appTitle: PropTypes.string,
   children: PropTypes.node,
-  endTime: PropTypes.object, // Date|Moment object
-  startTime: PropTypes.object, // Date|Moment object
+  endTime: PropTypes.object, // Date object
+  startTime: PropTypes.object, // Date object
   status: PropTypes.string,
 };
 

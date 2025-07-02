@@ -19,11 +19,13 @@ import {
   emptyObjectSchema,
   claimantTitleAndDescription,
 } from './helpers';
+import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
 
 /** @type {PageSchema} */
 export const veteranInformationPage = {
   uiSchema: {
     ...claimantTitleAndDescription,
+    'ui:objectViewField': ClaimantInfoViewField,
     veteranFullName: firstNameLastNameNoSuffixUI(),
     address: addressUI({
       labels: {
@@ -40,10 +42,7 @@ export const veteranInformationPage = {
       ],
       required: true,
     }),
-    veteranSsn: {
-      ...ssnUI,
-      'ui:title': 'Social Security number',
-    },
+    veteranSsn: ssnUI(),
     veteranDateOfBirth: dateOfBirthUI(),
     vaFileNumber: {
       ...vaFileNumberUI,

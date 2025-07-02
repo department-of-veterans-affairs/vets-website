@@ -308,8 +308,8 @@ describe('<EvidenceSummary>', () => {
       $('va-button[label="Remove VAMC Location 2"]', container),
     );
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel removal
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
@@ -344,8 +344,8 @@ describe('<EvidenceSummary>', () => {
       $('va-button[label="Remove Private Hospital"]', container),
     );
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel removal
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
@@ -384,8 +384,8 @@ describe('<EvidenceSummary>', () => {
       $('va-button[label="Remove limitations"]', container),
     );
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel removal
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
@@ -418,8 +418,8 @@ describe('<EvidenceSummary>', () => {
     // remove second VA entry
     await fireEvent.click($('va-button[label="Delete x-rays.pdf"]', container));
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel delete
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;

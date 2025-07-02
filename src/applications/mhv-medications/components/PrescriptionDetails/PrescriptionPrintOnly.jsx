@@ -11,12 +11,15 @@ import {
   dateFormat,
   pharmacyPhoneNumber,
   determineRefillLabel,
+  getShowRefillHistory,
+  displayProviderName,
 } from '../../util/helpers';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { selectPendingMedsFlag } from '../../util/selectors';
 
 const PrescriptionPrintOnly = props => {
   const { rx, refillHistory, isDetailsRx } = props;
+  const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const latestTrackingStatus = rx?.trackingList?.[0];
   const showPendingMedsContent = useSelector(selectPendingMedsFlag);
@@ -66,9 +69,7 @@ const PrescriptionPrintOnly = props => {
       </p>
       <p>
         <strong>Documented by: </strong>
-        {pres.providerLastName
-          ? `${pres.providerLastName}, ${pres.providerFirstName || ''}`
-          : FIELD_NONE_NOTED}
+        {displayProviderName(pres?.providerFirstName, pres?.providerLastName)}
       </p>
       <p>
         <strong>Documented at this facility: </strong>
@@ -188,9 +189,7 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Prescribed by:</strong>{' '}
-              {rx.providerLastName
-                ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
-                : 'None noted'}
+              {displayProviderName(rx?.providerFirstName, rx?.providerLastName)}
             </p>
             {!isDetailsRx &&
               rx.groupedMedications?.length > 0 && (
@@ -206,7 +205,7 @@ const PrescriptionPrintOnly = props => {
                 </p>
               )}
           </div>
-          {refillHistory && (
+          {showRefillHistory && (
             <div className="print-only-refill-container vads-u-margin-left--2">
               <h4>Refill history</h4>
               <p className="vads-u-margin-y--1p5">
@@ -344,9 +343,10 @@ const PrescriptionPrintOnly = props => {
                           </p>
                           <p>
                             <strong>Prescribed by:</strong>{' '}
-                            {(entry.providerFirstName &&
-                              entry.providerLastName) ||
-                              FIELD_NONE_NOTED}
+                            {displayProviderName(
+                              entry?.providerFirstName,
+                              entry?.providerLastName,
+                            )}
                           </p>
                         </div>
                       );
