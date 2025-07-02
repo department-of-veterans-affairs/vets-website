@@ -205,6 +205,23 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
 
+      cy.tabToElement('#privacy-modal-button-1');
+      cy.realPress('Enter'); // Open modal
+
+      // Verify modal is open
+      cy.get('va-modal[modal-title="Privacy Act Statement"]').should(
+        'have.attr',
+        'visible',
+        'true',
+      );
+
+      // Close modal with Escape key
+      cy.realPress('Escape');
+
+      // Verify focus returns to the first button that opened it
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
+      cy.focused().should('have.id', 'privacy-modal-button-1');
+
       cy.setCheckboxFromData('[name="privacy-agreement"]', true);
       cy.tabToSubmitForm();
 
