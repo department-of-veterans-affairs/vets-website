@@ -101,17 +101,20 @@ export default function ClaimDetailsContent({
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
       {claimsMgmtToggle && (
         <>
-          {claimStatus === STATUSES.Denied.name && (
-            <p>
-              We denied your claim. You can review the decision letter for more
-              information and how to appeal.
+          {STATUSES[toPascalCase(claimStatus)] ? (
+            <p
+              className="vads-u-margin-top--2"
+              data-testid="status-definition-text"
+            >
+              {STATUSES[toPascalCase(claimStatus)].definition}
             </p>
-          )}
-          {claimStatus === STATUSES.PartialPayment.name && (
-            <p>
-              Some of the expenses you submitted aren't eligible for
-              reimbursement. You can review the decision letter for more
-              information.
+          ) : (
+            <p className="vads-u-margin-top--2">
+              If you need help understanding your claim, call the BTSSS call
+              center at <va-telephone contact="8555747292" /> (
+              <va-telephone tty contact="711" />) Monday through Friday, 8:00
+              a.m. to 8:00 p.m. ET. Have your claim number ready to share when
+              you call.
             </p>
           )}
           {decisionLetterReason &&
@@ -135,27 +138,6 @@ export default function ClaimDetailsContent({
             )}
           {documentCategories.clerk.length > 0 &&
             getDocLinkList(documentCategories.clerk)}
-          {STATUSES[toPascalCase(claimStatus)] ? (
-            <>
-              <p className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0">
-                What does this status mean
-              </p>
-              <p
-                className="vads-u-margin-top--0"
-                data-testid="status-definition-text"
-              >
-                {STATUSES[toPascalCase(claimStatus)].definition}
-              </p>
-            </>
-          ) : (
-            <p className="vads-u-margin-top--2">
-              If you need help understanding your claim, call the BTSSS call
-              center at <va-telephone contact="8555747292" /> (
-              <va-telephone tty contact="711" />) Monday through Friday, 8:00
-              a.m. to 8:00 p.m. ET. Have your claim number ready to share when
-              you call.
-            </p>
-          )}
         </>
       )}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
