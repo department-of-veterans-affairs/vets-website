@@ -6,10 +6,10 @@ import finishedTransaction from '@@profile/tests/fixtures/transactions/finished-
 import noChangesTransaction from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
 
 import set from 'lodash/set';
+import { generateFeatureToggles } from '~/applications/personalization/profile/mocks/endpoints/feature-toggles';
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { createAddressValidationResponse } from './addressValidation';
 import { createUserResponse } from './user';
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { generateFeatureToggles } from '~/applications/personalization/profile/mocks/endpoints/feature-toggles';
 
 export const setUp = type => {
   cy.intercept('POST', '/v0/profile/address_validation', {
@@ -58,8 +58,8 @@ export const setUp = type => {
 
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
-  cy.findByRole('button', { name: /edit mailing address/i }).click({
-    force: true,
-    timeout: 10000,
-  });
+  cy.get('va-button[label="Edit Mailing address"]', { timeout: 10000 })
+    .shadow()
+    .find('button')
+    .click({ force: true });
 };

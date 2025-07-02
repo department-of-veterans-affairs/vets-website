@@ -356,12 +356,13 @@ export async function login({
   version = API_VERSION,
   queryParams = {},
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
+  isLink = false,
 }) {
   const url = await sessionTypeUrl({ type: policy, version, queryParams });
   if (!isExternalRedirect()) {
     setLoginAttempted();
   }
-  return redirect(url, clickedEvent);
+  return isLink ? url : redirect(url, clickedEvent);
 }
 
 export function mfa(version = API_VERSION) {

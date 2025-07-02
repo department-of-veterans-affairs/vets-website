@@ -264,6 +264,11 @@ button:not([disabled]):focus {
   width: 139px !important;
 }
 
+.surveyBtn_close {
+  flex: 0 0 auto;
+  height: 48px !important;
+}
+
 #survey-wrapper > form > footer > div._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div:nth-child(2) > button {
   width: 150px !important;
   height: 48px !important;
@@ -281,7 +286,8 @@ button:not([disabled]):focus {
 
 /* powered by div */
 ._10o3Ogtkx0b1R7N7tOe-dr {
-  padding-top: 80px !important
+  padding-top: 80px !important;
+  justify-content: end;
 }
 
 /* very specific styles to override inline styling for mhv and avs surveys */

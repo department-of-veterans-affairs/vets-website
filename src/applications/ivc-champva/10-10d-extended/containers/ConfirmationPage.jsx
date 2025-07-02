@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import {
   VaLink,
@@ -20,7 +20,7 @@ export function ConfirmationPage(props) {
   const submitDate = new Date(submission?.timestamp);
 
   useEffect(() => {
-    focusElement('h2');
+    focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
 
@@ -65,7 +65,6 @@ export function ConfirmationPage(props) {
         <br />
         <br />
         <va-button
-          uswds
           className="usa-button screen-only"
           onClick={window.print}
           text="Print this page"

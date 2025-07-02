@@ -17,11 +17,15 @@ import {
 import { getReferralSlotKey } from '../utils/referrals';
 import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
   const dispatch = useDispatch();
   const history = useHistory();
+
+  // Add a counter state to trigger focusing
+  const [focusTrigger, setFocusTrigger] = useState(0);
 
   const selectedSlot = useSelector(state => getSelectedSlot(state));
   const currentPage = useSelector(selectCurrentPage);
@@ -84,6 +88,8 @@ export const DateAndTimeContent = props => {
   };
   const onSubmit = () => {
     if (error) {
+      // Increment the focus trigger to force re-focusing the validation message
+      setFocusTrigger(prev => prev + 1);
       return;
     }
     if (!selectedSlot) {
@@ -103,6 +109,14 @@ export const DateAndTimeContent = props => {
     }
     routeToNextReferralPage(history, currentPage, currentReferral.uuid);
   };
+
+  // Effect to focus on validation message whenever error state changes
+  useEffect(
+    () => {
+      scrollAndFocus('.vaos-input-error-message');
+    },
+    [error, focusTrigger],
+  );
 
   const noSlotsAvailable = !draftAppointmentInfo.attributes.slots.length;
 
@@ -129,13 +143,17 @@ export const DateAndTimeContent = props => {
     <>
       <div>
         <p className="vads-u-font-weight--bold vads-u-margin--0">
-          {currentReferral.provider.name}
+          <span data-dd-privacy="mask">{currentReferral.provider.name}</span>
         </p>
         <p className="vads-u-margin-top--0">
-          {titleCase(currentReferral.categoryOfCare)}
+          <span data-dd-privacy="mask">
+            {titleCase(currentReferral.categoryOfCare)}
+          </span>
         </p>
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
-          {draftAppointmentInfo.attributes.provider.providerOrganization.name}
+          <span data-dd-privacy="mask">
+            {draftAppointmentInfo.attributes.provider.providerOrganization.name}
+          </span>
         </p>
         <ProviderAddress
           address={draftAppointmentInfo.attributes.provider.location.address}

@@ -175,7 +175,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_26_1880]: `${tryGetAppUrl('coe')}/`,
     [VA_FORM_IDS.FORM_26_4555]: `${tryGetAppUrl('4555-adapted-housing')}/`,
     [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900-chapter-31')}/`,
-    [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('new-28-1900-chapter-31')}/`,
+    [VA_FORM_IDS.FORM_28_1900_V2]: `${tryGetAppUrl('new-28-1900-chapter-31')}/`,
     [VA_FORM_IDS.FORM_28_8832]: `${tryGetAppUrl(
       '25-8832-planning-and-career-guidance',
     )}/`,

@@ -309,7 +309,7 @@ function CalendarWidget({
         <div className={calendarCss}>
           {hasError && (
             <span
-              className="vaos-calendar__validation-msg usa-input-error-message"
+              className="vaos-calendar__validation-msg usa-input-error-message vaos-input-error-message"
               role="alert"
             >
               {showValidation && requiredMessage}

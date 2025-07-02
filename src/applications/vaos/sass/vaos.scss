@@ -106,3 +106,8 @@ body {
 va-textarea::part(input-type-textarea) {
   box-sizing: border-box;
 }
+
+.vaos-input-error-message:focus {
+  outline: 2px solid var(--vads-color-action-focus-on-light);
+  outline-offset: 2px;
+}

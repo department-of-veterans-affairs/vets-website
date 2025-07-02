@@ -59,7 +59,7 @@ export default function CCRequestLayout({ data: appointment }) {
   );
 
   return (
-    <PageLayout isDetailPage showNeedHelp>
+    <PageLayout showNeedHelp>
       <DetailPageLayout
         heading={heading}
         data={appointment}

@@ -3,33 +3,31 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-
+import * as actions from 'platform/site-wide/user-nav/actions';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 
-const generateStore = (enabled = false) => ({
+const generateStore = ({
+  featureEnabled = true,
+  showLoginModal = true,
+} = {}) => ({
+  navigation: { showLoginModal },
   featureToggles: {
     // eslint-disable-next-line camelcase
-    sign_in_service_enabled: enabled,
+    sign_in_service_enabled: featureEnabled,
   },
 });
 
 describe('SignInModal', () => {
-  const oldDataLayer = global.window.dataLayer;
-
-  afterEach(() => {
-    global.window.dataLayer = oldDataLayer;
-  });
-
   it('should NOT render if `visible` is set to false', () => {
     const screen = renderInReduxProvider(<SignInModal />, {
-      initialState: generateStore(),
+      initialState: generateStore({ showLoginModal: false }),
     });
     const modal = $('va-modal[visible]', screen.container);
     expect(modal).to.be.null;
   });
 
   it('should render if `visible` is set to true', () => {
-    const screen = renderInReduxProvider(<SignInModal visible />, {
+    const screen = renderInReduxProvider(<SignInModal />, {
       initialState: generateStore(),
     });
     const modal = $('va-modal[visible]', screen.container);
@@ -38,17 +36,14 @@ describe('SignInModal', () => {
   });
 
   it('should verify the close button works as expected', () => {
-    const onClose = sinon.spy();
-    const screen = renderInReduxProvider(
-      <SignInModal visible onClose={onClose} />,
-      {
-        initialState: generateStore(),
-      },
-    );
+    const closeEventSpy = sinon.spy(actions, 'toggleLoginModal');
+    const screen = renderInReduxProvider(<SignInModal />, {
+      initialState: generateStore(),
+    });
 
     $('va-modal', screen.container).__events.closeEvent();
 
-    expect(onClose.called).to.be.true;
+    expect(closeEventSpy.called).to.be.true;
   });
 
   // it('should record event when modal is opened', async () => {
@@ -75,7 +70,7 @@ describe('SignInModal', () => {
   // });
 
   it('should render the LoginContainer component', () => {
-    const screen = renderInReduxProvider(<SignInModal visible />, {
+    const screen = renderInReduxProvider(<SignInModal />, {
       initialState: generateStore(),
     });
 

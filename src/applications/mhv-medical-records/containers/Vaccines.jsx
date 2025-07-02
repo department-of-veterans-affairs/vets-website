@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  useLocation,
+  useHistory,
+} from 'react-router-dom/cjs/react-router-dom.min';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
@@ -18,7 +22,12 @@ import {
   formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { getVaccinesList, reloadRecords } from '../actions/vaccines';
+import RecordListNew from '../components/RecordList/RecordListNew';
+import {
+  getVaccinesList,
+  reloadRecords,
+  checkForVaccineUpdates,
+} from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
 import {
   recordType,
@@ -34,6 +43,7 @@ import {
   generateTextFile,
   getLastUpdatedText,
   sendDataDogAction,
+  getParamValue,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -49,23 +59,37 @@ import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
+
   const dispatch = useDispatch();
-  const updatedRecordList = useSelector(state => state.mr.vaccines.updatedList);
-  const listState = useSelector(state => state.mr.vaccines.listState);
-  const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
+
+  const {
+    updatedList: updatedRecordList,
+    listState,
+    vaccinesList: vaccines,
+    listMetadata: metadata,
+    updateNeeded,
+    listCurrentAsOf: vaccinesCurrentAsOf,
+  } = useSelector(state => state.mr.vaccines);
   const user = useSelector(state => state.user.profile);
   const refresh = useSelector(state => state.mr.refresh);
-  const vaccinesCurrentAsOf = useSelector(
-    state => state.mr.vaccines.listCurrentAsOf,
-  );
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
+  const { allowTxtDownloads, useBackendPagination } = useSelector(state => {
+    const toggles = state.featureToggles;
+    return {
+      allowTxtDownloads:
+        toggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads],
+      useBackendPagination:
+        toggles[
+          FEATURE_FLAG_NAMES.mhvMedicalRecordsSupportBackendPaginationVaccine
+        ],
+    };
+  });
+
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const location = useLocation();
+  const history = useHistory();
+  const paramPage = getParamValue(location.search, 'page');
 
   useListRefresh({
     listState,
@@ -74,6 +98,9 @@ const Vaccines = props => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction: getVaccinesList,
     dispatch,
+    page: paramPage,
+    useBackendPagination,
+    checkUpdatesAction: checkForVaccineUpdates,
   });
 
   useEffect(
@@ -156,6 +183,18 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
     generateTextFile(content, fileName);
   };
 
+  /**
+   * Change to page 1 and fetch the list of vaccines from the server.
+   */
+  const loadUpdatedRecords = () => {
+    if (paramPage === '1') {
+      dispatch(getVaccinesList(true, paramPage, useBackendPagination));
+    } else {
+      // The page change will trigger a fetch.
+      history.push(`${history.location.pathname}?page=1`);
+    }
+  };
+
   return (
     <div id="vaccines">
       <PrintHeader />
@@ -176,14 +215,16 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           Go to your allergy records
         </Link>
       </div>
-
       <AcceleratedCernerFacilityAlert {...CernerAlertContent.VACCINES} />
-
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.VACCINE}
-        recordCount={vaccines?.length}
+        recordCount={
+          useBackendPagination
+            ? metadata?.pagination?.totalEntries
+            : vaccines?.length
+        }
         recordType={recordType.VACCINES}
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
@@ -192,13 +233,19 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           refreshState={refresh}
           extractType={refreshExtractTypes.VPR}
           newRecordsFound={
-            Array.isArray(vaccines) &&
-            Array.isArray(updatedRecordList) &&
-            vaccines.length !== updatedRecordList.length
+            useBackendPagination
+              ? updateNeeded
+              : Array.isArray(vaccines) &&
+                Array.isArray(updatedRecordList) &&
+                vaccines.length !== updatedRecordList.length
           }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
+          reloadFunction={
+            useBackendPagination
+              ? loadUpdatedRecords
+              : () => {
+                  dispatch(reloadRecords());
+                }
+          }
         />
 
         {vaccines?.length ? (
@@ -214,7 +261,15 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
               allowTxtDownloads={allowTxtDownloads}
               description="Vaccines"
             />
-            <RecordList records={vaccines} type={recordType.VACCINES} />
+            {useBackendPagination && vaccines ? (
+              <RecordListNew
+                records={vaccines}
+                type={recordType.VACCINES}
+                metadata={metadata}
+              />
+            ) : (
+              <RecordList records={vaccines} type={recordType.VACCINES} />
+            )}
           </>
         ) : (
           <NoRecordsMessage type={recordType.VACCINES} />

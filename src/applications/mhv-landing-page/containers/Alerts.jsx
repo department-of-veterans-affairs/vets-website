@@ -2,14 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import {
-  AlertMhvBasicAccount,
   AlertUnregistered,
   AlertVerifyAndRegister,
   AlertAccountApiAlert,
 } from '../components/alerts';
 
 import {
-  hasMhvBasicAccount,
   isAuthenticatedWithSSOe,
   isLOA3,
   isVAPatient,
@@ -23,7 +21,6 @@ const Alerts = () => {
   const userVerified = useSelector(isLOA3);
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
-  const userHasMhvBasicAccount = useSelector(hasMhvBasicAccount);
   const renderVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
   const cspId = useSelector(signInServiceName);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
@@ -32,10 +29,6 @@ const Alerts = () => {
   const mhvAccountStatusSortedErrors = useSelector(
     mhvAccountStatusErrorsSorted,
   );
-
-  if (userHasMhvBasicAccount) {
-    return <AlertMhvBasicAccount />;
-  }
 
   if (renderVerifyAndRegisterAlert) {
     return <AlertVerifyAndRegister cspId={cspId} />;

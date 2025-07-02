@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import { Approved } from '../components/ConfirmationResponses';

@@ -32,4 +32,8 @@ templates.militaryService = () => {
   return require('./military_service');
 };
 
+templates.disputeDebt = () => {
+  return require('./dispute_debt');
+};
+
 export { templates };

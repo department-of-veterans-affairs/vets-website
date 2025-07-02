@@ -8,12 +8,18 @@ import * as recordEventModule from 'platform/monitoring/record-event';
 import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink';
 import content from '../../../locales/en/content.json';
 
+// declare static content
+const ERR_MSG_GENERIC = content['alert-download-message--generic'];
+
+// declare static events
+const DOWNLOAD_FAILED_EVENT = { event: 'caregivers-pdf-download--failure' };
+const DOWNLOAD_SUCCESS_EVENT = { event: 'caregivers-pdf-download--success' };
+
 describe('CG <ApplicationDownloadLink>', () => {
   const subject = ({ veteranInformation } = {}) => {
     const expectedVeteranInformation = veteranInformation ?? {
       veteranFullName: { first: 'John', last: 'Smith' },
     };
-
     const mockStore = {
       getState: () => ({
         form: {
@@ -59,9 +65,9 @@ describe('CG <ApplicationDownloadLink>', () => {
       fireEvent.click(link);
     };
 
-    const triggerSuccess = ({ link }) => {
+    const triggerSuccess = ({ link, ok = true }) => {
       apiRequestStub.resolves({
-        ok: true,
+        ok,
         blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
       });
       fireEvent.click(link);
@@ -71,27 +77,24 @@ describe('CG <ApplicationDownloadLink>', () => {
       it('should record the correct event when the request succeeds', async () => {
         const { selectors } = subject();
         const { vaLink: link } = selectors();
-
         triggerSuccess({ link });
 
         await waitFor(() => {
           const { vaLoadingIndicator } = selectors();
           expect(vaLoadingIndicator).to.exist;
         });
+
         await waitFor(() => {
           const { vaLink } = selectors();
           expect(vaLink).to.exist;
         });
 
-        sinon.assert.calledWithExactly(recordEventStub, {
-          event: 'caregivers-pdf-download--success',
-        });
+        sinon.assert.calledWithExactly(recordEventStub, DOWNLOAD_SUCCESS_EVENT);
       });
 
       it('should still succeed when no veteranInformation is set', async () => {
         const { selectors } = subject({ veteranInformation: {} });
         const { vaLink: link } = selectors();
-
         triggerSuccess({ link });
 
         await waitFor(() => {
@@ -102,14 +105,11 @@ describe('CG <ApplicationDownloadLink>', () => {
 
         await waitFor(() => {
           const { vaLink, vaLoadingIndicator } = selectors();
-
-          sinon.assert.calledWithExactly(recordEventStub, {
-            event: 'caregivers-pdf-download--success',
-          });
-
           expect(vaLoadingIndicator).to.not.exist;
           expect(vaLink).to.exist;
         });
+
+        sinon.assert.calledWithExactly(recordEventStub, DOWNLOAD_SUCCESS_EVENT);
       });
     });
 
@@ -117,23 +117,21 @@ describe('CG <ApplicationDownloadLink>', () => {
       it('should display `generic` error message when response is an error', async () => {
         const { selectors } = subject();
         const { vaLink: link } = selectors();
-        const event = 'caregivers-pdf-download--failure';
-
         triggerError({ link });
 
         await waitFor(() => {
           const { vaLoadingIndicator } = selectors();
           expect(vaLoadingIndicator).to.exist;
         });
+
         await waitFor(() => {
-          const { vaAlert } = selectors();
+          const { vaAlert, vaLink } = selectors();
           expect(vaAlert).to.exist;
-          expect(vaAlert).to.contain.text(
-            content['alert-download-message--generic'],
-          );
+          expect(vaAlert).to.contain.text(ERR_MSG_GENERIC);
+          expect(vaLink).to.exist;
         });
 
-        sinon.assert.calledWithExactly(recordEventStub, { event });
+        sinon.assert.calledWithExactly(recordEventStub, DOWNLOAD_FAILED_EVENT);
       });
 
       it('should display `generic` error message when any other error occurs not in the request response', async () => {
@@ -143,24 +141,31 @@ describe('CG <ApplicationDownloadLink>', () => {
 
         const { selectors } = subject();
         const { vaLink: link } = selectors();
-
         triggerSuccess({ link });
 
         await waitFor(() => {
           const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
-
           expect(vaLoadingIndicator).to.not.exist;
-          expect(vaLink).to.not.exist;
-
+          expect(vaLink).to.exist;
           expect(vaAlert).to.exist;
-          expect(vaAlert).to.contain.text(
-            content['alert-download-message--generic'],
-          );
-
-          sinon.assert.calledWithExactly(recordEventStub, {
-            event: 'caregivers-pdf-download--failure',
-          });
+          expect(vaAlert).to.contain.text(ERR_MSG_GENERIC);
         });
+
+        sinon.assert.calledWithExactly(recordEventStub, DOWNLOAD_FAILED_EVENT);
+      });
+
+      it('should throw and trigger error handling if `response.ok` is `false`', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+        triggerSuccess({ link, ok: false });
+
+        await waitFor(() => {
+          const { vaAlert } = selectors();
+          expect(vaAlert).to.exist;
+          expect(vaAlert).to.contain.text(ERR_MSG_GENERIC);
+        });
+
+        sinon.assert.calledWithExactly(recordEventStub, DOWNLOAD_FAILED_EVENT);
       });
     });
   });

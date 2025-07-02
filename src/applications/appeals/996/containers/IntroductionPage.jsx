@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 
 import { PageTitle } from '../content/title';
 import {

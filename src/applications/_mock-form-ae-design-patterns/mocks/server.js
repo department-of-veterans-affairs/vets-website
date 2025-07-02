@@ -167,6 +167,19 @@ const responses = {
     // to simulate different responses based on the transactionId param
     return generateStatusResponse(req, res);
   },
+  'POST /v0/evidence_documents': (req, res) => {
+    return res.status(200).json({
+      data: {
+        id: '12345',
+        type: 'evidence_document',
+        attributes: {
+          name: 'marriage-certificate.pdf',
+          size: 1024,
+          uploadedAt: new Date().toISOString(),
+        },
+      },
+    });
+  },
 };
 
 // here we can run anything that needs to happen before the mock server starts up

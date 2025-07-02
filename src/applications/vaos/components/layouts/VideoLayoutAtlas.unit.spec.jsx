@@ -60,13 +60,13 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
           },
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -151,7 +151,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -167,6 +166,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: true,
           isCOVIDVaccine: false,
@@ -209,7 +209,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -225,6 +224,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: true,
           isCOVIDVaccine: false,
@@ -277,7 +277,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -293,6 +292,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -418,7 +418,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -428,13 +428,13 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Get your device ready to join./i));
+      expect(screen.getByText(/Get your device ready to join/i));
       expect(
         screen.container.querySelector(
-          'va-additional-info[trigger="How to setup your device"]',
+          'va-link[text="Learn how to prepare for your video appointment"]',
         ),
       ).to.be.ok;
 
@@ -469,7 +469,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -485,6 +484,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -609,7 +609,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -625,6 +624,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
@@ -732,7 +732,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -742,13 +742,13 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Get your device ready to join./i));
+      expect(screen.getByText(/Get your device ready to join/i));
       expect(
         screen.container.querySelector(
-          'va-additional-info[trigger="How to setup your device"]',
+          'va-link[text="Learn how to prepare for your video appointment"]',
         ),
       ).to.be.ok;
     });
@@ -775,7 +775,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           },
           isVideo: true,
           facilityId: '983',
-          isAtlas: true,
           kind: VIDEO_TYPES.adhoc,
           extension: {
             patientHasMobileGfe: false,
@@ -791,6 +790,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           ],
         },
         vaos: {
+          isAtlas: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,

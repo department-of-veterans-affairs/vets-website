@@ -46,13 +46,13 @@ describe('ProofOfVeteranStatusCard', () => {
     expect(view.queryByText(/VA disability rating/)).to.exist;
     expect(view.queryByText(/70/)).to.exist;
   });
-  it('should not render the VA disability rating when it is zero', () => {
+  it('should render the VA disability rating when it is zero', () => {
     const view = renderWithTestData({
       ...testData,
       totalDisabilityRating: 0,
     });
-    expect(view.queryByText(/VA disability rating/)).not.to.exist;
-    expect(view.queryByText(/^0%$/)).not.to.exist;
+    expect(view.queryByText(/VA disability rating/)).to.exist;
+    expect(view.queryByText(/^0%$/)).to.exist;
   });
   it('should not render the VA disability rating when it is null', () => {
     const view = renderWithTestData({

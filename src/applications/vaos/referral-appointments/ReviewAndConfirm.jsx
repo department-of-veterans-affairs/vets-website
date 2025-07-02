@@ -23,10 +23,7 @@ import {
 } from './flow';
 import { getReferralSlotKey } from './utils/referrals';
 import { getSlotByDate } from './utils/provider';
-import {
-  getTimezoneDescByFacilityId,
-  getTimezoneByFacilityId,
-} from '../utils/timezone';
+import { stripDST } from '../utils/timezone';
 import ProviderAddress from './components/ProviderAddress';
 import { titleCase } from '../utils/formatters';
 
@@ -48,9 +45,6 @@ const ReviewAndConfirm = props => {
   const slotDetails = getSlotByDate(
     draftAppointmentInfo?.attributes?.slots,
     selectedSlot,
-  );
-  const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacility.code,
   );
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.uuid),
@@ -187,23 +181,32 @@ const ReviewAndConfirm = props => {
           <div className="vads-l-row">
             <div className="vads-l-col">
               <h2 className={headingStyles}>
-                {`${titleCase(currentReferral.categoryOfCare)} Provider`}
+                <span data-dd-privacy="mask">
+                  {`${titleCase(currentReferral.categoryOfCare)} provider`}
+                </span>
               </h2>
             </div>
           </div>
         </div>
         <p className="vads-u-margin--0">
-          {draftAppointmentInfo.attributes.provider.name} <br />
-          {draftAppointmentInfo.attributes.provider.providerOrganization.name}
+          <span data-dd-privacy="mask">
+            {draftAppointmentInfo.attributes.provider.name}
+          </span>{' '}
+          <br />
+          <span data-dd-privacy="mask">
+            {draftAppointmentInfo.attributes.provider.providerOrganization.name}
+          </span>
         </p>
         {draftAppointmentInfo.attributes.provider.location.address}
         {currentReferral.provider?.telephone && (
           <p className="vads-u-margin--0" data-testid="phone">
             Phone:{' '}
-            <va-telephone
-              contact={currentReferral.provider?.telephone}
-              data-testid="provider-telephone"
-            />
+            <span data-dd-privacy="mask">
+              <va-telephone
+                contact={currentReferral.provider?.telephone}
+                data-testid="provider-telephone"
+              />
+            </span>
           </p>
         )}
         <hr className="vads-u-margin-y--2" />
@@ -232,20 +235,19 @@ const ReviewAndConfirm = props => {
             <>
               {formatInTimeZone(
                 new Date(slotDetails.start),
-                facilityTimeZone,
+                draftAppointmentInfo.attributes.provider.location.timezone,
                 'EEEE, LLLL d, yyyy',
               )}
             </>
             <br />
             <>
-              {formatInTimeZone(
-                new Date(slotDetails.start),
-                facilityTimeZone,
-                'h:mm aaaa',
-              )}{' '}
-              {`${getTimezoneDescByFacilityId(
-                currentReferral.referringFacility.code,
-              )}`}
+              {stripDST(
+                formatInTimeZone(
+                  new Date(slotDetails.start),
+                  draftAppointmentInfo.attributes.provider.location.timezone,
+                  'h:mm aaaa zzz',
+                ),
+              )}
             </>
           </p>
         )}
@@ -264,8 +266,8 @@ const ReviewAndConfirm = props => {
             data-testid="continue-button"
             loading={createLoading}
             class="vads-u-margin-left--2"
-            label="Continue"
-            text="Continue"
+            label="Confirm"
+            text="Confirm"
             uswds
             onClick={e => {
               e.preventDefault();

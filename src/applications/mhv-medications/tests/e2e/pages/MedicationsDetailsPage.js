@@ -719,7 +719,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPartialFillTextInRefillAccordionOnDetailsPage = text => {
-    cy.get('[data-testid="partial-fill-text"]').should('contain', text);
+    cy.get('[data-testid="partial-fill-text"]').should('have.text', text);
   };
 
   verifyMedicationDescriptionInTxtDownload = text => {
@@ -861,6 +861,30 @@ class MedicationsDetailsPage {
             : item,
       ),
     };
+  };
+
+  verifyRxNumberNotVisibleOnPendingMedicationsDetailsPage = PrescriptionNumber => {
+    cy.get('[data-testid="va-prescription-container"]').should(
+      'not.contain',
+      PrescriptionNumber,
+    );
+  };
+
+  verifyRefillHistorySectionNotVisibleForPendingPrescriptions = () => {
+    cy.get('[data-testid="refill-History"]').should('not.exist');
+  };
+
+  verifyResponseForRecordNotFoundForStandardizeErrorMessage = () => {
+    cy.wait('@errorResponse').then(interception => {
+      expect(interception.response.body.errors[0].status).to.eq('404');
+      expect(interception.response.body.errors[0].code).to.eq('404');
+      expect(interception.response.body.errors[0].title).to.eq(
+        'Record not found',
+      );
+      expect(interception.response.body.errors[0].detail).to.eq(
+        'The record identified by 232323 could not be found',
+      );
+    });
   };
 }
 

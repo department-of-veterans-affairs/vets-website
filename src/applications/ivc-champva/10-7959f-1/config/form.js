@@ -101,7 +101,10 @@ const formConfig = {
           uiSchema: {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
-            veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
+            veteranDateOfBirth: dateOfBirthUI({
+              required: () => true,
+              dataDogHidden: true,
+            }),
             'ui:validations': [
               (errors, formData) =>
                 validObjectCharsOnly(errors, null, formData, 'veteranFullName'),

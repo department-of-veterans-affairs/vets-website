@@ -80,23 +80,20 @@ export const deceasedDependentOptions = {
 /** @returns {PageSchema} */
 export const deceasedDependentIntroPage = {
   uiSchema: {
-    ...titleUI({
-      title: 'Your dependents who have died',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your dependents who
-              have died. You must add at least one dependent who has died.
-            </p>
-            <CancelButton
-              dependentType="dependents who have died"
-              isAddChapter={false}
-            />
-          </>
-        );
-      },
-    }),
+    ...titleUI('Your dependents who have died'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your dependents who
+          have died. You must add at least one dependent who has died.
+        </p>
+        <CancelButton
+          dependentType="dependents who have died"
+          dependentButtonType="dependents"
+          isAddChapter={false}
+        />
+      </>
+    ),
   },
   schema: {
     type: 'object',

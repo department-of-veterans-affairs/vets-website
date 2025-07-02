@@ -31,13 +31,6 @@ describe('<Alerts /> container', () => {
     expect(container).to.be.empty;
   });
 
-  it('renders <AlertMhvBasicAccount />', () => {
-    const initialState = stateFn({ loa: 1, serviceName: CSP_IDS.MHV });
-    const { getAllByTestId, getByTestId } = setup({ initialState });
-    getByTestId('mhv-alert--mhv-basic-account');
-    expect(getAllByTestId(/^mhv-alert--/).length).to.eq(1);
-  });
-
   it('renders <AlertVerifyAndRegister />', () => {
     const initialState = stateFn({ loa: 1, serviceName: CSP_IDS.ID_ME });
     const { getAllByTestId, getByTestId } = setup({ initialState });

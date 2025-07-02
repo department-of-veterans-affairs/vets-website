@@ -17,7 +17,7 @@ describe('Referral Appointments Flow', () => {
       {
         currentPage: 'scheduleReferral',
         categoryOfCare: 'Primary Care',
-        expected: 'Referral for Primary Care',
+        expected: 'Appointment Referral',
       },
       {
         currentPage: 'scheduleAppointment',

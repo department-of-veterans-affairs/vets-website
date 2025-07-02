@@ -30,10 +30,10 @@ export const SORT_OPTIONS = {
 };
 
 export const SORT_DEFAULTS = {
-  SORT_BY: 'submittedDate',
+  SORT_BY: 'created_at',
   SORT_ORDER: 'desc',
   // default is 20 per page
-  SIZE: '20',
+  SIZE: 20,
   // default is page 1
-  NUMBER: '1',
+  NUMBER: 1,
 };

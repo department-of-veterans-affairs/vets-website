@@ -15,7 +15,7 @@ const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmation_number;
+  const confirmationNumber = submission.response?.confirmationNumber;
 
   const { formNumber } = getFormContent();
 

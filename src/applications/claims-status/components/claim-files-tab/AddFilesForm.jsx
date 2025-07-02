@@ -175,36 +175,21 @@ class AddFilesForm extends React.Component {
                     </p>
                   </>
                 )}
-                <VaFileInput
-                  id="file-upload"
-                  className="vads-u-margin-bottom--3"
-                  error={this.getErrorMessage()}
-                  label="Upload additional evidence"
-                  hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
-                  accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-                  onVaChange={e => this.add(e.detail.files)}
-                  name="fileUpload"
-                  additionalErrorClass="claims-upload-input-error-message"
-                  aria-describedby="file-requirements"
-                  uswds
-                />
               </div>
             </Toggler.Enabled>
-            <Toggler.Disabled>
-              <VaFileInput
-                id="file-upload"
-                className="vads-u-margin-bottom--3"
-                error={this.getErrorMessage()}
-                label="Upload additional evidence"
-                hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
-                accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-                onVaChange={e => this.add(e.detail.files)}
-                name="fileUpload"
-                additionalErrorClass="claims-upload-input-error-message"
-                aria-describedby="file-requirements"
-              />
-            </Toggler.Disabled>
           </Toggler>
+          <VaFileInput
+            id="file-upload"
+            className="vads-u-margin-bottom--3"
+            error={this.getErrorMessage()}
+            label="Upload additional evidence"
+            hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
+            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+            onVaChange={e => this.add(e.detail.files)}
+            name="fileUpload"
+            additionalErrorClass="claims-upload-input-error-message"
+            aria-describedby="file-requirements"
+          />
         </div>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (

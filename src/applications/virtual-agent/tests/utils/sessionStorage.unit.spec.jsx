@@ -5,14 +5,12 @@ import {
   clearBotSessionStorage,
   getConversationIdKey,
   getInAuthExp,
-  getIsRxSkill,
   getIsTrackingUtterances,
   getLoggedInFlow,
   getRecentUtterances,
   getTokenKey,
   setConversationIdKey,
   setInAuthExp,
-  setIsRxSkill,
   setIsTrackingUtterances,
   setLoggedInFlow,
   setRecentUtterances,
@@ -69,18 +67,6 @@ describe('sessionStorage', () => {
       setRecentUtterances(['utterance1', 'utterance2']);
       const result = sessionStorage.getItem('va-bot.recentUtterances');
       expect(result).to.equal(JSON.stringify(['utterance1', 'utterance2']));
-    });
-  });
-  describe('isRxSkill', () => {
-    it('should get rx skill', () => {
-      sessionStorage.setItem('va-bot.isRxSkill', true);
-      const result = getIsRxSkill();
-      expect(result).to.equal('true');
-    });
-    it('should set rx skill', () => {
-      setIsRxSkill(true);
-      const result = sessionStorage.getItem('va-bot.isRxSkill');
-      expect(result).to.equal('true');
     });
   });
   describe('conversationIdKey', () => {

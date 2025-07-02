@@ -12,9 +12,6 @@ import {
   FETCH_REFERRAL_APPOINTMENT_INFO,
   FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
   FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
-  FETCH_REFERRALS,
-  FETCH_REFERRALS_SUCCEEDED,
-  FETCH_REFERRALS_FAILED,
   SET_SELECTED_SLOT,
   SET_INIT_REFERRAL_FLOW,
 } from './actions';
@@ -98,26 +95,6 @@ describe('ccAppointmentReducer', () => {
     expect(state.appointmentInfoLoading).to.be.false;
     expect(state.appointmentInfoError).to.be.true;
     expect(state.appointmentInfoTimeout).to.be.true;
-  });
-
-  it('should handle FETCH_REFERRALS', () => {
-    const state = reducer(undefined, { type: FETCH_REFERRALS });
-    expect(state.referralsFetchStatus).to.equal(FETCH_STATUS.loading);
-  });
-
-  it('should handle FETCH_REFERRALS_SUCCEEDED', () => {
-    const referrals = [{ id: 1 }, { id: 2 }];
-    const state = reducer(undefined, {
-      type: FETCH_REFERRALS_SUCCEEDED,
-      data: referrals,
-    });
-    expect(state.referralsFetchStatus).to.equal(FETCH_STATUS.succeeded);
-    expect(state.referrals).to.deep.equal(referrals);
-  });
-
-  it('should handle FETCH_REFERRALS_FAILED', () => {
-    const state = reducer(undefined, { type: FETCH_REFERRALS_FAILED });
-    expect(state.referralsFetchStatus).to.equal(FETCH_STATUS.failed);
   });
 
   it('should handle SET_SELECTED_SLOT', () => {

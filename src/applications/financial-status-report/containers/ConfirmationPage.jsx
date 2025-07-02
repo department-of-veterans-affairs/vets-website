@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import { formatDateLong } from 'platform/utilities/date';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
@@ -17,15 +17,6 @@ import {
   isStreamlinedShortForm,
 } from '../utils/streamlinedDepends';
 import SurveyInformation from '../components/shared/SurveyInformation';
-
-const { scroller } = Scroll;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 
 const RequestDetailsCard = ({ data, response }) => {
   const name = data.personalData?.veteranFullName;

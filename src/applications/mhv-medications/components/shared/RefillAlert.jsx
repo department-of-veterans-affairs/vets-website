@@ -22,6 +22,7 @@ const RefillAlert = props => {
       uswds
       className={refillAlertList?.length ? 'vads-u-margin-bottom--3' : ''}
       data-testid="alert-banner"
+      data-dd-privacy="mask"
     >
       <h2 slot="headline" data-testid="rxDelay-alert-message">
         Some refills are taking longer than expected
@@ -29,7 +30,11 @@ const RefillAlert = props => {
       <p>Go to your medication details to find out what to do next:</p>
       {refillAlertList?.map(rx => {
         return (
-          <p className="vads-u-margin-bottom--0" key={rx.prescriptionId}>
+          <p
+            className="vads-u-margin-bottom--0"
+            key={rx.prescriptionId}
+            data-dd-privacy="mask"
+          >
             <Link
               id={`refill-alert-link-${rx.prescriptionId}`}
               data-dd-privacy="mask"

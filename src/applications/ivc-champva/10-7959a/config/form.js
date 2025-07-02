@@ -17,6 +17,7 @@ import {
   certifierAddressSchema,
   certifierContactSchema,
   certifierRelationshipSchema,
+  certifierClaimStatusSchema,
 } from '../chapters/signerInformation';
 import { NotEnrolledChampvaPage } from '../chapters/NotEnrolledChampvaPage';
 import {
@@ -157,6 +158,13 @@ const formConfig = {
           depends: formData => get('certifierRole', formData) === 'other',
           ...certifierRelationshipSchema,
         },
+        page1e: {
+          path: 'is-resubmit',
+          title: 'Your CHAMPVA claim status',
+          // If the feature toggle is enabled, show this page:
+          depends: formData => formData.champvaEnableClaimResubmitQuestion,
+          ...certifierClaimStatusSchema,
+        },
       },
     },
     sponsorInformation: {
@@ -246,6 +254,7 @@ const formConfig = {
               `${fnp(props.formData ?? props)} health insurance status`,
             );
           },
+          depends: formData => get('claimStatus', formData) !== 'resubmission',
           ...insuranceStatusSchema,
         },
         ...insurancePages, // Array builder/list loop pages
@@ -262,11 +271,13 @@ const formConfig = {
         page5: {
           path: 'claim-work',
           title: 'Claim relationship to work',
+          depends: formData => get('claimStatus', formData) !== 'resubmission',
           ...claimWorkSchema,
         },
         page6: {
           path: 'claim-auto-accident',
           title: 'Claim relationship to a car accident',
+          depends: formData => get('claimStatus', formData) !== 'resubmission',
           ...claimAutoSchema,
         },
         page7: {

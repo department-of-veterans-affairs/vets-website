@@ -168,49 +168,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     expect(timeHeader).to.contain.text('MT');
   });
 
-  it('should show information with facility name, useFeSourceOfTruthVA=false', async () => {
-    // Arrange
-    const pastDate = subDays(new Date(), 3);
-
-    mockAppointmentsApi({
-      start,
-      end,
-      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
-      response: [
-        new MockAppointmentResponse({
-          localStartTime: pastDate,
-        }),
-      ],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-    });
-
-    // Act
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
-
-    // Assert
-    await screen.findAllByLabelText(
-      new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
-    );
-
-    const firstCard = screen.getAllByRole('listitem')[0];
-
-    expect(
-      within(firstCard).getByText(
-        new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
-      ),
-    ).to.exist;
-    // TODO: Skipping until api call is made to get facility data on page load.
-    // Currently, facility data is only retrieved when viewing appointment details
-    // await waitFor(() => {
-    //   expect(within(firstCard).getByText(/Cheyenne VA Medical Center/i)).to
-    //     .exist;
-    // });
-    // expect(screen.baseElement).not.to.contain.text('VA appointment');
-  });
-
-  it('should show information with facility name, useFeSourceOfTruthVA=true', async () => {
+  it('should show information with facility name', async () => {
     // Arrange
     const pastDate = subDays(new Date(), 3);
 

@@ -6,6 +6,13 @@ import '@cypress/code-coverage/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
 
+beforeEach(() => {
+  cy.intercept('GET', '/feature_toggles', {
+    statusCode: 200,
+    body: '',
+  }).as('getFeatureToggles');
+});
+
 // workaround for 'AssertionError: Timed out retrying after 4000ms: Invalid string length'
 // https://github.com/testing-library/cypress-testing-library/issues/241
 before(() => {

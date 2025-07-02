@@ -2,7 +2,7 @@ import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/V
 import {
   titleUI,
   phoneUI,
-  internationalPhoneUI,
+  internationalPhoneDeprecatedUI,
   emailUI,
   phoneSchema,
   emailSchema,
@@ -21,7 +21,7 @@ export const uiSchema = {
       'ui:required': () => true,
     },
     internationalPhoneNumber: {
-      ...internationalPhoneUI({
+      ...internationalPhoneDeprecatedUI({
         title: 'International phone number',
         international: true,
       }),
@@ -41,7 +41,6 @@ export const uiSchema = {
         'I agree to receive electronic correspondence from the VA about my claim.',
       'ui:webComponentField': VaCheckboxField,
       'ui:options': {
-        messageAriaDescribedby: `I agree to receive electronic correspondence from the VA about my claim`,
         classNames: 'custom-width',
       },
     },

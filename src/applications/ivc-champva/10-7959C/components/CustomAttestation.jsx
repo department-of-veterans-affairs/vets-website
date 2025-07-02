@@ -1,7 +1,7 @@
 import React from 'react';
 import FormSignature from 'platform/forms-system/src/js/components/FormSignature';
 import get from 'platform/utilities/data/get';
-import { nameWording } from '../../shared/utilities';
+import { nameWording, privWrapper } from '../../shared/utilities';
 import { validateText } from '../../shared/validations';
 
 /*
@@ -73,7 +73,7 @@ export default function CustomAttestation(signatureProps) {
       <p>
         On behalf of:
         <br />
-        <b>{nameWording(formData, false)}</b>
+        <b>{privWrapper(nameWording(formData, false))}</b>
       </p>
     </>
   );
@@ -98,11 +98,13 @@ export default function CustomAttestation(signatureProps) {
           Statement of truth
         </h3>
         {content}
-        <FormSignature
-          {...signatureProps}
-          signatureLabel={sigLabel}
-          validations={validators}
-        />
+        {privWrapper(
+          <FormSignature
+            {...signatureProps}
+            signatureLabel={sigLabel}
+            validations={validators}
+          />,
+        )}
       </section>
     </>
   );

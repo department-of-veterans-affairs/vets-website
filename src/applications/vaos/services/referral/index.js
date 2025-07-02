@@ -1,13 +1,5 @@
 import { apiRequestWithUrl } from '../utils';
 
-export async function getPatientReferrals() {
-  const response = await apiRequestWithUrl(`/vaos/v2/referrals`, {
-    method: 'GET',
-  });
-
-  return response.data;
-}
-
 export async function getPatientReferralById(referralId) {
   const response = await apiRequestWithUrl(`/vaos/v2/referrals/${referralId}`, {
     method: 'GET',

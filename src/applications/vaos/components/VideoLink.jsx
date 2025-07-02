@@ -32,8 +32,8 @@ export default function VideoLink({ appointment }) {
     <div className="vaos-appts__video-visit">
       {disableVideoLink && (
         <>
-          We'll add the link to join this appointment 30 minutes before your
-          appointment time.
+          We’ll add the link to join this appointment on this page 30 minutes
+          before your appointment time.
         </>
       )}
 
@@ -46,7 +46,7 @@ export default function VideoLink({ appointment }) {
               visible
             >
               <h3 slot="headline">
-                We're sorry, we couldn't load the link to join your appointment
+                We’re sorry, we couldn’t load the link to join your appointment
               </h3>
               <p className="vads-u-margin-y--0">
                 Please contact your facility for help joining this appointment.

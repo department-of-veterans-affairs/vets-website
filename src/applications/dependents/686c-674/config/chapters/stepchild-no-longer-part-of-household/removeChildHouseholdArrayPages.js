@@ -52,24 +52,16 @@ export const removeChildHouseholdOptions = {
 
 export const removeChildHouseholdIntroPage = {
   uiSchema: {
-    ...titleUI(
-      'Your stepchildren who have left your household',
-      'In the next few questions, we’ll ask you about your stepchildren. You must add at least one stepchild.',
+    ...titleUI('Your stepchildren who have left your household'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your stepchildren. You
+          must add at least one stepchild.
+        </p>
+        <CancelButton dependentType="stepchildren" isAddChapter={false} />
+      </>
     ),
-    ...titleUI({
-      title: 'Your stepchildren who have left your household',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your stepchildren.
-              You must add at least one stepchild.
-            </p>
-            <CancelButton dependentType="stepchildren" isAddChapter={false} />
-          </>
-        );
-      },
-    }),
   },
   schema: {
     type: 'object',

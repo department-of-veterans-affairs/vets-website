@@ -88,17 +88,13 @@ export const addStudentsOptions = {
 
 export const addStudentsIntroPage = {
   uiSchema: {
-    ...titleUI({
-      title: 'Your students',
-      description: () => {
-        return (
-          <>
-            {AddStudentsIntro}
-            <CancelButton dependentType="students" isAddChapter />
-          </>
-        );
-      },
-    }),
+    ...titleUI('Your students'),
+    'ui:description': () => (
+      <>
+        {AddStudentsIntro}
+        <CancelButton dependentType="students" isAddChapter />
+      </>
+    ),
   },
   schema: {
     type: 'object',
@@ -297,21 +293,21 @@ export const studentEducationBenefitsPage = {
       },
     },
     'ui:options': {
-      // Use updateSchema to set
       updateSchema: (formData, formSchema) => {
-        if (formSchema.properties.otherProgramOrBenefit['ui:collapsed']) {
-          return { ...formSchema, required: ['typeOfProgramOrBenefit'] };
+        const requiredFields = ['tuitionIsPaidByGovAgency'];
+        if (formData?.typeOfProgramOrBenefit?.other) {
+          requiredFields.push('otherProgramOrBenefit');
         }
         return {
           ...formSchema,
-          required: ['typeOfProgramOrBenefit', 'otherProgramOrBenefit'],
+          required: requiredFields,
         };
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['typeOfProgramOrBenefit'],
+    required: ['tuitionIsPaidByGovAgency'],
     properties: {
       typeOfProgramOrBenefit: checkboxGroupSchema(benefitSchemaLabels),
       otherProgramOrBenefit: {
@@ -509,10 +505,13 @@ export const studentTermDatesPage = {
           'ui:description': TermDateHint,
         },
         expectedStudentStartDate: {
-          ...currentOrPastDateUI(
+          'ui:title':
             'When did the student start or expect to start their course?',
-          ),
+          'ui:webComponentField': VaMemorableDateField,
           'ui:required': () => true,
+          'ui:errorMessages': {
+            pattern: 'Enter a valid date',
+          },
         },
         expectedGraduationDate: {
           'ui:title': 'When does the student expect to graduate?',

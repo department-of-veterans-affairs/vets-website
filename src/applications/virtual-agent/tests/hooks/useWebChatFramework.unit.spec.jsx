@@ -2,13 +2,9 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { act, renderHook } from '@testing-library/react-hooks';
 
-import * as SentryModule from '@sentry/browser';
 import useWebChatFramework from '../../hooks/useWebChatFramework';
-import { COMPLETE, ERROR, LOADING } from '../../utils/loadingStatus';
+import { COMPLETE, LOADING } from '../../utils/loadingStatus';
 import * as UseLoadWebChatModule from '../../hooks/useLoadWebChat';
-
-import * as LoggingModule from '../../utils/logging';
-import * as UseDatadogLoggingModule from '../../hooks/useDatadogLogging';
 
 describe('useWebChatFramework', () => {
   let sandbox;
@@ -37,31 +33,15 @@ describe('useWebChatFramework', () => {
     it('should return loadingStatus=LOADING while loading', async () => {
       sandbox.stub(UseLoadWebChatModule, 'default');
 
-      sandbox.stub(UseDatadogLoggingModule, 'useDatadogLogging').returns(true);
-
-      const logErrorToDatadogSpy = sandbox.spy();
-      sandbox
-        .stub(LoggingModule, 'logErrorToDatadog')
-        .callsFake(logErrorToDatadogSpy);
-
       const { result } = renderHook(() =>
         useWebChatFramework({ timeout: 1000 }),
       );
 
       expect(result.current.loadingStatus).to.equal(LOADING);
       expect(result.current.webChatFramework).to.equal(global.window.WebChat);
-
-      expect(logErrorToDatadogSpy.called).to.be.false;
     });
     it('should return loadingStatus=COMPLETE and correct webChatFramework when web chat loads', async () => {
       sandbox.stub(UseLoadWebChatModule, 'default');
-
-      sandbox.stub(UseDatadogLoggingModule, 'useDatadogLogging').returns(true);
-
-      const logErrorToDatadogSpy = sandbox.spy();
-      sandbox
-        .stub(LoggingModule, 'logErrorToDatadog')
-        .callsFake(logErrorToDatadogSpy);
 
       const { result } = renderHook(() =>
         useWebChatFramework({ timeout: 1000 }),
@@ -73,34 +53,6 @@ describe('useWebChatFramework', () => {
 
       expect(result.current.loadingStatus).to.equal(COMPLETE);
       expect(result.current.webChatFramework).to.equal(global.window.WebChat);
-
-      expect(logErrorToDatadogSpy.called).to.be.false;
-    });
-    it('should call Sentry and return loadingStatus=ERROR if webchat fails to load in time', async () => {
-      sandbox.stub(UseLoadWebChatModule, 'default');
-      const captureExceptionStub = sandbox.stub(
-        SentryModule,
-        'captureException',
-      );
-
-      sandbox.stub(UseDatadogLoggingModule, 'useDatadogLogging').returns(true);
-
-      const logErrorToDatadogSpy = sandbox.spy();
-      sandbox
-        .stub(LoggingModule, 'logErrorToDatadog')
-        .callsFake(logErrorToDatadogSpy);
-
-      global.window.WebChat = null;
-
-      const { result } = renderHook(() =>
-        useWebChatFramework({ timeout: 1000 }),
-      );
-      act(() => clock.tick(4000));
-
-      expect(captureExceptionStub.calledOnce).to.be.true;
-      expect(result.current.loadingStatus).to.equal(ERROR);
-
-      expect(logErrorToDatadogSpy.calledOnce).to.be.true;
     });
   });
 });

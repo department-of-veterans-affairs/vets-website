@@ -5,12 +5,13 @@ import { useSelector } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';
-import { SIGN_IN_URL } from '../constants';
+
+import { SIGN_IN_URL_21A } from '../constants';
 import { selectIsUserLoggedIn } from '../selectors/user';
 
 const SIGN_IN_LINK_PROPS = {
   onClick: undefined,
-  href: SIGN_IN_URL,
+  href: SIGN_IN_URL_21A,
 };
 
 function StartLink({ children, ...props }) {
@@ -141,6 +142,7 @@ const IntroductionPage = ({ route }) => {
           <p>Review your answers before submitting.</p>
         </va-process-list-item>
       </va-process-list>
+
       <SaveInProgressIntro
         headingLevel={2}
         prefillEnabled={formConfig.prefillEnabled}

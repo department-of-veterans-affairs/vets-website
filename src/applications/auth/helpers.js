@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import {
   EXTERNAL_APPS,
+  ARP_APPS,
   EXTERNAL_REDIRECTS,
 } from 'platform/user/authentication/constants';
 import {
@@ -22,7 +23,8 @@ export const checkReturnUrl = passedUrl => {
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) ||
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE]) ||
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP]) ||
-    passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.SMHD])
+    passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.SMHD]) ||
+    passedUrl.includes(EXTERNAL_REDIRECTS[ARP_APPS.FORM21A])
   );
 };
 

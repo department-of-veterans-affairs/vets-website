@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui/';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/';
+import { scrollTo } from 'platform/utilities/scroll';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import { verifyVaFileNumber } from '../actions';
@@ -129,13 +130,10 @@ const IntroductionPage = props => {
             displayed. You are not required to respond to a collection of
             information if this number is not displayed. Valid OMB control
             numbers can be located on the OMB Internet Page at{' '}
-            <a
+            <va-link
               href="https://www.reginfo.gov/public/do/PRAMain"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              www.reginfo.gov/public/do/PRAMain
-            </a>
+              text="www.reginfo.gov/public/do/PRAMain"
+            />
             . If desired, you can call 1-800-827-1000 to get information on
             where to send comments or suggestions about this form.
           </p>

@@ -518,7 +518,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       // Assert
       expect(
         await screen.findByText(
-          /You can.t schedule an appointment online right now/i,
+          /We can’t schedule your appointment right now/i,
         ),
       ).to.exist;
     });

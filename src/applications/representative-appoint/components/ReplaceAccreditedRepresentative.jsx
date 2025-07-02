@@ -22,7 +22,10 @@ const ReplaceAccreditedRepresentative = props => {
       <h3>Replace your current accredited representative</h3>
       <p>
         You’ll replace your current accredited representative with the new one
-        you’ve selected.
+        you’ve selected. If you have any appeals currently pending at the Board
+        of Veterans’ Appeals, the Board may need to approve this change in
+        representation before your new representative can assist you with any
+        appeals.
       </p>
       <h4 className="vads-u-margin-y--5">
         You’ll replace this current accredited representative:

@@ -8,6 +8,7 @@ export {
   VaRadioOption,
   VaSearchInput,
   VaSelect,
+  VaStatementOfTruth,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 

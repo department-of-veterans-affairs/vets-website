@@ -4,12 +4,9 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 import { title4142WithId } from '../content/title';
 import { content } from '../content/evidenceSummary';
-import {
-  authorizationLabel,
-  authorizationError,
-} from '../content/evidencePrivateRecordsAuthorization';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
 import {
+  AUTHORIZATION_LABEL,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_PRIVATE_AUTHORIZATION,
   EVIDENCE_LIMITATION_PATH,
@@ -91,11 +88,12 @@ export const EvidencePrivateContent = ({
             </div>
             <div>
               {privacyAgreementAccepted ? (
-                authorizationLabel
+                AUTHORIZATION_LABEL
               ) : (
                 // including non-empty error attribute for focus management
                 <span className="usa-input-error-message" error="error">
-                  {authorizationError}
+                  You must give us authorization for us to get your non-VA
+                  medical records
                 </span>
               )}
             </div>

@@ -5,12 +5,10 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import piiReplace from './piiReplace';
 import {
   getConversationIdKey,
-  getEventSkillValue,
   getInAuthExp,
   getIsTrackingUtterances,
   getRecentUtterances,
   setEventSkillValue,
-  setIsRxSkill,
   setIsTrackingUtterances,
   setRecentUtterances,
 } from './sessionStorage';
@@ -31,13 +29,7 @@ function getStartConversationActivity(value) {
         name: START_CONVERSATION,
         type: EVENT,
         value: {
-          csrfToken: value.csrfToken,
-          apiSession: value.apiSession,
           code: value.code,
-          apiURL: value.apiURL,
-          baseURL: value.baseURL,
-          userFirstName: value.userFirstName,
-          userUuid: value.userUuid,
           currentConversationId: value.currentConversationId,
           isMobile: value.isMobile,
         },
@@ -57,20 +49,6 @@ function getEventValue(action) {
     action?.payload?.activity?.value ||
     ''
   );
-}
-
-function isEventRxSkill(eventValue) {
-  return eventValue === 'va_vha_healthassistant_bot';
-}
-
-function handleRxSkillEvent(action, eventName, isRxSkillState) {
-  const actionEventName = getEventName(action);
-  const eventValue = getEventValue(action);
-
-  if (actionEventName === eventName && isEventRxSkill(eventValue)) {
-    setIsRxSkill(isRxSkillState);
-    sendWindowEventWithActionPayload('rxSkill', action);
-  }
 }
 
 function handleSkillEntryEvent(action) {
@@ -171,50 +149,20 @@ export const processIncomingActivity = ({
     sendWindowEventWithActionPayload('webchat-message-activity', action);
   }
 
-  handleRxSkillEvent(action, 'Skill_Entry', true);
-  handleRxSkillEvent(action, 'Skill_Exit', false);
   handleSkillEntryEvent(action);
 };
 
-export const processMicrophoneActivity = ({ action }) => () => {
-  const eventSkillValue = getEventSkillValue();
-  if (action.payload.dictateState === 3) {
-    recordEvent({
-      event: 'chatbot-microphone-enable',
-      topic: eventSkillValue || undefined,
-    });
-  } else if (action.payload.dictateState === 0) {
-    recordEvent({
-      event: 'chatbot-microphone-disable',
-      topic: eventSkillValue || undefined,
-    });
-  }
-};
-
-export function addActivityData(
-  action,
-  { apiSession, csrfToken, apiURL, userFirstName, userUuid, isMobile },
-) {
+export function addActivityData(action, { isMobile }) {
   const updatedAction = action;
   if (updatedAction.payload?.activity) {
     if (typeof updatedAction.payload.activity.value === 'string') {
       updatedAction.payload.activity.value = {
         value: updatedAction.payload.activity.value,
-        apiSession,
-        csrfToken,
-        apiURL,
-        userFirstName,
-        userUuid,
         isMobile,
       };
     } else {
       updatedAction.payload.activity.value = {
         ...updatedAction.payload.activity.value,
-        apiSession,
-        csrfToken,
-        apiURL,
-        userFirstName,
-        userUuid,
         isMobile,
       };
     }

@@ -216,3 +216,30 @@ export const certifierRelationshipSchema = {
     },
   },
 };
+
+export const certifierClaimStatusSchema = {
+  uiSchema: {
+    ...titleUI(({ formData }) => {
+      return `${
+        formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+      } CHAMPVA claim status`;
+    }),
+    claimStatus: radioUI({
+      type: 'radio',
+      title: 'Is this a new claim or a resubmission for an existing claim?',
+      required: () => true,
+      labels: {
+        new: 'A new claim',
+        resubmission: 'A resubmission for an existing claim',
+      },
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['claimStatus'],
+    properties: {
+      titleSchema,
+      claimStatus: radioSchema(['new', 'resubmission']),
+    },
+  },
+};

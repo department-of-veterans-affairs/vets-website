@@ -73,10 +73,7 @@ const testConfig = createTestConfig(
       'veteran-information/emergency-contacts/0/contact': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillContactPersonalInfo(
-              data.emergencyContacts[0],
-              'view:hasEmergencyContactAddress',
-            );
+            fillContactPersonalInfo(data.emergencyContacts[0]);
           });
         });
       },
@@ -92,10 +89,7 @@ const testConfig = createTestConfig(
       'veteran-information/emergency-contacts/1/contact': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillContactPersonalInfo(
-              data.emergencyContacts[1],
-              'view:hasEmergencyContactAddress',
-            );
+            fillContactPersonalInfo(data.emergencyContacts[1]);
           });
         });
       },
@@ -130,10 +124,7 @@ const testConfig = createTestConfig(
       'veteran-information/next-of-kin/0/contact': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillContactPersonalInfo(
-              data.nextOfKins[0],
-              'view:hasNextOfKinAddress',
-            );
+            fillContactPersonalInfo(data.nextOfKins[0]);
           });
         });
       },
@@ -147,10 +138,7 @@ const testConfig = createTestConfig(
       'veteran-information/next-of-kin/1/contact': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillContactPersonalInfo(
-              data.nextOfKins[1],
-              'view:hasNextOfKinAddress',
-            );
+            fillContactPersonalInfo(data.nextOfKins[1]);
           });
         });
       },

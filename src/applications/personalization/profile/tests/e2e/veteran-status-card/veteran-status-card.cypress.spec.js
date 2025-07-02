@@ -2,11 +2,7 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 
 import { PROFILE_PATHS } from '@@profile/constants';
 import { loa3User72 } from '../../../mocks/endpoints/user';
-import {
-  airForce,
-  none,
-  withServiceHistoryNotConfirmed,
-} from '../../../mocks/endpoints/service-history';
+import { airForce, none } from '../../../mocks/endpoints/service-history';
 import {
   apiError,
   confirmed,
@@ -53,11 +49,7 @@ describe('Veteran Status Card', () => {
     });
 
     it('Should display Vet status eligibility warning', () => {
-      cy.intercept(
-        'GET',
-        '/v0/profile/service_history',
-        withServiceHistoryNotConfirmed,
-      );
+      cy.intercept('GET', '/v0/profile/service_history', none);
       cy.intercept('GET', '/v0/profile/vet_verification_status', confirmed);
       cy.visit(PROFILE_PATHS.VETERAN_STATUS_CARD);
       cy.injectAxeThenAxeCheck();

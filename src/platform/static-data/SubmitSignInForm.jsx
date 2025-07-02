@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
   createHref,
   formatAriaLabel,
@@ -10,8 +9,7 @@ import {
 // NOTE: Do not convert these phone links to web components as they are
 // used in the injected header, which does not support web components
 export default function SubmitSignInForm({ startSentence }) {
-  const helpDeskNumber = CONTACTS.HELP_DESK;
-  const ttyNumber = CONTACTS['711'];
+  const helpDeskNumber = '8662793677';
 
   const helpDeskLink = (
     <a
@@ -22,20 +20,10 @@ export default function SubmitSignInForm({ startSentence }) {
     </a>
   );
 
-  const ttyLink = (
-    <a
-      aria-label={formatAriaLabel(ttyNumber, true)}
-      href={createHref(ttyNumber)}
-    >
-      {formatPhoneNumber(ttyNumber, true)}
-    </a>
-  );
-
   return (
     <span>
-      {startSentence ? 'Call' : 'call'} our MyVA411 main information line for
-      help at {helpDeskLink} ({ttyLink}
-      ).
+      {startSentence ? 'Call' : 'call'} our VA.gov technical support line for
+      help at {helpDeskLink}.
     </span>
   );
 }

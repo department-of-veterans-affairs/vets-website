@@ -28,6 +28,7 @@ function AppointmentListSection() {
         />
 
         {isInCCPilot && <Redirect from="/pending" to="/referrals-requests" />}
+        {!isInCCPilot && <Redirect from="/referrals-requests" to="/pending" />}
 
         <Route path="/pending" component={AppointmentsPage} />
         {isInCCPilot &&

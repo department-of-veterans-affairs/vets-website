@@ -41,7 +41,7 @@ import {
   seiSuccessfulDownload,
   seiFailedDownload,
 } from './seiPdf';
-import { profileHasEHRM, profileHasVista } from './facilities';
+import { profileHasEHRM, profileHasVista, isCerner } from './facilities';
 import {
   selectVaPatient,
   selectProfileLoa,
@@ -54,6 +54,7 @@ export {
   hasMhvBasicAccount,
   hasMessagingAccess,
   isAuthenticatedWithSSOe,
+  isCerner,
   isInMPI,
   isLOA1,
   isLOA3,

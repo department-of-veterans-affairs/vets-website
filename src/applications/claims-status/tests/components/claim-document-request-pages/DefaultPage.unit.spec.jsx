@@ -71,8 +71,11 @@ describe('<DefaultPage>', () => {
       expect($('#default-page', container)).to.exist;
       expect($('.add-files-form', container)).to.exist;
       getByText(`Respond by ${formatDate(item.suspenseDate)}`);
-      getByText('What we need from you');
-      getByText('Learn about this request in your claim letter');
+      getByText('What we need from you', { selector: 'h2' });
+      getByText('To respond to this request:');
+      getByText(
+        'If you need help understanding this request, check your claim letter online.',
+      );
       expect($('va-link', container)).to.exist;
       expect($('.optional-upload', container)).to.not.exist;
       getByText('Submit buddy statement(s)');
@@ -191,7 +194,7 @@ describe('<DefaultPage>', () => {
         ),
       );
     });
-    it(`should render Requested from examiner's office on when the track item is a DBQ`, () => {
+    it(`should render Requested from examiner’s office on when the track item is a DBQ`, () => {
       const item = {
         closedDate: null,
         description: 'old description',
@@ -212,7 +215,35 @@ describe('<DefaultPage>', () => {
           <DefaultPage {...defaultProps} item={item} />
         </Provider>,
       );
-      getByText(`Requested from examiner's office on March 25, 2024`);
+      getByText(`Requested from examiner’s office on March 25, 2024`);
+    });
+    it('should display pass due alert when suspense date is in the past', () => {
+      const item = {
+        closedDate: null,
+        description: 'Buddy statement text',
+        displayName: 'Submit buddy statement(s)',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: nineMonthsAgoSuspenseDate,
+        uploadsAllowed: true,
+        canUploadFile: true,
+        documents: [],
+        date: '2024-03-07',
+      };
+      const { getByText, container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      expect($('#default-page', container)).to.exist;
+      expect($('.add-files-form', container)).to.exist;
+      getByText('Deadline passed for requested information');
+      getByText(
+        'We haven’t received the information we asked for. You can still upload or mail it to us, but we may review your claim without it.',
+      );
     });
   });
 

@@ -1,8 +1,6 @@
 import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   addDays,
   addMinutes,
@@ -11,13 +9,15 @@ import {
   startOfMonth,
 } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { onCalendarChange } from '../../new-appointment/redux/actions';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import CalendarWidget from './CalendarWidget';
 import { DATE_FORMATS } from '../../utils/constants';
+import CalendarWidget from './CalendarWidget';
 
 describe('VAOS Component: CalendarWidget', () => {
   it('should display scheduling duplicate appointment error message for conflict with booked appointment', async () => {
@@ -28,8 +28,7 @@ describe('VAOS Component: CalendarWidget', () => {
     const slot2 = addMinutes(nowUTC, 120);
     const availableSlots = [
       {
-        startUtc: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        start: formatInTimeZone(nowUTC, timezone, DATE_FORMATS.ISODateTime),
+        start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
         end: formatInTimeZone(
           addMinutes(nowUTC, 60),
           'UTC',
@@ -37,8 +36,7 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
       {
-        startUtc: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        start: formatInTimeZone(slot2, timezone, DATE_FORMATS.ISODateTime),
+        start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeUTC),
         end: formatInTimeZone(
           addMinutes(slot2, 60),
           'UTC',
@@ -46,11 +44,7 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
     ];
-    const startMonth = formatInTimeZone(
-      nowUTC,
-      timezone,
-      DATE_FORMATS.yearMonth,
-    );
+    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
@@ -60,10 +54,9 @@ describe('VAOS Component: CalendarWidget', () => {
         {
           startUtc: formatInTimeZone(
             offset,
-            'UTC',
-            DATE_FORMATS.ISODateTimeUTC,
+            timezone,
+            DATE_FORMATS.ISODateTimeLocal,
           ),
-          start: formatInTimeZone(offset, timezone, DATE_FORMATS.ISODateTime),
           minutesDuration: 60,
         },
       ],
@@ -132,6 +125,11 @@ describe('VAOS Component: CalendarWidget', () => {
       ).to.be.ok;
     });
 
+    // Check if timezone conversion bumped open slot to the next day
+    if (nowUTC.getUTCDate() !== slot2.getUTCDate()) {
+      userEvent.click(screen.getByText(slot2.getUTCDate()));
+    }
+
     userEvent.click(
       screen.getByText(formatInTimeZone(slot2, timezone, 'h:mm')),
     );
@@ -152,8 +150,7 @@ describe('VAOS Component: CalendarWidget', () => {
     nowUTC.setHours(12, 0, 0, 0);
     const availableSlots = [
       {
-        startUtc: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        start: formatInTimeZone(nowUTC, timezone, DATE_FORMATS.ISODateTime),
+        start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
         end: formatInTimeZone(
           addMinutes(nowUTC, 60),
           'UTC',
@@ -161,11 +158,7 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
     ];
-    const startMonth = formatInTimeZone(
-      nowUTC,
-      timezone,
-      DATE_FORMATS.yearMonth,
-    );
+    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
@@ -175,10 +168,9 @@ describe('VAOS Component: CalendarWidget', () => {
         {
           startUtc: formatInTimeZone(
             offset,
-            'UTC',
-            DATE_FORMATS.ISODateTimeUTC,
+            timezone,
+            DATE_FORMATS.ISODateTimeLocal,
           ),
-          start: formatInTimeZone(offset, timezone, DATE_FORMATS.ISODateTime),
           minutesDuration: 60,
           status: 'cancelled',
         },
@@ -257,8 +249,7 @@ describe('VAOS Component: CalendarWidget', () => {
     const slot2 = addDays(nowUTC, 1);
     const availableSlots = [
       {
-        startUtc: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        start: formatInTimeZone(nowUTC, timezone, DATE_FORMATS.ISODateTime),
+        start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
         end: formatInTimeZone(
           addMinutes(nowUTC, 60),
           'UTC',
@@ -266,8 +257,7 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
       {
-        startUtc: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        start: formatInTimeZone(slot2, timezone, DATE_FORMATS.ISODateTime),
+        start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeUTC),
         end: formatInTimeZone(
           addMinutes(slot2, 60),
           'UTC',
@@ -275,11 +265,7 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
     ];
-    const startMonth = formatInTimeZone(
-      nowUTC,
-      timezone,
-      DATE_FORMATS.yearMonth,
-    );
+    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
@@ -289,10 +275,9 @@ describe('VAOS Component: CalendarWidget', () => {
         {
           startUtc: formatInTimeZone(
             offset,
-            'UTC',
-            DATE_FORMATS.ISODateTimeUTC,
+            timezone,
+            DATE_FORMATS.ISODateTimeLocal,
           ),
-          start: formatInTimeZone(offset, timezone, DATE_FORMATS.ISODateTime),
           minutesDuration: 60,
         },
       ],
@@ -304,7 +289,6 @@ describe('VAOS Component: CalendarWidget', () => {
       const isAppointmentSelectionError = useSelector(
         state => state.newAppointment.isAppointmentSelectionError,
       );
-
       return (
         <CalendarWidget
           maxSelections={1}

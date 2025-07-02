@@ -64,7 +64,7 @@ export function fullNameReducer(fullNameString) {
   return fullNameString?.replaceAll(' ', '').toLowerCase();
 }
 
-function statementOfTruthBodyElement(formData, statementOfTruthBody) {
+export function statementOfTruthBodyElement(formData, statementOfTruthBody) {
   switch (typeof statementOfTruthBody) {
     case 'function':
       if (typeof statementOfTruthBody(formData) === 'string') {
@@ -135,6 +135,7 @@ export function PreSubmitSection(props) {
           formData={form?.data}
           preSubmitInfo={preSubmit}
           showError={showPreSubmitError}
+          user={user}
           onSectionComplete={value => setPreSubmit(preSubmit?.field, value)}
         />
         {saveFormLink}

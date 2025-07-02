@@ -41,11 +41,12 @@ export const prescriptionsApi = createApi({
     try {
       const result = await apiRequest(path, { ...defaultOptions, ...options });
       return { data: result };
-    } catch (error) {
+    } catch ({ errors }) {
       return {
+        // TODO: Need to standardize API error responses
         error: {
-          status: error.status || 500,
-          message: error.message || 'Failed to fetch data',
+          status: errors?.[0]?.status || 500,
+          message: errors?.[0]?.title || 'Failed to fetch data',
         },
       };
     }

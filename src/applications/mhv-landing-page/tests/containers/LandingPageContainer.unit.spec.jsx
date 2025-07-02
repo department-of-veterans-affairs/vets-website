@@ -20,6 +20,7 @@ const stateFn = ({
   },
   user: {
     profile: {
+      vaPatient: true,
       loading: profileLoading,
       session: {
         ssoe: false,

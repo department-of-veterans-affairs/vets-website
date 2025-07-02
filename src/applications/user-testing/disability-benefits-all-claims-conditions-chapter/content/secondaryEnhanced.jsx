@@ -42,24 +42,43 @@ export const SecondaryEnhancedOptionsConflictingAlert = () => (
   </va-alert>
 );
 
-export const createSecondaryEnhancedDescriptionString = causedByCondition => {
-  const conditions = Object.keys(causedByCondition || {}).filter(
-    key => causedByCondition[key],
+export const createSecondaryEnhancedDescriptionString = (
+  causedByConditionObj,
+  fullData = {},
+) => {
+  const { conditions = [], ratedDisabilities = [] } = fullData;
+
+  // names that STILL exist
+  const validNames = new Set([
+    // new conditions that have NOT been deleted
+    ...conditions
+      .filter(c => c?.['view:isDeleted'] !== true)
+      .map(c => c.newCondition?.toLowerCase()?.trim()),
+    // rated disabilities are always valid
+    ...ratedDisabilities.map(d => d.name?.toLowerCase()?.trim()),
+  ]);
+
+  // keep only keys that are true **and** still valid
+  const keptKeys = Object.keys(causedByConditionObj || {}).filter(
+    key =>
+      causedByConditionObj[key] === true &&
+      validNames.has(key.toLowerCase().trim()),
   );
 
+  // build a readable list
   let conditionsString = '';
-
-  if (conditions.length === 1) {
-    const [condition] = conditions;
-    conditionsString = condition;
-  } else if (conditions.length === 2) {
-    conditionsString = conditions.join(' and ');
-  } else if (conditions.length > 2) {
-    conditionsString = `${conditions.slice(0, -1).join(', ')}, and ${
-      conditions[conditions.length - 1]
-    }`;
+  if (keptKeys.length === 1) {
+    const [onlyKey] = keptKeys;
+    conditionsString = onlyKey;
+  } else if (keptKeys.length === 2) {
+    conditionsString = keptKeys.join(' and ');
+  } else if (keptKeys.length > 2) {
+    conditionsString = `${keptKeys
+      .slice(0, -1)
+      .join(', ')}, and ${keptKeys.slice(-1)}`;
   }
 
-  return `caused by ${conditionsString ||
-    'a missing service-connected condition'}`;
+  return conditionsString
+    ? `caused by ${conditionsString}`
+    : 'cause is unknown or was removed';
 };

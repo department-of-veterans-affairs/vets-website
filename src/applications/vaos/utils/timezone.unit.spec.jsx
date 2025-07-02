@@ -44,6 +44,12 @@ describe('VAOS Utils: timezone', () => {
       expect(stripDST('AST')).to.equal('AT');
     });
 
+    it('should convert just the timezone abbreviation', () => {
+      expect(stripDST('August 1st 2024 9:15 PM ADT')).to.equal(
+        'August 1st 2024 9:15 PM AT',
+      );
+    });
+
     it('should return original abbreviation if it is already stripped or unrecognized', () => {
       expect(stripDST('HKT')).to.equal('HKT');
       expect(stripDST('PHT')).to.equal('PHT');

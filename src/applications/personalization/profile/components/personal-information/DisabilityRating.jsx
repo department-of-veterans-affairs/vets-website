@@ -1,16 +1,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { API_NAMES } from '~/applications/personalization/common/constants';
 import { canAccess } from '../../../common/selectors';
 import { totalDisabilityError } from '../../../common/selectors/ratedDisabilities';
 import { SingleFieldLoadFailAlert } from '../alerts/LoadFail';
-import { API_NAMES } from '~/applications/personalization/common/constants';
 
 const DisabilityRating = () => {
   const hasError = useSelector(totalDisabilityError);
   const rating = useSelector(state => state.totalRating?.totalDisabilityRating);
   const canAccessRatingInfo = useSelector(canAccess)?.[API_NAMES.RATING_INFO];
 
-  const shouldShowRating = canAccessRatingInfo && rating;
+  const shouldShowRating =
+    canAccessRatingInfo && rating !== undefined && rating !== null;
 
   return (
     <div>

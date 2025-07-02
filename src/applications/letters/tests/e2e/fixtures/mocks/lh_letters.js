@@ -116,6 +116,47 @@ const states = {
   },
 };
 
+const status = {
+  data: [
+    {
+      id: '',
+      type: 'async_transaction_va_profile_address_transactions',
+      attributes: {
+        transactionId: '0eb9f32a-ec07-4306-ba6b-82ac20e19566',
+        transactionStatus: 'COMPLETED_NO_CHANGES_DETECTED',
+        type: 'AsyncTransaction::VAProfile::AddressTransaction',
+        metadata: [],
+      },
+    },
+  ],
+};
+
+const validatedAddresses = {
+  addresses: [
+    {
+      address: {
+        addressLine1: '1200 Park Ave',
+        addressType: 'DOMESTIC',
+        city: 'Emeryville',
+        countryName: 'United States',
+        countryCodeIso3: 'USA',
+        countyCode: 'null',
+        countyName: 'null',
+        stateCode: 'CA',
+        zipCode: '94608',
+        zipCodeSuffix: 'null',
+      },
+      addressMetaData: {
+        confidenceScore: 100.0,
+        addressType: 'Domestic',
+        deliveryPointValidation: 'CONFIRMED',
+      },
+    },
+  ],
+  overrideValidationKey: 1939876526,
+  validationKey: 1939876526,
+};
+
 const mockUserData = {
   data: {
     id: '',
@@ -243,5 +284,7 @@ module.exports = {
   newAddress,
   countries,
   states,
+  validatedAddresses,
+  status,
   mockUserData,
 };

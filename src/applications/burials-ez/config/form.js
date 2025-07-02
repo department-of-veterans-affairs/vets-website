@@ -19,6 +19,8 @@ import contactInformation from './chapters/01-claimant-information/contactInform
 import veteranInformation from './chapters/02-veteran-information/veteranInformation';
 import burialInformation from './chapters/02-veteran-information/burialInformation';
 import locationOfDeath from './chapters/02-veteran-information/locationOfDeath';
+import homeHospiceCare from './chapters/02-veteran-information/homeHospiceCare';
+import homeHospiceCareAfterDischarge from './chapters/02-veteran-information/homeHospiceCareAfterDischarge';
 
 import separationDocuments from './chapters/03-military-history/separationDocuments';
 import uploadDD214 from './chapters/03-military-history/uploadDD214';
@@ -45,7 +47,12 @@ import deathCertificate from './chapters/05-additional-information/deathCertific
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
 import additionalEvidence from './chapters/05-additional-information/additionalEvidence';
 
-import { generateDeathFacilitySchemas } from '../utils/helpers';
+import {
+  pageAndReviewTitle,
+  generateDeathFacilitySchemas,
+  showHomeHospiceCarePage,
+  showHomeHospiceCareAfterDischargePage,
+} from '../utils/helpers';
 import { submit } from './submit';
 import manifest from '../manifest.json';
 import migrations from '../migrations';
@@ -183,6 +190,21 @@ const formConfig = {
           path: 'veteran-information/location-of-death',
           uiSchema: locationOfDeath.uiSchema,
           schema: locationOfDeath.schema,
+        },
+        homeHospiceCare: {
+          ...pageAndReviewTitle('Home hospice care'),
+          path: 'veteran-information/location-of-death/home-hospice-care',
+          depends: showHomeHospiceCarePage,
+          uiSchema: homeHospiceCare.uiSchema,
+          schema: homeHospiceCare.schema,
+        },
+        homeHospiceCareAfterDischarge: {
+          ...pageAndReviewTitle('Home hospice care after discharge'),
+          path:
+            'veteran-information/location-of-death/hme-hospice-care-after-discharge',
+          depends: showHomeHospiceCareAfterDischargePage,
+          uiSchema: homeHospiceCareAfterDischarge.uiSchema,
+          schema: homeHospiceCareAfterDischarge.schema,
         },
         nursingHomeUnpaid: {
           title: 'Veteran death location details',

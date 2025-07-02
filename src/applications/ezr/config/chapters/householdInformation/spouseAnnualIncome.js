@@ -27,7 +27,7 @@ export default {
         content['household-income-gross-title'],
         content['household-income-gross-description'],
       ),
-      'ui:description': GrossIncomeDescription,
+      'ui:description': () => GrossIncomeDescription('spouse'),
       spouseGrossIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -58,7 +58,7 @@ export default {
         content['household-income-other-title'],
         content['household-income-other-description'],
       ),
-      'ui:description': OtherIncomeDescription,
+      'ui:description': () => OtherIncomeDescription('spouse'),
       spouseOtherIncome: {
         ...currencyUI(
           replaceStrValues(

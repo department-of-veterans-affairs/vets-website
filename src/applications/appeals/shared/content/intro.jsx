@@ -16,10 +16,13 @@ export const OtherBenefits = () => (
       coverage for the services you need to help you get—and stay—healthy.
     </p>
     <p>
-      <a href={HEALTH_BENEFITS_URL} target="_blank" rel="noreferrer">
-        Learn more about Veterans Health Administration (VHA) health care
-        services (opens in a new tab)
-      </a>
+      <va-link
+        disable-analytics
+        external
+        href={HEALTH_BENEFITS_URL}
+        text="Learn more about Veterans Health Administration (VHA) health care
+        services"
+      />
     </p>
     <p>
       <strong>If you experienced military sexual trauma (MST)</strong>, we
@@ -28,9 +31,12 @@ export const OtherBenefits = () => (
       the time or have other proof that the MST occurred to get care.
     </p>
     <p>
-      <a href={MST_INFO} target="_blank" rel="noreferrer">
-        Learn more about MST-related benefits and services (opens in a new tab)
-      </a>
+      <va-link
+        disable-analytics
+        external
+        href={MST_INFO}
+        text="Learn more about MST-related benefits and services"
+      />
     </p>
   </>
 );

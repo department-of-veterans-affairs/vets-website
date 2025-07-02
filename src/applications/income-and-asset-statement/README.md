@@ -3,7 +3,7 @@
 #### Helpful installation tips
 
 1. Make sure to update the `content-build` package by pulling from `main` and running `yarn fetch-drupal-cache`.
-2. Update `vets-api` by pulling from `main`.
+2. Update `vets-api` by pulling from `master`.
 3. Enable the flipper feature `income_and_assets_form_enabled`
 4. Add the `income-and-asset-statement` to your `watch` configuration. Example: `yarn run watch --env entry=static-pages,auth,login-page,pensions,income-and-asset-statement`
 

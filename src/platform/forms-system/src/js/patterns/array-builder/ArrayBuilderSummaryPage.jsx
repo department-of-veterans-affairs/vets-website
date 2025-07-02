@@ -2,7 +2,8 @@
 /* eslint-disable react/sort-prop-types */
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { focusElement, scrollAndFocus } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import get from '~/platform/utilities/data/get';

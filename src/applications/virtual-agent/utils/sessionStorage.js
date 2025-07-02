@@ -2,7 +2,6 @@ const BOT_SESSION_PREFIX = 'va-bot.';
 const LOGGED_IN_FLOW = `${BOT_SESSION_PREFIX}loggedInFlow`;
 const IN_AUTH_EXP = `${BOT_SESSION_PREFIX}inAuthExperience`;
 const RECENT_UTTERANCES = `${BOT_SESSION_PREFIX}recentUtterances`;
-const IS_RX_SKILL = `${BOT_SESSION_PREFIX}isRxSkill`;
 const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
 const IS_TRACKING_UTTERANCES = `${BOT_SESSION_PREFIX}isTrackingUtterances`;
 const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
@@ -53,14 +52,6 @@ export function getRecentUtterances() {
 
 export function setRecentUtterances(value) {
   setStorageItem(RECENT_UTTERANCES, value, true);
-}
-
-export function getIsRxSkill() {
-  return getStorageItem(IS_RX_SKILL);
-}
-
-export function setIsRxSkill(value) {
-  setStorageItem(IS_RX_SKILL, value, true);
 }
 
 export function getConversationIdKey() {

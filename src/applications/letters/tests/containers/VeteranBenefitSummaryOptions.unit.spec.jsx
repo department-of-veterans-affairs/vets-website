@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import VeteranBenefitSummaryOptions from '../../containers/VeteranBenefitSummaryOptions';
+import { UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION } from '../../utils/constants';
 
 const mockStore = configureStore([]);
 
@@ -90,5 +93,114 @@ describe('<VeteranBenefitSummaryOptions />', () => {
     );
 
     expect(container).to.exist;
+  });
+  it('dispatches the correct action when a checkbox is toggled', async () => {
+    const dispatchSpy = sinon.spy();
+    const store = mockStore({
+      letters: {
+        optionsAvailable: true,
+        requestOptions: {
+          serviceConnectedEvaluation: true,
+        },
+        benefitInfo: {
+          serviceConnectedPercentage: 60,
+        },
+        serviceInfo: [],
+      },
+    });
+
+    store.dispatch = dispatchSpy;
+
+    const { getByLabelText } = render(
+      <Provider store={store}>
+        <VeteranBenefitSummaryOptions />
+      </Provider>,
+    );
+
+    const checkbox = getByLabelText(/Combined disability rating/i);
+    expect(checkbox).to.exist;
+
+    await userEvent.click(checkbox);
+
+    expect(dispatchSpy.called).to.be.true;
+
+    const action = dispatchSpy.firstCall.args[0];
+    expect(action.type).to.equal(UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION);
+    expect(action.propertyPath).to.equal('serviceConnectedEvaluation');
+    expect(action.value).to.be.false;
+  });
+  it('does render Military Service checkbox when service info exists', () => {
+    const store = mockStore({
+      letters: {
+        optionsAvailable: true,
+        requestOptions: {},
+        benefitInfo: {
+          monthlyAwardAmount: 1000,
+        },
+        serviceInfo: [
+          {
+            branch: 'Army',
+            characterOfService: 'HONORABLE',
+            enteredDate: '1977-08-30T00:00:00Z',
+            releasedDate: '1984-12-12T00:00:00Z',
+          },
+        ],
+      },
+    });
+
+    const { queryByLabelText } = render(
+      <Provider store={store}>
+        <VeteranBenefitSummaryOptions />
+      </Provider>,
+    );
+
+    const checkbox = queryByLabelText(/military service/i);
+    expect(checkbox).to.exist;
+  });
+  it('does not render Military Service checkbox when no service info exists', () => {
+    const store = mockStore({
+      letters: {
+        optionsAvailable: true,
+        requestOptions: {},
+        benefitInfo: {
+          monthlyAwardAmount: 1000,
+        },
+        serviceInfo: [],
+      },
+    });
+
+    const { queryByLabelText } = render(
+      <Provider store={store}>
+        <VeteranBenefitSummaryOptions />
+      </Provider>,
+    );
+
+    const checkbox = queryByLabelText(/military service/i);
+    expect(checkbox).to.not.exist;
+  });
+  it('does not render checkboxes for benefitsInfo keys with null values', () => {
+    const store = mockStore({
+      letters: {
+        optionsAvailable: true,
+        requestOptions: {
+          serviceConnectedEvaluation: true,
+          monthlyAward: true,
+        },
+        benefitInfo: {
+          serviceConnectedPercentage: null, // Should be skipped
+          monthlyAwardAmount: 1200,
+        },
+        serviceInfo: [],
+      },
+    });
+
+    const { container } = render(
+      <Provider store={store}>
+        <VeteranBenefitSummaryOptions />
+      </Provider>,
+    );
+
+    const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+    expect(checkboxes.length).to.equal(1);
   });
 });

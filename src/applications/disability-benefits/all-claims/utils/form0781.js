@@ -2,7 +2,8 @@
 import _ from 'platform/utilities/data';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { isClaimingNew } from '.';
-import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
+// import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
+import { form0781WorkflowChoices } from '../content/form0781/workflowChoices';
 import { titleWithTag, form0781HeadingTag } from '../content/form0781';
 import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
 

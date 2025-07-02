@@ -219,15 +219,6 @@ Afterward, check `/mochawesome-report` contents.
 
 **For other options with `yarn cy:run`,** [the same options for `cypress run` are applicable](https://docs.cypress.io/guides/guides/command-line.html#Commands).
 
-## Changing Virtual Agent backend URL
-
-If not already create a `.env` file in the root of the project and add
-the following while updating the URL
-
-```
-VIRTUAL_AGENT_BACKEND_URL=https://some.url.com
-```
-
 ## Running a mock API for local development
 
 In separate terminal from your local dev server, run

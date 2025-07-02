@@ -30,7 +30,6 @@
       "./reducers": "./mega-menu/reducers/index.js",
       "./sass/user-nav": "./user-nav/sass/user-nav.scss",
       "./selectors": "./feature-toggles/selectors.js",
-      "./sitemap-helpers": "./tests/sitemap/sitemap-helpers.js",
       "./static-drupal-data": "./hooks/static-drupal-data.js",
       "./style": "./sass/style.scss",
       "./user-nav": "./user-nav/index.js",
@@ -58,7 +57,6 @@
       "@testing-library/user-event": "*",
       "classnames": "*",
       "node-fetch": "*",
-      "libxmljs2": "*",
       "append-query": "*",
       "reselect": "*",
       "core-js": "*"

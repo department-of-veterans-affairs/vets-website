@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { Toggler } from 'platform/utilities/feature-toggles';
 
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';

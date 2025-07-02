@@ -21,14 +21,13 @@ const createRatedDisabilitySchema = fullData =>
 const conditionPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Type of condition',
+      title: 'Add a condition',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     ratedDisability: radioUI({
-      title:
-        'Select if you’d like to add a new condition or select which of your service-connected disabilities have worsened.',
+      title: 'What condition would you like to add?',
       hint:
-        'Choose one, you will return to this screen if you need to add more.',
+        "Choose one. You'll return to this screen later if you need to add more.",
 
       updateSchema: (_formData, _schema, uiSchema, _index, _path, fullData) => {
         const options = Object.keys(createRatedDisabilitySchema(fullData));

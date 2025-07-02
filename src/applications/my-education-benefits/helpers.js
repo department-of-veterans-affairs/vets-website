@@ -281,7 +281,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
         },
       },
 
-      [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
+      [formFields.dateOfBirth]: profile?.dob || claimant?.dateOfBirth,
 
       [formFields.email]: {
         email: emailAddress,

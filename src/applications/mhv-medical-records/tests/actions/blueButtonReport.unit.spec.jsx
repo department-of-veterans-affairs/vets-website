@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import sinon from 'sinon';
+import { subYears, addMonths, format } from 'date-fns';
 import {
   getBlueButtonReportData,
   clearFailedList,
@@ -207,6 +208,56 @@ describe('Blue Button Actions', () => {
           const dispatchedAction = dispatch.firstCall.args[0];
           expect(dispatchedAction.type).to.equal(Actions.BlueButtonReport.GET);
           expect(dispatchedAction.appointmentsResponse).to.deep.equal(mockData);
+
+          getAppointmentsStub.restore();
+        });
+
+        it('should NOT fetch appointments if selected dateFilter is more than 2 years past', async () => {
+          const mockData = { mockData: 'appointmentsMockData' };
+          const getAppointmentsStub = sinon
+            .stub(MrApi, 'getAppointments')
+            .resolves(mockData);
+
+          const dispatch = sinon.spy();
+          const action = getBlueButtonReportData(
+            { appointments: true },
+            {
+              fromDate: format(subYears(new Date(), 4), 'yyyy-MM-dd'),
+              toDate: format(subYears(new Date(), 3), 'yyyy-MM-dd'),
+            },
+          );
+          await action(dispatch);
+
+          expect(getAppointmentsStub.called).to.not.be.true;
+
+          expect(dispatch.calledOnce).to.be.true;
+          const dispatchedAction = dispatch.firstCall.args[0];
+          expect(dispatchedAction.type).to.equal(Actions.BlueButtonReport.GET);
+
+          getAppointmentsStub.restore();
+        });
+
+        it('should NOT fetch appointments if selected dateFilter is more than 13 months future', async () => {
+          const mockData = { mockData: 'appointmentsMockData' };
+          const getAppointmentsStub = sinon
+            .stub(MrApi, 'getAppointments')
+            .resolves(mockData);
+
+          const dispatch = sinon.spy();
+          const action = getBlueButtonReportData(
+            { appointments: true },
+            {
+              fromDate: format(addMonths(new Date(), 14), 'yyyy-MM-dd'),
+              toDate: format(addMonths(new Date(), 16), 'yyyy-MM-dd'),
+            },
+          );
+          await action(dispatch);
+
+          expect(getAppointmentsStub.called).to.not.be.true;
+
+          expect(dispatch.calledOnce).to.be.true;
+          const dispatchedAction = dispatch.firstCall.args[0];
+          expect(dispatchedAction.type).to.equal(Actions.BlueButtonReport.GET);
 
           getAppointmentsStub.restore();
         });

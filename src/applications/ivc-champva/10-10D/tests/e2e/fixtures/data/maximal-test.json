@@ -12,7 +12,7 @@
           "state": "MD",
           "postalCode": "12312"
         },
-        "applicantSSN": "123123123",
+        "applicantSSN": "123123124",
         "applicantName": {
           "first": "Applicant1",
           "last": "Jones"
@@ -209,9 +209,7 @@
       "postalCode": "12312"
     },
     "sponsorIsDeceased": false,
-    "ssn": {
-      "ssn": "123123123"
-    },
+    "ssn": "123123123",
     "veteransFullName": {
       "first": "Sponsor",
       "last": "Jones"

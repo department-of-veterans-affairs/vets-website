@@ -5,8 +5,8 @@ import uniq from 'lodash/uniq';
 import {
   waitForRenderThenFocus,
   focusElement,
-  scrollTo,
-} from 'platform/utilities/ui';
+} from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 
 import {
   getChaptersLengthDisplay,

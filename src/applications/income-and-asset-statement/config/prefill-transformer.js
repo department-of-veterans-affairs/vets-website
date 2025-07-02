@@ -11,10 +11,8 @@ export default function prefillTransformer(pages, formData, metadata) {
   return {
     pages,
     formData: {
-      veteran: {
-        ssnLastFour: veteranSsnLastFour,
-        vaFileLastFour: veteranVaFileNumberLastFour,
-      },
+      veteranSocialSecurityNumber: veteranSsnLastFour,
+      vaFileNumber: veteranVaFileNumberLastFour,
     },
     metadata,
   };

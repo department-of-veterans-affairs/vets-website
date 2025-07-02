@@ -1,4 +1,3 @@
-import AlertMhvBasicAccount from './AlertMhvBasicAccount';
 import AlertNotVerified from './AlertNotVerified';
 import AlertUnregistered from './AlertUnregistered';
 import AlertVerifyAndRegister from './AlertVerifyAndRegister';
@@ -9,7 +8,6 @@ import AlertDownloadAccessTrouble from './AlertDownloadAccessTrouble';
 import AlertDownloadSuccess from './AlertDownloadSuccess';
 
 export {
-  AlertMhvBasicAccount,
   AlertNotVerified,
   AlertUnregistered,
   AlertVerifyAndRegister,

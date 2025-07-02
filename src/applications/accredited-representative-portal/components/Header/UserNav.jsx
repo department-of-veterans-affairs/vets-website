@@ -14,9 +14,9 @@ const UserHelpLinks = () => {
         <Toggler.Enabled>
           <li>
             <Link
-              data-testid="user-nav-poa-search-link"
+              data-testid="user-nav-claimant-search-link"
               className="vads-u-color--white"
-              to="/poa-search"
+              to="/claimant-search"
               onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
             >

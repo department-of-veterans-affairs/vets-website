@@ -12,6 +12,7 @@ import {
   selectPastAppointments,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
+import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -32,6 +33,11 @@ export default function useClinicFormState(pageTitle) {
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
 
+  // Retrieves flipper state for mental health history filtering
+  const usePastVisitMHFilter = useSelector(
+    selectFeatureMentalHealthHistoryFiltering,
+  );
+
   // filter the clinics based on Direct Scheduling value from VATS
   // v2 uses boolean while v0 uses Y/N string
   let filteredClinics = clinics.filter(
@@ -42,7 +48,8 @@ export default function useClinicFormState(pageTitle) {
   // primary care and mental health are exempt
   // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
   const isCheckTypeOfCare =
-    initialData.typeOfCareId !== TYPE_OF_CARE_IDS.MENTAL_HEALTH &&
+    (initialData.typeOfCareId !== TYPE_OF_CARE_IDS.MENTAL_HEALTH ||
+      usePastVisitMHFilter) &&
     initialData.typeOfCareId !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
     location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
       ?.patientHistoryRequired === true;

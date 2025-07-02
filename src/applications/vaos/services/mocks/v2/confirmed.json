@@ -539,6 +539,7 @@
         "id": "04aa456vvs",
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtHome",
         "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
@@ -581,8 +582,8 @@
           "patientHasMobileGfe": true
         },
         "slot": null,
-        "start": "2023-11-09T20:30:00Z",
-        "localStartTime": "2023-11-13T09:00:00.000-06:00",
+        "start": "2025-11-09T20:30:00Z",
+        "localStartTime": "2025-11-13T09:00:00.000-06:00",
         "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
         "status": "booked",
         "telehealth": {
@@ -590,7 +591,7 @@
           "atlas": null,
           "vvsKind": "MOBILE_ANY"
         },
-        "past": true,
+        "past": false,
         "pending": false
       }
     },
@@ -704,6 +705,7 @@
         ],
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtAnAtlasLocation",
         "status": "booked",
         "serviceType": "outpatientMentalHealth",
         "patientIcn": "1012845331V153043",
@@ -724,8 +726,8 @@
             "practiceName": "Dayton OH VAMC"
           }
         ],
-        "start": "2024-03-25T12:00:00Z",
-        "end": "2024-03-25T12:30:00Z",
+        "start": "2025-09-25T12:00:00Z",
+        "end": "2025-09-25T12:30:00Z",
         "minutesDuration": 30,
         "created": "2023-03-24T17:33:19.072Z",
         "cancellable": true,
@@ -756,7 +758,7 @@
           "vistaStatus": [],
           "patientHasMobileGfe": false
         },
-        "localStartTime": "2024-03-25T08:00:00.000-04:00",
+        "localStartTime": "2025-09-25T08:00:00.000-04:00",
         "location": {
           "id": "984",
           "type": "appointments",
@@ -803,7 +805,7 @@
             ]
           }
         },
-        "past": true,
+        "past": false,
         "pending": false
       }
     },
@@ -827,6 +829,7 @@
         "id": "09aa456vvs",
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtHome",
         "locationId": "983",
         "localStartTime": "2024-06-08T17:00:00.000-06:00",
         "minutesDuration": 30,
@@ -993,6 +996,7 @@
         ],
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "serviceType": "outpatientMentalHealth",
         "serviceTypes": [
@@ -1321,12 +1325,13 @@
           ]
         },
         "description": "Upcoming VA location telehealth appointment",
-        "end": "2024-08-22T14:00:00Z",
+        "end": "2025-08-22T14:00:00Z",
         "id": "05aa456vvc",
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtAVaLocation",
         "locationId": "983",
-        "localStartTime": "2024-08-22T09:00:00.000-06:00",
+        "localStartTime": "2025-08-22T09:00:00.000-06:00",
         "physicalLocation": "PHYSICAL LOCATION TESTING",
         "minutesDuration": 30,
         "patientIcn": null,
@@ -1337,15 +1342,15 @@
         "requestedPeriods": null,
         "serviceType": "foodAndNutrition",
         "slot": null,
-        "created": "2024-08-22T13:00:00Z",
-        "start": "2024-08-22T13:00:00Z",
+        "created": "2025-08-22T13:00:00Z",
+        "start": "2025-08-22T13:00:00Z",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
           "vvsKind": "CLINIC_BASED"
         },
-        "past": true,
+        "past": false,
         "pending": false
       }
     },
@@ -1369,6 +1374,7 @@
         "id": "05aa456vvd",
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtAVaLocation",
         "locationId": "983",
         "localStartTime": "2024-08-22T10:00:00.000-06:00",
         "physicalLocation": "PHYSICAL LOCATION TESTING",
@@ -1781,6 +1787,7 @@
         "id": "02aa456vvs",
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtHome",
         "locationId": "983",
         "localStartTime": "2024-09-22T09:00:00.000-06:00",
         "minutesDuration": 30,
@@ -1849,6 +1856,7 @@
         "id": "02aa456vvt",
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtHome",
         "locationId": "983",
         "localStartTime": "2024-09-22T10:00:00.000-06:00",
         "minutesDuration": 30,
@@ -2404,6 +2412,7 @@
         ],
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtAnAtlasLocation",
         "status": "booked",
         "patientIcn": "1013124304V115761",
         "locationId": "983",
@@ -2923,6 +2932,7 @@
         ],
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtHome",
         "status": "booked",
         "patientIcn": "1012846043V576341",
         "locationId": "983",
@@ -3065,8 +3075,8 @@
         "patientIcn": "1013678363V916823",
         "locationId": "983GC",
         "clinic": "945",
-        "start": "2024-12-19T15:40:00Z",
-        "end": "2024-12-19T16:40:00Z",
+        "start": "2025-12-19T15:40:00Z",
+        "end": "2025-12-19T16:40:00Z",
         "minutesDuration": 60,
         "slot": {
           "id": "3230323431323139313534303A323032343132313931363430",
@@ -3086,7 +3096,7 @@
             "physicalLocation": "FORT COLLINS AUDIO"
           }
         },
-        "localStartTime": "2024-12-19T08:40:00.000-07:00",
+        "localStartTime": "2025-12-19T08:40:00.000-07:00",
         "serviceName": "C&P BEV AUDIO FTC",
         "physicalLocation": "FORT COLLINS AUDIO",
         "location": {
@@ -3123,7 +3133,7 @@
             ]
           }
         },
-        "past": true,
+        "past": false,
         "pending": false,
         "modality": "claimExamAppointment"
       }
@@ -4049,6 +4059,7 @@
         "id": "03aa456vvs",
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtAnAtlasLocation",
         "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
@@ -4121,6 +4132,7 @@
         "end": "2025-01-13T21:00:00Z",
         "id": "03aa456vvt",
         "kind": "telehealth",
+        "modality": "vaVideoCareAtAnAtlasLocation",
         "type": "VA",
         "locationId": "983",
         "minutesDuration": 30,
@@ -4196,6 +4208,7 @@
         ],
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtAVaLocation",
         "status": "booked",
         "serviceType": "outpatientMentalHealth",
         "serviceTypes": [
@@ -4237,8 +4250,8 @@
             }
           }
         ],
-        "start": "2025-01-14T13:00:00Z",
-        "end": "2025-01-14T13:30:00Z",
+        "start": "2026-01-14T13:00:00Z",
+        "end": "2026-01-14T13:30:00Z",
         "minutesDuration": 30,
         "slot": {
           "id": "3230323331313134313330303A323032333131313431333330",
@@ -4262,7 +4275,7 @@
           "eCheckinAllowed": false,
           "clinic": {}
         },
-        "localStartTime": "2025-01-14T08:00:00.000-05:00",
+        "localStartTime": "2026-01-14T08:00:00.000-05:00",
         "avsPath": null,
         "serviceName": "MID-V10 CRH MH PSY MD PT",
         "location": {
@@ -4301,7 +4314,7 @@
             ]
           }
         },
-        "past": true,
+        "past": false,
         "pending": false
       }
     },
@@ -4326,6 +4339,7 @@
         ],
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtAVaLocation",
         "status": "cancelled",
         "serviceType": "outpatientMentalHealth",
         "serviceTypes": [
@@ -4470,8 +4484,8 @@
             }
           }
         ],
-        "start": "2025-02-02T13:00:00Z",
-        "created": "2025-02-02T20:29:46Z",
+        "start": "2025-09-02T13:00:00Z",
+        "created": "2025-09-02T20:29:46Z",
         "cancellable": false,
         "extension": {
           "ccLocation": {
@@ -4493,7 +4507,7 @@
           "hsrmConsultId": "984_646372",
           "ccTreatingSpecialty": "Home Health"
         },
-        "localStartTime": "2025-02-02T09:00:00.000-04:00",
+        "localStartTime": "2025-09-02T09:00:00.000-04:00",
         "avsPath": null,
         "location": {
           "id": "552",
@@ -4642,7 +4656,7 @@
             "visn": "10"
           }
         },
-        "past": true,
+        "past": false,
         "pending": false
       }
     },
@@ -5197,6 +5211,7 @@
         "pending": false,
         "past": true,
         "future": false,
+        "showScheduleLink": true,
         "travelPayClaim": {
           "metadata": {
             "status": 200,
@@ -5219,6 +5234,7 @@
         ],
         "kind": "telehealth",
         "type": "VA",
+        "modality": "vaVideoCareAtHome",
         "status": "booked",
         "patientIcn": "1013124304V115761",
         "locationId": "983",
@@ -5237,8 +5253,8 @@
             "practiceName": "Cheyenne VA Medical Center"
           }
         ],
-        "start": "2025-02-25T19:00:00Z",
-        "end": "2025-02-25T19:20:00Z",
+        "start": "2025-09-25T19:00:00Z",
+        "end": "2025-09-25T19:20:00Z",
         "minutesDuration": 20,
         "created": "2024-02-29T18:22:31.642Z",
         "cancellable": false,
@@ -5255,7 +5271,7 @@
           "vistaStatus": [],
           "patientHasMobileGfe": false
         },
-        "localStartTime": "2025-02-25T12:00:00.000-07:00",
+        "localStartTime": "2025-09-25T12:00:00.000-07:00",
         "location": {
           "id": "983",
           "type": "appointments",
@@ -5313,7 +5329,7 @@
             }
           }
         },
-        "past": true,
+        "past": false,
         "pending": false
       }
     },

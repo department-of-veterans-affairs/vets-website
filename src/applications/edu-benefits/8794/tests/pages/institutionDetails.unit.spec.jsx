@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
 import formConfig from '../../config/form';
+import { updateFormData } from '../../pages/institutionDetails';
 
 const mockStore = configureStore([]);
 
@@ -49,5 +50,40 @@ describe('VA Facility Code Page (yes/no)', () => {
     });
     fireEvent.click(getByRole('button', { name: /submit/i }));
     expect($$('va-radio[error]', container).length).to.be.greaterThan(0);
+  });
+  it('returns the same object when the radio choice has NOT changed', () => {
+    const oldData = {
+      institutionDetails: { hasVaFacilityCode: 'Y', institutionName: 'Foo' },
+    };
+    const newData = {
+      institutionDetails: { hasVaFacilityCode: 'Y', institutionName: 'Foo' },
+    };
+
+    const result = updateFormData(oldData, newData);
+
+    expect(result).to.equal(newData);
+  });
+
+  it('clears name & address when the radio choice DOES change', () => {
+    const oldData = {
+      institutionDetails: {
+        hasVaFacilityCode: 'Y',
+        institutionName: 'Old School',
+        institutionAddress: { street: '111 Old', city: 'Springfield' },
+      },
+    };
+    const newData = {
+      institutionDetails: {
+        hasVaFacilityCode: 'N',
+        institutionName: 'Old School',
+        institutionAddress: { street: '111 Old', city: 'Springfield' },
+      },
+    };
+
+    const result = updateFormData(oldData, newData);
+
+    expect(result).to.not.equal(newData);
+    expect(result.institutionDetails.institutionName).to.equal('');
+    expect(result.institutionDetails.institutionAddress).to.deep.equal({});
   });
 });

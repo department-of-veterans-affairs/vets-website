@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import React, { useEffect } from 'react';

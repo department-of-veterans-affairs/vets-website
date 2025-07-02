@@ -161,10 +161,10 @@ export const vetFormerMarriageStartDatePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
       return 'Your former marriage';
     }),
-    startDate: {
-      ...currentOrPastDateUI('When did you get married?'),
-      'ui:required': () => true,
-    },
+    startDate: currentOrPastDateUI({
+      title: 'When did you get married? xxx',
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',

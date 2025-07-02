@@ -6,6 +6,7 @@ tmp/
 out/
 src/applications/vaos/docs/
 src/site/tests/html/
+mocha/results
 
 # Files to ignore
 ._*

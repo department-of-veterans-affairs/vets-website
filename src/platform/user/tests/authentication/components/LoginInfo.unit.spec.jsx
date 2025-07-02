@@ -7,6 +7,6 @@ describe('LoginInfo', () => {
   it('renders 6 links', () => {
     const { container } = renderInReduxProvider(<LoginInfo />);
     const links = container.querySelectorAll('a');
-    expect(links.length).to.eq(6);
+    expect(links.length).to.eq(5);
   });
 });

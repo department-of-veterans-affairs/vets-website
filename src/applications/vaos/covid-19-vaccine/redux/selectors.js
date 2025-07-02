@@ -1,11 +1,17 @@
+import { parseISO } from 'date-fns';
+import { formatInTimeZone, toDate } from 'date-fns-tz';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { FETCH_STATUS, TYPE_OF_CARE_IDS } from '../../utils/constants';
+import { selectCanUseVaccineFlow } from '../../appointment-list/redux/selectors';
+import { getSiteIdFromFacilityId } from '../../services/location';
+import {
+  DATE_FORMATS,
+  FETCH_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../utils/constants';
 import {
   getTimezoneByFacilityId,
   getTimezoneDescByFacilityId,
 } from '../../utils/timezone';
-import { getSiteIdFromFacilityId } from '../../services/location';
-import { selectCanUseVaccineFlow } from '../../appointment-list/redux/selectors';
 
 function selectCovid19Vaccine(state) {
   return state.covid19Vaccine;
@@ -42,7 +48,16 @@ export function getChosenSlot(state) {
   const { availableSlots } = selectCovid19VaccineNewBooking(state);
   const selectedTime = selectCovid19VaccineFormData(state).date1?.[0];
 
-  return availableSlots?.find(slot => slot.start === selectedTime);
+  // Convert to UTC since slots are in UTC.
+  return availableSlots?.find(
+    slot =>
+      slot.start ===
+      formatInTimeZone(
+        parseISO(selectedTime),
+        'UTC',
+        DATE_FORMATS.ISODateTimeUTC,
+      ),
+  );
 }
 
 function getChosenFacilityInfo(state) {
@@ -59,10 +74,28 @@ export function getDateTimeSelect(state, pageKey) {
   const { appointmentSlotsStatus } = newBooking;
   const data = selectCovid19VaccineFormData(state);
   const formInfo = getCovid19VaccineFormPageInfo(state, pageKey);
-  const { availableSlots } = newBooking;
+  let { availableSlots } = newBooking;
 
   const timezoneDescription = getTimezoneDescByFacilityId(data.vaFacility);
   const timezone = getTimezoneByFacilityId(data.vaFacility);
+
+  if (availableSlots && availableSlots.length > 0) {
+    availableSlots = availableSlots.map(element => {
+      return {
+        ...element,
+        start: formatInTimeZone(
+          toDate(element.start),
+          timezone,
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+        end: formatInTimeZone(
+          toDate(element.end),
+          timezone,
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      };
+    });
+  }
 
   return {
     ...formInfo,

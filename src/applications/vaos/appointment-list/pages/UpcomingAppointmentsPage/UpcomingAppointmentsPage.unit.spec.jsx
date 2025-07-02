@@ -32,45 +32,11 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   const start = subDays(now, 30); // Subtract 30 days
   const end = addDays(now, 395); // Add 395 days
 
-  it('should show VA appointment text, useFeSourceOfTruthVA=false', async () => {
+  it('should show VA appointment text', async () => {
     // Arrange
     const appointment = new MockAppointmentResponse({
       localStartTime: now,
-    })
-      .setLocation(new MockFacilityResponse())
-      .setTypeOfCare(null);
-
-    mockAppointmentsApi({
-      start: subDays(now, 120), // Subtract 120 days
-      end: addDays(now, 1), // Current date + 1
-      statuses: ['proposed', 'cancelled'],
-      response: [],
-    });
-
-    mockAppointmentsApi({
-      start,
-      end,
-      response: [appointment],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-    });
-
-    // Act
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState,
-      reducers,
-    });
-
-    // Assert
-    await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
-    );
-    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-  });
-
-  it('should show VA appointment text, useFeSourceOfTruthVA=true', async () => {
-    // Arrange
-    const appointment = new MockAppointmentResponse({
-      localStartTime: now,
+      future: true,
     })
       .setLocation(new MockFacilityResponse())
       .setTypeOfCare(null);
@@ -95,7 +61,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
         ...initialState,
         featureToggles: {
           ...initialState.featureToggles,
-          vaOnlineSchedulingFeSourceOfTruthVA: true,
         },
       },
       reducers,
@@ -113,6 +78,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     const appointments = MockAppointmentResponse.createCCResponses({
       localStartTime: now,
       status: APPOINTMENT_STATUS.booked,
+      future: true,
     });
 
     mockAppointmentsApi({
@@ -146,6 +112,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     // Arrange
     const appointments = MockAppointmentResponse.createGfeResponses({
       localStartTime: now,
+      future: true,
     });
 
     mockAppointmentsApi({
@@ -179,6 +146,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     // Arrange
     const appointments = MockAppointmentResponse.createPhoneResponses({
       localStartTime: now,
+      future: true,
     });
 
     mockAppointmentsApi({
@@ -213,6 +181,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     const appointments = MockAppointmentResponse.createCCResponses({
       localStartTime: now,
       status: APPOINTMENT_STATUS.cancelled,
+      future: true,
     });
 
     mockAppointmentsApi({
@@ -244,6 +213,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   it('should show VA appointment text for telehealth appointments without vvsKind', async () => {
     const appointments = MockAppointmentResponse.createVAResponses({
       localStartTime: now,
+      future: true,
     });
     appointments[0]
       .setLocation(new MockFacilityResponse())

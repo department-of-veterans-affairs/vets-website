@@ -67,6 +67,15 @@ const Calcs = ({ data }) => {
     };
   }, []);
 
+  const totalLabelText = `Total Enrolled FTE: ${
+    programData?.supported || programData?.nonSupported
+      ? programData?.total
+      : 'N/A'
+  }`;
+
+  const pctLabelText = `Supported student percentage FTE: ${programData?.supportedFTEPercent ||
+    'N/A'}`;
+
   return (
     <>
       <div className="vads-u-margin-bottom--1">
@@ -74,21 +83,19 @@ const Calcs = ({ data }) => {
           Total Enrolled FTE
         </label>
         <span
-          aria-label={`Total Enrolled FTE: ${
-            programData?.supported || programData?.nonSupported
-              ? programData?.total
-              : 'N/A'
-          }`}
-          role="status"
           className="vads-u-font-size--h3 vads-u-font-weight--bold"
           data-testid="nonSupported"
           tabIndex={0}
+          aria-label={totalLabelText}
         >
-          {programData?.supported || programData?.nonSupported
-            ? programData?.total
-            : '--'}
+          <span aria-hidden="true">
+            {programData?.supported || programData?.nonSupported
+              ? programData?.total
+              : '--'}
+          </span>
         </span>
       </div>
+
       <va-additional-info trigger="How is Total enrolled FTE calculated?">
         <p>
           Number of supported students FTE plus number of non-supported students
@@ -105,14 +112,14 @@ const Calcs = ({ data }) => {
           Supported student percentage FTE
         </label>
         <span
-          aria-label={`Supported student percentage FTE: ${programData?.supportedFTEPercent ||
-            'N/A'}`}
-          role="status"
           className="vads-u-font-size--h3 vads-u-font-weight--bold"
           data-testid="supportedFTEPercent"
           tabIndex={0}
+          aria-label={pctLabelText}
         >
-          {programData?.supportedFTEPercent || '--%'}
+          <span aria-hidden="true">
+            {programData?.supportedFTEPercent || '--%'}
+          </span>
         </span>
       </div>
       <va-additional-info trigger="How is supported student percentage FTE calculated?">

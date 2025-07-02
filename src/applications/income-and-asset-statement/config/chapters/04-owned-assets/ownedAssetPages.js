@@ -39,6 +39,7 @@ export const options = {
     !isDefined(item.ownedPortionValue) ||
     !isDefined(item.assetType), // include all required fields here
   text: {
+    summaryDescription: SupplementaryFormsAlert,
     getItemName: (item, index, formData) =>
       isDefined(item?.recipientRelationship) &&
       isDefined(item?.assetType) &&
@@ -90,9 +91,6 @@ export const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:supplementaryFormsAlert': {
-      'ui:description': SupplementaryFormsAlert,
-    },
     'view:isAddingOwnedAssets': arrayBuilderYesNoUI(
       options,
       {

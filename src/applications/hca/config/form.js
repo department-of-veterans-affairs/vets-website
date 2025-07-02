@@ -584,9 +584,6 @@ const formConfig = {
         vaFacilityLighthouse: {
           path: 'insurance-information/va-facility-api',
           title: 'VA Facility',
-          initialData: {
-            isEssentialAcaCoverage: false,
-          },
           uiSchema: vaFacilityApiPage.uiSchema,
           schema: vaFacilityApiPage.schema,
         },

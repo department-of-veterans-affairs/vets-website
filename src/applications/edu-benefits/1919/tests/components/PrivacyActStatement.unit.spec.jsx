@@ -5,35 +5,56 @@ import { render } from '@testing-library/react';
 import PrivacyActStatement from '../../components/PrivacyActStatement';
 
 describe('<PrivacyActStatement />', () => {
-  it('should render Respondent Burden', () => {
-    const { container } = render(<PrivacyActStatement />);
-    const selector = container.querySelector(
-      '[data-testid="respondent-burden"]',
-    );
-
-    expect(selector.innerHTML).to.contain('Respondent Burden:');
-    expect(selector.innerHTML).to.contain('2900-0657');
-    expect(selector.innerHTML).to.contain('03/31/2027');
-  });
-
   it('should render Privacy Act Notice', () => {
-    const { container } = render(<PrivacyActStatement />);
+    const { container } = render(
+      <PrivacyActStatement showRespondentBurden={false} />,
+    );
     const selector = container.querySelector(
       '[data-testid="privacy-act-notice"]',
     );
 
-    expect(selector.innerHTML).to.contain('Privacy Act Notice:');
-    expect(selector.innerHTML).to.contain('Privacy Act of 1974');
+    expect(selector.innerHTML).to.contain(
+      'VA will not disclose information collected on this form to any source other than what has been authorized under the Privacy Act of 1974 or Title 38, Code of Federal Regulations 1.576 for routine uses as identified in the VA system of records, 58VA21/22/28, Compensation, Pension, Education, Veteran Readiness and Employment Records - VA, published in the Federal Register.',
+    );
   });
 
-  it('should contain a valid email link', () => {
-    const { container } = render(<PrivacyActStatement />);
-    const emailLink = container.querySelector(
-      'a[href="mailto:VACOPaperworkReduAct@va.gov"]',
+  it('should render respondent burden when showRespondentBurden is true', () => {
+    const { container } = render(<PrivacyActStatement showRespondentBurden />);
+    const respondentBurden = container.querySelector(
+      '[data-testid="respondent-burden"]',
     );
 
-    expect(emailLink).to.exist;
-    expect(emailLink).to.have.attr('target', '_blank');
-    expect(emailLink).to.have.attr('rel', 'noreferrer');
+    expect(respondentBurden).to.exist;
+    expect(respondentBurden.innerHTML).to.contain('Respondent Burden:');
+  });
+
+  it('should not render respondent burden when showRespondentBurden is false', () => {
+    const { container } = render(
+      <PrivacyActStatement showRespondentBurden={false} />,
+    );
+    const respondentBurden = container.querySelector(
+      '[data-testid="respondent-burden"]',
+    );
+
+    expect(respondentBurden).to.not.exist;
+  });
+
+  it('should always render privacy act notice regardless of showRespondentBurden value', () => {
+    const { container: containerWithBurden } = render(
+      <PrivacyActStatement showRespondentBurden />,
+    );
+    const { container: containerWithoutBurden } = render(
+      <PrivacyActStatement showRespondentBurden={false} />,
+    );
+
+    const privacyNoticeWithBurden = containerWithBurden.querySelector(
+      '[data-testid="privacy-act-notice"]',
+    );
+    const privacyNoticeWithoutBurden = containerWithoutBurden.querySelector(
+      '[data-testid="privacy-act-notice"]',
+    );
+
+    expect(privacyNoticeWithBurden).to.exist;
+    expect(privacyNoticeWithoutBurden).to.exist;
   });
 });

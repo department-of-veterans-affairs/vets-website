@@ -21,11 +21,8 @@ describe('Medications Details Page Pending Renewal Rx Alert', () => {
     detailsPage.verifyPendingRenewalStatusDescriptionOnDetailsPage(
       Data.PENDING_RENEW_TEXT,
     );
-    detailsPage.verifyPreviousPrescriptionHeaderTextOnDetailsPage(
-      'Previous prescriptions',
-    );
-    detailsPage.verifyPreviousPrescriptionsPaginationTextOnDetailsPage(
-      Data.SINGLE_PREVIOUS_RX_INFO,
+    detailsPage.verifyRxNumberNotVisibleOnPendingMedicationsDetailsPage(
+      pendingRxDetails.data.attributes.prescriptionNumber,
     );
     cy.injectAxe();
     cy.axeCheck('main');

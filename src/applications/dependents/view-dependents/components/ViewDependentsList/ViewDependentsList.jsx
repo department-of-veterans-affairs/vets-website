@@ -73,7 +73,11 @@ export { ViewDependentsList };
 ViewDependentsList.propTypes = {
   dependents: PropTypes.array,
   header: PropTypes.string,
-  subHeader: PropTypes.object,
+  isAward: PropTypes.bool,
+  link: PropTypes.string,
+  linkText: PropTypes.string,
+  loading: PropTypes.bool,
   manageDependentsToggle: PropTypes.bool,
+  subHeader: PropTypes.object,
   submittedDependents: PropTypes.array,
 };

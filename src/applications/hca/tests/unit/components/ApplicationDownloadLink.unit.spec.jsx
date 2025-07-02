@@ -160,7 +160,7 @@ describe('hca <ApplicationDownloadLink>', () => {
           const error = content['alert-download-message--generic'];
 
           expect(vaLoadingIndicator).to.not.exist;
-          expect(vaLink).to.not.exist;
+          expect(vaLink).to.exist;
 
           expect(vaAlert).to.exist;
           expect(vaAlert).to.contain.text(error);
@@ -182,7 +182,7 @@ describe('hca <ApplicationDownloadLink>', () => {
           const error = content['alert-download-message--generic'];
 
           expect(vaLoadingIndicator).to.not.exist;
-          expect(vaLink).to.not.exist;
+          expect(vaLink).to.exist;
 
           expect(vaAlert).to.exist;
           expect(vaAlert).to.contain.text(error);

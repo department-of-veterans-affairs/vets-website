@@ -84,8 +84,7 @@ Date of birth: ${formatUserDob(user)}\n
 Details about this test: \n
 ${txtLine} \n
 Date and time collected: ${record.dateCollected}\n
-Site or sample tested: ${record.sampleTested} \n
-Collection sample: ${record.sampleFrom} \n
+Site or sample tested: ${record.sampleFrom}\n
 Location: ${record.labLocation} \n
 Date completed: ${record.date} \n
 Results: \n
@@ -135,15 +134,9 @@ ${record.results} \n`;
           <HeaderSection header="Details about this test">
             <LabelValue
               label="Site or sample tested"
-              value={record.sampleTested}
+              value={record.sampleFrom}
               testId="pathology-sample-tested"
               actionName="[lab and tests - pathology site]"
-            />
-            <LabelValue
-              label="Collection sample"
-              value={record.sampleFrom}
-              testId="pathology-collection-sample"
-              actionName="[lab and tests - pathology sample]"
             />
             <LabelValue
               label="Location"

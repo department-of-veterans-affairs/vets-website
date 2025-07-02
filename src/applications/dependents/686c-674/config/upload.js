@@ -1,6 +1,6 @@
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
@@ -65,7 +65,6 @@ export const dependentsUploadUI = (content, options = {}) => {
 
 export const dependentsUploadSchema = {
   type: 'array',
-  minItems: 1,
   items: {
     type: 'object',
     properties: {

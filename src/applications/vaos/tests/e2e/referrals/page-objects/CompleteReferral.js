@@ -53,6 +53,17 @@ export class CompleteReferralPageObject extends PageObject {
   }
 
   /**
+   * Validates that an API error message is displayed when completed appointment details fail to load
+   */
+  assertNotBookedError() {
+    // This uses curly apostrophes as required by VA style guidelines
+    cy.findByText(/We’re having trouble scheduling this appointment/i).should(
+      'exist',
+    );
+    return this;
+  }
+
+  /**
    * Validates that the "Review Referrals and Requests" link is available
    */
   assertReferralsLink() {

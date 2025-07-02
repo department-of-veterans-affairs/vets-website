@@ -21,6 +21,7 @@ export class MockAppointment {
   constructor({ id = 1, start = new Date(), status = 'booked' } = {}) {
     this.avsPath = null;
     this.cancelationReason = null;
+    this.showScheduleLink = null;
     this.comment = null;
     this.communityCareProvider = null;
     this.description = null;
@@ -126,6 +127,11 @@ export class MockAppointment {
 
   setCancelationReason(value) {
     this.cancelationReason = value;
+    return this;
+  }
+
+  setShowScheduleLink(value) {
+    this.showScheduleLink = value;
     return this;
   }
 

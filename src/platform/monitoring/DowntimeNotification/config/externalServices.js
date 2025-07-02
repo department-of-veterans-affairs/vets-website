@@ -9,6 +9,7 @@ export default {
   bgs: 'bgs',
   // CARMA (Caregiver Record Management Application)
   carma: 'carma',
+  decisionReviews: 'decision_reviews',
   // Debt Management Services
   dmc: 'dmc',
   dslogon: 'dslogon',
@@ -64,7 +65,7 @@ export default {
   // Online appointment scheduling
   vaos: 'vaos',
   // Online appointment scheduling warning message
-  vaosWarning: 'vaosWarning',
+  vaosWarning: 'vaoswarning',
   // VA Profile (formerly Vet360) - data source for centralized veteran contact information
   vaProfile: 'vet360',
   // Veteran Benefits Management System

@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import moment from 'moment';
 import formConfig from '../../config/form';
-import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
+import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
 
 describe('VA Medical Records', () => {
   const {

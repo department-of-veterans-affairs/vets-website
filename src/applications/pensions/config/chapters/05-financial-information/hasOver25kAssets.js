@@ -27,8 +27,6 @@ export default {
     },
     totalNetWorth: yesNoUI({
       title: 'Do you and your dependents have over $25,000 in combined assets?',
-      hint:
-        'Your answer to this question helps us determine if you’re eligible for Veterans Pension benefits. We consider your age, income, and medical history in our determination. If you and your dependents have over $25,000 in combined assets, you may still be eligible.',
     }),
   },
   schema: {

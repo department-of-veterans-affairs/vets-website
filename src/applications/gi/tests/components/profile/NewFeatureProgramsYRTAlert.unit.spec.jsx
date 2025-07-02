@@ -3,7 +3,7 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import * as scrollUtils from 'platform/utilities/ui/scrollTo';
+import * as scroll from 'platform/utilities/scroll';
 import * as uiUtils from 'platform/utilities/ui';
 import NewFeatureProgramsYRTAlert from '../../../components/profile/NewFeatureProgramsYRTAlert';
 
@@ -13,7 +13,7 @@ describe('NewFeatureProgramsYRTAlert', () => {
   let onCloseSpy;
 
   beforeEach(() => {
-    scrollToStub = sinon.stub(scrollUtils, 'default').callsFake(() => {});
+    scrollToStub = sinon.stub(scroll, 'scrollTo').callsFake(() => {});
     focusElementStub = sinon.stub(uiUtils, 'focusElement').callsFake(() => {});
     onCloseSpy = sinon.spy();
 
@@ -55,8 +55,8 @@ describe('NewFeatureProgramsYRTAlert', () => {
       />,
     );
 
-    expect(getByText('Yellow Ribbon Program information')).to.exist;
-    expect(getByText('Programs')).to.exist;
+    expect(getByText('Learn about Yellow Ribbon Program information')).to.exist;
+    expect(getByText('Learn about approved programs of study')).to.exist;
   });
 
   it('does not render Yellow Ribbon link when institution.yr is false', () => {
@@ -68,7 +68,8 @@ describe('NewFeatureProgramsYRTAlert', () => {
         onClose={onCloseSpy}
       />,
     );
-    expect(queryByText('Yellow Ribbon Program information')).to.be.null;
+    expect(queryByText('Learn about Yellow Ribbon Program information')).to.be
+      .null;
   });
 
   it('passes the onClose prop to VaAlert and handles close event', () => {

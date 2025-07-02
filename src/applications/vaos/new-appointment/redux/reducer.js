@@ -85,6 +85,7 @@ const initialState = {
   pages: {},
   data: {},
   facilities: {},
+  sortedFacilities: {},
   facilityDetails: {},
   clinics: {},
   eligibility: {},
@@ -113,7 +114,6 @@ const initialState = {
   facilityPageSortMethod: null,
   isNewAppointmentStarted: false,
   fetchRecentLocationStatus: FETCH_STATUS.notStarted,
-  recentLocations: [],
   isAppointmentSelectionError: false,
 };
 
@@ -304,7 +304,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
-      let { facilities, recentLocations } = action;
+      let { facilities } = action;
       const {
         typeOfCareId,
         featureRecentLocationsFilter,
@@ -312,56 +312,28 @@ export default function formReducer(state = initialState, action) {
         cernerSiteIds,
       } = action;
       const hasResidentialCoordinates =
-        !!action.address?.latitude && !!action.address?.longitude;
+        !!address?.latitude && !!address?.longitude;
 
-      const handleSortMethod = () => {
-        if (featureRecentLocationsFilter && recentLocations?.length) {
-          return FACILITY_SORT_METHODS.recentLocations;
-        }
-        if (hasResidentialCoordinates) {
-          return FACILITY_SORT_METHODS.distanceFromResidential;
-        }
-        return FACILITY_SORT_METHODS.alphabetical;
-      };
-      const sortMethod = handleSortMethod();
+      let sortMethod = FACILITY_SORT_METHODS.alphabetical;
+      if (featureRecentLocationsFilter && facilities?.length) {
+        sortMethod = FACILITY_SORT_METHODS.recentLocations;
+      } else if (hasResidentialCoordinates) {
+        sortMethod = FACILITY_SORT_METHODS.distanceFromResidential;
+      }
 
       facilities = facilities.filter(
         facility => !!facility.address?.city && !!facility.address?.state,
       );
 
-      recentLocations = recentLocations.filter(
-        facility => !!facility.address?.city && !!facility.address?.state,
-      );
-
       if (hasResidentialCoordinates && facilities.length) {
-        facilities = facilities
-          .map(facility => {
-            const distanceFromResidentialAddress = distanceBetween(
-              address.latitude,
-              address.longitude,
-              facility.position.latitude,
-              facility.position.longitude,
-            );
-
-            return {
-              ...facility,
-              legacyVAR: {
-                ...facility.legacyVAR,
-                distanceFromResidentialAddress,
-              },
-            };
-          })
-          .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
-      }
-
-      if (hasResidentialCoordinates && recentLocations?.length) {
-        recentLocations = recentLocations.map(facility => {
+        facilities = facilities.map(facility => {
           const distanceFromResidentialAddress = distanceBetween(
             address.latitude,
             address.longitude,
             facility.position.latitude,
             facility.position.longitude,
           );
+
           return {
             ...facility,
             legacyVAR: {
@@ -371,46 +343,47 @@ export default function formReducer(state = initialState, action) {
           };
         });
       }
-      const typeOfCareFacilities = facilities.filter(facility =>
+
+      const supportedFacilities = facilities.filter(facility =>
         isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
 
-      if (typeOfCareFacilities.length === 1) {
+      if (supportedFacilities.length === 1) {
         newData = {
           ...newData,
-          vaFacility: typeOfCareFacilities[0]?.id,
+          vaFacility: supportedFacilities[0]?.id,
         };
       }
 
-      if (sortMethod === FACILITY_SORT_METHODS.recentLocations) {
-        const typeOfCareRecentFacilities = recentLocations?.filter(facility =>
-          isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
-        );
-        newSchema = set(
-          'properties.vaFacility',
-          {
-            type: 'string',
-            enum: typeOfCareRecentFacilities?.map(facility => facility.id),
-            enumNames: typeOfCareRecentFacilities,
-          },
-          newSchema,
-        );
-      } else {
-        newSchema = set(
-          'properties.vaFacility',
-          {
-            type: 'string',
-            enum: typeOfCareFacilities.map(facility => facility.id),
-            enumNames: typeOfCareFacilities,
-          },
-          newSchema,
-        );
+      let sortedFacilities = supportedFacilities;
+      if (supportedFacilities.length > 0) {
+        if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
+          sortedFacilities = supportedFacilities.sort((a, b) =>
+            a.name.localeCompare(b.name),
+          );
+        } else if (
+          sortMethod === FACILITY_SORT_METHODS.distanceFromResidential
+        ) {
+          sortedFacilities = facilities.sort(
+            (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
+          );
+        }
       }
+
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: sortedFacilities?.map(facility => facility.id),
+          enumNames: sortedFacilities,
+        },
+        newSchema,
+      );
 
       const { data, schema } = setupFormData(
         (newData = {
           ...newData,
-          isSingleVaFacility: typeOfCareFacilities.length === 1,
+          isSingleVaFacility: supportedFacilities.length === 1,
         }),
         newSchema,
         action.uiSchema,
@@ -427,7 +400,6 @@ export default function formReducer(state = initialState, action) {
           ...state.facilities,
           [typeOfCareId]: facilities,
         },
-        recentLocations,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
         showEligibilityModal: false,
@@ -480,22 +452,27 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
       const formData = state.data;
       const typeOfCareId = getTypeOfCare(formData).id;
-      const { location, cernerSiteIds, sortMethod } = action;
-      let { recentLocations } = action;
+      const {
+        location,
+        cernerSiteIds,
+        sortMethod,
+        calculatedDistance,
+        uiSchema,
+      } = action;
       let facilities = state.facilities[typeOfCareId];
+      let sortedFacilities;
       let newSchema = state.pages.vaFacilityV2;
       let { requestLocationStatus } = state;
 
-      if (location && facilities?.length) {
+      if (!calculatedDistance && location && facilities?.length) {
         const { coords } = location;
         const { latitude, longitude } = coords;
 
-        facilities = facilities.filter(
-          facility => !!facility.address?.city && !!facility.address?.state,
-        );
-
         if (latitude && longitude) {
           facilities = facilities.map(facility => {
+            if (!facility.address?.city || !facility.address?.state) {
+              return facility;
+            }
             const distanceFromCurrentLocation = distanceBetween(
               latitude,
               longitude,
@@ -514,83 +491,39 @@ export default function formReducer(state = initialState, action) {
         }
 
         requestLocationStatus = FETCH_STATUS.succeeded;
-      } else if (location && recentLocations?.length) {
-        const { coords } = location;
-        const { latitude, longitude } = coords;
-
-        recentLocations = recentLocations.filter(
-          facility => !!facility.address?.city && !!facility.address?.state,
-        );
-
-        if (
-          latitude &&
-          longitude &&
-          sortMethod === FACILITY_SORT_METHODS.recentLocations
-        ) {
-          recentLocations = recentLocations.map(facility => {
-            const distanceFromResidentialAddress = distanceBetween(
-              latitude,
-              longitude,
-              facility.position.latitude,
-              facility.position.longitude,
-            );
-            return {
-              ...facility,
-              legacyVAR: {
-                ...facility.legacyVAR,
-                distanceFromResidentialAddress,
-              },
-            };
-          });
-        }
-
-        requestLocationStatus = FETCH_STATUS.succeeded;
-      } else {
-        requestLocationStatus = FETCH_STATUS.notStarted;
-      }
-
-      if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
-        facilities = facilities.sort((a, b) => a.name.localeCompare(b.name));
-      } else if (sortMethod !== FACILITY_SORT_METHODS.recentLocations) {
-        facilities = facilities.sort(
-          (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
-        );
       }
 
       const typeOfCareFacilities = facilities.filter(facility =>
         isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
 
-      if (sortMethod === FACILITY_SORT_METHODS.recentLocations) {
-        const typeOfCareRecentFacilities = recentLocations?.filter(facility =>
-          isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
+      if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
+        sortedFacilities = typeOfCareFacilities.sort((a, b) =>
+          a.name.localeCompare(b.name),
         );
-        newSchema = set(
-          'properties.vaFacility',
-          {
-            type: 'string',
-            enum: typeOfCareRecentFacilities?.map(facility => facility.id),
-            enumNames: typeOfCareRecentFacilities,
-          },
-          newSchema,
+      } else if (
+        sortMethod === FACILITY_SORT_METHODS.distanceFromResidential ||
+        (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation &&
+          location)
+      ) {
+        sortedFacilities = typeOfCareFacilities.sort(
+          (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
         );
       } else {
-        newSchema = set(
-          'properties.vaFacility',
-          {
-            type: 'string',
-            enum: typeOfCareFacilities.map(facility => facility.id),
-            enumNames: typeOfCareFacilities,
-          },
-          newSchema,
-        );
+        sortedFacilities = typeOfCareFacilities;
       }
 
-      const { schema } = updateSchemasAndData(
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: sortedFacilities?.map(facility => facility.id),
+          enumNames: sortedFacilities,
+        },
         newSchema,
-        action.uiSchema,
-        formData,
       );
+
+      const { schema } = updateSchemasAndData(newSchema, uiSchema, formData);
 
       return {
         ...state,
@@ -598,11 +531,6 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           vaFacilityV2: schema,
         },
-        facilities: {
-          ...state.facilities,
-          [typeOfCareId]: facilities,
-        },
-        recentLocations,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
         requestLocationStatus,

@@ -233,7 +233,7 @@ describe('686 report death: Introduction page', () => {
     );
 
     expect($$('h3', container).length).to.equal(1);
-    expect($$('span', container).length).to.equal(1);
+    expect($$('[data-testid="cancel-btn"]', container).length).to.equal(1);
   });
 });
 

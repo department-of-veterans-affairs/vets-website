@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import { SELECTED } from '../constants';
 import '../definitions';
 import { IssueCardContent } from './IssueCardContent';
+import BasicLink from './web-component-wrappers/BasicLink';
 
 // It would be better to validate the date based on the app's requirements
 // import { isValidDate } from '../validations/date';
@@ -80,16 +80,14 @@ export const IssueCard = ({
   const editControls =
     showCheckbox && isEditable ? (
       <div>
-        <Link
-          to={{
-            pathname: '/add-issue',
-            search: `?index=${index}`,
-          }}
+        <BasicLink
+          disable-analytics
+          path="/add-issue"
+          search={`?index=${index}`}
           className="edit-issue-link"
           aria-label={`Edit ${issueName}`}
-        >
-          Edit
-        </Link>
+          text="Edit"
+        />
         <va-button
           secondary
           class={removeButtonClass}

@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import sinon from 'sinon';
 import DownloadLetterBlobLink from '../../components/DownloadLetterBlobLink';
 import { DOWNLOAD_STATUSES } from '../../utils/constants';
 
@@ -113,5 +114,40 @@ describe('<DownloadLetterBlobLink />', () => {
     const div = container.querySelector('div');
     expect(div).to.exist;
     expect(div).to.have.text('Refresh the browser to download your letter.');
+  });
+  it('dispatches getSingleLetterPDFLinkAction when accordion is open on mount', () => {
+    const dispatchSpy = sinon.spy();
+    const fakeRef = {
+      current: document.createElement('details'),
+    };
+    fakeRef.current.setAttribute('open', '');
+
+    const mockStorewithDispatch = {
+      getState: () => ({
+        letters: {
+          enhancedLetters: [],
+          enhancedLetterStatus: {},
+        },
+      }),
+      subscribe: () => {},
+      dispatch: dispatchSpy,
+    };
+
+    const { unmount } = render(
+      <Provider store={mockStorewithDispatch}>
+        <DownloadLetterBlobLink
+          letterTitle="Test Letter"
+          letterType="test_letter"
+          accordionRef={fakeRef}
+          LH_MIGRATION__options={{ foo: 'bar' }}
+        />
+      </Provider>,
+    );
+
+    expect(dispatchSpy.calledOnce).to.be.true;
+    const dispatchedAction = dispatchSpy.firstCall.args[0];
+    expect(dispatchedAction).to.be.a('function');
+
+    unmount();
   });
 });

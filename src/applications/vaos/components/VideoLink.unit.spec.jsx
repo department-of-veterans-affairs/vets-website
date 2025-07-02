@@ -66,7 +66,7 @@ describe('VAOS Component: VideoLink', () => {
     expect(screen.queryByText('Join appointment')).not.to.exist;
     expect(
       screen.queryByText(
-        /We'll add the link to join this appointment 30 minutes before your appointment time/i,
+        /We.ll add the link to join this appointment on this page 30 minutes before your appointment time/i,
       ),
     ).to.exist;
   });
@@ -96,7 +96,7 @@ describe('VAOS Component: VideoLink', () => {
     expect(screen.queryByText('Join appointment')).not.to.exist;
     expect(
       screen.queryByText(
-        /We'll add the link to join this appointment 30 minutes before your appointment time/i,
+        /We.ll add the link to join this appointment on this page 30 minutes before your appointment time/i,
       ),
     ).to.exist;
   });
@@ -125,7 +125,7 @@ describe('VAOS Component: VideoLink', () => {
     expect(
       screen.queryByRole('heading', {
         level: 3,
-        name: /We're sorry, we couldn't load the link to join your appointment/,
+        name: /We.re sorry, we couldn.t load the link to join your appointment/,
       }),
     ).to.exist;
     expect(
@@ -225,7 +225,7 @@ describe('VAOS Component: VideoLink', () => {
       expect(screen.queryByText('Join appointment')).not.to.exist;
       expect(
         screen.queryByText(
-          /We'll add the link to join this appointment 30 minutes before your appointment time/i,
+          /We.ll add the link to join this appointment on this page 30 minutes before your appointment time/i,
         ),
       ).to.exist;
     });

@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 

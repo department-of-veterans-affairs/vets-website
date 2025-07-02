@@ -390,6 +390,7 @@ describe('App', () => {
       path: `/sdfsdf`,
     });
     await waitFor(() => {
+      expect(screen.getByTestId('mhv-page-not-found')).to.exist;
       expect(
         screen.getByText(pageNotFoundHeading, {
           selector: 'h1',

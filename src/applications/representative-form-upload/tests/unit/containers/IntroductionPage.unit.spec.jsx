@@ -104,14 +104,14 @@ describe('IntroductionPage', () => {
   });
 
   it('renders the correct title, subtitle', () => {
-    const { title, subTitle } = getFormContent();
+    const { subTitle } = getFormContent();
 
     const { getByText } = render(
       <Provider store={mockStore()}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect(getByText(title)).to.exist;
+    expect(getByText('Submit VA Form 21-686c')).to.exist;
     expect(getByText(subTitle)).to.exist;
   });
 

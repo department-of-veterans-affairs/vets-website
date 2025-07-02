@@ -143,6 +143,10 @@ export const refreshReducer = (state = initialState, action) => {
               statusRec.lastSuccessfulCompleted,
             ),
             phase: getPhase(statusRec, action.payload.retrievedDate),
+            // error conditions:
+            loadStatus: statusRec.loadStatus, // enum: "OK", "ERROR", null
+            errorMessage: statusRec.errorMessage, // string
+            upToDate: statusRec.upToDate, // boolean
           };
         }),
         dateCompleted: safeNewDate(refreshCompleted(facilityExtractStatusList)),
