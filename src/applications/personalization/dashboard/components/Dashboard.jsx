@@ -42,7 +42,7 @@ import MPIConnectionError from '~/applications/personalization/components/MPICon
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
-import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
+import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
@@ -562,7 +562,7 @@ const mapStateToProps = state => {
     showNameTag,
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
-    totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
+    totalDisabilityRatingServerError: hasTotalDisabilityError(state),
     user: state.user,
     showMPIConnectionError,
     showNotInMPIError,

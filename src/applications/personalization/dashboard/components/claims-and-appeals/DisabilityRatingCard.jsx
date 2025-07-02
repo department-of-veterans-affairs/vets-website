@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CTALink from '../CTALink';
-import { hasTotalDisabilityServerError } from '../../../common/selectors/ratedDisabilities';
+import { hasTotalDisabilityError } from '../../../common/selectors/ratedDisabilities';
 
 const DisabilityRatingCard = ({
   totalDisabilityRating,
-  totalDisabilityRatingServerError,
+  totalDisabilityRatingError,
 }) => {
   const noRatingReviewLink = (
     <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
@@ -17,7 +17,7 @@ const DisabilityRatingCard = ({
     </p>
   );
 
-  if (!totalDisabilityRatingServerError) {
+  if (!totalDisabilityRatingError) {
     if (totalDisabilityRating != null) {
       // User has a disability rating
       return (
@@ -63,12 +63,12 @@ const DisabilityRatingCard = ({
 
 DisabilityRatingCard.propTypes = {
   totalDisabilityRating: PropTypes.number,
-  totalDisabilityRatingServerError: PropTypes.bool,
+  totalDisabilityRatingError: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   totalDisabilityRating: state.totalRating?.totalDisabilityRating,
-  totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
+  totalDisabilityRatingError: hasTotalDisabilityError(state),
 });
 
 export default connect(mapStateToProps)(DisabilityRatingCard);
