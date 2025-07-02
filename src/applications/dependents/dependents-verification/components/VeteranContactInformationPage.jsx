@@ -150,15 +150,15 @@ const VeteranContactInformationPage = ({
   };
 
   const alertMissingInfo = [
-    hasMissingEmail ? 'email address' : '',
-    hasMissingAddress ? 'mailing address' : '',
+    hasMissingEmail ? 'email' : '',
+    hasMissingAddress ? 'mailing' : '',
   ]
     .filter(Boolean)
     .join(' and ');
 
   const prefillMissingInfo = [
-    profileEmail ? '' : 'email address',
-    profileMailingAddress?.city ? '' : 'mailing address',
+    profileEmail ? '' : 'email',
+    profileMailingAddress?.city ? '' : 'mailing',
   ]
     .filter(Boolean)
     .join(' and ');
@@ -171,14 +171,14 @@ const VeteranContactInformationPage = ({
       </h3>
       {!submitted && showPrefillAlert ? (
         <va-alert status="warning" visible>
-          We could not prefill this form with your {prefillMissingInfo}. Provide{' '}
-          {article} {prefillMissingInfo}.
+          We could not prefill this form with your {prefillMissingInfo} address.
+          Provide {article} {prefillMissingInfo} address.
         </va-alert>
       ) : null}
       {submitted && showAlert ? (
         <va-alert ref={alertRef} status="error" visible>
-          Your {alertMissingInfo} is required before you continue. Provide a
-          valid {alertMissingInfo}.
+          Your {alertMissingInfo} address is required before you continue.
+          Provide a valid {alertMissingInfo} address.
         </va-alert>
       ) : null}
       <p>

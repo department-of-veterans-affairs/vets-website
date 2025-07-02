@@ -3,7 +3,7 @@
     "veteranInformation": {
       "ssnLastFour": "5678"
     },
-    "email": "test@test.com",
+    "email": "",
     "phone": "8005551212",
     "address": {
       "street": "123 Main St",

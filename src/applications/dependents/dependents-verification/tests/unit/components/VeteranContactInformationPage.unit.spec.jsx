@@ -229,7 +229,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     });
 
     expect(container.textContent).to.include(
-      'We could not prefill this form with your email address and mailing address.',
+      'We could not prefill this form with your email and mailing address.',
     );
 
     const continueBtn = $('button[type="submit"]', container);
@@ -237,7 +237,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     fireEvent.click(continueBtn);
 
     expect(container.textContent).to.include(
-      'Your email address and mailing address is required before you continue',
+      'Your email and mailing address is required before you continue',
     );
 
     expect(goToPath.called).to.be.false;
