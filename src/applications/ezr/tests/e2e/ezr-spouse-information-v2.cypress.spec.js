@@ -1,6 +1,7 @@
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 import mockBasicPrefill from './fixtures/mocks/mock-prefill.json';
+import mockPrefillWithNonPrefillData from './fixtures/mocks/mock-prefill-with-non-prefill-data.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { goToNextPage, selectYesNoWebComponent } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
@@ -17,81 +18,8 @@ featureToggles.data.features.push({
   value: true,
 });
 
-// function advanceToFinancialIntroductionPage(hasSpouse) {
-//   goToNextPage('/household-information/marital-status');
-//   if (!hasSpouse) {
-//     cy.selectVaSelect('root_view:maritalStatus_maritalStatus', 'Never Married');
-//   }
-//   cy.injectAxeThenAxeCheck();
-//   if (hasSpouse) {
-//     goToNextPage('/household-information/spouse-personal-information');
-//     cy.injectAxeThenAxeCheck();
-//     goToNextPage('/household-information/spouse-additional-information');
-//     cy.selectRadio('root_cohabitedLastYear', 'Y');
-//     cy.selectRadio('root_sameAddress', 'Y');
-//     cy.injectAxeThenAxeCheck();
-//   }
-//   goToNextPage('/household-information/dependents');
-//   cy.selectRadio('root_view:reportDependents', 'N');
-//   cy.injectAxeThenAxeCheck();
-//   goToNextPage('/household-information/financial-information-introduction');
-//   cy.injectAxeThenAxeCheck();
-//   goToNextPage('/household-information/financial-information');
-//   cy.injectAxeThenAxeCheck();
-// }
-
-// function setUserDataAndAdvanceToHouseholdSection(user, prefillData) {
-//   cy.login(user);
-//   cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
-//     'mockFeatures',
-//   );
-//   cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-//     statusCode: 200,
-//     body: MOCK_ENROLLMENT_RESPONSE,
-//   }).as('mockEnrollmentStatus');
-//   cy.intercept('/v0/in_progress_forms/10-10EZR', {
-//     statusCode: 200,
-//     body: prefillData,
-//   }).as('mockSip');
-//   cy.visit(manifest.rootUrl);
-//   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
-//   advanceToHouseholdSection();
-//   goToNextPage('/military-service/toxic-exposure');
-//   cy.get('[name="root_hasTeraResponse"]').check('N');
-//   cy.injectAxeThenAxeCheck();
-// }
-
-// function advanceToVeteranAnnualIncomePage(hasSpouse) {
-//   advanceToFinancialIntroductionPage(hasSpouse);
-//   cy.selectRadio('root_view:hasFinancialInformationToAdd', 'Y');
-//   goToNextPage('/veteran-annual-income');
-// }
-
-// function fillFinancialInformation(
-//   hasSpouse,
-//   financialData,
-//   isArrayBuilderEditPage = false,
-//   clearInput = false,
-// ) {
-//   fillVeteranIncome(financialData, clearInput);
-//   cy.injectAxeThenAxeCheck();
-//   if (hasSpouse) {
-//     goToNextPage('/spouse-annual-income', isArrayBuilderEditPage);
-//     fillSpousalIncome(financialData, clearInput);
-//     cy.injectAxeThenAxeCheck();
-//   }
-//   goToNextPage('/deductible-expenses', isArrayBuilderEditPage);
-//   fillDeductibleExpenses(financialData, clearInput);
-//   cy.injectAxeThenAxeCheck();
-//   goToNextPage(
-//     '/household-information/financial-information',
-//     isArrayBuilderEditPage,
-//   );
-// }
-
 function advanceToSpouseInformationPage() {
   goToNextPage('/household-information/spouse-information');
-  // Fill spouse info here?
 }
 
 function setUserDataAndAdvanceToSpouseSection(user, prefillData) {
@@ -194,14 +122,7 @@ const fillSpouseAdditionalInformation = () => {
 
 // Helper function to fill spouse financial support
 const fillSpouseFinancialSupport = () => {
-  // Debug: log DOM before filling spouse financial support
-  cy.document().then(doc => {
-    cy.log(
-      'DOM before spouse financial support:',
-      doc.documentElement.innerHTML,
-    );
-  });
-  // Wait for the field to exist and be visible
+  // Wait for the field to exist and be visible.
   cy.get('va-radio-option[name="root_provideSupportLastYear"]')
     .should('exist')
     .and('be.visible');
@@ -244,22 +165,93 @@ const fillSpouseContactInformation = () => {
 
 describe('EZR V2 spouse information flow', () => {
   beforeEach(() => {
-    setUserDataAndAdvanceToSpouseSection(mockUser, mockBasicPrefill);
+    setUserDataAndAdvanceToSpouseSection(
+      mockUser,
+      mockPrefillWithNonPrefillData,
+    );
   });
 
-  // Lets capture some scenarios in a comment block.
-  // 1. When there is no spouse information:
-  //    a. The marital status select field should not be set.
-  //    b. Set the status and continue to spouse information page: household-information/spouse-information
-  //    b. The spouse information page should not be rendered.
+  context('when the Veteran is married or separated', () => {
+    context('with no spouse prefill data', () => {
+      beforeEach(() => {
+        setUserDataAndAdvanceToSpouseSection(mockUser, mockBasicPrefill);
+      });
 
-  // 2. When there is spouse information:
-  //    a. The first thing.
-  //    b. The second thing....
-  //    c. Etc....
+      it('should successfully fill the marital information', () => {
+        // Verify the marital status select field is empty/unset
+        cy.get('va-select[name="root_view:maritalStatus_maritalStatus"]')
+          .shadow()
+          .find('select')
+          .should('have.value', '');
 
-  context('when the Veteran has no spouse', () => {
-    it('should successfully fill the marital information', () => {
+        // Fill the marital information.
+        cy.selectVaSelect('root_view:maritalStatus_maritalStatus', 'Married');
+
+        // Verify the marital status select field is set to Married
+        cy.get('va-select[name="root_view:maritalStatus_maritalStatus"]')
+          .shadow()
+          .find('select')
+          .should('have.value', 'Married');
+
+        // Go to spouse information page.
+        advanceToSpouseInformationPage();
+
+        // Fill the spouse information with 'Yes' value using the helper function
+        selectYesNoWebComponent('view:hasSpouseInformationToAdd', true);
+
+        // Click continue to advance to the spouse personal information page
+        goToNextPage(
+          'household-information/spouse-information/0/spouse-personal-information',
+        );
+
+        // Fill the spouse personal information.
+        fillSpousePersonalInformation();
+
+        // Axe check.
+        cy.injectAxeThenAxeCheck();
+
+        // Continue to spouse additional information page
+        goToNextPage();
+
+        // Fill spouse additional information
+        fillSpouseAdditionalInformation();
+
+        // Axe check.
+        cy.injectAxeThenAxeCheck();
+
+        // Continue to spouse financial support page
+        goToNextPage();
+
+        // Fill spouse financial support
+        fillSpouseFinancialSupport();
+
+        // Axe check.
+        cy.injectAxeThenAxeCheck();
+
+        // Continue to spouse contact information page
+        goToNextPage();
+
+        // Fill spouse contact information
+        fillSpouseContactInformation();
+
+        // Axe check.
+        cy.injectAxeThenAxeCheck();
+
+        // Continue back to spouse information summary page
+        goToNextPage();
+
+        // Verify we're back at the summary page
+        cy.url().should('include', 'household-information/spouse-information');
+        cy.get('h3').should('contain', 'Review your spouse');
+
+        // Final axe check.
+        cy.injectAxeThenAxeCheck();
+      });
+    });
+  });
+
+  context('when the Veteran is not married or separated', () => {
+    it('should skip the spouse information page', () => {
       // Verify the marital status select field is empty/unset
       cy.get('va-select[name="root_view:maritalStatus_maritalStatus"]')
         .shadow()
@@ -267,157 +259,17 @@ describe('EZR V2 spouse information flow', () => {
         .should('have.value', '');
 
       // Fill the marital information.
-      cy.selectVaSelect('root_view:maritalStatus_maritalStatus', 'Married');
-
-      // Verify the marital status select field is set to Married
-      cy.get('va-select[name="root_view:maritalStatus_maritalStatus"]')
-        .shadow()
-        .find('select')
-        .should('have.value', 'Married');
-
-      // Go to spouse information page.
-      advanceToSpouseInformationPage();
-
-      // Fill the spouse information with 'Yes' value using the helper function
-      selectYesNoWebComponent('view:hasSpouseInformationToAdd', true);
-
-      // Click continue to advance to the spouse personal information page
-      goToNextPage(
-        'household-information/spouse-information/0/spouse-personal-information',
+      cy.selectVaSelect(
+        'root_view:maritalStatus_maritalStatus',
+        'Never Married',
       );
 
-      // Fill the spouse personal information.
-      fillSpousePersonalInformation();
+      // The spouse section should be skipped, taking us to the dependents page.
+      // Axe check.
+      goToNextPage('household-information/dependents');
 
       // Axe check.
-      cy.injectAxeThenAxeCheck();
-
-      // Continue to spouse additional information page
-      goToNextPage();
-
-      // Fill spouse additional information
-      fillSpouseAdditionalInformation();
-
-      // Axe check.
-      cy.injectAxeThenAxeCheck();
-
-      // Continue to spouse financial support page
-      goToNextPage();
-
-      // Fill spouse financial support
-      fillSpouseFinancialSupport();
-
-      // Axe check.
-      cy.injectAxeThenAxeCheck();
-
-      // Continue to spouse contact information page
-      goToNextPage();
-
-      // Fill spouse contact information
-      fillSpouseContactInformation();
-
-      // Axe check.
-      cy.injectAxeThenAxeCheck();
-
-      // Continue back to spouse information summary page
-      goToNextPage();
-
-      // Verify we're back at the summary page
-      cy.url().should('include', 'household-information/spouse-information');
-      cy.get('h3').should('contain', 'Review your spouse');
-
-      // Final axe check.
       cy.injectAxeThenAxeCheck();
     });
   });
-
-  //   context('when the user has a spouse', () => {
-  //     it('should successfully fill veteran annual income, spouse annual income, and deductible expenses', () => {
-  //       advanceToVeteranAnnualIncomePage(true);
-  //       fillFinancialInformation(true, data);
-  //       // All three sets of financial information should be present on the review page
-  //       cy.get('va-card')
-  //         .find('h4')
-  //         .should('have.length', 3);
-  //       cy.get('va-card')
-  //         .find('h4')
-  //         .first()
-  //         .should('contain', `Your annual income from ${LAST_YEAR}`);
-  //       cy.get('va-card')
-  //         .find('h4')
-  //         .eq(1)
-  //         .should('contain', `Spouse's annual income from ${LAST_YEAR}`);
-  //       cy.get('va-card')
-  //         .find('h4')
-  //         .last()
-  //         .should('contain', `Deductible expenses from ${LAST_YEAR}`);
-  //       cy.injectAxeThenAxeCheck();
-  //     });
-
-  //     context('when the user does not have a spouse', () => {
-  //       it('should successfully fill veteran annual income and deductible expenses, but not render the spouse annual income page', () => {
-  //         advanceToVeteranAnnualIncomePage(false);
-  //         fillFinancialInformation(false, data);
-  //         cy.get('va-card')
-  //           .find('h4')
-  //           .should('have.length', 2);
-  //         cy.get('va-card')
-  //           .find('h4')
-  //           .first()
-  //           .should('contain', `Your annual income from ${LAST_YEAR}`);
-  //         cy.get('va-card')
-  //           .find('h4')
-  //           .last()
-  //           .should('contain', `Deductible expenses from ${LAST_YEAR}`);
-  //         cy.injectAxeThenAxeCheck();
-  //       });
-  //     });
-  //   });
-
-  //   it('should allow the user to edit existing financial information', () => {
-  //     const updatedData = {
-  //       'view:veteranGrossIncome': {
-  //         veteranGrossIncome: 5,
-  //       },
-  //       'view:veteranNetIncome': {
-  //         veteranNetIncome: 3,
-  //       },
-  //       'view:veteranOtherIncome': {
-  //         veteranOtherIncome: 12,
-  //       },
-  //       'view:spouseGrossIncome': {
-  //         spouseGrossIncome: 5,
-  //       },
-  //       'view:spouseNetIncome': {
-  //         spouseNetIncome: 33,
-  //       },
-  //       'view:spouseOtherIncome': {
-  //         spouseOtherIncome: 3,
-  //       },
-  //       'view:deductibleMedicalExpenses': {
-  //         deductibleMedicalExpenses: 4,
-  //       },
-  //       'view:deductibleFuneralExpenses': {
-  //         deductibleFuneralExpenses: 65,
-  //       },
-  //       'view:deductibleEducationExpenses': {
-  //         deductibleEducationExpenses: 47,
-  //       },
-  //     };
-
-  //     advanceToVeteranAnnualIncomePage(true);
-  //     fillFinancialInformation(true, data);
-  //     cy.findAllByRole('link', {
-  //       name: /edit/i,
-  //     })
-  //       .first()
-  //       .click();
-  //     // There should be no delete button
-  //     cy.findAllByRole('button', {
-  //       name: /delete/i,
-  //     }).should('not.exist');
-  //     fillFinancialInformation(true, updatedData, true, true);
-  //     cy.injectAxeThenAxeCheck();
-  //   });
-  // });
 });
