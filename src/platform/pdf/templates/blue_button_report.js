@@ -204,7 +204,7 @@ const getEmptyRecordSets = (recordSets, failedDomains) => {
     if (failedDomains.includes(recordSet.title)) return false;
     if (recordSet.type === 'appointments') {
       return (
-        recordSet.records.every(type => type?.results?.items?.length === 0) &&
+        recordSet.records.some(type => type?.results?.items?.length === 0) &&
         !failedDomains.includes('VA appointments')
       );
     }
@@ -218,11 +218,59 @@ const getEmptyRecordSets = (recordSets, failedDomains) => {
   });
 };
 
-const separateAppointments = (items, recordSets) => {
+const expandAvailableAppointments = (items, recordSets) => {
   return items.flatMap(item => {
-    if (item === 'Appointments' || item === 'VA appointments') {
-      const { selected } = recordSets.find(set => set.type === 'appointments');
+    if (item === 'Appointments') {
+      const appointments = recordSets.find(set => set.type === 'appointments');
+      const { records, selected } = appointments;
       const displayList = [];
+
+      const pastHasRecords = records.find(
+        rec => rec.title === 'Past appointments',
+      ).results.items.length;
+      const upcomingHasRecords = records.find(
+        rec => rec.title === 'Upcoming appointments',
+      ).results.items.length;
+      if (selected.past && pastHasRecords)
+        displayList.push('Past appointments');
+      if (selected.upcoming && upcomingHasRecords)
+        displayList.push('Upcoming appointments');
+      return displayList;
+    }
+    return [item];
+  });
+};
+
+const expandEmptyAppointments = (items, recordSets) => {
+  return items.flatMap(item => {
+    if (item === 'Appointments') {
+      const appointments = recordSets.find(set => set.type === 'appointments');
+      const { records, selected } = appointments;
+      const displayList = [];
+
+      const pastHasRecords = records.find(
+        rec => rec.title === 'Past appointments',
+      ).results.items.length;
+      const upcomingHasRecords = records.find(
+        rec => rec.title === 'Upcoming appointments',
+      ).results.items.length;
+      if (selected.past && !pastHasRecords)
+        displayList.push('Past appointments');
+      if (selected.upcoming && !upcomingHasRecords)
+        displayList.push('Upcoming appointments');
+      return displayList;
+    }
+    return [item];
+  });
+};
+
+const expandFailedAppointments = (items, recordSets) => {
+  return items.flatMap(item => {
+    if (item === 'VA appointments') {
+      const appointments = recordSets.find(set => set.type === 'appointments');
+      const { selected } = appointments;
+      const displayList = [];
+
       if (selected.past) displayList.push('Past appointments');
       if (selected.upcoming) displayList.push('Upcoming appointments');
       return displayList;
@@ -243,7 +291,7 @@ const generateInfoForAvailableRecords = (infoSection, doc, data) => {
 
   doc.moveDown(0.75);
 
-  const items = separateAppointments(
+  const items = expandAvailableAppointments(
     getAvailableRecordSets(data.recordSets).map(recordSet => recordSet.title),
     data.recordSets,
   );
@@ -281,8 +329,7 @@ const generateInfoForEmptyRecords = (infoSection, doc, recordSets) => {
   );
 
   doc.moveDown(0.75);
-
-  const items = separateAppointments(
+  const items = expandEmptyAppointments(
     recordSets.map(recordSet => recordSet.title),
     recordSets,
   );
@@ -325,7 +372,7 @@ const generateInfoForFailedRecordsets = (
 
   doc.moveDown(0.75);
 
-  const items = separateAppointments(failedDomains, recordSets);
+  const items = expandFailedAppointments(failedDomains, recordSets);
 
   addBulletList(infoSection, doc, items, config, {
     bulletRadius: 2,
