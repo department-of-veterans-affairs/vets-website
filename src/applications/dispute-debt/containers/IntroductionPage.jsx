@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollToTop } from 'platform/utilities/scroll';
 import environment from 'platform/utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -40,7 +39,6 @@ export const IntroductionPage = props => {
 
   useEffect(() => {
     scrollToTop();
-    focusElement('h1');
   }, []);
 
   return (
