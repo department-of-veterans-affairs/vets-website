@@ -188,7 +188,7 @@ const formConfig = {
           title: 'Claim details',
           depends: formData =>
             get('claimStatus', formData) === 'resubmission' &&
-            get('claimType, formData') === 'medical',
+            get('claimType', formData) === 'medical',
           ...medicalClaimDetails,
         },
         page1h: {
@@ -196,7 +196,7 @@ const formConfig = {
           title: 'claim details',
           depends: formData =>
             get('claimStatus', formData) === 'resubmission' &&
-            get('claimType, formData') === 'medical',
+            get('claimType', formData) === 'medical',
           ...medicalUploadSupportingDocs,
         },
         pageij: {
@@ -204,7 +204,7 @@ const formConfig = {
           title: 'claim details',
           depends: formData =>
             get('claimStatus', formData) === 'resubmission' &&
-            get('claimType, formData') === 'pharmacy',
+            get('claimType', formData) === 'pharmacy',
           ...pharmacyClaimDetails,
         },
         page1k: {
@@ -212,7 +212,7 @@ const formConfig = {
           title: 'Upload support documents for your pharmacy claim',
           depends: formData =>
             get('claimStatus', formData) === 'resubmission' &&
-            get('claimType, formData') === 'pharmacy',
+            get('claimType', formData) === 'pharmacy',
           ...pharmacyClaimUploadDocs,
         },
       },
