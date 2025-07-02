@@ -18,8 +18,15 @@ describe('Prescriptions List Txt Config', () => {
       expect(txt).to.include(rx.prescriptionName);
     });
   });
-  it('Should show None noted if provider name is not provided', () => {
-    const txt = buildPrescriptionsTXT(prescriptions);
+  it('Should show "Provider name not available" if provider name is not provided', () => {
+    const firstPrescriptionWithoutProviderName = [
+      {
+        ...prescriptions[0],
+        providerFirstName: null,
+        providerLastName: null,
+      },
+    ];
+    const txt = buildPrescriptionsTXT(firstPrescriptionWithoutProviderName);
     expect(txt).to.include('Prescribed by: Provider name not available');
   });
 });

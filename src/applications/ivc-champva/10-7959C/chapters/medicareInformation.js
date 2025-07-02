@@ -137,7 +137,6 @@ export const applicantMedicarePharmacySchema = {
               true,
             )} Medicare plan provide pharmacy benefits?`,
             'ui:options': {
-              classNames: ['dd-pivacy-hidden'],
               hint:
                 'You can find this information on the front of your Medicare card.',
             },
@@ -145,7 +144,10 @@ export const applicantMedicarePharmacySchema = {
         },
       }),
     },
-    'ui:options': { itemAriaLabel: () => 'Medicare pharmacy benefits' },
+    'ui:options': {
+      itemAriaLabel: () => 'Medicare pharmacy benefits',
+      classNames: ['dd-privacy-hidden'],
+    },
     'ui:objectViewField': props => PrivWrappedReview(props),
   },
   schema: {

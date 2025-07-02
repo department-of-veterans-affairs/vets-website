@@ -29,10 +29,8 @@ const ClaimantInfoViewField = props => {
     claimantDateOfBirth;
 
   const veteranDisplay = {
-    'Full name':
-      veteranFullName.first && veteranFullName.last
-        ? `${veteranFullName.first} ${veteranFullName.last}`
-        : '',
+    'First name': veteranFullName.first ? veteranFullName.first : '',
+    'Last name': veteranFullName.last ? veteranFullName.last : '',
     'Date of birth': formatDate(veteranDateOfBirth),
     'Social Security Number': veteranSsn ? mask(veteranSsn) : '',
     'Postal code': address?.postalCode || '',
@@ -41,7 +39,8 @@ const ClaimantInfoViewField = props => {
 
   const claimantDisplay = isDependentClaim
     ? {
-        'Full name': `${claimantFullName.first} ${claimantFullName.last}`,
+        'First name': claimantFullName.first,
+        'Last name': claimantFullName.last,
         'Date of birth': formatDate(claimantDateOfBirth),
         'Social Security Number': claimantSsn ? mask(claimantSsn) : '',
       }

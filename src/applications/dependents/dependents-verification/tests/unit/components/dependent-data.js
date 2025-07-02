@@ -26,5 +26,5 @@ export const defaultData = {
       removalDate: 'August 1, 2026',
     },
   ],
-  hasDependentsStatusChanged: 'N',
+  hasDependentsStatusChanged: 'Y',
 };
