@@ -56,6 +56,41 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       });
   };
 
+  // Helper function to get file input at specific index
+  const getFileInput = (fileIndex = 0) => {
+    return cy
+      .get('va-file-input-multiple')
+      .shadow()
+      .find('va-file-input')
+      .eq(fileIndex)
+      .shadow();
+  };
+
+  // Helper function to get error message for a file
+  const getFileError = (fileIndex = 0) => {
+    return getFileInput(fileIndex).find('#input-error-message');
+  };
+
+  // Helper function to verify password error appears
+  const verifyPasswordError = (fileIndex = 0) => {
+    getFileError(fileIndex)
+      .should('be.visible')
+      .and('contain.text', 'Please provide a password to decrypt this file');
+  };
+
+  // Helper function to verify no error exists for a file
+  const verifyNoError = (fileIndex = 0) => {
+    getFileError(fileIndex).should('not.exist');
+  };
+
+  // Helper function for encrypted file workflow: upload + wait for password input
+  const setupEncryptedFile = (fileName, fileIndex = 0) => {
+    uploadEncryptedPDF(fileName, fileIndex);
+    getFileInput(fileIndex)
+      .find('va-text-input')
+      .should('be.visible');
+  };
+
   describe('User Story #1: Label and hint text', () => {
     it('should display correct label and hint text', () => {
       setupComponentTest();
@@ -180,15 +215,9 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     it('should show password input when encrypted PDF is uploaded', () => {
       setupComponentTest();
 
-      // Upload an encrypted PDF file
+      // Upload an encrypted PDF file and verify password input appears
       uploadEncryptedPDF('encrypted-document.pdf');
-
-      // Verify password input appears and is visible to the user
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
-        .shadow()
+      getFileInput(0)
         .find('va-text-input')
         .should('be.visible')
         .shadow()
@@ -204,11 +233,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       uploadFile('regular-document.pdf');
 
       // Verify no password input appears
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
-        .shadow()
+      getFileInput(0)
         .find('va-text-input')
         .should('not.exist');
 
@@ -220,30 +245,106 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     it('should show error when submitting encrypted file without password', () => {
       setupComponentTest();
 
-      // Upload an encrypted PDF file
-      uploadEncryptedPDF('encrypted-document.pdf');
-
-      // Wait for password input to appear
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
-        .shadow()
-        .find('va-text-input')
-        .should('be.visible');
+      // Upload encrypted file and wait for password input
+      setupEncryptedFile('encrypted-document.pdf');
 
       // Submit without entering password
       clickSubmitButton();
 
-      // Verify error message appears in the file input shadow DOM
-      cy.get('va-file-input-multiple')
+      // Verify password error appears
+      verifyPasswordError(0);
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('User Story #8: Error persistence when adding files', () => {
+    it('should persist validation errors when adding another file', () => {
+      setupComponentTest();
+
+      // Upload encrypted file and wait for password input
+      setupEncryptedFile('encrypted-document.pdf');
+
+      // Submit without entering password to trigger error
+      clickSubmitButton();
+      verifyPasswordError(0);
+
+      // Add another file (should not clear the existing error)
+      uploadFile('second-regular.pdf', 1);
+
+      // Verify the original error still persists after adding another file
+      verifyPasswordError(0);
+
+      // Verify the second file has no error
+      verifyNoError(1);
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('User Story#9: Error clearing behavior', () => {
+    it('should clear password error when password is entered', () => {
+      setupComponentTest();
+
+      // Upload encrypted file and wait for password input
+      setupEncryptedFile('encrypted-document.pdf');
+
+      // Submit without entering password to trigger error
+      clickSubmitButton();
+      verifyPasswordError(0);
+
+      // Enter a password in the password field
+      getFileInput(0)
+        .find('va-text-input')
         .shadow()
-        .find('va-file-input')
+        .find('input')
+        .type('testpassword');
+
+      // Verify error is cleared when password is entered
+      getFileInput(0).should(
+        'not.contain.text',
+        'Please provide a password to decrypt this file',
+      );
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('Bug: Error transfer when file is deleted', () => {
+    it('should not transfer errors to other files when a file is deleted', () => {
+      setupComponentTest();
+
+      // Upload first encrypted PDF file and wait for password input
+      setupEncryptedFile('first-encrypted.pdf');
+
+      // Upload second regular file
+      uploadFile('second-regular.pdf', 1);
+
+      // Submit without entering password for first file to trigger error
+      clickSubmitButton();
+      verifyPasswordError(0);
+      verifyNoError(1);
+
+      // Delete the first file (the one with the error)
+      getFileInput(0)
+        .find('va-button-icon[aria-label*="delete"]')
+        .shadow()
+        .find('button')
+        .click();
+
+      // Confirm deletion in modal
+      getFileInput(0)
+        .find('va-modal')
+        .shadow()
+        .find('button.usa-button')
         .first()
-        .shadow()
-        .find('#input-error-message')
-        .should('be.visible')
-        .and('contain.text', 'Please provide a password to decrypt this file');
+        .click();
+
+      // Bug test: Verify the error does NOT transfer to the remaining file
+      verifyNoError(0); // This is now the second file that moved to first position
+
+      // Verify the correct file name is still displayed
+      getFileInput(0).should('contain.text', 'second-regular.pdf');
 
       cy.axeCheck();
     });

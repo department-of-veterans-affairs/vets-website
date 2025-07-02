@@ -39,6 +39,66 @@ const createEncryptedFilesList = async files => {
   );
 };
 
+// Error handling utilities
+const clearNoFilesError = prevErrors => {
+  if (prevErrors.length === 1 && prevErrors[0] === VALIDATION_ERROR) {
+    return [];
+  }
+  return prevErrors;
+};
+
+const rebuildErrorsAfterFileDeletion = (currentFiles, newFiles, prevErrors) => {
+  const newErrors = [];
+  // Match errors to files by file reference, not by index
+  newFiles.forEach((fileInfo, newIndex) => {
+    const originalIndex = currentFiles.findIndex(f => f.file === fileInfo.file);
+    if (originalIndex !== -1 && prevErrors[originalIndex]) {
+      newErrors[newIndex] = prevErrors[originalIndex];
+    }
+  });
+  return newErrors;
+};
+
+const clearPasswordErrorsWhenProvided = (files, prevErrors) => {
+  const newErrors = [...prevErrors];
+  files.forEach((fileInfo, index) => {
+    if (
+      fileInfo.password &&
+      fileInfo.password.trim() !== '' &&
+      prevErrors[index] === PASSWORD_ERROR
+    ) {
+      newErrors[index] = null;
+    }
+  });
+  return newErrors;
+};
+
+const extractPasswordsFromShadowDOM = (fileInputRef, files, encrypted) => {
+  const updatedFiles = [...files];
+  const vaFileInputElements = fileInputRef.current?.shadowRoot?.querySelectorAll(
+    'va-file-input',
+  );
+
+  if (vaFileInputElements) {
+    vaFileInputElements.forEach((vaFileInput, index) => {
+      if (encrypted[index]) {
+        const vaTextInput = vaFileInput.shadowRoot?.querySelector(
+          'va-text-input',
+        );
+        const passwordInput = vaTextInput?.shadowRoot?.querySelector('input');
+        if (passwordInput && updatedFiles[index]) {
+          updatedFiles[index] = {
+            ...updatedFiles[index],
+            password: passwordInput.value,
+          };
+        }
+      }
+    });
+  }
+
+  return updatedFiles;
+};
+
 const validateFilesForSubmission = (files, encrypted) => {
   // Check if no files provided (always required)
   if (files.length === 0) {
@@ -76,14 +136,40 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
 
   const handleFileChange = async event => {
     const { state } = event.detail;
-    setFiles(state || []);
+    const previousFileCount = files.length;
+    const newFiles = state || [];
 
-    // Clear errors when files are added
-    if (state && state.length > 0) {
-      setErrors([]);
-      const encryptedStatus = await createEncryptedFilesList(state);
+    setFiles(newFiles);
+
+    if (newFiles.length > 0) {
+      // Update errors based on file changes
+      setErrors(prevErrors => {
+        // First, clear "no files" error if present
+        let updatedErrors = clearNoFilesError(prevErrors);
+
+        // If files were removed, rebuild error array to match current files
+        if (newFiles.length < previousFileCount) {
+          updatedErrors = rebuildErrorsAfterFileDeletion(
+            files,
+            newFiles,
+            prevErrors,
+          );
+        } else {
+          // Clear password errors when passwords are provided (User Story #9)
+          updatedErrors = clearPasswordErrorsWhenProvided(
+            newFiles,
+            updatedErrors,
+          );
+        }
+
+        return updatedErrors;
+      });
+
+      const encryptedStatus = await createEncryptedFilesList(newFiles);
       setEncrypted(encryptedStatus);
     } else {
+      // Clear all errors when all files are removed
+      setErrors([]);
       setEncrypted([]);
     }
 
@@ -93,7 +179,14 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    const validation = validateFilesForSubmission(files, encrypted);
+    // Extract current password values from shadow DOM elements
+    const updatedFiles = extractPasswordsFromShadowDOM(
+      fileInputRef,
+      files,
+      encrypted,
+    );
+
+    const validation = validateFilesForSubmission(updatedFiles, encrypted);
 
     if (!validation.isValid) {
       setErrors(validation.errors);
