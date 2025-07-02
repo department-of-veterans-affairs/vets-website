@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { uploadFile } from 'platform/forms-system/src/js/actions';
 
 const MAX_FILE_SIZE_MB = 25;
@@ -16,10 +17,11 @@ export const uploadScannedForm = (
   fileToUpload,
   onFileUploaded,
   onProgress,
+  accept = '.pdf,.jpeg,.png',
 ) => {
   const uiOptions = {
     fileUploadUrl,
-    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+    fileTypes: accept.split(','),
     maxSize: MAX_FILE_SIZE_BYTES,
     createPayload,
     parseResponse: ({ data }, file) => ({ ...data?.attributes, file }),
@@ -37,16 +39,6 @@ export const uploadScannedForm = (
   };
 };
 
-export const getFileSize = num => {
-  if (num > 999999) {
-    return `${(num / 1000000).toFixed(1)} MB`;
-  }
-  if (num > 999) {
-    return `${Math.floor(num / 1000)} KB`;
-  }
-  return `${num} B`;
-};
-
 // Defaulting obj to {} in case we get a null
 export const allKeysAreEmpty = (obj = {}) =>
-  Object.keys(obj).every(key => !obj[key]);
+  Object.keys(obj).every(key => !obj[key] || isEmpty(obj[key]));

@@ -3,33 +3,23 @@ import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
-import { getFileSize, uploadScannedForm } from './vaFileInputFieldHelpers';
+import { uploadScannedForm } from './vaFileInputFieldHelpers';
 
-const useFileValidator = options => {
-  const validateFileSize = file => {
-    const { maxFileSize } = options;
-    if (file && maxFileSize && file.size > maxFileSize) {
-      const fileSizeString = getFileSize(maxFileSize);
-      return `File size cannot be greater than ${fileSizeString}`;
-    }
-    return null;
-  };
-
-  return { validateFileSize };
-};
-
-const useFileUpload = (fileUploadUrl, formNumber, dispatch) => {
+const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
   const [isUploading, setIsUploading] = useState(false);
+  const [percentUploaded, setPercentUploaded] = useState(null);
 
   const uploadFile = (file, onSuccess) => {
     setIsUploading(true);
 
     const onFileUploaded = uploadedFile => {
       setIsUploading(false);
+      setPercentUploaded(null);
       if (onSuccess) onSuccess(uploadedFile);
     };
 
-    const onFileUploading = () => {
+    const onFileUploading = percent => {
+      setPercentUploaded(percent);
       setIsUploading(true);
     };
 
@@ -40,11 +30,12 @@ const useFileUpload = (fileUploadUrl, formNumber, dispatch) => {
         file,
         onFileUploaded,
         onFileUploading,
+        accept,
       ),
     );
   };
 
-  return { isUploading, uploadFile };
+  return { isUploading, percentUploaded, uploadFile };
 };
 
 /**
@@ -80,15 +71,31 @@ const VaFileInputField = props => {
   const { uiOptions = {}, childrenProps } = props;
   const { formNumber } = uiOptions;
   const mappedProps = vaFileInputFieldMapping(props);
-  const { fileUploadUrl } = mappedProps;
+  const { fileUploadUrl, accept } = mappedProps;
   const dispatch = useDispatch();
   const [error, setError] = useState(mappedProps.error);
-  const fileValidator = useFileValidator(uiOptions);
-  const { isUploading, uploadFile } = useFileUpload(
+  const { isUploading, percentUploaded, uploadFile } = useFileUpload(
     fileUploadUrl,
+    accept,
     formNumber,
     dispatch,
   );
+
+  const additionalInputError =
+    childrenProps.errorSchema.additionalData.__errors[0] || null;
+  const passwordError =
+    childrenProps.errorSchema.isEncrypted.__errors[0] || null;
+
+  // useEffect(() => {
+  //   if (additionalInputError) {
+  //     childrenProps.onChange({
+  //       ...childrenProps.formData,
+  //       additionalData: {
+  //         hasError: true
+  //       }
+  //     })
+  //   }
+  // }, [additionalInputError]);
 
   const assignFileUploadToStore = uploadedFile => {
     if (!uploadedFile) return;
@@ -129,14 +136,29 @@ const VaFileInputField = props => {
       return;
     }
 
-    const sizeError = fileValidator.validateFileSize(fileFromEvent);
-    if (sizeError) {
-      setError(sizeError);
-      return;
-    }
-
-    childrenProps.onChange({ name: 'uploading' });
+    childrenProps.onChange({
+      ...childrenProps.formData,
+      name: 'uploading',
+    });
     uploadFile(fileFromEvent, handleFileProcessing);
+  };
+
+  const handleVaPasswordChange = e => {
+    const { password } = e.detail;
+    childrenProps.onChange({
+      ...childrenProps.formData,
+      password,
+    });
+  };
+
+  const handleAdditionalInput = e => {
+    if (mappedProps.handleAdditionalInput) {
+      const payload = mappedProps.handleAdditionalInput(e);
+      childrenProps.onChange({
+        ...childrenProps.formData,
+        additionalData: payload,
+      });
+    }
   };
 
   return (
@@ -145,12 +167,27 @@ const VaFileInputField = props => {
       error={error || mappedProps.error}
       uploadedFile={mappedProps.uploadedFile}
       onVaChange={handleVaChange}
+      onVaPasswordChange={handleVaPasswordChange}
+      percentUploaded={percentUploaded || null}
+      passwordError={passwordError}
     >
       {isUploading && (
         <div>
           <em>Uploading...</em>
         </div>
       )}
+      <div className="additional-input-container">
+        {mappedProps.additionalInput &&
+          React.cloneElement(
+            // clone element so we can attach listeners
+            mappedProps.additionalInput(additionalInputError),
+            {
+              onVaChange: handleAdditionalInput,
+              onVaSelect: handleAdditionalInput,
+              onVaValueChange: handleAdditionalInput,
+            },
+          )}
+      </div>
     </VaFileInput>
   );
 };

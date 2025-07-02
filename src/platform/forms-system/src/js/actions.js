@@ -280,10 +280,13 @@ export function uploadFile(
 
     // we limit file types, but it’s not respected on mobile and desktop
     // users can bypass it without much effort
+    const anyImage =
+      uiOptions.fileTypes[0] === 'image/*' && file.type.startsWith('image/');
     if (
       !uiOptions.fileTypes.some(fileType =>
         file.name.toLowerCase().endsWith(fileType.toLowerCase()),
-      )
+      ) &&
+      !anyImage
     ) {
       const allowedTypes = uiOptions.fileTypes.reduce(
         (accumulator, fileType, index, array) => {

@@ -1,5 +1,7 @@
 import React from 'react';
+import { isEmpty } from 'lodash';
 import { VaFileInputField } from '../web-component-fields';
+import navigationState from '../utilities/navigation/navigationState';
 
 export const filePresenceValidation = (
   errors,
@@ -20,12 +22,25 @@ export const filePresenceValidation = (
  *
  * Usage uiSchema:
  * ```js
- * exampleText: fileInputUI('Simple fileInput field')
- * exampleText: fileInputUI({
+ * exampleFileInputUI: fileInputUI('Simple fileInput field')
+ * exampleFileInputUI: fileInputUI({
  *   title: 'FileInput field',
  *   hint: 'This is a hint',
- *   description: 'This is a description',
- *   charcount: true, // Used with minLength and maxLength in the schema
+ *   fileUploadUrl: 'https://api.test.va.gov,
+ *   accept: '.pdf,.jpeg,.png',
+ *   name: 'form-upload-file-input',
+ *   errorMessages: { required: 'File upload required' },
+ *   maxFileSize: 1048576,
+ *   formNumber: '20-10206', // required for upload
+ *   additionalInput: (
+ *     <VaSelect label="What kind of file is this?">
+ *       <option value="public">Public</option>
+ *       <option value="private">Private</option>
+ *     </VaSelect />
+ *   ),
+ *   handleAdditionalInput: (e) => {    //handle optional additional input
+ *     return { documentStatus: e.detail.value }
+ *   }
  * })
  * ```
  *
@@ -88,6 +103,7 @@ export const fileInputUI = options => {
     },
     'ui:validations': [
       (errors, data, formData, schema, uiErrorMessages) => {
+        const isNavigationEvent = navigationState.getNavigationEventStatus();
         const isRequired =
           typeof required === 'function' ? required(formData) : !!required;
         if (isRequired) {
@@ -98,6 +114,18 @@ export const fileInputUI = options => {
             schema,
             uiErrorMessages,
           );
+        }
+        if (uiOptions.encrypted && !data.password && isNavigationEvent) {
+          errors.isEncrypted.addError('Encrypted file requires a password.');
+        }
+        if (
+          uiOptions.additionalInputRequired &&
+          // data.additionalData.hasError ||
+          (isEmpty(uiOptions.additionalData) && isNavigationEvent)
+        ) {
+          const errorMessage =
+            uiErrorMessages.additionalInput || 'Enter additional input';
+          errors.additionalData.addError(errorMessage);
         }
       },
     ],
@@ -138,6 +166,9 @@ export const fileInputSchema = () => ({
     isEncrypted: {
       type: 'boolean',
     },
+    password: {
+      type: 'string',
+    },
     name: {
       type: 'string',
     },
@@ -152,6 +183,10 @@ export const fileInputSchema = () => ({
       items: {
         type: 'string',
       },
+    },
+    additionalData: {
+      type: 'object',
+      properties: {},
     },
   },
 });
