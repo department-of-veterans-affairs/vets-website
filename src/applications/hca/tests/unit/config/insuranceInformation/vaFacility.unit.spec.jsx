@@ -9,11 +9,11 @@ import {
 } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
 
-describe('hca VaFacilityLighthouse config', () => {
+describe('hca VaFacility config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.vaFacilityLighthouse;
+  } = formConfig.chapters.insuranceInformation.pages.vaFacility;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {

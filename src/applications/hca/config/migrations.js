@@ -242,13 +242,17 @@ export default [
 
     return { formData, metadata: newMetadata };
   },
-  // 7 -> 8, with the addition of the Toxic Exposure questions, we need to ensure all
-  // users go through these, so we will send users back to the start of the form
+  // 7 -> 8, we fully adopted pulling VA facility data from vets-api and need to update
+  // URL to remove the `-api` reference
   ({ formData, metadata }) => {
-    /**
-     * This original migration was reverted due to only needing to update the return
-     * URL for a 60-day window while current SIP forms were allowed to expire.
-     */
-    return { formData, metadata };
+    const url = metadata.returnUrl || metadata.return_url;
+    let newMetadata = metadata;
+
+    if (url.includes('va-facility-api')) {
+      const returnUrl = url.replace(/va-facility-api/, 'va-facility');
+      newMetadata = set('returnUrl', returnUrl, newMetadata);
+    }
+
+    return { formData, metadata: newMetadata };
   },
 ];
