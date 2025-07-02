@@ -218,66 +218,62 @@ const getEmptyRecordSets = (recordSets, failedDomains) => {
   });
 };
 
-const expandAvailableAppointments = (items, recordSets) => {
+// helper to turn “past”/“upcoming” into the proper title
+const titleFor = key =>
+  key === 'past' ? 'Past appointments' : 'Upcoming appointments';
+
+function expandAppointments(
+  items,
+  recordSets,
+  {
+    matchItem = 'Appointments', // which incoming item to replace
+    showWhenPresent = true, // true ⇒ include when records exist; false ⇒ include when empty
+    alwaysShow = false, // ignore record counts when true (for “failed” case)
+  } = {},
+) {
+  const appSet = recordSets.find(set => set.type === 'appointments');
+  if (!appSet) return items;
+
+  // build a map of title → hasRecords boolean
+  const hasRecords = Object.fromEntries(
+    appSet.records.map(r => [r.title, r.results.items.length > 0]),
+  );
+
   return items.flatMap(item => {
-    if (item === 'Appointments') {
-      const appointments = recordSets.find(set => set.type === 'appointments');
-      const { records, selected } = appointments;
-      const displayList = [];
+    if (item !== matchItem) return [item];
 
-      const pastHasRecords = records.find(
-        rec => rec.title === 'Past appointments',
-      ).results.items.length;
-      const upcomingHasRecords = records.find(
-        rec => rec.title === 'Upcoming appointments',
-      ).results.items.length;
-      if (selected.past && pastHasRecords)
-        displayList.push('Past appointments');
-      if (selected.upcoming && upcomingHasRecords)
-        displayList.push('Upcoming appointments');
-      return displayList;
-    }
-    return [item];
+    return (
+      Object.entries(appSet.selected)
+        // filter by selection and (either alwaysShow or presence matches desired flag)
+        .filter(([key, isSelected]) => {
+          const title = titleFor(key);
+          return (
+            isSelected && (alwaysShow || hasRecords[title] === showWhenPresent)
+          );
+        })
+        // map back into the human‐readable titles
+        .map(([key]) => titleFor(key))
+    );
   });
-};
+}
 
-const expandEmptyAppointments = (items, recordSets) => {
-  return items.flatMap(item => {
-    if (item === 'Appointments') {
-      const appointments = recordSets.find(set => set.type === 'appointments');
-      const { records, selected } = appointments;
-      const displayList = [];
-
-      const pastHasRecords = records.find(
-        rec => rec.title === 'Past appointments',
-      ).results.items.length;
-      const upcomingHasRecords = records.find(
-        rec => rec.title === 'Upcoming appointments',
-      ).results.items.length;
-      if (selected.past && !pastHasRecords)
-        displayList.push('Past appointments');
-      if (selected.upcoming && !upcomingHasRecords)
-        displayList.push('Upcoming appointments');
-      return displayList;
-    }
-    return [item];
+const expandAvailableAppointments = (items, recordSets) =>
+  expandAppointments(items, recordSets, {
+    matchItem: 'Appointments',
+    showWhenPresent: true,
   });
-};
 
-const expandFailedAppointments = (items, recordSets) => {
-  return items.flatMap(item => {
-    if (item === 'VA appointments') {
-      const appointments = recordSets.find(set => set.type === 'appointments');
-      const { selected } = appointments;
-      const displayList = [];
-
-      if (selected.past) displayList.push('Past appointments');
-      if (selected.upcoming) displayList.push('Upcoming appointments');
-      return displayList;
-    }
-    return [item];
+const expandEmptyAppointments = (items, recordSets) =>
+  expandAppointments(items, recordSets, {
+    matchItem: 'Appointments',
+    showWhenPresent: false,
   });
-};
+
+const expandFailedAppointments = (items, recordSets) =>
+  expandAppointments(items, recordSets, {
+    matchItem: 'VA appointments',
+    alwaysShow: true,
+  });
 
 const generateInfoForAvailableRecords = (infoSection, doc, data) => {
   infoSection.add(
