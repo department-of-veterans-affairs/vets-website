@@ -112,9 +112,10 @@ export default function PastAppointmentsPage() {
         {dropdown}
         <InfoAlert
           status="error"
-          headline="We’re sorry. We’ve run into a problem"
+          headline="We can’t access your appointments right now"
         >
-          We’re having trouble getting your past appointments. Please try later.
+          We’re sorry. There’s a problem with our system. Refresh this page or
+          try again later.
         </InfoAlert>
       </>
     );
