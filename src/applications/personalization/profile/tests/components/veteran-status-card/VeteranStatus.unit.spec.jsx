@@ -70,6 +70,13 @@ const serviceHistoryConfirmed = {
     message: [],
   },
 };
+const serviceHistoryConfirmedReverse = {
+  serviceHistory: [...serviceEpisodes].reverse(),
+  vetStatusEligibility: {
+    confirmed: true,
+    message: [],
+  },
+};
 const serviceHistory403Error = {
   error: {
     errors: [{ code: '403' }],
@@ -84,14 +91,14 @@ const serviceHistoryNone = {
   serviceHistory: [],
 };
 const serviceHistoryDischargeProblem = {
-  serviceHistory: serviceEpisodes,
+  serviceHistory: [],
   vetStatusEligibility: {
     confirmed: false,
     ...dischargeProblemData,
   },
 };
 const serviceHistoryNotEligible = {
-  serviceHistory: serviceEpisodes,
+  serviceHistory: [],
   vetStatusEligibility: {
     confirmed: false,
     ...notEligibleData,
@@ -260,47 +267,95 @@ describe('VeteranStatus', () => {
     });
   });
 
+  // Test case for when the user is eligible for a Veteran Status Card with reversed service history
+  describe('when the user is eligible for a Veteran Status Card and their service history is reversed', () => {
+    const initialState = createBasicInitialState(
+      serviceHistoryConfirmedReverse,
+    );
+
+    it('should render the correct latest service history start and end years', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+
+        // Check for the correct lastest service history start and end years
+        expect(view.getByText('United States Air Force • 2009–2013')).to.exist;
+      });
+    });
+  });
+
   // Test case for when the user is not eligible for a Veteran Status Card
   describe('when the user is not eligible for a Veteran Status Card', () => {
-    it('should render the LoadFail alert for non-403 service history errors', () => {
+    it('should render the LoadFail alert for non-403 service history errors', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
       const initialState = createBasicInitialState(serviceHistoryNon403Error);
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
-      expect(view.getByText(`This page isn't available right now.`)).to.exist;
 
-      // Check that the PDF download link is not rendered
-      expect(pdfLink(view)).to.not.exist;
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+        expect(view.getByText(`This page isn't available right now.`)).to.exist;
+
+        // Check that the PDF download link is not rendered
+        expect(pdfLink(view)).to.not.exist;
+      });
     });
 
-    it('should render the NoServiceHistoryAlert alert for 403 service history errors', () => {
+    it('should render the NoServiceHistoryAlert alert for 403 service history errors', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
       const initialState = createBasicInitialState(serviceHistory403Error);
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
-      expect(
-        view.getByText(
-          `We can’t match your information to any military service records`,
-        ),
-      ).to.exist;
 
-      // Check that the PDF download link is not rendered
-      expect(pdfLink(view)).to.not.exist;
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+        expect(
+          view.getByText(
+            `We can’t match your information to any military service records`,
+          ),
+        ).to.exist;
+
+        // Check that the PDF download link is not rendered
+        expect(pdfLink(view)).to.not.exist;
+      });
     });
 
-    it('should render the NoServiceHistoryAlert alert when there is no service history', () => {
+    it('should render the NoServiceHistoryAlert alert when there is no service history', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
       const initialState = createBasicInitialState(serviceHistoryNone);
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
-      expect(
-        view.getByText(
-          `We can’t match your information to any military service records`,
-        ),
-      ).to.exist;
 
-      // Check that the PDF download link is not rendered
-      expect(pdfLink(view)).to.not.exist;
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+        expect(
+          view.getByText(
+            `We can’t match your information to any military service records`,
+          ),
+        ).to.exist;
+
+        // Check that the PDF download link is not rendered
+        expect(pdfLink(view)).to.not.exist;
+      });
     });
 
     it('should render the SystemErrorAlert alert when an API error occurs', async () => {
@@ -326,7 +381,8 @@ describe('VeteranStatus', () => {
       });
     });
 
-    it('should render the SystemErrorAlert alert when the user’s name is missing', () => {
+    it('should render the SystemErrorAlert alert when the user’s name is missing', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
       const initialState = createBasicInitialState(serviceHistoryConfirmed);
       initialState.vaProfile.hero.userFullName = {
         first: '',
@@ -335,14 +391,21 @@ describe('VeteranStatus', () => {
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
-      expect(
-        view.getByText(
-          `We’re sorry. Try to view your Veteran Status Card later.`,
-        ),
-      ).to.exist;
 
-      // Check that the PDF download link is not rendered
-      expect(pdfLink(view)).to.not.exist;
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+        expect(
+          view.getByText(
+            `We’re sorry. Try to view your Veteran Status Card later.`,
+          ),
+        ).to.exist;
+
+        // Check that the PDF download link is not rendered
+        expect(pdfLink(view)).to.not.exist;
+      });
     });
 
     it('should render the NotConfirmedAlert alert when vet status returns a discharge problem', async () => {

@@ -170,6 +170,7 @@ const Prescriptions = () => {
   const [isRetrievingFullList, setIsRetrievingFullList] = useState(false);
   const isAlertVisible = useMemo(() => false, []);
   const [isLoading, setLoading] = useState();
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
@@ -278,6 +279,20 @@ const Prescriptions = () => {
       }
     },
     [filteredList, isLoading, filterCount],
+  );
+
+  useEffect(
+    () => {
+      if (!isFirstLoad) {
+        focusElement(document.getElementById('showingRx'));
+        return;
+      }
+
+      if (isLoading === false && isFirstLoad) {
+        setIsFirstLoad(false);
+      }
+    },
+    [isLoading],
   );
 
   // Update page title

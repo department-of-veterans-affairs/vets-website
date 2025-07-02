@@ -1,6 +1,7 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     mhvLandingPagePersonalization = true,
+    mhvBypassDowntimeNotification = false,
 
     // medications
     mhvMedicationsToVaGovRelease = true,
@@ -27,9 +28,13 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
+
+    // OH integration work
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
+
     mhvMedicalRecordsMilestoneTwo = false,
 
     // secure messaging
@@ -47,6 +52,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: true,
         },
         {
+          name: 'mhv_bypass_downtime_notification',
+          value: mhvBypassDowntimeNotification,
+        },
+        {
           name: 'mhv_accelerated_delivery_enabled',
           value: mhvAcceleratedDeliveryEnabled,
         },
@@ -57,6 +66,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_accelerated_delivery_vital_signs_enabled',
           value: mhvAcceleratedDeliveryVitalSignsEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_labs_and_tests_enabled',
+          value: mhvAcceleratedDeliveryLabsAndTestsEnabled,
         },
         {
           name: 'mhv_landing_page_personalization',

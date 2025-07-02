@@ -3,7 +3,7 @@
 /// <reference path="./index.d.ts" />
 
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
-import featureFlags from '../../utils/featureFlags';
+import featureFlags from '../../services/mocks/featureFlags';
 
 /**
  * Function to mock feature toggle endpoint.
@@ -294,12 +294,14 @@ export function mockFacilitiesApi({ response: data, responseCode = 200 }) {
  * @param {string=} [arguments.typeOfCareId] - Type of care id.
  * @param {boolean} [arguments.isDirect=false] - Toggle if facility supports direct scheduling or not.
  * @param {boolean} [arguments.isRequest=false] - Toggle if facility supports request scheduling or not.
+ * @param {Object} [arguments.overrideDirect={}] - Override the direct scheduling configuration value.
  */
 export function mockSchedulingConfigurationApi({
   facilityIds,
   typeOfCareId = null,
   isDirect = false,
   isRequest = false,
+  overrideDirect = {},
 } = {}) {
   cy.intercept(
     {
@@ -323,7 +325,11 @@ export function mockSchedulingConfigurationApi({
                   service.id === typeOfCareId
                     ? {
                         ...service,
-                        direct: { ...service.direct, enabled: isDirect },
+                        direct: {
+                          ...service.direct,
+                          enabled: isDirect,
+                          ...overrideDirect,
+                        },
                         request: { ...service.request, enabled: isRequest },
                       }
                     : null,

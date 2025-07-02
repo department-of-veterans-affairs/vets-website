@@ -22,27 +22,16 @@ const ui = (
 let view;
 let server;
 
-function getEditButton(numberName) {
-  let editButton = view.queryByText(new RegExp(`add.*${numberName}`, 'i'), {
-    selector: 'button',
-  });
-  if (!editButton) {
-    // Need to use `queryByRole` since the visible label is simply `Edit`, but
-    // the aria-label is more descriptive
-    editButton = view.queryByRole('button', {
-      name: new RegExp(`edit.*${numberName}`, 'i'),
-    });
-  }
-  return editButton;
+// helper function that returns the Edit or Remove va-button
+// since RTL doesn't support getByRole/getByText queries for web components
+function getVaButton(action, numberName) {
+  const label = `${action} ${numberName}`;
+  return view.container.querySelector(`va-button[label="${label}"]`);
 }
 
 function deletePhoneNumber(numberName) {
   // delete
-  view
-    .getByLabelText(new RegExp(`remove ${numberName}`, 'i'), {
-      selector: 'button',
-    })
-    .click();
+  getVaButton('Remove', numberName).click();
   const confirmDeleteButton = view.getByText('Yes, remove my information', {
     selector: 'button',
   });
@@ -51,7 +40,7 @@ function deletePhoneNumber(numberName) {
   return { confirmDeleteButton };
 }
 
-async function testSuccess(numberName) {
+async function testSuccess(numberName, shortNumberName) {
   server.use(...mocks.transactionPending);
 
   deletePhoneNumber(numberName);
@@ -73,9 +62,9 @@ async function testSuccess(numberName) {
   await view.findByText('Update saved.');
 
   // the edit phone number button should still exist
-  view.getByRole('button', { name: new RegExp(`edit.*${numberName}`, 'i') });
+  expect(getVaButton('Edit', numberName)).to.exist;
   // and the add phone number text should exist
-  view.getByText(new RegExp(`add.*${numberName}`, 'i'));
+  expect(view.getByText(new RegExp(`add.*${shortNumberName}`, 'i'))).to.exist;
 }
 
 // When the initial transaction creation request fails
@@ -90,8 +79,7 @@ async function testTransactionCreationFails(numberName) {
     { exact: false },
   );
 
-  const editButton = getEditButton(numberName);
-  expect(editButton).to.exist;
+  expect(getVaButton('Edit', numberName)).to.exist;
 }
 
 // When the update fails but not until after the Delete Modal has exited and the
@@ -122,7 +110,7 @@ async function testSlowFailure(numberName) {
   ).to.exist;
 
   // and the add/edit button should be back
-  expect(getEditButton(numberName)).to.exist;
+  expect(getVaButton('Edit', numberName)).to.exist;
 }
 
 describe('Deleting', () => {
@@ -157,10 +145,13 @@ describe('Deleting', () => {
   ];
 
   numbers.forEach(number => {
-    const numberName = FIELD_TITLES[number];
+    const numberName = FIELD_TITLES[number]; // e.g. 'Home phone number'
+    // The short name is used in the add phone number text,
+    // e.g. 'Click edit to add a home number.'
+    const shortNumberName = numberName.replace(/ phone/i, ''); // e.g. 'Home number'
     describe(numberName, () => {
       it('should handle a transaction that succeeds quickly', async () => {
-        await testSuccess(numberName);
+        await testSuccess(numberName, shortNumberName);
       });
       it('should show an error if the transaction cannot be created', async () => {
         await testTransactionCreationFails(numberName);

@@ -61,7 +61,7 @@ export class ScheduleReferralPageObject extends PageObject {
    * Clicks the Schedule Appointment link
    */
   clickScheduleAppointment() {
-    cy.findByText('Schedule your appointment')
+    cy.findByTestId('schedule-appointment-button')
       .should('exist')
       .click();
     return this;

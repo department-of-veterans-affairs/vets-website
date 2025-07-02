@@ -16,6 +16,7 @@ import oneBlockedRecipient from '../../fixtures/json-triage-mocks/triage-teams-o
 import twoBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-two-blocked-mock.json';
 import noBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-mock.json';
 import noAssociationsAtAll from '../../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
+import lostAssociation from '../../fixtures/json-triage-mocks/triage-teams-lost-association.json';
 
 describe('Reply form component', () => {
   const { signature } = signatureReducers.signatureEnabled;
@@ -335,6 +336,60 @@ describe('Reply form component', () => {
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
       'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+    );
+  });
+
+  it('allows reply if OH message and not associated with recipient', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          allRecipients: lostAssociation.mockAllRecipients,
+          allowedRecipients: lostAssociation.mockAllowedRecipients,
+          blockedRecipients: lostAssociation.mockBlockedRecipients,
+          associatedTriageGroupsQty: lostAssociation.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            lostAssociation.associatedBlockedTriageGroupsQty,
+          noAssociations: lostAssociation.noAssociations,
+          allTriageGroupsBlocked: lostAssociation.allTriageGroupsBlocked,
+        },
+      },
+    };
+    const ohDrafts = threadDetails.drafts.map(draft => ({
+      ...draft,
+      isOhMessage: true,
+      recipientId: 111111,
+      recipientName: 'not_SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+      triageGroupName: 'not_SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+    }));
+
+    const ohMessages = threadDetails.messages.map(message => ({
+      ...message,
+      isOhMessage: true,
+      recipientId: 111111,
+      recipientName: 'not_SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+      triageGroupName: 'not_SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+    }));
+
+    const screen = render(
+      customState,
+      {
+        drafts: ohDrafts,
+        recipients: customState.sm.recipients,
+        messages: ohMessages,
+      },
+      ohDrafts[0],
+    );
+
+    const blockedTriageGroupAlert = await screen.queryByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.not.exist;
+
+    expect(screen.getByTestId('edit-draft-button-body')).to.exist;
+    expect(screen.getByTestId('edit-draft-button-body').textContent).to.contain(
+      'Edit draft reply',
     );
   });
 });

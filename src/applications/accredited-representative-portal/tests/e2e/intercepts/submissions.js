@@ -1,5 +1,5 @@
 export const setSubmissions = () => {
-  cy.intercept('/accredited_representative_portal/v0/submissions**', {
+  cy.intercept('/accredited_representative_portal/v0/claim_submissions**', {
     data: [
       {
         submittedDate: '2025-04-09',

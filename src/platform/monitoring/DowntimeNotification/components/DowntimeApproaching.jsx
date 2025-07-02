@@ -1,4 +1,5 @@
 import React from 'react';
+import { format } from 'date-fns';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import externalServiceStatus from '../config/externalServiceStatus';
 import DowntimeNotificationWrapper from './Wrapper';
@@ -39,9 +40,9 @@ class DowntimeApproaching extends React.Component {
           {messaging.content || (
             <p>
               We’ll be doing some work on the {appTitle} on{' '}
-              {startTime.format('MMMM Do')} between {startTime.format('LT')} and{' '}
-              {endTime.format('LT')} If you have trouble using this tool during
-              that time, please check back soon.
+              {format(startTime, 'MMMM do')} between {format(startTime, 'p')}{' '}
+              and {format(endTime, 'p')}. If you have trouble using this tool
+              during that time, please check back soon.
             </p>
           )}
         </VaModal>
