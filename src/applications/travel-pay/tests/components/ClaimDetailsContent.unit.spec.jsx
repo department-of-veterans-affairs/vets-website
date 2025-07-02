@@ -79,7 +79,6 @@ describe('ClaimDetailsContent', () => {
     );
 
     expect(screen.getByText('Claim status: Claim submitted')).to.exist;
-    expect(screen.getByText('What does this status mean')).to.exist;
     expect(screen.getByText(/You submitted this claim for review/i)).to.exist;
   });
 
@@ -95,7 +94,6 @@ describe('ClaimDetailsContent', () => {
     );
 
     expect(screen.getByText('Claim status: Unexpected status')).to.exist;
-    expect(screen.queryByText('What does this status mean')).to.not.exist;
     expect(screen.getByText(/If you need help understanding your claim/i)).to
       .exist;
   });
@@ -125,7 +123,6 @@ describe('ClaimDetailsContent', () => {
     expect(
       $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
     ).to.not.exist;
-    expect(screen.queryByText('What does this status mean')).to.not.exist;
     expect(screen.queryByText('Reimbursement amount of $46.93')).to.not.exist;
     expect($('va-link[text="Download your decision letter"]')).to.not.exist;
     expect($('va-link[text="screenshot.png"]')).to.not.exist;
