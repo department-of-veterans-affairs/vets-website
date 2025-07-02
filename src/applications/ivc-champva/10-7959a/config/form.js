@@ -179,7 +179,7 @@ const formConfig = {
     resubmissionInformation: {
       title: 'Claim information',
       pages: {
-        page1e: {
+        page1e1: {
           path: 'resubmission-claim-number',
           title: 'Claim ID number',
           depends: formData => get('claimStatus', formData) === 'resubmission',
@@ -324,6 +324,7 @@ const formConfig = {
         page4: {
           path: 'claim-type',
           title: 'Claim type',
+          depends: formData => get('claimStatus', formData) !== 'resubmission',
           ...claimTypeSchema,
         },
         page5: {
@@ -341,7 +342,9 @@ const formConfig = {
         page7: {
           path: 'medical-claim-upload',
           title: 'Supporting documents',
-          depends: formData => get('claimType', formData) === 'medical',
+          depends: formData =>
+            get('claimType', formData) === 'medical' &&
+            get('claimStatus', formData) !== 'resubmission',
           ...medicalClaimUploadSchema,
         },
         page8: {
