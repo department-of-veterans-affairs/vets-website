@@ -7,7 +7,7 @@ import sinon from 'sinon';
 // import configureStore from 'redux-mock-store';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import formConfig from '../../../config/form';
-// import { BENEFITS_LIST } from '../../../constants/benefits';
+import { BENEFITS_LIST } from '../../../constants/benefits';
 
 describe('<ConfirmationPage>', () => {
   sinon.stub(Date, 'getTime');
@@ -135,7 +135,7 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
   // };
 
   sinon.stub(Date, 'getTime');
-  const getData = resultsData => {
+  const getData = (resultsData, queryObject = {}) => {
     return {
       props: {
         formConfig,
@@ -152,7 +152,7 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
         location: {
           basename: '/discover-your-benefits',
           pathname: '/confirmation',
-          query: {},
+          query: queryObject,
           search: '',
         },
       },
@@ -218,26 +218,19 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     expect(benefitNames[1]).to.contain('Education');
   });
 
-  // it('should sort benefits alphabetically by default', () => {
-  //   wrapper = setup({
-  //     results: { data: BENEFITS_LIST },
-  //     location: {
-  //       basename: '/',
-  //       pathname: '/confirmation',
-  //       query: { allBenefits: true },
-  //     },
-  //   });
-  //   container = wrapper.container;
+  it('should sort benefits alphabetically by default', () => {
+    const { mockStore, props } = getData(BENEFITS_LIST, { allBenefits: true });
+    const wrapper = subject({ mockStore, props });
 
-  //   const benefits = wrapper.getAllByRole('listitem').map(li => li.textContent);
+    const benefits = wrapper.getAllByRole('listitem').map(li => li.textContent);
 
-  //   const sortedBenefits = BENEFITS_LIST.sort((a, b) => {
-  //     return a.name.localeCompare(b.name);
-  //   });
-  //   benefits.forEach(benefit => {
-  //     expect(benefit.name).to.equal(sortedBenefits.name);
-  //   });
-  // });
+    const sortedBenefits = BENEFITS_LIST.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+    benefits.forEach(benefit => {
+      expect(benefit.name).to.equal(sortedBenefits.name);
+    });
+  });
 
   // it('should filter benefits by category', () => {
   //   wrapper = setup({ results: { data: mockBenefits } });
