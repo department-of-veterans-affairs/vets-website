@@ -106,28 +106,63 @@ export default function DefaultPage({
             </div>
           )}
 
-          {item.status === 'NEEDED_FROM_YOU' && (
-            <>
-              <h3>Learn about this request in your claim letter</h3>
-              <p>
-                On {dateFormatter(item.requestedDate)}, we mailed you a letter
-                titled “Request for Specific Evidence or Information,” which may
-                include more details about this request. You can access this and
-                all your claim letters online.
-                <br />
-                <va-link
-                  text="Your claim letters"
-                  label="Your claim letters"
-                  href="/track-claims/your-claim-letters"
-                />
-              </p>
-            </>
-          )}
+          {item.status === 'NEEDED_FROM_YOU' &&
+            evidenceDictionary[item.displayName] && (
+              <>
+                <h3>Learn about this request in your claim letter</h3>
+                <p>
+                  On {dateFormatter(item.requestedDate)}, we mailed you a letter
+                  titled “Request for Specific Evidence or Information,” which
+                  may include more details about this request. You can access
+                  this and all your claim letters online.
+                  <br />
+                  <va-link
+                    text="Your claim letters"
+                    label="Your claim letters"
+                    href="/track-claims/your-claim-letters"
+                  />
+                </p>
+              </>
+            )}
           {evidenceDictionary[item.displayName] &&
             evidenceDictionary[item.displayName].nextSteps && (
               <>
                 <h2>Next steps</h2>
                 {evidenceDictionary[item.displayName].nextSteps}
+              </>
+            )}
+          {!evidenceDictionary[item.displayName]?.nextSteps &&
+            item.status === 'NEEDED_FROM_YOU' && (
+              <>
+                <h2>Next steps</h2>
+                <p>To respond to this request:</p>
+                <ul className="bullet-disc">
+                  <li>
+                    Gather and submit any documents or forms listed in the{' '}
+                    <strong>What we need from you</strong> section.
+                  </li>
+                  <li>You can upload documents online or mail them to us.</li>
+                </ul>
+                <p>
+                  If you need help understanding this request, check your claim
+                  letter online.
+                  <br />
+                  <va-link
+                    text="Your claim letters"
+                    label="Your claim letters"
+                    href="/track-claims/your-claim-letters"
+                  />
+                </p>
+                <p>
+                  You can find blank copies of many VA forms online.
+                  <br />
+                  <va-link
+                    active
+                    text="Find a VA form"
+                    label="Find a VA form"
+                    href="/find-forms"
+                  />
+                </p>
               </>
             )}
           {item.canUploadFile && (
