@@ -632,10 +632,6 @@ const VaPrescription = prescription => {
                                     width="350"
                                     height="350"
                                   />
-                                  <p>
-                                    <strong>Note:</strong> Images on this page
-                                    are for identification purposes only…
-                                  </p>
                                 </>
                               ) : (
                                 <p
