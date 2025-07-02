@@ -23,6 +23,7 @@ describe('ClaimDetailsContent', () => {
     hasStatusFeatureFlag = true,
     hasDetailsFeatureFlag = true,
     hasClaimsManagementFlag = true,
+    hasClaimsManagementDecisionReasonFlag = true,
   } = {}) => ({
     featureToggles: {
       loading: featureTogglesAreLoading,
@@ -30,6 +31,7 @@ describe('ClaimDetailsContent', () => {
       travel_pay_power_switch: hasStatusFeatureFlag,
       travel_pay_view_claim_details: hasDetailsFeatureFlag,
       travel_pay_claims_management: hasClaimsManagementFlag,
+      travel_pay_claims_management_decision_reason: hasClaimsManagementDecisionReasonFlag,
       /* eslint-enable camelcase */
     },
   });
@@ -339,6 +341,94 @@ describe('ClaimDetailsContent', () => {
           /The VA travel pay deductible is \$3 for a one-way trip/i,
         ),
       ).to.not.exist;
+    });
+
+    it('does not show decision reason section with flag off', () => {
+      const screen = renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          claimStatus="Denied"
+          decisionLetterReason="Your claim was denied because of reasons. Authority 38 CFR 70.10"
+        />,
+        {
+          initialState: getState({
+            hasClaimsManagementDecisionReasonFlag: false,
+          }),
+        },
+      );
+
+      expect(
+        screen.getByText(
+          'We denied your claim. You can review the decision letter for more information and how to appeal.',
+        ),
+      ).to.exist;
+      expect(screen.queryByText('Your claim was denied because of reasons.')).to
+        .not.exist;
+    });
+
+    it('shows decision reason section with flag on and decisionLetterReason provided', () => {
+      const screen = renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          claimStatus="Denied"
+          decisionLetterReason="Your claim was denied because of reasons. Authority 38 CFR 70.10"
+        />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      expect(
+        screen.getByText(
+          'We denied your claim. You can review the decision letter for more information and how to appeal.',
+        ),
+      ).to.exist;
+      expect(screen.getByText('Your claim was denied because of reasons.')).to
+        .exist;
+    });
+
+    it('shows partial payment specific copy for status', () => {
+      const screen = renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          claimStatus="Partial payment"
+          decisionLetterReason="We only paid some of your requested amount"
+        />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      expect(
+        screen.getByText(
+          "Some of the expenses you submitted aren't eligible for reimbursement. You can review the decision letter for more information.",
+        ),
+      ).to.exist;
+      expect(screen.getByText('We only paid some of your requested amount')).to
+        .exist;
+    });
+
+    it('injects CFR links into decision reason copy if they exist', () => {
+      const screen = renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          claimStatus="Denied"
+          decisionLetterReason="Your claim was denied because of reasons. Authority 38 CFR 70.10. Also because of a reason with an invalid citation. Authority 38 70"
+        />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      // Check that the specific valid CFR link exists
+      expect(
+        $(
+          'a[target="_blank"][href="https://www.ecfr.gov/current/title-38/chapter-I/section-70.10"]',
+        ),
+      ).to.exist;
+
+      // Check that only one CFR link is rendered
+      expect(screen.getAllByRole('link')).to.have.length(1);
     });
   });
 });
