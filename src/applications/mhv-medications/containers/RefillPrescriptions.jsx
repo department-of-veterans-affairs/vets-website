@@ -49,8 +49,6 @@ const RefillPrescriptions = () => {
   ] = useBulkRefillPrescriptionsMutation();
   const { isLoading: isRefilling, error: bulkRefillError } = result;
 
-  const recentlyRequested = refillableData?.recentlyRequested || [];
-
   const getMedicationsByIds = (ids, prescriptions) => {
     if (!ids || !prescriptions) return [];
     return ids.map(id =>
@@ -221,7 +219,6 @@ const RefillPrescriptions = () => {
           <RefillAlert
             dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
             refillStatus={refillStatus}
-            refillAlertList={recentlyRequested}
           />
         )}
         {prescriptionsApiError ? (
