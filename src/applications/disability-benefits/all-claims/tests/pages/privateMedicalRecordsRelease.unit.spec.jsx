@@ -125,6 +125,11 @@ describe('Disability benefits 4142 provider medical records facility information
       '29414',
     );
 
+    // id found from inspecting checkbox on website
+    // const vaCheckboxes = form.find('input#checkbox-element.va-checkbox__input');
+
+    // console.log(vaCheckboxes.debug());
+
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -181,6 +186,27 @@ describe('Disability benefits 4142 provider medical records facility information
 
     expect(form.find('input').length).to.equal(8); // non-checkbox inputs
     expect(form.find('va-checkbox').length).to.equal(1);
+    form.unmount();
+  });
+
+  it('should render with rated disabilities', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...claimType,
+          ratedDisabilities,
+          'view:selectableEvidenceTypes': {
+            'view:hasPrivateMedicalRecords': true,
+          },
+        }}
+      />,
+    );
+
+    expect(form.find('va-checkbox').length).to.equal(4);
+    expect(form.find('select').length).to.equal(6);
     form.unmount();
   });
 });
