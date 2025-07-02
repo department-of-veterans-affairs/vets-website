@@ -138,7 +138,7 @@ const responses = {
     return res.json({ data: [] });
   },
   'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
-    const disabilityRatingStatus = 'empty'; // 'success', 'failure', 'empty', or 'zero'
+    const disabilityRatingStatus = 'success'; // 'success', 'failure', 'empty', or 'zero'
     switch (disabilityRatingStatus) {
       case 'success':
         return res.status(200).json(createDisabilityRatingSuccess());

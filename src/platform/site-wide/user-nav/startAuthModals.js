@@ -8,6 +8,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
+import SignInModal from 'platform/user/authentication/components/SignInModal';
 import startReactApp from '../../startup/react';
 
 /**
@@ -15,10 +16,11 @@ import startReactApp from '../../startup/react';
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default function startLogoutModal(store) {
+export default function startAuthModals(store) {
   startReactApp(
     <Provider store={store}>
       <SessionTimeoutModal />
+      <SignInModal />
     </Provider>,
     document.getElementById('logout-modal-root'),
   );
