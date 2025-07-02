@@ -51,7 +51,6 @@ function MaritalStatusPage(props) {
     contentBeforeButtons,
     contentAfterButtons,
     goBack,
-    goForward,
     NavButtons,
   } = props;
   const { data, schema, uiSchema, onChange, onSubmit } = useEditOrAddForm({
@@ -101,7 +100,7 @@ function MaritalStatusPage(props) {
    */
   const shouldShowModal = (previousStatus, newStatus) => {
     // Return early if current/new status is a zero length string or undefined.
-    if (previousStatus.length === 0 || newStatus.length === 0) {
+    if (previousStatus?.length === 0 || newStatus?.length === 0) {
       return false;
     }
     return marriedOrSeparated(previousStatus) && !marriedOrSeparated(newStatus);
@@ -175,7 +174,7 @@ function MaritalStatusPage(props) {
           <p className="vads-u-margin--0">{modalCancelDescription}</p>
         </VaModal>
         {contentBeforeButtons}
-        <NavButtons goBack={goBack} goForward={goForward} submitToContinue />
+        <NavButtons goBack={goBack} submitToContinue />
         {contentAfterButtons}
       </SchemaForm>
     </>
@@ -195,7 +194,7 @@ MaritalStatusPage.propTypes = {
   pagePerItemIndex: PropTypes.number,
   trackingPrefix: PropTypes.string,
   goBack: PropTypes.func.isRequired,
-  goForward: PropTypes.func.isRequired,
+  goForward: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   NavButtons: PropTypes.func.isRequired,
