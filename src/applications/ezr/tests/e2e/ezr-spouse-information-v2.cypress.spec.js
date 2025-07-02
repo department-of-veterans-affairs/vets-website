@@ -40,7 +40,7 @@ function setUserDataAndAdvanceToSpouseSection(user, prefillData) {
   advanceToHouseholdSection();
   goToNextPage('/military-service/toxic-exposure');
   cy.get('[name="root_hasTeraResponse"]').check('N');
-  goToNextPage('/household-information/marital-status');
+  goToNextPage('/household-information/marital-status-information');
   cy.injectAxeThenAxeCheck();
 }
 
@@ -56,6 +56,19 @@ describe('EZR V2 spouse information flow', () => {
         .shadow()
         .find('select')
         .should('have.value', '');
+
+      // Verify that the form cannot be submitted without selecting a value.
+      // Click the continue button.
+      cy.findAllByText(/continue/i, { selector: 'button' }).click();
+      cy.location('pathname').should(
+        'include',
+        '/household-information/marital-status-information',
+      );
+      // Look for error text: 'You must select a valid option'
+      cy.get('va-select[name="root_view:maritalStatus_maritalStatus"]')
+        .shadow()
+        .find('span.usa-error-message')
+        .should('contain', 'You must select a valid option');
 
       // Fill the marital information.
       cy.selectVaSelect('root_view:maritalStatus_maritalStatus', 'Married');
