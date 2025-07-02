@@ -249,22 +249,23 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     expect(benefitNames[0]).to.contain('Careers and Employment');
   });
 
-  // it('should show all benefits when "All" filter is selected', () => {
-  //   wrapper = setup({ results: { data: mockBenefits } });
-  //   container = wrapper.container;
+  it('should show all benefits when "All" filter is selected', () => {
+    const { mockStore, props } = getData(mockBenefits);
+    const wrapper = subject({ mockStore, props });
+    const { container } = wrapper;
 
-  //   const filterSelect = container.querySelector('[name="filter-benefits"]');
-  //   filterSelect.__events.vaSelect({ target: { value: 'All' } });
-  //   const updateButton = container.querySelector('#update-results');
-  //   fireEvent.click(updateButton);
+    const filterSelect = container.querySelector('[name="filter-benefits"]');
+    filterSelect.__events.vaSelect({ target: { value: 'All' } });
+    const updateButton = container.querySelector('#update-results');
+    fireEvent.click(updateButton);
 
-  //   const benefitNames = wrapper
-  //     .getAllByRole('listitem')
-  //     .map(li => li.textContent);
-  //   expect(benefitNames).to.have.lengthOf(3);
-  //   expect(benefitNames[0]).to.contain('Careers');
-  //   expect(benefitNames[1]).to.contain('Education');
-  // });
+    const benefitNames = wrapper
+      .getAllByRole('listitem')
+      .map(li => li.textContent);
+    expect(benefitNames).to.have.lengthOf(3);
+    expect(benefitNames[0]).to.contain('Careers');
+    expect(benefitNames[1]).to.contain('Education');
+  });
 });
 
 describe('<ConfirmationPage> with <va-banner />', () => {
