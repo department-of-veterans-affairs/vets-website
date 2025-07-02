@@ -95,46 +95,81 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
     },
   ];
 
-  // helper to split “Appointments” or “VA appointments” into Past/Upcoming
-  const expandAppointments = label =>
-    label === 'Appointments' || label === 'VA appointments'
-      ? ['Past appointments', 'Upcoming appointments']
-      : [label];
+  // ––– appointment counts & expander helper ––––––––––––––––––––––––––––––––––––
+  const apptData = data?.appointments ?? [];
+  const pastCount = apptData.filter(a => !a.isUpcoming).length;
+  const upcomingCount = apptData.filter(a => a.isUpcoming).length;
 
-  // 1) which sections actually have data?
+  /**
+   * Expand “Appointments” or “VA appointments” into Past/Upcoming
+   * based on the three modes:
+   *   – available: only those with records
+   *   – empty: only those without records
+   *   – failed: always both
+   */
+  const expandAppt = (label, mode) => {
+    const match =
+      mode === 'failed'
+        ? label === 'VA appointments'
+        : label === 'Appointments';
+
+    if (!match) return [label];
+
+    if (mode === 'failed') {
+      return ['Past appointments', 'Upcoming appointments'];
+    }
+
+    const out = [];
+    if (mode === 'available') {
+      if (pastCount > 0) out.push('Past appointments');
+      if (upcomingCount > 0) out.push('Upcoming appointments');
+    } else if (mode === 'empty') {
+      if (pastCount === 0) out.push('Past appointments');
+      if (upcomingCount === 0) out.push('Upcoming appointments');
+    }
+    return out;
+  };
+
+  // which sections actually have data
   const nonEmptySections = sections.filter(
     section =>
       section.isArray ? section.data.length > 0 : Boolean(section.data),
   );
 
-  // 2) which sections are empty (but *not* failed)?
+  // –– build emptySections: any truly empty array, PLUS any
+  //   Appointments domain where our subset‐empty logic kicks in ––
   const emptySections = sections.filter(section => {
-    const noData = section.isArray ? section.data.length === 0 : !section.data;
-
-    // consider both labels when checking “failed”
+    // skip if it actually failed
     const isAppts = section.label === 'Appointments';
     const failedForThis =
       failedDomains.includes(section.label) ||
       (isAppts && failedDomains.includes('VA appointments'));
+    if (failedForThis) return false;
 
-    return noData && !failedForThis;
+    if (isAppts) {
+      // use our subset helper: mode 'empty'
+      return expandAppt(section.label, 'empty').length > 0;
+    }
+
+    // the normal case
+    return section.isArray ? section.data.length === 0 : !section.data;
   });
 
-  // 3) build “in report” list (splitting appointments)
+  // build “in report” list
   const inReport = nonEmptySections
-    .flatMap(s => expandAppointments(s.label))
+    .flatMap(s => expandAppt(s.label, 'available'))
     .map(l => `  • ${l}`)
     .join('\n');
 
-  // 4) build “failed” list (splitting appointments)
+  // build “failed” list
   const failedList = failedDomains.length
     ? failedDomains
-        .flatMap(d => expandAppointments(d))
+        .flatMap(d => expandAppt(d, 'failed'))
         .map(l => `  • ${l}`)
         .join('\n')
     : '';
 
-  // 5) assemble the records section
+  // assemble the records section
   const recordsParts = [
     'Records in this report',
     '',
@@ -149,7 +184,7 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
 
   if (emptySections.length) {
     const emptyList = emptySections
-      .flatMap(s => expandAppointments(s.label))
+      .flatMap(s => expandAppt(s.label, 'empty'))
       .map(l => `  • ${l}`)
       .join('\n');
 
