@@ -104,6 +104,7 @@ export const DependentsInformation = ({
         external
         text="Find more detailed instructions for how to change your dependents’ name"
       />
+      {/* Values and labels are flipped as 21-0538 form asks a differently worded question, which allows pdf mapping to be more intuitive */}
       <VaRadio
         label="Is your dependent information correct?"
         required
