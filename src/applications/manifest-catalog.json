@@ -265,7 +265,7 @@
       "directoryPath": "src/applications/edu-benefits/8794",
       "appName": "Designation Of Certifying Official(S)",
       "entryName": "8794-edu-benefits",
-      "rootUrl": "/school-administrators/update-certifying-officials"
+      "rootUrl": "/education/apply-for-education-benefits/application/8794"
     },
     {
       "directoryPath": "src/applications/edu-benefits/feedback-tool",
