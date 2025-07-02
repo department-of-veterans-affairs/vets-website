@@ -19,7 +19,7 @@ export function AppointmentTime({ appointment, format = 'h:mm a' }) {
 
   return (
     <>
-      {`${time.format(format)} `}
+      <span data-dd-privacy="mask">{`${time.format(format)} `}</span>
       <span aria-hidden="true">{abbreviation}</span>
       <span className="sr-only">{description}</span>
     </>

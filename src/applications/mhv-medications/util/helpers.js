@@ -254,6 +254,18 @@ export const getRefillHistory = prescription => {
 };
 
 /**
+ * Get show refill history
+ *
+ * @param {Array} refillHistory - refill history array
+ * @returns {Boolean}
+ */
+export const getShowRefillHistory = refillHistory => {
+  return (
+    refillHistory?.length > 1 || refillHistory?.[0]?.dispensedDate !== undefined
+  );
+};
+
+/**
  * Create a plain text string for when a medication description can't be provided
  * @param {String} Phone number, as a string
  * @returns {String} A string suitable for display anywhere plain text is preferable
@@ -629,4 +641,18 @@ export const isRefillTakingLongerThanExpected = rx => {
     (rx.dispStatus === dispStatusObj.submitted &&
       Date.parse(refillSubmitDate) < sevenDaysAgoDate)
   );
+};
+
+/**
+ * @param {Boolean} isPartialFill is it partial refill
+ * @param {Array} rxHistory refill history array
+ * @param {Number} refillPosition refill position
+ * @param {Number} index index
+ * @returns {String}
+ */
+export const determineRefillLabel = (isPartialFill, rxHistory, i) => {
+  if (isPartialFill) {
+    return 'Partial fill';
+  }
+  return i + 1 === rxHistory.length ? 'Original fill' : 'Refill';
 };

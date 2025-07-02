@@ -31,6 +31,7 @@ class MedicalRecordsSite {
     isAcceleratingEnabled = false,
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
+    isAcceleratingLabsAndTests = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -47,6 +48,10 @@ class MedicalRecordsSite {
           {
             name: 'mhv_accelerated_delivery_vital_signs_enabled',
             value: isAcceleratingVitals,
+          },
+          {
+            name: 'mhv_accelerated_delivery_labs_and_tests_enabled',
+            value: isAcceleratingLabsAndTests,
           },
           {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',
@@ -101,11 +106,29 @@ class MedicalRecordsSite {
             value: true,
           },
           {
-            name: 'mhv_medical_records_support_new_model_health_condition',
+            name: 'mhv_medical_records_support_backend_pagination_allergy',
             value: false,
           },
           {
-            name: 'mhv_medical_records_support_new_model_vaccine',
+            name:
+              'mhv_medical_records_support_backend_pagination_care_summary_note',
+            value: false,
+          },
+          {
+            name:
+              'mhv_medical_records_support_backend_pagination_health_condition',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_lab_test',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_vaccine',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_vital',
             value: false,
           },
         ],

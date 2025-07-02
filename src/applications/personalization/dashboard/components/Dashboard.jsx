@@ -57,6 +57,7 @@ import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntime
 import BenefitApplications from './benefit-application-drafts/BenefitApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
+import FormsAndApplications from './benefit-application-drafts/FormsAndApplications';
 
 const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -163,7 +164,14 @@ const LOA1Content = ({
         </Toggler.Disabled>
       </Toggler>
 
-      <BenefitApplications />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          <BenefitApplications />
+        </Toggler.Disabled>
+        <Toggler.Enabled>
+          <FormsAndApplications />
+        </Toggler.Enabled>
+      </Toggler>
 
       {showWelcomeToMyVaMessage &&
         userIsNew && (
@@ -307,16 +315,22 @@ const Dashboard = ({
         {showLoader && <RequiredLoginLoader />}
         {!showLoader && (
           <div className="dashboard">
-            {showNameTag && (
-              <div id="name-tag">
-                <NameTag
-                  totalDisabilityRating={props.totalDisabilityRating}
-                  totalDisabilityRatingServerError={
-                    props.totalDisabilityRatingServerError
-                  }
-                />
-              </div>
-            )}
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                {showNameTag && (
+                  <div id="name-tag">
+                    <NameTag
+                      totalDisabilityRating={props.totalDisabilityRating}
+                      totalDisabilityRatingServerError={
+                        props.totalDisabilityRatingServerError
+                      }
+                    />
+                  </div>
+                )}
+              </Toggler.Disabled>
+            </Toggler>
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <DashboardHeader
                 isLOA3={isLOA3}
@@ -377,7 +391,7 @@ const Dashboard = ({
                     <BenefitApplications />
                   </Toggler.Disabled>
                   <Toggler.Enabled>
-                    <BenefitApplications />
+                    <FormsAndApplications />
                     <HealthCare isVAPatient={isVAPatient} />
                     <BenefitPayments
                       payments={payments}

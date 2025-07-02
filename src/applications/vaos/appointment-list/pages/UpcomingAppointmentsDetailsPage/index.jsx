@@ -159,7 +159,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   }
 
   return (
-    <PageLayout isDetailPage showNeedHelp>
+    <PageLayout showNeedHelp>
       {isVA && (
         <DetailsVA appointment={appointment} facilityData={facilityData} />
       )}

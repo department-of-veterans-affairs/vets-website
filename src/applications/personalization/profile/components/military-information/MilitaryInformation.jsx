@@ -242,13 +242,19 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
       />
 
       {vetStatusCardToggle && (
-        <p className="vads-u-margin-y--1">
+        <va-alert
+          class="vads-u-margin-top--3"
+          close-btn-aria-label="Close notification"
+          slim="true"
+          status="info"
+          visible
+        >
+          Your Veteran Status Card has moved.{' '}
           <va-link
             href="/profile/veteran-status-card"
             text="Access your Veteran Status Card"
-            active
           />
-        </p>
+        </va-alert>
       )}
 
       {!vetStatusCardToggle &&
