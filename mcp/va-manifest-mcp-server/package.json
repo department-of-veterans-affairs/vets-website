@@ -1,0 +1,56 @@
+{
+    "name": "va-manifest-catalog-mcp-server",
+    "version": "0.1.0",
+    "description": "Modular MCP server for working with VA.gov application manifests and web component patterns",
+    "type": "module",
+    "main": "index.js",
+    "bin": {
+        "va-manifest-catalog-mcp-server": "./index.js"
+    },
+    "scripts": {
+        "start": "node index.js",
+        "dev": "node --inspect index.js",
+        "test": "node tests/index.js",
+        "test:all": "node run-tests.js",
+        "test:compatibility": "node tests/compatibility.test.js",
+        "test:imports": "node tests/imports.test.js",
+        "test:server": "node tests/server.test.js",
+        "test:version-info": "node -e \"import('./src/utils/sdkImports.js').then(async m => { const info = await m.getVersionInfo(); console.log('Version Info:', JSON.stringify(info, null, 2)); })\"",
+        "test:quick": "npm run test:imports && npm run test:compatibility",
+        "lint": "echo \"No linter configured\"",
+        "validate-structure": "node scripts/validate-structure.js",
+        "upgrade-sdk": "node tests/upgrade-sdk.js latest",
+        "upgrade-sdk:info": "node tests/upgrade-sdk.js info",
+        "upgrade-sdk:test": "node tests/upgrade-sdk.js test",
+        "check-sdk-versions": "npm view @modelcontextprotocol/sdk versions --json"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^0.5.0"
+    },
+    "engines": {
+        "node": ">=14.15.0"
+    },
+    "keywords": [
+        "mcp",
+        "model-context-protocol",
+        "va.gov",
+        "manifest",
+        "catalog",
+        "veterans-affairs",
+        "web-components",
+        "patterns",
+        "node14",
+        "compatibility"
+    ],
+    "author": "",
+    "license": "MIT",
+    "files": [
+        "index.js",
+        "src/",
+        "scripts/",
+        "tests/"
+    ],
+    "directories": {
+        "lib": "src"
+    }
+}
