@@ -1,3 +1,6 @@
+import checkTypeAndExtensionMatches from './checkTypeAndExtensionMatches';
+import checkIsEncryptedPdf from './checkIsEncryptedPdf';
+
 /**
  * Read in first 256 bytes of the selected file to perform various checks before
  * upload
@@ -41,4 +44,20 @@ export default function readAndCheckFile(file, checks) {
       reader.readAsArrayBuffer(blob);
     }
   });
+}
+
+/**
+ * Perform standard checks on any file uploaded
+ * @param {File} file
+ * @returns {{checkIsEncryptedPdf?: boolean, checkTypeAndExtensionMatches: boolean}} Object with check results - whether the pdf is encrypted and if type and extension match
+ */
+export async function standardFileChecks(file) {
+  const isPdf = file.type === 'application/pdf';
+
+  const checks = {
+    ...(isPdf ? { checkIsEncryptedPdf } : {}),
+    checkTypeAndExtensionMatches,
+  };
+
+  return readAndCheckFile(file, checks);
 }

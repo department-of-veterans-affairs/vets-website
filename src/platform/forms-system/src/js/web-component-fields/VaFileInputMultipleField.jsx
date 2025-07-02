@@ -3,12 +3,9 @@ import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import debounce from 'platform/utilities/data/debounce';
-import {
-  standardFileChecks,
-  FILE_TYPE_MISMATCH_ERROR,
-} from 'platform/forms-system/src/js/utilities/file';
+import { standardPdfEncryptionCheck } from 'platform/forms-system/src/js/utilities/file';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { UNSUPPORTED_ENCRYPTED_FILE_ERROR } from '../validation';
+
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import { uploadScannedForm } from './vaFileInputFieldHelpers';
 
@@ -105,10 +102,10 @@ const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
  *     },
  * },
  * ```
- 
- 
+
+
  * @param {WebComponentFieldProps} props */
-const VaFileInputField = props => {
+const VaFileInputMultipleField = props => {
   const { uiOptions = {}, childrenProps } = props;
   const { formNumber } = uiOptions;
   const mappedProps = vaFileInputFieldMapping(props);
@@ -198,22 +195,15 @@ const VaFileInputField = props => {
       return;
     }
 
-    const checks = await standardFileChecks(fileFromEvent);
-
-    if (!checks.checkTypeAndExtensionMatches) {
-      setError(FILE_TYPE_MISMATCH_ERROR);
-      childrenProps.onChange({});
-      return;
+    let _encrypted = false;
+    // set encrypted state
+    if (fileFromEvent && fileFromEvent?.type === 'application/pdf') {
+      _encrypted = await standardPdfEncryptionCheck(fileFromEvent);
+      passwordErrorManager.setNeedsPassword(_encrypted);
+      setEncrypted(_encrypted);
+    } else {
+      passwordErrorManager.setNeedsPassword(false);
     }
-
-    if (!!checks.checkIsEncryptedPdf && uiOptions.disallowEncryptedPdfs) {
-      setError(UNSUPPORTED_ENCRYPTED_FILE_ERROR);
-      childrenProps.onChange({});
-      return;
-    }
-
-    passwordErrorManager.setNeedsPassword(!!checks.checkIsEncryptedPdf);
-    setEncrypted(!!checks.checkIsEncryptedPdf);
 
     childrenProps.onChange({
       ...childrenProps.formData,
@@ -225,7 +215,7 @@ const VaFileInputField = props => {
     if (environment.isTest() && !environment.isUnitTest()) {
       handleFileProcessing(fileFromEvent);
       // delay uploading for encrypted files until password is entered
-    } else if (checks.checkIsEncryptedPdf) {
+    } else if (_encrypted) {
       setFileWithPassword(fileFromEvent);
     } else {
       uploadFile(fileFromEvent, handleFileProcessing);
@@ -249,10 +239,6 @@ const VaFileInputField = props => {
   };
 
   const _error = error || mappedProps.error;
-  const fileHasBeenAdded =
-    (childrenProps.formData.name &&
-      childrenProps.formData.name !== 'uploading') ||
-    fileWithPassword;
   return (
     <VaFileInput
       {...mappedProps}
@@ -266,8 +252,7 @@ const VaFileInputField = props => {
       passwordError={passwordError}
     >
       <div className="additional-input-container">
-        {fileHasBeenAdded &&
-          mappedProps.additionalInput &&
+        {mappedProps.additionalInput &&
           React.cloneElement(
             // clone element so we can attach listeners
             mappedProps.additionalInput(
@@ -286,7 +271,7 @@ const VaFileInputField = props => {
   );
 };
 
-VaFileInputField.propTypes = {
+VaFileInputMultipleField.propTypes = {
   childrenProps: PropTypes.object.isRequired,
   uiOptions: PropTypes.shape({
     maxFileSize: PropTypes.number,
@@ -295,8 +280,8 @@ VaFileInputField.propTypes = {
   onVaChange: PropTypes.func,
 };
 
-VaFileInputField.defaultProps = {
+VaFileInputMultipleField.defaultProps = {
   uiOptions: {},
 };
 
-export default VaFileInputField;
+export default VaFileInputMultipleField;
