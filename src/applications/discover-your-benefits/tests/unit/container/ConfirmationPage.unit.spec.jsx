@@ -8,6 +8,28 @@ import ConfirmationPage from '../../../containers/ConfirmationPage';
 import formConfig from '../../../config/form';
 import { BENEFITS_LIST } from '../../../constants/benefits';
 
+// Mock benefit data
+const mockBenefits = [
+  {
+    id: '1',
+    name: 'Education',
+    category: 'Education',
+    isTimeSensitive: false,
+  },
+  {
+    id: '2',
+    name: 'Careers and Employment',
+    category: 'Careers',
+    isTimeSensitive: false,
+  },
+  {
+    id: '3',
+    name: 'More Support',
+    category: 'Support',
+    isTimeSensitive: false,
+  },
+];
+
 const form1 = {
   formId: 'T-QSTNR',
   data: {
@@ -67,15 +89,15 @@ const getData = (resultsData = [], formObject = form1, queryObject = {}) => ({
   },
 });
 
+const subject = ({ mockStore, props }) =>
+  render(
+    <Provider store={mockStore}>
+      <ConfirmationPage {...props} />
+    </Provider>,
+  );
+
 describe('<ConfirmationPage>', () => {
   sinon.stub(Date, 'getTime');
-
-  const subject = ({ mockStore, props }) =>
-    render(
-      <Provider store={mockStore}>
-        <ConfirmationPage {...props} />
-      </Provider>,
-    );
 
   it('should render results page when query string is provided', () => {
     const { mockStore, props } = getData();
@@ -100,40 +122,8 @@ describe('<ConfirmationPage>', () => {
   });
 });
 
-// Mock store configuration
-// const mockStoreInstance = configureStore([]);
-
-// Mock benefit data
-const mockBenefits = [
-  {
-    id: '1',
-    name: 'Education',
-    category: 'Education',
-    isTimeSensitive: false,
-  },
-  {
-    id: '2',
-    name: 'Careers and Employment',
-    category: 'Careers',
-    isTimeSensitive: false,
-  },
-  {
-    id: '3',
-    name: 'More Support',
-    category: 'Support',
-    isTimeSensitive: false,
-  },
-];
-
 describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
   sinon.stub(Date, 'getTime');
-
-  const subject = ({ mockStore, props }) =>
-    render(
-      <Provider store={mockStore}>
-        <ConfirmationPage {...props} />
-      </Provider>,
-    );
 
   // TODO write tests for filtering results by goals.
   // it('should sort benefits by goal', () => {
@@ -223,79 +213,30 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
   });
 });
 
-// describe('<ConfirmationPage> with <va-banner />', () => {
-//   sinon.stub(Date, 'getTime');
+describe('<ConfirmationPage> with <va-banner />', () => {
+  sinon.stub(Date, 'getTime');
 
-//   const getData = resultsData => {
-//     return {
-//       props: {
-//         formConfig,
-//         route: {
-//           path: 'confirmation',
-//         },
-//         router: {
-//           push: sinon.mock(),
-//           replace: sinon.mock(),
-//           goBack: sinon.mock(),
-//         },
-//         displayResults: sinon.mock(),
-//         setSubmission: sinon.mock(),
-//         location: {
-//           basename: '/discover-your-benefits',
-//           pathname: '/confirmation',
-//           query: {},
-//           search: '',
-//         },
-//       },
-//       mockStore: {
-//         getState: () => ({
-//           form: {
-//             formId: 'T-QSTNR',
-//             data: {
-//               privacyAgreementAccepted: true,
-//             },
-//           },
-//           results: {
-//             data: resultsData,
-//             error: null,
-//             isError: false,
-//             isLoading: false,
-//           },
-//         }),
-//         subscribe: () => {},
-//         dispatch: () => {},
-//       },
-//     };
-//   };
+  it('should render a <va-banner /> when results not found', () => {
+    const { mockStore, props } = getData([], form2);
+    const { container } = subject({ mockStore, props });
 
-//   const subject = ({ mockStore, props }) =>
-//     render(
-//       <Provider store={mockStore}>
-//         <ConfirmationPage {...props} />
-//       </Provider>,
-//     );
+    const banner = container.querySelector('va-banner');
+    expect(banner).to.exist;
+    expect(banner).to.have.attribute('headline', 'No Results Found');
+    expect(banner).to.have.attribute('type', 'warning');
+  });
 
-//   it('should render a <va-banner /> when results not found', () => {
-//     const { mockStore, props } = getData([]);
-//     const { container } = subject({ mockStore, props });
+  it('should handle "Go back" link', async () => {
+    sinon.stub(window, 'history').value({ length: 10 });
 
-//     const banner = container.querySelector('va-banner');
-//     expect(banner).to.exist;
-//     expect(banner).to.have.attribute('headline', 'No Results Found');
-//     expect(banner).to.have.attribute('type', 'warning');
-//   });
+    const { mockStore, props } = getData([], form2);
+    const { container } = subject({ mockStore, props });
 
-//   it('should handle "Go back" link', async () => {
-//     sinon.stub(window, 'history').value({ length: 10 });
+    const backLink = container.querySelector('[data-testid="back-link"]');
+    fireEvent.click(backLink);
 
-//     const { mockStore, props } = getData([]);
-//     const { container } = subject({ mockStore, props });
-
-//     const backLink = container.querySelector('[data-testid="back-link"]');
-//     fireEvent.click(backLink);
-
-//     await waitFor(() => {
-//       expect(props.router.goBack.called).to.be.true;
-//     });
-//   });
-// });
+    await waitFor(() => {
+      expect(props.router.goBack.called).to.be.true;
+    });
+  });
+});
