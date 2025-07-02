@@ -201,5 +201,5 @@ export default TravelPayStatusList;
 
 TravelPayStatusList.propTypes = {
   canViewClaimDetails: PropTypes.bool,
-  claims: PropTypes.array,
+  claims: PropTypes.object,
 };
