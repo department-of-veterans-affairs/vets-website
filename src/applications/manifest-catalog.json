@@ -253,7 +253,7 @@
       "directoryPath": "src/applications/edu-benefits/1919",
       "appName": "Conflicting Interests Certification For Proprietary Schools",
       "entryName": "1919-edu-benefits",
-      "rootUrl": "/education/apply-for-education-benefits/application/1919"
+      "rootUrl": "/school-administrators/report-conflicting-interests"
     },
     {
       "directoryPath": "src/applications/edu-benefits/1995",
@@ -265,7 +265,7 @@
       "directoryPath": "src/applications/edu-benefits/8794",
       "appName": "Designation Of Certifying Official(S)",
       "entryName": "8794-edu-benefits",
-      "rootUrl": "/education/apply-for-education-benefits/application/8794"
+      "rootUrl": "/school-administrators/update-certifying-officials"
     },
     {
       "directoryPath": "src/applications/edu-benefits/feedback-tool",

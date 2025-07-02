@@ -144,8 +144,8 @@ export const DependentsInformation = ({
       >
         <va-radio-option
           name="hasDependentsStatusChanged"
-          value="Y"
-          label={DEPENDENT_CHOICES.N}
+          value="N"
+          label={DEPENDENT_CHOICES.Y}
           tile
           checked={data.hasDependentsStatusChanged === 'N'}
         />
