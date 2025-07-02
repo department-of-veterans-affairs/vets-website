@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
 import FolderHeader from '../../../components/MessageList/FolderHeader';
 import { folderList } from '../../fixtures/folder-response.json';
@@ -51,18 +51,24 @@ describe('Folder Header component', () => {
     threadCount = initialThreadCount,
     folder = customFolder,
   ) => {
-    return renderWithStoreAndRouter(
-      <FolderHeader
-        folder={folder}
-        threadCount={threadCount}
-        searchProps={{ ...searchProps }}
-      />,
+    const routes = [
       {
-        initialState: state,
-        reducers: reducer,
-        path,
+        path: '*',
+        element: (
+          <FolderHeader
+            folder={folder}
+            threadCount={threadCount}
+            searchProps={{ ...searchProps }}
+          />
+        ),
       },
-    );
+    ];
+
+    return renderWithDataRouter(routes, {
+      initialState: state,
+      reducers: reducer,
+      initialEntry: path,
+    });
   };
 
   describe('displays empty custom folder view', () => {

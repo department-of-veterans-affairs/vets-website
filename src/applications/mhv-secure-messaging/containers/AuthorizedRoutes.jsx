@@ -1,5 +1,10 @@
 import React from 'react';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -50,7 +55,7 @@ const AuthorizedRoutes = () => {
         ? pilotManifest.rootUrl
         : manifest.rootUrl
     }${Paths.INBOX}`;
-    window.location.replace(basePath);
+    return <Navigate to={Paths.INBOX} replace />;
     return <></>;
   }
 

@@ -7,14 +7,17 @@ import './sass/secure-messaging.scss';
 import './sass/message-thread.scss';
 import './sass/dashboard.scss';
 
-import startApp from 'platform/startup/router';
-import routes from './routes';
+import React from 'react';
+import { RouterProvider } from 'react-router-dom-v5-compat';
+import startApp from '@department-of-veterans-affairs/platform-startup/withoutRouter';
+
+import router from './router';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
 startApp({
-  url: manifest.rootUrl,
   entryName: manifest.entryName,
+  url: manifest.rootUrl,
   reducer,
-  routes,
+  router: <RouterProvider router={router} />,
 });

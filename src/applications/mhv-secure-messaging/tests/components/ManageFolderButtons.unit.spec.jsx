@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import sinon from 'sinon';
@@ -32,27 +32,30 @@ describe('Manage Folder Buttons component', () => {
     },
   };
 
-  it('renders without errors', () => {
-    const screen = renderWithStoreAndRouter(
-      <ManageFolderButtons folder={folders.customFolder} />,
+  const setup = (props = {}) => {
+    const routes = [
       {
-        initialState,
-        reducers: reducer,
-        path: Paths.FOLDERS,
+        path: '*',
+        element: (
+          <ManageFolderButtons folder={props.folder || folders.customFolder} />
+        ),
       },
-    );
+    ];
+
+    return renderWithDataRouter(routes, {
+      initialState,
+      reducers: reducer,
+      initialEntry: props.path || Paths.FOLDERS,
+    });
+  };
+
+  it('renders without errors', () => {
+    const screen = setup();
     expect(screen).to.exist;
   });
 
   it('"Remove folder" button opens a confirmation modal when no threads contained', async () => {
-    const screen = renderWithStoreAndRouter(
-      <ManageFolderButtons folder={folders.customFolder} />,
-      {
-        initialState,
-        reducers: reducer,
-        path: Paths.FOLDERS,
-      },
-    );
+    const screen = setup();
     fireEvent.click(screen.getByTestId('remove-folder-button'));
     await waitFor(() => {
       expect(screen.getByTestId('remove-this-folder')).to.have.attribute(
@@ -79,13 +82,7 @@ describe('Manage Folder Buttons component', () => {
 
   it('confirming removal of a folder with no threads contained triggers a call', async () => {
     const deleteFolderSpy = sinon.spy(foldersActions, 'delFolder');
-    const screen = renderWithStoreAndRouter(
-      <ManageFolderButtons folder={folder} />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
+    const screen = setup({ folder });
     fireEvent.click(screen.getByTestId('remove-folder-button'));
     fireEvent.click(
       document.querySelector('va-button[text="Yes, remove this folder"]'),
@@ -94,13 +91,7 @@ describe('Manage Folder Buttons component', () => {
   });
 
   it("displays a modal when 'Rename folder' button is clicked", async () => {
-    const screen = renderWithStoreAndRouter(
-      <ManageFolderButtons folder={folder} />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
+    const screen = setup({ folder });
     fireEvent.click(screen.getByTestId('edit-folder-button'));
 
     const renameModal = screen.getByTestId('rename-folder-modal');
@@ -110,13 +101,7 @@ describe('Manage Folder Buttons component', () => {
   });
 
   it('Rename modal accepts specific characters in folder name', async () => {
-    const screen = renderWithStoreAndRouter(
-      <ManageFolderButtons folder={folder} />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
+    const screen = setup({ folder });
     fireEvent.click(screen.getByTestId('edit-folder-button'));
     const renameModal = screen.getByTestId('rename-folder-modal');
     const input = renameModal.querySelector('va-text-input');

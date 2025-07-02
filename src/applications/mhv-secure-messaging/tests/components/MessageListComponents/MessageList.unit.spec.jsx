@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -101,20 +101,26 @@ const initialState = {
 };
 
 const setup = (folder, sortOrder, path, messages = mockMessages) => {
-  return renderWithStoreAndRouter(
-    <MessageList
-      messages={messages}
-      folder={folder}
-      keyword="test"
-      sortOrder={sortOrder}
-      page={1}
-    />,
+  const routes = [
     {
-      path,
-      initialState,
-      reducers,
+      path: '*',
+      element: (
+        <MessageList
+          messages={messages}
+          folder={folder}
+          keyword="test"
+          sortOrder={sortOrder}
+          page={1}
+        />
+      ),
     },
-  );
+  ];
+
+  return renderWithDataRouter(routes, {
+    initialState,
+    reducers,
+    initialEntry: path,
+  });
 };
 
 afterEach(() => {
@@ -128,7 +134,7 @@ describe('Message List component', () => {
       threadSortingOptions.SENT_DATE_DESCENDING.value,
       Paths.INBOX,
     );
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('sorting list is present', async () => {

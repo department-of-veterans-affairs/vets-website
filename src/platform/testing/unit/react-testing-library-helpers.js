@@ -1,6 +1,10 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import { MemoryRouter } from 'react-router-dom-v5-compat';
+import {
+  MemoryRouter,
+  createMemoryRouter,
+  RouterProvider,
+} from 'react-router-dom-v5-compat';
 import { Provider } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
@@ -163,4 +167,47 @@ export function renderWithStoreAndRouterV6(
   );
 
   return { ...screen };
+}
+
+/**
+ * Takes a React element and wraps it in a Redux Provider and a React Router v6 Data Router.
+ *
+ * @export
+ * @param {Array} routes Array of route objects for the router configuration
+ * @param {Object} renderParams
+ * @param {Object} [renderParams.initialState] Initial Redux state
+ * @param {Object} [renderParams.reducers={}] App specific reducers
+ * @param {ReduxStore} [renderParams.store=null] Redux store to use
+ * @param {string} [renderParams.initialEntry='/'] Initial route entry
+ * @returns {Object} Return value of the React Testing Library render function
+ */
+export function renderWithDataRouter(
+  routes,
+  {
+    initialState,
+    reducers = {},
+    store = null,
+    initialEntry = '/',
+    additionalMiddlewares = [],
+  },
+) {
+  const testStore =
+    store ||
+    createStore(
+      combineReducers({ ...commonReducer, ...reducers }),
+      initialState,
+      applyMiddleware(thunk, ...additionalMiddlewares),
+    );
+
+  const router = createMemoryRouter(routes, {
+    initialEntries: [initialEntry],
+  });
+
+  const screen = renderInReduxProvider(<RouterProvider router={router} />, {
+    store: testStore,
+    initialState,
+    reducers,
+  });
+
+  return { ...screen, router };
 }
