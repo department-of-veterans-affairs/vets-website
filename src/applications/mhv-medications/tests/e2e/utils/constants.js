@@ -98,6 +98,8 @@ export const Data = {
     'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
   PARTIAL_FAILED_REQUEST_ALERT_TEXT: 'Only part of your request was submitted',
   PENDING_RX_FILL_DATE_TEXT: 'Not filled yet',
+  PROVIDER_FULL_NAME: 'MOHAMMAD ISLAM',
+  DOCUMENTED_BY_FULL_NAME: 'BHAVIN PATEL',
 };
 export const Paths = {
   LANDING_LIST:
