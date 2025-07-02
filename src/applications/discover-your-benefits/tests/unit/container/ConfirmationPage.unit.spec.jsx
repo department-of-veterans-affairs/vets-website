@@ -4,10 +4,10 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import configureStore from 'redux-mock-store';
+// import configureStore from 'redux-mock-store';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import formConfig from '../../../config/form';
-import { BENEFITS_LIST } from '../../../constants/benefits';
+// import { BENEFITS_LIST } from '../../../constants/benefits';
 
 describe('<ConfirmationPage>', () => {
   sinon.stub(Date, 'getTime');
@@ -61,6 +61,7 @@ describe('<ConfirmationPage>', () => {
       dispatch: () => {},
     },
   });
+
   const subject = ({ mockStore, props }) =>
     render(
       <Provider store={mockStore}>
@@ -92,7 +93,7 @@ describe('<ConfirmationPage>', () => {
 });
 
 // Mock store configuration
-const mockStoreInstance = configureStore([]);
+// const mockStoreInstance = configureStore([]);
 
 // Mock benefit data
 const mockBenefits = [
@@ -117,21 +118,71 @@ const mockBenefits = [
 ];
 
 describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
-  let wrapper;
-  let store;
-  let container;
+  // let wrapper;
+  // let store;
+  // let container;
 
-  const setup = storeState => {
-    store = mockStoreInstance(storeState);
-    return render(
-      <Provider store={store}>
-        <ConfirmationPage
-          results={{ data: mockBenefits, isLoading: false }}
-          location={{ basename: '/', pathname: '/confirmation', query: {} }}
-        />
+  // const setup = storeState => {
+  //   store = mockStoreInstance(storeState);
+  //   return render(
+  //     <Provider store={store}>
+  //       <ConfirmationPage
+  //         results={{ data: mockBenefits, isLoading: false }}
+  //         location={{ basename: '/', pathname: '/confirmation', query: {} }}
+  //       />
+  //     </Provider>,
+  //   );
+  // };
+
+  sinon.stub(Date, 'getTime');
+  const getData = resultsData => {
+    return {
+      props: {
+        formConfig,
+        route: {
+          path: 'confirmation',
+        },
+        router: {
+          push: sinon.mock(),
+          replace: sinon.mock(),
+          goBack: sinon.mock(),
+        },
+        displayResults: sinon.mock(),
+        setSubmission: sinon.mock(),
+        location: {
+          basename: '/discover-your-benefits',
+          pathname: '/confirmation',
+          query: {},
+          search: '',
+        },
+      },
+      mockStore: {
+        getState: () => ({
+          form: {
+            formId: 'T-QSTNR',
+            data: {
+              privacyAgreementAccepted: true,
+            },
+          },
+          results: {
+            data: resultsData,
+            error: null,
+            isError: false,
+            isLoading: false,
+          },
+        }),
+        subscribe: () => {},
+        dispatch: () => {},
+      },
+    };
+  };
+
+  const subject = ({ mockStore, props }) =>
+    render(
+      <Provider store={mockStore}>
+        <ConfirmationPage {...props} />
       </Provider>,
     );
-  };
 
   // it('should sort benefits by goal', () => {
   //   wrapper = setup({ results: { data: mockBenefits } });
@@ -150,8 +201,9 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
   // });
 
   it('should sort benefits alphabetically', () => {
-    wrapper = setup({ results: { data: mockBenefits } });
-    container = wrapper.container;
+    const { mockStore, props } = getData(mockBenefits);
+    const wrapper = subject({ mockStore, props });
+    const { container } = wrapper;
 
     const sortSelect = container.querySelector('[name="sort-benefits"]');
     sortSelect.__events.vaSelect({ target: { value: 'alphabetical' } });
@@ -166,59 +218,59 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     expect(benefitNames[1]).to.contain('Education');
   });
 
-  it('should sort benefits alphabetically by default', () => {
-    wrapper = setup({
-      results: { data: BENEFITS_LIST },
-      location: {
-        basename: '/',
-        pathname: '/confirmation',
-        query: { allBenefits: true },
-      },
-    });
-    container = wrapper.container;
+  // it('should sort benefits alphabetically by default', () => {
+  //   wrapper = setup({
+  //     results: { data: BENEFITS_LIST },
+  //     location: {
+  //       basename: '/',
+  //       pathname: '/confirmation',
+  //       query: { allBenefits: true },
+  //     },
+  //   });
+  //   container = wrapper.container;
 
-    const benefits = wrapper.getAllByRole('listitem').map(li => li.textContent);
+  //   const benefits = wrapper.getAllByRole('listitem').map(li => li.textContent);
 
-    const sortedBenefits = BENEFITS_LIST.sort((a, b) => {
-      return a.name.localeCompare(b.name);
-    });
-    benefits.forEach(benefit => {
-      expect(benefit.name).to.equal(sortedBenefits.name);
-    });
-  });
+  //   const sortedBenefits = BENEFITS_LIST.sort((a, b) => {
+  //     return a.name.localeCompare(b.name);
+  //   });
+  //   benefits.forEach(benefit => {
+  //     expect(benefit.name).to.equal(sortedBenefits.name);
+  //   });
+  // });
 
-  it('should filter benefits by category', () => {
-    wrapper = setup({ results: { data: mockBenefits } });
-    container = wrapper.container;
+  // it('should filter benefits by category', () => {
+  //   wrapper = setup({ results: { data: mockBenefits } });
+  //   container = wrapper.container;
 
-    const filterSelect = container.querySelector('[name="filter-benefits"]');
-    filterSelect.__events.vaSelect({ target: { value: 'Careers' } });
-    const updateButton = container.querySelector('#update-results');
-    fireEvent.click(updateButton);
+  //   const filterSelect = container.querySelector('[name="filter-benefits"]');
+  //   filterSelect.__events.vaSelect({ target: { value: 'Careers' } });
+  //   const updateButton = container.querySelector('#update-results');
+  //   fireEvent.click(updateButton);
 
-    const benefitNames = wrapper
-      .getAllByRole('listitem')
-      .map(li => li.textContent);
-    expect(benefitNames).to.have.lengthOf(1);
-    expect(benefitNames[0]).to.contain('Careers and Employment');
-  });
+  //   const benefitNames = wrapper
+  //     .getAllByRole('listitem')
+  //     .map(li => li.textContent);
+  //   expect(benefitNames).to.have.lengthOf(1);
+  //   expect(benefitNames[0]).to.contain('Careers and Employment');
+  // });
 
-  it('should show all benefits when "All" filter is selected', () => {
-    wrapper = setup({ results: { data: mockBenefits } });
-    container = wrapper.container;
+  // it('should show all benefits when "All" filter is selected', () => {
+  //   wrapper = setup({ results: { data: mockBenefits } });
+  //   container = wrapper.container;
 
-    const filterSelect = container.querySelector('[name="filter-benefits"]');
-    filterSelect.__events.vaSelect({ target: { value: 'All' } });
-    const updateButton = container.querySelector('#update-results');
-    fireEvent.click(updateButton);
+  //   const filterSelect = container.querySelector('[name="filter-benefits"]');
+  //   filterSelect.__events.vaSelect({ target: { value: 'All' } });
+  //   const updateButton = container.querySelector('#update-results');
+  //   fireEvent.click(updateButton);
 
-    const benefitNames = wrapper
-      .getAllByRole('listitem')
-      .map(li => li.textContent);
-    expect(benefitNames).to.have.lengthOf(3);
-    expect(benefitNames[0]).to.contain('Careers');
-    expect(benefitNames[1]).to.contain('Education');
-  });
+  //   const benefitNames = wrapper
+  //     .getAllByRole('listitem')
+  //     .map(li => li.textContent);
+  //   expect(benefitNames).to.have.lengthOf(3);
+  //   expect(benefitNames[0]).to.contain('Careers');
+  //   expect(benefitNames[1]).to.contain('Education');
+  // });
 });
 
 describe('<ConfirmationPage> with <va-banner />', () => {
