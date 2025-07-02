@@ -1,7 +1,6 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import LabsAndTests from '../pages/LabsAndTests';
 import oracleHealthUser from '../fixtures/user/oracle-health.json';
-import labsAndTestData from '../fixtures/labsAndTests/uhd.json';
 
 describe('Medical Records View Lab and Tests', () => {
   const site = new MedicalRecordsSite();
@@ -15,7 +14,7 @@ describe('Medical Records View Lab and Tests', () => {
       isAcceleratingVitals: true,
       isAcceleratingLabsAndTests: true,
     });
-    LabsAndTests.setIntercepts({ labsAndTestData });
+    LabsAndTests.setIntercepts({ labsAndTestData: [] });
   });
 
   afterEach(() => {
@@ -37,13 +36,10 @@ describe('Medical Records View Lab and Tests', () => {
     LabsAndTests.checkUrl({ timeFrame });
 
     cy.injectAxeThenAxeCheck();
-
-    const CARDS_PER_PAGE = 3;
-    cy.get(':nth-child(4) > [data-testid="record-list-item"]').should(
-      'have.length',
-      CARDS_PER_PAGE,
+    cy.get('[data-testid="no-records-message"]').should('be.visible');
+    cy.get('[data-testid="no-records-message"]').should(
+      'contain.text',
+      `There are no lab and test results in your VA medical records for`,
     );
-    cy.get("[data-testid='filter-display-message']").should('be.visible');
-    cy.get("[data-testid='filter-display-message']").should('not.be.empty');
   });
 });
