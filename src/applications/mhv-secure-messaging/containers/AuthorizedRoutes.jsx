@@ -5,9 +5,11 @@ import {
   useLocation,
   Navigate,
 } from 'react-router-dom-v5-compat';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
+import pilotManifest from '../pilot/manifest.json';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 import Folders from './Folders';
@@ -16,32 +18,45 @@ import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
 import * as Constants from '../util/constants';
+import manifest from '../manifest.json';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
 import SelectHealthCareSystem from './SelectHealthCareSystem';
 
-const { Paths } = Constants;
-
-// Component to wrap children with breadcrumbs
-const BreadcrumbsWrapper = ({ children }) => (
-  <>
-    <SmBreadcrumbs />
-    {children}
-  </>
-);
-
-BreadcrumbsWrapper.propTypes = {
-  children: PropTypes.node,
+// Prepend SmBreadcrumbs to each route, except for PageNotFound
+const AppRoute = ({ children, ...rest }) => {
+  return (
+    <Route {...rest}>
+      <SmBreadcrumbs />
+      {children}
+    </Route>
+  );
 };
+
+AppRoute.propTypes = {
+  children: PropTypes.object,
+};
+
+const { Paths } = Constants;
 
 const AuthorizedRoutes = () => {
   const location = useLocation();
   const isPilot = useSelector(state => state.sm.app.isPilot);
 
+  const cernerPilotSmFeatureFlag = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
+  );
+
   if (location.pathname === `/`) {
-    // Use just the inbox path to avoid doubling the rootUrl
+    const basePath = `${
+      cernerPilotSmFeatureFlag && isPilot
+        ? pilotManifest.rootUrl
+        : manifest.rootUrl
+    }${Paths.INBOX}`;
     return <Navigate to={Paths.INBOX} replace />;
+    return <></>;
   }
 
   return (
@@ -50,140 +65,77 @@ const AuthorizedRoutes = () => {
       medium-screen:vads-l-col--9"
       data-testid="secure-messaging"
     >
-      {' '}
       <ScrollToTop />
-      <Routes>
-        <Route
-          path={Paths.FOLDERS}
-          element={
-            <BreadcrumbsWrapper>
-              <Folders />
-            </BreadcrumbsWrapper>
-          }
-        />
-        <Route
-          path={Paths.INBOX}
-          element={
-            <BreadcrumbsWrapper>
-              <FolderThreadListView />
-            </BreadcrumbsWrapper>
-          }
-        />
-        <Route
-          path={Paths.SENT}
-          element={
-            <BreadcrumbsWrapper>
-              <FolderThreadListView />
-            </BreadcrumbsWrapper>
-          }
-        />
-        <Route
-          path={Paths.DELETED}
-          element={
-            <BreadcrumbsWrapper>
-              <FolderThreadListView />
-            </BreadcrumbsWrapper>
-          }
-        />
-        <Route
-          path={Paths.DRAFTS}
-          element={
-            <BreadcrumbsWrapper>
-              <FolderThreadListView />
-            </BreadcrumbsWrapper>
-          }
-        />
-        <Route
-          path={`${Paths.FOLDERS}:folderId/`}
-          element={
-            <BreadcrumbsWrapper>
-              <FolderThreadListView />
-            </BreadcrumbsWrapper>
-          }
-        />
-        <Route
+      <Switch>
+        <AppRoute exact path={Paths.FOLDERS} key="Folders">
+          <Folders />
+        </AppRoute>
+
+        <AppRoute
+          exact
+          path={[
+            Paths.INBOX,
+            Paths.SENT,
+            Paths.DELETED,
+            Paths.DRAFTS,
+            `${Paths.FOLDERS}:folderId/`,
+          ]}
+          key="FolderListView"
+        >
+          <FolderThreadListView />
+        </AppRoute>
+        <AppRoute
+          exact
           path={`${Paths.MESSAGE_THREAD}:threadId/`}
-          element={
-            <BreadcrumbsWrapper>
-              <ThreadDetails />
-            </BreadcrumbsWrapper>
-          }
-        />
-        <Route
-          path={`${Paths.REPLY}:replyId/`}
-          element={
-            <BreadcrumbsWrapper>
-              <MessageReply />
-            </BreadcrumbsWrapper>
-          }
-        />
-        <Route
-          path={Paths.SEARCH_RESULTS}
-          element={
-            <BreadcrumbsWrapper>
-              <SearchResults />
-            </BreadcrumbsWrapper>
-          }
-        />
-        <Route
-          path={`${Paths.DRAFT}:draftId/`}
-          element={
-            <BreadcrumbsWrapper>
-              <Compose />
-            </BreadcrumbsWrapper>
-          }
-        />
-        <Route
-          path={Paths.CONTACT_LIST}
-          element={
-            <BreadcrumbsWrapper>
-              <EditContactList />
-            </BreadcrumbsWrapper>
-          }
-        />
+          key="ThreadDetails"
+        >
+          <ThreadDetails />
+        </AppRoute>
+        <AppRoute exact path={`${Paths.REPLY}:replyId/`} key="MessageReply">
+          <MessageReply />
+        </AppRoute>
+        <AppRoute exact path={Paths.SEARCH_RESULTS} key="SearchResults">
+          <SearchResults />
+        </AppRoute>
+        <AppRoute exact path={`${Paths.DRAFT}:draftId/`} key="Compose">
+          <Compose />
+        </AppRoute>
+        <AppRoute exact path={Paths.CONTACT_LIST} key="EditContactList">
+          <EditContactList />
+        </AppRoute>
 
         {isPilot && (
-          <Route
+          <AppRoute
+            exact
             path={`${Paths.COMPOSE}${Paths.START_MESSAGE}`}
-            element={
-              <BreadcrumbsWrapper>
-                <Compose skipInterstitial />
-              </BreadcrumbsWrapper>
-            }
-          />
+            key="Compose"
+          >
+            <Compose skipInterstitial />
+          </AppRoute>
         )}
         {isPilot && (
-          <Route
+          <AppRoute
+            exact
             path={`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`}
-            element={
-              <BreadcrumbsWrapper>
-                <SelectHealthCareSystem />
-              </BreadcrumbsWrapper>
-            }
-          />
+            key="SelectHealthCareSystem"
+          >
+            <SelectHealthCareSystem />
+          </AppRoute>
         )}
         {isPilot && (
-          <Route
-            path={Paths.COMPOSE}
-            element={
-              <BreadcrumbsWrapper>
-                <InterstitialPage />
-              </BreadcrumbsWrapper>
-            }
-          />
+          <AppRoute exact path={Paths.COMPOSE} key="InterstitialPage">
+            <InterstitialPage />
+          </AppRoute>
         )}
         {!isPilot && (
-          <Route
-            path={Paths.COMPOSE}
-            element={
-              <BreadcrumbsWrapper>
-                <Compose />
-              </BreadcrumbsWrapper>
-            }
-          />
+          <AppRoute exact path={Paths.COMPOSE} key="Compose">
+            <Compose />
+          </AppRoute>
         )}
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+        <Route>
+          <MhvPageNotFoundContent />
+        </Route>
+      </Switch>
     </div>
   );
 };

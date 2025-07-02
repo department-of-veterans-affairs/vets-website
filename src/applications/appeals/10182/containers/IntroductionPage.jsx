@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import {
   startText,
@@ -99,6 +99,7 @@ const IntroductionPage = props => {
                 review your case. The amount of time it takes the Board to
                 complete its review depends on which review option you choose.{' '}
                 <va-link
+                  disable-analytics
                   href={NOD_OPTIONS_URL}
                   text="Read about the 3 Board Appeal options"
                 />
@@ -122,6 +123,7 @@ const IntroductionPage = props => {
         regional office near you.
       </p>
       <va-link
+        disable-analytics
         href={FACILITY_LOCATOR_URL}
         text="Find a VA regional office near you"
       />
@@ -130,6 +132,7 @@ const IntroductionPage = props => {
         can also help you request a Board Appeal.
       </p>
       <va-link
+        disable-analytics
         href={GET_HELP_REVIEW_REQUEST_URL}
         text="Get help requesting a Board Appeal"
       />

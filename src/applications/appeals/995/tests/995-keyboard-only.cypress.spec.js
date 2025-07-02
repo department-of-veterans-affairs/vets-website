@@ -85,7 +85,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.realPress('Space');
 
       // *** Adding one issue
-      cy.tabToElement('a.add-new-issue');
+      cy.tabToElement('.add-new-issue');
       cy.realPress('Enter');
       cy.url().should('include', chapters.issues.pages.addIssue.path);
 

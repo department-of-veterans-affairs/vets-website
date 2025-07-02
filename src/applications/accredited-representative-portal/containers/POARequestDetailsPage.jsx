@@ -6,6 +6,7 @@ import {
   VaLoadingIndicator,
   VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
 import {
   expiresSoon,
@@ -27,33 +28,51 @@ const DECISION_TYPES = {
 const DECLINATION_OPTIONS = {
   DECLINATION_HEALTH_RECORDS_WITHHELD: {
     type: DECISION_TYPES.DECLINATION,
-    reason: "Decline, because change of address isn't authorized",
+    declinationReason: "Decline, because change of address isn't authorized",
   },
   DECLINATION_ADDRESS_CHANGE_WITHHELD: {
     type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because protected medical record access is limited',
+    declinationReason:
+      'Decline, because protected medical record access is limited',
   },
   DECLINATION_BOTH_WITHHELD: {
     type: DECISION_TYPES.DECLINATION,
-    reason:
+    declinationReason:
       "Decline, because change of address isn't authorized and protected medical record access is limited",
   },
   DECLINATION_NOT_ACCEPTING_CLIENTS: {
     type: DECISION_TYPES.DECLINATION,
-    reason: "Decline, because the VSO isn't accepting new clients",
+    declinationReason: "Decline, because the VSO isn't accepting new clients",
   },
   DECLINATION_OTHER: {
     type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because of another reason',
+    declinationReason: 'Decline, because of another reason',
+  },
+};
+
+const DECLINATION_OPTIONS_UPDATE = {
+  DECLINATION_LIMITED_AUTH: {
+    type: DECISION_TYPES.DECLINATION,
+    declinationReason: 'Decline, because authorization is limited',
+  },
+  DECLINATION_OUTSIDE_SERVICE_TERRITORY: {
+    type: DECISION_TYPES.DECLINATION,
+    declinationReason:
+      'Decline, because the claimant is outside of the organization’s service territory',
+  },
+  DECLINATION_OTHER: {
+    type: DECISION_TYPES.DECLINATION,
+    declinationReason: 'Decline, because of another reason',
   },
 };
 
 const DECISION_OPTIONS = {
   ACCEPTANCE: {
     type: DECISION_TYPES.ACCEPTANCE,
-    reason: null,
+    declinationReason: null,
   },
   ...DECLINATION_OPTIONS,
+  ...DECLINATION_OPTIONS_UPDATE,
 };
 
 const PROCESSING_BANNER = {
@@ -179,6 +198,10 @@ const POARequestDetailsPage = title => {
         .querySelector('va-radio')
         .shadowRoot?.querySelector('h2')
         .setAttribute('style', 'font-size:1.0625rem;');
+      document
+        .querySelector('va-radio')
+        .shadowRoot?.querySelector('legend')
+        .setAttribute('style', 'max-width:100%;');
     }
   }, '1000');
 
@@ -438,59 +461,128 @@ const POARequestDetailsPage = title => {
             </ul>
 
             {poaStatus === 'Pending' && (
-              <Form
-                method="post"
-                action="decision"
-                onSubmit={handleSubmit}
-                className={
-                  error
-                    ? `poa-request-details__form poa-request-details__form--error`
-                    : `poa-request-details__form`
+              <Toggler
+                toggleName={
+                  Toggler.TOGGLE_NAMES.accreditedRepresentativePortalForm
                 }
               >
-                <VaRadio
-                  header-aria-describedby={null}
-                  label="Do you accept or decline this POA request?"
-                  label-header-level={2}
-                  class="poa-request-details__form-label"
-                  onVaValueChange={handleChange}
-                  required
-                  error={error}
-                  onRadioOptionSelected={recordDatalayerEvent}
-                  enable-analytics="false"
-                >
-                  <p>
-                    We’ll send the claimant an email letting them know your
-                    decision.
-                  </p>
-                  <VaRadioOption
-                    label="Accept"
-                    value="ACCEPTANCE"
-                    name="decision"
-                    data-eventname="int-radio-button-option-click"
-                  />
-
-                  {Object.entries(DECLINATION_OPTIONS).map(
-                    ([value, decision]) => (
+                <Toggler.Enabled>
+                  <Form
+                    method="post"
+                    action="decision"
+                    onSubmit={handleSubmit}
+                    className={
+                      error
+                        ? `poa-request-details__form poa-request-details__form--error`
+                        : `poa-request-details__form`
+                    }
+                  >
+                    <VaRadio
+                      header-aria-describedby={null}
+                      label="Do you accept or decline this representation request?"
+                      label-header-level={2}
+                      class="poa-request-details__form-label"
+                      onVaValueChange={handleChange}
+                      required
+                      error={error}
+                      onRadioOptionSelected={recordDatalayerEvent}
+                      enable-analytics="false"
+                    >
+                      <p>
+                        <strong>Note:</strong> If you’d like the claimant to
+                        make changes to their request, ask them to resubmit
+                        online VA Form 21-22 with those changes. Their new
+                        request will replace this one in the portal.
+                      </p>
+                      <p>
+                        If you accept or decline, we’ll send the claimant an
+                        email letting them know your decision.
+                      </p>
                       <VaRadioOption
-                        key={value}
-                        label={decision.reason}
-                        value={value}
+                        label="Accept"
+                        value="ACCEPTANCE"
                         name="decision"
                         data-eventname="int-radio-button-option-click"
                       />
-                    ),
-                  )}
-                </VaRadio>
 
-                {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
-                <button
-                  type="submit"
-                  className="usa-button poa-request-details__form-submit"
-                >
-                  Submit decision
-                </button>
-              </Form>
+                      {Object.entries(DECLINATION_OPTIONS_UPDATE).map(
+                        ([value, decision]) => (
+                          <VaRadioOption
+                            key={value}
+                            label={decision.declinationReason}
+                            value={value}
+                            name="decision"
+                            data-eventname="int-radio-button-option-click"
+                          />
+                        ),
+                      )}
+                    </VaRadio>
+
+                    {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+                    <button
+                      type="submit"
+                      className="usa-button poa-request-details__form-submit"
+                    >
+                      Submit response
+                    </button>
+                  </Form>
+                </Toggler.Enabled>
+                <Toggler.Disabled>
+                  <Form
+                    method="post"
+                    action="decision"
+                    onSubmit={handleSubmit}
+                    className={
+                      error
+                        ? `poa-request-details__form poa-request-details__form--error`
+                        : `poa-request-details__form`
+                    }
+                  >
+                    <VaRadio
+                      header-aria-describedby={null}
+                      label="Do you accept or decline this POA request?"
+                      label-header-level={2}
+                      class="poa-request-details__form-label"
+                      onVaValueChange={handleChange}
+                      required
+                      error={error}
+                      onRadioOptionSelected={recordDatalayerEvent}
+                      enable-analytics="false"
+                    >
+                      <p>
+                        We’ll send the claimant an email letting them know your
+                        decision.
+                      </p>
+                      <VaRadioOption
+                        label="Accept"
+                        value="ACCEPTANCE"
+                        name="decision"
+                        data-eventname="int-radio-button-option-click"
+                      />
+
+                      {Object.entries(DECLINATION_OPTIONS).map(
+                        ([value, decision]) => (
+                          <VaRadioOption
+                            key={value}
+                            label={decision.declinationReason}
+                            value={value}
+                            name="decision"
+                            data-eventname="int-radio-button-option-click"
+                          />
+                        ),
+                      )}
+                    </VaRadio>
+
+                    {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+                    <button
+                      type="submit"
+                      className="usa-button poa-request-details__form-submit"
+                    >
+                      Submit decision
+                    </button>
+                  </Form>
+                </Toggler.Disabled>
+              </Toggler>
             )}
           </div>
         </section>

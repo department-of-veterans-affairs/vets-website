@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -24,6 +25,7 @@ import {
   BlockedTriageAlertStyles,
   DefaultFolders,
   threadSortingOptions,
+  ParentComponent,
 } from '../util/constants';
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
@@ -221,6 +223,7 @@ const Compose = ({ skipInterstitial }) => {
                   ? BlockedTriageAlertStyles.WARNING
                   : BlockedTriageAlertStyles.INFO
               }
+              parentComponent={ParentComponent.COMPOSE}
             />
           </div>
         )}

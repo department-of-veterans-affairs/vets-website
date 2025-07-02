@@ -30,6 +30,7 @@ const responses = {
       myVaFormSubmissionStatuses: true,
       myVaFormPdfLink: true,
       veteranOnboardingShowWelcomeMessageToNewUsers: true,
+      myVaAuthExpRedesignEnabled: false,
     },
     true,
   ),
@@ -112,6 +113,7 @@ const responses = {
       type: 'evss_disability_compensation_form_rating_info_responses',
       attributes: {
         userPercentOfDisability: 40,
+        // userPercentOfDisability: null, // User does not have a disability rating or invalid rating
       },
     },
   },

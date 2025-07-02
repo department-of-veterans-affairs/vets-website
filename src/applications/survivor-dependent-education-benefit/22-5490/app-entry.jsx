@@ -11,5 +11,5 @@ startApp({
   url: manifest.rootUrl,
   reducer,
   routes,
-  entryName: manifest.appName,
+  entryName: manifest.entryName,
 });

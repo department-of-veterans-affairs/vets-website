@@ -75,7 +75,7 @@ describe('<ContestableIssues>', () => {
     const props = getProps();
     const { container } = render(<ContestableIssues {...props} />);
     const addLength = props.formData.additionalIssues.length;
-    const link = $$('a.edit-issue-link', container);
+    const link = $$('.edit-issue-link', container);
     expect(link.length).to.equal(addLength);
     expect($$('va-button').length).to.equal(
       props.formData.additionalIssues.length,

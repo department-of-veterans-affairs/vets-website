@@ -56,6 +56,24 @@ function App({
 
   useEffect(
     () => {
+      if (user?.profile) {
+        setFormData({
+          ...formData,
+          claimantFullName: {
+            first: user.profile.userFullName.first,
+            middle: user.profile.userFullName.middle,
+            last: user.profile.userFullName.last,
+            suffix: user.profile.userFullName.suffix,
+          },
+          claimantDateOfBirth: user.profile.dob,
+        });
+      }
+    },
+    [user?.profile],
+  );
+
+  useEffect(
+    () => {
       if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
         setFormData({
           ...formData,

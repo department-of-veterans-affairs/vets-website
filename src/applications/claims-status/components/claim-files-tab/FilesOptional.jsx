@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
-import { truncateDescription, buildDateFormatter } from '../../utils/helpers';
+import {
+  truncateDescription,
+  buildDateFormatter,
+  renderDefaultThirdPartyMessage,
+} from '../../utils/helpers';
+import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 function FilesOptional({ item }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -12,6 +17,21 @@ function FilesOptional({ item }) {
     TOGGLE_NAMES.cstFriendlyEvidenceRequests,
   );
   const dateFormatter = buildDateFormatter();
+  const getRequestText = () => {
+    const formattedDate = dateFormatter(item.requestedDate);
+    if (!cstFriendlyEvidenceRequests) {
+      return `Requested from outside VA on ${formattedDate}`;
+    }
+    if (
+      cstFriendlyEvidenceRequests &&
+      ((evidenceDictionary[item.displayName] &&
+        evidenceDictionary[item.displayName].isDBQ) ||
+        item.displayName.toLowerCase().includes('dbq '))
+    ) {
+      return `Requested from examiner’s office on ${formattedDate}`;
+    }
+    return `Requested from outside VA on ${formattedDate}`;
+  };
   return (
     <va-alert class="optional-alert vads-u-margin-bottom--2" status="info">
       <h4 slot="headline" className="alert-title">
@@ -19,22 +39,12 @@ function FilesOptional({ item }) {
           ? item.friendlyName
           : item.displayName}
       </h4>
-      <p>
-        {cstFriendlyEvidenceRequests
-          ? `Requested from outside VA on ${dateFormatter(item.requestedDate)}`
-          : `Requested to others on ${dateFormatter(item.requestedDate)}`}
-      </p>
+      <p>{getRequestText()}</p>
       <p className="alert-description">
         {cstFriendlyEvidenceRequests &&
-          (item.shortDescription || item.activityDescription ? (
-            item.shortDescription || item.activityDescription
-          ) : (
-            <>
-              <strong>You don’t have to do anything.</strong> We asked someone
-              outside VA for documents related to your claim.
-              <br />
-            </>
-          ))}
+          (item.shortDescription || item.activityDescription
+            ? item.shortDescription || item.activityDescription
+            : renderDefaultThirdPartyMessage(item.displayName))}
       </p>
       {!cstFriendlyEvidenceRequests && (
         <p className="alert-description">

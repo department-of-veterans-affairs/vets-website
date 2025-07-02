@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
-import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 
 import GetFormHelp from '../components/GetFormHelp';
 
@@ -61,7 +62,7 @@ export const ConfirmationPage = () => {
         <h4>Requested Dispute</h4>
         <ul>
           {selectedDebts.map(item => (
-            <li key={item.id}>
+            <li key={item.compositeDebtId}>
               <span>{item.label}</span>
             </li>
           ))}

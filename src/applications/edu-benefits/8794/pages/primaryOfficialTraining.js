@@ -1,14 +1,16 @@
+import React from 'react';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import PrimaryOfficialExemptInfo from '../components/primaryOfficialExemptInfo';
-import PrimaryOfficialTrainingInfo from '../components/primaryOfficialTrainingInfo';
+import PrimaryOfficialExemptInfo from '../components/PrimaryOfficialExemptInfo';
+import PrimaryOfficialTrainingInfo from '../components/PrimaryOfficialTrainingInfo';
+import TrainingExemptCustomReviewField from '../components/TrainingExemptCustomReviewField';
 
 const uiSchema = {
   primaryOfficialTraining: {
     'ui:description': PrimaryOfficialTrainingInfo,
-    trainingDate: {
+    trainingCompletionDate: {
       ...currentOrPastDateUI({
         title:
           'Enter the date the required annual Section 305 training was completed.',
@@ -17,9 +19,36 @@ const uiSchema = {
           required: 'Please select a date',
         },
       }),
+      'ui:options': {
+        hint: 'If exempt, see information below',
+        hideIf: (formData, index) => {
+          if (formData['additional-certifying-official']) {
+            return formData['additional-certifying-official'][index]
+              ?.primaryOfficialTraining?.trainingExempt;
+          }
+          return formData?.primaryOfficialTraining?.trainingExempt;
+        },
+      },
+    },
+    'view:trainingExemptLabel': {
+      'ui:description': (
+        <p className="vads-u-margin-top--4">
+          <strong>This individual is exempt</strong>
+        </p>
+      ),
+      'ui:options': {
+        hideIf: (formData, index) => {
+          if (formData['additional-certifying-official']) {
+            return !formData['additional-certifying-official'][index]
+              ?.primaryOfficialTraining?.trainingExempt;
+          }
+          return !formData?.primaryOfficialTraining?.trainingExempt;
+        },
+      },
     },
     trainingExempt: {
       'ui:field': PrimaryOfficialExemptInfo,
+      'ui:reviewField': TrainingExemptCustomReviewField,
     },
     'ui:options': {
       updateSchema: (formData, formSchema) => {
@@ -32,7 +61,7 @@ const uiSchema = {
 
         return {
           ...formSchema,
-          required: ['trainingDate'],
+          required: ['trainingCompletionDate'],
         };
       },
     },
@@ -45,12 +74,16 @@ const schema = {
     primaryOfficialTraining: {
       type: 'object',
       properties: {
-        trainingDate: currentOrPastDateSchema,
+        trainingCompletionDate: currentOrPastDateSchema,
+        'view:trainingExemptLabel': {
+          type: 'object',
+          properties: {},
+        },
         trainingExempt: {
           type: 'boolean',
         },
       },
-      required: ['trainingDate'],
+      required: ['trainingCompletionDate'],
     },
   },
 };

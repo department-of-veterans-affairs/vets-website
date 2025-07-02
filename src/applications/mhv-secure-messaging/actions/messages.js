@@ -83,6 +83,8 @@ export const retrieveMessageThread = messageId => async (
         ?.attributes.folderId.toString() ||
       response.data[0].attributes.folderId;
 
+    const { isOhMessage } = response.data[0].attributes;
+
     dispatch({
       type: Actions.Thread.GET_THREAD,
       payload: {
@@ -100,6 +102,7 @@ export const retrieveMessageThread = messageId => async (
           body: decodeHtmlEntities(m.attributes.body),
           messageBody: decodeHtmlEntities(m.attributes.body),
         })),
+        isOhMessage,
       },
     });
   } catch (e) {
