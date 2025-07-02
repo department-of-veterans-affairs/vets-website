@@ -174,31 +174,45 @@ const formConfig = {
         page1e: {
           path: 'resubmission-claim-number',
           title: 'Claim ID number',
+          depends: formData => get('claimStatus', formData) === 'resubmission',
           ...claimIdentifyingNumber,
         },
         page1f: {
           path: 'resubmission-claim-type',
           title: 'Claim type',
+          depends: formData => get('claimStatus', formData) === 'resubmission',
           ...claimType,
         },
         page1g: {
           path: 'resubmission-medical-claim-details',
           title: 'Claim details',
+          depends: formData =>
+            get('claimStatus', formData) === 'resubmission' &&
+            get('claimType, formData') === 'medical',
           ...medicalClaimDetails,
         },
         page1h: {
           path: 'resubmission-medical-supporting-docs',
           title: 'claim details',
+          depends: formData =>
+            get('claimStatus', formData) === 'resubmission' &&
+            get('claimType, formData') === 'medical',
           ...medicalUploadSupportingDocs,
         },
         pageij: {
           path: 'resubmission-pharmacy-claim-details',
           title: 'claim details',
+          depends: formData =>
+            get('claimStatus', formData) === 'resubmission' &&
+            get('claimType, formData') === 'pharmacy',
           ...pharmacyClaimDetails,
         },
         page1k: {
           path: 'resubmission-pharmacy-supporting-docs',
           title: 'Upload support documents for your pharmacy claim',
+          depends: formData =>
+            get('claimStatus', formData) === 'resubmission' &&
+            get('claimType, formData') === 'pharmacy',
           ...pharmacyClaimUploadDocs,
         },
       },

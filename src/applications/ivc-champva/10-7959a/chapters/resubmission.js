@@ -14,11 +14,38 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
+import { nameWording, privWrapper } from '../../shared/utilities';
+import { CHAMPVA_PHONE_NUMBER } from '../../shared/constants';
 
 export const claimIdentifyingNumberOptions = [
   'PDI number',
   'Claim control number',
 ];
+
+const additionalNotesClaims = formData => {
+  const nameCap = privWrapper(
+    nameWording(formData, false, true, true) || 'You',
+  );
+  const namePosessive =
+    formData?.certifierRole === 'applicant' ? 'your' : 'their';
+  const name = formData?.certifierRole === 'applicant' ? 'you' : 'they';
+  return (
+    <va-additional-info
+      trigger="Other helpful information about submitting claims"
+      class="vads-u-margin-bottom--4"
+    >
+      <ul>
+        <li>
+          {nameCap} must file {namePosessive} claim within 1 year of when {name}{' '}
+          got the care. And if {name} stayed at a hospital for care, {name} must
+          file {namePosessive} claim within 1 year of when {name} left the
+          hospital.
+        </li>
+        <li>Please retain a copy of all documents submitted to CHAMPVA.</li>
+      </ul>
+    </va-additional-info>
+  );
+};
 
 export const claimIdentifyingNumber = {
   uiSchema: {
@@ -44,7 +71,7 @@ export const claimIdentifyingNumber = {
             <br />
             <p>
               If you can’t find the PDI number, call us at{' '}
-              <va-telephone contact="8007338387" />{' '}
+              <va-telephone contact={CHAMPVA_PHONE_NUMBER} />{' '}
               <va-telephone contact="711" tty="true" />
               {'. '}
               We’re here Monday through Friday, 8:05a.m. to 7:30 p.m. ET.
@@ -59,7 +86,7 @@ export const claimIdentifyingNumber = {
             <br />
             <p>
               If you can’t find the claim control number, call us at{' '}
-              <va-telephone contact="8007338387" />
+              <va-telephone contact={CHAMPVA_PHONE_NUMBER} />
               <va-telephone contact="711" tty="true" />
               {'. '}
               We’re here Monday through Friday, 8:05a.m. to 7:30 p.m. ET.
@@ -162,6 +189,11 @@ export const medicalUploadSupportingDocs = {
       </>,
     ),
     ...fileUploadBlurb,
+    'view:notes': {
+      'ui:description': formData => {
+        return additionalNotesClaims(formData?.formContext?.fullData);
+      },
+    },
     medicalUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
@@ -172,7 +204,8 @@ export const medicalUploadSupportingDocs = {
           href="https://www.va.gov/resources/how-to-file-a-champva-claim/"
           rel="noopener noreferrer"
         >
-          Learn how to file a CHAMPVA claim (opens in a new tab)
+          Learn more about supporting medical claim documents (opens in a new
+          tab)
         </a>
       ),
     },
@@ -183,6 +216,7 @@ export const medicalUploadSupportingDocs = {
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
+      'view:notes': blankSchema,
       'view:fileClaim': {
         type: 'object',
         properties: {},
@@ -248,12 +282,21 @@ export const pharmacyClaimUploadDocs = {
           called a superbill) from your provider or Explanation of Benefits from
           your insurance company.
         </p>
-        {/* <a href="/"rel="noopener noreferrer">
-          Learn more about supporting pharmacy claim documents (opens in a new tab)
-        </a> */}
+        <a
+          href="https://www.va.gov/resources/how-to-file-a-champva-claim/"
+          rel="noopener noreferrer"
+        >
+          Learn more about supporting pharmacy claim documents (opens in a new
+          tab)
+        </a>
       </>,
     ),
     ...fileUploadBlurb,
+    'view:notes': {
+      'ui:description': formData => {
+        return additionalNotesClaims(formData?.formContext?.fullData);
+      },
+    },
     pharmacyUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
@@ -265,6 +308,7 @@ export const pharmacyClaimUploadDocs = {
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
+      'view:notes': blankSchema,
       pharmacyUpload: {
         type: 'array',
         minItems: 1,
