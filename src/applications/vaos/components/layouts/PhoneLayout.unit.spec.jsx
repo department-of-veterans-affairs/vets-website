@@ -1,17 +1,20 @@
-import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment';
+import React from 'react';
+import { MockAppointment } from '../../tests/fixtures/MockAppointment';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockFacility from '../../tests/fixtures/MockFacility';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import PhoneLayout from './PhoneLayout';
 
 describe('VAOS Component: PhoneLayout', () => {
   const initialState = {
     appointments: {
       facilityData: {
-        '983': {
+        983: {
           address: {
             line: ['2360 East Pershing Boulevard'],
             city: 'Cheyenne',
@@ -70,6 +73,9 @@ describe('VAOS Component: PhoneLayout', () => {
         type: 'VA',
         modality: 'phone',
         isCerner: false,
+        'fields-load-success': '',
+        'fields-load-fail':
+          'type-of-care,provider,clinic-phone,facility-details,facility-phone',
       };
 
       // Act
@@ -113,45 +119,7 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(screen.getByText(/Other details: Not available/i));
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-any',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
         ...nullAttributes,
       });
     });
@@ -232,6 +200,8 @@ describe('VAOS Component: PhoneLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
+        type: 'VA',
+        modality: 'phone',
         reasonForAppointment: 'This is a test',
         patientComments: 'Additional information:colon',
         location: {
@@ -260,11 +230,20 @@ describe('VAOS Component: PhoneLayout', () => {
           isUpcomingAppointment: true,
           isPhoneAppointment: true,
           isCancellable: true,
+          isCerner: false,
           apiData: {
             serviceType: 'primaryCare',
           },
         },
         status: 'booked',
+      };
+      const nullAttributes = {
+        type: 'VA',
+        modality: 'phone',
+        isCerner: false,
+        'fields-load-success':
+          'type-of-care,provider,clinic-phone,facility-details,facility-phone',
+        'fields-load-fail': '',
       };
 
       // Act
@@ -336,7 +315,7 @@ describe('VAOS Component: PhoneLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -346,7 +325,7 @@ describe('VAOS Component: PhoneLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -356,40 +335,8 @@ describe('VAOS Component: PhoneLayout', () => {
       ).to.be.ok;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-any',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
+        ...nullAttributes,
       });
     });
     it('should display phone layout without cancel button', async () => {
@@ -480,7 +427,7 @@ describe('VAOS Component: PhoneLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -490,7 +437,7 @@ describe('VAOS Component: PhoneLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -505,29 +452,11 @@ describe('VAOS Component: PhoneLayout', () => {
     it('should display phone layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isPastAppointment: true,
-          isCancellable: true,
-          apiData: {
-            localStartTime: moment()
-              .subtract(1, 'day')
-              .format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
+      const appointment = new MockAppointment()
+        .setApiData(new MockAppointmentResponse())
+        .setIsPastAppointment(true)
+        .setLocation(new MockFacility())
+        .setPatientComments('Other details: Additional information:colon');
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -600,28 +529,13 @@ describe('VAOS Component: PhoneLayout', () => {
     it('should display phone when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isUpcomingAppointment: true,
-          apiData: {
-            localStartTime: moment()
-              .add(2, 'day')
-              .format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-      };
+      const appointment = new MockAppointment({
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(new MockAppointmentResponse())
+        .setIsUpcomingAppointment(true)
+        .setLocation(new MockFacility())
+        .setPatientComments('Other details: Additional information:colon');
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -692,7 +606,7 @@ describe('VAOS Component: PhoneLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -702,7 +616,7 @@ describe('VAOS Component: PhoneLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -715,28 +629,13 @@ describe('VAOS Component: PhoneLayout', () => {
     it('should display phone when in the past', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isPastAppointment: true,
-          apiData: {
-            localStartTime: moment()
-              .subtract(2, 'day')
-              .format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-      };
+      const appointment = new MockAppointment({
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(new MockAppointmentResponse())
+        .setIsPastAppointment(true)
+        .setLocation(new MockFacility())
+        .setPatientComments('Other details: Additional information:colon');
 
       // Act
       const screen = renderWithStoreAndRouter(

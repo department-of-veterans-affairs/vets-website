@@ -72,9 +72,23 @@ export class ProfileInformationEditView extends Component {
       this.focusOnFirstFormElement();
     }
 
+    const isAddressValidationError =
+      this.props.transactionRequest?.error?.errors?.some(
+        e => e.code === 'VET360_AV_ERROR',
+      ) || false;
+
+    // If we get an address validation error, open the validation modal
     if (
-      this.props.transactionRequest?.error ||
-      isFailedTransaction(this.props.transaction)
+      isAddressValidationError &&
+      !prevProps.transactionRequest?.error // Only trigger on new error
+    ) {
+      this.props.openModal(ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION);
+    }
+
+    if (
+      !isAddressValidationError &&
+      (this.props.transactionRequest?.error ||
+        isFailedTransaction(this.props.transaction))
     ) {
       focusElement('button[aria-label="Close notification"]');
     }
@@ -87,7 +101,7 @@ export class ProfileInformationEditView extends Component {
     ) {
       this.interval = window.setInterval(
         this.refreshTransaction,
-        window.VetsGov.pollTimeout || 1000,
+        window.VetsGov.pollTimeout || 2000,
       );
     }
     // if the transaction is no longer pending, stop refreshing it

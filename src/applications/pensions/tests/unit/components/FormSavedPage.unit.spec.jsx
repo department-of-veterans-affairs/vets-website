@@ -27,7 +27,7 @@ describe('<FormSavedPage />', () => {
       location: { pathname: path },
     },
   };
-  const mockStore = {
+  const mockStore = (expirationDate = '2025-10-01T00:00:00.000Z') => ({
     getState: () => ({
       form: {
         formId,
@@ -35,7 +35,7 @@ describe('<FormSavedPage />', () => {
         expirationDate: (Date.now() + 1000 * 60 * 60 * 24) / 1000, // unix time
         itf: {
           currentITF: {
-            expirationDate: '2025-10-01T00:00:00.000Z',
+            expirationDate,
           },
         },
         loadedData: { metadata: { returnUrl: path } },
@@ -44,11 +44,11 @@ describe('<FormSavedPage />', () => {
     }),
     subscribe: () => {},
     dispatch: () => {},
-  };
+  });
 
-  it('renders', () => {
+  it('renders expiration date', () => {
     const { container } = render(
-      <Provider store={mockStore}>
+      <Provider store={mockStore()}>
         <FormSavedPage {...props} />
       </Provider>,
     );
@@ -56,5 +56,18 @@ describe('<FormSavedPage />', () => {
     expect($('va-alert', container)).to.exist;
     expect($('.expires-container', container)).to.exist;
     expect($('.expires', container).textContent).to.eq('October 1, 2025');
+  });
+
+  it('renders problem message', () => {
+    const { container } = render(
+      <Provider store={mockStore(null)}>
+        <FormSavedPage {...props} />
+      </Provider>,
+    );
+
+    expect($('va-alert', container)).to.exist;
+    expect($('.itf-contact-container', container).textContent).to.contain(
+      'confirm your intent to file',
+    );
   });
 });

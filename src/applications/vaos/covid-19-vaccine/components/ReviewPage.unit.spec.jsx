@@ -1,7 +1,6 @@
 import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import moment from 'moment';
 import React from 'react';
 
 import {
@@ -10,6 +9,8 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
+import { addMinutes, format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -17,6 +18,7 @@ import {
 
 import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
 import { mockAppointmentSubmitApi } from '../../tests/mocks/mockApis';
+import { DATE_FORMATS } from '../../utils/constants';
 import { onCalendarChange } from '../redux/actions';
 import ReviewPage from './ReviewPage';
 
@@ -27,7 +29,8 @@ describe('VAOS vaccine flow: ReviewPage', () => {
 
   beforeEach(() => {
     mockFetch();
-    start = moment();
+
+    start = new Date();
     store = createTestStore({
       ...initialState,
       covid19Vaccine: {
@@ -56,12 +59,18 @@ describe('VAOS vaccine flow: ReviewPage', () => {
           ],
           availableSlots: [
             {
-              start: start.format(),
+              start: formatInTimeZone(
+                start,
+                'UTC',
+                DATE_FORMATS.ISODateTimeUTC,
+              ),
+
               id: 'test',
-              end: start
-                .clone()
-                .add(30, 'minutes')
-                .format(),
+              end: formatInTimeZone(
+                addMinutes(start, 30),
+                'UTC',
+                DATE_FORMATS.ISODateTimeUTC,
+              ),
             },
           ],
           clinics: {
@@ -77,7 +86,15 @@ describe('VAOS vaccine flow: ReviewPage', () => {
         },
       },
     });
-    store.dispatch(onCalendarChange([start.format()]));
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
   });
 
   it('should submit successfully', async () => {
@@ -138,7 +155,7 @@ describe('VAOS vaccine flow: ReviewPage', () => {
     expect(descHeading).to.have.tagName('h2');
 
     expect(dateHeading).to.contain.text(
-      start.format('dddd, MMMM D, YYYY [at] h:mm a'),
+      format(start, "EEEE, MMMM d, yyyy 'at' h:mm aaaa"),
     );
     expect(dateHeading).to.have.tagName('h3');
 

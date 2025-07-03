@@ -17,10 +17,7 @@ import {
   formatUserDob,
   formatNameFirstLast,
 } from '@department-of-veterans-affairs/mhv/exports';
-import {
-  VaLoadingIndicator,
-  VaRadio,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from './NeedHelpSection';
@@ -46,6 +43,7 @@ import { Actions } from '../../util/actionTypes';
 import useFocusOutline from '../../hooks/useFocusOutline';
 import { updateReportFileType } from '../../actions/downloads';
 import { postCreateAAL } from '../../api/MrApi';
+import TrackedSpinner from '../shared/TrackedSpinner';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -94,8 +92,10 @@ const DownloadFileType = props => {
   const { fromDate, toDate, option: dateFilterOption } = dateFilter;
 
   const progressBarRef = useRef(null);
+  const noRecordsFoundRef = useRef(null);
 
   useFocusOutline(progressBarRef);
+  useFocusOutline(noRecordsFoundRef);
 
   useEffect(
     () => {
@@ -109,14 +109,19 @@ const DownloadFileType = props => {
   useEffect(
     () => {
       setTimeout(() => {
+        const noRecords = noRecordsFoundRef.current;
         const heading = progressBarRef?.current?.shadowRoot?.querySelector(
           'h2',
         );
-        focusElement(heading);
+        if (noRecordsFoundRef.current) {
+          focusElement(noRecords);
+        } else {
+          focusElement(heading);
+        }
       }, 400);
       updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
     },
-    [progressBarRef],
+    [noRecordsFoundRef, progressBarRef],
   );
 
   useEffect(
@@ -475,14 +480,19 @@ const DownloadFileType = props => {
       <h2>Select file type</h2>
       {!isDataFetched && (
         <div className="vads-u-padding-bottom--2">
-          <VaLoadingIndicator message="Loading your records..." />
+          <TrackedSpinner
+            id="download-records-spinner"
+            message="Loading your records..."
+          />
         </div>
       )}
       {isDataFetched &&
         recordCount === 0 && (
           <div className="vads-u-padding-bottom--2">
             <va-alert data-testid="no-records-alert" status="error">
-              <h2 slot="headline">No records found</h2>
+              <h2 slot="headline" id="no-records-found" ref={noRecordsFoundRef}>
+                No records found
+              </h2>
               <p>
                 We couldn’t find any records that match your selection. Go back
                 and update the date range or select more record types.

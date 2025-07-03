@@ -5,6 +5,7 @@ import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import manifest from '../manifest.json';
 import { getSignInUrl } from './constants';
+import { SORT_DEFAULTS } from './submissions';
 
 // Set app name for request headers
 window.appName = manifest.entryName;
@@ -89,23 +90,28 @@ const wrapApiRequest = fn => {
 
 const api = {
   getPOARequests: wrapApiRequest(query => {
-    let size;
-    let number;
-    let status;
-    let sort;
-    if (query.status) {
-      status = `status=${query.status}`;
-    }
-    if (query.size) {
-      size = `&page[size]=${query.size}`;
-    }
-    if (query.number) {
-      number = `&page[number]=${query.number}`;
-    }
-    if (query.sort) {
-      sort = `&sort[by]=${query.sort}&sort[order]=${query.sortBy}`;
-    }
-    return [`/power_of_attorney_requests?${status}${size}${number}${sort}`];
+    const status = query.status ? `status=${query.status}` : '';
+    const size = query.size ? `&page[size]=${query.size}` : '';
+    const number = query.number ? `&page[number]=${query.number}` : '';
+    const sort = query.sort
+      ? `&sort[by]=${query.sortBy}&sort[order]=${query.sort}`
+      : '';
+    const params = `${status}${size}${number}${sort}`;
+    return [`/power_of_attorney_requests${params ? '?' : ''}${params}`];
+  }),
+  getSubmissions: wrapApiRequest(query => {
+    const size = query.size
+      ? `page[size]=${query.size}`
+      : `page[size]=${SORT_DEFAULTS.SIZE}`;
+    const number = query.number
+      ? `&page[number]=${query.number}`
+      : `&page[number]=${SORT_DEFAULTS.NUMBER}`;
+    const sort = query.sort
+      ? `&sort[by]=${query.sortBy}&sort[order]=${query.sort}`
+      : `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${
+          SORT_DEFAULTS.SORT_ORDER
+        }`;
+    return [`/claim_submissions?${size}${number}${sort}`];
   }),
   claimantSearch: wrapApiRequest(data => {
     return [

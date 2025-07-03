@@ -2,25 +2,30 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import {
-  RequestPropertyOrBusinessIncomeFormAlert,
-  RequestFarmIncomeFormAlert,
-} from '../../../components/FormAlerts';
+import { TrustSupplementaryFormsAlert } from '../../../components/FormAlerts';
 
-describe('pension <RequestPropertyOrBusinessIncomeFormAlert>', () => {
-  it('should render', () => {
-    const { container } = render(<RequestPropertyOrBusinessIncomeFormAlert />);
+describe('pension <TrustSupplementaryFormsAlert>', () => {
+  it('should render when trusts are present', () => {
+    const { container } = render(
+      <TrustSupplementaryFormsAlert formData={{ trusts: [{}] }} />,
+    );
     const selector = container.querySelector('va-alert');
     expect(selector).to.exist;
-    expect(selector).to.contain.attr('status', 'warning');
+    expect(selector).to.have.attribute('status', 'info');
+    expect(container.textContent).to.include('Additional documents needed');
   });
-});
 
-describe('pension <RequestFarmIncomeFormAlert>', () => {
-  it('should render', () => {
-    const { container } = render(<RequestFarmIncomeFormAlert />);
+  it('should not render when trusts are empty', () => {
+    const { container } = render(
+      <TrustSupplementaryFormsAlert formData={{ trusts: [] }} />,
+    );
     const selector = container.querySelector('va-alert');
-    expect(selector).to.exist;
-    expect(selector).to.contain.attr('status', 'warning');
+    expect(selector).to.not.exist;
+  });
+
+  it('should not render when formData is undefined', () => {
+    const { container } = render(<TrustSupplementaryFormsAlert />);
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.not.exist;
   });
 });

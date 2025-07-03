@@ -22,6 +22,7 @@ import {
   setTypeOfCare,
   setTypeOfEyeCare,
 } from '../../../tests/mocks/setup';
+import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import VAFacilityPage from './VAFacilityPageV2';
 
 describe('VAOS Page: VAFacilityPage', () => {
@@ -210,7 +211,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       mockEligibilityFetches({
         facilityId: '983',
-        typeOfCareId: '323',
+        typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
         limit: true,
         requestPastVisits: true,
       });
@@ -283,7 +284,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       mockEligibilityFetches({
         facilityId: '983',
-        typeOfCareId: '323',
+        typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
         limit: true,
         requestPastVisits: true,
       });
@@ -517,7 +518,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       // Assert
       expect(
         await screen.findByText(
-          /You can.t schedule an appointment online right now/i,
+          /We can’t schedule your appointment right now/i,
         ),
       ).to.exist;
     });
@@ -599,7 +600,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       await cleanup();
 
       await setTypeOfCare(store, /eye care/i);
-      await setTypeOfEyeCare(store, '408'); // Optometry
+      await setTypeOfEyeCare(store, TYPE_OF_CARE_IDS.OPTOMETRY_ID);
 
       screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -631,7 +632,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       mockEligibilityFetches({
         facilityId: '983',
-        typeOfCareId: '323',
+        typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
         limit: true,
         requestPastVisits: true,
       });
@@ -732,7 +733,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       mockEligibilityFetches({
         facilityId: '983',
-        typeOfCareId: '323',
+        typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
         limit: true,
         requestPastVisits: true,
       });
@@ -1161,7 +1162,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /eye care/i);
-      await setTypeOfEyeCare(store, '408'); // Optometry
+      await setTypeOfEyeCare(store, TYPE_OF_CARE_IDS.OPTOMETRY_ID);
 
       // Act
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -1172,7 +1173,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       await screen.findByText(/You can.t schedule an appointment online/i);
 
       await cleanup();
-      await setTypeOfEyeCare(store, '407'); // Ophthalmology
+      await setTypeOfEyeCare(store, TYPE_OF_CARE_IDS.OPHTHALMOLOGY_ID);
       screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });

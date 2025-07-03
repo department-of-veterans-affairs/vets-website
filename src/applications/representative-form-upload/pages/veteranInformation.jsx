@@ -5,8 +5,8 @@ import {
   addressUI,
   firstNameLastNameNoSuffixSchema,
   firstNameLastNameNoSuffixUI,
-  emailSchema,
-  emailToSendNotificationsUI,
+  vaFileNumberUI,
+  vaFileNumberSchema,
   ssnSchema,
   ssnUI,
   dateOfBirthUI,
@@ -18,13 +18,14 @@ import {
   CustomAlertPage,
   emptyObjectSchema,
   claimantTitleAndDescription,
-  representativeTitleAndDescription,
 } from './helpers';
+import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
 
 /** @type {PageSchema} */
 export const veteranInformationPage = {
   uiSchema: {
     ...claimantTitleAndDescription,
+    'ui:objectViewField': ClaimantInfoViewField,
     veteranFullName: firstNameLastNameNoSuffixUI(),
     address: addressUI({
       labels: {
@@ -43,11 +44,10 @@ export const veteranInformationPage = {
     }),
     veteranSsn: ssnUI(),
     veteranDateOfBirth: dateOfBirthUI(),
-    ...representativeTitleAndDescription,
-    email: emailToSendNotificationsUI({
-      hint:
-        "Changes to information here won't apply to your VA Office of General Counsel (OGC) profile.",
-    }),
+    vaFileNumber: {
+      ...vaFileNumberUI,
+      'ui:title': 'VA file number',
+    },
   },
   schema: {
     type: 'object',
@@ -55,6 +55,8 @@ export const veteranInformationPage = {
       'view:claimantTitle': emptyObjectSchema,
       'view:claimantDescription': emptyObjectSchema,
       veteranFullName: firstNameLastNameNoSuffixSchema,
+      veteranSsn: ssnSchema,
+      veteranDateOfBirth: dateOfBirthSchema,
       address: addressSchema({
         omit: [
           'country',
@@ -66,16 +68,11 @@ export const veteranInformationPage = {
           'street3',
         ],
       }),
-      veteranSsn: ssnSchema,
-      veteranDateOfBirth: dateOfBirthSchema,
-      'view:representativeTitle': emptyObjectSchema,
-      'view:representativeDescription': emptyObjectSchema,
-      email: emailSchema,
+      vaFileNumber: vaFileNumberSchema,
     },
     required: [
       'veteranSsn',
       'veteranDateOfBirth',
-      'email',
       'address',
       'veteranFullName',
     ],

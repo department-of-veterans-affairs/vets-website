@@ -1,17 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { signInServiceName } from 'platform/user/authentication/selectors';
+import {
+  authenticatedUser,
+  isLoading,
+  signInServiceName,
+  isVerifiedUser,
+} from 'platform/user/authentication/selectors';
 import {
   VerifyIdmeButton,
   VerifyLogingovButton,
 } from 'platform/user/authentication/components/VerifyButton';
 
 export default function Verify() {
-  const isAuthenticated = useSelector(
-    state => state?.user?.login?.currentlyLoggedIn,
-  );
-  const isVerified = useSelector(state => state?.user?.profile?.verified);
-  const loading = useSelector(state => state?.user?.profile?.loading);
+  const isAuthenticated = useSelector(authenticatedUser);
+  const isVerified = useSelector(isVerifiedUser);
+  const loading = useSelector(isLoading);
   const loginServiceName = useSelector(signInServiceName);
 
   let renderServiceNames;
@@ -31,15 +34,29 @@ export default function Verify() {
   let buttonContent;
   if (!loading && isAuthenticated) {
     if (loginServiceName === 'idme') {
-      buttonContent = <VerifyIdmeButton />;
+      buttonContent = (
+        <VerifyIdmeButton
+          queryParams={{ operation: 'verify_page_authenticated' }}
+        />
+      );
     } else {
-      buttonContent = <VerifyLogingovButton />;
+      buttonContent = (
+        <VerifyLogingovButton
+          queryParams={{ operation: 'verify_page_authenticated' }}
+        />
+      );
     }
   } else {
     buttonContent = (
       <>
-        <VerifyLogingovButton useOAuth />
-        <VerifyIdmeButton useOAuth />
+        <VerifyLogingovButton
+          useOAuth
+          queryParams={{ operation: 'verify_page_unauthenticated' }}
+        />
+        <VerifyIdmeButton
+          useOAuth
+          queryParams={{ operation: 'verify_page_unauthenticated' }}
+        />
       </>
     );
   }

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import GetFormHelp from '../components/GetFormHelp';
 
@@ -71,7 +71,7 @@ export default function ConfirmationPage() {
             header="We’ll confirm that we’ve received your form"
           >
             <p>
-              This can take up to 10 days. When we receive your form, we'll
+              This can take up to 10 days. When we receive your form, we’ll
               update the status on My VA.
             </p>
             <va-link

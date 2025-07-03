@@ -2,10 +2,15 @@
 import { addHours, format, startOfDay } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import {
+  transformVAOSAppointment,
+  transformVAOSAppointments,
+} from '../../services/appointment/transformers';
+import { parseApiList, parseApiObject } from '../../services/utils';
+import {
   APPOINTMENT_STATUS,
+  DATE_FORMATS,
   TYPE_OF_VISIT_ID,
   VIDEO_TYPES,
-  DATE_FORMAT_STRINGS,
 } from '../../utils/constants';
 
 /**
@@ -80,11 +85,7 @@ export default class MockAppointmentResponse {
       start:
         status === APPOINTMENT_STATUS.proposed
           ? null
-          : formatInTimeZone(
-              timestamp,
-              'UTC',
-              DATE_FORMAT_STRINGS.ISODateTimeUTC,
-            ),
+          : formatInTimeZone(timestamp, 'UTC', DATE_FORMATS.ISODateTimeUTC),
       status,
       telehealth: {
         atlas: null,
@@ -242,9 +243,39 @@ export default class MockAppointmentResponse {
         })
           .setKind(TYPE_OF_VISIT_ID.telehealth)
           .setModality('vaVideoCareAtAVaLocation')
-          .setType('COMMUNITY_CARE_APPOINTMENT')
+          .setType('VA')
           .setVvsKind(VIDEO_TYPES.clinic),
       );
+  }
+
+  /**
+   * Method to generate mock Clinic response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {boolean} [arguments.status] - Status of the appointment appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createClinicResponse({
+    future,
+    localStartTime,
+    past,
+    pending,
+    status,
+  } = {}) {
+    return MockAppointmentResponse.createClinicResponses({
+      count: 1,
+      future,
+      localStartTime,
+      past,
+      pending,
+      status,
+    })[0];
   }
 
   /**
@@ -368,9 +399,31 @@ export default class MockAppointmentResponse {
           future,
         })
           .setKind(TYPE_OF_VISIT_ID.telehealth)
-          .setModality('vaVideoCareAtHome')
+          .setModality('vaVideoCareAtAVaLocation')
           .setVvsKind(VIDEO_TYPES.storeForward),
       );
+  }
+
+  /**
+   * Method to generate mock Store Forward response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createStoreForwardResponse({
+    localStartTime,
+    future = false,
+    count = 1,
+  } = {}) {
+    return MockAppointmentResponse.createStoreForwardResponses({
+      count,
+      localStartTime,
+      future,
+    })[0];
   }
 
   /**
@@ -536,6 +589,32 @@ export default class MockAppointmentResponse {
   }
 
   /**
+   * Method to generate transformed mock appointment object. This object respresents
+   * the stored Redux appointment object.
+   *
+   * @static
+   * @param {MockAppointmentResponse} response MockAppointmentResponse object.
+   * @returns transformed object
+   * @memberof MockAppointmentResponse
+   */
+  static getTransformedResponse(response) {
+    return transformVAOSAppointment(parseApiObject({ data: response }));
+  }
+
+  /**
+   * Method to generate a collection of transformed mock appointment objects. These
+   * objects represent the stored Redux appointments objects.
+   *
+   * @static
+   * @param {Array<MockAppointmentResponse>} response - A collection of MockAppointmentResponse objects.
+   * @returns Transformed object
+   * @memberof MockAppointmentResponse
+   */
+  static getTransformedResponses(responses) {
+    return transformVAOSAppointments(parseApiList({ data: responses }));
+  }
+
+  /**
    *
    *
    * @param {MockFacilityResponse} value
@@ -671,6 +750,18 @@ export default class MockAppointmentResponse {
 
   setStatus(value) {
     this.attributes.status = value;
+    return this;
+  }
+
+  /**
+   * Set travel pay claim attribute.
+   *
+   * @param {MockTravelPayClaim} value
+   * @returns
+   * @memberof MockAppointmentResponse
+   */
+  setTravelPayClaim(value) {
+    this.attributes.travelPayClaim = value;
     return this;
   }
 

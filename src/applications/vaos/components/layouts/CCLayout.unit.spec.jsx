@@ -1,10 +1,15 @@
-import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment';
+import { subDays } from 'date-fns';
+import React from 'react';
+import MockAddress from '../../tests/fixtures/MockAddress';
+import { MockAppointment } from '../../tests/fixtures/MockAppointment';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockCommunityCareProvider from '../../tests/fixtures/MockCommunityCareProvider';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import CCLayout from './CCLayout';
 
 describe('VAOS Component: CCLayout', () => {
@@ -48,6 +53,8 @@ describe('VAOS Component: CCLayout', () => {
         type: 'COMMUNITY_CARE_APPOINTMENT',
         modality: 'communityCare',
         isCerner: false,
+        'fields-load-success': '',
+        'fields-load-fail': 'type-of-care,provider',
       };
 
       // Act
@@ -74,26 +81,8 @@ describe('VAOS Component: CCLayout', () => {
           );
         }),
       );
-
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-any',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-provider',
+        event: 'vaos-null-states',
         ...nullAttributes,
       });
     });
@@ -104,6 +93,8 @@ describe('VAOS Component: CCLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
+        type: 'COMMUNITY_CARE_APPOINTMENT',
+        modality: 'communityCare',
         patientComments: 'This is a test:Additional information',
         communityCareProvider: {
           address: {
@@ -135,11 +126,19 @@ describe('VAOS Component: CCLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
+          isCerner: false,
           apiData: {
             serviceType: 'primaryCare',
           },
         },
         status: 'booked',
+      };
+      const nullAttributes = {
+        type: 'COMMUNITY_CARE_APPOINTMENT',
+        modality: 'communityCare',
+        isCerner: false,
+        'fields-load-success': 'type-of-care,provider',
+        'fields-load-fail': '',
       };
 
       // Act
@@ -197,7 +196,7 @@ describe('VAOS Component: CCLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -207,7 +206,7 @@ describe('VAOS Component: CCLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -220,22 +219,8 @@ describe('VAOS Component: CCLayout', () => {
       ).not.to.exist;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-any',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-provider',
+        event: 'vaos-null-states',
+        ...nullAttributes,
       });
     });
   });
@@ -244,46 +229,16 @@ describe('VAOS Component: CCLayout', () => {
     it('should display CC layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        patientComments: 'This is a test:Additional information',
-        communityCareProvider: {
-          address: {
-            line: ['line 1'],
-            city: 'City',
-            state: 'State',
-            postalCode: 'Postal code',
-          },
-          telecom: [{ system: 'phone', value: '123-456-7890' }],
-          providers: [
-            {
-              name: {
-                familyName: 'Test',
-                lastName: 'User',
-              },
-              providerName: 'Test User',
-            },
-          ],
-          providerName: ['Test User'],
-          treatmentSpecialty: 'Optometrist',
-        },
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: true,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: true,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        start: moment()
-          .subtract(1, 'day')
-          .format('YYYY-MM-DDTHH:mm:ss'),
-        status: 'booked',
-      };
+      const appointment = new MockAppointment({
+        start: subDays(new Date(), 1),
+      })
+        .setApiData(new MockAppointmentResponse())
+        .setCommunityCareProvider(
+          new MockCommunityCareProvider({
+            address: new MockAddress(),
+          }),
+        )
+        .setIsPastAppointment(true);
 
       // Act
       const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
@@ -357,45 +312,18 @@ describe('VAOS Component: CCLayout', () => {
     it('should display CC layout when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        patientComments: 'This is a test:Additional information',
-        communityCareProvider: {
-          address: {
-            line: ['line 1'],
-            city: 'City',
-            state: 'State',
-            postalCode: 'Postal code',
-          },
-          telecom: [{ system: 'phone', value: '123-456-7890' }],
-          providers: [
-            {
-              name: {
-                familyName: 'Test',
-                lastName: 'User',
-              },
-              providerName: 'Test User',
-            },
-          ],
-          providerName: ['Test User'],
-          treatmentSpecialty: 'Optometrist',
-        },
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: true,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        start: moment().format('YYYY-MM-DDTHH:mm:ss'),
-        status: 'cancelled',
-        type: 'COMMUNITY_CARE_APPOINTMENT',
-      };
+      const appointment = new MockAppointment({
+        start: subDays(new Date(), 1),
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(new MockAppointmentResponse())
+        .setCommunityCareProvider(
+          new MockCommunityCareProvider({
+            address: new MockAddress(),
+          }),
+        )
+        .setIsUpcomingAppointment(true)
+        .setType('COMMUNITY_CARE_APPOINTMENT');
 
       // Act
       const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
@@ -467,7 +395,7 @@ describe('VAOS Component: CCLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -477,7 +405,7 @@ describe('VAOS Component: CCLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -490,47 +418,18 @@ describe('VAOS Component: CCLayout', () => {
     it('should display CC layout when in the past', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        patientComments: 'This is a test:Additional information',
-        communityCareProvider: {
-          address: {
-            line: ['line 1'],
-            city: 'City',
-            state: 'State',
-            postalCode: 'Postal code',
-          },
-          telecom: [{ system: 'phone', value: '123-456-7890' }],
-          providers: [
-            {
-              name: {
-                familyName: 'Test',
-                lastName: 'User',
-              },
-              providerName: 'Test User',
-            },
-          ],
-          providerName: ['Test User'],
-          treatmentSpecialty: 'Optometrist',
-        },
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: true,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: true,
-          isPendingAppointment: false,
-          isUpcomingAppointment: false,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        start: moment()
-          .subtract(2, 'day')
-          .format('YYYY-MM-DDTHH:mm:ss'),
-        status: 'cancelled',
-        type: 'COMMUNITY_CARE_APPOINTMENT',
-      };
+      const appointment = new MockAppointment({
+        start: subDays(new Date(), 1),
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(new MockAppointmentResponse())
+        .setCommunityCareProvider(
+          new MockCommunityCareProvider({
+            address: new MockAddress(),
+          }),
+        )
+        .setIsUpcomingAppointment(true)
+        .setType('COMMUNITY_CARE_APPOINTMENT');
 
       // Act
       const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {

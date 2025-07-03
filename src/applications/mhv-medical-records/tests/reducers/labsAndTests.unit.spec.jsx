@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
+
 import { parseISO } from 'date-fns';
 import {
   buildRadiologyResults,
@@ -17,6 +19,8 @@ import {
   extractSpecimen,
   labsAndTestsReducer,
   mergeRadiologyLists,
+  formatDateTime,
+  convertUnifiedLabsAndTestRecord,
   convertPathologyRecord,
 } from '../../reducers/labsAndTests';
 import { Actions } from '../../util/actionTypes';
@@ -342,18 +346,19 @@ describe('extractPractitioner', () => {
 describe('extractOrderedTest', () => {
   const TEST_ID = 'ServiceRequest-1';
   const TEST_REF = `#${TEST_ID}`;
-  const TEST_NAME = 'Test Name';
+  const CODE_TEXT_NAME = 'Glycohemoglobin HbA 1c~ARCHITECH C8000';
+  const DISPLAY_NAME = 'HEMOGLOBIN A1C*';
   const record = {
-    contained: [{ id: 'ServiceRequest-1', code: { text: TEST_NAME } }],
+    contained: [{ id: 'ServiceRequest-1', code: { text: CODE_TEXT_NAME } }],
   };
 
   it('returns the test name when present', () => {
-    expect(extractOrderedTest(record, TEST_REF)).to.equal(TEST_NAME);
+    expect(extractOrderedTest(record, TEST_REF)).to.equal(CODE_TEXT_NAME);
   });
 
   it('returns null when the reference is not found', () => {
     const badRec = {
-      contained: [{ id: TEST_ID, code: { text: TEST_NAME } }],
+      contained: [{ id: TEST_ID, code: { text: CODE_TEXT_NAME } }],
     };
     expect(extractOrderedTest(badRec, '#Not-Found')).to.be.null;
   });
@@ -372,6 +377,95 @@ describe('extractOrderedTest', () => {
       basedOn: [{ reference: TEST_REF }],
     };
     expect(extractOrderedTest(badRec)).to.be.null;
+  });
+
+  it('prioritizes display value from coding array when available', () => {
+    const recordWithCoding = {
+      contained: [
+        {
+          id: TEST_ID,
+          code: {
+            text: CODE_TEXT_NAME,
+            coding: [
+              {
+                code: '85053.3412',
+                system: 'http://va.gov/terminology/vistaDefinedTerms/64',
+              },
+              {
+                code: '7531',
+                display: DISPLAY_NAME,
+                system: 'http://va.gov/terminology/vistaDefinedTerms/60',
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    expect(extractOrderedTest(recordWithCoding, TEST_REF)).to.equal(
+      DISPLAY_NAME,
+    );
+  });
+
+  it('falls back to code.text when no display value is found in coding array', () => {
+    const recordWithCodingNoDisplay = {
+      contained: [
+        {
+          id: TEST_ID,
+          code: {
+            text: CODE_TEXT_NAME,
+            coding: [
+              {
+                code: '85053.3412',
+                system: 'http://va.gov/terminology/vistaDefinedTerms/64',
+              },
+              {
+                code: '7531',
+                system: 'http://va.gov/terminology/vistaDefinedTerms/60',
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    expect(extractOrderedTest(recordWithCodingNoDisplay, TEST_REF)).to.equal(
+      CODE_TEXT_NAME,
+    );
+  });
+
+  it('ignores empty display values in coding array', () => {
+    const recordWithEmptyDisplay = {
+      contained: [
+        {
+          id: TEST_ID,
+          code: {
+            text: CODE_TEXT_NAME,
+            coding: [
+              {
+                code: '85053.3412',
+                display: '',
+                system: 'http://va.gov/terminology/vistaDefinedTerms/64',
+              },
+              {
+                code: '7531',
+                display: '   ',
+                system: 'http://va.gov/terminology/vistaDefinedTerms/60',
+              },
+              {
+                code: '9999',
+                display: DISPLAY_NAME,
+                system: 'http://va.gov/terminology/vistaDefinedTerms/99',
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    expect(extractOrderedTest(recordWithEmptyDisplay, TEST_REF)).to.equal(
+      DISPLAY_NAME,
+    );
   });
 });
 
@@ -823,5 +917,172 @@ describe('labsAndTestsReducer', () => {
     ).to.equal(labTypes.RADIOLOGY);
 
     expect(newState.updatedList).to.equal(undefined);
+  });
+});
+
+describe('formatDateTime', () => {
+  it('should format a valid datetime string correctly', () => {
+    const datetimeString = '2025-04-22T14:30:00Z';
+    const result = formatDateTime(datetimeString);
+    expect(result.formattedDate).to.equal('April 22, 2025');
+  });
+
+  it('should handle invalid datetime strings gracefully', () => {
+    const datetimeString = 'invalid-date';
+    const result = formatDateTime(datetimeString);
+    expect(result).to.deep.equal({
+      formattedDate: '',
+      formattedTime: '',
+    });
+  });
+
+  it('should handle empty datetime strings gracefully', () => {
+    const datetimeString = '';
+    const result = formatDateTime(datetimeString);
+    expect(result).to.deep.equal({
+      formattedDate: '',
+      formattedTime: '',
+    });
+  });
+});
+
+describe('convertUnifiedLabsAndTestRecord', () => {
+  let clock;
+  beforeEach(() => {
+    const fixedTimestamp = new Date('2024-12-31T00:00:00Z').getTime();
+    clock = sinon.useFakeTimers({ now: fixedTimestamp, toFake: ['Date'] });
+  });
+  afterEach(() => {
+    clock.restore();
+  });
+  it('should convert a valid record correctly', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-04-22T14:30:00Z',
+        display: 'Test Name',
+        location: 'Test Location',
+        observations: 'Test Observations',
+        orderedBy: 'Dr. Smith',
+        sampleTested: 'Blood',
+        bodySite: 'Arm',
+        testCode: '12345',
+        comments: 'No issues',
+        encodedData: 'VGhpcyBpcyBhIHRlc3Q=',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.id).to.equal('test-id');
+    expect(result.name).to.equal('Test Name');
+    expect(result.location).to.equal('Test Location');
+    expect(result.observations).to.equal('Test Observations');
+    expect(result.orderedBy).to.equal('Dr. Smith');
+    expect(result.sampleTested).to.equal('Blood');
+    expect(result.bodySite).to.equal('Arm');
+    expect(result.testCode).to.equal('12345');
+    expect(result.type).to.equal('12345');
+    expect(result.comments).to.equal('No issues');
+    expect(result.result).to.equal('This is a test');
+  });
+
+  it('should handle missing attributes gracefully', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {},
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    expect(result).to.deep.equal({
+      id: 'test-id',
+      date: '',
+      name: undefined,
+      location: undefined,
+      observations: undefined,
+      orderedBy: undefined,
+      sampleTested: undefined,
+      bodySite: undefined,
+      testCode: undefined,
+      type: undefined,
+      comments: undefined,
+      result: null,
+      base: {
+        ...record,
+      },
+    });
+  });
+
+  it('should handle invalid dateCompleted gracefully', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: 'invalid-date',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    expect(result).to.deep.equal({
+      id: 'test-id',
+      date: '',
+      name: undefined,
+      location: undefined,
+      observations: undefined,
+      orderedBy: undefined,
+      sampleTested: undefined,
+      bodySite: undefined,
+      testCode: undefined,
+      type: undefined,
+      comments: undefined,
+      result: null,
+      base: {
+        ...record,
+      },
+    });
+  });
+});
+
+describe('labsAndTestsReducer - unified labs and tests', () => {
+  it('should handle unified labs and tests records', () => {
+    const unifiedLabsResponse = [
+      {
+        id: 'test-id',
+        attributes: {
+          dateCompleted: '2025-04-22T14:30:00Z',
+          display: 'Test Name',
+          location: 'Test Location',
+          observations: 'Test Observations',
+          orderedBy: 'Dr. Smith',
+          sampleTested: 'Blood',
+          bodySite: 'Arm',
+          testCode: '12345',
+          comments: 'No issues',
+          encodedData: 'VGhpcyBpcyBhIHRlc3Q=',
+        },
+      },
+    ];
+
+    const newState = labsAndTestsReducer(
+      {},
+      {
+        type: Actions.LabsAndTests.GET_UNIFIED_LIST,
+        labsAndTestsResponse: unifiedLabsResponse,
+      },
+    );
+
+    expect(newState.labsAndTestsList.length).to.equal(1);
+    const testRecord = newState.labsAndTestsList[0];
+    expect(testRecord.id).to.equal('test-id');
+    expect(testRecord.name).to.equal('Test Name');
+    expect(testRecord.location).to.equal('Test Location');
+    expect(testRecord.observations).to.equal('Test Observations');
+    expect(testRecord.orderedBy).to.equal('Dr. Smith');
+    expect(testRecord.sampleTested).to.equal('Blood');
+    expect(testRecord.bodySite).to.equal('Arm');
+    expect(testRecord.testCode).to.equal('12345');
+    expect(testRecord.type).to.equal('12345');
+    expect(testRecord.comments).to.equal('No issues');
+    expect(testRecord.result).to.equal('This is a test');
   });
 });

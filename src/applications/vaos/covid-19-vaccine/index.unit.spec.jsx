@@ -19,6 +19,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
+import { DATE_FORMATS, TYPE_OF_CARE_IDS } from '../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -51,7 +52,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               directEnabled: true,
               requestEnabled: true,
             }),
@@ -100,7 +101,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               requestEnabled: true,
             }),
           ],
@@ -139,7 +140,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               requestEnabled: true,
             }),
           ],
@@ -164,15 +165,15 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
             id: '139',
             type: 'maintenance_windows',
             attributes: {
-              externalService: 'vaosWarning',
+              externalService: 'vaoswarning',
               description: 'My description',
               startTime: format(
                 subDays(new Date(), '1'),
-                "yyyy-MM-dd'T'HH:mm:ss",
+                DATE_FORMATS.ISODateTime,
               ),
               endTime: format(
                 addDays(new Date(), '1'),
-                "yyyy-MM-dd'T'HH:mm:ss",
+                DATE_FORMATS.ISODateTime,
               ),
             },
           },
@@ -219,7 +220,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               requestEnabled: true,
             }),
           ],
@@ -232,7 +233,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               requestEnabled: true,
             }),
           ],
@@ -284,7 +285,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               requestEnabled: true,
             }),
           ],
@@ -297,7 +298,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               requestEnabled: true,
             }),
           ],
@@ -351,7 +352,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               requestEnabled: true,
             }),
           ],
@@ -364,7 +365,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               requestEnabled: true,
             }),
           ],
@@ -407,7 +408,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               requestEnabled: true,
             }),
           ],
@@ -429,7 +430,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               requestEnabled: true,
             }),
           ],

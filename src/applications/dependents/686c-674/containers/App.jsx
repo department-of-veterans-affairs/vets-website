@@ -9,6 +9,7 @@ import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
+import { getShouldUseV2 } from '../utils/redirect';
 
 function App({
   location,
@@ -17,6 +18,7 @@ function App({
   isLoading,
   vaFileNumber,
   featureToggles,
+  savedForms,
 }) {
   // Must match the H1
   document.title = DOC_TITLE;
@@ -44,7 +46,9 @@ function App({
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  if (!featureToggles?.loading && featureToggles?.vaDependentsV2 === false) {
+  const flipperV2 = featureToggles.vaDependentsV2;
+
+  if (!getShouldUseV2(flipperV2, savedForms)) {
     window.location.href = '/view-change-dependents/add-remove-form-21-686c/';
     return <></>;
   }
@@ -56,7 +60,7 @@ function App({
       label: 'View or change dependents on your VA disability benefits',
     },
     {
-      href: '/view-change-dependents/add-remove-form-21-686c-v2/introduction',
+      href: '/view-change-dependents/add-remove-form-21-686c-674/introduction',
       label: 'Add or remove dependents on VA benefits',
     },
   ];
@@ -112,6 +116,7 @@ App.propTypes = {
   isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
+  savedForms: PropTypes.object,
   vaFileNumber: PropTypes.object,
 };
 

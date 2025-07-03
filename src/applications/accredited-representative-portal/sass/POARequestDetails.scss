@@ -3,7 +3,7 @@
 .poa-request-details {
   width: 100%;
   @media (min-width: $small-desktop-screen) {
-    width: 1000px;
+    width: 960px;
   }
 
   @media (min-width: $small-desktop-screen) {
@@ -13,7 +13,7 @@
   }
 
   &__form {
-    padding: 35px 14px;
+    padding: 34px 38px;
     background-color: $vads-color-base-lightest;
     margin-top: 66px;
 
@@ -22,16 +22,14 @@
     }
 
     @media (min-width: $small-desktop-screen) {
-      max-width: 654px;
-      padding: 34px 87px 50px 38px;
       margin-top: 88px;
     }
 
     &-label {
       margin: 0;
+      max-width: 100%;
 
       p {
-        margin: 4px 0 14px;
         color: $vads-color-base;
       }
 
@@ -43,7 +41,6 @@
     }
 
     &-submit {
-      margin: 0;
       width: auto !important;
 
       @media (min-width: $small-desktop-screen) {
@@ -91,6 +88,7 @@
         margin: 0;
         display: flex;
         flex-direction: column;
+        max-width: 100%;
 
         @media (min-width: $small-desktop-screen) {
           flex-direction: row;
@@ -203,7 +201,7 @@
   }
 
   &__info {
-    max-width: 650px;
+    max-width: 627px;
   }
 }
 .processing-date {

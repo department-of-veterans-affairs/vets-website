@@ -17,6 +17,7 @@ import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const HealthConditions = () => {
   const ABOUT_THE_CODES_LABEL = 'About the codes in some condition names';
@@ -24,6 +25,7 @@ const HealthConditions = () => {
   const updatedRecordList = useSelector(
     state => state.mr.conditions.updatedList,
   );
+
   const listState = useSelector(state => state.mr.conditions.listState);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const activeAlert = useAlerts(dispatch);
@@ -67,6 +69,11 @@ const HealthConditions = () => {
         Health conditions
       </h1>
 
+      <p className="page-description">
+        This list includes the same information as your "VA problem list" in the
+        previous My HealtheVet experience.
+      </p>
+
       <AcceleratedCernerFacilityAlert
         {...CernerAlertContent.HEALTH_CONDITIONS}
       />
@@ -105,7 +112,14 @@ const HealthConditions = () => {
             condition, ask your provider at your next appointment.
           </p>
         </va-additional-info>
-        <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
+        {conditions?.length ? (
+          <RecordList
+            records={conditions}
+            type={recordType.HEALTH_CONDITIONS}
+          />
+        ) : (
+          <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />
+        )}
       </RecordListSection>
     </>
   );

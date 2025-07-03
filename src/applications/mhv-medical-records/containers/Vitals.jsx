@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format } from 'date-fns';
-import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   updatePageTitle,
   usePrintTitle,
@@ -28,6 +27,9 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import RecordListSection from '../components/shared/RecordListSection';
+import DatePicker from '../components/shared/DatePicker';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -121,24 +123,11 @@ const Vitals = () => {
     updatePageTitle,
   );
 
-  const VITAL_TYPES = useMemo(
-    () => {
-      if (isAcceleratingVitals) {
-        return { ...vitalTypes };
-      }
-      // remove PAIN_SEVERITY from the list of vital types
-      const vitalTypesCopy = { ...vitalTypes };
-      delete vitalTypesCopy.PAIN_SEVERITY;
-      return vitalTypesCopy;
-    },
-    [isAcceleratingVitals],
-  );
-
   const PER_PAGE = useMemo(
     () => {
-      return Object.keys(VITAL_TYPES).length;
+      return Object.keys(vitalTypes).length;
     },
-    [VITAL_TYPES],
+    [vitalTypes],
   );
 
   useEffect(
@@ -146,7 +135,7 @@ const Vitals = () => {
       if (vitals?.length) {
         // create vital type cards based on the types of records present
         const firstOfEach = [];
-        for (const [key, types] of Object.entries(VITAL_TYPES)) {
+        for (const [key, types] of Object.entries(vitalTypes)) {
           const firstOfType = vitals.find(item => types.includes(item.type));
           if (firstOfType) firstOfEach.push(firstOfType);
           else firstOfEach.push({ type: key, noRecords: true });
@@ -154,7 +143,7 @@ const Vitals = () => {
         setCards(firstOfEach);
       }
     },
-    [vitals, VITAL_TYPES],
+    [vitals, vitalTypes],
   );
 
   const content = () => {
@@ -197,17 +186,20 @@ const Vitals = () => {
             <hr className="vads-u-margin-y--1 vads-u-padding-0" />
           </div>
         )}
-
-        <RecordList
-          records={cards}
-          type={recordType.VITALS}
-          perPage={PER_PAGE}
-          hidePagination
-          domainOptions={{
-            isAccelerating: isAcceleratingVitals,
-            timeFrame: acceleratedVitalsDate,
-          }}
-        />
+        {cards?.length ? (
+          <RecordList
+            records={cards}
+            type={recordType.VITALS}
+            perPage={PER_PAGE}
+            hidePagination
+            domainOptions={{
+              isAccelerating: isAcceleratingVitals,
+              timeFrame: acceleratedVitalsDate,
+            }}
+          />
+        ) : (
+          <NoRecordsMessage type={recordType.VITALS} />
+        )}
       </RecordListSection>
     );
   };
@@ -235,31 +227,6 @@ const Vitals = () => {
     });
   };
 
-  const datePicker = () => {
-    return (
-      <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <div style={{ flex: 'inherit' }}>
-          <VaDate
-            label="Choose a month and year"
-            name="vitals-date-picker"
-            monthYearOnly
-            onDateChange={updateDate}
-            value={acceleratedVitalsDate}
-            data-testid="date-picker"
-          />
-        </div>
-        <div className="vads-u-margin-top--2">
-          <va-button
-            text="Update time frame"
-            onClick={triggerApiUpdate}
-            disabled={isLoadingAcceleratedData}
-            data-testid="update-time-frame-button"
-          />
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div id="vitals">
       <PrintHeader />
@@ -277,7 +244,8 @@ const Vitals = () => {
 
       {isLoading && (
         <div className="vads-u-margin-y--8">
-          <va-loading-indicator
+          <TrackedSpinner
+            id="vitals-page-spinner"
             message="We’re loading your vitals."
             setFocus
             data-testid="loading-indicator"
@@ -286,11 +254,23 @@ const Vitals = () => {
       )}
       {!isLoading && (
         <>
-          {isAcceleratingVitals && datePicker()}
+          {isAcceleratingVitals && (
+            <>
+              <DatePicker
+                {...{
+                  updateDate,
+                  triggerApiUpdate,
+                  isLoadingAcceleratedData,
+                  dateValue: acceleratedVitalsDate,
+                }}
+              />
+            </>
+          )}
           {isLoadingAcceleratedData && (
             <>
               <div className="vads-u-margin-y--8">
-                <va-loading-indicator
+                <TrackedSpinner
+                  id="accelerated-vitals-page-spinner"
                   message="We’re loading your records."
                   setFocus
                   data-testid="loading-indicator"

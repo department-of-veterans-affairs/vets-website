@@ -2,7 +2,7 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
 import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
 
 /**
- * Web component v3 uiSchema for phone number
+ * uiSchema for a phone number - a single text input field
  *
  * ```js
  * examplePhone: phoneUI() // Phone number
@@ -45,14 +45,14 @@ const phoneUI = options => {
  * Web component v3 uiSchema for international phone number
  *
  * ```js
- * examplePhone: internationalPhoneUI() // Phone number
- * examplePhone: internationalPhoneUI('Cell phone number')
- * examplePhone: internationalPhoneUI({
+ * examplePhone: internationalPhoneDeprecatedUI() // Phone number
+ * examplePhone: internationalPhoneDeprecatedUI('Cell phone number')
+ * examplePhone: internationalPhoneDeprecatedUI({
  *   title: 'Cell phone number',
  *   hint: 'This is a hint'
  * })
  * examplePhone: {
- *  ...internationalPhoneUI('Main phone number')
+ *  ...internationalPhoneDeprecatedUI('Main phone number')
  * }
  * ```
  * @param {string | UIOptions & {
@@ -61,7 +61,7 @@ const phoneUI = options => {
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions}
  */
-const internationalPhoneUI = options => {
+const internationalPhoneDeprecatedUI = options => {
   const { title, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
@@ -90,9 +90,14 @@ const phoneSchema = {
 // The regex pattern allows starting with a plus sign
 // It allows up to 15 digits (max digits in an international phone number)
 // It allows optional dashes in between
-const internationalPhoneSchema = {
+const internationalPhoneDeprecatedSchema = {
   type: 'string',
   pattern: '^\\+?[0-9](?:-?[0-9]){0,14}$',
 };
 
-export { phoneUI, internationalPhoneUI, phoneSchema, internationalPhoneSchema };
+export {
+  phoneUI,
+  internationalPhoneDeprecatedUI,
+  phoneSchema,
+  internationalPhoneDeprecatedSchema,
+};

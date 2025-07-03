@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import {
-  EMPTY_FIELD,
+  FIELD_NONE_NOTED,
   imageRootUri,
   medicationsUrls,
+  NO_PROVIDER_NAME,
 } from '../../util/constants';
 import {
   dateFormat,
@@ -19,11 +20,15 @@ import {
   createBreadcrumbs,
   pharmacyPhoneNumber,
   sanitizeKramesHtmlStr,
+  hasCmopNdcNumber,
+  getRefillHistory,
+  getShowRefillHistory,
+  displayProviderName,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
   it("should return 'None noted' when no values are passed", () => {
-    expect(dateFormat()).to.equal(EMPTY_FIELD);
+    expect(dateFormat()).to.equal(FIELD_NONE_NOTED);
   });
   it('should return a formatted date', () => {
     expect(dateFormat('2023-10-26T20:18:00.000Z', 'MMMM D, YYYY')).to.equal(
@@ -45,7 +50,7 @@ describe('Validate Field function', () => {
   });
 
   it("should return 'None noted' when no values are passed", () => {
-    expect(validateField()).to.equal(EMPTY_FIELD);
+    expect(validateField()).to.equal(FIELD_NONE_NOTED);
   });
 
   it('should return 0', () => {
@@ -90,10 +95,10 @@ describe('processList function', () => {
     const result = processList(list);
     expect(result).to.eq('a');
   });
-  it('returns EMPTY_FIELD value if there are no items in the list', () => {
+  it('returns FIELD_NONE_NOTED value if there are no items in the list', () => {
     const list = [];
     const result = processList(list);
-    expect(result).to.eq(EMPTY_FIELD);
+    expect(result).to.eq(FIELD_NONE_NOTED);
   });
 });
 
@@ -153,13 +158,13 @@ describe('extractContainedResource', () => {
 describe('createNoDescriptionText', () => {
   it('should include a phone number if provided', () => {
     expect(createNoDescriptionText('555-111-5555')).to.eq(
-      'No description available. Call your pharmacy at 555-111-5555 if you need help identifying this medication.',
+      'No description available. If you need help identifying this medication, call your pharmacy at 555-111-5555.',
     );
   });
 
   it('should create a string even if no phone number provided', () => {
     expect(createNoDescriptionText()).to.eq(
-      'No description available. Call your pharmacy if you need help identifying this medication.',
+      'No description available. If you need help identifying this medication, call your pharmacy.',
     );
   });
 
@@ -415,6 +420,313 @@ describe('sanitizeKramesHtmlStr function', () => {
     const outputHtml = sanitizeKramesHtmlStr(inputHtml);
     expect(outputHtml).to.include(
       '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li><li>Item 1.1</li><p>Paragraph inside nested list</p></ul>',
+    );
+  });
+});
+
+describe('hasCmopNdcNumber function', () => {
+  it('should return true when at least one refill record has a cmopNdcNumber', () => {
+    const refillHistory = [
+      { cmopNdcNumber: null },
+      { cmopNdcNumber: '12345-6789-01' },
+      { cmopNdcNumber: null },
+    ];
+    expect(hasCmopNdcNumber(refillHistory)).to.equal(true);
+  });
+
+  it('should return false when no refill records have a cmopNdcNumber', () => {
+    const refillHistory = [
+      { cmopNdcNumber: null },
+      { cmopNdcNumber: '' },
+      { cmopNdcNumber: undefined },
+    ];
+    expect(hasCmopNdcNumber(refillHistory)).to.equal(false);
+  });
+
+  it('should return false when refill history is an empty array', () => {
+    const refillHistory = [];
+    expect(hasCmopNdcNumber(refillHistory)).to.equal(false);
+  });
+});
+
+describe('getShowRefillHistory function', () => {
+  it('should return false when refill history is an empty array', () => {
+    const refillHistory = [];
+    expect(getShowRefillHistory(refillHistory)).to.equal(false);
+  });
+
+  it('should return false when refill history is 1 element with dispensedDate undefined', () => {
+    const refillHistory = [{ dispensedDate: undefined }];
+    expect(getShowRefillHistory(refillHistory)).to.equal(false);
+  });
+
+  it('should return true when refill history is 1 element with dispensed date undefined', () => {
+    const refillHistory = [{ dispensedDate: '2023-08-04T04:00:00.000Z' }];
+    expect(getShowRefillHistory(refillHistory)).to.equal(true);
+  });
+
+  it('should return true when refill history is 2 elements', () => {
+    const refillHistory = [{}, {}];
+    expect(getShowRefillHistory(refillHistory)).to.equal(true);
+  });
+});
+
+describe('getRefillHistory function', () => {
+  it('should return an empty array when prescription is null', () => {
+    const result = getRefillHistory(null);
+    expect(result).to.deep.equal([]);
+  });
+
+  it('should return an array with only the original fill record when there are no rxRfRecords', () => {
+    const prescription = {
+      backImprint: 'back123',
+      cmopDivisionPhone: '123-456-7890',
+      cmopNdcNumber: '12345-6789-01',
+      color: 'white',
+      dialCmopDivisionPhone: '123-456-7890',
+      dispensedDate: '2023-01-01',
+      frontImprint: 'front123',
+      prescriptionId: '123456',
+      prescriptionName: 'Test Medication',
+      shape: 'round',
+    };
+
+    const result = getRefillHistory(prescription);
+    expect(result.length).to.equal(1);
+    expect(result[0]).to.deep.equal(prescription);
+  });
+
+  it('should return an array with rxRfRecords and the original fill record', () => {
+    const prescription = {
+      backImprint: 'back123',
+      cmopDivisionPhone: '123-456-7890',
+      cmopNdcNumber: '12345-6789-01',
+      color: 'white',
+      dialCmopDivisionPhone: '123-456-7890',
+      dispensedDate: '2023-01-01',
+      frontImprint: 'front123',
+      prescriptionId: '123456',
+      prescriptionName: 'Test Medication',
+      shape: 'round',
+      rxRfRecords: [
+        {
+          backImprint: 'back456',
+          cmopDivisionPhone: '234-567-8901',
+          cmopNdcNumber: '23456-7890-12',
+          dispensedDate: '2023-02-01',
+        },
+        {
+          backImprint: 'back789',
+          cmopDivisionPhone: '345-678-9012',
+          cmopNdcNumber: '34567-8901-23',
+          dispensedDate: '2023-03-01',
+        },
+      ],
+    };
+
+    const result = getRefillHistory(prescription);
+    expect(result.length).to.equal(3);
+    expect(result[0]).to.deep.equal(prescription.rxRfRecords[0]);
+    expect(result[1]).to.deep.equal(prescription.rxRfRecords[1]);
+
+    // Check that the original fill record is added as the last item
+    const originalFill = result[2];
+    expect(originalFill.backImprint).to.equal(prescription.backImprint);
+    expect(originalFill.cmopDivisionPhone).to.equal(
+      prescription.cmopDivisionPhone,
+    );
+    expect(originalFill.cmopNdcNumber).to.equal(prescription.cmopNdcNumber);
+    expect(originalFill.dispensedDate).to.equal(prescription.dispensedDate);
+  });
+
+  it('should handle prescription with empty rxRfRecords array and dispensed date', () => {
+    const prescription = {
+      backImprint: 'back123',
+      cmopNdcNumber: '12345-6789-01',
+      dispensedDate: '2023-01-01',
+      prescriptionId: '123456',
+      prescriptionName: 'Test Medication',
+      rxRfRecords: [],
+    };
+
+    const result = getRefillHistory(prescription);
+    expect(result.length).to.equal(1);
+    expect(result[0].prescriptionId).to.equal('123456');
+    expect(result[0].prescriptionName).to.equal('Test Medication');
+  });
+
+  it('should handle prescription with empty rxRfRecords array and no dispensed date', () => {
+    const prescription = {
+      backImprint: 'back123',
+      cmopNdcNumber: '12345-6789-01',
+      prescriptionId: '123456',
+      prescriptionName: 'Test Medication',
+      rxRfRecords: [],
+    };
+
+    const result = getRefillHistory(prescription);
+    expect(result.length).to.equal(0);
+  });
+});
+
+describe('pharmacyPhoneNumber function', () => {
+  const rx = {
+    cmopDivisionPhone: '4436366919',
+    dialCmopDivisionPhone: '1786366871',
+    rxRfRecords: [
+      {
+        cmopDivisionPhone: null,
+        dialCmopDivisionPhone: '',
+      },
+      {
+        cmopDivisionPhone: '(465)895-6578',
+        dialCmopDivisionPhone: '5436386958',
+      },
+    ],
+  };
+  it('should return a phone number when object passed has a phone for the cmopDivisionPhone field', () => {
+    expect(pharmacyPhoneNumber(rx)).to.equal('4436366919');
+  });
+  it('should return a phone number when object passed has a phone for the dialCmopDivisionPhone field', () => {
+    const newRxNoCmop = { ...rx, cmopDivisionPhone: null };
+    expect(pharmacyPhoneNumber(newRxNoCmop)).to.equal('1786366871');
+  });
+  it('should return a phone number when object passed only has a phone for the cmopDivisionPhone field inside of the rxRfRecords array', () => {
+    const newRxNoDialCmop = {
+      ...rx,
+      cmopDivisionPhone: null,
+      dialCmopDivisionPhone: null,
+    };
+    expect(pharmacyPhoneNumber(newRxNoDialCmop)).to.equal('(465)895-6578');
+  });
+  it('should return a phone number when object passed only has a phone for the dialCmopDivisionPhone field inside of the rxRfRecords array', () => {
+    const newRxNoCmopInRxRfRecord = {
+      ...rx,
+      cmopDivisionPhone: null,
+      dialCmopDivisionPhone: null,
+      rxRfRecords: [
+        {
+          cmopDivisionPhone: null,
+          dialCmopDivisionPhone: '',
+        },
+        {
+          cmopDivisionPhone: null,
+          dialCmopDivisionPhone: '5436386958',
+        },
+      ],
+    };
+    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal('5436386958');
+  });
+  it('should return null when object passed has no phone numbers for all the cmopDivisionPhone, dialCmopDivisionPhone fields', () => {
+    const newRxNoCmopInRxRfRecord = {
+      ...rx,
+      cmopDivisionPhone: null,
+      dialCmopDivisionPhone: null,
+      rxRfRecords: [
+        {
+          cmopDivisionPhone: null,
+          dialCmopDivisionPhone: '',
+        },
+        {
+          cmopDivisionPhone: null,
+          dialCmopDivisionPhone: null,
+        },
+      ],
+    };
+    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal(null);
+  });
+});
+
+describe('sanitizeKramesHtmlStr function', () => {
+  it('should remove <Page> tags', () => {
+    const inputHtml = '<Page>Page 1</Page>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.not.include('<Page>Page 1</Page>');
+  });
+
+  it('should convert h1 tags to h2 tags', () => {
+    const inputHtml = '<h1>Heading 1</h1>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include(
+      '<h2 id="Heading 1" tabindex="-1">Heading 1</h2>',
+    );
+  });
+
+  it('should convert h3 tags to paragraphs if followed by h2 tags', () => {
+    const inputHtml = '<h3>Subheading</h3><h2>Heading 2</h2>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include(
+      '<p>Subheading</p><h2 id="Heading 2" tabindex="-1">Heading 2</h2>',
+    );
+  });
+
+  it('should combine nested ul tags into one', () => {
+    const inputHtml = '<ul><ul><li>Item 1</li></ul></ul>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include('<ul><li>Item 1</li></ul>');
+  });
+
+  it('should convert plain text nodes to paragraphs', () => {
+    const inputHtml = 'Some plain text';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include('<p>Some plain text</p>');
+  });
+
+  it('should convert h2 tags to sentence case', () => {
+    const inputHtml = '<h2>THIS IS A HEADING</h2>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include(
+      '<h2 id="This is a heading" tabindex="-1">This is a heading</h2>',
+    );
+  });
+
+  it('should retain the capitalization of I in h2 tags', () => {
+    const inputHtml = '<h2>What SPECIAL PRECAUTIONS should I follow?</h2>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include(
+      '<h2 id="What special precautions should I follow?" tabindex="-1">What special precautions should I follow?</h2>',
+    );
+  });
+
+  it('should properly manage <p> tags inside of <ul> tags by restructuring the DOM', () => {
+    const inputHtml = `<ul>
+                        <li>Item 1</li>
+                        <p>Paragraph inside list</p>
+                        <li>Item 2</li>
+                      </ul>`;
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include(
+      '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li></ul>',
+    );
+  });
+
+  it('should properly manage <p> tags inside of nested <ul> tags by restructuring the DOM', () => {
+    const inputHtml = `<ul>
+                        <li>Item 1</li>
+                        <ul>
+                        <li>Item 1.1</li>
+                        <p>Paragraph inside nested list</p>
+                        </ul>
+                        <p>Paragraph inside list</p>
+                        <li>Item 2</li>
+                      </ul>`;
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include(
+      '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li><li>Item 1.1</li><p>Paragraph inside nested list</p></ul>',
+    );
+  });
+});
+
+describe('Provider name function', () => {
+  it('should return no provider available constant when no values are passed', () => {
+    expect(displayProviderName()).to.equal(NO_PROVIDER_NAME);
+  });
+
+  it('should return provider name "first last" format', () => {
+    const firstName = 'Tony';
+    const lastName = 'Stark';
+    expect(displayProviderName(firstName, lastName)).to.equal(
+      `${firstName} ${lastName}`,
     );
   });
 });

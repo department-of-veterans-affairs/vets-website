@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { setupServer } from 'msw/node';
-import { rest } from 'msw';
+import {
+  createGetHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import {
   VERIFY_VA_FILE_NUMBER_SUCCEEDED,
   VERIFY_VA_FILE_NUMBER_FAILED,
@@ -27,10 +30,10 @@ describe('Verify VA file number actions: verifyVaFileNumber', () => {
     };
 
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
-        (_, res, ctx) => {
-          return res(ctx.status(200), ctx.json(verified));
+        () => {
+          return jsonResponse(verified, { status: 200 });
         },
       ),
     );
@@ -57,10 +60,10 @@ describe('Verify VA file number actions: verifyVaFileNumber', () => {
       ],
     };
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
-        (_, res, ctx) => {
-          return res(ctx.status(401), ctx.json(response));
+        () => {
+          return jsonResponse(response, { status: 401 });
         },
       ),
     );

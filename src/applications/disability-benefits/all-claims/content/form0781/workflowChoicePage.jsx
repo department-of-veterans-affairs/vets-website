@@ -6,9 +6,11 @@ import {
   VaModal,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { scrollToFirstError, scrollTo } from 'platform/utilities/ui';
+import { scrollToFirstError, scrollTo } from 'platform/utilities/scroll';
 import { form0781HeadingTag, titleWithTag } from '../form0781';
 import { checkValidations } from '../../utils/submit';
+
+import { form0781WorkflowChoices } from './workflowChoices';
 
 export const workflowChoicePageTitle =
   'Option to add a statement in support of mental health conditions';
@@ -39,6 +41,18 @@ const conditionSelections = formData => {
     </div>
   );
 };
+
+export const form0781WorkflowChoiceDescription =
+  'Do you want to add a statement in support of mental health conditions?';
+
+export const form0781WorkflowChoiceLabels = Object.freeze({
+  [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]:
+    'Yes, and I want to answer the questions online.',
+  [form0781WorkflowChoices.SUBMIT_PAPER_FORM]:
+    'Yes, and I want to fill out a PDF to upload.',
+  [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]:
+    'No, I don’t want to add this form to my claim.',
+});
 
 export const workflowChoicePageDescription = formData => {
   return (
@@ -89,24 +103,6 @@ export const workflowChoicePageDescription = formData => {
     </>
   );
 };
-
-export const form0781WorkflowChoiceDescription =
-  'Do you want to add a statement in support of mental health conditions?';
-
-export const form0781WorkflowChoices = {
-  COMPLETE_ONLINE_FORM: 'optForOnlineForm0781',
-  SUBMIT_PAPER_FORM: 'optForPaperForm0781Upload',
-  OPT_OUT_OF_FORM0781: 'optOutOfForm0781',
-};
-
-export const form0781WorkflowChoiceLabels = Object.freeze({
-  [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]:
-    'Yes, and I want to answer the questions online.',
-  [form0781WorkflowChoices.SUBMIT_PAPER_FORM]:
-    'Yes, and I want to fill out a PDF to upload.',
-  [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]:
-    'No, I don’t want to add this form to my claim.',
-});
 
 export const traumaticEventsExamples = (
   <va-accordion open-single>
@@ -269,15 +265,13 @@ const confirmationCompleteOnline = {
 const modalDescriptionUpload = (
   <>
     <p>
-      <strong>What to know:</strong> If you choose to upload a PDF statement,
-      we’ll delete this information from your claim:
+      If you choose to upload a PDF statement, we’ll delete this information
+      from your claim:
     </p>
     <p>
       <ul>
         {sectionsOfMentalHealthStatement.map((section, i) => (
-          <li key={i}>
-            <b>{section}</b>
-          </li>
+          <li key={i}>{section}</li>
         ))}
       </ul>
     </p>
@@ -287,8 +281,8 @@ const modalDescriptionUpload = (
 const modalDescriptionSkip = (
   <>
     <p>
-      <strong>What to know:</strong> If you choose to delete this statement,
-      we’ll delete this information from your claim:
+      If you choose to delete this statement, we’ll delete this information from
+      your claim:
     </p>
     <ul>
       {sectionsOfMentalHealthStatement.map((section, i) => (
@@ -304,8 +298,8 @@ const modalDescriptionOnline = formData => {
   return (
     <>
       <p>
-        <strong>What to know:</strong> If you choose to answer questions online,
-        we’ll delete this PDF you uploaded:
+        If you choose to answer questions online, we’ll delete this PDF you
+        uploaded:
       </p>
       <p>
         <ul>
@@ -415,6 +409,12 @@ const WorkflowChoicePage = props => {
         goForward(data);
       }
     },
+
+    /**
+     * TODO: tech-debt(react-hooks/exhaustive-deps): Validate this rule exception is needed and why
+     * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110539
+     */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [data?.mentalHealthWorkflowChoice, shouldGoForward],
   );
 
@@ -656,6 +656,11 @@ const WorkflowChoicePage = props => {
         </VaModal>
       </fieldset>
       {onReviewPage ? (
+        /**
+         * Does not use web component for design consistency on all pages.
+         * @see https://github.com/department-of-veterans-affairs/vets-website/pull/35911
+         */
+        // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
         <button
           className="usa-button-primary"
           type="button"

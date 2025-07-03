@@ -26,12 +26,12 @@ const config = {
       size: 20,
     },
     H2: {
-      font: 'SourceSansPro-Bold',
+      font: 'Bitter-Bold',
       size: 13,
     },
   },
   paragraph: {
-    font: 'SourceSansPro-Regular',
+    font: 'Bitter-Regular',
     size: 16,
   },
   text: {
@@ -105,7 +105,9 @@ const generate = async data => {
     doc,
     'H1',
     config,
-    'Proof of Veteran status card',
+    data.vetStatusCardToggle
+      ? 'Veteran Status Card'
+      : 'Proof of Veteran status card',
     {
       x: doc.page.margins.left,
       paragraphGap: 10,
@@ -120,7 +122,9 @@ const generate = async data => {
         .font(config.paragraph.font)
         .fontSize(config.paragraph.size)
         .text(
-          'You can use your Veteran status card to get discounts at stores, businesses, and restaurants.',
+          data.vetStatusCardToggle
+            ? 'This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure.'
+            : 'You can use your Veteran status card to get discounts at stores, businesses, and restaurants.',
           doc.page.margins.left,
           doc.y,
           {
@@ -163,7 +167,9 @@ const generate = async data => {
       .font(config.headings.H2.font)
       .fontSize(config.headings.H2.size)
       .text(
-        'Proof of Veteran Status',
+        data.vetStatusCardToggle
+          ? 'Veteran Status Card'
+          : 'Proof of Veteran Status',
         doc.page.margins.left + cardPadding,
         doc.y,
       );
@@ -228,7 +234,9 @@ const generate = async data => {
     {
       heading: 'VA disability rating',
       content: `${data.details.totalDisabilityRating?.toString()}%`,
-      condition: data.details.totalDisabilityRating,
+      condition:
+        data.details.totalDisabilityRating != null &&
+        data.details.totalDisabilityRating >= 0,
     },
   ];
   infoItems2.forEach(item => {

@@ -1,13 +1,12 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
-import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
 import classNames from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
 
 import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
@@ -22,12 +21,9 @@ import {
   getFocusableElements,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { Element } from 'platform/utilities/scroll';
-
 import { removeDuplicatesByChapterAndPageKey } from '../utils/reviewPageHelper';
 import ArrayField from './ArrayField';
 
-const { scroller } = Scroll;
 const scrollOffset = -40;
 
 /*
@@ -405,10 +401,7 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   scrollToPage = key => {
-    scroller.scrollTo(
-      `${key}ScrollElement`,
-      getScrollOptions({ offset: scrollOffset }),
-    );
+    scrollTo(`${key}ScrollElement`, getScrollOptions({ offset: scrollOffset }));
   };
 
   render() {

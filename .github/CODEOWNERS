@@ -22,7 +22,7 @@
 src/platform/forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/_mock-form @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/simple-forms @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/static-pages/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 script/component-migration @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/ds-playground @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -237,12 +237,12 @@ src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe @department-of
 
 # Benefits Accredited Representative Facing (ARF)
 src/applications/accredited-representative-portal @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/accreditation @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/representative-form-upload @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Accredited Representation Management (ARM)
 src/applications/representative-appoint @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/representative-search @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/accreditation @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Income and Asset Statement
 src/applications/income-and-asset-statement @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend

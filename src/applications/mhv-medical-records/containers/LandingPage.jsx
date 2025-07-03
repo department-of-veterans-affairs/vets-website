@@ -60,14 +60,12 @@ const LandingPage = () => {
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
   );
-  const SMHDL = useSelector(
-    state =>
-      state.featureToggles.mhv_landing_page_show_share_my_health_data_link,
-  );
 
   const { isLoading } = useAcceleratedData();
 
   const accordionRef = useRef(null);
+
+  const headingRef = useRef(null);
 
   useEffect(() => {
     const expandButton = accordionRef.current?.shadowRoot?.querySelector(
@@ -90,9 +88,19 @@ const LandingPage = () => {
 
   useEffect(
     () => {
+      setTimeout(() => {
+        const heading = headingRef.current;
+        focusElement(heading);
+      }, 400);
+    },
+    [headingRef],
+  );
+
+  useEffect(
+    () => {
       // Create the user's MHV session when they arrive at the MR landing page
       createSession();
-      focusElement(document.querySelector('h1'));
+
       updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
     },
     [dispatch],
@@ -112,6 +120,7 @@ const LandingPage = () => {
     <div className="landing-page">
       <section className="vads-u-margin-bottom--2">
         <h1
+          ref={headingRef}
           className="vads-u-margin-top--0 vads-u-margin-bottom--1"
           data-testid="mr-landing-page-title"
         >
@@ -386,31 +395,29 @@ const LandingPage = () => {
                   {MEDICAL_RECORDS_SETTINGS_LABEL}
                 </Link>
               </section>
-              {SMHDL && (
-                <section className="vads-u-padding-bottom--3">
-                  <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                    Share personal health data with your care team
-                  </h2>
-                  <p className="vads-u-margin-bottom--2">
-                    You can share your personal health data with your care team
-                    using the Share My Health Data website.
-                  </p>
-                  <va-link
-                    href={
-                      environment.isProduction()
-                        ? 'https://veteran.apps.va.gov/smhdWeb'
-                        : 'https://veteran.apps-staging.va.gov/smhdWeb'
-                    }
-                    text={SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
-                    data-testid="health-data-landing-page-link"
-                    onClick={() => {
-                      sendDataDogAction(
-                        SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM,
-                      );
-                    }}
-                  />
-                </section>
-              )}
+              <section className="vads-u-padding-bottom--3">
+                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                  Share personal health data with your care team
+                </h2>
+                <p className="vads-u-margin-bottom--2">
+                  You can share your personal health data with your care team
+                  using the Share My Health Data website.
+                </p>
+                <va-link
+                  href={
+                    environment.isProduction()
+                      ? 'https://veteran.apps.va.gov/smhdWeb'
+                      : 'https://veteran.apps-staging.va.gov/smhdWeb'
+                  }
+                  text={SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
+                  data-testid="health-data-landing-page-link"
+                  onClick={() => {
+                    sendDataDogAction(
+                      SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM,
+                    );
+                  }}
+                />
+              </section>
             </>
           )}
 

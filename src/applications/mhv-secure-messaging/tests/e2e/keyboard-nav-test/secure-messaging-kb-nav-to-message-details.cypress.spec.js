@@ -16,9 +16,7 @@ describe('Navigate to Message Details ', () => {
     GeneralFunctionsPage.verifyHeaderFocused();
   });
 
-  // skipping due to a recently introduced defect with va-accordion-item handling Enter press
-  // https://dsva.slack.com/archives/C01DBGX4P45/p1747401744127239
-  it.skip('keyboard navigation to expand messages', () => {
+  it('keyboard navigation to expand messages', () => {
     PatientMessageDetailsPage.verifyMessageExpandAndFocusByKeyboard();
 
     cy.injectAxe();

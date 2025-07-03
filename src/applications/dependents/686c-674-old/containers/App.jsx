@@ -1,4 +1,6 @@
 import React from 'react';
+// import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
+// import fromUnixTime from 'date-fns/fromUnixTime';
 import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from '~/platform/utilities/real-user-monitoring';
@@ -6,6 +8,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
+import { getShouldUseV2 } from '../../686c-674/utils/redirect';
 
 function App({
   location,
@@ -14,6 +17,7 @@ function App({
   isLoading,
   vaFileNumber,
   featureToggles,
+  savedForms,
 }) {
   const { TOGGLE_NAMES } = useFeatureToggle();
   useBrowserMonitoring({
@@ -29,9 +33,25 @@ function App({
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  if (featureToggles.vaDependentsV2) {
+  const flipperV2 = featureToggles.vaDependentsV2;
+
+  // TODO: Enable after 100% release
+  // const v1Form = savedForms?.find(
+  //   form => form?.form === VA_FORM_IDS.FORM_21_686C,
+  // );
+
+  // const calendarDays = differenceInCalendarDays(
+  //   new Date(),
+  //   fromUnixTime(v1Form?.metadata?.createdAt),
+  // );
+
+  // const isGreaterThan60Days = calendarDays >= 60;
+
+  // (flipperV2 && hasV1Form && isGreaterThan60Days);
+
+  if (getShouldUseV2(flipperV2, savedForms)) {
     window.location.href =
-      '/view-change-dependents/add-remove-form-21-686c-v2/';
+      '/view-change-dependents/add-remove-form-21-686c-674/';
     return <></>;
   }
 

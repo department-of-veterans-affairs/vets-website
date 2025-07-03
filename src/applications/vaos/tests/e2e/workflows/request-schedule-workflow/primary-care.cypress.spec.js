@@ -1,6 +1,9 @@
 // @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
-import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
@@ -28,8 +31,9 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 
-const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
-const { cceType } = getTypeOfCareById(PRIMARY_CARE);
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.PRIMARY_CARE,
+);
 
 describe('VAOS request schedule flow - Primary care', () => {
   beforeEach(() => {
@@ -39,7 +43,8 @@ describe('VAOS request schedule flow - Primary care', () => {
       id: 'mock1',
       localStartTime: new Date(),
       status: APPOINTMENT_STATUS.proposed,
-    });
+      pending: true,
+    }).setType('REQUEST');
     mockAppointmentGetApi({
       response,
     });
