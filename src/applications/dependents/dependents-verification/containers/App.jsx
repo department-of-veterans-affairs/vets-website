@@ -5,14 +5,20 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import NoFormPage from '../components/NoFormPage';
+import manifest from '../manifest.json';
 
 export default function App({ location, children }) {
   const featureToggle = useSelector(
     state => state?.featureToggles?.vaDependentsVerification,
   );
+  const loading = useSelector(state => state?.externalServiceStatus?.loading);
+  const hasSession = JSON.parse(localStorage.getItem('hasSession'));
 
   const breadcrumbs = [
-    { href: '/', label: 'Home' },
+    {
+      href: '/',
+      label: 'Home',
+    },
     {
       href: '/view-change-dependents',
       label: 'Manage dependents',
@@ -23,6 +29,7 @@ export default function App({ location, children }) {
       label: 'Verify your dependents for disability benefits',
     },
   ];
+
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
 
   const content = featureToggle ? (
@@ -32,6 +39,22 @@ export default function App({ location, children }) {
   ) : (
     <NoFormPage />
   );
+
+  // Handle loading
+  if (loading) {
+    return <va-loading-indicator message="Loading your information..." />;
+  }
+
+  // If on intro page, just return content
+  if (location?.pathname === '/introduction') {
+    return content;
+  }
+
+  // If session is missing and path requires it, redirect
+  if (!hasSession && location?.pathname?.includes('/introduction')) {
+    window.location.replace(`${manifest.rootUrl}/introduction`);
+    return <va-loading-indicator message="Loading your information..." />;
+  }
 
   return (
     <article>
