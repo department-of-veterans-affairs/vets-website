@@ -17,7 +17,6 @@ import sinon from 'sinon';
 import metaWithoutFailures from '../../services/mocks/v2/meta.json';
 import metaWithFailures from '../../services/mocks/v2/meta_failures.json';
 import MockAppointmentResponse from '../fixtures/MockAppointmentResponse';
-import { DATE_FORMATS } from '../../utils/constants';
 
 /**
  * Return a collection of start and end dates. The start date starts from the current
@@ -518,10 +517,8 @@ export function mockAppointmentSlotApi({
     `${
       environment.API_URL
     }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
-    `start=${encodeURIComponent(
-      format(start, DATE_FORMATS.ISODateTimeLocal),
-    )}` +
-    `&end=${encodeURIComponent(format(end, DATE_FORMATS.ISODateTimeLocal))}`;
+    `start=${encodeURIComponent(start.toISOString())}` +
+    `&end=${encodeURIComponent(end.toISOString())}`;
 
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
