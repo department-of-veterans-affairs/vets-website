@@ -410,16 +410,6 @@ export const findBlockedFacilities = recipients => {
   return { fullyBlockedFacilities, allFacilities };
 };
 
-export const getStationNumberFromRecipientId = (recipientId, recipients) => {
-  const recipient = recipients.find(item => item.triageTeamId === recipientId);
-  return recipient?.stationNumber || null;
-};
-
-export const findActiveDraftFacility = (facilityId, facilitiesArray) => {
-  const facility = facilitiesArray.find(item => item.vhaId === facilityId);
-  return facility || null;
-};
-
 export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };

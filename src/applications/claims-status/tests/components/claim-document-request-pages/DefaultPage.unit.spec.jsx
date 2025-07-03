@@ -71,8 +71,11 @@ describe('<DefaultPage>', () => {
       expect($('#default-page', container)).to.exist;
       expect($('.add-files-form', container)).to.exist;
       getByText(`Respond by ${formatDate(item.suspenseDate)}`);
-      getByText('What we need from you');
-      getByText('Learn about this request in your claim letter');
+      getByText('What we need from you', { selector: 'h2' });
+      getByText('To respond to this request:');
+      getByText(
+        'If you need help understanding this request, check your claim letter online.',
+      );
       expect($('va-link', container)).to.exist;
       expect($('.optional-upload', container)).to.not.exist;
       getByText('Submit buddy statement(s)');
