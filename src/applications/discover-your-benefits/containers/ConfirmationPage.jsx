@@ -492,7 +492,6 @@ function mapStateToProps(state) {
   return {
     form: state.form,
     results: state.results,
-    data: state.form.data,
   };
 }
 
