@@ -10,7 +10,11 @@ const {
   createFailurePayment,
 } = require('./payment-history');
 const { createAppealsSuccess } = require('./appeals');
-const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
+const {
+  createDebtsSuccess,
+  createNoDebtsSuccess,
+  createDebtsFailure,
+} = require('./debts');
 const { createClaimsSuccess } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createApplications } = require('./benefit-applications');
@@ -24,9 +28,6 @@ const { v2 } = require('./appointments');
 const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
 const { boot } = require('../../common/mocks/script/utils');
 const { delaySingleResponse } = require('../../profile/mocks/script/utils');
-
-// set to true to simulate a user with debts for /v0/debts endpoint
-const hasDebts = false;
 
 /* eslint-disable camelcase */
 const responses = {
@@ -121,7 +122,19 @@ const responses = {
       suffix: null,
     },
   },
-  'GET /v0/debts': hasDebts ? createDebtsSuccess() : createNoDebtsSuccess(),
+  'GET /v0/debts': (req, res) => {
+    const debtStatus = 'success';
+    switch (debtStatus) {
+      case 'success':
+        return res.status(200).json(createDebtsSuccess());
+      case 'empty':
+        return res.status(200).json(createNoDebtsSuccess());
+      case 'failure':
+        return res.status(500).json(createDebtsFailure());
+      default:
+        return res.status(200).json('');
+    }
+  },
   'GET /v0/onsite_notifications': notifications.hasMultiple,
   // TODO: put id into a constant file when we get more notification types
   'PATCH /v0/onsite_notifications/:id': (req, res) => {

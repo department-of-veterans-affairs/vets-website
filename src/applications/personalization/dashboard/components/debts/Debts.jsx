@@ -120,12 +120,12 @@ const BenefitPaymentsAndDebt = ({
   useEffect(
     () => {
       if (!showGenericDebtCard) {
-        getDebts(true);
+        getDebts(!myVaAuthExpRedesignEnabled);
       }
 
       getCopays();
     },
-    [getDebts, getCopays, showGenericDebtCard],
+    [getDebts, getCopays, showGenericDebtCard, myVaAuthExpRedesignEnabled],
   );
 
   const totalDebtsCount = debts?.length || debtsCount || 0;
