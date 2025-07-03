@@ -15,7 +15,9 @@ const defaultProfile = ({
   hasEmail = true,
 } = {}) => ({
   vapContactInfo: {
-    email: hasEmail ? 'vet@example.com' : '',
+    email: {
+      emailAddress: hasEmail ? 'vet@example.com' : '',
+    },
     mailingAddress: hasAddress
       ? {
           addressType: 'DOMESTIC',
