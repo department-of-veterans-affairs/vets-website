@@ -48,7 +48,7 @@ function setUserDataAndAdvanceToHouseholdSection(user, prefillData) {
   cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
     'mockFeatures',
   );
-  cy.intercept('GET', `/v0/health_care_applications/enrollment_status*`, {
+  cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
     statusCode: 200,
     body: MOCK_ENROLLMENT_RESPONSE,
   }).as('mockEnrollmentStatus');
