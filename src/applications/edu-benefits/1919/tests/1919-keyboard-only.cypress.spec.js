@@ -18,6 +18,15 @@ describe('22-1919 Edu form', () => {
 
     // Tab to and press 'Start your form without signing in' to go to the introduction page
     cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      'Conflicting interests certification for proprietary schools',
+    );
+    cy.realPress('Tab');
+    cy.focused().should(
+      'contain.text',
+      'search the SAA contact directory (opens in a new tab)',
+    );
     cy.tabToElement('[class="schemaform-start-button"]');
     cy.realPress('Enter');
 
@@ -28,6 +37,7 @@ describe('22-1919 Edu form', () => {
         .path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should('contain.text', 'Your name and role');
     cy.tabToElement('input[name="root_certifyingOfficial_first"]');
     cy.typeInFocused('John');
     cy.tabToElement('input[name="root_certifyingOfficial_last"]');
@@ -236,6 +246,8 @@ describe('22-1919 Edu form', () => {
     // Review and sumbit page
     cy.url().should('include', 'review-and-submit');
     cy.injectAxeThenAxeCheck();
+    cy.tabToElement('va-link[text="privacy policy"]').click();
+    cy.realPress('Enter');
     // Certification Statement
     cy.tabToElement('input[name="veteran-signature"]');
     cy.realType('John Doe');
@@ -247,6 +259,10 @@ describe('22-1919 Edu form', () => {
       '/confirmation',
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      'To submit your form, follow the steps below',
+    );
     // Go back to review page and check that "Continue" button is present to allow re-submission
     cy.get('va-link[text="Back"]').click();
     cy.location('pathname').should('include', '/review-and-submit');
