@@ -26,9 +26,11 @@ describe('hca `submitTransformer` utility', () => {
       loadedData: { formData: {} },
     };
   };
+  let recordEventStub;
   let mockLogger;
 
   beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
     mockLogger = { error: sinon.spy() };
 
     Object.defineProperty(window, 'DD_LOGS', {
@@ -38,6 +40,7 @@ describe('hca `submitTransformer` utility', () => {
   });
 
   afterEach(() => {
+    sinon.restore();
     mockLogger.error.resetHistory();
   });
 
@@ -133,8 +136,6 @@ describe('hca `submitTransformer` utility', () => {
   });
 
   it('should fire `recordEvent` method with correct event data when `lastDischargeDate` is after today', async () => {
-    const recordEventStub = sinon.stub(recordEventModule, 'default');
-    const eventData = { event: 'hca-future-discharge-date-submission' };
     const futureDischargeDate = add(new Date(), { months: 6 });
     const testData = {
       ...minTestData,
@@ -144,8 +145,23 @@ describe('hca `submitTransformer` utility', () => {
 
     await waitFor(() => {
       submitTransformer(formConfig, form);
-      expect(recordEventStub.calledWith(eventData)).to.be.true;
-      recordEventStub.restore();
+      sinon.assert.calledWithExactly(recordEventStub, {
+        event: 'hca-future-discharge-date-submission',
+      });
+    });
+  });
+
+  it('should not fire `recordEvent` method when `disableAnalytics` prop is set to `true`', async () => {
+    const futureDischargeDate = add(new Date(), { months: 6 });
+    const testData = {
+      ...minTestData,
+      lastDischargeDate: format(futureDischargeDate, 'yyyy-MM-dd'),
+    };
+    const form = getForm({ formData: testData });
+
+    await waitFor(() => {
+      submitTransformer(formConfig, form, true);
+      sinon.assert.notCalled(recordEventStub);
     });
   });
 
@@ -160,17 +176,15 @@ describe('hca `submitTransformer` utility', () => {
     const form = getForm({ formData: minTestData });
     const result = submitTransformer(formConfig, form);
     expect(result).to.equal('{}');
-    sinon.restore();
   });
 
   it('should call `logErrorToDatadog` if `stringifyFormReplacer` produces an error', () => {
-    const stub = sinon
+    sinon
       .stub(helpers, 'stringifyFormReplacer')
       .throws(new Error('stringify failed'));
     const form = getForm({ formData: minTestData });
     const result = submitTransformer(formConfig, form);
     expect(result).to.equal('{}');
     sinon.assert.calledOnce(mockLogger.error);
-    stub.restore();
   });
 });
