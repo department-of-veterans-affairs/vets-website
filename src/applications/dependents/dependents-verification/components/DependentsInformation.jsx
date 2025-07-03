@@ -99,7 +99,7 @@ export const DependentsInformation = ({
                         <strong>Note:</strong> If no other action is taken, this
                         dependent will be removed automatically when they turn
                         18, which may reduce the amount you receive each month.
-                        Ifthis child is continuing education, they need to be
+                        If this child is continuing education, they need to be
                         added back to your benefits.{' '}
                         <va-link
                           href="/exit-form"
