@@ -1,29 +1,34 @@
 import React from 'react';
-import { waitFor } from '@testing-library/react';
+import { waitFor, render } from '@testing-library/react';
 import { expect } from 'chai';
-import { renderProviderWrappedComponent } from '../../../helpers';
+import { Provider } from 'react-redux';
 
 import SubmissionErrorAlert from '../../../../components/FormAlerts/SubmissionErrorAlert';
 import content from '../../../../locales/en/content.json';
 
 describe('ezr <SubmissionErrorAlert>', () => {
-  const storeData = (featureToggle = {}) => ({
-    form: {
-      data: {
-        /*
-        We need to have all of the necessary data to supply to the submitTransformer
-        as well as the data that is used to render the component
-        */
-        veteranDateOfBirth: '1990-01-01',
-        gender: 'M',
-        ...featureToggle,
-      },
-    },
-  });
   const subject = (featureToggle = {}) => {
-    const { container } = renderProviderWrappedComponent(
-      storeData(featureToggle),
-      <SubmissionErrorAlert />,
+    const mockStore = {
+      getState: () => ({
+        form: {
+          data: {
+            /*
+            We need to have all of the necessary data to supply to the submitTransformer
+            as well as the data that is used to render the component
+            */
+            veteranDateOfBirth: '1990-01-01',
+            gender: 'M',
+            ...featureToggle,
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const { container } = render(
+      <Provider store={mockStore}>
+        <SubmissionErrorAlert />
+      </Provider>,
     );
     const selectors = () => ({
       errorMessage: container.querySelector('.ezr-error-message'),

@@ -14,13 +14,9 @@ describe('ezr VeteranAnnualIncomePage config', () => {
     ...formConfig.defaultDefinitions,
   };
   const mockStoreData = {
-    form: {
-      data: {
-        'view:householdEnabled': true,
-        'view:isProvidersAndDependentsPrefillEnabled': true,
-        nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
-      },
-    },
+    'view:householdEnabled': true,
+    'view:isProvidersAndDependentsPrefillEnabled': true,
+    nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
   };
 
   it('should render', () => {

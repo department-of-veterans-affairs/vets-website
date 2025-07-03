@@ -19,11 +19,7 @@ export const testNumberOfFields = (
   describe(`${pageTitle} page`, () => {
     it('should have appropriate number of fields', async () => {
       const { container } = renderProviderWrappedComponent(
-        {
-          form: {
-            data: {},
-          },
-        },
+        {},
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
           schema={schema}
@@ -53,11 +49,7 @@ export const testNumberOfErrorsOnSubmit = (
   describe(`${pageTitle} page`, () => {
     it('should show the correct number of errors on submit', async () => {
       const { getByRole, queryAllByRole } = renderProviderWrappedComponent(
-        {
-          form: {
-            data: {},
-          },
-        },
+        {},
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
           schema={schema}

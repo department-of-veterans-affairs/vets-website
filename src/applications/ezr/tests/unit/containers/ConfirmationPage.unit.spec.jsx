@@ -1,44 +1,48 @@
 import React from 'react';
 import { expect } from 'chai';
 import { utcToZonedTime } from 'date-fns-tz';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import content from '../../../locales/en/content.json';
-import { renderProviderWrappedComponent } from '../../helpers';
 
 describe('ezr ConfirmationPage', () => {
-  const subject = (response = undefined, storeData = {}) => {
-    const defaultStoreData = {
-      form: {
-        data: {
-          'view:veteranInformation': {
-            veteranFullName: {
+  const subject = (response = undefined) => {
+    const mockStore = {
+      getState: () => ({
+        form: {
+          data: {
+            'view:veteranInformation': {
+              veteranFullName: {
+                first: 'John',
+                middle: 'David',
+                last: 'Smith',
+              },
+              veteranDateOfBirth: '1990-01-01',
+              gender: 'M',
+            },
+          },
+          submission: {
+            response,
+          },
+        },
+        user: {
+          profile: {
+            userFullName: {
               first: 'John',
               middle: 'David',
               last: 'Smith',
             },
-            veteranDateOfBirth: '1990-01-01',
-            gender: 'M',
-            'view:isDownloadPdfEnabled': true,
           },
         },
-        submission: {
-          response,
-        },
-      },
-      user: {
-        profile: {
-          userFullName: {
-            first: 'John',
-            middle: 'David',
-            last: 'Smith',
-          },
-        },
-      },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
     };
-
-    const { container } = renderProviderWrappedComponent(
-      { ...defaultStoreData, ...storeData },
-      <ConfirmationPage />,
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage />
+      </Provider>,
     );
     const selectors = () => ({
       page: container.querySelector('.ezr-confirmation-page'),

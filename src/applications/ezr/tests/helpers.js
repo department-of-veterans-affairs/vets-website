@@ -62,7 +62,11 @@ export const expectStateInputToBeRequired = (
 
 export const setMockStoreData = data => ({
   mockStore: {
-    getState: () => data,
+    getState: () => ({
+      form: {
+        data,
+      },
+    }),
     subscribe: () => {},
     dispatch: () => {},
   },

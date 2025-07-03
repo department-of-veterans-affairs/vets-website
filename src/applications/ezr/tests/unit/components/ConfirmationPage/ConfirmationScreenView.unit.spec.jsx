@@ -1,11 +1,10 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
+import { Provider } from 'react-redux';
 import ConfirmationScreenView from '../../../../components/ConfirmationPage/ConfirmationScreenView';
 import { normalizeFullName } from '../../../../utils/helpers/general';
-import { renderProviderWrappedComponent } from '../../../helpers';
 import content from '../../../../locales/en/content.json';
 
 describe('ezr <ConfirmationScreenView>', () => {
@@ -24,19 +23,24 @@ describe('ezr <ConfirmationScreenView>', () => {
       },
       timestamp,
     };
-    const storeData = {
-      form: {
-        data: {
-          'view:veteranInformation': {
-            veteranFullName: { first: 'John', last: 'Smith' },
+    const mockStore = {
+      getState: () => ({
+        form: {
+          data: {
+            'view:veteranInformation': {
+              veteranFullName: { first: 'John', last: 'Smith' },
+            },
+            ...additionalData,
           },
-          ...additionalData,
         },
-      },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
     };
-    const { container } = renderProviderWrappedComponent(
-      storeData,
-      <ConfirmationScreenView {...props} />,
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationScreenView {...props} />
+      </Provider>,
     );
     const selectors = () => ({
       subtitles: container.querySelectorAll('h2, h3'),
