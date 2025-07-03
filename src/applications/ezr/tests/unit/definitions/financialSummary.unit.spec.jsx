@@ -23,9 +23,13 @@ describe('ezr FinancialSummaryPage config', () => {
 
   it('should render', () => {
     const mockStoreData = {
-      'view:householdEnabled': true,
-      'view:isProvidersAndDependentsPrefillEnabled': true,
-      nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
+      form: {
+        data: {
+          'view:householdEnabled': true,
+          'view:isProvidersAndDependentsPrefillEnabled': true,
+          nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
+        },
+      },
     };
     const { container } = renderProviderWrappedComponent(
       mockStoreData,
