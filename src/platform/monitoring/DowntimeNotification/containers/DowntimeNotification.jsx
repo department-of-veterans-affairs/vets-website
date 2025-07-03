@@ -91,7 +91,9 @@ class DowntimeNotification extends React.Component {
     if (!this.props.isReady) {
       return (
         this.props.loadingIndicator || (
-          <LoadingIndicatorFullPage message={this.props.loaderMessage} />
+          <LoadingIndicatorFullPage
+            message={this.props.loaderMessage ?? 'Loading your information...'}
+          />
         )
       );
     }

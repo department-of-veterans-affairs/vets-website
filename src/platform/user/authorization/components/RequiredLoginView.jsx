@@ -82,9 +82,7 @@ export const RequiredLoginView = props => {
 
   const renderVerifiedContent = () => {
     if (shouldVerify()) {
-      return (
-        <va-loading-indicator set-focus message="Redirecting to verify..." />
-      );
+      return <LoadingIndicatorFullPage message="Redirecting to verify..." />;
     }
 
     const { serviceRequired } = props;
@@ -162,13 +160,17 @@ export const RequiredLoginView = props => {
     }
 
     if (user.profile.loading) {
-      return <LoadingIndicatorFullPage message={loaderMessage} />;
+      return (
+        <LoadingIndicatorFullPage
+          message={loaderMessage ?? 'Loading your information...'}
+        />
+      );
     }
 
     if (shouldSignIn()) {
       return (
         <div className="vads-u-margin-y--5" data-testid="redirect-to-login">
-          <va-loading-indicator set-focus message="Redirecting to login..." />;
+          <LoadingIndicatorFullPage message="Redirecting to login..." />
         </div>
       );
     }
