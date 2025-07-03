@@ -1,3 +1,4 @@
+/* eslint-disable cypress/unsafe-to-chain-command */
 import maximalData from './fixtures/data/maximal-test.json';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -28,6 +29,10 @@ describe('22-8794 EDU Form', () => {
     // Navigate to the Introduction Page
     cy.visit(manifest.rootUrl);
     cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      'Update your institution’s list of certifying officials',
+    );
     // Tab to and press 'Start your form without signing in'
     cy.repeatKey('Tab', 3);
     cy.realPress(['Enter']);
@@ -39,6 +44,7 @@ describe('22-8794 EDU Form', () => {
         .path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should('contain.text', 'Your information');
     cy.realPress('Tab');
     cy.typeInFocused(designatingOfficial.fullName.first);
     cy.realPress('Tab');
@@ -69,6 +75,7 @@ describe('22-8794 EDU Form', () => {
         .path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should('contain.text', 'VA facility code');
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
@@ -87,6 +94,7 @@ describe('22-8794 EDU Form', () => {
         .institutionDetailsFacility.path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should('contain.text', 'Please enter your VA facility code');
     cy.realPress('Tab');
     cy.typeInFocused(maximalData.data.institutionDetails.facilityCode);
     cy.tabToContinueForm();
@@ -98,6 +106,10 @@ describe('22-8794 EDU Form', () => {
         .path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      'Tell us about your primary certifying official',
+    );
     cy.realPress('Tab');
     cy.typeInFocused(maximalData.data.primaryOfficialDetails.fullName.first);
     cy.realPress('Tab');
@@ -128,20 +140,17 @@ describe('22-8794 EDU Form', () => {
         .path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should('contain.text', 'Section 305 training');
     cy.realPress('Tab');
-    cy.get('va-link')
-      .first()
-      .shadow()
-      .get('a')
-      .should('contain.text', "Go to this page to find out what's required");
+    cy.focused().should(
+      'contain.text',
+      "Go to this page to find out what's required",
+    );
     cy.repeatKey('Tab', 4);
-    cy.get('div.info')
-      .first()
-      .get('a')
-      .should(
-        'contain.text',
-        'Get more information about covered institutions.',
-      );
+    cy.focused().should(
+      'contain.text',
+      'Get more information about covered institutions',
+    );
     cy.realPress('Tab');
     cy.allyEvaluateCheckboxes(['input[type="checkbox"]']);
     cy.setCheckboxFromData('input#checkbox-element', true);
@@ -154,6 +163,7 @@ describe('22-8794 EDU Form', () => {
         .primaryOfficialBenefitStatus.path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should('contain.text', 'VA benefit status');
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
@@ -195,6 +205,10 @@ describe('22-8794 EDU Form', () => {
       }/0`,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      'Tell us about your certifying official',
+    );
     cy.realPress('Tab');
     cy.typeInFocused(
       maximalData.data['additional-certifying-official'][0]
@@ -248,20 +262,17 @@ describe('22-8794 EDU Form', () => {
       }-1/0`,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should('contain.text', 'Section 305 training');
     cy.realPress('Tab');
-    cy.get('va-link')
-      .first()
-      .shadow()
-      .get('a')
-      .should('contain.text', "Go to this page to find out what's required");
+    cy.focused().should(
+      'contain.text',
+      "Go to this page to find out what's required",
+    );
     cy.repeatKey('Tab', 4);
-    cy.get('div.info')
-      .first()
-      .get('a')
-      .should(
-        'contain.text',
-        'Get more information about covered institutions.',
-      );
+    cy.focused().should(
+      'contain.text',
+      'Get more information about covered institutions',
+    );
     cy.realPress('Tab');
     cy.allyEvaluateCheckboxes(['input[type="checkbox"]']);
     cy.setCheckboxFromData('input#checkbox-element', false);
@@ -283,6 +294,7 @@ describe('22-8794 EDU Form', () => {
       }-2/0`,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should('contain.text', 'VA benefit status');
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
@@ -301,6 +313,10 @@ describe('22-8794 EDU Form', () => {
         .additionalOfficialSummary.path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      'Review your additional certifying official',
+    );
     cy.repeatKey('Tab', 3);
     cy.allyEvaluateRadioButtons(
       [
@@ -333,6 +349,10 @@ describe('22-8794 EDU Form', () => {
     // Read-only certifying officials page - Step 2
     cy.url().should('include', 'read-only-certifying-officials/0');
     cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      'Tell us about your read-only school certifying official',
+    );
     cy.realPress('Tab');
     cy.typeInFocused(
       maximalData.data.readOnlyCertifyingOfficials[0].fullName.first,
@@ -354,6 +374,10 @@ describe('22-8794 EDU Form', () => {
         .readOnlyPrimaryOfficialSummary.path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      'Review your read-only certifying official',
+    );
     cy.repeatKey('Tab', 3);
     cy.allyEvaluateRadioButtons(
       [
@@ -370,6 +394,10 @@ describe('22-8794 EDU Form', () => {
       'include',
       formConfig.chapters.remarksChapter.pages.remarks.path,
     );
+    cy.focused().should(
+      'contain.text',
+      'Please enter any remarks you would like to share',
+    );
     cy.realPress('Tab');
     cy.typeInFocused(maximalData.data.remarks);
     cy.tabToContinueForm();
@@ -381,6 +409,7 @@ describe('22-8794 EDU Form', () => {
         .submissionInstructions.path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.focused().should('contain.text', 'How to submit your form');
     cy.tabToContinueForm();
 
     // Review page
@@ -399,5 +428,9 @@ describe('22-8794 EDU Form', () => {
 
     // Confirmation page
     cy.url().should('include', '/confirmation');
+    cy.focused().should(
+      'contain.text',
+      'To submit your form, follow the steps below',
+    );
   });
 });
