@@ -177,8 +177,9 @@ const VeteranContactInformationPage = ({
       ) : null}
       {submitted && showAlert ? (
         <va-alert ref={alertRef} status="error" visible>
-          Your {alertMissingInfo} address is required before you continue.
-          Provide a valid {alertMissingInfo} address.
+          Your {alertMissingInfo} address{' '}
+          {alertMissingInfo.includes(' and ') ? 'are' : 'is'} required before
+          you continue. Provide a valid {alertMissingInfo} address.
         </va-alert>
       ) : null}
       <p>

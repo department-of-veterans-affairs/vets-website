@@ -237,7 +237,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     fireEvent.click(continueBtn);
 
     expect(container.textContent).to.include(
-      'Your email and mailing address is required before you continue',
+      'Your email and mailing address are required before you continue.',
     );
 
     expect(goToPath.called).to.be.false;
