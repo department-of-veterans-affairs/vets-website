@@ -14,7 +14,7 @@ const { createClaimsSuccess } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createApplications } = require('./benefit-applications');
 const { allFoldersWithUnreadMessages } = require('./messaging');
-const { user81Copays } = require('./medical-copays');
+const { user81Copays, user81ErrorCopays } = require('./medical-copays');
 const { v2 } = require('./appointments');
 const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
 const { boot } = require('../../common/mocks/script/utils');
@@ -43,7 +43,17 @@ const responses = {
   // 'GET /v0/user': user.loa1UserWithNoEmail,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
-  'GET /v0/medical_copays': user81Copays,
+  'GET /v0/medical_copays': (req, res) => {
+    const copayStatus = 'failure';
+    switch (copayStatus) {
+      case 'success':
+        return res.status(200).json(user81Copays);
+      case 'failure':
+        return res.status(500).json(user81ErrorCopays);
+      default:
+        return res.status(200).json('');
+    }
+  },
   'GET /v0/profile/payment_history': (req, res) => {
     const paymentHistoryStatus = 'success';
     switch (paymentHistoryStatus) {
