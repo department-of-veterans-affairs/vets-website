@@ -57,11 +57,13 @@ const simulateInputChange = (selector, value) => {
   const vaTextInput = selector;
   vaTextInput.value = value;
 
-  const event = new Event('input', {
+  const inputEvent = new CustomEvent('input', {
     bubbles: true,
+    cancelable: true,
+    detail: { value },
   });
 
-  vaTextInput.dispatchEvent(event);
+  vaTextInput.dispatchEvent(inputEvent);
 };
 
 const addAConditionWithMouse = async (
