@@ -72,7 +72,7 @@ describe('<FilesOptional>', () => {
     getByText('About this notice');
   });
 
-  it(`should render you don't need to do anything and short description when cstFriendlyEvidenceRequests is true and non DBQ track item has override description content`, () => { 
+  it(`should render you don't need to do anything and short description when cstFriendlyEvidenceRequests is true and non DBQ track item has override description content`, () => {
     const { getByText, queryByText } = renderWithRouter(
       <Provider store={getStore(true)}>
         <FilesOptional item={itemWithOverrideDescription} />
