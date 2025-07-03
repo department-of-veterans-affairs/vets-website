@@ -68,7 +68,6 @@
   "dslogonInterstitialRedirect": "dslogon_interstitial_redirect",
   "dslogonButtonDisabled": "dslogon_button_disabled",
   "enrollmentVerification": "enrollment_verification",
-  "ezrDownloadPdfEnabled": "ezr_download_pdf_enabled",
   "ezrProdEnabled": "ezr_prod_enabled",
   "ezrProvidersAndDependentsPrefillEnabled": "ezr_form_prefill_with_providers_and_dependents",
   "ezrUploadEnabled": "ezr_upload_enabled",
