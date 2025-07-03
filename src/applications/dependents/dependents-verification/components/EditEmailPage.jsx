@@ -83,6 +83,8 @@ const EditEmailPage = props => {
 
         <VaButtonPair
           class="vads-u-margin-top--2"
+          primaryLabel="Update email address"
+          secondaryLabel="Cancel editing email address"
           onPrimaryClick={handlers.onUpdate}
           onSecondaryClick={handlers.onCancel}
           update
