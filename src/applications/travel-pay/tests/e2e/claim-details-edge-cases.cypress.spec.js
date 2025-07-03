@@ -50,22 +50,17 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
     });
 
     it('handles empty documents array', () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-        req.reply(res => {
-          const body = {
-            claimId: 'no-docs-claim-789',
-            claimNumber: 'TC0000000000005',
-            claimStatus: 'Approved for payment',
-            appointmentDate: '2024-04-01T13:30:00.000Z',
-            facilityName: 'Phoenix VA Medical Center',
-            totalCostRequested: 15.0,
-            reimbursementAmount: 12.0,
-            createdOn: '2024-04-02T13:30:00.000Z',
-            modifiedOn: '2024-04-02T13:30:00.000Z',
-            documents: [], // Empty array
-          };
-          res.send(body);
-        });
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: 'no-docs-claim-789',
+        claimNumber: 'TC0000000000005',
+        claimStatus: 'Approved for payment',
+        appointmentDate: '2024-04-01T13:30:00.000Z',
+        facilityName: 'Phoenix VA Medical Center',
+        totalCostRequested: 15.0,
+        reimbursementAmount: 12.0,
+        createdOn: '2024-04-02T13:30:00.000Z',
+        modifiedOn: '2024-04-02T13:30:00.000Z',
+        documents: [], // Empty array
       });
 
       cy.login(user);
@@ -78,22 +73,17 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
     });
 
     it('handles null documents', () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-        req.reply(res => {
-          const body = {
-            claimId: 'null-docs-claim-101',
-            claimNumber: 'TC0000000000006',
-            claimStatus: 'Saved',
-            appointmentDate: '2024-05-01T16:45:00.000Z',
-            facilityName: 'Atlanta VA Medical Center',
-            totalCostRequested: 25.0,
-            reimbursementAmount: 0,
-            createdOn: '2024-05-02T16:45:00.000Z',
-            modifiedOn: '2024-05-02T16:45:00.000Z',
-            documents: null, // Null value
-          };
-          res.send(body);
-        });
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: 'null-docs-claim-101',
+        claimNumber: 'TC0000000000006',
+        claimStatus: 'Saved',
+        appointmentDate: '2024-05-01T16:45:00.000Z',
+        facilityName: 'Atlanta VA Medical Center',
+        totalCostRequested: 25.0,
+        reimbursementAmount: 0,
+        createdOn: '2024-05-02T16:45:00.000Z',
+        modifiedOn: '2024-05-02T16:45:00.000Z',
+        documents: null, // Null value
       });
 
       cy.login(user);
@@ -133,33 +123,28 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
     });
 
     it('handles special characters in filenames', () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-        req.reply(res => {
-          const body = {
-            claimId: 'special-chars-claim-303',
-            claimNumber: 'TC0000000000007',
-            claimStatus: 'In manual review',
-            appointmentDate: '2024-07-01T08:15:00.000Z',
-            facilityName: 'Houston VA Medical Center',
-            totalCostRequested: 35.0,
-            reimbursementAmount: 32.0,
-            createdOn: '2024-07-02T08:15:00.000Z',
-            modifiedOn: '2024-07-02T08:15:00.000Z',
-            documents: [
-              {
-                documentId: 'special-char-doc-1',
-                filename: 'Receipt & Invoice (2024) - Copy #1.pdf',
-                mimetype: 'application/pdf',
-              },
-              {
-                documentId: 'special-char-doc-2',
-                filename: 'Mileage Log [Updated] - Version 2.0.xlsx',
-                mimetype: 'application/vnd.ms-excel',
-              },
-            ],
-          };
-          res.send(body);
-        });
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: 'special-chars-claim-303',
+        claimNumber: 'TC0000000000007',
+        claimStatus: 'In manual review',
+        appointmentDate: '2024-07-01T08:15:00.000Z',
+        facilityName: 'Houston VA Medical Center',
+        totalCostRequested: 35.0,
+        reimbursementAmount: 32.0,
+        createdOn: '2024-07-02T08:15:00.000Z',
+        modifiedOn: '2024-07-02T08:15:00.000Z',
+        documents: [
+          {
+            documentId: 'special-char-doc-1',
+            filename: 'Receipt & Invoice (2024) - Copy #1.pdf',
+            mimetype: 'application/pdf',
+          },
+          {
+            documentId: 'special-char-doc-2',
+            filename: 'Mileage Log [Updated] - Version 2.0.xlsx',
+            mimetype: 'application/vnd.ms-excel',
+          },
+        ],
       });
 
       cy.login(user);
@@ -249,33 +234,28 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
 
   describe('Document categorization edge cases', () => {
     it('categorizes rejection letters correctly', () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-        req.reply(res => {
-          const body = {
-            claimId: 'rejection-letter-claim-707',
-            claimNumber: 'TC0000000000011',
-            claimStatus: 'Denied',
-            appointmentDate: '2024-11-01T13:15:00.000Z',
-            facilityName: 'Boston VA Medical Center',
-            totalCostRequested: 90.0,
-            reimbursementAmount: 0,
-            createdOn: '2024-11-02T13:15:00.000Z',
-            modifiedOn: '2024-11-05T16:20:00.000Z',
-            documents: [
-              {
-                documentId: 'rejection-doc-1',
-                filename: 'Rejection Letter - Final Decision.pdf',
-                mimetype: 'application/pdf',
-              },
-              {
-                documentId: 'user-doc-1',
-                filename: 'my-receipt.pdf',
-                mimetype: 'application/pdf',
-              },
-            ],
-          };
-          res.send(body);
-        });
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: 'rejection-letter-claim-707',
+        claimNumber: 'TC0000000000011',
+        claimStatus: 'Denied',
+        appointmentDate: '2024-11-01T13:15:00.000Z',
+        facilityName: 'Boston VA Medical Center',
+        totalCostRequested: 90.0,
+        reimbursementAmount: 0,
+        createdOn: '2024-11-02T13:15:00.000Z',
+        modifiedOn: '2024-11-05T16:20:00.000Z',
+        documents: [
+          {
+            documentId: 'rejection-doc-1',
+            filename: 'Rejection Letter - Final Decision.pdf',
+            mimetype: 'application/pdf',
+          },
+          {
+            documentId: 'user-doc-1',
+            filename: 'my-receipt.pdf',
+            mimetype: 'application/pdf',
+          },
+        ],
       });
 
       cy.login(user);
@@ -290,49 +270,43 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
     });
 
     it('handles mixed document types correctly', () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-        req.reply(res => {
-          const body = {
-            claimId: 'mixed-docs-claim-808',
-            claimNumber: 'TC0000000000012',
-            claimStatus: 'Denied',
-            appointmentDate: '2024-12-01T09:30:00.000Z',
-            facilityName: 'Chicago VA Medical Center',
-            totalCostRequested: 100.0,
-            reimbursementAmount: 0,
-            createdOn: '2024-12-02T09:30:00.000Z',
-            modifiedOn: '2024-12-07T12:45:00.000Z',
-            documents: [
-              {
-                documentId: 'decision-doc',
-                filename: 'Decision Letter - Travel Claim.pdf',
-                mimetype: 'application/pdf',
-              },
-              {
-                documentId: 'form-doc',
-                filename:
-                  'VA Form 10-0998 Your Rights to Appeal Our Decision.pdf',
-                mimetype: 'application/pdf',
-              },
-              {
-                documentId: 'user-doc-1',
-                filename: 'parking-receipt.jpg',
-                mimetype: 'image/jpeg',
-              },
-              {
-                documentId: 'user-doc-2',
-                filename: 'toll-receipt.png',
-                mimetype: 'image/png',
-              },
-              {
-                documentId: 'clerk-note',
-                filename: 'internal-note.txt',
-                // No mimetype - should be excluded
-              },
-            ],
-          };
-          res.send(body);
-        });
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: 'mixed-docs-claim-808',
+        claimNumber: 'TC0000000000012',
+        claimStatus: 'Denied',
+        appointmentDate: '2024-12-01T09:30:00.000Z',
+        facilityName: 'Chicago VA Medical Center',
+        totalCostRequested: 100.0,
+        reimbursementAmount: 0,
+        createdOn: '2024-12-02T09:30:00.000Z',
+        modifiedOn: '2024-12-07T12:45:00.000Z',
+        documents: [
+          {
+            documentId: 'decision-doc',
+            filename: 'Decision Letter - Travel Claim.pdf',
+            mimetype: 'application/pdf',
+          },
+          {
+            documentId: 'form-doc',
+            filename: 'VA Form 10-0998 Your Rights to Appeal Our Decision.pdf',
+            mimetype: 'application/pdf',
+          },
+          {
+            documentId: 'user-doc-1',
+            filename: 'parking-receipt.jpg',
+            mimetype: 'image/jpeg',
+          },
+          {
+            documentId: 'user-doc-2',
+            filename: 'toll-receipt.png',
+            mimetype: 'image/png',
+          },
+          {
+            documentId: 'clerk-note',
+            filename: 'internal-note.txt',
+            // No mimetype - should be excluded
+          },
+        ],
       });
 
       cy.login(user);

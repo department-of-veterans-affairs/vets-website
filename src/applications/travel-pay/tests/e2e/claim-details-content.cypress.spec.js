@@ -96,17 +96,16 @@ describe(`${appName} -- Claim Details Content`, () => {
   describe('Different claim statuses', () => {
     it('displays help text for unknown status', () => {
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
-        fixture:
-          'applications/travel-pay/tests/fixtures/travel-claim-details-v1.json',
-      }).then(() => {
-        // Modify the response to have an unknown status
-        cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-          req.reply(res => {
-            const { body } = res;
-            body.claimStatus = 'Unknown Status';
-            res.send(body);
-          });
-        });
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Unknown Status',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        documents: [],
       });
 
       cy.login(user);
@@ -168,23 +167,28 @@ describe(`${appName} -- Claim Details Content`, () => {
   describe('Documents handling', () => {
     it('displays user-submitted documents when available', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures(); // Ensure feature toggles are enabled
-      cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-        req.reply(res => {
-          const { body } = res;
-          body.documents = [
-            {
-              documentId: 'doc123',
-              filename: 'receipt.pdf',
-              mimetype: 'application/pdf',
-            },
-            {
-              documentId: 'doc456',
-              filename: 'mileage-log.xlsx',
-              mimetype: 'application/vnd.ms-excel',
-            },
-          ];
-          res.send(body);
-        });
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Approved for payment',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 14.52,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        documents: [
+          {
+            documentId: 'doc123',
+            filename: 'receipt.pdf',
+            mimetype: 'application/pdf',
+          },
+          {
+            documentId: 'doc456',
+            filename: 'mileage-log.xlsx',
+            mimetype: 'application/vnd.ms-excel',
+          },
+        ],
       });
 
       cy.login(user);
@@ -201,18 +205,23 @@ describe(`${appName} -- Claim Details Content`, () => {
 
     it('displays decision letter when available', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures(); // Ensure feature toggles are enabled
-      cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-        req.reply(res => {
-          const { body } = res;
-          body.documents = [
-            {
-              documentId: 'decision123',
-              filename: 'Decision Letter - Claim TC123.pdf',
-              mimetype: 'application/pdf',
-            },
-          ];
-          res.send(body);
-        });
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Approved for payment',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 14.52,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        documents: [
+          {
+            documentId: 'decision123',
+            filename: 'Decision Letter - Claim TC123.pdf',
+            mimetype: 'application/pdf',
+          },
+        ],
       });
 
       cy.login(user);
@@ -277,23 +286,28 @@ describe(`${appName} -- Claim Details Content`, () => {
 
     it('excludes clerk note attachments without mimetype', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures(); // Ensure feature toggles are enabled
-      cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-        req.reply(res => {
-          const { body } = res;
-          body.documents = [
-            {
-              documentId: 'note123',
-              filename: 'clerk-note.txt',
-              // No mimetype - should be excluded
-            },
-            {
-              documentId: 'receipt123',
-              filename: 'receipt.pdf',
-              mimetype: 'application/pdf',
-            },
-          ];
-          res.send(body);
-        });
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Approved for payment',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 14.52,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        documents: [
+          {
+            documentId: 'note123',
+            filename: 'clerk-note.txt',
+            // No mimetype - should be excluded
+          },
+          {
+            documentId: 'receipt123',
+            filename: 'receipt.pdf',
+            mimetype: 'application/pdf',
+          },
+        ],
       });
 
       cy.login(user);
@@ -339,13 +353,17 @@ describe(`${appName} -- Claim Details Content`, () => {
 
   describe('Amount display scenarios', () => {
     it('shows only submitted amount when reimbursement is zero', () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-        req.reply(res => {
-          const { body } = res;
-          body.totalCostRequested = 25.0;
-          body.reimbursementAmount = 0;
-          res.send(body);
-        });
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Approved for payment',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 25.0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        documents: [],
       });
 
       cy.login(user);
@@ -361,13 +379,17 @@ describe(`${appName} -- Claim Details Content`, () => {
     });
 
     it('hides amount section when no costs are requested', () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-        req.reply(res => {
-          const { body } = res;
-          body.totalCostRequested = 0;
-          body.reimbursementAmount = 0;
-          res.send(body);
-        });
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Approved for payment',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        documents: [],
       });
 
       cy.login(user);
@@ -378,13 +400,17 @@ describe(`${appName} -- Claim Details Content`, () => {
     });
 
     it('does not show additional info when amounts are equal', () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', req => {
-        req.reply(res => {
-          const { body } = res;
-          body.totalCostRequested = 20.0;
-          body.reimbursementAmount = 20.0;
-          res.send(body);
-        });
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Approved for payment',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 20.0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        documents: [],
       });
 
       cy.login(user);
