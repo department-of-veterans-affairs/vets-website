@@ -10,6 +10,7 @@ import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js
 function PreSubmitInfo({ formData, showError, setPreSubmit }) {
   useEffect(
     () => {
+      // This ensures the user will always have to accept the privacy agreement.
       setPreSubmit('privacyAgreementAccepted', false);
     },
     [setPreSubmit],
