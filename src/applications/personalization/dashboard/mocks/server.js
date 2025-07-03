@@ -5,6 +5,7 @@ const {
 const user = require('../../common/mocks/users');
 const notifications = require('../../common/mocks/notifications');
 const {
+  createEmptyPayment,
   createSuccessPayment,
   createFailurePayment,
 } = require('./payment-history');
@@ -14,7 +15,11 @@ const { createClaimsSuccess } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createApplications } = require('./benefit-applications');
 const { allFoldersWithUnreadMessages } = require('./messaging');
-const { user81Copays, user81ErrorCopays } = require('./medical-copays');
+const {
+  user81Copays,
+  user81ErrorCopays,
+  user81NoCopays,
+} = require('./medical-copays');
 const { v2 } = require('./appointments');
 const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
 const { boot } = require('../../common/mocks/script/utils');
@@ -44,10 +49,12 @@ const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': (req, res) => {
-    const copayStatus = 'failure';
+    const copayStatus = 'success';
     switch (copayStatus) {
       case 'success':
         return res.status(200).json(user81Copays);
+      case 'empty':
+        return res.status(200).json(user81NoCopays);
       case 'failure':
         return res.status(500).json(user81ErrorCopays);
       default:
@@ -59,6 +66,8 @@ const responses = {
     switch (paymentHistoryStatus) {
       case 'success':
         return res.status(200).json(createSuccessPayment(false));
+      case 'empty':
+        return res.status(200).json(createEmptyPayment());
       case 'failure':
         return res.status(500).json(createFailurePayment());
       default:

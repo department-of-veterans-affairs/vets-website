@@ -131,6 +131,19 @@ const createSuccessPayment = (hasRecentPayment = false) => {
   };
 };
 
+const createEmptyPayment = () => {
+  return {
+    data: {
+      id: '',
+      type: 'bgs_va_payment_history_response',
+      attributes: {
+        payments: [],
+        returnPayments: [],
+      },
+    },
+  };
+};
+
 const createFailurePayment = () => {
   return {
     errors: [
@@ -144,4 +157,8 @@ const createFailurePayment = () => {
   };
 };
 
-module.exports = { createFailurePayment, createSuccessPayment };
+module.exports = {
+  createEmptyPayment,
+  createFailurePayment,
+  createSuccessPayment,
+};

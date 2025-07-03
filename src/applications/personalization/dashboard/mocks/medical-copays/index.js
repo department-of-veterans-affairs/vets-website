@@ -1658,6 +1658,11 @@ const user81Copays = {
   status: 200,
 };
 
+const user81NoCopays = {
+  data: [],
+  status: 200,
+};
+
 const user81ErrorCopays = {
   errors: [
     {
@@ -1674,4 +1679,5 @@ module.exports = {
   has3Copays,
   user81Copays,
   user81ErrorCopays,
+  user81NoCopays,
 };

@@ -19,12 +19,28 @@ import GenericDebtCard from './GenericDebtCard';
 
 const NoOutstandingDebtsText = () => {
   return (
-    <p
-      className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
-      data-testid="no-outstanding-debts-text"
-    >
-      You have no overpayment debts or copays to show.
-    </p>
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+      <Toggler.Disabled>
+        <p
+          className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
+          data-testid="no-outstanding-debts-text"
+        >
+          You have no overpayment debts or copays to show.
+        </p>
+      </Toggler.Disabled>
+      <Toggler.Enabled>
+        <p
+          className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+          data-testid="no-outstanding-debts-text"
+        >
+          You don’t have any overpayment debts or copays.
+        </p>
+        <va-link
+          href="/resources/va-debt-management"
+          text="View all debt information"
+        />
+      </Toggler.Enabled>
+    </Toggler>
   );
 };
 
@@ -177,6 +193,16 @@ const BenefitPaymentsAndDebt = ({
               <>
                 <DashboardWidgetWrapper>
                   <NoOutstandingDebtsText />
+                  <Toggler
+                    toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+                  >
+                    <Toggler.Enabled>
+                      <va-link
+                        href="/resources/va-debt-management"
+                        text="View all debt information"
+                      />
+                    </Toggler.Enabled>
+                  </Toggler>
                 </DashboardWidgetWrapper>
               </>
             )}
