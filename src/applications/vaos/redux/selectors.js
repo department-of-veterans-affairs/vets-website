@@ -110,8 +110,6 @@ export function getRequestedAppointmentListInfo(state) {
     showScheduleButton: selectFeatureRequests(state),
   };
 }
-export const selectFeatureConvertSlotsToUtc = state =>
-  toggleValues(state).vaOnlineSchedulingConvertSlotsToUtc;
 
 export const selectFeatureMentalHealthHistoryFiltering = state =>
   toggleValues(state).vaOnlineSchedulingMentalHealthHistoryFiltering;

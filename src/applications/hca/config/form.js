@@ -112,7 +112,7 @@ import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import general from './chapters/insuranceInformation/general';
 import insurancePolicyPages from './chapters/insuranceInformation/insurancePolicies';
-import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
+import vaFacilityPage from './chapters/insuranceInformation/vaFacility';
 import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
 
 // declare shared paths for custom form page navigation
@@ -581,11 +581,11 @@ const formConfig = {
           ...insurancePolicyPages.healthInsurancePolicyInformation,
           depends: formData => formData['view:isInsuranceV2Enabled'],
         },
-        vaFacilityLighthouse: {
-          path: 'insurance-information/va-facility-api',
+        vaFacility: {
+          path: 'insurance-information/va-facility',
           title: 'VA Facility',
-          uiSchema: vaFacilityApiPage.uiSchema,
-          schema: vaFacilityApiPage.schema,
+          uiSchema: vaFacilityPage.uiSchema,
+          schema: vaFacilityPage.schema,
         },
       },
     },
