@@ -48,24 +48,26 @@ export const IntroductionPage = props => {
       <FormTitle title={TITLE} />
       {disputeDebtActive ? (
         <>
-          <h2 className="vads-u-font-weight--normal">
-            If you think your VA debt is an error, use this form to dispute all
-            or part of the debt.{' '}
-          </h2>
-          <h3 className="vads-u-font-size--h2">
-            What to know before you fill out this form
-          </h3>{' '}
+          <p className="va-introtext">
+            Use this form if you’d like to dispute all or part of the debt.
+          </p>
+          <h2>What to know before you fill out this form</h2>
           <div>
             <ul>
               <li>
                 Right now, you can only use this form to dispute debts from
                 benefit overpayments. You can’t use it to dispute copay bills at
-                this time.{' '}
-                <a href="https://www.va.gov/health-care/pay-copay-bill/dispute-charges/">
-                  Learn how to dispute copay bills
-                </a>
-                . You may need to make payments on your debt while we review
-                your dispute.
+                this time.
+                <span className="vads-u-display--block">
+                  <va-link
+                    href="https://www.va.gov/health-care/pay-copay-bill/dispute-charges/"
+                    text="Learn how to dispute copay bills"
+                  />
+                </span>
+              </li>
+              <li>
+                You may need to make payments on your debt while we review your
+                dispute.
               </li>
             </ul>
           </div>
