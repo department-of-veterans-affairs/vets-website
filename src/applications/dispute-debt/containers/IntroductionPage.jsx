@@ -49,7 +49,7 @@ export const IntroductionPage = props => {
       {disputeDebtActive ? (
         <>
           <p className="va-introtext">
-            Use this form if you’d like to dispute all or part of the debt
+            Use this form if you’d like to dispute all or part of the debt.
           </p>
           <h2>What to know before you fill out this form</h2>
           <div>
