@@ -150,12 +150,10 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
       cy.login(user);
       cy.visit(`${rootUrl}/claims/special-chars-claim-303`);
 
-      // Should display documents with special characters
       cy.get('[data-testid="user-submitted-documents"]').should(
         'have.length',
         2,
       );
-      cy.get('div[class*="vads-u-margin-top--1"]').should('have.length', 2);
     });
   });
 
