@@ -300,7 +300,7 @@ export const generateRadiologyContent = record => ({
       },
       {
         title: 'Clinical history',
-        value: record.clinicalHistory.replace(/\r\n|\r/g, '\n'),
+        value: String(record.clinicalHistory).replace(/\r\n|\r/g, '\n'),
         inline: true,
       },
       {
