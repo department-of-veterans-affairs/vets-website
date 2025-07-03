@@ -28,6 +28,7 @@ const getState = ({
   user: {
     profile: {
       loading: profileLoading,
+      loa: { current: 1 },
     },
   },
 });
