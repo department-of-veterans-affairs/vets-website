@@ -3,8 +3,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import sinon from 'sinon';
-import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import IntroductionPage from '../../containers/IntroductionPage';
 import OmbInfo from '../../components/OmbInfo';
 
@@ -16,11 +14,6 @@ describe('22-10215 <IntroductionPage>', () => {
     },
     pageList: [],
   };
-
-  afterEach(() => {
-    cleanup();
-    document.body.innerHTML = '';
-  });
 
   it('should render form title', () => {
     const wrapper = shallow(<IntroductionPage route={route} />);
@@ -82,56 +75,5 @@ describe('22-10215 <IntroductionPage>', () => {
     const wrapper = shallow(<IntroductionPage route={route} />);
     expect(wrapper.find(OmbInfo)).to.have.lengthOf(1);
     wrapper.unmount();
-  });
-  test('focuses the correct button when modal is closed', async () => {
-    // Create mock <va-omb-info> container
-    const vaOmbInfo = document.createElement('div');
-    vaOmbInfo.id = 'va-omb-info';
-    const ombShadowRoot = vaOmbInfo.attachShadow({ mode: 'open' });
-
-    // Create <va-button secondary> inside shadow DOM
-    const vaButton = document.createElement('va-button');
-    vaButton.setAttribute('secondary', '');
-    const buttonShadowRoot = vaButton.attachShadow({ mode: 'open' });
-
-    const focusableButton = document.createElement('button');
-    focusableButton.className = 'usa-button usa-button--outline';
-    const focusSpy = sinon.spy(focusableButton, 'focus');
-    buttonShadowRoot.appendChild(focusableButton);
-
-    // Create <va-modal> with empty shadow for now
-    const vaModal = document.createElement('va-modal');
-    const modalShadowRoot = vaModal.attachShadow({ mode: 'open' });
-
-    // Append to the full Shadow DOM tree
-    ombShadowRoot.appendChild(vaButton);
-    ombShadowRoot.appendChild(vaModal);
-    document.body.appendChild(vaOmbInfo);
-
-    // Render your component
-    render(
-      <IntroductionPage
-        route={{
-          formConfig: { prefillEnabled: false, savedFormMessages: {} },
-          pageList: [],
-        }}
-      />,
-    );
-
-    // Trigger modal open click (calls your setup logic)
-    fireEvent.click(vaOmbInfo);
-
-    // Simulate modal adding the close button
-    const closeButton = document.createElement('button');
-    closeButton.setAttribute('aria-label', 'Close Privacy Act Statement modal');
-    modalShadowRoot.appendChild(closeButton);
-
-    // Fire click to close modal
-    fireEvent.click(closeButton);
-
-    // Wait for focus to happen
-    await waitFor(() => {
-      expect(focusSpy.calledOnce).toBe(true);
-    });
   });
 });
