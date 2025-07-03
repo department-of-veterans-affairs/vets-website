@@ -346,9 +346,10 @@ describe('<DocumentRequestPage>', () => {
       const trackedItem = {
         status: 'NEEDED_FROM_OTHERS',
         suspenseDate: '2010-05-10',
+        displayName: 'test item',
       };
       const { context } = renderWithRouter(
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
