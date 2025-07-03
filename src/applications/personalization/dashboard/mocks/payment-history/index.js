@@ -131,4 +131,17 @@ const createSuccessPayment = (hasRecentPayment = false) => {
   };
 };
 
-module.exports = { createSuccessPayment };
+const createFailurePayment = () => {
+  return {
+    errors: [
+      {
+        title: 'Internal Server Error',
+        detail: 'An unexpected error occurred while processing your request.',
+        code: '500',
+        status: '500',
+      },
+    ],
+  };
+};
+
+module.exports = { createFailurePayment, createSuccessPayment };

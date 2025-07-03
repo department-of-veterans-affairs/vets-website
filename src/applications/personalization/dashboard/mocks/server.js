@@ -4,7 +4,10 @@ const {
 } = require('../../common/mocks/feature-toggles');
 const user = require('../../common/mocks/users');
 const notifications = require('../../common/mocks/notifications');
-const { createSuccessPayment } = require('./payment-history');
+const {
+  createSuccessPayment,
+  createFailurePayment,
+} = require('./payment-history');
 const { createAppealsSuccess } = require('./appeals');
 const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./claims');
@@ -41,7 +44,17 @@ const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': user81Copays,
-  'GET /v0/profile/payment_history': createSuccessPayment(false),
+  'GET /v0/profile/payment_history': (req, res) => {
+    const paymentHistoryStatus = 'success';
+    switch (paymentHistoryStatus) {
+      case 'success':
+        return res.status(200).json(createSuccessPayment(false));
+      case 'failure':
+        return res.status(500).json(createFailurePayment());
+      default:
+        return res.status(200).json('');
+    }
+  },
   'GET /v0/profile/service_history': {
     data: {
       id: '',
