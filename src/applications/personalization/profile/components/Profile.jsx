@@ -27,10 +27,8 @@ import {
   dismissDowntimeWarning,
 } from '~/platform/monitoring/DowntimeNotification/actions';
 
-import {
-  RequiredLoginView,
-  RequiredLoginLoader,
-} from '~/platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from '~/platform/user/authorization/components/RequiredLoginView';
+import LoadingIndicatorFullPage from '~/platform/site-wide/loading-indicator-full-page/LoadingIndicatorFullPage';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import {
   createIsServiceAvailableSelector,
@@ -208,7 +206,7 @@ class Profile extends Component {
 
   renderContent = () => {
     if (this.props.showLoader) {
-      return <RequiredLoginLoader />;
+      return <LoadingIndicatorFullPage />;
     }
     return this.mainContent();
   };
@@ -223,7 +221,6 @@ class Profile extends Component {
         <DowntimeNotification
           appTitle="profile"
           render={this.handleDowntimeApproaching}
-          loadingIndicator={<RequiredLoginLoader />}
           dependencies={[externalServices.VAPRO_PROFILE_PAGE]}
         >
           {this.renderContent()}
