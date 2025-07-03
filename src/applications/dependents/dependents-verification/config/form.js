@@ -118,7 +118,7 @@ const formConfig = {
     },
 
     dependents: {
-      title: 'Review your dependents',
+      title: 'Dependents on your VA benefits',
       pages: {
         dependents: {
           path: 'dependents',

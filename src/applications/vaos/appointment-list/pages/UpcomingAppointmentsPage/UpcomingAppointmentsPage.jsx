@@ -64,9 +64,9 @@ export default function UpcomingAppointmentsPage() {
     return (
       <InfoAlert
         status="error"
-        headline="We’re sorry. We’ve run into a problem"
+        headline="We can’t access your appointments right now"
       >
-        We’re having trouble getting your upcoming appointments. Please try
+        We’re sorry. There’s a problem with our system. Refresh this page or try
         again later.
       </InfoAlert>
     );
