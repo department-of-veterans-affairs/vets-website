@@ -5,7 +5,7 @@ import mockUserInvalidDob from './fixtures/mocks/mock-user-invalid-dob';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { goToNextPage } from './helpers';
-import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
+import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 
 describe('EZR user profile has no date of birth value', () => {
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('EZR user profile has no date of birth value', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
+    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 200,
       body: {
         ...MOCK_ENROLLMENT_RESPONSE,
@@ -48,7 +48,7 @@ describe('EZR user profile has invalid date of birth value', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
+    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 200,
       body: {
         ...MOCK_ENROLLMENT_RESPONSE,
@@ -83,7 +83,7 @@ describe('EZR user profile has valid date of birth value', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
+    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 200,
       body: {
         ...MOCK_ENROLLMENT_RESPONSE,
