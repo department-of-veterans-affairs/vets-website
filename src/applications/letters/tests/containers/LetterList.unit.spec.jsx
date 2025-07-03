@@ -233,6 +233,33 @@ describe('<LetterList>', () => {
       ),
     ).to.exist;
   });
+
+  it('render Benefit Summary Letter for letter type benefit_summary_dependent as letter title when lettersPageNewDesign is true', () => {
+    const propsWithBenefitSummaryDependentLetter = {
+      letters: [
+        {
+          name: 'Benefit Summary Letter - Dependent',
+          letterType: 'benefit_summary_dependent',
+        },
+      ],
+      lettersAvailability: AVAILABILITY_STATUSES.available,
+      letterDownloadStatus: {},
+      optionsAvailable: true,
+    };
+    const { getByText } = render(
+      <Provider store={getStore(true)}>
+        <MemoryRouter>
+          <LetterList {...propsWithBenefitSummaryDependentLetter} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(getByText('Benefit Summary Letter')).to.exist;
+    expect(
+      getByText(
+        'The Benefit Summary Letter shows the VA benefits you receive as the survivor of a disabled Veteran.',
+      ),
+    ).to.exist;
+  });
   it('renders updated proof of service card description lettersPageNewDesign is true', () => {
     const proofOfService = {
       letters: [
