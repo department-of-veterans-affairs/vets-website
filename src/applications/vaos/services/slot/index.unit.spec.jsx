@@ -1,13 +1,20 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
+import {
+  addDays,
+  addMonths,
+  format,
+  lastDayOfMonth,
+  startOfDay,
+  startOfMonth,
+} from 'date-fns';
 import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
-import { addDays, addMonths, format, startOfDay } from 'date-fns';
-import * as transformers from './transformers';
+import sinon from 'sinon';
 import * as vaos from '../vaos';
+import * as transformers from './transformers';
 
 import { getSlots } from '.';
 import { DATE_FORMATS } from '../../utils/constants';
@@ -28,8 +35,9 @@ describe('VAOS Services: Slot ', () => {
     });
 
     it('should make successful request', async () => {
-      const startDate = addDays(new Date(), 1);
-      const endDate = addMonths(new Date(), 1);
+      const startDate = startOfMonth(startOfDay(addDays(new Date(), 1)));
+      const endDate = lastDayOfMonth(addMonths(startOfDay(new Date()), 1));
+
       const slots = [
         {
           id: '1',
@@ -50,11 +58,11 @@ describe('VAOS Services: Slot ', () => {
         endDate: format(endDate, 'yyyy-MM-dd'),
       });
 
-      expect(global.fetch.firstCall.args[0]).to.contain(
+      expect(decodeURIComponent(global.fetch.firstCall.args[0])).to.contain(
         `/vaos/v2/locations/983/clinics/308/slots?start=${format(
-          startOfDay(startDate),
+          startDate,
           DATE_FORMATS.ISODateTimeLocal,
-        )}&end=${format(startOfDay(endDate), DATE_FORMATS.ISODateTimeLocal)}`,
+        )}&end=${format(endDate, DATE_FORMATS.ISODateTimeLocal)}`,
       );
       expect(data[0].start).to.equal(
         format(startDate, DATE_FORMATS.ISODateTimeUTC),
@@ -62,8 +70,8 @@ describe('VAOS Services: Slot ', () => {
     });
 
     it('should return OperationOutcome error', async () => {
-      const startDate = addDays(new Date(), 1);
-      const endDate = addMonths(new Date(), 1);
+      const startDate = startOfMonth(startOfDay(addDays(new Date(), 1)));
+      const endDate = lastDayOfMonth(addMonths(startOfDay(new Date()), 1));
 
       setFetchJSONFailure(global.fetch, {
         errors: [],
@@ -80,12 +88,11 @@ describe('VAOS Services: Slot ', () => {
       } catch (e) {
         error = e;
       }
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
+      expect(decodeURIComponent(global.fetch.firstCall.args[0])).to.contain(
         `/vaos/v2/locations/983/clinics/308/slots?start=${format(
-          startOfDay(startDate),
+          startDate,
           DATE_FORMATS.ISODateTimeLocal,
-        )}&end=${format(startOfDay(endDate), DATE_FORMATS.ISODateTimeLocal)}`,
+        )}&end=${format(endDate, DATE_FORMATS.ISODateTimeLocal)}`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
@@ -125,7 +132,7 @@ describe('VAOS Services: Slot ', () => {
       } = getAvailableV2SlotsStub.firstCall.args[0];
 
       expect(facilityId).to.equal('983');
-      expect(clinicId).to.equal('308');
+      expect(clinicId).to.equal('983_308');
       expect(new Date(startDate).toISOString()).to.equal(
         '2025-04-30T19:00:00.000Z',
       );

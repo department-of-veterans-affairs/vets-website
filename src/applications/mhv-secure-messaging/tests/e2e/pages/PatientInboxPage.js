@@ -11,6 +11,7 @@ import mockSentThreadsResponse from '../fixtures/sentResponse/sent-messages-resp
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
+import mockSentThreads from '../fixtures/sentResponse/sent-messages-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -344,6 +345,11 @@ class PatientInboxPage {
       Paths.SM_API_EXTENDED + Paths.CATEGORIES,
       mockCategories,
     ).as('categories');
+
+    cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      `sentThreadsResponse`,
+    );
+
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
     // cy.wait('@signature');
     if (checkFocusOnVcl) {

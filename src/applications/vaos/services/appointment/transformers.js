@@ -3,50 +3,25 @@ import moment from 'moment';
 import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
-  TYPE_OF_CARE_IDS,
   PURPOSE_TEXT_V2,
   TYPE_OF_VISIT,
   VIDEO_TYPES,
 } from '../../utils/constants';
 import { transformFacilityV2 } from '../location/transformers';
 
-export function getAppointmentType(appt, useFeSourceOfTruthVA) {
-  // TODO: Update APPOINTMENT_TYPES enum to match API response values.
-  const isCerner = appt?.id?.startsWith('CERN');
-
-  if (useFeSourceOfTruthVA) {
-    if (appt?.type === 'VA') {
-      return APPOINTMENT_TYPES.vaAppointment;
-    }
-
-    if (appt?.type === 'REQUEST') {
-      return APPOINTMENT_TYPES.request;
-    }
+export function getAppointmentType(appt) {
+  if (appt?.type === 'VA') {
+    return APPOINTMENT_TYPES.vaAppointment;
   }
-
+  if (appt?.type === 'REQUEST') {
+    return APPOINTMENT_TYPES.request;
+  }
   if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
     return APPOINTMENT_TYPES.ccAppointment;
   }
   if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
     return APPOINTMENT_TYPES.ccRequest;
   }
-
-  if (isCerner && isEmpty(appt?.end)) {
-    return APPOINTMENT_TYPES.request;
-  }
-  if (isCerner && !isEmpty(appt?.end)) {
-    return APPOINTMENT_TYPES.vaAppointment;
-  }
-  if (appt?.kind === 'cc' && appt?.start) {
-    return APPOINTMENT_TYPES.ccAppointment;
-  }
-  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
-    return APPOINTMENT_TYPES.ccRequest;
-  }
-  if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
-    return APPOINTMENT_TYPES.request;
-  }
-
   return APPOINTMENT_TYPES.vaAppointment;
 }
 /**
@@ -83,13 +58,8 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function transformVAOSAppointment(
-  appt,
-  useFeSourceOfTruthVA,
-  useFeSourceOfTruthModality,
-  useFeSourceOfTruthTelehealth,
-) {
-  const appointmentType = getAppointmentType(appt, useFeSourceOfTruthVA);
+export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
+  const appointmentType = getAppointmentType(appt);
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
   const isPast = appt.past;
@@ -98,7 +68,6 @@ export function transformVAOSAppointment(
   const isCCRequest = appointmentType === APPOINTMENT_TYPES.ccRequest;
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
-  const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   const vvsKind = appt.telehealth?.vvsKind;
   let isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   let isAtlas = !!appt.telehealth?.atlas;
@@ -107,16 +76,11 @@ export function transformVAOSAppointment(
     (vvsKind === VIDEO_TYPES.mobile || vvsKind === VIDEO_TYPES.adhoc);
   let isVideoAtVA =
     vvsKind === VIDEO_TYPES.clinic || vvsKind === VIDEO_TYPES.storeForward;
-  let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
-  let isPhone = appt.kind === 'phone';
-  let isCovid = appt.serviceType === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
-  let isInPersonVisit = !isVideo && !isCC && !isPhone;
-  if (useFeSourceOfTruthModality) {
-    isCompAndPen = appt.modality === 'claimExamAppointment';
-    isPhone = appt.modality === 'vaPhone';
-    isCovid = appt.modality === 'vaInPersonVaccine';
-    isInPersonVisit = isCompAndPen || isCovid || appt.modality === 'vaInPerson';
-  }
+  const isCompAndPen = appt.modality === 'claimExamAppointment';
+  const isPhone = appt.modality === 'vaPhone';
+  const isCovid = appt.modality === 'vaInPersonVaccine';
+  const isInPersonVisit =
+    isCompAndPen || isCovid || appt.modality === 'vaInPerson';
   if (useFeSourceOfTruthTelehealth) {
     isVideo =
       appt.modality === 'vaVideoCareAtHome' ||
@@ -309,18 +273,8 @@ export function transformVAOSAppointment(
   };
 }
 
-export function transformVAOSAppointments(
-  appts,
-  useFeSourceOfTruthVA,
-  useFeSourceOfTruthModality,
-  useFeSourceOfTruthTelehealth,
-) {
+export function transformVAOSAppointments(appts, useFeSourceOfTruthTelehealth) {
   return appts.map(appt =>
-    transformVAOSAppointment(
-      appt,
-      useFeSourceOfTruthVA,
-      useFeSourceOfTruthModality,
-      useFeSourceOfTruthTelehealth,
-    ),
+    transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth),
   );
 }
