@@ -21,8 +21,9 @@ const VeteranContactInformationPage = ({
   const { profile } = useSelector(selectUser);
   const { email, phone, address, internationalPhone } = data;
 
-  const { email: profileEmail, vapContactInfo } = profile || {};
+  const { vapContactInfo } = profile || {};
   const {
+    email: profileEmail,
     mailingAddress: profileMailingAddress,
     homePhone: profileHomePhone,
     mobilePhone: profileMobilePhone,
