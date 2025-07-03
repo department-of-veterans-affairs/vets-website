@@ -54,12 +54,11 @@ describe('VAOS Page: TypeOfAudiologyCarePage', () => {
     expect(radioOptions[0]).to.have.attribute('label', 'Routine hearing exam');
     expect(radioOptions[1]).to.have.attribute('label', 'Hearing aid support');
 
+    // When the user continues
     fireEvent.click(screen.getByText(/Continue/));
-    // Then there should be a validation error
-    // Assertion currently disabled due to
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
-    // expect(await screen.findByText('You must provide a response')).to.exist;
-    expect(screen.history.push.called).to.not.be.true;
+
+    // The user should stay on the page
+    expect(screen.history.push.called).to.be.false;
 
     const changeEvent = new CustomEvent('selected', {
       detail: { value: TYPE_OF_CARE_IDS.AUDIOLOGY_ROUTINE_ID }, // Routine hearing exam

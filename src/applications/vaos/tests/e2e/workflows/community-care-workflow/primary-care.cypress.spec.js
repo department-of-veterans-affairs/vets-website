@@ -211,6 +211,11 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
+          .clickNextButton()
+          .assertValidationErrorMessage({
+            name: 'Where do you prefer to receive care?',
+            error: /You must provide a response/i,
+          })
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
@@ -220,6 +225,11 @@ describe('VAOS community care flow - Primary care', () => {
 
         ClosestCityStatePageObject.assertUrl()
           .assertHeading({ name: /What.s the nearest city to you/i })
+          .clickNextButton()
+          .assertValidationErrorMessage({
+            name: 'What’s the nearest city to you?',
+            error: /Select a city/i,
+          })
           .selectFacility({ label: /City 983/i })
           .clickNextButton();
 

@@ -151,6 +151,11 @@ describe('VAOS community care flow - Audiology', () => {
             .clickNextButton();
 
           AudiologyPageObject.assertUrl()
+            .clickNextButton()
+            .assertValidationErrorMessage({
+              name: 'Which type of audiology care do you need?',
+              error: /You must provide a response/i,
+            })
             .selectTypeOfCare(/Routine hearing exam/i)
             .clickNextButton();
 

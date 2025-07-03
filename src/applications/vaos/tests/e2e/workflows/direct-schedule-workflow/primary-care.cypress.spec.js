@@ -121,7 +121,24 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .selectClinic({ selection: /Clinic 1/i })
             .clickNextButton();
 
+          const pastDate = new Date(2020, 2, 2);
+          const farFutureDate = addMonths(new Date(), 24);
+
           PreferredDatePageObject.assertUrl()
+            .typeDate({ date: pastDate })
+            .clickNextButton()
+            .assertValidationErrorMessage({
+              name:
+                "Tell us the earliest day you're available and we'll try to find the date closest to your request.",
+              error: /Please enter a future date/i,
+            })
+            .typeDate({ date: farFutureDate })
+            .clickNextButton()
+            .assertValidationErrorMessage({
+              name:
+                "Tell us the earliest day you're available and we'll try to find the date closest to your request.",
+              error: /Please enter a date less than 395 days in the future/i,
+            })
             .typeDate()
             .clickNextButton();
 
@@ -453,6 +470,11 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ClinicChoicePageObject.assertUrl()
+            .clickNextButton()
+            .assertValidationErrorMessage({
+              name: 'Which VA clinic would you like to go to?',
+              error: /You must provide a response/i,
+            })
             .selectClinic({ selection: /Clinic 1/i })
             .clickNextButton();
 

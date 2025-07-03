@@ -66,7 +66,7 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
     // Assertion currently disabled due to
     // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
     // expect(await screen.findByText('You must provide a response')).to.exist;
-    expect(screen.history.push.called).to.not.be.true;
+    expect(screen.history.push.called).to.be.false;
 
     const changeEvent = new CustomEvent('selected', {
       detail: { value: TYPE_OF_CARE_IDS.CPAP_ID },
