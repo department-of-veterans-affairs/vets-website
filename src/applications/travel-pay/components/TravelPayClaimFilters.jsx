@@ -31,6 +31,7 @@ export default function TravelPayClaimFilters(props) {
             label="Show appointments with travel claims in this order"
             name="claimsOrder"
             id="claimsOrder"
+            data-testid="claimsOrder"
             value={selectedClaimsOrder}
             onVaSelect={e => setSelectedClaimsOrder(e.target.value)}
             uswds
