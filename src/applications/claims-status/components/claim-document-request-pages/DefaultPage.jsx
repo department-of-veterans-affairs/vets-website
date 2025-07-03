@@ -101,7 +101,7 @@ export default function DefaultPage({
               !item.friendlyName && (
                 <p>
                   We requested this evidence from you on{' '}
-                  {dateFormatter(item.suspenseDate)}. You can still send the
+                  {dateFormatter(item.requestedDate)}. You can still send the
                   evidence after the “respond by” date, but it may delay your
                   claim.
                 </p>

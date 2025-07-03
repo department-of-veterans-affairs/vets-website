@@ -5,6 +5,7 @@ import {
   subMonths,
   format,
   parseISO,
+  addMonths,
 } from 'date-fns';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -22,6 +23,8 @@ const formatDate = buildDateFormatter();
 const today = new Date();
 const nineMonthsAgoDate = subMonths(today, 9);
 const nineMonthsAgoSuspenseDate = format(nineMonthsAgoDate, 'yyyy-MM-dd');
+const fiveMonthsFromNow = addMonths(today, 5);
+const fiveMonthsFromNowSuspenseDate = format(fiveMonthsFromNow, 'yyyy-MM-dd');
 
 describe('<DefaultPage>', () => {
   const defaultProps = {
@@ -247,6 +250,33 @@ describe('<DefaultPage>', () => {
       getByText('Deadline passed for requested information');
       getByText(
         'We haven’t received the information we asked for. You can still upload or mail it to us, but we may review your claim without it.',
+      );
+    });
+    it('should display pass due explanation text when suspense date is in the future', () => {
+      const item = {
+        closedDate: null,
+        description: 'Buddy statement text',
+        displayName: 'Submit buddy statement(s)',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: fiveMonthsFromNowSuspenseDate,
+        uploadsAllowed: true,
+        canUploadFile: true,
+        documents: [],
+        date: '2024-03-07',
+      };
+      const { getByText, container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      expect($('#default-page', container)).to.exist;
+      expect($('.add-files-form', container)).to.exist;
+      getByText(
+        'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
       );
     });
   });
