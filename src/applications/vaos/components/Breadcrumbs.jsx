@@ -20,9 +20,12 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
   // Only handles breadcrumb isRouterLink:true items, so no routes without that are replaced
   function handleRouteChange({ detail }) {
     const { href } = detail;
+    // If we encounter a breadcrumb that is a router link but based off the manifest.rootUrl,
+    // we need to make it relative to the manifest.rootUrl
     if (href.startsWith(manifest.rootUrl)) {
       let path = href.replace(manifest.rootUrl, '');
       if (!path.startsWith('/')) {
+        // If the path doesn't start with a slash, add one because the manifest.rootUrl does not end in a slash
         path = `/${path}`;
       }
       history.push(path);
