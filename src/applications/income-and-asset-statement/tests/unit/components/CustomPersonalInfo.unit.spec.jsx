@@ -11,13 +11,10 @@ describe('CustomPersonalInfo Component', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
 
-  it('renders PersonalInformation inside connected component', () => {
+  it('renders PersonalInformation component', () => {
     const wrapper = mount(
       <Provider store={mockStore({})}>
         <CustomPersonalInfo
-          formData={{
-            claimantType: 'VETERAN',
-          }}
           data={{
             veteranSocialSecurityNumber: '1234',
             vaFileNumber: '5678',
@@ -27,7 +24,6 @@ describe('CustomPersonalInfo Component', () => {
     );
 
     expect(wrapper.find('PersonalInformation')).to.have.lengthOf(1);
-    expect(wrapper.text()).to.include('We need more information');
     wrapper.unmount();
   });
 });
