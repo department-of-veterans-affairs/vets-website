@@ -63,10 +63,36 @@ const Authorization = ({
     returnUrl &&
     returnUrl === '/supporting-evidence/private-medical-records-authorization';
 
+  function focusVaButton(buttonId) {
+    const vaButton = document.getElementById(buttonId);
+    if (vaButton?.shadowRoot) {
+      const internalButton = vaButton.shadowRoot.querySelector('button');
+      if (internalButton) {
+        internalButton.focus();
+      }
+    }
+  }
+
+  // const toggle4142PrivacyModal = buttonId => {
+  //   const wasVisible = modalVisible;
+
+  //   // Track which button opened the modal
+  //   if (!wasVisible && buttonId) {
+  //     setModalOpenedBy(buttonId);
+  //   }
+
+  //   setModalVisible(!modalVisible);
+
+  // If we're closing the modal, restore focus to the correct button
+  //   if (wasVisible && modalOpenedBy) {
+  //     waitForRenderThenFocus(`#${modalOpenedBy}`);
+  //     setModalOpenedBy(null);
+  //   }
+  // };
+
   const toggle4142PrivacyModal = buttonId => {
     const wasVisible = modalVisible;
 
-    // Track which button opened the modal
     if (!wasVisible && buttonId) {
       setModalOpenedBy(buttonId);
     }
@@ -75,7 +101,10 @@ const Authorization = ({
 
     // If we're closing the modal, restore focus to the correct button
     if (wasVisible && modalOpenedBy) {
-      waitForRenderThenFocus(`#${modalOpenedBy}`);
+      // wait a bit for modal to unmount
+      setTimeout(() => {
+        focusVaButton(modalOpenedBy);
+      }, 100); // small delay to ensure modal unmount completes
       setModalOpenedBy(null);
     }
   };
