@@ -1,0 +1,52 @@
+{
+  "claimId": "denied-claim-123",
+  "claimNumber": "TC0000000000002",
+  "claimName": "Denied claim for testing",
+  "claimantFirstName": "John",
+  "claimantMiddleName": "T",
+  "claimantLastName": "Doe",
+  "claimStatus": "Denied",
+  "appointmentDate": "2024-01-15T10:30:00.000Z",
+  "facilityName": "Denver VA Medical Center",
+  "totalCostRequested": 30.0,
+  "reimbursementAmount": 0,
+  "createdOn": "2024-01-16T09:15:30.000Z",
+  "modifiedOn": "2024-01-20T14:22:45.000Z",
+  "documents": [
+    {
+      "documentId": "rejection-letter-456",
+      "filename": "Rejection Letter - Claim TC0000000000002.pdf",
+      "mimetype": "application/pdf"
+    },
+    {
+      "documentId": "form-appeal-789",
+      "filename": "VA Form 10-0998 Your Rights to Appeal Our Decision.pdf",
+      "mimetype": "application/pdf"
+    }
+  ],
+  "appointment": {
+    "id": "denied-appt-456",
+    "appointmentSource": "API",
+    "appointmentDateTime": "2024-01-15T10:30:00.000Z",
+    "appointmentType": "PrimaryCare",
+    "facilityId": "facility-456",
+    "facilityName": "Denver VA Medical Center",
+    "serviceConnectedDisability": 0,
+    "appointmentStatus": "Complete",
+    "externalAppointmentId": "67890",
+    "associatedClaimId": "denied-claim-123",
+    "associatedClaimNumber": "TC0000000000002",
+    "isCompleted": true
+  },
+  "expenses": [
+    {
+      "id": "expense-denied-123",
+      "expenseType": "Mileage",
+      "name": "",
+      "dateIncurred": "2024-01-15T10:30:00.000Z",
+      "description": "mileage-expense",
+      "costRequested": 30.0,
+      "costSubmitted": 30.0
+    }
+  ]
+}
