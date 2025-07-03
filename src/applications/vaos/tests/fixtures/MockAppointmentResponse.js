@@ -143,6 +143,28 @@ export default class MockAppointmentResponse {
   }
 
   /**
+   * Method to generate mock Atlas response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createAtlasResponse({ future, localStartTime, past, status } = {}) {
+    return MockAppointmentResponse.createAtlasResponses({
+      count: 1,
+      future,
+      localStartTime,
+      past,
+      status,
+    })[0];
+  }
+
+  /**
    * Method to generate mock Community Care response objects.
    *
    * @static
@@ -342,6 +364,24 @@ export default class MockAppointmentResponse {
   }
 
   /**
+   * Method to generate mock VA response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createMobileResponse({ localStartTime, future = false }) {
+    return MockAppointmentResponse.createMobileResponses({
+      count: 1,
+      localStartTime,
+      future,
+    })[0];
+  }
+
+  /**
    * Method to generate mock Phone response objects.
    *
    * @static
@@ -370,6 +410,110 @@ export default class MockAppointmentResponse {
           .setKind(TYPE_OF_VISIT_ID.phone)
           .setModality('vaPhone'),
       );
+  }
+
+  /**
+   * Method to generate mock Phone response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createPhoneResponse({ localStartTime, future = false } = {}) {
+    return MockAppointmentResponse.createPhoneResponses({
+      count: 1,
+      localStartTime,
+      future,
+    })[0];
+  }
+
+  /**
+   * Method to generate mock Covid response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createCovidResponses({
+    localStartTime,
+    future = false,
+    count = 1,
+  } = {}) {
+    return Array(count)
+      .fill(count)
+      .map((_, index) =>
+        new MockAppointmentResponse({
+          id: index + 1,
+          localStartTime,
+          future,
+        }).setModality('vaInPersonVaccine'),
+      );
+  }
+
+  /**
+   * Method to generate mock Covid response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createCovidResponse({ localStartTime, future = false } = {}) {
+    return MockAppointmentResponse.createCovidResponses({
+      count: 1,
+      localStartTime,
+      future,
+    })[0];
+  }
+
+  /**
+   * Method to generate mock CE response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createCEResponses({ localStartTime, future = false, count = 1 } = {}) {
+    return Array(count)
+      .fill(count)
+      .map((_, index) =>
+        new MockAppointmentResponse({
+          id: index + 1,
+          localStartTime,
+          future,
+        }).setModality('claimExamAppointment'),
+      );
+  }
+
+  /**
+   * Method to generate mock CE response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createCEResponse({ localStartTime, future = false } = {}) {
+    return MockAppointmentResponse.createCEResponses({
+      count: 1,
+      localStartTime,
+      future,
+    })[0];
   }
 
   /**
