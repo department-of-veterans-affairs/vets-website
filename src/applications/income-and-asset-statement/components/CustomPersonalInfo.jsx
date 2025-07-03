@@ -12,34 +12,8 @@ const CustomPersonalInfo = props => {
   const { formData, setFormData } = props;
 
   const profile = useSelector(selectProfile);
-  const { userFullName, email: profileEmail, phone: profilePhone } =
-    profile || {};
-  const { email, phone } = formData || {};
+  const { userFullName } = profile || {};
 
-  // Initialize email and phone if needed
-  useEffect(
-    () => {
-      const updatedFormData = { ...formData };
-      let needsUpdate = false;
-
-      if (!email && profileEmail) {
-        updatedFormData.email = profileEmail;
-        needsUpdate = true;
-      }
-
-      if (!phone && profilePhone) {
-        updatedFormData.phone = profilePhone;
-        needsUpdate = true;
-      }
-
-      if (needsUpdate) {
-        setFormData(updatedFormData);
-      }
-    },
-    [email, phone, profileEmail, profilePhone, formData, setFormData],
-  );
-
-  // Initialize veteranFullName if needed
   useEffect(
     () => {
       if (
@@ -56,6 +30,7 @@ const CustomPersonalInfo = props => {
     },
     [formData, setFormData, userFullName],
   );
+
   return (
     <PersonalInformation
       {...props}
@@ -81,8 +56,6 @@ const CustomPersonalInfo = props => {
 
 CustomPersonalInfo.propTypes = {
   formData: PropTypes.shape({
-    email: PropTypes.string,
-    phone: PropTypes.string,
     claimantType: PropTypes.string.isRequired,
     veteranFullName: PropTypes.object,
   }),
