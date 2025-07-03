@@ -85,9 +85,25 @@ describe('<PreSubmitInfo />', () => {
       expect($('va-privacy-agreement', container)).not.to.exist;
     });
   });
-  describe('when logged in', () => {
+  describe('when logged in and is not a self-representing veteran', () => {
+    it('should render the va-statement-of-truth component', () => {
+      const { props, mockStore } = getData();
+      const { container } = render(
+        <Provider store={mockStore}>
+          <PreSubmitInfo {...props} />
+        </Provider>,
+      );
+      expect($('va-statement-of-truth', container)).to.exist;
+      expect($('va-statement-of-truth', container).textContent).to.include(
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      );
+      expect($('va-privacy-agreement', container)).not.to.exist;
+    });
+  });
+  describe('when logged in and is a self-representing veteran', () => {
     it('should render the va-privacy-agreement component', () => {
       const { props, mockStore } = getData();
+      props.formData.claimantType = 'VETERAN';
       const { container } = render(
         <Provider store={mockStore}>
           <PreSubmitInfo {...props} />
