@@ -8,10 +8,10 @@ import PreSubmitInfo from '../../../containers/PreSubmitInfo';
 import formConfig from '../../../config/form';
 
 describe('<PreSubmitInfo>', () => {
-  const getData = (privacyAgreement = false) => ({
+  const getData = () => ({
     props: {
       formData: {
-        privacyAgreementAccepted: privacyAgreement,
+        privacyAgreementAccepted: false,
       },
       formConfig,
       route: {
@@ -55,7 +55,7 @@ describe('<PreSubmitInfo>', () => {
     });
 
     it('should run setPreSubmit on render at least once.', () => {
-      const { props } = getData(true);
+      const { props } = getData();
       expect(props.setPreSubmit.atLeast(1));
     });
 
