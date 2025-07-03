@@ -1,17 +1,19 @@
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
+import updateAddressUiSchema from '../../../utils/updateAddressSchema';
 
 const { newAddress, isMoving, yearsOfEducation } = fullSchema.properties;
 
 const checkboxTitle =
   'I will live on a United States military base outside of the U.S.';
 
-const newAddressUi = addressUiSchema(
+const addressUi = addressUiSchema(
   'newAddress',
   checkboxTitle,
   formData => formData?.isMoving,
 );
+const newAddressUi = updateAddressUiSchema(addressUi);
 
 export const schema = {
   type: 'object',
