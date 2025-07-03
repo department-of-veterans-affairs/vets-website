@@ -101,22 +101,31 @@ const MedicationsList = props => {
         {rxList?.length > 0 &&
           rxList.map((rx, idx) => <PrescriptionPrintOnly key={idx} rx={rx} />)}
       </div>
-      <div
-        className="vads-u-display--block vads-u-margin-top--3"
-        data-testid="medication-list"
+      <section
+        aria-label={`Medications page ${pagination.currentPage} of ${
+          pagination.totalPages
+        }`}
       >
-        {rxList?.length > 0 &&
-          rxList.map(
-            (rx, idx) =>
-              rx.prescriptionId === prescriptionId ? (
-                <div ref={scrollLocation} key={idx}>
-                  <MedicationsListCard rx={rx} />
-                </div>
-              ) : (
-                <MedicationsListCard key={idx} rx={rx} />
-              ),
-          )}
-      </div>
+        <ul
+          className="vads-u-display--block vads-u-margin-top--3 vads-u-padding-left--0"
+          data-testid="medication-list"
+          id="medication-list"
+        >
+          {rxList?.length > 0 &&
+            rxList.map(
+              (rx, idx) =>
+                rx.prescriptionId === prescriptionId ? (
+                  <li ref={scrollLocation} key={idx}>
+                    <MedicationsListCard rx={rx} />
+                  </li>
+                ) : (
+                  <li>
+                    <MedicationsListCard key={idx} rx={rx} />
+                  </li>
+                ),
+            )}
+        </ul>
+      </section>
       <VaPagination
         max-page-list-length={MAX_PAGE_LIST_LENGTH}
         id="pagination"

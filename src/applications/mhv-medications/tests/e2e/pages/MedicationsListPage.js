@@ -368,7 +368,7 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusActiveParked = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(11) > [data-testid="rx-card-info"] > [data-testid="rxStatus"]',
+      'section > [data-testid="medication-list"] > :nth-child(11) > .no-print > [data-testid="rx-card-info"] > [data-testid="rxStatus"]',
     )
       // cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
       .should('be.visible')
@@ -408,10 +408,8 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusUnknown = unknownPrescription => {
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(7) > [data-testid="rx-card-info"] > #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(2) > :nth-child(1)`,
-    )
-      .should('be.visible')
-      .and('contain', 'We’re sorry. There’s a problem with our system.');
+      `.landing-page-content > section > [data-testid="medication-list"] > :nth-child(7) > .no-print > [data-testid="rx-card-info"] > #status-description-${unknownPrescription} > [data-testid="unknown"] > [data-testid="unknown-rx"] > :nth-child(1)`,
+    ).and('contain', 'We’re sorry. There’s a problem with our system.');
   };
 
   verifyNumberOfRefillsLeftNotDisplayedOnMedicationCard = () => {
@@ -429,7 +427,7 @@ class MedicationsListPage {
 
   verifyNonVAPrescriptionNameOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(5) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+      'section > [data-testid="medication-list"] > :nth-child(5) > .no-print > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"] > span',
     ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
   };
 
@@ -692,7 +690,7 @@ class MedicationsListPage {
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > [data-testid="rx-last-filled-date"]',
+      'section > [data-testid="medication-list"] > :nth-child(2) > .no-print > [data-testid="rx-card-info"] > [data-testid="rx-last-filled-date"]',
     ).should(
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
@@ -701,7 +699,7 @@ class MedicationsListPage {
 
   verifyDiscontinuedMedicationNameIsVisibleOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(6) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+      'section > [data-testid="medication-list"] > :nth-child(6) > .no-print > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"] > span',
     ).should('be.visible');
   };
 
@@ -965,14 +963,14 @@ class MedicationsListPage {
     cardNumber,
   ) => {
     cy.get(
-      `.landing-page-content > [data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"]`,
+      `.landing-page-content > section > [data-testid="medication-list"] > :nth-child(${cardNumber}) > .no-print > [data-testid="rx-card-info"]`,
     )
       .first()
       .should('not.contain', prescriptionNumber);
   };
 
   verifyPendingNewRxInfoTextOnMedicationCardOnListPage = text => {
-    cy.get('[data-testid="pending-renewal-rx"]')
+    cy.get('[data-testid="pending-renewal-rx"]', { includeShadowDom: true })
       .first()
       .should('be.visible')
       .and('have.text', text);
