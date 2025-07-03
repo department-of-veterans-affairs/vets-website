@@ -11,14 +11,6 @@ import DocumentDownload from './DocumentDownload';
 
 const title = 'Your travel reimbursement claim';
 
-const injectCfrLink = content => {
-  const cfrRegex = /Authority (\d+) CFR (\d+)\.(\d+)/g;
-  return content.replaceAll(
-    cfrRegex,
-    '<a target="_blank" rel="noreferrer" href="https://www.ecfr.gov/current/title-$1/chapter-I/section-$2.$3">$&</a>',
-  );
-};
-
 export default function ClaimDetailsContent({
   createdOn,
   claimStatus,
@@ -127,13 +119,7 @@ export default function ClaimDetailsContent({
                     ? 'Why we denied your claim'
                     : 'Why we made a partial payment'}{' '}
                 </p>
-                <p
-                  className="vads-u-margin-top--0"
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{
-                    __html: injectCfrLink(decisionLetterReason),
-                  }}
-                />
+                <p className="vads-u-margin-top--0">{decisionLetterReason}</p>
               </>
             )}
           {documentCategories.clerk.length > 0 &&
