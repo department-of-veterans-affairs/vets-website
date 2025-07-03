@@ -194,9 +194,10 @@ describe(`${appName} -- Claim Details Content`, () => {
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
-      cy.contains('p', 'Documents you submitted')
-        .should('have.class', 'vads-u-font-weight--bold')
-        .should('be.visible');
+      cy.get('[data-testid="user-submitted-documents"]').should(
+        'have.length',
+        2,
+      );
 
       // Check that document download components are rendered
       cy.contains('receipt.pdf').should('be.visible');
@@ -344,7 +345,7 @@ describe(`${appName} -- Claim Details Content`, () => {
       cy.contains('p', 'Amount').should('not.exist');
 
       // Documents section should not be shown
-      cy.contains('p', 'Documents you submitted').should('not.exist');
+      cy.get('[data-testid="user-submitted-documents"]').should('not.exist');
 
       // Appeal section should not be shown even for denied claims
       cy.contains('h2', 'Appealing a claim decision').should('not.exist');

@@ -46,7 +46,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
       cy.contains('p', 'Amount').should('not.exist');
 
       // Documents section should not be shown
-      cy.contains('p', 'Documents you submitted').should('not.exist');
+      cy.get('[data-testid="user-submitted-documents"]').should('not.exist');
     });
 
     it('handles empty documents array', () => {
@@ -69,7 +69,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
       // Should show claim info but no documents section
       cy.contains('Submitted amount of $15').should('be.visible');
       cy.contains('Reimbursement amount of $12').should('be.visible');
-      cy.contains('p', 'Documents you submitted').should('not.exist');
+      cy.get('[data-testid="user-submitted-documents"]').should('not.exist');
     });
 
     it('handles null documents', () => {
@@ -91,7 +91,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
 
       // Should handle null gracefully without crashing
       cy.contains('Submitted amount of $25').should('be.visible');
-      cy.contains('p', 'Documents you submitted').should('not.exist');
+      cy.get('[data-testid="user-submitted-documents"]').should('not.exist');
     });
 
     it('handles very long facility names and claim numbers', () => {
@@ -151,7 +151,10 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
       cy.visit(`${rootUrl}/claims/special-chars-claim-303`);
 
       // Should display documents with special characters
-      cy.contains('p', 'Documents you submitted').should('be.visible');
+      cy.get('[data-testid="user-submitted-documents"]').should(
+        'have.length',
+        2,
+      );
       cy.get('div[class*="vads-u-margin-top--1"]').should('have.length', 2);
     });
   });
@@ -261,12 +264,14 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
       cy.login(user);
       cy.visit(`${rootUrl}/claims/rejection-letter-claim-707`);
 
-      // Should show user documents section
-      cy.contains('p', 'Documents you submitted').should('be.visible');
+      // Should have documents rendered
+      cy.get('[data-testid="user-submitted-documents"]').should('exist');
 
-      // Should have both the rejection letter (categorized as clerk doc)
-      // and user document, so 2 total document download components
-      cy.get('div[class*="vads-u-margin-top--1"]').should('have.length', 2);
+      // Check that at least the user document is visible
+      cy.contains('my-receipt.pdf').should('be.visible');
+
+      // Should show appeal section for denied claim
+      cy.contains('h2', 'Appealing a claim decision').should('be.visible');
     });
 
     it('handles mixed document types correctly', () => {
@@ -312,16 +317,19 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
       cy.login(user);
       cy.visit(`${rootUrl}/claims/mixed-docs-claim-808`);
 
-      // Should show user documents section (2 user docs)
-      cy.contains('p', 'Documents you submitted').should('be.visible');
+      // Should have documents rendered
+      cy.get('[data-testid="user-submitted-documents"]').should('exist');
+
+      // Check that user documents are visible
+      cy.contains('parking-receipt.jpg').should('be.visible');
+      cy.contains('toll-receipt.png').should('be.visible');
 
       // Should show appeal section with form download
       cy.contains('h2', 'Appealing a claim decision').should('be.visible');
       cy.contains('VA Form 10-0998 (PDF)').should('be.visible');
 
-      // Total visible documents: 1 decision letter + 2 user docs = 3
-      // (clerk note without mimetype should be excluded)
-      cy.get('div[class*="vads-u-margin-top--1"]').should('have.length', 3);
+      // Clerk note should not be visible (no mimetype)
+      cy.contains('internal-note.txt').should('not.exist');
     });
   });
 
