@@ -46,7 +46,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
           <>
             <h4>{content['confirm-app-list-date']}</h4>
             <p className="ezr-submission-date">
-              {format(timestamp, 'MMM. d, yyyy')}
+              {format(new Date(timestamp), 'MMM. d, yyyy')}
             </p>
           </>
         ) : null}

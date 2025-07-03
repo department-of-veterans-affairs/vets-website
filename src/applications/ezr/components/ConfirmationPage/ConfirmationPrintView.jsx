@@ -47,7 +47,7 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
             {content['confirm-app-list-date']}
           </h3>
           <p className="ezr-application-date">
-            {format(timestamp, 'MMM. d, yyyy')}
+            {format(new Date(timestamp), 'MMM. d, yyyy')}
           </p>
         </>
       ) : null}
