@@ -4,9 +4,7 @@ import { expect } from 'chai';
 import ClaimantInfoViewField from '../../../components/ClaimantInfoViewField';
 
 describe('ClaimantInfoViewField', () => {
-  const defaultEditButton = ({ label }) => (
-    <va-button text="edit" label={label} />
-  );
+  const defaultEditButton = () => <va-button text="edit" />;
 
   it('shows correct information for dependent claim', () => {
     const formData = {
