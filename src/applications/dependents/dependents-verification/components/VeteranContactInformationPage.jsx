@@ -101,7 +101,7 @@ const VeteranContactInformationPage = ({
     }
 
     updateContactInfo({
-      email: email || profileEmail || '',
+      email: email || profileEmail?.emailAddress || '',
       phone:
         phone ||
         convertPhoneObjectToString(profileHomePhone) ||
