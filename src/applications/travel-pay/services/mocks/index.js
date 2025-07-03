@@ -47,7 +47,7 @@ const responses = {
   //       {
   //         title: 'Server error',
   //         status: 503,
-  //         detail: 'An unknown server error has occured.',
+  //         detail: 'An unknown server error has occurred.',
   //         code: 'VA900',
   //       },
   //     ],
