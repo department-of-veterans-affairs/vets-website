@@ -263,12 +263,18 @@ const createTestHistory = (path = '/') => {
  */
 const inputVaTextInput = (container, value, selector = 'va-text-input') => {
   const vaTextInput = $(selector, container);
+  if (!vaTextInput) throw new Error(`Element not found: ${selector}`);
+
+  // set the value on the component instance
   vaTextInput.value = value;
 
-  const event = new CustomEvent('input', {
+  // create and dispatch a native 'input' event
+  const event = new container.ownerDocument.defaultView.InputEvent('input', {
     bubbles: true,
-    detail: { value },
+    composed: true,
+    data: value,
   });
+
   vaTextInput.dispatchEvent(event);
 };
 
