@@ -21,6 +21,7 @@ import HealthCareCTA from './HealthCareCTA';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import AppointmentsCard from './AppointmentsCard';
 import CTALink from '../CTALink';
+import UnreadMessagesCard from './UnreadMessagesCard';
 
 const HealthCareContent = ({
   appointments,
@@ -178,6 +179,17 @@ const HealthCareContent = ({
           </Toggler.Disabled>
         </Toggler>
       )}
+
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Enabled>
+          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Messages
+          </h3>
+          <DashboardWidgetWrapper>
+            <UnreadMessagesCard />
+          </DashboardWidgetWrapper>
+        </Toggler.Enabled>
+      </Toggler>
     </div>
   );
 };
