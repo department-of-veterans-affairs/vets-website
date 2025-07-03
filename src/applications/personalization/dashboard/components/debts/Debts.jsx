@@ -39,13 +39,27 @@ const OutstandingDebtsError = () => {
   return (
     <div className="vads-u-margin-bottom--2p5">
       <va-alert status={status} show-icon data-testid="outstanding-debts-error">
-        <h2 slot="headline">
-          We can’t access some of your financial information.
-        </h2>
-        <div>
-          We’re sorry. We can’t access some of your financial information right
-          now. We’re working to fix this problem. Please check back later.
-        </div>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+          <Toggler.Enabled>
+            <h4
+              slot="headline"
+              className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans vads-u-line-height--6 vads-u-margin-bottom--0"
+            >
+              We can’t show your debt and copay information right now. Refresh
+              this page or try again later.
+            </h4>
+          </Toggler.Enabled>
+          <Toggler.Disabled>
+            <h2 slot="headline">
+              We can’t access some of your financial information.
+            </h2>
+            <div>
+              We’re sorry. We can’t access some of your financial information
+              right now. We’re working to fix this problem. Please check back
+              later.
+            </div>
+          </Toggler.Disabled>
+        </Toggler>
       </va-alert>
     </div>
   );
@@ -117,7 +131,7 @@ const BenefitPaymentsAndDebt = ({
     <div className={wrapperClasses} data-testid="dashboard-section-debts">
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
-          <h3>Debts and bills</h3>
+          <h3 className="vads-u-margin-top--2e5">Debts and bills</h3>
         </Toggler.Enabled>
         <Toggler.Disabled>
           <h2>Outstanding debts</h2>
@@ -136,6 +150,16 @@ const BenefitPaymentsAndDebt = ({
               <>
                 <DashboardWidgetWrapper>
                   <OutstandingDebtsError />
+                  <Toggler
+                    toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+                  >
+                    <Toggler.Enabled>
+                      <va-link
+                        href="/resources/va-debt-management"
+                        text="View all debt information"
+                      />
+                    </Toggler.Enabled>
+                  </Toggler>
                 </DashboardWidgetWrapper>
                 <Toggler
                   toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}

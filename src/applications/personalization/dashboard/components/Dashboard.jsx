@@ -392,8 +392,8 @@ const Dashboard = ({
                     <BenefitApplications />
                   </Toggler.Disabled>
                   <Toggler.Enabled>
-                    {/* <FormsAndApplications />
-                    <HealthCare isVAPatient={isVAPatient} /> */}
+                    <FormsAndApplications />
+                    <HealthCare isVAPatient={isVAPatient} />
                     <PaymentsAndDebts
                       payments={payments}
                       showNotifications={showNotifications}
