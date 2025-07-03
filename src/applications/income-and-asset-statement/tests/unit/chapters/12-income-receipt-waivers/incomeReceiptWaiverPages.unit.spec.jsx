@@ -51,7 +51,7 @@ describe('income receipt waiver list and loop pages', () => {
     it('should return "`recipientName`s income receipt waiver', () => {
       const item = testData.data.incomeReceiptWaivers[0];
       expect(options.text.getItemName(item)).to.equal(
-        'Jane Smith’s income receipt waiver',
+        'Jane Smith’s waived income',
       );
     });
   });

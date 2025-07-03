@@ -53,7 +53,7 @@ describe('DebtSelection Component', () => {
       .not.exist;
   });
 
-  it('renders AlertCard when no debts are available', () => {
+  it('renders ZeroDebtsAlert when no debts are available', () => {
     const initialState = {
       availableDebts: { availableDebts: [], isDebtError: false },
       form: { data: { selectedDebts: [] } },
@@ -65,8 +65,8 @@ describe('DebtSelection Component', () => {
     );
 
     // Should render AlertCard when no debts available
-    expect(container.querySelector('[data-testid="balance-card-alert-debt"]'))
-      .to.exist;
+    expect(container.querySelector('[data-testid="zero-debts-alert-card"]')).to
+      .exist;
     expect(container.querySelector('[data-testid="debt-selection-content"]')).to
       .not.exist;
   });

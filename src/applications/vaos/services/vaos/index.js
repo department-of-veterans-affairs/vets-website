@@ -1,11 +1,5 @@
 import appendQuery from 'append-query';
-import {
-  format,
-  isDate,
-  lastDayOfMonth,
-  parseISO,
-  startOfMonth,
-} from 'date-fns';
+import { format } from 'date-fns';
 import { getTestFacilityId } from '../../utils/appointment';
 import {
   apiRequestWithUrl,
@@ -13,7 +7,6 @@ import {
   parseApiListWithErrors,
   parseApiObject,
 } from '../utils';
-import { DATE_FORMATS } from '../../utils/constants';
 
 const acheronHeader = {
   headers: { ACHERON_REQUESTS: 'true' },
@@ -162,25 +155,10 @@ export function getAvailableV2Slots({
   provider,
   startDate,
   endDate,
-  convertToUtc = false,
 }) {
   const queryParams = [];
-  const start = convertToUtc
-    ? startDate.toISOString()
-    : format(
-        isDate(startDate)
-          ? startOfMonth(startDate)
-          : startOfMonth(parseISO(startDate)),
-        DATE_FORMATS.ISODateTimeLocal,
-      );
-  const end = convertToUtc
-    ? endDate.toISOString()
-    : format(
-        isDate(endDate)
-          ? lastDayOfMonth(endDate)
-          : lastDayOfMonth(parseISO(endDate)),
-        DATE_FORMATS.ISODateTimeLocal,
-      );
+  const start = startDate.toISOString();
+  const end = endDate.toISOString();
 
   if (typeOfCare) queryParams.push(`clinical_service=${typeOfCare}`);
   if (provider) queryParams.push(`provider=${provider}`);
