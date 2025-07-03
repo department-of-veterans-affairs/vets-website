@@ -700,24 +700,29 @@ export function omitRequired(schema) {
  * @param {ReplacerOptions | (key, val) => any | any[]} [options] An object of options for the transform, or a JSON.stringify replacer argument
  */
 export function transformForSubmit(formConfig, form, options) {
-  const replacer =
-    typeof options === 'function' || Array.isArray(options)
-      ? options
-      : createStringifyFormReplacer(options);
-  const expandedPages = expandArrayPages(
-    createFormPageList(formConfig),
-    form.data,
-  );
-  const activePages = getActivePages(expandedPages, form.data);
-  const inactivePages = getInactivePages(expandedPages, form.data);
-  const withoutInactivePages = filterInactivePageData(
-    inactivePages,
-    activePages,
-    form,
-  );
-  const withoutViewFields = filterViewFields(withoutInactivePages);
+  try {
+    const replacer =
+      typeof options === 'function' || Array.isArray(options)
+        ? options
+        : createStringifyFormReplacer(options);
+    const expandedPages = expandArrayPages(
+      createFormPageList(formConfig),
+      form.data,
+    );
+    const activePages = getActivePages(expandedPages, form.data);
+    const inactivePages = getInactivePages(expandedPages, form.data);
+    const withoutInactivePages = filterInactivePageData(
+      inactivePages,
+      activePages,
+      form,
+    );
+    const withoutViewFields = filterViewFields(withoutInactivePages);
 
-  return JSON.stringify(withoutViewFields, replacer) || '{}';
+    return JSON.stringify(withoutViewFields, replacer) || '{}';
+  } catch (error) {
+    window.DD_LOGS?.logger.error('Transform for Submit error', {}, error);
+    return '{}';
+  }
 }
 
 /**

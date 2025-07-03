@@ -28,47 +28,48 @@ const DECISION_TYPES = {
 const DECLINATION_OPTIONS = {
   DECLINATION_HEALTH_RECORDS_WITHHELD: {
     type: DECISION_TYPES.DECLINATION,
-    reason: "Decline, because change of address isn't authorized",
+    declinationReason: "Decline, because change of address isn't authorized",
   },
   DECLINATION_ADDRESS_CHANGE_WITHHELD: {
     type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because protected medical record access is limited',
+    declinationReason:
+      'Decline, because protected medical record access is limited',
   },
   DECLINATION_BOTH_WITHHELD: {
     type: DECISION_TYPES.DECLINATION,
-    reason:
+    declinationReason:
       "Decline, because change of address isn't authorized and protected medical record access is limited",
   },
   DECLINATION_NOT_ACCEPTING_CLIENTS: {
     type: DECISION_TYPES.DECLINATION,
-    reason: "Decline, because the VSO isn't accepting new clients",
+    declinationReason: "Decline, because the VSO isn't accepting new clients",
   },
   DECLINATION_OTHER: {
     type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because of another reason',
+    declinationReason: 'Decline, because of another reason',
   },
 };
 
 const DECLINATION_OPTIONS_UPDATE = {
   DECLINATION_LIMITED_AUTH: {
     type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because authorization is limited',
+    declinationReason: 'Decline, because authorization is limited',
   },
   DECLINATION_OUTSIDE_SERVICE_TERRITORY: {
     type: DECISION_TYPES.DECLINATION,
-    reason:
+    declinationReason:
       'Decline, because the claimant is outside of the organization’s service territory',
   },
   DECLINATION_OTHER: {
     type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because of another reason',
+    declinationReason: 'Decline, because of another reason',
   },
 };
 
 const DECISION_OPTIONS = {
   ACCEPTANCE: {
     type: DECISION_TYPES.ACCEPTANCE,
-    reason: null,
+    declinationReason: null,
   },
   ...DECLINATION_OPTIONS,
   ...DECLINATION_OPTIONS_UPDATE,
@@ -508,7 +509,7 @@ const POARequestDetailsPage = title => {
                         ([value, decision]) => (
                           <VaRadioOption
                             key={value}
-                            label={decision.reason}
+                            label={decision.declinationReason}
                             value={value}
                             name="decision"
                             data-eventname="int-radio-button-option-click"
@@ -563,7 +564,7 @@ const POARequestDetailsPage = title => {
                         ([value, decision]) => (
                           <VaRadioOption
                             key={value}
-                            label={decision.reason}
+                            label={decision.declinationReason}
                             value={value}
                             name="decision"
                             data-eventname="int-radio-button-option-click"

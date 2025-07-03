@@ -66,8 +66,14 @@ const schema = {
           properties: {
             country: addressSchema().properties.country,
             street: addressSchema().properties.street,
-            street2: addressSchema().properties.street2,
-            street3: addressSchema().properties.street3,
+            street2: {
+              ...addressSchema().properties.street2,
+              minLength: 0,
+            },
+            street3: {
+              ...addressSchema().properties.street3,
+              minLength: 0,
+            },
             city: addressSchema().properties.city,
             state: addressSchema().properties.state,
             postalCode: addressSchema().properties.postalCode,

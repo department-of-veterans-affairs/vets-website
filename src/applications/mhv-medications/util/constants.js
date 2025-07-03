@@ -241,6 +241,7 @@ export const allergyTypes = {
 
 export const FIELD_NONE_NOTED = 'None noted';
 export const FIELD_NOT_AVAILABLE = 'Not available';
+export const NO_PROVIDER_NAME = 'Provider name not available';
 
 export const downtimeNotificationParams = {
   appTitle: 'this medications tool',
@@ -276,3 +277,5 @@ export const tooltipHintContent = {
     HINT: 'Filter your list to find a specific medication.',
   },
 };
+
+export const recordNotFoundMessage = 'Record not found';

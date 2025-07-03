@@ -1,3 +1,4 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import { format, isValid, parseISO } from 'date-fns';
 
@@ -1297,4 +1298,34 @@ export const getDisplayFriendlyName = item => {
     return updatedFriendlyName;
   }
   return item.friendlyName;
+};
+
+export const renderDefaultThirdPartyMessage = displayName => {
+  return displayName.toLowerCase().includes('dbq') ? (
+    <>
+      We’ve requested an exam related to your claim. The examiner’s office will
+      contact you to schedule this appointment.
+      <br />
+    </>
+  ) : (
+    <>
+      <strong>You don’t have to do anything.</strong> We asked someone outside
+      VA for documents related to your claim.
+      <br />
+    </>
+  );
+};
+
+export const renderOverrideThirdPartyMessage = item => {
+  if (item.displayName.toLowerCase().includes('dbq')) {
+    return item.shortDescription || item.activityDescription;
+  }
+  if (item.shortDescription) {
+    return (
+      <>
+        <strong>You don’t have to do anything.</strong> {item.shortDescription}
+      </>
+    );
+  }
+  return item.activityDescription;
 };

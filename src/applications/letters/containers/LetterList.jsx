@@ -16,6 +16,7 @@ import {
   bslHelpInstructions,
   //  eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__getOptions,
+  newLetterContent,
 } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
@@ -68,10 +69,37 @@ export class LetterList extends React.Component {
         helpText = bslHelpInstructions;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
-        content = letterContent[letter.letterType] || '';
+        content = (
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue
+                ? newLetterContent[letter.letterType] || ''
+                : letterContent[letter.letterType] || ''
+            }
+          </Toggler.Hoc>
+        );
+      } else if (letter.letterType === LETTER_TYPES.benefitSummaryDependent) {
+        letterTitle = 'Benefit Summary Letter';
+        content = (
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue
+                ? newLetterContent[letter.letterType] || ''
+                : letterContent[letter.letterType] || ''
+            }
+          </Toggler.Hoc>
+        );
       } else {
         letterTitle = letter.name;
-        content = letterContent[letter.letterType] || '';
+        content = (
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue
+                ? newLetterContent[letter.letterType] || ''
+                : letterContent[letter.letterType] || ''
+            }
+          </Toggler.Hoc>
+        );
       }
 
       // OLD conditional download button

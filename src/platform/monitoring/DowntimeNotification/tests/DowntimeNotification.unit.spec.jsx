@@ -2,7 +2,7 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
+import { addDays } from 'date-fns';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { createServiceMap } from '../util/helpers';
@@ -47,14 +47,13 @@ describe('mapStateToProps', () => {
   });
 
   it('should have properties of a downtime object if downtime is found', () => {
+    const now = new Date();
     const serviceMap = createServiceMap([
       {
         attributes: {
           externalService: 'myservice',
-          startTime: moment().toISOString(),
-          endTime: moment()
-            .add(1, 'day')
-            .toISOString(),
+          startTime: now?.toISOString(),
+          endTime: addDays(now, 1)?.toISOString(),
         },
       },
     ]);
@@ -114,8 +113,8 @@ describe('<DowntimeNotification/>', () => {
       wrapper.setProps({
         isReady: true,
         initializeDowntimeWarnings() {},
-        startTime: moment(),
-        endTime: moment(),
+        startTime: new Date(),
+        endTime: new Date(),
         status: externalServiceStatus.downtimeApproaching,
       });
 

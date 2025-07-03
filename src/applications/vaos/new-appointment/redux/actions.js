@@ -1,30 +1,28 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import * as Sentry from '@sentry/browser';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format } from 'date-fns-tz';
 import moment from 'moment';
 
 import {
+  addDays,
   addMinutes,
   areIntervalsOverlapping,
-  startOfMonth,
   endOfMonth,
-  startOfDay,
-  addDays,
   isAfter,
+  isDate,
+  parseISO,
+  startOfDay,
+  startOfMonth,
 } from 'date-fns';
 import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
-  selectFeatureFeSourceOfTruth,
-  selectFeatureFeSourceOfTruthCC,
-  selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
-  selectFeatureFeSourceOfTruthVA,
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
-  selectFeatureConvertSlotsToUtc,
+  selectFeatureMentalHealthHistoryFiltering,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -50,11 +48,11 @@ import { getCommunityCareV2 } from '../../services/vaos/index';
 import { getPreciseLocation } from '../../utils/address';
 import {
   APPOINTMENT_STATUS,
+  DATE_FORMATS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
   GA_PREFIX,
-  DATE_FORMATS,
 } from '../../utils/constants';
 import {
   captureError,
@@ -67,7 +65,6 @@ import {
   recordItemsRetrieved,
   resetDataLayer,
 } from '../../utils/events';
-import { getTimezoneByFacilityId } from '../../utils/timezone';
 import getNewAppointmentFlow from '../newAppointmentFlow';
 import {
   transformFormToVAOSAppointment,
@@ -319,13 +316,13 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
-    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
-    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
-    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
       state,
     );
-    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+
+    // Retrieves flipper state for mental health history filtering
+    // Only used in NON-Cerner checks
+    const usePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
       state,
     );
 
@@ -344,10 +341,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
             location,
             typeOfCare,
             directSchedulingEnabled,
-            useFeSourceOfTruth,
-            useFeSourceOfTruthCC,
-            useFeSourceOfTruthVA,
-            useFeSourceOfTruthModality,
             useFeSourceOfTruthTelehealth,
             isCerner: true,
           });
@@ -382,11 +375,8 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          useFeSourceOfTruth,
-          useFeSourceOfTruthCC,
-          useFeSourceOfTruthVA,
-          useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
+          usePastVisitMHFilter,
         });
 
         if (showModal) {
@@ -639,18 +629,26 @@ export function updateReasonForAppointmentData(page, uiSchema, data) {
   };
 }
 
-export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
+export function getAppointmentSlots(start, end, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
-    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
-    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
-    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
+    let startDate = start;
+    let endDate = end;
 
-    const timezone = getTimezoneByFacilityId(data.vaFacility);
+    if (!isDate(start)) {
+      startDate = parseISO(start);
+    }
+
+    if (!isDate(end)) {
+      endDate = parseISO(end);
+    }
+
+    const startDateMonth = format(startDate, DATE_FORMATS.yearMonth);
+    const endDateMonth = format(endDate, DATE_FORMATS.yearMonth);
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -673,21 +671,21 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
       try {
         const startDateString = !fetchedStartMonth
-          ? format(new Date(startDate), 'yyyy-MM-dd')
-          : format(startOfMonth(new Date(endDate)), 'yyyy-MM-dd');
+          ? new Date(startDate)
+          : startOfMonth(new Date(endDate));
         const endDateString = !fetchedEndMonth
-          ? format(new Date(endDate), 'yyyy-MM-dd')
-          : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
+          ? new Date(endDate)
+          : endOfMonth(new Date(startDate));
 
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
-          convertToUtc: featureConvertSlotsToUTC,
         });
-
-        const tomorrow = startOfDay(addDays(new Date(), 1));
+        const tomorrow = startOfDay(
+          addDays(new Date(new Date().toISOString()), 1),
+        );
 
         mappedSlots = fetchedSlots.filter(slot =>
           isAfter(new Date(slot.start), tomorrow),
@@ -703,19 +701,10 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           fetchedAppointmentSlotMonths.push(endDateMonth);
         }
 
-        // Check timezone 1st since conversion might flip the date to the
-        // previous or next day. This ensures available slots are displayed
-        // for the correct day.
-        const correctedSlots = mappedSlots.map(slot => {
-          const zonedDate = utcToZonedTime(slot.start, timezone);
-          const time = format(zonedDate, DATE_FORMATS.ISODateTime, {
-            timeZone: timezone,
-          });
-          return { ...slot, start: time, startUtc: slot.start };
-        });
-        const sortedSlots = [...availableSlots, ...correctedSlots].sort(
-          (a, b) => a.start.localeCompare(b.start),
+        const sortedSlots = [...availableSlots, ...mappedSlots].sort((a, b) =>
+          a.start.localeCompare(b.start),
         );
+
         dispatch({
           type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
@@ -749,7 +738,7 @@ export function onCalendarChange(
       isSame = appointments?.some(appointment => {
         // Use UTC timestamps for conflict detection. This avoids timezone conversion issues.
         const slotInterval = {
-          start: new Date(selectedSlot.startUtc),
+          start: new Date(selectedSlot.start),
           end: new Date(selectedSlot.end),
         };
         const appointmentStart = new Date(appointment.startUtc);
@@ -851,12 +840,6 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
-    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
-    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
-    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-      state,
-    );
     const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
       state,
     );
@@ -885,10 +868,6 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
-          useFeSourceOfTruth,
-          useFeSourceOfTruthCC,
-          useFeSourceOfTruthVA,
-          useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });
 
@@ -977,10 +956,6 @@ export function submitAppointmentOrRequest(history) {
 
         const requestData = await createAppointment({
           appointment: requestBody,
-          useFeSourceOfTruth,
-          useFeSourceOfTruthCC,
-          useFeSourceOfTruthVA,
-          useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });
 

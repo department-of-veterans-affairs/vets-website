@@ -42,7 +42,8 @@ export const getClaimPhases = date => {
           <ul>
             <li>Ask you to submit evidence </li>
             <li>
-              Ask you to have a claim exam{' '}
+              Ask you to have a claim exam
+              <br />
               <a href="/disability/va-claim-exam/">
                 Learn more about VA claim exams
               </a>
@@ -186,7 +187,8 @@ export const getPensionClaimPhases = date => {
           <ul>
             <li>Ask you to submit evidence </li>
             <li>
-              Ask you to have a claim exam{' '}
+              Ask you to have a claim exam
+              <br />
               <a href="/disability/va-claim-exam/">
                 Learn more about VA claim exams
               </a>
@@ -261,7 +263,7 @@ export const getPensionClaimPhases = date => {
         <>
           <p>
             A senior reviewer will do a final review of your claim and the
-            decision letter. This step usually takes 1-2 days.
+            decision letter.
           </p>
         </>
       ),

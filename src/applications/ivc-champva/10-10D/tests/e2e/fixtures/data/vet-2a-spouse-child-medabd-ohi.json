@@ -136,9 +136,7 @@
       "state": "AZ",
       "postalCode": "12312"
     },
-    "ssn": {
-      "ssn": "234234234"
-    },
+    "ssn": "234234234",
     "veteransFullName": {
       "first": "Sponsor",
       "last": "Jones"
