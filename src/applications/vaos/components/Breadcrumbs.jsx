@@ -17,10 +17,18 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
 
   const history = useHistory();
 
-  // Only handles breadcrumb isRouterLink:true items
+  // Only handles breadcrumb isRouterLink:true items, so no routes without that are replaced
   function handleRouteChange({ detail }) {
     const { href } = detail;
-    history.push(href);
+    if (href.startsWith(manifest.rootUrl)) {
+      let path = href.replace(manifest.rootUrl, '');
+      if (!path.startsWith('/')) {
+        path = `/${path}`;
+      }
+      history.push(path);
+    } else {
+      history.push(href);
+    }
   }
 
   let newLabel = labelOverride || label;
@@ -52,7 +60,7 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
       },
       {
         // For Breadcrumb objects that are router links, the href is relative to the manifest.rootUrl
-        href: '/',
+        href: manifest.rootUrl,
         label: 'Appointments',
         isRouterLink: true,
       },
