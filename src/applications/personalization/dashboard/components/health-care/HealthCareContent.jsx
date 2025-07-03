@@ -134,63 +134,68 @@ const HealthCareContent = ({
   }
 
   return (
-    <div className="vads-l-row">
-      <DashboardWidgetWrapper>
-        {hasAppointmentsError && <HealthcareError />}
-        {hasUpcomingAppointment &&
-          !isLOA1 && <AppointmentsCard appointments={appointments} />}
-        {!isVAPatient && !isLOA1 && <NoHealthcareText />}
-        {isVAPatient &&
-          !hasUpcomingAppointment &&
-          !hasAppointmentsError &&
-          !isLOA1 &&
-          !isCernerPatient && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn && (
+    <>
+      <div className="vads-l-row">
+        <DashboardWidgetWrapper>
+          {hasAppointmentsError && <HealthcareError />}
+          {hasUpcomingAppointment &&
+            !isLOA1 && <AppointmentsCard appointments={appointments} />}
+          {!isVAPatient && !isLOA1 && <NoHealthcareText />}
+          {isVAPatient &&
+            !hasUpcomingAppointment &&
+            !hasAppointmentsError &&
+            !isLOA1 &&
+            !isCernerPatient && <NoUpcomingAppointmentsText />}
+          {shouldShowOnOneColumn && (
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                <HealthCareCTA
+                  viewMhvLink={viewMhvLink}
+                  hasInboxError={hasInboxError}
+                  authenticatedWithSSOe={authenticatedWithSSOe}
+                  hasUpcomingAppointment={hasUpcomingAppointment}
+                  unreadMessagesCount={unreadMessagesCount}
+                  isVAPatient={isVAPatient}
+                  isLOA1={isLOA1}
+                  hasAppointmentsError={hasAppointmentsError}
+                />
+              </Toggler.Disabled>
+            </Toggler>
+          )}
+        </DashboardWidgetWrapper>
+        {!shouldShowOnOneColumn && (
           <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
             <Toggler.Disabled>
-              <HealthCareCTA
-                viewMhvLink={viewMhvLink}
-                hasInboxError={hasInboxError}
-                authenticatedWithSSOe={authenticatedWithSSOe}
-                hasUpcomingAppointment={hasUpcomingAppointment}
-                unreadMessagesCount={unreadMessagesCount}
-                isVAPatient={isVAPatient}
-                isLOA1={isLOA1}
-                hasAppointmentsError={hasAppointmentsError}
-              />
+              <DashboardWidgetWrapper>
+                <HealthCareCTA
+                  viewMhvLink={viewMhvLink}
+                  hasInboxError={hasInboxError}
+                  authenticatedWithSSOe={authenticatedWithSSOe}
+                  hasUpcomingAppointment={hasUpcomingAppointment}
+                  unreadMessagesCount={unreadMessagesCount}
+                  isVAPatient={isVAPatient}
+                  hasAppointmentsError={hasAppointmentsError}
+                />
+              </DashboardWidgetWrapper>
             </Toggler.Disabled>
           </Toggler>
         )}
-      </DashboardWidgetWrapper>
-      {!shouldShowOnOneColumn && (
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
-          <Toggler.Disabled>
-            <DashboardWidgetWrapper>
-              <HealthCareCTA
-                viewMhvLink={viewMhvLink}
-                hasInboxError={hasInboxError}
-                authenticatedWithSSOe={authenticatedWithSSOe}
-                hasUpcomingAppointment={hasUpcomingAppointment}
-                unreadMessagesCount={unreadMessagesCount}
-                isVAPatient={isVAPatient}
-                hasAppointmentsError={hasAppointmentsError}
-              />
-            </DashboardWidgetWrapper>
-          </Toggler.Disabled>
-        </Toggler>
-      )}
-
+      </div>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
           <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Messages
           </h3>
-          <DashboardWidgetWrapper>
-            <UnreadMessagesCard />
-          </DashboardWidgetWrapper>
+          <div className="vads-l-row">
+            <DashboardWidgetWrapper>
+              <UnreadMessagesCard />
+            </DashboardWidgetWrapper>
+          </div>
         </Toggler.Enabled>
       </Toggler>
-    </div>
+    </>
   );
 };
 
