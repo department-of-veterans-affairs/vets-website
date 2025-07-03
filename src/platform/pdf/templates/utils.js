@@ -379,7 +379,7 @@ const createDetailItem = async (doc, config, x, item) => {
         doc
           .font(item.monospace ? monospaceFont : config.text.font)
           .fontSize(config.text.size)
-          .text(String(item.value).replace(/\r\n|\r/g, '\n'));
+          .text(item.value);
       }),
     );
   } else {
