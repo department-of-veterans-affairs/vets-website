@@ -249,7 +249,7 @@ describe('<DefaultPage>', () => {
       expect($('.add-files-form', container)).to.exist;
       getByText('Deadline passed for requested information');
       getByText(
-        'We haven’t received the information we asked for. You can still upload or mail it to us, but we may review your claim without it.',
+        'We haven’t received the information we asked for. You can still send it, but we may review your claim without it.',
       );
     });
     it('should display pass due explanation text when suspense date is in the future', () => {
