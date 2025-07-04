@@ -180,26 +180,38 @@ describe('Toxic exposure date handling when reverting condition association', ()
     // Enter only the year for an end date field
     cy.get(
       'select[name="root_toxicExposure_gulfWar1990Details_iraq_startDateMonth"]',
-    ).select('July');
+    )
+      .should('be.visible')
+      .select('July');
+    cy.get(
+      'input[name="root_toxicExposure_gulfWar1990Details_iraq_startDateDay"]',
+    )
+      .should('be.visible')
+      .clear();
     cy.get(
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_startDateDay"]',
     ).type('11');
     cy.get(
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_startDateYear"]',
+    )
+      .should('be.visible')
+      .clear();
+    cy.get(
+      'input[name="root_toxicExposure_gulfWar1990Details_iraq_startDateYear"]',
     ).type('1992');
+    // Enter partial date - only year
     cy.get(
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).type('1992');
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).blur();
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).clear();
+    )
+      .should('be.visible')
+      .clear();
     cy.get(
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
     ).type('1993');
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    // Wait for the button to be enabled after validation
+    cy.findByText(/continue/i, { selector: 'button' })
+      .should('be.enabled')
+      .click();
 
     // 2. Location 2 of 2: Oman
     // ========================

@@ -71,8 +71,16 @@ export function validateToxicExposureGulfWar1990Dates(
 ) {
   validateRange(errors, startDate, endDate);
 
-  if (new Date(endDate ?? '') <= new Date('1990-08-02')) {
-    errors.endDate.addError(messages.endDate1990);
+  // Only validate the date comparison if we have a complete, valid date
+  if (endDate && !endDate.includes('XX')) {
+    const endDateObj = new Date(endDate);
+    // Check if the date is valid before comparison
+    if (
+      !Number.isNaN(endDateObj.getTime()) &&
+      endDateObj <= new Date('1990-08-02')
+    ) {
+      errors.endDate.addError(messages.endDate1990);
+    }
   }
 
   validateMissingValues(errors, startDate, endDate);
@@ -84,8 +92,16 @@ export function validateToxicExposureGulfWar2001Dates(
 ) {
   validateRange(errors, startDate, endDate);
 
-  if (new Date(endDate ?? '') <= new Date('2001-09-11')) {
-    errors.endDate.addError(messages.endDate2001);
+  // Only validate the date comparison if we have a complete, valid date
+  if (endDate && !endDate.includes('XX')) {
+    const endDateObj = new Date(endDate);
+    // Check if the date is valid before comparison
+    if (
+      !Number.isNaN(endDateObj.getTime()) &&
+      endDateObj <= new Date('2001-09-11')
+    ) {
+      errors.endDate.addError(messages.endDate2001);
+    }
   }
 
   validateMissingValues(errors, startDate, endDate);
