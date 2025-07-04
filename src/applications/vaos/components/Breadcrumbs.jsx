@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import manifest from '../manifest.json';
@@ -14,6 +14,26 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
   const covidLabel = getCovidUrlLabel(location) || null;
   const label = useSelector(state => getUrlLabel(state, location));
   const isCovid = location.pathname.includes('covid-vaccine/');
+
+  const history = useHistory();
+
+  // Only handles breadcrumb isRouterLink:true items, so no routes without that are replaced
+  function handleRouteChange({ detail }) {
+    const { href } = detail;
+    // If we encounter a breadcrumb that is a router link but based off the manifest.rootUrl,
+    // we need to make it relative to the manifest.rootUrl
+    if (href.startsWith(manifest.rootUrl)) {
+      let path = href.replace(manifest.rootUrl, '');
+      if (!path.startsWith('/')) {
+        // If the path doesn't start with a slash, add one because the manifest.rootUrl does not end in a slash
+        path = `/${path}`;
+      }
+      history.push(path);
+    } else {
+      history.push(href);
+    }
+  }
+
   let newLabel = labelOverride || label;
   if (isCovid) newLabel = covidLabel;
 
@@ -42,8 +62,10 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
         label: 'My HealtheVet',
       },
       {
+        // For Breadcrumb objects that are router links, the href is relative to the manifest.rootUrl
         href: manifest.rootUrl,
         label: 'Appointments',
+        isRouterLink: true,
       },
     ];
     if (
@@ -104,6 +126,7 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
         data-testid="vaos-breadcrumbs"
         class="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2"
         breadcrumbList={getBreadcrumbList()}
+        onRouteChange={handleRouteChange}
         uswds
       >
         {children}
