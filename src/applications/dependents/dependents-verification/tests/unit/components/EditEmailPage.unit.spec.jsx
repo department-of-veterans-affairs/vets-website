@@ -2,11 +2,17 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
 import { EditEmailPage } from '../../../components/EditEmailPage';
 
 describe('EditEmailPage full coverage', () => {
   let goToPath;
   let setFormData;
+
+  const clickEvent = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+  });
 
   beforeEach(() => {
     goToPath = sinon.spy();
@@ -42,10 +48,7 @@ describe('EditEmailPage full coverage', () => {
     input.value = '';
     fireEvent.input(input, { detail: { value: '' } });
 
-    const updateBtn = container.querySelector(
-      'button[aria-label="Update email address"]',
-    );
-    fireEvent.click(updateBtn);
+    container.querySelector('va-button-pair').__events.primaryClick(clickEvent);
 
     await waitFor(() => {
       expect(input.getAttribute('error')).to.include(
@@ -67,10 +70,7 @@ describe('EditEmailPage full coverage', () => {
     input.value = 'bob@example.com';
     fireEvent.input(input, { detail: { value: 'bob@example.com' } });
 
-    const updateBtn = container.querySelector(
-      'button[aria-label="Update email address"]',
-    );
-    fireEvent.click(updateBtn);
+    container.querySelector('va-button-pair').__events.primaryClick(clickEvent);
 
     await waitFor(() => {
       expect(input.getAttribute('value')).to.eql('bob@example.com');
@@ -88,8 +88,9 @@ describe('EditEmailPage full coverage', () => {
       />,
     );
 
-    const updateBtn = container.querySelectorAll('button')[0];
-    fireEvent.click(updateBtn);
+    container
+      .querySelector('va-button-pair')
+      .__events.secondaryClick(clickEvent);
 
     await waitFor(() => {
       expect(goToPath.called).to.be.true;

@@ -4,7 +4,6 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
 import draftMessage from '../../fixtures/message-draft-response.json';
@@ -29,7 +28,6 @@ import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
 import * as categoriesActions from '../../../actions/categories';
-import * as threadDetailsActions from '../../../actions/threadDetails';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   getProps,
@@ -80,17 +78,7 @@ describe('Compose form component', () => {
     sm: {
       triageTeams: { triageTeams },
       categories: { categories },
-      threadDetails: {
-        ...threadDetailsReducer.threadDetails,
-        draftInProgress: {
-          recipientId: threadDetailsReducer.threadDetails.drafts[0].recipientId,
-          recipientName:
-            threadDetailsReducer.threadDetails.drafts[0].recipientName,
-          category: threadDetailsReducer.threadDetails.drafts[0].category,
-          subject: threadDetailsReducer.threadDetails.drafts[0].subject,
-          body: threadDetailsReducer.threadDetails.drafts[0].body,
-        },
-      },
+      threadDetails: { ...threadDetailsReducer.threadDetails },
       recipients: {
         allRecipients: noBlockedRecipients.mockAllRecipients,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
@@ -239,41 +227,6 @@ describe('Compose form component', () => {
     });
   });
 
-  it('clears draftInProgress on send button click', async () => {
-    const customDraftMessage = {
-      ...draftMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-    };
-
-    const customState = {
-      ...draftState,
-      sm: {
-        ...draftState.sm,
-        draftDetails: { customDraftMessage },
-      },
-    };
-
-    const clearDraftInProgressSpy = sinon.spy(
-      threadDetailsActions,
-      'clearDraftInProgress',
-    );
-
-    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
-      draft: customDraftMessage,
-      recipients: customState.sm.recipients,
-    });
-
-    mockApiRequest({});
-    fireEvent.click(screen.getByTestId('send-button'));
-
-    await waitFor(() => {
-      expect(clearDraftInProgressSpy.calledOnce).to.be.true;
-      clearDraftInProgressSpy.restore();
-    });
-  });
-
   it('renders sending message spinner without errors', async () => {
     const customDraftMessage = {
       ...draftMessage,
@@ -419,15 +372,11 @@ describe('Compose form component', () => {
 
     const messageInput = await screen.getByTestId('message-body-field');
 
-    await waitFor(() => {
-      expect(messageInput)
-        .to.have.attribute('value')
-        .not.equal(
-          messageSignatureFormatter(
-            signatureReducers.signatureEnabled.signature,
-          ),
-        );
-    });
+    expect(messageInput)
+      .to.have.attribute('value')
+      .not.equal(
+        messageSignatureFormatter(signatureReducers.signatureEnabled.signature),
+      );
   });
 
   it('displays an error on attempt to save a draft with attachments', async () => {
@@ -436,24 +385,7 @@ describe('Compose form component', () => {
       messageValid: true,
       isSignatureRequired: false,
     };
-    const customState = {
-      ...initialState,
-      sm: {
-        ...initialState.sm,
-        threadDetails: {
-          draftInProgress: {
-            recipientId:
-              threadDetailsReducer.threadDetails.drafts[0].recipientId,
-            recipientName:
-              threadDetailsReducer.threadDetails.drafts[0].recipientName,
-            category: threadDetailsReducer.threadDetails.drafts[0].category,
-            subject: threadDetailsReducer.threadDetails.drafts[0].subject,
-            body: threadDetailsReducer.threadDetails.drafts[0].body,
-          },
-        },
-      },
-    };
-    const screen = setup(customState, Paths.COMPOSE, { draft: customProps });
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
@@ -880,9 +812,7 @@ describe('Compose form component', () => {
           noAssociations: blockedFacility.noAssociations,
           allTriageGroupsBlocked: blockedFacility.allTriageGroupsBlocked,
         },
-        threadDetails: {
-          draftInProgress: {},
-        },
+        threadDetails: {},
       },
     };
 
@@ -923,9 +853,7 @@ describe('Compose form component', () => {
           noAssociations: blockedFacilityAndTeam.noAssociations,
           allTriageGroupsBlocked: blockedFacilityAndTeam.allTriageGroupsBlocked,
         },
-        threadDetails: {
-          draftInProgress: {},
-        },
+        threadDetails: {},
       },
     };
 
@@ -1162,11 +1090,7 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        threadDetails: {
-          ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
-          draftInProgress: {},
-        },
+        draftDetails: { customDraftMessage },
       },
     };
 
@@ -1211,11 +1135,7 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        threadDetails: {
-          ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
-          draftInProgress: {},
-        },
+        draftDetails: { customDraftMessage },
       },
     };
 
@@ -1305,11 +1225,7 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        threadDetails: {
-          ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
-          draftInProgress: {},
-        },
+        draftDetails: { customDraftMessage },
       },
     };
 
@@ -1458,49 +1374,5 @@ describe('Compose form component', () => {
     expect(comboBoxInput.error).to.equal('Please select a recipient.');
     expect(subjectInputError).to.equal('Subject cannot be blank.');
     expect(messageInputError).to.equal('Message body cannot be blank.');
-  });
-
-  it('renders correct headings in pilot environment', async () => {
-    const customState = {
-      ...initialState,
-      featureToggles: { loading: false },
-      sm: {
-        ...initialState.sm,
-        app: { isPilot: true },
-        recipients: {
-          ...initialState.sm.recipients,
-          activeFacility: {
-            ehr: 'vista',
-            vamcSystemName: 'Test Vista Facility Health Care',
-          },
-        },
-        threadDetails: {
-          draftInProgress: {
-            careSystemName: 'test care system',
-            recipientName: 'test care team',
-          },
-        },
-      },
-    };
-
-    const screen = setup(customState, Paths.COMPOSE, {
-      pageTitle: 'Start your message',
-    });
-
-    expect(
-      screen.getByText('Start your message', {
-        selector: 'h1',
-      }),
-    ).to.exist;
-
-    expect(
-      screen.getByTestId('compose-recipient-title').textContent,
-    ).to.contain('test care system - test care team');
-
-    expect(
-      screen.getByText('Attachments', {
-        selector: 'h2',
-      }),
-    ).to.exist;
   });
 });

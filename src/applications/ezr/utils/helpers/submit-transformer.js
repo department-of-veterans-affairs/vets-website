@@ -26,7 +26,7 @@ export function submitTransformer(formConfig, form) {
   are left
   */
   if (
-    includeHouseholdInformationWithV2Prefill &&
+    includeHouseholdInformationWithV2Prefill(formData) &&
     formData.financialInformation?.length > 0
   ) {
     // clone the original data to avoid mutating it directly
