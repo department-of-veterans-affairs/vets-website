@@ -1,3 +1,4 @@
+import { scrollToFirstError } from 'platform/utilities/scroll';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -40,8 +41,6 @@ function goForward({ dispatch, data, history, setSubmitted }) {
     !exceededMaxSelections(data.selectedDates)
   ) {
     dispatch(routeToNextAppointmentPage(history, pageKey));
-  } else {
-    scrollAndFocus('.usa-input-error-message');
   }
 }
 
@@ -56,10 +55,20 @@ export default function CCRequest() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [submitted, setSubmitted] = useState(false);
+  // Add a counter state to trigger focusing
+  const [focusTrigger, setFocusTrigger] = useState(0);
   const appointmentSlotsStatus = useSelector(state =>
     selectAppointmentSlotsStatus(state),
   );
   const flowType = useSelector(state => getFlowType(state));
+
+  // Effect to focus on validation message whenever error state changes
+  useEffect(
+    () => {
+      scrollToFirstError();
+    },
+    [focusTrigger],
+  );
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -122,15 +131,17 @@ export default function CCRequest() {
 
           return dispatch(routeToPreviousAppointmentPage(history, pageKey));
         }}
-        onSubmit={() =>
+        onSubmit={() => {
+          // Increment the focus trigger to force re-focusing the validation message
+          setFocusTrigger(prev => prev + 1);
           goForward({
             dispatch,
             data,
             history,
             submitted,
             setSubmitted,
-          })
-        }
+          });
+        }}
         pageChangeInProgress={pageChangeInProgress}
         loadingText="Page change in progress"
       />
