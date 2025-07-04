@@ -54,6 +54,11 @@ describe('<PreSubmitInfo>', () => {
       expect(selectors.privacyAgreement).to.exist;
     });
 
+    it('should run setPreSubmit on render at least once.', () => {
+      const { props } = getData();
+      expect(props.setPreSubmit.atLeast(1));
+    });
+
     it('should handle checkbox clicked', async () => {
       const { mockStore, props } = getData();
       const { container } = subject({ mockStore, props });

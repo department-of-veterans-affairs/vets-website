@@ -1,6 +1,6 @@
 // added until testing of new radio buttons is completed
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 
@@ -8,6 +8,13 @@ import { connect } from 'react-redux';
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
 function PreSubmitInfo({ formData, showError, setPreSubmit }) {
+  useEffect(
+    () => {
+      // This ensures the user will always have to accept the privacy agreement.
+      setPreSubmit('privacyAgreementAccepted', false);
+    },
+    [setPreSubmit],
+  );
   const privacyAgreementAccepted = formData.privacyAgreementAccepted || false;
 
   return (
