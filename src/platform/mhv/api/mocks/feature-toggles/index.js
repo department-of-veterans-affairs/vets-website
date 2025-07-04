@@ -41,6 +41,8 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
     mhvSecureMessagingRecipientCombobox = true,
+    mhvSecureMessagingCernerPilot = true,
+    mhvSecureMessagingLargeAttachments = true,
   } = toggles;
 
   return {
@@ -186,6 +188,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_recipient_combobox',
           value: mhvSecureMessagingRecipientCombobox,
+        },
+        {
+          name: 'mhv_secure_messaging_cerner_pilot',
+          value: mhvSecureMessagingCernerPilot,
+        },
+        {
+          name: 'mhv_secure_messaging_large_attachments',
+          value: mhvSecureMessagingLargeAttachments,
         },
       ],
     },

@@ -31,8 +31,8 @@ const InterstitialPage = props => {
 
   const handleContinueButton = useCallback(
     () => {
-      if (isPilot) {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`);
+      if (isPilot && type !== 'reply') {
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
       } else {
         acknowledge();
       }

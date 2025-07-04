@@ -6,6 +6,8 @@ import mockRecipients from '../fixtures/recipientsResponse/recipients-response.j
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import mockSignature from '../fixtures/signature-response.json';
 import mockCategories from '../fixtures/categories-response.json';
+import PatientComposePage from './PatientComposePage';
+import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PilotEnvPage {
   loadInboxMessages = (
@@ -76,6 +78,12 @@ class PilotEnvPage {
     });
 
     // cy.wait('@single-thread', { requestTimeout: 20000 });
+  };
+
+  navigateToComposePage = () => {
+    PatientComposePage.interceptSentFolder();
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
   verifyHeader = text => {

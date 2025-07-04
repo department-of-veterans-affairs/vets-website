@@ -74,6 +74,12 @@ class PatientErrorPage {
       .and(`have.attr`, `href`, `/my-health`)
       .and(`have.attr`, `text`, Data.NOT_FOUND.LINK);
   };
+
+  verifyAttachmentErrorMessage = errormessage => {
+    cy.get(Locators.ALERTS.ERROR_MESSAGE)
+      .should('include.text', errormessage)
+      .should('be.visible');
+  };
 }
 
 export default new PatientErrorPage();
