@@ -676,3 +676,15 @@ export const displayProviderName = (first, last) => {
   }
   return NO_PROVIDER_NAME;
 };
+
+/**
+ * Display status description for a pending medication.
+ * @param {String} pendingMed - Status of medication.
+ * @returns {String} - Description of renewal or new medication.
+ */
+export const pendingMedStatusDescription = pendingMed => {
+  if (pendingMed === 'NewOrder') {
+    return 'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.';
+  }
+  return 'This is a renewal you requested. Your VA pharmacy is reviewing it now. Details may change.';
+};
