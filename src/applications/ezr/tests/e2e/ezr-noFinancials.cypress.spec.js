@@ -4,7 +4,7 @@ import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { goToNextPage } from './helpers';
-import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
+import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
 import {
   advanceToHouseholdSection,
   advanceFromHouseholdToReview,
@@ -16,7 +16,7 @@ describe('EZR No Financial Submission', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
+    cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
       statusCode: 200,
       body: {
         ...MOCK_ENROLLMENT_RESPONSE,
