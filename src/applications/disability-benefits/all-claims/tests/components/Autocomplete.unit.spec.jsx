@@ -15,13 +15,13 @@ export const simulateInputChange = (selector, value) => {
   const vaTextInput = selector;
   vaTextInput.value = value;
 
-  // Create a new 'input' event
-  const event = new Event('input', {
-    bubbles: true, // Ensure the event bubbles up through the DOM
+  const inputEvent = new CustomEvent('input', {
+    bubbles: true,
+    cancelable: true,
+    detail: { value },
   });
 
-  // Dispatch the event to simulate the input change
-  vaTextInput.dispatchEvent(event);
+  vaTextInput.dispatchEvent(inputEvent);
 };
 
 describe('Autocomplete Component', () => {
