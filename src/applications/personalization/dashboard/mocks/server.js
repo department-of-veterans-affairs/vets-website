@@ -4,14 +4,26 @@ const {
 } = require('../../common/mocks/feature-toggles');
 const user = require('../../common/mocks/users');
 const notifications = require('../../common/mocks/notifications');
-const { createSuccessPayment } = require('./payment-history');
+const {
+  createEmptyPayment,
+  createSuccessPayment,
+  createFailurePayment,
+} = require('./payment-history');
 const { createAppealsSuccess, createAppealsFailure } = require('./appeals');
-const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
+const {
+  createDebtsSuccess,
+  createNoDebtsSuccess,
+  createDebtsFailure,
+} = require('./debts');
 const { createClaimsSuccess, createClaimsFailure } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createApplications } = require('./benefit-applications');
 const { allFoldersWithUnreadMessages } = require('./messaging');
-const { user81Copays } = require('./medical-copays');
+const {
+  user81Copays,
+  user81ErrorCopays,
+  user81NoCopays,
+} = require('./medical-copays');
 const { v2 } = require('./appointments');
 const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
 const { boot } = require('../../common/mocks/script/utils');
@@ -22,9 +34,6 @@ const {
   createDisabilityRatingEmpty,
   createDisabilityRatingZero,
 } = require('./disability-rating');
-
-// set to true to simulate a user with debts for /v0/debts endpoint
-const hasDebts = false;
 
 /* eslint-disable camelcase */
 const responses = {
@@ -46,8 +55,32 @@ const responses = {
   // 'GET /v0/user': user.loa1UserWithNoEmail,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
-  'GET /v0/medical_copays': user81Copays,
-  'GET /v0/profile/payment_history': createSuccessPayment(false),
+  'GET /v0/medical_copays': (req, res) => {
+    const copayStatus = 'success';
+    switch (copayStatus) {
+      case 'success':
+        return res.status(200).json(user81Copays);
+      case 'empty':
+        return res.status(200).json(user81NoCopays);
+      case 'failure':
+        return res.status(500).json(user81ErrorCopays);
+      default:
+        return res.status(200).json('');
+    }
+  },
+  'GET /v0/profile/payment_history': (req, res) => {
+    const paymentHistoryStatus = 'success';
+    switch (paymentHistoryStatus) {
+      case 'success':
+        return res.status(200).json(createSuccessPayment(false));
+      case 'empty':
+        return res.status(200).json(createEmptyPayment());
+      case 'failure':
+        return res.status(500).json(createFailurePayment());
+      default:
+        return res.status(200).json('');
+    }
+  },
   'GET /v0/profile/service_history': {
     data: {
       id: '',
@@ -119,7 +152,19 @@ const responses = {
       suffix: null,
     },
   },
-  'GET /v0/debts': hasDebts ? createDebtsSuccess() : createNoDebtsSuccess(),
+  'GET /v0/debts': (req, res) => {
+    const debtStatus = 'success';
+    switch (debtStatus) {
+      case 'success':
+        return res.status(200).json(createDebtsSuccess());
+      case 'empty':
+        return res.status(200).json(createNoDebtsSuccess());
+      case 'failure':
+        return res.status(500).json(createDebtsFailure());
+      default:
+        return res.status(200).json('');
+    }
+  },
   'GET /v0/onsite_notifications': notifications.hasMultiple,
   // TODO: put id into a constant file when we get more notification types
   'PATCH /v0/onsite_notifications/:id': (req, res) => {
