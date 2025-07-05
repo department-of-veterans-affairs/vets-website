@@ -3,7 +3,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import InfoAlert from '../../../components/InfoAlert';
-import ErrorMessage from '../../../components/ErrorMessage';
+import AppointmentDetailsErrorMessage from '../../components/AppointmentDetailsErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import CCLayout from '../../../components/layouts/CCLayout';
 import VideoLayout from '../../../components/layouts/VideoLayout';
@@ -146,7 +146,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   ) {
     return (
       <PageLayout showBreadcrumbs showNeedHelp>
-        <ErrorMessage level={1} />
+        <AppointmentDetailsErrorMessage />
       </PageLayout>
     );
   }
