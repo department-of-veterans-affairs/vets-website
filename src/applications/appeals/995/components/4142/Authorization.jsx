@@ -49,6 +49,7 @@ const Authorization = ({
   const [hasError, setHasError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [showLegaleseBanner, setShowLegaleseBanner] = useState(false);
+  const [modalOpenedBy, setModalOpenedBy] = useState(null);
 
   const lastUpdated = useSelector(
     state => state?.form?.loadedData?.metadata?.lastUpdated,
@@ -62,8 +63,25 @@ const Authorization = ({
     returnUrl &&
     returnUrl === '/supporting-evidence/private-medical-records-authorization';
 
-  const toggle4142PrivacyModal = () => {
+  const toggle4142PrivacyModal = buttonId => {
+    const wasVisible = modalVisible;
+
+    if (!wasVisible && buttonId) {
+      setModalOpenedBy(buttonId);
+    }
+
     setModalVisible(!modalVisible);
+
+    // If we're closing the modal, restore focus to the correct button
+    if (wasVisible && modalOpenedBy) {
+      waitForRenderThenFocus(
+        `#${modalOpenedBy}`, // The va-button element
+        document, // Root to search from
+        250, // Default time interval
+        'button', // Internal selector - the actual button inside va-button's shadow DOM
+      );
+      setModalOpenedBy(null);
+    }
   };
 
   useEffect(
@@ -143,12 +161,21 @@ const Authorization = ({
     }
   };
 
-  const privacyModalButton = (
+  const createPrivacyModalButton = buttonId => (
     <va-button
-      onClick={toggle4142PrivacyModal}
+      id={buttonId}
+      onClick={() => toggle4142PrivacyModal(buttonId)}
       secondary
       text="Review Privacy Act Statement"
     />
+  );
+
+  const privacyModalButton1 = createPrivacyModalButton(
+    'privacy-modal-button-1',
+  );
+
+  const privacyModalButton2 = createPrivacyModalButton(
+    'privacy-modal-button-2',
   );
 
   return (
@@ -349,7 +376,7 @@ const Authorization = ({
                 the Federal Privacy Act, 5 USC 552a, and VA may disclose this
                 information as authorized by law.
               </p>
-              {privacyModalButton}
+              {privacyModalButton1}
               <p>
                 I also understand that I may revoke this authorization in
                 writing, at any time except to the extent a source of
@@ -438,7 +465,7 @@ const Authorization = ({
                 this page, the information may be disclosed by VA without your
                 consent if authorized by Federal laws such as the Privacy Act.
               </p>
-              {privacyModalButton}
+              {privacyModalButton2}
               <p>
                 <strong>Expires</strong>: This authorization is good for 12
                 months from the date this form is submitted.

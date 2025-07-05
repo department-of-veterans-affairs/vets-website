@@ -18,7 +18,15 @@ const testConfig = createTestConfig(
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
     pageHooks,
-    setupPerTest,
+    setupPerTest: data => {
+      const toggles = [
+        {
+          name: 'decision_reviews_4142_banner',
+          value: true,
+        },
+      ];
+      setupPerTest(data, toggles);
+    },
   },
   manifest,
   formConfig,
