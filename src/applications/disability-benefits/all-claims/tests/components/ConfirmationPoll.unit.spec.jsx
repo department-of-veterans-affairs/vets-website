@@ -8,6 +8,7 @@ import {
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import { act } from 'react-dom/test-utils';
 import { submissionStatuses } from '../../constants';
 import {
   ConfirmationPoll,
@@ -76,6 +77,22 @@ const errorResponse = {
   },
 };
 
+// Helper function to wait for polling to complete
+const waitForPolling = async (wrapper, expectedCallCount) => {
+  await act(async () => {
+    // Wait for the expected number of API calls
+    const checkCount = async () => {
+      if (global.fetch.callCount < expectedCallCount) {
+        await new Promise(resolve => setTimeout(resolve, 0));
+        return checkCount();
+      }
+      return Promise.resolve();
+    };
+    await checkCount();
+  });
+  wrapper.update();
+};
+
 describe('ConfirmationPoll', () => {
   const defaultProps = {
     jobId: '12345',
@@ -96,7 +113,7 @@ describe('ConfirmationPoll', () => {
     component.unmount();
   });
 
-  it('should continue to make api calls until the response is not pending', done => {
+  it('should continue to make api calls until the response is not pending', async () => {
     mockMultipleApiRequests([
       pendingResponse,
       pendingResponse,
@@ -109,38 +126,41 @@ describe('ConfirmationPoll', () => {
         <ConfirmationPoll {...defaultProps} pollRate={10} />
       </Provider>,
     );
-    // Should stop after the first success
-    setTimeout(() => {
-      expect(global.fetch.callCount).to.equal(3);
-      form.unmount();
-      done();
-    }, 50);
+
+    // Wait for polling to complete (should stop after the first success)
+    await waitForPolling(form, 3);
+
+    expect(global.fetch.callCount).to.equal(3);
+    form.unmount();
   });
 
-  it('should render the confirmation page', done => {
+  it('should render the confirmation page', async () => {
     mockApiRequest(successResponse.response);
-    const tree = shallow(<ConfirmationPoll {...defaultProps} pollRate={10} />);
-    setTimeout(() => {
-      // Without this update, it wasn't catching the last render even though the function was running first
-      tree.update();
-      const confirmationPage = tree.find('ConfirmationPage');
-      expect(confirmationPage.length).to.equal(1);
-      expect(confirmationPage.first().props()).to.eql({
-        submissionStatus: submissionStatuses.succeeded,
-        claimId: '123abc',
-        jobId: defaultProps.jobId,
-        fullName: defaultProps.fullName,
-        disabilities: defaultProps.disabilities,
-        submittedAt: defaultProps.submittedAt,
-        isSubmittingBDD: defaultProps.isSubmittingBDD,
-        route: defaultProps.route,
-      });
-      tree.unmount();
-      done();
-    }, 500);
+    const tree = mount(
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPoll {...defaultProps} pollRate={10} />
+      </Provider>,
+    );
+
+    // Wait for the successful response
+    await waitForPolling(tree, 1);
+
+    const confirmationPage = tree.find('ConfirmationPage');
+    expect(confirmationPage.length).to.equal(1);
+    expect(confirmationPage.first().props()).to.eql({
+      submissionStatus: submissionStatuses.succeeded,
+      claimId: '123abc',
+      jobId: defaultProps.jobId,
+      fullName: defaultProps.fullName,
+      disabilities: defaultProps.disabilities,
+      submittedAt: defaultProps.submittedAt,
+      isSubmittingBDD: defaultProps.isSubmittingBDD,
+      route: defaultProps.route,
+    });
+    tree.unmount();
   });
 
-  it('should display loading message', done => {
+  it('should display loading message', async () => {
     mockApiRequest(pendingResponse.response);
 
     const form = mount(
@@ -154,15 +174,19 @@ describe('ConfirmationPoll', () => {
         <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={10} />
       </Provider>,
     );
-    setTimeout(() => {
-      const alert = form.find('va-loading-indicator');
-      expect(alert.html()).to.contain('Preparing your submission');
-      form.unmount();
-      done();
-    }, 50);
+
+    // Wait for initial render with loading state
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+    form.update();
+
+    const alert = form.find('va-loading-indicator');
+    expect(alert.html()).to.contain('Preparing your submission');
+    form.unmount();
   });
 
-  it('should ignore immediate api failures', done => {
+  it('should ignore immediate api failures', async () => {
     mockMultipleApiRequests([
       errorResponse,
       pendingResponse,
@@ -175,13 +199,14 @@ describe('ConfirmationPoll', () => {
         <ConfirmationPoll {...defaultProps} pollRate={10} delayFailure={20} />
       </Provider>,
     );
-    setTimeout(() => {
-      expect(global.fetch.callCount).to.equal(4);
-      const loadingIndicator = form.find('va-loading-indicator');
-      expect(loadingIndicator.length).to.equal(1);
-      form.unmount();
-      done();
-    }, 50);
+
+    // Wait for all API calls to complete
+    await waitForPolling(form, 4);
+
+    expect(global.fetch.callCount).to.equal(4);
+    const loadingIndicator = form.find('va-loading-indicator');
+    expect(loadingIndicator.length).to.equal(1);
+    form.unmount();
   });
 
   describe('selectAllDisabilityNames', () => {
