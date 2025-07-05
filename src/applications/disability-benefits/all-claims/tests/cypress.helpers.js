@@ -173,6 +173,14 @@ export const setup = (cy, testOptions = {}) => {
     }
   });
 
+  // Also add a global style to prevent the overlay from appearing
+  cy.window().then(win => {
+    const style = win.document.createElement('style');
+    style.innerHTML =
+      '#webpack-dev-server-client-overlay { display: none !important; }';
+    win.document.head.appendChild(style);
+  });
+
   cy.intercept(
     'GET',
     '/v0/feature_toggles*',
@@ -429,63 +437,51 @@ export const pageHooks = (cy, testOptions) => ({
   pow: () => {
     cy.get('@testData').then(data => {
       // First handle the yes/no question
-      if (data['view:powStatus']) {
-        // Select "Yes" for POW status
-        cy.get('input[name="root_view:powStatus"][value="Y"]').click();
-
-        // Wait for the expandUnder section to become visible
-        cy.get('[id^="root_view:isPow_confinements"]').should('exist');
-
-        // Remove any webpack overlay that might be covering elements
-        cy.window().then(win => {
-          const overlay = win.document.getElementById(
-            'webpack-dev-server-client-overlay',
-          );
-          if (overlay) {
-            overlay.remove();
-          }
+      if (data['view:powStatus'] === true) {
+        cy.get('input[name="root_view:powStatus"][value="Y"]').check({
+          force: true,
         });
 
-        // Manually fill the confinement dates to avoid visibility issues
+        // Wait for the expanded section to be visible
+        cy.contains('Please tell us your dates of confinement').should(
+          'be.visible',
+        );
+
+        // Handle confinements manually since they're nested
         if (data['view:isPow'] && data['view:isPow'].confinements) {
           data['view:isPow'].confinements.forEach((confinement, index) => {
-            // Handle from date
+            // Fill in from date
             if (confinement.from) {
-              const fromDate = confinement.from.split('-');
+              const fromParts = confinement.from.split('-');
               cy.get(
                 `select[name="root_view:isPow_confinements_${index}_fromMonth"]`,
-              ).select(parseInt(fromDate[1], 10).toString(), { force: true });
+              ).select(parseInt(fromParts[1], 10).toString());
               cy.get(
                 `select[name="root_view:isPow_confinements_${index}_fromDay"]`,
-              ).select(parseInt(fromDate[2], 10).toString(), { force: true });
+              ).select(parseInt(fromParts[2], 10).toString());
               cy.get(
                 `input[name="root_view:isPow_confinements_${index}_fromYear"]`,
-              ).clear({ force: true });
+              ).clear();
               cy.get(
                 `input[name="root_view:isPow_confinements_${index}_fromYear"]`,
-              ).type(fromDate[0], { force: true });
+              ).type(fromParts[0]);
             }
 
-            // Handle to date
+            // Fill in to date
             if (confinement.to) {
-              const toDate = confinement.to.split('-');
+              const toParts = confinement.to.split('-');
               cy.get(
                 `select[name="root_view:isPow_confinements_${index}_toMonth"]`,
-              ).select(parseInt(toDate[1], 10).toString(), { force: true });
+              ).select(parseInt(toParts[1], 10).toString());
               cy.get(
                 `select[name="root_view:isPow_confinements_${index}_toDay"]`,
-              ).select(parseInt(toDate[2], 10).toString(), { force: true });
+              ).select(parseInt(toParts[2], 10).toString());
               cy.get(
                 `input[name="root_view:isPow_confinements_${index}_toYear"]`,
-              ).clear({ force: true });
+              ).clear();
               cy.get(
                 `input[name="root_view:isPow_confinements_${index}_toYear"]`,
-              ).type(toDate[0], { force: true });
-            }
-
-            // Add another confinement if there are more
-            if (index < data['view:isPow'].confinements.length - 1) {
-              cy.findByText(/add another/i, { selector: 'button' }).click();
+              ).type(toParts[0]);
             }
           });
         }
@@ -504,7 +500,9 @@ export const pageHooks = (cy, testOptions) => ({
         }
       } else {
         // Select "No" for POW status
-        cy.get('input[name="root_view:powStatus"][value="N"]').click();
+        cy.get('input[name="root_view:powStatus"][value="N"]').check({
+          force: true,
+        });
       }
     });
   },

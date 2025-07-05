@@ -195,7 +195,19 @@
       "view:otherExposuresAdditionalInfo": {},
       "view:additionalExposuresAdditionalInfo": {}
     },
-    "view:powStatus": false,
+    "view:powStatus": true,
+    "view:isPow": {
+      "confinements": [
+        {
+          "from": "2016-01-01",
+          "to": "2017-01-01"
+        }
+      ],
+      "powDisabilities": {
+        "ankylosisinkneebilateral": true,
+        "heartattackmyocardialinfarction": true
+      }
+    },
     "newDisabilities": [
       {
         "cause": "NEW",

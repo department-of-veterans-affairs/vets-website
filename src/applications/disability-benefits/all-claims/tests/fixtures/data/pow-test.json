@@ -1,0 +1,88 @@
+{
+  "data": {
+    "view:claimType": {
+      "view:claimingIncrease": false,
+      "view:claimingNew": true
+    },
+    "standardClaim": true,
+    "view:fdcWarning": {},
+    "isVaEmployee": false,
+    "isTerminallyIll": false,
+    "homelessOrAtRisk": "no",
+    "view:bankAccount": {
+      "bankAccountType": "Checking",
+      "bankAccountNumber": "1234",
+      "bankRoutingNumber": "123456789",
+      "bankName": "Test Bank"
+    },
+    "phoneAndEmail": {
+      "primaryPhone": "5551234567",
+      "emailAddress": "test@example.com"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Test St",
+      "city": "Testville",
+      "state": "CA",
+      "zipCode": "12345"
+    },
+    "view:hasForwardingAddress": false,
+    "view:contactInfoDescription": {},
+    "view:vaMedicalRecordsIntro": {},
+    "vaTreatmentFacilities": [],
+    "view:hasEvidence": false,
+    "view:selectableEvidenceTypes": {
+      "view:hasVaMedicalRecords": false,
+      "view:hasPrivateMedicalRecords": false,
+      "view:hasOtherEvidence": false
+    },
+    "view:evidenceTypeHelp": {},
+    "view:unemployable": false,
+    "view:aidAndAttendance": false,
+    "view:modifyingHome": false,
+    "view:modifyingCar": false,
+    "view:powStatus": true,
+    "view:isPow": {
+      "confinements": [
+        {
+          "from": "2016-01-01",
+          "to": "2017-01-01"
+        }
+      ],
+      "powDisabilities": {
+        "asthma": true
+      }
+    },
+    "newDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "Test condition related to POW experience",
+        "condition": "asthma",
+        "view:descriptionInfo": {}
+      }
+    ],
+    "ratedDisabilities": [],
+    "serviceInformation": {
+      "servicePeriods": [
+        {
+          "serviceBranch": "Army",
+          "dateRange": {
+            "from": "2015-01-01",
+            "to": "2018-01-01"
+          }
+        }
+      ],
+      "reservesNationalGuardService": {
+        "view:isTitle10Activated": false
+      }
+    },
+    "militaryHistory": {
+      "view:militaryHistoryNote": {}
+    },
+    "servedInCombatZonePost911": false,
+    "view:waiveRetirementPay": false,
+    "view:waiveTrainingPay": false,
+    "view:hasMilitaryRetiredPay": false,
+    "hasTrainingPay": false
+  }
+}
