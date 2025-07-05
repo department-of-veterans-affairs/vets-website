@@ -20,6 +20,7 @@ import startUserNavWidget from './user-nav';
 import startLogoutModal from './user-nav/startLogoutModal';
 import startVAFooter from './va-footer';
 import { addOverlayTriggers } from './legacy/menu';
+import initPartytown from './partytown-setup';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -84,4 +85,6 @@ export default function startSitewideComponents(commonStore) {
   // Start Veteran Crisis Line modal functionality.
   addFocusBehaviorToCrisisLineModal();
   addOverlayTriggers();
+
+  initPartytown();
 }
