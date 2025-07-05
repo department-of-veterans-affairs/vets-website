@@ -1,0 +1,50 @@
+{
+  "form526": {
+    "standardClaim": true,
+    "isVaEmployee": false,
+    "isTerminallyIll": false,
+    "homelessOrAtRisk": "no",
+    "bankAccountType": "Checking",
+    "bankAccountNumber": "1234",
+    "bankRoutingNumber": "123456789",
+    "bankName": "Test Bank",
+    "phoneAndEmail": {
+      "primaryPhone": "5551234567",
+      "emailAddress": "test@example.com"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Test St",
+      "city": "Testville",
+      "state": "CA",
+      "zipCode": "12345"
+    },
+    "confinements": [
+      {
+        "from": "2016-01-01",
+        "to": "2017-01-01"
+      }
+    ],
+    "newPrimaryDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "Test condition related to POW experience",
+        "condition": "asthma",
+        "specialIssues": ["POW"]
+      }
+    ],
+    "serviceInformation": {
+      "servicePeriods": [
+        {
+          "serviceBranch": "Army",
+          "dateRange": {
+            "from": "2015-01-01",
+            "to": "2018-01-01"
+          }
+        }
+      ]
+    },
+    "servedInCombatZonePost911": false,
+    "hasTrainingPay": false
+  }
+}

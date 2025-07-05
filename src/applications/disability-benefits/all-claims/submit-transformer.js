@@ -77,6 +77,22 @@ export function transform(formConfig, form) {
 
   const filterRatedViewFields = formData => filterViewFields(formData);
 
+  const extractPOWConfinements = formData => {
+    if (!formData['view:isPow']) {
+      return formData;
+    }
+    const clonedData = _.cloneDeep(formData);
+    // Extract confinements from view:isPow to top level
+    if (clonedData['view:isPow'].confinements) {
+      clonedData.confinements = clonedData['view:isPow'].confinements;
+    }
+    // Also extract powDisabilities for later processing
+    if (clonedData['view:isPow'].powDisabilities) {
+      clonedData.powDisabilities = clonedData['view:isPow'].powDisabilities;
+    }
+    return clonedData;
+  };
+
   const addPOWSpecialIssues = formData => {
     if (!formData.newDisabilities) {
       return formData;
@@ -263,6 +279,7 @@ export function transform(formConfig, form) {
     addBackRatedDisabilities, // Must run after filterEmptyObjects
     addBackAndTransformSeparationLocation, // Must run after filterEmptyObjects
     setActionTypes, // Must run after addBackRatedDisabilities
+    extractPOWConfinements, // Must run before filterRatedViewFields
     filterRatedViewFields, // Must be run after setActionTypes
     filterServicePeriods,
     removeExtraData, // Removed data EVSS doesn't want
