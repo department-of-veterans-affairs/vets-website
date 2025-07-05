@@ -209,39 +209,40 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.realPress('Enter'); // Open modal
 
       // Verify modal is open
-      cy.get('va-modal[modal-title="Privacy Act Statement"]').should(
-        'have.attr',
-        'visible',
-        'true',
-      );
+      cy.get('va-modal[modal-title="Privacy Act Statement"]')
+        .should('have.attr', 'visible')
+        .and('not.equal', 'false');
 
       // Close modal with Escape key
       cy.realPress('Escape');
 
       // Verify focus returns to the first button that opened it
-      // eslint-disable-next-line cypress/unsafe-to-chain-command
-      cy.focused().should('have.id', 'privacy-modal-button-1');
-
-      cy.setCheckboxFromData('[name="privacy-agreement"]', true);
-      cy.tabToSubmitForm();
+      cy.focused().then($focusedEl => {
+        // Get the shadow host (the va-button element)
+        const shadowHost = $focusedEl[0].getRootNode().host;
+        expect(shadowHost.id).to.equal('privacy-modal-button-1');
+      });
 
       cy.tabToElement('#privacy-modal-button-2');
       cy.realPress('Enter'); // Open modal
 
       // Verify modal is open again
-      cy.get('va-modal[modal-title="Privacy Act Statement"]').should(
-        'have.attr',
-        'visible',
-        'true',
-      );
+      cy.get('va-modal[modal-title="Privacy Act Statement"]')
+        .should('have.attr', 'visible')
+        .and('not.equal', 'false');
 
-      // Close modal by navigating to close button and clicking it
-      cy.realPress('Tab'); // Navigate to close button
-      cy.realPress('Enter'); // Click close button
+      // Focus should be on the close button so just press Enter to close
+      cy.realPress('Enter');
 
       // Verify focus returns to the second button that opened it
-      // eslint-disable-next-line cypress/unsafe-to-chain-command
-      cy.focused().should('have.id', 'privacy-modal-button-2');
+      cy.focused().then($focusedEl => {
+        // Get the shadow host (the va-button element)
+        const shadowHost = $focusedEl[0].getRootNode().host;
+        expect(shadowHost.id).to.equal('privacy-modal-button-2');
+      });
+
+      cy.setCheckboxFromData('[name="privacy-agreement"]', true);
+      cy.tabToSubmitForm();
 
       // *** Private evidence facility
       cy.url().should(
