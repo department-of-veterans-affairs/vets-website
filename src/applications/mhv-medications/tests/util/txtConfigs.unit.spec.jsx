@@ -18,8 +18,15 @@ describe('Prescriptions List Txt Config', () => {
       expect(txt).to.include(rx.prescriptionName);
     });
   });
-  it('Should show None noted if provider name is not provided', () => {
-    const txt = buildPrescriptionsTXT(prescriptions);
+  it('Should show "Provider name not available" if provider name is not provided', () => {
+    const firstPrescriptionWithoutProviderName = [
+      {
+        ...prescriptions[0],
+        providerFirstName: null,
+        providerLastName: null,
+      },
+    ];
+    const txt = buildPrescriptionsTXT(firstPrescriptionWithoutProviderName);
     expect(txt).to.include('Prescribed by: Provider name not available');
   });
 });
@@ -88,6 +95,40 @@ describe('VA prescription Config', () => {
     );
     expect(txt).to.include('Shape: Hexagon');
     expect(txt).to.include('Color: Purple');
+  });
+
+  it('should not show refill history if there is 1 record with dispensedDate undefined', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.rxRfRecords[0].dispensedDate = undefined;
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.not.include('Refill history\n');
+  });
+
+  it('should not show refill history if there are no records', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.rxRfRecords = [];
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.not.include('Refill history\n');
+  });
+
+  it('should show refill history if there are no records but original fill record is created', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.rxRfRecords = [];
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.include('Refill history\n');
+  });
+
+  it('should show refill history if there are 2 records', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.rxRfRecords = [
+      { ...rxDetails.rxRfRecords[0] },
+      { ...rxDetails.rxRfRecords[0] },
+    ];
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.include('Refill history\n');
   });
 });
 

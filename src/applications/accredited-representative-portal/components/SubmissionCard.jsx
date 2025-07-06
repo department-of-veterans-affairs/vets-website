@@ -27,21 +27,20 @@ const formatStatus = submission => {
             />
             {' Processing error'}
           </span>
-          <br />
           <span>Resubmit or contact 800-827-1000 for assistance</span>
         </>
       );
     case 'awaiting_receipt':
     default:
       return (
-        <>
+        <span className="submissions__awaiting">
           <va-icon
             class="submissions__inline-status-icon submissions__card-check"
             icon="check_circle"
             size="3"
           />
           <span>Awaiting receipt</span>
-        </>
+        </span>
       );
   }
 };
@@ -80,7 +79,7 @@ const SubmissionCard = ({ submission }) => {
           <br />
           <span className="submission__card-status--row">
             <span className="submission__card-attribute-text">
-              {'VBMS efolder status: '}
+              {'VBMS eFolder status: '}
             </span>
             {formatStatus(submission)}
           </span>

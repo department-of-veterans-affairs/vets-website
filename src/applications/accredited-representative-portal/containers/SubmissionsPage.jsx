@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useLoaderData,
   useSearchParams,
@@ -7,6 +7,7 @@ import {
 import {
   VaLoadingIndicator,
   VaBreadcrumbs,
+  VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
@@ -23,6 +24,7 @@ import PaginationMeta from '../components/PaginationMeta';
 import SubmissionsPageResults from '../components/SubmissionsPageResults';
 
 const SubmissionsPage = title => {
+  const [visibleAlert, setVisibleAlert] = useState(true);
   useEffect(
     () => {
       focusElement('h1.submissions__search-header');
@@ -34,7 +36,6 @@ const SubmissionsPage = title => {
   const meta = useLoaderData().meta.page || {};
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
-
   return (
     <Toggler
       toggleName={
@@ -48,25 +49,29 @@ const SubmissionsPage = title => {
             label={SUBMISSIONS_BC_LABEL}
             homeVeteransAffairs={false}
           />
-          <va-banner
-            data-label="Info banner"
-            headline="We are working to improve this tool."
-            type="info"
-            className="home__banner"
-            visible
+          <VaAlert
+            close-btn-aria-label="Close notification"
+            status="info"
+            closeable
+            uswds
+            onCloseEvent={() => setVisibleAlert(false)}
+            visible={visibleAlert}
           >
-            <p>
+            <h2 id="track-your-status-on-mobile" slot="headline">
+              We are working to improve this tool.
+            </h2>
+            <p className="vads-u-margin-y--0">
               This early version of the Accredited Representative Portal has
               limited functionality.
             </p>
-          </va-banner>
+          </VaAlert>
           <h1
             data-testid="submissions-header"
             className="submissions__search-header"
           >
             Submissions
           </h1>
-          <p className="submissions-subtext__copy">
+          <p className="submissions-subtext__copy vads-u-font-family--serif">
             Start here to submit VA forms for your claimants.
           </p>
           <p className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
@@ -85,9 +90,7 @@ const SubmissionsPage = title => {
           </p>
           <hr />
 
-          <h2 className="submissions__search-header vads-u-font-size--h1">
-            Recent Submissions
-          </h2>
+          <h2 className="submissions__search-header">Recent Submissions</h2>
           <p className="submissions-subtext__copy--secondary vads-u-font-family--serif">
             This list shows only your submissions sent through this portal from
             the past 60 days.

@@ -87,10 +87,10 @@ describe('VAOS Page: AppointmentsPage', () => {
             id: '139',
             type: 'maintenance_windows',
             attributes: {
-              externalService: 'vaosWarning',
+              externalService: 'vaoswarning',
               description: 'My description',
-              startTime: subDays(new Date(), '1'),
-              endTime: addDays(new Date(), '1'),
+              startTime: subDays(new Date(), '1')?.toISOString(),
+              endTime: addDays(new Date(), '1')?.toISOString(),
             },
           },
         ],

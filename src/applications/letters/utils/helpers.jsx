@@ -168,6 +168,100 @@ export const letterContent = {
     'This letter shows the benefits you’re receiving from VA. The letter also shows your benefit gross amount (the amount before anything is taken out) and net amount (the amount after deductions are taken out), your benefit effective date, and your disability rating.',
 };
 
+export const newLetterContent = {
+  commissary: (
+    <>
+      <p>
+        The Commissary Letter certifies that you’re eligible to receive
+        commissary store and exchange privileges from the Armed Forces.
+      </p>
+      <p>
+        You can use this letter to get a Retiree Military ID card to access
+        these facilities at your local base.
+      </p>
+    </>
+  ),
+  proof_of_service: (
+    <>
+      <p>
+        The Proof of Service Card documents that you served honorably in the
+        Armed Forces.
+      </p>
+      <p>
+        You can use this card to receive discounts at certain stores and
+        restaurants.
+      </p>
+    </>
+  ),
+  medicare_partd: (
+    <>
+      <p>
+        A prescription drug coverage letter proves that you qualify for Medicare
+        Part D prescription drug coverage.
+      </p>
+      <p>
+        You may need to submit this letter when applying for Medicare Part D
+        prescription drug coverage.
+      </p>
+    </>
+  ),
+  minimum_essential_coverage: (
+    <>
+      <p>
+        A minimum essential coverage letter proves that you have the right
+        amount of healthcare coverage required by the Affordable Care Act (ACA).
+      </p>
+      <p>
+        You can use this letter when filing your taxes or applying for something
+        that requires proof of health insurance.
+      </p>
+    </>
+  ),
+  service_verification: serviceVerificationLetterContent,
+  civil_service: (
+    <>
+      <p>
+        The Civil Service Preference Letter proves that you’re a disabled
+        Veteran and you qualify for preference for civil service jobs.
+      </p>
+      <p>You can use this letter when applying for a federal government job.</p>
+    </>
+  ),
+  benefit_summary:
+    'This letter can be customized and used for many things, including to verify service history, income, disability status, and more.',
+  benefit_verification: (
+    <>
+      <p>
+        The Benefit Verification Letter documents your VA financial benefits.
+      </p>
+      <p>
+        You can use this letter to prove your income, such as when applying for
+        a car loan or a mortgage.
+      </p>
+    </>
+  ),
+  benefit_summary_dependent: (
+    <>
+      <p className="vads-u-margin-top--0">
+        The Benefit Summary Letter shows the VA benefits you receive as the
+        survivor of a disabled Veteran.
+      </p>
+
+      <p>
+        You can use this letter to apply for programs or services that ask for
+        proof of your VA benefits. Some examples include:
+      </p>
+
+      <ul className="usa-list vads-u-margin-bottom--3">
+        <li>Apply for home loans or other housing benefits</li>
+        <li>Reduce property or vehicle taxes</li>
+        <li>Apply for a civil service job</li>
+        <li>Get free or discounted state park memberships</li>
+      </ul>
+    </>
+  ),
+};
+
 // Options returned by the benefit summary letter request that should be offered in
 // the checkbox list regardless of their values (e.g., true, false, 'unavailable', or other)
 // All other options are conditionally displayed, depending on the value

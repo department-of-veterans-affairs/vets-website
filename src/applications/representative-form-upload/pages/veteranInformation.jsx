@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import {
   addressSchema,
@@ -12,18 +11,14 @@ import {
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { MUST_MATCH_ALERT } from '../config/constants';
-import { onCloseAlert } from '../helpers';
-import {
-  CustomAlertPage,
-  emptyObjectSchema,
-  claimantTitleAndDescription,
-} from './helpers';
+import { emptyObjectSchema, claimantTitleAndDescription } from './helpers';
+import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
 
 /** @type {PageSchema} */
 export const veteranInformationPage = {
   uiSchema: {
     ...claimantTitleAndDescription,
+    'ui:objectViewField': ClaimantInfoViewField,
     veteranFullName: firstNameLastNameNoSuffixUI(),
     address: addressUI({
       labels: {
@@ -76,16 +71,6 @@ export const veteranInformationPage = {
     ],
   },
 };
-
-/** @type {CustomPageType} */
-export function VeteranInformationPage(props) {
-  const alert = MUST_MATCH_ALERT(
-    'veteran-information',
-    onCloseAlert,
-    props.data,
-  );
-  return <CustomAlertPage {...props} alert={alert} />;
-}
 
 veteranInformationPage.propTypes = {
   name: PropTypes.string.isRequired,
