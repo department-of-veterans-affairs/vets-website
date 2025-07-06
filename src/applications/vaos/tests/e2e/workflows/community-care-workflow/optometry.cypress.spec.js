@@ -100,10 +100,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           TypeOfEyeCarePageObject.assertUrl()
             .clickNextButton()
-            .assertValidationErrorMessage({
-              name: 'Which type of eye care do you need?',
-              error: /You must provide a response/i,
-            })
+            .assertValidationErrorMessage('You must provide a response')
             .selectTypeOfEyeCare(/Optometry/i)
             .clickNextButton();
 
