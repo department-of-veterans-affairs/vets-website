@@ -68,7 +68,7 @@ function MaritalStatusPage(props) {
 
   // Helper function to determine if a status is married or separated.
   const marriedOrSeparated = status =>
-    ['married' || 'separated'].includes(status.toLowerCase());
+    ['married', 'separated'].includes(status.toLowerCase());
   const currentMaritalStatus = data['view:maritalStatus']?.maritalStatus ?? '';
 
   // Modal content.
