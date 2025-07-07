@@ -6,7 +6,6 @@ import { setSubmission } from 'platform/forms-system/src/js/actions';
 import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
 import environment from '~/platform/utilities/environment';
 import { confirmationChildContent } from '../helpers';
-import GetFormHelp from '../components/GetFormHelp';
 
 export const ConfirmationPage = ({ router, route }) => {
   const form = useSelector(state => state?.form);
@@ -62,7 +61,6 @@ export const ConfirmationPage = ({ router, route }) => {
         }`, // update pdf download url when available
         goBack,
       )}
-      <ConfirmationView.NeedHelp content={<GetFormHelp />} />
     </ConfirmationView>
   );
 };

@@ -15,9 +15,9 @@ import PreviewBanner from '../components/PreviewBanner';
 import Modals from './Modals';
 import { scrollToFocusedElement, useQueryParams } from '../utils/helpers';
 import ServiceError from '../components/ServiceError';
-import AboutThisTool from '../components/content/AboutThisTool';
 import Disclaimer from '../components/content/Disclaimer';
 import CompareDrawer from './CompareDrawer';
+import { AboutThisTool } from '../updated-gi/components/AboutThisTool';
 
 export function GiBillApp({
   constants,
