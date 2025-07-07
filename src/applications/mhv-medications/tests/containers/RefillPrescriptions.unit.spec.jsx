@@ -104,7 +104,7 @@ describe('Refill Prescriptions Component', () => {
         },
       },
     });
-    expect(await screen.findByTestId('mhv-page-not-found')).to.exist;
+    expect(screen.findByTestId('mhv-page-not-found')).to.exist;
   });
 
   it('Mocks API Request', async () => {
