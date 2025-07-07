@@ -17,12 +17,11 @@ const PrimaryOfficialExemptInfo = props => {
           <li>
             Existing SCOs at a school not currently identified as a "covered
             educational institution."{' '}
-            <a
-              href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/covered-educational-institutions.asp"
+            <va-link
               external
-            >
-              Get more information about covered institutions.
-            </a>
+              text="Get more information about covered institutions"
+              href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/covered-educational-institutions.asp"
+            />
           </li>
           <li>
             Transferring SCOs from the same type of school (IHL, NCD, OJT/APP,
