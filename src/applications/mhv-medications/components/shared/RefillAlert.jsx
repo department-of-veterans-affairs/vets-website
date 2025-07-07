@@ -49,7 +49,7 @@ RefillAlert.propTypes = {
   dataDogActionName: PropTypes.string,
   refillAlertList: PropTypes.arrayOf(
     PropTypes.shape({
-      prescriptionId: PropTypes.string.isRequired,
+      prescriptionId: PropTypes.number.isRequired,
       prescriptionName: PropTypes.string.isRequired,
     }),
   ),
