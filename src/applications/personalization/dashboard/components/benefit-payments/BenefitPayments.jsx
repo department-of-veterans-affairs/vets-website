@@ -119,6 +119,7 @@ const BenefitPayments = () => {
             <va-link
               href="/va-payment-history/payments/"
               text="View all payment information"
+              data-testid="view-payment-history-link"
             />
           </DashboardWidgetWrapper>
         )}
