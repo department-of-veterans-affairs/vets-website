@@ -1393,9 +1393,11 @@ export function getCemeteries() {
 }
 
 export function MailingAddressStateTitle(props) {
-  const { elementPath } = props;
-  const data = useSelector(state => state.form.data || {});
+  const { elementPath, formData } = props;
+  const reduxFormData = useSelector(state => state.form.data || {});
+  const data = formData || reduxFormData;
   const country = get(elementPath, data);
+
   if (country === 'CAN') {
     return 'Province';
   }

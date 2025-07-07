@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 import { merge } from 'lodash';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
@@ -17,10 +18,21 @@ import { SponsorContactDetailsTitle } from '../../components/PreparerHelpers';
 // Import veteran properties from schema
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
-// Component for state title
-export const sponsorMailingAddressStateTitleWrapper = (
-  <MailingAddressStateTitle elementPath="application.veteran.address.country" />
-);
+export function DynamicStateSelectFieldSponsor(props) {
+  const formData = useSelector(state => state.form.data || {});
+
+  const dynamicLabel = MailingAddressStateTitle({
+    elementPath: 'application.veteran.address.country',
+    formData,
+  });
+
+  const modifiedProps = {
+    ...props,
+    label: dynamicLabel,
+  };
+
+  return <VaSelectField {...modifiedProps} />;
+}
 
 // Validation function
 export const isRequired = formData => {
@@ -61,11 +73,8 @@ export const uiSchema = {
             'ui:title': 'Street address line 2',
           },
           state: {
-            // 'ui:title': sponsorMailingAddressStateTitleWrapper,
-            'ui:webComponentField': VaSelectField,
+            'ui:webComponentField': DynamicStateSelectFieldSponsor,
             'ui:options': {
-              label: sponsorMailingAddressStateTitleWrapper,
-              // THIS IS RETURNING STATE INSTEAD OF STATE OR TERRITORY
               hideIf: formData => !sponsorMailingAddressHasState(formData),
               classNames: 'selectNonImposter',
             },

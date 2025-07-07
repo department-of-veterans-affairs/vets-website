@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
-import { merge, get } from 'lodash';
+import { merge } from 'lodash';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import phoneUI from '../../components/Phone';
 import emailUI from '../../definitions/email';
@@ -17,14 +17,13 @@ import {
 
 const { claimant } = fullSchemaPreNeed.properties.application.properties;
 
-export const applicantMailingAddressStateTitleWrapper = (
-  <MailingAddressStateTitle elementPath="application.claimant.address.country" />
-);
-
-export function DynamicStateSelectField(props) {
+export function DynamicStateSelectFieldApplicant(props) {
   const formData = useSelector(state => state.form.data || {});
-  const country = get(formData, 'application.claimant.address.country');
-  const dynamicLabel = country === 'CAN' ? 'Province' : 'State or territory';
+
+  const dynamicLabel = MailingAddressStateTitle({
+    elementPath: 'application.claimant.address.country',
+    formData,
+  });
 
   const modifiedProps = {
     ...props,
@@ -56,16 +55,8 @@ export function uiSchema(
             'ui:title': 'Street address line 2',
           },
           state: {
-            'ui:webComponentField': DynamicStateSelectField,
-            // 'ui:title': applicantMailingAddressStateTitleWrapper,
+            'ui:webComponentField': DynamicStateSelectFieldApplicant,
             'ui:options': {
-              // THIS IS RETURNING STATE INSTEAD OF STATE OR TERRITORY
-              // label: applicantMailingAddressStateTitleWrapper,
-              // label: formData => {
-              //   const country =
-              //     formData?.application?.claimant?.address?.country;
-              //   return country === 'CAN' ? 'Province' : 'State or territory';
-              // },
               hideIf: formData => !applicantsMailingAddressHasState(formData),
               classNames: 'selectNonImposter',
             },
