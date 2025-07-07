@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -11,8 +11,12 @@ export default function App({ location, children }) {
   const featureToggle = useSelector(
     state => state?.featureToggles?.vaDependentsVerification,
   );
-  const loading = useSelector(state => state?.externalServiceStatus?.loading);
+  const externalServicesLoading = useSelector(
+    state => state?.externalServiceStatus?.loading,
+  );
   const hasSession = JSON.parse(localStorage.getItem('hasSession'));
+
+  const isIntroPage = location?.pathname?.endsWith('/introduction');
 
   const breadcrumbs = [
     {
@@ -32,28 +36,29 @@ export default function App({ location, children }) {
 
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
 
-  const content = featureToggle ? (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
-  ) : (
-    <NoFormPage />
+  useEffect(
+    () => {
+      if (!hasSession && !isIntroPage) {
+        window.location.replace(`${manifest.rootUrl}/introduction`);
+      }
+    },
+    [hasSession, isIntroPage],
   );
 
-  // Handle loading
-  if (loading) {
-    return <va-loading-indicator message="Loading your information..." />;
-  }
+  let content;
 
-  // If on intro page, just return content
-  if (location?.pathname === '/introduction') {
-    return content;
-  }
-
-  // If session is missing and path requires it, redirect
-  if (!hasSession && location?.pathname?.includes('/introduction')) {
-    window.location.replace(`${manifest.rootUrl}/introduction`);
-    return <va-loading-indicator message="Loading your information..." />;
+  if (!featureToggle) {
+    content = <NoFormPage />;
+  } else if (externalServicesLoading) {
+    content = <va-loading-indicator message="Loading your information..." />;
+  } else if (!hasSession && !isIntroPage) {
+    content = <va-loading-indicator message="Loading your information..." />;
+  } else {
+    content = (
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    );
   }
 
   return (

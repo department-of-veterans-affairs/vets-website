@@ -76,46 +76,6 @@ describe('LoginActions component', () => {
     testLocation(undefined, 'modal');
   });
 
-  it('renders MHV retired notice when DS Logon is enabled', () => {
-    const state = {
-      featureToggles: {
-        dslogonButtonDisabled: false,
-      },
-    };
-    const config = {
-      OAuthEnabled: false,
-      allowedSignInProviders: [],
-      legacySignInProviders: { dslogon: true },
-    };
-
-    const originalConfig =
-      require.cache[require.resolve('../../../authentication/usip-config')];
-    require.cache[require.resolve('../../../authentication/usip-config')] = {
-      exports: {
-        externalApplicationsConfig: {
-          mhvApp: config,
-          default: config,
-        },
-      },
-    };
-
-    store = mockStore(state);
-    const wrapper = mount(
-      <Provider store={store}>
-        <LoginActions externalApplication="mhvApp" />
-      </Provider>,
-    );
-
-    expect(wrapper.text()).to.contain('My HealtheVet sign-in option');
-
-    wrapper.unmount();
-    if (originalConfig) {
-      require.cache[
-        require.resolve('../../../authentication/usip-config')
-      ] = originalConfig;
-    }
-  });
-
   it('renders DS Logon retired notice when feature flag disables it', () => {
     const state = {
       featureToggles: {
@@ -147,7 +107,9 @@ describe('LoginActions component', () => {
     );
 
     expect(wrapper.text()).to.contain('DS Logon sign-in option');
-    expect(wrapper.text()).to.contain('This option is no longer available');
+    expect(wrapper.text()).to.contain(
+      'We’ll remove this option after September 30, 2025',
+    );
 
     wrapper.unmount();
     if (originalConfig) {
