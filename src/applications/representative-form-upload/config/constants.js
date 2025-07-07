@@ -1,46 +1,6 @@
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
-  const isLoa3 = formData?.loa === 3;
-  return (
-    <VaAlert
-      close-btn-aria-label="Close notification"
-      status="info"
-      visible
-      closeable
-      onCloseEvent={onCloseEvent}
-    >
-      {variant === 'name-and-zip-code' ? (
-        <h3 slot="headline">
-          Veteran’s name and postal code must match your PDF
-        </h3>
-      ) : (
-        <h3 slot="headline">
-          Veteran’s identification information must match your PDF
-        </h3>
-      )}
-      {isLoa3 ? (
-        <p>
-          Since you’re signed in to your account, we prefilled part of your
-          application based on your account details.
-        </p>
-      ) : null}
-      {variant === 'name-and-zip-code' ? (
-        <p>
-          If the Veteran’s name and postal code here don’t match your uploaded
-          PDF, it will cause processing delays.
-        </p>
-      ) : (
-        <p>
-          If the Veteran’s identification information you enter here doesn’t
-          match your uploaded PDF, it will cause processing delays.
-        </p>
-      )}
-    </VaAlert>
-  );
-};
-
 export const UPLOAD_TITLE = 'Your file';
 
 export const UPLOAD_DESCRIPTION = Object.freeze(
