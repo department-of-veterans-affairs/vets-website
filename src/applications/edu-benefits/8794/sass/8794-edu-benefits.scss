@@ -52,8 +52,5 @@ va-accordion-item[data-chapter="institutionDetailsChapter"] {
     margin-left: 0 !important;
   }
 }
-va-radio[name="root_view:additionalOfficialSummary"]::part(header),
-va-radio[name="root_hasReadOnlyCertifyingOfficial"]::part(header) {
-  font-size: 1.25rem !important;
-}
+
 

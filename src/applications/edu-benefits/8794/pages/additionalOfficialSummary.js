@@ -18,7 +18,6 @@ const additionalOfficialSummary = {
         Y: 'Yes',
         N: 'No',
       },
-      labelHeaderLevel: '4',
       hint: () => null,
       errorMessages: {
         required: 'Please provide a response',

@@ -18,7 +18,6 @@ const readOnlyCertifyingOfficialSummaryPage = {
       {
         title: 'Do you have any read-only certifying officials to add?',
         labels: { Y: 'Yes', N: 'No' },
-        labelHeaderLevel: '4',
         errorMessages: { required: 'Please provide a response' },
         hint: () => null,
       },
