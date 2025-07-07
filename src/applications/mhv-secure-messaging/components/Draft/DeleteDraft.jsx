@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import DeleteDraftModal from '../Modals/DeleteDraftModal';
@@ -19,7 +19,7 @@ import { addAlert } from '../../actions/alerts';
 import { deleteDraft } from '../../actions/draftDetails';
 
 const DeleteDraft = props => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const deleteDraftButtonRef = useRef();
@@ -90,6 +90,7 @@ const DeleteDraft = props => {
       dispatch(deleteDraft(draftId)).then(() => {
         if (draftsCount === 1) {
           const { pathname } = location;
+
           const defaultFolderId = activeFolder
             ? activeFolder.folderId
             : DefaultFolders.DRAFTS.id;
@@ -97,14 +98,14 @@ const DeleteDraft = props => {
           if (pathname.includes('/new-message')) {
             navigateToFolderByFolderId(
               activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
-              history,
+              navigate,
             );
           }
 
           if (pathname.includes(Paths.REPLY)) {
-            history.goBack();
+            navigate(-1);
           } else if (pathname.includes(Paths.MESSAGE_THREAD + draftId)) {
-            navigateToFolderByFolderId(defaultFolderId, history);
+            navigateToFolderByFolderId(defaultFolderId, navigate);
           } else if (pathname.includes(Paths.MESSAGE_THREAD)) {
             setIsEditing(false);
             setHideDraft(true);
@@ -118,7 +119,7 @@ const DeleteDraft = props => {
     if (unsavedDraft) {
       setIsModalVisible(false);
       unsavedDeleteSuccessful();
-      history.goBack();
+      navigate(-1);
     }
   };
 
@@ -163,7 +164,7 @@ const DeleteDraft = props => {
           }
           if (blankReplyDraft || unsavedNewDraftMsg) {
             unsavedDeleteSuccessful();
-            history.goBack();
+            navigate(-1);
           }
         }}
       >

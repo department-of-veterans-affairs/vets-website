@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {
+  useLocation,
+  useParams,
+  useNavigate,
+} from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
 
@@ -44,9 +49,10 @@ const Compose = ({ skipInterstitial }) => {
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
+  const previousPathRef = useRef(location.pathname);
 
   useEffect(
     () => {
@@ -56,17 +62,25 @@ const Compose = ({ skipInterstitial }) => {
       } else {
         dispatch(retrieveMessageThread(draftId));
       }
-
-      const checkNextPath = history.listen(nextPath => {
-        if (nextPath.pathname !== Paths.CONTACT_LIST) {
-          dispatch(clearThread());
-        }
-      });
-      return () => {
-        checkNextPath();
-      };
     },
-    [dispatch, draftId, history, location.pathname],
+    [dispatch, draftId, location.pathname],
+  );
+
+  // React to location changes and clear thread if not navigating to contact list
+  useEffect(
+    () => {
+      const currentPath = location.pathname;
+
+      if (
+        previousPathRef.current !== currentPath &&
+        currentPath !== Paths.CONTACT_LIST
+      ) {
+        dispatch(clearThread());
+      }
+
+      previousPathRef.current = currentPath;
+    },
+    [location, dispatch],
   );
 
   useEffect(
@@ -81,7 +95,7 @@ const Compose = ({ skipInterstitial }) => {
   useEffect(
     () => {
       if (draftMessage?.messageId && draftMessage.draftDate === null) {
-        history.push(Paths.INBOX);
+        navigate(Paths.INBOX);
       }
       return () => {
         if (isDraftPage) {
@@ -89,7 +103,7 @@ const Compose = ({ skipInterstitial }) => {
         }
       };
     },
-    [isDraftPage, draftMessage, history, dispatch],
+    [isDraftPage, draftMessage, navigate, dispatch],
   );
 
   useEffect(
@@ -240,6 +254,10 @@ const Compose = ({ skipInterstitial }) => {
 
 Compose.propTypes = {
   skipInterstitial: PropTypes.bool,
+};
+
+Compose.defaultProps = {
+  skipInterstitial: false,
 };
 
 export default Compose;

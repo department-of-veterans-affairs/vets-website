@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DowntimeNotification,
@@ -58,7 +58,7 @@ const ComposeForm = props => {
     allowedRecipients,
   } = recipients;
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { isComboBoxEnabled } = useFeatureToggles();
 
@@ -269,7 +269,7 @@ const ComposeForm = props => {
             setTimeout(() => {
               navigateToFolderByFolderId(
                 currentFolder?.folderId || DefaultFolders.INBOX.id,
-                history,
+                navigate,
               );
             }, 1000);
             // Timeout neccessary for UCD requested 1 second delay
@@ -797,7 +797,7 @@ const ComposeForm = props => {
         <RouteLeavingGuard
           when={!!navigationError || !!saveError}
           navigate={path => {
-            history.push(path);
+            navigate(path);
           }}
           shouldBlockNavigation={() => {
             return !!navigationError;

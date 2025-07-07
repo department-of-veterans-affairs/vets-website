@@ -78,12 +78,12 @@ export const folderPathByFolderId = folderId => {
   return path;
 };
 
-export const navigateToFolderByFolderId = (folderId, history) => {
-  history.push(folderPathByFolderId(folderId));
+export const navigateToFolderByFolderId = (folderId, navigate) => {
+  navigate(folderPathByFolderId(folderId));
 };
 
-export const navigateToFoldersPage = history => {
-  history.push(Paths.FOLDERS);
+export const navigateToFoldersPage = navigate => {
+  navigate(Paths.FOLDERS);
 };
 
 export const today = new Date();

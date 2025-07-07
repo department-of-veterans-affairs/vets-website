@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Prompt } from 'react-router-dom';
+import { useBlocker } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { resetUserSession } from '../../util/helpers';
@@ -48,6 +48,19 @@ const SmRouteNavigationGuard = ({
       return true; // Allows Navigation
     },
     [isBlocking, setIsBlocking, updateModalVisible],
+  );
+
+  // Create a blocker using the useBlocker hook
+  const blocker = useBlocker(when ? handleBlockedNavigation : () => true);
+
+  // Handle blocked navigation
+  useEffect(
+    () => {
+      if (blocker.state === 'blocked') {
+        updateModalVisible(true);
+      }
+    },
+    [blocker],
   );
 
   const localStorageValues = useMemo(() => {
@@ -102,7 +115,6 @@ const SmRouteNavigationGuard = ({
 
   return (
     <>
-      <Prompt when={when} message={handleBlockedNavigation} />
       <VaModal
         modalTitle={modalTitle}
         modalText={modalText}

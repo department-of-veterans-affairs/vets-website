@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import MessageList from '../components/MessageList/MessageList';
 import NoFilterMatchWarning from '../components/Search/NoFilterMatchWarning';
 
@@ -13,15 +13,15 @@ const SearchResults = () => {
     searchSort,
     page,
   } = useSelector(state => state.sm.search);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(
     () => {
       if (!awaitingResults && !searchResults) {
-        history.goBack();
+        navigate(-1);
       }
     },
-    [awaitingResults, searchResults],
+    [awaitingResults, searchResults, navigate],
   );
 
   const content = () => {
