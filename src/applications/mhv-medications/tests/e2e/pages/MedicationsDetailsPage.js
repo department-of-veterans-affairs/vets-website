@@ -886,6 +886,12 @@ class MedicationsDetailsPage {
       );
     });
   };
+
+  verifyNotesAboutPrescriptionImagesOnDetailsPage = text => {
+    cy.get('[data-testid="note-images"]')
+      .should('be.visible')
+      .and('contain', text);
+  };
 }
 
 export default MedicationsDetailsPage;
