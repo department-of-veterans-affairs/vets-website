@@ -48,37 +48,27 @@ const build21aPayload = data => {
     homePhone: data.phone,
     homePhoneTypeId: PHONE_TYPE_ENUM[data.typeOfPhone?.toUpperCase()],
     canReceiveTexts: !!data.canReceiveTexts,
-    homeEmail: data.email || null,
+    homeEmail: data.email,
 
-    // Home Address chapter 1
+    // Chapter 1 - Home Address
     homeAddressIsMilitary: !!data.homeAddress?.view?.militaryBaseDescription,
-    homeAddressLine1: data.homeAddress?.street || null,
+    homeAddressLine1: data.homeAddress?.street,
     homeAddressLine2: data.homeAddress?.street2 || null,
     homeAddressLine3: null,
-    homeAddressCity: data.homeAddress?.city || null,
-    homeAddressState: data.homeAddress?.state || null,
-    homeAddressPostalCode: data.homeAddress?.postalCode || null,
-    homeAddressCountry: data.homeAddress?.country || null,
+    homeAddressCity: data.homeAddress?.city,
+    homeAddressState: data.homeAddress?.state,
+    homeAddressPostalCode: data.homeAddress?.postalCode,
+    homeAddressCountry: data.homeAddress?.country,
 
-    // Other Addresses (placeholders)
-    businessName: null,
-    businessAddressIsMilitary: null,
-    businessAddressLine1: null,
-    businessAddressLine2: null,
-    businessAddressLine3: null,
-    businessAddressCity: null,
-    businessAddressState: null,
-    businessAddressPostalCode: null,
-    businessAddressCountry: null,
-
-    otherAddressIsMilitary: null,
-    otherAddressLine1: null,
-    otherAddressLine2: null,
+    // Chapter 1 - Other Addresses
+    otherAddressIsMilitary: !!data.otherAddress?.view?.militaryBaseDescription,
+    otherAddressLine1: data.otherAddress?.street || null,
+    otherAddressLine2: data.otherAddress?.street2 || null,
     otherAddressLine3: null,
-    otherAddressCity: null,
-    otherAddressState: null,
-    otherAddressPostalCode: null,
-    otherAddressCountry: null,
+    otherAddressCity: data.otherAddress?.city || null,
+    otherAddressState: data.otherAddress?.state || null,
+    otherAddressPostalCode: data.otherAddress?.postalCode || null,
+    otherAddressCountry: data.otherAddress?.country || null,
 
     // Accreditation Info
 
