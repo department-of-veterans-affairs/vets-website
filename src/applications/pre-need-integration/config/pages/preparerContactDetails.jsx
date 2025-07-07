@@ -15,7 +15,10 @@ import {
   MailingAddressStateTitle,
   PreparerPhoneNumberDescription,
 } from '../../utils/helpers';
-import { ContactDetailsTitle } from '../../components/PreparerHelpers';
+import {
+  ContactDetailsTitle,
+  MailingAddressTitle,
+} from '../../components/PreparerHelpers';
 
 const { applicant } = fullSchemaPreNeed.properties.application.properties;
 
@@ -27,7 +30,7 @@ export const uiSchema = {
   application: {
     applicant: {
       'view:applicantInfo': {
-        mailingAddress: merge({}, address.uiSchema('Your mailing address'), {
+        mailingAddress: merge({}, address.uiSchema(MailingAddressTitle), {
           country: {
             'ui:required': isAuthorizedAgent,
             'ui:errorMessages': {

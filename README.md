@@ -219,15 +219,6 @@ Afterward, check `/mochawesome-report` contents.
 
 **For other options with `yarn cy:run`,** [the same options for `cypress run` are applicable](https://docs.cypress.io/guides/guides/command-line.html#Commands).
 
-## Changing Virtual Agent backend URL
-
-If not already create a `.env` file in the root of the project and add
-the following while updating the URL
-
-```
-VIRTUAL_AGENT_BACKEND_URL=https://some.url.com
-```
-
 ## Running a mock API for local development
 
 In separate terminal from your local dev server, run
@@ -276,6 +267,7 @@ for doing very specific things.
 | watch file changes without starting the server                                                              | `yarn watch:no-server`                                                                                                                                                                                                                    |
 | run all unit tests and watch                                                                                | `yarn test:watch`                                                                                                                                                                                                                         |
 | run only E2E tests (headless)                                                                               | Make sure the site is running locally (`yarn watch`) and run the tests with `yarn cy:run`                                                                                                                                                 |
+| run only E2E tests (headless) in Codespaces                                                                | Make sure the site is running locally (`yarn watch`) and set up virtual display: `export DISPLAY=:99 && Xvfb :99 -screen 0 1024x768x24 -ac +extension GLX +render -noreset &` then run `export DISPLAY=:99 && yarn cy:run`        |
 | run E2E tests in the browser                                                                                | `yarn cy:open`                                                                                                                                                                                                                            |
 | count all Cypress E2E specs                                                                                 | `yarn cy:count`                                                                                                                                                                                                                           |
 | run all linters                                                                                             | `yarn lint`                                                                                                                                                                                                                               |

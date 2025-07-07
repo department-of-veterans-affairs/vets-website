@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { UploadPage } from '../../../pages/upload';
+import { uploadPage } from '../../../pages/upload';
 import formConfig from '../../../config/form';
 
-describe('UploadPage', () => {
+describe('uploadPage', () => {
   const { uiSchema } = formConfig.chapters.uploadChapter.pages.uploadPage;
-  const subject = () => render(<UploadPage />);
+  const subject = () => render(<uploadPage />);
 
   it('renders successfully', () => {
     const { container } = subject();
@@ -18,7 +18,7 @@ describe('UploadPage', () => {
     const result = uiSchema.uploadedFile['ui:options'].updateUiSchema({});
 
     expect(result).to.deep.equal({
-      'ui:title': 'Submit VA Form ',
+      'ui:title': 'Select a file to upload',
     });
   });
 
@@ -31,7 +31,7 @@ describe('UploadPage', () => {
     const result = uiSchema.uploadedFile['ui:options'].updateUiSchema(formData);
 
     expect(result).to.deep.equal({
-      'ui:title': 'Submit VA Form ',
+      'ui:title': 'Select a file to upload',
     });
   });
 });

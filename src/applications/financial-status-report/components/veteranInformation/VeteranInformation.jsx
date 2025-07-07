@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
-import VeteranInfoBox from './VeteranInfoBox';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import VeteranInfoBox from './VeteranInfoBox';
 import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const VeteranInformation = ({
@@ -49,33 +49,29 @@ const VeteranInformation = ({
   };
 
   return (
-    <form>
-      <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">
-          <h3 className="vads-u-margin--0" ref={headerRef}>
-            Veteran information
-          </h3>
-        </legend>
-        {reviewNavigation && showReviewNavigation ? (
-          <ReviewPageNavigationAlert data={data} title="veteran information" />
-        ) : null}
-        <VeteranInfoBox
-          first={first}
-          middle={middle}
-          last={last}
-          dateOfBirth={dateOfBirth}
-          ssnLastFour={ssn}
-          fileNumber={fileNumber}
-        />
-        {contentBeforeButtons}
-        <FormNavButtons
-          goBack={handleBackNavigation}
-          goForward={goForward}
-          submitToContinue
-        />
-        {contentAfterButtons}
-      </fieldset>
-    </form>
+    <div>
+      <h2 className="vads-u-margin--0" ref={headerRef}>
+        Veteran information
+      </h2>
+      {reviewNavigation && showReviewNavigation ? (
+        <ReviewPageNavigationAlert data={data} title="veteran information" />
+      ) : null}
+      <VeteranInfoBox
+        first={first}
+        middle={middle}
+        last={last}
+        dateOfBirth={dateOfBirth}
+        ssnLastFour={ssn}
+        fileNumber={fileNumber}
+      />
+      {contentBeforeButtons}
+      <FormNavButtons
+        goBack={handleBackNavigation}
+        goForward={goForward}
+        submitToContinue
+      />
+      {contentAfterButtons}
+    </div>
   );
 };
 

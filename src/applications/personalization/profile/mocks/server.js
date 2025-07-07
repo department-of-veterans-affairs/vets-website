@@ -106,7 +106,7 @@ const responses = {
             profileShowQuickSubmitNotificationSetting: false,
             profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
-            profileShowPrivacyPolicy: true,
+            profileShowPrivacyPolicy: false,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,

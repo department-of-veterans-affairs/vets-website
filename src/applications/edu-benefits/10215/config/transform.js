@@ -24,8 +24,8 @@ export default function transform(form) {
         0;
     }
     if (program.fte) {
-      program.fte.nonSupported = parseInt(program.fte.nonSupported, 10) || 0;
-      program.fte.supported = parseInt(program.fte.supported, 10) || 0;
+      program.fte.nonSupported = Number(program.fte.nonSupported) || 0;
+      program.fte.supported = Number(program.fte.supported) || 0;
     }
     return program;
   });
