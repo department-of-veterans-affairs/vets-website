@@ -74,7 +74,7 @@ let tempData = {
 const emptyMetaData = {
   version: 0,
   prefill: true,
-  returnUrl: '/personal-information',
+  returnUrl: '/introduction',
 };
 
 let tempMetaData = {
