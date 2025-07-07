@@ -33,7 +33,7 @@ const ratedOrNewNextPagePages = arrayBuilderPages(
             diagnosticCode: 6260,
             decisionCode: 'SVCCONNCTED',
             decisionText: 'Service Connected',
-            ratingPercentage: 100,
+            ratingPercentage: 10,
             maximumRatingPercentage: 100,
             disabilityActionType: 'NONE',
             'view:selected': true,

@@ -293,21 +293,21 @@ export const studentEducationBenefitsPage = {
       },
     },
     'ui:options': {
-      // Use updateSchema to set
       updateSchema: (formData, formSchema) => {
-        if (formSchema.properties.otherProgramOrBenefit['ui:collapsed']) {
-          return { ...formSchema, required: ['typeOfProgramOrBenefit'] };
+        const requiredFields = ['tuitionIsPaidByGovAgency'];
+        if (formData?.typeOfProgramOrBenefit?.other) {
+          requiredFields.push('otherProgramOrBenefit');
         }
         return {
           ...formSchema,
-          required: ['typeOfProgramOrBenefit', 'otherProgramOrBenefit'],
+          required: requiredFields,
         };
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['typeOfProgramOrBenefit'],
+    required: ['tuitionIsPaidByGovAgency'],
     properties: {
       typeOfProgramOrBenefit: checkboxGroupSchema(benefitSchemaLabels),
       otherProgramOrBenefit: {

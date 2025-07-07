@@ -3,13 +3,14 @@ import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import { uploadPage, UploadPage } from '../pages/upload';
-import * as claimantInformationModule from '../pages/claimantInformation';
-import * as veteranInformationModule from '../pages/veteranInformation';
+import { uploadPage } from '../pages/upload';
+import { claimantInformationPage } from '../pages/claimantInformation';
+import { veteranInformationPage } from '../pages/veteranInformation';
 import * as isVeteranModule from '../pages/isVeteranPage';
 import transformForSubmit from './submit-transformer';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
+import submissionError from './submissionError';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/veteran.json';
@@ -20,18 +21,10 @@ export function isLocalhost() {
 }
 
 const mockData = testData.data;
-const { title, subTitle, formNumber } = getFormContent();
+const { subTitle, formNumber } = getFormContent();
 const formId = `${formNumber.toUpperCase()}-UPLOAD`;
 const trackingPrefix = `form-${formNumber.toLowerCase()}-upload-`;
 
-const {
-  claimantInformationPage,
-  ClaimantInformationPage,
-} = claimantInformationModule;
-const {
-  veteranInformationPage,
-  VeteranInformationPage,
-} = veteranInformationModule;
 const { isVeteranPage } = isVeteranModule;
 
 const formConfig = {
@@ -48,6 +41,7 @@ const formConfig = {
   customText: {
     appType: 'form',
     finishAppLaterMessage: ' ',
+    reviewPageTitle: 'Review and submit',
   },
   hideReviewChapters: true,
   introduction: IntroductionPage,
@@ -55,34 +49,34 @@ const formConfig = {
   version: 0,
   prefillEnabled: false,
   transformForSubmit,
-  title,
+  submissionError,
+  title: `Submit VA Form ${formNumber}`,
   subTitle,
   defaultDefinitions: {},
   v3SegmentedProgressBar: { useDiv: false },
   chapters: {
     isVeteranChapter: {
-      title: "What is the claimant's relationship to the veteran?",
+      title: 'Claimant background',
       pages: {
         isVeteranPage: {
           path: 'is-veteran',
-          title: "What is the claimant's relationship to the veteran?",
+          title: "Claimant's background",
           uiSchema: isVeteranPage.uiSchema,
           schema: isVeteranPage.schema,
         },
       },
     },
     veteranInformationChapter: {
-      title: 'Claimant and representative information',
+      title: 'Claimant information',
       pages: {
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Claimant and representative information',
+          title: 'Claimant information',
           uiSchema: veteranInformationPage.uiSchema,
           depends: formData => {
             return formData.isVeteran === 'yes';
           },
           schema: veteranInformationPage.schema,
-          CustomPage: VeteranInformationPage,
           scrollAndFocusTarget,
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
@@ -91,11 +85,11 @@ const formConfig = {
       },
     },
     claimantInformationChapter: {
-      title: 'Claimant and representative information',
+      title: 'Claimant and Veteran information',
       pages: {
         claimantInformation: {
           path: 'claimant-information',
-          title: 'Claimant and representative information',
+          title: 'Claimant and Veteran information',
           uiSchema: claimantInformationPage.uiSchema,
           depends: formData => {
             return (
@@ -103,7 +97,6 @@ const formConfig = {
             );
           },
           schema: claimantInformationPage.schema,
-          CustomPage: ClaimantInformationPage,
           scrollAndFocusTarget,
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
@@ -112,14 +105,13 @@ const formConfig = {
       },
     },
     uploadChapter: {
-      title: 'Upload Files',
+      title: 'Upload files',
       pages: {
         uploadPage: {
           path: 'upload',
-          title: 'Upload Your File',
+          title: `Upload VA Form ${formNumber}`,
           uiSchema: uploadPage.uiSchema,
           schema: uploadPage.schema,
-          CustomPage: UploadPage,
           scrollAndFocusTarget,
         },
       },

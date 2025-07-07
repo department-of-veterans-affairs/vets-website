@@ -82,11 +82,25 @@ describe('SM OH USER NO ASSOCIATION WITH PARTICULAR TG', () => {
 
     cy.get(Locators.ALERTS.EXPIRED_MESSAGE)
       .should('be.visible')
-      .and('have.text', Alerts.OLD_MSG_HEAD);
+      .and('have.text', Alerts.OH_OLD_MSG.HEADER);
 
     cy.get(`va-alert> :nth-child(2)`).should(
       'have.text',
-      Alerts.OLD_MSG_SUBHEAD,
+      Alerts.OH_OLD_MSG.P_1,
+    );
+
+    cy.get(`va-alert> :nth-child(3)`).should(
+      'have.text',
+      Alerts.OH_OLD_MSG.P_2,
+    );
+
+    cy.get(`va-alert> :nth-child(4)`)
+      .find(`a`)
+      .should('have.attr', `href`, `/find-locations`);
+
+    cy.get(`va-alert> :nth-child(5)`).should(
+      'have.text',
+      Alerts.OH_OLD_MSG.P_3,
     );
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');

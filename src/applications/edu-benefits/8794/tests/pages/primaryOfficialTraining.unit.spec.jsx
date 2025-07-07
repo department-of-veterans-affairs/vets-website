@@ -10,7 +10,7 @@ import formConfig from '../../config/form';
 const mockStore = configureStore();
 
 const mockData = {
-  primaryOfficial: {
+  primaryOfficialDetails: {
     fullName: {
       first: 'John',
       last: 'Doe',
@@ -44,5 +44,17 @@ describe('Primary certifying official training page', () => {
     expect($$('va-checkbox', container).length).to.equal(1);
     getByRole('button', { name: /submit/i }).click();
     expect($$('va-memorable-date[error]', container).length).to.equal(1);
+  });
+  it('Renders the page with the correct required inputs when training exempt is true', () => {
+    const formData = {
+      primaryOfficialTraining: {
+        trainingExempt: true,
+      },
+    };
+
+    const resultSchema = uiSchema.primaryOfficialTraining[
+      'ui:options'
+    ].updateSchema(formData, schema, null, 0);
+    expect(resultSchema.required).to.deep.equal([]);
   });
 });

@@ -28,12 +28,12 @@ const OtherResources = () => {
           <ul className="vads-u-margin-left--neg2p5">
             <LiSpanAndVaLink
               hrefText="Enrollment Manager User Guide"
-              href="https://vbatraining.adobeconnect.com/pz0f1ckt4nrh/default/index.html"
+              href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000298609/EM-User-Guide"
             />
             <LiSpanAndVaLink
               hrefText="Enrollment Manager FAQs"
               class="hydrated"
-              href="https://vbatraining.adobeconnect.com/ptgxzsnw11w7/default/index.html"
+              href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000300540/Enrollment-Manager-Frequently-Asked-Questions"
             />
           </ul>
           <h4>Quick Start Guides</h4>
