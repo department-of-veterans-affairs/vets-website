@@ -3,7 +3,6 @@ import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
 import tooltip from '../fixtures/tooltip-for-filtering-list-page.json';
-import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
@@ -415,13 +414,8 @@ class MedicationsListPage {
       .and('contain', 'We’re sorry. There’s a problem with our system.');
   };
 
-  verifyInformationBasedOnStatusActiveRefillsLeft = () => {
-    cy.get(
-      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(4)',
-    ).should(
-      'contain',
-      `${activeRxRefills.data.attributes.refillRemaining} refills left`,
-    );
+  verifyNumberOfRefillsLeftNotDisplayedOnMedicationCard = () => {
+    cy.contains('refills left').should('not.be.visible');
   };
 
   verifyInformationBaseOnStatusSubmitted = () => {

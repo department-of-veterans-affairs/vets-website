@@ -100,6 +100,8 @@ export const Data = {
   PENDING_RX_FILL_DATE_TEXT: 'Not filled yet',
   NOTE_ABOUT_IMAGES:
     'Note: Images on this page are for identification purposes only. They don’t mean that this is the amount of medication you’re supposed to take.',
+  PROVIDER_FULL_NAME: 'MOHAMMAD ISLAM',
+  DOCUMENTED_BY_FULL_NAME: 'BHAVIN PATEL',
 };
 export const Paths = {
   LANDING_LIST:
