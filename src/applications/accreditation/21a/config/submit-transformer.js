@@ -1,5 +1,5 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-
+import { ACCREDITATION_TYPE_ENUM, PHONE_TYPE_ENUM } from './enums';
 // Map form data to match 21A-schema.json structure before submitting
 
 // need to verify the accuracy of these ENUM
@@ -9,12 +9,6 @@ const RELATIONSHIP_ENUM = {
   employer: 3,
   teacher: 4,
   other: 5,
-};
-
-const PHONE_TYPE_ENUM = {
-  CELL: 1,
-  HOME: 2,
-  WORK: 3,
 };
 
 const DEGREE_ENUM = {
@@ -28,25 +22,31 @@ const DEGREE_ENUM = {
 
 const build21aPayload = data => {
   return {
-    // Basic Info chapter 1
-    firstName: data.fullName?.first || null,
-    middleName: data.fullName?.middle || null,
-    lastName: data.fullName?.last || null,
-    suffix: data.fullName?.suffix || null,
-    birthDate: data.dateOfBirth || null,
+    // Chapter 1 - Role
+    accreditationTypeId: ACCREDITATION_TYPE_ENUM[data.role],
 
-    // Birth Location chapter 1
+    // Chapter 1 - Law License
+    isInGoodStanding: data.lawLicense,
+
+    // Chapter 1 - Name and DOB
+    firstName: data.fullName?.first,
+    middleName: data.fullName?.middle || null,
+    lastName: data.fullName?.last,
+    suffix: data.fullName?.suffix || null,
+    birthDate: data.dateOfBirth,
+
+    // Chapter 1 - Place of Birth
     birthAddressLine1: null,
     birthAddressLine2: null,
     birthAddressLine3: null,
-    birthCity: data.placeOfBirth?.city || null,
-    birthState: data.placeOfBirth?.state || null,
+    birthCity: data.placeOfBirth?.city,
+    birthState: data.placeOfBirth?.state,
     birthPostalCode: null,
-    birthCountry: data.placeOfBirth?.country || null,
+    birthCountry: data.placeOfBirth?.country,
 
-    // Contact Info chapter 1
-    homePhone: data.phone || null,
-    homePhoneTypeId: PHONE_TYPE_ENUM[data.typeOfPhone?.toUpperCase()] || null,
+    // Chapter 1 - Contact Info
+    homePhone: data.phone,
+    homePhoneTypeId: PHONE_TYPE_ENUM[data.typeOfPhone?.toUpperCase()],
     canReceiveTexts: !!data.canReceiveTexts,
     homeEmail: data.email || null,
 
@@ -81,7 +81,7 @@ const build21aPayload = data => {
     otherAddressCountry: null,
 
     // Accreditation Info
-    accreditationTypeId: 0,
+
     supplementalStatement: data.supplementalStatement || null,
     personalStatement: data.personalStatement || null,
     signature: data.statementOfTruthSignature || null,
@@ -174,7 +174,6 @@ const build21aPayload = data => {
     funeralIndustry: data.funeralIndustry || false,
     homeNursingCare: data.homeNursingCare || false,
     medicalServices: data.medicalServices || false,
-    isInGoodStanding: data.isInGoodStanding || false,
     // Licensing / Jurisdictions
     jurisdictions:
       data.jurisdictions?.map(j => ({

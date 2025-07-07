@@ -3,12 +3,36 @@ export const FORM_TYPE_ID = {
   Forma: 2,
 };
 
-export const ACCREDITATION_TYPE_ID = {
+// Chapter 1
+
+// ACCREDITATION_TYPE - GCLAWS Mapping
+const ACCREDITATION_TYPE_ID = {
   Agent: 1,
   Attorney: 2,
   'VSO Representative': 3,
   'Authorized Individual': 4,
   VSO: 5,
+};
+// ACCREDITATION_TYPE - Frontend Options to GCLAWS Mapping
+export const ACCREDITATION_TYPE_ENUM = {
+  AGENT: ACCREDITATION_TYPE_ID.Agent,
+  ATTORNEY: ACCREDITATION_TYPE_ID.Attorney,
+};
+// PHONE_TYPE - GCLAWS Mapping
+const PHONE_TYPE_ID = {
+  Fax: 1,
+  Home: 2,
+  Mobile: 3,
+  Other: 4,
+  Pager: 5,
+  'TTY/TDD()': 6,
+  Work: 7,
+};
+// PHONE_TYPE - Frontend Options to GCLAWS Mapping
+export const PHONE_TYPE_ENUM = {
+  CELL: PHONE_TYPE_ID.Mobile,
+  HOME: PHONE_TYPE_ID.Home,
+  WORK: PHONE_TYPE_ID.Work,
 };
 
 export const APPLICATION_STATUS_ID = {
@@ -71,16 +95,6 @@ export const DISCHARGE_TYPE_ID = {
   Honorable: 6,
   Medical: 7,
   'Other Than Honorable': 8,
-};
-
-export const PHONE_TYPE_ID = {
-  Fax: 1,
-  Home: 2,
-  Mobile: 3,
-  Other: 4,
-  Pager: 5,
-  'TTY/TDD()': 6,
-  Work: 7,
 };
 
 export const INSTITUTION_TYPE_ID = {
