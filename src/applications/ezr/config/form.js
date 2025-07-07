@@ -10,6 +10,8 @@ import content from '../locales/en/content.json';
 import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
   includeSpousalInformation,
+  includeSpousalInformationV1,
+  includeSpousalInformationV2,
   includeHouseholdInformation,
   includeHouseholdInformationV1,
   includeHouseholdInformationV2,
@@ -76,6 +78,7 @@ import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIn
 import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
 import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 import FinancialInformationPages from './chapters/householdInformation/financialInformation';
+import spousalInformationPages from './chapters/householdInformation/spouseInformation';
 import MaritalStatusPage from '../components/FormPages/MaritalStatusPage';
 
 // chapter 3 Military Service
@@ -371,11 +374,19 @@ const formConfig = {
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
+        spouseInformationSummary: {
+          ...spousalInformationPages.spouseInformationSummaryPage,
+          depends: includeSpousalInformationV2,
+        },
+        spousePersonalInformationV2: {
+          ...spousalInformationPages.spousePersonalInformationPage,
+          depends: includeSpousalInformationV2,
+        },
         spousePersonalInformation: {
           path: 'household-information/spouse-personal-information',
           title: 'Spouse\u2019s personal information',
           initialData: {},
-          depends: includeSpousalInformation,
+          depends: includeSpousalInformationV1,
           uiSchema: spousePersonalInformation.uiSchema,
           schema: spousePersonalInformation.schema,
         },
