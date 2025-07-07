@@ -16,7 +16,8 @@ const CALLSTATUS = {
 };
 
 function ViewDependentsHeader(props) {
-  const { updateDiariesStatus } = props;
+  const { updateDiariesStatus, vadvToggle } = props;
+
   let alertProps;
   // handle status from api
   switch (updateDiariesStatus) {
@@ -71,7 +72,20 @@ function ViewDependentsHeader(props) {
     });
   };
 
-  return (
+  return vadvToggle ? (
+    <div className="vads-l-row">
+      <div className="vads-l-col--12">
+        <h1>{PAGE_TITLE}</h1>
+        {alertProps && (
+          <va-alert status={alertProps.status}>{alertProps.content}</va-alert>
+        )}
+        <p className="vads-u-line-height--6 vads-u-font-size--h3 vads-u-font-family--serif">
+          These are the dependents we have in your VA.gov profile. Use this page
+          to update or verify your dependents every year.
+        </p>
+      </div>
+    </div>
+  ) : (
     <div className="vads-l-row">
       <div className="vads-l-col--12">
         <h1>{PAGE_TITLE}</h1>

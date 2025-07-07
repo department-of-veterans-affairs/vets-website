@@ -16,6 +16,7 @@ const RemoveDependentSuccessMessage = () => (
 function ViewDependentsList(props) {
   let mainContent;
   const manageDependentsToggle = props?.manageDependentsToggle ?? null;
+  const vadvToggle = props?.vadvToggle ?? null;
   if (props.loading) {
     mainContent = (
       <va-loading-indicator message="Loading your dependents" set-focus />
@@ -26,6 +27,7 @@ function ViewDependentsList(props) {
         key={index}
         stateKey={index}
         manageDependentsToggle={manageDependentsToggle}
+        vadvToggle={vadvToggle}
         {...dependent}
       />
     ));

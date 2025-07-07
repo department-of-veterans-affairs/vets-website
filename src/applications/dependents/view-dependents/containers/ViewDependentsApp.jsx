@@ -22,6 +22,7 @@ const ViewDependentsApp = ({
   notOnAwardDependents,
   manageDependentsToggle,
   dependencyVerificationToggle,
+  vadvToggle,
   updateDiariesStatus,
   fetchAllDependents,
 }) => {
@@ -33,7 +34,36 @@ const ViewDependentsApp = ({
     [fetchAllDependents],
   );
 
-  return (
+  return vadvToggle ? (
+    <div className="vads-l-grid-container vads-u-padding--2 vadv">
+      <DowntimeNotification
+        appTitle="view dependents tool"
+        dependencies={[
+          externalServices.bgs,
+          externalServices.global,
+          externalServices.mvi,
+          externalServices.vaProfile,
+          externalServices.vbms,
+        ]}
+      >
+        <RequiredLoginView
+          serviceRequired={backendServices.USER_PROFILE}
+          user={user}
+        >
+          <ViewDependentsLayout
+            loading={loading}
+            error={error}
+            onAwardDependents={onAwardDependents}
+            notOnAwardDependents={notOnAwardDependents}
+            manageDependentsToggle={manageDependentsToggle}
+            dependencyVerificationToggle={dependencyVerificationToggle}
+            updateDiariesStatus={updateDiariesStatus}
+            vadvToggle={vadvToggle}
+          />
+        </RequiredLoginView>
+      </DowntimeNotification>
+    </div>
+  ) : (
     <div className="vads-l-grid-container vads-u-padding--2">
       <DowntimeNotification
         appTitle="view dependents tool"
@@ -74,6 +104,7 @@ const mapStateToProps = state => ({
   dependencyVerificationToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.dependencyVerification
   ],
+  vadvToggle: toggleValues(state)[FEATURE_FLAG_NAMES.vaDependentsVerification],
   onAwardDependents: state.allDependents.onAwardDependents,
   notOnAwardDependents: state.allDependents.notOnAwardDependents,
   updateDiariesStatus: state.verifyDependents.updateDiariesStatus,
@@ -98,6 +129,7 @@ ViewDependentsApp.propTypes = {
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,
   updateDiariesStatus: PropTypes.bool,
+  vadvToggle: PropTypes.bool,
   onAwardDependents: PropTypes.array,
 };
 
