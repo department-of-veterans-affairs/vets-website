@@ -65,24 +65,50 @@ const Authorization = ({
 
   const toggle4142PrivacyModal = buttonId => {
     const wasVisible = modalVisible;
-
     if (!wasVisible && buttonId) {
       setModalOpenedBy(buttonId);
     }
 
     setModalVisible(!modalVisible);
-
-    // If we're closing the modal, restore focus to the correct button
-    if (wasVisible && modalOpenedBy) {
-      waitForRenderThenFocus(
-        `#${modalOpenedBy}`, // The va-button element
-        document, // Root to search from
-        250, // Default time interval
-        'button', // Internal selector - the actual button inside va-button's shadow DOM
-      );
-      setModalOpenedBy(null);
-    }
   };
+
+  // We unfortunately have to do some custom focus management here to make sure
+  // that when the privacy modal closes focus returns to the button that opened it
+  useEffect(
+    () => {
+      const modal = document.querySelector(
+        'va-modal[modal-title="Privacy Act Statement"]',
+      );
+
+      // We have to use a custom event listener here because the waitForRenderThenFocus
+      // utility method causes focus to briefly move to the entire body of the page before
+      // returning to the button, which isn't ideal for screen reader users
+      const handleModalClose = () => {
+        if (modalOpenedBy) {
+          // Direct focus on the internal button element, not the web component, immediately
+          const vaButton = document.getElementById(modalOpenedBy);
+          if (vaButton?.shadowRoot) {
+            const internalButton = vaButton.shadowRoot.querySelector('button');
+            if (internalButton) {
+              internalButton.focus();
+            }
+          }
+          setModalOpenedBy(null);
+        }
+      };
+
+      if (modal) {
+        modal.addEventListener('closeEvent', handleModalClose);
+      }
+
+      return () => {
+        if (modal) {
+          modal.removeEventListener('closeEvent', handleModalClose);
+        }
+      };
+    },
+    [modalOpenedBy],
+  );
 
   useEffect(
     () => {
