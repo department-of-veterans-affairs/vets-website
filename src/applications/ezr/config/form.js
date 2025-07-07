@@ -26,7 +26,8 @@ import {
   isEmergencyContactsEnabled,
   isNextOfKinEnabled,
   showFinancialStatusAlert,
-  spouseDidNotCohabitateWithVeteran,
+  spouseDidNotCohabitateWithVeteranV1,
+  spouseDidNotCohabitateWithVeteranV2,
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
   includeInsuranceInformation,
@@ -384,6 +385,10 @@ const formConfig = {
           ...spousalInformationPages.spouseAdditionalInformationPage,
           depends: includeSpousalInformationV2,
         },
+        spouseFinancialSupportV2: {
+          ...spousalInformationPages.spouseFinancialSupportPage,
+          depends: spouseDidNotCohabitateWithVeteranV2,
+        },
         spousePersonalInformation: {
           path: 'household-information/spouse-personal-information',
           title: 'Spouse\u2019s personal information',
@@ -403,7 +408,7 @@ const formConfig = {
         spouseFinancialSupport: {
           path: 'household-information/spouse-financial-support',
           title: 'Spouse\u2019s financial support',
-          depends: spouseDidNotCohabitateWithVeteran,
+          depends: spouseDidNotCohabitateWithVeteranV1,
           uiSchema: spouseFinancialSupport.uiSchema,
           schema: spouseFinancialSupport.schema,
         },
