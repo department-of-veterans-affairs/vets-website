@@ -180,7 +180,6 @@ describe('ezr MaritalStatusPage', () => {
       expect(props.title).to.be.a('string');
       expect(props.uiSchema).to.be.an('object');
       expect(props.goBack).to.be.a('function');
-      expect(props.goForward).to.be.a('function');
       expect(props.onChange).to.be.a('function');
       expect(props.onSubmit).to.be.a('function');
       expect(props.NavButtons).to.be.a('function');
@@ -202,7 +201,7 @@ describe('ezr MaritalStatusPage', () => {
       expect(continueButton.textContent).to.include('Continue');
     });
 
-    it('should call goForward when the continue button is clicked.', () => {
+    it('should not call goForward when the continue button is clicked.', () => {
       const { props } = getData({
         data: {
           'view:maritalStatus': {
@@ -220,9 +219,10 @@ describe('ezr MaritalStatusPage', () => {
       expect(continueButton).to.exist;
       expect(continueButton.textContent).to.include('Continue');
 
-      // Click the continue button and verify goForward is called
+      // Click the continue button and verify goForward is not called.
+      // Calling goForward here could cause the form to bypass validation.
       continueButton.click();
-      expect(props.goForward.called).to.be.true;
+      expect(props.goForward.called).not.to.be.true;
     });
   });
 
