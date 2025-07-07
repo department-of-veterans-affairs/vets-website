@@ -1315,3 +1315,17 @@ export const renderDefaultThirdPartyMessage = displayName => {
     </>
   );
 };
+
+export const renderOverrideThirdPartyMessage = item => {
+  if (item.displayName.toLowerCase().includes('dbq')) {
+    return item.shortDescription || item.activityDescription;
+  }
+  if (item.shortDescription) {
+    return (
+      <>
+        <strong>You don’t have to do anything.</strong> {item.shortDescription}
+      </>
+    );
+  }
+  return item.activityDescription;
+};

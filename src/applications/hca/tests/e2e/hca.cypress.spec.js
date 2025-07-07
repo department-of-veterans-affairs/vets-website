@@ -48,7 +48,7 @@ const testConfig = createTestConfig(
           goToNextPage();
         });
       },
-      'insurance-information/va-facility-api': ({ afterHook }) => {
+      'insurance-information/va-facility': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(testData => {
             fillVaFacility(testData['view:preferredFacility']);

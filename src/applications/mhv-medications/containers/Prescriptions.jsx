@@ -179,8 +179,6 @@ const Prescriptions = () => {
   const scrollLocation = useRef();
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
 
-  const recentlyRequested = prescriptionsData?.recentlyRequested || [];
-
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
     if (newIsLoading !== null) setLoading(newIsLoading);
     if (newLoadingMessage) setLoadingMessage(newLoadingMessage);
@@ -200,6 +198,15 @@ const Prescriptions = () => {
     if (isFiltering) {
       updates.filterOption = filterOptions[newFilterOption]?.url || '';
       updates.page = 1;
+
+      if (newFilterOption === selectedFilterOption) {
+        document.getElementById('showingRx').scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest',
+        });
+      }
+
       dispatch(setFilterOption(newFilterOption));
       dispatch(setPageNumber(1));
     }
@@ -285,8 +292,16 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (!isFirstLoad) {
-        focusElement(document.getElementById('showingRx'));
+      if (!isFirstLoad && !isLoading) {
+        const showingRx = document.getElementById('showingRx');
+        if (showingRx) {
+          focusElement(showingRx);
+          showingRx.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest',
+          });
+        }
         return;
       }
 
@@ -294,7 +309,7 @@ const Prescriptions = () => {
         setIsFirstLoad(false);
       }
     },
-    [isLoading],
+    [isLoading, filteredList],
   );
 
   // Update page title
@@ -622,7 +637,7 @@ const Prescriptions = () => {
   }
 
   const renderLoadingIndicator = () => (
-    <div className="vads-u-height--viewport vads-u-padding-top--3">
+    <div className="vads-u-padding-y--9">
       <va-loading-indicator
         message={loadingMessage || 'Loading your medications...'}
         setFocus
@@ -709,7 +724,6 @@ const Prescriptions = () => {
           dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
         }
         activeRefills={activeRefills}
-        refillAlertList={recentlyRequested}
       />
     );
   };

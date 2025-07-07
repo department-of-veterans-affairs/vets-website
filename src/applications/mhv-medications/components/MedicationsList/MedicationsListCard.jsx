@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
-import { dispStatusForRefillsLeft } from '../../util/constants';
 import { selectRefillContentFlag } from '../../util/selectors';
 import { dateFormat } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
@@ -17,17 +16,6 @@ const MedicationsListCard = ({ rx }) => {
   const pendingRenewal =
     rx.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
   const latestTrackingStatus = rx?.trackingList?.[0];
-  let showRefillRemaining = false;
-
-  if (dispStatusForRefillsLeft.includes(rx.dispStatus)) {
-    showRefillRemaining = true;
-  }
-  const refillsRemaining = () => {
-    if (rx.refillRemaining === 1) {
-      return <p data-dd-privacy="mask">{rx.refillRemaining} refill left</p>;
-    }
-    return <p data-dd-privacy="mask">{rx.refillRemaining} refills left</p>;
-  };
 
   const cardBodyContent = () => {
     if (pendingRenewal || pendingMed) {
@@ -61,7 +49,6 @@ const MedicationsListCard = ({ rx }) => {
     return (
       <>
         {rx && <LastFilledInfo {...rx} />}
-        {showRefillRemaining && refillsRemaining()}
         {latestTrackingStatus && (
           <p
             className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-lighter"

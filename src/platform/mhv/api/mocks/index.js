@@ -162,7 +162,7 @@ const responses = {
   'GET /my_health/v1/medical_records/labs_and_tests': labsAndTests.all,
   'GET /my_health/v1/medical_records/labs_and_tests/:id': labsAndTests.single,
   'GET /my_health/v2/medical_records/labs_and_tests':
-    acceleratedLabsAndTests.sample,
+    acceleratedLabsAndTests.staging,
   'GET /my_health/v1/medical_records/radiology': mhvRadiology.empty,
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
@@ -261,6 +261,20 @@ const responses = {
 
   'GET /my_health/v1/tooltips': (_req, res) => {
     return res.json(getMockTooltips());
+  },
+
+  'POST /my_health/v1/aal': (req, res) => {
+    return res.json({
+      aal: {
+        activityType: 'Medical Records Activty',
+        action: 'View',
+        performerType: 'Self',
+        detailValue: null,
+        status: 1,
+      },
+      product: 'mr',
+      oncePerSession: true,
+    });
   },
 };
 

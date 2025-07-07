@@ -22,7 +22,6 @@ import NeedHelp from '../components/NeedHelp';
 import { dependents } from './chapters/dependents/dependents';
 import { DependentsInformation } from '../components/DependentsInformation';
 import { DependentsInformationReview } from '../components/DependentsInformationReview';
-import { ExitPageComponent } from '../components/ExitPageComponent.jsx';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -75,14 +74,6 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  additionalRoutes: [
-    {
-      path: 'exit-form',
-      component: ExitPageComponent,
-      pageKey: 'exitForm',
-      depends: () => false,
-    },
-  ],
   chapters: {
     veteranInformation: {
       title: 'Review your personal information',

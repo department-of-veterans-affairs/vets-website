@@ -581,7 +581,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       };
     }
     case Actions.LabsAndTests.GET_UNIFIED_LIST: {
-      const { data } = action.labsAndTestsResponse;
+      const data = action.labsAndTestsResponse;
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
