@@ -29,6 +29,7 @@ describe(`${appName} -- Status Page`, () => {
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.happyPath();
     ApiInitializer.initializeClaimDetails.happyPath();
+    ApiInitializer.additionalClaims.happyPath();
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
@@ -166,26 +167,26 @@ describe(`${appName} -- Status Page`, () => {
       .should('include.text', 'March 27, 2022');
   });
 
-  // TODO: refactor to return different data for each date selected
-  // update: fixtures test data + ApiInitializer
+  it('filters the claims by a date range preset', () => {
+    cy.get('select[name="claimsDates"]').should(
+      'have.value',
+      '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T05:00:00-05:00","end":"2024-06-25T05:00:00-05:00"}',
+    );
+    cy.get('select[name="claimsDates"]').select(
+      '{"label":"Jan 2024 - Mar 2024","value":"Q1_2024","start":"2024-01-01T00:00:00-06:00","end":"2024-03-31T23:59:59-05:00"}',
+      { waitForAnimations: true },
+    );
+    cy.get('select[name="claimsDates"]').should(
+      'have.value',
+      '{"label":"Jan 2024 - Mar 2024","value":"Q1_2024","start":"2024-01-01T00:00:00-06:00","end":"2024-03-31T23:59:59-05:00"}',
+    );
 
-  // it('filters the claims by a date range preset', () => {
-  //   cy.openFilters();
+    cy.get('h3[data-testid="travel-claim-details"]').should('have.length', 1);
 
-  //   cy.get('select[name="claimsDates"]').should('have.value', 'all');
-  //   cy.get('select[name="claimsDates"]').select('Past 3 Months');
-  //   cy.get('select[name="claimsDates"]').should('have.value', 'Past 3 Months');
-
-  //   cy.get('va-button[data-testid="apply_filters"]').click({
-  //     waitForAnimations: true,
-  //   });
-
-  //   cy.get('h3[data-testid="travel-claim-details"]').should('have.length', 1);
-
-  //   cy.get('h3[data-testid="travel-claim-details"]')
-  //     .first()
-  //     .should('include.text', 'May 15, 2024');
-  // });
+    cy.get('h3[data-testid="travel-claim-details"]')
+      .first()
+      .should('include.text', 'February 11, 2024');
+  });
 
   it('filters by multiple properties with non-default sorting', () => {
     cy.openFilters();

@@ -28,7 +28,13 @@ class ApiInitializer {
 
   initializeClaims = {
     happyPath: () => {
-      cy.intercept('GET', `${API_PATHS.CLAIMS}?*`, claims).as('sm');
+      cy.intercept(
+        'GET',
+        `${
+          API_PATHS.CLAIMS
+        }?startDate=2024-03-25T05:00:00-05:00&endDate=2024-06-25T05:00:00-05:00`,
+        claims,
+      ).as('sm');
     },
     errorPath: () => {
       cy.intercept('GET', `${API_PATHS.CLAIMS}?*`, {
@@ -44,6 +50,20 @@ class ApiInitializer {
           ],
         },
       }).as('smError');
+    },
+  };
+
+  additionalClaims = {
+    happyPath: () => {
+      cy.intercept(
+        'GET',
+        `${
+          API_PATHS.CLAIMS
+        }?startDate=2024-01-01T00:00:00-06:00&endDate=2024-03-31T23:59:59-05:00`,
+        {
+          fixture: 'applications/travel-pay/tests/fixtures/test-data-2.json',
+        },
+      ).as('sm2');
     },
   };
 
