@@ -26,7 +26,7 @@ describe('SM PILOT NEW MESSAGE', () => {
       'sentThreadsResponse',
     );
 
-    cy.visit(`${Paths.UI_PILOT}/new-message/select-care-team`);
+    cy.visit(`${Paths.UI_PILOT}/new-message/select-health-care-system`);
     GeneralFunctionsPage.verifyPageHeader(Data.HCS_SELECT);
 
     cy.visit(`${Paths.UI_PILOT}/new-message/start-message`);
