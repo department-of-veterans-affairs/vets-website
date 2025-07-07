@@ -253,7 +253,7 @@
       "directoryPath": "src/applications/edu-benefits/10297",
       "appName": "10297",
       "entryName": "10297-edu-benefits",
-      "rootUrl": "/education/other-va-education-benefits/high-technology-program/apply-for-high-technology-program-form-22-10297"
+      "rootUrl": "/education/apply-for-high-technology-veterans-education/application/10297"
     },
     {
       "directoryPath": "src/applications/edu-benefits/1919",
@@ -271,7 +271,7 @@
       "directoryPath": "src/applications/edu-benefits/8794",
       "appName": "Designation Of Certifying Official(S)",
       "entryName": "8794-edu-benefits",
-      "rootUrl": "/school-administrators/update-certifying-officials"
+      "rootUrl": "/education/apply-for-education-benefits/application/8794"
     },
     {
       "directoryPath": "src/applications/edu-benefits/feedback-tool",
