@@ -9,7 +9,7 @@ import {
   formatDate,
   sendDataDogAction,
 } from '../../util/helpers';
-import { vitalTags } from '../../util/ddConstants';
+import { VitalTags } from '../../util/ddConstants';
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
@@ -117,7 +117,7 @@ const VitalListItem = props => {
             className="vads-u-line-height--4"
             data-testid={dataTestIds.reviewLink}
             onClick={() => {
-              sendDataDogAction(vitalTags.listLinks[record.type]);
+              sendDataDogAction(VitalTags.listLinks[record.type]);
             }}
           >
             <strong>

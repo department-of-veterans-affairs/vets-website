@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { externalTags } from '../../util/ddConstants';
+import { LinkTags } from '../../util/ddConstants';
 import { sendDataDogAction } from '../../util/helpers';
 
 const InfoAlert = ({ highLowResults }) => {
@@ -37,7 +37,7 @@ const InfoAlert = ({ highLowResults }) => {
             href="/my-health/secure-messages/new-message/"
             text="Start a new message"
             onClick={() => {
-              sendDataDogAction(externalTags.labTestNewMessage);
+              sendDataDogAction(LinkTags.labTestNewMessage);
             }}
           />
         </p>
