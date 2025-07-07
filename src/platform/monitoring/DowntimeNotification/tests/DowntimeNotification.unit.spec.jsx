@@ -76,19 +76,16 @@ describe('mapStateToProps', () => {
 describe('<DowntimeNotification/>', () => {
   it('calls getScheduledDowntime when rendered', async () => {
     const getScheduledDowntime = sinon.spy();
-    // const getGlobalDowntime = sinon.spy();
     render(
       <DowntimeNotification
         {...defaultProps}
         getScheduledDowntime={getScheduledDowntime}
-        // getGlobalDowntime={getGlobalDowntime}
       >
         <span>{innerText}</span>
       </DowntimeNotification>,
     );
     await waitFor(() => {
       expect(getScheduledDowntime.calledOnce).to.be.true;
-      // expect(getGlobalDowntime.calledOnce).to.be.true;
     });
   });
 
