@@ -5,6 +5,7 @@ import {
   subMonths,
   format,
   parseISO,
+  addMonths,
 } from 'date-fns';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -22,6 +23,8 @@ const formatDate = buildDateFormatter();
 const today = new Date();
 const nineMonthsAgoDate = subMonths(today, 9);
 const nineMonthsAgoSuspenseDate = format(nineMonthsAgoDate, 'yyyy-MM-dd');
+const fiveMonthsFromNow = addMonths(today, 5);
+const fiveMonthsFromNowSuspenseDate = format(fiveMonthsFromNow, 'yyyy-MM-dd');
 
 describe('<DefaultPage>', () => {
   const defaultProps = {
@@ -70,12 +73,19 @@ describe('<DefaultPage>', () => {
       );
       expect($('#default-page', container)).to.exist;
       expect($('.add-files-form', container)).to.exist;
-      getByText(`Respond by ${formatDate(item.suspenseDate)}`);
-      getByText('What we need from you');
-      getByText('Learn about this request in your claim letter');
+      getByText('Request for evidence');
+      getByText(
+        `Respond by ${formatDate(
+          item.suspenseDate,
+        )} for: Submit buddy statement(s)`,
+      );
+      getByText('What we need from you', { selector: 'h2' });
+      getByText('To respond to this request:');
+      getByText(
+        'If you need help understanding this request, check your claim letter online.',
+      );
       expect($('va-link', container)).to.exist;
       expect($('.optional-upload', container)).to.not.exist;
-      getByText('Submit buddy statement(s)');
       getByText(scrubDescription(item.description));
       expect($('va-additional-info', container)).to.exist;
       expect($('va-file-input', container)).to.exist;
@@ -141,14 +151,13 @@ describe('<DefaultPage>', () => {
       expect($('#default-page', container)).to.exist;
       expect($('.add-files-form', container)).to.exist;
       expect($('.due-date-header', container)).to.not.exist;
+      getByText('Request for evidence outside VA');
       getByText(
-        new RegExp(
-          `Requested from outside VA on\\s+${formatDate(item.requestedDate)}`,
-          'i',
-        ),
+        `We made a request outside VA on ${formatDate(
+          item.requestedDate,
+        )} for: Submit buddy statement(s)`,
       );
       expect($('.optional-upload', container)).to.exist;
-      getByText('Submit buddy statement(s)');
       getByText('This is just a notice. No action is needed by you.');
       getByText(
         'But, if you have documents related to this request, uploading them on this page may help speed up the evidence review for your claim.',
@@ -185,13 +194,10 @@ describe('<DefaultPage>', () => {
         'For your benefits claim, we’ve requested your service records or treatment records from your reserve unit.',
       );
       getByText(
-        new RegExp(
-          `Requested from outside VA on\\s+${formatDate(item.requestedDate)}`,
-          'i',
-        ),
+        `We made a request outside VA on ${formatDate(item.requestedDate)}`,
       );
     });
-    it(`should render Requested from examiner’s office on when the track item is a DBQ`, () => {
+    it(`should render updated request language on when the track item is a DBQ`, () => {
       const item = {
         closedDate: null,
         description: 'old description',
@@ -212,7 +218,93 @@ describe('<DefaultPage>', () => {
           <DefaultPage {...defaultProps} item={item} />
         </Provider>,
       );
-      getByText(`Requested from examiner’s office on March 25, 2024`);
+      getByText(
+        `We made a request on ${formatDate(
+          item.requestedDate,
+        )} for: friendly DBQ name`,
+      );
+    });
+    it('should display pass due alert when suspense date is in the past', () => {
+      const item = {
+        closedDate: null,
+        description: 'Buddy statement text',
+        displayName: 'Submit buddy statement(s)',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: nineMonthsAgoSuspenseDate,
+        uploadsAllowed: true,
+        canUploadFile: true,
+        documents: [],
+        date: '2024-03-07',
+      };
+      const { getByText, container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      expect($('#default-page', container)).to.exist;
+      expect($('.add-files-form', container)).to.exist;
+      getByText('Deadline passed for requested information');
+      getByText(
+        'We haven’t received the information we asked for. You can still send it, but we may review your claim without it.',
+      );
+    });
+    it('should display pass due explanation text when suspense date is in the future', () => {
+      const item = {
+        closedDate: null,
+        description: 'Buddy statement text',
+        displayName: 'Submit buddy statement(s)',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: fiveMonthsFromNowSuspenseDate,
+        uploadsAllowed: true,
+        canUploadFile: true,
+        documents: [],
+        date: '2024-03-07',
+      };
+      const { getByText, container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      expect($('#default-page', container)).to.exist;
+      expect($('.add-files-form', container)).to.exist;
+      getByText(
+        'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
+      );
+    });
+    it('should display pass due explanation text when suspense date is in the future', () => {
+      const item = {
+        closedDate: null,
+        description: 'Buddy statement text',
+        displayName: 'Submit buddy statement(s)',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: fiveMonthsFromNowSuspenseDate,
+        uploadsAllowed: true,
+        canUploadFile: true,
+        documents: [],
+        date: '2024-03-07',
+      };
+      const { getByText, container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      expect($('#default-page', container)).to.exist;
+      expect($('.add-files-form', container)).to.exist;
+      getByText(
+        'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
+      );
     });
   });
 

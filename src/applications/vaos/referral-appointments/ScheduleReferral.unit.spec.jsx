@@ -30,6 +30,9 @@ describe('VAOS Component: ScheduleReferral', () => {
     const details = await screen.findByTestId('referral-details');
     const facility = await screen.findByTestId('referral-facility');
     const helpText = await screen.findByTestId('help-text');
+    const informationalText = await screen.findByTestId(
+      'referral-informational-text',
+    );
 
     const expectedDate = format(
       new Date(referral.attributes.expirationDate),
@@ -41,6 +44,7 @@ describe('VAOS Component: ScheduleReferral', () => {
     expect(helpText).to.exist;
 
     expect(facility).to.exist;
+    expect(informationalText).to.exist;
   });
   it('should reset slot selection', async () => {
     const referral = createReferralById(referralDate, '222');
