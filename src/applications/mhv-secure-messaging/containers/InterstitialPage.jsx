@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useAppNavigate } from '../util/navigation';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
 
 const InterstitialPage = props => {
   const { acknowledge, type } = props;
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const isPilot = useSelector(state => state.sm.app.isPilot);
 
   useEffect(() => {

@@ -1,14 +1,28 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import * as navigationUtils from '../../util/navigation';
 import reducer from '../../reducers';
 import InterstitialPage from '../../containers/InterstitialPage';
 import { getByBrokenText } from '../../util/testUtils';
 
 describe('Interstitial page header', () => {
+  let mockNavigate;
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    mockNavigate = sandbox.stub();
+    sandbox.stub(navigationUtils, 'useAppNavigate').returns(mockNavigate);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   const initialState = (isPilot = false) => ({
     sm: {
       app: {
@@ -22,10 +36,16 @@ describe('Interstitial page header', () => {
     path = '/new-message/',
     props,
   }) => {
-    return renderWithStoreAndRouter(<InterstitialPage {...props} />, {
+    const routes = [
+      {
+        path: '*',
+        element: <InterstitialPage {...props} />,
+      },
+    ];
+    return renderWithDataRouter(routes, {
       initialState: customState,
       reducers: reducer,
-      path,
+      initialEntry: path,
     });
   };
 
@@ -54,7 +74,7 @@ describe('Interstitial page header', () => {
   });
 
   it('renders "Continue to draft" on type draft', () => {
-    const acknowledgeSpy = sinon.spy();
+    const acknowledgeSpy = sandbox.spy();
     const screen = setup({
       props: { type: 'draft', acknowledge: acknowledgeSpy },
     });
@@ -63,7 +83,7 @@ describe('Interstitial page header', () => {
   });
 
   it('renders "Continue to reply" on type reply', () => {
-    const acknowledgeSpy = sinon.spy();
+    const acknowledgeSpy = sandbox.spy();
     const screen = setup({
       props: { type: 'reply', acknowledge: acknowledgeSpy },
     });
@@ -72,7 +92,7 @@ describe('Interstitial page header', () => {
   });
 
   it('"Continue to start message" button responds on Enter key', async () => {
-    const acknowledgeSpy = sinon.spy();
+    const acknowledgeSpy = sandbox.spy();
     const screen = setup({
       props: { acknowledge: acknowledgeSpy },
     });
@@ -82,7 +102,7 @@ describe('Interstitial page header', () => {
   });
 
   it('"Continue to start message" button responds on Space key', async () => {
-    const acknowledgeSpy = sinon.spy();
+    const acknowledgeSpy = sandbox.spy();
     const screen = setup({
       props: { acknowledge: acknowledgeSpy },
     });
@@ -94,7 +114,7 @@ describe('Interstitial page header', () => {
   });
 
   it('"Continue to start message" button does respond on Tab key', async () => {
-    const acknowledgeSpy = sinon.spy();
+    const acknowledgeSpy = sandbox.spy();
     const screen = setup({
       props: { acknowledge: acknowledgeSpy },
     });
@@ -105,22 +125,19 @@ describe('Interstitial page header', () => {
   });
 
   it('when isPilot is true, clicking the continue button navigates to the select health care system page', async () => {
-    const acknowledgeSpy = sinon.spy();
-    const { history, getByTestId } = renderWithStoreAndRouter(
-      <InterstitialPage acknowledge={acknowledgeSpy} />,
-      {
-        initialState: initialState(true),
-        reducers: reducer,
-        path: '/new-message/',
-      },
-    );
+    const acknowledgeSpy = sandbox.spy();
+    const { getByTestId } = setup({
+      customState: initialState(true),
+      props: { acknowledge: acknowledgeSpy },
+    });
 
     const continueButton = getByTestId('continue-button');
     userEvent.click(continueButton);
 
     await waitFor(() => {
       expect(acknowledgeSpy.called).to.be.false;
-      expect(history.location.pathname).to.equal(
+      sinon.assert.calledWith(
+        mockNavigate,
         '/new-message/select-health-care-system',
       );
     });

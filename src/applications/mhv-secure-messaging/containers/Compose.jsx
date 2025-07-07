@@ -1,14 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import {
-  useLocation,
-  useParams,
-  useNavigate,
-} from 'react-router-dom-v5-compat';
+import { useLocation, useParams } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
+import { useAppNavigate } from '../util/navigation';
 
 import { clearThread } from '../actions/threadDetails';
 import { getListOfThreads } from '../actions/threads';
@@ -49,7 +45,7 @@ const Compose = ({ skipInterstitial }) => {
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
   const previousPathRef = useRef(location.pathname);

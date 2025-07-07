@@ -1,30 +1,56 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import sinon from 'sinon';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
 import { waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import * as SmApi from '../../api/SmApi';
+import * as navigationUtils from '../../util/navigation';
 import reducer from '../../reducers';
-import pilotRoutes from '../../pilot/routes';
+
+const setup = (state = {}, path = '/', ui = <App />) => {
+  const routes = [
+    {
+      path: '*',
+      element: ui,
+    },
+  ];
+  return renderWithDataRouter(routes, {
+    initialState: state,
+    reducers: reducer,
+    initialEntry: path,
+  });
+};
 
 describe('App', () => {
-  let oldLocation;
+  let sandbox;
+  let mockNavigate;
 
   beforeEach(() => {
-    oldLocation = global.window.location;
-    global.window.location = {
-      replace: sinon.spy(),
-    };
+    sandbox = sinon.createSandbox();
+    mockNavigate = sandbox.stub();
+    // Mock our custom navigation hook
+    sandbox.stub(navigationUtils, 'useAppNavigate').returns(mockNavigate);
+
+    // Mock window.location.replace
+    global.window = Object.create(window);
+    Object.defineProperty(window, 'location', {
+      value: {
+        replace: sandbox.stub(),
+        pathname: '/',
+      },
+      writable: true,
+    });
   });
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    // global.window.location = oldLocation;
+    sandbox.restore();
   });
 
   const noDowntime = {
@@ -70,8 +96,8 @@ describe('App', () => {
 
   it('user is not logged in', () => {
     // expected behavior is be redirected to the home page with next in the url
-    renderWithStoreAndRouter(<App />, {
-      initialState: {
+    setup(
+      {
         ...initialState,
         user: {
           profile: {
@@ -82,29 +108,27 @@ describe('App', () => {
           },
         },
       },
-      path: `/`,
-      reducers: reducer,
-    });
+      '/',
+    );
     waitFor(() => expect(window.location.replace.called).to.be.true);
   });
 
   it('feature flags are still loading', () => {
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: {
+    const screen = setup(
+      {
         featureToggles: {
           loading: true,
         },
         ...initialState,
       },
-      path: `/`,
-      reducers: reducer,
-    });
+      '/',
+    );
     expect(screen.getByTestId('feature-flag-loading-indicator'));
   });
 
   it.skip('renders the global downtime notification', () => {
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: {
+    const screen = setup(
+      {
         scheduledDowntime: {
           globalDowntime: true,
           isReady: true,
@@ -114,9 +138,8 @@ describe('App', () => {
         },
         ...initialState,
       },
-      reducers: reducer,
-      path: `/`,
-    });
+      '/',
+    );
     expect(
       screen.getByText('This tool is down for maintenance', {
         selector: 'h3',
@@ -131,8 +154,8 @@ describe('App', () => {
   });
 
   it('renders the downtime notification', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: {
+    const screen = setup(
+      {
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -142,9 +165,8 @@ describe('App', () => {
         },
         ...initialState,
       },
-      reducers: reducer,
-      path: `/`,
-    });
+      '/',
+    );
     await waitFor(() => {
       expect(
         screen.getByText('Maintenance on My HealtheVet', {
@@ -164,8 +186,8 @@ describe('App', () => {
   });
 
   it('renders the downtime notification for multiple configured services', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: {
+    const screen = setup(
+      {
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -175,9 +197,8 @@ describe('App', () => {
         },
         ...initialState,
       },
-      reducers: reducer,
-      path: `/`,
-    });
+      '/',
+    );
     await waitFor(() => {
       expect(
         screen.getByText('Maintenance on My HealtheVet', {
@@ -197,8 +218,8 @@ describe('App', () => {
   });
 
   it('renders the downtime notification for mixed services', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: {
+    const screen = setup(
+      {
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -208,9 +229,8 @@ describe('App', () => {
         },
         ...initialState,
       },
-      reducers: reducer,
-      path: `/`,
-    });
+      '/',
+    );
     await waitFor(() => {
       expect(
         screen.getByText('Maintenance on My HealtheVet', {
@@ -229,9 +249,9 @@ describe('App', () => {
     );
   });
 
-  it('does NOT render the downtime notification WHEN unrelated services are down', () => {
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: {
+  it('does NOT render the downtime notification', () => {
+    const screen = setup(
+      {
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -241,9 +261,8 @@ describe('App', () => {
         },
         ...initialState,
       },
-      reducers: reducer,
-      path: `/`,
-    });
+      '/',
+    );
     const downtimeComponent = screen.queryByText(
       'Maintenance on My HealtheVet',
       {
@@ -269,7 +288,7 @@ describe('App', () => {
     customState.featureToggles[
       FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification
     ] = true;
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = setup({
       initialState: customState,
       reducers: reducer,
       path: `/`,
@@ -297,11 +316,7 @@ describe('App', () => {
       },
       ...noDowntime,
     };
-    renderWithStoreAndRouter(<App />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
+    setup(customState, '/');
     await waitFor(() => {
       expect(window.location.replace.called).to.be.true;
     });
@@ -310,18 +325,15 @@ describe('App', () => {
   it('redirects user to /my-health/secure-messages/inbox', async () => {
     const customState = { ...initialState, featureToggles: [] };
 
-    await renderWithStoreAndRouter(<App />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
+    setup(customState, '/');
 
     await waitFor(() => {
-      expect(window.location.replace.called).to.be.true;
+      sinon.assert.calledWith(
+        mockNavigate,
+        '/my-health/secure-messages/inbox/',
+        { replace: true },
+      );
     });
-    expect(window.location.replace.args[0][0]).to.equal(
-      '/my-health/secure-messages/inbox/',
-    );
   });
 
   it('redirects user with pilot environment access to /my-health/secure-messages-pilot/inbox', async () => {
@@ -334,23 +346,16 @@ describe('App', () => {
       },
     };
 
-    global.window.location = {
-      replace: sinon.spy(),
-      pathname: '/secure-messaging-pilot/',
-    };
-
     customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
 
-    const { queryByText } = renderWithStoreAndRouter(<App isPilot />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
+    const { queryByText } = setup(customState, '/', <App isPilot />);
 
     expect(queryByText('Messages', { selector: 'h1', exact: true }));
     await waitFor(() => {
-      expect(window.location.replace.args[0][0]).to.equal(
+      sinon.assert.calledWith(
+        mockNavigate,
         '/my-health/secure-messages-pilot/inbox/',
+        { replace: true },
       );
     });
   });
@@ -358,11 +363,7 @@ describe('App', () => {
   it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
     const customState = { ...initialState, featureToggles: [] };
     customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
-    const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/inbox`,
-    });
+    const { queryByText } = setup(customState, '/inbox', <App isPilot />);
 
     expect(queryByText('Messages', { selector: 'h1', exact: true }));
     expect(window.location.replace.calledOnce).to.be.false;
@@ -373,22 +374,14 @@ describe('App', () => {
     customState.featureToggles[
       `${'mhv_secure_messaging_cerner_pilot'}`
     ] = false;
-    const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
+    const { queryByText } = setup(customState, '/', <App isPilot />);
 
     expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    expect(window.location.replace.called).to.be.true;
+    expect(mockNavigate.called).to.be.true;
   });
 
   it('displays Page Not Found component if bad url', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState,
-      reducers: reducer,
-      path: `/sdfsdf`,
-    });
+    const screen = setup(initialState, '/sdfsdf');
     await waitFor(() => {
       expect(screen.getByTestId('mhv-page-not-found')).to.exist;
       expect(
@@ -409,10 +402,7 @@ describe('App', () => {
     const submitStub = sinon.stub(SmApi, 'submitLaunchMessagingAal');
     submitStub.resolves();
     const useFeatureTogglesStub = stubUseFeatureToggles({ isAalEnabled: true });
-    renderWithStoreAndRouter(<App />, {
-      initialState,
-      reducers: reducer,
-    });
+    setup(initialState);
     await waitFor(() => {
       expect(submitStub.calledOnce).to.be.true;
     });

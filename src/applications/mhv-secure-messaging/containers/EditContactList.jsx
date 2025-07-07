@@ -4,13 +4,14 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { useLocation } from 'react-router-dom-v5-compat';
 import _ from 'lodash';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
   VaAlert,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useAppNavigate } from '../util/navigation';
 import FacilityCheckboxGroup from '../components/FacilityCheckboxGroup';
 import GetFormHelp from '../components/GetFormHelp';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
@@ -30,7 +31,7 @@ import { closeAlert } from '../actions/alerts';
 const EditContactList = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const [allTriageTeams, setAllTriageTeams] = useState(null);
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
   const [checkboxError, setCheckboxError] = useState('');

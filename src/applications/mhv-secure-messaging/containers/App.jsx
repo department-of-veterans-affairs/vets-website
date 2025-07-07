@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Routes, Route, Navigate } from 'react-router-dom-v5-compat';
+import { Routes, Route } from 'react-router-dom-v5-compat';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -18,6 +18,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
+import { useAppNavigate } from '../util/navigation';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import manifest from '../manifest.json';
@@ -38,6 +39,7 @@ const App = ({ isPilot }) => {
     cernerPilotSmFeatureFlag,
     mhvMockSessionFlag,
   } = featureToggles();
+  const navigate = useAppNavigate();
 
   useEffect(
     () => {
@@ -128,7 +130,7 @@ const App = ({ isPilot }) => {
   // redirect to the SM main experience landing page
   if (isPilot && !cernerPilotSmFeatureFlag) {
     const url = `${manifest.rootUrl}${Paths.INBOX}`;
-    return <Navigate to={url} replace />;
+    navigate(url, { replace: true });
   }
 
   return (

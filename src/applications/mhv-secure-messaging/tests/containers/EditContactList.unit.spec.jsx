@@ -1,9 +1,10 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import * as navigationUtils from '../../util/navigation';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import oneBlockedRecipient from '../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
 import oneBlockedFacility from '../fixtures/json-triage-mocks/triage-teams-facility-blocked-mock.json';
@@ -36,20 +37,36 @@ describe('Edit Contact List container', async () => {
   };
 
   const setup = (state = initialState, path = Paths.CONTACT_LIST) => {
-    return renderWithStoreAndRouter(<EditContactList />, {
+    const routes = [
+      {
+        path: '*',
+        element: <EditContactList />,
+      },
+    ];
+    return renderWithDataRouter(routes, {
       initialState: state,
       reducers: reducer,
-      path,
+      initialEntry: path,
     });
   };
 
+  let sandbox;
+  let mockNavigate;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    mockNavigate = sandbox.stub();
+    sandbox.stub(navigationUtils, 'useAppNavigate').returns(mockNavigate);
+  });
+
   afterEach(() => {
     cleanup();
+    sandbox.restore();
   });
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen);
+    expect(screen).to.exist;
     screen.unmount();
   });
 
@@ -453,11 +470,30 @@ describe('Edit Contact List container', async () => {
     const screen = setup(customState);
 
     const cancelButton = await screen.findByTestId('contact-list-go-back');
-    fireEvent.click(cancelButton);
+    await fireEvent.click(cancelButton);
 
-    expect(screen.history.location.pathname).to.equal(
-      `${Paths.MESSAGE_THREAD}123123/`,
-    );
+    await waitFor(() => {
+      // Using sinon assertions for better test debugging
+      sinon.assert.calledWith(mockNavigate, `${Paths.MESSAGE_THREAD}123123/`);
+    });
+
+    screen.unmount();
+  });
+
+  it('navigate function is properly mocked', async () => {
+    // Set up with minimal state
+    const screen = setup();
+
+    // Find and click the Go Back button
+    const goBackButton = await screen.findByTestId('contact-list-go-back');
+    await fireEvent.click(goBackButton);
+
+    // Verify navigate was called
+    await waitFor(() => {
+      sinon.assert.called(mockNavigate);
+      // Since we have default state, it should navigate to Inbox
+      sinon.assert.calledWith(mockNavigate, Paths.INBOX);
+    });
 
     screen.unmount();
   });
