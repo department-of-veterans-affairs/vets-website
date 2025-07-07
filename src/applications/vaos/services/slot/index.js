@@ -38,7 +38,6 @@ import { transformV2Slots } from './transformers';
  * @param {string} [slotsRequest.provider=null] optional OH provider id
  * @param {string} slotsRequest.startDate start date to search for appointments slots
  * @param {string} slotsRequest.endDate end date to search for appointments slots
- * @param {boolean} slotsRequest.convertToUtc check if flag to convert the start and end dates to UTC is set to true
  * @returns {Array<Slot>} A list of Slot resources
  */
 export async function getSlots({
@@ -48,7 +47,6 @@ export async function getSlots({
   provider = null,
   startDate,
   endDate,
-  convertToUtc = false,
 }) {
   try {
     const data = await getAvailableV2Slots({
@@ -58,7 +56,6 @@ export async function getSlots({
       provider,
       startDate,
       endDate,
-      convertToUtc,
     });
 
     return transformV2Slots(data || []);

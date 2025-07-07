@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -51,6 +51,11 @@ const mockData = {
 
 describe('EditMailingAddress renders fields', () => {
   let goToPath;
+
+  const clickEvent = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+  });
 
   beforeEach(() => {
     goToPath = sinon.spy();
@@ -106,18 +111,7 @@ describe('EditMailingAddress renders fields', () => {
       </Provider>,
     );
 
-    const buttons = Array.from(container.querySelectorAll('va-button'));
-    const saveButton = buttons.find(
-      btn =>
-        btn.getAttribute('text') === 'Save' || btn.textContent.includes('Save'),
-    );
-    const cancelButton = buttons.find(
-      btn =>
-        btn.getAttribute('text') === 'Cancel' ||
-        btn.textContent.includes('Cancel'),
-    );
-    expect(saveButton).to.not.be.null;
-    expect(cancelButton).to.not.be.null;
+    expect(container.querySelector('va-button-pair[update]')).to.exist;
   });
 
   it('calls onCancel when cancel button is clicked + reviewPage', async () => {
@@ -134,9 +128,9 @@ describe('EditMailingAddress renders fields', () => {
       </Provider>,
     );
 
-    const cancelButton = container.querySelector('va-button[text="Cancel"]');
-
-    fireEvent.click(cancelButton);
+    container
+      .querySelector('va-button-pair')
+      .__events.secondaryClick(clickEvent);
 
     await waitFor(() => {
       expect(goToPath.called).to.be.true;
@@ -157,9 +151,7 @@ describe('EditMailingAddress renders fields', () => {
       </Provider>,
     );
 
-    const cancelButton = container.querySelector('va-button[text="Save"]');
-
-    fireEvent.submit(cancelButton);
+    container.querySelector('va-button-pair').__events.primaryClick(clickEvent);
 
     await waitFor(() => {
       expect(goToPath.called).to.be.true;
