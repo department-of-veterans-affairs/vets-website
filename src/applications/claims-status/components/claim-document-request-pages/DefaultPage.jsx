@@ -87,8 +87,7 @@ export default function DefaultPage({
                 </h2>
                 <p className="vads-u-margin-y--0">
                   We haven’t received the information we asked for. You can
-                  still upload or mail it to us, but we may review your claim
-                  without it.
+                  still send it, but we may review your claim without it.
                 </p>
                 <p>
                   If you have questions, call the VA benefits hotline at{' '}

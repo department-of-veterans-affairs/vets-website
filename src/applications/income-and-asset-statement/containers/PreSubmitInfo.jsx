@@ -24,6 +24,7 @@ const PreSubmitInfo = ({
 }) => {
   const { statementOfTruth } = preSubmitInfo;
   const statementOfTruthCertified = formData.statementOfTruthCertified || false;
+  const { claimantType } = formData;
   const loggedIn = useSelector(isLoggedIn);
   const [
     statementOfTruthSignatureBlurred,
@@ -32,7 +33,7 @@ const PreSubmitInfo = ({
 
   return (
     <>
-      {loggedIn ? (
+      {loggedIn && claimantType === 'VETERAN' ? (
         <>
           <div className="vads-u-margin-y--2p5">
             <strong>Note:</strong> According to federal law, there are criminal

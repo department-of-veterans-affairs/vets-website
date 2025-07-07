@@ -7,6 +7,7 @@ import {
   truncateDescription,
   buildDateFormatter,
   renderDefaultThirdPartyMessage,
+  renderOverrideThirdPartyMessage,
 } from '../../utils/helpers';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
@@ -56,7 +57,7 @@ function FilesOptional({ item }) {
       <p className="alert-description">
         {cstFriendlyEvidenceRequests &&
           (item.shortDescription || item.activityDescription
-            ? item.shortDescription || item.activityDescription
+            ? renderOverrideThirdPartyMessage(item)
             : renderDefaultThirdPartyMessage(item.displayName))}
       </p>
       {!cstFriendlyEvidenceRequests && (

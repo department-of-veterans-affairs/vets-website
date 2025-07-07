@@ -71,7 +71,8 @@ describe('<FilesOptional>', () => {
     );
     getByText('About this notice');
   });
-  it(`should not render you don't need to do anything when cstFriendlyEvidenceRequests is true and non DBQ track item has override description content`, () => {
+
+  it(`should render you don't need to do anything and short description when cstFriendlyEvidenceRequests is true and non DBQ track item has override description content`, () => {
     const { getByText, queryByText } = renderWithRouter(
       <Provider store={getStore(true)}>
         <FilesOptional item={itemWithOverrideDescription} />
@@ -80,8 +81,8 @@ describe('<FilesOptional>', () => {
 
     getByText(itemWithOverrideDescription.friendlyName);
     getByText('We made a request outside VA on April 21, 2025');
+    expect(queryByText(/you don’t have to do anything/i)).to.exist;
     getByText(itemWithOverrideDescription.shortDescription);
-    expect(queryByText(/you don’t have to do anything/i)).to.be.null;
     expect(
       queryByText(
         'We asked someone outside VA for documents related to your claim.',
