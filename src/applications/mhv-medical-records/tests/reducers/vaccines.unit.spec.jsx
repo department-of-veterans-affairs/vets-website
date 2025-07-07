@@ -623,9 +623,12 @@ describe('convertUnifiedVaccine', () => {
         groupName: 'Hepatitis B',
         date: '2023-06-20T10:30:00-04:00',
         location: 'VA Medical Center',
+        shortDescription: 'Hepatitis B vaccine, 10mcg/0.5mL',
         manufacturer: 'Pfizer',
         reaction: 'Mild soreness',
         note: 'First dose in series',
+        doseNumber: 1,
+        seriesDoses: 3,
       },
     };
 
@@ -636,77 +639,151 @@ describe('convertUnifiedVaccine', () => {
       name: 'Hepatitis B',
       date: 'June 20, 2023',
       location: 'VA Medical Center',
+      shortDescription: 'Hepatitis B vaccine, 10mcg/0.5mL',
       manufacturer: 'Pfizer',
       reaction: 'Mild soreness',
       note: 'First dose in series',
+      doseNumber: 1,
+      seriesDoses: 3,
+      doseDisplay: '1 of 3',
     });
   });
 
-  it('should use "None recorded" for missing optional fields', () => {
-    const record = {
-      id: '789',
-      attributes: {
-        groupName: 'Flu Shot',
-        date: '2024-01-15T14:20:00-05:00',
-        // Missing location, manufacturer, reaction, note
-      },
-    };
-
-    const result = convertUnifiedVaccine(record);
-
-    expect(result).to.deep.equal({
-      id: '789',
-      name: 'Flu Shot',
-      date: 'January 15, 2024',
-      location: MISSING_FIELD_VAL,
-      manufacturer: MISSING_FIELD_VAL,
-      reaction: MISSING_FIELD_VAL,
-      note: MISSING_FIELD_VAL,
-    });
-  });
-
-  it('should handle empty string values for optional fields', () => {
+  it('should correctly handle doseDisplay with valid doseNumber and seriesDoses', () => {
     const record = {
       id: '101',
       attributes: {
         groupName: 'COVID-19',
         date: '2023-12-01T09:15:00-06:00',
-        location: '',
-        manufacturer: '',
-        reaction: '',
-        note: '',
+        doseNumber: 2,
+        seriesDoses: 2,
       },
     };
 
     const result = convertUnifiedVaccine(record);
 
-    expect(result).to.deep.equal({
-      id: '101',
-      name: 'COVID-19',
-      date: 'December 1, 2023',
-      location: MISSING_FIELD_VAL,
-      manufacturer: MISSING_FIELD_VAL,
-      reaction: MISSING_FIELD_VAL,
-      note: MISSING_FIELD_VAL,
-    });
+    expect(result.doseDisplay).to.equal('2 of 2');
+    expect(result.doseNumber).to.equal(2);
+    expect(result.seriesDoses).to.equal(2);
   });
 
-  it('should handle record with missing attributes object', () => {
+  it('should return "None recorded" for doseDisplay when doseNumber is missing', () => {
     const record = {
-      id: '202',
-      // Missing attributes object
+      id: '102',
+      attributes: {
+        groupName: 'Flu Shot',
+        date: '2023-10-15T14:20:00-05:00',
+        seriesDoses: 1,
+        // Missing doseNumber
+      },
     };
 
     const result = convertUnifiedVaccine(record);
-    expect(result).to.deep.equal({
-      id: '202',
-      name: MISSING_FIELD_VAL,
-      date: MISSING_FIELD_VAL,
-      location: MISSING_FIELD_VAL,
-      manufacturer: MISSING_FIELD_VAL,
-      reaction: MISSING_FIELD_VAL,
-      note: MISSING_FIELD_VAL,
-    });
+
+    expect(result.doseDisplay).to.equal(MISSING_FIELD_VAL);
+    expect(result.doseNumber).to.be.undefined;
+    expect(result.seriesDoses).to.equal(1);
+  });
+
+  it('should return "None recorded" for doseDisplay when seriesDoses is missing', () => {
+    const record = {
+      id: '103',
+      attributes: {
+        groupName: 'Tetanus',
+        date: '2023-08-10T11:30:00-04:00',
+        doseNumber: 1,
+        // Missing seriesDoses
+      },
+    };
+
+    const result = convertUnifiedVaccine(record);
+
+    expect(result.doseDisplay).to.equal(MISSING_FIELD_VAL);
+    expect(result.doseNumber).to.equal(1);
+    expect(result.seriesDoses).to.be.undefined;
+  });
+
+  it('should return "None recorded" for doseDisplay when both doseNumber and seriesDoses are missing', () => {
+    const record = {
+      id: '104',
+      attributes: {
+        groupName: 'MMR',
+        date: '2023-09-20T16:45:00-03:00',
+        // Missing both doseNumber and seriesDoses
+      },
+    };
+
+    const result = convertUnifiedVaccine(record);
+
+    expect(result.doseDisplay).to.equal(MISSING_FIELD_VAL);
+    expect(result.doseNumber).to.be.undefined;
+    expect(result.seriesDoses).to.be.undefined;
+  });
+
+  it('should handle zero values for doseNumber and seriesDoses', () => {
+    const record = {
+      id: '105',
+      attributes: {
+        groupName: 'Varicella',
+        date: '2023-07-05T13:15:00-05:00',
+        doseNumber: 0,
+        seriesDoses: 0,
+      },
+    };
+
+    const result = convertUnifiedVaccine(record);
+
+    // Zero is falsy, so doseDisplay should be "None recorded"
+    expect(result.doseDisplay).to.equal(MISSING_FIELD_VAL);
+    expect(result.doseNumber).to.equal(0);
+    expect(result.seriesDoses).to.equal(0);
+  });
+
+  it('should include shortDescription field with proper fallback', () => {
+    const record = {
+      id: '106',
+      attributes: {
+        groupName: 'Pneumococcal',
+        date: '2023-11-12T10:00:00-06:00',
+        shortDescription: 'Pneumococcal polysaccharide vaccine, 23-valent',
+      },
+    };
+
+    const result = convertUnifiedVaccine(record);
+
+    expect(result.shortDescription).to.equal(
+      'Pneumococcal polysaccharide vaccine, 23-valent',
+    );
+  });
+
+  it('should use "None recorded" for missing shortDescription', () => {
+    const record = {
+      id: '107',
+      attributes: {
+        groupName: 'Influenza',
+        date: '2023-10-01T15:30:00-04:00',
+        // Missing shortDescription
+      },
+    };
+
+    const result = convertUnifiedVaccine(record);
+
+    expect(result.shortDescription).to.equal(MISSING_FIELD_VAL);
+  });
+
+  it('should use "None recorded" for empty string shortDescription', () => {
+    const record = {
+      id: '108',
+      attributes: {
+        groupName: 'Shingles',
+        date: '2023-06-15T12:45:00-07:00',
+        shortDescription: '',
+      },
+    };
+
+    const result = convertUnifiedVaccine(record);
+
+    expect(result.shortDescription).to.equal(MISSING_FIELD_VAL);
   });
 });
 
@@ -759,18 +836,26 @@ describe('vaccineReducer - GET_UNIFIED_LIST action', () => {
       name: 'COVID-19',
       date: 'May 15, 2023',
       location: 'VA Medical Center',
+      shortDescription: 'None recorded',
       manufacturer: 'Pfizer',
       reaction: 'Mild soreness',
       note: 'First dose',
+      doseNumber: undefined,
+      seriesDoses: undefined,
+      doseDisplay: 'None recorded',
     });
     expect(newState.vaccinesList[1]).to.deep.equal({
       id: '456',
       name: 'Flu Shot',
       date: 'January 10, 2023',
       location: 'Community Clinic',
+      shortDescription: 'None recorded',
       manufacturer: 'Moderna',
       reaction: 'None',
       note: 'Annual flu shot',
+      doseNumber: undefined,
+      seriesDoses: undefined,
+      doseDisplay: 'None recorded',
     });
     expect(newState.listState).to.equal(loadStates.FETCHED);
     expect(newState.listCurrentAsOf).to.be.instanceOf(Date);
@@ -994,6 +1079,10 @@ describe('vaccineReducer - GET_UNIFIED_VACCINE action', () => {
       manufacturer: 'None recorded',
       reaction: 'None recorded',
       note: 'None recorded',
+      doseDisplay: 'None recorded',
+      doseNumber: undefined,
+      seriesDoses: undefined,
+      shortDescription: 'None recorded',
     });
   });
 });

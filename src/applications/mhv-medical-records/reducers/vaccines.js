@@ -146,9 +146,16 @@ export const convertUnifiedVaccine = record => {
     name: record.attributes?.groupName || EMPTY_FIELD,
     date: formatDate(record.attributes?.date),
     location: record.attributes?.location || EMPTY_FIELD,
+    shortDescription: record.attributes?.shortDescription || EMPTY_FIELD,
     manufacturer: record.attributes?.manufacturer || EMPTY_FIELD,
     reaction: record.attributes?.reaction || EMPTY_FIELD,
     note: record.attributes?.note || EMPTY_FIELD,
+    doseNumber: record.attributes?.doseNumber,
+    seriesDoses: record.attributes?.seriesDoses,
+    doseDisplay:
+      record.attributes?.doseNumber && record.attributes?.seriesDoses
+        ? `${record.attributes.doseNumber} of ${record.attributes.seriesDoses}`
+        : EMPTY_FIELD,
   };
 };
 
