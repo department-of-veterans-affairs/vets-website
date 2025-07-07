@@ -8,6 +8,51 @@ import { getUrlLabel } from '../new-appointment/newAppointmentFlow';
 import { getCovidUrlLabel } from '../covid-19-vaccine/flow';
 import { getPageFlow } from '../referral-appointments/flow';
 
+/**
+ * Base breadcrumb list for all pages in app - this was just separated out into a constant
+ * @type {Array<{href: string, label: string, isRouterLink?: boolean}>}
+ */
+export const BREADCRUMB_BASE = [
+  {
+    href: '/',
+    label: 'Home',
+  },
+  {
+    href: '/my-health',
+    label: 'My HealtheVet',
+  },
+  {
+    // For Breadcrumb objects that are router links, the href is relative to the manifest.rootUrl
+    href: manifest.rootUrl,
+    label: 'Appointments',
+    isRouterLink: true,
+  },
+];
+
+// Just to simplify the regex usage below
+const manifestRootUrlRegex = new RegExp(`^.*${manifest.rootUrl}/?`);
+
+// Either http or https or starts with a slash
+const absoluteUrlRegex = new RegExp('^https?|^/');
+/**
+ * If the href is a router link that is based off the manifest.rootUrl,
+ * we need to make it relative to the manifest.rootUrl
+ * @param {string} href - The href of the breadcrumb - may be relative or absolute
+ * @returns {string} The relative route
+ */
+export const relativeRouteProcessor = (href, addLeadingSlash = true) => {
+  let path = href;
+  if (manifestRootUrlRegex.test(path)) {
+    path = path.replace(manifestRootUrlRegex, '/');
+  }
+  // should never get here if a URL scheme is passed in (because nobody would make that a isRouterLink), but just in case someond does
+  // we should not add a leading slash to it
+  if (!absoluteUrlRegex.test(path)) {
+    path = addLeadingSlash ? `/${path}` : path;
+  }
+  return path;
+};
+
 export default function VAOSBreadcrumbs({ children, labelOverride }) {
   const location = useLocation();
   const [breadcrumb, setBreadcrumb] = useState([]);
@@ -20,18 +65,7 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
   // Only handles breadcrumb isRouterLink:true items, so no routes without that are replaced
   function handleRouteChange({ detail }) {
     const { href } = detail;
-    // If we encounter a breadcrumb that is a router link but based off the manifest.rootUrl,
-    // we need to make it relative to the manifest.rootUrl
-    if (href.startsWith(manifest.rootUrl)) {
-      let path = href.replace(manifest.rootUrl, '');
-      if (!path.startsWith('/')) {
-        // If the path doesn't start with a slash, add one because the manifest.rootUrl does not end in a slash
-        path = `/${path}`;
-      }
-      history.push(path);
-    } else {
-      history.push(href);
-    }
+    history.push(relativeRouteProcessor(href));
   }
 
   let newLabel = labelOverride || label;
@@ -52,22 +86,6 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
     const isPast = location.pathname.includes('/past');
     const isPending = location.pathname.includes('/pending');
 
-    const BREADCRUMB_BASE = [
-      {
-        href: '/',
-        label: 'Home',
-      },
-      {
-        href: '/my-health',
-        label: 'My HealtheVet',
-      },
-      {
-        // For Breadcrumb objects that are router links, the href is relative to the manifest.rootUrl
-        href: manifest.rootUrl,
-        label: 'Appointments',
-        isRouterLink: true,
-      },
-    ];
     if (
       window.location.pathname === `${manifest.rootUrl}/` ||
       window.location.pathname === manifest.rootUrl
