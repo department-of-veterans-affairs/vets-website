@@ -55,7 +55,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl().assertErrorAlert({
-          text: /You can.t schedule an appointment online right now/i,
+          text: /We can’t schedule your appointment right now/i,
         });
 
         // Assert

@@ -4,6 +4,8 @@ import { expect } from 'chai';
 import ClaimantInfoViewField from '../../../components/ClaimantInfoViewField';
 
 describe('ClaimantInfoViewField', () => {
+  const defaultEditButton = () => <va-button text="edit" />;
+
   it('shows correct information for dependent claim', () => {
     const formData = {
       veteranSsn: '123-45-6789',
@@ -15,7 +17,12 @@ describe('ClaimantInfoViewField', () => {
       claimantDateOfBirth: '2010-05-21',
     };
 
-    const { getByText } = render(<ClaimantInfoViewField formData={formData} />);
+    const { getByText } = render(
+      <ClaimantInfoViewField
+        formData={formData}
+        defaultEditButton={defaultEditButton}
+      />,
+    );
 
     const claimantHeader = getByText('Claimant information');
     const veteranHeader = getByText('Veteran identification information');
@@ -60,7 +67,10 @@ describe('ClaimantInfoViewField', () => {
     };
 
     const { getByText, queryByText } = render(
-      <ClaimantInfoViewField formData={formData} />,
+      <ClaimantInfoViewField
+        formData={formData}
+        defaultEditButton={defaultEditButton}
+      />,
     );
 
     const claimantSection = getByText('Claimant information').closest('div');

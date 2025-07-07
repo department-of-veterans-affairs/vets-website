@@ -240,6 +240,26 @@ export const newLetterContent = {
       </p>
     </>
   ),
+  benefit_summary_dependent: (
+    <>
+      <p className="vads-u-margin-top--0">
+        The Benefit Summary Letter shows the VA benefits you receive as the
+        survivor of a disabled Veteran.
+      </p>
+
+      <p>
+        You can use this letter to apply for programs or services that ask for
+        proof of your VA benefits. Some examples include:
+      </p>
+
+      <ul className="usa-list vads-u-margin-bottom--3">
+        <li>Apply for home loans or other housing benefits</li>
+        <li>Reduce property or vehicle taxes</li>
+        <li>Apply for a civil service job</li>
+        <li>Get free or discounted state park memberships</li>
+      </ul>
+    </>
+  ),
 };
 
 // Options returned by the benefit summary letter request that should be offered in

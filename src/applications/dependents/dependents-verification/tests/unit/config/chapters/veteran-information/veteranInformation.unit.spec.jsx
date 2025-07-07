@@ -84,7 +84,7 @@ describe('VeteranInformation component', () => {
 
     const card = container.querySelector('va-card');
     const nameText = container.querySelector(
-      '[data-dd-action-name="Veteran\'s name"]',
+      '[data-dd-action-name="Veteran’s name"]',
     );
 
     expect(card).to.not.be.null;
@@ -108,7 +108,7 @@ describe('VeteranInformation component', () => {
     );
 
     const nameText = container.querySelector(
-      '[data-dd-action-name="Veteran\'s name"]',
+      '[data-dd-action-name="Veteran’s name"]',
     );
     expect(nameText?.textContent).to.include('Jane Smith');
     expect(nameText?.textContent).to.not.include(',');
@@ -137,7 +137,7 @@ describe('VeteranInformation component', () => {
     );
 
     const nameText = container.querySelector(
-      '[data-dd-action-name="Veteran\'s name"]',
+      '[data-dd-action-name="Veteran’s name"]',
     );
     expect(nameText).to.exist;
     expect(nameText.textContent).to.include('Doe');
@@ -152,7 +152,7 @@ describe('VeteranInformation component', () => {
     );
 
     const dobField = container.querySelector(
-      '[data-dd-action-name="Veteran\'s date of birth"]',
+      '[data-dd-action-name="Veteran’s date of birth"]',
     );
     expect(dobField.textContent).to.eq('');
   });
