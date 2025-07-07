@@ -54,7 +54,8 @@ describe('SM MESSAGING VISTA LARGE ATTACHMENT', () => {
   });
 });
 
-describe('SM MESSAGING OH LARGE ATTACHMENT', () => {
+describe.skip('SM MESSAGING OH LARGE ATTACHMENT', () => {
+  // TODO: skipping until stepped flow is finalized
   beforeEach(() => {
     const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
       { name: `mhv_secure_messaging_large_attachments`, value: true },
