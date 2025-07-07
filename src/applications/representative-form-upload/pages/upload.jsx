@@ -18,9 +18,13 @@ import SupportingEvidenceViewField from '../components/SupportingEvidenceViewFie
 const { formNumber, title, message } = getFormContent();
 const baseURL = `${environment.API_URL}/accredited_representative_portal/v0`;
 const fileUploadUrl = `${baseURL}/representative_form_upload`;
-const warningsPresent = formData =>
-  formData.uploadedFile?.warnings?.length > 0 ||
-  formData.supportingDocuments?.some(doc => doc.warnings?.length > 0);
+
+export const warningsPresent = formData => {
+  if (formData.uploadedFile?.warnings?.length > 0) return true;
+  if (formData.supportingDocuments?.some(doc => doc.warnings?.length > 0))
+    return true;
+  return false;
+};
 
 export const uploadPage = {
   uiSchema: {
