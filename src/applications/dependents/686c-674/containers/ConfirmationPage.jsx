@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
@@ -23,10 +23,10 @@ export default function ConfirmationPage() {
     ? format(new Date(submission?.timestamp), 'MMMM d, yyyy')
     : '';
 
-  useEffect(
+  useLayoutEffect(
     () => {
       scrollToTop('topScrollElement');
-      waitForRenderThenFocus('va-alert h2', alertRef.current);
+      waitForRenderThenFocus('va-alert h2', alertRef.current, 1000);
     },
     [alertRef],
   );

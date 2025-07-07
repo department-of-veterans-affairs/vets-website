@@ -9,7 +9,7 @@ const ViewOnlyDraftSection = props => {
       className="
         vads-u-margin-top--3
       "
-      data-testid="view-only-draft-section"
+      data-testId="view-only-draft-section"
     >
       <strong>{title}</strong>
       {title === 'Message' ? (
