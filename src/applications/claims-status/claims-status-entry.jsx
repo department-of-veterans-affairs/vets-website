@@ -1,3 +1,11 @@
+// Automatically set hasSession for local dev to bypass login when using mock APIs.
+if (
+  process.env.NODE_ENV === 'development' &&
+  !localStorage.getItem('hasSession')
+) {
+  localStorage.setItem('hasSession', 'true');
+}
+
 import '@department-of-veterans-affairs/platform-polyfills';
 import {
   applyPolyfills,

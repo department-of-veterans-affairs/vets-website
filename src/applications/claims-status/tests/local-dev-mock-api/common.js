@@ -115,39 +115,89 @@ const createClaim = (
   },
 });
 
-const appealData1 = {
-  id: 'SC10755',
+const legacyAppealData = {
+  id: 'LA1',
+  type: 'legacyAppeal',
+  attributes: {
+    appealIds: ['L10001'],
+    updated: '2025-06-27T10:48:58-04:00',
+    incompleteHistory: false,
+    active: true,
+    description: 'Legacy appeal for service connection for hearing loss.',
+    location: 'bva',
+    aoj: 'vba',
+    programArea: 'compensation',
+    status: {
+      type: 'on_docket',
+      details: {},
+    },
+    docket: {
+      total: 206900,
+      ahead: 109203,
+      ready: 22109,
+      month: '2023-01-01',
+      docketMonth: '2022-12-01',
+      eta: null,
+    },
+    alerts: [],
+    issues: [
+      {
+        active: true,
+        lastAction: '2023-07-10',
+        date: '2023-07-10',
+        description: 'Hearing loss',
+        diagnosticCode: '6100',
+      },
+    ],
+    events: [
+      {
+        type: 'nod',
+        date: '2023-01-15',
+      },
+      {
+        type: 'soc',
+        date: '2023-06-01',
+      },
+      {
+        type: 'form9',
+        date: '2023-07-10',
+      },
+    ],
+    evidence: [],
+  },
+};
+
+const supplementalAppealData = {
+  id: 'SA1',
   type: 'supplementalClaim',
   attributes: {
     appealIds: ['SC10755'],
     updated: '2025-06-27T10:48:58-04:00',
     incompleteHistory: false,
     active: true,
-    description:
-      'Service connection for Hypertension, essential is granted with an evaluation of 0 percent effective October 1, 2022. and 3 others',
+    description: 'Supplemental claim for PTSD and hypertension.',
     location: 'aoj',
     aoj: 'vba',
     programArea: 'compensation',
     status: {
-      type: 'sc_recieved',
+      type: 'sc_recieved', // known spelling error coming from coming from caseflow.
       details: {},
     },
     alerts: [],
     issues: [
       {
         active: true,
-        lastAction: null,
-        date: null,
-        description:
-          'Other Non-Rated - this is the issue description I typed when I added the issue',
-        diagnosticCode: null,
+        lastAction: '2024-10-25',
+        date: '2024-10-25',
+        description: 'PTSD',
+        diagnosticCode: '9411',
       },
       {
         active: true,
-        lastAction: null,
-        date: null,
-        description: 'Post traumatic stress disorder (PTSD) is granted.',
-        diagnosticCode: '9411',
+        lastAction: '2024-10-25',
+        date: '2024-10-25',
+        description: 'Hypertension',
+        diagnosticCode: '7101',
       },
     ],
     events: [
@@ -563,19 +613,15 @@ const responses = {
   'GET /v0/benefits_claims/4': getClaimDataById('4'),
 
   'GET /v0/appeals': {
-    data: [appealData1],
+    data: [supplementalAppealData, legacyAppealData],
     meta: {
       pagination: {
         currentPage: 1,
         perPage: 10,
         totalPages: 1,
-        totalEntries: 1,
+        totalEntries: 2,
       },
     },
-  },
-
-  'GET /v0/appeals/1': {
-    data: appealData1,
   },
 
   'GET /v0/claim_letters': [
