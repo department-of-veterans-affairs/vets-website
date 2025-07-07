@@ -120,7 +120,7 @@ const IntroductionPage = ({ route }) => {
             formConfig={route.formConfig}
           />
           <h2 className="vads-u-font-size--h3">Frequently asked questions</h2>
-          <va-accordion open-single data-testid="accordion-dropdown">
+          <va-accordion data-testid="accordion-dropdown">
             <va-accordion-item>
               <h3 className="vads-u-font-size--h6" slot="headline">
                 What if I need help or have questions about my order?
@@ -128,7 +128,7 @@ const IntroductionPage = ({ route }) => {
               <p>
                 If you need help or have questions about your order, contact the
                 DLC at <va-telephone contact="8776778710" /> (
-                <va-telephone contact="711" tty="true" />) or email
+                <va-telephone contact="711" tty="true" />) or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>. We’re
                 available Monday through Friday, 8:15 a.m. to 5:00 p.m. ET.
               </p>
