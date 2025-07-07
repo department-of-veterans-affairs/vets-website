@@ -86,7 +86,7 @@ describe('TravelPayStatusList', () => {
     });
   });
 
-  it('handles a unspecified errors', async () => {
+  it('handles unspecified errors', async () => {
     const errorClaims = {
       metadata: {},
       data: [],
