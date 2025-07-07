@@ -44,6 +44,7 @@ import useFocusOutline from '../../hooks/useFocusOutline';
 import { updateReportFileType } from '../../actions/downloads';
 import { postCreateAAL } from '../../api/MrApi';
 import TrackedSpinner from '../shared/TrackedSpinner';
+import { DownloadTags } from '../../util/ddConstants';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -440,7 +441,7 @@ const DownloadFileType = props => {
 
   const handleBack = () => {
     history.push('/download/record-type');
-    sendDataDogAction('File type - Back - Record type');
+    sendDataDogAction(DownloadTags.fileTypeBack);
   };
 
   const handleSubmit = e => {
@@ -452,7 +453,7 @@ const DownloadFileType = props => {
     } else if (fileType === 'txt') {
       generateTxt().then(() => history.push('/download'));
     }
-    sendDataDogAction('Download report');
+    sendDataDogAction(DownloadTags.downloadReport);
   };
 
   const handleValueChange = e => {
@@ -460,8 +461,7 @@ const DownloadFileType = props => {
     setFileType(value);
     // Immediately update Redux when a radio button is selected
     dispatch(updateReportFileType(value));
-    const typeText = value === 'pdf' ? 'PDF' : 'Text file';
-    sendDataDogAction(`${typeText} - File type`);
+    sendDataDogAction(DownloadTags.fileTypeOptions[value]);
     selectFileTypeHandler(e);
   };
 

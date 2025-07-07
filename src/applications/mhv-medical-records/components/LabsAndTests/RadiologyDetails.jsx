@@ -45,6 +45,7 @@ import useAlerts from '../../hooks/use-alerts';
 import HeaderSection from '../shared/HeaderSection';
 import LabelValue from '../shared/LabelValue';
 import TrackedSpinner from '../shared/TrackedSpinner';
+import { radiologyTags } from '../../util/ddConstants';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -266,7 +267,7 @@ ${record.results}`;
           href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
           text="Go back to the previous version of My HealtheVet"
           onClick={() => {
-            sendDataDogAction('Go back to MHV - Radiology');
+            sendDataDogAction(radiologyTags.back);
           }}
         />
       )}
@@ -329,7 +330,7 @@ ${record.results}`;
             className="vads-c-action-link--blue"
             data-testid="radiology-view-all-images"
             onClick={() => {
-              sendDataDogAction('View all images');
+              sendDataDogAction(radiologyTags.viewAll);
             }}
           >
             View all {radiologyDetails.imageCount} images

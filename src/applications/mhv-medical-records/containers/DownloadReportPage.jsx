@@ -31,6 +31,7 @@ import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
+import { DownloadTags } from '../util/ddConstants';
 
 /**
  * Formats failed domain lists with display names.
@@ -189,7 +190,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         userProfile?.userFullName?.last,
       ),
     );
-    sendDataDogAction('Download Continuity of Care Document xml Link');
+    sendDataDogAction(DownloadTags.ccdXml);
   };
 
   const handleDownloadSelfEnteredPdf = e => {
@@ -211,7 +212,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         setSeiPdfGenerationError(err);
         setSelfEnteredPdfLoading(false);
       });
-    sendDataDogAction('Download self-entered health information PDF link');
+    sendDataDogAction(DownloadTags.selfEnteredPDF);
   };
 
   return (
@@ -264,7 +265,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         label="Select records and download report"
         text="Select records and download report"
         data-dd-action-name="Select records and download"
-        onClick={() => sendDataDogAction('Select records and download')}
+        onClick={() => sendDataDogAction(DownloadTags.selectRecords)}
         data-testid="go-to-download-all"
       />
 

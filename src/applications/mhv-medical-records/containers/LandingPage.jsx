@@ -34,19 +34,7 @@ import ExternalLink from '../components/shared/ExternalLink';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import { sendDataDogAction } from '../util/helpers';
-
-const LAB_TEST_RESULTS_LABEL = 'Go to your lab and test results';
-const CARE_SUMMARIES_AND_NOTES_LABEL = 'Go to your care summaries and notes';
-const VACCINES_LABEL = 'Go to your vaccines';
-const ALLERGIES_AND_REACTIONS_LABEL = 'Go to your allergies and reactions';
-const HEALTH_CONDITIONS_LABEL = 'Go to your health conditions';
-const VITALS_LABEL = 'Go to your vitals';
-const MEDICAL_RECORDS_DOWNLOAD_LABEL =
-  'Go to download your medical records reports';
-const MEDICAL_RECORDS_SETTINGS_LABEL =
-  'Go to manage your electronic sharing settings';
-const SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM =
-  'Go to the Share My Health Data website';
+import { LandingTags, LinkTags } from '../util/ddConstants';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -72,7 +60,7 @@ const LandingPage = () => {
       'button.va-accordion__button',
     );
     const handleClick = () => {
-      sendDataDogAction('Accordion Expand button');
+      sendDataDogAction(LandingTags.accordionExpand);
     };
     if (expandButton) {
       expandButton.addEventListener('click', handleClick);
@@ -175,10 +163,10 @@ const LandingPage = () => {
                 data-testid="labs-and-tests-landing-page-link"
                 onClick={() => {
                   sendAalViewList('Lab and test results');
-                  sendDataDogAction(LAB_TEST_RESULTS_LABEL);
+                  sendDataDogAction(LandingTags.labTestsResultsLabel);
                 }}
               >
-                {LAB_TEST_RESULTS_LABEL}
+                {LandingTags.labTestsResultsLabel}
               </Link>
             </section>
           )}
@@ -199,10 +187,10 @@ const LandingPage = () => {
                   data-testid="notes-landing-page-link"
                   onClick={() => {
                     sendAalViewList('Care Summaries and Notes');
-                    sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
+                    sendDataDogAction(LandingTags.careSummariesNotesLabel);
                   }}
                 >
-                  {CARE_SUMMARIES_AND_NOTES_LABEL}
+                  {LandingTags.careSummariesNotesLabel}
                 </Link>
               </>
             </section>
@@ -222,10 +210,10 @@ const LandingPage = () => {
                 data-testid="vaccines-landing-page-link"
                 onClick={() => {
                   sendAalViewList('Vaccines');
-                  sendDataDogAction(VACCINES_LABEL);
+                  sendDataDogAction(LandingTags.vaccinesLabel);
                 }}
               >
-                {VACCINES_LABEL}
+                {LandingTags.vaccinesLabel}
               </Link>
             </section>
           )}
@@ -244,10 +232,10 @@ const LandingPage = () => {
               data-testid="allergies-landing-page-link"
               onClick={() => {
                 sendAalViewList('Allergy and Reactions');
-                sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
+                sendDataDogAction(LandingTags.allergiesLabel);
               }}
             >
-              {ALLERGIES_AND_REACTIONS_LABEL}
+              {LandingTags.allergiesLabel}
             </Link>
           </section>
           {displayConditions && (
@@ -265,10 +253,10 @@ const LandingPage = () => {
                 data-testid="conditions-landing-page-link"
                 onClick={() => {
                   sendAalViewList('Health Conditions');
-                  sendDataDogAction(HEALTH_CONDITIONS_LABEL);
+                  sendDataDogAction(LandingTags.conditionsLabel);
                 }}
               >
-                {HEALTH_CONDITIONS_LABEL}
+                {LandingTags.conditionsLabel}
               </Link>
             </section>
           )}
@@ -293,10 +281,10 @@ const LandingPage = () => {
                 data-testid="vitals-landing-page-link"
                 onClick={() => {
                   sendAalViewList('Vitals');
-                  sendDataDogAction(VITALS_LABEL);
+                  sendDataDogAction(LandingTags.vitalsLabel);
                 }}
               >
-                {VITALS_LABEL}
+                {LandingTags.vitalsLabel}
               </Link>
             </section>
           )}
@@ -316,10 +304,10 @@ const LandingPage = () => {
                   className="vads-c-action-link--blue"
                   data-testid="settings-landing-page-link"
                   onClick={() => {
-                    sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
+                    sendDataDogAction(LandingTags.settingsLabel);
                   }}
                 >
-                  {MEDICAL_RECORDS_SETTINGS_LABEL}
+                  {LandingTags.settingsLabel}
                 </Link>
               </section>
               <section>
@@ -339,10 +327,10 @@ const LandingPage = () => {
                     className="vads-c-action-link--blue"
                     data-testid="go-to-download-mr-reports"
                     onClick={() => {
-                      sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
+                      sendDataDogAction(LandingTags.downloadLabel);
                     }}
                   >
-                    {MEDICAL_RECORDS_DOWNLOAD_LABEL}
+                    {LandingTags.downloadLabel}
                   </Link>
                 </p>
               </section>
@@ -369,10 +357,10 @@ const LandingPage = () => {
                     className="vads-c-action-link--blue"
                     data-testid="go-to-download-mr-reports"
                     onClick={() => {
-                      sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
+                      sendDataDogAction(LandingTags.downloadLabel);
                     }}
                   >
-                    {MEDICAL_RECORDS_DOWNLOAD_LABEL}
+                    {LandingTags.downloadLabel}
                   </Link>
                 </p>
               </section>
@@ -389,10 +377,10 @@ const LandingPage = () => {
                   className="vads-c-action-link--blue"
                   data-testid="settings-landing-page-link"
                   onClick={() => {
-                    sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
+                    sendDataDogAction(LandingTags.settingsLabel);
                   }}
                 >
-                  {MEDICAL_RECORDS_SETTINGS_LABEL}
+                  {LandingTags.settingsLabel}
                 </Link>
               </section>
               <section className="vads-u-padding-bottom--3">
@@ -409,12 +397,10 @@ const LandingPage = () => {
                       ? 'https://veteran.apps.va.gov/smhdWeb'
                       : 'https://veteran.apps-staging.va.gov/smhdWeb'
                   }
-                  text={SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
+                  text={LandingTags.shareDataCareTeam}
                   data-testid="health-data-landing-page-link"
                   onClick={() => {
-                    sendDataDogAction(
-                      SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM,
-                    );
+                    sendDataDogAction(LandingTags.shareDataCareTeam);
                   }}
                 />
               </section>
@@ -433,7 +419,7 @@ const LandingPage = () => {
                 href="/health-care/review-medical-records/"
                 text="Learn more about medical records"
                 onClick={() => {
-                  sendDataDogAction('Learn more about medical records');
+                  sendDataDogAction(LinkTags.reviewRecords);
                 }}
               />
               <p>
@@ -444,7 +430,7 @@ const LandingPage = () => {
                 href="/my-health/secure-messages/new-message/"
                 text="Start a new message"
                 onClick={() => {
-                  sendDataDogAction('Start a new message - MR help');
+                  sendDataDogAction(LinkTags.landingPageNewMessage);
                 }}
               />
             </section>
@@ -496,10 +482,12 @@ const LandingPage = () => {
                         <Link
                           to="/download"
                           onClick={() => {
-                            sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
+                            sendDataDogAction(
+                              LandingTags.MEDICAL_RECORDS_DOWNLOAD_LABEL,
+                            );
                           }}
                         >
-                          {MEDICAL_RECORDS_DOWNLOAD_LABEL}
+                          {LandingTags.MEDICAL_RECORDS_DOWNLOAD_LABEL}
                         </Link>
                       </p>
                     </div>
@@ -527,7 +515,7 @@ const LandingPage = () => {
                         href="/my-health/secure-messages/new-message/"
                         text="Start a new message"
                         onClick={() => {
-                          sendDataDogAction('Start a new message - FAQ');
+                          sendDataDogAction(LinkTags.faqNewMessage);
                         }}
                       />
                     </p>
@@ -572,7 +560,7 @@ const LandingPage = () => {
                         href="/my-health/secure-messages/new-message/"
                         text="Start a new message"
                         onClick={() => {
-                          sendDataDogAction('Start a new message - FAQ');
+                          ('Start a new message - FAQ');
                         }}
                       />
                     </p>
@@ -601,7 +589,7 @@ const LandingPage = () => {
                             text="Connect with the Veterans Crisis Line"
                             onClick={() => {
                               if (!killExternalLinks) openCrisisModal();
-                              sendDataDogAction('VCL Button  - FAQ');
+                              sendDataDogAction(LinkTags.faqCrisisLine);
                             }}
                           />
                         </div>
@@ -620,7 +608,7 @@ const LandingPage = () => {
                             href="/my-health/secure-messages/new-message/"
                             text="Start a new message"
                             onClick={() => {
-                              sendDataDogAction('Start a new message - FAQ');
+                              sendDataDogAction(LinkTags.faqNewMessage);
                             }}
                           />
                         </p>
@@ -667,7 +655,7 @@ const LandingPage = () => {
                         href="/my-health/secure-messages/new-message/"
                         text="Start a new message"
                         onClick={() => {
-                          sendDataDogAction('Start a new message - FAQ');
+                          sendDataDogAction(LinkTags.faqNewMessage);
                         }}
                       />
                     </p>
@@ -695,7 +683,7 @@ const LandingPage = () => {
                             secondary="true"
                             text="Connect with the Veterans Crisis Line"
                             onClick={() => {
-                              sendDataDogAction('VCL Button  - FAQ');
+                              sendDataDogAction(LinkTags.faqCrisisLine);
                               if (!killExternalLinks) openCrisisModal();
                             }}
                           />

@@ -56,6 +56,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { LinkTags } from '../util/ddConstants';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -209,7 +210,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           to="/allergies"
           className="no-print"
           onClick={() => {
-            sendDataDogAction('Go to your allergy records - Vaccines');
+            sendDataDogAction(LinkTags.vaccinesToAllergies);
           }}
         >
           Go to your allergy records

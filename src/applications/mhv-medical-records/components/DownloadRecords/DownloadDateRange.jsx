@@ -14,6 +14,7 @@ import { updateReportDateRange } from '../../actions/downloads';
 import { pageTitles } from '../../util/constants';
 import { sendDataDogAction } from '../../util/helpers';
 import useFocusOutline from '../../hooks/useFocusOutline';
+import { DownloadTags } from '../../util/ddConstants';
 
 const DownloadDateRange = () => {
   const history = useHistory();
@@ -41,14 +42,7 @@ const DownloadDateRange = () => {
       const { value } = e.detail;
       setSelectionError(null);
       setSelectedDate(value);
-      const valMap = {
-        any: 'All time',
-        '3': 'Last 3 months',
-        '6': 'Last 6 months',
-        '12': 'Last 12 months',
-        custom: 'Custom',
-      };
-      sendDataDogAction(`Date range option - ${valMap[value]}`);
+      sendDataDogAction(DownloadTags.dateOptions[value]);
     },
     [setSelectedDate],
   );
@@ -88,7 +82,7 @@ const DownloadDateRange = () => {
 
   const handleBack = () => {
     history.push('/download');
-    sendDataDogAction('Date range  - Back');
+    sendDataDogAction(DownloadTags.dateRangeBack);
   };
 
   const handleSubmit = () => {
@@ -140,7 +134,7 @@ const DownloadDateRange = () => {
     // Dispatch the update once the user clicks Continue
     dispatch(updateReportDateRange(selectedDate, fromDate, toDate));
     history.push('/download/record-type');
-    sendDataDogAction('Date range  - Continue');
+    sendDataDogAction(DownloadTags.dateRangeContinue);
   };
 
   const checkForStartEndError = () => {

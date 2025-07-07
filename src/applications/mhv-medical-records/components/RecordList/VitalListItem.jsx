@@ -9,20 +9,12 @@ import {
   formatDate,
   sendDataDogAction,
 } from '../../util/helpers';
+import { vitalTags } from '../../util/ddConstants';
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
   const { isAccelerating, timeFrame } = options;
   const displayName = vitalTypeDisplayNames[record.type];
-
-  const ddLabelName = useMemo(
-    () => {
-      return displayName.includes('Blood oxygen level')
-        ? 'Blood Oxygen over time Link'
-        : `${displayName} over time Link`;
-    },
-    [displayName],
-  );
 
   const updatedRecordType = useMemo(
     () => {
@@ -125,7 +117,7 @@ const VitalListItem = props => {
             className="vads-u-line-height--4"
             data-testid={dataTestIds.reviewLink}
             onClick={() => {
-              sendDataDogAction(ddLabelName);
+              sendDataDogAction(vitalTags.listLinks[record.type]);
             }}
           >
             <strong>

@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom/cjs/react-router-dom.min';
 import RecordListItem from './RecordListItem';
 import { getParamValue, sendDataDogAction } from '../../util/helpers';
+import { listTags } from '../../util/ddConstants';
 
 const RecordListNew = ({
   records,
@@ -23,7 +24,7 @@ const RecordListNew = ({
   const paramPage = getParamValue(location.search, 'page') || currentPage;
 
   const onPageChange = page => {
-    sendDataDogAction(`Pagination - ${type}`);
+    sendDataDogAction(listTags.pagination[type]);
     history.push(`${history.location.pathname}?page=${page}`);
   };
 

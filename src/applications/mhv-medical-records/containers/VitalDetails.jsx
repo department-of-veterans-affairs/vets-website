@@ -57,6 +57,7 @@ import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import { listTags } from '../util/ddConstants';
 
 const VitalDetails = props => {
   const { runningUnitTest } = props;
@@ -377,7 +378,7 @@ Provider notes: ${vital.notes}\n\n`,
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
             onClick={() => {
-              sendDataDogAction(`Pagination - ${vitalDisplayName}`);
+              sendDataDogAction(listTags.vitalsPagination[records[0].type]);
             }}
             page={currentPage}
             pages={paginatedVitals.current.length}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { labTypes } from '../../util/constants';
 import { sendDataDogAction } from '../../util/helpers';
+import { listTags } from '../../util/ddConstants';
 
 const LabsAndTestsListItem = props => {
   const { record, options = {} } = props;
@@ -19,9 +20,9 @@ const LabsAndTestsListItem = props => {
             isAccelerating ? `?timeFrame=${timeFrame}` : ''
           }`}
           data-dd-privacy="mask"
-          data-dd-action-name="Lab and Test Results Detail Link"
+          data-dd-action-name={listTags.labTests}
           onClick={() => {
-            sendDataDogAction('Lab and Test Results Detail Link');
+            sendDataDogAction(listTags.labTests);
           }}
         >
           {record.name} <span className="sr-only">{`on ${record.date}`}</span>

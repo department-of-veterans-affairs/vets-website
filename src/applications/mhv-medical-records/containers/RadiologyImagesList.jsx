@@ -20,6 +20,7 @@ import {
 } from '../util/constants';
 import { sendDataDogAction } from '../util/helpers';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
+import { radiologyTags } from '../util/ddConstants';
 
 const RadiologyImagesList = ({ isTesting }) => {
   const apiImagingPath = `${
@@ -116,7 +117,7 @@ const RadiologyImagesList = ({ isTesting }) => {
 
   const handleDicomDownload = () => {
     setDicomDownloadStarted(true);
-    sendDataDogAction('Download DICOM files');
+    sendDataDogAction(radiologyTags.downloadDicom);
     document.querySelector('#download-banner');
   };
 

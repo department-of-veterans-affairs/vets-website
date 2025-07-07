@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ItemList from '../shared/ItemList';
 import { sendDataDogAction } from '../../util/helpers';
+import { listTags } from '../../util/ddConstants';
 
 const AllergyListItem = props => {
   const { record } = props;
@@ -21,7 +22,7 @@ const AllergyListItem = props => {
           data-testid={`allergy-link-${record.id}`}
           className="no-print"
           onClick={() => {
-            sendDataDogAction('Allergies Detail Link');
+            sendDataDogAction(listTags.allergies);
           }}
         >
           {record.name}{' '}

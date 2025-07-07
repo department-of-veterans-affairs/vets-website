@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { loincCodes, dischargeSummarySortFields } from '../../util/constants';
 import { sendDataDogAction } from '../../util/helpers';
+import { listTags } from '../../util/ddConstants';
 
 const CareSummariesAndNotesListItem = props => {
   const { record } = props;
@@ -52,10 +53,10 @@ const CareSummariesAndNotesListItem = props => {
         <Link
           to={`/summaries-and-notes/${record.id}`}
           data-dd-privacy="mask"
-          data-dd-action-name="Care Summaries & Notes Detail Link"
+          data-dd-action-name={listTags.careSummaries}
           className="no-print"
           onClick={() => {
-            sendDataDogAction('Care Summaries & Notes Detail Link');
+            sendDataDogAction(listTags.careSummaries);
           }}
         >
           {record.name}

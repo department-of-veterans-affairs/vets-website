@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { sendDataDogAction } from '../../util/helpers';
+import { listTags } from '../../util/ddConstants';
 
 const VaccinesListItem = props => {
   const { record } = props;
@@ -20,7 +21,7 @@ const VaccinesListItem = props => {
           data-dd-action-name
           className="no-print"
           onClick={() => {
-            sendDataDogAction('Vaccines Detail Link');
+            sendDataDogAction(listTags.vaccines);
           }}
         >
           {record.name} <span className="sr-only">{`on ${record.date}`}</span>

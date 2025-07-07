@@ -12,6 +12,7 @@ import { updateReportRecordType } from '../../actions/downloads';
 import { pageTitles } from '../../util/constants';
 import { sendDataDogAction, formatDate } from '../../util/helpers';
 import useFocusOutline from '../../hooks/useFocusOutline';
+import { DownloadTags } from '../../util/ddConstants';
 
 const DownloadRecordType = () => {
   const history = useHistory();
@@ -114,7 +115,7 @@ const DownloadRecordType = () => {
     } else if (newCheckAll === false) {
       setSelectedRecords([]);
     }
-    sendDataDogAction('Select All VA records - Record type');
+    sendDataDogAction(DownloadTags.recordTypeSelectAll);
   };
 
   const handleSingleCheck = (recordType, e) => {
@@ -131,7 +132,7 @@ const DownloadRecordType = () => {
       newRecords = newRecords.filter(record => record !== recordType);
     }
     setSelectedRecords(newRecords);
-    sendDataDogAction(`${e.target.label} - Record type`);
+    sendDataDogAction(DownloadTags.recordTypeOptions[recordType]);
   };
 
   useEffect(
@@ -160,7 +161,7 @@ const DownloadRecordType = () => {
     dispatch(updateReportRecordType(selectedRecords));
 
     history.push('/download/date-range');
-    sendDataDogAction('Record type - Back - Record type');
+    sendDataDogAction(DownloadTags.recordTypeBack);
   };
 
   const handleSubmit = () => {
@@ -176,7 +177,7 @@ const DownloadRecordType = () => {
     dispatch(updateReportRecordType(selectedRecords)).then(
       history.push('/download/file-type'),
     );
-    sendDataDogAction('Record type - Continue - Record type');
+    sendDataDogAction(DownloadTags.recordTypeContinue);
   };
 
   return (

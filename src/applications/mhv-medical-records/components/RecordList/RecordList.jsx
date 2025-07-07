@@ -10,6 +10,7 @@ import {
 import RecordListItem from './RecordListItem';
 import RecordListHeader from './RecordListHeader';
 import { getParamValue, sendDataDogAction } from '../../util/helpers';
+import { listTags } from '../../util/ddConstants';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
@@ -25,7 +26,7 @@ const RecordList = props => {
   const paginatedRecords = useRef([]);
 
   const onPageChange = page => {
-    sendDataDogAction(`Pagination - ${type}`);
+    sendDataDogAction(listTags.pagination[type]);
     const newURL = `${history.location.pathname}?page=${page}`;
     history.push(newURL);
     setCurrentRecords(paginatedRecords.current[page - 1]);

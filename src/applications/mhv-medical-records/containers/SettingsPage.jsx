@@ -15,6 +15,7 @@ import { pageTitles } from '../util/constants';
 import ExternalLink from '../components/shared/ExternalLink';
 import { sendDataDogAction } from '../util/helpers';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
+import { SettingsTags } from '../util/ddConstants';
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
@@ -164,7 +165,9 @@ const SettingsPage = () => {
           onClick={() => {
             setShowSharingModal(true);
             sendDataDogAction(
-              isSharing ? 'Opt out - Settings page' : 'Opt in - Settings page',
+              isSharing
+                ? SettingsTags.sharingOptOut
+                : SettingsTags.sharingOptIn,
             );
           }}
         />
@@ -180,15 +183,23 @@ const SettingsPage = () => {
     const secondaryButtonText = isSharing ? "Don't opt out" : "Don't opt in";
     const handleCloseEvent = () => {
       handleCloseModal();
-      sendDataDogAction(`Close opt ${isSharing ? 'out' : 'in'} modal`);
+      sendDataDogAction(
+        isSharing
+          ? SettingsTags.closeOptOutModal
+          : SettingsTags.closeOptInModal,
+      );
     };
     const handlePrimaryButtonClick = () => {
       handleUpdateSharing(isSharing);
-      sendDataDogAction(`${primaryButtonText} - Modal`);
+      sendDataDogAction(
+        isSharing ? SettingsTags.primaryOptOut : SettingsTags.primaryOptIn,
+      );
     };
     const handleSecondaryButtonClick = () => {
       handleCloseModal();
-      sendDataDogAction(`${secondaryButtonText} - Modal`);
+      sendDataDogAction(
+        isSharing ? SettingsTags.secondaryOptOut : SettingsTags.secondaryOptIn,
+      );
     };
     return (
       <VaModal

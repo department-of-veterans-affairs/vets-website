@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { sendDataDogAction } from '../../util/helpers';
+import { listTags } from '../../util/ddConstants';
 
 const ConditionListItem = props => {
   const { record } = props;
@@ -16,10 +17,10 @@ const ConditionListItem = props => {
         <Link
           to={`/conditions/${record.id}`}
           data-dd-privacy="mask"
-          data-dd-action-name="Health Conditions Detail Link"
+          data-dd-action-name={listTags.conditions}
           className="no-print"
           onClick={() => {
-            sendDataDogAction('Health Conditions Detail Link');
+            sendDataDogAction(listTags.conditions);
           }}
         >
           {record.name} <span className="sr-only">{`on ${record.date}`}</span>
