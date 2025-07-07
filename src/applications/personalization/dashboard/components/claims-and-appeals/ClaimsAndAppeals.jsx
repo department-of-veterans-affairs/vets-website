@@ -240,21 +240,21 @@ const ClaimsAndAppeals = ({
             </DashboardWidgetWrapper>
           )}
       </div>
-      {!isLOA1 && (
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
-          <Toggler.Enabled>
-            <p className="vads-u-margin-top--0">
-              <va-link
-                href="/track-claims/your-claims"
-                text="Check claims and appeals"
-              />
-            </p>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Enabled>
+          <p className="vads-u-margin-top--0">
+            <va-link
+              href="/track-claims/your-claims"
+              text="Check claims and appeals"
+            />
+          </p>
+          {!isLOA1 && (
             <DashboardWidgetWrapper>
               <DisabilityRatingCard />
             </DashboardWidgetWrapper>
-          </Toggler.Enabled>
-        </Toggler>
-      )}
+          )}
+        </Toggler.Enabled>
+      </Toggler>
     </div>
   );
 };
