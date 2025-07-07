@@ -18,8 +18,6 @@ import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
-import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { setData } from 'platform/forms-system/exportsFile';
 import { ContactInfoFormAppConfigContext } from '../components/ContactInfoFormAppConfigContext';
 import * as VAP_SERVICE from '../constants';
@@ -203,21 +201,13 @@ class AddressValidationView extends React.Component {
       (!confirmedSuggestions.length && !validationKey)
     ) {
       return (
-        <Toggler.Hoc
-          toggleName={TOGGLE_NAMES.profileShowNoValidationKeyAddressAlert}
+        <button
+          onClick={this.onEditClick}
+          type="button"
+          className="vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
         >
-          {toggleValue =>
-            !toggleValue ? (
-              <button
-                onClick={this.onEditClick}
-                type="submit"
-                className="vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
-              >
-                Edit Address
-              </button>
-            ) : null
-          }
-        </Toggler.Hoc>
+          Edit address
+        </button>
       );
     }
 

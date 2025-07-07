@@ -2,11 +2,14 @@
   "description": "Resubmission, military base sponsor address, pharmacy claim",
   "data": {
     "claimStatus": "resubmission",
+    "pdiOrClaimNumber": "PDI number",
+    "medicationName": "Benadryl",
+    "prescriptionFillDate": "2023-01-01",
     "view:hasPolicies": false,
     "pharmacyUpload": [
       {
-        "name": "file.png",
-        "confirmationCode": "36650811-4af5-4992-87d2-1aea872245c9",
+        "name": "example_upload.png",
+        "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
         "attachmentId": "",
         "isEncrypted": false
       }
