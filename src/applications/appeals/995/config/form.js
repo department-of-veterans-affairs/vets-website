@@ -85,8 +85,8 @@ import { title995, getSubTitle } from '../content/title';
 import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
 
-// import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
-import fullSchema from './form-0995-schema.json';
+import fullSchema from 'vets-json-schema/dist/SC-CREATE-REQUEST-BODY_V1-schema.json';
+// import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence } from '../utils/focus';
 import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
