@@ -58,6 +58,17 @@ function transformRelationship(obj) {
 function ohiTransformer(data) {
   const copyOfData = JSON.parse(JSON.stringify(data));
 
+  // Each applicant may have a max of one medicare plan associated, so grab those
+  // and embed in the applicant
+  copyOfData.medicare.forEach(plan => {
+    copyOfData.applicants
+      .filter(a => plan.medicareParticipant === toHash(a.applicantSSN))
+      .forEach(a => {
+        a.medicare = a.medicare ? a.medicare : [];
+        a.medicare.push(plan);
+      });
+  });
+
   // iterate over all policies
   copyOfData.healthInsurance.forEach(policy => {
     // list of hashes that correspond to applicants for this policy
@@ -71,7 +82,7 @@ function ohiTransformer(data) {
         // initialize
         a.healthInsurance = a.healthInsurance ? a.healthInsurance : [];
 
-        a.applicantMedicareAdvantage = a.applicantMedicareClass === 'advantage';
+        a.applicantMedicareAdvantage = a.medicarePlanType === 'c';
 
         a.hasOtherHealthInsurance =
           a.applicantHasPrimary || a.applicantHasSecondary;
@@ -161,6 +172,7 @@ export default function transformForSubmit(formConfig, form) {
     },
     applicants: transformApplicants(transformedData.applicants ?? []),
     healthInsurance: transformedData.healthInsurance ?? [],
+    medicare: transformedData.medicare ?? [],
     // If certifier is also applicant, we don't need to fill out the
     // bottom "Certification" section of the PDF:
     certification:
@@ -183,8 +195,6 @@ export default function transformForSubmit(formConfig, form) {
             postalCode: transformedData?.certifierAddress?.postalCode || '',
           },
     supportingDocs: [],
-    // Include everything we originally received
-    rawData: transformedData,
   });
 
   // Get supporting docs at the top level of the formdata
@@ -192,11 +202,14 @@ export default function transformForSubmit(formConfig, form) {
     dataPostTransform,
     'confirmationCode',
   );
-  // get supporting docs from healthInsurance policies
-  dataPostTransform.healthInsurance.forEach(el => {
-    getObjectsWithAttachmentId(el, 'confirmationCode').forEach(e =>
-      dataPostTransform.supportingDocs.push(e),
-    );
+
+  // hoist supporting docs from healthInsurance policies and medicare
+  ['healthInsurance', 'medicare'].forEach(key => {
+    dataPostTransform[key].forEach(el => {
+      getObjectsWithAttachmentId(el, 'confirmationCode').forEach(e =>
+        dataPostTransform.supportingDocs.push(e),
+      );
+    });
   });
 
   // Flatten supporting docs for all applicants to a single array
