@@ -11,6 +11,8 @@ import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
   includeSpousalInformation,
   includeHouseholdInformation,
+  includeHouseholdInformationV1,
+  includeHouseholdInformationV2,
   isMissingVeteranDob,
   isMissingVeteranGender,
   hasDifferentHomeAddress,
@@ -74,6 +76,7 @@ import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIn
 import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
 import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 import FinancialInformationPages from './chapters/householdInformation/financialInformation';
+import MaritalStatusPage from '../components/FormPages/MaritalStatusPage';
 
 // chapter 3 Military Service
 import toxicExposure from './chapters/militaryService/toxicExposure';
@@ -354,7 +357,17 @@ const formConfig = {
           path: 'household-information/marital-status',
           title: 'Marital status',
           initialData: {},
-          depends: includeHouseholdInformation,
+          depends: includeHouseholdInformationV1,
+          uiSchema: maritalStatus.uiSchema,
+          schema: maritalStatus.schema,
+        },
+        maritalStatusInformation: {
+          path: 'household-information/marital-status-information',
+          title: 'Marital status',
+          initialData: {},
+          depends: includeHouseholdInformationV2,
+          CustomPage: MaritalStatusPage,
+          CustomPageReview: null,
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
