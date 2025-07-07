@@ -387,7 +387,7 @@ const FileField = props => {
       }
 
       if (
-        currentFile.name?.endsWith('pdf') &&
+        currentFile.name?.toLowerCase().endsWith('pdf') &&
         !password &&
         checkResults.checkIsEncryptedPdf
       ) {
