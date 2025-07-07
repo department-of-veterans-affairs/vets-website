@@ -35,6 +35,23 @@ export const PHONE_TYPE_ENUM = {
   WORK: PHONE_TYPE_ID.Work,
 };
 
+// Chapter 2
+
+// SERVICE_BRANCH - GCLAWS Mapping
+export const SERVICE_BRANCH_ID = {
+  'Air Force': 1,
+  Army: 2,
+  'Coast Guard': 3,
+  Marines: 4,
+  Navy: 5,
+  NOAA: 6,
+  'No Active Service': 7,
+  'Public Health Service': 8,
+  'Space Force': 9,
+  Other: 10,
+};
+// SERVICE_BRANCH - Frontend Options to GCLAWS Mapping
+
 export const APPLICATION_STATUS_ID = {
   Pending: 1,
   'Request/Return for information': 2,
@@ -71,19 +88,6 @@ export const EMPLOYMENT_STATUS_ID = {
   Unemployed: 2,
   'Self-employed': 3,
   Student: 4,
-};
-
-export const SERVICE_BRANCH_ID = {
-  'Air Force': 1,
-  Army: 2,
-  'Coast Guard': 3,
-  Marines: 4,
-  Navy: 5,
-  NOAA: 6,
-  'No Active Service': 7,
-  'Public Health Service': 8,
-  'Space Force': 9,
-  Other: 10,
 };
 
 export const DISCHARGE_TYPE_ID = {

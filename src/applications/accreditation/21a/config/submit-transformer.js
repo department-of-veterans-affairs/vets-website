@@ -60,6 +60,9 @@ const build21aPayload = data => {
     homeAddressPostalCode: data.homeAddress?.postalCode,
     homeAddressCountry: data.homeAddress?.country,
 
+    // Chapter 1 - Primary Mailing Address
+    primaryMailingAddress: data.primaryMailingAddress,
+
     // Chapter 1 - Other Addresses
     otherAddressIsMilitary: !!data.otherAddress?.view?.militaryBaseDescription,
     otherAddressLine1: data.otherAddress?.street || null,
@@ -70,17 +73,28 @@ const build21aPayload = data => {
     otherAddressPostalCode: data.otherAddress?.postalCode || null,
     otherAddressCountry: data.otherAddress?.country || null,
 
+    // Chapter 2 - Military Service
+    servedInMilitary: !!data.view?.isAVeteran,
+
+    // Chapter 2 - Military Service: Branch and Dates
+    militaryServices:
+      data.militaryServiceExperiences?.map(m => ({
+        serviceBranchId: m.branch,
+        serviceBranchExplanation: null,
+        entryDate: m.dateRange?.from || null,
+        dischargeDate: m.dateRange?.to || null,
+        dischargeTypeId: m.characterOfDischarge || null,
+        dischargeTypeExplanation: m.explanationOfDischarge || null,
+      })) || [],
     // Accreditation Info
 
     supplementalStatement: data.supplementalStatement || null,
     personalStatement: data.personalStatement || null,
     signature: data.statementOfTruthSignature || null,
     genderId: null,
-    primaryMailingAddress: data.primaryMailingAddress || 'HOME',
     instructionAcknowledge: !!data.statementOfTruthCertified,
 
     // Employment Info
-    servedInMilitary: !!data.servedInMilitary,
     employmentStatusId: data.employmentStatus || null,
     employmentStatusExplaination: data.describeEmployment || null,
     employment:
@@ -122,17 +136,6 @@ const build21aPayload = data => {
         wasDegreeReceived: !!e.degreeReceived,
         degreeTypeId: DEGREE_ENUM[e.degree] || null,
         major: e.major || null,
-      })) || [],
-
-    // Military Service
-    militaryServices:
-      data.militaryServiceExperiences?.map(m => ({
-        serviceBranchId: m.branch || null,
-        serviceBranchExplanation: null,
-        entryDate: m.dateRange?.from || null,
-        dischargeDate: m.dateRange?.to || null,
-        dischargeTypeId: m.characterOfDischarge || null,
-        dischargeTypeExplanation: m.explanationOfDischarge || null,
       })) || [],
 
     // Character References

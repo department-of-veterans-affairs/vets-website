@@ -43,11 +43,13 @@ export const branchOptions = Object.freeze([
   'Air Force',
   'Army',
   'Coast Guard',
-  'Marine Corps',
+  'Marines',
   'Navy',
   'NOAA',
+  'No Active Service',
+  'Public Health Service',
   'Space Force',
-  'USPHS',
+  'Other',
 ]);
 
 export const characterOfDischargeOptions = Object.freeze([
