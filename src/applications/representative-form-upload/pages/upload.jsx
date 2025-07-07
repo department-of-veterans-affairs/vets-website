@@ -4,25 +4,15 @@ import {
   fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import PropTypes from 'prop-types';
 import FileField from 'platform/forms-system/src/js/fields/FileField';
+import { UPLOAD_TITLE, UPLOAD_DESCRIPTION } from '../config/constants';
 import {
-  UPLOAD_TITLE,
-  UPLOAD_DESCRIPTION,
-  FORM_UPLOAD_OCR_ALERT,
-  FORM_UPLOAD_INSTRUCTION_ALERT,
-} from '../config/constants';
-import {
+  getAlert,
   getFormContent,
-  onCloseAlert,
   createPayload,
   parseResponse,
 } from '../helpers';
-import {
-  CustomAlertPage,
-  emptyObjectSchema,
-  uploadTitleAndDescription,
-} from './helpers';
+import { emptyObjectSchema, uploadTitleAndDescription } from './helpers';
 import SupportingEvidenceViewField from '../components/SupportingEvidenceViewField';
 
 const { formNumber, title, message } = getFormContent();
@@ -30,10 +20,16 @@ const baseURL = `${environment.API_URL}/accredited_representative_portal/v0`;
 const fileUploadUrl = `${baseURL}/representative_form_upload`;
 const warningsPresent = formData =>
   formData.uploadedFile?.warnings?.length > 0 ||
-  formData.supportingDocuments?.warnings?.length > 0;
+  formData.supportingDocuments?.some(doc => doc.warnings?.length > 0);
 
 export const uploadPage = {
   uiSchema: {
+    'ui:description': props => {
+      const modifiedProps = { ...props };
+      modifiedProps.data = modifiedProps.formData;
+      modifiedProps.name = 'uploadPage';
+      return getAlert(modifiedProps);
+    },
     ...uploadTitleAndDescription,
     uploadedFile: {
       ...fileInputUI({
@@ -133,34 +129,4 @@ export const uploadPage = {
     },
     required: ['uploadedFile'],
   },
-};
-
-/** @type {CustomPageType} */
-export function UploadPage(props) {
-  const warnings = (props.data?.uploadedFile?.warnings || []).concat(
-    props.data?.supportingDocuments?.warnings || [],
-  );
-  const alert =
-    warnings?.length > 0
-      ? FORM_UPLOAD_OCR_ALERT(formNumber, onCloseAlert, warnings)
-      : FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
-  return <CustomAlertPage {...props} alert={alert} />;
-}
-
-UploadPage.propTypes = {
-  data: PropTypes.shape({
-    uploadedFile: PropTypes.shape({
-      warnings: PropTypes.arrayOf(PropTypes.string),
-    }),
-    supportingDocuments: PropTypes.arrayOf(
-      PropTypes.shape({
-        fileName: PropTypes.string,
-        fileSize: PropTypes.number,
-        confirmationNumber: PropTypes.string,
-        errorMessage: PropTypes.string,
-        uploading: PropTypes.bool,
-        warnings: PropTypes.arrayOf(PropTypes.string),
-      }),
-    ),
-  }).isRequired,
 };
