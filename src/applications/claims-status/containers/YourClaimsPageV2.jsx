@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { scrollToTop } from 'platform/utilities/scroll';
 import withRouter from '../utils/withRouter';
 
@@ -39,7 +40,7 @@ import {
   getPageRange,
   sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
-import { setFocus, setPageFocus, setUpPage } from '../utils/page';
+import { setPageFocus, setUpPage } from '../utils/page';
 import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
 import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
 
@@ -84,7 +85,7 @@ class YourClaimsPageV2 extends React.Component {
         setUpPage();
       }
     } else {
-      setFocus('#main h1');
+      focusElement('#main h1');
     }
   }
 
@@ -235,7 +236,7 @@ class YourClaimsPageV2 extends React.Component {
 
     return (
       <>
-        <div name="topScrollElement" />
+        {!this.props.isSmoothLoadingEnabled && <div name="topScrollElement" />}
         <article className="row">
           <div className="usa-width-two-thirds medium-8 columns">
             <div
