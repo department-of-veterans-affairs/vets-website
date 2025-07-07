@@ -212,13 +212,6 @@ describe('Thread Details container', () => {
           replyToName: 'SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
           threadFolderId: -2,
           cannotReply: false,
-          draftInProgress: {
-            recipientId: singleDraftThread.draftMessage.recipientId,
-            recipientName: singleDraftThread.draftMessage.recipientName,
-            category: singleDraftThread.draftMessage.category,
-            subject: singleDraftThread.draftMessage.subject,
-            body: singleDraftThread.draftMessage.body,
-          },
         },
         recipients: {
           allRecipients: noBlockedRecipients.mockAllRecipients,
@@ -231,6 +224,7 @@ describe('Thread Details container', () => {
           noAssociations: noBlockedRecipients.noAssociations,
           allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
         },
+        messageDetails: { message: singleDraftThread.draftMessage },
       },
     };
 
@@ -295,11 +289,8 @@ describe('Thread Details container', () => {
 
     expect(await screen.queryByText('Continue to reply')).to.not.exist;
 
-    expect(
-      await screen.findByText(`Messages: ${category} - ${subject}`, {
-        exact: false,
-      }),
-    ).to.exist;
+    expect(await screen.findByText(`${category}: ${subject}`, { exact: false }))
+      .to.exist;
 
     expect(global.document.title).to.equal(
       `Messages: ${PageTitles.CONVERSATION_TITLE_TAG}`,

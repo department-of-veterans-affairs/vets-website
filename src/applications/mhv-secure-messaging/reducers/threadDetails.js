@@ -9,17 +9,6 @@ const initialState = {
   threadFolderId: undefined,
   replyToMessageId: undefined,
   cannotReply: false,
-  draftInProgress: {
-    messageId: null,
-    category: null,
-    subject: null,
-    body: null,
-    recipientId: null,
-    recipientName: null,
-    careSystemName: null,
-    careSystemVhaId: null,
-    attachments: [],
-  },
 };
 
 export const threadDetailsReducer = (state = initialState, action) => {
@@ -27,7 +16,6 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.GET_THREAD:
       return {
         ...initialState,
-        draftInProgress: { ...state.draftInProgress },
         ...action.payload,
       };
     case Actions.Thread.GET_MESSAGE_IN_THREAD: {
@@ -119,31 +107,10 @@ export const threadDetailsReducer = (state = initialState, action) => {
       };
     }
     case Actions.Thread.CLEAR_THREAD:
-      return {
-        ...initialState,
-        draftInProgress: { ...state.draftInProgress },
-      };
+      return initialState;
     case Actions.Thread.CANNOT_REPLY_ALERT: {
       return { ...state, cannotReply: action.payload };
     }
-
-    case Actions.Draft.UPDATE_DRAFT_IN_PROGRESS: {
-      return {
-        ...state,
-        draftInProgress: {
-          ...state.draftInProgress,
-          ...action.payload,
-        },
-      };
-    }
-
-    case Actions.Draft.CLEAR_DRAFT_IN_PROGRESS:
-      return {
-        ...state,
-        draftInProgress: {
-          ...initialState.draftInProgress,
-        },
-      };
 
     default:
       return state;

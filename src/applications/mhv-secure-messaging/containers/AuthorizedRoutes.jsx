@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
 import pilotManifest from '../pilot/manifest.json';
@@ -17,8 +17,7 @@ import manifest from '../manifest.json';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
-import SelectCareTeam from './SelectCareTeam';
-import { clearDraftInProgress } from '../actions/threadDetails';
+import SelectHealthCareSystem from './SelectHealthCareSystem';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
 const AppRoute = ({ children, ...rest }) => {
@@ -36,39 +35,13 @@ AppRoute.propTypes = {
 
 const { Paths } = Constants;
 
-// TODO: Curated List - update safe paths with all new urls for composing a message
-const draftInProgressSafePaths = [
-  `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
-  `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
-  new RegExp(`^${Paths.MESSAGE_THREAD}[^/]+/?$`),
-  Paths.COMPOSE,
-  Paths.CONTACT_LIST,
-];
-
 const AuthorizedRoutes = () => {
   const location = useLocation();
-  const dispatch = useDispatch();
   const isPilot = useSelector(state => state.sm.app.isPilot);
-  const { draftInProgress } = useSelector(state => state.sm.threadDetails);
 
   const cernerPilotSmFeatureFlag = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
-  );
-
-  useEffect(
-    () => {
-      const isDraftSafe = draftInProgressSafePaths.some(
-        path =>
-          path instanceof RegExp
-            ? path.test(location.pathname)
-            : location.pathname.startsWith(path),
-      );
-      if (!isDraftSafe && draftInProgress.recipientId) {
-        dispatch(clearDraftInProgress());
-      }
-    },
-    [location.pathname, draftInProgress.recipientId, dispatch],
   );
 
   if (location.pathname === `/`) {
@@ -138,10 +111,10 @@ const AuthorizedRoutes = () => {
         {isPilot && (
           <AppRoute
             exact
-            path={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
-            key="SelectCareTeam"
+            path={`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`}
+            key="SelectHealthCareSystem"
           >
-            <SelectCareTeam />
+            <SelectHealthCareSystem />
           </AppRoute>
         )}
         {isPilot && (

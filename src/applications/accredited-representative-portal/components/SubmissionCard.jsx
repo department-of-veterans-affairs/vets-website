@@ -33,14 +33,14 @@ const formatStatus = submission => {
     case 'awaiting_receipt':
     default:
       return (
-        <>
+        <span className="submissions__awaiting">
           <va-icon
             class="submissions__inline-status-icon submissions__card-check"
             icon="check_circle"
             size="3"
           />
           <span>Awaiting receipt</span>
-        </>
+        </span>
       );
   }
 };

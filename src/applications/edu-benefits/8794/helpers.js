@@ -188,10 +188,10 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
           itemProp="itemListElement"
           className="confirmation-save-pdf-download-section"
         >
-          <p>
+          <div>
             To submit this form, make sure that your completed form is saved as
             a PDF on your device.{' '}
-            <p className="vads-u-margin-y--0">
+            <p className="vads-u-margin-top--0">
               <va-link
                 download
                 filetype="PDF"
@@ -204,7 +204,7 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
                 text="Download VA Form 22-8794"
               />
             </p>
-          </p>
+          </div>
         </div>
       </va-process-list-item>
       <va-process-list-item header="Upload your PDF to the Education File Upload Portal or email it to your State Approving Agency (SAA)">
