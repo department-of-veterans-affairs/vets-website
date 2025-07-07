@@ -1,12 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // When coming from a PhoneNumberWidget (not review), value will be only numbers
 export default function PhoneNumberWidget({ value }) {
   let formatted = value;
   if (value && value.length === 10) {
-    formatted = `(${value.substr(0, 3)}) ${value.substr(3, 3)}-${value.substr(
-      6,
-    )}`;
+    formatted = <va-telephone contact={value} not-clickable />;
   }
 
   return (
@@ -15,3 +14,7 @@ export default function PhoneNumberWidget({ value }) {
     </span>
   );
 }
+
+PhoneNumberWidget.propTypes = {
+  value: PropTypes.string,
+};
