@@ -140,10 +140,11 @@ export const studentInformationPage = {
       nounSingular: addStudentsOptions.nounSingular,
     }),
     fullName: fullNameNoSuffixUI(title => `Student’s ${title}`),
-    birthDate: {
-      ...currentOrPastDateUI('Student’s date of birth'),
-      'ui:required': () => true,
-    },
+    birthDate: currentOrPastDateUI({
+      title: 'Student’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',
