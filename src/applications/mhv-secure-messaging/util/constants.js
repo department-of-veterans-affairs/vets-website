@@ -97,7 +97,7 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {
       FILE_EMPTY: 'Your file is empty. Try attaching a different file.',
-      INVALID_FILE_TYPE: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+      INVALID_FILE_TYPE: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS, XLSX, JPEG, JFIF, PJPEG, or PJP.`,
       INVALID_FILE_TYPE_EXTENDED: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS, XLSX, BMP, TIFF, PPT, PPSX, ODT, MP4, MOV, WMV, MPG.`,
       FILE_DUPLICATE: 'You have already attached this file.',
       FILE_TOO_LARGE:
