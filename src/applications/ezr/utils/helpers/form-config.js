@@ -323,6 +323,30 @@ export function includeSpousalInformationWithV1Prefill(formData) {
   );
 }
 
+/**
+ * Helper that determines if the form data contains values that require users
+ * to fill out spousal information for V1 confirmation flow.
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the V2 feature flag is disabled, and the
+ * Veteran has a marital status of 'married' or 'separated'.
+ */
+export function includeSpousalInformationV1(formData) {
+  if (formData['view:isSpouseConfirmationFlowEnabled']) return false;
+  return includeSpousalInformation(formData);
+}
+
+/**
+ * Helper that determines if the form data contains values that require users
+ * to fill out spousal information (V2)
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the V2 feature flag is enabled, and the
+ * Veteran has a marital status of 'married' or 'separated'.
+ */
+export function includeSpousalInformationV2(formData) {
+  if (!formData['view:isSpouseConfirmationFlowEnabled']) return false;
+  return includeSpousalInformation(formData);
+}
+
 export function includeSpousalInformationWithV2Prefill(formData) {
   if (!includeHouseholdInformationWithV2Prefill(formData)) return false;
   const { maritalStatus } = formData['view:maritalStatus'];
