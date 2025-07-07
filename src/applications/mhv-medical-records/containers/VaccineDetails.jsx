@@ -136,6 +136,7 @@ const VaccineDetails = props => {
         </>
       );
     }
+
     if (record) {
       return (
         <>
@@ -167,6 +168,30 @@ const VaccineDetails = props => {
             />
             <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
             <div>
+              {isAcceleratingVaccines && (
+                <LabelValue
+                  label="Type and dosage"
+                  value={record.shortDescription}
+                  testId="vaccine-description"
+                  actionName="[vaccine details - description]"
+                />
+              )}
+              {isAcceleratingVaccines && (
+                <LabelValue
+                  label="Manufacturer"
+                  value={record.manufacturer}
+                  testId="vaccine-manufacturer"
+                  actionName="[vaccine details - manufacturer]"
+                />
+              )}
+              {isAcceleratingVaccines && (
+                <LabelValue
+                  label="Series status"
+                  value={record.doseDisplay}
+                  testId="vaccine-dosage"
+                  actionName="[vaccine details - dosage]"
+                />
+              )}
               <LabelValue
                 label={isAcceleratingVaccines ? 'Provider' : 'Location'}
                 value={record.location}
@@ -181,10 +206,23 @@ const VaccineDetails = props => {
                     : '[vaccine details - location]'
                 }
               />
-              {/* <LabelValue
-                label="Reactions recorded by provider"
-                value={record.reactions}
-              /> */}
+
+              {isAcceleratingVaccines && (
+                <LabelValue
+                  label="Reactions"
+                  value={record.reaction}
+                  testId="vaccine-reaction"
+                  actionName="[vaccine details - reaction]"
+                />
+              )}
+              {isAcceleratingVaccines && (
+                <LabelValue
+                  label="Notes"
+                  value={record.note}
+                  testId="vaccine-note"
+                  actionName="[vaccine details - note]"
+                />
+              )}
             </div>
           </HeaderSection>
         </>
