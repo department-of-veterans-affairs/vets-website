@@ -271,7 +271,7 @@ const responses = {
   'POST /my_health/v1/aal': (_req, res) => {
     return res.json({
       aal: {
-        activityType: 'Medical Records Activty',
+        activityType: 'Medical Records Activity',
         action: 'View',
         performerType: 'Self',
         detailValue: null,
