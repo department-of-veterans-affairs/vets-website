@@ -1,6 +1,6 @@
 import { unassociatedIncomePages } from './unassociatedIncomePages';
 
 export default {
-  title: 'Unassociated income information',
+  title: 'Recurring income',
   pages: unassociatedIncomePages,
 };
