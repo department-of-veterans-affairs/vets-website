@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { oneDayAgo } from '@@profile/tests/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import reducers from '~/applications/personalization/dashboard/reducers';
-import BenefitPayments from '../../../components/benefit-payments/BenefitPayments';
+import BenefitPaymentsLegacy from '../../../components/benefit-payments/BenefitPaymentsLegacy';
 
-describe('<BenefitPayments />', () => {
+describe('<BenefitPaymentsLegacy />', () => {
   const user = {
     profile: {
       loa: {
@@ -37,7 +37,7 @@ describe('<BenefitPayments />', () => {
         },
       };
 
-      const view = renderInReduxProvider(<BenefitPayments />, {
+      const view = renderInReduxProvider(<BenefitPaymentsLegacy />, {
         initialState,
         reducers,
       });
@@ -83,7 +83,7 @@ describe('<BenefitPayments />', () => {
         },
       };
 
-      const view = renderInReduxProvider(<BenefitPayments />, {
+      const view = renderInReduxProvider(<BenefitPaymentsLegacy />, {
         initialState,
         reducers,
       });
@@ -108,7 +108,7 @@ describe('<BenefitPayments />', () => {
         },
       };
 
-      const view = renderInReduxProvider(<BenefitPayments />, {
+      const view = renderInReduxProvider(<BenefitPaymentsLegacy />, {
         initialState,
         reducers,
       });
