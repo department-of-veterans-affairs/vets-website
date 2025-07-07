@@ -43,7 +43,7 @@ const RefillAlert = props => {
               to={`/prescription/${rx.prescriptionId}`}
               data-dd-action-name={dataDogActionName}
             >
-              {rx.prescriptionName || rx.orderableItem}
+              {rx.prescriptionName}
             </Link>
           </p>
         ))}
