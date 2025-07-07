@@ -66,6 +66,7 @@ function ohiTransformer(data) {
       .forEach(a => {
         a.medicare = a.medicare ? a.medicare : [];
         a.medicare.push(plan);
+        a.applicantMedicareAdvantage = plan.medicarePlanType === 'c';
       });
   });
 
@@ -82,11 +83,6 @@ function ohiTransformer(data) {
         // initialize
         a.healthInsurance = a.healthInsurance ? a.healthInsurance : [];
 
-        a.applicantMedicareAdvantage = a.medicarePlanType === 'c';
-
-        a.hasOtherHealthInsurance =
-          a.applicantHasPrimary || a.applicantHasSecondary;
-
         if (a.applicantName?.middle) {
           a.applicantName.middle = a.applicantName?.middle?.charAt(0) ?? '';
         }
@@ -97,6 +93,7 @@ function ohiTransformer(data) {
 
         // Build an array of insurance policies on the applicant
         a.healthInsurance.push(policy);
+        a.hasOtherHealthInsurance = true;
       });
   });
 

@@ -99,6 +99,7 @@
     "sponsorDob": "1958-01-01",
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
-    "sponsorDeathConditions": false
+    "sponsorDeathConditions": false,
+    "statementOfTruthSignature": "Certifier Jones"
   }
 }
