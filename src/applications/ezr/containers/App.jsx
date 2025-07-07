@@ -30,6 +30,7 @@ const App = props => {
     isEmergencyContactsEnabled,
     isNextOfKinEnabled,
     isProvidersAndDependentsPrefillEnabled,
+    isSpouseConfirmationFlowEnabled,
   } = features;
   const {
     dob: veteranDateOfBirth,
@@ -70,6 +71,7 @@ const App = props => {
           'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
           'view:isNextOfKinEnabled': !!isNextOfKinEnabled,
           'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
+          'view:isSpouseConfirmationFlowEnabled': !!isSpouseConfirmationFlowEnabled,
         };
 
         setFormData({
@@ -84,6 +86,7 @@ const App = props => {
       canSubmitFinancialInfo,
       veteranFullName,
       isProvidersAndDependentsPrefillEnabled,
+      isSpouseConfirmationFlowEnabled,
     ],
   );
 
@@ -125,6 +128,8 @@ const mapStateToProps = state => ({
     isNextOfKinEnabled: state.featureToggles.ezrNextOfKinEnabled,
     isProvidersAndDependentsPrefillEnabled:
       state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
+    isSpouseConfirmationFlowEnabled:
+      state.featureToggles.ezrSpouseConfirmationFlowEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
