@@ -44,6 +44,7 @@ describe(`${appName} -- Status Page`, () => {
   });
 
   it('defaults to "most recent" sort order', () => {
+    cy.openFilters();
     cy.get('select[name="claimsOrder"]').should('have.value', 'mostRecent');
   });
 
@@ -117,11 +118,14 @@ describe(`${appName} -- Status Page`, () => {
   });
 
   it('sorts the claims ordered by appointment date ascending on user action', () => {
+    cy.openFilters();
     cy.get('select[name="claimsOrder"]').should('have.value', 'mostRecent');
     cy.get('select[name="claimsOrder"]').select('oldest');
     cy.get('select[name="claimsOrder"]').should('have.value', 'oldest');
 
-    cy.get('va-button[data-testid="Sort travel claims"]').click();
+    cy.get('va-button[data-testid="apply_filters"]').click({
+      waitForAnimations: true,
+    });
 
     cy.get('h3[data-testid="travel-claim-details"]')
       .first()
@@ -162,44 +166,44 @@ describe(`${appName} -- Status Page`, () => {
       .should('include.text', 'March 27, 2022');
   });
 
-  it('filters the claims by a date range preset', () => {
-    cy.openFilters();
+  // TODO: refactor to return different data for each date selected
+  // update: fixtures test data + ApiInitializer
 
-    cy.get('select[name="claimsDates"]').should('have.value', 'all');
-    cy.get('select[name="claimsDates"]').select('Past 3 Months');
-    cy.get('select[name="claimsDates"]').should('have.value', 'Past 3 Months');
+  // it('filters the claims by a date range preset', () => {
+  //   cy.openFilters();
 
-    cy.get('va-button[data-testid="apply_filters"]').click({
-      waitForAnimations: true,
-    });
+  //   cy.get('select[name="claimsDates"]').should('have.value', 'all');
+  //   cy.get('select[name="claimsDates"]').select('Past 3 Months');
+  //   cy.get('select[name="claimsDates"]').should('have.value', 'Past 3 Months');
 
-    cy.get('h3[data-testid="travel-claim-details"]').should('have.length', 1);
+  //   cy.get('va-button[data-testid="apply_filters"]').click({
+  //     waitForAnimations: true,
+  //   });
 
-    cy.get('h3[data-testid="travel-claim-details"]')
-      .first()
-      .should('include.text', 'May 15, 2024');
-  });
+  //   cy.get('h3[data-testid="travel-claim-details"]').should('have.length', 1);
+
+  //   cy.get('h3[data-testid="travel-claim-details"]')
+  //     .first()
+  //     .should('include.text', 'May 15, 2024');
+  // });
 
   it('filters by multiple properties with non-default sorting', () => {
+    cy.openFilters();
     cy.get('select[name="claimsOrder"]').select('oldest');
     cy.get('select[name="claimsOrder"]').should('have.value', 'oldest');
-    cy.get('va-button[data-testid="Sort travel claims"]').click();
 
-    cy.openFilters();
     cy.selectVaCheckbox('Claim submitted', true);
-    cy.get('select[name="claimsDates"]').select('All of 2023');
-    cy.get('select[name="claimsDates"]').should('have.value', 'All of 2023');
 
     cy.get('va-button[data-testid="apply_filters"]').click({
       waitForAnimations: true,
     });
 
-    cy.get('h3[data-testid="travel-claim-details"]').should('have.length', 3);
+    cy.get('h3[data-testid="travel-claim-details"]').should('have.length', 4);
     cy.get('h3[data-testid="travel-claim-details"]')
       .first()
-      .should('include.text', 'May 17, 2023');
+      .should('include.text', 'August 3, 2022');
     cy.get('h3[data-testid="travel-claim-details"]')
-      .eq(2)
+      .eq(3)
       .should('include.text', 'December 28, 2023');
   });
 
@@ -225,9 +229,9 @@ describe(`${appName} -- Status Page`, () => {
   });
 
   it('preserves sort order when filters are applied', () => {
-    cy.get('select[name="claimsOrder"]').select('oldest');
-    cy.get('va-button[data-testid="Sort travel claims"]').click();
     cy.openFilters();
+
+    cy.get('select[name="claimsOrder"]').select('oldest');
     cy.selectVaCheckbox('Saved', true);
     cy.get('va-button[data-testid="apply_filters"]').click({
       waitForAnimations: true,

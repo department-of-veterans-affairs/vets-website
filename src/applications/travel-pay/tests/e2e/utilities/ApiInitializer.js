@@ -28,10 +28,10 @@ class ApiInitializer {
 
   initializeClaims = {
     happyPath: () => {
-      cy.intercept('GET', API_PATHS.CLAIMS, claims).as('sm');
+      cy.intercept('GET', `${API_PATHS.CLAIMS}?*`, claims).as('sm');
     },
     errorPath: () => {
-      cy.intercept('GET', API_PATHS.CLAIMS, {
+      cy.intercept('GET', `${API_PATHS.CLAIMS}?*`, {
         statusCode: 503,
         body: {
           errors: [
