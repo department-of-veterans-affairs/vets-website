@@ -1,6 +1,6 @@
 import React from 'react';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import reducer from '../../../reducers';
@@ -26,16 +26,18 @@ describe('SmRouteNavigationGuard component', () => {
   };
 
   const setup = (props = initialProps, initialPath) => {
-    return renderWithStoreAndRouter(
-      <>
-        <SmRouteNavigationGuard {...props} />
-      </>,
+    const routes = [
       {
-        initialState,
-        reducers: reducer,
-        path: initialPath,
+        path: '/*',
+        element: <SmRouteNavigationGuard {...props} />,
       },
-    );
+    ];
+
+    return renderWithDataRouter(routes, {
+      initialState,
+      reducers: reducer,
+      initialEntry: initialPath || Paths.CONTACT_LIST,
+    });
   };
 
   afterEach(() => {
