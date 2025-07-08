@@ -90,10 +90,7 @@ export async function getAndStoreCSRFToken() {
   });
 
   if (!response.ok) {
-    const errorDetail = await response.text().catch(() => 'No response body');
-    throw new Error(
-      `Failed to get new CSRF token (HTTP ${response.status}): ${errorDetail}`,
-    );
+    throw new Error(`Failed to get new CSRF token (HTTP ${response.status})`);
   }
 
   const newCsrfToken = response.headers.get('X-CSRF-Token');

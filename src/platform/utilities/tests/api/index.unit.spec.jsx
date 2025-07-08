@@ -449,7 +449,7 @@ describe('test wrapper', () => {
             });
           } catch (error) {
             expect(error.message).to.include(
-              'Failed to get new CSRF token (HTTP 500): Internal Server Error',
+              'Failed to get new CSRF token (HTTP 500)',
             );
           }
         });
