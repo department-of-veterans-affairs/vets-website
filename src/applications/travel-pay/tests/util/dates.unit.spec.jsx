@@ -8,8 +8,8 @@ import {
 } from '../../util/dates';
 
 function formatDateRange(dateRange) {
-  const [startDay, startTime] = formatDateTime(dateRange.start, true);
-  const [endDay, endTime] = formatDateTime(dateRange.end, true);
+  const [startDay, startTime] = formatDateTime(dateRange.start);
+  const [endDay, endTime] = formatDateTime(dateRange.end);
 
   return `${startDay} ${startTime} - ${endDay} ${endTime}`;
 }
@@ -47,7 +47,7 @@ describe('getDateFilters', () => {
     ] = formatDateRanges(dateRanges);
 
     expect(formattedLastThreeMonths).to.eq(
-      'Monday, March 25, 2024 12:00 AM - Tuesday, June 25, 2024 12:00 AM',
+      'Monday, March 25, 2024 12:00 AM - Tuesday, June 25, 2024 11:59 PM',
     );
     expect(formattedQuarterRangeOne).to.eq(
       'Monday, January 1, 2024 12:00 AM - Sunday, March 31, 2024 11:59 PM',
@@ -89,7 +89,7 @@ describe('getDateFilters', () => {
     ] = formatDateRanges(dateRanges);
 
     expect(formattedLastThreeMonths).to.eq(
-      'Saturday, January 1, 2022 12:00 AM - Friday, April 1, 2022 12:00 AM',
+      'Saturday, January 1, 2022 12:00 AM - Friday, April 1, 2022 11:59 PM',
     );
     expect(formattedQuarterRangeOne).to.eq(
       'Saturday, January 1, 2022 12:00 AM - Thursday, March 31, 2022 11:59 PM',
@@ -129,7 +129,7 @@ describe('getDateFilters', () => {
 
     expect(dateRanges.length).to.eq(7);
     expect(formattedLastThreeMonths).to.eq(
-      'Wednesday, March 30, 2022 12:00 AM - Thursday, June 30, 2022 12:00 AM',
+      'Wednesday, March 30, 2022 12:00 AM - Thursday, June 30, 2022 11:59 PM',
     );
     expect(formattedQuarterRangeOne).to.eq(
       'Saturday, January 1, 2022 12:00 AM - Thursday, March 31, 2022 11:59 PM',
@@ -169,7 +169,7 @@ describe('getDateFilters', () => {
 
     expect(dateRanges.length).to.eq(7);
     expect(formattedLastThreeMonths).to.eq(
-      'Saturday, October 1, 2022 12:00 AM - Sunday, January 1, 2023 12:00 AM',
+      'Saturday, October 1, 2022 12:00 AM - Sunday, January 1, 2023 11:59 PM',
     );
     expect(formattedQuarterRangeOne).to.eq(
       'Saturday, October 1, 2022 12:00 AM - Saturday, December 31, 2022 11:59 PM',
@@ -208,7 +208,7 @@ describe('getDateFilters', () => {
     ] = formatDateRanges(dateRanges);
 
     expect(formattedLastThreeMonths).to.eq(
-      'Saturday, September 30, 2023 12:00 AM - Sunday, December 31, 2023 12:00 AM',
+      'Saturday, September 30, 2023 12:00 AM - Sunday, December 31, 2023 11:59 PM',
     );
     expect(formattedQuarterRangeOne).to.eq(
       'Saturday, July 1, 2023 12:00 AM - Saturday, September 30, 2023 11:59 PM',
