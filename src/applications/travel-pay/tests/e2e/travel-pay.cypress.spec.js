@@ -170,15 +170,15 @@ describe(`${appName} -- Status Page`, () => {
   it('filters the claims by a date range preset', () => {
     cy.get('select[name="claimsDates"]').should(
       'have.value',
-      '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T05:00:00-05:00","end":"2024-06-25T05:00:00-05:00"}',
+      '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T05:00:00","end":"2024-06-25T05:00:00"}',
     );
     cy.get('select[name="claimsDates"]').select(
-      '{"label":"Jan 2024 - Mar 2024","value":"Q1_2024","start":"2024-01-01T00:00:00-06:00","end":"2024-03-31T23:59:59-05:00"}',
+      '{"label":"Jan 2024 - Mar 2024","value":"Q1_2024","start":"2024-01-01T00:00:00","end":"2024-03-31T23:59:59"}',
       { waitForAnimations: true },
     );
     cy.get('select[name="claimsDates"]').should(
       'have.value',
-      '{"label":"Jan 2024 - Mar 2024","value":"Q1_2024","start":"2024-01-01T00:00:00-06:00","end":"2024-03-31T23:59:59-05:00"}',
+      '{"label":"Jan 2024 - Mar 2024","value":"Q1_2024","start":"2024-01-01T00:00:00","end":"2024-03-31T23:59:59"}',
     );
 
     cy.get('h3[data-testid="travel-claim-details"]').should('have.length', 1);

@@ -136,19 +136,19 @@ describe('TravelPayStatusApp', () => {
     await waitFor(() => {
       expect(screen.getAllByRole('option').length).to.eq(7);
       expect(screen.getAllByRole('option')[0].value).to.eq(
-        '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T00:00:00-05:00","end":"2024-06-25T00:00:00-05:00"}',
+        '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T00:00:00","end":"2024-06-25T00:00:00"}',
       );
 
       const dateSelect = screen.getByTestId('claimsDates');
 
       expect(dateSelect).to.have.value(
-        '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T00:00:00-05:00","end":"2024-06-25T00:00:00-05:00"}',
+        '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T00:00:00","end":"2024-06-25T00:00:00"}',
       );
 
       dateSelect.__events.vaSelect({
         target: {
           value:
-            '{"label":"Jan 2024 - Mar 2024","value":"Q1_2024","start":"2024-01-01T00:00:00-06:00","end":"2024-03-31T23:59:59-05:00"}',
+            '{"label":"Jan 2024 - Mar 2024","value":"Q1_2024","start":"2024-01-01T00:00:00","end":"2024-03-31T23:59:59"}',
         },
       });
 

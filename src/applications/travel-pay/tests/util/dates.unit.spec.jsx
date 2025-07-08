@@ -8,8 +8,8 @@ import {
 } from '../../util/dates';
 
 function formatDateRange(dateRange) {
-  const [startDay, startTime] = formatDateTime(dateRange.start);
-  const [endDay, endTime] = formatDateTime(dateRange.end);
+  const [startDay, startTime] = formatDateTime(dateRange.start, true);
+  const [endDay, endTime] = formatDateTime(dateRange.end, true);
 
   return `${startDay} ${startTime} - ${endDay} ${endTime}`;
 }
