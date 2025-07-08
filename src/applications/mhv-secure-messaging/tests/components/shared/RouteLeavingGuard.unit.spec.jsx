@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import RouteLeavingGuard from '../../../components/shared/RouteLeavingGuard';
@@ -34,21 +34,29 @@ describe('RouteLeavingGuard component', () => {
     shouldBlockNavigation: () => {},
     title: 'title',
     updateModalVisible: () => {},
+    setIsModalVisible: () => {},
+    setSetErrorModal: () => {},
     when: true,
   };
 
   const setup = (props = initialProps) => {
-    return renderWithStoreAndRouter(
-      <>
-        <Navigation />
-        <RouteLeavingGuard {...props} />
-      </>,
+    const routes = [
       {
-        initialState,
-        reducers: reducer,
-        path: '/compose',
+        path: '*',
+        element: (
+          <>
+            <Navigation />
+            <RouteLeavingGuard {...props} />
+          </>
+        ),
       },
-    );
+    ];
+
+    return renderWithDataRouter(routes, {
+      initialState,
+      reducers: reducer,
+      initialEntry: '/compose',
+    });
   };
 
   it('triggers shouldBlock callback on navigating away ', async () => {
