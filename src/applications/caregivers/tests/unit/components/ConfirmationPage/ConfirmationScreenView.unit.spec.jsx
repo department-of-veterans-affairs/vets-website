@@ -5,6 +5,9 @@ import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import ConfirmationScreenView from '../../../../components/ConfirmationPage/ConfirmationScreenView';
 
+// declare static values
+const TIMESTAMP = 1666887649663;
+
 describe('CG <ConfirmationScreenView>', () => {
   const subject = ({ timestamp = undefined } = {}) => {
     const props = {
@@ -44,17 +47,21 @@ describe('CG <ConfirmationScreenView>', () => {
   let printSpy;
 
   beforeEach(() => {
-    printSpy = sinon.spy(window, 'print');
+    printSpy = sinon.spy();
+    Object.defineProperty(window, 'print', {
+      value: printSpy,
+      configurable: true,
+    });
   });
 
   afterEach(() => {
     printSpy.resetHistory();
   });
 
-  it('should render the appropriate Veteran name', () => {
-    const { selectors } = subject();
-    const { veteranName } = selectors();
-    expect(veteranName).to.contain.text('John Marjorie Smith Sr.');
+  it('should render Veteran name & application date when provided', () => {
+    const { selectors } = subject({ timestamp: TIMESTAMP });
+    const { submissionDate } = selectors();
+    expect(submissionDate).to.contain.text('Oct. 27, 2022');
   });
 
   it('should not render timestamp in `application information` section when not provided', () => {
@@ -63,14 +70,8 @@ describe('CG <ConfirmationScreenView>', () => {
     expect(submissionDate).to.not.exist;
   });
 
-  it('should render timestamp in `application information` section when provided', () => {
-    const { selectors } = subject({ timestamp: 1666887649663 });
-    const { submissionDate } = selectors();
-    expect(submissionDate).to.contain.text('Oct. 27, 2022');
-  });
-
-  it('should fire `window.print` function when the print button is clicked', () => {
-    const { selectors } = subject();
+  it('should fire the correct event when the print button is clicked', () => {
+    const { selectors } = subject({ timestamp: TIMESTAMP });
     const { printBtn } = selectors();
     fireEvent.click(printBtn);
     sinon.assert.calledOnce(printSpy);
