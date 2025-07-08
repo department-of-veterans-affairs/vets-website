@@ -347,11 +347,18 @@ describe('test wrapper', () => {
           ),
         );
 
-        const response = await apiRequest('/letters/benefit_summary', {
-          headers: { 'Content-Type': 'application/json' },
-          method: 'POST',
-          body: JSON.stringify({}),
-        });
+        const response = await apiRequest(
+          '/letters/benefit_summary',
+          {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            body: JSON.stringify({}),
+          },
+          undefined,
+          undefined,
+          undefined,
+          true,
+        );
         expect(localStorage.getItem('csrfToken')).to.equal(mockCsrfToken);
         expect(response.status).to.eql(200);
       });
@@ -363,9 +370,16 @@ describe('test wrapper', () => {
           rest.get(/v0\/status/, (_req, res, ctx) => res(ctx.status(200))),
         );
 
-        const response = await apiRequest('/status', {
-          headers: { 'Content-Type': 'application/json' },
-        });
+        const response = await apiRequest(
+          '/status',
+          {
+            headers: { 'Content-Type': 'application/json' },
+          },
+          undefined,
+          undefined,
+          undefined,
+          true,
+        );
 
         expect(getAndStoreCSRFTokenSpy.called).to.be.false;
         expect(localStorage.getItem('csrfToken')).to.equal(null);
@@ -396,11 +410,18 @@ describe('test wrapper', () => {
           ),
         );
 
-        const response = await apiRequest('/letters/benefit_summary', {
-          headers: { 'Content-Type': 'application/json' },
-          method: 'POST',
-          body: JSON.stringify({}),
-        });
+        const response = await apiRequest(
+          '/letters/benefit_summary',
+          {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            body: JSON.stringify({}),
+          },
+          undefined,
+          undefined,
+          undefined,
+          true,
+        );
 
         expect(localStorage.getItem('csrfToken')).to.equal(mockCsrfToken);
         expect(response.status).to.equal(200);
@@ -420,11 +441,18 @@ describe('test wrapper', () => {
           );
 
           try {
-            await apiRequest('/health_care_application', {
-              headers: { 'Content-Type': 'application/json' },
-              method: 'POST',
-              body: JSON.stringify({}),
-            });
+            await apiRequest(
+              '/health_care_application',
+              {
+                headers: { 'Content-Type': 'application/json' },
+                method: 'POST',
+                body: JSON.stringify({}),
+              },
+              undefined,
+              undefined,
+              undefined,
+              true,
+            );
           } catch (error) {
             expect(error.message).to.equal(
               'CSRF token header not found in the refresh response.',
@@ -442,11 +470,18 @@ describe('test wrapper', () => {
           );
 
           try {
-            await apiRequest('/health_care_application', {
-              headers: { 'Content-Type': 'application/json' },
-              method: 'POST',
-              body: JSON.stringify({}),
-            });
+            await apiRequest(
+              '/health_care_application',
+              {
+                headers: { 'Content-Type': 'application/json' },
+                method: 'POST',
+                body: JSON.stringify({}),
+              },
+              undefined,
+              undefined,
+              undefined,
+              true,
+            );
           } catch (error) {
             expect(error.message).to.include(
               'Failed to get new CSRF token (HTTP 500)',

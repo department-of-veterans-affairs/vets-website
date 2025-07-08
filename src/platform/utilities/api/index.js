@@ -123,6 +123,7 @@ export async function apiRequest(
   success,
   error,
   env = environment,
+  refreshCsrfToken = false,
 ) {
   const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
@@ -147,7 +148,11 @@ export async function apiRequest(
   const methodsRequiringCsrf = ['POST', 'PUT', 'PATCH', 'DELETE'];
   const requestMethod = (optionalSettings?.method || 'GET').toUpperCase();
 
-  if (methodsRequiringCsrf.includes(requestMethod) && !csrfTokenStored) {
+  if (
+    refreshCsrfToken &&
+    methodsRequiringCsrf.includes(requestMethod) &&
+    !csrfTokenStored
+  ) {
     await getAndStoreCSRFToken();
     csrfTokenStored = localStorage.getItem('csrfToken');
   }
