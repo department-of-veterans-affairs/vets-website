@@ -191,9 +191,9 @@ const mapStateToProps = state => {
       ...formStateData,
       ...prefillData,
       benefitSelection:
-        formStateData.benefitSelection || prefillData.benefitSelection,
+        formStateData?.benefitSelection || prefillData?.benefitSelection,
       highSchoolDiploma:
-        formStateData.highSchoolDiploma || prefillData.highSchoolDiploma,
+        formStateData?.highSchoolDiploma || prefillData?.highSchoolDiploma,
     },
     user: state.user,
   };
