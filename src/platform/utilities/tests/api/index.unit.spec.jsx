@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import sinon from 'sinon';
+import localStorage from '../../storage/localStorage';
 import {
   apiRequest,
   fetchAndUpdateSessionExpiration,
@@ -29,7 +30,10 @@ describe('test wrapper', () => {
 
   after(() => {
     server.close();
-    localStorage.removeItem('csrfToken');
+  });
+
+  afterEach(() => {
+    localStorage.clear();
   });
 
   describe('apiRequest', () => {
@@ -315,7 +319,7 @@ describe('test wrapper', () => {
     describe('refresh csrf token', () => {
       it('should fetch and store a CSRF token if none exists', async () => {
         const mockCsrfToken = 'mock-csrf-token';
-        localStorage.removeItem('csrfToken');
+        localStorage.clear();
 
         server.use(
           rest.head(
@@ -327,7 +331,7 @@ describe('test wrapper', () => {
 
         server.use(
           rest.post(
-            `https://dev-api.va.gov/v0/letters/benefit_summary`,
+            `${environment.API_URL}/v0/letters/benefit_summary`,
             (_, res, ctx) => {
               const pdfFile = fs.readFileSync(
                 path.resolve(__dirname, './pdfFixture.pdf'),
@@ -348,7 +352,6 @@ describe('test wrapper', () => {
           method: 'POST',
           body: JSON.stringify({}),
         });
-
         expect(localStorage.getItem('csrfToken')).to.equal(mockCsrfToken);
         expect(response.status).to.eql(200);
       });
@@ -402,6 +405,47 @@ describe('test wrapper', () => {
         expect(localStorage.getItem('csrfToken')).to.equal(mockCsrfToken);
         expect(response.status).to.equal(200);
       });
+
+      context('error', () => {
+        it('should throw an error if the CSRF token header is missing', async () => {
+          server.use(
+            rest.head(
+              `${environment.API_URL}/v0/maintenance_windows`,
+              (_req, res, ctx) => res(ctx.status(200)),
+            ),
+          );
+
+          try {
+            await apiRequest('/status', {
+              headers: { 'Content-Type': 'application/json' },
+            });
+          } catch (error) {
+            expect(error.message).to.equal(
+              'CSRF token header not found in the refresh response.',
+            );
+          }
+        });
+
+        it('should throw an error if the request fails', async () => {
+          server.use(
+            rest.head(
+              `${environment.API_URL}/v0/maintenance_windows`,
+              (_req, res, ctx) =>
+                res(ctx.status(500), ctx.text('Internal Server Error')),
+            ),
+          );
+
+          try {
+            await apiRequest('/status', {
+              headers: { 'Content-Type': 'application/json' },
+            });
+          } catch (error) {
+            expect(error.message).to.include(
+              'Failed to get new CSRF token (HTTP 500): Internal Server Error',
+            );
+          }
+        });
+      });
     });
   });
 
@@ -453,59 +497,6 @@ describe('test wrapper', () => {
       await fetchAndUpdateSessionExpiration(environment.BASE_URL, {});
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(0);
       expect(checkAndUpdateSSOSessionMock.callCount).to.equal(0);
-    });
-  });
-
-  describe('getAndStoreCSRFToken', () => {
-    it('should fetch and store a new CSRF token', async () => {
-      const mockCsrfToken = 'mock-csrf-token';
-      localStorage.setItem('csrfToken', null);
-      server.use(
-        rest.head(
-          `${environment.API_URL}/v0/maintenance_windows`,
-          (req, res, ctx) =>
-            res(ctx.status(200), ctx.set('X-CSRF-Token', mockCsrfToken)),
-        ),
-      );
-
-      await getAndStoreCSRFToken();
-
-      expect(localStorage.getItem('csrfToken')).to.equal(mockCsrfToken);
-    });
-
-    it('should throw an error if the CSRF token header is missing', async () => {
-      server.use(
-        rest.head(
-          `${environment.API_URL}/v0/maintenance_windows`,
-          (req, res, ctx) => res(ctx.status(200)),
-        ),
-      );
-
-      try {
-        await getAndStoreCSRFToken();
-      } catch (error) {
-        expect(error.message).to.equal(
-          'CSRF token header not found in the refresh response.',
-        );
-      }
-    });
-
-    it('should throw an error if the request fails', async () => {
-      server.use(
-        rest.head(
-          `${environment.API_URL}/v0/maintenance_windows`,
-          (req, res, ctx) =>
-            res(ctx.status(500), ctx.text('Internal Server Error')),
-        ),
-      );
-
-      try {
-        await getAndStoreCSRFToken();
-      } catch (error) {
-        expect(error.message).to.include(
-          'Failed to get new CSRF token (HTTP 500): Internal Server Error',
-        );
-      }
     });
   });
 });
