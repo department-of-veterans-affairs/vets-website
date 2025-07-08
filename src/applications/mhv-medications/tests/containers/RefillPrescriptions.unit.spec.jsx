@@ -91,6 +91,21 @@ describe('Refill Prescriptions Component', () => {
     expect(screen.getByTestId('loading-indicator')).to.exist;
   });
 
+  it('should render loading state when isFetching is true', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    sandbox
+      .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+      .returns({
+        data: { prescriptions: refillablePrescriptions, meta: {} },
+        error: false,
+        isLoading: false,
+        isFetching: true,
+      });
+    const screen = setup();
+    expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+
   it('Shows 404 page if feature toggle is disabled', async () => {
     const screen = setup({
       ...initialState,
