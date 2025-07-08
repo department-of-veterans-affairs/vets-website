@@ -1,6 +1,6 @@
 import { associatedIncomePages } from './associatedIncomePages';
 
 export default {
-  title: 'Financial accounts information',
+  title: 'Financial accounts',
   pages: associatedIncomePages,
 };

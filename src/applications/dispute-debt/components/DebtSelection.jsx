@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { setFocus } from '../utils';
 
 import AlertCard from './AlertCard';
@@ -107,9 +108,9 @@ const DebtSelection = ({ formContext }) => {
       </VaCheckboxGroup>
       <va-additional-info trigger="If your debt isn't listed here">
         To dispute a benefit overpayment debt that’s not listed here, call us at{' '}
-        <va-telephone contact="8008270648" /> (or{' '}
-        <va-telephone contact="6127136415" international /> from overseas).
-        We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        <va-telephone contact={CONTACTS.DMC} /> (or{' '}
+        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
+        overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </va-additional-info>
     </div>
   );

@@ -1,6 +1,6 @@
 import { discontinuedIncomePages } from './discontinuedIncomePages';
 
 export default {
-  title: 'Discontinued incomes information',
+  title: 'Discontinued income',
   pages: discontinuedIncomePages,
 };
