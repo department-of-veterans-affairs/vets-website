@@ -26,7 +26,6 @@ export const getVaccinesList = (
       : getVaccineList;
 
     const response = await getListWithRetry(dispatch, getData);
-    // console.log('Vaccines list response:', response);
     dispatch({
       type: isAccelerating
         ? Actions.Vaccines.GET_UNIFIED_LIST
