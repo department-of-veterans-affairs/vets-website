@@ -60,7 +60,7 @@ const ReplyDraftItem = props => {
   const composeFormActionButtonsRef = useRef(null);
 
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
-  const isPilot = useSelector(state => isPilotState(state));
+  const isPilot = useSelector(isPilotState);
 
   const [category, setCategory] = useState(null);
   const [subject, setSubject] = useState('');

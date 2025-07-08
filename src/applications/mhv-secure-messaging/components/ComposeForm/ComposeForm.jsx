@@ -118,7 +118,7 @@ const ComposeForm = props => {
     draftAutoSaveTimeout,
   );
   const alertsList = useSelector(state => state.sm.alerts.alertList);
-  const isPilot = useSelector(state => isPilotState(state));
+  const isPilot = useSelector(isPilotState);
 
   const validMessageType = {
     SAVE: 'save',
