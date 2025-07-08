@@ -5,11 +5,12 @@ import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
+import { isPilotState } from '../selectors';
 
 const InterstitialPage = props => {
   const { acknowledge, type } = props;
   const history = useHistory();
-  const isPilot = useSelector(state => state.sm.app.isPilot);
+  const isPilot = useSelector(isPilotState);
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
@@ -31,7 +32,7 @@ const InterstitialPage = props => {
 
   const handleContinueButton = useCallback(
     () => {
-      if (isPilot) {
+      if (isPilot && type !== 'reply') {
         history.push(`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`);
       } else {
         acknowledge();

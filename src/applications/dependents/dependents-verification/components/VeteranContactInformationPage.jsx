@@ -21,8 +21,9 @@ const VeteranContactInformationPage = ({
   const { profile } = useSelector(selectUser);
   const { email, phone, address, internationalPhone } = data;
 
-  const { email: profileEmail, vapContactInfo } = profile || {};
+  const { vapContactInfo } = profile || {};
   const {
+    email: profileEmail,
     mailingAddress: profileMailingAddress,
     homePhone: profileHomePhone,
     mobilePhone: profileMobilePhone,
@@ -100,7 +101,7 @@ const VeteranContactInformationPage = ({
     }
 
     updateContactInfo({
-      email: email || profileEmail || '',
+      email: email || profileEmail?.emailAddress || '',
       phone:
         phone ||
         convertPhoneObjectToString(profileHomePhone) ||
@@ -117,7 +118,7 @@ const VeteranContactInformationPage = ({
       // Show no email or mailing address prefill alert
       if (
         (!profileMailingAddress?.city && !address?.city) ||
-        (!email && !profileEmail)
+        (!email && !profileEmail?.emailAddress)
       ) {
         setShowPrefillAlert(true);
       } else {
@@ -157,7 +158,7 @@ const VeteranContactInformationPage = ({
     .join(' and ');
 
   const prefillMissingInfo = [
-    profileEmail ? '' : 'email',
+    profileEmail?.emailAddress ? '' : 'email',
     profileMailingAddress?.city ? '' : 'mailing',
   ]
     .filter(Boolean)
@@ -177,8 +178,9 @@ const VeteranContactInformationPage = ({
       ) : null}
       {submitted && showAlert ? (
         <va-alert ref={alertRef} status="error" visible>
-          Your {alertMissingInfo} address is required before you continue.
-          Provide a valid {alertMissingInfo} address.
+          Your {alertMissingInfo} address{' '}
+          {alertMissingInfo.includes(' and ') ? 'are' : 'is'} required before
+          you continue. Provide a valid {alertMissingInfo} address.
         </va-alert>
       ) : null}
       <p>

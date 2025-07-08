@@ -19,15 +19,15 @@ const ZeroDebtsAlert = () => {
           Our records show you don’t have any current debt related to VA
           benefits. If you think this is incorrect, call the Debt Management
           Center (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
-          <va-telephone contact={CONTACTS[711]} tty />. We’re here Monday
-          through Friday, 7:30 a.m. to 7:00 p.m. ET.
+          <va-telephone contact={CONTACTS[711]} tty />
+          ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </p>
       </va-card>
       <va-additional-info trigger="If your debt isn't listed here">
         To dispute a benefit overpayment debt that’s not listed here, call us at{' '}
-        <va-telephone contact="8008270648" /> (or{' '}
-        <va-telephone contact="6127136415" international /> from overseas).
-        We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        <va-telephone contact={CONTACTS.DMC} /> (or{' '}
+        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
+        overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </va-additional-info>
       <a
         className="vads-c-action-link--green vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
