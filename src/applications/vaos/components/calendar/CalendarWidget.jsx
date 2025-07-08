@@ -265,7 +265,7 @@ function CalendarWidget({
   showWeekends = false,
   upcomingAppointments = [],
   isAppointmentSelectionError,
-  shouldShowWhileDisabled = false,
+  shouldShowWhileDisabled = true,
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
     if (value.length > 0) {
@@ -280,10 +280,12 @@ function CalendarWidget({
   const exceededMaximumSelections = value.length > maxSelections;
   const hasError = (required && showValidation) || exceededMaximumSelections;
 
+  const shouldShow = !disabled || shouldShowWhileDisabled;
+
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
     'vaos-calendar__disabled': disabled,
     'usa-input-error': hasError,
-    'vaos-calendar__hidden': !shouldShowWhileDisabled && disabled,
+    'vaos-calendar__hidden': !shouldShow,
   });
 
   // declare const from renderMonth here
@@ -303,7 +305,11 @@ function CalendarWidget({
         appointmentSelectionErrorMsg,
       }}
     >
-      <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
+      <div
+        className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex"
+        // Hide from screen readers if disabled and not showing but also remove attribute it is showing with undefined
+        aria-hidden={!shouldShow || undefined}
+      >
         {disabled && (
           <div className="vaos-calendar__disabled-overlay">
             {disabledMessage}

@@ -254,6 +254,7 @@ export default function DateTimeSelectPage() {
               required: true,
             }}
             disabled={loadingSlots}
+            shouldShowWhileDisabled={false}
             disabledMessage={
               // eslint-disable-next-line react/jsx-wrap-multilines
               <va-loading-indicator
