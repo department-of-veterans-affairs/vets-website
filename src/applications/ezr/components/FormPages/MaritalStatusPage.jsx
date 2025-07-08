@@ -90,17 +90,16 @@ function MaritalStatusPage(props) {
    * when moving from a married/separated status to an unmarried (divorced,
    * widowed, never married) status.
    *
-   * @param {string} currentStatus
-   *   The current marital status of the Veteran.
+   * @param {string} previousStatus
+   *   The current, or previous, marital status of the Veteran.
    * @param {string} newStatus
-   *   The new marital status of the Veteran.
+   *   The new or pending marital status of the Veteran.
    *
    * @returns {boolean}
    *   True if the modal should be shown, false otherwise.
    */
-  const shouldShowModal = (previousStatus, newStatus) => {
-    // Return early if current/new status is a zero length string or undefined.
-    if (previousStatus?.length === 0 || newStatus?.length === 0) {
+  const shouldShowModal = (previousStatus = '', newStatus = '') => {
+    if (!previousStatus || !newStatus) {
       return false;
     }
     return marriedOrSeparated(previousStatus) && !marriedOrSeparated(newStatus);
