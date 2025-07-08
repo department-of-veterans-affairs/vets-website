@@ -236,6 +236,7 @@ function handleNext(onClickNext, months, setMonths) {
  * @param {Array<string>} props.value
  * @param {boolean} [props.showWeekends=false] Whether to show full weekend slots or not
  * @param {boolean} [props.overrideMaxDays=false] Disables the default max days value
+ * @param {boolean} [props.shouldShowWhileDisabled=false] Whether to show the calendar while disabled
  * @returns {JSX.Element} props.Calendar Calendar Widget
  */
 function CalendarWidget({
@@ -264,6 +265,7 @@ function CalendarWidget({
   showWeekends = false,
   upcomingAppointments = [],
   isAppointmentSelectionError,
+  shouldShowWhileDisabled = false,
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
     if (value.length > 0) {
@@ -281,6 +283,7 @@ function CalendarWidget({
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
     'vaos-calendar__disabled': disabled,
     'usa-input-error': hasError,
+    'vaos-calendar__hidden': !shouldShowWhileDisabled && disabled,
   });
 
   // declare const from renderMonth here
@@ -427,6 +430,7 @@ CalendarWidget.propTypes = {
   renderSelectedLabel: PropTypes.func,
   required: PropTypes.bool,
   requiredMessage: PropTypes.string,
+  shouldShowWhileDisabled: PropTypes.bool,
   showValidation: PropTypes.bool,
   showWeekends: PropTypes.bool,
   startMonth: PropTypes.string,

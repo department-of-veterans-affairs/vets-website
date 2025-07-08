@@ -8,6 +8,10 @@
   user-select: none; /* Likely future */
 }
 
+.vaos-calendar__hidden {
+  display: none;
+}
+
 .vaos-calendar__disabled-overlay {
   position: absolute;
   width: 100%;
@@ -220,7 +224,8 @@
 
   input[type="radio"] + label::before {
     margin-top: 0;
-    box-shadow: 0 0 0 2px var(--vads-color-white), 0 0 0 3px var(--vads-color-primary);
+    box-shadow: 0 0 0 2px var(--vads-color-white),
+      0 0 0 3px var(--vads-color-primary);
   }
 
   input[type="checkbox"] + label::before {
