@@ -127,13 +127,6 @@ function mapHealthInsuranceToApplicants(data) {
             applicant.applicantName.middle.charAt(0) || '';
         }
 
-        // Combine street address fields
-        if (applicant.applicantAddress) {
-          applicant.applicantAddress = concatStreets(
-            applicant.applicantAddress,
-          );
-        }
-
         // Add policy and set flag
         applicant.healthInsurance.push(policy);
         applicant.hasOtherHealthInsurance = true;
@@ -141,6 +134,7 @@ function mapHealthInsuranceToApplicants(data) {
   });
 
   // Add current date
+  // eslint-disable-next-line prefer-destructuring
   result.certificationDate = new Date().toISOString().split('T')[0];
   return result;
 }
