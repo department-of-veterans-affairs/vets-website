@@ -75,7 +75,7 @@ export default function AppointmentColumnLayout({
                 { 'vads-u-display--none': !first },
               )}
             >
-              <span aria-hidden="false">
+              <span aria-hidden="false" data-dd-privacy="mask">
                 {formatInTimeZone(startDate, data.timezone, 'd')}
               </span>
             </h3>
@@ -97,6 +97,7 @@ export default function AppointmentColumnLayout({
               className={classNames({ 'vads-u-display--none': !first })}
               aria-hidden="true"
               data-testid="day"
+              data-dd-privacy="mask"
             >
               {formatInTimeZone(startDate, data.timezone, 'EEE')}
             </span>
@@ -131,7 +132,7 @@ export default function AppointmentColumnLayout({
             canceled={isCanceled}
             style={{ minWidth: '100px', maxWidth: '100px' }}
           >
-            <span aria-hidden="true">
+            <span aria-hidden="true" data-dd-privacy="mask">
               {`${formatInTimeZone(
                 startDate,
                 data.timezone,
@@ -158,6 +159,7 @@ export default function AppointmentColumnLayout({
                     'vaos-appts__display--table-cell',
                     'vaos-appts__text--truncate',
                   )}
+                  data-dd-privacy="mask"
                 >
                   {appointmentLocality}
                 </span>
