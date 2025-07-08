@@ -44,8 +44,10 @@ export function getDateFilters() {
   dateRanges.push({
     label: 'Past 3 Months',
     value: 'pastThreeMonths',
-    start: stripTZOffset(formatISO(subMonths(today, 3))),
-    end: stripTZOffset(formatISO(today)),
+    start: `${formatISO(subMonths(today, 3), {
+      representation: 'date',
+    })}T00:00:00`,
+    end: `${formatISO(today, { representation: 'date' })}T23:59:59`,
   });
 
   // Calculate the last 7 complete quarters
