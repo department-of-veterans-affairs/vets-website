@@ -38,19 +38,54 @@ export const PHONE_TYPE_ENUM = {
 // Chapter 2
 
 // SERVICE_BRANCH - GCLAWS Mapping
-export const SERVICE_BRANCH_ID = {
-  'Air Force': 1,
-  Army: 2,
-  'Coast Guard': 3,
-  Marines: 4,
-  Navy: 5,
+const SERVICE_BRANCH_ID = {
+  AIR_FORCE: 1,
+  ARMY: 2,
+  COAST_GAURD: 3,
+  MARINES: 4,
+  NAVY: 5,
   NOAA: 6,
-  'No Active Service': 7,
-  'Public Health Service': 8,
-  'Space Force': 9,
-  Other: 10,
+  NO_ACTIVE_SERVICE: 7,
+  PUBLIC_HEALTH_SERVICE: 8,
+  SPACE_FORCE: 9,
+  OTHER: 10,
 };
 // SERVICE_BRANCH - Frontend Options to GCLAWS Mapping
+export const SERVICE_BRANCH_ENUM = {
+  'Air Force': SERVICE_BRANCH_ID.AIR_FORCE,
+  Army: SERVICE_BRANCH_ID.Army,
+  'Coast Guard': SERVICE_BRANCH_ID.COAST_GAURD,
+  Marines: SERVICE_BRANCH_ID.MARINES,
+  Navy: SERVICE_BRANCH_ID.NAVY,
+  NOAA: SERVICE_BRANCH_ID.NOAA,
+  'No Active Service': SERVICE_BRANCH_ID.NO_ACTIVE_SERVICE,
+  'Public Health Service': SERVICE_BRANCH_ID.PUBLIC_HEALTH_SERVICE,
+  'Space Force': SERVICE_BRANCH_ID.SPACE_FORCE,
+  Other: SERVICE_BRANCH_ID.OTHER,
+};
+
+// DISCHARGE_TYPE - GCLAWS Mapping
+const DISCHARGE_TYPE_ID = {
+  BAD_CONDUCT: 1,
+  DISHONORABLE: 2,
+  CONVEINIENCE_OF_GOVT: 3,
+  ENTRY_LEVEL: 4,
+  GENERAL: 5,
+  HONORABLE: 6,
+  MEDICAL: 7,
+  OTHER_THAN_HONORABLE: 8,
+};
+// DISCHARGE_TYPE - Frontend Options to GCLAWS Mapping
+export const DISCHARGE_TYPE_ENUM = {
+  'Bad Conduct': DISCHARGE_TYPE_ID.BAD_CONDUCT,
+  Dishonorable: DISCHARGE_TYPE_ID.DISHONORABLE,
+  'Convenience of Govt': DISCHARGE_TYPE_ID.CONVEINIENCE_OF_GOVT,
+  'Entry Level': DISCHARGE_TYPE_ID.ENTRY_LEVEL,
+  General: DISCHARGE_TYPE_ID.GENERAL,
+  Honorable: DISCHARGE_TYPE_ID.HONORABLE,
+  Medical: DISCHARGE_TYPE_ID.MEDICAL,
+  'Other Than Honorable': DISCHARGE_TYPE_ID.OTHER_THAN_HONORABLE,
+};
 
 export const APPLICATION_STATUS_ID = {
   Pending: 1,
@@ -88,17 +123,6 @@ export const EMPLOYMENT_STATUS_ID = {
   Unemployed: 2,
   'Self-employed': 3,
   Student: 4,
-};
-
-export const DISCHARGE_TYPE_ID = {
-  'Bad Conduct': 1,
-  Dishonorable: 2,
-  'Convenience of Govt': 3,
-  'Entry Level': 4,
-  General: 5,
-  Honorable: 6,
-  Medical: 7,
-  'Other Than Honorable': 8,
 };
 
 export const INSTITUTION_TYPE_ID = {

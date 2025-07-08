@@ -53,12 +53,14 @@ export const branchOptions = Object.freeze([
 ]);
 
 export const characterOfDischargeOptions = Object.freeze([
-  'Honorable',
-  'General',
-  'Other Than Honorable',
   'Bad Conduct',
   'Dishonorable',
-  'Other',
+  'Convenience of Govt',
+  'Entry Level',
+  'General',
+  'Honorable',
+  'Medical',
+  'Other Than Honorable',
 ]);
 
 export const explanationRequired = Object.freeze([

@@ -1,5 +1,10 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { ACCREDITATION_TYPE_ENUM, PHONE_TYPE_ENUM } from './enums';
+import {
+  ACCREDITATION_TYPE_ENUM,
+  PHONE_TYPE_ENUM,
+  SERVICE_BRANCH_ENUM,
+  DISCHARGE_TYPE_ENUM,
+} from './enums';
 // Map form data to match 21A-schema.json structure before submitting
 
 // need to verify the accuracy of these ENUM
@@ -79,11 +84,13 @@ const build21aPayload = data => {
     // Chapter 2 - Military Service: Branch and Dates
     militaryServices:
       data.militaryServiceExperiences?.map(m => ({
-        serviceBranchId: m.branch,
+        serviceBranchId: SERVICE_BRANCH_ENUM[m.branch],
         serviceBranchExplanation: null,
         entryDate: m.dateRange?.from || null,
-        dischargeDate: m.dateRange?.to || null,
-        dischargeTypeId: m.characterOfDischarge || null,
+        // Not using `currentlyServing` so if it exists we set `dischargeDate` to null
+        dischargeDate:
+          !!m.currentlyServing && m.dateRange?.to ? m.dateRange?.to : null,
+        dischargeTypeId: DISCHARGE_TYPE_ENUM[m.characterOfDischarge] || null,
         dischargeTypeExplanation: m.explanationOfDischarge || null,
       })) || [],
     // Accreditation Info
