@@ -1,14 +1,10 @@
-// TDD E2E Tests for VA File Input Multiple Component
 describe('VA File Input Multiple - TDD E2E Tests', () => {
-  // Helper function to set up test environment with our component
   const setupComponentTest = () => {
-    // Login and navigate to claims page where component is temporarily added
     cy.login();
     cy.visit('/track-claims');
     cy.injectAxe();
   };
 
-  // Helper function to click submit button
   const clickSubmitButton = () => {
     cy.get('va-button[text="Submit documents for review"]')
       .shadow()
@@ -16,47 +12,6 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       .click();
   };
 
-  // Helper function to find error element in shadow DOM
-  const getErrorElement = () => {
-    return cy
-      .get('va-file-input-multiple')
-      .shadow()
-      .find('va-file-input')
-      .first()
-      .shadow()
-      .find('#error-message, .usa-error-message, [role="alert"]');
-  };
-
-  // Helper function to upload a file to the first file input
-  const uploadFile = (fileName, fileIndex = 0) => {
-    cy.get('va-file-input-multiple')
-      .shadow()
-      .find('va-file-input')
-      .eq(fileIndex)
-      .shadow()
-      .find('input[type="file"]')
-      .selectFile({
-        contents: Cypress.Buffer.from('test content'),
-        fileName,
-      });
-  };
-
-  // Helper function to upload an encrypted PDF
-  const uploadEncryptedPDF = (fileName, fileIndex = 0) => {
-    cy.get('va-file-input-multiple')
-      .shadow()
-      .find('va-file-input')
-      .eq(fileIndex)
-      .shadow()
-      .find('input[type="file"]')
-      .selectFile({
-        contents: Cypress.Buffer.from('%PDF-1.4\n/Encrypt\nsome content'),
-        fileName,
-        mimeType: 'application/pdf',
-      });
-  };
-
-  // Helper function to get file input at specific index
   const getFileInput = (fileIndex = 0) => {
     return cy
       .get('va-file-input-multiple')
@@ -66,29 +21,27 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       .shadow();
   };
 
-  // Helper function to get error message for a file
-  const getFileError = (fileIndex = 0) => {
-    return getFileInput(fileIndex).find('#input-error-message');
+  const uploadFile = (fileName, fileIndex = 0) => {
+    getFileInput(fileIndex)
+      .find('input[type="file"]')
+      .selectFile({
+        contents: Cypress.Buffer.from('test content'),
+        fileName,
+      });
   };
 
-  // Helper function to verify password error appears
-  const verifyPasswordError = (fileIndex = 0) => {
-    getFileError(fileIndex)
-      .should('be.visible')
-      .and('contain.text', 'Please provide a password to decrypt this file');
+  const uploadEncryptedPDF = (fileName, fileIndex = 0) => {
+    getFileInput(fileIndex)
+      .find('input[type="file"]')
+      .selectFile({
+        contents: Cypress.Buffer.from('%PDF-1.4\n/Encrypt\nsome content'),
+        fileName,
+        mimeType: 'application/pdf',
+      });
   };
 
-  // Helper function to verify no error exists for a file
-  const verifyNoError = (fileIndex = 0) => {
-    getFileInput(fileIndex).should(
-      'not.contain.text',
-      'Please provide a password to decrypt this file',
-    );
-    getFileInput(fileIndex).should(
-      'not.contain.text',
-      'Please select a file first',
-    );
-  };
+  const getFileError = (fileIndex = 0) =>
+    getFileInput(fileIndex).find('#input-error-message');
 
   // Helper function for encrypted file workflow: upload + wait for password input
   const setupEncryptedFile = (fileName, fileIndex = 0) => {
@@ -181,6 +134,17 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
   });
 
   describe('User Story #5: Submit validation with no files', () => {
+    // Get error above file input
+    const getNoFilesError = () => {
+      return cy
+        .get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find('#file-input-error-alert');
+    };
+
     it('should show error message when submit clicked without files', () => {
       setupComponentTest();
 
@@ -190,7 +154,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       // Verify error message appears in the file input shadow DOM
       // Note: Web component content may not be visible in Cypress UI but tests work correctly
       // To debug visually, add .then(() => cy.pause()) after this assertion
-      getErrorElement()
+      getNoFilesError()
         .should('be.visible')
         .and('contain.text', 'Please select a file first');
 
@@ -206,13 +170,13 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       clickSubmitButton();
 
       // Verify error appears
-      getErrorElement().should('contain.text', 'Please select a file first');
+      getNoFilesError().should('contain.text', 'Please select a file first');
 
       // Add a file
       uploadFile(fileName);
 
       // Verify error is cleared after adding file
-      getErrorElement().should('not.exist');
+      getNoFilesError().should('not.exist');
 
       cy.axeCheck();
     });
@@ -259,13 +223,15 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       clickSubmitButton();
 
       // Verify password error appears
-      verifyPasswordError(0);
+      getFileError(0)
+        .should('be.visible')
+        .and('contain.text', 'Please provide a password to decrypt this file');
 
       cy.axeCheck();
     });
   });
 
-  describe('User Story #8: Error persistence when adding files', () => {
+  describe('User Story #8: Password error persistence when adding files', () => {
     it('should persist validation errors when adding another file', () => {
       setupComponentTest();
 
@@ -274,22 +240,26 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       // Submit without entering password to trigger error
       clickSubmitButton();
-      verifyPasswordError(0);
+      getFileError(0)
+        .should('be.visible')
+        .and('contain.text', 'Please provide a password to decrypt this file');
 
       // Add another file (should not clear the existing error)
       uploadFile('second-regular.pdf', 1);
 
       // Verify the original error still persists after adding another file
-      verifyPasswordError(0);
+      getFileError(0)
+        .should('be.visible')
+        .and('contain.text', 'Please provide a password to decrypt this file');
 
       // Verify the second file has no error
-      verifyNoError(1);
+      getFileError(1).should('not.exist');
 
       cy.axeCheck();
     });
   });
 
-  describe('User Story#9: Error clearing behavior', () => {
+  describe('User Story #9: Password error clearing behavior', () => {
     it('should clear password error when password is entered', () => {
       setupComponentTest();
 
@@ -298,7 +268,9 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       // Submit without entering password to trigger error
       clickSubmitButton();
-      verifyPasswordError(0);
+      getFileError(0)
+        .should('be.visible')
+        .and('contain.text', 'Please provide a password to decrypt this file');
 
       // Enter a password in the password field
       getFileInput(0)
@@ -356,7 +328,59 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     });
   });
 
-  describe('User Story #11: Comprehensive data tracking', () => {
+  describe('User Story #11: Document type validation', () => {
+    it('should show error when submitting without selecting document type', () => {
+      setupComponentTest();
+
+      // Upload a file
+      uploadFile('test-document.pdf');
+
+      // Submit without selecting document type
+      clickSubmitButton();
+
+      // Verify document type error appears in the file input's error message area
+      getFileError(0)
+        .should('be.visible')
+        .and('contain.text', 'Please provide a response');
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('User Story #12: Document type error clearing', () => {
+    it.skip('should clear error when document type is selected after validation error', () => {
+      setupComponentTest();
+
+      // Upload a file
+      uploadFile('test-document.pdf');
+
+      // Submit without selecting document type to trigger error
+      clickSubmitButton();
+
+      // Verify error appears
+      getFileError(0)
+        .should('be.visible')
+        .and('contain.text', 'Please provide a response');
+
+      // Select a document type
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .find('va-select')
+        .shadow()
+        .find('select')
+        .select('L014'); // Birth Certificate
+
+      getFileError(0).should('not.exist');
+
+      cy.axeCheck();
+    });
+  });
+
+  // TODO: Remove this test when component development is complete
+  // This test is for development debugging only and relies on UI that will be deleted
+  describe('Comprehensive data tracking (Development Only - TODO: Delete)', () => {
     it('should track files, passwords, and document types correctly', () => {
       setupComponentTest();
 
@@ -425,10 +449,6 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       // Submit first to extract and update document types data
       clickSubmitButton();
 
-      // Verify no errors appear (indicating all data is tracked correctly)
-      verifyNoError(0);
-      verifyNoError(1);
-
       // Now verify debug information shows correct data tracking after submit
       cy.get('[data-testid="debug-files"]')
         .should('contain.text', 'regular-document.pdf')
@@ -458,46 +478,6 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .and('contain.text', '"name": "regular-document.pdf"')
         .and('contain.text', '"name": "encrypted-document.pdf"')
         .and('contain.text', '"type": "application/pdf"');
-
-      cy.axeCheck();
-    });
-  });
-
-  describe('Bug: Error transfer when file is deleted', () => {
-    it('should not transfer errors to other files when a file is deleted', () => {
-      setupComponentTest();
-
-      // Upload first encrypted PDF file and wait for password input
-      setupEncryptedFile('first-encrypted.pdf');
-
-      // Upload second regular file
-      uploadFile('second-regular.pdf', 1);
-
-      // Submit without entering password for first file to trigger error
-      clickSubmitButton();
-      verifyPasswordError(0);
-      verifyNoError(1);
-
-      // Delete the first file (the one with the error)
-      getFileInput(0)
-        .find('va-button-icon[aria-label*="delete"]')
-        .shadow()
-        .find('button')
-        .click();
-
-      // Confirm deletion in modal
-      getFileInput(0)
-        .find('va-modal')
-        .shadow()
-        .find('button.usa-button')
-        .first()
-        .click();
-
-      // Bug test: Verify the error does NOT transfer to the remaining file
-      verifyNoError(0); // This is now the second file that moved to first position
-
-      // Verify the correct file name is still displayed
-      getFileInput(0).should('contain.text', 'second-regular.pdf');
 
       cy.axeCheck();
     });

@@ -26,6 +26,7 @@ As a user,
 11. If I try to submit a file without selecting a type of document, I will see an error
     - Error: "Please provide a response"
 12. If I select a type of document after getting the validation error, that error will disappear
+Data Tracking Check: If I upload multiple files with passwords and document types, all data should be tracked correctly
 13. If I add a file in which the file extension does not match the file format, I will see an error
     - Error: "The file extension doesn’t match the file format. Please choose a different file."
 14. If I try to add a file that is not one of the valid file types (.pdf, .gif, etc), I will see an error
