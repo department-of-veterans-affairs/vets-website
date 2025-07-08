@@ -348,7 +348,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
   });
 
   describe('User Story #12: Document type error clearing', () => {
-    it.skip('should clear error when document type is selected after validation error', () => {
+    it('should clear error when document type is selected after validation error', () => {
       setupComponentTest();
 
       // Upload a file

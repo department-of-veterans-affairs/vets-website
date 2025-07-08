@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -6,7 +6,6 @@ import {
   VaButton,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import {
   readAndCheckFile,
   checkIsEncryptedPdf,
@@ -15,14 +14,15 @@ import {
 import { DOC_TYPES } from '../../../utils/helpers';
 import DebugInfo from './DebugInfo';
 
+const LABEL_TEXT = 'Upload additional evidence';
 const HINT_TEXT =
   'You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only).';
-const LABEL_TEXT = 'Upload additional evidence';
-const SUBMIT_TEXT = 'Submit documents for review';
 const VALIDATION_ERROR = 'Please select a file first';
 const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
+const DOC_TYPE_ERROR = 'Please provide a response';
+const SUBMIT_TEXT = 'Submit documents for review';
 
-// Pure utility functions moved outside component
+// File encryption utilities
 const checkFileEncryption = async file => {
   if (!file.name?.toLowerCase().endsWith('.pdf')) {
     return false;
@@ -43,40 +43,7 @@ const createEncryptedFilesList = async files => {
   );
 };
 
-// Error handling utilities
-const clearNoFilesError = prevErrors => {
-  if (prevErrors.length === 1 && prevErrors[0] === VALIDATION_ERROR) {
-    return [];
-  }
-  return prevErrors;
-};
-
-const rebuildErrorsAfterFileDeletion = (currentFiles, newFiles, prevErrors) => {
-  const newErrors = [];
-  // Match errors to files by file reference, not by index
-  newFiles.forEach((fileInfo, newIndex) => {
-    const originalIndex = currentFiles.findIndex(f => f.file === fileInfo.file);
-    if (originalIndex !== -1 && prevErrors[originalIndex]) {
-      newErrors[newIndex] = prevErrors[originalIndex];
-    }
-  });
-  return newErrors;
-};
-
-const clearPasswordErrorsWhenProvided = (files, prevErrors) => {
-  const newErrors = [...prevErrors];
-  files.forEach((fileInfo, index) => {
-    if (
-      fileInfo.password &&
-      fileInfo.password.trim() !== '' &&
-      prevErrors[index] === PASSWORD_ERROR
-    ) {
-      newErrors[index] = null;
-    }
-  });
-  return newErrors;
-};
-
+// Shadow DOM extraction utilities
 const extractPasswordsFromShadowDOM = (fileInputRef, files, encrypted) => {
   const updatedFiles = [...files];
   const vaFileInputElements = fileInputRef.current?.shadowRoot?.querySelectorAll(
@@ -114,15 +81,75 @@ const extractDocumentTypesFromShadowDOM = fileInputRef => {
   });
 };
 
-const validateFilesForSubmission = (files, encrypted) => {
+// Error handling utilities
+const clearNoFilesError = prevErrors => {
+  if (prevErrors.length === 1 && prevErrors[0] === VALIDATION_ERROR) {
+    return [];
+  }
+  return prevErrors;
+};
+
+const clearSpecificErrors = (prevErrors, errorType, shouldClear) => {
+  const newErrors = [...prevErrors];
+  let hasChanges = false;
+
+  prevErrors.forEach((error, index) => {
+    if (error === errorType && shouldClear(index)) {
+      newErrors[index] = null;
+      hasChanges = true;
+    }
+  });
+
+  return hasChanges ? newErrors : prevErrors;
+};
+
+const rebuildErrorsAfterFileDeletion = (currentFiles, newFiles, prevErrors) => {
+  const newErrors = [];
+  // Match errors to files by file reference, not by index
+  newFiles.forEach((fileInfo, newIndex) => {
+    const originalIndex = currentFiles.findIndex(f => f.file === fileInfo.file);
+    if (originalIndex !== -1 && prevErrors[originalIndex]) {
+      newErrors[newIndex] = prevErrors[originalIndex];
+    }
+  });
+  return newErrors;
+};
+
+const updateErrorsOnFileChange = (
+  prevErrors,
+  files,
+  newFiles,
+  previousFileCount,
+) => {
+  // First, clear "no files" error if present
+  let updatedErrors = clearNoFilesError(prevErrors);
+
+  // If files were removed, rebuild error array to match current files
+  if (newFiles.length < previousFileCount) {
+    updatedErrors = rebuildErrorsAfterFileDeletion(files, newFiles, prevErrors);
+  } else {
+    // Clear password errors when passwords are provided
+    updatedErrors = clearSpecificErrors(
+      updatedErrors,
+      PASSWORD_ERROR,
+      index =>
+        newFiles[index]?.password && newFiles[index].password.trim() !== '',
+    );
+  }
+
+  return updatedErrors;
+};
+
+// Validation and submission utilities
+const validateFilesForSubmission = (files, encrypted, docTypes) => {
   // Check if no files provided (always required)
   if (files.length === 0) {
     return { isValid: false, errors: [VALIDATION_ERROR] };
   }
 
-  // Check for encrypted files without passwords
+  // Check for encrypted files without passwords and missing document types
   const errors = [];
-  let hasPasswordErrors = false;
+  let hasErrors = false;
 
   files.forEach((fileInfo, index) => {
     // Check if file is encrypted and missing password
@@ -131,16 +158,38 @@ const validateFilesForSubmission = (files, encrypted) => {
       (!fileInfo.password || fileInfo.password.trim() === '')
     ) {
       errors[index] = PASSWORD_ERROR;
-      hasPasswordErrors = true;
+      hasErrors = true;
+    }
+    // Check if document type is missing or empty
+    else if (!docTypes[index] || docTypes[index].trim() === '') {
+      errors[index] = DOC_TYPE_ERROR;
+      hasErrors = true;
     } else {
       errors[index] = null;
     }
   });
 
   return {
-    isValid: !hasPasswordErrors,
-    errors: hasPasswordErrors ? errors : [],
+    isValid: !hasErrors,
+    errors: hasErrors ? errors : [],
   };
+};
+
+const createSubmissionPayload = (files, docTypes) => {
+  return files.map((fileInfo, index) => ({
+    file: fileInfo.file,
+    // Include file metadata for better debugging (File objects don't serialize)
+    fileMetadata: fileInfo.file
+      ? {
+          name: fileInfo.file.name,
+          size: fileInfo.file.size,
+          type: fileInfo.file.type,
+          lastModified: fileInfo.file.lastModified,
+        }
+      : null,
+    password: fileInfo.password || '',
+    docType: docTypes[index] || '',
+  }));
 };
 
 const NewAddFilesForm = ({ onChange, onSubmit }) => {
@@ -149,6 +198,27 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
   const [encrypted, setEncrypted] = useState([]);
   const [lastPayload, setLastPayload] = useState(null);
   const fileInputRef = useRef(null);
+
+  // Track document type changes and clear errors immediately
+  useEffect(
+    () => {
+      // Poll for document type changes to clear errors immediately
+      const interval = setInterval(() => {
+        const currentDocTypes = extractDocumentTypesFromShadowDOM(fileInputRef);
+
+        setErrors(prevErrors =>
+          clearSpecificErrors(
+            prevErrors,
+            DOC_TYPE_ERROR,
+            index => currentDocTypes[index]?.trim() !== '',
+          ),
+        );
+      }, 150);
+
+      return () => clearInterval(interval);
+    },
+    [files],
+  );
 
   const handleFileChange = async event => {
     const { state } = event.detail;
@@ -159,27 +229,14 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
 
     if (newFiles.length > 0) {
       // Update errors based on file changes
-      setErrors(prevErrors => {
-        // First, clear "no files" error if present
-        let updatedErrors = clearNoFilesError(prevErrors);
-
-        // If files were removed, rebuild error array to match current files
-        if (newFiles.length < previousFileCount) {
-          updatedErrors = rebuildErrorsAfterFileDeletion(
-            files,
-            newFiles,
-            prevErrors,
-          );
-        } else {
-          // Clear password errors when passwords are provided (User Story #9)
-          updatedErrors = clearPasswordErrorsWhenProvided(
-            newFiles,
-            updatedErrors,
-          );
-        }
-
-        return updatedErrors;
-      });
+      setErrors(prevErrors =>
+        updateErrorsOnFileChange(
+          prevErrors,
+          files,
+          newFiles,
+          previousFileCount,
+        ),
+      );
 
       const encryptedStatus = await createEncryptedFilesList(newFiles);
       setEncrypted(encryptedStatus);
@@ -205,7 +262,11 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
     // Extract document types from shadow DOM
     const currentDocTypes = extractDocumentTypesFromShadowDOM(fileInputRef);
 
-    const validation = validateFilesForSubmission(updatedFiles, encrypted);
+    const validation = validateFilesForSubmission(
+      updatedFiles,
+      encrypted,
+      currentDocTypes,
+    );
 
     if (!validation.isValid) {
       setErrors(validation.errors);
@@ -213,20 +274,7 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
     }
 
     // Create complete payload for submission
-    const payload = updatedFiles.map((fileInfo, index) => ({
-      file: fileInfo.file,
-      // Include file metadata for better debugging (File objects don't serialize)
-      fileMetadata: fileInfo.file
-        ? {
-            name: fileInfo.file.name,
-            size: fileInfo.file.size,
-            type: fileInfo.file.type,
-            lastModified: fileInfo.file.lastModified,
-          }
-        : null,
-      password: fileInfo.password || '',
-      docType: currentDocTypes[index] || '',
-    }));
+    const payload = createSubmissionPayload(updatedFiles, currentDocTypes);
 
     // Store payload for debug display
     setLastPayload(payload);
