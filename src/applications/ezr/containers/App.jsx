@@ -31,6 +31,7 @@ const App = props => {
     isNextOfKinEnabled,
     isProvidersAndDependentsPrefillEnabled,
     isSpouseConfirmationFlowEnabled,
+    isDownloadPdfEnabled,
   } = features;
   const {
     dob: veteranDateOfBirth,
@@ -72,6 +73,7 @@ const App = props => {
           'view:isNextOfKinEnabled': !!isNextOfKinEnabled,
           'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
           'view:isSpouseConfirmationFlowEnabled': !!isSpouseConfirmationFlowEnabled,
+          'view:isDownloadPdfEnabled': !!isDownloadPdfEnabled,
         };
 
         setFormData({
@@ -130,6 +132,7 @@ const mapStateToProps = state => ({
       state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
     isSpouseConfirmationFlowEnabled:
       state.featureToggles.ezrSpouseConfirmationFlowEnabled,
+    isDownloadPdfEnabled: state.featureToggles.ezrDownloadPdfEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
