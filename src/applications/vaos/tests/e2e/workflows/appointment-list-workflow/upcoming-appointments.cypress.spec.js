@@ -1,5 +1,6 @@
 // @ts-check
 import { addDays, addMinutes, addMonths, format, subMinutes } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
@@ -28,7 +29,10 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should verify Video Connect at ATLAS calendar ics file format', () => {
       // Arrange
-      const startDate = addDays(new Date(), 1);
+      const startDate = addDays(
+        utcToZonedTime(new Date(), 'America/Denver'),
+        1,
+      );
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createAtlasResponses({
           localStartTime: startDate,

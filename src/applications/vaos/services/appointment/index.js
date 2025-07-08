@@ -4,7 +4,7 @@
  * @module services/Appointment
  */
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { startOfDay, subYears } from 'date-fns';
+import { isAfter, startOfDay, subYears } from 'date-fns';
 import moment from 'moment-timezone';
 import { getProviderName } from '../../utils/appointment';
 import {
@@ -418,7 +418,7 @@ export function isUpcomingAppointment(appt) {
  * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByDateDescending(a, b) {
-  return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
+  return isAfter(a.start, b.start) ? -1 : 1;
 }
 
 /**

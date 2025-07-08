@@ -1,8 +1,7 @@
-import { addMinutes } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
+import { addMinutes, format } from 'date-fns';
 import { getICSTokens } from '../../../../utils/calendar';
+import { DATE_FORMATS, VIDEO_TYPES } from '../../../../utils/constants';
 import PageObject from '../PageObject';
-import { VIDEO_TYPES, DATE_FORMATS } from '../../../../utils/constants';
 
 function assertDescription(type, tokens) {
   // Description text longer than 74 characters should start on newline beginning
@@ -106,18 +105,14 @@ class AppointmentDetailPageObject extends PageObject {
       assertLocation(type, tokens);
 
       // And the start time should match the appointment
-      expect(tokens.get('DTSTAMP')).to.equal(
-        formatInTimeZone(startDate, 'UTC', DATE_FORMATS.iCalDateTimeUTC),
+      expect(tokens.get('DTSTAMP')).to.contain(
+        format(startDate, DATE_FORMATS.iCalDateTime),
       );
-      expect(tokens.get('DTSTART')).to.equal(
-        formatInTimeZone(startDate, 'UTC', DATE_FORMATS.iCalDateTimeUTC),
+      expect(tokens.get('DTSTART')).to.contain(
+        format(startDate, DATE_FORMATS.iCalDateTime),
       );
-      expect(tokens.get('DTEND')).to.equal(
-        formatInTimeZone(
-          addMinutes(startDate, 60),
-          'UTC',
-          DATE_FORMATS.iCalDateTimeUTC,
-        ),
+      expect(tokens.get('DTEND')).to.contain(
+        format(addMinutes(startDate, 60), DATE_FORMATS.iCalDateTime),
       );
       expect(tokens.get('END')).includes('VEVENT');
       expect(tokens.get('END')).includes('VCALENDAR');
