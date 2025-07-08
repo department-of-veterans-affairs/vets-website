@@ -152,9 +152,8 @@ const ReviewAndConfirm = props => {
         setCreateLoading(true);
         setCreateFailed(false);
       }
-      if (isSuccess && draftAppointmentInfo?.id === appointmentInfo?.id) {
+      if (isSuccess && draftAppointmentInfo?.id) {
         setCreateLoading(false);
-        // console.log('route');
         routeToNextReferralPage(
           history,
           'reviewAndConfirm',

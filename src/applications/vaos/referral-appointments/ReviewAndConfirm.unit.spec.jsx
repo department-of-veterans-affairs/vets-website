@@ -166,6 +166,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     });
   });
   it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
+    const store = createTestStore(initialFullState);
     sandbox.spy(flow, 'routeToNextReferralPage');
     requestStub.resolves({ data: { appointmentId: draftAppointmentInfo.id } });
     const screen = renderWithStoreAndRouter(
@@ -173,7 +174,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
-        store: createTestStore(initialFullState),
+        store,
       },
     );
     await screen.findByTestId('continue-button');
@@ -181,6 +182,12 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     await userEvent.click(screen.getByTestId('continue-button'));
     // Wait for the postReferralAppointment call to complete
     waitFor(() =>
+      expect(screen.getByTestId('continue-button')).to.have.attribute(
+        'loading',
+        'false',
+      ),
+    );
+    waitFor(() => {
       sandbox.assert.calledOnce(
         requestStub.withArgs('/vaos/v2/appointments/submit', {
           method: 'POST',
@@ -193,33 +200,23 @@ describe('VAOS Component: ReviewAndConfirm', () => {
             providerServiceId: draftAppointmentInfo.attributes.provider.id,
           }),
         }),
-      ),
-    );
-    waitFor(() => sandbox.assert.calledOnce(flow.routeToNextReferralPage));
+      );
+    });
+    await waitFor(() => {
+      expect(
+        store.getState().appointmentApi.mutations.postReferralAppointmentCache
+          .status,
+      ).to.equal('fulfilled');
+    });
+    waitFor(() => {
+      expect(
+        screen.history.push.calledWith(
+          '/schedule-referral/complete/EEKoGzEf?id=UUID',
+        ),
+      ).to.be.true;
+    });
   });
   it('should display an error message when appointment creation fails', async () => {
-    // const expectedUrl = '/vaos/v2/appointments/submit';
-    // const expectedOptions = match({
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: match(value => {
-    //     try {
-    //       const parsed = JSON.parse(value);
-    //       return (
-    //         parsed.draftApppointmentId &&
-    //         parsed.referralNumber &&
-    //         parsed.slotId &&
-    //         parsed.networkId &&
-    //         parsed.providerServiceId
-    //       );
-    //     } catch {
-    //       return { error: { status: 500, message: 'Invalid JSON' } };
-    //     }
-    //   }),
-    // });
-
     // Stub only for that specific call
     requestStub.throws({
       error: { status: 500, message: 'Failed to create appointment' },
@@ -233,28 +230,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store: createTestStore(initialFullState),
       },
     );
-
     // Ensure the "Continue" button is present
     await screen.findByTestId('continue-button');
     expect(screen.getByTestId('continue-button')).to.exist;
     await userEvent.click(screen.getByTestId('continue-button'));
-    // waitFor();
-    // Wait for the error handling logic to execute
-    // waitFor(() => {
-    //   // Verify that the error message is displayed
-    //   expect(screen.getByTestId('create-error-alert')).to.exist;
-    // });
-
-    // Ensure the loading state is cleared
-    // expect(screen.queryByTestId('continue-button')).to.have.attribute(
-    //     'loading',
-    //     'true',
-    //   ),
     sandbox.assert.calledOnce(requestStub);
     expect(screen.findByTestId('create-error-alert')).to.exist;
-    // waitFor(() => );
-    // expect(screen.getByTestId('create-error-alert')).to.contain.text(
-    //   'We couldn’t schedule this appointment',
-    // );
   });
 });
