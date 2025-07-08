@@ -26,6 +26,10 @@ function App({
   user,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
+  const [
+    fetchedDuplicateContactInfo,
+    setFetchedDuplicateContactInfo,
+  ] = useState(false);
 
   useEffect(
     () => {
@@ -115,8 +119,10 @@ function App({
       if (
         (formData?.mobilePhone?.phone || formData?.email) &&
         !formData?.duplicateEmail &&
-        !formData?.duplicatePhone
+        !formData?.duplicatePhone &&
+        !fetchedDuplicateContactInfo
       ) {
+        setFetchedDuplicateContactInfo(true);
         getDuplicateContactInfo(
           [{ value: formData?.email?.email, dupe: '' }],
           [
@@ -128,7 +134,7 @@ function App({
         );
       }
     },
-    [getDuplicateContactInfo, formData],
+    [getDuplicateContactInfo, formData, fetchedDuplicateContactInfo],
   );
 
   return (
