@@ -75,7 +75,7 @@ const ProgressButton = props => {
       class: vaButtonClass,
       continue: afterText === '»' ? true : null,
       disabled: disabled || null,
-      'full-width': fullWidth || null,
+      'full-width': fullWidth ?? true,
       id: `${id}-continueButton`,
       label: ariaLabel || null,
       loading: loading || null,
@@ -100,7 +100,6 @@ const ProgressButton = props => {
       disabled={disabled}
       className={`${buttonClass}${disabled ? ' usa-button-disabled' : ''}`}
       id={`${id}-continueButton`}
-      // onClick={this.props.onButtonClick}
       onClick={handleClick}
       onMouseDown={preventOnBlur}
       aria-label={ariaLabel || null}
@@ -117,7 +116,6 @@ ProgressButton.defaultProps = {
   preventOnBlur: e => {
     e.preventDefault();
   },
-  fullWidth: true,
 };
 
 ProgressButton.propTypes = {
