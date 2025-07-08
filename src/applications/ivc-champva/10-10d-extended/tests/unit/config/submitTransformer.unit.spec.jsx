@@ -85,9 +85,7 @@ describe('10-10d-extended transform for submit', () => {
   it('should set `hasApplicantOver65` to false if all applicants are under 65', () => {
     const testData = {
       data: {
-        applicants: [
-          { applicantDob: '2003-01-01' }, // All under 65 based on our fixed date (2023-01-15)
-        ],
+        applicants: [{ applicantDob: '2003-01-01' }],
       },
     };
 
@@ -127,7 +125,7 @@ describe('10-10d-extended transform for submit', () => {
         ],
         medicare: [
           {
-            medicareParticipant: '28e7f1064a74',
+            medicareParticipant: '28e7f1064a74', // obtained by running the SSN through `toHash`
             medicarePlanType: 'c',
             medicarePartCCarrier: 'Advantage Health Solutions',
           },
@@ -160,7 +158,7 @@ describe('10-10d-extended transform for submit', () => {
             medigapPlan: 'K',
             provider: 'Blue Cross Blue Shield',
             healthcareParticipants: {
-              '28e7f1064a74': true,
+              '28e7f1064a74': true, // key obtained by running the SSN through `toHash`
             },
           },
         ],
@@ -182,7 +180,7 @@ describe('10-10d-extended transform for submit', () => {
       data: {
         medicare: [
           {
-            medicareParticipant: '28e7f1064a74',
+            medicareParticipant: '28e7f1064a74', // obtained by running the SSN through `toHash`
             medicarePlanType: 'c',
             medicarePartCCarrier: 'Advantage Health Solutions',
           },
@@ -222,7 +220,7 @@ describe('10-10d-extended transform for submit', () => {
             medigapPlan: 'K',
             provider: 'Blue Cross Blue Shield',
             healthcareParticipants: {
-              '28e7f1064a74': true,
+              '28e7f1064a74': true, // key obtained by running the SSN through `toHash`
             },
           },
         ],
@@ -335,5 +333,44 @@ describe('10-10d-extended transform for submit', () => {
     const transformed = JSON.parse(transformForSubmit(formConfig, testData));
 
     expect(transformed.certifierRole).to.equal('other');
+  });
+
+  describe('address formatting', () => {
+    it('should properly format sponsor address fields', () => {
+      const testData = {
+        data: {
+          sponsorAddress: {
+            street: '123 Main Street',
+            street2: 'Apartment 4B',
+            street3: 'Building C',
+            city: 'Anytown',
+            state: 'CA',
+            postalCode: '12345',
+            country: 'USA',
+          },
+        },
+      };
+
+      const transformed = JSON.parse(transformForSubmit(formConfig, testData));
+
+      // Verify that the street fields were combined
+      expect(transformed.veteran.address.streetCombined).to.contain(
+        '123 Main Street',
+      );
+      expect(transformed.veteran.address.streetCombined).to.contain(
+        'Apartment 4B',
+      );
+      expect(transformed.veteran.address.streetCombined).to.contain(
+        'Building C',
+      );
+
+      // Original fields should be preserved
+      expect(transformed.veteran.address.street).to.equal('123 Main Street');
+      expect(transformed.veteran.address.street2).to.equal('Apartment 4B');
+      expect(transformed.veteran.address.street3).to.equal('Building C');
+      expect(transformed.veteran.address.city).to.equal('Anytown');
+      expect(transformed.veteran.address.state).to.equal('CA');
+      expect(transformed.veteran.address.postalCode).to.equal('12345');
+    });
   });
 });
