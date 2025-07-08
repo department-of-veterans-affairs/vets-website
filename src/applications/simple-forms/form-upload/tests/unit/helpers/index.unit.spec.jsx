@@ -21,32 +21,28 @@ import * as constants from '../../../config/constants';
 describe('Helpers', () => {
   describe('getFormNumber', () => {
     it('returns correct path when formNumber matches', () => {
-      global.window.location = {
-        pathname: '/find-forms/upload/21-0779/upload',
-      };
+      global.window.location.href =
+        'http://localhost:3000/find-forms/upload/21-0779/upload';
       expect(getFormNumber()).to.eq('21-0779');
     });
 
     it('retains upper-case characters from formMappings', () => {
-      global.window.location = {
-        pathname: '/find-forms/upload/21p-0518-1/upload',
-      };
+      global.window.location.href =
+        'http://localhost:3000/find-forms/upload/21p-0518-1/upload';
       expect(getFormNumber()).to.eq('21P-0518-1');
     });
 
     it('returns empty string when formNumber does not match', () => {
-      global.window.location = {
-        pathname: 'find-forms/upload/fake-form/upload',
-      };
+      global.window.location.href =
+        'http://localhost:3000/find-forms/upload/fake-form/upload';
       expect(getFormNumber()).to.eq('');
     });
   });
 
   describe('getFormContent', () => {
     it('returns appropriate content when the form number is mapped', () => {
-      global.window.location = {
-        pathname: 'find-forms/upload/21-0779/upload',
-      };
+      global.window.location.href =
+        'http://localhost:3000/find-forms/upload/21-0779/upload';
       expect(getFormContent()).to.include({ title: 'Upload form 21-0779' });
     });
   });
