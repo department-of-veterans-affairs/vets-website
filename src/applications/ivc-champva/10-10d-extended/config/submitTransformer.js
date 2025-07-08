@@ -103,8 +103,11 @@ function mapHealthInsuranceToApplicants(data) {
       .forEach(applicant => {
         // Initialize Medicare array if it doesn't exist
         applicant.medicare = applicant.medicare || [];
-        applicant.medicare.push(plan);
         applicant.applicantMedicareAdvantage = plan.medicarePlanType === 'c';
+        // original 10-10d form produces this medicareStatus field, so we need
+        // it to fill the PDF on the backend
+        applicant.applicantMedicareStatus = { eligibility: 'enrolled' };
+        applicant.medicare.push(plan);
       });
   });
 
@@ -130,6 +133,9 @@ function mapHealthInsuranceToApplicants(data) {
         // Add policy and set flag
         applicant.healthInsurance.push(policy);
         applicant.hasOtherHealthInsurance = true;
+        // original 10-10d form produces this applicantHasOhi prop, so we need
+        // it to fill the PDF on the backend
+        applicant.applicantHasOhi = { hasOhi: 'yes' };
       });
   });
 
