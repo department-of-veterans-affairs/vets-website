@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import InfoAlert from '../components/InfoAlert';
 import { setFormCurrentPage } from './redux/actions';
 import ReferralLayout from './components/ReferralLayout';
 import ReferralList from './components/ReferralList';
-import { useGetReferralsAndRequests } from './hooks/useGetReferralsAndRequests';
-import RequestsList from './components/RequestsList';
+import { getRequestedAppointmentListInfo } from '../redux/selectors';
+import RequestList from './components/RequestsList';
+import { useGetPatientReferralsQuery } from '../redux/api/vaosApi';
+import { FETCH_STATUS } from '../utils/constants';
+import { filterReferrals } from './utils/referrals';
 
 export default function ReferralsAndRequests() {
   const dispatch = useDispatch();
@@ -20,22 +23,34 @@ export default function ReferralsAndRequests() {
   );
 
   const {
-    loading,
-    referrals,
-    pendingAppointments,
+    pendingStatus,
     showScheduleButton,
-    referralsError,
-    requestsError,
-  } = useGetReferralsAndRequests();
+    pendingAppointments,
+  } = useSelector(
+    state => getRequestedAppointmentListInfo(state),
+    shallowEqual,
+  );
+  const appointmentIsLoading =
+    pendingStatus === FETCH_STATUS.notStarted ||
+    pendingStatus === FETCH_STATUS.loading;
+  const appointmentError = pendingStatus === FETCH_STATUS.failed;
 
-  if (loading) {
+  const {
+    data: referrals,
+    error: referralError,
+    isLoading,
+  } = useGetPatientReferralsQuery();
+  if (isLoading || appointmentIsLoading) {
     return (
       <div className="vads-u-margin-y--8" data-testid="loading-indicator">
         <va-loading-indicator message="Loading your referrals and appointment requests..." />
       </div>
     );
   }
-  if (referralsError && requestsError) {
+
+  const filteredReferrals = filterReferrals(referrals || []);
+
+  if (referralError && appointmentError) {
     return (
       <ReferralLayout>
         <InfoAlert
@@ -54,9 +69,9 @@ export default function ReferralsAndRequests() {
       <p>Find your requested appointments and community care referrals.</p>
       <h2 data-testid="referrals-heading">Community care referrals</h2>
       <p data-testid="referrals-text">
-        Your care team approved these referrals. Only referrals that you can
-        schedule online are shown here, so you may not find all your referrals
-        listed.
+        Your care team approved these referrals. You may not find all your
+        referrals listed. Only referrals that you can schedule online are shown
+        here.
       </p>
       <p>
         <va-link
@@ -64,15 +79,18 @@ export default function ReferralsAndRequests() {
           text="Find out more about community care referrals"
         />
       </p>
-      <ReferralList referrals={referrals} referralsError={referralsError} />
+      <ReferralList
+        referrals={filteredReferrals}
+        referralsError={!!referralError}
+      />
       <h2>Active requests</h2>
       <p className="vaos-hide-for-print">
         We’ll contact you to finish scheduling these appointments.
       </p>
-      <RequestsList
+      <RequestList
         appointments={pendingAppointments}
         showScheduleButton={showScheduleButton}
-        requestsError={requestsError}
+        requestsError={appointmentError}
       />
     </ReferralLayout>
   );

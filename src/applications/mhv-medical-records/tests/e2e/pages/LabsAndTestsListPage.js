@@ -20,13 +20,13 @@ class LabsAndTestsListPage extends BaseListPage {
       radiologyRecordsMhv,
     ).as('RadiologyRecordsMhv');
     cy.intercept('GET', '/my_health/v1/medical_records/imaging', imaging).as(
-      'CvixRadiologyRecordsMhv',
+      'CvixRadiologyRecordsMhvImaging',
     );
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/imaging/status',
       imagingStatus,
-    ).as('CvixRadiologyRecordsMhv');
+    ).as('CvixRadiologyRecordsMhvImagingStatus');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/bbmi_notification/status',
@@ -37,6 +37,7 @@ class LabsAndTestsListPage extends BaseListPage {
     if (waitForLabsAndTests) {
       cy.wait('@LabsAndTestsList');
       cy.wait('@RadiologyRecordsMhv');
+      cy.wait('@CvixRadiologyRecordsMhvImagingStatus');
     }
   };
 
@@ -68,6 +69,24 @@ class LabsAndTestsListPage extends BaseListPage {
       .shadow()
       .find('[class="usa-pagination__link usa-pagination__next-page"]')
       .click({ waitForAnimations: true });
+  };
+
+  verifyImagesReadyAlert = (alertText = 'Images ready') => {
+    cy.get('[data-testid="alert-images-ready"]').should('be.visible');
+    cy.get('[data-testid="alert-images-ready"]')
+      .find('h3')
+      .contains(alertText);
+  };
+
+  clickViewImages = (studyId, viewImagesResponse) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/medical_records/imaging/${studyId}/images`,
+      viewImagesResponse,
+    );
+    cy.get('[data-testid="radiology-view-all-images"]')
+      .contains('View all')
+      .click();
   };
 }
 export default new LabsAndTestsListPage();

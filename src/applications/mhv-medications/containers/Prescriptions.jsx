@@ -170,6 +170,7 @@ const Prescriptions = () => {
   const [isRetrievingFullList, setIsRetrievingFullList] = useState(false);
   const isAlertVisible = useMemo(() => false, []);
   const [isLoading, setLoading] = useState();
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
@@ -197,6 +198,15 @@ const Prescriptions = () => {
     if (isFiltering) {
       updates.filterOption = filterOptions[newFilterOption]?.url || '';
       updates.page = 1;
+
+      if (newFilterOption === selectedFilterOption) {
+        document.getElementById('showingRx').scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest',
+        });
+      }
+
       dispatch(setFilterOption(newFilterOption));
       dispatch(setPageNumber(1));
     }
@@ -282,9 +292,24 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      focusElement(document.getElementById('showingRx'));
+      if (!isFirstLoad && !isLoading) {
+        const showingRx = document.getElementById('showingRx');
+        if (showingRx) {
+          focusElement(showingRx);
+          showingRx.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest',
+          });
+        }
+        return;
+      }
+
+      if (isLoading === false && isFirstLoad) {
+        setIsFirstLoad(false);
+      }
     },
-    [isLoading],
+    [isLoading, filteredList],
   );
 
   // Update page title
@@ -612,7 +637,7 @@ const Prescriptions = () => {
   }
 
   const renderLoadingIndicator = () => (
-    <div className="vads-u-height--viewport vads-u-padding-top--3">
+    <div className="vads-u-padding-y--9">
       <va-loading-indicator
         message={loadingMessage || 'Loading your medications...'}
         setFocus
@@ -804,6 +829,7 @@ const Prescriptions = () => {
             />
             {showIPEContent && <InProductionEducationFiltering />}
           </>
+          {isLoading && renderLoadingIndicator()}
           {hasMedications && (
             <>
               {!isLoading && (
@@ -811,24 +837,20 @@ const Prescriptions = () => {
               )}
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               {!isLoading && renderMedicationsList()}
-              {!isLoading && (
-                <>
-                  <BeforeYouDownloadDropdown page={pageType.LIST} />
-                  <PrintDownload
-                    onDownload={handleFullListDownload}
-                    isSuccess={
-                      pdfTxtGenerateStatus.status ===
-                      PDF_TXT_GENERATE_STATUS.Success
-                    }
-                    isLoading={
-                      !allergiesError &&
-                      pdfTxtGenerateStatus.status ===
-                        PDF_TXT_GENERATE_STATUS.InProgress
-                    }
-                    list
-                  />
-                </>
-              )}
+              <BeforeYouDownloadDropdown page={pageType.LIST} />
+              <PrintDownload
+                onDownload={handleFullListDownload}
+                isSuccess={
+                  pdfTxtGenerateStatus.status ===
+                  PDF_TXT_GENERATE_STATUS.Success
+                }
+                isLoading={
+                  !allergiesError &&
+                  pdfTxtGenerateStatus.status ===
+                    PDF_TXT_GENERATE_STATUS.InProgress
+                }
+                list
+              />
             </>
           )}
           {!isLoading && noFilterMatches && renderNoFilterMatches()}
@@ -851,10 +873,9 @@ const Prescriptions = () => {
             <CernerFacilityAlert />
             {renderRefillAlert()}
             {renderMedicationsContent()}
-            {isLoading && renderLoadingIndicator()}
           </>
         )}
-        {removeLandingPage && !isLoading && <NeedHelp page={pageType.LIST} />}
+        {removeLandingPage && <NeedHelp page={pageType.LIST} />}
       </div>
     );
   };

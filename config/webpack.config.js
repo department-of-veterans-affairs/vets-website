@@ -486,9 +486,6 @@ module.exports = async (env = {}) => {
         'process.env.MAPBOX_TOKEN': JSON.stringify(
           process.env.MAPBOX_TOKEN || '',
         ),
-        'process.env.VIRTUAL_AGENT_BACKEND_URL': JSON.stringify(
-          process.env.VIRTUAL_AGENT_BACKEND_URL || '',
-        ),
         'process.env.USE_LOCAL_DIRECTLINE':
           process.env.USE_LOCAL_DIRECTLINE || false,
         'process.env.DATADOG_APP_NAME': JSON.stringify(
@@ -584,6 +581,10 @@ module.exports = async (env = {}) => {
       }),
     );
   }
+
+  baseConfig.watchOptions = {
+    ignored: /\/(\.git|node_modules)\//,
+  };
 
   return baseConfig;
 };

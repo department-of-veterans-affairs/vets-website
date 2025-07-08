@@ -12,12 +12,8 @@ import { toggleValues } from '../../../../site-wide/feature-toggles/selectors';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
-import {
-  displayFileSize,
-  focusElement,
-  scrollTo,
-  scrollToFirstError,
-} from '../../../../utilities/ui';
+import { displayFileSize, focusElement } from '../../../../utilities/ui';
+import { scrollTo, scrollToFirstError } from '../../../../utilities/scroll';
 
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '../constants';
 import { $ } from '../utilities/ui';
@@ -225,7 +221,6 @@ const FileField = props => {
   );
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
-  const [initialized, setInitialized] = useState(false);
   const [deletedFileAlerts, setDeletedFileAlerts] = useState(false);
 
   const previousValue = usePreviousValue(formData);
@@ -236,7 +231,7 @@ const FileField = props => {
 
   const maxItems = schema.maxItems || Infinity;
   const { SchemaField } = registry.fields;
-  const attachmentIdRequired = schema.additionalItems.required
+  const attachmentIdRequired = schema.additionalItems?.required
     ? schema.additionalItems.required.includes('attachmentId')
     : false;
 
@@ -317,9 +312,6 @@ const FileField = props => {
         'vads-u-display--none',
         !checkUploadVisibility(),
       );
-      if (initialized && files.length !== prevFiles.length) {
-        focusAddAnotherButton();
-      }
 
       const hasUploading = files.some(file => file.uploading);
       const wasUploading = prevFiles.some(file => file.uploading);
@@ -347,7 +339,6 @@ const FileField = props => {
       if (newData.length !== files.length) {
         onChange(newData);
       }
-      setInitialized(true);
     },
     [files, onChange],
   );

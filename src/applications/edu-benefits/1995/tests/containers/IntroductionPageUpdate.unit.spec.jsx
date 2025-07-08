@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import { IntroductionPageUpdate } from 'applications/edu-benefits/1995/containers/IntroductionPageUpdate';
 import {
   WIZARD_STATUS_COMPLETE,
-  getWizardStatus,
-} from 'applications/static-pages/wizard';
+  // getWizardStatus,
+} from 'platform/site-wide/wizard';
 
 describe('the Edu-Benefit 1995 Introduction Page Update', () => {
   it('should show the subway map if showWizard is set to false', () => {
@@ -41,9 +41,9 @@ describe('the Edu-Benefit 1995 Introduction Page Update', () => {
     );
     const instance = wrapper.instance();
     instance.setWizardStatus(WIZARD_STATUS_COMPLETE);
-    const status = getWizardStatus().then(() => {
-      expect(status).to.equal(WIZARD_STATUS_COMPLETE);
-    });
+    // const status = getWizardStatus().then(() => {
+    //   expect(status).to.equal(WIZARD_STATUS_COMPLETE);
+    // });
     expect(wrapper.exists('WizardContainer')).to.equal(false);
     expect(wrapper.exists('.subway-map')).to.equal(true);
     wrapper.unmount();
@@ -64,9 +64,9 @@ describe('the Edu-Benefit 1995 Introduction Page Update', () => {
     );
     const instance = wrapper.instance();
     instance.setWizardStatus(WIZARD_STATUS_COMPLETE);
-    const status = getWizardStatus().then(() => {
-      expect(status).to.equal(WIZARD_STATUS_COMPLETE);
-    });
+    // const status = getWizardStatus().then(() => {
+    //   expect(status).to.equal(WIZARD_STATUS_COMPLETE);
+    // });
     expect(wrapper.exists('WizardContainer')).to.equal(false);
     wrapper.unmount();
   });

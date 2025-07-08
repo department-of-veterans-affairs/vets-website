@@ -128,6 +128,36 @@ describe('VAOS Component: StatusAlert', () => {
       expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
     });
 
+    it('Should display schedule link for canceled VA appointments when showScheduleLink=true', () => {
+      const mockAppointment = new MockAppointment();
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('pat');
+      mockAppointment.setShowScheduleLink(true);
+
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text(
+        'You canceled this appointment',
+      );
+      expect(screen.baseElement).to.contain.text(
+        'If you still want this appointment, call your VA health facility to schedule.',
+      );
+      expect(
+        screen.container.querySelector(
+          'va-link[text="Schedule a new appointment"]',
+        ),
+      ).to.be.ok;
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+    });
+
     it('Should display for canceled CC appointments', () => {
       const mockAppointment = new MockAppointment();
       mockAppointment.setType('COMMUNITY_CARE_APPOINTMENT');
@@ -183,6 +213,7 @@ describe('VAOS Component: StatusAlert', () => {
       mockAppointment.setIsPendingAppointment(true);
       mockAppointment.setStatus('cancelled');
       mockAppointment.setCancelationReason('pat');
+      mockAppointment.showScheduleLink = true;
 
       const screen = renderWithStoreAndRouter(
         <StatusAlert appointment={mockAppointment} facility={facilityData} />,
@@ -196,6 +227,11 @@ describe('VAOS Component: StatusAlert', () => {
       expect(screen.baseElement).to.contain.text(
         'If you still want this appointment, call your VA health facility or submit another request online.',
       );
+      expect(
+        screen.container.querySelector(
+          'va-link[text="Request a new appointment"]',
+        ),
+      ).to.be.ok;
 
       expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
       expect(screen.queryByTestId('schedule-appointment-link')).to.exist;

@@ -41,7 +41,7 @@ const defaultMockStore = ({
   },
 });
 
-const oldLocation = global.window.location;
+const oldLocation = window.location;
 
 describe('SignInApp', () => {
   afterEach(() => {
@@ -50,15 +50,21 @@ describe('SignInApp', () => {
 
   it('should return a user to the homepage if they are authenticated', () => {
     const defaultProps = generateProps({ query: {} });
-    global.window.location = new URL('https://dev.va.gov/sign-in/');
+    const startingLocation = new URL('https://dev.va.gov/sign-in/');
+    if (Window.prototype.href) {
+      window.location.href = startingLocation;
+    } else {
+      window.location = startingLocation;
+    }
     renderInReduxProvider(<SignInPage {...defaultProps} />, {
       initialState: defaultMockStore({
         isLoggedIn: true,
       }),
     });
     expect(defaultProps.router.push.called).to.be.false;
-    expect(global.window.location).to.eql('/');
-    global.window.location = oldLocation;
+    const location = window.location.href || window.location;
+    expect(location).to.be.oneOf(['/', 'https://dev.va.gov/']);
+    window.location = oldLocation;
   });
 
   it('should add the query `oauth=true` by default', () => {

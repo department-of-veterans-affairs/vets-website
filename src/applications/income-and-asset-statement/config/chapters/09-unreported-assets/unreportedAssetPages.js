@@ -110,7 +110,7 @@ const summaryPage = {
 const relationshipPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Unreported asset',
+      title: 'Unreported asset owner relationship',
       nounSingular: options.nounSingular,
     }),
     assetOwnerRelationship: radioUI({
@@ -141,7 +141,7 @@ const relationshipPage = {
 /** @returns {PageSchema} */
 const assetTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Unreported asset'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Unreported asset type'),
     assetType: textUI({
       title: 'What is the type of asset?',
       hint: 'Cash, art, etc',

@@ -13,7 +13,6 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import VerifyAlert from '~/platform/user/authorization/components/VerifyAlert';
 import { NoRep } from '../cards';
 import { Unauth } from '../alerts';
-import { ProfileTabContainer } from '../../containers/ProfileTabContainer';
 import { RepresentativeStatusContainer } from '../../containers/RepresentativeStatusContainer';
 import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
 
@@ -31,10 +30,6 @@ export const App = ({
     createIsServiceAvailableSelector(backendServices.LIGHTHOUSE),
   );
 
-  const containerIsProfile =
-    window.location.pathname.startsWith('/profile/accredited-representative') &&
-    isUserLOA3WithParticipantId;
-
   const DynamicHeader = `h${baseHeader}`;
   const DynamicSubheader = `h${baseHeader + 1}`;
 
@@ -42,15 +37,6 @@ export const App = ({
     When the tool is instantiated in profile, there are some unique
     content/design constraints which are taken care of here
   */
-  if (containerIsProfile) {
-    return (
-      <ProfileTabContainer
-        DynamicHeader={DynamicHeader}
-        DynamicSubheader={DynamicSubheader}
-        useRepresentativeStatus={useRepresentativeStatus}
-      />
-    );
-  }
 
   if (isUserLOA3WithParticipantId) {
     return (
@@ -63,7 +49,7 @@ export const App = ({
   }
 
   if (isUserLOA3) {
-    return <NoRep DynamicHeader={DynamicHeader} />;
+    return <NoRep DynamicHeader={DynamicHeader} isWidget />;
   }
 
   if (isUserLOA1) {
