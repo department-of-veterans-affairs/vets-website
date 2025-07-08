@@ -1,41 +1,30 @@
 import {
-  radioUI,
-  radioSchema,
+  textareaUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-// Define the question options
-const TRICK_QUESTION_OPTIONS = {
-  YES: 'yes',
-  NO: 'no',
-  MAYBE: 'maybe',
-};
-
-const TRICK_QUESTION_LABELS = {
-  [TRICK_QUESTION_OPTIONS.YES]: 'Yes',
-  [TRICK_QUESTION_OPTIONS.NO]: 'No',
-  [TRICK_QUESTION_OPTIONS.MAYBE]: 'Maybe',
-};
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    trickQuestion: radioUI({
-      title: 'Is this a trick question?',
-      labels: TRICK_QUESTION_LABELS,
+    ...titleUI({
+      title: 'Explain more',
+      headerLevel: 1,
+    }),
+    trickQuestionExplanation: textareaUI({
+      title: 'Why do you think this is a trick question?',
       errorMessages: {
-        required: 'Please select an option',
-      },
-      labelHeaderLevel: '3',
-      ifMinimalHeader: {
-        labelHeaderLevel: '1',
+        required: 'Please provide an explanation',
       },
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      trickQuestion: radioSchema(Object.values(TRICK_QUESTION_OPTIONS)),
+      trickQuestionExplanation: {
+        type: 'string',
+        maxLength: 1000,
+      },
     },
-    required: ['trickQuestion'],
+    required: ['trickQuestionExplanation'],
   },
 };
