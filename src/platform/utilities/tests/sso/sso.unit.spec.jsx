@@ -92,9 +92,9 @@ describe('checkAutoSession', () => {
         `http://localhost/sign-in/?application=myvahealth&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252F${cernerEndpoint}-patientportal.myhealth.va.gov%252F`,
       );
       if (Window.prototype.href) {
-        window.location.href = startingLocation;
+        global.window.location.href = startingLocation;
       } else {
-        window.location = startingLocation;
+        global.window.location = startingLocation;
       }
       const profile = { verified: true };
       await checkAutoSession(true, 'X', profile);
@@ -116,9 +116,9 @@ describe('checkAutoSession', () => {
       'http://localhost/sign-in/?application=myvahealth',
     );
     if (Window.prototype.href) {
-      window.location.href = startingLocation;
+      global.window.location.href = startingLocation;
     } else {
-      window.location = startingLocation;
+      global.window.location = startingLocation;
     }
     const profile = { verified: false };
     await checkAutoSession(true, 'X', profile);
@@ -137,9 +137,9 @@ describe('checkAutoSession', () => {
     });
     const startingLocation = new URL('http://localhost/sign-in/');
     if (Window.prototype.href) {
-      window.location.href = startingLocation;
+      global.window.location.href = startingLocation;
     } else {
-      window.location = startingLocation;
+      global.window.location = startingLocation;
     }
     const profile = { verified: true };
 
@@ -160,9 +160,9 @@ describe('checkAutoSession', () => {
       'http://localhost/sign-in/?application=myvahealth',
     );
     if (Window.prototype.href) {
-      window.location.href = startingLocation;
+      global.window.location.href = startingLocation;
     } else {
-      window.location = startingLocation;
+      global.window.location = startingLocation;
     }
     const profile = { verified: true };
 
@@ -736,9 +736,9 @@ describe('verifySession', () => {
   it('should return false if the pathname is terms-of-use', () => {
     const startingLocation = new URL('http://localhost/terms-of-use/');
     if (Window.prototype.href) {
-      window.location.href = startingLocation;
+      global.window.location.href = startingLocation;
     } else {
-      window.location = startingLocation;
+      global.window.location = startingLocation;
     }
     localStorage.setItem('hasSessionSSO', true);
     localStorage.setItem('loginAttempted', true);
