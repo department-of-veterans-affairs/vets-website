@@ -45,12 +45,6 @@ function ViewDependentsList(props) {
         {props.header}
       </h2>
       <p>{props.subHeader}</p>
-      {/*<a*/}
-      {/*  className="vads-u-display--block vads-u-margin-bottom--4"*/}
-      {/*  href={props.link}*/}
-      {/*>*/}
-      {/*  {props.linkText}*/}
-      {/*</a>*/}
       {manageDependentsToggle &&
         props?.submittedDependents?.length > 0 && (
           <RemoveDependentSuccessMessage />
@@ -74,8 +68,6 @@ ViewDependentsList.propTypes = {
   dependents: PropTypes.array,
   header: PropTypes.string,
   isAward: PropTypes.bool,
-  link: PropTypes.string,
-  linkText: PropTypes.string,
   loading: PropTypes.bool,
   manageDependentsToggle: PropTypes.bool,
   subHeader: PropTypes.object,
