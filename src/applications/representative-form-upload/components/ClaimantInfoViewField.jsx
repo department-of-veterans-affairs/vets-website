@@ -9,7 +9,7 @@ const ClaimantInfoViewField = props => {
     return `${month}-${day}-${year}`;
   };
 
-  const { formData } = props;
+  const { formData, defaultEditButton } = props;
 
   const {
     veteranSsn,
@@ -29,10 +29,8 @@ const ClaimantInfoViewField = props => {
     claimantDateOfBirth;
 
   const veteranDisplay = {
-    'Full name':
-      veteranFullName.first && veteranFullName.last
-        ? `${veteranFullName.first} ${veteranFullName.last}`
-        : '',
+    'First name': veteranFullName.first ? veteranFullName.first : '',
+    'Last name': veteranFullName.last ? veteranFullName.last : '',
     'Date of birth': formatDate(veteranDateOfBirth),
     'Social Security Number': veteranSsn ? mask(veteranSsn) : '',
     'Postal code': address?.postalCode || '',
@@ -41,7 +39,8 @@ const ClaimantInfoViewField = props => {
 
   const claimantDisplay = isDependentClaim
     ? {
-        'Full name': `${claimantFullName.first} ${claimantFullName.last}`,
+        'First name': claimantFullName.first,
+        'Last name': claimantFullName.last,
         'Date of birth': formatDate(claimantDateOfBirth),
         'Social Security Number': claimantSsn ? mask(claimantSsn) : '',
       }
@@ -49,10 +48,11 @@ const ClaimantInfoViewField = props => {
 
   return (
     <div className="form-review-panel-page form-review-panel-page-representative-form-upload">
-      <div className="form-review-panel-page-header-row vads-u-justify-content--flex-start">
+      <div className="form-review-panel-page-header-row vads-u-justify-content--space-between">
         <h4 className="vads-u-font-size--h5 vads-u-margin--0">
           Claimant information
         </h4>
+        {defaultEditButton()}
         <dl className="review vads-u-margin-top--2 vads-u-width--full">
           {Object.entries(claimantDisplay).map(
             ([label, value]) =>

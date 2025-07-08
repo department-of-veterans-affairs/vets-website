@@ -226,7 +226,6 @@ function logEligibilityExplanation(
  * @param {TypeOfCare} params.typeOfCare Type of care object for the currently chosen type of care
  * @param {Location} params.location The current location to check eligibility against
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
- * @param {boolean} [params.useFeSourceOfTruthVA=false] whether to use vets-api payload as the FE source of truth for VA appointments and requests
  * @param {boolean} [params.usePastVisitMHFilter=false] whether to use past visits as a filter for scheduling MH appointments
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
@@ -235,8 +234,6 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
-  useFeSourceOfTruthVA = false,
-  useFeSourceOfTruthModality = false,
   useFeSourceOfTruthTelehealth = false,
   usePastVisitMHFilter = false,
   isCerner = false,
@@ -272,8 +269,6 @@ export async function fetchFlowEligibilityAndClinics({
 
     if (isDirectAppointmentHistoryRequired) {
       apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
-        useFeSourceOfTruthVA,
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
     }

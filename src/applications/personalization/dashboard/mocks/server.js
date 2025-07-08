@@ -4,21 +4,36 @@ const {
 } = require('../../common/mocks/feature-toggles');
 const user = require('../../common/mocks/users');
 const notifications = require('../../common/mocks/notifications');
-const { createSuccessPayment } = require('./payment-history');
-const { createAppealsSuccess } = require('./appeals');
-const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
-const { createClaimsSuccess } = require('./claims');
+const {
+  createEmptyPayment,
+  createSuccessPayment,
+  createFailurePayment,
+} = require('./payment-history');
+const { createAppealsSuccess, createAppealsFailure } = require('./appeals');
+const {
+  createDebtsSuccess,
+  createNoDebtsSuccess,
+  createDebtsFailure,
+} = require('./debts');
+const { createClaimsSuccess, createClaimsFailure } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createApplications } = require('./benefit-applications');
 const { allFoldersWithUnreadMessages } = require('./messaging');
-const { user81Copays } = require('./medical-copays');
+const {
+  user81Copays,
+  user81ErrorCopays,
+  user81NoCopays,
+} = require('./medical-copays');
 const { v2 } = require('./appointments');
 const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
 const { boot } = require('../../common/mocks/script/utils');
 const { delaySingleResponse } = require('../../profile/mocks/script/utils');
-
-// set to true to simulate a user with debts for /v0/debts endpoint
-const hasDebts = false;
+const {
+  createDisabilityRatingFailure,
+  createDisabilityRatingSuccess,
+  createDisabilityRatingEmpty,
+  createDisabilityRatingZero,
+} = require('./disability-rating');
 
 /* eslint-disable camelcase */
 const responses = {
@@ -40,8 +55,32 @@ const responses = {
   // 'GET /v0/user': user.loa1UserWithNoEmail,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
-  'GET /v0/medical_copays': user81Copays,
-  'GET /v0/profile/payment_history': createSuccessPayment(false),
+  'GET /v0/medical_copays': (req, res) => {
+    const copayStatus = 'success';
+    switch (copayStatus) {
+      case 'success':
+        return res.status(200).json(user81Copays);
+      case 'empty':
+        return res.status(200).json(user81NoCopays);
+      case 'failure':
+        return res.status(500).json(user81ErrorCopays);
+      default:
+        return res.status(200).json('');
+    }
+  },
+  'GET /v0/profile/payment_history': (req, res) => {
+    const paymentHistoryStatus = 'success';
+    switch (paymentHistoryStatus) {
+      case 'success':
+        return res.status(200).json(createSuccessPayment(false));
+      case 'empty':
+        return res.status(200).json(createEmptyPayment());
+      case 'failure':
+        return res.status(500).json(createFailurePayment());
+      default:
+        return res.status(200).json('');
+    }
+  },
   'GET /v0/profile/service_history': {
     data: {
       id: '',
@@ -61,8 +100,32 @@ const responses = {
       },
     },
   },
-  'GET /v0/appeals': createAppealsSuccess(),
-  'GET /v0/benefits_claims': createClaimsSuccess(),
+  'GET /v0/appeals': (_req, res) => {
+    const appealsStatus = 'success'; // 'success', 'failure', or 'empty'
+    switch (appealsStatus) {
+      case 'success':
+        return res.status(200).json(createAppealsSuccess());
+      case 'empty':
+        return res.status(200).json({ data: [] });
+      case 'failure':
+        return res.status(400).json(createAppealsFailure());
+      default:
+        return '';
+    }
+  },
+  'GET /v0/benefits_claims': (_req, res) => {
+    const claimsStatus = 'success'; // 'success', 'failure', or 'empty'
+    switch (claimsStatus) {
+      case 'success':
+        return res.status(200).json(createClaimsSuccess());
+      case 'empty':
+        return res.status(200).json({ data: [] });
+      case 'failure':
+        return res.status(400).json(createClaimsFailure());
+      default:
+        return '';
+    }
+  },
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
   'GET /my_health/v1/messaging/folders': allFoldersWithUnreadMessages,
   'GET /v0/my_va/submission_statuses': createApplications(),
@@ -89,7 +152,19 @@ const responses = {
       suffix: null,
     },
   },
-  'GET /v0/debts': hasDebts ? createDebtsSuccess() : createNoDebtsSuccess(),
+  'GET /v0/debts': (req, res) => {
+    const debtStatus = 'success';
+    switch (debtStatus) {
+      case 'success':
+        return res.status(200).json(createDebtsSuccess());
+      case 'empty':
+        return res.status(200).json(createNoDebtsSuccess());
+      case 'failure':
+        return res.status(500).json(createDebtsFailure());
+      default:
+        return res.status(200).json('');
+    }
+  },
   'GET /v0/onsite_notifications': notifications.hasMultiple,
   // TODO: put id into a constant file when we get more notification types
   'PATCH /v0/onsite_notifications/:id': (req, res) => {
@@ -107,14 +182,20 @@ const responses = {
 
     return res.json({ data: [] });
   },
-  'GET /v0/disability_compensation_form/rating_info': {
-    data: {
-      id: '',
-      type: 'evss_disability_compensation_form_rating_info_responses',
-      attributes: {
-        userPercentOfDisability: 40,
-      },
-    },
+  'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
+    const disabilityRatingStatus = 'success'; // 'success', 'failure', 'empty', or 'zero'
+    switch (disabilityRatingStatus) {
+      case 'success':
+        return res.status(200).json(createDisabilityRatingSuccess());
+      case 'empty':
+        return res.status(200).json(createDisabilityRatingEmpty());
+      case 'zero':
+        return res.status(200).json(createDisabilityRatingZero());
+      case 'failure':
+        return res.status(400).json(createDisabilityRatingFailure());
+      default:
+        return '';
+    }
   },
   'GET /vaos/v2/appointments': (_req, res) => {
     const rv = v2.createAppointmentSuccess({ startsInDays: [31] });

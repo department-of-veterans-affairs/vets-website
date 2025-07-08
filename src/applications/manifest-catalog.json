@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 131,
+  "totalApplications": 132,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -250,10 +250,16 @@
       "rootUrl": "/education/other-va-education-benefits/ibm-skillsbuild-program/apply-form-22-10282"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/10297",
+      "appName": "10297",
+      "entryName": "10297-edu-benefits",
+      "rootUrl": "/education/apply-for-high-technology-veterans-education/application/10297"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/1919",
       "appName": "Conflicting Interests Certification For Proprietary Schools",
       "entryName": "1919-edu-benefits",
-      "rootUrl": "/education/apply-for-education-benefits/application/1919"
+      "rootUrl": "/school-administrators/report-conflicting-interests"
     },
     {
       "directoryPath": "src/applications/edu-benefits/1995",
