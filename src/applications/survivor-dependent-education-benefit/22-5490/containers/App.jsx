@@ -181,14 +181,19 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const appData = getAppData(state);
-  const transformedData =
+  const prefillData =
     prefillTransformer(null, null, null, state)?.formData || {};
+  const formStateData = state.form?.data || {};
+
   return {
-    ...appData,
+    ...getAppData(state),
     formData: {
-      ...(state.form?.data || {}),
-      ...transformedData,
+      ...formStateData,
+      ...prefillData,
+      benefitSelection:
+        formStateData.benefitSelection || prefillData.benefitSelection,
+      highSchoolDiploma:
+        formStateData.highSchoolDiploma || prefillData.highSchoolDiploma,
     },
     user: state.user,
   };
