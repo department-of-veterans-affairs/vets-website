@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { validateIncompleteItems } from './helpers';
 
 // NoSchemaFormPage = No uiSchema or schema
 const ArrayBuilderSummaryNoSchemaFormPage = ({
@@ -10,10 +11,22 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
   customPageProps,
   description,
   hideAdd,
+  isItemIncomplete,
   title,
 }) => {
   function onSubmit(e) {
     e.preventDefault();
+
+    const isValid = validateIncompleteItems({
+      arrayData,
+      isItemIncomplete,
+      nounSingular: arrayBuilderOptions.nounSingular,
+    });
+
+    if (!isValid) {
+      return;
+    }
+
     customPageProps.onSubmit({ formData: customPageProps.data });
   }
 
@@ -32,6 +45,7 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
               arrayData,
               customPageProps.data,
             )}
+            class={arrayData?.length ? 'vads-u-margin-y--2' : ''}
             onClick={addAnotherItemButtonClick}
             name={`${arrayBuilderOptions.nounPlural}AddLink`}
           />
@@ -45,6 +59,7 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
               arrayData,
               customPageProps.data,
             )}
+            class={arrayData?.length ? 'vads-u-margin-y--2' : ''}
             onClick={addAnotherItemButtonClick}
             name={`${arrayBuilderOptions.nounPlural}AddButton`}
             primary
@@ -81,5 +96,6 @@ ArrayBuilderSummaryNoSchemaFormPage.propTypes = {
   }),
   description: PropTypes.node,
   hideAdd: PropTypes.bool,
+  isItemIncomplete: PropTypes.func,
   title: PropTypes.node,
 };
