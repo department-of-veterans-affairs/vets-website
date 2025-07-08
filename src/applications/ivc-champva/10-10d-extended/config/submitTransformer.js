@@ -149,8 +149,7 @@ export default function transformForSubmit(formConfig, form) {
   const dataPostTransform = ohiTransformer({
     veteran: {
       fullName: transformedData?.sponsorName || {},
-      ssnOrTin: transformedData?.sponsorSsn?.ssn || '',
-      vaClaimNumber: transformedData?.sponsorSsn?.vaFileNumber || '',
+      ssnOrTin: transformedData?.sponsorSsn || '',
       dateOfBirth: fmtDate(transformedData?.sponsorDob) || '',
       phoneNumber: transformedData?.sponsorPhone || '',
       address: transformedData?.sponsorAddress || {},
