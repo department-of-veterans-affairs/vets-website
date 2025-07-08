@@ -10,6 +10,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
+import trickQuestionPg from '../pages/trickQuestion';
 import persInfoPg from '../pages/personalInfo';
 import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
 import nonCitizenIdInfoPg from '../pages/nonCitizenIdentificationInfo';
@@ -112,6 +113,13 @@ const formConfig = {
           uiSchema: preparerTypePg.uiSchema,
           schema: preparerTypePg.schema,
           pageClass: 'preparer-type-page',
+        },
+        trickQuestionPage: {
+          path: 'trick-question',
+          title: 'Explain more',
+          uiSchema: trickQuestionPg.uiSchema,
+          schema: trickQuestionPg.schema,
+          pageClass: 'trick-question-page',
         },
         personalInfoPage: {
           path: 'personal-information',
