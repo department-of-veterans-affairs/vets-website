@@ -101,7 +101,7 @@ const VeteranContactInformationPage = ({
     }
 
     updateContactInfo({
-      email: email || profileEmail || '',
+      email: email || profileEmail?.emailAddress || '',
       phone:
         phone ||
         convertPhoneObjectToString(profileHomePhone) ||
@@ -118,7 +118,7 @@ const VeteranContactInformationPage = ({
       // Show no email or mailing address prefill alert
       if (
         (!profileMailingAddress?.city && !address?.city) ||
-        (!email && !profileEmail)
+        (!email && !profileEmail?.emailAddress)
       ) {
         setShowPrefillAlert(true);
       } else {
@@ -158,7 +158,7 @@ const VeteranContactInformationPage = ({
     .join(' and ');
 
   const prefillMissingInfo = [
-    profileEmail ? '' : 'email',
+    profileEmail?.emailAddress ? '' : 'email',
     profileMailingAddress?.city ? '' : 'mailing',
   ]
     .filter(Boolean)

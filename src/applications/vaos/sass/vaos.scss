@@ -111,3 +111,8 @@ va-textarea::part(input-type-textarea) {
   outline: 2px solid var(--vads-color-action-focus-on-light);
   outline-offset: 2px;
 }
+
+.usa-input-error:focus {
+  outline: 2px solid var(--vads-color-action-focus-on-light);
+  outline-offset: 2px;
+}

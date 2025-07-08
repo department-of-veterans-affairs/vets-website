@@ -14,7 +14,7 @@ const expectedFieldTypes = 'input, select, textarea';
 const wrapperWebComponents = 'va-checkbox-group, va-memorable-date';
 
 const expectedFieldTypesWebComponents =
-  'va-text-input, va-file-input-multiple, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date';
+  'va-text-input, va-telephone-input, va-file-input-multiple, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date';
 
 export const getProps = () => {
   return {
