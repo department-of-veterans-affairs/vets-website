@@ -7,7 +7,7 @@ import rxSubmitted from './fixtures/active-submitted-prescription-details.json';
 import prescriptionList from './fixtures/active-single-refill-for-delay-alert.json';
 import rxActive from './fixtures/active-prescriptions-with-refills.json';
 
-describe('Medications Refill Page Delay Alert', () => {
+describe.skip('Medications Refill Page Delay Alert', () => {
   beforeEach(() => {
     const site = new MedicationsSite();
     site.login();

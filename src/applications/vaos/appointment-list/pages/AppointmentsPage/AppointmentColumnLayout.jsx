@@ -76,7 +76,9 @@ export default function AppointmentColumnLayout({
                 { 'vads-u-display--none': !first },
               )}
             >
-              <span aria-hidden="false">{parsedDate.format('D')}</span>
+              <span aria-hidden="false" data-dd-privacy="mask">
+                {parsedDate.format('D')}
+              </span>
             </h3>
           </AppointmentColumn>
           <AppointmentColumn
@@ -96,6 +98,7 @@ export default function AppointmentColumnLayout({
               className={classNames({ 'vads-u-display--none': !first })}
               aria-hidden="true"
               data-testid="day"
+              data-dd-privacy="mask"
             >
               {parsedDate.format('ddd')}
             </span>
@@ -130,7 +133,7 @@ export default function AppointmentColumnLayout({
             canceled={isCanceled}
             style={{ minWidth: '100px', maxWidth: '100px' }}
           >
-            <span aria-hidden="true">
+            <span aria-hidden="true" data-dd-privacy="mask">
               {`${parsedDate.format('h:mm')} ${parsedDate.format(
                 'a',
               )} ${timezoneAbbr}`}{' '}
@@ -155,6 +158,7 @@ export default function AppointmentColumnLayout({
                     'vaos-appts__display--table-cell',
                     'vaos-appts__text--truncate',
                   )}
+                  data-dd-privacy="mask"
                 >
                   {appointmentLocality}
                 </span>
