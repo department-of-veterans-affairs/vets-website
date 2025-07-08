@@ -120,7 +120,7 @@ const IntroductionPage = ({ route }) => {
             formConfig={route.formConfig}
           />
           <h2 className="vads-u-font-size--h3">Frequently asked questions</h2>
-          <va-accordion data-testid="accordion-dropdown">
+          <va-accordion open-single data-testid="accordion-dropdown">
             <va-accordion-item>
               <h3 className="vads-u-font-size--h6" slot="headline">
                 What if I need help or have questions about my order?
