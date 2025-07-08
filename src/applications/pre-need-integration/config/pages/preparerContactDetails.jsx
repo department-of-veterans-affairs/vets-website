@@ -73,8 +73,7 @@ export const uiSchema = {
             },
           },
           state: {
-            'ui:title': DynamicStateSelectFieldPreparer,
-            'ui:webComponentField': VaSelectField,
+            'ui:webComponentField': DynamicStateSelectFieldPreparer,
             'ui:required': isAuthorizedAgent,
             'ui:options': {
               hideIf: formData => !preparerAddressHasState(formData),
