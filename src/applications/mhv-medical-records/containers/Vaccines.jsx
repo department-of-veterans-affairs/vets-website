@@ -264,24 +264,26 @@ const Vaccines = props => {
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            useBackendPagination
-              ? updateNeeded
-              : Array.isArray(vaccines) &&
-                Array.isArray(updatedRecordList) &&
-                vaccines.length !== updatedRecordList.length
-          }
-          reloadFunction={
-            useBackendPagination
-              ? loadUpdatedRecords
-              : () => {
-                  dispatch(reloadRecords());
-                }
-          }
-        />
+        {!isAcceleratingVaccines && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              useBackendPagination
+                ? updateNeeded
+                : Array.isArray(vaccines) &&
+                  Array.isArray(updatedRecordList) &&
+                  vaccines.length !== updatedRecordList.length
+            }
+            reloadFunction={
+              useBackendPagination
+                ? loadUpdatedRecords
+                : () => {
+                    dispatch(reloadRecords());
+                  }
+            }
+          />
+        )}
 
         {vaccines?.length ? (
           <>
