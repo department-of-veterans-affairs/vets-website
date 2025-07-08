@@ -41,8 +41,8 @@ const CustomPersonalInfo = props => {
         dateOfBirth: { show: false },
       }}
       dataAdapter={{
-        ssnPath: 'veteranSocialSecurityNumber',
-        vaFileNumberPath: 'vaFileNumber',
+        ssnPath: 'veteranSsnLastFour',
+        vaFileNumberPath: 'vaFileNumberLastFour',
       }}
     >
       <PersonalInformationHeader>
