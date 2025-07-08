@@ -41,6 +41,7 @@ const RefillPrescriptions = () => {
     data: refillableData,
     isLoading,
     error: refillableError,
+    isFetching,
   } = useGetRefillablePrescriptionsQuery();
 
   const [
@@ -193,13 +194,16 @@ const RefillPrescriptions = () => {
     if (!showRefillContent) {
       return <PageNotFound />;
     }
-    if (isLoading || isRefilling) {
+    if (isLoading || isRefilling || isFetching) {
       return (
         <div
           className="refill-loading-indicator"
           data-testid="loading-indicator"
         >
-          <va-loading-indicator message="Loading medications..." set-focus />
+          <va-loading-indicator
+            message={`${isRefilling ? 'Refilling' : 'Loading'} medications...`}
+            set-focus
+          />
         </div>
       );
     }
