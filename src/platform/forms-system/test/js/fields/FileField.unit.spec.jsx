@@ -709,6 +709,146 @@ describe('Schemaform <FileField>', () => {
     });
   });
 
+  it('should upload an encrypted pdf file with PDF as filename extension', async () => {
+    const onChangeSpy = sinon.spy();
+    const fileWithPassword = {
+      file: new File(['locked'], 'locked.PDF', {
+        type: fileTypeSignatures.pdf.mime,
+      }),
+      size: 40,
+      name: 'locked.PDF',
+      docType: { value: 'L029', dirty: true },
+      password: { value: '1234', dirty: true },
+      isEncrypted: true,
+    };
+    // const onChangeSpy = sinon.spy();
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files');
+    const formData = [
+      {
+        confirmationCode: 'abcdef',
+        name: 'Test file name.pdf',
+        size: 12345678,
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: () => <div />,
+      },
+    };
+    const { container } = render(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={{ reviewMode: false }}
+        onChange={FileField.onAddFile}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect($('.upload-button-label', container)).to.exist;
+    // Add fileWithPassword by simulating file input
+    const fileInput = $('input[type="file"]', container);
+    expect(fileInput).to.exist;
+    fireEvent.change(fileInput, { target: { files: [fileWithPassword.file] } });
+    // Check that onChange was called with the file
+    expect(onChangeSpy.calledOnce).to.be.true;
+    //   expect(onChangeSpy.firstCall.args[0][0]).to.deep.include({
+    //     ...fileWithPassword,
+    //     isEncrypted: true,
+    //     password: { value: '1234', dirty: true },
+    //   });
+
+    // const onChangeSpy = sinon.spy();
+    // const mockRegistry = {
+    //   fields: {
+    //     SchemaField: () => <div />,
+    //   },
+    // };
+    // const mockSchema = {
+    //   type: 'object',
+    //   properties: {
+    //     fileField: {
+    //       type: 'string',
+    //     },
+    //   },
+    // };
+    // const mockUiSchema = {
+    //   'ui:title': 'Upload your file',
+    //   'ui:options': {
+    //     mockReadAndCheckFile: () => ({
+    //       checkIsEncryptedPdf: true,
+    //       checkTypeAndExtensionMatches: true,
+    //     }),
+    //   },
+    // };
+    // const mockFormData = [
+    //   {
+    //     name: 'tommasina.PDF',
+    //     password: '1234',
+    //   },
+    // ];
+
+    // const { container, rerender } = render(
+    //   <Provider store={uploadStore}>
+    //     <FileField
+    //       registry={mockRegistry}
+    //       schema={mockSchema}
+    //       uiSchema={mockUiSchema}
+    //       formData={[]}
+    //       formContext={{}}
+    //       onChange={onChangeSpy}
+    //     />
+    //   </Provider>,
+    // );
+
+    // Rerender with updated formData
+    // rerender(
+    //   <Provider store={uploadStore}>
+    //     <FileField
+    //       registry={mockRegistry}
+    //       schema={mockSchema}
+    //       uiSchema={mockUiSchema}
+    //       formData={mockFormData}
+    //       formContext={{}}
+    //       onChange={onChangeSpy}
+    //     />
+    //   </Provider>,
+    // );
+
+    // screen.debug();
+    // Enter password
+    // const passwordInput = $('va-text-input', container);
+    // expect(passwordInput).to.exist;
+    // passwordInput.value = '1234';
+    // // screen.debug();
+    // fireEvent.input(passwordInput, {
+    //   target: { name: 'password' },
+    // });
+    // screen.debug();
+
+    // Click submit button
+    // const submitButton = $('#submit', container);
+    // expect(submitButton).to.exist;
+    // fireEvent.click(submitButton);
+    //
+    // // Assertions
+    // expect(onChangeSpy.called).to.be.true;
+  });
+
   it('should upload test file using "testing" file type to bypass checks', async () => {
     const uiSchema = fileUploadUI('Files');
     const schema = {
