@@ -126,7 +126,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.DISPUTE_DEBT]: {
     id: CTA_WIDGET_TYPES.DISPUTE_DEBT,
     deriveToolUrlDetails: () => ({
-      url: '/manage-va-debt/summary/dispute-debt',
+      url: '/manage-va-debt/dispute-debt',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
