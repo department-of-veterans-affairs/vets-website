@@ -208,7 +208,7 @@ const getEmptyRecordSets = (recordSets, failedDomains) => {
         !failedDomains.includes('VA appointments')
       );
     }
-    if (recordSet.type === 'demographics') {
+    if (recordSet.type === 'demographics' && !recordSet.records.length) {
       return !failedDomains.includes('VA demographics records');
     }
     if (Array.isArray(recordSet.records)) {
