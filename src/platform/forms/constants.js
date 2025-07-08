@@ -128,7 +128,7 @@ export const getAllFormLinks = getAppUrlImpl => {
 
   const tryGetAppUrl = formId => {
     try {
-      return getAppUrlImpl(formId);
+      return getAppUrlImpl(formId.toLowerCase());
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log(e);
