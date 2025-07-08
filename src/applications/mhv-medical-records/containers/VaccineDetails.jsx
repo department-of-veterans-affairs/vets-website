@@ -211,7 +211,7 @@ const VaccineDetails = props => {
                 <LabelValue
                   label="Reactions"
                   value={record.reaction}
-                  testId="vaccine-reaction"
+                  testId="vaccine-reactions"
                   actionName="[vaccine details - reaction]"
                 />
               )}
@@ -219,7 +219,7 @@ const VaccineDetails = props => {
                 <LabelValue
                   label="Notes"
                   value={record.note}
-                  testId="vaccine-note"
+                  testId="vaccine-notes"
                   actionName="[vaccine details - note]"
                 />
               )}
