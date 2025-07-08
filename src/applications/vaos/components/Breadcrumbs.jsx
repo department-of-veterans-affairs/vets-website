@@ -35,20 +35,19 @@ const manifestRootUrlRegex = new RegExp(`^.*${manifest.rootUrl}/?`);
 // Either http or https or starts with a slash
 const absoluteUrlRegex = new RegExp('^https?|^/');
 /**
- * If the href is a router link that is based off the manifest.rootUrl,
- * we need to make it relative to the manifest.rootUrl
+ * All href inputs are expected to be relative to the manifest.rootUrl.
  * @param {string} href - The href of the breadcrumb - may be relative or absolute
  * @returns {string} The relative route
  */
-export const relativeRouteProcessor = (href, addLeadingSlash = true) => {
+export const relativeRouteProcessor = href => {
   let path = href;
   if (manifestRootUrlRegex.test(path)) {
     path = path.replace(manifestRootUrlRegex, '/');
   }
-  // should never get here if a URL scheme is passed in (because nobody would make that a isRouterLink), but just in case someond does
-  // we should not add a leading slash to it
   if (!absoluteUrlRegex.test(path)) {
-    path = addLeadingSlash ? `/${path}` : path;
+    // should never get here if a URL scheme is passed in (because nobody would make that a isRouterLink),
+    // However, if someone adds a path that doesn't start with a slash, we should add one
+    path = `/${path}`;
   }
   return path;
 };

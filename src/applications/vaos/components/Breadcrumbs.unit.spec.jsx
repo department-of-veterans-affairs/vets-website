@@ -56,15 +56,15 @@ describe('VAOS Component: Breadcrumbs', () => {
     expect(relativeUrl).to.equal(currentUrl);
   });
 
-  it('should not change the href if it is not based off the manifest.rootUrl', () => {
+  it('should not change the href if it is a URL with a scheme that is not the same as the manifest.rootUrl', () => {
     const currentUrl = 'https://www.va.gov/my-health/xyz/appointments/pending';
     const relativeUrl = relativeRouteProcessor(currentUrl);
     expect(relativeUrl).to.equal(currentUrl);
   });
 
-  it('should not change the href if it is not based off the manifest.rootUrl and not requiring a leading slash', () => {
-    const currentUrl = 'my-health/appointments/pending';
-    const relativeUrl = relativeRouteProcessor(currentUrl, false);
-    expect(relativeUrl).to.equal(currentUrl);
+  it('should not change the href if it is not based off the manifest.rootUrl', () => {
+    const currentUrl = 'abc/def/ghi';
+    const relativeUrl = relativeRouteProcessor(currentUrl);
+    expect(relativeUrl).to.equal(`/${currentUrl}`);
   });
 });
