@@ -11,7 +11,7 @@ export default {
   uiSchema: {
     claimantType: radioUI({
       title: 'Which of these best describes you?',
-      labelHeaderLevel: '4',
+      labelHeaderLevel: '1',
       labels: claimantTypeLabels,
     }),
   },
