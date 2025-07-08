@@ -188,14 +188,11 @@ describe('Toxic exposure date handling when reverting condition association', ()
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_startDateYear"]',
     ).type('1992');
     cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).type('1992');
+      'select[name="root_toxicExposure_gulfWar1990Details_iraq_endDateMonth"]',
+    ).select('December');
     cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).blur();
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).clear();
+      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateDay"]',
+    ).type('31');
     cy.get(
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
     ).type('1993');
@@ -304,7 +301,7 @@ describe('Toxic exposure date handling when reverting condition association', ()
     cy.get('button#4-continueButton').click();
   });
 
-  it('submits a partial date for a toxic exposure location', () => {
+  it('submits complete dates for Iraq toxic exposure location', () => {
     cy.injectAxeThenAxeCheck();
     cy.wait('@submitClaim').then(({ request }) => {
       const gulfDetails = request.body.form526.toxicExposure.gulfWar1990Details;
@@ -312,7 +309,7 @@ describe('Toxic exposure date handling when reverting condition association', ()
       const iraqEnd = gulfDetails.iraq.endDate;
 
       expect(iraqStart).to.match(FULL_DATE, 'Iraq startDate is complete');
-      expect(iraqEnd).to.not.match(FULL_DATE, 'Iraq endDate is partial');
+      expect(iraqEnd).to.match(FULL_DATE, 'Iraq endDate is complete');
     });
   });
 
