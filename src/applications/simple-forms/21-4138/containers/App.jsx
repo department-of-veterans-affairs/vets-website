@@ -25,7 +25,8 @@ function App({ location, children, showForm, isLoading }) {
   useEffect(() => {
     if (
       location.pathname !== '/statement-type' &&
-      location.pathname !== '/introduction'
+      location.pathname !== '/introduction' &&
+      location.pathname !== '/confirmation'
     ) {
       dispatch(fetchInProgressForm(VA_FORM_IDS.FORM_21_4138, {}, true));
     }
