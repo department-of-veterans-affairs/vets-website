@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import reducer from '../../../reducers';
 import { messages } from '../../fixtures/message-thread-with-full-body-response.json';
@@ -18,12 +18,12 @@ describe('MessageThreadForPrint component', () => {
     path = initialPath,
     messageHistory = messages,
   ) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <MessageThreadForPrint messageHistory={messageHistory} open />,
       {
         initialState: state,
         reducers: reducer,
-        path,
+        initialEntries: [path],
       },
     );
   };

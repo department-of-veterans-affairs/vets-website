@@ -1,4 +1,4 @@
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -16,10 +16,10 @@ describe('Navigation', async () => {
     },
   };
   const setup = (path = '/') => {
-    return renderWithStoreAndRouter(<Navigation />, {
+    return renderWithStoreAndRouterV6(<Navigation />, {
       initialState,
       reducers: reducer,
-      path,
+      initialEntries: [path],
     });
   };
   let initialWidth;

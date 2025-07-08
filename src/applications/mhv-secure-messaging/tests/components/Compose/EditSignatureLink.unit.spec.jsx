@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import EditSignatureLink from '../../../components/ComposeForm/EditSignatureLink';
 import reducer from '../../../reducers';
 import { Paths } from '../../../util/constants';
@@ -19,10 +19,10 @@ describe('EditSignatureLink component', () => {
   };
 
   const setup = (initialState = customState) => {
-    return renderWithStoreAndRouter(<EditSignatureLink />, {
+    return renderWithStoreAndRouterV6(<EditSignatureLink />, {
       initialState,
       reducers: reducer,
-      path: Paths.COMPOSE,
+      initialEntries: [Paths.COMPOSE],
     });
   };
 

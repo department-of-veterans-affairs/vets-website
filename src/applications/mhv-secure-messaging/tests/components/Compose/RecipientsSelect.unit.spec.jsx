@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -63,12 +63,12 @@ describe('RecipientsSelect', () => {
     path = Constants.Paths.COMPOSE,
     props = defaultProps,
   }) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <RecipientsSelect recipientsList={recipientsList} {...props} />,
       {
         initialState: state,
         reducers: reducer,
-        path,
+        initialEntries: [path],
       },
     );
   };

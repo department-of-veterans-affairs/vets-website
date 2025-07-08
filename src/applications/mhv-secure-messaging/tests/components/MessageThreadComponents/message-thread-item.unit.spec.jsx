@@ -1,7 +1,7 @@
 import React from 'react';
 import { waitFor } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -13,7 +13,7 @@ import { DefaultFolders, MessageReadStatus } from '../../../util/constants';
 
 describe('Message thread item', () => {
   const setup = (message = messageResponse, state = {}) => {
-    return renderWithStoreAndRouter(<MessageThreadItem message={message} />, {
+    return renderWithStoreAndRouterV6(<MessageThreadItem message={message} />, {
       reducers: reducer,
       initialState: state,
     });
@@ -302,7 +302,7 @@ describe('Message thread item', () => {
 
     const markMessageAsRead = sinon.spy();
 
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <MessageThreadItem
         message={{ ...messageResponse }}
         isPreloaded={isPreloaded}

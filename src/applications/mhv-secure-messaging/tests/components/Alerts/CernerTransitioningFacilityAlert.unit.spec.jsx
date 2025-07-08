@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { cleanup } from '@testing-library/react';
 import CernerTransitioningFacilityAlert from '../../../components/Alerts/CernerTransitioningFacilityAlert';
@@ -53,7 +53,7 @@ describe('CernerTransitioningFacilityAlert', () => {
   };
 
   const setup = (state = initialState, props = initialProps) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <CernerTransitioningFacilityAlert {...props} />,
       {
         initialState: state,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
 import reducer from '../../reducers';
@@ -32,10 +32,10 @@ describe('SM Footer component', () => {
   };
 
   it('renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<Footer />, {
+    const screen = renderWithStoreAndRouterV6(<Footer />, {
       initialState,
       reducers: reducer,
-      path: Paths.INBOX,
+      initialEntries: [Paths.INBOX],
       store,
     });
 
@@ -43,10 +43,10 @@ describe('SM Footer component', () => {
   });
 
   it('renders Footer content', () => {
-    const screen = renderWithStoreAndRouter(<Footer />, {
+    const screen = renderWithStoreAndRouterV6(<Footer />, {
       initialState,
       reducers: reducer,
-      path: Paths.INBOX,
+      initialEntries: [Paths.INBOX],
       store,
     });
     expect(screen.getByTestId('inbox-footer')).to.exist;
@@ -64,20 +64,20 @@ describe('SM Footer component', () => {
       featureToggles: {},
     });
 
-    const screen = renderWithStoreAndRouter(<Footer />, {
+    const screen = renderWithStoreAndRouterV6(<Footer />, {
       initialState,
       reducers: reducer,
-      path: Paths.INBOX,
+      initialEntries: [Paths.INBOX],
       store,
     });
     expect(screen.queryByTestId('inbox-footer')).not.to.exist;
   });
 
   it('renders correct links', () => {
-    const { getByText } = renderWithStoreAndRouter(<Footer />, {
+    const { getByText } = renderWithStoreAndRouterV6(<Footer />, {
       initialState,
       reducers: reducer,
-      path: Paths.INBOX,
+      initialEntries: [Paths.INBOX],
       store,
     });
 

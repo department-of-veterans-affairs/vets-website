@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducer from '../../../reducers';
 import DashboardUnreadMessages from '../../../components/Dashboard/DashboardUnreadMessages';
 import { Paths, ErrorMessages } from '../../../util/constants';
@@ -8,7 +8,7 @@ import inbox from '../../fixtures/folder-inbox-metadata.json';
 
 describe('DashboardUnreadMessages component', () => {
   const setup = folder => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <DashboardUnreadMessages inbox={folder} />,
       {
         initialState: {},
