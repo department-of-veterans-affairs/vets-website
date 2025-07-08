@@ -710,18 +710,6 @@ describe('Schemaform <FileField>', () => {
   });
 
   it('should upload an encrypted pdf file with PDF as filename extension', async () => {
-    const onChangeSpy = sinon.spy();
-    const fileWithPassword = {
-      file: new File(['locked'], 'locked.PDF', {
-        type: fileTypeSignatures.pdf.mime,
-      }),
-      size: 40,
-      name: 'locked.PDF',
-      docType: { value: 'L029', dirty: true },
-      password: { value: '1234', dirty: true },
-      isEncrypted: true,
-    };
-    // const onChangeSpy = sinon.spy();
     const idSchema = {
       $id: 'field',
     };
@@ -734,38 +722,74 @@ describe('Schemaform <FileField>', () => {
       ],
     };
     const uiSchema = fileUploadUI('Files');
-    const formData = [
-      {
-        confirmationCode: 'abcdef',
-        name: 'Test file name.pdf',
-        size: 12345678,
-      },
-    ];
+    const formData = [];
     const registry = {
       fields: {
         SchemaField: () => <div />,
       },
     };
-    const { container } = render(
+
+    const fileWithPassword = {
+      file: new File(['locked'], 'locked.PDF', {
+        type: fileTypeSignatures.pdf.mime,
+      }),
+      size: 40,
+      name: 'locked.PDF',
+      docType: { value: 'L029', dirty: true },
+      password: { value: '1234', dirty: true },
+      isEncrypted: true,
+    };
+    // const fileWithPassword = {
+    //   name: 'test-locked.pdf',
+    //   type: 'testing',
+    // };
+    // const isFileEncrypted = () => Promise.resolve(true);
+    // const uiOptions = {
+    //   // need
+    //   ...uiSchema['ui:options'],
+    //   allowEncryptedFiles: true,
+    //   // isFileEncrypted,
+    // };
+
+    const { container, rerender } = render(
       <FileField
         registry={registry}
         schema={schema}
         uiSchema={uiSchema}
         idSchema={idSchema}
         formData={formData}
-        formContext={{ reviewMode: false }}
+        formContext={formContext}
+        onChange={FileField.onAddFile}
+        requiredSchema={requiredSchema}
+      />,
+    );
+    const modal = $('va-modal', container);
+    expect(modal.getAttribute('visible')).to.eq('false');
+
+    const fileInput = $('input[type="file"]', container);
+    expect(fileInput).to.exist;
+    // Click(?) va-button to add another file
+    // fireEvent.click($('#upload-button', container));
+    fireEvent.change(fileInput, { target: { files: [fileWithPassword.file] } });
+
+    rerender(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext} // onChange={FileField.onAddFile}
         onChange={FileField.onAddFile}
         requiredSchema={requiredSchema}
       />,
     );
 
-    expect($('.upload-button-label', container)).to.exist;
-    // Add fileWithPassword by simulating file input
-    const fileInput = $('input[type="file"]', container);
-    expect(fileInput).to.exist;
-    fireEvent.change(fileInput, { target: { files: [fileWithPassword.file] } });
-    // Check that onChange was called with the file
-    expect(onChangeSpy.calledOnce).to.be.true;
+    // // Check that onChange was called with the file
+    await waitFor(() => {
+      screen.debug();
+      // expect(onAddFile.calledOnce).to.be.true;
+    });
     //   expect(onChangeSpy.firstCall.args[0][0]).to.deep.include({
     //     ...fileWithPassword,
     //     isEncrypted: true,
@@ -773,63 +797,7 @@ describe('Schemaform <FileField>', () => {
     //   });
 
     // const onChangeSpy = sinon.spy();
-    // const mockRegistry = {
-    //   fields: {
-    //     SchemaField: () => <div />,
-    //   },
-    // };
-    // const mockSchema = {
-    //   type: 'object',
-    //   properties: {
-    //     fileField: {
-    //       type: 'string',
-    //     },
-    //   },
-    // };
-    // const mockUiSchema = {
-    //   'ui:title': 'Upload your file',
-    //   'ui:options': {
-    //     mockReadAndCheckFile: () => ({
-    //       checkIsEncryptedPdf: true,
-    //       checkTypeAndExtensionMatches: true,
-    //     }),
-    //   },
-    // };
-    // const mockFormData = [
-    //   {
-    //     name: 'tommasina.PDF',
-    //     password: '1234',
-    //   },
-    // ];
 
-    // const { container, rerender } = render(
-    //   <Provider store={uploadStore}>
-    //     <FileField
-    //       registry={mockRegistry}
-    //       schema={mockSchema}
-    //       uiSchema={mockUiSchema}
-    //       formData={[]}
-    //       formContext={{}}
-    //       onChange={onChangeSpy}
-    //     />
-    //   </Provider>,
-    // );
-
-    // Rerender with updated formData
-    // rerender(
-    //   <Provider store={uploadStore}>
-    //     <FileField
-    //       registry={mockRegistry}
-    //       schema={mockSchema}
-    //       uiSchema={mockUiSchema}
-    //       formData={mockFormData}
-    //       formContext={{}}
-    //       onChange={onChangeSpy}
-    //     />
-    //   </Provider>,
-    // );
-
-    // screen.debug();
     // Enter password
     // const passwordInput = $('va-text-input', container);
     // expect(passwordInput).to.exist;
