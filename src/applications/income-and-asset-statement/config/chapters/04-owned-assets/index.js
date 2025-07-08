@@ -1,6 +1,6 @@
 import { ownedAssetPages } from './ownedAssetPages';
 
 export default {
-  title: 'Owned assets information',
+  title: 'Property and business',
   pages: ownedAssetPages,
 };

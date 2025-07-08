@@ -3,6 +3,7 @@ import {
   createVAPharmacyText,
   dateFormat,
   determineRefillLabel,
+  displayProviderName,
   getRefillHistory,
   getShowRefillHistory,
   processList,
@@ -142,11 +143,7 @@ Prescribed on: ${dateFormat(
       'Date not available',
     )}
 
-Prescribed by: ${
-      rx.providerLastName
-        ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
-        : 'Provider name not available'
-    }
+Prescribed by: ${displayProviderName(rx.providerFirstName, rx.providerLastName)}
 
 ${
       rx.groupedMedications?.length > 0
@@ -287,13 +284,11 @@ Prescribed on: ${dateFormat(
     'Date not available',
   )}
 
-Prescribed by: ${
-    prescription.providerLastName
-      ? `${prescription.providerLastName}, ${prescription.providerFirstName ||
-          ''}`
-      : 'Provider name not available'
-  }
-`;
+Prescribed by: ${displayProviderName(
+    prescription.providerFirstName,
+    prescription.providerLastName,
+  )}
+  `;
 
   if (showRefillHistory) {
     result += `
@@ -384,13 +379,10 @@ Prescribed on: ${dateFormat(
         'Date not available',
       )}
 
-Prescribed by: ${
-        previousPrescription.providerLastName
-          ? `${
-              previousPrescription.providerLastName
-            }, ${previousPrescription.providerFirstName || ''}`
-          : 'Provider name not available'
-      }
+Prescribed by: ${displayProviderName(
+        prescription.providerFirstName,
+        prescription.providerLastName,
+      )}
       `;
     });
   }
