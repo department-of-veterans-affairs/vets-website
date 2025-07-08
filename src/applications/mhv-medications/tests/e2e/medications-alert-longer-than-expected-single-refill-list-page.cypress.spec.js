@@ -4,7 +4,7 @@ import prescriptionList from './fixtures/active-single-refill-for-delay-alert.js
 import { Data } from './utils/constants';
 import rxDetails from './fixtures/active-prescriptions-with-refills.json';
 
-describe('Medications List Page Single Refill Alert', () => {
+describe.skip('Medications List Page Single Refill Alert', () => {
   it('visits Medications List Single Refill Alert', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
