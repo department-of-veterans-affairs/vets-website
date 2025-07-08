@@ -20,7 +20,15 @@ function App({ location, children, showForm, isLoading }) {
   useEffect(() => {
     dispatch(initializeProfile());
     localStorage.setItem('hasSession', true);
-    dispatch(fetchInProgressForm(VA_FORM_IDS.FORM_21_4138, {}, true));
+  }, []);
+
+  useEffect(() => {
+    if (
+      location.pathname !== '/statement-type' &&
+      location.pathname !== '/introduction'
+    ) {
+      dispatch(fetchInProgressForm(VA_FORM_IDS.FORM_21_4138, {}, true));
+    }
   }, []);
 
   if (isLoading) {
