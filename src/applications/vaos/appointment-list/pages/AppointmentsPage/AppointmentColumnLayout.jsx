@@ -1,21 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { formatInTimeZone } from 'date-fns-tz';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
+import AppointmentColumn from '../../../components/AppointmentColumn';
 import AppointmentRow from '../../../components/AppointmentRow';
 import {
   selectAppointmentLocality,
+  selectApptDateAriaText,
+  selectApptDetailAriaText,
   selectIsCanceled,
-  selectModalityText,
+  selectIsCommunityCare,
   selectModalityIcon,
+  selectModalityText,
   selectStartDate,
   selectTimeZoneAbbr,
-  selectApptDetailAriaText,
-  selectApptDateAriaText,
-  selectIsCommunityCare,
 } from '../../redux/selectors';
-import AppointmentColumn from '../../../components/AppointmentColumn';
 
 export default function AppointmentColumnLayout({
   data,
@@ -31,7 +31,6 @@ export default function AppointmentColumnLayout({
   const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
   const startDate = useSelector(() => selectStartDate(data));
-  const parsedDate = moment.parseZone(startDate);
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
   const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
@@ -76,7 +75,9 @@ export default function AppointmentColumnLayout({
                 { 'vads-u-display--none': !first },
               )}
             >
-              <span aria-hidden="false">{parsedDate.format('D')}</span>
+              <span aria-hidden="false">
+                {formatInTimeZone(startDate, data.timezone, 'd')}
+              </span>
             </h3>
           </AppointmentColumn>
           <AppointmentColumn
@@ -97,7 +98,7 @@ export default function AppointmentColumnLayout({
               aria-hidden="true"
               data-testid="day"
             >
-              {parsedDate.format('ddd')}
+              {formatInTimeZone(startDate, data.timezone, 'EEE')}
             </span>
           </AppointmentColumn>
         </AppointmentRow>
@@ -131,9 +132,11 @@ export default function AppointmentColumnLayout({
             style={{ minWidth: '100px', maxWidth: '100px' }}
           >
             <span aria-hidden="true">
-              {`${parsedDate.format('h:mm')} ${parsedDate.format(
-                'a',
-              )} ${timezoneAbbr}`}{' '}
+              {`${formatInTimeZone(
+                startDate,
+                data.timezone,
+                'h:mm aaa',
+              )}, ${timezoneAbbr}`}{' '}
             </span>
           </AppointmentColumn>
 

@@ -40,6 +40,7 @@ export default function InPersonLayout({ data: appointment }) {
     practitionerName,
     startDate,
     status,
+    timezone,
     typeOfCareName,
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
@@ -75,9 +76,9 @@ export default function InPersonLayout({ data: appointment }) {
   return (
     <DetailPageLayout heading={heading} data={appointment}>
       <When>
-        <AppointmentDate date={startDate} />
+        <AppointmentDate date={startDate} timezone={timezone} />
         <br />
-        <AppointmentTime appointment={appointment} />
+        <AppointmentTime appointment={appointment} timezone={timezone} />
         <br />
         {APPOINTMENT_STATUS.cancelled !== status &&
           !isPastAppointment && (

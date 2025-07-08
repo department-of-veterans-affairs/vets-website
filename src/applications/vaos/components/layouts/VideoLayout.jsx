@@ -85,7 +85,7 @@ export default function VideoLayout({ data: appointment }) {
           </Section>
         )}
       <When>
-        <AppointmentDate date={startDate} />
+        <AppointmentDate date={startDate} timezone={appointment.timezone} />
         <br />
         <AppointmentTime appointment={appointment} />
         <br />

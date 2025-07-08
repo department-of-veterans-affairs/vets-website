@@ -1,37 +1,37 @@
-import { createSelector } from 'reselect';
-import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
-import moment from 'moment';
-import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { formatInTimeZone } from 'date-fns-tz';
 import { lowerCase } from 'lodash';
+import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
+import { createSelector } from 'reselect';
 import {
-  FETCH_STATUS,
-  APPOINTMENT_STATUS,
-  APPOINTMENT_TYPES,
-  TYPE_OF_CARE_IDS,
-  COMP_AND_PEN,
-} from '../../utils/constants';
+  selectFeatureCancel,
+  selectFeatureRequests,
+} from '../../redux/selectors';
 import {
+  getAppointmentTimezone,
+  getPatientTelecom,
   getVAAppointmentLocationId,
+  groupAppointmentsByMonth,
+  isAtlasVideoAppointment,
+  isClinicVideoAppointment,
+  isInPersonVisit,
+  isPendingOrCancelledRequest,
+  isUpcomingAppointment,
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
-  sortByDateDescending,
-  sortByDateAscending,
-  sortUpcoming,
-  groupAppointmentsByMonth,
-  isUpcomingAppointment,
-  isPendingOrCancelledRequest,
-  getAppointmentTimezone,
-  isClinicVideoAppointment,
-  isAtlasVideoAppointment,
-  isInPersonVisit,
   isVideoAtHome,
-  getPatientTelecom,
+  sortByDateAscending,
+  sortByDateDescending,
+  sortUpcoming,
 } from '../../services/appointment';
-import {
-  selectFeatureRequests,
-  selectFeatureCancel,
-} from '../../redux/selectors';
 import { getTypeOfCareById } from '../../utils/appointment';
+import {
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+  COMP_AND_PEN,
+  FETCH_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../utils/constants';
 import { getTimezoneNameFromAbbr } from '../../utils/timezone';
 
 export function getCancelInfo(state) {
@@ -283,10 +283,10 @@ export function selectBackendServiceFailuresInfo(state) {
 }
 export function selectStartDate(appointment) {
   if (appointment.vaos.isPendingAppointment) {
-    return moment(appointment.requestedPeriod[0].start);
+    return new Date(appointment.requestedPeriod[0].start);
   }
 
-  return moment(appointment.start);
+  return new Date(appointment.start);
 }
 
 export function selectIsCanceled(appointment) {
@@ -484,9 +484,11 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
     typeOfCareName && typeof typeOfCareName !== 'undefined'
       ? `${typeOfCareName} appointment on`
       : 'appointment on';
-  const fillin3 = appointmentDate.format(
-    `dddd, MMMM D h:mm a, [${timezoneName}]`,
-  );
+  const fillin3 = `${formatInTimeZone(
+    appointmentDate,
+    appointment.timezone,
+    'EEEE, MMMM d h:mm aaa',
+  )}, ${timezoneName}`;
 
   // Override fillin2 text for canceled or pending appointments
   if (isRequest && isPendingOrCancelledRequest(appointment)) {
@@ -512,7 +514,11 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
 export function selectApptDateAriaText(appointment) {
   const appointmentDate = selectStartDate(appointment);
   const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
-  return `${appointmentDate.format(`dddd, MMMM D h:mm a, [${timezoneName}]`)}`;
+  return `${formatInTimeZone(
+    appointmentDate,
+    appointment.timezone,
+    'EEEE, MMMM d h:mm aaa',
+  )}, ${timezoneName}'}`;
 }
 
 export function selectTypeOfCareAriaText(appointment) {
@@ -582,7 +588,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
 
   const phone = getPatientTelecom(appointment, 'phone');
   const ccProvider = selectCCProvider(appointment);
-  const startDate = moment.parseZone(appointment?.start);
+  const startDate = appointment?.start;
   const status = appointment?.status;
   const typeOfCareName = selectTypeOfCareName(appointment);
   const clinicName = appointment?.location?.clinicName;
@@ -605,6 +611,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
   const isCanceledAppointment = selectIsCanceled(appointment);
   const isUpcoming = appointment?.vaos?.isUpcomingAppointment;
   const practitionerName = selectPractitionerName(appointment);
+  const timezone = appointment?.timezone;
 
   return {
     appointment,
@@ -638,6 +645,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     startDate,
     status,
     timeZoneAbbr,
+    timezone,
     typeOfCareName,
     videoProviderAddress,
     videoProviderName,

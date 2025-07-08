@@ -7,6 +7,7 @@ import {
   TYPE_OF_VISIT,
   VIDEO_TYPES,
 } from '../../utils/constants';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
 
 export function getAppointmentType(appt) {
@@ -67,7 +68,7 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
   const isUpcoming = appt.future;
   const isCCRequest = appointmentType === APPOINTMENT_TYPES.ccRequest;
   const providers = appt.practitioners;
-  const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
+  const start = new Date(appt.start);
   const vvsKind = appt.telehealth?.vvsKind;
   let isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   let isAtlas = !!appt.telehealth?.atlas;
@@ -92,7 +93,9 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
   }
 
   const isCancellable = appt.cancellable;
-  const appointmentTZ = appt.location?.attributes?.timezone?.timeZoneId;
+  const appointmentTZ = appt.location
+    ? appt.location?.attributes?.timezone?.timeZoneId
+    : getTimezoneByFacilityId(appt.locationId);
 
   let videoData = { isVideo };
   if (isVideo) {
@@ -196,7 +199,9 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
     avsPath: isPast ? appt.avsPath : null,
     // NOTE: Timezone will be converted to the local timezone when using 'format()'.
     // So use format without the timezone information.
-    start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
+    start: !isRequest
+      ? start // start.format('YYYY-MM-DDTHH:mm:ss')
+      : null,
     startUtc: !isRequest ? appt.start : null,
     reasonForAppointment,
     patientComments,

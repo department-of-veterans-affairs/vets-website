@@ -46,7 +46,10 @@ describe('VAOS Component: AppointmentCard', () => {
     const wrapper = renderWithStoreAndRouter(
       <AppointmentCard appointment={appointment}>
         <h1 className="vads-u-margin-y--2p5">
-          <AppointmentDateTime appointment={appointment} />
+          <AppointmentDateTime
+            appointment={appointment}
+            timezone={appointment.timezone}
+          />
         </h1>
       </AppointmentCard>,
       {

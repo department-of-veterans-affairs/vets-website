@@ -70,7 +70,7 @@ export default function CancelPageLayout() {
     <>
       <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">{heading}</h2>
       <When level={3}>
-        <AppointmentDate date={startDate} />
+        <AppointmentDate date={startDate} timezone={appointment?.timezone} />
         <br />
         <AppointmentTime appointment={appointment} />
         <br />

@@ -75,7 +75,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
   it('should show CC appointment text', async () => {
     // Arrange
-    const appointments = MockAppointmentResponse.createCCResponses({
+    const responses = MockAppointmentResponse.createCCResponses({
       localStartTime: now,
       status: APPOINTMENT_STATUS.booked,
       future: true,
@@ -91,7 +91,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     mockAppointmentsApi({
       start,
       end,
-      response: appointments,
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -110,7 +110,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
   it('should show at home video appointment text', async () => {
     // Arrange
-    const appointments = MockAppointmentResponse.createGfeResponses({
+    const responses = MockAppointmentResponse.createGfeResponses({
       localStartTime: now,
       future: true,
     });
@@ -125,7 +125,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     mockAppointmentsApi({
       start,
       end,
-      response: appointments,
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -144,7 +144,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
   it('should show phone appointment text', async () => {
     // Arrange
-    const appointments = MockAppointmentResponse.createPhoneResponses({
+    const responses = MockAppointmentResponse.createPhoneResponses({
       localStartTime: now,
       future: true,
     });
@@ -159,7 +159,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     mockAppointmentsApi({
       start,
       end,
-      response: appointments,
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -178,7 +178,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show cancelled appointment text', async () => {
-    const appointments = MockAppointmentResponse.createCCResponses({
+    const responses = MockAppointmentResponse.createCCResponses({
       localStartTime: now,
       status: APPOINTMENT_STATUS.cancelled,
       future: true,
@@ -194,7 +194,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     mockAppointmentsApi({
       start,
       end,
-      response: appointments,
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -211,11 +211,11 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     expect(screen.baseElement).to.contain.text('Community care');
   });
   it('should show VA appointment text for telehealth appointments without vvsKind', async () => {
-    const appointments = MockAppointmentResponse.createVAResponses({
+    const responses = MockAppointmentResponse.createVAResponses({
       localStartTime: now,
       future: true,
     });
-    appointments[0]
+    responses[0]
       .setLocation(new MockFacilityResponse())
       .setTypeOfCare(null)
       .setVvsKind(null);
@@ -230,7 +230,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     mockAppointmentsApi({
       start,
       end,
-      response: appointments,
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
