@@ -406,7 +406,11 @@ describe('test wrapper', () => {
         expect(response.status).to.equal(200);
       });
 
-      context('error', () => {
+      context('error refreshing csrf token', () => {
+        beforeEach(() => {
+          localStorage.clear();
+        });
+
         it('should throw an error if the CSRF token header is missing', async () => {
           server.use(
             rest.head(
@@ -416,8 +420,10 @@ describe('test wrapper', () => {
           );
 
           try {
-            await apiRequest('/status', {
+            await apiRequest('/health_care_application', {
               headers: { 'Content-Type': 'application/json' },
+              method: 'POST',
+              body: JSON.stringify({}),
             });
           } catch (error) {
             expect(error.message).to.equal(
@@ -436,8 +442,10 @@ describe('test wrapper', () => {
           );
 
           try {
-            await apiRequest('/status', {
+            await apiRequest('/health_care_application', {
               headers: { 'Content-Type': 'application/json' },
+              method: 'POST',
+              body: JSON.stringify({}),
             });
           } catch (error) {
             expect(error.message).to.include(
