@@ -196,10 +196,11 @@ const mapStateToProps = state => {
     formData: {
       ...formStateData,
       ...prefillData,
-      benefitSelection:
-        formStateData?.benefitSelection || prefillData?.benefitSelection,
+      chosenBenefit: formStateData?.chosenBenefit || prefillData?.chosenBenefit,
       highSchoolDiploma:
         formStateData?.highSchoolDiploma || prefillData?.highSchoolDiploma,
+      graduationDate:
+        formStateData?.graduationDate || prefillData?.graduationDate,
     },
     user: state.user,
   };
