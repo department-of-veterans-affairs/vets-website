@@ -1,8 +1,7 @@
+import { canUseMocks } from './constants';
+
 // Automatically set hasSession for local dev to bypass login when using mock APIs.
-if (
-  process.env.NODE_ENV === 'development' &&
-  !localStorage.getItem('hasSession')
-) {
+if (canUseMocks()) {
   localStorage.setItem('hasSession', 'true');
 }
 
