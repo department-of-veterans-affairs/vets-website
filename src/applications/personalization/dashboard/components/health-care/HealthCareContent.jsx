@@ -20,6 +20,7 @@ import HealthCareCTA from './HealthCareCTA';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import AppointmentsCard from './AppointmentsCard';
+import AppointmentsCard2 from './AppointmentsCard2';
 import CTALink from '../CTALink';
 import UnreadMessagesCard from './UnreadMessagesCard';
 
@@ -139,7 +140,18 @@ const HealthCareContent = ({
         <DashboardWidgetWrapper>
           {hasAppointmentsError && <HealthcareError />}
           {hasUpcomingAppointment &&
-            !isLOA1 && <AppointmentsCard appointments={appointments} />}
+            !isLOA1 && (
+              <Toggler
+                toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+              >
+                <Toggler.Disabled>
+                  <AppointmentsCard appointments={appointments} />
+                </Toggler.Disabled>
+                <Toggler.Enabled>
+                  <AppointmentsCard2 appointments={appointments} />
+                </Toggler.Enabled>
+              </Toggler>
+            )}
           {!isVAPatient && !isLOA1 && <NoHealthcareText />}
           {isVAPatient &&
             !hasUpcomingAppointment &&
