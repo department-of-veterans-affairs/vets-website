@@ -6,7 +6,6 @@ import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import { fileUploadUi } from '../utils/upload';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
 import * as applicantMilitaryNameInformationPreparer from './pages/applicantMilitaryNameInformationPreparer';
@@ -111,6 +110,7 @@ import {
 import ApplicantSuggestedAddress from './pages/applicantSuggestedAddress';
 import SponsorSuggestedAddress from './pages/sponsorSuggestedAddress';
 import preparerSuggestedAddress from './pages/preparerSuggestedAddress';
+import { fileInputMultipleUI } from '../../ivc-champva/shared/components/fileInputPattern';
 
 const {
   preneedAttachments,
@@ -721,7 +721,17 @@ const formConfig = {
           uiSchema: {
             'ui:description': SupportingFilesDescription,
             application: {
-              preneedAttachments: fileUploadUi({}),
+              preneedAttachments: {
+                ...fileInputMultipleUI({
+                  errorMessages: { required: 'This document is required.' },
+                  name: 'veteran-payment',
+                  fileUploadUrl: `${
+                    environment.API_URL
+                  }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                  title: 'Upload supporting document',
+                  formNumber: '40-10007',
+                }),
+              },
             },
           },
           schema: {
