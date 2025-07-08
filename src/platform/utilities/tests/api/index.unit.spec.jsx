@@ -4,7 +4,11 @@ import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import sinon from 'sinon';
-import { apiRequest, fetchAndUpdateSessionExpiration } from '../../api';
+import {
+  apiRequest,
+  fetchAndUpdateSessionExpiration,
+  getAndStoreCSRFToken,
+} from '../../api';
 import environment from '../../environment';
 import * as ssoModule from '../../sso';
 import * as oauthModule from '../../oauth/utilities';
@@ -25,6 +29,7 @@ describe('test wrapper', () => {
 
   after(() => {
     server.close();
+    localStorage.removeItem('csrfToken');
   });
 
   describe('apiRequest', () => {
@@ -306,6 +311,98 @@ describe('test wrapper', () => {
       expect(response.status).to.eql(200);
       expect(expected.response.body).to.not.be.null;
     });
+
+    describe('refresh csrf token', () => {
+      it('should fetch and store a CSRF token if none exists', async () => {
+        const mockCsrfToken = 'mock-csrf-token';
+        localStorage.removeItem('csrfToken');
+
+        server.use(
+          rest.head(
+            `${environment.API_URL}/v0/maintenance_windows`,
+            (req, res, ctx) =>
+              res(ctx.status(200), ctx.set('X-CSRF-Token', mockCsrfToken)),
+          ),
+        );
+
+        server.use(
+          rest.post(
+            `https://dev-api.va.gov/v0/letters/benefit_summary`,
+            (_, res, ctx) => {
+              const pdfFile = fs.readFileSync(
+                path.resolve(__dirname, './pdfFixture.pdf'),
+              );
+
+              return res(
+                ctx.status(200),
+                ctx.set('Content-Length', pdfFile.byteLength.toString()),
+                ctx.set('Content-Type', 'application/pdf'),
+                ctx.body(pdfFile),
+              );
+            },
+          ),
+        );
+
+        const response = await apiRequest('/letters/benefit_summary', {
+          headers: { 'Content-Type': 'application/json' },
+          method: 'POST',
+          body: JSON.stringify({}),
+        });
+
+        expect(localStorage.getItem('csrfToken')).to.equal(mockCsrfToken);
+        expect(response.status).to.eql(200);
+      });
+
+      it('should not fetch and store a CSRF token on GET requests', async () => {
+        const getAndStoreCSRFTokenSpy = sinon.spy(getAndStoreCSRFToken);
+
+        server.use(
+          rest.get(/v0\/status/, (_req, res, ctx) => res(ctx.status(200))),
+        );
+
+        const response = await apiRequest('/status', {
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        expect(getAndStoreCSRFTokenSpy.called).to.be.false;
+        expect(localStorage.getItem('csrfToken')).to.equal(null);
+        expect(response.status).to.eql(200);
+
+        getAndStoreCSRFTokenSpy.reset();
+      });
+
+      it('should use the existing CSRF token if it exists', async () => {
+        const mockCsrfToken = 'existing-csrf-token';
+        localStorage.setItem('csrfToken', mockCsrfToken);
+
+        server.use(
+          rest.post(
+            `https://dev-api.va.gov/v0/letters/benefit_summary`,
+            (_, res, ctx) => {
+              const pdfFile = fs.readFileSync(
+                path.resolve(__dirname, './pdfFixture.pdf'),
+              );
+
+              return res(
+                ctx.status(200),
+                ctx.set('Content-Length', pdfFile.byteLength.toString()),
+                ctx.set('Content-Type', 'application/pdf'),
+                ctx.body(pdfFile),
+              );
+            },
+          ),
+        );
+
+        const response = await apiRequest('/letters/benefit_summary', {
+          headers: { 'Content-Type': 'application/json' },
+          method: 'POST',
+          body: JSON.stringify({}),
+        });
+
+        expect(localStorage.getItem('csrfToken')).to.equal(mockCsrfToken);
+        expect(response.status).to.equal(200);
+      });
+    });
   });
 
   describe('fetchAndUpdateSessionExpiration', () => {
@@ -356,6 +453,59 @@ describe('test wrapper', () => {
       await fetchAndUpdateSessionExpiration(environment.BASE_URL, {});
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(0);
       expect(checkAndUpdateSSOSessionMock.callCount).to.equal(0);
+    });
+  });
+
+  describe('getAndStoreCSRFToken', () => {
+    it('should fetch and store a new CSRF token', async () => {
+      const mockCsrfToken = 'mock-csrf-token';
+      localStorage.setItem('csrfToken', null);
+      server.use(
+        rest.head(
+          `${environment.API_URL}/v0/maintenance_windows`,
+          (req, res, ctx) =>
+            res(ctx.status(200), ctx.set('X-CSRF-Token', mockCsrfToken)),
+        ),
+      );
+
+      await getAndStoreCSRFToken();
+
+      expect(localStorage.getItem('csrfToken')).to.equal(mockCsrfToken);
+    });
+
+    it('should throw an error if the CSRF token header is missing', async () => {
+      server.use(
+        rest.head(
+          `${environment.API_URL}/v0/maintenance_windows`,
+          (req, res, ctx) => res(ctx.status(200)),
+        ),
+      );
+
+      try {
+        await getAndStoreCSRFToken();
+      } catch (error) {
+        expect(error.message).to.equal(
+          'CSRF token header not found in the refresh response.',
+        );
+      }
+    });
+
+    it('should throw an error if the request fails', async () => {
+      server.use(
+        rest.head(
+          `${environment.API_URL}/v0/maintenance_windows`,
+          (req, res, ctx) =>
+            res(ctx.status(500), ctx.text('Internal Server Error')),
+        ),
+      );
+
+      try {
+        await getAndStoreCSRFToken();
+      } catch (error) {
+        expect(error.message).to.include(
+          'Failed to get new CSRF token (HTTP 500): Internal Server Error',
+        );
+      }
     });
   });
 });

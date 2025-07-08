@@ -76,7 +76,7 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
  * This is called when a necessary CSRF token is missing on the client side.
  * @returns {Promise<void>} Resolves if a new token is successfully stored, rejects otherwise.
  */
-async function getAndStoreCSRFToken() {
+export async function getAndStoreCSRFToken() {
   const url = `${environment.API_URL}/v0/maintenance_windows`;
 
   const response = await fetchAndUpdateSessionExpiration(url, {
