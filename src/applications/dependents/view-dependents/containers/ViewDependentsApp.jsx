@@ -23,7 +23,7 @@ const ViewDependentsApp = ({
   onAwardDependents,
   notOnAwardDependents,
   manageDependentsToggle,
-  dependentsV2Toggle,
+  dependentsVerificationFormToggle,
   dependencyVerificationToggle,
   updateDiariesStatus,
   fetchAllDependents,
@@ -36,7 +36,7 @@ const ViewDependentsApp = ({
     [fetchAllDependents],
   );
 
-  const layout = !dependentsV2Toggle ? (
+  const layout = dependentsVerificationFormToggle ? (
     <ViewDependentsLayoutV2
       loading={loading}
       error={error}
@@ -56,7 +56,7 @@ const ViewDependentsApp = ({
       dependencyVerificationToggle={dependencyVerificationToggle}
       updateDiariesStatus={updateDiariesStatus}
     />
-  )
+  );
   return (
     <div className="vads-l-grid-container vads-u-padding--2">
       <DowntimeNotification
@@ -87,8 +87,8 @@ const mapStateToProps = state => ({
   manageDependentsToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.manageDependents
   ],
-  dependentsV2Toggle: toggleValues(state)[
-    FEATURE_FLAG_NAMES.vaDependentsV2
+  dependentsVerificationFormToggle: toggleValues(state)[
+    FEATURE_FLAG_NAMES.vaDependentsVerification
   ],
   dependencyVerificationToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.dependencyVerification
@@ -110,11 +110,10 @@ export default connect(
 ViewDependentsApp.propTypes = {
   fetchAllDependents: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
-
-  dependencyVerificationToggle: PropTypes.bool,
-  dependentsV2Toggle: PropTypes.bool,
   error: PropTypes.object,
+  user: PropTypes.object.isRequired,
+  dependencyVerificationToggle: PropTypes.bool,
+  dependentsVerificationFormToggle: PropTypes.bool,
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,
   updateDiariesStatus: PropTypes.bool,
