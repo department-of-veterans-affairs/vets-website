@@ -67,7 +67,6 @@ export const explanationRequired = Object.freeze([
   'Other Than Honorable',
   'Bad Conduct',
   'Dishonorable',
-  'Other',
 ]);
 
 // Chapter 3
