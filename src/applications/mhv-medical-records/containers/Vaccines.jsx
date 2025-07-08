@@ -172,14 +172,29 @@ const Vaccines = props => {
 
   const generateVaccineListItemTxt = item => {
     setDownloadStarted(true);
-    return [
+    const content = [
       `${txtLine}\n\n`,
       `${item.name}\n`,
       `Date received: ${item.date}\n`,
-      `Location: ${item.location}\n`,
-    ].join('');
-  };
+    ];
 
+    // Add conditional fields based on whether accelerating vaccines is enabled
+    if (isAcceleratingVaccines) {
+      content.push(`Provider: ${item.location || 'None recorded'}\n`);
+      content.push(`Type and dosage: ${item.shortDescription}\n`);
+      content.push(`Manufacturer: ${item.manufacturer}\n`);
+      content.push(`Series status: ${item.doseDisplay}\n`);
+      content.push(`Dose number: ${item.doseNumber}\n`);
+      content.push(`Dose series: ${item.doseSeries}\n`);
+      content.push(`CVX code: ${item.cvxCode}\n`);
+      content.push(`Reactions: ${item.reaction}\n`);
+      content.push(`Notes: ${item.note}\n`);
+    } else {
+      content.push(`Location: ${item.location || 'None recorded'}\n`);
+    }
+
+    return content.join('');
+  };
   const generateVaccinesTxt = async () => {
     const content = [
       `${crisisLineHeader}\n\n`,
@@ -196,7 +211,6 @@ const Vaccines = props => {
 
     generateTextFile(content.join(''), fileName);
   };
-
   /**
    * Change to page 1 and fetch the list of vaccines from the server.
    */

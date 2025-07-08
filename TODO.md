@@ -1,9 +1,6 @@
 TODO:
 
-- test
-  - unit
-  - e2e
-- Print
+- last updated message
 
 Things to add to the API call?
 

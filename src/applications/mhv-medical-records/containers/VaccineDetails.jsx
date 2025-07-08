@@ -116,8 +116,22 @@ const VaccineDetails = props => {
       `${reportGeneratedBy}\n`,
       `${txtLine}\n\n`,
       `Date received: ${record.date}\n`,
-      `Location: ${record.location}\n`,
     ];
+
+    // Add conditional fields based on whether accelerating vaccines is enabled
+    if (isAcceleratingVaccines) {
+      content.push(`Provider: ${record.location || 'None recorded'}\n`);
+      content.push(`Type and dosage: ${record.shortDescription}\n`);
+      content.push(`Manufacturer: ${record.manufacturer}\n`);
+      content.push(`Series status: ${record.doseDisplay}\n`);
+      content.push(`Dose number: ${record.doseNumber}\n`);
+      content.push(`Dose series: ${record.doseSeries}\n`);
+      content.push(`CVX code: ${record.cvxCode}\n`);
+      content.push(`Reactions: ${record.reaction}\n`);
+      content.push(`Notes: ${record.note}\n`);
+    } else {
+      content.push(`Location: ${record.location || 'None recorded'}\n`);
+    }
 
     const fileName = `VA-vaccines-details-${getNameDateAndTime(user)}`;
 
