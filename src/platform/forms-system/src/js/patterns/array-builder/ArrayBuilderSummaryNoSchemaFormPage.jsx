@@ -21,6 +21,7 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
       arrayData,
       isItemIncomplete,
       nounSingular: arrayBuilderOptions.nounSingular,
+      arrayPath: arrayBuilderOptions.arrayPath,
     });
 
     if (!isValid) {

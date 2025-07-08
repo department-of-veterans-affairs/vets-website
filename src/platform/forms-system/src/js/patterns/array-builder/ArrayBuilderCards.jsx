@@ -109,10 +109,12 @@ const ArrayBuilderCards = ({
 
   useArrayBuilderEvent(
     ARRAY_BUILDER_EVENTS.INCOMPLETE_ITEM_ERROR,
-    ({ index }) => {
-      const card = `va-card[name="${nounSingularSlug}_${index}"]`;
-      scrollTo(card);
-      focusElement(`${card} .array-builder-missing-info-alert`);
+    ({ index, arrayPath: incompleteArrayPath }) => {
+      if (incompleteArrayPath === arrayPath) {
+        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
+        scrollTo(card);
+        focusElement(`${card} .array-builder-missing-info-alert`);
+      }
     },
   );
 

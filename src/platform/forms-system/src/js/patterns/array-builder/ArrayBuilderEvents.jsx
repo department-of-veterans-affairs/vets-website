@@ -61,6 +61,7 @@ export const subscribeToArrayBuilderEvent = (eventType, handler) => {
  * Dispatch incomplete item error event
  * @param {Object} event - Error event
  * @param {number} event.index - Item index
+ * @param {string} event.arrayPath - array data path (e.g. 'treatmentRecords')
  */
 export const dispatchIncompleteItemError = event => {
   dispatchArrayBuilderEvent(ARRAY_BUILDER_EVENTS.INCOMPLETE_ITEM_ERROR, event);

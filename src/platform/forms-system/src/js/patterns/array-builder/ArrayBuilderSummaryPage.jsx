@@ -530,6 +530,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
               isItemIncomplete,
               nounSingular,
               errors,
+              arrayPath,
             });
           },
         ],

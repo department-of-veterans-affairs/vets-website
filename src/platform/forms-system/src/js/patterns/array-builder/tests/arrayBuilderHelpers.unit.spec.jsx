@@ -455,6 +455,7 @@ describe('validateIncompleteItems', () => {
     const isValid = helpers.validateIncompleteItems({
       arrayData,
       isItemIncomplete,
+      arrayPath: 'testArray',
     });
 
     expect(isValid).to.be.true;
@@ -467,6 +468,7 @@ describe('validateIncompleteItems', () => {
     const isValid = helpers.validateIncompleteItems({
       arrayData,
       isItemIncomplete,
+      arrayPath: 'testArray',
     });
 
     expect(isValid).to.be.true;
@@ -479,6 +481,7 @@ describe('validateIncompleteItems', () => {
     const isValid = helpers.validateIncompleteItems({
       arrayData,
       isItemIncomplete,
+      arrayPath: 'testArray',
     });
 
     expect(isValid).to.be.false;
@@ -502,11 +505,13 @@ describe('validateIncompleteItems', () => {
     const isValid = helpers.validateIncompleteItems({
       arrayData,
       isItemIncomplete,
+      arrayPath: 'testArray',
     });
 
     expect(isValid).to.be.false;
     expect(eventData).to.deep.eq({
       index: 0,
+      arrayPath: 'testArray',
     });
 
     unsubscribe();
@@ -530,11 +535,13 @@ describe('validateIncompleteItems', () => {
     const isValid = helpers.validateIncompleteItems({
       arrayData,
       isItemIncomplete,
+      arrayPath: 'testArray',
     });
 
     expect(isValid).to.be.false;
     expect(eventData).to.deep.eq({
       index: 1,
+      arrayPath: 'testArray',
     });
 
     unsubscribe();

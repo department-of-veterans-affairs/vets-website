@@ -414,6 +414,7 @@ const getFirstInvalidArrayDataIndex = (arrayData, isItemIncomplete) => {
  * @param {Object} props
  * @param {Array} props.arrayData - The array data to validate
  * @param {Function} props.isItemIncomplete - Function to check if an item is incomplete
+ * @param {string} [props.arrayPath] - The array path (e.g. 'treatmentRecords')
  * @param {Function} [props.addError] - Optional function to add an error
  * @returns {boolean} - Returns an object with the index of the incomplete item or null if all items are complete
  */
@@ -422,6 +423,7 @@ export const validateIncompleteItems = ({
   isItemIncomplete,
   nounSingular,
   errors,
+  arrayPath,
 }) => {
   const invalidIndex = getFirstInvalidArrayDataIndex(
     arrayData,
@@ -434,6 +436,7 @@ export const validateIncompleteItems = ({
     // The user clicked continue
     dispatchIncompleteItemError({
       index: invalidIndex,
+      arrayPath,
     });
 
     // If provided, this is what will block continuing in
