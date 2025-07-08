@@ -142,7 +142,7 @@ const AlertBackgroundBox = props => {
     () => {
       const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
       const isErrorAlert = activeAlert?.alertType === 'error';
-      const { INBOX, SENT, MESSAGE_THREAD, COMPOSE } = Paths;
+      const { INBOX, SENT, MESSAGE_THREAD, COMPOSE, DELETED } = Paths;
       let content = activeAlert?.content;
       let header = activeAlert?.header;
       let { closeable } = props;
@@ -160,6 +160,7 @@ const AlertBackgroundBox = props => {
           location.pathname === SENT ||
           location.pathname.includes(MESSAGE_THREAD) ||
           location.pathname === COMPOSE ||
+          location.pathname === DELETED ||
           foldersViewPage);
 
       const filteredSortedAlerts = alertList

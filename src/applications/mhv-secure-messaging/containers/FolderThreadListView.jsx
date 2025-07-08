@@ -47,6 +47,7 @@ const FolderThreadListView = props => {
     keyword,
     query,
   } = useSelector(state => state.sm.search);
+  const alertVisible = alertList[alertList?.length - 1];
 
   const location = useLocation();
   const params = useParams();
@@ -176,14 +177,13 @@ const FolderThreadListView = props => {
 
   useEffect(
     () => {
-      const alertVisible = alertList[alertList?.length - 1];
       const alertSelector =
         folder !== undefined && !alertVisible?.isActive
           ? 'h1'
           : alertVisible?.isActive && 'va-alert';
       focusElement(document.querySelector(alertSelector));
     },
-    [alertList, folder],
+    [alertList, folder, alertVisible, folderId],
   );
 
   useInterval(() => {
@@ -289,6 +289,14 @@ const FolderThreadListView = props => {
       threadSort.value,
     ],
   );
+
+  if (alertVisible && !threadList) {
+    return (
+      <>
+        <AlertBackgroundBox closeable />
+      </>
+    );
+  }
 
   return (
     <div className="vads-u-padding--0">
