@@ -170,6 +170,7 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
       },
     },
     dateOfBirth: profile?.dob || claimant?.dateOfBirth,
+    dob: profile?.dob || claimant?.dateOfBirth,
     [formFields.email]: {
       email: emailAddress,
       confirmEmail: emailAddress,
@@ -295,6 +296,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
       },
     },
     dateOfBirth: profile?.dob || claimant?.dateOfBirth,
+    dob: profile?.dob || claimant?.dateOfBirth,
     [formFields.email]: {
       email: emailAddress,
       confirmEmail: emailAddress,
