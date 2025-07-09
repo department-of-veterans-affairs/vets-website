@@ -212,16 +212,16 @@ const ClaimsAndAppeals = ({
                   claimOrAppeal={highlightedClaimOrAppeal}
                 />
               ) : (
-                <>
-                  {!isLOA1 && <NoClaimsOrAppealsText />}
-                  <Toggler
-                    toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
-                  >
-                    <Toggler.Disabled>
-                      <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
-                    </Toggler.Disabled>
-                  </Toggler>
-                </>
+                <Toggler
+                  toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+                >
+                  <Toggler.Disabled>
+                    <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
+                  </Toggler.Disabled>
+                  <Toggler.Enabled>
+                    <NoClaimsOrAppealsText />
+                  </Toggler.Enabled>
+                </Toggler>
               )}
             </>
           )}
