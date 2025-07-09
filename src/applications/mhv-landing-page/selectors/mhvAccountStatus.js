@@ -4,13 +4,6 @@ export const mhvAccountStatusLoading = state => {
   return state?.myHealth?.accountStatus?.loading;
 };
 
-export const mhvAccountStatusUsersuccess = state => {
-  return (
-    !state?.myHealth?.accountStatus?.loading &&
-    !state?.myHealth?.accountStatus?.data?.errors
-  );
-};
-
 // Prioritize user actionable errors (userActionErrorCodes)
 // over other less actionable errors
 export const mhvAccountStatusErrorsSorted = state => {
