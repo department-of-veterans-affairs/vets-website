@@ -6,6 +6,8 @@ import SupportingEvidenceViewField from '../../../components/SupportingEvidenceV
 const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/review-and-submit';
 
 describe('SupportingEvidenceViewField', () => {
+  const defaultEditButton = () => <va-button text="edit" />;
+
   beforeEach(() => {
     window.location = new URL(TEST_URL);
   });
@@ -21,7 +23,10 @@ describe('SupportingEvidenceViewField', () => {
     };
 
     const { getByText, queryByText } = render(
-      <SupportingEvidenceViewField formData={formData} />,
+      <SupportingEvidenceViewField
+        formData={formData}
+        defaultEditButton={defaultEditButton}
+      />,
     );
 
     expect(getByText('VA Form 21-686c')).to.exist;
@@ -37,7 +42,10 @@ describe('SupportingEvidenceViewField', () => {
     };
 
     const { getByText, queryAllByText } = render(
-      <SupportingEvidenceViewField formData={formData} />,
+      <SupportingEvidenceViewField
+        formData={formData}
+        defaultEditButton={defaultEditButton}
+      />,
     );
 
     expect(getByText('VA Form 21-686c')).to.exist;
@@ -59,7 +67,10 @@ describe('SupportingEvidenceViewField', () => {
     };
 
     const { getByText, queryAllByText } = render(
-      <SupportingEvidenceViewField formData={formData} />,
+      <SupportingEvidenceViewField
+        formData={formData}
+        defaultEditButton={defaultEditButton}
+      />,
     );
 
     expect(getByText('VA Form 21-686c')).to.exist;

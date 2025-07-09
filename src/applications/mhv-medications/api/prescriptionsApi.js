@@ -4,30 +4,17 @@ import {
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
-  isRefillTakingLongerThanExpected,
   sanitizeKramesHtmlStr,
+  convertPrescription,
+  filterRecentlyRequestedForAlerts,
 } from '../util/helpers';
 import {
   defaultSelectedSortOption,
-  filterOptions,
   INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
 } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
-
-/**
- * Convert a prescription resource from the API response into the expected format
- * @param {Object} prescription - The prescription data from API
- * @returns {Object} - Formatted prescription object
- */
-export const convertPrescription = prescription => {
-  // Handle the case where prescription might be null/undefined
-  if (!prescription) return null;
-
-  // Extract from attributes if available, otherwise use the prescription object directly
-  return prescription.attributes || prescription;
-};
 
 // Create the prescriptions API slice
 export const prescriptionsApi = createApi({
@@ -105,14 +92,16 @@ export const prescriptionsApi = createApi({
             prescriptions: response.data.map(prescription =>
               convertPrescription(prescription),
             ),
-            recentlyRequested: response.meta?.recentlyRequested || [],
+            refillAlertList: filterRecentlyRequestedForAlerts(
+              response.meta?.recentlyRequested || [],
+            ),
             pagination: response.meta?.pagination || {},
             meta: response.meta || {},
           };
         }
         return {
           prescriptions: [],
-          recentlyRequested: [],
+          refillAlertList: [],
           pagination: {},
           meta: {},
         };
@@ -148,13 +137,15 @@ export const prescriptionsApi = createApi({
                 a.prescriptionName.localeCompare(b.prescriptionName),
               )
               .filter(prescription => prescription?.isRefillable),
-            recentlyRequested: response.meta?.recentlyRequested || [],
+            refillAlertList: filterRecentlyRequestedForAlerts(
+              response.meta?.recentlyRequested || [],
+            ),
             meta: response.meta || {},
           };
         }
         return {
           prescriptions: [],
-          recentlyRequested: [],
+          refillAlertList: [],
           meta: {},
         };
       },
@@ -193,33 +184,6 @@ export const prescriptionsApi = createApi({
         };
       },
     }),
-    getRefillAlertPrescriptions: builder.query({
-      query: () => ({
-        path: `${apiBasePath}/prescriptions?${
-          filterOptions.RECENTLY_REQUESTED.url
-        }${rxListSortingOptions.alphabeticalOrder.API_ENDPOINT}`,
-      }),
-      providesTags: ['Prescription'],
-      transformResponse: response => {
-        if (response?.data && Array.isArray(response.data)) {
-          const alertPrescriptions = response.data.reduce(
-            (refillAlertList, prescription) => {
-              const rx = convertPrescription(prescription);
-              if (isRefillTakingLongerThanExpected(rx)) {
-                refillAlertList.push(rx);
-              }
-              return refillAlertList;
-            },
-            [],
-          );
-          return {
-            prescriptions: alertPrescriptions,
-            meta: response.meta || {},
-          };
-        }
-        return { prescriptions: [], meta: {} };
-      },
-    }),
   }),
 });
 
@@ -231,7 +195,6 @@ export const {
   useGetPrescriptionDocumentationQuery,
   useRefillPrescriptionMutation,
   useBulkRefillPrescriptionsMutation,
-  useGetRefillAlertPrescriptionsQuery,
   useGetPrescriptionSortedListQuery,
   endpoints: {
     // Auto-generated hooks for the endpoints
@@ -241,7 +204,6 @@ export const {
     getPrescriptionDocumentation,
     refillPrescription,
     bulkRefillPrescriptions,
-    getRefillAlertPrescriptions,
     getPrescriptionSortedList,
   },
   usePrefetch,
