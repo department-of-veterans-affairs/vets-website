@@ -1,6 +1,6 @@
 import claimantType from './claimantType';
 import personalInformation from './personalInformation';
-import veteranInformation from './veteranInformation';
+import otherVeteranInformation from './otherVeteranInformation';
 import claimantInformation from './claimantInformation';
 import emailAddress from './emailAddress';
 import phoneNumber from './phoneNumber';
@@ -15,7 +15,7 @@ export default {
     claimantInformation,
     emailAddress,
     phoneNumber,
-    veteranInformation,
+    otherVeteranInformation,
     dateReceivedBy,
     incomeNetWorthDateRange,
   },

@@ -3,7 +3,35 @@ import { apiRequest } from 'platform/utilities/api';
 import { format } from 'date-fns-tz';
 import { cloneDeep } from 'lodash';
 
-const disallowedFields = ['vaFileNumberLastFour', 'veteranSsnLastFour'];
+const disallowedFields = [
+  'vaFileNumberLastFour',
+  'veteranSsnLastFour',
+  'otherVeteranFullName',
+  'otherVeteranSocialSecurityNumber',
+  'otherVaFileNumber',
+];
+
+export function remapOtherVeteranFields(data = {}) {
+  // Map 'otherVeteranInformation' fields to standard submission keys if applicable
+  const updated = { ...data };
+
+  if (data.claimantType !== 'VETERAN') {
+    if (data.otherVeteranFullName) {
+      updated.veteranFullName = data.otherVeteranFullName;
+    }
+
+    if (data.otherVeteranSocialSecurityNumber) {
+      updated.veteranSocialSecurityNumber =
+        data.otherVeteranSocialSecurityNumber;
+    }
+
+    if (data.otherVaFileNumber) {
+      updated.vaFileNumber = data.otherVaFileNumber;
+    }
+  }
+
+  return updated;
+}
 
 export function replacer(key, value) {
   // Clean up empty objects, which we have no reason to send
@@ -59,9 +87,16 @@ export function transformForSubmit(formConfig, form, replacerFn) {
 }
 
 export function transform(formConfig, form) {
+  const clonedForm = cloneDeep(form);
+
+  // Only override veteran* fields if the applicant is NOT the Veteran
+  if (clonedForm.data?.claimantType !== 'VETERAN') {
+    clonedForm.data = remapOtherVeteranFields(clonedForm.data);
+  }
+
   // Remove disallowed fields from the form data as they will
   // get flagged by vets-api and the submission will be rejected
-  const cleanedForm = removeDisallowedFields(form);
+  const cleanedForm = removeDisallowedFields(clonedForm);
 
   const formData = transformForSubmit(formConfig, cleanedForm, replacer);
 

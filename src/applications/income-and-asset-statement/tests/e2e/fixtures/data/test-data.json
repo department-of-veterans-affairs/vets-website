@@ -10,6 +10,11 @@
       "last": "Doe"
     },
     "veteranSocialSecurityNumber": "321654987",
+    "otherVeteranFullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "otherVeteranSocialSecurityNumber": "987654321",
     "claimantFullName": {
       "first": "Jane",
       "last": "Doe"
