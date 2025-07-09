@@ -262,6 +262,12 @@ class PatientErrorPage {
     cy.findByTestId(`folder-header`).should(`not.exist`);
     cy.findByTestId(`inbox-footer`).should(`not.exist`);
   };
+
+  verifyAttachmentErrorMessage = errormessage => {
+    cy.get(Locators.ALERTS.ERROR_MESSAGE)
+      .should('include.text', errormessage)
+      .should('be.visible');
+  };
 }
 
 export default new PatientErrorPage();

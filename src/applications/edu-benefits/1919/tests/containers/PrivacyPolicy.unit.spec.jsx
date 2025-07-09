@@ -101,4 +101,22 @@ describe('22-1919 <PrivacyPolicy>', () => {
 
     expect(getByText('Custom Title')).to.exist;
   });
+
+  it('should open modal when Enter key is pressed on privacy policy link', () => {
+    const { container, getByTestId } = render(
+      <Provider store={fakeStore(formData)}>
+        <PrivacyPolicy />
+      </Provider>,
+    );
+
+    const vaLink = container.querySelector('va-link');
+    expect(vaLink).to.exist;
+
+    const enterKeyEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+    vaLink.dispatchEvent(enterKeyEvent);
+
+    const privacyActNotice = getByTestId('privacy-act-notice');
+    expect(privacyActNotice).to.exist;
+    expect(privacyActNotice).to.be.visible;
+  });
 });
