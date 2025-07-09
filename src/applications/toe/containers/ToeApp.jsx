@@ -140,13 +140,7 @@ function ToeApp({
         });
       }
     },
-    [
-      duplicateEmail,
-      duplicatePhone,
-      getDuplicateContactInfo,
-      formData?.email,
-      formData?.mobilePhone?.phone,
-    ],
+    [getDuplicateContactInfo, formData?.email, formData?.mobilePhone?.phone],
   );
 
   useEffect(
