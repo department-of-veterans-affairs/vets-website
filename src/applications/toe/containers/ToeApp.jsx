@@ -141,11 +141,13 @@ function ToeApp({
       }
     },
     [
-      formData,
+      formData?.email,
+      formData.mobilePhone.phone,
       setFormData,
       duplicateEmail,
       duplicatePhone,
       getDuplicateContactInfo,
+      formData,
     ],
   );
 
