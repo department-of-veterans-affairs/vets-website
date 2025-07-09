@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { isArray } from 'lodash';
+import merge from 'lodash/merge';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -284,6 +285,10 @@ ToeApp.propTypes = {
 const mapStateToProps = state => {
   const prefillData =
     prefillTransformer(null, null, null, state)?.formData || {};
+  const formStateData = state.form?.data || {};
+
+  // Deeply merge form state over prefill data
+  const formData = merge({}, prefillData, formStateData);
 
   return {
     ...getAppData(state),
@@ -291,7 +296,7 @@ const mapStateToProps = state => {
     dob:
       state?.user?.profile?.dob ||
       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
-    formData: prefillData,
+    formData,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,
     sponsorsInitial: state?.data?.sponsors,
@@ -299,7 +304,6 @@ const mapStateToProps = state => {
     user: state.user,
   };
 };
-
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
