@@ -8,6 +8,8 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import environment from 'platform/utilities/environment';
+
 import { dateOfDeathValidation } from '../helpers';
 
 /** @type {PageSchema} */
