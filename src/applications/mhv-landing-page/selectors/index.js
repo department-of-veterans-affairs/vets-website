@@ -21,7 +21,6 @@ import { hasMessagingAccess } from './hasMessagingAccess';
 import {
   mhvAccountStatusLoading,
   mhvAccountStatusUserError,
-  mhvAccountStatusNonUserError,
   mhvAccountStatusErrorsSorted,
 } from './mhvAccountStatus';
 import {
@@ -55,7 +54,6 @@ export {
   mhvAccountStatusLoading,
   mhvAccountStatusUserError,
   mhvAccountStatusErrorsSorted,
-  mhvAccountStatusNonUserError,
   militaryServiceLoading,
   militaryServiceSuccessfulDownload,
   militaryServiceFailedDownload,

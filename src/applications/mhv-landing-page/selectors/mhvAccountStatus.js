@@ -25,12 +25,3 @@ export const mhvAccountStatusUserError = state => {
   }
   return [];
 };
-
-export const mhvAccountStatusNonUserError = state => {
-  if (state?.myHealth?.accountStatus?.data?.errors) {
-    return state?.myHealth?.accountStatus?.data?.errors.filter(
-      error => !userActionErrorCodes.includes(error.code),
-    );
-  }
-  return [];
-};
