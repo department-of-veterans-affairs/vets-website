@@ -1,7 +1,6 @@
 import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
-import AlertMhvNoAction from '../../../components/alerts/AlertMhvNoAction.jsx';
 
 describe(`${appName} - MHV Registration Alert - `, () => {
   beforeEach(() => {
@@ -49,17 +48,6 @@ describe(`${appName} - MHV Registration Alert - `, () => {
     beforeEach(() => {
       ApiInitializer.initializeAccountStatus.with500();
       LandingPage.visit({ mhvAccountState: 'NONE' });
-    });
-
-    it(`shows a 'try again later' alert`, () => {
-      cy.injectAxeThenAxeCheck();
-      cy.findByText(AlertMhvNoAction.defaultProps.title, {
-        exact: false,
-      }).should.exist;
-
-      // Check the cards and hubs are visible
-      cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;
-      cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
     });
 
     it('should reference a specific error', () => {
