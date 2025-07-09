@@ -285,6 +285,39 @@ const mapStateToProps = state => {
   const prefillData =
     prefillTransformer(null, null, null, state)?.formData || {};
   const formStateData = state.form?.data || {};
+  const directDepositData = state.data?.directDeposit || {};
+  const contactInfoData = state.data?.contactInfo || {};
+
+  // Create merged form data with proper precedence
+  const mergedFormData = {
+    ...prefillData,
+    ...formStateData,
+    'view:directDeposit': {
+      ...(prefillData['view:directDeposit'] || {}),
+      ...(formStateData['view:directDeposit'] || {}),
+      ...(directDepositData || {}),
+    },
+    'view:phoneNumbers': {
+      ...(prefillData['view:phoneNumbers'] || {}),
+      ...(formStateData['view:phoneNumbers'] || {}),
+      ...(contactInfoData?.phoneNumbers || {}),
+    },
+    email: formStateData.email || prefillData.email || contactInfoData?.email,
+    mobilePhone:
+      formStateData.mobilePhone ||
+      prefillData.mobilePhone ||
+      contactInfoData?.mobilePhone,
+    homePhone:
+      formStateData.homePhone ||
+      prefillData.homePhone ||
+      contactInfoData?.homePhone,
+    duplicateEmail: formStateData.duplicateEmail || state.data?.duplicateEmail,
+    duplicatePhone: formStateData.duplicatePhone || state.data?.duplicatePhone,
+    sponsors: formStateData.sponsors || prefillData.sponsors,
+    toeLightHouseDgiDirectDeposit:
+      formStateData.toeLightHouseDgiDirectDeposit ||
+      state.featureToggles?.toeLightHouseDgiDirectDeposit,
+  };
 
   return {
     ...getAppData(state),
@@ -292,11 +325,7 @@ const mapStateToProps = state => {
     dob:
       state?.user?.profile?.dob ||
       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
-    formData: {
-      ...formStateData,
-      ...prefillData,
-      sponsors: formStateData.sponsors || prefillData.sponsors,
-    },
+    formData: mergedFormData,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,
     sponsorsInitial: state?.data?.sponsors,
