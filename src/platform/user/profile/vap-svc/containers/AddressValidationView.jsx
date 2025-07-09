@@ -78,6 +78,24 @@ class AddressValidationView extends React.Component {
     this.props.updateSelectedAddress(address, selectedAddressId);
   };
 
+  requiresNewValidationKey = payload => {
+    const { addressMetaData, validationKey } = payload;
+    if (validationKey) {
+      // if there is a validationKey, assume the validationKey is already updated
+      return false;
+    }
+    if (
+      addressMetaData.addressType === 'Domestic' &&
+      addressMetaData.confidenceScore < 80
+    ) {
+      return true;
+    }
+    return (
+      addressMetaData.addressType === 'International' &&
+      addressMetaData.confidenceScore < 70
+    );
+  };
+
   onSubmit = async event => {
     event.preventDefault();
     const {
@@ -143,15 +161,25 @@ class AddressValidationView extends React.Component {
       // if the user selected a suggested address, we need to remove the validationKey
       // so that the API doesn't throw an error
       delete payload.validationKey;
-      this.props.resetAddressValidation();
     }
-    await this.props.createTransaction(
-      VAP_SERVICE.API_ROUTES.ADDRESSES,
-      method,
-      addressValidationType,
-      payload,
-      analyticsSectionName,
-    );
+    if (this.requiresNewValidationKey(payload)) {
+      // if the suggested address selected, there will be no validationKey so if the address has a low confidence rating we need to fetch a new validationKey for the update request
+      await this.props.updateValidationKeyAndSave(
+        VAP_SERVICE.API_ROUTES.ADDRESSES,
+        method,
+        addressValidationType,
+        payload,
+        analyticsSectionName,
+      );
+    } else {
+      await this.props.createTransaction(
+        VAP_SERVICE.API_ROUTES.ADDRESSES,
+        method,
+        addressValidationType,
+        payload,
+        analyticsSectionName,
+      );
+    }
   };
 
   onEditClick = () => {
