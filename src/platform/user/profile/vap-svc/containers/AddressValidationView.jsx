@@ -163,7 +163,9 @@ class AddressValidationView extends React.Component {
       delete payload.validationKey;
     }
     if (this.requiresNewValidationKey(payload)) {
-      // if the suggested address selected, there will be no validationKey so if the address has a low confidence rating we need to fetch a new validationKey for the update request
+      // if the suggested address selected, there will be no validationKey so if the
+      // address has a low confidence rating we need to fetch a new validationKey for
+      // the update request
       await this.props.updateValidationKeyAndSave(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
