@@ -85,13 +85,13 @@ class AddressValidationView extends React.Component {
       return false;
     }
     if (
-      addressMetaData.addressType === 'Domestic' &&
+      addressMetaData.addressType.toUpperCase() === 'DOMESTIC' &&
       addressMetaData.confidenceScore < 80
     ) {
       return true;
     }
     return (
-      addressMetaData.addressType === 'International' &&
+      addressMetaData.addressType.toUpperCase() === 'INTERNATIONAL' &&
       addressMetaData.confidenceScore < 70
     );
   };
