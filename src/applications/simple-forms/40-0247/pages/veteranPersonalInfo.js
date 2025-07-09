@@ -7,21 +7,16 @@ import {
   fullNameNoSuffixUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import environment from 'platform/utilities/environment';
 
 import { dateOfDeathValidation } from '../helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...(environment.isProduction()
-      ? titleUI(
-          'Tell us who you’re requesting a Presidential Memorial Certificate for',
-        )
-      : titleUI(
-          'Veteran or Reservist’s details',
-          'Tell us who you’re requesting a Presidential Memorial Certificate for.',
-        )),
+    ...titleUI(
+      'Veteran or Reservist’s details',
+      'Tell us who you’re requesting a Presidential Memorial Certificate for.',
+    ),
     veteranFullName: fullNameNoSuffixUI(),
     veteranDateOfBirth: dateOfBirthUI(),
     veteranDateOfDeath: dateOfDeathUI(),
