@@ -61,7 +61,7 @@ const createReferralById = (
   uuid,
   expirationDate,
   categoryOfCare = 'OPTOMETRY',
-  hasProvider,
+  hasProvider = true,
 ) => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
