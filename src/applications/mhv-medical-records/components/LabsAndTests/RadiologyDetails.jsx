@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -28,11 +27,7 @@ import {
   ALERT_TYPE_IMAGE_STATUS_ERROR,
   radiologyErrors,
 } from '../../util/constants';
-import {
-  generateTextFile,
-  formatDateAndTime,
-  sendDataDogAction,
-} from '../../util/helpers';
+import { generateTextFile, sendDataDogAction } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import {
@@ -46,6 +41,7 @@ import HeaderSection from '../shared/HeaderSection';
 import LabelValue from '../shared/LabelValue';
 import TrackedSpinner from '../shared/TrackedSpinner';
 import { RadiologyTags } from '../../util/ddConstants';
+import JobCompleteAlert from '../shared/JobsCompleteAlert';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -339,7 +335,7 @@ ${record.results}`;
       </>
     );
   };
-
+  
   const imageAlert = message => (
     <va-alert
       class="vads-u-margin-bottom--2"
@@ -422,6 +418,12 @@ ${record.results}`;
     </>
   );
 
+  const renderJobCompleteAlert = () => {
+    return (
+      <JobCompleteAlert records={[radiologyDetails]} studyJobs={[studyJob]} />
+    );
+  };
+
   const imageStatusContent = () => {
     if (radiologyDetails.studyId) {
       if (processingRequest) {
@@ -453,7 +455,7 @@ ${record.results}`;
         <>
           {nillOrLimitReached && imagesNotRequested(studyJob)}
           {newOrProcessing && jobProcessingAlert(studyJob)}
-          {jobComplete && jobCompleteAlert()}
+          {jobComplete && renderJobCompleteAlert()}
           {requestFailedOrError && imageAlertError(studyJob)}
           {notificationContent()}
         </>
@@ -487,10 +489,8 @@ ${record.results}`;
             role="alert"
             data-testid="alert-download-started"
           >
-            <h3 className="vads-u-font-size--lg vads-u-font-family--sans no-print">
-              Images ready
-            </h3>
-            {jobCompleteAlert()}
+            <h3 className="vads-u-font-size--lg no-print">Images ready</h3>
+            {renderJobCompleteAlert()}
           </VaAlert>
         )}
         {downloadStarted && <DownloadSuccessAlert />}

@@ -5,8 +5,11 @@ export const dependents = {
     type: 'object',
     properties: {
       dependents: {
-        type: 'object',
-        properties: {},
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {},
+        },
       },
       hasDependentsStatusChanged: radioSchema(['Y', 'N']),
     },

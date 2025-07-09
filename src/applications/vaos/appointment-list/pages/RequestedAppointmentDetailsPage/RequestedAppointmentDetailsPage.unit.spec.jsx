@@ -94,7 +94,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: 'We’re sorry. We’ve run into a problem',
+        name: 'We can’t access your appointment details right now',
       }),
     ).to.be.ok;
   });
@@ -104,7 +104,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
       pending: true,
-    });
+    }).setType('REQUEST');
 
     mockAppointmentApi({ response });
 
@@ -128,6 +128,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       status: APPOINTMENT_STATUS.proposed,
     })
       .setKind('cc')
+      .setType('COMMUNITY_CARE_REQUEST')
       .setPending(true);
 
     mockAppointmentApi({ response });
@@ -151,7 +152,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.cancelled,
       pending: true,
-    });
+    }).setType('REQUEST');
     response.setRequestedPeriods([new Date()]);
 
     mockAppointmentApi({ response });
@@ -177,9 +178,10 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
       pending: true,
-    });
+    }).setType('REQUEST');
     const canceledResponse = MockAppointmentResponse.createCCResponse();
     canceledResponse
+      .setType('REQUEST')
       .setCancelationReason('pat')
       .setRequestedPeriods(requestedPeriods)
       .setStatus(APPOINTMENT_STATUS.cancelled);
@@ -215,9 +217,10 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
       pending: true,
-    });
+    }).setType('REQUEST');
     const canceledResponse = MockAppointmentResponse.createCCResponse();
     canceledResponse
+      .setType('REQUEST')
       .setCancelationReason('pat')
       .setRequestedPeriods(requestedPeriods)
       .setStatus(APPOINTMENT_STATUS.cancelled);
@@ -264,9 +267,10 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       const response = new MockAppointmentResponse({
         status: APPOINTMENT_STATUS.proposed,
         pending: true,
-      });
+      }).setType('REQUEST');
       const canceledResponse = MockAppointmentResponse.createCCResponse();
       canceledResponse
+        .setType('REQUEST')
         .setCancelationReason('pat')
         .setRequestedPeriods(requestedPeriods)
         .setStatus(APPOINTMENT_STATUS.cancelled);
@@ -398,7 +402,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       const response = new MockAppointmentResponse({
         status: APPOINTMENT_STATUS.proposed,
         pending: true,
-      });
+      }).setType('REQUEST');
 
       mockAppointmentApi({ response });
 

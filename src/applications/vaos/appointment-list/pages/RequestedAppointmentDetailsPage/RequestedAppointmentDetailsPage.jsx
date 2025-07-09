@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import BackLink from '../../../components/BackLink';
-import ErrorMessage from '../../../components/ErrorMessage';
+import AppointmentDetailsErrorMessage from '../../components/AppointmentDetailsErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import FacilityPhone from '../../../components/FacilityPhone';
 import FullWidthLayout from '../../../components/FullWidthLayout';
@@ -87,7 +87,7 @@ export default function RequestedAppointmentDetailsPage() {
   ) {
     return (
       <FullWidthLayout>
-        <ErrorMessage level={1} />
+        <AppointmentDetailsErrorMessage />
       </FullWidthLayout>
     );
   }

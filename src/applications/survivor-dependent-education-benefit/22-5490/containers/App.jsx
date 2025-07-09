@@ -11,6 +11,7 @@ import {
 } from '../actions';
 import formConfig from '../config/form';
 import { getAppData } from '../selectors';
+import { prefillTransformer } from '../helpers';
 
 function App({
   children,
@@ -56,7 +57,12 @@ function App({
 
   useEffect(
     () => {
-      if (user?.profile) {
+      if (
+        user?.profile &&
+        (!formData?.claimantFullName?.first ||
+          !formData?.claimantFullName?.last ||
+          !formData?.claimantDateOfBirth)
+      ) {
         setFormData({
           ...formData,
           claimantFullName: {
@@ -69,7 +75,7 @@ function App({
         });
       }
     },
-    [user?.profile],
+    [user?.profile, setFormData],
   );
 
   useEffect(
@@ -174,11 +180,25 @@ App.propTypes = {
   user: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  ...getAppData(state),
-  formData: state.form?.data || {},
-  user: state.user,
-});
+const mapStateToProps = state => {
+  const prefillData =
+    prefillTransformer(null, null, null, state)?.formData || {};
+  const formStateData = state.form?.data || {};
+
+  return {
+    ...getAppData(state),
+    formData: {
+      ...formStateData,
+      ...prefillData,
+      chosenBenefit: formStateData?.chosenBenefit || prefillData?.chosenBenefit,
+      highSchoolDiploma:
+        formStateData?.highSchoolDiploma || prefillData?.highSchoolDiploma,
+      graduationDate:
+        formStateData?.graduationDate || prefillData?.graduationDate,
+    },
+    user: state.user,
+  };
+};
 
 const mapDispatchToProps = {
   getPersonalInformation: fetchPersonalInformation,

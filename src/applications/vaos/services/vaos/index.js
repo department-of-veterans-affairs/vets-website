@@ -156,25 +156,21 @@ export function getAvailableV2Slots({
   startDate,
   endDate,
 }) {
-  let clinicIdParam = '';
-  let typeOfCareParam = '';
-  let providerParam = '';
+  const queryParams = [];
+  const start = startDate.toISOString();
+  const end = endDate.toISOString();
 
-  if (clinicId !== null) {
-    clinicIdParam = `/clinics/${clinicId}`;
-  }
+  if (typeOfCare) queryParams.push(`clinical_service=${typeOfCare}`);
+  if (provider) queryParams.push(`provider=${provider}`);
 
-  if (typeOfCare !== null) {
-    typeOfCareParam = `&clinical_service=${typeOfCare}`;
-  }
+  let baseUrl = `/vaos/v2/locations/${facilityId}`;
+  if (clinicId) baseUrl = `${baseUrl}/clinics/${clinicId.split('_')[1]}`;
 
-  if (provider !== null) {
-    providerParam = `&provider=${provider}`;
-  }
+  baseUrl = `${baseUrl}/slots?start=${encodeURIComponent(
+    start,
+  )}&end=${encodeURIComponent(end)}${queryParams.join('&')}`;
 
-  return apiRequestWithUrl(
-    `/vaos/v2/locations/${facilityId}${clinicIdParam}/slots?start=${startDate}&end=${endDate}${typeOfCareParam}${providerParam}`,
-  ).then(parseApiList);
+  return apiRequestWithUrl(baseUrl).then(parseApiList);
 }
 
 export function getCommunityCareV2(typeOfCare) {

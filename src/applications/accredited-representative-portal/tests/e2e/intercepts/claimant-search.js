@@ -47,7 +47,7 @@ export const setClaimantSearch = () => {
             createdAt: '2025-01-30T12:53:17.249Z',
             type: 'decision',
             decisionType: 'declination',
-            reason: "Didn't authorize treatment record disclosure",
+            declinationReason: "Didn't authorize treatment record disclosure",
             creatorId: '03e24c1f-1ef8-476b-80c0-532022b6b903',
             id: '810b554b-478d-42c7-8a5d-d98827add478',
           },

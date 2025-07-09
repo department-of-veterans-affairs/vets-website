@@ -3,15 +3,17 @@ import React from 'react';
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-
-// import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';
+import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import SubmissionInstructions from '../components/SubmissionInstructions';
 import PrivacyPolicy from '../components/PrivacyPolicy';
+
 import {
   additionalOfficialArrayOptions,
   readOnlyCertifyingOfficialArrayOptions,
@@ -37,6 +39,14 @@ import {
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+const scrollAndFocusTarget = () => {
+  scrollToTop('topScrollElement');
+  focusElement('h3');
+};
+
+export const confirmFormLogic = ({ router, route }) => (
+  <ConfirmationPage router={router} route={route} />
+);
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -46,7 +56,7 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'Edu-8794-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: confirmFormLogic,
   formId: '22-8794',
   saveInProgress: {
     // messages: {
@@ -173,6 +183,7 @@ const formConfig = {
             title: 'Add additional certifying officials',
             uiSchema: additionalOfficialSummary.uiSchema,
             schema: additionalOfficialSummary.schema,
+            scrollAndFocusTarget,
           }),
           additionalOfficialDetails: pageBuilder.itemPage({
             path: 'additional-certifying-officials/:index',
@@ -208,6 +219,7 @@ const formConfig = {
             path: 'read-only-certifying-officials/summary',
             uiSchema: readOnlyCertifyingOfficialSummaryPage.uiSchema,
             schema: readOnlyCertifyingOfficialSummaryPage.schema,
+            scrollAndFocusTarget,
           }),
           addReadOnlyPrimaryOfficial: pageBuilder.itemPage({
             title: 'Tell us about your read-only school certifying official',
@@ -226,6 +238,23 @@ const formConfig = {
           path: 'remarks',
           uiSchema: remarksPage.uiSchema,
           schema: remarksPage.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },

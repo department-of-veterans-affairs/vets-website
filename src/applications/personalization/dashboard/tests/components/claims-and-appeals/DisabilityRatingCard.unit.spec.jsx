@@ -48,13 +48,39 @@ describe('DisabilityRatingCard', () => {
     ).to.not.exist;
   });
 
+  it('renders no disability rating on file', () => {
+    store = mockStore({
+      totalRating: {
+        totalDisabilityRating: null,
+      },
+    });
+
+    const screen = render(
+      <Provider store={store}>
+        <DisabilityRatingCard />
+      </Provider>,
+    );
+
+    expect(
+      screen.getByText(
+        'We don’t have a combined disability rating on file for you.',
+      ),
+    ).to.exist;
+    expect(screen.queryByText(/Your combined disability rating is \d+%/)).to.not
+      .exist;
+    expect(
+      screen.queryByText('We can’t currently display your disability rating.'),
+    ).to.not.exist;
+  });
+
   it('renders the error state on server error', () => {
     // Fake the error object following the props that helpers check
     store = mockStore({
       totalRating: {
         totalDisabilityRating: null,
         error: {
-          code: 500,
+          code: 'EVSS400',
+          status: 500,
         },
       },
     });
@@ -68,7 +94,9 @@ describe('DisabilityRatingCard', () => {
     expect(screen.queryByText(/Your combined disability rating is \d+%/)).to.not
       .exist;
     expect(
-      screen.getByText('We can’t currently display your disability rating.'),
+      screen.getByText(
+        'We can’t show your disability rating right now. Refresh this page or try again later.',
+      ),
     ).to.exist;
   });
 });

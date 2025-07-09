@@ -7,14 +7,13 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { selectProfile } from 'platform/user/selectors';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 
-import { maskID } from '../../shared/utils';
+import { maskID, getFullName } from '../../shared/utils';
 
 export const VeteranInformation = ({ formData }) => {
   const { ssnLastFour } = formData?.veteranInformation || {};
   const { dob, userFullName = {} } = useSelector(selectProfile);
-  const { first, middle, last, suffix } = userFullName;
 
-  const dobDateObj = dob ? formatDateParsedZoneLong(dob) : null;
+  const dobDate = dob ? formatDateParsedZoneLong(dob) : null;
 
   return (
     <>
@@ -35,41 +34,46 @@ export const VeteranInformation = ({ formData }) => {
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--1">
           Personal information
         </h4>
-        <p
-          className="name dd-privacy-hidden"
-          data-dd-action-name="Veteran's name"
-        >
-          <strong>Name:</strong>{' '}
-          {[first, middle, last].filter(Boolean).join(' ')}
-          {suffix ? `, ${suffix}` : null}
-        </p>
-        {ssnLastFour ? (
-          <p className="ssn">
-            <strong>Last 4 digits of Social Security number:</strong>{' '}
-            <span
-              className="dd-privacy-mask"
-              data-dd-action-name="Veteran's SSN"
+        <dl>
+          <div className="item vads-u-display--flex vads-u-justify-content--start">
+            <dt className="vads-u-margin-bottom--1">
+              <strong>Name:&nbsp;</strong>
+            </dt>
+            <dd
+              className="name dd-privacy-hidden"
+              data-dd-action-name="Veteran’s name"
             >
-              {maskID(ssnLastFour, '')}
-            </span>
-          </p>
-        ) : null}
-        <p>
-          <strong>Date of birth:</strong>{' '}
-          {dobDateObj ? (
-            <span
-              className="dob dd-privacy-mask"
-              data-dd-action-name="Veteran's date of birth"
-            >
-              {dobDateObj}
-            </span>
+              {getFullName(userFullName)}
+            </dd>
+          </div>
+          {ssnLastFour ? (
+            <div className="item vads-u-display--flex vads-u-justify-content--start">
+              <dt className="ssn vads-u-margin-bottom--1">
+                <strong>Last 4 digits of Social Security number:&nbsp;</strong>
+              </dt>
+              <dd
+                className="dd-privacy-mask"
+                data-dd-action-name="Veteran’s SSN"
+              >
+                {maskID(ssnLastFour, '')}
+              </dd>
+            </div>
           ) : null}
-        </p>
+          <div className="item vads-u-display--flex vads-u-justify-content--start">
+            <dt>
+              <strong>Date of birth:&nbsp;</strong>
+            </dt>
+            <dd
+              className="dob dd-privacy-mask"
+              data-dd-action-name="Veteran’s date of birth"
+            >
+              {dobDate}
+            </dd>
+          </div>
+        </dl>
       </va-card>
 
-      <br role="presentation" />
-
-      <p>
+      <p className="vads-u-margin-top--2">
         <strong>Note:</strong> To protect your personal information, we don’t
         allow online changes to your name, date of birth, or Social Security
         number. If you need to change this information, call us at{' '}
