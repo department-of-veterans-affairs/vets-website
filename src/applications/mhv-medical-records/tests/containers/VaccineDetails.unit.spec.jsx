@@ -203,31 +203,6 @@ describe('Vaccines details container conditional field rendering', () => {
           // eslint-disable-next-line camelcase
           mhv_accelerated_delivery_vaccines_enabled: true,
         },
-        drupalStaticData: {
-          vamcEhrData: {
-            loading: false,
-            data: {
-              cernerFacilities: [
-                {
-                  vhaId: '556',
-                  vamcFacilityName:
-                    'Captain James A. Lovell Federal Health Care Center',
-                  vamcSystemName: 'Lovell Federal health care - VA',
-                  ehr: 'cerner',
-                },
-              ],
-              ehrDataByVhaId: {
-                '556': {
-                  vhaId: '556',
-                  vamcFacilityName:
-                    'Captain James A. Lovell Federal Health Care Center',
-                  vamcSystemName: 'Lovell Federal health care - VA',
-                  ehr: 'cerner',
-                },
-              },
-            },
-          },
-        },
       };
 
       screen = renderWithStoreAndRouter(<VaccineDetails runningUnitTest />, {
