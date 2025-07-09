@@ -19,6 +19,8 @@ function ValidationError(props) {
     ariaDescribedBy = null;
   }
   const hideBackButton = formConfig?.useTopBackLink || false;
+  const useWebComponents =
+    formConfig?.formOptions?.useWebComponentForNavigation;
 
   const alert = formConfig.showReviewErrors ? (
     <ErrorLinks appType={appType} testId={testId} />
@@ -51,13 +53,17 @@ function ValidationError(props) {
                 onButtonClick={onSubmit}
                 buttonText={buttonText}
                 buttonClass="usa-button-primary"
+                useWebComponents={useWebComponents}
               />
             </Column>
           </>
         ) : (
           <>
             <Column classNames="small-6 medium-5">
-              <Back onButtonClick={onBack} />
+              <Back
+                onButtonClick={onBack}
+                useWebComponents={useWebComponents}
+              />
             </Column>
             <Column classNames="small-6 medium-5">
               <ProgressButton
@@ -65,6 +71,7 @@ function ValidationError(props) {
                 onButtonClick={onSubmit}
                 buttonText={buttonText}
                 buttonClass="usa-button-primary"
+                useWebComponents={useWebComponents}
               />
             </Column>
             <Column classNames="small-1 medium-1 end">

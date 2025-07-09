@@ -16,6 +16,8 @@ export default function Submitted(props) {
     ariaDescribedBy = null;
   }
   const hideBackButton = formConfig?.useTopBackLink || false;
+  const useWebComponents =
+    formConfig?.formOptions?.useWebComponentForNavigation;
 
   return (
     <>
@@ -31,13 +33,17 @@ export default function Submitted(props) {
                 disabled
                 buttonClass="form-button-green"
                 beforeText="&#10003;"
+                useWebComponents={useWebComponents}
               />
             </Column>
           </>
         ) : (
           <>
             <Column classNames="small-6 medium-5">
-              <Back onButtonClick={onBack} />
+              <Back
+                onButtonClick={onBack}
+                useWebComponents={useWebComponents}
+              />
             </Column>
             <Column classNames="small-6 medium-5">
               <ProgressButton
@@ -47,6 +53,7 @@ export default function Submitted(props) {
                 disabled
                 buttonClass="form-button-green"
                 beforeText="&#10003;"
+                useWebComponents={useWebComponents}
               />
             </Column>
             <Column classNames="small-1 medium-1 end">
