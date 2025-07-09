@@ -12,7 +12,7 @@ import {
 
 import formConfig from '../../config/form';
 
-xdescribe('Chapter 31 Additional Information Page', () => {
+describe.skip('Chapter 31 Additional Information Page', () => {
   const {
     schema,
     uiSchema,

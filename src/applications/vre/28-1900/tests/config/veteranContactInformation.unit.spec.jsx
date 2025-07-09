@@ -15,7 +15,7 @@ const {
   uiSchema,
 } = formConfig.chapters.veteranInformation.pages.contactInformation;
 
-xdescribe('Chapter 31 veteran contact information', () => {
+describe.skip('Chapter 31 veteran contact information', () => {
   it('should render', () => {
     const form = mount(
       <DefinitionTester
