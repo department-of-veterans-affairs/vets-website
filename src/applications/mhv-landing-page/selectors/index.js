@@ -27,7 +27,6 @@ import {
   militaryServiceLoading,
   militaryServiceSuccessfulDownload,
   militaryServiceFailedDownload,
-  militaryServiceError,
 } from './militaryServicePdf';
 import {
   seiLoading,
@@ -57,7 +56,6 @@ export {
   militaryServiceLoading,
   militaryServiceSuccessfulDownload,
   militaryServiceFailedDownload,
-  militaryServiceError,
   personalizationEnabled,
   profileHasEHRM,
   profileHasVista,
