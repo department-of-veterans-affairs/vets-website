@@ -89,7 +89,7 @@ const App = ({ children }) => {
     clientToken: 'pubb9b9c833770797060110a821283a0892',
     site: 'ddog-gov.com',
     service: 'va.gov-mhv-medications',
-    sessionSampleRate: 100,
+    sessionSampleRate: 50,
     sessionReplaySampleRate: 50,
     trackInteractions: true,
     trackFrustrations: true,
