@@ -38,13 +38,13 @@ Data Tracking Check: If I upload multiple files with passwords and document type
 - [X] 16. If I try to add a file that is 0MB, I will see an error
     - Error: "The file you selected is empty. Files uploaded must be larger than 0B."
 - [X] 17. If I click Remove, I will be shown a confirm remove modal with confirm or cancel buttons
-    - Heading: "Remove this file?" --> "Delete this file?"
-    - Description: "We’ll remove [file name]" --> "We'll remove the uploaded document
+    - Heading: "Delete this file?"
+    - Description: "We'll remove the uploaded document
 [file name]"
     - Confirm Button Text: "Yes, remove this"
     - Cancel Button Text: "No, keep this"
 - [X] 18. If I delete a file, the other files will retain their correct data
-- [X] 19. If I add files that pass all validation errors, I am able to click the submit button
+- [ ] 19. If I add files that pass all validation errors, I am able to click the submit button
     - Button Text: "Submit documents for review"
 - [ ] 20. If I submit files, I will be shown an uploading modal with a submission progress bar
     - Heading: "Uploading files"

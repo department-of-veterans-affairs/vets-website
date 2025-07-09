@@ -16,16 +16,16 @@ import { DOC_TYPES } from '../../../utils/helpers';
 import { FILE_TYPES } from '../../../utils/validations';
 import DebugInfo from './DebugInfo';
 
-const LABEL_TEXT = 'Upload additional evidence';
-const HINT_TEXT =
+export const LABEL_TEXT = 'Upload additional evidence';
+export const HINT_TEXT =
   'You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only).';
-const VALIDATION_ERROR = 'Please select a file first';
-const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
-const DOC_TYPE_ERROR = 'Please provide a response';
-const SUBMIT_TEXT = 'Submit documents for review';
+export const VALIDATION_ERROR = 'Please select a file first';
+export const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
+export const DOC_TYPE_ERROR = 'Please provide a response';
+export const SUBMIT_TEXT = 'Submit documents for review';
 
 // File encryption utilities
-const checkFileEncryption = async file => {
+export const checkFileEncryption = async file => {
   if (!file.name?.toLowerCase().endsWith('.pdf')) {
     return false;
   }
@@ -39,14 +39,18 @@ const checkFileEncryption = async file => {
   }
 };
 
-const createEncryptedFilesList = async files => {
+export const createEncryptedFilesList = async files => {
   return Promise.all(
     files.map(async fileInfo => checkFileEncryption(fileInfo.file)),
   );
 };
 
 // Shadow DOM extraction utilities
-const extractPasswordsFromShadowDOM = (fileInputRef, files, encrypted) => {
+export const extractPasswordsFromShadowDOM = (
+  fileInputRef,
+  files,
+  encrypted,
+) => {
   const updatedFiles = [...files];
   const vaFileInputElements = fileInputRef.current?.shadowRoot?.querySelectorAll(
     'va-file-input',
@@ -72,7 +76,7 @@ const extractPasswordsFromShadowDOM = (fileInputRef, files, encrypted) => {
   return updatedFiles;
 };
 
-const extractDocumentTypesFromShadowDOM = fileInputRef => {
+export const extractDocumentTypesFromShadowDOM = fileInputRef => {
   const fileInputs = Array.from(
     fileInputRef.current?.shadowRoot?.querySelectorAll('va-file-input') || [],
   );
@@ -84,14 +88,14 @@ const extractDocumentTypesFromShadowDOM = fileInputRef => {
 };
 
 // Error handling utilities
-const clearNoFilesError = prevErrors => {
+export const clearNoFilesError = prevErrors => {
   if (prevErrors.length === 1 && prevErrors[0] === VALIDATION_ERROR) {
     return [];
   }
   return prevErrors;
 };
 
-const clearSpecificErrors = (prevErrors, errorType, shouldClear) => {
+export const clearSpecificErrors = (prevErrors, errorType, shouldClear) => {
   const newErrors = [...prevErrors];
   let hasChanges = false;
 
@@ -105,7 +109,11 @@ const clearSpecificErrors = (prevErrors, errorType, shouldClear) => {
   return hasChanges ? newErrors : prevErrors;
 };
 
-const rebuildErrorsAfterFileDeletion = (currentFiles, newFiles, prevErrors) => {
+export const rebuildErrorsAfterFileDeletion = (
+  currentFiles,
+  newFiles,
+  prevErrors,
+) => {
   const newErrors = [];
   // Match errors to files by file reference, not by index
   newFiles.forEach((fileInfo, newIndex) => {
@@ -117,7 +125,7 @@ const rebuildErrorsAfterFileDeletion = (currentFiles, newFiles, prevErrors) => {
   return newErrors;
 };
 
-const updateErrorsOnFileChange = (
+export const updateErrorsOnFileChange = (
   prevErrors,
   files,
   newFiles,
@@ -142,7 +150,7 @@ const updateErrorsOnFileChange = (
   return updatedErrors;
 };
 
-const applyValidationErrors = (baseErrors, validationResults) => {
+export const applyValidationErrors = (baseErrors, validationResults) => {
   const updatedErrors = [...baseErrors];
   validationResults.forEach(result => {
     updatedErrors[result.index] = result.error;
