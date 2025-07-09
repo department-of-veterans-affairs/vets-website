@@ -12,7 +12,7 @@ import VaTextInputField from '~/platform/forms-system/src/js/web-component-field
 
 import { merge } from 'lodash';
 
-import { dateOfDeathValidation } from '../helpers';
+import { dateOfDeathValidation } from '../utils/helpers';
 
 /** @type {PageSchema} */
 export default {

@@ -2,12 +2,9 @@ import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
-import {
-  focusByOrder,
-  focusElement,
-  scrollTo,
-  scrollToTop,
-} from 'platform/utilities/ui';
+import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
+import { scrollTo, scrollToTop } from 'platform/utilities/scroll';
+import environment from 'platform/utilities/environment';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
@@ -49,11 +46,34 @@ export function initGetText({
    */
   return (key, itemData, formData, index) => {
     const keyVal = getTextValues?.[key];
-    if (key === 'getItemName' || key === 'cardDescription') {
-      // pass in full form data into getItemName & cardDescription functions
+
+    if (key === 'getItemName') {
       return typeof keyVal === 'function'
         ? keyVal(itemData, index, formData)
         : keyVal;
+    }
+
+    if (key === 'cardDescription') {
+      let text = keyVal;
+
+      if (typeof keyVal === 'function') {
+        // a try/catch is already done for getItemName in arrayBuilder.jsx,
+        // so only handle cardDescription here, possibly extend this to
+        // other text functions in the future
+        try {
+          text = keyVal(itemData, index, formData);
+        } catch (e) {
+          text = '';
+          if (!environment.isProduction()) {
+            // eslint-disable-next-line no-console
+            console.error(
+              `Error in array builder option "cardDescription":`,
+              e,
+            );
+          }
+        }
+      }
+      return text;
     }
 
     return typeof keyVal === 'function'

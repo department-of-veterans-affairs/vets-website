@@ -1,25 +1,44 @@
+import React from 'react';
+
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrivacyPolicy from '../containers/PrivacyPolicy';
+
+import {
+  allProprietaryProfitConflictsArrayOptions,
+  proprietaryProfitConflictsArrayOptions,
+} from '../helpers';
 
 // pages
 import {
   certifyingOfficials,
   aboutYourInstitution,
   institutionDetails,
-  proprietaryProfit,
-  potentialConflictOfInterest,
-  affiliatedIndividuals,
-  allProprietarySchools,
-  allProprietarySchoolsEmployeeInfo,
-  allProprietarySchoolsSummary,
+  isProprietaryProfit,
+  conflictOfInterestCertifyingOfficial,
+  conflictOfInterestSummary,
+  conflictOfInterestFileNumber,
+  conflictOfInterestEnrollmentPeriod,
+  affiliatedIndividualsSummary,
+  affiliatedIndividualsAssociation,
 } from '../pages';
-import directDeposit from '../pages/directDeposit';
-import { arrayBuilderOptions } from '../helpers';
+import SubmissionInstructions from '../components/SubmissionInstructions';
+
+export const confirmFormLogic = ({ router, route }) => (
+  <ConfirmationPage router={router} route={route} />
+);
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+
+const scrollAndFocusTarget = () => {
+  scrollToTop('topScrollElement');
+  focusElement('h3');
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -29,7 +48,7 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'Edu-1919-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: confirmFormLogic,
   formId: '22-1919',
   useCustomScrollAndFocus: true,
   saveInProgress: {
@@ -48,12 +67,24 @@ const formConfig = {
   },
   title: 'Conflicting interests certification for proprietary schools',
   subTitle: 'VA Form 22-1919',
+  customText: {
+    submitButtonText: 'Continue',
+    appType: 'form',
+  },
   defaultDefinitions: {
     fullName,
     ssn,
     date,
     dateRange,
     usaPhone,
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body: PrivacyPolicy,
+      heading: 'Certification statement',
+      fullNamePath: 'certifyingOfficial',
+      messageAriaDescribedBy: 'I have read and accept the privacy policy.',
+    },
   },
   chapters: {
     institutionDetailsChapter: {
@@ -85,115 +116,88 @@ const formConfig = {
     proprietaryProfitChapter: {
       title: 'Proprietary profit schools only',
       pages: {
-        proprietaryProfit: {
+        isProprietaryProfit: {
           path: 'proprietary-profit',
           title: "Confirm your institution's classification",
-          uiSchema: proprietaryProfit.uiSchema,
-          schema: proprietaryProfit.schema,
+          uiSchema: isProprietaryProfit.uiSchema,
+          schema: isProprietaryProfit.schema,
         },
-        potentialConflictOfInterest: {
-          path: 'proprietary-profit-1',
-          title: 'Individuals with a potential conflict of interest',
-          uiSchema: potentialConflictOfInterest.uiSchema,
-          schema: potentialConflictOfInterest.schema,
-          onNavForward: ({ formData, goPath }) => {
-            if (formData?.hasConflictOfInterest) {
-              goPath('/proprietary-profit-2');
-            } else {
-              // TODO: To be replaced with 'Step 3' Conflict of Interest chapter
-              goPath('/all-proprietary-schools');
-            }
-          },
-        },
-        affiliatedIndividuals: {
-          path: 'proprietary-profit-2',
-          title:
-            'Individuals affiliated with both your institution and VA or SAA',
-          uiSchema: affiliatedIndividuals.uiSchema,
-          schema: affiliatedIndividuals.schema,
-        },
+        ...arrayBuilderPages(
+          proprietaryProfitConflictsArrayOptions,
+          pageBuilder => ({
+            affiliatedIndividualsSummary: pageBuilder.summaryPage({
+              title: 'Individuals with a potential conflict of interest',
+              path: 'proprietary-profit-1',
+              uiSchema: affiliatedIndividualsSummary.uiSchema,
+              schema: affiliatedIndividualsSummary.schema,
+              scrollAndFocusTarget,
+            }),
+            affiliatedIndividualsAssociation: pageBuilder.itemPage({
+              title:
+                'Individuals affiliated with both your institution and VA or SAA',
+              path: 'proprietary-profit-1/:index/details',
+              uiSchema: affiliatedIndividualsAssociation.uiSchema,
+              schema: affiliatedIndividualsAssociation.schema,
+            }),
+          }),
+        ),
       },
     },
-    allProprietarySchoolsChapter: {
+    allProprietaryProfitChapter: {
       title: 'All proprietary schools',
       pages: {
-        ...arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
-          allProprietarySchoolsIntro: pageBuilder.introPage({
-            path: 'all-proprietary-schools',
-            title: 'All proprietary schools',
-            uiSchema: allProprietarySchools.uiSchema,
-            schema: allProprietarySchools.schema,
-            onNavForward: ({ formData, goPath }) => {
-              if (formData?.allProprietarySchools === false) {
-                goPath(
-                  formConfig.chapters.directDepositChapter.pages.directDeposit
-                    .path,
-                );
-              } else {
-                const allProprietarySchoolsEmployeeInfoIndex =
-                  localStorage.getItem(
-                    'allProprietarySchoolsEmployeeInfoIndex',
-                  ) || '0';
-                goPath(
-                  `/all-proprietary-schools/${allProprietarySchoolsEmployeeInfoIndex}?add=true`,
-                );
-              }
-            },
+        ...arrayBuilderPages(
+          allProprietaryProfitConflictsArrayOptions,
+          pageBuilder => ({
+            conflictOfInterestSummary: pageBuilder.summaryPage({
+              path: 'conflict-of-interest-summary',
+              title:
+                'Review the individuals with a potential conflict of interest that receive VA educational benefits',
+              uiSchema: conflictOfInterestSummary.uiSchema,
+              schema: conflictOfInterestSummary.schema,
+              scrollAndFocusTarget,
+            }),
+            conflictOfInterestCertifyingOfficial: pageBuilder.itemPage({
+              path: 'conflict-of-interest/:index/certifying-official',
+              title:
+                'Individuals with a potential conflict of interest who receive VA educational benefits',
+              showPagePerItem: true,
+              uiSchema: conflictOfInterestCertifyingOfficial.uiSchema,
+              schema: conflictOfInterestCertifyingOfficial.schema,
+            }),
+            conflictOfInterestFileNumber: pageBuilder.itemPage({
+              path: 'conflict-of-interest/:index/file-number',
+              title:
+                'Information on an individual with a potential conflict of interest who receives VA educational benefits',
+              showPagePerItem: true,
+              uiSchema: conflictOfInterestFileNumber.uiSchema,
+              schema: conflictOfInterestFileNumber.schema,
+            }),
+            conflictOfInterestEnrollmentPeriod: pageBuilder.itemPage({
+              path: 'conflict-of-interest/:index/enrollment-period',
+              title:
+                'Information on an individual with a potential conflict of interest who receives VA educational benefits',
+              showPagePerItem: true,
+              uiSchema: conflictOfInterestEnrollmentPeriod.uiSchema,
+              schema: conflictOfInterestEnrollmentPeriod.schema,
+            }),
           }),
-          'view:allProprietarySchools': pageBuilder.summaryPage({
-            path: 'all-proprietary-schools-employee-info/summary',
-            title: 'All proprietary schools employee information',
-            uiSchema: allProprietarySchoolsSummary.uiSchema,
-            schema: allProprietarySchoolsSummary.schema,
-            onNavBack: ({ _, goPath }) => {
-              const allProprietarySchoolsEmployeeInfoIndex = localStorage.getItem(
-                'allProprietarySchoolsEmployeeInfoIndex',
-              );
-              goPath(
-                `/all-proprietary-schools/${allProprietarySchoolsEmployeeInfoIndex}?add=true`,
-              );
-            },
-          }),
-          allProprietarySchoolsEmployeeInfo: pageBuilder.itemPage({
-            path: 'all-proprietary-schools/:index',
-            title: 'All proprietary schools employee information',
-            showPagePerItem: true,
-            uiSchema: allProprietarySchoolsEmployeeInfo.uiSchema,
-            schema: allProprietarySchoolsEmployeeInfo.schema,
-            onNavForward: ({ _, goPath }) => {
-              const url = new URL(window.location.href);
-              const pathSegments = url.pathname.split('/');
-              const index = pathSegments[pathSegments.length - 1];
-              localStorage.setItem(
-                'allProprietarySchoolsEmployeeInfoIndex',
-                index,
-              );
-              goPath('/all-proprietary-schools-employee-info/summary');
-            },
-            onNavBack: ({ _, goPath }) => {
-              goPath('/all-proprietary-schools');
-            },
-          }),
-        })),
+        ),
       },
     },
-    directDepositChapter: {
-      title: 'Direct deposit',
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
       pages: {
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
-          onNavBack: ({ formData, goPath }) => {
-            if (formData?.allProprietarySchools === false) {
-              goPath(
-                formConfig.chapters.allProprietarySchoolsChapter.pages
-                  .allProprietarySchoolsIntro.path,
-              );
-            } else {
-              goPath('/all-proprietary-schools-employee-info/summary');
-            }
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
           },
         },
       },

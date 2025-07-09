@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import classNames from 'classnames';
-import moment from 'moment';
-import { format, subMonths } from 'date-fns';
+import { format, parseISO, subMonths } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../../components/InfoAlert';
 import { groupAppointmentByDay } from '../../../services/appointment';
@@ -53,8 +52,8 @@ export default function PastAppointmentsPage() {
       const selectedDateRange = dateRangeOptions[pastSelectedIndex];
       dispatch(
         fetchPastAppointments(
-          selectedDateRange.startDate,
-          selectedDateRange.endDate,
+          parseISO(selectedDateRange.startDate),
+          parseISO(selectedDateRange.endDate),
           pastSelectedIndex,
         ),
       );
@@ -77,8 +76,8 @@ export default function PastAppointmentsPage() {
     setInitialMount(false);
     dispatch(
       fetchPastAppointments(
-        selectedDateRange.startDate,
-        selectedDateRange.endDate,
+        parseISO(selectedDateRange.startDate),
+        parseISO(selectedDateRange.endDate),
         index,
       ),
     );
@@ -113,9 +112,10 @@ export default function PastAppointmentsPage() {
         {dropdown}
         <InfoAlert
           status="error"
-          headline="We’re sorry. We’ve run into a problem"
+          headline="We can’t access your appointments right now"
         >
-          We’re having trouble getting your past appointments. Please try later.
+          We’re sorry. There’s a problem with our system. Refresh this page or
+          try again later.
         </InfoAlert>
       </>
     );
@@ -157,7 +157,7 @@ export default function PastAppointmentsPage() {
       </div>
 
       {keys.map(key => {
-        const monthDate = moment(key, 'YYYY-MM');
+        const monthDate = parseISO(key);
 
         let hashTable = pastAppointmentsByMonth;
         hashTable = groupAppointmentByDay(hashTable[key]);
@@ -168,7 +168,7 @@ export default function PastAppointmentsPage() {
               data-cy="past-appointment-list-header"
               className="vads-u-margin-top--0 vads-u-font-size--h3"
             >
-              {monthDate.format('MMMM YYYY')}
+              {format(monthDate, 'MMMM yyyy')}
             </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
@@ -179,7 +179,7 @@ export default function PastAppointmentsPage() {
                 'vads-u-border-bottom--1px',
                 'vads-u-border-color--gray-medium',
               )}
-              data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
+              data-testid={`appointment-list-${format(monthDate, 'yyyy-MM')}`}
               role="list"
             >
               {UpcomingAppointmentLayout({

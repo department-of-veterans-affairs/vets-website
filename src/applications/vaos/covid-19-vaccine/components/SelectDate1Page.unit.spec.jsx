@@ -153,8 +153,9 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
       clinics,
     });
 
-    const slot308Date = new Date(setDay(new Date(), 9).setHours(9, 0, 0));
-    const slot309Date = new Date(setDay(new Date(), 11).setHours(13, 0, 0));
+    // Slot dates are in UTC
+    const slot308Date = new Date(setDay(new Date(), 9).setHours(15, 0, 0));
+    const slot309Date = new Date(setDay(new Date(), 11).setHours(19, 0, 0));
     const preferredDate = new Date();
 
     mockAppointmentSlotApi({
@@ -165,7 +166,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, DATE_FORMATS.ISODateTime),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
             end: format(
               new Date(new Date(slot308Date).setMinutes(20)),
               DATE_FORMATS.ISODateTime,
@@ -176,7 +177,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '309',
           type: 'slots',
           attributes: {
-            start: format(slot309Date, DATE_FORMATS.ISODateTime),
+            start: format(slot309Date, DATE_FORMATS.ISODateTimeUTC),
             end: format(
               new Date(new Date(slot309Date).setMinutes(20)),
               DATE_FORMATS.ISODateTime,
@@ -194,7 +195,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '309',
           type: 'slots',
           attributes: {
-            start: format(slot309Date, DATE_FORMATS.ISODateTime),
+            start: format(slot309Date, DATE_FORMATS.ISODateTimeUTC),
             end: format(
               new Date(new Date(slot309Date).setMinutes(20)),
               DATE_FORMATS.ISODateTime,

@@ -7,6 +7,8 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     isAalEnabled,
     readReceiptsEnabled,
+    customFoldersRedesignEnabled,
+    largeAttachmentsEnabled,
     isDowntimeBypassEnabled,
     cernerPilotSmFeatureFlag,
     mhvMockSessionFlag,
@@ -25,6 +27,14 @@ const useFeatureToggles = () => {
         readReceiptsEnabled:
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts
+          ],
+        customFoldersRedesignEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingCustomFoldersRedesign
+          ],
+        largeAttachmentsEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingLargeAttachments
           ],
         isDowntimeBypassEnabled:
           state.featureToggles[
@@ -45,6 +55,8 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     readReceiptsEnabled,
     isAalEnabled,
+    customFoldersRedesignEnabled,
+    largeAttachmentsEnabled,
     isDowntimeBypassEnabled,
     cernerPilotSmFeatureFlag,
     mhvMockSessionFlag,

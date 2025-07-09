@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useLoaderData,
   useSearchParams,
@@ -7,6 +7,7 @@ import {
 import {
   VaLoadingIndicator,
   VaBreadcrumbs,
+  VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
@@ -23,6 +24,7 @@ import PaginationMeta from '../components/PaginationMeta';
 import SubmissionsPageResults from '../components/SubmissionsPageResults';
 
 const SubmissionsPage = title => {
+  const [visibleAlert, setVisibleAlert] = useState(true);
   useEffect(
     () => {
       focusElement('h1.submissions__search-header');
@@ -34,7 +36,6 @@ const SubmissionsPage = title => {
   const meta = useLoaderData().meta.page || {};
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
-
   return (
     <Toggler
       toggleName={
@@ -42,38 +43,44 @@ const SubmissionsPage = title => {
       }
     >
       <Toggler.Enabled>
-        <section className="poa-request">
+        <section className="poa-request submissions">
           <VaBreadcrumbs
             breadcrumbList={submissionsBC}
             label={SUBMISSIONS_BC_LABEL}
             homeVeteransAffairs={false}
           />
-          <va-banner
-            data-label="Info banner"
-            headline="We are working to improve this tool."
-            type="info"
-            className="home__banner"
-            visible
+          <VaAlert
+            close-btn-aria-label="Close notification"
+            status="info"
+            closeable
+            uswds
+            onCloseEvent={() => setVisibleAlert(false)}
+            visible={visibleAlert}
           >
-            <p>
+            <h2 id="track-your-status-on-mobile" slot="headline">
+              We are working to improve this tool.
+            </h2>
+            <p className="vads-u-margin-y--0">
               This early version of the Accredited Representative Portal has
               limited functionality.
             </p>
-          </va-banner>
+          </VaAlert>
           <h1
             data-testid="submissions-header"
             className="submissions__search-header"
           >
             Submissions
           </h1>
-          <p className="submissions-subtext__copy">
+          <p className="submissions-subtext__copy vads-u-font-family--serif">
             Start here to submit VA forms for your claimants.
           </p>
-          <p className="submissions-21-686-c__form-name">Form 21-686c</p>
-          <h2 className="vads-u-font-size--h3">
+          <p className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
+            Form 21-686c
+          </p>
+          <h2 className="submissions__form-description vads-u-font-size--h4">
             Application Request to Add and/or Remove Dependents
           </h2>
-          <p className="submissions-21-686-c__subtext">
+          <p className="submissions__subtext submissions__subtext">
             The form will be processed by VA Centralized Mail after you submit
             it.
             <va-link-action
@@ -83,20 +90,20 @@ const SubmissionsPage = title => {
           </p>
           <hr />
 
-          <h1>Recent Submissions</h1>
-          <p className="submissions-subtext__copy">
+          <h2 className="submissions__search-header">Recent Submissions</h2>
+          <p className="submissions-subtext__copy--secondary vads-u-font-family--serif">
             This list shows only your submissions sent through this portal from
             the past 60 days.
           </p>
           <SortForm
             options={[
               {
-                sortBy: 'submittedDate',
+                sortBy: 'created_at',
                 sortOrder: 'desc',
                 label: 'Submitted date (newest)',
               },
               {
-                sortBy: 'submittedDate',
+                sortBy: 'created_at',
                 sortOrder: 'asc',
                 label: 'Submitted date (oldest)',
               },
@@ -136,15 +143,18 @@ const SubmissionsPage = title => {
 
 SubmissionsPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
-  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
-  const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
-  const size = searchParams.get(SEARCH_PARAMS.SIZE);
-  const number = searchParams.get(SEARCH_PARAMS.NUMBER);
+  let sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
+  let sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
+  let size = searchParams.get(SEARCH_PARAMS.SIZE);
+  let number = searchParams.get(SEARCH_PARAMS.NUMBER);
   if (!['asc', 'desc'].includes(sort)) {
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_DEFAULTS.SORT_ORDER);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_DEFAULTS.SORT_BY);
-    searchParams.set(SEARCH_PARAMS.SIZE, SORT_DEFAULTS.SIZE);
-    searchParams.set(SEARCH_PARAMS.NUMBER, SORT_DEFAULTS.NUMBER);
+    sort = SORT_DEFAULTS.SORT_ORDER;
+    sortBy = SORT_DEFAULTS.SORT_BY;
+    size = SORT_DEFAULTS.SIZE;
+    number = SORT_DEFAULTS.NUMBER;
+  }
+  if (size === '0') {
+    size = SORT_DEFAULTS.SIZE;
   }
 
   // Wait for the Promise-based Response object

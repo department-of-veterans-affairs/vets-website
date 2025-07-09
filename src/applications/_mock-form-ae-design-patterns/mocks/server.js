@@ -191,6 +191,19 @@ const responses = {
       confirmationNumber: '48fac28c-b332-4549-a45b-3423297111f4',
     });
   },
+  'POST /v0/evidence_documents': (req, res) => {
+    return res.status(200).json({
+      data: {
+        id: '12345',
+        type: 'evidence_document',
+        attributes: {
+          name: 'marriage-certificate.pdf',
+          size: 1024,
+          uploadedAt: new Date().toISOString(),
+        },
+      },
+    });
+  },
 };
 
 // here we can run anything that needs to happen before the mock server starts up

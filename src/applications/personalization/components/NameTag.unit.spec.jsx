@@ -84,6 +84,20 @@ describe('<NameTag>', () => {
       });
     });
   });
+  context('when `totalDisabilityRating` is zero', () => {
+    it('should render the disability rating', () => {
+      const initialState = getInitialState();
+      const view = render(<NameTag totalDisabilityRating={0} />, {
+        initialState,
+      });
+      view.getByText(/your disability rating:/i);
+      view.getByRole('link', {
+        name: /0 percent service connected disability rating/i,
+        text: /0% service connected/i,
+        href: /disability\/view-disability-rating\/rating/i,
+      });
+    });
+  });
   context(
     "when `totalDisabilityRating` is not set and there isn't a server error",
     () => {
@@ -108,10 +122,7 @@ describe('<NameTag>', () => {
       it('should render a fallback link', () => {
         const initialState = getInitialState();
         const view = render(
-          <NameTag
-            totalDisabilityRating={null}
-            totalDisabilityRatingServerError
-          />,
+          <NameTag totalDisabilityRating={null} totalDisabilityRatingError />,
           { initialState },
         );
         expect(view.queryByText(/your disability rating:/i)).to.not.exist;

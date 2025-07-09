@@ -1,11 +1,13 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { format } from 'date-fns-tz';
+import { cloneDeep } from 'lodash';
+
+const disallowedFields = ['vaFileNumberLastFour', 'veteranSsnLastFour'];
 
 export function replacer(key, value) {
-  // clean up empty objects, which we have no reason to send
-  if (typeof value === 'object') {
+  // Clean up empty objects, which we have no reason to send
+  if (typeof value === 'object' && value) {
     const fields = Object.keys(value);
     if (
       fields.length === 0 ||
@@ -15,11 +17,54 @@ export function replacer(key, value) {
     }
   }
 
+  // Clean up null values, which we have no reason to send
+  if (value === null) {
+    return undefined;
+  }
+
   return value;
 }
 
+export function removeDisallowedFields(form) {
+  const cleanedForm = cloneDeep(form);
+
+  // Remove disallowed fields from the data
+  disallowedFields.forEach(field => {
+    if (cleanedForm.data[field] !== undefined) {
+      delete cleanedForm.data[field];
+    }
+  });
+
+  return cleanedForm;
+}
+
+export function transformForSubmit(formConfig, form, replacerFn) {
+  // Clone the form data to avoid mutating the original form
+  // This is to avoid mutating the redux store directly
+  const data = cloneDeep(form.data);
+
+  const fields = Object.keys(data);
+  fields.forEach(field => {
+    // Remove fields that are undefined, null, or starts with 'view:'
+    if (
+      data[field] === undefined ||
+      data[field] === null ||
+      field.startsWith('view:')
+    ) {
+      delete data[field];
+    }
+  });
+
+  return JSON.stringify(data, replacerFn);
+}
+
 export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form, replacer);
+  // Remove disallowed fields from the form data as they will
+  // get flagged by vets-api and the submission will be rejected
+  const cleanedForm = removeDisallowedFields(form);
+
+  const formData = transformForSubmit(formConfig, cleanedForm, replacer);
+
   return JSON.stringify({
     incomeAndAssetsClaim: {
       form: formData,

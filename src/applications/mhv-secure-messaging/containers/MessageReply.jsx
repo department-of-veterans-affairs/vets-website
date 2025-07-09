@@ -8,10 +8,16 @@ import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
 import { scrollToTop } from '../util/helpers';
+import MessageActionButtons from '../components/MessageActionButtons';
+import useFeatureToggles from '../hooks/useFeatureToggles';
 
 const MessageReply = () => {
   const dispatch = useDispatch();
   const { replyId } = useParams();
+  const {
+    customFoldersRedesignEnabled,
+    largeAttachmentsEnabled,
+  } = useFeatureToggles();
   const { drafts, error, messages } = useSelector(
     state => state.sm.threadDetails,
   );
@@ -20,6 +26,8 @@ const MessageReply = () => {
   const recipients = useSelector(state => state.sm.recipients);
   const [isEditing, setIsEditing] = useState(true);
   const [isSending, setIsSending] = useState(false);
+
+  const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
 
   useEffect(
     () => {
@@ -83,6 +91,14 @@ const MessageReply = () => {
     return (
       <>
         <MessageThread messageHistory={messages} />
+        {customFoldersRedesignEnabled && (
+          <MessageActionButtons
+            message={messages[0]}
+            cannotReply={false}
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+          />
+        )}
       </>
     );
   };
@@ -99,7 +115,11 @@ const MessageReply = () => {
       ) : (
         <>
           <va-loading-indicator
-            message="Sending message..."
+            message={
+              largeAttachmentsEnabled
+                ? 'Do not refresh the page. Sending message...'
+                : 'Sending message...'
+            }
             data-testid="sending-indicator"
             style={{ display: isSending ? 'block' : 'none' }}
           />

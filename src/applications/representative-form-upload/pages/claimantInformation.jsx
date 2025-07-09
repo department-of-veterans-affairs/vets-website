@@ -1,33 +1,31 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import {
   addressSchema,
   addressUI,
   firstNameLastNameNoSuffixSchema,
   firstNameLastNameNoSuffixUI,
-  emailSchema,
-  emailToSendNotificationsUI,
+  vaFileNumberUI,
+  vaFileNumberSchema,
   ssnSchema,
   ssnUI,
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { MUST_MATCH_ALERT } from '../config/constants';
-import { onCloseAlert } from '../helpers';
 import {
-  CustomAlertPage,
   emptyObjectSchema,
   claimantTitleAndDescription,
-  representativeTitleAndDescription,
   veteranTitleAndDescription,
 } from './helpers';
+import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
 
 const claimantSubPageUI = {
   claimantFullName: firstNameLastNameNoSuffixUI(),
-  claimantSsn: ssnUI('Social Security Number'),
-  claimantDateOfBirth: dateOfBirthUI({
-    title: 'Date of Birth',
-  }),
+  claimantSsn: ssnUI(),
+  claimantDateOfBirth: dateOfBirthUI(),
+  vaFileNumber: {
+    ...vaFileNumberUI,
+    'ui:title': 'VA file number',
+  },
 };
 
 const claimantSubPageSchema = {
@@ -38,10 +36,7 @@ const claimantSubPageSchema = {
 
 const veteranSubPageUI = {
   veteranFullName: firstNameLastNameNoSuffixUI(),
-  veteranSsn: ssnUI('Social Security Number'),
-  veteranDateOfBirth: dateOfBirthUI({
-    title: 'Date of Birth',
-  }),
+  veteranSsn: ssnUI(),
   address: addressUI({
     labels: {
       postalCode: 'Postal code',
@@ -57,12 +52,15 @@ const veteranSubPageUI = {
     ],
     required: true,
   }),
+  vaFileNumber: {
+    ...vaFileNumberUI,
+    'ui:title': 'VA file number',
+  },
 };
 
 const veteranSubPageSchema = {
   veteranFullName: firstNameLastNameNoSuffixSchema,
   veteranSsn: ssnSchema,
-  veteranDateOfBirth: dateOfBirthSchema,
   address: addressSchema({
     omit: [
       'country',
@@ -74,20 +72,17 @@ const veteranSubPageSchema = {
       'street3',
     ],
   }),
+  vaFileNumber: vaFileNumberSchema,
 };
 
 /** @type {PageSchema} */
 export const claimantInformationPage = {
   uiSchema: {
     ...claimantTitleAndDescription,
+    'ui:objectViewField': ClaimantInfoViewField,
     ...claimantSubPageUI,
     ...veteranTitleAndDescription,
     ...veteranSubPageUI,
-    ...representativeTitleAndDescription,
-    email: emailToSendNotificationsUI({
-      hint:
-        "Changes to information here won't apply to your VA Office of General Counsel (OGC) profile.",
-    }),
   },
   schema: {
     type: 'object',
@@ -98,31 +93,16 @@ export const claimantInformationPage = {
       'view:veteranTitle': emptyObjectSchema,
       'view:veteranDescription': emptyObjectSchema,
       ...veteranSubPageSchema,
-      'view:representativeTitle': emptyObjectSchema,
-      'view:representativeDescription': emptyObjectSchema,
-      email: emailSchema,
     },
     required: [
       'claimantSsn',
       'claimantDateOfBirth',
       'veteranSsn',
-      'veteranDateOfBirth',
-      'email',
       'address',
       'veteranFullName',
     ],
   },
 };
-
-/** @type {CustomPageType} */
-export function ClaimantInformationPage(props) {
-  const alert = MUST_MATCH_ALERT(
-    'claimant-information',
-    onCloseAlert,
-    props.data,
-  );
-  return <CustomAlertPage {...props} alert={alert} />;
-}
 
 claimantInformationPage.propTypes = {
   name: PropTypes.string.isRequired,

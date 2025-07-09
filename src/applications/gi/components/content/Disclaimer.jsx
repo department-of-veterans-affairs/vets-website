@@ -11,7 +11,7 @@ const Disclaimer = () => {
           Note: Content on this web page is for informational purposes only. It
           is not intended to provide legal advice or to be a comprehensive
           statement or analysis of applicable statutes, regulations, and case
-          law governing this topic. Rather, it's a plain language summary.
+          law governing this topic. Rather, it’s a plain language summary.
         </p>
         <p>
           <span className="vads-u-font-weight--bold">
@@ -35,7 +35,7 @@ const Disclaimer = () => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://www.va.gov/ogc/apps/accreditation/index.asp"
+            href="https://www.va.gov/get-help-from-accredited-representative/"
             id="disclaimer-link-vso"
           >
             Veterans Service Organization (VSO) or a VA-accredited attorney or
