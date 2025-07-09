@@ -82,7 +82,7 @@ function ToeApp({
         });
       }
     },
-    [formData.isLOA3, setFormData, isLOA3],
+    [isLOA3],
   );
 
   useEffect(
@@ -97,11 +97,7 @@ function ToeApp({
         });
       }
     },
-    [
-      formData.showMeb1990ER6MaintenanceMessage,
-      setFormData,
-      showMeb1990ER6MaintenanceMessage,
-    ],
+    [showMeb1990ER6MaintenanceMessage],
   );
 
   useEffect(
@@ -143,7 +139,7 @@ function ToeApp({
         });
       }
     },
-    [getDuplicateContactInfo, formData?.email, formData?.mobilePhone?.phone],
+    [getDuplicateContactInfo, duplicateEmail, duplicatePhone],
   );
 
   useEffect(
@@ -159,11 +155,7 @@ function ToeApp({
         });
       }
     },
-    [
-      formData.toeLightHouseDgiDirectDeposit,
-      setFormData,
-      toeLightHouseDgiDirectDeposit,
-    ],
+    [toeLightHouseDgiDirectDeposit],
   );
 
   useEffect(
@@ -184,7 +176,6 @@ function ToeApp({
       getDirectDeposit,
       user?.login?.currentlyLoggedIn,
       lightHouseFlag,
-      formData?.toeLightHouseDgiDirectDeposit,
     ],
   );
 
@@ -197,7 +188,7 @@ function ToeApp({
         });
       }
     },
-    [formData.toeHighSchoolInfoChange, setFormData, toeHighSchoolInfoChange],
+    [toeHighSchoolInfoChange],
   );
 
   useEffect(
@@ -209,11 +200,7 @@ function ToeApp({
         });
       }
     },
-    [
-      formData.mebDpoAddressOptionEnabled,
-      setFormData,
-      mebDpoAddressOptionEnabled,
-    ],
+    [mebDpoAddressOptionEnabled],
   );
 
   useEffect(
@@ -225,7 +212,7 @@ function ToeApp({
         });
       }
     },
-    [dob, setFormData, formData.dob],
+    [dob],
   );
   return (
     <>
