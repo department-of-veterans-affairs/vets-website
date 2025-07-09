@@ -64,7 +64,6 @@ function ToeApp({
     },
     [
       fetchedUserInfo,
-      formData,
       getPersonalInformation,
       user?.login?.currentlyLoggedIn,
       setFormData,
@@ -83,7 +82,7 @@ function ToeApp({
         });
       }
     },
-    [formData, setFormData, isLOA3],
+    [formData.isLOA3, setFormData, isLOA3],
   );
 
   useEffect(
@@ -98,7 +97,11 @@ function ToeApp({
         });
       }
     },
-    [formData, setFormData, showMeb1990ER6MaintenanceMessage],
+    [
+      formData.showMeb1990ER6MaintenanceMessage,
+      setFormData,
+      showMeb1990ER6MaintenanceMessage,
+    ],
   );
 
   useEffect(
@@ -156,7 +159,11 @@ function ToeApp({
         });
       }
     },
-    [formData, setFormData, toeLightHouseDgiDirectDeposit],
+    [
+      formData.toeLightHouseDgiDirectDeposit,
+      setFormData,
+      toeLightHouseDgiDirectDeposit,
+    ],
   );
 
   useEffect(
@@ -190,7 +197,7 @@ function ToeApp({
         });
       }
     },
-    [formData, setFormData, toeHighSchoolInfoChange],
+    [formData.toeHighSchoolInfoChange, setFormData, toeHighSchoolInfoChange],
   );
 
   useEffect(
@@ -202,7 +209,11 @@ function ToeApp({
         });
       }
     },
-    [formData, setFormData, mebDpoAddressOptionEnabled],
+    [
+      formData.mebDpoAddressOptionEnabled,
+      setFormData,
+      mebDpoAddressOptionEnabled,
+    ],
   );
 
   useEffect(
@@ -214,7 +225,7 @@ function ToeApp({
         });
       }
     },
-    [dob, formData?.dob],
+    [dob, setFormData, formData.dob],
   );
   return (
     <>
