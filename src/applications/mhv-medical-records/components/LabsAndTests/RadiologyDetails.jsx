@@ -309,33 +309,6 @@ ${record.results}`;
     );
   };
 
-  const jobCompleteAlert = () => {
-    const endDateParts = formatDateAndTime(
-      new Date(studyJob.endDate + 3 * 24 * 60 * 60 * 1000), // Add 3 days
-    );
-    return (
-      <>
-        <p>
-          You have until {endDateParts.date} at {endDateParts.time}{' '}
-          {endDateParts.timeZone} to view and download your images. After that,
-          you’ll need to request them again.
-        </p>
-        <p>
-          <Link
-            to={`/labs-and-tests/${record.id}/images`}
-            className="vads-c-action-link--blue"
-            data-testid="radiology-view-all-images"
-            onClick={() => {
-              sendDataDogAction(RadiologyTags.viewAll);
-            }}
-          >
-            View all {radiologyDetails.imageCount} images
-          </Link>
-        </p>
-      </>
-    );
-  };
-  
   const imageAlert = message => (
     <va-alert
       class="vads-u-margin-bottom--2"
