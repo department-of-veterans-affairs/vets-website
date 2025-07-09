@@ -294,33 +294,17 @@ const mapStateToProps = state => {
       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
     formData: {
       ...prefillData,
-      ...formStateData,
-      sponsors: formStateData.sponsors || prefillData.sponsors,
-      'view:phoneNumbers': {
-        mobilePhoneNumber: {
-          ...(prefillData['view:phoneNumbers']?.mobilePhoneNumber || {}),
-          ...(formStateData['view:phoneNumbers']?.mobilePhoneNumber || {}),
-        },
-        phoneNumber: {
-          ...(prefillData['view:phoneNumbers']?.phoneNumber || {}),
-          ...(formStateData['view:phoneNumbers']?.phoneNumber || {}),
-        },
-      },
-      'view:mailingAddress': {
-        address: {
-          ...(prefillData['view:mailingAddress']?.address || {}),
-          ...(formStateData['view:mailingAddress']?.address || {}),
-        },
-        livesOnMilitaryBase:
-          formStateData['view:mailingAddress']?.livesOnMilitaryBase ??
-          prefillData['view:mailingAddress']?.livesOnMilitaryBase,
-      },
-      email: {
-        email: formStateData?.email?.email || prefillData?.email?.email,
-        confirmEmail:
-          formStateData?.email?.confirmEmail ||
-          prefillData?.email?.confirmEmail,
-      },
+      ...Object.entries(formStateData).reduce((acc, [key, value]) => {
+        if (value === null || value === undefined) return acc;
+        if (typeof value === 'object' && !Array.isArray(value)) {
+          if (Object.keys(value).length > 0) {
+            acc[key] = value;
+          }
+        } else {
+          acc[key] = value;
+        }
+        return acc;
+      }, {}),
     },
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,
