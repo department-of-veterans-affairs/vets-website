@@ -212,7 +212,7 @@ function ToeApp({
         });
       }
     },
-    [dob],
+    [dob, setFormData],
   );
   return (
     <>
