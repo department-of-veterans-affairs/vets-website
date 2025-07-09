@@ -40,6 +40,10 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       });
   };
 
+  const getAboveFileInputError = (fileIndex = 0) => {
+    return getFileInput(fileIndex).find('#file-input-error-alert');
+  };
+
   const getFileError = (fileIndex = 0) =>
     getFileInput(fileIndex).find('#input-error-message');
 
@@ -134,17 +138,6 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
   });
 
   describe('User Story #5: Submit validation with no files', () => {
-    // Get error above file input
-    const getNoFilesError = () => {
-      return cy
-        .get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
-        .shadow()
-        .find('#file-input-error-alert');
-    };
-
     it('should show error message when submit clicked without files', () => {
       setupComponentTest();
 
@@ -154,7 +147,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       // Verify error message appears in the file input shadow DOM
       // Note: Web component content may not be visible in Cypress UI but tests work correctly
       // To debug visually, add .then(() => cy.pause()) after this assertion
-      getNoFilesError()
+      getAboveFileInputError()
         .should('be.visible')
         .and('contain.text', 'Please select a file first');
 
@@ -164,19 +157,20 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     it('should clear error when file is added after validation error', () => {
       setupComponentTest();
 
-      const fileName = 'test-file.pdf';
-
       // First trigger error by submitting without files
       clickSubmitButton();
 
       // Verify error appears
-      getNoFilesError().should('contain.text', 'Please select a file first');
+      getAboveFileInputError().should(
+        'contain.text',
+        'Please select a file first',
+      );
 
       // Add a file
-      uploadFile(fileName);
+      uploadFile('test-file.pdf');
 
       // Verify error is cleared after adding file
-      getNoFilesError().should('not.exist');
+      getAboveFileInputError().should('not.exist');
 
       cy.axeCheck();
     });
@@ -333,7 +327,13 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       setupComponentTest();
 
       // Upload a file
-      uploadFile('test-document.pdf');
+      uploadFile('test-document.txt');
+
+      // Wait for file processing to complete by checking that document type selector appears
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input va-select')
+        .should('be.visible'); // This indicates file processing is done
 
       // Submit without selecting document type
       clickSubmitButton();
@@ -352,7 +352,13 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       setupComponentTest();
 
       // Upload a file
-      uploadFile('test-document.pdf');
+      uploadFile('test-document.txt');
+
+      // Wait for file processing to complete by checking that document type selector appears
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input va-select')
+        .should('be.visible'); // This indicates file processing is done
 
       // Submit without selecting document type to trigger error
       clickSubmitButton();
@@ -373,6 +379,98 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .select('L014'); // Birth Certificate
 
       getFileError(0).should('not.exist');
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('User Story #13: File extension mismatch validation', () => {
+    it('should show error when file extension does not match file format', () => {
+      setupComponentTest();
+
+      // Upload a file with mismatched extension (e.g., a text file renamed to .pdf)
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile({
+          contents: Cypress.Buffer.from(
+            'This is plain text content, not a PDF',
+          ),
+          fileName: 'fake-pdf.pdf',
+          mimeType: 'text/plain',
+        });
+
+      // Verify error message appears
+      getFileError(0)
+        .should('be.visible')
+        .and(
+          'contain',
+          'The file extension doesn’t match the file format. Please choose a different file.',
+        );
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('User Story #14: Invalid file type validation', () => {
+    it('should show error when uploading unsupported file type', () => {
+      setupComponentTest();
+
+      // The "accept" prop prevents clicking a file with unsupported extension (e.g., .exe, .mp4, .docx) but it can be dragged and dropped - but then there is this an error:
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from('This is an executable file'),
+            fileName: 'malicious-file.exe',
+            mimeType: 'application/x-msdownload',
+          },
+          { action: 'drag-drop' },
+        );
+
+      // Verify error message appears
+      getAboveFileInputError(0)
+        .should('be.visible')
+        .and('contain', 'This is not a valid file type');
+
+      cy.axeCheck();
+    });
+  });
+
+  // TODO: Add tests for file size limit validation
+  describe('User Story #15: File size limit validation', () => {
+    it.skip('should show error when PDF file exceeds 99MB', () => {
+      setupComponentTest();
+
+      cy.axeCheck();
+    });
+
+    it.skip('should show error when non-PDF file exceeds 50MB', () => {
+      setupComponentTest();
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('User Story #16: Empty file validation', () => {
+    it('should show error when file is 0 bytes', () => {
+      setupComponentTest();
+
+      // Upload an empty file (0 bytes)
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile({
+          contents: Cypress.Buffer.from(''),
+          fileName: 'empty-file.txt',
+          mimeType: 'text/plain',
+        });
+
+      // Verify error message appears
+      getFileError(0)
+        .should('be.visible')
+        .and(
+          'contain',
+          'The file you selected is empty. Files uploaded must be larger than 0B.',
+        );
 
       cy.axeCheck();
     });

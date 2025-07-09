@@ -10,8 +10,10 @@ import {
   readAndCheckFile,
   checkIsEncryptedPdf,
 } from 'platform/forms-system/src/js/utilities/file';
+import { validateFiles } from './fileValidation';
 
 import { DOC_TYPES } from '../../../utils/helpers';
+import { FILE_TYPES } from '../../../utils/validations';
 import DebugInfo from './DebugInfo';
 
 const LABEL_TEXT = 'Upload additional evidence';
@@ -140,6 +142,14 @@ const updateErrorsOnFileChange = (
   return updatedErrors;
 };
 
+const applyValidationErrors = (baseErrors, validationResults) => {
+  const updatedErrors = [...baseErrors];
+  validationResults.forEach(result => {
+    updatedErrors[result.index] = result.error;
+  });
+  return updatedErrors;
+};
+
 // Validation and submission utilities
 const validateFilesForSubmission = (files, encrypted, docTypes) => {
   // Check if no files provided (always required)
@@ -225,18 +235,23 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
     const previousFileCount = files.length;
     const newFiles = state || [];
 
+    // Validate all files
+    const validationResults = await validateFiles(newFiles);
+
     setFiles(newFiles);
 
     if (newFiles.length > 0) {
-      // Update errors based on file changes
-      setErrors(prevErrors =>
-        updateErrorsOnFileChange(
+      // Update errors based on file changes and validation
+      setErrors(prevErrors => {
+        const baseErrors = updateErrorsOnFileChange(
           prevErrors,
           files,
           newFiles,
           previousFileCount,
-        ),
-      );
+        );
+
+        return applyValidationErrors(baseErrors, validationResults);
+      });
 
       const encryptedStatus = await createEncryptedFilesList(newFiles);
       setEncrypted(encryptedStatus);
@@ -287,6 +302,7 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
   return (
     <>
       <VaFileInputMultiple
+        accept={FILE_TYPES.map(type => `.${type}`).join(',')}
         ref={fileInputRef}
         hint={HINT_TEXT}
         label={LABEL_TEXT}
