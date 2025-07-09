@@ -42,8 +42,8 @@ describe('CustomPersonalInfoReview shallow render', () => {
     );
 
     expect(wrapper.props().dataAdapter).to.deep.equal({
-      ssnPath: 'veteranSocialSecurityNumber',
-      vaFileNumberPath: 'vaFileNumber',
+      ssnPath: 'veteranSsnLastFour',
+      vaFileNumberPath: 'vaFileNumberLastFour',
     });
   });
 

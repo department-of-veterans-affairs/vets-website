@@ -1,6 +1,8 @@
-import { rest, HttpResponse } from 'msw';
+import { rest, http, HttpResponse } from 'msw';
 
-export const headKeepAliveSuccess = rest.head(
+const restOrHttp = rest || http;
+
+export const headKeepAliveSuccess = restOrHttp.head(
   'https://int.eauth.va.gov/keepalive',
   () => new HttpResponse(null, { status: 200 }),
 );
