@@ -12,13 +12,22 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       .click();
   };
 
-  const getFileInput = (fileIndex = 0) => {
-    return cy
+  const getFileInputElement = (fileIndex = 0) =>
+    cy
       .get('va-file-input-multiple')
       .shadow()
       .find('va-file-input')
-      .eq(fileIndex)
-      .shadow();
+      .eq(fileIndex);
+
+  const getFileInput = (fileIndex = 0) =>
+    getFileInputElement(fileIndex).shadow();
+
+  const selectDocumentType = (fileIndex, docTypeCode) => {
+    getFileInputElement(fileIndex)
+      .find('va-select')
+      .shadow()
+      .find('select')
+      .select(docTypeCode);
   };
 
   const uploadFile = (fileName, fileIndex = 0) => {
@@ -40,9 +49,8 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       });
   };
 
-  const getAboveFileInputError = (fileIndex = 0) => {
-    return getFileInput(fileIndex).find('#file-input-error-alert');
-  };
+  const getAboveFileInputError = (fileIndex = 0) =>
+    getFileInput(fileIndex).find('#file-input-error-alert');
 
   const getFileError = (fileIndex = 0) =>
     getFileInput(fileIndex).find('#input-error-message');
@@ -60,8 +68,9 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       setupComponentTest();
 
       // Verify the component is visible and displays the label and hint text
+      cy.get('va-file-input-multiple').should('be.visible');
+
       cy.get('va-file-input-multiple')
-        .should('be.visible')
         .shadow()
         .should('contain.text', 'Upload additional evidence')
         .and(
@@ -78,11 +87,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       setupComponentTest();
 
       // Navigate to the file input's shadow DOM and verify instructions are visible
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
-        .shadow()
+      getFileInput(0)
         .should('contain.text', 'Drag a file here')
         .and('contain.text', 'choose from folder');
 
@@ -118,20 +123,10 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         );
 
       // Verify both file names are visible to the user
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
-        .shadow()
-        .should('contain.text', clickFile);
+      getFileInput(0).should('contain.text', clickFile);
 
       // Verify second file appears in the second file input
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .eq(1)
-        .shadow()
-        .should('contain.text', dragFile);
+      getFileInput(1).should('contain.text', dragFile);
 
       cy.axeCheck();
     });
@@ -288,11 +283,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       setupComponentTest();
 
       // Initially, no select should be visible
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
-        .shadow()
+      getFileInput(0)
         .find('va-select')
         .should('not.exist');
 
@@ -301,18 +292,12 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       // Verify document type select appears with correct label
       // Based on the markup, the select appears as a child appended to va-file-input
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
+      getFileInputElement(0)
         .find('va-select')
         .should('be.visible');
 
       // Verify select has the correct label and options
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
+      getFileInputElement(0)
         .find('va-select')
         .shadow()
         .should('contain.text', 'What type of document is this?')
@@ -330,9 +315,8 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       uploadFile('test-document.txt');
 
       // Wait for file processing to complete by checking that document type selector appears
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input va-select')
+      getFileInputElement(0)
+        .find('va-select')
         .should('be.visible'); // This indicates file processing is done
 
       // Submit without selecting document type
@@ -355,9 +339,8 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       uploadFile('test-document.txt');
 
       // Wait for file processing to complete by checking that document type selector appears
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input va-select')
+      getFileInputElement(0)
+        .find('va-select')
         .should('be.visible'); // This indicates file processing is done
 
       // Submit without selecting document type to trigger error
@@ -369,14 +352,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .and('contain.text', 'Please provide a response');
 
       // Select a document type
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .first()
-        .find('va-select')
-        .shadow()
-        .find('select')
-        .select('L014'); // Birth Certificate
+      selectDocumentType(0, 'L014'); // Birth Certificate
 
       getFileError(0).should('not.exist');
 
@@ -553,14 +529,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       // Upload first file and set document type
       uploadFile('first-document.txt', 0);
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .eq(0)
-        .find('va-select')
-        .shadow()
-        .find('select')
-        .select('L014'); // Birth Certificate
+      selectDocumentType(0, 'L014'); // Birth Certificate
 
       // Upload second encrypted file with password
       setupEncryptedFile('encrypted-document.pdf', 1);
@@ -571,25 +540,11 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .type('secretpassword123');
 
       // Set document type for second file
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .eq(1)
-        .find('va-select')
-        .shadow()
-        .find('select')
-        .select('L029'); // Copy of a DD214
+      selectDocumentType(1, 'L029'); // Copy of a DD214
 
       // Upload third file and set document type
       uploadFile('third-document.txt', 2);
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .eq(2)
-        .find('va-select')
-        .shadow()
-        .find('select')
-        .select('L070'); // Medical records
+      selectDocumentType(2, 'L070'); // Medical records
 
       // Remove the middle file (encrypted one)
       getFileInput(1)
@@ -612,10 +567,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       // First file should still have its document type
       getFileInput(0).should('contain.text', 'first-document.txt');
 
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .eq(0)
+      getFileInputElement(0)
         .find('va-select')
         .shadow()
         .find('select')
@@ -699,14 +651,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       // Upload a regular file
       uploadFile('regular-document.pdf', 0);
       // Select document type for first file
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .eq(0)
-        .find('va-select')
-        .shadow()
-        .find('select')
-        .select('L014'); // Birth Certificate
+      selectDocumentType(0, 'L014'); // Birth Certificate
 
       // Upload an encrypted file
       setupEncryptedFile('encrypted-document.pdf', 1);
@@ -719,24 +664,14 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .type('secretpassword');
 
       // Select document type for second file
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .eq(1)
-        .find('va-select')
-        .shadow()
-        .find('select')
-        .select('L029'); // Copy of a DD214
+      selectDocumentType(1, 'L029'); // Copy of a DD214
 
       // Verify both files are visible with their names
       getFileInput(0).should('contain.text', 'regular-document.pdf');
       getFileInput(1).should('contain.text', 'encrypted-document.pdf');
 
       // Verify both document type selects have the correct values
-      cy.get('va-file-input-multiple')
-        .shadow()
-        .find('va-file-input')
-        .eq(0)
+      getFileInputElement(0)
         .find('va-select')
         .shadow()
         .find('select')
