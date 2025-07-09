@@ -1,15 +1,14 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
 
+import { $ } from '../../../forms-system/src/js/utilities/ui';
 import SaveFormLink from '../../save-in-progress/SaveFormLink';
 import { SAVE_STATUSES } from '../../save-in-progress/actions';
 
 describe('Schemaform <SaveFormLink>', () => {
-  const user = {
+  const loggedOutUser = {
     login: {
       currentlyLoggedIn: false,
     },
@@ -22,107 +21,84 @@ describe('Schemaform <SaveFormLink>', () => {
       currentlyLoggedIn: true,
     },
   };
-  const form = {
-    formId: 'test',
-    version: 1,
-    data: {},
-    trackingPrefix: 'test-',
-    savedStatus: SAVE_STATUSES.notAttempted,
-  };
-  const formConfig = {
-    rootUrl: '',
-  };
-  // Define these spies out here because they are only used to satisfy the
-  //  prop requirements; they're only passed to LoginModal which we test elsewhere
-  const saveInProgressForm = sinon.spy();
-  const toggleLoginModalSpy = sinon.spy();
+
+  const props = ({
+    data = {},
+    savedStatus = SAVE_STATUSES.notAttempted,
+    saveAndRedirectToReturnUrl = () => {},
+    saveInProgressForm = () => {},
+    user = loggedInUser,
+  } = {}) => ({
+    user,
+    form: {
+      formId: 'test',
+      version: 1,
+      data,
+      trackingPrefix: 'test-',
+      savedStatus,
+      submission: {},
+      locationPathname: '/test',
+    },
+    formConfig: {
+      rootUrl: '',
+    },
+    saveAndRedirectToReturnUrl,
+    saveInProgressForm,
+    toggleLoginModal: () => {},
+  });
+
   it('should not render save message when not logged in', () => {
-    const tree = SkinDeep.shallowRender(
-      <SaveFormLink
-        user={user}
-        form={form}
-        toggleLoginModal={toggleLoginModalSpy}
-      />,
+    const { container } = render(
+      <SaveFormLink {...props({ user: loggedOutUser })} />,
     );
-
-    expect(tree.text()).to.be.empty;
+    expect(container.textContent).to.be.empty;
   });
+
   it('should render finish message when logged in', () => {
-    const tree = SkinDeep.shallowRender(
-      <SaveFormLink user={loggedInUser} form={form} formConfig={formConfig} />,
-    );
-
-    expect(tree.text()).to.contain('Finish this application later');
+    const { container } = render(<SaveFormLink {...props()} />);
+    expect(container.textContent).to.contain('Finish this application later');
   });
-  it('should render save message when logged in', () => {
-    const tree = SkinDeep.shallowRender(
-      <SaveFormLink
-        user={loggedInUser}
-        form={form}
-        toggleLoginModal={toggleLoginModalSpy}
-        formConfig={formConfig}
-      />,
-    );
 
-    expect(tree.text()).to.contain('Finish this application later');
-  });
   it('should render overridden save message when prop is passed', () => {
-    const tree = SkinDeep.shallowRender(
-      <SaveFormLink
-        user={loggedInUser}
-        form={form}
-        toggleLoginModal={toggleLoginModalSpy}
-        formConfig={formConfig}
-      >
-        Test
-      </SaveFormLink>,
+    const { container } = render(
+      <SaveFormLink {...props()}>Test</SaveFormLink>,
     );
-
-    expect(tree.text()).to.contain('Test');
+    expect(container.textContent).to.contain('Test');
   });
+
   it('should show error message', () => {
-    const tree = SkinDeep.shallowRender(
-      <SaveFormLink
-        user={loggedInUser}
-        form={{ ...form, savedStatus: SAVE_STATUSES.failure }}
-        toggleLoginModal={toggleLoginModalSpy}
-        formConfig={formConfig}
-      />,
+    const { container } = render(
+      <SaveFormLink {...props({ savedStatus: SAVE_STATUSES.failure })} />,
     );
-
-    expect(tree.text()).to.contain('Something went wrong');
-    expect(tree.subTree('.schemaform-sip-save-link').text()).to.contain(
+    expect(container.textContent).to.contain('Something went wrong');
+    expect($('.schemaform-sip-save-link', container).textContent).to.contain(
       'Finish this application later',
     );
   });
+
   it('should show client error message', () => {
-    const tree = SkinDeep.shallowRender(
-      <SaveFormLink
-        user={loggedInUser}
-        form={{ ...form, savedStatus: SAVE_STATUSES.clientFailure }}
-        toggleLoginModal={toggleLoginModalSpy}
-        formConfig={formConfig}
-      />,
+    const { container } = render(
+      <SaveFormLink {...props({ savedStatus: SAVE_STATUSES.clientFailure })} />,
     );
 
-    expect(tree.text()).to.contain('unable to connect');
-    expect(tree.subTree('.schemaform-sip-save-link').text()).to.contain(
+    expect(container.textContent).to.contain('unable to connect');
+    expect($('.schemaform-sip-save-link', container).textContent).to.contain(
       'Finish this application later',
     );
   });
+
   it('should render expired message with noAuth status', () => {
-    const tree = SkinDeep.shallowRender(
-      <SaveFormLink
-        user={loggedInUser}
-        form={{ ...form, savedStatus: SAVE_STATUSES.noAuth }}
-        toggleLoginModal={toggleLoginModalSpy}
-        formConfig={formConfig}
-      />,
+    const { container } = render(
+      <SaveFormLink {...props({ savedStatus: SAVE_STATUSES.noAuth })} />,
     );
 
-    expect(tree.text()).to.contain('Sorry, you’re signed out.');
-    expect(tree.subTree('a')).not.to.be.null;
+    const signInButton = $('.va-button-link', container);
+
+    expect(container.textContent).to.contain('Sorry, you’re signed out.');
+    expect(signInButton).to.exist;
+    expect(signInButton.textContent).to.contain('sign in');
   });
+
   it('should call saveAndRedirectToReturnUrl and include returnUrl from page config if logged in', () => {
     const saveAndRedirectToReturnUrl = sinon.spy();
     const route = {
@@ -140,22 +116,17 @@ describe('Schemaform <SaveFormLink>', () => {
         },
       ],
     };
-    const tree = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <div>
         <SaveFormLink
-          user={loggedInUser}
-          form={form}
+          {...props({ saveAndRedirectToReturnUrl })}
           route={route}
-          saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-          toggleLoginModal={toggleLoginModalSpy}
-          formConfig={formConfig}
         />
       </div>,
     );
-    const findDOM = findDOMNode(tree);
 
     // "Save" the form
-    findDOM.querySelector('.schemaform-sip-save-link').click();
+    fireEvent.click($('.schemaform-sip-save-link', container));
 
     expect(saveAndRedirectToReturnUrl.called);
     expect(saveAndRedirectToReturnUrl.args[0][3]).to.eq('/testing2');
@@ -185,22 +156,21 @@ describe('Schemaform <SaveFormLink>', () => {
         },
       ],
     };
-    const tree = ReactTestUtils.renderIntoDocument(
+    render(
       <div>
         <SaveFormLink
-          user={loggedInUser}
-          form={{ data: { testIndex: 0 } }}
+          {...props({
+            data: { testIndex: 0 },
+            saveAndRedirectToReturnUrl,
+          })}
           route={route}
-          saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-          toggleLoginModal={toggleLoginModalSpy}
-          formConfig={{ ...formConfig, onFormExit: exitCallback }}
+          formConfig={{ rootUrl: '', onFormExit: exitCallback }}
         />
       </div>,
     );
-    const findDOM = findDOMNode(tree);
 
     // "Save" the form
-    findDOM.querySelector('.schemaform-sip-save-link').click();
+    fireEvent.click($('.schemaform-sip-save-link'));
 
     expect(exitSpy.firstCall.args[0]).to.deep.equal({ testIndex: 1 });
     expect(exitSpy.secondCall.args[0]).to.deep.equal({ testIndex: 2 });
@@ -211,25 +181,18 @@ describe('Schemaform <SaveFormLink>', () => {
     });
   });
 
-  it.skip('should call saveInProgressForm if logged in', () => {
-    saveInProgressForm.reset(); // Just because it's good practice for a shared spy
-    const tree = ReactTestUtils.renderIntoDocument(
+  it('should call saveInProgressForm if logged in', () => {
+    const saveInProgressForm = sinon.spy();
+    const { container } = render(
       // Wrapped in a div because I SaveFormLink only returns an anchor and I
       //  didn't want to just .click() the tree (if that would even work).
       <div>
-        <SaveFormLink
-          user={loggedInUser}
-          form={form}
-          saveInProgressForm={saveInProgressForm}
-          toggleLoginModal={() => {}}
-          formConfig={formConfig}
-        />
+        <SaveFormLink {...props({ saveInProgressForm })} />
       </div>,
     );
-    const findDOM = findDOMNode(tree);
 
     // "Save" the form
-    findDOM.querySelector('.schemaform-sip-save-link').click();
+    fireEvent.click($('.schemaform-sip-save-link', container));
 
     expect(saveInProgressForm.called);
   });
