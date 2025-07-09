@@ -317,38 +317,27 @@ describe('test wrapper', () => {
     });
 
     describe('refresh csrf token', () => {
-      it('should fetch and store a CSRF token if none exists', async () => {
+      it('should fetch and store a CSRF token in a HEAD request if none exists', async () => {
         const mockCsrfToken = 'mock-csrf-token';
         localStorage.clear();
 
         server.use(
-          rest.head(
-            `${environment.API_URL}/v0/maintenance_windows`,
-            (req, res, ctx) =>
-              res(ctx.status(200), ctx.set('X-CSRF-Token', mockCsrfToken)),
+          rest.head(`${environment.API_URL}/v0/csrf_token`, (req, res, ctx) =>
+            res(ctx.status(200), ctx.set('X-CSRF-Token', mockCsrfToken)),
           ),
         );
 
         server.use(
           rest.post(
-            `${environment.API_URL}/v0/letters/benefit_summary`,
+            `${environment.API_URL}/v0/health_care_application`,
             (_, res, ctx) => {
-              const pdfFile = fs.readFileSync(
-                path.resolve(__dirname, './pdfFixture.pdf'),
-              );
-
-              return res(
-                ctx.status(200),
-                ctx.set('Content-Length', pdfFile.byteLength.toString()),
-                ctx.set('Content-Type', 'application/pdf'),
-                ctx.body(pdfFile),
-              );
+              return res(ctx.status(200));
             },
           ),
         );
 
         const response = await apiRequest(
-          '/letters/benefit_summary',
+          '/health_care_application',
           {
             headers: { 'Content-Type': 'application/json' },
             method: 'POST',
@@ -359,6 +348,7 @@ describe('test wrapper', () => {
           undefined,
           true,
         );
+
         expect(localStorage.getItem('csrfToken')).to.equal(mockCsrfToken);
         expect(response.status).to.eql(200);
       });
@@ -394,24 +384,15 @@ describe('test wrapper', () => {
 
         server.use(
           rest.post(
-            `https://dev-api.va.gov/v0/letters/benefit_summary`,
+            `${environment.API_URL}/v0/health_care_application`,
             (_, res, ctx) => {
-              const pdfFile = fs.readFileSync(
-                path.resolve(__dirname, './pdfFixture.pdf'),
-              );
-
-              return res(
-                ctx.status(200),
-                ctx.set('Content-Length', pdfFile.byteLength.toString()),
-                ctx.set('Content-Type', 'application/pdf'),
-                ctx.body(pdfFile),
-              );
+              return res(ctx.status(200));
             },
           ),
         );
 
         const response = await apiRequest(
-          '/letters/benefit_summary',
+          '/health_care_application',
           {
             headers: { 'Content-Type': 'application/json' },
             method: 'POST',
@@ -432,10 +413,10 @@ describe('test wrapper', () => {
           localStorage.clear();
         });
 
-        it('should throw an error if the CSRF token header is missing', async () => {
+        it('should throw an error if the CSRF token header is missing in HEAD response', async () => {
           server.use(
             rest.head(
-              `${environment.API_URL}/v0/maintenance_windows`,
+              `${environment.API_URL}/v0/csrf_token`,
               (_req, res, ctx) => res(ctx.status(200)),
             ),
           );
@@ -463,7 +444,7 @@ describe('test wrapper', () => {
         it('should throw an error if the request fails', async () => {
           server.use(
             rest.head(
-              `${environment.API_URL}/v0/maintenance_windows`,
+              `${environment.API_URL}/v0/csrf_token`,
               (_req, res, ctx) =>
                 res(ctx.status(500), ctx.text('Internal Server Error')),
             ),

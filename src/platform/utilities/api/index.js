@@ -77,7 +77,7 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
  * @returns {Promise<void>} Resolves if a new token is successfully stored, rejects otherwise.
  */
 export async function getAndStoreCSRFToken() {
-  const url = `${environment.API_URL}/v0/maintenance_windows`;
+  const url = `${environment.API_URL}/v0/csrf_token`;
 
   const response = await fetchAndUpdateSessionExpiration(url, {
     method: 'HEAD',
