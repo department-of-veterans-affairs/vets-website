@@ -105,6 +105,9 @@ export default function ArrayBuilderItemPage({
                 goBack={props.goBack}
                 goForward={props.onContinue}
                 submitToContinue
+                useWebComponents={
+                  props.formOptions?.useWebComponentForNavigation
+                }
               />
             </>
           )}
@@ -150,6 +153,7 @@ export default function ArrayBuilderItemPage({
     contentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
     formContext: PropTypes.object,
+    formOptions: PropTypes.object,
     fullData: PropTypes.object,
     getFormData: PropTypes.func,
     goBack: PropTypes.func,
