@@ -49,37 +49,24 @@ export const pageHooks = {
     });
   },
   'review-and-submit': () => {
-    cy.get('@testData').then(testData => {
-      const parties = {
-        veteran: testData.veteranSignature,
-        primary: testData.primarySignature,
-        representative: testData.primarySignature,
-        secondaryOne: testData.secondaryOneSignature,
-        secondaryTwo: testData.secondaryTwoSignature,
+    cy.get('@testKey').then(testKey => {
+      const statementOfTruthActions = {
+        secondaryOneOnly: ['veteran', 'secondaryOne'],
+        oneSecondaryCaregiver: ['veteran', 'primary', 'secondaryOne'],
+        twoSecondaryCaregivers: [
+          'veteran',
+          'primary',
+          'secondaryOne',
+          'secondaryTwo',
+        ],
+        signAsRepresentativeYes: ['representative', 'primary'],
+        default: ['veteran', 'primary'],
       };
-
-      cy.get('@testKey').then(testKey => {
-        const statementOfTruthActions = {
-          secondaryOneOnly: ['veteran', 'secondaryOne'],
-          oneSecondaryCaregiver: ['veteran', 'primary', 'secondaryOne'],
-          twoSecondaryCaregivers: [
-            'veteran',
-            'primary',
-            'secondaryOne',
-            'secondaryTwo',
-          ],
-          signAsRepresentativeYes: ['representative', 'primary'],
-          default: ['veteran', 'primary'],
-        };
-        const signatures =
-          statementOfTruthActions[testKey] || statementOfTruthActions.default;
-        signatures.forEach(role =>
-          cy.fillVaStatementOfTruth(LABELS[role], {
-            fullName: parties[role],
-            checked: true,
-          }),
-        );
-      });
+      const signatures =
+        statementOfTruthActions[testKey] || statementOfTruthActions.default;
+      signatures.forEach(role =>
+        cy.fillVaStatementOfTruth(LABELS[role], { checked: true }),
+      );
     });
   },
   confirmation: ({ afterHook }) => {
