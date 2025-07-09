@@ -312,6 +312,7 @@ function CalendarWidget({
           </div>
         )}
         <div
+          data-testid="vaos-calendar"
           className={calendarCss}
           // Hide from screen readers if disabled and not showing
           // but remove attribute if it is showing (using undefined)
