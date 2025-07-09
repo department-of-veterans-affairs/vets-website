@@ -224,11 +224,12 @@ const Authorization = ({
               visible={showLegaleseBanner}
             >
               <p className="vads-u-margin-bottom--0">
-                We’ve updated the legal statement on this page. You previously
-                gave us permission to request your non-VA medical records.
-                Review this page and, if you still want us to contact your
-                provider for your records, check the box at the bottom to
-                authorize.
+                We’ve updated the legal language on this page.
+              </p>
+              <p>
+                If you still want us to request your non-VA medical records,
+                check the box labeled "I acknowledge and authorize this release
+                of information."
               </p>
             </va-banner>
             <p>
