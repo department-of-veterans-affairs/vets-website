@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 const disallowedFields = ['vaFileNumberLastFour', 'veteranSsnLastFour'];
 
 export function replacer(key, value) {
-  // clean up empty objects, which we have no reason to send
+  // Clean up empty objects, which we have no reason to send
   if (typeof value === 'object' && value) {
     const fields = Object.keys(value);
     if (
@@ -17,6 +17,7 @@ export function replacer(key, value) {
     }
   }
 
+  // Clean up null values, which we have no reason to send
   if (value === null) {
     return undefined;
   }

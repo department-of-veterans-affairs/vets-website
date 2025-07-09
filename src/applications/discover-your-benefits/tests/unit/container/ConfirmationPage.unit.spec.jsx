@@ -4,95 +4,9 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import configureStore from 'redux-mock-store';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import formConfig from '../../../config/form';
 import { BENEFITS_LIST } from '../../../constants/benefits';
-
-describe('<ConfirmationPage>', () => {
-  sinon.stub(Date, 'getTime');
-  const getData = resultsData => ({
-    props: {
-      formConfig,
-      route: {
-        path: 'confirmation',
-      },
-      router: {
-        push: sinon.mock(),
-        replace: sinon.mock(),
-        // goBack: sinon.stub(),
-        goBack: sinon.mock(),
-      },
-      displayResults: sinon.mock(),
-      setSubmission: sinon.mock(),
-      location: {
-        basename: '/discover-your-benefits',
-        pathname: '/confirmation',
-        query: {},
-        search: '',
-      },
-    },
-    mockStore: {
-      getState: () => ({
-        form: {
-          formId: 'T-QSTNR',
-          data: {
-            disabilityRating: 'No',
-            'view:disabilityEligibility': {},
-            characterOfDischarge: 'honorable',
-            separation: 'upTo6mo',
-            militaryServiceCompleted: 'No',
-            militaryServiceCurrentlyServing: 'No',
-            militaryServiceTotalTimeServed: 'More than 3 years',
-            goals: {
-              setACareerPath: true,
-            },
-            privacyAgreementAccepted: true,
-          },
-        },
-        results: {
-          data: resultsData,
-          error: null,
-          isError: false,
-          isLoading: false,
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    },
-  });
-  const subject = ({ mockStore, props }) =>
-    render(
-      <Provider store={mockStore}>
-        <ConfirmationPage {...props} />
-      </Provider>,
-    );
-
-  it('should render results page when query string is provided', () => {
-    const { mockStore, props } = getData([]);
-    props.location.query.benefits = 'SVC,FHV';
-    const { container } = subject({ mockStore, props });
-
-    expect(container.querySelector('#results-container')).to.exist;
-  });
-
-  it('should handle back link', async () => {
-    sinon.stub(window, 'history').value({ length: 10 });
-
-    const { mockStore, props } = getData();
-    const { container } = subject({ mockStore, props });
-
-    const backLink = container.querySelector('[data-testid="back-link"]');
-    fireEvent.click(backLink);
-
-    await waitFor(() => {
-      expect(props.router.goBack.called).to.be.true;
-    });
-  });
-});
-
-// Mock store configuration
-const mockStoreInstance = configureStore([]);
 
 // Mock benefit data
 const mockBenefits = [
@@ -116,26 +30,106 @@ const mockBenefits = [
   },
 ];
 
+const form1 = {
+  formId: 'T-QSTNR',
+  data: {
+    disabilityRating: 'No',
+    'view:disabilityEligibility': {},
+    characterOfDischarge: 'honorable',
+    separation: 'upTo6mo',
+    militaryServiceCompleted: 'No',
+    militaryServiceCurrentlyServing: 'No',
+    militaryServiceTotalTimeServed: 'More than 3 years',
+    goals: {
+      setACareerPath: true,
+    },
+    privacyAgreementAccepted: true,
+  },
+};
+
+const form2 = {
+  formId: 'T-QSTNR',
+  data: {
+    privacyAgreementAccepted: true,
+  },
+};
+
+const getData = (resultsData = [], formObject = form1, queryObject = {}) => ({
+  props: {
+    formConfig,
+    route: {
+      path: 'confirmation',
+    },
+    router: {
+      push: sinon.mock(),
+      replace: sinon.mock(),
+      goBack: sinon.mock(),
+    },
+    displayResults: sinon.mock(),
+    setSubmission: sinon.mock(),
+    location: {
+      basename: '/discover-your-benefits',
+      pathname: '/confirmation',
+      query: queryObject,
+      search: '',
+    },
+  },
+  mockStore: {
+    getState: () => ({
+      form: formObject,
+      results: {
+        data: resultsData,
+        error: null,
+        isError: false,
+        isLoading: false,
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  },
+});
+
+const subject = ({ mockStore, props }) =>
+  render(
+    <Provider store={mockStore}>
+      <ConfirmationPage {...props} />
+    </Provider>,
+  );
+
+describe('<ConfirmationPage>', () => {
+  sinon.stub(Date, 'getTime');
+
+  it('should render results page when query string is provided', () => {
+    const { mockStore, props } = getData();
+    props.location.query.benefits = 'SVC,FHV';
+    const { container } = subject({ mockStore, props });
+
+    expect(container.querySelector('#results-container')).to.exist;
+  });
+
+  it('should handle back link', async () => {
+    sinon.stub(window, 'history').value({ length: 10 });
+
+    const { mockStore, props } = getData();
+    const { container } = subject({ mockStore, props });
+
+    const backLink = container.querySelector('[data-testid="back-link"]');
+    fireEvent.click(backLink);
+
+    await waitFor(() => {
+      expect(props.router.goBack.called).to.be.true;
+    });
+  });
+});
+
 describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
-  let wrapper;
-  let store;
-  let container;
+  sinon.stub(Date, 'getTime');
 
-  const setup = storeState => {
-    store = mockStoreInstance(storeState);
-    return render(
-      <Provider store={store}>
-        <ConfirmationPage
-          results={{ data: mockBenefits, isLoading: false }}
-          location={{ basename: '/', pathname: '/confirmation', query: {} }}
-        />
-      </Provider>,
-    );
-  };
-
+  // TODO write tests for filtering results by goals.
   // it('should sort benefits by goal', () => {
-  //   wrapper = setup({ results: { data: mockBenefits } });
-  //   container = wrapper.container;
+  //   const { mockStore, props } = getData(mockBenefits);
+  //   const wrapper = subject({ mockStore, props });
+  //   const { container } = wrapper;
 
   //   const sortSelect = container.querySelector('[name="sort-benefits"]');
   //   sortSelect.__events.vaSelect({ target: { value: 'goal' } });
@@ -150,8 +144,9 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
   // });
 
   it('should sort benefits alphabetically', () => {
-    wrapper = setup({ results: { data: mockBenefits } });
-    container = wrapper.container;
+    const { mockStore, props } = getData(mockBenefits, form2);
+    const wrapper = subject({ mockStore, props });
+    const { container } = wrapper;
 
     const sortSelect = container.querySelector('[name="sort-benefits"]');
     sortSelect.__events.vaSelect({ target: { value: 'alphabetical' } });
@@ -167,15 +162,10 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
   });
 
   it('should sort benefits alphabetically by default', () => {
-    wrapper = setup({
-      results: { data: BENEFITS_LIST },
-      location: {
-        basename: '/',
-        pathname: '/confirmation',
-        query: { allBenefits: true },
-      },
+    const { mockStore, props } = getData(BENEFITS_LIST, form2, {
+      allBenefits: true,
     });
-    container = wrapper.container;
+    const wrapper = subject({ mockStore, props });
 
     const benefits = wrapper.getAllByRole('listitem').map(li => li.textContent);
 
@@ -188,8 +178,9 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
   });
 
   it('should filter benefits by category', () => {
-    wrapper = setup({ results: { data: mockBenefits } });
-    container = wrapper.container;
+    const { mockStore, props } = getData(mockBenefits, form2);
+    const wrapper = subject({ mockStore, props });
+    const { container } = wrapper;
 
     const filterSelect = container.querySelector('[name="filter-benefits"]');
     filterSelect.__events.vaSelect({ target: { value: 'Careers' } });
@@ -204,8 +195,9 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
   });
 
   it('should show all benefits when "All" filter is selected', () => {
-    wrapper = setup({ results: { data: mockBenefits } });
-    container = wrapper.container;
+    const { mockStore, props } = getData(mockBenefits, form2);
+    const wrapper = subject({ mockStore, props });
+    const { container } = wrapper;
 
     const filterSelect = container.querySelector('[name="filter-benefits"]');
     filterSelect.__events.vaSelect({ target: { value: 'All' } });
@@ -224,57 +216,8 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
 describe('<ConfirmationPage> with <va-banner />', () => {
   sinon.stub(Date, 'getTime');
 
-  const getData = resultsData => {
-    return {
-      props: {
-        formConfig,
-        route: {
-          path: 'confirmation',
-        },
-        router: {
-          push: sinon.mock(),
-          replace: sinon.mock(),
-          goBack: sinon.mock(),
-        },
-        displayResults: sinon.mock(),
-        setSubmission: sinon.mock(),
-        location: {
-          basename: '/discover-your-benefits',
-          pathname: '/confirmation',
-          query: {},
-          search: '',
-        },
-      },
-      mockStore: {
-        getState: () => ({
-          form: {
-            formId: 'T-QSTNR',
-            data: {
-              privacyAgreementAccepted: true,
-            },
-          },
-          results: {
-            data: resultsData,
-            error: null,
-            isError: false,
-            isLoading: false,
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => {},
-      },
-    };
-  };
-
-  const subject = ({ mockStore, props }) =>
-    render(
-      <Provider store={mockStore}>
-        <ConfirmationPage {...props} />
-      </Provider>,
-    );
-
   it('should render a <va-banner /> when results not found', () => {
-    const { mockStore, props } = getData([]);
+    const { mockStore, props } = getData([], form2);
     const { container } = subject({ mockStore, props });
 
     const banner = container.querySelector('va-banner');
@@ -286,7 +229,7 @@ describe('<ConfirmationPage> with <va-banner />', () => {
   it('should handle "Go back" link', async () => {
     sinon.stub(window, 'history').value({ length: 10 });
 
-    const { mockStore, props } = getData([]);
+    const { mockStore, props } = getData([], form2);
     const { container } = subject({ mockStore, props });
 
     const backLink = container.querySelector('[data-testid="back-link"]');
