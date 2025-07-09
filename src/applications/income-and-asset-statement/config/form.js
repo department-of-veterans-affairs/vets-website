@@ -67,7 +67,6 @@ const formConfig = {
         formData?.claimantType === 'VETERAN'
           ? 'veteranFullName'
           : 'claimantFullName',
-      useProfileFullName: loggedIn => !!loggedIn,
     },
   },
   title: 'Income and Asset Statement',
