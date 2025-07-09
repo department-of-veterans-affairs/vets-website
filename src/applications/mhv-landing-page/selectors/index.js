@@ -9,7 +9,6 @@ import {
   isInMPI,
   isVAPatient,
 } from '~/platform/user/selectors';
-import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
 import { personalizationEnabled } from './featureToggles';
 import { hasEdipi } from './hasEdipi';
@@ -63,7 +62,6 @@ export {
   seiFailedDomains,
   seiSuccessfulDownload,
   seiFailedDownload,
-  selectDrupalStaticData,
   selectGreetingName,
   selectVaPatient,
   selectProfile,
