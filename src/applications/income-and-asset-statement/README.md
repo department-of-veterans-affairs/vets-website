@@ -9,9 +9,9 @@
 
 ##### Context
 
-VA Form 21P-0960 (Income and Asset Statement Form) is intended to be used to report or verify income and/or net worth, and changes to income and net worth over multiple years must be.
+VA Form 21P-0960 (Pension or DIC Income and Asset Statement Form) is intended to be used to report or verify income and/or net worth, and changes to income and net worth over multiple years must be.
 
-# Income and Asset Statement Form
+# Pension or DIC Income and Asset Statement Form
 
 ### Base URLs
 
