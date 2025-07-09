@@ -1,7 +1,6 @@
 import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
-import AlertMhvUserAction from '../../../components/alerts/AlertMhvUserAction.jsx';
 import AlertMhvNoAction from '../../../components/alerts/AlertMhvNoAction.jsx';
 
 describe(`${appName} - MHV Registration Alert - `, () => {
@@ -139,9 +138,6 @@ describe(`${appName} - MHV Registration Alert - `, () => {
   it(`alert not shown for user with MHV account`, () => {
     LandingPage.visit({ mhvAccountState: 'OK' });
     cy.injectAxeThenAxeCheck();
-    cy.findByText(AlertMhvUserAction.defaultProps.title, {
-      exact: false,
-    }).should('not.exist');
 
     // Check the cards and hubs are visible
     cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;
@@ -152,9 +148,6 @@ describe(`${appName} - MHV Registration Alert - `, () => {
     ApiInitializer.initializeAccountStatus.withSuccess();
     LandingPage.visit({ mhvAccountState: 'NOT OK' });
     cy.injectAxeThenAxeCheck();
-    cy.findByText(AlertMhvUserAction.defaultProps.title, {
-      exact: false,
-    }).should('not.exist');
 
     // Check the cards and hubs are visible
     cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;
