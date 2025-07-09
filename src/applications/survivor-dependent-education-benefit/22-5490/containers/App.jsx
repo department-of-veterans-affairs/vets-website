@@ -11,7 +11,7 @@ import {
 } from '../actions';
 import formConfig from '../config/form';
 import { getAppData } from '../selectors';
-// import { prefillTransformer } from '../helpers';
+import { prefillTransformer } from '../helpers';
 
 function App({
   children,
@@ -198,31 +198,31 @@ App.propTypes = {
   user: PropTypes.object,
 };
 
-// const mapStateToProps = state => {
-//   const prefillData =
-//     prefillTransformer(null, null, null, state)?.formData || {};
-//   const formStateData = state.form?.data || {};
+const mapStateToProps = state => {
+  const formStateData = state.form?.data || {};
+  const prefillData =
+    prefillTransformer(null, null, null, state)?.formData || {};
 
-//   return {
-//     ...getAppData(state),
-//     formData: {
-//       ...prefillData,
-//       ...formStateData,
-//       chosenBenefit: formStateData?.chosenBenefit || prefillData?.chosenBenefit,
-//       highSchoolDiploma:
-//         formStateData?.highSchoolDiploma || prefillData?.highSchoolDiploma,
-//       graduationDate:
-//         formStateData?.graduationDate || prefillData?.graduationDate,
-//     },
-//     user: state.user,
-//   };
-// };
+  // Only use prefill data for name and DOB if they're missing from form state
+  const shouldUsePrefillName =
+    !formStateData.claimantFullName?.first ||
+    !formStateData.claimantFullName?.last;
+  const shouldUsePrefillDOB = !formStateData.claimantDateOfBirth;
 
-const mapStateToProps = state => ({
-  ...getAppData(state),
-  formData: state.form?.data || {},
-  user: state.user,
-});
+  return {
+    ...getAppData(state),
+    formData: {
+      ...formStateData,
+      claimantFullName: shouldUsePrefillName
+        ? prefillData.claimantFullName
+        : formStateData.claimantFullName,
+      claimantDateOfBirth: shouldUsePrefillDOB
+        ? prefillData.claimantDateOfBirth
+        : formStateData.claimantDateOfBirth,
+    },
+    user: state.user,
+  };
+};
 
 const mapDispatchToProps = {
   getPersonalInformation: fetchPersonalInformation,
