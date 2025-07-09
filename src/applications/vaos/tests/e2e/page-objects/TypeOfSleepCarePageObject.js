@@ -5,6 +5,9 @@ class TypeOfSleepCarePageObject extends PageObject {
     cy.url().should('include', '/sleep-care');
     cy.axeCheckBestPractice();
 
+    this.clickNextButton();
+    this.assertValidationError('You must provide a response');
+
     return this;
   }
 

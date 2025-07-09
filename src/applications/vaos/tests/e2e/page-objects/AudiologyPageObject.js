@@ -5,6 +5,9 @@ class AudiologyPageObject extends PageObject {
     cy.url().should('include', 'audiology-care');
     cy.axeCheckBestPractice();
 
+    this.clickNextButton();
+    this.assertValidationError('You must provide a response');
+
     return this;
   }
 

@@ -47,7 +47,7 @@ export default class PageObject {
     return this.assertAlert({ text, exist, status: 'error' });
   }
 
-  assertValidationErrorMessage(error) {
+  assertValidationError(error) {
     cy.get(`[error="${error}"]`).should('exist');
     return this;
   }
@@ -193,7 +193,7 @@ export default class PageObject {
     cy.contains('button', label)
       .as('button')
       .should('not.be.disabled');
-    // cy.get('@button').focus();
+    cy.get('@button').focus();
     cy.get('@button').click({ waitForAnimations: true });
 
     return this;

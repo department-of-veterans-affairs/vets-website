@@ -109,8 +109,6 @@ describe('VAOS request schedule flow - sleep care', () => {
           .clickNextButton();
 
         TypeOfSleepCarePageObject.assertUrl()
-          .clickNextButton()
-          .assertValidationErrorMessage('You must provide a response')
           .selectTypeOfSleepCare(/Sleep medicine and home sleep testing/i)
           .clickNextButton();
 

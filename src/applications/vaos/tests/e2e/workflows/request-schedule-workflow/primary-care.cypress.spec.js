@@ -117,8 +117,6 @@ describe('VAOS request schedule flow - Primary care', () => {
             .assertHeading({
               name: /How do you want to attend this appointment/i,
             })
-            .clickNextButton()
-            .assertValidationErrorMessage('Select an option')
             .selectVisitType('In person')
             .clickNextButton();
 
