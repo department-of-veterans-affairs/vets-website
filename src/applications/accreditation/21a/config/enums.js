@@ -87,6 +87,49 @@ export const DISCHARGE_TYPE_ENUM = {
   'Other Than Honorable': DISCHARGE_TYPE_ID.OTHER_THAN_HONORABLE,
 };
 
+// Chapter 3
+// EMPLOYMENT_STATUS - GCLAWS Mapping
+const EMPLOYMENT_STATUS_ID = {
+  EMPLOYED: 1,
+  UNEMPLOYED: 2,
+  SELF_EMPLOYED: 3,
+  STUDENT: 4,
+};
+// EMPLOYMENT_STATUS - Frontend Options to GCLAWS Mapping
+export const EMPLOYMENT_STATUS_ENUM = Object.freeze({
+  EMPLOYED: EMPLOYMENT_STATUS_ID.EMPLOYED,
+  UNEMPLOYED: EMPLOYMENT_STATUS_ID.UNEMPLOYED,
+  SELF_EMPLOYED: EMPLOYMENT_STATUS_ID.SELF_EMPLOYED,
+  STUDENT: EMPLOYMENT_STATUS_ID.STUDENT,
+});
+
+// Chapter 4
+// DEGREE_TYPE - GCLAWS Mapping
+const DEGREE_TYPE_ID = {
+  GED: 1,
+  HS: 2,
+  ASSOCIATES: 3,
+  BACHELORS: 4,
+  MASTERS: 5,
+  DOCTORATE: 6,
+};
+// DEGREE_TYPE - Frontend Options to GCLAWS Mapping
+export const DEGREE_TYPE_ENUM = {
+  GED: DEGREE_TYPE_ID.GED,
+  'HS Diploma': DEGREE_TYPE_ID.HS,
+  Associates: DEGREE_TYPE_ID.ASSOCIATES,
+  Bachelors: DEGREE_TYPE_ID.BACHELORS,
+  Masters: DEGREE_TYPE_ID.MASTERS,
+  Doctorate: DEGREE_TYPE_ID.DOCTORATE,
+};
+
+// Chapter 5
+// ADMITTANCE_TYPE - GCLAWS Mapping
+export const ADMITTANCE_TYPE_ENUM = {
+  JURISDICTION: 1,
+  AGENCY: 2,
+};
+
 export const APPLICATION_STATUS_ID = {
   Pending: 1,
   'Request/Return for information': 2,
@@ -118,32 +161,11 @@ export const ADDRESS_TYPE_ID = {
   characterReference: 5,
 };
 
-export const EMPLOYMENT_STATUS_ID = {
-  Employed: 1,
-  Unemployed: 2,
-  'Self-employed': 3,
-  Student: 4,
-};
-
 export const INSTITUTION_TYPE_ID = {
   'High School': 1,
   'Community College': 2,
   'Under Graduate': 3,
   Graduate: 4,
-};
-
-export const DEGREE_TYPE_ID = {
-  GED: 1,
-  'HS Diploma': 2,
-  Associates: 3,
-  Bachelors: 4,
-  Masters: 5,
-  Doctorate: 6,
-};
-
-export const ADMITTANCE_TYPE_ID = {
-  Jurisdiction: 1,
-  Agency: 2,
 };
 
 export const DOCUMENT_TYPE_ID = {

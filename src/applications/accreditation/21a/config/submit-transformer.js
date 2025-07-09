@@ -4,6 +4,9 @@ import {
   PHONE_TYPE_ENUM,
   SERVICE_BRANCH_ENUM,
   DISCHARGE_TYPE_ENUM,
+  EMPLOYMENT_STATUS_ENUM,
+  DEGREE_TYPE_ENUM,
+  ADMITTANCE_TYPE_ENUM,
 } from './enums';
 // Map form data to match 21A-schema.json structure before submitting
 
@@ -14,15 +17,6 @@ const RELATIONSHIP_ENUM = {
   employer: 3,
   teacher: 4,
   other: 5,
-};
-
-const DEGREE_ENUM = {
-  'High School Diploma': 1,
-  'Associate degree': 2,
-  "Bachelor's degree": 3,
-  "Master's degree": 4,
-  'Doctoral degree': 5,
-  Other: 6,
 };
 
 const build21aPayload = data => {
@@ -43,10 +37,10 @@ const build21aPayload = data => {
     // Chapter 1 - Place of Birth
     birthAddressLine1: null,
     birthAddressLine2: null,
-    birthAddressLine3: null,
+    birthAddressLine3: null, // v5 field - not currently setting this field
     birthCity: data.placeOfBirth?.city,
     birthState: data.placeOfBirth?.state,
-    birthPostalCode: null,
+    birthPostalCode: null, // v5 field - not currently setting this field
     birthCountry: data.placeOfBirth?.country,
 
     // Chapter 1 - Contact Info
@@ -59,7 +53,7 @@ const build21aPayload = data => {
     homeAddressIsMilitary: !!data.homeAddress?.view?.militaryBaseDescription,
     homeAddressLine1: data.homeAddress?.street,
     homeAddressLine2: data.homeAddress?.street2 || null,
-    homeAddressLine3: null,
+    homeAddressLine3: null, // v5 field - not currently setting this field
     homeAddressCity: data.homeAddress?.city,
     homeAddressState: data.homeAddress?.state,
     homeAddressPostalCode: data.homeAddress?.postalCode,
@@ -72,7 +66,7 @@ const build21aPayload = data => {
     otherAddressIsMilitary: !!data.otherAddress?.view?.militaryBaseDescription,
     otherAddressLine1: data.otherAddress?.street || null,
     otherAddressLine2: data.otherAddress?.street2 || null,
-    otherAddressLine3: null,
+    otherAddressLine3: null, // v5 field - not currently setting this field
     otherAddressCity: data.otherAddress?.city || null,
     otherAddressState: data.otherAddress?.state || null,
     otherAddressPostalCode: data.otherAddress?.postalCode || null,
@@ -85,7 +79,7 @@ const build21aPayload = data => {
     militaryServices:
       data.militaryServiceExperiences?.map(m => ({
         serviceBranchId: SERVICE_BRANCH_ENUM[m.branch],
-        serviceBranchExplanation: null,
+        serviceBranchExplanation: null, // v5 field - not currently setting this field
         entryDate: m.dateRange?.from || null,
         // Not using `currentlyServing` so if it exists we set `dischargeDate` to null
         dischargeDate:
@@ -93,57 +87,104 @@ const build21aPayload = data => {
         dischargeTypeId: DISCHARGE_TYPE_ENUM[m.characterOfDischarge] || null,
         dischargeTypeExplanation: m.explanationOfDischarge || null,
       })) || [],
-    // Accreditation Info
 
+    // Chapter 3 - Employment Status
+    employmentStatusId: EMPLOYMENT_STATUS_ENUM[data.employmentStatus],
+
+    // Chapter 3 - Employment Status Description
+    employmentStatusExplaination: data.describeEmployment || null,
+
+    // Chapter 3 - Employers Info, Address, Phone, Date Range
+    employment:
+      data.employers?.map(e => ({
+        employerName: e.name,
+        positionTitle: e.positionTitle,
+        supervisorName: e.supervisorName,
+        supervisorEmail: null, // v5 field - not currently setting this field
+        addressIsMilitary: !!e.address?.view?.militaryBaseDescription,
+        addressLine1: e.address?.street || null,
+        addressLine2: e.address?.street2 || null,
+        addressLine3: null, // v5 field - not currently setting this field
+        addressCity: e.address?.city || null,
+        addressState: e.address?.state || null,
+        addressPostalCode: e.address?.postalCode || null,
+        addressCountry: e.address?.country || null,
+        phoneTypeId: PHONE_TYPE_ENUM.WORK,
+        phoneNumber: e.phone,
+        phoneExtension: null,
+        startDate: e.dateRange?.from,
+        // Not using `currentlyEmployed` so if it exists we set `endDate` to null
+        endDate:
+          !!e.currentlyEmployed && e.dateRange?.to ? e.dateRange?.to : null,
+      })) || [],
+
+    // Chapter 3 - Employment Activities
+    advertisingToVeterans: data.employmentActivities.BUSINESS || false,
+    consultingService: data.employmentActivities.CONSULTING || false,
+    financialPlanning: data.employmentActivities.FINANCIAL || false,
+    homeNursingCare: data.employmentActivities.HOME_OR_NURSING || false,
+    medicalServices: data.employmentActivities.MEDICAL || false,
+    // v4 field, gclaws is adding this field on 7/14
+    // socialServices: data.employmentActivities.SOCIAL_WORK || false,
+    // v4 field, gclaws is adding this field on 7/14
+    // vocaltionalRehabilitation:
+    //   data.employmentActivities.VOCATIONAL_REHABILITATION || false,
+
+    // Chapter 4 - Education Institution and Degree Information
+    education:
+      data.educationalInstitutions?.map(e => ({
+        name: e.name,
+        startDate: e.dateRange?.from,
+        endDate: e.dateRange?.to || null,
+        wasDegreeReceived: !!e.degreeReceived,
+        major: e.major,
+        degreeTypeId: DEGREE_TYPE_ENUM[e.degree],
+        addressIsMilitary: !!e.address?.view?.militaryBaseDescription,
+        addressLine1: e.address?.street || null,
+        addressLine2: e.address?.street2 || null,
+        addressLine3: null, // v5 field - not currently setting this field
+        addressCity: e.address?.city || null,
+        addressState: e.address?.state || null,
+        addressPostalCode: e.address?.postalCode || null,
+        addressCountry: e.address?.country || null,
+        institutionTypeId: null, // v5 field - not currently setting this field
+      })) || [],
+
+    // Chapter 5 - Jurisdictions and Summary
+    hasJurisdiction: !!data.view?.hasJurisdictions, // This field exists but not on gclaws swagger docs
+    jurisdictions:
+      data.jurisdictions?.map(j => ({
+        name: j.jurisdiction, // will be renamed to admittedName
+        jurisdiction: j.otherJurisdiction || null, // will be renamed to admittedNotes
+        admittanceTypeId: ADMITTANCE_TYPE_ENUM.JURISDICTION,
+        admissionDate: j.admissionDate,
+        membershipRegistrationNumber: j.membershipOrRegistrationNumber,
+      })) || [],
+    jurisdictionExplanation: null, // v5 field - not currently setting this field
+    // jurisdictionUploadedAllDocuments: false, // v5 field - not currently setting this field
+    // jurisdictionDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
+
+    // Chapter 5 - Agencies and Courts Summary
+    admittedToPracticeAgency: !!data.view?.hasAgenciesOrCourts,
+    agencies:
+      data.agenciesOrCourts?.map(a => ({
+        name: a.agencyOrCourt, // will be renamed to admittedName
+        jurisdiction: a.otherAgencyOrCourt || null, // will be renamed to admittedNotes
+        admittanceTypeId: ADMITTANCE_TYPE_ENUM.AGENCY,
+        admissionDate: a.admissionDate,
+        membershipRegistrationNumber: a.membershipOrRegistrationNumber,
+      })) || [],
+    agenciesExplanation: null, // v5 field - not currently setting this field
+    // agenciesUploadedAllDocuments: false, // v5 field - not currently setting this field
+    // agenciesDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
+    // Chapter 5 - Agencies and Courts
+
+    // Accreditation Info
     supplementalStatement: data.supplementalStatement || null,
     personalStatement: data.personalStatement || null,
     signature: data.statementOfTruthSignature || null,
     genderId: null,
     instructionAcknowledge: !!data.statementOfTruthCertified,
-
-    // Employment Info
-    employmentStatusId: data.employmentStatus || null,
-    employmentStatusExplaination: data.describeEmployment || null,
-    employment:
-      data.employers?.map(e => ({
-        employerName: e.name || null,
-        addressIsMilitary: !!e.address?.view?.militaryBaseDescription,
-        addressLine1: e.address?.street || null,
-        addressLine2: e.address?.street2 || null,
-        addressLine3: null,
-        addressCity: e.address?.city || null,
-        addressState: e.address?.state || null,
-        addressPostalCode: e.address?.postalCode || null,
-        addressCountry: e.address?.country || null,
-        phoneNumber: e.phone || null,
-        phoneExtension: null,
-        phoneTypeId: null,
-        positionTitle: e.positionTitle || null,
-        startDate: e.dateRange?.from || null,
-        endDate: e.dateRange?.to || null,
-        supervisorName: e.supervisorName || null,
-        supervisorEmail: null,
-      })) || [],
-
-    // Education Info
-    education:
-      data.educationalInstitutions?.map(e => ({
-        name: e.name || null,
-        addressIsMilitary: !!e.address?.view?.militaryBaseDescription,
-        addressLine1: e.address?.street || null,
-        addressLine2: e.address?.street2 || null,
-        addressLine3: null,
-        addressCity: e.address?.city || null,
-        addressState: e.address?.state || null,
-        addressPostalCode: e.address?.postalCode || null,
-        addressCountry: e.address?.country || null,
-        institutionTypeId: null,
-        startDate: e.dateRange?.from || null,
-        endDate: e.dateRange?.to || null,
-        wasDegreeReceived: !!e.degreeReceived,
-        degreeTypeId: DEGREE_ENUM[e.degree] || null,
-        major: e.major || null,
-      })) || [],
 
     // Character References
     characterReferences:
@@ -167,38 +208,6 @@ const build21aPayload = data => {
         relationshipToApplicantTypeId:
           RELATIONSHIP_ENUM[r.relationship?.toLowerCase()] || null,
       })) || [],
-
-    advertisingToVeterans: data.advertisingToVeterans || false,
-    consultingService: data.consultingService || false,
-    financialPlanning: data.financialPlanning || false,
-    funeralIndustry: data.funeralIndustry || false,
-    homeNursingCare: data.homeNursingCare || false,
-    medicalServices: data.medicalServices || false,
-    // Licensing / Jurisdictions
-    jurisdictions:
-      data.jurisdictions?.map(j => ({
-        jurisdiction: j.jurisdiction,
-        name: j.otherJurisdiction,
-        admittanceTypeId: j.admittanceTypeId,
-        admissionDate: j.admissionDate,
-        membershipRegistrationNumber: j.membershipOrRegistrationNumber,
-      })) || [],
-    jurisdictionExplanation: data.jurisdictions?.[0]?.jurisdiction || null,
-    jurisdictionUploadedAllDocuments: null,
-    jurisdictionDeclinedToUploadDocuments: null,
-
-    // Agencies
-    admittedToPracticeAgency: !!data.representativeForAgency,
-    agencies:
-      data.agenciesOrCourts?.map(a => ({
-        name: a.agencyOrCourt || a.otherAgencyOrCourt,
-        admittanceTypeId: a.admittanceTypeId,
-        admissionDate: a.admissionDate,
-        membershipRegistrationNumber: a.membershipOrRegistrationNumber,
-      })) || [],
-    agenciesExplanation: data.agenciesOrCourts?.[0]?.agencyOrCourt || null,
-    agenciesUploadedAllDocuments: null,
-    agenciesDeclinedToUploadDocuments: null,
 
     // Background & Disclosures
     wasImprisoned: !!data.conviction,
