@@ -1,18 +1,18 @@
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+// import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   privateRecordsChoiceHelp,
-  patientAcknowledgmentTitle,
-  patientAcknowledgmentText,
-  patientAcknowledgmentError,
+  // patientAcknowledgmentTitle,
+  // patientAcknowledgmentText,
+  // patientAcknowledgmentError,
 } from '../content/privateMedicalRecords';
 import { standardTitle } from '../content/form0781';
 
-const isNotUploadingPrivateRecords = data =>
-  data?.['view:hasPrivateRecordsToUpload'] === false;
+// const isNotUploadingPrivateRecords = data =>
+//   data?.['view:hasPrivateRecordsToUpload'] === false;
 
 export const uiSchema = {
   'ui:title': standardTitle('Private medical records'),
@@ -30,44 +30,30 @@ export const uiSchema = {
       'ui:description': privateRecordsChoiceHelp,
     },
   },
-  'view:patientAcknowledgement': {
-    'ui:title': patientAcknowledgmentTitle,
-    'ui:options': {
-      expandUnder: 'view:uploadPrivateRecordsQualifier',
-      expandUnderCondition: isNotUploadingPrivateRecords,
-      showFieldLabel: true,
-    },
-    'ui:validations': [
-      (errors, fieldData, formData) => {
-        const shouldValidate =
-          formData?.['view:uploadPrivateRecordsQualifier']?.[
-            'view:hasPrivateRecordsToUpload'
-          ] === false;
+  // 'view:patientAcknowledgement': {
+  //   'ui:title': patientAcknowledgmentTitle,
+  //   'ui:options': {
+  //     expandUnder: 'view:uploadPrivateRecordsQualifier',
+  //     expandUnderCondition: isNotUploadingPrivateRecords,
+  //     showFieldLabel: true,
+  //   },
+  //   'ui:validations': [
+  //     (errors, fieldData, formData) => {
+  //       const shouldValidate =
+  //         formData?.['view:uploadPrivateRecordsQualifier']?.[
+  //           'view:hasPrivateRecordsToUpload'
+  //         ] === false;
 
-        if (shouldValidate) {
-          return validateBooleanGroup(errors, fieldData, null, null, {
-            atLeastOne: patientAcknowledgmentError,
-          });
-        }
+  //       if (shouldValidate) {
+  //         return validateBooleanGroup(errors, fieldData, null, null, {
+  //           atLeastOne: patientAcknowledgmentError,
+  //         });
+  //       }
 
-        return errors;
-      },
-    ],
-    'view:acknowledgement': {
-      'ui:title': 'I acknowledge and authorize this release of information',
-      'ui:options': {
-        useDlWrap: true,
-      },
-    },
-  },
-  'view:patientAcknowledgmentHelp': {
-    'ui:description': patientAcknowledgmentText,
-    'ui:options': {
-      expandUnder: 'view:uploadPrivateRecordsQualifier',
-      expandUnderCondition: isNotUploadingPrivateRecords,
-      forceDivWrapper: true,
-    },
-  },
+  //       return errors;
+  //     },
+  //   ],
+  // },
 };
 
 export const schema = {
@@ -87,23 +73,6 @@ export const schema = {
           properties: {},
         },
       },
-    },
-    // Note: this property is misspelled. Should be
-    // `view:patientAcknowledgment` but isn't worth writing a migration for at
-    // this time since it's only used on this page.
-    'view:patientAcknowledgement': {
-      type: 'object',
-      required: ['view:acknowledgement'],
-      properties: {
-        'view:acknowledgement': {
-          type: 'boolean',
-          default: false,
-        },
-      },
-    },
-    'view:patientAcknowledgmentHelp': {
-      type: 'object',
-      properties: {},
     },
   },
 };

@@ -24,6 +24,7 @@ import {
   claimingNew,
   DISABILITY_SHARED_CONFIG,
   getPageTitle,
+  hasCompletedAuthorization,
   hasGuardOrReservePeriod,
   hasNewPtsdDisability,
   hasOtherEvidence,
@@ -81,6 +82,7 @@ import {
   prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsAttachments,
+  privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
   ptsdBypassCombat,
@@ -117,6 +119,7 @@ import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizard
 
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
+import PrivateRecordsAuthorization from '../components/Authorization';
 
 import { createFormConfig781, createFormConfig781a } from './781';
 
@@ -684,12 +687,25 @@ const formConfig = {
           uiSchema: privateMedicalRecordsAttachments.uiSchema,
           schema: privateMedicalRecordsAttachments.schema,
         },
+        privateMedicalAuthorizeRelease: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records-authorize-release',
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            isNotUploadingPrivateMedical(formData) &&
+            !hasCompletedAuthorization(false),
+          CustomPage: PrivateRecordsAuthorization,
+          CustomPageReview: null,
+          uiSchema: privateMedicalAuthorizeRelease.uiSchema,
+          schema: privateMedicalAuthorizeRelease.schema,
+        },
         privateMedicalRecordsRelease: {
           title: 'Private medical records',
           path: 'supporting-evidence/private-medical-records-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&
-            isNotUploadingPrivateMedical(formData),
+            isNotUploadingPrivateMedical(formData) &&
+            hasCompletedAuthorization(false),
           uiSchema: privateMedicalRecordsRelease.uiSchema,
           schema: privateMedicalRecordsRelease.schema,
         },
