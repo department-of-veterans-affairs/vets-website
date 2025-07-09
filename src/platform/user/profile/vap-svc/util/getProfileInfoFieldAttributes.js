@@ -42,7 +42,9 @@ export const personalInformation = [
   FIELD_NAMES.MESSAGING_SIGNATURE,
 ];
 
-export const getProfileInfoFieldAttributes = fieldName => {
+export const getProfileInfoFieldAttributes = (fieldName, options = {}) => {
+  const { allowInternational = false } = options;
+
   let apiRoute;
   let convertCleanDataToPayload;
   let title;
@@ -60,8 +62,10 @@ export const getProfileInfoFieldAttributes = fieldName => {
   if (phoneNumbers.includes(fieldName)) {
     apiRoute = API_ROUTES.TELEPHONES;
     convertCleanDataToPayload = phoneConvertCleanDataToPayload;
-    uiSchema = cloneDeep(phoneUiSchema(FIELD_TITLES[fieldName]));
-    formSchema = cloneDeep(phoneFormSchema);
+    uiSchema = cloneDeep(
+      phoneUiSchema(FIELD_TITLES[fieldName], { allowInternational }),
+    );
+    formSchema = cloneDeep(phoneFormSchema({ allowInternational }));
 
     if (fieldName === FIELD_NAMES.HOME_PHONE) {
       title = FIELD_TITLES[FIELD_NAMES.HOME_PHONE];
