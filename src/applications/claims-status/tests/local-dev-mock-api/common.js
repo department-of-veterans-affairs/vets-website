@@ -180,7 +180,7 @@ const supplementalAppealData = {
     aoj: 'vba',
     programArea: 'compensation',
     status: {
-      type: 'sc_recieved', // known spelling error coming from coming from caseflow.
+      type: 'sc_recieved', // known spelling error coming from caseflow.
       details: {},
     },
     alerts: [],
