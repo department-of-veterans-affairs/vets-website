@@ -205,10 +205,10 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (dob !== formData?.dob) {
+      if (dob !== formData?.dateOfBirth) {
         setFormData({
           ...formData,
-          dob,
+          dateOfBirth: dob,
         });
       }
     },
