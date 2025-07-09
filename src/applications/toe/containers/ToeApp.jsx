@@ -295,7 +295,19 @@ const mapStateToProps = state => {
     formData: {
       ...formStateData,
       ...prefillData,
+      'view:directDeposit':
+        formStateData['view:directDeposit'] ||
+        prefillData['view:directDeposit'],
+      'view:phoneNumbers':
+        formStateData['view:phoneNumbers'] || prefillData['view:phoneNumbers'],
+      email: formStateData.email || prefillData.email,
+      mobilePhone: formStateData.mobilePhone || prefillData.mobilePhone,
+      homePhone: formStateData.homePhone || prefillData.homePhone,
       sponsors: formStateData.sponsors || prefillData.sponsors,
+      duplicateEmail:
+        formStateData.duplicateEmail || prefillData.duplicateEmail,
+      duplicatePhone:
+        formStateData.duplicatePhone || prefillData.duplicatePhone,
     },
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,

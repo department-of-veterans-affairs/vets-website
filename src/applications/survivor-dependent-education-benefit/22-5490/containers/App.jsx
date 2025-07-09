@@ -195,6 +195,39 @@ const mapStateToProps = state => {
         formStateData?.highSchoolDiploma || prefillData?.highSchoolDiploma,
       graduationDate:
         formStateData?.graduationDate || prefillData?.graduationDate,
+      'view:phoneNumbers':
+        formStateData['view:phoneNumbers'] || prefillData['view:phoneNumbers'],
+      email: formStateData.email || prefillData.email,
+      mobilePhone: formStateData.mobilePhone || prefillData.mobilePhone,
+      homePhone: formStateData.homePhone || prefillData.homePhone,
+      'view:directDeposit':
+        formStateData['view:directDeposit'] ||
+        prefillData['view:directDeposit'],
+      duplicateEmail:
+        formStateData.duplicateEmail || prefillData.duplicateEmail,
+      duplicatePhone:
+        formStateData.duplicatePhone || prefillData.duplicatePhone,
+      mailingAddressInput:
+        formStateData.mailingAddressInput || prefillData.mailingAddressInput,
+      mebDpoAddressOptionEnabled:
+        formStateData.mebDpoAddressOptionEnabled ||
+        prefillData.mebDpoAddressOptionEnabled,
+      claimantFullName:
+        formStateData.claimantFullName || prefillData.claimantFullName,
+      claimantDateOfBirth:
+        formStateData.claimantDateOfBirth || prefillData.claimantDateOfBirth,
+      marriageStatus:
+        formStateData.marriageStatus || prefillData.marriageStatus,
+      marriageDate: formStateData.marriageDate || prefillData.marriageDate,
+      remarriageStatus:
+        formStateData.remarriageStatus || prefillData.remarriageStatus,
+      remarriageDate:
+        formStateData.remarriageDate || prefillData.remarriageDate,
+      felonyOrWarrant:
+        formStateData.felonyOrWarrant || prefillData.felonyOrWarrant,
+      notificationMethod:
+        formStateData.notificationMethod || prefillData.notificationMethod,
+      contactMethod: formStateData.contactMethod || prefillData.contactMethod,
     },
     user: state.user,
   };
