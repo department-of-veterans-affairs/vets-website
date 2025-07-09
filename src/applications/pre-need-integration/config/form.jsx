@@ -110,7 +110,7 @@ import {
 import ApplicantSuggestedAddress from './pages/applicantSuggestedAddress';
 import SponsorSuggestedAddress from './pages/sponsorSuggestedAddress';
 import preparerSuggestedAddress from './pages/preparerSuggestedAddress';
-import { fileInputMultipleUI } from '../../ivc-champva/shared/components/fileInputPattern';
+import { fileInputMultipleUI } from '../components/fileInputPattern';
 
 const {
   preneedAttachments,
