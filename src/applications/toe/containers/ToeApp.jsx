@@ -297,14 +297,30 @@ const mapStateToProps = state => {
       ...formStateData,
       sponsors: formStateData.sponsors || prefillData.sponsors,
       'view:phoneNumbers': {
-        ...(prefillData['view:phoneNumbers'] || {}),
-        ...(formStateData['view:phoneNumbers'] || {}),
+        mobilePhoneNumber: {
+          ...(prefillData['view:phoneNumbers']?.mobilePhoneNumber || {}),
+          ...(formStateData['view:phoneNumbers']?.mobilePhoneNumber || {}),
+        },
+        phoneNumber: {
+          ...(prefillData['view:phoneNumbers']?.phoneNumber || {}),
+          ...(formStateData['view:phoneNumbers']?.phoneNumber || {}),
+        },
       },
       'view:mailingAddress': {
-        ...(prefillData['view:mailingAddress'] || {}),
-        ...(formStateData['view:mailingAddress'] || {}),
+        address: {
+          ...(prefillData['view:mailingAddress']?.address || {}),
+          ...(formStateData['view:mailingAddress']?.address || {}),
+        },
+        livesOnMilitaryBase:
+          formStateData['view:mailingAddress']?.livesOnMilitaryBase ??
+          prefillData['view:mailingAddress']?.livesOnMilitaryBase,
       },
-      email: formStateData?.email || prefillData?.email,
+      email: {
+        email: formStateData?.email?.email || prefillData?.email?.email,
+        confirmEmail:
+          formStateData?.email?.confirmEmail ||
+          prefillData?.email?.confirmEmail,
+      },
     },
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,
