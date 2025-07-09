@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import merge from 'lodash/merge';
 
 import {
   fetchDuplicateContactInfo,
@@ -54,47 +55,6 @@ function App({
       setFormData,
     ],
   );
-
-  useEffect(
-    () => {
-      if (user?.profile) {
-        setFormData({
-          ...formData,
-          claimantFullName: {
-            first: user.profile.userFullName.first,
-            middle: user.profile.userFullName.middle,
-            last: user.profile.userFullName.last,
-            suffix: user.profile.userFullName.suffix,
-          },
-          claimantDateOfBirth: user.profile.dob,
-        });
-      }
-    },
-    [user?.profile],
-  );
-
-  // useEffect(
-  //   () => {
-  //     if (
-  //       user?.profile &&
-  //       (!formData?.claimantFullName?.first ||
-  //         !formData?.claimantFullName?.last ||
-  //         !formData?.claimantDateOfBirth)
-  //     ) {
-  //       setFormData({
-  //         ...formData,
-  //         claimantFullName: {
-  //           first: user.profile.userFullName.first,
-  //           middle: user.profile.userFullName.middle,
-  //           last: user.profile.userFullName.last,
-  //           suffix: user.profile.userFullName.suffix,
-  //         },
-  //         claimantDateOfBirth: user.profile.dob,
-  //       });
-  //     }
-  //   },
-  //   [user?.profile, setFormData],
-  // );
 
   useEffect(
     () => {
@@ -199,62 +159,16 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const formStateData = state.form?.data || {};
   const prefillData =
     prefillTransformer(null, null, null, state)?.formData || {};
+  const formStateData = state.form?.data || {};
+
+  // Deeply merge form state over prefill data
+  const formData = merge({}, prefillData, formStateData);
 
   return {
     ...getAppData(state),
-    formData: {
-      formId: formStateData.formId || prefillData.formId,
-      claimantId: formStateData.claimantId || prefillData.claimantId,
-      claimantFullName: {
-        ...prefillData.claimantFullName,
-        ...formStateData.claimantFullName,
-      },
-      claimantDateOfBirth:
-        formStateData.claimantDateOfBirth || prefillData.claimantDateOfBirth,
-      relativeSsn: formStateData.relativeSsn || prefillData.relativeSsn,
-      email: formStateData.email || prefillData.email,
-      confirmEmail: formStateData.confirmEmail || prefillData.email,
-      mobilePhone: formStateData.mobilePhone?.phone
-        ? formStateData.mobilePhone
-        : prefillData.mobilePhone,
-      homePhone: formStateData.homePhone?.phone
-        ? formStateData.homePhone
-        : prefillData.homePhone,
-      mailingAddressInput:
-        formStateData.mailingAddressInput || prefillData.mailingAddressInput,
-      notificationMethod:
-        formStateData.notificationMethod || prefillData.notificationMethod,
-      relationshipToMember:
-        formStateData.relationshipToMember || prefillData.relationshipToMember,
-      highSchoolDiploma:
-        formStateData.highSchoolDiploma || prefillData.highSchoolDiploma,
-      graduationDate:
-        formStateData.graduationDate || prefillData.graduationDate,
-      marriageStatus:
-        formStateData.marriageStatus || prefillData.marriageStatus,
-      marriageDate: formStateData.marriageDate || prefillData.marriageDate,
-      remarriageStatus:
-        formStateData.remarriageStatus || prefillData.remarriageStatus,
-      remarriageDate:
-        formStateData.remarriageDate || prefillData.remarriageDate,
-      felonyOrWarrant:
-        formStateData.felonyOrWarrant || prefillData.felonyOrWarrant,
-      chosenBenefit: formStateData.chosenBenefit || prefillData.chosenBenefit,
-      sponsors: formStateData.sponsors || prefillData.sponsors,
-      serviceData: formStateData.serviceData || prefillData.serviceData,
-      mebDpoAddressOptionEnabled:
-        formStateData.mebDpoAddressOptionEnabled ||
-        prefillData.mebDpoAddressOptionEnabled,
-      ...Object.keys(formStateData).reduce((acc, key) => {
-        if (formStateData[key] !== undefined && formStateData[key] !== null) {
-          acc[key] = formStateData[key];
-        }
-        return acc;
-      }, {}),
-    },
+    formData,
     user: state.user,
   };
 };
