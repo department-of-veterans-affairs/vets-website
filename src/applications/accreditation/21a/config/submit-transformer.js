@@ -177,37 +177,6 @@ const build21aPayload = data => {
     agenciesExplanation: null, // v5 field - not currently setting this field
     // agenciesUploadedAllDocuments: false, // v5 field - not currently setting this field
     // agenciesDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
-    // Chapter 5 - Agencies and Courts
-
-    // Accreditation Info
-    supplementalStatement: data.supplementalStatement || null,
-    personalStatement: data.personalStatement || null,
-    signature: data.statementOfTruthSignature || null,
-    genderId: null,
-    instructionAcknowledge: !!data.statementOfTruthCertified,
-
-    // Character References
-    characterReferences:
-      data.characterReferences?.map(r => ({
-        firstName: r.fullName?.first || null,
-        middleName: r.fullName?.middle || null,
-        lastName: r.fullName?.last || null,
-        suffix: r.fullName?.suffix || null,
-        addressIsMilitary: !!r.address?.view?.militaryBaseDescription,
-        addressLine1: r.address?.street || null,
-        addressLine2: r.address?.street2 || null,
-        addressLine3: null,
-        addressCity: r.address?.city || null,
-        addressState: r.address?.state || null,
-        addressPostalCode: r.address?.postalCode || null,
-        addressCountry: r.address?.country || null,
-        phoneNumber: r.phone || null,
-        phoneExtension: null,
-        phoneTypeId: null,
-        email: r.email || null,
-        relationshipToApplicantTypeId:
-          RELATIONSHIP_ENUM[r.relationship?.toLowerCase()] || null,
-      })) || [],
 
     // Background & Disclosures
     wasImprisoned: !!data.conviction,
@@ -279,6 +248,36 @@ const build21aPayload = data => {
     physicalLimitationsExplanation: null,
     physicalLimitationsUploadedAllDocuments: null,
     physicalLimitationsDeclinedToUploadDocuments: null,
+
+    // Character References
+    characterReferences:
+      data.characterReferences?.map(r => ({
+        firstName: r.fullName?.first || null,
+        middleName: r.fullName?.middle || null,
+        lastName: r.fullName?.last || null,
+        suffix: r.fullName?.suffix || null,
+        addressIsMilitary: !!r.address?.view?.militaryBaseDescription,
+        addressLine1: r.address?.street || null,
+        addressLine2: r.address?.street2 || null,
+        addressLine3: null,
+        addressCity: r.address?.city || null,
+        addressState: r.address?.state || null,
+        addressPostalCode: r.address?.postalCode || null,
+        addressCountry: r.address?.country || null,
+        phoneNumber: r.phone || null,
+        phoneExtension: null,
+        phoneTypeId: null,
+        email: r.email || null,
+        relationshipToApplicantTypeId:
+          RELATIONSHIP_ENUM[r.relationship?.toLowerCase()] || null,
+      })) || [],
+
+    // Accreditation Info
+    supplementalStatement: data.supplementalStatement || null,
+    personalStatement: data.personalStatement || null,
+    signature: data.statementOfTruthSignature || null,
+    genderId: null,
+    instructionAcknowledge: !!data.statementOfTruthCertified,
 
     // Unique Identifiers
     icnNo: null,
