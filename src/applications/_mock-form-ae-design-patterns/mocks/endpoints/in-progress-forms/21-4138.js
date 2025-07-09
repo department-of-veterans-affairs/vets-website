@@ -36,7 +36,7 @@ const empty214138 = {
     middle: '',
     last: '',
   },
-  statementType: 'not-listed',
+  statementType: '',
   emailAddress: '',
   dateOfBirth: '',
   idNumber: { ssn: '', vaFileNumber: undefined },
