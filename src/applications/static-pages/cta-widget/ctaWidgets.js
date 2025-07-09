@@ -19,7 +19,6 @@ export const CTA_WIDGET_TYPES = {
   DIRECT_DEPOSIT: 'direct-deposit',
   DISABILITY_BENEFITS: 'disability-benefits',
   DISABILITY_RATINGS: 'disability-ratings',
-  DISPUTE_DEBT: 'dispute-debt',
   EDUCATION_LETTERS: 'education-letters',
   ENROLLMENT_VERIFICATION: 'enrollment-verification',
   GI_BILL_BENEFITS: 'gi-bill-benefits',
@@ -122,18 +121,6 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'view your VA disability rating',
-  },
-  [CTA_WIDGET_TYPES.DISPUTE_DEBT]: {
-    id: CTA_WIDGET_TYPES.DISPUTE_DEBT,
-    deriveToolUrlDetails: () => ({
-      url: '/manage-va-debt/dispute-debt',
-      redirect: false,
-    }),
-    hasRequiredMhvAccount: () => false,
-    isHealthTool: false,
-    mhvToolName: null,
-    requiredServices: null,
-    serviceDescription: 'dispute an overpayment online',
   },
   [CTA_WIDGET_TYPES.GI_BILL_BENEFITS]: {
     id: CTA_WIDGET_TYPES.GI_BILL_BENEFITS,
