@@ -284,7 +284,6 @@ ToeApp.propTypes = {
 const mapStateToProps = state => {
   const prefillData =
     prefillTransformer(null, null, null, state)?.formData || {};
-  const formStateData = state.form?.data || {};
 
   return {
     ...getAppData(state),
@@ -292,20 +291,7 @@ const mapStateToProps = state => {
     dob:
       state?.user?.profile?.dob ||
       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
-    formData: {
-      ...prefillData,
-      ...Object.entries(formStateData).reduce((acc, [key, value]) => {
-        if (value === null || value === undefined) return acc;
-        if (typeof value === 'object' && !Array.isArray(value)) {
-          if (Object.keys(value).length > 0) {
-            acc[key] = value;
-          }
-        } else {
-          acc[key] = value;
-        }
-        return acc;
-      }, {}),
-    },
+    formData: prefillData,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,
     sponsorsInitial: state?.data?.sponsors,
