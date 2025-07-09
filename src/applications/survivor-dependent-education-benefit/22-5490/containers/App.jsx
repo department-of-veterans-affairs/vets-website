@@ -49,7 +49,6 @@ function App({
     },
     [
       fetchedUserInfo,
-      formData,
       getPersonalInformation,
       user?.login?.currentlyLoggedIn,
       setFormData,
@@ -106,7 +105,7 @@ function App({
         );
       }
     },
-    [getDuplicateContactInfo, formData],
+    [getDuplicateContactInfo, formData?.email, formData?.mobilePhone?.phone],
   );
 
   return (
