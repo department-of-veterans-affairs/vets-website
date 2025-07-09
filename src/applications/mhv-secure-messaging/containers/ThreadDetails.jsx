@@ -19,7 +19,10 @@ import useFeatureToggles from '../hooks/useFeatureToggles';
 import MessageActionButtons from '../components/MessageActionButtons';
 
 const ThreadDetails = props => {
-  const { customFoldersRedesignEnabled } = useFeatureToggles();
+  const {
+    customFoldersRedesignEnabled,
+    largeAttachmentsEnabled,
+  } = useFeatureToggles();
   const { threadId } = useParams();
   const { testing } = props;
   const dispatch = useDispatch();
@@ -120,7 +123,11 @@ const ThreadDetails = props => {
       return (
         <>
           <va-loading-indicator
-            message="Sending message..."
+            message={
+              largeAttachmentsEnabled
+                ? 'Do not refresh the page. Sending message...'
+                : 'Sending message...'
+            }
             data-testid="sending-indicator"
             style={{ display: isSending ? 'block' : 'none' }}
           />

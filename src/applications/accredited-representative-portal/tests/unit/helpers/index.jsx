@@ -7,7 +7,9 @@ import {
 } from 'react-router-dom';
 import { render } from '@testing-library/react';
 
-import createReduxStore from '../../../utilities/store';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
+
+import { createReduxStore } from '../../../utilities/store';
 
 /**
  * Beginning to look like an overwrought wrapping of multiple underlying APIs'
@@ -15,6 +17,7 @@ import createReduxStore from '../../../utilities/store';
  */
 export function renderTestApp(children, { initAction, initialEntries } = {}) {
   const store = createReduxStore();
+  connectFeatureToggle(store.dispatch);
   if (initAction) store.dispatch(initAction);
 
   return render(

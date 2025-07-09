@@ -115,17 +115,18 @@ const Authorization = ({
     onChange: event => {
       const { checked } = event.target;
       setFormData({ ...data, privacyAgreementAccepted: checked });
-      setHasError(!checked);
-      if (!checked) {
-        focusOnAlert();
+
+      if (checked && hasError) {
+        setHasError(false);
       }
     },
     onGoForward: () => {
-      // Required checkbox
+      // Validation ONLY happens on form submission attempt
       if (data.privacyAgreementAccepted) {
         setHasError(false);
         goForward(data);
       } else {
+        // Show error and move focus ONLY when Continue is clicked without checkbox
         setHasError(true);
         focusOnAlert();
       }
@@ -170,11 +171,12 @@ const Authorization = ({
               visible={showLegaleseBanner}
             >
               <p className="vads-u-margin-bottom--0">
-                We’ve updated the legal statement on this page. You previously
-                gave us permission to request your non-VA medical records.
-                Review this page and, if you still want us to contact your
-                provider for your records, check the box at the bottom to
-                authorize.
+                We’ve updated the legal language on this page.
+              </p>
+              <p>
+                If you still want us to request your non-VA medical records,
+                check the box labeled "I acknowledge and authorize this release
+                of information."
               </p>
             </va-banner>
             <p>
@@ -495,7 +497,7 @@ const Authorization = ({
                 enable-analytics
               >
                 {/* https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4219
-            This empty slot is required for now due to a DST defect where a 
+            This empty slot is required for now due to a DST defect where a
             "description" slot is required in order for the analytics to work */}
                 <div slot="description" className="vads-u-display--none">
                   <p />

@@ -11,9 +11,11 @@ import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { createAddressValidationResponse } from './addressValidation';
 import { createUserResponse } from './user';
 
-export const setUp = type => {
+export const setUp = (type, toggles = {}) => {
+  const statusCode = type === 'validation-error' ? 400 : 200;
+
   cy.intercept('POST', '/v0/profile/address_validation', {
-    statusCode: 200,
+    statusCode,
     body: createAddressValidationResponse(type),
   });
 
@@ -49,7 +51,7 @@ export const setUp = type => {
 
   cy.intercept('GET', '/v0/feature_toggles?*', {
     statusCode: 200,
-    body: generateFeatureToggles(),
+    body: generateFeatureToggles(toggles),
   });
 
   disableFTUXModals();
