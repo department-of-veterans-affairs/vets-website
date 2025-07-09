@@ -282,21 +282,13 @@ ToeApp.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const prefillData =
-    prefillTransformer(null, null, null, state)?.formData || {};
-  const formStateData = state.form?.data || {};
-
   return {
     ...getAppData(state),
-    claimant: state?.data?.formData?.data?.attributes?.claimant,
     dob:
       state?.user?.profile?.dob ||
       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
-    formData: {
-      ...formStateData,
-      ...prefillData,
-      sponsors: formStateData.sponsors || prefillData.sponsors,
-    },
+    formData: state.form?.data || {},
+    claimant: prefillTransformer(null, null, null, state)?.formData,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,
     sponsorsInitial: state?.data?.sponsors,
@@ -304,6 +296,30 @@ const mapStateToProps = state => {
     user: state.user,
   };
 };
+
+// const mapStateToProps = state => {
+//   const prefillData =
+//     prefillTransformer(null, null, null, state)?.formData || {};
+//   const formStateData = state.form?.data || {};
+
+//   return {
+//     ...getAppData(state),
+//     claimant: state?.data?.formData?.data?.attributes?.claimant,
+//     dob:
+//       state?.user?.profile?.dob ||
+//       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
+//     formData: {
+//       ...prefillData,
+//       ...formStateData,
+//       sponsors: formStateData.sponsors || prefillData.sponsors,
+//     },
+//     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
+//     sponsors: state.form?.data?.sponsors,
+//     sponsorsInitial: state?.data?.sponsors,
+//     sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
+//     user: state.user,
+//   };
+// };
 
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
