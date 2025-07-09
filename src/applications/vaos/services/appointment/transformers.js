@@ -197,11 +197,7 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     showScheduleLink: appt.showScheduleLink,
     avsPath: isPast ? appt.avsPath : null,
-    // NOTE: Timezone will be converted to the local timezone when using 'format()'.
-    // So use format without the timezone information.
-    start: !isRequest
-      ? start // start.format('YYYY-MM-DDTHH:mm:ss')
-      : null,
+    start: !isRequest ? start : null,
     startUtc: !isRequest ? appt.start : null,
     reasonForAppointment,
     patientComments,

@@ -87,7 +87,10 @@ export default function VideoLayout({ data: appointment }) {
       <When>
         <AppointmentDate date={startDate} timezone={appointment.timezone} />
         <br />
-        <AppointmentTime appointment={appointment} />
+        <AppointmentTime
+          appointment={appointment}
+          timezone={appointment.timezone}
+        />
         <br />
         {APPOINTMENT_STATUS.cancelled !== status &&
           !isPastAppointment && (

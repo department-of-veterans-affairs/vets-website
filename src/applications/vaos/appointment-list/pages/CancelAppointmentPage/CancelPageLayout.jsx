@@ -72,7 +72,10 @@ export default function CancelPageLayout() {
       <When level={3}>
         <AppointmentDate date={startDate} timezone={appointment?.timezone} />
         <br />
-        <AppointmentTime appointment={appointment} />
+        <AppointmentTime
+          appointment={appointment}
+          timezone={appointment.timezone}
+        />
         <br />
       </When>
       <What level={3}>{typeOfCareName}</What>

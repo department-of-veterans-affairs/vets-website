@@ -35,22 +35,3 @@ AppointmentTime.propTypes = {
   format: PropTypes.string,
   timezone: PropTypes.string,
 };
-
-export default function AppointmentDateTime({ appointment }) {
-  const { abbreviation, description } = getAppointmentTimezone(appointment);
-
-  return (
-    <>
-      {formatInTimeZone(
-        appointment.start,
-        appointment.timezone,
-        "EEEE, MMMM d, yyyy 'at' h:mm aaa",
-      )}{' '}
-      <span aria-hidden="true">{abbreviation}</span>
-      <span className="sr-only"> {description}</span>
-    </>
-  );
-}
-AppointmentDateTime.propTypes = {
-  appointment: PropTypes.object,
-};
