@@ -206,19 +206,54 @@ const mapStateToProps = state => {
   return {
     ...getAppData(state),
     formData: {
-      ...prefillData,
-      ...Object.keys(formStateData).reduce((acc, key) => {
-        if (formStateData[key] !== undefined && formStateData[key] !== null) {
-          acc[key] = formStateData[key];
-        }
-        return acc;
-      }, {}),
+      formId: formStateData.formId || prefillData.formId,
+      claimantId: formStateData.claimantId || prefillData.claimantId,
       claimantFullName: {
         ...prefillData.claimantFullName,
         ...formStateData.claimantFullName,
       },
       claimantDateOfBirth:
         formStateData.claimantDateOfBirth || prefillData.claimantDateOfBirth,
+      relativeSsn: formStateData.relativeSsn || prefillData.relativeSsn,
+      email: formStateData.email || prefillData.email,
+      confirmEmail: formStateData.confirmEmail || prefillData.email,
+      mobilePhone: formStateData.mobilePhone?.phone
+        ? formStateData.mobilePhone
+        : prefillData.mobilePhone,
+      homePhone: formStateData.homePhone?.phone
+        ? formStateData.homePhone
+        : prefillData.homePhone,
+      mailingAddressInput:
+        formStateData.mailingAddressInput || prefillData.mailingAddressInput,
+      notificationMethod:
+        formStateData.notificationMethod || prefillData.notificationMethod,
+      relationshipToMember:
+        formStateData.relationshipToMember || prefillData.relationshipToMember,
+      highSchoolDiploma:
+        formStateData.highSchoolDiploma || prefillData.highSchoolDiploma,
+      graduationDate:
+        formStateData.graduationDate || prefillData.graduationDate,
+      marriageStatus:
+        formStateData.marriageStatus || prefillData.marriageStatus,
+      marriageDate: formStateData.marriageDate || prefillData.marriageDate,
+      remarriageStatus:
+        formStateData.remarriageStatus || prefillData.remarriageStatus,
+      remarriageDate:
+        formStateData.remarriageDate || prefillData.remarriageDate,
+      felonyOrWarrant:
+        formStateData.felonyOrWarrant || prefillData.felonyOrWarrant,
+      chosenBenefit: formStateData.chosenBenefit || prefillData.chosenBenefit,
+      sponsors: formStateData.sponsors || prefillData.sponsors,
+      serviceData: formStateData.serviceData || prefillData.serviceData,
+      mebDpoAddressOptionEnabled:
+        formStateData.mebDpoAddressOptionEnabled ||
+        prefillData.mebDpoAddressOptionEnabled,
+      ...Object.keys(formStateData).reduce((acc, key) => {
+        if (formStateData[key] !== undefined && formStateData[key] !== null) {
+          acc[key] = formStateData[key];
+        }
+        return acc;
+      }, {}),
     },
     user: state.user,
   };
