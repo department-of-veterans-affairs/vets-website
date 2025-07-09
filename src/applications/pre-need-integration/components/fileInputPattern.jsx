@@ -12,9 +12,10 @@ const ReviewFieldPropTypes = {
 
 function fileInputMultipleReviewField({ children }) {
   fileInputMultipleReviewField.propTypes = ReviewFieldPropTypes;
+  const formData = children?.props?.formData;
   return (
     <>
-      {children?.props?.formData?.map(item => (
+      {formData?.map(item => (
         <div
           key={`${item?.confirmationCode}-${item?.lastModified}`}
           className="review-row"
@@ -92,4 +93,31 @@ export const fileInputMultipleUI = stringOrOptions => {
     },
     'ui:errorMessages': errorMessages,
   };
+};
+
+export const fileInputMultipleSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      confirmationCode: {
+        type: 'string',
+      },
+      isEncrypted: {
+        type: 'boolean',
+      },
+      name: {
+        type: 'string',
+      },
+      size: {
+        type: 'integer',
+      },
+      warnings: {
+        type: 'array',
+        items: {
+          type: 'string',
+        },
+      },
+    },
+  },
 };

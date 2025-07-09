@@ -110,11 +110,10 @@ import {
 import ApplicantSuggestedAddress from './pages/applicantSuggestedAddress';
 import SponsorSuggestedAddress from './pages/sponsorSuggestedAddress';
 import preparerSuggestedAddress from './pages/preparerSuggestedAddress';
-import { fileInputMultipleUI } from '../components/fileInputPattern';
-
-const {
-  preneedAttachments,
-} = fullSchemaPreNeed.properties.application.properties;
+import {
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
+} from '../components/fileInputPattern';
 
 const {
   fullName,
@@ -740,7 +739,7 @@ const formConfig = {
               application: {
                 type: 'object',
                 properties: {
-                  preneedAttachments,
+                  preneedAttachments: fileInputMultipleSchema,
                 },
               },
             },

@@ -272,29 +272,31 @@ const VaFileInputMultipleField = props => {
     }
 
     if (e.detail.action === 'FILE_UPDATED') {
-      setLocalFile(null);
-      // setUploadInProgress(true);
+      const { file: newFile, previousFile: oldFile } = e.detail;
 
-      let fileAlreadyUploaded = false;
-
-      // Identify which items have changed and drop any that were replaced
-      setUploadArray(prevArray => {
-        const baseArray = prevArray.length === 0 ? [...(fd || [])] : prevArray;
-        const newArray = filterToMatchingObjects(
-          e.detail.state.map(el => el.file),
-          baseArray,
-        );
-
-        fileAlreadyUploaded =
-          filterToMatchingObjects([fileFromEvent], newArray).length > 0;
-
-        pendingUpdate.current = newArray;
-        return newArray;
+      setUploadArray(prev => {
+        const base = prev.length
+          ? prev
+          : [...(props.childrenProps.formData || [])];
+        const idx = indexOfMatch(base, pick(oldFile, ['name', 'size']));
+        const next = idx > -1 ? base.toSpliced(idx, 1) : base;
+        pendingUpdate.current = next; // defer update
+        return next;
       });
 
-      if (fileAlreadyUploaded) return; // bail
-      // With target file removed, fall through to the main dispatch() call
-      // to upload the replacement
+      // delay upload of new file to avoid race conditions
+      setTimeout(() => {
+        dispatch(
+          uploadFile(
+            fileUploadUrl,
+            formNumber,
+            newFile,
+            onFileUploaded,
+            updateProgress,
+          ),
+        );
+      }, 0);
+      return;
     }
 
     // Default behavior for when action is FILE_ADDED:
