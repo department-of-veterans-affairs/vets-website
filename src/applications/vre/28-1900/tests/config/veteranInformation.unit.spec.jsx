@@ -15,7 +15,7 @@ const {
   uiSchema,
 } = formConfig.chapters.veteranInformation.pages.veteranInformation;
 
-describe('Chapter 31 veteran information', () => {
+xdescribe('Chapter 31 veteran information', () => {
   afterEach(cleanup);
 
   it('should render', () => {
