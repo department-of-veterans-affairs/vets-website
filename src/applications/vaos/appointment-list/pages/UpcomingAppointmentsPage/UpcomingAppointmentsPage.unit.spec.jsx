@@ -1,16 +1,13 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import { addDays, format, subDays } from 'date-fns';
-import MockDate from 'mockdate';
+import { formatInTimeZone } from 'date-fns-tz';
 import React from 'react';
 import reducers from '../../../redux/reducer';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { mockAppointmentsApi } from '../../../tests/mocks/mockApis';
-import {
-  getTestDate,
-  renderWithStoreAndRouter,
-} from '../../../tests/mocks/setup';
+import { renderWithStoreAndRouter } from '../../../tests/mocks/setup';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import UpcomingAppointmentsPage from './UpcomingAppointmentsPage';
 
@@ -23,11 +20,8 @@ const initialState = {
 describe('VAOS Component: UpcomingAppointmentsList', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTestDate());
   });
-  afterEach(() => {
-    MockDate.reset();
-  });
+  afterEach(() => {});
   const now = new Date();
   const start = subDays(now, 30); // Subtract 30 days
   const end = addDays(now, 395); // Add 395 days
@@ -67,8 +61,15 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Assert
+    // Using date string here since we don't want the timezone coversion twice.
+    // Notice the 'Z' is appended to the current local time. This is saying, use
+    // local time as UTC time when we call 'formatInTimeZone'.
+    const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
     await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
+      new RegExp(
+        formatInTimeZone(utcString, 'America/Denver', 'EEEE, MMMM d'),
+        'i',
+      ), // Format as 'Day, Month Date'
     );
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
   });
@@ -102,8 +103,12 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Assert
+    const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
     await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
+      new RegExp(
+        formatInTimeZone(utcString, 'America/Denver', 'EEEE, MMMM d'),
+        'i',
+      ), // Format as 'Day, Month Date'
     );
     expect(screen.baseElement).to.contain.text('Community care');
   });
@@ -136,8 +141,12 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Assert
+    const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
     await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
+      new RegExp(
+        formatInTimeZone(utcString, 'America/Denver', 'EEEE, MMMM d'),
+        'i',
+      ), // Format as 'Day, Month Date'
     );
     expect(screen.baseElement).to.contain.text('Video');
   });
@@ -170,8 +179,12 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Assert
+    const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
     await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
+      new RegExp(
+        formatInTimeZone(utcString, 'America/Denver', 'EEEE, MMMM d'),
+        'i',
+      ), // Format as 'Day, Month Date'
     );
 
     expect(screen.baseElement).to.contain.text('Phone');
@@ -203,8 +216,12 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       reducers,
     });
 
+    const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
     await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
+      new RegExp(
+        formatInTimeZone(utcString, 'America/Denver', 'EEEE, MMMM d'),
+        'i',
+      ), // Format as 'Day, Month Date'
     );
 
     expect(screen.findAllByLabelText(/canceled Community care/i));
