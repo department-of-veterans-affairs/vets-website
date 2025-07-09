@@ -11,9 +11,7 @@ import {
   supportingDocsDescription,
 } from '../helpers';
 
-const uiTitle = environment.isProduction()
-  ? 'Upload the Veteran’s or Reservist’s files (preferably DD214)'
-  : 'Upload the Veteran’s or Reservist’s files';
+const uiTitle = 'Upload the Veteran’s or Reservist’s files';
 const uiDescription =
   'We encourage you to submit military records or discharge documents if you have them. We prefer a DD214.';
 
