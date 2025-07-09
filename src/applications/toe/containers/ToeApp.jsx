@@ -147,7 +147,6 @@ function ToeApp({
       duplicateEmail,
       duplicatePhone,
       getDuplicateContactInfo,
-      formData,
     ],
   );
 
