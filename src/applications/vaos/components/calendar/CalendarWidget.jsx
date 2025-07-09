@@ -285,7 +285,7 @@ function CalendarWidget({
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
     'vaos-calendar__disabled': disabled,
     'usa-input-error': hasError,
-    'vaos-calendar__hidden': !shouldShow,
+    'vads-u-visibility--hidden': !shouldShow,
   });
 
   // declare const from renderMonth here
@@ -305,17 +305,18 @@ function CalendarWidget({
         appointmentSelectionErrorMsg,
       }}
     >
-      <div
-        className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex"
-        // Hide from screen readers if disabled and not showing but also remove attribute it is showing with undefined
-        aria-hidden={!shouldShow || undefined}
-      >
+      <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
         {disabled && (
           <div className="vaos-calendar__disabled-overlay">
             {disabledMessage}
           </div>
         )}
-        <div className={calendarCss}>
+        <div
+          className={calendarCss}
+          // Hide from screen readers if disabled and not showing
+          // but remove attribute if it is showing (using undefined)
+          aria-hidden={!shouldShow || undefined}
+        >
           {hasError && (
             <span
               className="vaos-calendar__validation-msg usa-input-error-message vaos-input-error-message"
