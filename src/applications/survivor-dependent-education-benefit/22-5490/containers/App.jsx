@@ -203,22 +203,22 @@ const mapStateToProps = state => {
   const prefillData =
     prefillTransformer(null, null, null, state)?.formData || {};
 
-  // Only use prefill data for name and DOB if they're missing from form state
-  const shouldUsePrefillName =
-    !formStateData.claimantFullName?.first ||
-    !formStateData.claimantFullName?.last;
-  const shouldUsePrefillDOB = !formStateData.claimantDateOfBirth;
-
   return {
     ...getAppData(state),
     formData: {
-      ...formStateData,
-      claimantFullName: shouldUsePrefillName
-        ? prefillData.claimantFullName
-        : formStateData.claimantFullName,
-      claimantDateOfBirth: shouldUsePrefillDOB
-        ? prefillData.claimantDateOfBirth
-        : formStateData.claimantDateOfBirth,
+      ...prefillData,
+      ...Object.keys(formStateData).reduce((acc, key) => {
+        if (formStateData[key] !== undefined && formStateData[key] !== null) {
+          acc[key] = formStateData[key];
+        }
+        return acc;
+      }, {}),
+      claimantFullName: {
+        ...prefillData.claimantFullName,
+        ...formStateData.claimantFullName,
+      },
+      claimantDateOfBirth:
+        formStateData.claimantDateOfBirth || prefillData.claimantDateOfBirth,
     },
     user: state.user,
   };
