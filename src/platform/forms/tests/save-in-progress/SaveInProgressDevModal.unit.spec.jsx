@@ -3,7 +3,7 @@ import ReactDOM /* , { act } */ from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { getFormDOM } from 'platform/testing/unit/schemaform-utils.jsx';
+import { getFormDOM } from 'platform/testing/unit/schemaform-utils';
 import cloneDeep from '../../../utilities/data/cloneDeep';
 import SipsDevModal from '../../save-in-progress/SaveInProgressDevModal';
 import { SAVE_STATUSES } from '../../save-in-progress/actions';
@@ -44,7 +44,7 @@ describe('Schemaform <SipsDevModal>', () => {
     setLoc('off');
     const dom = document.createElement('div');
     ReactDOM.render(<SipsDevModal {...props} />, dom);
-    expect(dom.querySelector('.va-button-link')).to.be.null;
+    expect(dom.querySelector('va-link[icon-name="settings"]')).to.be.null;
     expect(dom.querySelector('va-modal')).to.be.null;
 
     // link should render immediately after updating the hash (not working)
@@ -52,7 +52,7 @@ describe('Schemaform <SipsDevModal>', () => {
     //   resetAfter();
     //   setLoc();
     // });
-    // expect(dom.querySelector('.va-button-link')).to.be.ok;
+    // expect(dom.querySelector('va-link[icon-name="settings"]')).to.be.ok;
   });
 
   it('should render sips-modal link on page 1', () => {
@@ -63,9 +63,9 @@ describe('Schemaform <SipsDevModal>', () => {
       </div>,
     );
     const dom = getFormDOM(modal);
-    expect(dom.querySelector('.va-button-link').textContent).to.be.contain(
-      'save-in-progress menu',
-    );
+    expect(
+      dom.querySelector('va-link[icon-name="settings"]').getAttribute('text'),
+    ).to.be.contain('save-in-progress menu');
     expect(dom.querySelector('va-modal')).to.be.null;
   });
   it('should render the modal on click', () => {
@@ -77,7 +77,7 @@ describe('Schemaform <SipsDevModal>', () => {
     );
     const dom = getFormDOM(modal);
     // open the sips modal
-    dom.click('.va-button-link');
+    dom.click('va-link[icon-name="settings"]');
     expect(dom.querySelector('va-modal')).to.exist;
   });
 
@@ -100,11 +100,11 @@ describe('Schemaform <SipsDevModal>', () => {
     );
     const dom = getFormDOM(modal);
     // open the sips modal
-    dom.click('.va-button-link');
+    dom.click('va-link[icon-name="settings"]');
     dom.fillData('va-textarea', JSON.stringify(newData));
     const vaSelect = dom.querySelector('va-select');
     vaSelect.__events.vaSelect({ target: { value: '/page-2' } });
-    dom.click('.usa-button-primary'); // replace button
+    dom.click('va-button[text="Replace"]'); // replace button
     expect(result).to.deep.equal({
       formId: 'test',
       version: 1,
@@ -134,12 +134,12 @@ describe('Schemaform <SipsDevModal>', () => {
     );
     const dom = getFormDOM(modal);
     // open the sips modal
-    dom.click('.va-button-link');
+    dom.click('va-link[icon-name="settings"]');
     dom.fillData('va-textarea', JSON.stringify(newData));
     const vaSelect = dom.querySelector('va-select');
     vaSelect.__events.vaSelect({ target: { value: '/page-2' } });
     // replace button
-    dom.click('.usa-button-primary');
+    dom.click('va-button[text="Replace"]');
     expect(result).to.deep.equal({
       formId: 'test',
       version: 1,
@@ -170,12 +170,12 @@ describe('Schemaform <SipsDevModal>', () => {
     );
     const dom = getFormDOM(modal);
     // open the sips modal
-    dom.click('.va-button-link');
+    dom.click('va-link[icon-name="settings"]');
     dom.fillData('va-textarea', JSON.stringify(newData));
     const vaSelect = dom.querySelector('va-select');
     vaSelect.__events.vaSelect({ target: { value: '/page-1' } });
     // merge button
-    dom.click('.usa-button-secondary');
+    dom.click('va-button[text="Merge"]');
     expect(result).to.deep.equal({
       formId: 'test',
       version: 1,
@@ -206,12 +206,12 @@ describe('Schemaform <SipsDevModal>', () => {
     );
     const dom = getFormDOM(modal);
     // open the sips modal
-    dom.click('.va-button-link');
+    dom.click('va-link[icon-name="settings"]');
     dom.fillData('va-textarea', JSON.stringify(newData));
     const vaSelect = dom.querySelector('va-select');
     vaSelect.__events.vaSelect({ target: { value: '/page-1' } });
     // merge button
-    dom.click('.usa-button-secondary');
+    dom.click('va-button[text="Merge"]');
     expect(result).to.deep.equal({
       formId: 'test',
       version: 1,
@@ -226,14 +226,14 @@ describe('Schemaform <SipsDevModal>', () => {
     setLoc();
     const dom = document.createElement('div');
     ReactDOM.render(<SipsDevModal {...props} pageList={[]} />, dom);
-    expect(dom.querySelector('.va-button-link')).to.be.null;
+    expect(dom.querySelector('va-link[icon-name="settings"]')).to.be.null;
     expect(dom.querySelector('va-modal')).to.be.null;
   });
   it('should not show link, or modal, with an undefined pageList', () => {
     setLoc();
     const dom = document.createElement('div');
     ReactDOM.render(<SipsDevModal {...props} pageList={undefined} />, dom);
-    expect(dom.querySelector('.va-button-link')).to.be.null;
+    expect(dom.querySelector('va-link[icon-name="settings"]')).to.be.null;
     expect(dom.querySelector('va-modal')).to.be.null;
   });
 });
