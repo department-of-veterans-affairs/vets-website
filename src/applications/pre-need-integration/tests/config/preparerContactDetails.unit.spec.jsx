@@ -185,8 +185,7 @@ describe('Pre-need preparer contact details', () => {
     );
 
     // Check for address text inputs (street, street2, city, postal, phone, email)
-    const textInputs = form.find('input');
-    expect(textInputs.length).to.be.at.least(6);
+    expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 });
