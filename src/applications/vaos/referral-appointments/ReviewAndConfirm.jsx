@@ -36,10 +36,10 @@ const ReviewAndConfirm = props => {
     postDraftReferralAppointment,
     {
       data: draftAppointmentInfo,
-      isError,
-      isLoading,
-      isUninitialized,
-      isSuccess,
+      isError: isDraftError,
+      isLoading: isDraftLoading,
+      isUninitialized: isDraftUninitialized,
+      isSuccess: isDraftSuccess,
     },
   ] = usePostDraftReferralAppointmentMutation({
     fixedCacheKey: POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
@@ -75,11 +75,11 @@ const ReviewAndConfirm = props => {
 
   useEffect(
     () => {
-      if (isUninitialized) {
+      if (isDraftUninitialized) {
         postDraftReferralAppointment(currentReferral.referralNumber);
-      } else if (isSuccess) {
+      } else if (isDraftSuccess) {
         setLoading(false);
-      } else if (isError) {
+      } else if (isDraftError) {
         setLoading(false);
         setFailed(true);
       }
@@ -87,16 +87,16 @@ const ReviewAndConfirm = props => {
     [
       currentReferral.referralNumber,
       dispatch,
-      isError,
-      isSuccess,
-      isUninitialized,
+      isDraftError,
+      isDraftSuccess,
+      isDraftUninitialized,
       postDraftReferralAppointment,
     ],
   );
 
   useEffect(
     () => {
-      if (!selectedSlot && savedSelectedSlot && isSuccess) {
+      if (!selectedSlot && savedSelectedSlot && isDraftSuccess) {
         const savedSlot = getSlotByDate(
           draftAppointmentInfo?.attributes?.slots,
           savedSelectedSlot,
@@ -114,7 +114,7 @@ const ReviewAndConfirm = props => {
       draftAppointmentInfo,
       history,
       selectedSlot,
-      isSuccess,
+      isDraftSuccess,
     ],
   );
 
@@ -149,7 +149,7 @@ const ReviewAndConfirm = props => {
       } else if (
         appointmentCreateStatus === FETCH_STATUS.failed &&
         draftAppointmentInfo?.id &&
-        isSuccess
+        isDraftSuccess
       ) {
         setCreateLoading(false);
         setCreateFailed(true);
@@ -159,12 +159,12 @@ const ReviewAndConfirm = props => {
       appointmentCreateStatus,
       draftAppointmentInfo?.id,
       currentReferral.uuid,
-      isSuccess,
+      isDraftSuccess,
       history,
     ],
   );
 
-  if (loading || isLoading) {
+  if (loading || isDraftLoading) {
     return (
       <ReferralLayout
         hasEyebrow

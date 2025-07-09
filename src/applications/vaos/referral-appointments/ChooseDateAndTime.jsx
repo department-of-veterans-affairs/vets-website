@@ -24,10 +24,10 @@ export const ChooseDateAndTime = props => {
     postDraftReferralAppointment,
     {
       data: draftAppointmentInfo,
-      isError,
-      isLoading,
-      isUninitialized,
-      isSuccess,
+      isError: isDraftError,
+      isLoading: isDraftLoading,
+      isUninitialized: isDraftUninitialized,
+      isSuccess: isDraftSuccess,
     },
   ] = usePostDraftReferralAppointmentMutation({
     fixedCacheKey: POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
@@ -42,16 +42,16 @@ export const ChooseDateAndTime = props => {
   const [failed, setFailed] = useState(false);
   useEffect(
     () => {
-      if (isUninitialized || futureStatus === FETCH_STATUS.notStarted) {
-        if (isUninitialized) {
+      if (isDraftUninitialized || futureStatus === FETCH_STATUS.notStarted) {
+        if (isDraftUninitialized) {
           postDraftReferralAppointment(currentReferral.referralNumber);
         }
         if (futureStatus === FETCH_STATUS.notStarted) {
           dispatch(fetchFutureAppointments({ includeRequests: false }));
         }
-      } else if (isSuccess && futureStatus === FETCH_STATUS.succeeded) {
+      } else if (isDraftSuccess && futureStatus === FETCH_STATUS.succeeded) {
         setLoading(false);
-      } else if (isError || futureStatus === FETCH_STATUS.failed) {
+      } else if (isDraftError || futureStatus === FETCH_STATUS.failed) {
         setLoading(false);
         setFailed(true);
       }
@@ -60,9 +60,9 @@ export const ChooseDateAndTime = props => {
       currentReferral,
       dispatch,
       futureStatus,
-      isError,
-      isSuccess,
-      isUninitialized,
+      isDraftError,
+      isDraftSuccess,
+      isDraftUninitialized,
       postDraftReferralAppointment,
     ],
   );
@@ -73,7 +73,7 @@ export const ChooseDateAndTime = props => {
     [location, dispatch],
   );
 
-  if (loading || isLoading) {
+  if (loading || isDraftLoading) {
     return (
       <ReferralLayout
         data-testid="loading"
