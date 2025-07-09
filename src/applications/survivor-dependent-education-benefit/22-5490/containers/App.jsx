@@ -188,8 +188,8 @@ const mapStateToProps = state => {
   return {
     ...getAppData(state),
     formData: {
-      ...prefillData,
       ...formStateData,
+      ...prefillData,
       chosenBenefit: formStateData?.chosenBenefit || prefillData?.chosenBenefit,
       highSchoolDiploma:
         formStateData?.highSchoolDiploma || prefillData?.highSchoolDiploma,
