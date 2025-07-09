@@ -214,7 +214,7 @@ function ToeApp({
         });
       }
     },
-    [dob, formData?.dob, setFormData],
+    [dob, formData?.dob],
   );
   return (
     <>
