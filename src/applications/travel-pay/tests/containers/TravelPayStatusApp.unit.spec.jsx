@@ -136,13 +136,13 @@ describe('TravelPayStatusApp', () => {
     await waitFor(() => {
       expect(screen.getAllByRole('option').length).to.eq(7);
       expect(screen.getAllByRole('option')[0].value).to.eq(
-        '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T00:00:00","end":"2024-06-25T00:00:00"}',
+        '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T00:00:00","end":"2024-06-25T23:59:59"}',
       );
 
       const dateSelect = screen.getByTestId('claimsDates');
 
       expect(dateSelect).to.have.value(
-        '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T00:00:00","end":"2024-06-25T00:00:00"}',
+        '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T00:00:00","end":"2024-06-25T23:59:59"}',
       );
 
       dateSelect.__events.vaSelect({
