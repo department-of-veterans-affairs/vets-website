@@ -85,7 +85,9 @@ class AddressValidationView extends React.Component {
       return false;
     }
     if (
-      addressMetaData.addressType.toUpperCase() === 'DOMESTIC' &&
+      (addressMetaData.addressType.toUpperCase() === 'DOMESTIC' ||
+        addressMetaData.addressType.toUpperCase() === 'MILITARY' ||
+        addressMetaData.addressType.toUpperCase() === 'OVERSEAS MILITARY') &&
       addressMetaData.confidenceScore < 80
     ) {
       return true;
