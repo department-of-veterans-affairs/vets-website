@@ -337,6 +337,9 @@ export const getActiveLinksStyle = (linkPath, currentPath) => {
  * @example formatDate("2025-07-15"); // "July 15, 2025" (any other ISO 8601 date returns this format)
  */
 export const formatDate = str => {
+  if (!str || typeof str !== 'string') {
+    return EMPTY_FIELD;
+  }
   const yearRegex = /^\d{4}$/;
   const monthRegex = /^\d{4}-\d{2}$/;
   if (yearRegex.test(str)) {

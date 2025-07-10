@@ -7,8 +7,8 @@ import {
   updatePageTitle,
   reportGeneratedBy,
   usePrintTitle,
+  MhvPageNotFound,
 } from '@department-of-veterans-affairs/mhv/exports';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import PrintOnlyPage from './PrintOnlyPage';
 import {
   dateFormat,
@@ -411,7 +411,7 @@ const PrescriptionDetails = () => {
     }
 
     if (prescriptionApiError.message === recordNotFoundMessage) {
-      return <PageNotFound />;
+      return <MhvPageNotFound />;
     }
 
     if (prescription || prescriptionApiError) {
