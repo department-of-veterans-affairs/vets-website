@@ -128,18 +128,22 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
 
   if (isRequest) {
     const { requestedPeriods, created } = appt;
-    const reqPeriods = requestedPeriods?.map(d => ({
-      start: `${formatInTimeZone(
-        d.start,
-        appointmentTZ,
-        "yyyy-MM-dd'T'HH:mm:ssXXX",
-      )}`,
-      end: `${formatInTimeZone(
-        d.end,
-        appointmentTZ,
-        "yyyy-MM-dd'T'HH:mm:ssXXX",
-      )}`,
-    }));
+    const reqPeriods = requestedPeriods?.map(d => {
+      const endDate = d.end || d.start;
+
+      return {
+        start: `${formatInTimeZone(
+          d.start,
+          appointmentTZ,
+          "yyyy-MM-dd'T'HH:mm:ssXXX",
+        )}`,
+        end: `${formatInTimeZone(
+          endDate,
+          appointmentTZ,
+          "yyyy-MM-dd'T'HH:mm:ssXXX",
+        )}`,
+      };
+    });
 
     // hasReasonCode is only applicable to v0 appointments
     const hasReasonCode = appt.reasonCode?.coding?.length > 0;
