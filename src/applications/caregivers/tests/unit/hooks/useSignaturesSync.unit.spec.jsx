@@ -142,11 +142,13 @@ describe('CG `useSignaturesSync` hook', () => {
     updateProps({
       formData: {
         ...DEFAULT_FORM_DATA,
-        primaryFullName: { first: 'Jane', last: 'Doe' },
+        primaryFullName: { first: 'Jane', middle: 'Marie', last: 'Doe' },
       },
     });
 
-    expect(result.current.signatures[LABELS.primary].value).to.eq('Jane Doe');
+    expect(result.current.signatures[LABELS.primary].value).to.eq(
+      'Jane Marie Doe',
+    );
     expect(result.current.signatures[LABELS.primary].matches).to.be.true;
   });
 
