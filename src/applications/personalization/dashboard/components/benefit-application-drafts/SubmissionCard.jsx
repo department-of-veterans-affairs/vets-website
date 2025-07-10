@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { selectPdfUrlLoading } from '~/applications/personalization/dashboard/selectors';
+import recordEvent from '~/platform/monitoring/record-event';
 import fetchFormPdfUrl from '../../actions/form-pdf-url';
 import { formatFormTitle, formatSubmissionDisplayStatus } from '../../helpers';
 
@@ -65,6 +66,13 @@ const SavePdfDownload = ({
     } else {
       // Open the PDF in a new tab to allow the browser to handle the download
       window.open(result.url, '_blank');
+      recordEvent({
+        event: 'file_download',
+        clickText: 'Download your completed form (PDF)',
+        clickUrl: undefined, // URL contains PII
+        fileName: `${formId}.pdf`,
+        fileExtension: 'pdf',
+      });
       setShowSuccess(true);
     }
   };

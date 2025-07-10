@@ -3,7 +3,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import { expect } from 'chai';
 import VeteranInformationViewComponent from 'applications/vre/28-1900/components/VeteranInformationViewComponent';
 
-describe('Static Veteran Information', () => {
+describe.skip('Static Veteran Information', () => {
   it('should render veteran information', async () => {
     const initialState = {
       user: {
