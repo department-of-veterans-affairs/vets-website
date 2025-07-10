@@ -17,7 +17,7 @@ const initializeDatadogRum = () => {
       site: 'ddog-gov.com',
       service: 'va.gov-appointments',
       env: environment.vspEnvironment(),
-      sessionSampleRate: 100,
+      sessionSampleRate: 50,
       sessionReplaySampleRate: 10,
       trackInteractions: true,
       trackFrustrations: true,
