@@ -83,6 +83,11 @@
   padding: 11px 6px;
   margin: 0;
 
+  &:active {
+    background-color: var(--vads-color-primary) !important;
+    color: var(--vads-color-white) !important;
+  }
+
   &:hover {
     border-color: var(--vads-color-primary-dark);
   }
@@ -126,6 +131,10 @@
 
   &:hover {
     background: none;
+  }
+
+  &:active {
+    background: none !important;
   }
 }
 
