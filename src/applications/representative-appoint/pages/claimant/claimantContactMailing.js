@@ -1,22 +1,15 @@
-import React from 'react';
-
 import {
   addressSchema,
   addressUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 
 export const uiSchema = {
   ...titleUI(
     'Your mailing address',
     'We’ll send any important information about your form to this address.',
   ),
-  profileNotUpdatedNote: {
-    'ui:description': () => (
-      <ProfileNotUpdatedNote includeLink includePrefix isClaimantChapter />
-    ),
-  },
+
   homeAddress: addressUI({
     labels: {
       militaryCheckbox:
@@ -31,7 +24,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    profileNotUpdatedNote: { type: 'object', properties: {} },
     homeAddress: {
       ...addressSchema({ omit: ['street3'] }),
       properties: {
