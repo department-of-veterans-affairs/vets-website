@@ -3,7 +3,6 @@ import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/plat
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
-import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi } from '../testing-utils';
@@ -105,7 +104,7 @@ describe('Refill Prescriptions Component', () => {
         },
       },
     });
-    expect(screen.getByText(pageNotFoundHeading)).to.exist;
+    expect(screen.findByTestId('mhv-page-not-found')).to.exist;
   });
 
   it('Mocks API Request', async () => {
