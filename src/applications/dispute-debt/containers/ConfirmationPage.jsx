@@ -24,7 +24,7 @@ export const ConfirmationPage = props => {
         content="You will receive a letter in the mail confirming receipt within 30 days."
         actions={null}
       />
-      <ConfirmationView.SavePdfDownload />
+      {/* <ConfirmationView.SavePdfDownload /> */}
       {/* <ConfirmationView.ChapterSectionCollection /> */}
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
