@@ -14,7 +14,6 @@ import { prescriptionsLoader } from './loaders/prescriptionsLoader';
 
 // Lazy-loaded components
 const Prescriptions = lazy(() => import('./containers/Prescriptions'));
-const LandingPage = lazy(() => import('./containers/LandingPage'));
 const RefillPrescriptions = lazy(() =>
   import('./containers/RefillPrescriptions'),
 );
@@ -59,15 +58,6 @@ AppWrapper.propTypes = {
 };
 
 const routes = [
-  // TODO: remove about routes once mhvMedicationsRemoveLandingPage is turned on in prod
-  {
-    path: 'about/*',
-    element: <AppWrapper Component={LandingPage} />,
-  },
-  {
-    path: 'about',
-    element: <AppWrapper Component={LandingPage} />,
-  },
   {
     path: 'refill',
     element: <AppWrapper Component={RefillPrescriptions} />,

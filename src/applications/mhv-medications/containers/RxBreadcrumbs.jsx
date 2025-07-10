@@ -5,7 +5,6 @@ import { useLocation, useParams } from 'react-router-dom-v5-compat';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { createBreadcrumbs } from '../util/helpers';
 import { medicationsUrls } from '../util/constants';
-import { selectRemoveLandingPageFlag } from '../util/selectors';
 
 const RxBreadcrumbs = () => {
   const location = useLocation();
@@ -17,17 +16,13 @@ const RxBreadcrumbs = () => {
         FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
       ],
   );
-  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const [breadcrumbs, setBreadcrumbs] = useState([]);
 
   useEffect(
     () => {
-      setBreadcrumbs(
-        // TODO: remove removeLandingPage part once mhvMedicationsRemoveLandingPage is turned on in prod
-        createBreadcrumbs(location, currentPage, removeLandingPage),
-      );
+      setBreadcrumbs(createBreadcrumbs(location, currentPage));
     },
-    [location, currentPage, removeLandingPage],
+    [location, currentPage],
   );
 
   let content = null;

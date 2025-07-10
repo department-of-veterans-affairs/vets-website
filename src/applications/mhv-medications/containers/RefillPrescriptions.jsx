@@ -21,7 +21,6 @@ import { dateFormat } from '../util/helpers';
 import {
   selectRefillContentFlag,
   selectRefillProgressFlag,
-  selectRemoveLandingPageFlag,
 } from '../util/selectors';
 import { SESSION_SELECTED_PAGE_NUMBER } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
@@ -96,7 +95,6 @@ const RefillPrescriptions = () => {
   const fullRefillList = refillableData?.prescriptions || [];
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
@@ -362,7 +360,7 @@ const RefillPrescriptions = () => {
             {showRefillProgressContent && (
               <ProcessList stepGuideProps={stepGuideProps} />
             )}
-            {removeLandingPage && <NeedHelp page={pageType.REFILL} />}
+            <NeedHelp page={pageType.REFILL} />
           </>
         )}
       </div>

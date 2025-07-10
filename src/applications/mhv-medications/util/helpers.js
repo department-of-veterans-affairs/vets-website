@@ -318,7 +318,7 @@ export const fromToNumbs = (page, total, listLength, maxPerPage) => {
  * @param {Boolean} removeLandingPage - mhvMedicationsRemoveLandingPage feature flag value (to be removed once turned on in prod)
  * @returns {Array<Object>} An array of breadcrumb objects with `url` and `label` properties.
  */
-export const createBreadcrumbs = (location, currentPage, removeLandingPage) => {
+export const createBreadcrumbs = (location, currentPage, removeLandingPage = true) => {
   const { pathname } = location;
   const defaultBreadcrumbs = [
     {

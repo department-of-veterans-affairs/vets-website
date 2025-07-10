@@ -47,7 +47,6 @@ import {
   selectGroupingFlag,
   selectRefillContentFlag,
   selectRefillProgressFlag,
-  selectRemoveLandingPageFlag,
   selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
@@ -91,7 +90,6 @@ const Prescriptions = () => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const showIPEContent = useSelector(selectIPEContentFlag);
 
   // Track if we've initialized from session storage
@@ -744,48 +742,44 @@ const Prescriptions = () => {
     );
   };
 
-  const renderHeader = () => (
-    <>
-      <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
-        Medications
-      </h1>
-      <p
-        className="vads-u-margin-top--0 vads-u-margin-bottom--4"
-        data-testid="Title-Notes"
-      >
-        {removeLandingPage ? (
+  const renderHeader = () => {
+    return (
+      <>
+        <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
+          Medications
+        </h1>
+        <p
+          className="vads-u-margin-top--0 vads-u-margin-bottom--4"
+          data-testid="Title-Notes"
+        >
           <>
             Bring your medications list to each appointment. And tell your
             provider about any new allergies or reactions. If you use Meds by
             Mail, you can also call your servicing center and ask them to update
             your records.
           </>
-        ) : (
-          <>
-            When you share your medications list with providers, make sure you
-            also tell them about your allergies and reactions to medications.
-          </>
+
+          {!showAllergiesContent && (
+            <>
+              {' '}
+              If you print or download this list, we’ll include a list of your
+              allergies.
+            </>
+          )}
+        </p>
+        {showAllergiesContent && (
+          <a
+            href="/my-health/medical-records/allergies"
+            rel="noreferrer"
+            className="vads-u-display--block vads-u-margin-bottom--3"
+            data-testid="allergies-link"
+          >
+            Go to your allergies and reactions
+          </a>
         )}
-        {!showAllergiesContent && (
-          <>
-            {' '}
-            If you print or download this list, we’ll include a list of your
-            allergies.
-          </>
-        )}
-      </p>
-      {showAllergiesContent && (
-        <a
-          href="/my-health/medical-records/allergies"
-          rel="noreferrer"
-          className="vads-u-display--block vads-u-margin-bottom--3"
-          data-testid="allergies-link"
-        >
-          Go to your allergies and reactions
-        </a>
-      )}
-    </>
-  );
+      </>
+    );
+  };
 
   const renderMedicationsContent = () => {
     // No medications exist
@@ -878,7 +872,7 @@ const Prescriptions = () => {
             {renderMedicationsContent()}
           </>
         )}
-        {removeLandingPage && <NeedHelp page={pageType.LIST} />}
+        <NeedHelp page={pageType.LIST} />
       </div>
     );
   };
