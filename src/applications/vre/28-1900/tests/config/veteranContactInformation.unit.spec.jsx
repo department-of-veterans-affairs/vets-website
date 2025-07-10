@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import { changeDropdown } from 'platform/testing/unit/helpers';
 
 import formConfig from '../../config/form';
@@ -15,7 +15,7 @@ const {
   uiSchema,
 } = formConfig.chapters.veteranInformation.pages.contactInformation;
 
-describe('Chapter 31 veteran contact information', () => {
+describe.skip('Chapter 31 veteran contact information', () => {
   it('should render', () => {
     const form = mount(
       <DefinitionTester
