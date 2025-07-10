@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 // platform - form-system actions
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
-function PreSubmitInfo({ formData, showError, setPreSubmit }) {
+export const PreSubmitInfo = ({ formData, showError, setPreSubmit }) => {
   useEffect(
     () => {
       // This ensures the user will always have to accept the privacy agreement.
@@ -28,7 +28,7 @@ function PreSubmitInfo({ formData, showError, setPreSubmit }) {
       showError={showError && !privacyAgreementAccepted}
     />
   );
-}
+};
 
 const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,
