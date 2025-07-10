@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-// import { rest } from 'msw';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 
@@ -94,15 +93,7 @@ describe('directDeposit actions', () => {
 
   it('should dispatch DIRECT_DEPOSIT_FETCH_FAILED with response on error', async () => {
     server.use(
-      /*
-      rest.get(`${endpointUrl}`, (req, res, ctx) => {
-        return res(ctx.json(error500), ctx.status(500));
-      }),
-       */
       http.get(`${endpointUrl}`, () => {
-        // return HttpResponse.json(error500, { status: 500 });
-        // return HttpResponse.error();
-        // return new HttpResponse(null, {status: 500});
         return HttpResponse.json(
           { error: 'Internal Server Error' },
           { status: 500 },
@@ -127,19 +118,9 @@ describe('directDeposit actions', () => {
       type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED,
     });
 
-    // console.log(
-    //   'All dispatch calls:',
-    //   JSON.stringify(
-    //     dispatchSpy.getCalls().map(call => call.args[0]),
-    //     null,
-    //     2,
-    //   ),
-    // );
-
     expect(
       dispatchSpy.withArgs({
         type: DIRECT_DEPOSIT_FETCH_FAILED,
-        // response: error500,
         response: { error: 'Internal Server Error' },
       }).calledOnce,
     ).to.be.true;
@@ -162,11 +143,6 @@ describe('directDeposit actions', () => {
   describe('saveDirect deposit action creator', () => {
     it('should dispatch the SUCCESS state', async () => {
       server.use(
-        /*
-        rest.put(`${endpointUrl}`, (req, res, ctx) => {
-          return res(ctx.json(base), ctx.status(200));
-        }),
-         */
         http.put(`${endpointUrl}`, () => {
           return HttpResponse.json(base, { status: 200 });
         }),
@@ -193,11 +169,6 @@ describe('directDeposit actions', () => {
     });
     it('should dispatch the FAILURE state', async () => {
       server.use(
-        /*
-        rest.put(`${endpointUrl}`, (req, res, ctx) => {
-          return res(ctx.json(error500), ctx.status(400));
-        }),
-        */
         http.put(`${endpointUrl}`, () => {
           return HttpResponse.json(error500, { status: 400 });
         }),
@@ -223,11 +194,6 @@ describe('directDeposit actions', () => {
 
     it('should dispatch the FAILURE state when the response is an instance of Error', async () => {
       server.use(
-        /*
-        rest.put(`${endpointUrl}`, (req, res, ctx) => {
-          return res(ctx.json(error500), ctx.status(400));
-        }),
-         */
         http.put(`${endpointUrl}`, () => {
           return HttpResponse.json(error500, { status: 400 });
         }),
