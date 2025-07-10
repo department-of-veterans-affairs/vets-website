@@ -41,7 +41,7 @@ describe('OAuth - Utilities', () => {
   let validCookie;
 
   beforeEach(() => {
-    window.crypto = mockCrypto;
+    globalThis.crypto = mockCrypto;
 
     document.cookie.split(';').forEach(cookie => {
       document.cookie = cookie
