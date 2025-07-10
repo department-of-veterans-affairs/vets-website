@@ -749,7 +749,7 @@
     },
     {
       "directoryPath": "src/applications/vaos",
-      "appName": "VA Online Scheduling",
+      "appName": "Appointments",
       "entryName": "vaos",
       "rootUrl": "/my-health/appointments"
     },
