@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
 
-import NewAddFilesForm from './file-input-multiple/NewAddFilesForm';
+import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
@@ -144,7 +144,7 @@ class AdditionalEvidencePage extends React.Component {
               {this.props.filesOptional.map(item => (
                 <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
-              <NewAddFilesForm
+              <AddFilesForm
                 uploading={this.props.uploading}
                 progress={this.props.progress}
                 onCancel={this.props.cancelUpload}
