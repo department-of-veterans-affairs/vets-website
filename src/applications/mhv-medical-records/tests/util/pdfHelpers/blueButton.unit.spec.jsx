@@ -14,7 +14,7 @@ describe('generateBlueButtonData', () => {
   it('should return an empty array when no records are provided', () => {
     const result = generateBlueButtonData({}, []);
     expect(result).to.be.an('array');
-    expect(result.length).to.equal(9);
+    expect(result.length).to.equal(11);
   });
 
   it('should generate data for labs and tests', () => {
@@ -42,7 +42,7 @@ describe('generateBlueButtonData', () => {
       },
       {
         name: 'Test 4',
-        type: labTypes.EKG,
+        type: labTypes.CHEM_HEM,
         results: [{ name: 'Test result 4', result: 'Test result 4' }],
       },
       {

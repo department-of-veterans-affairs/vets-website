@@ -24,8 +24,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
     referral: {
-      draftAppointmentInfo,
-      draftAppointmentCreateStatus: FETCH_STATUS.succeeded,
       selectedSlot: '0',
       currentPage: 'reviewAndConfirm',
       appointmentCreateStatus: FETCH_STATUS.notStarted,
@@ -33,6 +31,14 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       appointmentInfoError: false,
       appointmentInfoLoading: false,
       referralAppointmentInfo: {},
+    },
+    appointmentApi: {
+      mutations: {
+        postDraftReferralAppointmentCache: {
+          status: 'fulfilled',
+          data: draftAppointmentInfo,
+        },
+      },
     },
   };
   // TODO - add test for when draftAppointmentInfo is empty
@@ -136,7 +142,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             draftApppointmentId: draftAppointmentInfo.id,
-            referralNumber: 'VA0000009880-default',
+            referralNumber: 'test-referral-number',
             slotId: draftAppointmentInfo.attributes.slots[0].id,
             networkId: draftAppointmentInfo.attributes.provider.networkIds[0],
             providerServiceId: draftAppointmentInfo.attributes.provider.id,
@@ -172,7 +178,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             draftApppointmentId: draftAppointmentInfo.id,
-            referralNumber: 'VA0000009880-default',
+            referralNumber: 'test-referral-number',
             slotId: draftAppointmentInfo.attributes.slots.slots[0].id,
             networkId: draftAppointmentInfo.attributes.provider.networkIds[0],
             providerServiceId: draftAppointmentInfo.attributes.provider.id,

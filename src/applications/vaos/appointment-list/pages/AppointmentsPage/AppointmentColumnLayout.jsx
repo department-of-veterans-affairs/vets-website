@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
 import AppointmentRow from '../../../components/AppointmentRow';
 import {
   selectAppointmentLocality,
@@ -27,16 +26,11 @@ export default function AppointmentColumnLayout({
   const appointmentLocality = useSelector(() =>
     selectAppointmentLocality(data),
   );
-  const useFeSourceOfTruth = useSelector(state =>
-    selectFeatureFeSourceOfTruth(state),
-  );
   const isCanceled = useSelector(() => selectIsCanceled(data));
   const isCommunityCare = useSelector(() => selectIsCommunityCare(data));
   const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
-  const startDate = useSelector(() =>
-    selectStartDate(data, useFeSourceOfTruth),
-  );
+  const startDate = useSelector(() => selectStartDate(data));
   const parsedDate = moment.parseZone(startDate);
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
@@ -82,7 +76,9 @@ export default function AppointmentColumnLayout({
                 { 'vads-u-display--none': !first },
               )}
             >
-              <span aria-hidden="false">{parsedDate.format('D')}</span>
+              <span aria-hidden="false" data-dd-privacy="mask">
+                {parsedDate.format('D')}
+              </span>
             </h3>
           </AppointmentColumn>
           <AppointmentColumn
@@ -102,6 +98,7 @@ export default function AppointmentColumnLayout({
               className={classNames({ 'vads-u-display--none': !first })}
               aria-hidden="true"
               data-testid="day"
+              data-dd-privacy="mask"
             >
               {parsedDate.format('ddd')}
             </span>
@@ -136,7 +133,7 @@ export default function AppointmentColumnLayout({
             canceled={isCanceled}
             style={{ minWidth: '100px', maxWidth: '100px' }}
           >
-            <span aria-hidden="true">
+            <span aria-hidden="true" data-dd-privacy="mask">
               {`${parsedDate.format('h:mm')} ${parsedDate.format(
                 'a',
               )} ${timezoneAbbr}`}{' '}
@@ -161,6 +158,7 @@ export default function AppointmentColumnLayout({
                     'vaos-appts__display--table-cell',
                     'vaos-appts__text--truncate',
                   )}
+                  data-dd-privacy="mask"
                 >
                   {appointmentLocality}
                 </span>

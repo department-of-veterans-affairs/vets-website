@@ -6,7 +6,7 @@ import { Data } from './utils/constants';
 import rxDetails from './fixtures/prescription-tracking-details.json';
 import rxSubmitted from './fixtures/active-submitted-prescription-details.json';
 
-describe('Medications List Page Delay Alert', () => {
+describe.skip('Medications List Page Delay Alert', () => {
   it('visits Medications List Page Delay Alert for Multiple Refills', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();

@@ -250,7 +250,7 @@
  *   'ui:objectViewField'?: React.ReactNode,
  *   'ui:options'?: UIOptions,
  *   'ui:order'?: string[],
- *   'ui:required'?: (formData: any, index: number, fullData: any) => boolean,
+ *   'ui:required'?: (formData: any, index: number, fullData: any, path: Array<string | number>) => boolean,
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
@@ -301,7 +301,7 @@
  * @property {boolean} [freeInput] for AutoSuggest widget
  * @property {boolean} [generateIndividualItemHeaders] For array field generation that would use the "new item" logic. Items created before it will now have "item" headers attached to them if there are multiple and it is not the final one in the series.
  * @property {boolean} [hideEmptyValueInReview] Field will not be displayed in review page if empty if set to true
- * @property {(formData: any, index: number, fullData: any) => boolean} [hideIf] Conditional logic if the field should be hidden
+ * @property {(formData: any, index: number, fullData: any, path: Array<string | number>) => boolean} [hideIf] Conditional logic if the field should be hidden
  * @property {boolean} [hideLabelText] Hide the text above a form field. May be useful for checkbox widgets and some other corner cases.
  * @property {boolean} [hideTitle] For arrays.
  * @property {boolean} [hideOnReview] Used to hide a field on review page
@@ -400,7 +400,7 @@
 
 /**
  * @typedef {{
- *   getItemName: (itemData: any, index: number) => string,
+ *   getItemName: (itemData: any, index: number, fullData: any) => string,
  *   itemData: any,
  *   nounPlural: string,
  *   nounSingular: string,
@@ -428,7 +428,7 @@
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
- *   getItemName?: (itemData: any, index: number) => string,
+ *   getItemName?: (itemData: any, index: number, fullData: any) => string,
  *   deleteDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNo?: (props: ArrayBuilderTextProps) => string,

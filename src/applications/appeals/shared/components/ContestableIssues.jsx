@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { focusElement, scrollTo } from 'platform/utilities/ui';
-
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
+import ActionLink from './web-component-wrappers/ActionLink';
 import { LAST_ISSUE, MAX_LENGTH, REVIEW_ISSUES, SELECTED } from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { IssueCard } from './IssueCard';
-import {
-  ContestableIssuesLegend,
-  ApiFailureAlert,
-  NoEligibleIssuesAlert,
-  NoneSelectedAlert,
-  MaxSelectionsAlert,
-  removeModalContent,
-} from '../content/contestableIssues';
+import { removeModalContent } from '../content/contestableIssues';
+import { ContestableIssuesLegend } from './ContestableIssuesLegend';
+import { MaxSelectionsAlert } from './MaxSelectionsAlert';
+import { NoneSelectedAlert } from './NoneSelectedAlert';
+import { MessageAlert } from './MessageAlert';
 import { focusIssue } from '../utils/focus';
 import {
   calculateIndexOffset,
@@ -206,8 +202,22 @@ const ContestableIssues = props => {
   return (
     <>
       <div name="eligibleScrollElement" />
-      {showApiFailure && <ApiFailureAlert />}
-      {showNoneSelected && <NoEligibleIssuesAlert />}
+      {showApiFailure && (
+        <MessageAlert
+          title="We can’t load your issues right now"
+          message={`You can come back later, or if you’d like to add your issue manually, you can select "Add a new issue" to get started.`}
+          errorKey="api_load_error"
+          errorReason="API load error"
+        />
+      )}
+      {showNoneSelected && (
+        <MessageAlert
+          title="Sorry, we couldn’t find any eligible issues"
+          message={`If you’d like to add your issue for review, select "Add a new issue" to get started.`}
+          errorKey="no_eligible_issues_loaded"
+          errorReason="No eligible issues loaded"
+        />
+      )}
       {showEditModeError && (
         <NoneSelectedAlert
           count={formData.contestedIssues?.length || 0}
@@ -244,15 +254,14 @@ const ContestableIssues = props => {
           {content}
         </ul>
         {onReviewPage && inReviewMode ? null : (
-          <Link
-            className="add-new-issue vads-c-action-link--green"
-            to={{
-              pathname: '/add-issue',
-              search: `?index=${items.length}`,
-            }}
-          >
-            Add a new issue
-          </Link>
+          <ActionLink
+            className="add-new-issue"
+            disable-analytics
+            path="/add-issue"
+            search={`?index=${items.length}`}
+            primary
+            text="Add a new issue"
+          />
         )}
         {showErrorModal && (
           <MaxSelectionsAlert

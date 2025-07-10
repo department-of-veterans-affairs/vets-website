@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import { Provider } from 'react-redux';
@@ -44,7 +43,7 @@ describe('CG <FacilitySearch>', () => {
       </Provider>,
     );
     const selectors = () => ({
-      continueBtn: getByText('Continue'),
+      continueBtn: queryByRole('button', { name: /Continue/i }),
       loadMoreBtn: container.vaButtonGetByText(
         content['form-facilities-load-more-button'],
       ),
@@ -159,7 +158,7 @@ describe('CG <FacilitySearch>', () => {
         const { vaRadio } = selectors();
         expect(vaRadio).to.exist;
       });
-      userEvent.click(continueBtn);
+      fireEvent.click(continueBtn);
       await waitFor(() => {
         const { vaRadio } = selectors();
         expect(vaRadio).to.have.attr('error', ERROR_MSG_DEFAULT);
@@ -261,12 +260,13 @@ describe('CG <FacilitySearch>', () => {
       facilitiesStub.resolves({ errorMessage, type: 'SEARCH_FAILED' });
 
       await runSearch({ container, query });
+      await waitFor(() => expect(queryByText(statusMessage)).to.exist);
+
+      const { loadMoreBtn } = selectors();
+      fireEvent.click(loadMoreBtn);
+
       await waitFor(() => {
-        expect(queryByText(statusMessage)).to.exist;
-      });
-      await waitFor(() => {
-        const { loadMoreBtn, vaLoadingIndicator } = selectors();
-        userEvent.click(loadMoreBtn);
+        const { vaLoadingIndicator } = selectors();
         expect(vaLoadingIndicator).to.exist;
       });
       await waitFor(() => {
@@ -299,9 +299,12 @@ describe('CG <FacilitySearch>', () => {
         expect(queryByText(/Showing 1-1 of 1 facilities for/)).to.exist;
         expect(ariaLiveStatus.textContent).to.eq('');
       });
+
+      const { loadMoreBtn } = selectors();
+      fireEvent.click(loadMoreBtn);
+
       await waitFor(() => {
-        const { loadMoreBtn, vaLoadingIndicator } = selectors();
-        userEvent.click(loadMoreBtn);
+        const { vaLoadingIndicator } = selectors();
         expect(vaLoadingIndicator).to.exist;
       });
       await waitFor(() => {
@@ -343,9 +346,12 @@ describe('CG <FacilitySearch>', () => {
         expect(queryByText(/Showing 1-1 of 1 facilities for/)).to.exist;
         expect(ariaLiveStatus.textContent).to.eq('');
       });
+
+      const { loadMoreBtn } = selectors();
+      fireEvent.click(loadMoreBtn);
+
       await waitFor(() => {
-        const { loadMoreBtn, vaLoadingIndicator } = selectors();
-        userEvent.click(loadMoreBtn);
+        const { vaLoadingIndicator } = selectors();
         expect(vaLoadingIndicator).to.exist;
       });
       await waitFor(() => {

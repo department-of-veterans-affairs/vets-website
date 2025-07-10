@@ -237,9 +237,9 @@ export function validateMinItems(minItems) {
 
 export function assignGetItemName(options) {
   const safeGetItemName = getItemFn => {
-    return (item, index) => {
+    return (item, index, fullData) => {
       try {
-        return getItemFn(item, index);
+        return getItemFn(item, index, fullData);
       } catch (e) {
         return null;
       }
@@ -269,6 +269,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   let hasItemsKey;
   const itemPages = [];
   const orderedPageTypes = [];
+  const missingInformationKey = `view:${options?.arrayPath}MissingInformation`;
 
   if (
     !options ||
@@ -527,6 +528,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       introPath,
       isItemIncomplete,
       maxItems,
+      missingInformationKey,
       hideMaxItemsAlert,
       nounPlural,
       nounSingular,

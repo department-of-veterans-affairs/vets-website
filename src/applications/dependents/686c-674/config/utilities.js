@@ -1,6 +1,8 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
-import _ from 'platform/utilities/data';
 import cloneDeep from 'lodash/cloneDeep';
+import { parse, parseISO, isValid } from 'date-fns';
+
+import omit from 'platform/utilities/data/omit';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import {
   filterInactivePageData,
@@ -11,7 +13,8 @@ import {
   createFormPageList,
 } from 'platform/forms-system/src/js/helpers';
 import { apiRequest } from 'platform/utilities/api';
-import { parse, parseISO, isValid } from 'date-fns';
+
+import { MARRIAGE_TYPES } from './constants';
 
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
 const CLIENT_ERROR_REGEX = /^4\d{2}$/;
@@ -35,10 +38,16 @@ const validateName = (errors, pageData) => {
   validateWhiteSpace(errors.last, last);
 };
 
+const PHONE_KEYS = ['phoneNumber', 'internationalPhone'];
+
 /**
  * Mostly copied from the platform provided stringifyFormReplacer, with the removal of the address check. We don't need it here for our location use.
  */
 export const customFormReplacer = (key, value) => {
+  // Remove all non-digit characters from phone-related fields
+  if (typeof value === 'string' && PHONE_KEYS.includes(key)) {
+    return value.replace(/\D/g, '');
+  }
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
@@ -56,7 +65,7 @@ export const customFormReplacer = (key, value) => {
 
     // Exclude file data
     if (value.confirmationCode && value.file) {
-      return _.omit('file', value);
+      return omit('file', value);
     }
   }
   // Clean up empty objects in arrays
@@ -138,4 +147,56 @@ export const parseDateToDateObj = (date, template) => {
     newDate.setMinutes(newDate.getMinutes() + newDate.getTimezoneOffset());
   }
   return isValid(newDate) ? newDate : null;
+};
+
+export const spouseEvidence = (formData = {}) => {
+  const { veteranAddress } = formData.veteranContactInformation || {};
+  const isOutsideUSA =
+    veteranAddress?.country !== 'USA' || Boolean(veteranAddress?.isMilitary);
+
+  const { typeOfMarriage } = formData.currentMarriageInformation || {};
+  const isCommonLawMarriage = typeOfMarriage === MARRIAGE_TYPES.commonLaw;
+  const isTribalMarriage = typeOfMarriage === MARRIAGE_TYPES.tribal;
+  const isProxyMarriage = typeOfMarriage === MARRIAGE_TYPES.proxy;
+  const needsSpouseUpload =
+    typeof typeOfMarriage === 'string' &&
+    typeOfMarriage !== MARRIAGE_TYPES.ceremonial;
+
+  return {
+    isCommonLawMarriage,
+    isTribalMarriage,
+    isProxyMarriage,
+    isOutsideUSA,
+    needsSpouseUpload,
+  };
+};
+
+export const childEvidence = (formData = {}) => {
+  const veteranAddress =
+    formData?.veteranContactInformation?.veteranAddress || {};
+  const livesOutsideUSA =
+    veteranAddress.country !== 'USA' || veteranAddress.isMilitary;
+
+  const childrenToAdd = formData?.childrenToAdd || [];
+  const hasStepChild = childrenToAdd.some(
+    childFormData => childFormData?.relationshipToChild?.stepchild,
+  );
+  const hasAdoptedChild = childrenToAdd.some(
+    childFormData => childFormData?.relationshipToChild?.adopted,
+  );
+  const hasDisabledChild = childrenToAdd.some(
+    childFormData =>
+      childFormData?.doesChildHaveDisability &&
+      childFormData?.doesChildHavePermanentDisability,
+  );
+
+  const showBirthCertificate = livesOutsideUSA || hasStepChild;
+
+  return {
+    showBirthCertificate,
+    hasAdoptedChild,
+    hasDisabledChild,
+    needsChildUpload:
+      showBirthCertificate || hasDisabledChild || hasAdoptedChild,
+  };
 };

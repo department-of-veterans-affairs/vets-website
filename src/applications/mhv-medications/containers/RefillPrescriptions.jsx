@@ -6,10 +6,10 @@ import {
   VaCheckbox,
   VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import {
   updatePageTitle,
   usePrintTitle,
+  MhvPageNotFound,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -49,6 +49,8 @@ const RefillPrescriptions = () => {
   ] = useBulkRefillPrescriptionsMutation();
   const { isLoading: isRefilling, error: bulkRefillError } = result;
 
+  const refillAlertList = refillableData?.refillAlertList || [];
+
   const getMedicationsByIds = (ids, prescriptions) => {
     if (!ids || !prescriptions) return [];
     return ids.map(id =>
@@ -64,15 +66,16 @@ const RefillPrescriptions = () => {
         result?.data?.successfulIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.successfulIds, refillableData],
+    [result?.data?.successfulIds],
   );
+
   const failedMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.failedIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.failedIds, refillableData],
+    [result?.data?.failedIds],
   );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
@@ -190,7 +193,7 @@ const RefillPrescriptions = () => {
 
   const content = () => {
     if (!showRefillContent) {
-      return <PageNotFound />;
+      return <MhvPageNotFound />;
     }
     if (isLoading || isRefilling) {
       return (
@@ -218,6 +221,7 @@ const RefillPrescriptions = () => {
           <RefillAlert
             dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
             refillStatus={refillStatus}
+            refillAlertList={refillAlertList}
           />
         )}
         {prescriptionsApiError ? (

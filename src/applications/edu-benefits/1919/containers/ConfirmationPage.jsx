@@ -1,68 +1,69 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { scrollAndFocus } from 'platform/utilities/scroll';
+import { setSubmission } from 'platform/forms-system/src/js/actions';
+import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
+import environment from '~/platform/utilities/environment';
+import { confirmationChildContent } from '../helpers';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+export const ConfirmationPage = ({ router, route }) => {
+  const form = useSelector(state => state?.form);
+  const { submission } = form;
+  const submitDate = new Date(submission?.timestamp);
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
+  const dispatch = useDispatch();
 
-  render() {
-    const { form } = this.props;
-    const { submission, formId, data } = form;
-    const submitDate = new Date(submission?.timestamp);
+  const resetSubmissionStatus = () => {
+    const now = new Date().getTime();
 
-    const { fullName } = data;
+    dispatch(setSubmission('status', false));
+    dispatch(setSubmission('timestamp', now));
+  };
 
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Conflicting Interests Certification For Proprietary Schools Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
+  const goBack = e => {
+    e.preventDefault();
+    resetSubmissionStatus();
+    router.push('/review-and-submit');
+  };
 
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null}
-          <va-button
-            text="Print this for your records"
-            onClick={window.print}
-            uswds
-          />
-        </div>
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    const firsth2 = document.querySelector('va-alert + h2');
+    scrollAndFocus(firsth2);
+  }, []);
+
+  useEffect(() => {
+    const h2Element = document.querySelector('.custom-classname h2');
+    if (h2Element) {
+      const h3 = document.createElement('h3');
+      h3.innerHTML = h2Element.innerHTML;
+      h2Element.parentNode.replaceChild(h3, h2Element);
+    }
+    return () => {
+      const h3Element = document.querySelector('.custom-classname h3');
+      if (h3Element) {
+        const h2 = document.createElement('h2');
+        h2.innerHTML = h3Element.innerHTML;
+        h3Element.parentNode.replaceChild(h2, h3Element);
+      }
+    };
+  }, []);
+
+  return (
+    <ConfirmationView
+      formConfig={route?.formConfig}
+      confirmationNumber={submission?.response?.confirmationNumber}
+      submitDate={submitDate}
+    >
+      {confirmationChildContent(
+        `${environment.API_URL}/v0/education_benefits_claims/download_pdf/${
+          submission?.response?.confirmationNumber
+        }`, // update pdf download url when available
+        goBack,
+      )}
+    </ConfirmationView>
+  );
+};
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
@@ -80,12 +81,12 @@ ConfirmationPage.propTypes = {
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

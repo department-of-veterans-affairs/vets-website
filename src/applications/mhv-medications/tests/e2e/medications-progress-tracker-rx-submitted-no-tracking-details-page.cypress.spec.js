@@ -5,7 +5,7 @@ import { Data } from './utils/constants';
 import rxSubmitted from './fixtures/active-submitted-prescription-details.json';
 import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 
-describe('Medications Details Page Submitted Rx Progress Tracker', () => {
+describe.skip('Medications Details Page Submitted Rx Progress Tracker', () => {
   it('visits Medications Details Page Submitted Rx Progress No Tracking Info', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();

@@ -388,7 +388,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
             id: '139',
             type: 'maintenance_windows',
             attributes: {
-              externalService: 'vaosWarning',
+              externalService: 'vaoswarning',
               description: 'My description',
               startTime: format(
                 subDays(new Date(), '1'),
@@ -417,7 +417,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     const store = createTestStore(state);
     const screen = renderWithStoreAndRouter(<NewAppointment />, {
       store,
-      path: '/new-appointment',
+      path: '/type-of-care',
     });
 
     expect(

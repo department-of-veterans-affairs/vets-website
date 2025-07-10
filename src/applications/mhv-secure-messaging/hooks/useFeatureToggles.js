@@ -7,6 +7,11 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     isAalEnabled,
     readReceiptsEnabled,
+    customFoldersRedesignEnabled,
+    largeAttachmentsEnabled,
+    isDowntimeBypassEnabled,
+    cernerPilotSmFeatureFlag,
+    mhvMockSessionFlag,
   } = useSelector(
     state => {
       return {
@@ -23,6 +28,23 @@ const useFeatureToggles = () => {
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts
           ],
+        customFoldersRedesignEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingCustomFoldersRedesign
+          ],
+        largeAttachmentsEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingLargeAttachments
+          ],
+        isDowntimeBypassEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification
+          ],
+        cernerPilotSmFeatureFlag:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+          ],
+        mhvMockSessionFlag: state.featureToggles['mhv-mock-session'],
       };
     },
     state => state.featureToggles,
@@ -33,6 +55,11 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     readReceiptsEnabled,
     isAalEnabled,
+    customFoldersRedesignEnabled,
+    largeAttachmentsEnabled,
+    isDowntimeBypassEnabled,
+    cernerPilotSmFeatureFlag,
+    mhvMockSessionFlag,
   };
 };
 

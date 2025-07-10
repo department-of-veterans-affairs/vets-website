@@ -4,13 +4,10 @@ import PropTypes from 'prop-types';
 import { isValid, format } from 'date-fns';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
 import { selectProfile } from '~/platform/user/selectors';
-
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 
 import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../constants';
-
 import { parseDateToDateObj } from '../utils';
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
@@ -24,7 +21,7 @@ const mask = value => {
 };
 
 const VeteranInformation = ({ formData }) => {
-  const { ssnLastFour, vaFileLastFour } = formData?.veteranInformation || {};
+  const { ssn } = formData?.veteran || {};
   const { dob, userFullName = {} } = useSelector(selectProfile);
   const { first, middle, last, suffix } = userFullName;
 
@@ -32,58 +29,60 @@ const VeteranInformation = ({ formData }) => {
 
   return (
     <>
-      <h3 className="vads-u-margin-y--2">
-        Confirm the personal information we have on file for you.
-      </h3>
-      <div className="blue-bar-block">
-        <strong
-          className="name dd-privacy-hidden"
-          data-dd-action-name="Veteran's name"
-        >
-          {`${first || ''} ${middle || ''} ${last || ''}`}
-          {suffix ? `, ${suffix}` : null}
-        </strong>
-        {ssnLastFour ? (
-          <p className="ssn">
-            Social Security number:{' '}
-            <span
-              className="dd-privacy-mask"
-              data-dd-action-name="Veteran's SSN"
-            >
-              {mask(ssnLastFour)}
-            </span>
-          </p>
-        ) : null}
-        {vaFileLastFour ? (
-          <p className="vafn">
-            VA file number:{' '}
-            <span
-              className="dd-privacy-mask"
-              data-dd-action-name="Veteran's VA file number"
-            >
-              {mask(vaFileLastFour)}
-            </span>
-          </p>
-        ) : null}
-        <p>
-          Date of birth:{' '}
-          {isValid(dobDateObj) ? (
-            <span
-              className="dob dd-privacy-mask"
-              data-dd-action-name="Veteran's date of birth"
-            >
-              {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
-            </span>
-          ) : null}
-        </p>
+      <div>
+        <h2 className="vads-u-margin-top--0">Your personal information</h2>
+        <p>This is the personal information we have on file for you</p>
+        <div className="personal-information-box">
+          <div className="vads-u-padding-left--1">
+            <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
+              Personal information
+            </h3>{' '}
+            <p>
+              <strong
+                className="name dd-privacy-hidden"
+                data-dd-action-name="Veteran's name"
+              >
+                Name:
+              </strong>{' '}
+              {`${first || ''} ${middle || ''} ${last || ''}`}
+              {suffix ? `, ${suffix}` : null}
+            </p>
+            {ssn ? (
+              <p className="ssn" data-testid="ssn-display">
+                <strong>Last 4 digits of Social Security number: </strong>{' '}
+                <span
+                  className="dd-privacy-mask"
+                  data-dd-action-name="Veteran's SSN"
+                >
+                  {mask(ssn)}
+                </span>
+              </p>
+            ) : null}
+            <p>
+              <strong>Date of birth:</strong>{' '}
+              {isValid(dobDateObj) ? (
+                <span
+                  className="dob dd-privacy-mask"
+                  data-dd-action-name="Veteran's date of birth"
+                  data-testid="dob-display"
+                >
+                  {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
+                </span>
+              ) : null}
+            </p>
+          </div>
+        </div>
       </div>
 
       <br role="presentation" />
 
       <p>
-        <strong>Note:</strong> If you need to update your personal information,
-        you can call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
-        We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+        <strong>Note:</strong> To protect your personal information, we don’t
+        allow online changes to your name, date of birth, or VA file number. If
+        you need to update your personal information, call our VA benefits
+        hotline at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact={CONTACTS['711']} tty />
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
         <dfn>
           <abbr title="Eastern Time">ET</abbr>
         </dfn>
@@ -95,8 +94,8 @@ const VeteranInformation = ({ formData }) => {
 
 VeteranInformation.propTypes = {
   formData: PropTypes.shape({
-    veteranInformation: PropTypes.shape({
-      ssnLastFour: PropTypes.string,
+    veteran: PropTypes.shape({
+      ssn: PropTypes.string,
       vaFileLastFour: PropTypes.string,
     }),
   }),

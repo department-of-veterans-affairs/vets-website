@@ -4,6 +4,10 @@ import { Paths, Locators } from '../utils/constants';
 import mockMultiThreadResponse from '../fixtures/pilot-responses/multi-message-thread-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
+import mockSignature from '../fixtures/signature-response.json';
+import mockCategories from '../fixtures/categories-response.json';
+import PatientComposePage from './PatientComposePage';
+import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PilotEnvPage {
   loadInboxMessages = (
@@ -43,6 +47,16 @@ class PilotEnvPage {
       messages,
     ).as('inboxPilotMessages');
 
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_SIGNATURE, mockSignature).as(
+      'signature',
+    );
+
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
+
     cy.visit(url + Paths.INBOX, {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
@@ -64,6 +78,12 @@ class PilotEnvPage {
     });
 
     // cy.wait('@single-thread', { requestTimeout: 20000 });
+  };
+
+  navigateToComposePage = () => {
+    PatientComposePage.interceptSentFolder();
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
   verifyHeader = text => {

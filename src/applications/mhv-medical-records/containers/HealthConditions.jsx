@@ -25,6 +25,7 @@ const HealthConditions = () => {
   const updatedRecordList = useSelector(
     state => state.mr.conditions.updatedList,
   );
+
   const listState = useSelector(state => state.mr.conditions.listState);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const activeAlert = useAlerts(dispatch);
@@ -67,6 +68,11 @@ const HealthConditions = () => {
       <h1 className="vads-u-margin--0" data-testid="health-conditions">
         Health conditions
       </h1>
+
+      <p className="page-description">
+        This list includes the same information as your "VA problem list" in the
+        previous My HealtheVet experience.
+      </p>
 
       <AcceleratedCernerFacilityAlert
         {...CernerAlertContent.HEALTH_CONDITIONS}

@@ -14,10 +14,16 @@ import {
 import { currency, endDate } from '../utils';
 
 // helper functions to get debt and copay labels and descriptions
-const getDebtLabel = debt =>
-  `${currency(debt?.currentAr)} overpayment for ${deductionCodes[
-    debt.deductionCode
-  ] || debt.benefitType}`;
+const getDebtLabel = debt => {
+  // Use the existing label from the debt object if available
+  if (debt?.label) {
+    return debt.label;
+  }
+  // Fallback to constructing the label if not provided
+  return `${currency(debt?.currentAr)} overpayment for ${
+    deductionCodes[debt.deductionCode]
+  }`;
+};
 
 const getDebtDescription = debt => {
   // most recent debt history entry
@@ -63,6 +69,10 @@ export const fetchDebts = async dispatch => {
       label: getDebtLabel(debt),
       description: getDebtDescription(debt),
       debtType: DEBT_TYPES.DEBT,
+      deductionCode: debt.deductionCode,
+      currentAr: debt.currentAr,
+      originalAr: debt.originalAr,
+      benefitType: debt.benefitType,
     }));
 
     return dispatch({
@@ -72,7 +82,9 @@ export const fetchDebts = async dispatch => {
   } catch (error) {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
-      Sentry.captureMessage(`FSR fetchDebts failed: ${error.detail}`);
+      Sentry.captureMessage(
+        `Dispute Debt - fetchDebts failed: ${error.detail}`,
+      );
     });
     dispatch({
       type: DEBTS_FETCH_FAILURE,

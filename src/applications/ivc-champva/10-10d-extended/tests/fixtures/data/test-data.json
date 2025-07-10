@@ -1,8 +1,11 @@
 {
   "data": {
+    "view:hasApplicants": true,
     "applicants": [
       {
-        "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
+        "applicantRelationshipOrigin": {
+          "relationshipToVeteran": "blood"
+        },
         "applicantEmailAddress": "johnny@alvin.gov",
         "applicantAddress": {
           "country": "USA",
@@ -13,11 +16,15 @@
         },
         "applicantSSN": "345345345",
         "applicantPhone": "555-555-1234",
-        "applicantGender": { "gender": "male" },
+        "applicantGender": {
+          "gender": "male"
+        },
         "applicantRelationshipToSponsor": {
           "relationshipToVeteran": "child"
         },
-        "applicantDependentStatus": { "status": "enrolled" },
+        "applicantDependentStatus": {
+          "status": "enrolled"
+        },
         "applicantEnrolledInOHI": false,
         "applicantDob": "2003-01-04",
         "applicantName": {
@@ -25,12 +32,7 @@
           "middle": "T",
           "last": "Alvin",
           "suffix": "Jr."
-        },
-        "applicantMedicareStatus": {
-          "eligibility": "enrolled"
-        },
-        "applicantMedicarePartD": { "enrollment": "enrolled" },
-        "applicantHasOhi": { "hasOhi": "yes" }
+        }
       }
     ],
     "healthInsurance": [
@@ -41,13 +43,27 @@
         "effectiveDate": "2024-10-01",
         "expirationDate": "2024-10-02",
         "throughEmployer": true,
-        "healthcareParticipants": { "28e7f1064a74": true }
+        "healthcareParticipants": {
+          "28e7f1064a74": true
+        },
+        "insuranceCard": [
+          {
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "front.png",
+            "size": "12345"
+          },
+          {
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "back.png",
+            "size": "54321"
+          }
+        ]
       }
     ],
-    "ssn": {
+    "sponsorSsn": {
       "ssn": "123123123"
     },
-    "veteransFullName": {
+    "sponsorName": {
       "first": "Joe",
       "last": "Johnson"
     },

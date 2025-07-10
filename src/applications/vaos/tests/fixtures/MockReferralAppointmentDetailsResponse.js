@@ -25,41 +25,44 @@ class MockReferralAppointmentDetailsResponse {
    */
   static createSuccessResponse({
     appointmentId = 'EEKoGzEf',
-    typeOfCare = 'OPTOMETRY',
-    providerName = 'Dr. Bones',
     organizationName = 'Meridian Health',
+    status = 'booked',
   } = {}) {
+    const baseAttributes = {
+      id: appointmentId,
+      status,
+      start: new Date(
+        new Date().setDate(new Date().getDate() + 30),
+      ).toISOString(), // 30 days in future
+      isLatest: true,
+      lastRetrieved: new Date().toISOString(),
+    };
+
+    // Only include modality and provider when status is 'booked'
+    const bookedAttributes =
+      status === 'booked'
+        ? {
+            modality: 'In Person',
+            provider: {
+              id: 'test-provider-id',
+              location: {
+                name: 'FHA South Melbourne Medical Complex',
+                address: organizationName,
+                latitude: 28.08061,
+                longitude: -80.60322,
+                timezone: 'America/New_York',
+              },
+            },
+          }
+        : {};
+
     return {
       data: {
         id: appointmentId,
         type: 'epsAppointment',
         attributes: {
-          id: appointmentId,
-          status: 'booked',
-          start: new Date(
-            new Date().setDate(new Date().getDate() + 30),
-          ).toISOString(), // 30 days in future
-          typeOfCare,
-          isLatest: true,
-          lastRetrieved: new Date().toISOString(),
-          modality: 'In Person',
-          provider: {
-            id: 'test-provider-id',
-            name: providerName,
-            practice: organizationName,
-            phone: '555-555-5555',
-            address: {
-              street1: '207 Davishill Ln',
-              street2: 'Suite 456',
-              city: 'Charleston',
-              state: 'SC',
-              zip: '29401',
-            },
-          },
-          referringFacility: {
-            name: 'VA Boston Healthcare System',
-            phoneNumber: '555-123-4567',
-          },
+          ...baseAttributes,
+          ...bookedAttributes,
         },
       },
     };
@@ -116,6 +119,7 @@ class MockReferralAppointmentDetailsResponse {
       success,
       notFound,
       serverError,
+      status = 'booked',
     } = this.options;
 
     // Return 404 error if notFound is true
@@ -141,6 +145,7 @@ class MockReferralAppointmentDetailsResponse {
       typeOfCare,
       providerName,
       organizationName,
+      status,
     });
   }
 }

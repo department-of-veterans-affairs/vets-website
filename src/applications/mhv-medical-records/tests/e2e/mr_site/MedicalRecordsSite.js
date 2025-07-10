@@ -31,6 +31,8 @@ class MedicalRecordsSite {
     isAcceleratingEnabled = false,
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
+    isAcceleratingLabsAndTests = false,
+    isAcceleratingVaccines = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -47,6 +49,14 @@ class MedicalRecordsSite {
           {
             name: 'mhv_accelerated_delivery_vital_signs_enabled',
             value: isAcceleratingVitals,
+          },
+          {
+            name: 'mhv_accelerated_delivery_labs_and_tests_enabled',
+            value: isAcceleratingLabsAndTests,
+          },
+          {
+            name: 'mhv_accelerated_delivery_vaccines_enabled',
+            value: isAcceleratingVaccines,
           },
           {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',
@@ -98,6 +108,36 @@ class MedicalRecordsSite {
           },
           {
             name: 'mhv_medical_records_display_sidenav',
+            value: true,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_allergy',
+            value: false,
+          },
+          {
+            name:
+              'mhv_medical_records_support_backend_pagination_care_summary_note',
+            value: false,
+          },
+          {
+            name:
+              'mhv_medical_records_support_backend_pagination_health_condition',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_lab_test',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_vaccine',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_vital',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_use_unified_sei_api',
             value: true,
           },
         ],

@@ -335,8 +335,11 @@ describe('AuthApp', () => {
 
   it('should redirect to /sign-in-changes-reminder interstitial page', async () => {
     const originalLocation = window.location;
-    delete window.location;
-    window.location = { replace: sinon.spy() };
+    if (!Location.prototype.replace) {
+      window.location = { replace: sinon.spy() };
+    } else {
+      window.location.replace = sinon.spy();
+    }
 
     const store = {
       dispatch: sinon.spy(),

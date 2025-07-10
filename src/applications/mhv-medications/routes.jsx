@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { authenticatedLoader } from '@department-of-veterans-affairs/platform-startup/exports';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 
 import manifest from './manifest.json';
@@ -74,13 +74,6 @@ const routes = [
     loader: authenticatedLoader({ loader: prescriptionsLoader }),
   },
   {
-    path: ':page',
-    element: <AppWrapper Component={Prescriptions} />,
-    loader: (...args) => {
-      return Promise.all([prescriptionsLoader(...args)]);
-    },
-  },
-  {
     path: '/',
     element: <AppWrapper Component={Prescriptions} />,
     // loader: prescriptionsLoader,
@@ -106,7 +99,7 @@ const routes = [
   },
   {
     path: '*',
-    element: <PageNotFound />,
+    element: <MhvPageNotFound />,
   },
 ];
 

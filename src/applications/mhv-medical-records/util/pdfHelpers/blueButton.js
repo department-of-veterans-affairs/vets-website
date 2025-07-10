@@ -6,7 +6,6 @@ import {
 } from '../constants';
 import {
   generateChemHemContent,
-  generateEkgContent,
   generateMicrobioContent,
   generatePathologyContent,
   generateRadiologyContent,
@@ -68,9 +67,6 @@ export const generateBlueButtonData = (
             }
             if (record.type === labTypes.PATHOLOGY) {
               content = generatePathologyContent(record);
-            }
-            if (record.type === labTypes.EKG) {
-              content = generateEkgContent(record);
             }
             if (record.type === labTypes.RADIOLOGY) {
               content = generateRadiologyContent(record);
@@ -135,6 +131,7 @@ export const generateBlueButtonData = (
   data.push({
     title: 'Health conditions',
     subtitles: [
+      'This list includes the same information as your "VA problem list" in the previous My HealtheVet experience.',
       'About the codes in some condition names: Some of your health conditions may have diagnosis codes in the name that start with SCT or ICD. Providers use these codes to track your health conditions and to communicate with other providers about your care. If you have a question about these codes or a health condition, ask your provider at your next appointment.',
       `Showing ${conditions?.length} records from newest to oldest`,
     ],
@@ -148,17 +145,15 @@ export const generateBlueButtonData = (
       : [],
   });
 
-  if (vitals?.length > 0) {
-    data.push({
-      type: recordType.VITALS,
-      title: 'Vitals',
-      subtitles: [
-        'Vitals are basic health numbers your providers check at your appointments.',
-      ],
-      selected: recordFilter.includes('vitals'),
-      records: generateVitalsContentByType(vitals),
-    });
-  }
+  data.push({
+    type: recordType.VITALS,
+    title: 'Vitals',
+    subtitles: [
+      'Vitals are basic health numbers your providers check at your appointments.',
+    ],
+    selected: recordFilter.includes('vitals'),
+    records: vitals?.length ? generateVitalsContentByType(vitals) : [],
+  });
 
   data.push({
     type: blueButtonRecordTypes.MEDICATIONS,
@@ -188,35 +183,31 @@ export const generateBlueButtonData = (
       ? appointments.filter(appt => !appt.isUpcoming)
       : [];
 
-  const records = [];
-
-  if (upcoming.length > 0) {
-    records.push({
-      title: 'Upcoming appointments',
-      ...generateAppointmentsContent(upcoming),
-    });
-  }
-
-  if (past.length > 0) {
-    records.push({
-      title: 'Past appointments',
-      ...generateAppointmentsContent(past),
-    });
-  }
-
-  if (records.length > 0) {
-    data.push({
-      type: blueButtonRecordTypes.APPOINTMENTS,
-      title: 'Appointments',
-      subtitles: [
-        'Your VA appointments may be by telephone, video, or in person. Always bring your insurance information with you to your appointment.',
-      ],
-      selected:
-        recordFilter.includes('upcomingAppts') ||
-        recordFilter.includes('pastAppts'),
-      records,
-    });
-  }
+  data.push({
+    type: blueButtonRecordTypes.APPOINTMENTS,
+    title: 'Appointments',
+    subtitles: [
+      'Your VA appointments may be by telephone, video, or in person. Always bring your insurance information with you to your appointment.',
+    ],
+    selected:
+      recordFilter.includes('upcomingAppts') ||
+      recordFilter.includes('pastAppts')
+        ? {
+            upcoming: recordFilter.includes('upcomingAppts'),
+            past: recordFilter.includes('pastAppts'),
+          }
+        : false,
+    records: [
+      {
+        title: 'Upcoming appointments',
+        ...generateAppointmentsContent(upcoming),
+      },
+      {
+        title: 'Past appointments',
+        ...generateAppointmentsContent(past),
+      },
+    ],
+  });
 
   data.push({
     type: blueButtonRecordTypes.DEMOGRAPHICS,

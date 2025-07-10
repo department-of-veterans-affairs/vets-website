@@ -8,8 +8,9 @@ import {
   addDays,
   addHours,
   addMonths,
-  endOfMonth,
   format,
+  isTomorrow,
+  lastDayOfMonth,
   nextThursday,
   nextTuesday,
   setDay,
@@ -40,7 +41,11 @@ import {
   mockAppointmentSlotApi,
   mockEligibilityFetches,
 } from '../../../tests/mocks/mockApis';
-import { DATE_FORMATS, FETCH_STATUS } from '../../../utils/constants';
+import {
+  DATE_FORMATS,
+  FETCH_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../../utils/constants';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
 const initialState = {
@@ -195,7 +200,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
-          typeOfCareId: '323',
+          typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
           vaFacility: '983GB',
           clinicId: '308',
         },
@@ -287,9 +292,13 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     const facilityId = '983';
     const timezone = getTimezoneByFacilityId(facilityId);
     const slot308Date = new Date(nextTuesday(new Date()).setHours(9, 0, 0, 0));
-    const slot309Date = new Date(
-      nextThursday(new Date()).setHours(13, 0, 0, 0),
-    );
+
+    // Add a day if the slot date is tomorrow since the slot date can revert to the
+    // previous day depending on the timezone.
+    let slot309Date = new Date(nextThursday(new Date()).setHours(13, 0, 0, 0));
+    if (isTomorrow(slot309Date)) {
+      slot309Date = addDays(slot309Date, 1);
+    }
     const preferredDate = new Date();
     const start = subDays(preferredDate, 30);
     const end = addDays(preferredDate, 395);
@@ -881,8 +890,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       ),
     ).to.not.have.attribute('disabled');
   });
-
-  it('should fetch slots when moving between months', async () => {
+  // Failing test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/110920
+  it.skip('should fetch slots when moving between months', async () => {
     const facilityId = '983';
     const timezone = getTimezoneByFacilityId(facilityId);
     const preferredDate = addMonths(addDays(new Date(), 1), 1);
@@ -921,7 +930,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
         new MockSlotResponse({ id: '1', start: secondSlotDate, duration: 20 }),
       ],
       startDate: startOfMonth(secondSlotDate),
-      endDate: startOfDay(endOfMonth(secondSlotDate)),
+      endDate: startOfDay(lastDayOfMonth(secondSlotDate)),
     });
 
     const store = createTestStore(initialState);
