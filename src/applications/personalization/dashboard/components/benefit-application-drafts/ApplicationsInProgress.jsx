@@ -115,10 +115,12 @@ const ApplicationsInProgress = ({
               const formId = form.form;
               const formStatus = form.status;
               const { pdfSupport } = form;
-              const formTitle = `application for ${
-                MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-              }`;
-              const presentableFormId = presentableFormIDs[formId];
+              const formMeta = MY_VA_SIP_FORMS.find(e => e.id === formId);
+              const hasBenefit = !!formMeta?.benefit;
+              const formTitle = hasBenefit
+                ? `application for ${formMeta.benefit}`
+                : `VA Form ${form.form}`;
+              const presentableFormId = presentableFormIDs[formId] || '';
               const { lastUpdated } = form || {};
               const lastSavedDate = format(
                 fromUnixTime(lastUpdated),
@@ -142,7 +144,7 @@ const ApplicationsInProgress = ({
                     formId={formId}
                     formTitle={formTitle}
                     lastSavedDate={lastSavedDate}
-                    presentableFormId={presentableFormId}
+                    {...(hasBenefit ? { presentableFormId } : {})}
                   />
                 );
               }
@@ -164,7 +166,7 @@ const ApplicationsInProgress = ({
                     lastSavedDate={lastSavedDate}
                     submittedDate={submittedDate}
                     pdfSupport={pdfSupport}
-                    presentableFormId={presentableFormId}
+                    {...(hasBenefit ? { presentableFormId } : {})}
                     status={normalizeSubmissionStatus(formStatus)}
                   />
                 );
