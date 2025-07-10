@@ -1,31 +1,15 @@
 {
-  "data": {
-    "chapterSelect": {
-      "arrayMultiPageAggregate": true,
-      "arrayMultiPageBuilder": true,
-      "arraySinglePage": true,
-      "checkbox": true,
-      "date": true,
-      "internationalPhone": true,
-      "fileInput": true,
-      "formsPattern": true,
-      "miscellaneous": true,
-      "numberInput": true,
-      "radio": true,
-      "select": true,
-      "textInput": true
-    },
+  "formData": {
+    "view:employersAddLinkMissingInformation": {},
+    "view:hasEmployment": false,
+    "arrayBuilderPatternFlowType": "optional",
+    "arrayBuilderPatternInteractionType": "addLink",
+    "chapterSelect": { "arrayMultiPageBuilder": true },
     "dateDefault": "1999-02-02",
     "dateWCV3": "2000-02-12",
-    "dateRange": {
-      "from": "1999-01-03",
-      "to": "1999-01-03"
-    },
+    "dateRange": { "from": "1999-01-03", "to": "1999-01-03" },
     "dateMonthYear": "1999-02",
-    "dateMonthYearRange": {
-      "from": "1999-01",
-      "to": "1999-01"
-    },
+    "dateMonthYearRange": { "from": "1999-01", "to": "1999-01" },
     "wcv3FileInput": {
       "name": "my_form.pdf",
       "size": 12345,
@@ -60,9 +44,7 @@
     "wcV3CheckboxWithBackground": {},
     "ssn": "454544545",
     "wcOldSsn": "454544545",
-    "wcv3SsnNew": {
-      "ssn": "454544545"
-    },
+    "wcv3SsnNew": { "ssn": "454544545" },
     "addressOld": {
       "country": "USA",
       "street": "1234 Main St",
@@ -75,7 +57,8 @@
       "street": "1234 Main St",
       "city": "City",
       "state": "AL",
-      "postalCode": "12345"
+      "postalCode": "12345",
+      "view:militaryBaseDescription": {}
     },
     "spouseFullNameOld": {
       "first": "Person",
@@ -96,49 +79,25 @@
     "wcOldRequired": "Lorem ipsum dolor sit amet",
     "wcv3RequiredNew": "Lorem ipsum dolor sit amet",
     "wcv3TextAreaNew": "Lorem ipsum dolor sit amet",
-    "wcv3RelationshipToVeteran": {
-      "relationshipToVeteran": "spouse"
-    },
-    "checkboxGroupAtLeastOneRequired": {
-      "hasA": true
-    },
-    "checkboxGroupTiledWithCustomErrorMessage": {
-      "hasA": false,
-      "hasB": true
-    },
-    "checkboxGroupTiledWithHeaderLabel": {
-      "hasB": true
-    },
+    "wcv3RelationshipToVeteran": { "relationshipToVeteran": "spouse" },
+    "checkboxGroupAtLeastOneRequired": { "hasA": true },
+    "checkboxGroupTiledWithCustomErrorMessage": { "hasA": false, "hasB": true },
+    "checkboxGroupTiledWithHeaderLabel": { "hasB": true },
     "formsPatternSingleRadio": "1",
-    "formsPatternSingleCheckboxGroup": {
-      "1": true
-    },
+    "formsPatternSingleCheckboxGroup": { "1": true },
     "formsPatternMultiple": "Test",
     "formsPatternOtherField": "Test",
-    "arrayBuilderPatternFlowType": "optional",
-    "arrayBuilderPatternInteractionType": "yesNoQuestion",
     "exampleArrayOne": [
       {
         "facilityName": "facility a",
         "from": "2000-01-09",
         "to": "2001-02-09"
       },
-      {
-        "facilityName": "facility b",
-        "from": "2010-03-03",
-        "to": "2011-12-19"
-      }
+      { "facilityName": "facility b", "from": "2010-03-03", "to": "2011-12-19" }
     ],
     "exampleArrayTwo": [
-      {
-        "name": "Record a",
-        "proof": true
-      },
-      {
-        "name": "Record b",
-        "proof": false,
-        "checkbox": true
-      }
+      { "name": "Record a", "proof": true },
+      { "name": "Record b", "proof": false, "checkbox": true }
     ],
     "exampleArrayData": [
       {
@@ -149,11 +108,7 @@
           "state": "AL",
           "postalCode": "11111"
         },
-        "fullName": {
-          "first": "Alpha",
-          "middle": "Bravo",
-          "last": "Cap"
-        }
+        "fullName": { "first": "Alpha", "middle": "Bravo", "last": "Cap" }
       },
       {
         "address": {
@@ -162,13 +117,9 @@
           "city": "city2",
           "postalCode": "22222"
         },
-        "fullName": {
-          "first": "Delta",
-          "last": "Cap"
-        }
+        "fullName": { "first": "Delta", "last": "Cap" }
       }
     ],
-    "view:hasEmployment": false,
     "nameCustom": "Test",
     "wcv3InternationalPhone": {
       "countryCode": "US",
@@ -176,6 +127,35 @@
       "callingCode": "1",
       "isValid": true,
       "error": null
-    }
+    },
+    "checkboxGroupAllOptional": {},
+    "view:wcv3Title": {},
+    "view:inlineTitle": {},
+    "view:dateSubTitle": {},
+    "view:monthYearDates": {},
+    "wcv3InternationalPhoneSecondary": {},
+    "employersAddLink": [
+      {
+        "dateRange": { "from": "1999-01-03", "to": "1999-01-03" },
+        "name": "test 1",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "city": "City",
+          "state": "AL",
+          "postalCode": "12345"
+        }
+      },
+      {
+        "dateRange": { "from": "1999-01-03", "to": "1999-01-03" },
+        "name": "test 2"
+      }
+    ]
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": false,
+    "returnUrl": "/array-multiple-page-builder-choose-flow"
   }
 }
