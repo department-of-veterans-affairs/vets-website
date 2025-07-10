@@ -8,28 +8,45 @@ import { getData, mockFormData } from '../mocks/mockFormData';
 import separationConfig from '../../../pages/separation';
 import { timeServedTypes, timeServedLabels } from '../../../constants/benefits';
 
-const setUp = () =>
-  render(
-    <Provider store={{ ...getData().mockStore }}>
-      <DefinitionTester
-        definitions={{}}
-        schema={separationConfig.schema}
-        uiSchema={separationConfig.uiSchema}
-        data={{}}
-        formData={{}}
-      />
-      ,
-    </Provider>,
-  );
-
 describe('separation page', () => {
+  let wrapper;
+
+  const setupForm = (data = {}) => {
+    return render(
+      <Provider store={{ ...getData().mockStore }}>
+        <DefinitionTester
+          definitions={{}}
+          schema={separationConfig.schema}
+          uiSchema={separationConfig.uiSchema}
+          data={data}
+          formData={{}}
+        />
+        ,
+      </Provider>,
+    );
+  };
+
+  beforeEach(() => {
+    wrapper = setupForm();
+  });
+
+  afterEach(() => {
+    wrapper && wrapper.unmount();
+  });
+
+  it('should render the correct title', () => {
+    const title = document.querySelector(
+      'va-radio[label="How long ago did you separate or retire from service?"]',
+    );
+    expect(title).to.exist;
+  });
+
   it('should render the correct radio component', () => {
-    const { container } = setUp();
+    const { container } = setupForm();
     expect($('va-radio', container)).to.exist;
   });
 
   it('should render the correct labels and values in radio select', () => {
-    setUp();
     const types = Object.values(timeServedTypes);
     const labels = Object.values(timeServedLabels);
     for (let i = 0; i < types.length; i++) {
