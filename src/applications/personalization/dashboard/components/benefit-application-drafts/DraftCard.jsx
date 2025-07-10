@@ -25,13 +25,15 @@ const Draft = ({
             {formatFormTitle(formTitle)}
           </span>
         </h3>
-        <p
-          id={formId}
-          className="vads-u-text-transform--uppercase vads-u-margin-top--0p5 vads-u-margin-bottom--2"
-        >
-          {/* TODO: rethink our helpers for presentable form ID */}
-          VA {presentableFormId.replace(/\bFORM\b/, 'Form')}
-        </p>
+        {presentableFormId && (
+          <p
+            id={formId}
+            className="vads-u-text-transform--uppercase vads-u-margin-top--0p5 vads-u-margin-bottom--2"
+          >
+            {/* TODO: rethink our helpers for presentable form ID */}
+            VA {presentableFormId.replace(/\bFORM\b/, 'Form')}
+          </p>
+        )}
         <div className="vads-u-display--flex">
           <span className="vads-u-margin-right--1 vads-u-margin-top--0p5">
             <va-icon icon="error" size={3} />
@@ -78,7 +80,7 @@ Draft.propTypes = {
   // The display-ready date when the application was last updated by the user
   lastSavedDate: PropTypes.string.isRequired,
   // String to show at the very top of the component, usually `Form ${formId}`
-  presentableFormId: PropTypes.string.isRequired,
+  presentableFormId: PropTypes.string,
 };
 
 export default Draft;
