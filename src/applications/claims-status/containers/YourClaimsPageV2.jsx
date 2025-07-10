@@ -51,7 +51,6 @@ class YourClaimsPageV2 extends React.Component {
 
     this.state = {
       page: YourClaimsPageV2.getPageFromURL(props),
-      webComponentsLoading: props.isSmoothLoadingEnabled,
     };
   }
 
@@ -87,25 +86,6 @@ class YourClaimsPageV2 extends React.Component {
       }
     } else {
       focusElement('#main h1');
-
-      // Watch for web components to render shadow DOM content
-      const checkReady = () =>
-        ['va-breadcrumbs', 'va-on-this-page', 'va-additional-info'].every(
-          tag => {
-            const el = document.querySelector(tag);
-            return el?.shadowRoot?.textContent?.trim();
-          },
-        );
-
-      // Check every 50ms until ready or 3 seconds elapsed
-      let checks = 0;
-      const interval = setInterval(() => {
-        checks += 1;
-        if (checkReady() || checks > 60) {
-          this.setState({ webComponentsLoading: false });
-          clearInterval(interval);
-        }
-      }, 50);
     }
   }
 
@@ -116,14 +96,6 @@ class YourClaimsPageV2 extends React.Component {
     ) {
       window.scrollTo(0, 0);
     }
-  }
-
-  getLoadingClassName(containerClass) {
-    if (!this.props.isSmoothLoadingEnabled) return '';
-
-    return this.state.webComponentsLoading
-      ? `${containerClass} web-component-loading`
-      : '';
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -267,13 +239,23 @@ class YourClaimsPageV2 extends React.Component {
         {!this.props.isSmoothLoadingEnabled && <div name="topScrollElement" />}
         <article className="row">
           <div className="usa-width-two-thirds medium-8 columns">
-            <div className={this.getLoadingClassName('breadcrumbs-container')}>
+            <div
+              className={`${
+                this.props.isSmoothLoadingEnabled ? 'breadcrumbs-container' : ''
+              }`}
+            >
               <ClaimsBreadcrumbs />
             </div>
             <h1 className="claims-container-title">
               Check your claim, decision review, or appeal status
             </h1>
-            <div className={this.getLoadingClassName('on-this-page-container')}>
+            <div
+              className={`${
+                this.props.isSmoothLoadingEnabled
+                  ? 'on-this-page-container'
+                  : ''
+              }`}
+            >
               <va-on-this-page />
             </div>
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
@@ -281,7 +263,11 @@ class YourClaimsPageV2 extends React.Component {
             </h2>
             <div>{this.renderErrorMessages()}</div>
             <div
-              className={this.getLoadingClassName('additional-info-container')}
+              className={`${
+                this.props.isSmoothLoadingEnabled
+                  ? 'additional-info-container'
+                  : ''
+              }`}
             >
               <va-additional-info
                 id="claims-combined"

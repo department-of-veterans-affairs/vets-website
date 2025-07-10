@@ -7,22 +7,16 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 
 .breadcrumbs-container {
-  height: 4rem;
+  min-height: 4rem;
 }
 
 .on-this-page-container {
-  height: 350px;
+  min-height: 350px;
 }
 
 .additional-info-container {
-  height: 2.625rem;
-}
-
-.web-component-loading {
-  border: 1px solid var(--vads-color-gray-medium);
-  border-radius: 6px;
-  contain: layout style;
-  content-visibility: auto;
+  min-height: 1.625rem;
+  margin: 1rem 0;
 }
 
 .claim-list {
