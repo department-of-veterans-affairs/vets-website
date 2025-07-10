@@ -1,11 +1,12 @@
 import React from 'react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../../config/form';
 
@@ -45,9 +46,10 @@ describe('Chapter 36 Veteran Information', () => {
     form.unmount();
   });
 
-  it('should not submit without required fields', () => {
+  it('should not submit without required fields', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -56,10 +58,16 @@ describe('Chapter 36 Veteran Information', () => {
         onSubmit={onSubmit}
       />,
     );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+
+    const form = container.querySelector('form');
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      const errorElements = container.querySelectorAll('.usa-input-error');
+      expect(errorElements.length).to.equal(3);
+    });
+
     expect(onSubmit.called).to.be.false;
-    form.unmount();
   });
 
   it('should submit with required fields', () => {

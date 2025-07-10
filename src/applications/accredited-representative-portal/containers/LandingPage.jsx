@@ -70,20 +70,16 @@ const LandingPage = title => {
 
           <va-banner
             data-label="Info banner"
-            headline="Get early access to the portal for your organization"
+            headline="Stay up-to-date on the portal launch and upcoming features"
             type="info"
             class="home__banner"
             visible
           >
-            <p>
-              If you’re a Veterans Service Organization (VSO) manager, you may
-              be able to get early access to the portal for your organization by
-              joining our test program. Once you start using the portal, we’ll
-              ask you to give us feedback on your experience.
-            </p>
             <p className="home__banner-email">
-              If you’re interested in having your organization join our test
-              program, email us at{' '}
+              We will be opening up the portal to all Veteran Service
+              Organizations and their representatives in the coming months. If
+              you’re interested in receiving email updates about the portal
+              launch and upcoming features, email us at
             </p>
             <va-link
               class="home__link--email"
@@ -91,6 +87,11 @@ const LandingPage = title => {
               text="RepresentativePortalHelp@va.gov"
             />
             .
+            <p>
+              If you’re a Veteran Service Organization (VSO) manager and would
+              like access to the POA feature for your organization, let us know
+              in your email to us.
+            </p>
           </va-banner>
         </div>
       </div>
