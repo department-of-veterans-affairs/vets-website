@@ -11,16 +11,9 @@ import {
   supportingDocsDescription,
 } from '../helpers';
 
-const uiTitle = environment.isProduction()
-  ? 'Upload the Veteran’s or Reservist’s files (preferably DD214)'
-  : 'Upload the Veteran’s or Reservist’s files';
-const uiDescriptionNotProd =
+const uiTitle = 'Upload the Veteran’s or Reservist’s files';
+const uiDescription =
   'We encourage you to submit military records or discharge documents if you have them. We prefer a DD214.';
-const uiDescriptionProd =
-  'We don’t require that you submit anything with this form. But to speed up the process, we encourage you to submit military records or discharge documents if they’re available.';
-const uiDescription = environment.isProduction()
-  ? uiDescriptionProd
-  : uiDescriptionNotProd;
 
 /** @type {PageSchema} */
 export default {

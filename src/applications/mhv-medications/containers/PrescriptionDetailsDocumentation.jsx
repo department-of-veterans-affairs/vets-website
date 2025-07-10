@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  MhvPageNotFound,
+  updatePageTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import {
@@ -140,7 +142,7 @@ const PrescriptionDetailsDocumentation = () => {
           'medications',
           `medication-information-${prescription.prescriptionName}-${dateFormat(
             Date.now(),
-            'M-D-YYYY',
+            'M-D-YYYY_hmmssa',
           ).replace(/\./g, '')}`,
           setup,
         );
@@ -152,7 +154,7 @@ const PrescriptionDetailsDocumentation = () => {
             userName.first
               ? `${userName.first}-${userName.last}`
               : userName.last
-          }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
+          }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
         );
       }
       setIsSuccess(true);
@@ -174,7 +176,7 @@ const PrescriptionDetailsDocumentation = () => {
   );
 
   if (!isDisplayingDocumentation) {
-    return <PageNotFound />;
+    return <MhvPageNotFound />;
   }
   if (hasDocApiError || prescriptionApiError) {
     return (
