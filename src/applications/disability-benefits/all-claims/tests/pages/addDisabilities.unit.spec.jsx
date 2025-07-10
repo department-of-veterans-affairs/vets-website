@@ -204,23 +204,27 @@ describe('Add Disabilities Page', () => {
       expect(input).to.have.attribute('required');
     });
 
-    it('should render error message on result and alert on page if no new conditions are added', () => {
+    it('should render error message on result and alert on page if no new conditions are added', async () => {
       const { getByText } = createScreen();
 
       const submitButton = getByText('Submit');
       fireEvent.click(submitButton);
 
-      const errorMessage = getByText(
-        'Enter a condition, diagnosis, or short description of your symptoms',
-      );
-      const alertHeading = getByText('Enter a condition to submit your claim');
-      const alertText = getByText(
-        'You’ll need to enter a condition, diagnosis, or short description of your symptoms to submit your claim.',
-      );
+      await waitFor(() => {
+        const errorMessage = getByText(
+          'Enter a condition, diagnosis, or short description of your symptoms',
+        );
+        const alertHeading = getByText(
+          'Enter a condition to submit your claim',
+        );
+        const alertText = getByText(
+          'You’ll need to enter a condition, diagnosis, or short description of your symptoms to submit your claim.',
+        );
 
-      expect(errorMessage).to.be.visible;
-      expect(alertHeading).to.be.visible;
-      expect(alertText).to.be.visible;
+        expect(errorMessage).to.be.visible;
+        expect(alertHeading).to.be.visible;
+        expect(alertText).to.be.visible;
+      });
     });
   });
 
@@ -320,7 +324,7 @@ describe('Add Disabilities Page', () => {
 
     it('should be able to select a condition', async () => {
       const searchTerm = 'Tinn';
-      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const searchResult = 'Tinnitus (ringing or hissing in ears)';
       const {
         container,
         getAllByRole,
@@ -346,7 +350,7 @@ describe('Add Disabilities Page', () => {
 
     it('should be able to edit a condition', async () => {
       const searchTerm = 'Tinn';
-      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const searchResult = 'Tinnitus (ringing or hissing in ears)';
       const newSearchTerm = 'Neck strain';
       const newSearchResult = 'neck strain (cervical strain)';
       const {
@@ -389,7 +393,7 @@ describe('Add Disabilities Page', () => {
 
     it('should be able to select two conditions then remove one', async () => {
       const searchTerm1 = 'Tinn';
-      const searchResult1 = 'tinnitus (ringing or hissing in ears)';
+      const searchResult1 = 'Tinnitus (ringing or hissing in ears)';
       const searchTerm2 = 'Hear';
       const searchResult2 = 'hearing loss';
       const {
@@ -502,7 +506,7 @@ describe('Add Disabilities Page', () => {
 
     it('should be able to select a condition', async () => {
       const searchTerm = 'Tinn';
-      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const searchResult = 'Tinnitus (ringing or hissing in ears)';
       const {
         container,
         getAllByRole,
@@ -529,7 +533,7 @@ describe('Add Disabilities Page', () => {
 
     it('should be able to edit a condition', async () => {
       const searchTerm = 'Tinn';
-      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const searchResult = 'Tinnitus (ringing or hissing in ears)';
       const newSearchTerm = 'Neck strain';
       const newSearchResult = 'neck strain (cervical strain)';
       const {
@@ -574,7 +578,7 @@ describe('Add Disabilities Page', () => {
 
     it('should be able to select two conditions then remove one', async () => {
       const searchTerm1 = 'Tinn';
-      const searchResult1 = 'tinnitus (ringing or hissing in ears)';
+      const searchResult1 = 'Tinnitus (ringing or hissing in ears)';
       const searchTerm2 = 'Hear';
       const searchResult2 = 'hearing loss';
       const {
@@ -657,7 +661,7 @@ describe('Add Disabilities Page', () => {
   });
 
   describe('Accessibility', () => {
-    it('should announce errors to screen readers when a required field is not filled', () => {
+    it('should announce errors to screen readers when a required field is not filled', async () => {
       const { getByTestId, getByText } = createScreen();
 
       const input = getByTestId('autocomplete-input');
@@ -665,46 +669,51 @@ describe('Add Disabilities Page', () => {
       simulateInputChange(input, '');
       fireEvent.click(submitButton);
 
-      const errorMessage = getByText(
-        'Enter a condition, diagnosis, or short description of your symptoms',
-      );
-      expect(errorMessage).to.have.attribute('role', 'alert');
+      await waitFor(() => {
+        const errorMessage = getByText(
+          'Enter a condition, diagnosis, or short description of your symptoms',
+        );
+        expect(errorMessage).to.have.attribute('role', 'alert');
+      });
     });
   });
 
   describe('User is claiming a new condition AND claiming an increase', () => {
-    it('should display alert on page if no conditions exist', () => {
+    it('should display alert on page if no conditions exist', async () => {
       const { getByText } = createScreen(true, true, null);
 
       const submitButton = getByText('Submit');
       fireEvent.click(submitButton);
+      await waitFor(() => {
+        const alertHeading = getByText('We need you to add a condition');
+        const alertText = getByText(
+          'You’ll need to add a new condition or choose a rated disability to claim. We can’t process your claim without a disability or new condition selected. Please add a new condition or choose a rated disability for increased compensation.',
+        );
+        const disabilityLink = getByText('Choose a rated disability');
 
-      const alertHeading = getByText('We need you to add a condition');
-      const alertText = getByText(
-        'You’ll need to add a new condition or choose a rated disability to claim. We can’t process your claim without a disability or new condition selected. Please add a new condition or choose a rated disability for increased compensation.',
-      );
-      const disabilityLink = getByText('Choose a rated disability');
-
-      expect(alertHeading).to.exist;
-      expect(alertText).to.exist;
-      expect(disabilityLink).to.exist;
+        expect(alertHeading).to.exist;
+        expect(alertText).to.exist;
+        expect(disabilityLink).to.exist;
+      });
     });
 
-    it('should display helpful error if no new conditions are added', () => {
+    it('should display helpful error if no new conditions are added', async () => {
       const { getByText } = createScreen(true, true, null);
 
       const submitButton = getByText('Submit');
       fireEvent.click(submitButton);
 
-      const alertHeading = getByText('We need you to add a condition');
-      const alertText = getByText(
-        'You’ll need to add a new condition or choose a rated disability to claim. We can’t process your claim without a disability or new condition selected. Please add a new condition or choose a rated disability for increased compensation.',
-      );
-      const disabilityLink = getByText('Choose a rated disability');
+      await waitFor(() => {
+        const alertHeading = getByText('We need you to add a condition');
+        const alertText = getByText(
+          'You’ll need to add a new condition or choose a rated disability to claim. We can’t process your claim without a disability or new condition selected. Please add a new condition or choose a rated disability for increased compensation.',
+        );
+        const disabilityLink = getByText('Choose a rated disability');
 
-      expect(alertHeading).to.exist;
-      expect(alertText).to.exist;
-      expect(disabilityLink).to.exist;
+        expect(alertHeading).to.exist;
+        expect(alertText).to.exist;
+        expect(disabilityLink).to.exist;
+      });
     });
   });
 
