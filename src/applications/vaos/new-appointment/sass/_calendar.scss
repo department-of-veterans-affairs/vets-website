@@ -83,6 +83,11 @@
   padding: 11px 6px;
   margin: 0;
 
+  &:active {
+    background-color: var(--vads-color-primary) !important;
+    color: var(--vads-color-white) !important;
+  }
+
   &:hover {
     border-color: var(--vads-color-primary-dark);
   }
@@ -126,6 +131,10 @@
 
   &:hover {
     background: none;
+  }
+
+  &:active {
+    background: none !important;
   }
 }
 
@@ -220,7 +229,8 @@
 
   input[type="radio"] + label::before {
     margin-top: 0;
-    box-shadow: 0 0 0 2px var(--vads-color-white), 0 0 0 3px var(--vads-color-primary);
+    box-shadow: 0 0 0 2px var(--vads-color-white),
+      0 0 0 3px var(--vads-color-primary);
   }
 
   input[type="checkbox"] + label::before {
