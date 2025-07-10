@@ -15,6 +15,7 @@ import persInfoPg from '../pages/personalInfo';
 import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
 import nonCitizenIdInfoPg from '../pages/nonCitizenIdentificationInfo';
 import addressPg from '../pages/address';
+import bananastandPg from '../pages/bananastand';
 import phoneEmailPg from '../pages/phoneEmail';
 import recordSelectionsPg from '../pages/recordSelections';
 import disExamDetailsPg from '../pages/disabilityExamDetails';
@@ -153,6 +154,13 @@ const formConfig = {
     contactInformationChapter: {
       title: 'Your contact information',
       pages: {
+        bananastandPage: {
+          path: 'bananastand-address',
+          title: 'Banana stand address',
+          uiSchema: bananastandPg.uiSchema,
+          schema: bananastandPg.schema,
+          pageClass: 'bananastand-address',
+        },
         addressPage: {
           path: 'contact-information',
           title: 'Mailing address',
