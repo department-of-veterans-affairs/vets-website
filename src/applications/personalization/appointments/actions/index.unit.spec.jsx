@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 
 import { resetFetch } from '~/platform/testing/unit/helpers';
@@ -319,8 +319,8 @@ const mockFacilityData = {
 
 // The default API mock that returns facility data
 const mocks = [
-  rest.get(`${environment.API_URL}/v1/facilities/va`, (_, res, ctx) => {
-    return res(ctx.json(mockFacilityData));
+  http.get(`${environment.API_URL}/v1/facilities/va`, () => {
+    return HttpResponse.json(mockFacilityData);
   }),
 ];
 
@@ -343,15 +343,12 @@ describe('fetchConfirmedFutureAppointments', () => {
     const dispatch = sinon.spy();
     // mock the appointments API, making sure to return no VA appointments
     server.use(
-      rest.get(
-        `${environment.API_URL}/vaos/v2/appointments`,
-        (req, res, ctx) => {
-          if (req) {
-            return res(ctx.json(mockAppointmentDataV2));
-          }
-          return res(ctx.json(mockEmptyAppointmentData));
-        },
-      ),
+      http.get(`${environment.API_URL}/vaos/v2/appointments`, ({ request }) => {
+        if (request) {
+          return HttpResponse.json(mockAppointmentDataV2);
+        }
+        return HttpResponse.json(mockEmptyAppointmentData);
+      }),
     );
     await fetchConfirmedFutureAppointments()(dispatch);
 
