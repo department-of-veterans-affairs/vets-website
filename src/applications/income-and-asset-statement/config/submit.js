@@ -15,19 +15,16 @@ export function remapOtherVeteranFields(data = {}) {
   // Map 'otherVeteranInformation' fields to standard submission keys if applicable
   const updated = { ...data };
 
-  if (data.claimantType !== 'VETERAN') {
-    if (data.otherVeteranFullName) {
-      updated.veteranFullName = data.otherVeteranFullName;
-    }
+  if (data.otherVeteranFullName) {
+    updated.veteranFullName = data.otherVeteranFullName;
+  }
 
-    if (data.otherVeteranSocialSecurityNumber) {
-      updated.veteranSocialSecurityNumber =
-        data.otherVeteranSocialSecurityNumber;
-    }
+  if (data.otherVeteranSocialSecurityNumber) {
+    updated.veteranSocialSecurityNumber = data.otherVeteranSocialSecurityNumber;
+  }
 
-    if (data.otherVaFileNumber) {
-      updated.vaFileNumber = data.otherVaFileNumber;
-    }
+  if (data.otherVaFileNumber) {
+    updated.vaFileNumber = data.otherVaFileNumber;
   }
 
   return updated;
@@ -89,8 +86,13 @@ export function transformForSubmit(formConfig, form, replacerFn) {
 export function transform(formConfig, form) {
   const clonedForm = cloneDeep(form);
 
-  // Only override veteran* fields if the applicant is NOT the Veteran
-  if (clonedForm.data?.claimantType !== 'VETERAN') {
+  const { claimantType, isLoggedIn } = clonedForm.data;
+
+  const shouldRemap = isLoggedIn !== true || claimantType !== 'VETERAN';
+
+  // If the applicant is NOT the Veteran and the user is NOT logged in,
+  // map otherVeteran* fields to veteran* fields for backend submission
+  if (shouldRemap) {
     clonedForm.data = remapOtherVeteranFields(clonedForm.data);
   }
 
