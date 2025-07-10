@@ -991,7 +991,7 @@ describe('526 v2 depends functions', () => {
 
   describe('isBDD', () => {
     afterEach(() => {
-      sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+      window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
     });
 
     it('should return true if the most recent service period has a separation date 90 to 180 days from today', () => {
@@ -1007,7 +1007,7 @@ describe('526 v2 depends functions', () => {
       expect(isBDD({ 'view:isBddData': true })).to.be.false;
     });
     it('should return true if a valid date is added to session storage from the wizard', () => {
-      sessionStorage.setItem(
+      window.sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
         moment()
           .add(90, 'days')
@@ -1016,7 +1016,7 @@ describe('526 v2 depends functions', () => {
       expect(isBDD(null)).to.be.true;
     });
     it('should return true if a valid date is added to session storage from the wizard even if active duty flag is false', () => {
-      sessionStorage.setItem(
+      window.sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
         moment()
           .add(90, 'days')
@@ -1025,7 +1025,7 @@ describe('526 v2 depends functions', () => {
       expect(isBDD({ 'view:isBddData': true })).to.be.true;
     });
     it('should return false for invalid dates in session storage from the wizard', () => {
-      sessionStorage.setItem(
+      window.sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
         moment()
           .add(200, 'days')
@@ -1034,7 +1034,7 @@ describe('526 v2 depends functions', () => {
       expect(isBDD(null)).to.be.false;
     });
     it('should return false for invalid dates in session storage from the wizard even if active duty flag is true', () => {
-      sessionStorage.setItem(
+      window.sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
         moment()
           .add(200, 'days')

@@ -146,7 +146,7 @@ describe('526EZ document upload', () => {
     }));
 
     // mock BDD
-    sessionStorage.setItem(
+    window.sessionStorage.setItem(
       SAVED_SEPARATION_DATE,
       moment()
         .add(90, 'days')

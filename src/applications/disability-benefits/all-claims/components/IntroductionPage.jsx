@@ -44,7 +44,7 @@ class IntroductionPage extends React.Component {
 
     const handler = {
       startOver: () => {
-        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTING);
+        window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTING);
         recordEvent({ event: 'howToWizard-start-over' });
       },
     };

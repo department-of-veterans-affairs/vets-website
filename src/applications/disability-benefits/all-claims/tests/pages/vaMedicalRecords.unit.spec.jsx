@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import moment from 'moment';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
 
@@ -542,7 +543,7 @@ describe('VA Medical Records', () => {
     form.unmount();
   });
 
-  it('should require military state when military city entered', () => {
+  it('should require military state when military city entered', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -573,9 +574,11 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
   });
 });

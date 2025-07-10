@@ -54,9 +54,9 @@ export default class ConfirmationPage extends React.Component {
 
   render() {
     // Reset everything
-    sessionStorage.removeItem(WIZARD_STATUS);
-    sessionStorage.removeItem(FORM_STATUS_BDD);
-    sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+    window.sessionStorage.removeItem(WIZARD_STATUS);
+    window.sessionStorage.removeItem(FORM_STATUS_BDD);
+    window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
     return this.ConfirmationPageContent(this.props);
   }
 }

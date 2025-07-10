@@ -10,10 +10,10 @@ import { WIZARD_STATUS } from '../../constants';
 
 describe('Wizard Container', () => {
   beforeEach(() => {
-    sessionStorage.removeItem(WIZARD_STATUS);
+    window.sessionStorage.removeItem(WIZARD_STATUS);
   });
   afterEach(() => {
-    sessionStorage.removeItem(WIZARD_STATUS);
+    window.sessionStorage.removeItem(WIZARD_STATUS);
   });
 
   it('should render', () => {
@@ -27,7 +27,7 @@ describe('Wizard Container', () => {
     const { container } = render(<WizardContainer />);
     fireEvent.click($('.skip-wizard-link', container));
     expect($('.wizard-container', container)).to.exist;
-    expect(sessionStorage.getItem(WIZARD_STATUS)).to.equal(
+    expect(window.sessionStorage.getItem(WIZARD_STATUS)).to.equal(
       WIZARD_STATUS_COMPLETE,
     );
   });
