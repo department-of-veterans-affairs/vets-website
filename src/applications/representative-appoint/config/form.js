@@ -2,7 +2,6 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import GetFormHelp from '../components/GetFormHelp';
-import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -28,9 +27,7 @@ const formConfig = {
     submitButtonText: 'Continue',
   },
   submit: async form => {
-    if (form.data.representativeSubmissionMethod === 'digital') {
-      await submitRequest(form.data);
-    }
+    await submitRequest(form.data);
 
     return Promise.resolve({ attributes: { confirmationNumber: '123123123' } }); // I'm not sure what this confirmation number is about
   },
@@ -47,12 +44,10 @@ const formConfig = {
   submissionError: SubmissionError,
   saveInProgress: {
     messages: {
-      inProgress:
-        'Your VA accredited representative appointment application (21-22-AND-21-22A) is in progress.',
+      inProgress: 'Your form is in progress.',
       expired:
-        'Your saved VA accredited representative appointment application (21-22-AND-21-22A) has expired. If you want to apply for VA accredited representative appointment, please start a new application.',
-      saved:
-        'Your VA accredited representative appointment application has been saved.',
+        'Your saved VA form has expired. Please start a new application.',
+      saved: 'Your VA form has been saved.',
     },
   },
   version: 0,
@@ -60,13 +55,11 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   additionalRoutes: [],
   savedFormMessages: {
-    notFound:
-      'Please start over to apply for VA accredited representative appointment.',
-    noAuth:
-      'Please sign in again to continue your application for VA accredited representative appointment.',
+    notFound: 'Please start over to apply.',
+    noAuth: 'Please sign in again to continue your application.',
   },
-  title: 'Request help from a VA accredited representative or VSO',
-  subTitle: 'VA Forms 21-22 and 21-22a',
+  title: 'Form title',
+  subTitle: 'Form subtitle',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -112,7 +105,5 @@ const formConfig = {
     },
   },
 };
-
-configService.setFormConfig(formConfig);
 
 export default formConfig;
