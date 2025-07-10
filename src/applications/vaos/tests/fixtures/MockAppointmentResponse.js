@@ -1,5 +1,6 @@
 // eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
 import { addHours, format, startOfDay } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   transformVAOSAppointment,
   transformVAOSAppointments,
@@ -87,7 +88,7 @@ export default class MockAppointmentResponse {
       start:
         status === APPOINTMENT_STATUS.proposed
           ? null
-          : format(timestamp, DATE_FORMATS.ISODateTimeUTC),
+          : formatInTimeZone(timestamp, 'UTC', DATE_FORMATS.ISODateTimeUTC),
       status,
       telehealth: {
         atlas: null,
