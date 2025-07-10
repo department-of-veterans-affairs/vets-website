@@ -96,6 +96,7 @@ const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
  *   isItemIncomplete: function,
  *   isReviewPage: boolean,
  *   maxItems: number,
+ *   missingInformationKey: string,
  *   nounPlural: string,
  *   nounSingular: string,
  *   required: (formData) => boolean,
@@ -584,30 +585,31 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     const hideAdd = maxItems && arrayData?.length >= maxItems;
 
-    if (
-      schema?.properties?.[hasItemsKey] &&
-      Boolean(newSchema.properties[hasItemsKey]['ui:hidden']) !==
+    if (schema?.properties?.[hasItemsKey]) {
+      if (
+        Boolean(newSchema.properties[hasItemsKey]['ui:hidden']) !==
         Boolean(hideAdd)
-    ) {
-      newSchema = {
-        ...schema,
-        properties: {
-          [missingInformationKey]: missingInformation.schema,
-          ...schema.properties,
-          [hasItemsKey]: {
-            ...schema.properties[hasItemsKey],
-            'ui:hidden': hideAdd,
+      ) {
+        newSchema = {
+          ...schema,
+          properties: {
+            [missingInformationKey]: missingInformation.schema,
+            ...schema.properties,
+            [hasItemsKey]: {
+              ...schema.properties[hasItemsKey],
+              'ui:hidden': hideAdd,
+            },
           },
-        },
-      };
-    } else {
-      newSchema = {
-        ...schema,
-        properties: {
-          [missingInformationKey]: missingInformation.schema,
-          ...schema.properties,
-        },
-      };
+        };
+      } else {
+        newSchema = {
+          ...schema,
+          properties: {
+            [missingInformationKey]: missingInformation.schema,
+            ...schema.properties,
+          },
+        };
+      }
     }
 
     if (useLinkInsteadOfYesNo || useButtonInsteadOfYesNo) {

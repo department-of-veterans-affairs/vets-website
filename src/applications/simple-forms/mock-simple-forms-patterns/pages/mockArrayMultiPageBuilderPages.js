@@ -289,7 +289,7 @@ const createDynamicArrayBuilderPages = ({
           formData?.chapterSelect?.arrayMultiPageBuilder &&
           formData?.arrayBuilderPatternInteractionType ===
             arrayBuilderPatternInteractionType &&
-          formData?.employers?.[index]?.address?.state === 'CA'
+          formData?.[options.arrayPath]?.[index]?.address?.state === 'CA'
         );
       },
     }),

@@ -39,33 +39,35 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
       {description}
       {!hideAdd &&
         arrayBuilderOptions.useLinkInsteadOfYesNo && (
-          <va-link-action
-            data-action="add"
-            text={arrayBuilderOptions.getText(
-              'summaryAddLinkText',
-              arrayData,
-              customPageProps.data,
-            )}
-            class={arrayData?.length ? 'vads-u-margin-y--2' : ''}
-            onClick={addAnotherItemButtonClick}
-            name={`${arrayBuilderOptions.nounPlural}AddLink`}
-          />
+          <div className={arrayData?.length ? 'vads-u-margin-y--2' : ''}>
+            <va-link-action
+              data-action="add"
+              text={arrayBuilderOptions.getText(
+                'summaryAddLinkText',
+                arrayData,
+                customPageProps.data,
+              )}
+              onClick={addAnotherItemButtonClick}
+              name={`${arrayBuilderOptions.nounPlural}AddLink`}
+            />
+          </div>
         )}
       {!hideAdd &&
         arrayBuilderOptions.useButtonInsteadOfYesNo && (
-          <va-button
-            data-action="add"
-            text={arrayBuilderOptions.getText(
-              'summaryAddButtonText',
-              arrayData,
-              customPageProps.data,
-            )}
-            class={arrayData?.length ? 'vads-u-margin-y--2' : ''}
-            onClick={addAnotherItemButtonClick}
-            name={`${arrayBuilderOptions.nounPlural}AddButton`}
-            primary
-            uswds
-          />
+          <div className={arrayData?.length ? 'vads-u-margin-y--2' : ''}>
+            <va-button
+              data-action="add"
+              text={arrayBuilderOptions.getText(
+                'summaryAddButtonText',
+                arrayData,
+                customPageProps.data,
+              )}
+              onClick={addAnotherItemButtonClick}
+              name={`${arrayBuilderOptions.nounPlural}AddButton`}
+              primary
+              uswds
+            />
+          </div>
         )}
       {customPageProps.pageContentBeforeButtons}
       {customPageProps.contentBeforeButtons}
