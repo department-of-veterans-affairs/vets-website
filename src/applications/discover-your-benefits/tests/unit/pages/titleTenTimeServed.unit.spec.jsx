@@ -28,11 +28,18 @@ describe('Military Service Total Time Served Form', () => {
     wrapper && wrapper.unmount();
   });
 
-  it('should render the correct title for militaryServiceTotalTimeServed', () => {
+  it('should render the correct title for titleTenTimeServed', () => {
     const title = document.querySelector(
       'va-radio[label="How long were you called up to active-duty (Title 10) orders while serving in the Reserve or National Guard?"]',
     );
     expect(title).to.exist;
+  });
+
+  it('should render the correct hint for titleTenTimeServed', () => {
+    const hint = document.querySelector(
+      'va-radio[hint="This includes activations, deployments, and mobilizations under Title 10 orders."]',
+    );
+    expect(hint).to.exist;
   });
 
   it('should not display any error message by default', () => {

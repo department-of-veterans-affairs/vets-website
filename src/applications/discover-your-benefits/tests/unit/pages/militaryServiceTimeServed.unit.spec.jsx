@@ -35,6 +35,13 @@ describe('Military Service Total Time Served Form', () => {
     expect(title).to.exist;
   });
 
+  it('should render the correct hint for militaryServiceTotalTimeServed', () => {
+    const hint = document.querySelector(
+      'va-radio[hint="If you have served multiple periods, please choose the answer that reflects your total amount of service."]',
+    );
+    expect(hint).to.exist;
+  });
+
   it('should not display any error message by default', () => {
     const errorMessage = wrapper.queryByText(
       'Please select an option for total time served in the military',

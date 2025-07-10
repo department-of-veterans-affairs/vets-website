@@ -34,11 +34,18 @@ describe('separation page', () => {
     wrapper && wrapper.unmount();
   });
 
-  it('should render the correct title', () => {
+  it('should render the correct title for seperation', () => {
     const title = document.querySelector(
       'va-radio[label="How long ago did you separate or retire from service?"]',
     );
     expect(title).to.exist;
+  });
+
+  it('should render the correct hint for seperation', () => {
+    const hint = document.querySelector(
+      'va-radio[hint="If you served during multiple periods, please choose the answer that corresponds to your most recent separation."]',
+    );
+    expect(hint).to.exist;
   });
 
   it('should render the correct radio component', () => {
