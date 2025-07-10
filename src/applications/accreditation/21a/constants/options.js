@@ -89,3 +89,16 @@ export const degreeOptions = Object.freeze([
   "Master's degree",
   'Doctoral degree',
 ]);
+
+// Chapter 7
+
+export const characterReferencesRelationship = Object.freeze([
+  'Classmate',
+  'Colleague',
+  'Customer/Client',
+  'Friend',
+  'Neighbor',
+  'Supervisor',
+  'Educator',
+  'Other',
+]);
