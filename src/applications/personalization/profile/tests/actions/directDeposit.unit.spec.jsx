@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { rest } from 'msw';
+// import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 
 import {
@@ -24,6 +25,7 @@ import { base } from '../../mocks/endpoints/direct-deposits';
 
 import error500 from '../fixtures/500.json';
 
+// describe.only('directDeposit actions', () => {
 describe('directDeposit actions', () => {
   const endpointUrl = `${environment.API_URL}/v0${DIRECT_DEPOSIT_API_ENDPOINT}`;
 
@@ -52,8 +54,8 @@ describe('directDeposit actions', () => {
 
   it('should dispatch DIRECT_DEPOSIT_FETCH_SUCCEEDED with response on success', async () => {
     server = setupServer(
-      rest.get(`${endpointUrl}`, (_, res, ctx) => {
-        return res(ctx.json(base), ctx.status(500));
+      http.get(`${endpointUrl}`, () => {
+        return HttpResponse.json(base, { status: 500 });
       }),
     );
 
@@ -87,10 +89,22 @@ describe('directDeposit actions', () => {
     expect(recordApiEventStub.calledTwice).to.be.true;
   });
 
+  // it.only('should dispatch DIRECT_DEPOSIT_FETCH_FAILED with response on error', async () => {
   it('should dispatch DIRECT_DEPOSIT_FETCH_FAILED with response on error', async () => {
     server = setupServer(
+      /*
       rest.get(`${endpointUrl}`, (req, res, ctx) => {
         return res(ctx.json(error500), ctx.status(500));
+      }),
+       */
+      http.get(`${endpointUrl}`, () => {
+        // return HttpResponse.json(error500, { status: 500 });
+        // return HttpResponse.error();
+        // return new HttpResponse(null, {status: 500});
+        return HttpResponse.json(
+          { error: 'Internal Server Error' },
+          { status: 500 },
+        );
       }),
     );
 
@@ -113,10 +127,20 @@ describe('directDeposit actions', () => {
       type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED,
     });
 
+    // console.log(
+    //   'All dispatch calls:',
+    //   JSON.stringify(
+    //     dispatchSpy.getCalls().map(call => call.args[0]),
+    //     null,
+    //     2,
+    //   ),
+    // );
+
     expect(
       dispatchSpy.withArgs({
         type: DIRECT_DEPOSIT_FETCH_FAILED,
-        response: error500,
+        // response: error500,
+        response: { error: 'Internal Server Error' },
       }).calledOnce,
     ).to.be.true;
 
@@ -138,8 +162,13 @@ describe('directDeposit actions', () => {
   describe('saveDirect deposit action creator', () => {
     it('should dispatch the SUCCESS state', async () => {
       server = setupServer(
+        /*
         rest.put(`${endpointUrl}`, (req, res, ctx) => {
           return res(ctx.json(base), ctx.status(200));
+        }),
+         */
+        http.put(`${endpointUrl}`, () => {
+          return HttpResponse.json(base, { status: 200 });
         }),
       );
 
@@ -166,8 +195,13 @@ describe('directDeposit actions', () => {
     });
     it('should dispatch the FAILURE state', async () => {
       server = setupServer(
+        /*
         rest.put(`${endpointUrl}`, (req, res, ctx) => {
           return res(ctx.json(error500), ctx.status(400));
+        }),
+        */
+        http.put(`${endpointUrl}`, () => {
+          return HttpResponse.json(error500, { status: 400 });
         }),
       );
 
@@ -193,8 +227,13 @@ describe('directDeposit actions', () => {
 
     it('should dispatch the FAILURE state when the response is an instance of Error', async () => {
       server = setupServer(
+        /*
         rest.put(`${endpointUrl}`, (req, res, ctx) => {
           return res(ctx.json(error500), ctx.status(400));
+        }),
+         */
+        http.put(`${endpointUrl}`, () => {
+          return HttpResponse.json(error500, { status: 400 });
         }),
       );
 
