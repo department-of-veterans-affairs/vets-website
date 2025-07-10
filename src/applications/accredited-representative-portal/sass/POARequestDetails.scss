@@ -124,6 +124,11 @@
   }
   &__list-item {
     margin: 0;
+    padding-right: 12px;
+
+    &:last-child {
+      padding: 0;
+    }
   }
   &__subtitle {
     margin: 0;
