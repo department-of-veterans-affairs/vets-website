@@ -66,7 +66,7 @@ export const testNumberOfErrorsOnSubmit = (
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should show the correct number of errors on submit', () => {
+    it('should show the correct number of errors on submit', async () => {
       const { mockStore } = getProps();
 
       const { getByRole, queryAllByRole } = render(
@@ -82,6 +82,10 @@ export const testNumberOfErrorsOnSubmit = (
       );
 
       getByRole('button', { name: /submit/i }).click();
+
+      // Wait for the DOM to update after form validation
+      await new Promise(resolve => setTimeout(resolve, 0));
+
       const errors = queryAllByRole('alert');
       expect(errors).to.have.lengthOf(expectedNumberOfErrors);
     });
