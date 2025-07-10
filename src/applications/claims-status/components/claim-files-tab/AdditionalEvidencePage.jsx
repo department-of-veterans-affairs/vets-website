@@ -12,16 +12,12 @@ import FilesNeeded from './FilesNeeded';
 import { benefitsDocumentsUseLighthouse } from '../../selectors';
 import { setFocus, setPageFocus } from '../../utils/page';
 import {
-  addFile,
-  removeFile,
   submitFiles,
   // START lighthouse_migration
   submitFilesLighthouse,
   // END lighthouse_migration
-  updateField,
   cancelUpload,
   getClaim as getClaimAction,
-  setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
 } from '../../actions';
@@ -74,12 +70,14 @@ class AdditionalEvidencePage extends React.Component {
     }
   }
 
-  onSubmitFiles(claimId) {
+  onSubmitFiles(claimId, filesToSubmit = null) {
+    const files = filesToSubmit || this.props.files;
+
     // START lighthouse_migration
     if (this.props.documentsUseLighthouse) {
-      this.props.submitFilesLighthouse(claimId, null, this.props.files);
+      this.props.submitFilesLighthouse(claimId, null, files);
     } else {
-      this.props.submitFiles(claimId, null, this.props.files);
+      this.props.submitFiles(claimId, null, files);
     }
     // END lighthouse_migration
   }
@@ -96,7 +94,7 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   render() {
-    const { claim, lastPage } = this.props;
+    const { claim } = this.props;
 
     let content;
 
@@ -147,20 +145,10 @@ class AdditionalEvidencePage extends React.Component {
                 <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
               <NewAddFilesForm
-              // field={this.props.uploadField}
-              // progress={this.props.progress}
-              // uploading={this.props.uploading}
-              // files={this.props.files}
-              // backUrl={lastPage ? `/${lastPage}` : filesPath}
-              // onSubmit={() => {
-              //   this.onSubmitFiles(claim.id);
-              // }}
-              // onAddFile={this.props.addFile}
-              // onRemoveFile={this.props.removeFile}
-              // onFieldChange={this.props.updateField}
-              // onCancel={this.props.cancelUpload}
-              // onDirtyFields={this.props.setFieldsDirty}
-              // fileTab
+                uploading={this.props.uploading}
+                progress={this.props.progress}
+                onCancel={this.props.cancelUpload}
+                onSubmit={files => this.onSubmitFiles(claim.id, files)}
               />
             </>
           ) : (
@@ -195,8 +183,6 @@ function mapStateToProps(state) {
     progress: claimsState.uploads.progress,
     uploadError: claimsState.uploads.uploadError,
     uploadComplete: claimsState.uploads.uploadComplete,
-    uploadField: claimsState.uploads.uploadField,
-    lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.additionalEvidenceMessage,
     filesNeeded: getFilesNeeded(trackedItems),
     filesOptional: getFilesOptional(trackedItems),
@@ -207,20 +193,15 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  addFile,
-  removeFile,
   submitFiles,
-  updateField,
   cancelUpload,
   getClaim: getClaimAction,
   submitFilesLighthouse,
-  setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
 };
 
 AdditionalEvidencePage.propTypes = {
-  addFile: PropTypes.func,
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
@@ -231,23 +212,19 @@ AdditionalEvidencePage.propTypes = {
   filesNeeded: PropTypes.array,
   filesOptional: PropTypes.array,
   getClaim: PropTypes.func,
-  lastPage: PropTypes.string,
   loading: PropTypes.bool,
   location: PropTypes.object,
   message: PropTypes.object,
   navigate: PropTypes.func,
   params: PropTypes.object,
   progress: PropTypes.number,
-  removeFile: PropTypes.func,
   resetUploads: PropTypes.func,
-  setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
   // START lighthouse_migration
   submitFilesLighthouse: PropTypes.func,
   // END lighthouse_migration
-  updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
-  uploadField: PropTypes.object,
+  uploadError: PropTypes.bool,
   uploading: PropTypes.bool,
 };
 

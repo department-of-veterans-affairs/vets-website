@@ -26,9 +26,6 @@ import FeaturesWarning from '../components/FeaturesWarning';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
 import TravelClaimsSection from '../components/TravelClaimsSection';
-import NewAddFilesForm from '../components/claim-files-tab/file-input-multiple/NewAddFilesForm';
-// import OnlyPasswordAddFilesForm from '../components/claim-files-tab/file-input-multiple/OnlyPasswordAddFilesForm';
-// import OnlyDocTypeSelectAddFilesForm from '../components/claim-files-tab/file-input-multiple/OnlyDocTypeSelectAddFilesForm';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
@@ -243,12 +240,6 @@ class YourClaimsPageV2 extends React.Component {
               Check your claim, decision review, or appeal status
             </h1>
             <va-on-this-page />
-            <h2>New Add Files Form</h2>
-            <NewAddFilesForm />
-            {/* <h2>Only Password Add Files Form</h2>
-            <OnlyPasswordAddFilesForm /> */}
-            {/* <h2>Only Doc Type Select Add Files Form</h2>
-            <OnlyDocTypeSelectAddFilesForm /> */}
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>

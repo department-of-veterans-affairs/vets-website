@@ -8,8 +8,7 @@ import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
 import { hasSession } from '../../profile/utilities';
-
-const IS_LOCAL = true;
+// import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const signInQuery = useSiS => ({
   next: window.location.pathname,
@@ -39,16 +38,14 @@ const ProfileErrorMessage = () => {
 export const RequiredLoginView = props => {
   const { user, verify, useSiS, showProfileErrorMessage = false } = props;
 
-  const shouldSignIn = useCallback(
-    () => !IS_LOCAL && !user.login.currentlyLoggedIn,
-    [user.login.currentlyLoggedIn],
-  );
+  const shouldSignIn = useCallback(() => !user.login.currentlyLoggedIn, [
+    user.login.currentlyLoggedIn,
+  ]);
 
   // Checks that (1) session has a valid authentication token and
   // (2) the user is authorized to use services required by this application
   const isAccessible = useCallback(
     () => {
-      if (IS_LOCAL) return true;
       const { serviceRequired } = props;
       const userServices = user.profile.services;
       const hasRequiredServices =

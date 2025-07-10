@@ -1,7 +1,13 @@
+import TrackClaimsPageV2 from './page-objects/TrackClaimsPageV2';
+import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
+import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail-open.json';
+
 describe('VA File Input Multiple - TDD E2E Tests', () => {
   const setupComponentTest = () => {
-    cy.login();
-    cy.visit('/track-claims');
+    const trackClaimsPage = new TrackClaimsPageV2();
+    trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+    trackClaimsPage.verifyInProgressClaim(true);
+    trackClaimsPage.navigateToFilesTab();
     cy.injectAxe();
   };
 
@@ -25,8 +31,12 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
   const selectDocumentType = (fileIndex, docTypeCode) => {
     getFileInputElement(fileIndex)
       .find('va-select')
+      .should('be.visible')
       .shadow()
       .find('select')
+      .should('not.be.disabled')
+      .should('be.visible')
+      .wait(100) // Small wait to ensure stability
       .select(docTypeCode);
   };
 
@@ -266,7 +276,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .find('va-text-input')
         .shadow()
         .find('input')
-        .type('testpassword');
+        .type('test-password');
 
       // Verify error is cleared when password is entered
       getFileInput(0).should(
@@ -537,7 +547,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .find('va-text-input')
         .shadow()
         .find('input')
-        .type('secretpassword123');
+        .type('test-password');
 
       // Set document type for second file
       selectDocumentType(1, 'L029'); // Copy of a DD214
@@ -642,9 +652,84 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     });
   });
 
+  describe('User Story #19, #20, #22: Submit button functionality and upload modal', () => {
+    beforeEach(() => {
+      cy.intercept('POST', '/v0/benefits_claims/189685/documents', {
+        delay: 2000, // Simulate upload time to see modal
+        body: { data: { success: true } },
+      }).as('uploadFiles');
+    });
+
+    it('should allow submission when all validation passes', () => {
+      setupComponentTest();
+
+      // Upload encrypted file and provide password
+      setupEncryptedFile('encrypted-with-password.pdf');
+      getFileInput(0)
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .type('valid-password');
+
+      // Select document type for encrypted file
+      selectDocumentType(0, 'L029'); // Copy of a DD214
+
+      // Submit should work
+      clickSubmitButton();
+
+      // Verify upload modal appears with correct content
+      cy.get('va-modal')
+        .should('be.visible')
+        .should('contain.text', 'Uploading files')
+        .and('contain.text', 'Uploading 1 file...')
+        .and(
+          'contain.text',
+          'Your files are uploading. Please do not close this window.',
+        );
+
+      // TODO: User Story #22 - Success alert implementation (currently its an error)
+      cy.get('va-alert').should('be.visible');
+
+      cy.axeCheck();
+    });
+
+    it('should allow canceling upload', () => {
+      setupComponentTest();
+
+      // Upload a file and set document type
+      uploadFile('document-to-cancel.txt');
+      selectDocumentType(0, 'L014'); // Birth Certificate
+
+      // Submit the files
+      clickSubmitButton();
+
+      // Verify modal appears
+      cy.get('va-modal').should('be.visible');
+
+      // Click cancel button
+      cy.get('va-modal')
+        .find('va-button[text="Cancel"]')
+        .shadow()
+        .find('button')
+        .click();
+
+      // Verify modal is closed
+      cy.get('va-modal').should('not.be.visible');
+
+      cy.axeCheck();
+    });
+  });
+
   // TODO: Remove this test when component development is complete
   // This test is for development debugging only and relies on UI that will be deleted
   describe('Comprehensive data tracking (Development Only - TODO: Delete)', () => {
+    beforeEach(() => {
+      cy.intercept('POST', '/v0/benefits_claims/189685/documents', {
+        delay: 1000,
+        body: { data: { success: true } },
+      }).as('uploadFiles');
+    });
+
     it('should track files, passwords, and document types correctly', () => {
       setupComponentTest();
 
@@ -661,7 +746,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .find('va-text-input')
         .shadow()
         .find('input')
-        .type('secretpassword');
+        .type('test-password');
 
       // Select document type for second file
       selectDocumentType(1, 'L029'); // Copy of a DD214
@@ -691,7 +776,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         .find('va-text-input')
         .shadow()
         .find('input')
-        .should('have.value', 'secretpassword');
+        .should('have.value', 'test-password');
 
       // Submit first to extract and update document types data
       clickSubmitButton();
@@ -703,9 +788,9 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.get('[data-testid="debug-passwords"]')
         .should('contain.text', 'File 0: N/A') // Regular file doesn't need password
-        .and('contain.text', 'File 1: secretpassword'); // Password is being tracked!
+        .and('contain.text', 'File 1: test-password'); // Password is being tracked!
 
-      cy.get('[data-testid="debug-doctypes"]')
+      cy.get('[data-testid="debug-doc-types"]')
         .should('contain.text', 'File 0: L014') // Birth Certificate
         .and('contain.text', 'File 1: L029'); // Copy of a DD214
 
@@ -717,7 +802,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       cy.get('[data-testid="debug-payload"]')
         .should('be.visible')
         .and('contain.text', 'Last Submit Payload:')
-        .and('contain.text', '"password": "secretpassword"')
+        .and('contain.text', '"password": "test-password"')
         .and('contain.text', '"docType": "L014"')
         .and('contain.text', '"docType": "L029"')
         .and('contain.text', '"file": {}') // File objects serialize as empty objects

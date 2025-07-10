@@ -5,6 +5,7 @@ import {
   VaFileInputMultiple,
   VaButton,
   VaSelect,
+  VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   readAndCheckFile,
@@ -14,6 +15,7 @@ import { validateFiles } from './fileValidation';
 
 import { DOC_TYPES } from '../../../utils/helpers';
 import { FILE_TYPES } from '../../../utils/validations';
+import UploadStatus from '../../UploadStatus';
 import DebugInfo from './DebugInfo';
 
 export const LABEL_TEXT = 'Upload additional evidence';
@@ -210,11 +212,18 @@ const createSubmissionPayload = (files, docTypes) => {
   }));
 };
 
-const NewAddFilesForm = ({ onChange, onSubmit }) => {
+const NewAddFilesForm = ({
+  onChange,
+  onSubmit,
+  uploading,
+  progress,
+  onCancel,
+}) => {
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
   const [lastPayload, setLastPayload] = useState(null);
+  const [canShowUploadModal, setCanShowUploadModal] = useState(false);
   const fileInputRef = useRef(null);
 
   // Track document type changes and clear errors immediately
@@ -302,10 +311,22 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
     // Store payload for debug display
     setLastPayload(payload);
 
+    // Create files array in the exact format the submit actions expect
+    const formattedFiles = payload.map(item => ({
+      file: item.file,
+      docType: { value: item.docType },
+      password: { value: item.password },
+    }));
+
+    // Show upload modal on successful validation
+    setCanShowUploadModal(true);
+
     if (onSubmit) {
-      onSubmit();
+      onSubmit(formattedFiles);
     }
   };
+
+  const showUploadModal = uploading && canShowUploadModal;
 
   return (
     <>
@@ -336,11 +357,25 @@ const NewAddFilesForm = ({ onChange, onSubmit }) => {
         encrypted={encrypted}
         lastPayload={lastPayload}
       />
+      <VaModal
+        id="upload-status"
+        onCloseEvent={() => setCanShowUploadModal(false)}
+        visible={showUploadModal}
+      >
+        <UploadStatus
+          progress={progress}
+          files={files.length}
+          onCancel={onCancel}
+        />
+      </VaModal>
     </>
   );
 };
 
 NewAddFilesForm.propTypes = {
+  progress: PropTypes.number,
+  uploading: PropTypes.bool,
+  onCancel: PropTypes.func,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
 };

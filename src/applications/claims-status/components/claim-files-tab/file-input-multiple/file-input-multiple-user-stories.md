@@ -44,9 +44,9 @@ Data Tracking Check: If I upload multiple files with passwords and document type
     - Confirm Button Text: "Yes, remove this"
     - Cancel Button Text: "No, keep this"
 - [X] 18. If I delete a file, the other files will retain their correct data
-- [ ] 19. If I add files that pass all validation errors, I am able to click the submit button
+- [X] 19. If I add files that pass all validation errors, I am able to click the submit button
     - Button Text: "Submit documents for review"
-- [ ] 20. If I submit files, I will be shown an uploading modal with a submission progress bar
+- [X] 20. If I submit files, I will be shown an uploading modal with a submission progress bar
     - Heading: "Uploading files"
     - Count: "Uploading 1 file..."
     - Text: "Your files are uploading. Please do not close this window."
@@ -55,5 +55,5 @@ Data Tracking Check: If I upload multiple files with passwords and document type
     - Heading: "Error uploading [file name]"
     - Text: "We couldn’t unlock your PDF. Save the PDF without a password and try again."
 - [ ] 22. If I successfully submit files a success va-alert will be shown
-    - Heading: "We received your file upload on June 27, 2025"
+    - Heading: "We received your file upload on [date]"
     - Text: "If your uploaded file doesn’t appear in the Documents Filed section on this page, please try refreshing the page."
