@@ -4,7 +4,7 @@ import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { renderProviderWrappedComponent } from '../../helpers';
 
-const expectedFieldTypes = 'input, select, textarea';
+export const expectedFieldTypes = 'input, select, textarea';
 const expectedFieldTypesWebComponents =
   'va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
 
@@ -60,8 +60,8 @@ export const testNumberOfErrorsOnSubmit = (
       );
 
       getByRole('button', { name: /submit/i }).click();
-      const errors = queryAllByRole('alert');
       await waitFor(() => {
+        const errors = queryAllByRole('alert');
         expect(errors).to.have.lengthOf(expectedNumberOfErrors);
       });
     });
@@ -118,11 +118,11 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
       );
 
       getByRole('button', { name: /submit/i }).click();
-      const nodes = Array.from(
-        container.querySelectorAll(expectedFieldTypesWebComponents),
-      );
-      const errors = nodes.filter(node => node.error);
       await waitFor(() => {
+        const nodes = Array.from(
+          container.querySelectorAll(expectedFieldTypesWebComponents),
+        );
+        const errors = nodes.filter(node => node.error);
         expect(errors).to.have.lengthOf(expectedNumberOfErrors);
       });
     });
