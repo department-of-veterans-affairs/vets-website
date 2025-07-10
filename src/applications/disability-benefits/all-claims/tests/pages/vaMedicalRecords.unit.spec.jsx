@@ -221,7 +221,7 @@ describe('VA Medical Records', () => {
     form.unmount();
   });
 
-  it('should not submit without all required info', () => {
+  it('should not submit without all required info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -239,19 +239,21 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    // Required field: Facility name
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(
-      form.find(
-        'va-checkbox-group[error="Please select at least one condition"]',
-      ).length,
-    ).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      // Required field: Facility name
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(
+        form.find(
+          'va-checkbox-group[error="Please select at least one condition"]',
+        ).length,
+      ).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
   });
 
-  it('should not submit when treatment start date precedes service start date', () => {
+  it('should not submit when treatment start date precedes service start date', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -288,13 +290,15 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
   });
 
-  it('should submit when treatment start date equals service start date', () => {
+  it('should submit when treatment start date equals service start date', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -331,13 +335,15 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.calledOnce).to.be.true;
+      form.unmount();
+    });
   });
 
-  it('should submit when treatment start date year without month equals earliest service start date year', () => {
+  it('should submit when treatment start date year without month equals earliest service start date year', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -374,13 +380,15 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.calledOnce).to.be.true;
+      form.unmount();
+    });
   });
 
-  it('should not submit when treatment start date includes a month but no year', () => {
+  it('should not submit when treatment start date includes a month but no year', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -417,13 +425,15 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
   });
 
-  it('should not submit when treatment start date is in the future', () => {
+  it('should not submit when treatment start date is in the future', async () => {
     const onSubmit = sinon.spy();
     const futureDate = `${moment()
       .add(1, 'month')
@@ -462,14 +472,15 @@ describe('VA Medical Records', () => {
         onSubmit={onSubmit}
       />,
     );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
   });
 
-  it('should submit with all required info', () => {
+  it('should submit with all required info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -500,13 +511,15 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.calledOnce).to.be.true;
+      form.unmount();
+    });
   });
 
-  it('should require military city when military state selected', () => {
+  it('should require military city when military state selected', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -537,10 +550,12 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
   });
 
   it('should require military state when military city entered', async () => {
