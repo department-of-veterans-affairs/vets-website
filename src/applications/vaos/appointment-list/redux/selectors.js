@@ -17,12 +17,10 @@ import {
   isInPersonVisit,
   isPendingOrCancelledRequest,
   isUpcomingAppointment,
-  isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
   isVideoAtHome,
   sortByDateAscending,
   sortByDateDescending,
-  sortUpcoming,
 } from '../../services/appointment';
 import { getTypeOfCareById } from '../../utils/appointment';
 import {
@@ -95,21 +93,6 @@ export function selectFutureStatus(state) {
 
   return FETCH_STATUS.notStarted;
 }
-
-export const selectFutureAppointments = createSelector(
-  state => state.appointments.pending,
-  state => state.appointments.confirmed,
-  (pending, confirmed) => {
-    if (!confirmed || !pending) {
-      return null;
-    }
-
-    return confirmed
-      .concat(...pending)
-      .filter(item => isUpcomingAppointmentOrRequest(item))
-      .sort(sortUpcoming);
-  },
-);
 
 export const selectUpcomingAppointments = createSelector(
   state => state.appointments.confirmed,

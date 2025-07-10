@@ -1,5 +1,5 @@
+import { formatInTimeZone } from 'date-fns-tz';
 import { isEmpty } from 'lodash';
-import moment from 'moment';
 import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
@@ -129,15 +129,16 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
   if (isRequest) {
     const { requestedPeriods, created } = appt;
     const reqPeriods = requestedPeriods?.map(d => ({
-      // by passing the format into the moment constructor, we are
-      // preventing the local time zone conversion from occuring
-      // which was causing incorrect dates to be displayed
-      start: `${moment(d.start, 'YYYY-MM-DDTHH:mm:ss').format(
-        'YYYY-MM-DDTHH:mm:ss',
-      )}.000`,
-      end: `${moment(d.end, 'YYYY-MM-DDTHH:mm:ss').format(
-        'YYYY-MM-DDTHH:mm:ss',
-      )}.999`,
+      start: `${formatInTimeZone(
+        d.start,
+        appointmentTZ,
+        "yyyy-MM-dd'T'HH:mm:ssXXX",
+      )}`,
+      end: `${formatInTimeZone(
+        d.end,
+        appointmentTZ,
+        "yyyy-MM-dd'T'HH:mm:ssXXX",
+      )}`,
     }));
 
     // hasReasonCode is only applicable to v0 appointments

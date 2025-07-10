@@ -51,7 +51,12 @@ describe('VAOS provider utils', () => {
     });
   });
   describe('hasConflict', () => {
-    MockDate.set('2024-12-05T00:00:00Z');
+    before(() => {
+      MockDate.set('2024-12-05T00:00:00Z');
+    });
+    after(() => {
+      MockDate.reset();
+    });
     const tz = 'America/Los_Angeles';
     const appointmentsByMonth = {
       '2024-12': [
