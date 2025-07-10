@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('Add secondary other sources of information help ', () => {
@@ -11,7 +12,7 @@ describe('Add secondary other sources of information help ', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.secondaryOtherSourcesHelp0;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig}
@@ -31,7 +32,7 @@ describe('Add secondary other sources of information help ', () => {
     form.unmount();
   });
 
-  it('should submit', () => {
+  it('should submit', async () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -50,9 +51,11 @@ describe('Add secondary other sources of information help ', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 });

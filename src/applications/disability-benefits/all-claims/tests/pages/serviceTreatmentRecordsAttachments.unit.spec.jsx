@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('serviceTreatmentRecords', () => {
@@ -15,7 +16,7 @@ describe('serviceTreatmentRecords', () => {
     schema,
   } = formConfig.chapters.supportingEvidence.pages.serviceTreatmentRecordsAttachments;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
@@ -35,7 +36,7 @@ describe('serviceTreatmentRecords', () => {
     form.unmount();
   });
 
-  it('should not submit without an upload if one indicated', () => {
+  it('should not submit without an upload if one indicated', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -54,13 +55,15 @@ describe('serviceTreatmentRecords', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.false;
-    expect(form.find(errorClass).length).to.equal(1); // upload at least 1 document
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(onSubmit.called).to.be.false;
+      expect(form.find(errorClass).length).to.equal(1); // upload at least 1 document
+    });
     form.unmount();
   });
 
-  it('should not submit without additional upload info', () => {
+  it('should not submit without additional upload info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -80,13 +83,15 @@ describe('serviceTreatmentRecords', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.false;
-    expect(form.find(errorClass).length).to.equal(1); // name and attachment ID required
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(onSubmit.called).to.be.false;
+      expect(form.find(errorClass).length).to.equal(1); // name and attachment ID required
+    });
     form.unmount();
   });
 
-  it('should submit with all required info', () => {
+  it('should submit with all required info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -112,9 +117,11 @@ describe('serviceTreatmentRecords', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(onSubmit.calledOnce).to.be.true;
-    expect(form.find(errorClass).length).to.equal(0);
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(onSubmit.calledOnce).to.be.true;
+      expect(form.find(errorClass).length).to.equal(0);
+    });
     form.unmount();
   });
 });

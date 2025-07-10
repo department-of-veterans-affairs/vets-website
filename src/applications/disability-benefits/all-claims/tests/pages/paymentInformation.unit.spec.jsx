@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/dom';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
@@ -66,7 +67,7 @@ describe('526 -- paymentInformation', () => {
     form.unmount();
   });
 
-  it('should submit with all required info', () => {
+  it('should submit with all required info', async () => {
     const onSubmit = sinon.spy();
     const fakeStore = {
       getState: () => ({ form: { data: {} } }),
@@ -94,9 +95,11 @@ describe('526 -- paymentInformation', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(onSubmit.calledOnce).to.be.true;
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(onSubmit.calledOnce).to.be.true;
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+    });
 
     const alert = form.find('va-alert');
     expect(alert.length).to.equal(1);
@@ -107,7 +110,7 @@ describe('526 -- paymentInformation', () => {
     form.unmount();
   });
 
-  it('should not submit without required info', () => {
+  it('should not submit without required info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -124,13 +127,15 @@ describe('526 -- paymentInformation', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.false;
-    expect(form.find('.usa-input-error-message').length).to.equal(3);
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(onSubmit.called).to.be.false;
+      expect(form.find('.usa-input-error-message').length).to.equal(3);
+      form.unmount();
+    });
   });
 
-  it('should submit with no info', () => {
+  it('should submit with no info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -143,9 +148,11 @@ describe('526 -- paymentInformation', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(onSubmit.calledOnce).to.be.true;
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(onSubmit.calledOnce).to.be.true;
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      form.unmount();
+    });
   });
 });

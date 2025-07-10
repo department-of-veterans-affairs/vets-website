@@ -195,7 +195,7 @@ describe('VA Medical Records', () => {
 
   // Ignore empty vaTreatmentFacilities when not selected, see
   // va.gov-team/issues/34289
-  it('should allow submit if VA medical records not selected', () => {
+  it('should allow submit if VA medical records not selected', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -214,10 +214,11 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 

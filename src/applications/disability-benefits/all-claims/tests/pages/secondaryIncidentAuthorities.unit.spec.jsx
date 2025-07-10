@@ -7,6 +7,7 @@ import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
@@ -15,7 +16,7 @@ describe('PTSD Assault permission notice', () => {
     formConfig.chapters.disabilities.pages.secondaryIncidentAuthorities0;
   const { schema, uiSchema } = page;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -31,7 +32,7 @@ describe('PTSD Assault permission notice', () => {
     form.unmount();
   });
 
-  it('should add an authority', () => {
+  it('should add an authority', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -77,14 +78,16 @@ describe('PTSD Assault permission notice', () => {
       'input#root_secondaryIncident0_sources_0_address_zipCode',
       '12345-1234',
     );
-    form.find('form').simulate('submit');
+    await waitFor(() => {
+      form.find('form').simulate('submit');
 
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 
-  it('should allow submission with no authorities', () => {
+  it('should allow submission with no authorities', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -96,9 +99,11 @@ describe('PTSD Assault permission notice', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 });

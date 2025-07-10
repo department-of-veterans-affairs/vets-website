@@ -7,6 +7,7 @@ import {
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
@@ -53,7 +54,7 @@ describe('Prisoner of war info', () => {
     form.unmount();
   });
 
-  it('should fail to submit when no data is filled out', () => {
+  it('should fail to submit when no data is filled out', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -64,10 +65,11 @@ describe('Prisoner of war info', () => {
         onSubmit={onSubmit}
       />,
     );
-
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
@@ -157,7 +159,7 @@ describe('Prisoner of war info', () => {
     form.unmount();
   });
 
-  it('should require confinement dates to be within a single service period', () => {
+  it('should require confinement dates to be within a single service period', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -173,9 +175,11 @@ describe('Prisoner of war info', () => {
     fillDate(form, 'root_view:isPow_confinements_0_from', '2010-05-05');
     fillDate(form, 'root_view:isPow_confinements_0_to', '2014-05-05'); // After service period
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 });

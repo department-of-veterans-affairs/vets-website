@@ -6,6 +6,7 @@ import {
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('Unemployability 8940 Walkthrough', () => {
@@ -31,7 +32,7 @@ describe('Unemployability 8940 Walkthrough', () => {
     form.unmount();
   });
 
-  it('should fail to submit when no data is filled out', () => {
+  it('should fail to submit when no data is filled out', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -45,14 +46,15 @@ describe('Unemployability 8940 Walkthrough', () => {
         onSubmit={onSubmit}
       />,
     );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
   });
 
-  it('should submit when data filled in', () => {
+  it('should submit when data filled in', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -72,9 +74,11 @@ describe('Unemployability 8940 Walkthrough', () => {
       'root_view:unemployabilityUploadChoice',
       'answerQuestions',
     );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+      form.unmount();
+    });
   });
 });
