@@ -38,6 +38,7 @@ export const uiSchema = {
   currentMarriageInformation: {
     date: currentOrPastDateUI({
       title: 'When did you get married?',
+      dataDogHidden: true,
       required: () => true,
       errorMessages: {
         required: 'Enter the date you got married',
