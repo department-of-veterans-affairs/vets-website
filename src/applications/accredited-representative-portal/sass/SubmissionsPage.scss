@@ -102,7 +102,7 @@
           align-items: center;
         }
 
-        @media (min-width: $medium-screen) {
+        @media (min-width: $small-screen) {
           flex-direction: row;
           align-items: center;
         }
@@ -110,7 +110,7 @@
         > span:last-child {
           margin-top: 4px;
           padding-left: 32px;
-          @media (min-width: $medium-screen) {
+          @media (min-width: $small-screen) {
             padding-left: 0;
           }
         }
