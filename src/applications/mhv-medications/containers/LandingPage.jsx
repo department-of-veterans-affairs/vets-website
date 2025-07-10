@@ -16,7 +16,6 @@ import {
 } from '../util/constants';
 import {
   selectAllergiesFlag,
-  selectRefillContentFlag,
   selectRemoveLandingPageFlag,
 } from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -46,7 +45,6 @@ const LandingPage = () => {
     },
     state => state.featureToggles,
   );
-  const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
 
@@ -109,56 +107,30 @@ const LandingPage = () => {
               {paginatedPrescriptionsList?.length || filteredList?.length ? (
                 <section>
                   <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                    {showRefillContent ? (
-                      <>
-                        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1.5 vads-u-font-size--h3">
-                          Manage your medications
-                        </h2>
-                        <Link
-                          data-dd-action-name={
-                            dataDogActionNames.landingPage
-                              .REFILL_PRESCRIPTIONS_LINK
-                          }
-                          className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
-                          to={refillUrl}
-                          data-testid="refill-nav-link"
-                        >
-                          Refill prescriptions
-                        </Link>
-                        <Link
-                          className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
-                          to={medicationsUrl}
-                          data-testid="prescriptions-nav-link"
-                          data-dd-action-name={
-                            dataDogActionNames.landingPage
-                              .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK
-                          }
-                        >
-                          Go to your medications list
-                        </Link>
-                      </>
-                    ) : (
-                      <>
-                        <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                          Go to your medications now
-                        </h2>
-                        <p className="vads-u-margin-y--3">
-                          Refill and track your VA prescriptions. And review
-                          your medications list.
-                        </p>
-                        <Link
-                          className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
-                          to={medicationsUrl}
-                          data-testid="prescriptions-nav-link"
-                          data-dd-action-name={
-                            dataDogActionNames.landingPage
-                              .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK
-                          }
-                        >
-                          Go to your medications list
-                        </Link>
-                      </>
-                    )}
+                    <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1.5 vads-u-font-size--h3">
+                      Manage your medications
+                    </h2>
+                    <Link
+                      data-dd-action-name={
+                        dataDogActionNames.landingPage.REFILL_PRESCRIPTIONS_LINK
+                      }
+                      className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
+                      to={refillUrl}
+                      data-testid="refill-nav-link"
+                    >
+                      Refill prescriptions
+                    </Link>
+                    <Link
+                      className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
+                      to={medicationsUrl}
+                      data-testid="prescriptions-nav-link"
+                      data-dd-action-name={
+                        dataDogActionNames.landingPage
+                          .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK
+                      }
+                    >
+                      Go to your medications list
+                    </Link>
                   </div>
                 </section>
               ) : (
