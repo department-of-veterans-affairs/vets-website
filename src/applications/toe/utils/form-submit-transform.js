@@ -310,7 +310,8 @@ const getNotificationMethod = notificationMethod => {
 const getSponsorInformation = form => {
   let firstSponsor;
 
-  if (form?.data?.selectedSponsors?.length > 0) {
+  // If only one selected sponsor, set it as the first sponsor
+  if (!form?.data?.firstSponsor && form?.data?.selectedSponsors?.length === 1) {
     firstSponsor = form?.data?.selectedSponsors[0];
   } else {
     firstSponsor = form?.data?.firstSponsor;
