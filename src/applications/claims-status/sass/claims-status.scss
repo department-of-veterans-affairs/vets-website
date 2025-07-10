@@ -168,14 +168,14 @@
 .loading-skeleton {
   &--loading {
     padding: 1em;
-    border: 1px solid var(--vads-color-base-light);
+    border: 1px solid var(--vads-color-gray-medium);
   }
 
   &--row {
     margin: 0;
     position: relative;
     overflow: hidden;
-    background-color: var(--vads-color-base-light);
+    background-color: var(--vads-color-gray-medium);
     border-radius: 6px;
 
     @media (forced-colors: active) {
