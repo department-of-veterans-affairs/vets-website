@@ -86,6 +86,8 @@
     },
     "spouseInformation": {
       "ssn": "333445555",
+      "vaFileNumber": "987654321",
+      "serviceNumber": "W123456",
       "birthDate": "1991-02-19",
       "isVeteran": true,
       "fullName": {

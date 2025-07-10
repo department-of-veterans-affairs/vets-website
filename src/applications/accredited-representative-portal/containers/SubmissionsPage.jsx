@@ -3,6 +3,7 @@ import {
   useLoaderData,
   useSearchParams,
   useNavigation,
+  redirect,
 } from 'react-router-dom';
 import {
   VaLoadingIndicator,
@@ -17,6 +18,7 @@ import {
   submissionsBC,
   SORT_DEFAULTS,
 } from '../utilities/submissions';
+import { SORT_BY, PENDING_SORT_DEFAULTS } from '../utilities/poaRequests';
 import { SEARCH_PARAMS } from '../utilities/constants';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
@@ -143,18 +145,16 @@ const SubmissionsPage = title => {
 
 SubmissionsPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
-  let sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
-  let sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
-  let size = searchParams.get(SEARCH_PARAMS.SIZE);
-  let number = searchParams.get(SEARCH_PARAMS.NUMBER);
-  if (!['asc', 'desc'].includes(sort)) {
-    sort = SORT_DEFAULTS.SORT_ORDER;
-    sortBy = SORT_DEFAULTS.SORT_BY;
-    size = SORT_DEFAULTS.SIZE;
-    number = SORT_DEFAULTS.NUMBER;
-  }
-  if (size === '0') {
-    size = SORT_DEFAULTS.SIZE;
+  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
+  const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
+  const size = searchParams.get(SEARCH_PARAMS.SIZE);
+  const number = searchParams.get(SEARCH_PARAMS.NUMBER);
+  if (!Object.values(SORT_BY).includes(sortBy)) {
+    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
+    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
+    searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
+    throw redirect(`?${searchParams}`);
   }
 
   // Wait for the Promise-based Response object
