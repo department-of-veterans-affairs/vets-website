@@ -107,4 +107,114 @@ describe('herbicideDetails', () => {
         pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
       });
     });
+
+  describe('edge case validations', () => {
+    const locationId = 'cambodia';
+
+    it('should not submit with incomplete start date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1975-XX-15',
+          endDate: '1976-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with incomplete start date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1975-04-XX',
+          endDate: '1976-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with incomplete start date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: 'XXXX-04-15',
+          endDate: '1976-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with incomplete end date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1975-04-15',
+          endDate: '1976-XX-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with incomplete end date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1975-04-15',
+          endDate: '1976-06-XX',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with incomplete end date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1975-04-15',
+          endDate: 'XXXX-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit when end date is before start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1976-04-15',
+          endDate: '1975-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with only start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1975-04-15',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with only end date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          endDate: '1976-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+  });
 });
