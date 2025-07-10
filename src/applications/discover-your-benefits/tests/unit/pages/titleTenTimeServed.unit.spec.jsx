@@ -6,6 +6,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { Provider } from 'react-redux';
 import { getData } from '../mocks/mockFormData';
 import titleTenTimeServedConfig from '../../../pages/titleTenTimeServed';
+import { timeServedTypes, timeServedLabels } from '../../../constants/benefits';
 
 describe('Military Service Total Time Served Form', () => {
   let wrapper;
@@ -56,5 +57,17 @@ describe('Military Service Total Time Served Form', () => {
     );
 
     expect($('va-radio', container)).to.exist;
+  });
+
+  it('should render the correct labels and values in radio select', () => {
+    const types = Object.values(timeServedTypes);
+    const labels = Object.values(timeServedLabels);
+    for (let i = 0; i < types.length; i++) {
+      const queryString = `va-radio-option[label='${labels[i]}'][value=${
+        types[i]
+      }]`.replace('+', '+\\');
+      const radioOption = document.querySelector(queryString);
+      expect(radioOption).to.exist;
+    }
   });
 });
