@@ -170,6 +170,7 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
       },
     },
     dateOfBirth: profile?.dob || claimant?.dateOfBirth,
+    dob: profile?.dob || claimant?.dateOfBirth,
     [formFields.email]: {
       email: emailAddress,
       confirmEmail: emailAddress,
@@ -295,6 +296,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
       },
     },
     dateOfBirth: profile?.dob || claimant?.dateOfBirth,
+    dob: profile?.dob || claimant?.dateOfBirth,
     [formFields.email]: {
       email: emailAddress,
       confirmEmail: emailAddress,
@@ -372,7 +374,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
 export function mapSelectedSponsors(sponsors) {
   // Map selected sponsors' IDs
   return (
-    sponsors.sponsors?.flatMap(
+    sponsors?.sponsors?.flatMap(
       sponsor => (sponsor.selected ? [sponsor.id] : []),
     ) || []
   );
@@ -388,7 +390,7 @@ export function mapFormSponsors(formData, sponsors, fetchedSponsorsComplete) {
       loadedFromSavedState: true,
     },
     selectedSponsors: mapSelectedSponsors(sponsors),
-    firstSponsor: sponsors.firstSponsor,
+    firstSponsor: sponsors?.firstSponsor,
   };
 }
 
@@ -452,18 +454,15 @@ export const toSnakeCase = obj => {
 };
 
 export const applicantIsaMinor = formData => {
-  // Check if formData or dob is missing
   if (!formData || !formData?.dob) {
     return true;
   }
 
-  // Split the date of birth into parts
   const dateParts = formData.dob.split('-');
   if (!dateParts || dateParts.length !== 3) {
     return true;
   }
 
-  // Calculate the birthday and the date 18 years ago
   const birthday = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
   const today18YearsAgo = new Date(
     new Date(new Date().setFullYear(new Date().getFullYear() - 18)).setHours(
@@ -474,6 +473,5 @@ export const applicantIsaMinor = formData => {
     ),
   );
 
-  // Return true if the applicant is a minor
   return birthday.getTime() >= today18YearsAgo.getTime();
 };
