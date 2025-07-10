@@ -10,12 +10,8 @@ export const wrapWithBreadcrumb = component => (
         breadcrumbList={[
           { href: '/', label: 'Home' },
           {
-            label: 'Get Help From An Accredited Representative',
-            href: '/get-help-from-accredited-representative',
-          },
-          {
-            label: 'Request help from a VA accredited representative or VSO',
-            href: '/get-help-from-accredited-representative/appoint',
+            label: 'Form',
+            href: '/form-title',
           },
         ]}
       />

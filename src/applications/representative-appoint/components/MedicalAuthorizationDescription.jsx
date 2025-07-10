@@ -1,16 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getRepType } from '../utilities/helpers';
 
-const MedicalAuthorizationDescription = ({ formData }) => {
+const MedicalAuthorizationDescription = () => {
   return (
     <>
       <h3>Authorization to access certain medical records</h3>
-      <p className="appoint-text">
-        This accredited {getRepType(formData['view:selectedRepresentative'])}{' '}
-        may need to access certain medical records to help you. You can
-        authorize them to access all or some of these types of records:
-      </p>
+      <p className="appoint-text">This accredited ....</p>
       <ul className="appoint-text">
         <li>Alcoholism and alcohol abuse records</li>
         <li>Drug abuse records</li>
