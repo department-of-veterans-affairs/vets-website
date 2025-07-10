@@ -5,6 +5,7 @@ import environment from 'platform/utilities/environment';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import {
   submissionStatuses,
   WIZARD_STATUS,
@@ -58,7 +59,16 @@ export default class ConfirmationPage extends React.Component {
           >
             Review the information you provided
           </h2>
-          <ConfirmationView.ChapterSectionCollection />
+          {/* // Test with confirmation accordion */}
+          {/* <ConfirmationView.ChapterSectionCollection /> */}
+
+          {/* // Test with review accordion */}
+          <ReviewChapters
+            formConfig={props.route.formConfig}
+            formContext={props.route.formContext}
+            pageList={props.route.pageList}
+            onSetData={() => this.debouncedAutoSave()}
+          />
         </Toggler.Enabled>
       </Toggler>
       <ConfirmationView.PrintThisPage />
