@@ -464,7 +464,7 @@ describe('Disability benefits 526EZ contact information', () => {
   //   form.unmount();
   // });
 
-  it('does not submit without required info', () => {
+  it('does not submit without required info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={fakeStore}>
@@ -498,9 +498,11 @@ describe('Disability benefits 526EZ contact information', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(4);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 

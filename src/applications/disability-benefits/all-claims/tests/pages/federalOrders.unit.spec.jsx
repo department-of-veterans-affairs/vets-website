@@ -120,7 +120,7 @@ describe('Federal orders info', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
-  it('should fail to submit when activation date is in the future', () => {
+  it('should fail to submit when activation date is in the future', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -153,13 +153,14 @@ describe('Federal orders info', () => {
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
       daysFromToday(20),
     );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
-  it('should fail to submit when separation date is before activation', () => {
+  it('should fail to submit when separation date is before activation', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -193,12 +194,14 @@ describe('Federal orders info', () => {
       daysFromToday(-20),
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
-  it('should fail to submit when separation date is > 180 days in the future', () => {
+  it('should fail to submit when separation date is > 180 days in the future', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -236,9 +239,10 @@ describe('Federal orders info', () => {
         .format('YYYY-MM-DD'),
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 });

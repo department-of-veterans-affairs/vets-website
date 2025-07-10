@@ -8,6 +8,7 @@ import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('evidenceTypes', () => {
@@ -63,7 +64,7 @@ describe('evidenceTypes', () => {
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it('should require at least one evidence type when evidence selected', () => {
+  it('should require at least one evidence type when evidence selected', async () => {
     const onSubmit = sinon.spy();
     const { getByText, container } = render(
       <DefinitionTester
@@ -82,10 +83,12 @@ describe('evidenceTypes', () => {
     const submitButton = getByText(/submit/i);
     userEvent.click(submitButton);
     // Error text should be present.
-    expect(onSubmit.called).to.be.false;
-    expect($('va-checkbox-group').error).to.include(
-      'Please select at least one type of supporting evidence',
-    );
+    await waitFor(() => {
+      expect(onSubmit.called).to.be.false;
+      expect($('va-checkbox-group').error).to.include(
+        'Please select at least one type of supporting evidence',
+      );
+    });
   });
 
   it('should submit with all required info', async () => {
