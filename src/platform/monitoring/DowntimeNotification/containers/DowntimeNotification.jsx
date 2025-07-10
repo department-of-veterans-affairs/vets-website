@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { formatDowntime } from 'platform/utilities/date';
 
+import LoadingIndicatorFullPage from '~/platform/site-wide/loading-indicator-full-page/LoadingIndicatorFullPage';
 import {
   getGlobalDowntime,
   getScheduledDowntime,
@@ -43,6 +44,7 @@ class DowntimeNotification extends React.Component {
     getGlobalDowntime: PropTypes.func.isRequired,
     getScheduledDowntime: PropTypes.func.isRequired,
     isReady: PropTypes.bool,
+    loaderMessage: PropTypes.string,
     loadingIndicator: PropTypes.node,
     render: PropTypes.func,
   };
@@ -89,8 +91,8 @@ class DowntimeNotification extends React.Component {
     if (!this.props.isReady) {
       return (
         this.props.loadingIndicator || (
-          <va-loading-indicator
-            message={`Checking the ${this.props.appTitle} status...`}
+          <LoadingIndicatorFullPage
+            message={this.props.loaderMessage ?? 'Loading your information...'}
           />
         )
       );

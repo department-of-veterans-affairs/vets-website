@@ -2,13 +2,13 @@ import React, { useEffect, useCallback } from 'react';
 import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 import { intersection } from 'lodash';
+import LoadingIndicatorFullPage from '~/platform/site-wide/loading-indicator-full-page/LoadingIndicatorFullPage';
 
 import { connect } from 'react-redux';
 import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
 import { hasSession } from '../../profile/utilities';
-// import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const signInQuery = useSiS => ({
   next: window.location.pathname,
@@ -17,14 +17,6 @@ const signInQuery = useSiS => ({
 const nextQuery = { next: window.location.pathname };
 const signInUrl = useSiS => appendQuery('/', signInQuery(useSiS));
 const verifyUrl = appendQuery('/verify', nextQuery);
-
-const RequiredLoginLoader = () => {
-  return (
-    <div className="vads-u-margin-y--5" data-testid="req-loader">
-      <va-loading-indicator set-focus message="Loading your information..." />
-    </div>
-  );
-};
 
 const ProfileErrorMessage = () => {
   return (
@@ -36,7 +28,13 @@ const ProfileErrorMessage = () => {
 };
 
 export const RequiredLoginView = props => {
-  const { user, verify, useSiS, showProfileErrorMessage = false } = props;
+  const {
+    user,
+    verify,
+    useSiS,
+    showProfileErrorMessage = false,
+    loaderMessage,
+  } = props;
 
   const shouldSignIn = useCallback(() => !user.login.currentlyLoggedIn, [
     user.login.currentlyLoggedIn,
@@ -84,9 +82,7 @@ export const RequiredLoginView = props => {
 
   const renderVerifiedContent = () => {
     if (shouldVerify()) {
-      return (
-        <va-loading-indicator set-focus message="Redirecting to verify..." />
-      );
+      return <LoadingIndicatorFullPage message="Redirecting to verify..." />;
     }
 
     const { serviceRequired } = props;
@@ -164,13 +160,17 @@ export const RequiredLoginView = props => {
     }
 
     if (user.profile.loading) {
-      return <RequiredLoginLoader />;
+      return (
+        <LoadingIndicatorFullPage
+          message={loaderMessage ?? 'Loading your information...'}
+        />
+      );
     }
 
     if (shouldSignIn()) {
       return (
         <div className="vads-u-margin-y--5" data-testid="redirect-to-login">
-          <va-loading-indicator set-focus message="Redirecting to login..." />;
+          <LoadingIndicatorFullPage message="Redirecting to login..." />
         </div>
       );
     }
@@ -193,6 +193,7 @@ RequiredLoginView.propTypes = {
     PropTypes.arrayOf(validService),
   ]).isRequired,
   user: PropTypes.object.isRequired,
+  loaderMessage: PropTypes.string,
   showProfileErrorMessage: PropTypes.bool,
   useSiS: PropTypes.bool,
   verify: PropTypes.bool,
@@ -203,5 +204,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(RequiredLoginView);
-
-export { RequiredLoginLoader };
