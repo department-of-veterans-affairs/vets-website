@@ -85,7 +85,7 @@ class YourClaimsPageV2 extends React.Component {
         setUpPage();
       }
     } else {
-      focusElement('#main h1');
+      focusElement('h1');
     }
   }
 
