@@ -89,6 +89,7 @@ describe('gulfWar1990Details', () => {
       // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
       // however we want Veterans to be able to submit with a completely blank date.
       // Note to revisit after we land on a solution for accommodating partial dates.
+      // @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
       it(`should not submit without dates for ${locationId}`, () => {
         pageSubmitTest(
           schemas[`gulf-war-1990-location-${locationId}`],
@@ -113,10 +114,13 @@ describe('gulfWar1990Details', () => {
       });
     });
 
-  /* more things to test but would be heavy to test for every TE details page and
-  location/hazard. since all the TE pages are similarly setup, we'll test edge
-  cases here. all pages should test for submission with no dates and with both dates.
-  */
+  /*
+   * Edge case validations for toxic exposure dates.
+   * TODO: We currently validate against partial dates on the frontend to prevent the 'XX' date issue.
+   * In the future, we may want Veterans to be able to submit with completely blank dates.
+   * Note to revisit after we land on a solution for accommodating partial dates.
+   * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
+   */
 
   // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
   // however we want Veterans to be able to submit with a completely blank date.

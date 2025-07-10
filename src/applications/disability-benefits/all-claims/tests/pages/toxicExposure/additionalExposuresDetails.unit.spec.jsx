@@ -91,9 +91,11 @@ describe('additional exposures details', () => {
         }
       });
 
-      // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
-      // however we want Veterans to be able to submit with a completely blank date.
-      // Note to revisit after we land on a solution for accommodating partial dates.
+      /*
+       * TODO: We currently validate against partial dates on the frontend.
+       * Future consideration: allow Veterans to submit with completely blank dates.
+       * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
+       */
       it(`should not submit without dates for ${itemId}`, () => {
         pageSubmitTest(
           schemas[`additional-exposure-${itemId}`],
@@ -114,7 +116,12 @@ describe('additional exposures details', () => {
       });
     });
 
-  // Additional edge case tests as suggested in PR feedback
+  /*
+   * Edge case validations for toxic exposure dates.
+   * TODO: We currently validate against partial dates on the frontend.
+   * Future consideration: allow Veterans to submit with completely blank dates.
+   * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
+   */
   describe('edge case validations', () => {
     const itemId = 'asbestos'; // Using asbestos as the test case
 
