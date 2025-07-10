@@ -41,25 +41,13 @@ const responses = {
     },
   },
   'GET /travel_pay/v0/claims': travelClaims,
-
-  // 'GET /travel_pay/v0/claims': (req, res) => {
-  //   return res.status(200).json({
-  //     metadata: {
-  //       status: 200,
-  //       pageNumber: 1,
-  //       totalRecordCount: 0,
-  //     },
-  //     data: [],
-  //   });
-  // },
-
   // 'GET /travel_pay/v0/claims': (req, res) => {
   //   return res.status(503).json({
   //     errors: [
   //       {
   //         title: 'Server error',
   //         status: 503,
-  //         detail: 'An unknown server error has occurred.',
+  //         detail: 'An unknown server error has occured.',
   //         code: 'VA900',
   //       },
   //     ],
