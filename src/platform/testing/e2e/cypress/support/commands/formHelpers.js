@@ -172,3 +172,11 @@ Cypress.Commands.add('clickFormBack', () => {
       }
     });
 });
+
+Cypress.Commands.add('clickStartForm', () => {
+  cy.get(
+    'a.vads-c-action-link--green[href*="/start"], va-link-action[href*="/start"]',
+  )
+    .first()
+    .click();
+});
