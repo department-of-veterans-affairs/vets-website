@@ -637,9 +637,6 @@ const responses = {
     },
   ],
 
-  'OPTIONS /v0/maintenance_windows': 'OK',
-  'GET /v0/maintenance_windows': { data: [] },
-
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
@@ -655,5 +652,83 @@ const responses = {
     },
   },
 };
+
+// --- MAINTENANCE WINDOWS MOCKS FOR LOCAL TESTING ---
+// To test downtime for a specific service, uncomment the desired block below and comment out the others.
+function makeMaintenanceWindow({
+  externalService,
+  description,
+  impact,
+  startTime = '2023-01-01T00:00:00Z',
+  endTime = '2025-12-31T23:59:59Z',
+  status = 'down',
+  maintenanceType = 'scheduled',
+}) {
+  return {
+    data: [
+      {
+        id: `${externalService}-maintenance`,
+        type: 'maintenance_windows',
+        attributes: {
+          externalService,
+          description,
+          startTime,
+          endTime,
+          status,
+          maintenanceType,
+          impact,
+        },
+      },
+    ],
+  };
+}
+
+// No maintenance windows (default state)
+responses['GET /v0/maintenance_windows'] = makeMaintenanceWindow({
+  externalService: 'none',
+  description: 'No maintenance windows active',
+  impact: 'All services are operational',
+  startTime: '2023-01-01T00:00:00Z',
+  endTime: '2023-01-01T00:00:00Z',
+  status: 'up',
+  maintenanceType: 'none',
+});
+
+// Only EVSS down
+// responses['GET /v0/maintenance_windows'] = makeMaintenanceWindow({
+//   externalService: 'evss',
+//   description: 'EVSS is currently down for maintenance. Claims status information is temporarily unavailable.',
+//   impact: 'Claims status information is temporarily unavailable',
+// });
+
+// Only GLOBAL down
+// responses['GET /v0/maintenance_windows'] = makeMaintenanceWindow({
+//   externalService: 'global',
+//   description: 'VA.gov is undergoing scheduled maintenance. All services may be affected.',
+//   impact: 'All VA.gov services may be temporarily unavailable',
+// });
+
+// Only MVI down
+// responses['GET /v0/maintenance_windows'] = makeMaintenanceWindow({
+//   externalService: 'mvi',
+//   description: 'MVI is currently down for maintenance. Veteran identity verification is temporarily unavailable.',
+//   impact: 'Identity verification and some profile features are unavailable',
+// });
+
+// Only VA Profile down
+// responses['GET /v0/maintenance_windows'] = makeMaintenanceWindow({
+//   externalService: 'vet360',
+//   description: 'VA Profile is currently down for maintenance. Profile updates are temporarily unavailable.',
+//   impact: 'Profile updates and contact information may be unavailable',
+// });
+
+// Only VBMS down
+// responses['GET /v0/maintenance_windows'] = makeMaintenanceWindow({
+//   externalService: 'vbms',
+//   description: 'VBMS is currently down for maintenance. Document uploads and claim details are temporarily unavailable.',
+//   impact: 'Document uploads and claim details are temporarily unavailable',
+// });
+
+// --- END MAINTENANCE WINDOWS MOCKS ---
 
 module.exports = responses;
