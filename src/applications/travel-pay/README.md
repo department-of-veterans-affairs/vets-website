@@ -56,22 +56,6 @@ We are going to serve the built website through a static server, defining the PO
 WEB_PORT=3001 node src/platform/testing/e2e/test-server.js --buildtype=localhost
 ```
 
-#### Alternate `watch` method
-
-In one terminal window, start the mock-api and serve the frontend:
-
-```bash
-(trap "kill 0" SIGINT; yarn mock-api --responses src/applications/travel-pay/services/mocks/index.js & WEB_PORT=3001 node src/platform/testing/e2e/test-server.js --buildtype=localhost)
-```
-
-In another terminal, run the build, with the `--watch` flag.
-
-```bash
-yarn build:webpack:local --env api="http://localhost:3000" --watch
-```
-
-This will allow hot reloading when files are changed for both the mock-api response files, as well as frontend build files.
-
 #### Trick user session
 
 - Force the user to have a session by opening your console and typing `localStorage.setItem('hasSession', true)` into the dev console
