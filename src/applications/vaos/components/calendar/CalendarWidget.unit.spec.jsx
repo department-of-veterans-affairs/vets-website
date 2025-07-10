@@ -366,7 +366,7 @@ describe('VAOS Component: CalendarWidget', () => {
     });
   });
 
-  it('should not show calendar when disabled and shouldShowWhileDisabled is false', async () => {
+  it('should not show calendar when disabled and hideWhileDisabled is true', async () => {
     // Arrange
     const timezone = 'America/Denver';
     const nowUTC = startOfMonth(addMonths(new Date(), 1));
@@ -425,7 +425,7 @@ describe('VAOS Component: CalendarWidget', () => {
             required: true,
           }}
           disabled
-          shouldShowWhileDisabled={false}
+          hideWhileDisabled
           disabledMessage="Calendar is currently disabled"
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));
@@ -467,7 +467,7 @@ describe('VAOS Component: CalendarWidget', () => {
     );
   });
 
-  it('should show calendar when disabled and shouldShowWhileDisabled is true', async () => {
+  it('should show calendar when disabled and hideWhileDisabled is false', async () => {
     // Arrange
     const timezone = 'America/Denver';
     const nowUTC = startOfMonth(addMonths(new Date(), 1));
@@ -526,7 +526,7 @@ describe('VAOS Component: CalendarWidget', () => {
             required: true,
           }}
           disabled
-          shouldShowWhileDisabled
+          hideWhileDisabled={false}
           disabledMessage="Calendar is currently disabled"
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));

@@ -180,7 +180,7 @@ export default function SelectDate1Page() {
             id="dateTime"
             timezone={timezone}
             disabled={loadingSlots}
-            shouldShowWhileDisabled={false}
+            hideWhileDisabled
             disabledMessage={
               // eslint-disable-next-line react/jsx-wrap-multilines
               <va-loading-indicator

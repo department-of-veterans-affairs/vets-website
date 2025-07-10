@@ -236,7 +236,7 @@ function handleNext(onClickNext, months, setMonths) {
  * @param {Array<string>} props.value
  * @param {boolean} [props.showWeekends=false] Whether to show full weekend slots or not
  * @param {boolean} [props.overrideMaxDays=false] Disables the default max days value
- * @param {boolean} [props.shouldShowWhileDisabled=false] Whether to show the calendar while disabled
+ * @param {boolean} [props.hideWhileDisabled=false] Whether to show the calendar while disabled
  * @returns {JSX.Element} props.Calendar Calendar Widget
  */
 function CalendarWidget({
@@ -265,7 +265,7 @@ function CalendarWidget({
   showWeekends = false,
   upcomingAppointments = [],
   isAppointmentSelectionError,
-  shouldShowWhileDisabled = true,
+  hideWhileDisabled = false,
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
     if (value.length > 0) {
@@ -280,12 +280,12 @@ function CalendarWidget({
   const exceededMaximumSelections = value.length > maxSelections;
   const hasError = (required && showValidation) || exceededMaximumSelections;
 
-  const shouldShow = !disabled || shouldShowWhileDisabled;
-
+  // Undefined allows to unset aria-hidden
+  const hideCalendar = (disabled && hideWhileDisabled) || undefined;
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
     'vaos-calendar__disabled': disabled,
     'usa-input-error': hasError,
-    'vads-u-visibility--hidden': !shouldShow,
+    'vads-u-visibility--hidden': hideCalendar,
   });
 
   // declare const from renderMonth here
@@ -314,9 +314,7 @@ function CalendarWidget({
         <div
           data-testid="vaos-calendar"
           className={calendarCss}
-          // Hide from screen readers if disabled and not showing
-          // but remove attribute if it is showing (using undefined)
-          aria-hidden={!shouldShow || undefined}
+          aria-hidden={hideCalendar}
         >
           {hasError && (
             <span
@@ -427,6 +425,7 @@ CalendarWidget.propTypes = {
   ),
   disabled: PropTypes.bool,
   disabledMessage: PropTypes.object,
+  hideWhileDisabled: PropTypes.bool,
   isAppointmentSelectionError: PropTypes.bool,
   maxDate: PropTypes.string,
   maxSelections: PropTypes.number,
@@ -438,7 +437,6 @@ CalendarWidget.propTypes = {
   renderSelectedLabel: PropTypes.func,
   required: PropTypes.bool,
   requiredMessage: PropTypes.string,
-  shouldShowWhileDisabled: PropTypes.bool,
   showValidation: PropTypes.bool,
   showWeekends: PropTypes.bool,
   startMonth: PropTypes.string,
