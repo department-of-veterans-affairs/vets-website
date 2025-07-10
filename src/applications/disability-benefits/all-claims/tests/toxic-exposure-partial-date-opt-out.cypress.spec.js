@@ -21,7 +21,12 @@ import {
 
 const FULL_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
-describe('Toxic exposure date handling when reverting condition association', () => {
+/**
+ * TODO: Re-enable this test once partial date support is added back
+ * Currently, the frontend validation prevents partial dates from being submitted.
+ * @see https://github.com/orgs/department-of-veterans-affairs/projects/1683/views/9?filterQuery=partial&pane=issue&itemId=115699524&issue=department-of-veterans-affairs%7Cva.gov-team%7C112288
+ */
+describe.skip('Toxic exposure date handling when reverting condition association', () => {
   beforeEach(() => {
     window.sessionStorage.setItem(SHOW_8940_4192, 'true');
     window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
@@ -188,11 +193,14 @@ describe('Toxic exposure date handling when reverting condition association', ()
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_startDateYear"]',
     ).type('1992');
     cy.get(
-      'select[name="root_toxicExposure_gulfWar1990Details_iraq_endDateMonth"]',
-    ).select('December');
+      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
+    ).type('1992');
     cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateDay"]',
-    ).type('31');
+      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
+    ).blur();
+    cy.get(
+      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
+    ).clear();
     cy.get(
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
     ).type('1993');
@@ -301,7 +309,7 @@ describe('Toxic exposure date handling when reverting condition association', ()
     cy.get('button#4-continueButton').click();
   });
 
-  it('submits complete dates for Iraq toxic exposure location', () => {
+  it('submits a partial date for a toxic exposure location', () => {
     cy.injectAxeThenAxeCheck();
     cy.wait('@submitClaim').then(({ request }) => {
       const gulfDetails = request.body.form526.toxicExposure.gulfWar1990Details;
@@ -309,7 +317,7 @@ describe('Toxic exposure date handling when reverting condition association', ()
       const iraqEnd = gulfDetails.iraq.endDate;
 
       expect(iraqStart).to.match(FULL_DATE, 'Iraq startDate is complete');
-      expect(iraqEnd).to.match(FULL_DATE, 'Iraq endDate is complete');
+      expect(iraqEnd).to.not.match(FULL_DATE, 'Iraq endDate is partial');
     });
   });
 

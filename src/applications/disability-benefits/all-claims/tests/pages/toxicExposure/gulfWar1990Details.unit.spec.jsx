@@ -113,8 +113,8 @@ describe('gulfWar1990Details', () => {
       });
     });
 
-  /* more things to test but would be heavy to test for every TE details page and 
-  location/hazard. since all the TE pages are similarly setup, we'll test edge 
+  /* more things to test but would be heavy to test for every TE details page and
+  location/hazard. since all the TE pages are similarly setup, we'll test edge
   cases here. all pages should test for submission with no dates and with both dates.
   */
 
@@ -157,39 +157,6 @@ describe('gulfWar1990Details', () => {
     };
 
     pageSubmitTest(schemas['gulf-war-1990-location-saudiarabia'], data, true);
-  });
-
-  it(`should not submit when empty month`, () => {
-    const data = JSON.parse(JSON.stringify(formData));
-    data.toxicExposure.gulfWar1990Details = {
-      jordan: {
-        startDate: '1990-XX-05',
-      },
-    };
-
-    pageSubmitTest(schemas['gulf-war-1990-location-jordan'], data, false);
-  });
-
-  it(`should not submit when empty day`, () => {
-    const data = JSON.parse(JSON.stringify(formData));
-    data.toxicExposure.gulfWar1990Details = {
-      kuwait: {
-        startDate: '1990-01-XX',
-      },
-    };
-
-    pageSubmitTest(schemas['gulf-war-1990-location-kuwait'], data, false);
-  });
-
-  it(`should not submit when empty year`, () => {
-    const data = JSON.parse(JSON.stringify(formData));
-    data.toxicExposure.gulfWar1990Details = {
-      neutralzone: {
-        startDate: 'XXXX-01-01',
-      },
-    };
-
-    pageSubmitTest(schemas['gulf-war-1990-location-neutralzone'], data, false);
   });
 
   it(`should not submit when non numeric chars`, () => {
@@ -236,7 +203,7 @@ describe('gulfWar1990Details', () => {
     pageSubmitTest(schemas['gulf-war-1990-location-turkey'], data, false);
   });
 
-  it(`should not submit when start date is before end date`, () => {
+  it(`should not submit when end date is before start date`, () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       turkey: {
@@ -258,5 +225,77 @@ describe('gulfWar1990Details', () => {
     };
 
     pageSubmitTest(schemas['gulf-war-1990-location-turkey'], data, false);
+  });
+
+  it(`should not submit with incomplete start date (missing month)`, () => {
+    const data = JSON.parse(JSON.stringify(formData));
+    data.toxicExposure.gulfWar1990Details = {
+      jordan: {
+        startDate: '1990-XX-05',
+        endDate: '1991-06-15',
+      },
+    };
+
+    pageSubmitTest(schemas['gulf-war-1990-location-jordan'], data, false);
+  });
+
+  it(`should not submit with incomplete start date (missing day)`, () => {
+    const data = JSON.parse(JSON.stringify(formData));
+    data.toxicExposure.gulfWar1990Details = {
+      kuwait: {
+        startDate: '1990-08-XX',
+        endDate: '1991-02-28',
+      },
+    };
+
+    pageSubmitTest(schemas['gulf-war-1990-location-kuwait'], data, false);
+  });
+
+  it(`should not submit with incomplete start date (missing year)`, () => {
+    const data = JSON.parse(JSON.stringify(formData));
+    data.toxicExposure.gulfWar1990Details = {
+      neutralzone: {
+        startDate: 'XXXX-08-15',
+        endDate: '1991-03-01',
+      },
+    };
+
+    pageSubmitTest(schemas['gulf-war-1990-location-neutralzone'], data, false);
+  });
+
+  it(`should not submit with incomplete end date (missing month)`, () => {
+    const data = JSON.parse(JSON.stringify(formData));
+    data.toxicExposure.gulfWar1990Details = {
+      oman: {
+        startDate: '1990-08-15',
+        endDate: '1991-XX-20',
+      },
+    };
+
+    pageSubmitTest(schemas['gulf-war-1990-location-oman'], data, false);
+  });
+
+  it(`should not submit with incomplete end date (missing day)`, () => {
+    const data = JSON.parse(JSON.stringify(formData));
+    data.toxicExposure.gulfWar1990Details = {
+      qatar: {
+        startDate: '1990-09-01',
+        endDate: '1991-02-XX',
+      },
+    };
+
+    pageSubmitTest(schemas['gulf-war-1990-location-qatar'], data, false);
+  });
+
+  it(`should not submit with incomplete end date (missing year)`, () => {
+    const data = JSON.parse(JSON.stringify(formData));
+    data.toxicExposure.gulfWar1990Details = {
+      uae: {
+        startDate: '1990-10-10',
+        endDate: 'XXXX-03-15',
+      },
+    };
+
+    pageSubmitTest(schemas['gulf-war-1990-location-uae'], data, false);
   });
 });
