@@ -62,6 +62,7 @@ export default function LearnMoreLabel({
           label={ariaLabel}
           className={`learn-more-btn ${bold ? 'learn-more-bold-text' : ''}`}
           onClick={onClick}
+          aria-label="Learn more"
         />
       </span>
     </span>
