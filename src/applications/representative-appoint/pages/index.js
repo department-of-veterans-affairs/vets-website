@@ -21,6 +21,8 @@ import * as replaceAccreditedRepresentative from './representative/replaceAccred
 import * as selectedAccreditedOrganizationId from './representative/selectAccreditedOrganization';
 import * as contactAccreditedRepresentative from './representative/contactAccreditedRepresentative';
 import * as representativeSubmissionMethod from './representative/representativeSubmissionMethod';
+import * as checkboxPage from './checkboxPage';
+import * as radioPage from './radioPage';
 
 export {
   authorizeMedical,
@@ -46,4 +48,6 @@ export {
   selectedAccreditedOrganizationId,
   contactAccreditedRepresentative,
   representativeSubmissionMethod,
+  checkboxPage,
+  radioPage,
 };

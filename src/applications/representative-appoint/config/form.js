@@ -9,11 +9,17 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { generatePDF } from '../api/generatePDF';
 import { submitPOARequest } from '../api/submitPOARequest';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
-import { selectAccreditedRepresentative } from '../pages';
+import {
+  // selectAccreditedRepresentative,
+  // claimantPersonalInformation,
+  // claimantContactMailing,
+  // claimantContactPhoneEmail,
+  // veteranIdentification,
+  // veteranServiceInformation,
+  checkboxPage,
+} from '../pages';
 
 // import initialData from '../tests/fixtures/data/test-data.json';
-import SelectAccreditedRepresentative from '../components/SelectAccreditedRepresentative';
-import SelectedAccreditedRepresentativeReview from '../components/SelectAccreditedRepresentativeReview';
 
 import SubmissionError from '../components/SubmissionError';
 
@@ -80,16 +86,27 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    accreditedRepresentativeInformation: {
-      title: 'Accredited representative information',
+    // accreditedRepresentativeInformation: {
+    //   title: 'Accredited representative information',
+    //   pages: {
+    //     selectAccreditedRepresentative: {
+    //       title: 'Representative Select',
+    //       path: 'representative-select',
+    //       CustomPage: SelectAccreditedRepresentative,
+    //       CustomPageReview: SelectedAccreditedRepresentativeReview,
+    //       uiSchema: selectAccreditedRepresentative.uiSchema,
+    //       schema: selectAccreditedRepresentative.schema,
+    //     },
+    //   },
+    // },
+    claimantInfo: {
+      title: 'Your information',
       pages: {
-        selectAccreditedRepresentative: {
-          title: 'Representative Select',
-          path: 'representative-select',
-          CustomPage: SelectAccreditedRepresentative,
-          CustomPageReview: SelectedAccreditedRepresentativeReview,
-          uiSchema: selectAccreditedRepresentative.uiSchema,
-          schema: selectAccreditedRepresentative.schema,
+        checkboxPage: {
+          path: 'checkbox',
+          title: 'Checkbox',
+          uiSchema: checkboxPage.uiSchema,
+          schema: checkboxPage.schema,
         },
       },
     },
@@ -99,3 +116,51 @@ const formConfig = {
 configService.setFormConfig(formConfig);
 
 export default formConfig;
+
+// claimantInfo: {
+//   title: 'Your information',
+//   pages: {
+//     checkboxPage: {
+//       path: 'checkbox',
+//       title: 'Checkbox',
+//       uiSchema: checkboxPage.uiSchema,
+//       schema: checkboxPage.schema,
+//     },
+//     radioPage: {
+//       path: 'radio',
+//       title: 'Radio',
+//       uiSchema: radioPage.uiSchema,
+//       schema: radioPage.schema,
+//     },
+//     claimantPersonalInformation: {
+//       path: 'claimant-personal-information',
+//       title: 'Your Personal Information',
+//       uiSchema: claimantPersonalInformation.uiSchema,
+//       schema: claimantPersonalInformation.schema,
+//     },
+//     claimantContactMailing: {
+//       path: 'claimant-contact-mailing',
+//       title: 'Your mailing address',
+//       uiSchema: claimantContactMailing.uiSchema,
+//       schema: claimantContactMailing.schema,
+//     },
+//     claimantContactPhoneEmail: {
+//       path: 'claimant-contact-phone-email',
+//       title: 'Your phone number and email address',
+//       uiSchema: claimantContactPhoneEmail.uiSchema,
+//       schema: claimantContactPhoneEmail.schema,
+//     },
+//     veteranIdentification: {
+//       path: 'veteran-identification',
+//       title: `Your identification information`,
+//       uiSchema: veteranIdentification.uiSchema,
+//       schema: veteranIdentification.schema,
+//     },
+//     veteranServiceInformation: {
+//       path: 'veteran-service-information',
+//       title: `Your service information`,
+//       uiSchema: veteranServiceInformation.uiSchema,
+//       schema: veteranServiceInformation.schema,
+//     },
+//   },
+// },
