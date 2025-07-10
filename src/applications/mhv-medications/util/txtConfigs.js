@@ -6,6 +6,7 @@ import {
   displayProviderName,
   getRefillHistory,
   getShowRefillHistory,
+  pendingMedStatusDescription,
   processList,
   validateField,
   validateIfAvailable,
@@ -21,6 +22,13 @@ import {
  * Return Non-VA prescription TXT
  */
 export const buildNonVAPrescriptionTXT = prescription => {
+  const pendingMed =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'NewOrder';
+  const pendingRenewal =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'Renew';
+
   return `
 ---------------------------------------------------------------------------------
 
@@ -37,7 +45,11 @@ Reason for use: ${validateIfAvailable(
     prescription.indicationForUse,
   )}
 
-Status: ${validateField(prescription.dispStatus?.toString())}
+Status: ${
+    pendingMed || pendingRenewal
+      ? pendingMedStatusDescription(prescription?.dispStatus?.toString())
+      : validateField(prescription.dispStatus?.toString())
+  }
 A VA provider added this medication record in your VA medical records. But this isn't a prescription you filled through a VA pharmacy. You can't request refills or manage this medication through this online tool.
 Non-VA medications include these types:
 ${nonVAMedicationTypes}
@@ -107,7 +119,11 @@ Prescription number: ${rx.prescriptionNumber}
 `
         : ''
     }
-Status: ${rx.dispStatus || 'Unknown'}
+Status: ${
+      pendingMed || pendingRenewal
+        ? pendingMedStatusDescription(rx?.dispStatus?.toString())
+        : rx.dispStatus || 'Unknown'
+    }
 ${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
       (fullStatus, item) =>
         fullStatus + item.value + (item.continued ? ' ' : '\n'),
@@ -242,7 +258,11 @@ Prescription number: ${prescription.prescriptionNumber}
 `
       : ''
   }
-Status: ${prescription.dispStatus || 'Unknown'}
+Status: ${
+    pendingMed || pendingRenewal
+      ? pendingMedStatusDescription(prescription?.dispStatus?.toString())
+      : prescription.dispStatus || 'Unknown'
+  }
 ${(
     pdfStatusDefinitions[prescription.refillStatus] ||
     pdfDefaultStatusDefinition
