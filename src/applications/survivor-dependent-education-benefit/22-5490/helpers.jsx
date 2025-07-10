@@ -105,11 +105,15 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let middleName;
   let lastName;
   let suffix;
-  if (profile?.userFullName?.first && profile?.userFullName?.last) {
+
+  if (formData?.relativeFullName?.first && formData?.relativeFullName?.last) {
+    firstName = formData?.relativeFullName.first;
+    middleName = formData?.relativeFullName.middle;
+    lastName = formData?.relativeFullName.last;
+  } else if (profile?.userFullName?.first && profile?.userFullName?.last) {
     firstName = profile.userFullName.first;
     middleName = profile.userFullName.middle;
     lastName = profile.userFullName.last;
-    // suffix = ???
   } else {
     firstName = claimant.firstName;
     middleName = claimant.middleName;
@@ -163,7 +167,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
     relativeSsn: formData?.relativeSocialSecurityNumber || formData?.ssn,
     highSchoolDiploma: formData?.highSchoolDiploma,
     graduationDate: formData?.graduationDate,
-    claimantDateOfBirth: profile?.dob || claimant?.dateOfBirth,
+    claimantDateOfBirth:
+      profile?.dob || formData?.relativeDateOfBirth || claimant?.dateOfBirth,
     marriageStatus: formData?.marriageStatus,
     marriageDate: formData?.marriageDate,
     remarriageStatus: formData?.remarriageStatus,
@@ -173,17 +178,17 @@ export function prefillTransformer(pages, formData, metadata, state) {
     email: emailAddress,
     confirmEmail: emailAddress,
     mobilePhone: {
-      phone: mobilePhoneNumber?.replace(/\D/g, ''),
+      phone: mobilePhoneNumber?.replace(/\D/g, '') || null,
       isInternational: mobilePhoneIsInternational,
     },
     homePhone: {
-      phone: homePhoneNumber?.replace(/\D/g, ''),
+      phone: homePhoneNumber?.replace(/\D/g, '') || null,
       isInternational: homePhoneIsInternational,
     },
     mailingAddressInput: {
       address: {
         street: address?.addressLine1,
-        street2: address?.addressLine2 || undefined,
+        street2: address?.addressLine2 || null,
         city: address?.city,
         state: address?.stateCode || address?.province,
         postalCode:
