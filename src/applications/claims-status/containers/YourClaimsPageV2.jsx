@@ -189,13 +189,14 @@ class YourClaimsPageV2 extends React.Component {
     const atLeastOneRequestLoading =
       claimsLoading || appealsLoading || stemClaimsLoading;
     const emptyList = !(list && list.length);
-    if (
-      !this.props.isSmoothLoadingEnabled &&
-      (allRequestsLoading || (atLeastOneRequestLoading && emptyList))
-    ) {
-      content = (
-        <va-loading-indicator message="Loading your claims and appeals..." />
-      );
+    if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
+      if (this.props.isSmoothLoadingEnabled) {
+        content = <ClaimCardLoadingSkeleton />;
+      } else {
+        content = (
+          <va-loading-indicator message="Loading your claims and appeals..." />
+        );
+      }
     } else if (!emptyList) {
       const listLen = list.length;
       const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
@@ -221,10 +222,8 @@ class YourClaimsPageV2 extends React.Component {
                 <va-loading-indicator message="Loading your claims and appeals..." />
               )}
             {pageItems.map(claim => this.renderListItem(claim))}
-            {this.props.isSmoothLoadingEnabled && atLeastOneRequestLoading ? (
-              <ClaimCardLoadingSkeleton />
-            ) : (
-              <ClaimCardLoadingSkeleton isLoading={false} />
+            {this.props.isSmoothLoadingEnabled && (
+              <ClaimCardLoadingSkeleton isLoading={atLeastOneRequestLoading} />
             )}
             {shouldPaginate && (
               <VaPagination

@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 
 import LoadingSkeleton from '../LoadingSkeleton';
 
+/**
+ * @component
+ * A loading skeleton specifically designed for claim cards.
+ *
+ * @param {boolean} [isLoading=true] Whether content is loading. When true, displays skeleton. When false, renders empty but announces "Claims and appeals have loaded" to screen readers for accessibility.
+ */
 export default function ClaimCardLoadingSkeleton({ isLoading = true }) {
   return (
     <LoadingSkeleton

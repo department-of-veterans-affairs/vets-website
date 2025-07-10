@@ -45,7 +45,11 @@ export default function LoadingSkeleton({
       className={classes}
       data-testid={`${id}-loading-skeleton`}
     >
-      <span aria-live="polite" className="sr-only">
+      <span
+        aria-live="polite"
+        className="sr-only"
+        data-testid={`${id}-loading-skeleton-sr-text`}
+      >
         {isLoading ? srLabel : srLoadedLabel}
       </span>
       {isLoading && (
