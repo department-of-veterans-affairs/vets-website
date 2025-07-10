@@ -27,7 +27,7 @@ const AppConfig = ({
     site: 'ddog-gov.com',
     service: 'mhv-on-va.gov',
     sessionSampleRate: 50,
-    sessionReplaySampleRate: 1,
+    sessionReplaySampleRate: 50,
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
