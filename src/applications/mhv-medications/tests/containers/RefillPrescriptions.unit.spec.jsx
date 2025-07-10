@@ -55,10 +55,7 @@ describe('Refill Prescriptions Component', () => {
         ],
       },
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medications_display_refill_content: true,
-    },
+    featureToggles: {},
     user: {
       login: {
         currentlyLoggedIn: true,
@@ -93,10 +90,7 @@ describe('Refill Prescriptions Component', () => {
   it('Shows 404 page if feature toggle is disabled', async () => {
     const screen = setup({
       ...initialState,
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_content: false,
-      },
+      featureToggles: {},
       rx: {
         ...initialState.rx,
         prescriptions: {

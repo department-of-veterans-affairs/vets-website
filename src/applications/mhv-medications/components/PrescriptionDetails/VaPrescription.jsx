@@ -28,7 +28,6 @@ import ExtraDetails from '../shared/ExtraDetails';
 import {
   selectGroupingFlag,
   selectPartialFillContentFlag,
-  selectRefillContentFlag,
   selectRefillProgressFlag,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
@@ -39,7 +38,6 @@ import ProcessList from '../shared/ProcessList';
 import { landMedicationDetailsAal } from '../../api/rxApi';
 
 const VaPrescription = prescription => {
-  const showRefillContent = useSelector(selectRefillContentFlag);
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
@@ -187,7 +185,7 @@ const VaPrescription = prescription => {
             {/* TODO: clean after refill progress content flag is gone */}
             {!showRefillProgressContent && (
               <>
-                {showRefillContent && prescription?.isRefillable ? (
+                {prescription?.isRefillable ? (
                   <Link
                     // TODO: clean after grouping flag is gone
                     className={`${
@@ -274,7 +272,7 @@ const VaPrescription = prescription => {
                 {/* TODO: clean after refill progress content flag is gone */}
                 {showRefillProgressContent && (
                   <>
-                    {showRefillContent && prescription?.isRefillable ? (
+                    {prescription?.isRefillable ? (
                       <Link
                         // TODO: clean after grouping flag is gone
                         className={`${
