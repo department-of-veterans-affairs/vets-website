@@ -470,3 +470,64 @@ Cypress.Commands.add(
     });
   },
 );
+
+Cypress.Commands.add('checkForImposterComponents', () => {
+  cy.log('🔍 Checking for imposter components...');
+
+  cy.location('pathname').then(currentPath => {
+    cy.log(`Checking path: ${currentPath}`);
+    const nativeSelectors = ['button', 'input', 'select', 'textarea', 'a'];
+    const issues = [];
+
+    nativeSelectors.forEach(selector => {
+      const elements = Cypress.$(`#content ${selector}`);
+      cy.log(`Found ${elements.length} ${selector} elements`);
+
+      elements.each((_, el) => {
+        const $el = Cypress.$(el);
+
+        if ($el.closest('va-*').length) return;
+        if (!$el.is(':visible')) return;
+
+        const tag = el.tagName.toLowerCase();
+        const type = el.type || '';
+        const issue = {
+          path: currentPath,
+          tag,
+          type,
+          id: el.id || '',
+          className: el.className || '',
+          text: $el
+            .text()
+            .trim()
+            .slice(0, 100),
+          suggested:
+            {
+              button: 'va-button',
+              a: 'va-link',
+              input: type === 'checkbox' ? 'va-checkbox' : 'va-text-input',
+              textarea: 'va-textarea',
+              select: 'va-select',
+            }[tag] || '[unknown]',
+        };
+
+        issues.push(issue);
+      });
+    });
+    cy.log(`Total imposter components found: ${issues.length}`);
+
+    if (issues.length) {
+      cy.log('Writing imposter components report...');
+
+      // Simple approach: always write the current issues, don't try to merge
+      // Multiple test runs will each create their own snapshots
+      cy.writeFile('cypress/component-usage-report.json', {
+        issues,
+        timestamp: new Date().toISOString(),
+        path: currentPath,
+      });
+    } else {
+      cy.log('No imposter components found on this page');
+    }
+  });
+});

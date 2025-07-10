@@ -174,6 +174,7 @@ const performPageActions = (pathname, _13647Exception = false) => {
 
     cy.expandAccordions();
     cy.injectAxe();
+
     cy.axeCheck('main', { _13647Exception });
 
     const postHookPromise = new Promise(resolve => {
@@ -189,10 +190,18 @@ const performPageActions = (pathname, _13647Exception = false) => {
  * Top level loop that invokes all of the processing for a form page and
  * asserts that it proceeds to the next page until it gets to the confirmation.
  */
-const processPage = ({ _13647Exception, stopTestAfterPath }) => {
+const processPage = ({
+  _13647Exception,
+  stopTestAfterPath,
+  checkForImposterComponents = false,
+}) => {
   cy.location('pathname', NO_LOG_OPTION).then(pathname => {
     if (pathname.endsWith(stopTestAfterPath)) {
       return;
+    }
+
+    if (checkForImposterComponents) {
+      cy.checkForImposterComponents();
     }
 
     performPageActions(pathname, _13647Exception);
@@ -204,7 +213,13 @@ const processPage = ({ _13647Exception, stopTestAfterPath }) => {
             throw new Error(`Expected to navigate away from ${pathname}`);
           }
         })
-        .then(() => processPage({ _13647Exception, stopTestAfterPath }));
+        .then(() =>
+          processPage({
+            _13647Exception,
+            stopTestAfterPath,
+            checkForImposterComponents,
+          }),
+        );
     }
   });
 };
@@ -580,7 +595,16 @@ const testForm = testConfig => {
     // whether or not to auto fill web component fields
     // (using RJSF naming convention #root_field_subField)
     useWebComponentFields = true,
+    checkForImposterComponents = false,
   } = testConfig;
+
+  // Override checkForImposterComponents if Cypress environment variable is set
+  const shouldCheckForImposterComponents =
+    checkForImposterComponents ||
+    Cypress.env('checkForImposterComponents') === 'true' ||
+    Cypress.env('checkForImposterComponents') === true ||
+    // Also check for global window variable as fallback
+    (typeof window !== 'undefined' && window.enableImposterComponentChecking);
 
   const skippedTests = Array.isArray(skip) && new Set(skip);
   const testSuite = skip && !skippedTests ? describe.skip : describe;
@@ -648,7 +672,13 @@ const testForm = testConfig => {
 
           cy.get(LOADING_SELECTOR)
             .should('not.exist')
-            .then(() => processPage({ stopTestAfterPath, _13647Exception }));
+            .then(() =>
+              processPage({
+                stopTestAfterPath,
+                _13647Exception,
+                checkForImposterComponents: shouldCheckForImposterComponents,
+              }),
+            );
         });
       });
     };
