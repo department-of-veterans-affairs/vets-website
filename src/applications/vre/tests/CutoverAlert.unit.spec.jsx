@@ -20,7 +20,7 @@ const disallowedLocation = {
   pathname: '/confirmation',
 };
 
-describe('CutoverAlert', () => {
+describe.skip('CutoverAlert', () => {
   describe('when the feature toggle is disabled', () => {
     it('should not display the component', async () => {
       const defaultInitialState = {

@@ -337,6 +337,9 @@ export const getActiveLinksStyle = (linkPath, currentPath) => {
  * @example formatDate("2025-07-15"); // "July 15, 2025" (any other ISO 8601 date returns this format)
  */
 export const formatDate = str => {
+  if (!str || typeof str !== 'string') {
+    return EMPTY_FIELD;
+  }
   const yearRegex = /^\d{4}$/;
   const monthRegex = /^\d{4}-\d{2}$/;
   if (yearRegex.test(str)) {
@@ -828,4 +831,16 @@ export const getAppointmentsDateRange = (fromDate, toDate) => {
     startDate: formatISO(clampedFrom),
     endDate: formatISO(clampedTo),
   };
+};
+
+/**
+ * Formats failed domain lists with display names.
+ * Special logic: If allergies fail but medications don't fail, push medications for completeness.
+ */
+export const getFailedDomainList = (failed, displayMap) => {
+  const modFailed = [...failed];
+  if (modFailed.includes('allergies') && !modFailed.includes('medications')) {
+    modFailed.push('medications');
+  }
+  return modFailed.map(domain => displayMap[domain]);
 };
