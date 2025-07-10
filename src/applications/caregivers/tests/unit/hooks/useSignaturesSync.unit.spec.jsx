@@ -109,7 +109,7 @@ describe('CG `useSignaturesSync` hook', () => {
     expect(result.current.signatures[LABELS.veteran].value).to.eq('John Smith');
   });
 
-  it('should prefill the full name for non-representative signatures', () => {
+  it('should populate the full name for non-representative signatures', () => {
     const { result } = subject();
     const { signatures } = result.current;
 
@@ -120,7 +120,7 @@ describe('CG `useSignaturesSync` hook', () => {
     expect(signatures[LABELS.primary].matches).to.be.true;
   });
 
-  it('should not prefill the full name for representative signature', () => {
+  it('should not populate the full name for representative signature', () => {
     const { result } = subject({
       formData: {
         ...DEFAULT_FORM_DATA,
@@ -134,7 +134,7 @@ describe('CG `useSignaturesSync` hook', () => {
     expect(repSig.matches).to.be.false;
   });
 
-  it('should update the prefill value for non-representative signatures when the form data changes', () => {
+  it('should update the populated value for non-representative signatures when the form data changes', () => {
     const { result, updateProps } = subject();
     expect(result.current.signatures[LABELS.primary].value).to.eq('John Smith');
 
@@ -152,7 +152,7 @@ describe('CG `useSignaturesSync` hook', () => {
     expect(result.current.signatures[LABELS.primary].matches).to.be.true;
   });
 
-  it('should not prefill or update representative signature when the form data changes', () => {
+  it('should not populate or update representative signature when the form data changes', () => {
     const { result, updateProps } = subject({
       formData: {
         ...DEFAULT_FORM_DATA,
