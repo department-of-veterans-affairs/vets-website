@@ -58,7 +58,11 @@ function ToeApp({
         isArray(sponsorsSavedState?.sponsors)
       ) {
         setFormData(mapFormSponsors(formData, sponsorsSavedState));
-      } else if (sponsorsInitial && !sponsors) {
+      } else if (
+        sponsorsInitial &&
+        !sponsors &&
+        isArray(sponsorsInitial?.sponsors)
+      ) {
         setFormData(mapFormSponsors(formData, sponsorsInitial));
       }
     },
@@ -70,6 +74,7 @@ function ToeApp({
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
+      formData.sponsors,
     ],
   );
 

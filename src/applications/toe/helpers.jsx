@@ -374,7 +374,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
 export function mapSelectedSponsors(sponsors) {
   // Map selected sponsors' IDs
   return (
-    sponsors.sponsors?.flatMap(
+    sponsors?.sponsors?.flatMap(
       sponsor => (sponsor.selected ? [sponsor.id] : []),
     ) || []
   );
@@ -390,7 +390,7 @@ export function mapFormSponsors(formData, sponsors, fetchedSponsorsComplete) {
       loadedFromSavedState: true,
     },
     selectedSponsors: mapSelectedSponsors(sponsors),
-    firstSponsor: sponsors.firstSponsor,
+    firstSponsor: sponsors?.firstSponsor,
   };
 }
 
