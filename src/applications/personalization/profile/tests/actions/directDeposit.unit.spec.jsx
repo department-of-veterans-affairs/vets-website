@@ -25,7 +25,6 @@ import { base } from '../../mocks/endpoints/direct-deposits';
 
 import error500 from '../fixtures/500.json';
 
-// describe.only('directDeposit actions', () => {
 describe('directDeposit actions', () => {
   const endpointUrl = `${environment.API_URL}/v0${DIRECT_DEPOSIT_API_ENDPOINT}`;
 
@@ -33,6 +32,11 @@ describe('directDeposit actions', () => {
   let recordApiEventStub = null;
   let captureErrorStub = null;
   let getDataStub = null;
+
+  before(() => {
+    server = setupServer();
+    server.listen();
+  });
 
   beforeEach(() => {
     recordApiEventStub = sinon.stub(fetchDirectDepositArgs, 'recordApiEvent');
@@ -45,6 +49,7 @@ describe('directDeposit actions', () => {
     captureErrorStub.restore();
     if (getDataStub) {
       getDataStub.restore();
+      getDataStub = null;
     }
   });
 
@@ -53,13 +58,11 @@ describe('directDeposit actions', () => {
   });
 
   it('should dispatch DIRECT_DEPOSIT_FETCH_SUCCEEDED with response on success', async () => {
-    server = setupServer(
+    server.use(
       http.get(`${endpointUrl}`, () => {
         return HttpResponse.json(base, { status: 500 });
       }),
     );
-
-    server.listen();
 
     const actionCreator = fetchDirectDeposit();
 
@@ -89,9 +92,8 @@ describe('directDeposit actions', () => {
     expect(recordApiEventStub.calledTwice).to.be.true;
   });
 
-  // it.only('should dispatch DIRECT_DEPOSIT_FETCH_FAILED with response on error', async () => {
   it('should dispatch DIRECT_DEPOSIT_FETCH_FAILED with response on error', async () => {
-    server = setupServer(
+    server.use(
       /*
       rest.get(`${endpointUrl}`, (req, res, ctx) => {
         return res(ctx.json(error500), ctx.status(500));
@@ -107,8 +109,6 @@ describe('directDeposit actions', () => {
         );
       }),
     );
-
-    server.listen();
 
     const actionCreator = fetchDirectDeposit();
 
@@ -161,7 +161,7 @@ describe('directDeposit actions', () => {
 
   describe('saveDirect deposit action creator', () => {
     it('should dispatch the SUCCESS state', async () => {
-      server = setupServer(
+      server.use(
         /*
         rest.put(`${endpointUrl}`, (req, res, ctx) => {
           return res(ctx.json(base), ctx.status(200));
@@ -171,8 +171,6 @@ describe('directDeposit actions', () => {
           return HttpResponse.json(base, { status: 200 });
         }),
       );
-
-      server.listen();
 
       const actionCreator = saveDirectDeposit({});
 
@@ -194,7 +192,7 @@ describe('directDeposit actions', () => {
       expect(recordApiEventStub.calledTwice).to.be.true;
     });
     it('should dispatch the FAILURE state', async () => {
-      server = setupServer(
+      server.use(
         /*
         rest.put(`${endpointUrl}`, (req, res, ctx) => {
           return res(ctx.json(error500), ctx.status(400));
@@ -204,8 +202,6 @@ describe('directDeposit actions', () => {
           return HttpResponse.json(error500, { status: 400 });
         }),
       );
-
-      server.listen();
 
       const actionCreator = saveDirectDeposit({});
 
@@ -226,7 +222,7 @@ describe('directDeposit actions', () => {
     });
 
     it('should dispatch the FAILURE state when the response is an instance of Error', async () => {
-      server = setupServer(
+      server.use(
         /*
         rest.put(`${endpointUrl}`, (req, res, ctx) => {
           return res(ctx.json(error500), ctx.status(400));
@@ -236,8 +232,6 @@ describe('directDeposit actions', () => {
           return HttpResponse.json(error500, { status: 400 });
         }),
       );
-
-      server.listen();
 
       getDataStub = sinon
         .stub(fetchDirectDepositArgs, 'getData')
