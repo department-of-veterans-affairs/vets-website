@@ -274,7 +274,11 @@ class AddFilesForm extends React.Component {
             !this.props.files.every(isValidDocument)
           }
           onClick={this.submit}
-          text={this.props.uploading ? 'Uploading...' : 'Upload files'}
+          text={
+            this.props.uploading
+              ? 'Uploading...'
+              : 'Submit documents for review'
+          }
         />
         <va-additional-info
           class="vads-u-margin-y--3"
