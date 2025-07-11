@@ -9,6 +9,7 @@ import {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
+import { isPilotState } from '../../selectors';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -60,7 +61,7 @@ const ComposeForm = props => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { isComboBoxEnabled } = useFeatureToggles();
+  const { isComboBoxEnabled, largeAttachmentsEnabled } = useFeatureToggles();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
@@ -117,6 +118,7 @@ const ComposeForm = props => {
     draftAutoSaveTimeout,
   );
   const alertsList = useSelector(state => state.sm.alerts.alertList);
+  const isPilot = useSelector(isPilotState);
 
   const validMessageType = {
     SAVE: 'save',
@@ -764,7 +766,11 @@ const ComposeForm = props => {
   if (sendMessageFlag === true) {
     return (
       <va-loading-indicator
-        message="Sending message..."
+        message={
+          largeAttachmentsEnabled
+            ? 'Do not refresh the page. Sending message...'
+            : 'Sending message...'
+        }
         setFocus
         data-testid="sending-indicator"
       />
@@ -963,6 +969,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
+                    isPilot={isPilot}
                   />
                 </section>
               ))}

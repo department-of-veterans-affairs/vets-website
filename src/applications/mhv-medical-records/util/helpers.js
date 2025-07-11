@@ -14,6 +14,7 @@ import {
   parseISO,
   isValid,
 } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   EMPTY_FIELD,
   interpretationMap,
@@ -336,6 +337,9 @@ export const getActiveLinksStyle = (linkPath, currentPath) => {
  * @example formatDate("2025-07-15"); // "July 15, 2025" (any other ISO 8601 date returns this format)
  */
 export const formatDate = str => {
+  if (!str || typeof str !== 'string') {
+    return EMPTY_FIELD;
+  }
   const yearRegex = /^\d{4}$/;
   const monthRegex = /^\d{4}-\d{2}$/;
   if (yearRegex.test(str)) {
@@ -383,6 +387,49 @@ export const formatDateAndTime = rawDate => {
     timeZone: timeZonePart,
   };
 };
+
+/**
+ * Format a Date into separate date, time (using “a.m.”/“p.m.”), and a generic two-letter zone
+ * (no DST suffix), automatically using the user’s local time-zone.
+ *
+ * @param {Date} date - The Date object to format.
+ * @returns {{ date: string, time: string, timeZone: string }}
+ *   - date:     full date, e.g. "February 17, 2025"
+ *   - time:     time part with lowercase “a.m.”/“p.m.”, e.g. "2:30 p.m."
+ *   - timeZone: generic zone, e.g. "MT"
+ */
+export function formatDateAndTimeWithGenericZone(date) {
+  // 1) detect the user's time-zone
+  const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  // 2) format the full date, e.g. "February 17, 2025"
+  const fullDate = formatInTimeZone(date, zone, 'MMMM d, yyyy');
+
+  // 3) format time + specific zone, e.g. "2:30 PM MST"
+  const timeWithZone = formatInTimeZone(date, zone, 'h:mm a zzz');
+
+  // 4) split off raw time ("2:30 PM") and raw zone ("MST")
+  const lastSpace = timeWithZone.lastIndexOf(' ');
+  const rawTimePart = timeWithZone.slice(0, lastSpace);
+  const rawZone = timeWithZone.slice(lastSpace + 1);
+
+  // 5) convert "PM"/"AM" to "p.m."/"a.m."
+  const [timeNumber, ampm] = rawTimePart.split(' ');
+  const suffix = `${ampm
+    .toLowerCase() // "pm"
+    .split('') // ["p","m"]
+    .join('.')}.`; // "p.m."
+  const formattedTime = `${timeNumber} ${suffix}`;
+
+  // 6) strip "ST"/"DT" from zone → generic two-letter code
+  const genericZone = rawZone.replace(/(ST|DT)$/, 'T');
+
+  return {
+    date: fullDate,
+    time: formattedTime,
+    timeZone: genericZone,
+  };
+}
 
 /**
  * Determine whether the PHR refresh for a particular extract is stale, in progress, current, or failed.
@@ -784,4 +831,16 @@ export const getAppointmentsDateRange = (fromDate, toDate) => {
     startDate: formatISO(clampedFrom),
     endDate: formatISO(clampedTo),
   };
+};
+
+/**
+ * Formats failed domain lists with display names.
+ * Special logic: If allergies fail but medications don't fail, push medications for completeness.
+ */
+export const getFailedDomainList = (failed, displayMap) => {
+  const modFailed = [...failed];
+  if (modFailed.includes('allergies') && !modFailed.includes('medications')) {
+    modFailed.push('medications');
+  }
+  return modFailed.map(domain => displayMap[domain]);
 };

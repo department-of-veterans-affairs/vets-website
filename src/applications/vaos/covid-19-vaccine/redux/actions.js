@@ -7,10 +7,7 @@ import {
 } from '@department-of-veterans-affairs/platform-user/exports';
 import { format, isAfter, isDate, parseISO, startOfMinute } from 'date-fns';
 import {
-  selectFeatureConvertSlotsToUtc,
-  selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
-  selectFeatureFeSourceOfTruthVA,
   selectSystemIds,
 } from '../../redux/selectors';
 import {
@@ -265,7 +262,6 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
     );
     const newBooking = selectCovid19VaccineNewBooking(state);
     const { data } = newBooking;
-    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
     let startDate = start;
     let endDate = end;
@@ -307,7 +303,6 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
           clinicId: data.clinicId,
           startDate,
           endDate,
-          convertToUtc: featureConvertSlotsToUTC,
         });
 
         if (initialFetch) {
@@ -389,10 +384,6 @@ export function prefillContactInfo() {
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
-    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-      state,
-    );
     const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
       state,
     );
@@ -414,8 +405,6 @@ export function confirmAppointment(history) {
     try {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
-        useFeSourceOfTruthVA,
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       });
 

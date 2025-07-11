@@ -1042,3 +1042,47 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     });
   });
 });
+
+describe('labsAndTestsReducer - unified labs and tests', () => {
+  it('should handle unified labs and tests records', () => {
+    const unifiedLabsResponse = [
+      {
+        id: 'test-id',
+        attributes: {
+          dateCompleted: '2025-04-22T14:30:00Z',
+          display: 'Test Name',
+          location: 'Test Location',
+          observations: 'Test Observations',
+          orderedBy: 'Dr. Smith',
+          sampleTested: 'Blood',
+          bodySite: 'Arm',
+          testCode: '12345',
+          comments: 'No issues',
+          encodedData: 'VGhpcyBpcyBhIHRlc3Q=',
+        },
+      },
+    ];
+
+    const newState = labsAndTestsReducer(
+      {},
+      {
+        type: Actions.LabsAndTests.GET_UNIFIED_LIST,
+        labsAndTestsResponse: unifiedLabsResponse,
+      },
+    );
+
+    expect(newState.labsAndTestsList.length).to.equal(1);
+    const testRecord = newState.labsAndTestsList[0];
+    expect(testRecord.id).to.equal('test-id');
+    expect(testRecord.name).to.equal('Test Name');
+    expect(testRecord.location).to.equal('Test Location');
+    expect(testRecord.observations).to.equal('Test Observations');
+    expect(testRecord.orderedBy).to.equal('Dr. Smith');
+    expect(testRecord.sampleTested).to.equal('Blood');
+    expect(testRecord.bodySite).to.equal('Arm');
+    expect(testRecord.testCode).to.equal('12345');
+    expect(testRecord.type).to.equal('12345');
+    expect(testRecord.comments).to.equal('No issues');
+    expect(testRecord.result).to.equal('This is a test');
+  });
+});

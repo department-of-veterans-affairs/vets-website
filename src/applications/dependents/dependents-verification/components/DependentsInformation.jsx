@@ -33,18 +33,10 @@ export const DependentsInformation = ({
         setShowError(true);
         return;
       }
-      if (data.hasDependentsStatusChanged === 'N') {
-        goToPath('/exit-form', { force: true });
-      } else {
-        goForward(data);
-      }
+      goForward(data);
     },
     goBack: () => {
       goToPath('/veteran-contact-information', { force: true });
-    },
-    goToExitPage: event => {
-      event.preventDefault();
-      goToPath('/exit-form', { force: true });
     },
   };
 
@@ -112,7 +104,6 @@ export const DependentsInformation = ({
                         <va-link
                           href="/exit-form"
                           text="Learn about how to add a dependent"
-                          onClick={handlers.goToExitPage}
                         />
                       </va-alert>
                     </dd>
@@ -142,6 +133,7 @@ export const DependentsInformation = ({
         external
         text="Find more detailed instructions for how to change your dependents’ name"
       />
+      {/* Values and labels are flipped as 21-0538 form asks a differently worded question, which allows pdf mapping to be more intuitive */}
       <VaRadio
         label="Is your dependent information correct?"
         required
@@ -152,17 +144,17 @@ export const DependentsInformation = ({
       >
         <va-radio-option
           name="hasDependentsStatusChanged"
-          value="Y"
+          value="N"
           label={DEPENDENT_CHOICES.Y}
           tile
-          checked={data.hasDependentsStatusChanged === 'Y'}
+          checked={data.hasDependentsStatusChanged === 'N'}
         />
         <va-radio-option
           name="hasDependentsStatusChanged"
-          value="N"
+          value="Y"
           label={DEPENDENT_CHOICES.N}
           tile
-          checked={data.hasDependentsStatusChanged === 'N'}
+          checked={data.hasDependentsStatusChanged === 'Y'}
         />
       </VaRadio>
 

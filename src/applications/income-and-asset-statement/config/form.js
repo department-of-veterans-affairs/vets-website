@@ -2,6 +2,7 @@
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
+import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
@@ -56,6 +57,7 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
     statementOfTruth: {
       body:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',

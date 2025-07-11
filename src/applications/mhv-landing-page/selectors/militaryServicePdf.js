@@ -9,7 +9,3 @@ export const militaryServiceSuccessfulDownload = state => {
 export const militaryServiceFailedDownload = state => {
   return state?.myHealth?.militaryServicePdf?.failedDownload;
 };
-
-export const militaryServiceError = state => {
-  return state?.myHealth?.militaryServicePdf?.error;
-};

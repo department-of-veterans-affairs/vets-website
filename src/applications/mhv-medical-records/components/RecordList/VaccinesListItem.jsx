@@ -67,5 +67,10 @@ const VaccinesListItem = props => {
 export default VaccinesListItem;
 
 VaccinesListItem.propTypes = {
-  record: PropTypes.object,
+  record: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+  }).isRequired,
 };

@@ -98,6 +98,7 @@ src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/ben
 src/applications/static-pages/coe-access @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/new-28-1900 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/new-chapter-36-form @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Pensions and Burials
 src/applications/burials-ez @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
@@ -237,13 +238,13 @@ src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe @department-of
 
 # Benefits Accredited Representative Facing (ARF)
 src/applications/accredited-representative-portal @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/accreditation @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/representative-form-upload @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Accredited Representation Management (ARM)
 src/applications/representative-appoint @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/representative-search @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/accreditation @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/accreditation/21a @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Income and Asset Statement
 src/applications/income-and-asset-statement @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
@@ -278,7 +279,6 @@ src/applications/mock-sip-form @department-of-veterans-affairs/va-platform-cop-f
 src/applications/third-party-app-directory @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/analytics @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/download-1095b @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/accreditation @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/benefit-eligibility-questionnaire @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/ivc-champv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/office-directory @department-of-veterans-affairs/va-platform-cop-frontend

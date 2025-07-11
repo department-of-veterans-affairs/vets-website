@@ -185,7 +185,7 @@ describe('<AddressValidationView/>', () => {
     );
 
     expectButtons(container, [
-      { text: 'Edit Address', type: 'submit' },
+      { text: 'Edit address', type: 'button' },
       { text: 'Edit address', type: 'button' },
     ]);
   });
@@ -212,7 +212,7 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    expectButtons(container, [{ text: 'Edit Address', type: 'submit' }]);
+    expectButtons(container, [{ text: 'Edit address', type: 'button' }]);
   });
 
   it('renders "Use suggested address" button when a suggested address is selected', () => {
@@ -452,7 +452,10 @@ describe('<AddressValidationView/>', () => {
       expect(alertMessage).to.exist;
 
       // Validate correct buttons are getting displayed
-      expectButtons(container, [{ text: 'Edit address', type: 'button' }]);
+      expectButtons(container, [
+        { text: 'Edit address', type: 'button' },
+        { text: 'Edit address', type: 'button' },
+      ]);
     });
 
     it('renders the alert with the correct headline and message for NO validationKey and has suggestedAddresses', () => {
