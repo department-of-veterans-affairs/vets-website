@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { Provider } from 'react-redux';
@@ -75,22 +75,24 @@ describe('22-8894 – Institution Name & Address Page', () => {
     ).to.equal(1);
   });
 
-  it('shows errors when required fields are empty', () => {
+  it('shows errors when required fields are empty', async () => {
     const { container, getByRole } = renderPage({ institutionDetails: {} });
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    const nameInput = container.querySelector(
-      'va-text-input[name="root_institutionDetails_institutionName"]',
-    );
-    expect(nameInput).to.exist;
-    expect(nameInput.getAttribute('error')).to.equal(
-      'Enter the name of your institution or training facility',
-    );
+    await waitFor(() => {
+      const nameInput = container.querySelector(
+        'va-text-input[name="root_institutionDetails_institutionName"]',
+      );
+      expect(nameInput).to.exist;
+      expect(nameInput.getAttribute('error')).to.equal(
+        'Enter the name of your institution or training facility',
+      );
 
-    // at least 4 address-line errors (street, city, state, postalCode)
-    expect($$('va-text-input[error]', container).length).to.be.at.least(4);
-    // country error
-    expect($$('va-select[error]', container).length).to.equal(1);
+      // at least 4 address-line errors (street, city, state, postalCode)
+      expect($$('va-text-input[error]', container).length).to.be.at.least(4);
+      // country error
+      expect($$('va-select[error]', container).length).to.equal(1);
+    });
   });
 });

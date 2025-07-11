@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -38,7 +38,7 @@ describe('Proprietary Profit Step 2 - Page 2', () => {
     expect($$('va-radio-option', container).length).to.equal(2);
   });
 
-  it('should render an error message if no radio button is selected', () => {
+  it('should render an error message if no radio button is selected', async () => {
     const { container, getByRole } = render(
       <Provider store={store}>
         <DefinitionTester
@@ -51,6 +51,8 @@ describe('Proprietary Profit Step 2 - Page 2', () => {
 
     expect($$('va-radio-option', container).length).to.equal(2);
     getByRole('button', { name: /submit/i }).click();
-    expect($$('va-radio[error]', container).length).to.equal(1);
+    await waitFor(() => {
+      expect($$('va-radio[error]', container).length).to.equal(1);
+    });
   });
 });

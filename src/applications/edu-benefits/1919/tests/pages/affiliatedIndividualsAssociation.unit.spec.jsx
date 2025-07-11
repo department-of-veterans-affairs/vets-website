@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
@@ -45,7 +45,7 @@ describe('Affiliated Individuals Association Page', () => {
     expect($$('va-radio-option', container).length).to.equal(2);
   });
 
-  it('should render error messages for each field if nothing is entered', () => {
+  it('should render error messages for each field if nothing is entered', async () => {
     const { container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -56,7 +56,9 @@ describe('Affiliated Individuals Association Page', () => {
 
     expect($$('va-text-input[error]', container).length).to.equal(0);
     getByRole('button', { name: /submit/i }).click();
-    expect($$('va-text-input[error]', container).length).to.equal(3);
-    expect($$('va-radio[error]', container).length).to.equal(1);
+    await waitFor(() => {
+      expect($$('va-text-input[error]', container).length).to.equal(3);
+      expect($$('va-radio[error]', container).length).to.equal(1);
+    });
   });
 });

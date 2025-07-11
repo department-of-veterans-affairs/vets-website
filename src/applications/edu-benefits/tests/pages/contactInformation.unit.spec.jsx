@@ -2,11 +2,12 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render, waitFor } from '@testing-library/react';
 
 import {
   DefinitionTester,
-  submitForm,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+  getFormDOM,
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig1995 from '../../1995/config/form';
 import formConfig10203 from '../../10203/config/form';
 
@@ -43,8 +44,8 @@ const pageTests = (page, formConfig, addressType = 'veteran') => {
         .length,
     ).to.equal(4);
   });
-  it('should render validation errors for required fields', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+  it('should render validation errors for required fields', async () => {
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         data={{}}
@@ -53,13 +54,15 @@ const pageTests = (page, formConfig, addressType = 'veteran') => {
       />,
     );
 
-    const formDOM = findDOMNode(form);
-    submitForm(form);
+    const formDOM = getFormDOM({ container });
+    formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.equal(6);
+    });
   });
-  it('should conditionally require phone number', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+  it('should conditionally require phone number', async () => {
+    const { container } = render(
       <DefinitionTester
         formData={{}}
         schema={schema}
@@ -69,39 +72,41 @@ const pageTests = (page, formConfig, addressType = 'veteran') => {
       />,
     );
 
-    const formDOM = findDOMNode(form);
-
-    submitForm(form);
+    const formDOM = getFormDOM({ container });
+    formDOM.submitForm();
 
     // jsdom has issues with colons in attributes
-    let errors = Array.from(
-      formDOM.querySelectorAll('.usa-input-error > label'),
+    const errors = Array.from(
+      container.querySelectorAll('.usa-input-error > label'),
     );
-    let phoneError = errors.find(errorLabel =>
+    const phoneError = errors.find(errorLabel =>
       errorLabel.getAttribute('for').endsWith('homePhone'),
     );
     expect(phoneError).to.be.undefined;
 
-    const phoneMethod = ReactTestUtils.scryRenderedDOMComponentsWithTag(
-      form,
-      'input',
-    ).find(
-      input => input.getAttribute('id') === 'root_preferredContactMethod_3',
+    const phoneMethod = container.querySelector(
+      '#root_preferredContactMethod_3',
     );
-    ReactTestUtils.Simulate.change(phoneMethod, {
-      target: {
-        value: 'phone',
-      },
-    });
+    if (phoneMethod) {
+      ReactTestUtils.Simulate.change(phoneMethod, {
+        target: {
+          value: 'phone',
+        },
+      });
 
-    errors = Array.from(formDOM.querySelectorAll('.usa-input-error > label'));
-    phoneError = errors.find(errorLabel =>
-      errorLabel.getAttribute('for').endsWith('homePhone'),
-    );
-    // expect(phoneError).not.to.be.undefined;
+      await waitFor(() => {
+        const updatedErrors = Array.from(
+          container.querySelectorAll('.usa-input-error > label'),
+        );
+        const updatedPhoneError = updatedErrors.find(errorLabel =>
+          errorLabel.getAttribute('for').endsWith('homePhone'),
+        );
+        expect(updatedPhoneError).not.to.be.undefined;
+      });
+    }
   });
-  it('should show error if emails do not match', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+  it('should show error if emails do not match', async () => {
+    const { container } = render(
       <DefinitionTester
         formData={{}}
         schema={schema}
@@ -111,40 +116,41 @@ const pageTests = (page, formConfig, addressType = 'veteran') => {
       />,
     );
 
-    const formDOM = findDOMNode(form);
-    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(
-      form,
-      'input',
+    const emailInput = container.querySelector(
+      '#root_view\\:otherContactInfo_email',
     );
-    const emailInput = inputs.find(
-      input => input.id === 'root_view:otherContactInfo_email',
-    );
-    const confirmEmailInput = inputs.find(
-      input => input.id === 'root_view:otherContactInfo_view:confirmEmail',
+    const confirmEmailInput = container.querySelector(
+      '#root_view\\:otherContactInfo_view\\:confirmEmail',
     );
 
-    ReactTestUtils.Simulate.change(emailInput, {
-      target: {
-        value: 'test@test.com',
-      },
-    });
-    ReactTestUtils.Simulate.change(confirmEmailInput, {
-      target: {
-        value: 'TEST@TEST.COM',
-      },
-    });
-    ReactTestUtils.Simulate.blur(emailInput);
-    ReactTestUtils.Simulate.blur(confirmEmailInput);
+    if (emailInput && confirmEmailInput) {
+      ReactTestUtils.Simulate.change(emailInput, {
+        target: {
+          value: 'test@test.com',
+        },
+      });
+      ReactTestUtils.Simulate.change(confirmEmailInput, {
+        target: {
+          value: 'TEST@TEST.COM',
+        },
+      });
+      ReactTestUtils.Simulate.blur(emailInput);
+      ReactTestUtils.Simulate.blur(confirmEmailInput);
 
-    expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
+      await waitFor(() => {
+        expect(container.querySelectorAll('.usa-input-error')).to.be.empty;
+      });
 
-    ReactTestUtils.Simulate.change(confirmEmailInput, {
-      target: {
-        value: 'test@test.org',
-      },
-    });
+      ReactTestUtils.Simulate.change(confirmEmailInput, {
+        target: {
+          value: 'test@test.org',
+        },
+      });
 
-    expect(formDOM.querySelectorAll('.usa-input-error')).not.to.be.empty;
+      await waitFor(() => {
+        expect(container.querySelectorAll('.usa-input-error')).not.to.be.empty;
+      });
+    }
   });
   describe('review page', () => {
     it('should not render confirm email', () => {

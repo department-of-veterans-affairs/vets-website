@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import { waitFor } from '@testing-library/react';
 
 import {
   DefinitionTester,
@@ -11,6 +12,16 @@ import {
 import formConfig from '../../config/form';
 
 describe('Edu 1995 servicePeriods', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   const {
     schema,
     uiSchema,
@@ -61,8 +72,8 @@ describe('Edu 1995 servicePeriods', () => {
     ).to.equal(6);
   });
 
-  it('should have no required inputs', () => {
-    const onSubmit = sinon.spy();
+  it('should have no required inputs', async () => {
+    const onSubmit = sandbox.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -75,8 +86,10 @@ describe('Edu 1995 servicePeriods', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.not.be
-      .empty;
+    await waitFor(() => {
+      expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.not.be
+        .empty;
+    });
     // expect(onSubmit.called).to.be.false;
   });
 });
