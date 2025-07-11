@@ -22,7 +22,7 @@ import {
   internationalPhoneUI,
 } from '../helpers/internationalPhonePatterns';
 import { characterReferencesRelationship } from '../../constants/options';
-import { getCardDescription } from '../helpers/helpers';
+import { getCardDescription } from '../helpers/getCardDescription';
 import { CHAPTER_TYPE } from '../../config/enums';
 
 /** @type {ArrayBuilderOptions} */
