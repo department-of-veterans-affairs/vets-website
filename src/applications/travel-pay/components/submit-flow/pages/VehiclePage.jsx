@@ -62,6 +62,7 @@ const VehiclePage = ({
       <HelpTextOptions
         trigger="If you didn't travel in your own vehicle"
         headline="If you traveled by bus, train, taxi, or other authorized public transportation, you can’t file a claim in this tool right now."
+        dataTestId="vehicle-help-text"
       />
       <VaButtonPair
         class="vads-u-margin-y--2"
