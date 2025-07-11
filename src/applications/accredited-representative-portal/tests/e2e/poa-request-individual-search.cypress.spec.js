@@ -141,7 +141,7 @@ describe('Accredited Representative Portal', () => {
         "[data-testid='poa-requests-table-fetcher-no-poa-requests']",
       ).should(
         'have.text',
-        'No result found for “asdf ghjkl”, “2024-01-01”, “***-**-6666”',
+        'No result found for "asdf", "ghjkl", "2024-01-01", "***-**-6666"',
       );
     });
   });
