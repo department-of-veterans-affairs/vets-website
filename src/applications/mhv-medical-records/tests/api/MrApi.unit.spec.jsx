@@ -88,35 +88,6 @@ describe('Get radiology tests from MHV api call', () => {
 });
 
 describe('Get radiology details from MHV api call', () => {
-  beforeEach(() => {
-    // Create a simple hash function for the mock (non-cryptographic)
-    const simpleHash = data => {
-      let hash = 0;
-      for (let i = 0; i < data.length; i++) {
-        hash = Math.imul(31, hash) + data[i]; // Use Math.imul for safe 32-bit multiplication
-        hash = Math.abs(hash % 2 ** 32); // Ensure hash stays within 32-bit bounds
-      }
-      // Convert hash to Uint8Array
-      const buffer = new Uint8Array([
-        hash % 256,
-        Math.floor(hash / 256) % 256,
-        Math.floor(hash / 65536) % 256,
-        Math.floor(hash / 16777216) % 256,
-      ]);
-      return buffer.buffer;
-    };
-
-    // Mock the global crypto.subtle.digest function
-    global.crypto = {
-      subtle: {
-        digest: (algorithm, data) => {
-          // Simulate digest based on the input data
-          return Promise.resolve(simpleHash(new Uint8Array(data)));
-        },
-      },
-    };
-  });
-
   it('should make an api call to get MHV radiology tests and pick based on ID', () => {
     const mockData = radiologyListMhv;
     mockApiRequest(mockData);
@@ -324,10 +295,12 @@ describe('Get military service info api call', () => {
     const fetchStub = Sinon.stub(global, 'fetch');
     fetchStub.callsFake(url => {
       const response = new Response();
-      response.ok = false;
-      response.url = url;
-      response.status = 500;
-      response.error = 'No EDIPI found for the current user';
+      Object.defineProperty(response, 'ok', { value: false });
+      Object.defineProperty(response, 'url', { value: url });
+      Object.defineProperty(response, 'status', { value: 500 });
+      Object.defineProperty(response, 'error', {
+        value: 'No EDIPI found for the current user',
+      });
 
       return Promise.reject(response);
     });
@@ -340,10 +313,10 @@ describe('Get military service info api call', () => {
     const fetchStub = Sinon.stub(global, 'fetch');
     fetchStub.callsFake(url => {
       const response = new Response();
-      response.ok = false;
-      response.url = url;
-      response.status = 500;
-      response.statusText = 'Server Error';
+      Object.defineProperty(response, 'ok', { value: false });
+      Object.defineProperty(response, 'url', { value: url });
+      Object.defineProperty(response, 'status', { value: 500 });
+      Object.defineProperty(response, 'statusText', { value: 'Server Error' });
 
       return Promise.reject(response);
     });
