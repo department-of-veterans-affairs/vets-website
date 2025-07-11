@@ -22,11 +22,15 @@ export default function ClaimDetailsContent({
   totalCostRequested,
   reimbursementAmount,
   documents,
+  decisionLetterReason,
 }) {
   useSetPageTitle(title);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
+  );
+  const claimsMgmtDecisionReasonToggle = useToggleValue(
+    TOGGLE_NAMES.travelPayClaimsManagementDecisionReason,
   );
 
   const [appointmentDate, appointmentTime] = formatDateTime(
@@ -85,21 +89,17 @@ export default function ClaimDetailsContent({
       >
         Claim number: {claimNumber}
       </span>
+
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
       {claimsMgmtToggle && (
         <>
           {STATUSES[toPascalCase(claimStatus)] ? (
-            <>
-              <p className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0">
-                What does this status mean
-              </p>
-              <p
-                className="vads-u-margin-top--0"
-                data-testid="status-definition-text"
-              >
-                {STATUSES[toPascalCase(claimStatus)].definition}
-              </p>
-            </>
+            <p
+              className="vads-u-margin-top--2"
+              data-testid="status-definition-text"
+            >
+              {STATUSES[toPascalCase(claimStatus)].definition}
+            </p>
           ) : (
             <p className="vads-u-margin-top--2">
               If you need help understanding your claim, call the BTSSS call
@@ -109,6 +109,19 @@ export default function ClaimDetailsContent({
               you call.
             </p>
           )}
+          {decisionLetterReason &&
+            claimsMgmtDecisionReasonToggle &&
+            (claimStatus === STATUSES.Denied.name ||
+              claimStatus === STATUSES.PartialPayment.name) && (
+              <>
+                <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
+                  {claimStatus === STATUSES.Denied.name
+                    ? 'Why we denied your claim'
+                    : 'Why we made a partial payment'}{' '}
+                </p>
+                <p className="vads-u-margin-top--0">{decisionLetterReason}</p>
+              </>
+            )}
           {documentCategories.clerk.length > 0 &&
             getDocLinkList(documentCategories.clerk)}
         </>
@@ -229,6 +242,7 @@ ClaimDetailsContent.propTypes = {
   createdOn: PropTypes.string.isRequired,
   facilityName: PropTypes.string.isRequired,
   modifiedOn: PropTypes.string.isRequired,
+  decisionLetterReason: PropTypes.string,
   documents: PropTypes.array,
   reimbursementAmount: PropTypes.number,
   totalCostRequested: PropTypes.number,
