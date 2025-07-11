@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'platform/utilities/data';
 
 export const getPtsdClassification = (formData, formType) => {
@@ -73,10 +74,24 @@ export const PtsdNameTitle = ({ formData, formType }) => {
     </legend>
   );
 };
+
+PtsdNameTitle.propTypes = {
+  formData: PropTypes.object.isRequired,
+  formType: PropTypes.string.isRequired,
+};
+
 export const ptsd781NameTitle = ({ formData }) => (
   <PtsdNameTitle formData={formData} formType="781" />
 );
 
+ptsd781NameTitle.propTypes = {
+  formData: PropTypes.object.isRequired,
+};
+
 export const ptsd781aNameTitle = ({ formData }) => (
   <PtsdNameTitle formData={formData} formType="781a" />
 );
+
+ptsd781aNameTitle.propTypes = {
+  formData: PropTypes.object.isRequired,
+};

@@ -36,6 +36,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   CernerAlertContent,
+  statsdFrontEndActions,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -57,6 +58,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -102,6 +104,8 @@ const Vaccines = props => {
       isAcceleratingVaccines,
     );
   };
+
+  useTrackAction(statsdFrontEndActions.VITALS_LIST);
 
   useListRefresh({
     listState,
