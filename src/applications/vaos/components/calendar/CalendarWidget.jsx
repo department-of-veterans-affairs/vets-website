@@ -236,6 +236,7 @@ function handleNext(onClickNext, months, setMonths) {
  * @param {Array<string>} props.value
  * @param {boolean} [props.showWeekends=false] Whether to show full weekend slots or not
  * @param {boolean} [props.overrideMaxDays=false] Disables the default max days value
+ * @param {boolean} [props.hideWhileDisabled=false] Whether to show the calendar while disabled
  * @returns {JSX.Element} props.Calendar Calendar Widget
  */
 function CalendarWidget({
@@ -264,6 +265,7 @@ function CalendarWidget({
   showWeekends = false,
   upcomingAppointments = [],
   isAppointmentSelectionError,
+  hideWhileDisabled = false,
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
     if (value.length > 0) {
@@ -278,9 +280,12 @@ function CalendarWidget({
   const exceededMaximumSelections = value.length > maxSelections;
   const hasError = (required && showValidation) || exceededMaximumSelections;
 
+  // Undefined allows to unset aria-hidden
+  const hideCalendar = (disabled && hideWhileDisabled) || undefined;
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
     'vaos-calendar__disabled': disabled,
     'usa-input-error': hasError,
+    'vads-u-visibility--hidden': hideCalendar,
   });
 
   // declare const from renderMonth here
@@ -306,7 +311,11 @@ function CalendarWidget({
             {disabledMessage}
           </div>
         )}
-        <div className={calendarCss}>
+        <div
+          data-testid="vaos-calendar"
+          className={calendarCss}
+          aria-hidden={hideCalendar}
+        >
           {hasError && (
             <span
               className="vaos-calendar__validation-msg usa-input-error-message vaos-input-error-message"
@@ -416,6 +425,7 @@ CalendarWidget.propTypes = {
   ),
   disabled: PropTypes.bool,
   disabledMessage: PropTypes.object,
+  hideWhileDisabled: PropTypes.bool,
   isAppointmentSelectionError: PropTypes.bool,
   maxDate: PropTypes.string,
   maxSelections: PropTypes.number,
