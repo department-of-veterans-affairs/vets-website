@@ -43,7 +43,9 @@ describe('create MHV Signin Call To Action widget', () => {
   });
 
   afterEach(() => {
-    document.body = document.createElement('body');
+    // Clear the body contents instead of replacing it
+    document.body.innerHTML = '';
+
     ReactDOM.render.restore();
   });
 
