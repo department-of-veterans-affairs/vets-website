@@ -14,7 +14,7 @@ const UserHelpLinks = () => {
             <a
               data-testid="user-nav-poa-search-link"
               className="vads-u-color--white"
-              href="/representative/poa-search"
+              href="/representative/claimant-search"
               data-eventname="nav-link-click"
             >
               <va-icon icon="search" size={2} className="people-search-icon" />
