@@ -13,9 +13,11 @@ import {
   accessAlertTypes,
   loincCodes,
   pageTitles,
+  statsdFrontEndActions,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -27,6 +29,7 @@ const CareSummariesDetails = () => {
   );
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
+  useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_DETAILS);
 
   useEffect(
     () => {

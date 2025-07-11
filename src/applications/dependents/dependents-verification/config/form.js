@@ -1,6 +1,5 @@
 // import { externalServices } from 'platform/monitoring/DowntimeNotification';
 // import React from 'react';
-import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -23,14 +22,13 @@ import NeedHelp from '../components/NeedHelp';
 import { dependents } from './chapters/dependents/dependents';
 import { DependentsInformation } from '../components/DependentsInformation';
 import { DependentsInformationReview } from '../components/DependentsInformationReview';
+import { submit } from '../util';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/dependents_verification/v0/claims`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit,
   trackingPrefix: '0538-dependents-verification-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
