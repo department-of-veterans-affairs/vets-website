@@ -19,8 +19,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-// On initial render the "this field is required" error is active
-const expectedNumberOfWebComponentErrors = 1;
+const expectedNumberOfWebComponentErrors = 0;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
