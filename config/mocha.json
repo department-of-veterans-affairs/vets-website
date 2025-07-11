@@ -12,7 +12,5 @@
   ],
   "reporter": "progress",
   "timeout": 10000,
-  "slow": 0,
-  "recursive": true,
-  "exit": true
+  "slow": 0
 }
