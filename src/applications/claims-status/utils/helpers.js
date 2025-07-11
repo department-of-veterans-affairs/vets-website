@@ -1228,6 +1228,45 @@ export const generateClaimTitle = (claim, placement, tab) => {
   }
 };
 
+export const getDisplayFriendlyName = item => {
+  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
+    let updatedFriendlyName = item.friendlyName;
+    updatedFriendlyName =
+      updatedFriendlyName.charAt(0).toLowerCase() +
+      updatedFriendlyName.slice(1);
+    return updatedFriendlyName;
+  }
+  return item.friendlyName;
+};
+
+export const getLabel = (toggleValue, trackedItem) => {
+  if (isAutomated5103Notice(trackedItem?.displayName)) {
+    return trackedItem?.displayName;
+  }
+  if (toggleValue) {
+    if (
+      trackedItem?.friendlyName &&
+      trackedItem?.status === 'NEEDED_FROM_YOU'
+    ) {
+      return trackedItem.friendlyName;
+    }
+    if (
+      !trackedItem?.friendlyName &&
+      trackedItem?.status === 'NEEDED_FROM_YOU'
+    ) {
+      return 'Request for evidence';
+    }
+    if (trackedItem?.displayName.toLowerCase().includes('dbq')) {
+      return 'Request for an exam';
+    }
+    if (trackedItem?.friendlyName) {
+      return `Your ${getDisplayFriendlyName(trackedItem)}`;
+    }
+    return 'Request for evidence outside VA';
+  }
+  return trackedItem?.displayName;
+};
+
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
 // It is also used to set the Document Request Page breadcrumb text
 export function setDocumentRequestPageTitle(displayName) {
@@ -1241,10 +1280,10 @@ export function setTabDocumentTitle(claim, tabName) {
   setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
 
-export const setPageTitle = trackedItem => {
+export const setPageTitle = (trackedItem, toggleValue) => {
   if (trackedItem) {
     const pageTitle = setDocumentRequestPageTitle(
-      trackedItem.friendlyName || trackedItem.displayName,
+      getLabel(toggleValue, trackedItem),
     );
     setDocumentTitle(pageTitle);
   } else {
@@ -1287,17 +1326,6 @@ export const getTrackedItemDateFromStatus = item => {
     default:
       return item.requestedDate;
   }
-};
-
-export const getDisplayFriendlyName = item => {
-  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
-    let updatedFriendlyName = item.friendlyName;
-    updatedFriendlyName =
-      updatedFriendlyName.charAt(0).toLowerCase() +
-      updatedFriendlyName.slice(1);
-    return updatedFriendlyName;
-  }
-  return item.friendlyName;
 };
 
 export const renderDefaultThirdPartyMessage = displayName => {
