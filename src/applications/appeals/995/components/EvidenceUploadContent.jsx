@@ -32,6 +32,7 @@ export const EvidenceUploadContent = ({
     return null;
   }
   const Header = isOnReviewPage ? 'h5' : 'h4';
+  const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
   return (
     <>
@@ -55,12 +56,12 @@ export const EvidenceUploadContent = ({
                 hasErrors ? errorClassNames : listClassNames(!showListOnly)
               }
             >
-              <strong
-                className="upload-file dd-privacy-hidden overflow-wrap-word"
+              <SubHeader
+                className="upload-file dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
                 data-dd-action-name="Uploaded document file name"
               >
                 {upload.name}
-              </strong>
+              </SubHeader>
               <div>
                 {errors.attachmentId ||
                   ATTACHMENTS_OTHER[upload.attachmentId] ||
