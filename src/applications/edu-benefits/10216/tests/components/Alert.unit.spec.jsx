@@ -10,30 +10,29 @@ describe('Alert component', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    localStorage.clear();
   });
 
   afterEach(() => {
     sandbox.restore();
+    localStorage.clear();
   });
 
   it('renders without issues', () => {
     const { container } = render(
       <MemoryRouter initialEntries={['/some-path']}>
-        <Alert router={{ location: { pathname: '/some-path' } }} />
+        <Alert />
       </MemoryRouter>,
     );
     expect(container).to.exist;
   });
 
   it('should display warning message when school is not accredited', () => {
-    sandbox
-      .stub(window.localStorage, 'getItem')
-      .withArgs('isAccredited')
-      .returns('false');
+    localStorage.setItem('isAccredited', 'false');
 
     const { getByText } = render(
       <MemoryRouter initialEntries={['/some-path']}>
-        <Alert router={{ location: { pathname: '/some-path' } }} />
+        <Alert />
       </MemoryRouter>,
     );
 
@@ -46,20 +45,11 @@ describe('Alert component', () => {
   });
 
   it('should display info message when school is accredited', () => {
-    // TODO: Remove this line after the node22 upgrade is complete.
-    window.localStorage.setItem('isAccredited', 'true');
-    // END TODO
-
-    sandbox
-      .stub(window.localStorage, 'getItem')
-      .withArgs('isAccredited')
-      .returns('true');
+    localStorage.setItem('isAccredited', 'true');
 
     const { container, getByText } = render(
       <MemoryRouter initialEntries={['/confirmation']}>
-        <Alert
-          router={{ router: { location: { pathname: '/confirmation' } } }}
-        />
+        <Alert />
       </MemoryRouter>,
     );
 

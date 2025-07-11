@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
@@ -22,7 +22,7 @@ describe('8794 – Read-only certifying official • item page', () => {
     expect($$('va-text-input', container).length).to.equal(3);
   });
 
-  it('shows validation errors for required first & last when empty', () => {
+  it('shows validation errors for required first & last when empty', async () => {
     const { container, getByRole } = render(
       <DefinitionTester
         schema={schema}
@@ -38,6 +38,8 @@ describe('8794 – Read-only certifying official • item page', () => {
     getByRole('button', { name: /submit|continue/i }).click();
 
     // first & last required → 2 errors; middle optional
-    expect($$('va-text-input[error]', container).length).to.equal(2);
+    await waitFor(() => {
+      expect($$('va-text-input[error]', container).length).to.equal(2);
+    });
   });
 });

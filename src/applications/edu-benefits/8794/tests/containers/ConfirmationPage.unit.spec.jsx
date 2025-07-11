@@ -22,9 +22,17 @@ const storeBase = {
 };
 
 describe('<ConfirmationPage>', () => {
+  let sandbox;
+
   beforeEach(() => {
+    sandbox = sinon.createSandbox();
     localStorage.clear();
   });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
   it('should set claim id in local stage', () => {
@@ -49,19 +57,19 @@ describe('<ConfirmationPage>', () => {
     expect(getByTestId('download-link')).to.exist;
   });
   it('should call window.print when print button is clicked', () => {
-    const printSpy = sinon.spy(window, 'print');
+    window.print = window.print || (() => {});
+    const printStub = sandbox.stub(window, 'print');
     const { getByTestId } = render(
       <Provider store={mockStore(storeBase)}>
         <ConfirmationPage />
       </Provider>,
     );
     fireEvent.click(getByTestId('print-page'));
-    expect(printSpy.calledOnce).to.be.true;
-    printSpy.restore();
+    expect(printStub.calledOnce).to.be.true;
   });
   it("should call router.push('/review-and-submit') when back button is clicked", () => {
     const router = {
-      push: sinon.spy(),
+      push: sandbox.spy(),
     };
     const { getByTestId } = render(
       <Provider store={mockStore(storeBase)}>

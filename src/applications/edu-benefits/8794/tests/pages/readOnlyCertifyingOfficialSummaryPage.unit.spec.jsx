@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -37,7 +37,7 @@ describe('8794 ­– Read-only certifying officials • summary page', () => {
     expect($$('va-radio-option', container).length).to.equal(2);
   });
 
-  it('shows a validation error when no option is selected and the user clicks Continue', () => {
+  it('shows a validation error when no option is selected and the user clicks Continue', async () => {
     const { container, getByRole } = render(
       <Provider store={makeStore({ readOnlyCertifyingOfficials: [] })}>
         <DefinitionTester
@@ -49,9 +49,12 @@ describe('8794 ­– Read-only certifying officials • summary page', () => {
     );
 
     expect($$('va-radio-option', container).length).to.equal(2);
-    getByRole('button', { name: /submit|continue/i }).click();
 
-    expect($$('va-radio[error]', container).length).to.equal(1);
+    fireEvent.click(getByRole('button', { name: /submit|continue/i }));
+
+    await waitFor(() => {
+      expect($$('va-radio[error]', container).length).to.equal(1);
+    });
   });
   it('returns “first last” when a fullName object exists', () => {
     const item = { fullName: 'Jane Doe' };

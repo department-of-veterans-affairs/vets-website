@@ -33,8 +33,15 @@ const storeBase = {
 };
 
 describe('<ConfirmationPage>', () => {
+  let sandbox;
+
   beforeEach(() => {
+    sandbox = sinon.createSandbox();
     localStorage.clear();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   const middleware = [thunk];
@@ -89,7 +96,8 @@ describe('<ConfirmationPage>', () => {
   });
 
   it('should call window.print when print button is clicked', () => {
-    const printSpy = sinon.spy(window, 'print');
+    window.print = window.print || (() => {});
+    const printSpy = sandbox.stub(window, 'print');
     const { getByTestId } = render(
       <Provider store={mockStore(storeBase)}>
         <ConfirmationPage />
@@ -97,12 +105,11 @@ describe('<ConfirmationPage>', () => {
     );
     fireEvent.click(getByTestId('print-page'));
     expect(printSpy.calledOnce).to.be.true;
-    printSpy.restore();
   });
 
   it("should call router.push('/review-and-submit') when back button is clicked", () => {
     const router = {
-      push: sinon.spy(),
+      push: sandbox.spy(),
     };
     const { getByTestId } = render(
       <Provider store={mockStore(storeBase)}>
