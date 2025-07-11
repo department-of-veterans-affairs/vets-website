@@ -1,5 +1,6 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import { VaFileInputField } from '../web-component-fields';
 import navigationState from '../utilities/navigation/navigationState';
 
@@ -31,14 +32,17 @@ export const filePresenceValidation = (
  *   name: 'form-upload-file-input',
  *   errorMessages: { required: 'File upload required' },
  *   maxFileSize: 1048576,
+ *   headerSize: '3',
+ *   skipUpload: true, // set to true if your app does not yet have a backend for upload
  *   formNumber: '20-10206', // required for upload
- *   additionalInput: (
+ *   additionalInputRequired: true, // user must supply additional input
+ *   additionalInput: ( // will be rendered
  *     <VaSelect label="What kind of file is this?">
  *       <option value="public">Public</option>
  *       <option value="private">Private</option>
  *     </VaSelect />
  *   ),
- *   handleAdditionalInput: (e) => {    //handle optional additional input
+ *   handleAdditionalInput: (e) => {    // handle optional additional input
  *     return { documentStatus: e.detail.value }
  *   }
  * })
@@ -106,7 +110,11 @@ export const fileInputUI = options => {
         const isNavigationEvent = navigationState.getNavigationEventStatus();
         const isRequired =
           typeof required === 'function' ? required(formData) : !!required;
-        if (isRequired) {
+
+        // encrypted files upload after password entry
+        // password is required so that check will catch any missing files
+        if (isRequired && !uiOptions.encrypted) {
+          // && (!data.password && data.name !== 'uploading')
           filePresenceValidation(
             errors,
             data,
@@ -115,13 +123,22 @@ export const fileInputUI = options => {
             uiErrorMessages,
           );
         }
-        if (uiOptions.encrypted && !data.password && isNavigationEvent) {
+
+        if (
+          uiOptions.encrypted &&
+          (data.hasPasswordError ||
+            (!data.password &&
+              isNavigationEvent &&
+              (isRequired || data.name === 'uploading')))
+        ) {
           errors.isEncrypted.addError('Encrypted file requires a password.');
+          scrollAndFocus(`va-file-input`);
         }
+
         if (
           uiOptions.additionalInputRequired &&
-          // data.additionalData.hasError ||
-          (isEmpty(uiOptions.additionalData) && isNavigationEvent)
+          (data.hasAdditionalInputError ||
+            (isEmpty(data.additionalData) && isNavigationEvent))
         ) {
           const errorMessage =
             uiErrorMessages.additionalInput || 'Enter additional input';
@@ -132,12 +149,14 @@ export const fileInputUI = options => {
     'ui:options': {
       ...uiOptions,
     },
-    'ui:reviewField': ({ children }) => (
-      <div className="review-row">
-        <dt>{title}</dt>
-        <dd>{children.props?.formData?.name}</dd>
-      </div>
-    ),
+    'ui:reviewField': ({ children }) => {
+      return (
+        <div className="review-row">
+          <dt>{title}</dt>
+          <dd>{children.props?.formData?.name}</dd>
+        </div>
+      );
+    },
     'ui:confirmationField': ({ formData }) => ({
       data: formData?.name,
       label: title,
@@ -187,6 +206,15 @@ export const fileInputSchema = () => ({
     additionalData: {
       type: 'object',
       properties: {},
+    },
+    hasPasswordError: {
+      type: 'boolean',
+    },
+    hasAdditionalInputError: {
+      type: 'boolean',
+    },
+    type: {
+      type: 'string',
     },
   },
 });
