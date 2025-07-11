@@ -15,6 +15,7 @@ export default {
   DEPENDENCY_VERIFICATION: 'dependency-verification',
   DISABILITY_APP_STATUS: 'disability-app-status',
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
+  DISPUTE_DEBT_LINK: 'dispute-debt-link',
   EDUCATION_APP_STATUS: 'education-app-status',
   EVENTS: 'events',
   EZR_SUBMISSION_OPTIONS: 'ezr-submission-options',
