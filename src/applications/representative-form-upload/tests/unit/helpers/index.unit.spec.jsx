@@ -25,9 +25,13 @@ import * as constants from '../../../config/constants';
 describe('Helpers', () => {
   describe('getFormNumber', () => {
     it('returns correct path when formNumber matches', () => {
-      global.window.location.href =
-        'http://localhost/representative/representative-form-upload/21-686c/upload';
-      expect(getFormNumber()).to.eq('21-686c');
+      // Passing pathname directly to avoid window.location issues across Node versions
+      // TODO: Add window.location tests once platform completes migration to Node 22
+      // global.window.location.href = 'http://localhost/representative/representative-form-upload/21-686c/upload';
+      // expect(getFormNumber()).to.eq('21-686c');
+      const pathname =
+        '/representative/representative-form-upload/21-686c/upload';
+      expect(getFormNumber(pathname)).to.eq('21-686c');
     });
 
     // put back in when we have a form with upper-case characters
@@ -38,17 +42,17 @@ describe('Helpers', () => {
     // });
 
     it('returns empty string when formNumber does not match', () => {
-      global.window.location.href =
-        'http://localhost/representative/representative-form-upload/fake-form/upload';
-      expect(getFormNumber()).to.eq('');
+      const pathname =
+        '/representative/representative-form-upload/fake-form/upload';
+      expect(getFormNumber(pathname)).to.eq('');
     });
   });
 
   describe('getFormContent', () => {
     it('returns appropriate content when the form number is mapped', () => {
-      global.window.location.href =
-        'http://localhost/representative/representative-form-upload/21-686c/upload';
-      expect(getFormContent()).to.include({ title: 'VA Form 21-686c' });
+      const pathname =
+        '/representative/representative-form-upload/21-686c/upload';
+      expect(getFormContent(pathname)).to.include({ title: 'VA Form 21-686c' });
     });
   });
 
