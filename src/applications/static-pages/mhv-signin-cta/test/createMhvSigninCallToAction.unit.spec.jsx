@@ -43,13 +43,10 @@ describe('create MHV Signin Call To Action widget', () => {
   });
 
   afterEach(() => {
+    // Clear the body contents instead of replacing it
     document.body.innerHTML = '';
-    if (
-      ReactDOM.render.restore &&
-      typeof ReactDOM.render.restore === 'function'
-    ) {
-      ReactDOM.render.restore();
-    }
+
+    ReactDOM.render.restore();
   });
 
   it('no element to replace', async () => {
