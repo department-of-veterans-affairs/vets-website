@@ -560,7 +560,7 @@ const LandingPage = () => {
                         href="/my-health/secure-messages/new-message/"
                         text="Start a new message"
                         onClick={() => {
-                          ('Start a new message - FAQ');
+                          sendDataDogAction(LinkTags.faqNewMessage);
                         }}
                       />
                     </p>
