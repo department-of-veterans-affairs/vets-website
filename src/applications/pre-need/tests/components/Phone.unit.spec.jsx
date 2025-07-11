@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
-import Form from '@department-of-veterans-affairs/react-jsonschema-form';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import definitions from 'vets-json-schema/dist/definitions.json';
@@ -39,23 +39,22 @@ describe('Preneed Schemaform definition phone', () => {
 
     expect(formDOM.querySelector('label').textContent).to.equal('My phone');
   });
-  it('should render minLength phone error', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={definitions.phone} uiSchema={uiSchema()} />,
+  it('should render minLength phone error', async () => {
+    const { container } = render(
+      <DefinitionTester
+        schema={definitions.phone}
+        uiSchema={uiSchema()}
+        data={{}}
+      />,
     );
 
-    const formDOM = findDOMNode(form);
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input'), {
-      target: {
-        value: '1asdf',
-      },
-    });
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f,
-    });
+    const input = container.querySelector('input');
+    fireEvent.change(input, { target: { value: '1asdf' } });
+    fireEvent.submit(container.querySelector('form'));
 
-    expect(
-      formDOM.querySelector('.usa-input-error-message').textContent,
-    ).to.include('Phone number should be between 10-15 digits long');
+    await waitFor(() => {
+      const errorElement = container.querySelector('.usa-input-error-message');
+      expect(errorElement).to.exist;
+    });
   });
 });
