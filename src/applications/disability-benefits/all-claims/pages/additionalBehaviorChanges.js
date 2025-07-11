@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
 const additionalDescriptionChanges = (
   <div>
@@ -15,9 +14,7 @@ const additionalDescriptionChanges = (
 );
 
 export const uiSchema = {
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
-  ),
+  'ui:title': ptsd781aNameTitle,
   additionalChanges: {
     'ui:title': additionalDescriptionChanges,
     'ui:widget': 'textarea',
