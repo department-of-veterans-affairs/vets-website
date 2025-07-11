@@ -20,7 +20,7 @@ export const getFullName = ({ first, middle, last, suffix } = {}) =>
  * @param {String} [mask] - The mask to apply before the last four digits
  * @returns {String} - The masked Social Security Number or VA file number
  */
-export const maskID = (id, mask = '●●●–●●-') => {
+export const maskID = (id = '', mask = '●●●–●●-') => {
   const lastFour = id.toString().slice(-4);
   return srSubstitute(
     `${mask || ''}${lastFour}`,

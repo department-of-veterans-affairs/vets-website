@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
-import { setData } from 'platform/forms-system/exportsFile';
+// import { setData } from 'platform/forms-system/exportsFile';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 
 import { fetchDependents } from '../actions';
@@ -17,8 +17,10 @@ const Gateway = ({ route, top = false }) => {
   const [apiState, setApiState] = useState(
     userLoggedIn ? 'loading' : 'not-logged-in',
   );
-  const formData = useSelector(state => state.form?.data || {});
-  const dependents = useSelector(state => state.dependents || []);
+  // const formData = useSelector(state => state.form?.data || {});
+  const dependents = useSelector(
+    state => state.dependents || { loading: true },
+  );
 
   const dispatch = useDispatch();
 
@@ -29,24 +31,26 @@ const Gateway = ({ route, top = false }) => {
         if (!userIdVerified) {
           setApiState('not-verified');
         }
-        if (!isFetching && userIdVerified) {
+        // Gateway is rendered on the intro page twice, so check `top` to
+        // prevent duplicate fetch calls
+        if (top && !isFetching && userIdVerified) {
           setIsFetching(true);
           // If the user is logged in but not verified, we might want to show a
           // verification alert or redirect them to a verification page.
           // This is a placeholder for any additional logic needed.
           dispatch(fetchDependents());
-        } else if (dependents?.data?.length > 0) {
-          const onAwardDependents = dependents.data.filter(
-            dependent => dependent.awardIndicator === 'Y',
-          );
-          if (onAwardDependents.length > 0) {
+        } else if (!dependents.loading && dependents?.data) {
+          if (dependents.data.length > 0) {
             setApiState('loaded');
-            dispatch(
-              setData({
-                ...formData,
-                dependents: onAwardDependents,
-              }),
-            );
+            // This sets the dependents in the form data, but the data is not
+            // preserved after starting the form because the save-in-progress
+            // data overwrites it
+            // dispatch(
+            //   setData({
+            //     ...formData,
+            //     dependents: dependents.data,
+            //   }),
+            // );
           } else {
             setApiState('no-dependents');
           }
@@ -55,7 +59,8 @@ const Gateway = ({ route, top = false }) => {
         }
       }
     },
-    [userLoggedIn, userIdVerified, isFetching, dependents, dispatch, formData],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [userLoggedIn, userIdVerified, isFetching, dependents, top],
   );
 
   switch (apiState) {
