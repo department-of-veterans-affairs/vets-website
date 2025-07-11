@@ -609,8 +609,11 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
 
       fireEvent.click(await screen.findByLabelText(/Facility 983/i));
       fireEvent.click(screen.getByText(/Continue/));
-      expect(await screen.findByText(/something went wrong on our end/i)).to
-        .exist;
+      await waitFor(
+        () =>
+          expect(screen.findByText(/something went wrong on our end/i)).to
+            .exist,
+      );
     });
 
     it('should display an error message when facilities call fails', async () => {
