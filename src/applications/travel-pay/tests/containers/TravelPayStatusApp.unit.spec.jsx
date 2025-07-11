@@ -50,9 +50,7 @@ describe('TravelPayStatusApp', () => {
   const previousYearDate = '2023-09-21T17:11:43.034Z';
 
   beforeEach(() => {
-    global.window.location = {
-      replace: sinon.spy(),
-    };
+    global.window.location.replace = sinon.spy();
     const mockTravelClaims = {
       data: [
         {
