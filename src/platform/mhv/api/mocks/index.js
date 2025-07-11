@@ -281,6 +281,8 @@ const responses = {
       oncePerSession: true,
     });
   },
+
+  'POST /v0/datadog_action': {},
 };
 
 module.exports = delay(responses, 750);

@@ -16,10 +16,12 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
+  loadStates,
+  statsdFrontEndActions,
+  CernerAlertContent,
 } from '../util/constants';
 import { getMonthFromSelectedDate } from '../util/helpers';
 import { Actions } from '../util/actionTypes';
-import * as Constants from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
@@ -30,6 +32,7 @@ import RecordListSection from '../components/shared/RecordListSection';
 import DatePicker from '../components/shared/DatePicker';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -57,7 +60,7 @@ const Vitals = () => {
 
   const { isLoading, isAcceleratingVitals } = useAcceleratedData();
   const isLoadingAcceleratedData =
-    isAcceleratingVitals && listState === Constants.loadStates.FETCHING;
+    isAcceleratingVitals && listState === loadStates.FETCHING;
 
   const dispatchAction = useMemo(
     () => {
@@ -71,6 +74,9 @@ const Vitals = () => {
     },
     [acceleratedVitalsDate, isAcceleratingVitals],
   );
+
+  useTrackAction(statsdFrontEndActions.VITALS_LIST);
+
   useListRefresh({
     listState,
     listCurrentAsOf: vitalsCurrentAsOf,
@@ -223,7 +229,7 @@ const Vitals = () => {
     setDisplayDate(acceleratedVitalsDate);
     dispatch({
       type: Actions.Vitals.UPDATE_LIST_STATE,
-      payload: Constants.loadStates.PRE_FETCH,
+      payload: loadStates.PRE_FETCH,
     });
   };
 
@@ -238,9 +244,7 @@ const Vitals = () => {
         appointments.`}
       </p>
 
-      <AcceleratedCernerFacilityAlert
-        {...Constants.CernerAlertContent.VITALS}
-      />
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.VITALS} />
 
       {isLoading && (
         <div className="vads-u-margin-y--8">
