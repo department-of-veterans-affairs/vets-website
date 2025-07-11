@@ -25,9 +25,6 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
         'aria-command-name': {
           enabled: false,
         },
-        'nested-interactive': {
-          enabled: false,
-        },
       },
     });
   });
