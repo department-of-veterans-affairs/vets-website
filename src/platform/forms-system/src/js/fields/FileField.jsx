@@ -387,7 +387,7 @@ const FileField = props => {
       }
 
       if (
-        currentFile.name?.endsWith('pdf') &&
+        currentFile.name?.toLowerCase().endsWith('pdf') &&
         !password &&
         checkResults.checkIsEncryptedPdf
       ) {
@@ -616,7 +616,7 @@ const FileField = props => {
                 const passwordInput = $(`[name="get_password_${index}"]`);
                 if (passwordInput) {
                   focusElement('input', {}, passwordInput?.shadowRoot);
-                  scrollTo(`get_password_${index}"]`);
+                  scrollTo(`get_password_${index}`);
                 }
               }, 100);
             }
