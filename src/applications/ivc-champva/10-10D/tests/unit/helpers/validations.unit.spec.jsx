@@ -17,9 +17,20 @@ const REVIEW_PATH =
   'http://localhost:3001/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d/review-and-submit';
 
 function stubWindowLocation(url) {
-  const originalHref = window.location.href;
-  window.location = { href: url };
-  return originalHref;
+  const originalLocation = window.location;
+
+  // Use defineProperty instead of direct assignment
+  Object.defineProperty(window, 'location', {
+    writable: true,
+    value: { href: url },
+  });
+
+  return () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: originalLocation,
+    });
+  };
 }
 
 describe('fieldsMustMatchValidation helper', () => {
@@ -38,7 +49,7 @@ describe('fieldsMustMatchValidation helper', () => {
   it('should add error message when certifierPhone does not match applicantPhone', () => {
     // Set window.location.href to be review-and-submit since this validation
     // only fires on review page:
-    const hrefBeforeMock = stubWindowLocation(REVIEW_PATH);
+    const restoreLocation = stubWindowLocation(REVIEW_PATH);
 
     expect(errorMessage[0]).to.be.undefined;
 
@@ -64,7 +75,7 @@ describe('fieldsMustMatchValidation helper', () => {
     expect(errorMessage.length > 0).to.be.true;
 
     // Restore original href
-    window.location = { href: hrefBeforeMock };
+    restoreLocation();
   });
 
   it('should add error message when certifierName does not match veteransFullName', () => {
