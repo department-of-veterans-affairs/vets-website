@@ -225,7 +225,7 @@ const defaultPostHook = pathname => {
         }
       });
 
-      cy.findByText(/submit/i, { selector: 'button' }).click(FORCE_OPTION);
+      cy.clickFormContinue();
     };
   }
 
@@ -236,12 +236,7 @@ const defaultPostHook = pathname => {
 
   // Everything else should click on the 'Continue' button.
   return () => {
-    cy.findByText(/continue/i, {
-      selector: 'button',
-      timeout: 30000,
-    })
-      .should('be.visible')
-      .click(FORCE_OPTION);
+    cy.clickFormContinue();
   };
 };
 
