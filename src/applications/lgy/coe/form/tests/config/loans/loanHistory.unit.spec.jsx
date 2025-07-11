@@ -76,7 +76,7 @@ describe('COE applicant loan history', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('Should not submit without required fields', () => {
+  it('Should not submit without required fields', async () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={defaultStore}>
@@ -92,12 +92,18 @@ describe('COE applicant loan history', () => {
 
     fireEvent.submit($('form'));
 
-    expect($$('.usa-input-error', container).length).to.equal(6);
+    await waitFor(() => {
+      expect($$('.usa-input-error', container).length).to.equal(6);
+    });
+
     fireEvent.click(
       $('#root_relevantPriorLoans_0_propertyOwnedYes', container),
     );
 
-    expect($$('.usa-input-error', container).length).to.equal(6);
+    await waitFor(() => {
+      expect($$('.usa-input-error', container).length).to.equal(6);
+    });
+
     expect(onSubmit.called).to.be.false;
   });
 
