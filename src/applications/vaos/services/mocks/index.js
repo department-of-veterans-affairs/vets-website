@@ -431,6 +431,19 @@ const responses = {
       });
     }
 
+    if (req.params.referralId === 'referral-without-provider-error') {
+      const expiredReferral = referralUtils.createReferralById(
+        '2024-12-02',
+        req.params.referralId,
+        undefined,
+        undefined,
+        false, // hasProvider
+      );
+      return res.json({
+        data: expiredReferral,
+      });
+    }
+
     const referral = referralUtils.createReferralById(
       '2024-12-02',
       req.params.referralId,
