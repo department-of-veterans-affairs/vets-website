@@ -66,8 +66,7 @@ describe('BurialsApp', () => {
         <BurialsApp location={{ ...burialsLocation, pathname: 'test' }} />
       </Provider>,
     );
-    expect(window.location.href).to.eq(
-      '/burials-memorials/veterans-burial-allowance/',
-    );
+    const location = window.location.pathname || window.location.href;
+    expect(location).to.eq('/burials-memorials/veterans-burial-allowance/');
   });
 });
