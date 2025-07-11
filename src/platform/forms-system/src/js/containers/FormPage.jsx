@@ -265,6 +265,8 @@ class FormPage extends React.Component {
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     const data = this.formData();
 
+    const formOptions = route.formConfig?.formOptions || {};
+
     if (
       route.pageConfig.showPagePerItem &&
       (!route.pageConfig.CustomPage ||
@@ -291,8 +293,7 @@ class FormPage extends React.Component {
       environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
     const hideNavButtons =
       !environment.isProduction() &&
-      (route.formConfig?.formOptions?.noBottomNav ||
-        route.pageConfig?.hideNavButtons);
+      (formOptions?.noBottomNav || route.pageConfig?.hideNavButtons);
 
     let pageContentBeforeButtons = route.pageConfig?.ContentBeforeButtons;
     if (
@@ -358,6 +359,7 @@ class FormPage extends React.Component {
             appStateData={appStateData}
             formContext={this.formContext}
             NavButtons={NavButtons}
+            formOptions={formOptions}
           />
         </div>
       );
@@ -385,7 +387,7 @@ class FormPage extends React.Component {
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}
           onSubmit={this.onSubmit}
-          formOptions={route.formConfig?.formOptions || {}}
+          formOptions={formOptions}
         >
           {pageContentBeforeButtons}
           {hideNavButtons ? (
@@ -397,6 +399,7 @@ class FormPage extends React.Component {
                 goBack={!isFirstRoutePage && this.goBack}
                 goForward={this.onContinue}
                 submitToContinue
+                useWebComponents={formOptions.useWebComponentForNavigation}
               />
               {contentAfterNavButtons}
             </>
@@ -477,6 +480,7 @@ FormPage.propTypes = {
       }),
       formOptions: PropTypes.shape({
         noBottomNav: PropTypes.bool,
+        useWebComponentForNavigation: PropTypes.bool,
       }),
       showSaveLinkAfterButtons: PropTypes.bool,
       useTopBackLink: PropTypes.bool,

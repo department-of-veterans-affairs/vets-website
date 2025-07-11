@@ -75,6 +75,9 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
         goBack={customPageProps.goBack}
         goForward={customPageProps.onContinue}
         submitToContinue
+        useWebComponents={
+          customPageProps.formOptions?.useWebComponentForNavigation
+        }
       />
       {customPageProps.contentAfterButtons}
     </form>
@@ -96,6 +99,9 @@ ArrayBuilderSummaryNoSchemaFormPage.propTypes = {
     onContinue: PropTypes.func,
     contentAfterButtons: PropTypes.node,
     NavButtons: PropTypes.func,
+    formOptions: PropTypes.shape({
+      useWebComponentForNavigation: PropTypes.bool,
+    }),
   }),
   description: PropTypes.node,
   hideAdd: PropTypes.bool,

@@ -35,6 +35,7 @@ const mockRedux = ({
   onChange = () => {},
   setFormData = () => {},
   formErrors,
+  useWebComponent = false,
 } = {}) => {
   return {
     props: {
@@ -117,6 +118,7 @@ describe('ArrayBuilderSummaryPage', () => {
     schema,
     useButtonInsteadOfYesNo,
     useLinkInsteadOfYesNo,
+    useWebComponent = false,
   }) {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
@@ -205,6 +207,7 @@ describe('ArrayBuilderSummaryPage', () => {
           title={title}
           appStateData={{}}
           formContext={{}}
+          formOptions={{ useWebComponentForNavigation: useWebComponent }}
         />
       </Provider>,
     );
@@ -227,6 +230,7 @@ describe('ArrayBuilderSummaryPage', () => {
             title={title}
             appStateData={{}}
             formContext={{}}
+            formOptions={{ useWebComponentForNavigation: useWebComponent }}
           />
         </Provider>,
       );
@@ -241,6 +245,32 @@ describe('ArrayBuilderSummaryPage', () => {
       rerenderWithNewData,
     };
   }
+
+  it('should display React FormNav buttons', () => {
+    const { getText, container, getByText } = setupArrayBuilderSummaryPage({
+      arrayData: [],
+      urlParams: '',
+      maxItems: 5,
+    });
+
+    expect(
+      container.querySelector(
+        '.form-progress-buttons button.usa-button-primary',
+      ),
+    ).to.exist;
+  });
+
+  it('should display React FormNav buttons', () => {
+    const { getText, container, getByText } = setupArrayBuilderSummaryPage({
+      arrayData: [],
+      urlParams: '',
+      maxItems: 5,
+      useWebComponent: true,
+    });
+    expect(
+      container.querySelector('.form-progress-buttons va-button[continue]'),
+    ).to.exist;
+  });
 
   it('should display appropriately with 0 items', () => {
     const { getText, container, getByText } = setupArrayBuilderSummaryPage({

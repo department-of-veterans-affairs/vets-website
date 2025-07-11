@@ -650,6 +650,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
             goBack={props.goBack}
             goForward={props.onContinue}
             submitToContinue
+            useWebComponents={props.formOptions?.useWebComponentForNavigation}
           />
           {props.contentAfterButtons}
         </>
@@ -666,6 +667,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     contentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
     formContext: PropTypes.object,
+    formOptions: PropTypes.object,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
     onChange: PropTypes.func,
