@@ -28,6 +28,7 @@ currently disabled. When we migrate to node 22 we could re-enable
 it (though it's somewhat dubious what benefit it provides + the
 component it tests will be replaced by the official platform
 multi-file input pattern eventually anyway). 
+TODO: enable when node 22 is active
 Original comment follows: */
 /*
 // On initial render the "this field is required" error is active
