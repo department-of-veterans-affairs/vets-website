@@ -16,34 +16,27 @@ export const SUBMIT_CLAIM_SUCCESS = 'SUBMIT_CLAIM_SUCCESS';
 export const SUBMIT_CLAIM_FAILURE = 'SUBMIT_CLAIM_FAILURE';
 
 // Get all travel claims
-const fetchTravelClaimsStart = () => ({
-  type: FETCH_TRAVEL_CLAIMS_STARTED,
-});
-const fetchTravelClaimsSuccess = (dateRangeId, data) => ({
+const fetchTravelClaimsStart = () => ({ type: FETCH_TRAVEL_CLAIMS_STARTED });
+const fetchTravelClaimsSuccess = data => ({
   type: FETCH_TRAVEL_CLAIMS_SUCCESS,
-  dateRangeId,
   payload: data,
 });
-const fetchTravelClaimsFailure = (dateRangeId, error) => ({
+const fetchTravelClaimsFailure = error => ({
   type: FETCH_TRAVEL_CLAIMS_FAILURE,
-  dateRangeId,
   error,
 });
 
-export function getTravelClaims(dateRangeSelection) {
-  const { start, end, value: dateRangeId } = dateRangeSelection;
+export function getTravelClaims() {
   return async dispatch => {
     dispatch(fetchTravelClaimsStart());
 
     try {
-      const claimsUrl = `${
-        environment.API_URL
-      }/travel_pay/v0/claims?startDate=${start}&endDate=${end}`;
+      const claimsUrl = `${environment.API_URL}/travel_pay/v0/claims`;
       const response = await apiRequest(claimsUrl);
 
-      dispatch(fetchTravelClaimsSuccess(dateRangeId, response));
+      dispatch(fetchTravelClaimsSuccess(response.data));
     } catch (error) {
-      dispatch(fetchTravelClaimsFailure(dateRangeId, error));
+      dispatch(fetchTravelClaimsFailure(error));
     }
   };
 }
