@@ -11,7 +11,7 @@ describe('OAuth - Crypto', () => {
     const rs = generateRandomString(64);
     it('returns a Promise <ArrayBuffer>', async () => {
       const promisedArrBuff = await sha256(rs);
-      expect(promisedArrBuff).to.be.a('string');
+      expect(promisedArrBuff).to.be.instanceOf(ArrayBuffer);
       expect(promisedArrBuff.byteLength).to.eql(32);
     });
     it('should return null if parameter is empty', () => {
@@ -37,13 +37,13 @@ describe('OAuth - Crypto', () => {
       },
     };
     it('should generate a random string given a length', () => {
-      window.crypto = mockCrypto;
+      globalThis.crypto = mockCrypto;
       expect(generateRandomString(28).length).to.eql(56);
       expect(generateRandomString(64).length).to.eql(128);
       expect(generateRandomString(128).length).to.eql(256);
     });
     it('should not generate the same string twice', () => {
-      window.crypto = mockCrypto;
+      globalThis.crypto = mockCrypto;
       const tempStr = generateRandomString(16);
       const tempArr = Array.from({ length: 28 }).map(_ =>
         generateRandomString(16),
