@@ -96,7 +96,7 @@ export const Form526Entry = ({
   user,
 }) => {
   const { profile = {} } = user;
-  const wizardStatus = window.sessionStorage.getItem(WIZARD_STATUS);
+  const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
 
   const hasSavedForm = savedForms.some(
     form =>
@@ -131,7 +131,7 @@ export const Form526Entry = ({
       if (wizardStatus === WIZARD_STATUS_COMPLETE && isIntroPage(location)) {
         setPageFocus('h1');
         // save feature flag for 8940/4192
-        window.sessionStorage.setItem(SHOW_8940_4192, showSubforms);
+        sessionStorage.setItem(SHOW_8940_4192, showSubforms);
       }
       // Set user account & application id in Sentry so we can access their form
       // data for any thrown errors

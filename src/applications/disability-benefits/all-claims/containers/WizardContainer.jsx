@@ -24,7 +24,7 @@ import {
 } from '../constants';
 
 const setWizardStatus = value => {
-  window.sessionStorage.setItem(WIZARD_STATUS, value);
+  sessionStorage.setItem(WIZARD_STATUS, value);
 };
 
 const WizardContainer = () => {
@@ -33,13 +33,11 @@ const WizardContainer = () => {
     scrollToTop();
   });
 
-  window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
-  window.sessionStorage.removeItem(FORM_STATUS_BDD);
-  if (
-    window.sessionStorage.getItem(WIZARD_STATUS) === WIZARD_STATUS_RESTARTING
-  ) {
+  sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+  sessionStorage.removeItem(FORM_STATUS_BDD);
+  if (sessionStorage.getItem(WIZARD_STATUS) === WIZARD_STATUS_RESTARTING) {
     // Ensure we clear the restarting state
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    sessionStorage.removeItem(WIZARD_STATUS);
   }
   const title = getPageTitle();
   return wrapWithBreadcrumb(

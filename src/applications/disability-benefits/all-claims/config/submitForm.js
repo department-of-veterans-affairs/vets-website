@@ -1,6 +1,7 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import * as Sentry from '@sentry/browser';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 const submitFormFor = eventName =>
   function submitForm(form, formConfig, { mode } = {}) {
@@ -8,7 +9,7 @@ const submitFormFor = eventName =>
       ? formConfig.transformForSubmit(formConfig, form)
       : transformForSubmit(formConfig, form);
     // This item should have been set in any previous API calls
-    const csrfTokenStored = window.localStorage.getItem('csrfToken');
+    const csrfTokenStored = localStorage.getItem('csrfToken');
 
     let timer;
     // Reject promise timer set to 30 seconds; except while testing

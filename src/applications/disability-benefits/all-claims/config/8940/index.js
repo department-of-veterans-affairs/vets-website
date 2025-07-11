@@ -40,7 +40,7 @@ export default function() {
     // need this environment check for unit tests to work
     environment.isProduction() &&
     // this will filter production users using the feature flag
-    window.sessionStorage.getItem(SHOW_8940_4192) !== 'true'
+    sessionStorage.getItem(SHOW_8940_4192) !== 'true'
   ) {
     return {};
   }
