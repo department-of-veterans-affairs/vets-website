@@ -28,11 +28,11 @@ const getPage = submission =>
     </Provider>,
   );
 
-describe('ConfirmationPage', () => {
+describe('<ConfirmationPage />', () => {
   afterEach(cleanup);
 
-  it('shows success alert, heading, and confirmation number', () => {
-    const { container, getByText } = getPage({
+  it('shows success alert', () => {
+    const { container } = getPage({
       response: { confirmationNumber: '1234567890' },
       timestamp: new Date().toISOString(),
     });
@@ -41,8 +41,44 @@ describe('ConfirmationPage', () => {
       'status',
       'success',
     );
-    getByText(/Form submission started/i);
-    getByText(/1234567890/);
+  });
+
+  it('shows summary box with button to print page', () => {
+    const { container } = getPage({
+      response: { confirmationNumber: '1234567890' },
+      timestamp: new Date().toISOString(),
+    });
+
+    expect(container.querySelector('va-summary-box')).to.exist;
+    expect(container.querySelectorAll('va-summary-box h4').length).to.equal(3);
+    expect(container.querySelector('va-button')).to.have.attribute(
+      'text',
+      'Print this page',
+    );
+  });
+
+  it('shows process list section', () => {
+    const { container } = getPage({
+      response: { confirmationNumber: '1234567890' },
+      timestamp: new Date().toISOString(),
+    });
+
+    expect(container.querySelector('va-process-list')).to.exist;
+    expect(container.querySelectorAll('va-process-list-item').length).to.equal(
+      3,
+    );
+  });
+
+  it('shows action link to return to VA.gov homepage', () => {
+    const { container } = getPage({
+      response: { confirmationNumber: '1234567890' },
+      timestamp: new Date().toISOString(),
+    });
+
+    expect(container.querySelector('va-link-action')).to.have.attribute(
+      'text',
+      'Go back to VA.gov',
+    );
   });
 
   it('renders safely when submission object is empty (defaults kick in)', () => {
