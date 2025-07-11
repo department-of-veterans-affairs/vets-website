@@ -80,7 +80,7 @@ export function GiBillApp({
   const onProgramPage = /\/institution\/[^/]+\/[^/]+$/.test(location.pathname);
 
   return (
-    <div className="gi-app" role="application">
+    <div className="gi-app">
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
