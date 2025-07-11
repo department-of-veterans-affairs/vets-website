@@ -382,29 +382,6 @@ describe('getLetterPdf', () => {
       .then(done, done);
   });
 
-  it('dispatches SUCCESS action when fetch succeeds on IE10', done => {
-    const ieDownloadSpy = sinon.spy();
-    const blobObj = { test: '123 testing' };
-    global.window.navigator.msSaveOrOpenBlob = ieDownloadSpy; // fakes IE
-    setFetchBlobResponse(global.fetch.onCall(0), blobObj);
-    const { letterType, letterName, letterOptions } = civilSLetter;
-    const thunk = getLetterPdf(
-      letterType,
-      letterName,
-      letterOptions,
-      migrationOptions,
-    );
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.secondCall.args[0];
-        const msBlobArgs = ieDownloadSpy.firstCall.args;
-        expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
-        expect(msBlobArgs).to.have.members([blobObj, `${letterName}.pdf`]);
-      })
-      .then(done, done);
-  });
-
   it('dispatches FAILURE action if download fails', done => {
     setFetchJSONFailure(global.fetch.onCall(0), new Error('Oops, this failed'));
     const { letterType, letterName, letterOptions } = benefitSLetter;
@@ -445,7 +422,8 @@ describe('getSingleLetterPDFLink', () => {
     const mockUrl = 'http://fake-site.com/letter.pdf';
 
     stubCreateObjectUrl.onCall(0).returns(mockUrl);
-    setFetchJSONResponse(global.fetch.onCall(0), { blob: mockBlob });
+    const response = new Response(mockBlob, { status: 200 });
+    global.fetch.onCall(0).resolves(response);
 
     await getSingleLetterPDFLink(
       dispatch,
