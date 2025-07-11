@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { addDays } from 'date-fns';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { fetchPatientRelationships } from '.';
 
@@ -45,7 +46,11 @@ describe('VAOS Services: Patient ', () => {
 
       setFetchJSONResponse(global.fetch, { data: relationships });
 
-      const data = await fetchPatientRelationships('123', typeOfCare);
+      const data = await fetchPatientRelationships(
+        '123',
+        typeOfCare,
+        addDays(new Date(), 395),
+      );
 
       expect(global.fetch.firstCall.args[0]).to.contain(
         `/vaos/v2/relationships`,
