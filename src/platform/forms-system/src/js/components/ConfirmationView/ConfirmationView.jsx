@@ -15,6 +15,7 @@ import {
   SavePdfDownloadWithContext,
   PrintOnlyHeader,
   PrintThisPage,
+  OpenReviewPageLink,
   SubmissionAlert,
   SubmissionAlertWithContext,
 } from './components';
@@ -168,9 +169,11 @@ ConfirmationView.propTypes = {
   submitDate: PropTypes.any,
 };
 
+// AJ TODO - is this needed?
 ConfirmationView.SubmissionAlert = SubmissionAlertWithContext;
 ConfirmationView.SavePdfDownload = SavePdfDownloadWithContext;
 ConfirmationView.WhatsNextProcessList = WhatsNextProcessListWithContext;
+ConfirmationView.OpenReviewPageLink = OpenReviewPageLink;
 ConfirmationView.PrintThisPage = PrintThisPage;
 ConfirmationView.HowToContact = HowToContact;
 ConfirmationView.NeedHelp = NeedHelp;

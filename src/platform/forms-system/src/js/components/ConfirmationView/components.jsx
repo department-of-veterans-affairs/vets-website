@@ -307,6 +307,23 @@ export const PrintOnlyHeader = () => {
   );
 };
 
+export const OpenReviewPageLink = ({
+  className = '',
+  text = 'Review the information you provided',
+  href = '/my-va#benefit-applications',
+}) => {
+  return (
+    <div className={classNames('review-submission', className)}>
+      <va-link href={href} text={text} external />
+    </div>
+  );
+};
+
+OpenReviewPageLink.propTypes = {
+  className: PropTypes.string,
+  href: PropTypes.string,
+  text: PropTypes.string,
+};
 export const PrintThisPage = ({ className = '' }) => {
   const onPrintPageClick = () => {
     window.print();
