@@ -403,8 +403,8 @@ describe('<DocumentRequestPage>', () => {
       expect(onSubmit.called).to.be.true;
     });
 
-    it('should handle submit files lighthouse and navigate to files page', () => {
-      const submitFilesLighthouse = sinon.spy();
+    it('should handle submit files and navigate to files page', () => {
+      const submitFiles = sinon.spy();
       const trackedItem = {
         status: 'NEEDED_FROM_YOU',
         suspenseDate: '2010-05-10',
@@ -415,8 +415,7 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
-            submitFilesLighthouse={submitFilesLighthouse}
-            documentsUseLighthouse
+            submitFiles={submitFiles}
           />
           ,
         </Provider>,
@@ -440,16 +439,15 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
-            submitFilesLighthouse={submitFilesLighthouse}
+            submitFiles={submitFiles}
             files={[file]}
-            documentsUseLighthouse
           />
           ,
         </Provider>,
       );
 
       fireEvent.click($('#submit', container));
-      expect(submitFilesLighthouse.called).to.be.true;
+      expect(submitFiles.called).to.be.true;
     });
 
     it('should reset uploads and set title on mount', () => {
