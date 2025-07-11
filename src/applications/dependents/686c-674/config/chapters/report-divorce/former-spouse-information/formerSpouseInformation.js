@@ -33,6 +33,7 @@ export const uiSchema = {
     },
     birthDate: currentOrPastDateUI({
       title: 'Former spouse’s date of birth',
+      dataDogHidden: true,
       required: () => true,
     }),
     'view:cancelDivorce': {

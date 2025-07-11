@@ -145,6 +145,7 @@ export const deceasedDependentPersonalInfoPage = {
     },
     birthDate: currentOrPastDateUI({
       title: 'Dependent’s date of birth',
+      dataDogHidden: true,
       required: () => true,
     }),
   },

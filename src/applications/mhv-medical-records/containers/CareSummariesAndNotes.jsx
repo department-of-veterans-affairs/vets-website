@@ -15,12 +15,14 @@ import {
   pageTitles,
   recordType,
   refreshExtractTypes,
+  statsdFrontEndActions,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -38,6 +40,7 @@ const CareSummariesAndNotes = () => {
   );
   const refresh = useSelector(state => state.mr.refresh);
   const activeAlert = useAlerts(dispatch);
+  useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_LIST);
 
   useListRefresh({
     listState,

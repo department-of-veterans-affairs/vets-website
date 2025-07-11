@@ -49,7 +49,7 @@ const AlertBackgroundBox = props => {
   } = Errors;
 
   const location = useLocation();
-  const SrOnlyTag = alertContent === SERVER_ERROR_503 ? 'h1' : 'span';
+  const SrOnlyTag = 'span';
 
   const lastPathName = formatPathName(location.pathname, 'Messages');
 
