@@ -11,12 +11,6 @@ export const typeOfPhoneOptions = Object.freeze({
   WORK: 'Work',
 });
 
-export const descriptionRequired = Object.freeze([
-  'UNEMPLOYED',
-  'SELF_EMPLOYED',
-  'OTHER',
-]);
-
 export const primaryMailingAddressOptions = Object.freeze({
   HOME: 'Home',
   WORK: 'Work',
@@ -79,6 +73,11 @@ export const employmentActivitiesOptions = Object.freeze({
   VOCATIONAL_REHABILITATION: 'Vocational rehabilitation',
 });
 
+export const descriptionRequired = Object.freeze([
+  'UNEMPLOYED',
+  'SELF_EMPLOYED',
+]);
+
 // Chapter 4
 
 export const degreeOptions = Object.freeze([
@@ -88,4 +87,17 @@ export const degreeOptions = Object.freeze([
   "Bachelor's degree",
   "Master's degree",
   'Doctoral degree',
+]);
+
+// Chapter 7
+
+export const characterReferencesRelationship = Object.freeze([
+  'Classmate',
+  'Colleague',
+  'Customer/Client',
+  'Friend',
+  'Neighbor',
+  'Supervisor',
+  'Educator',
+  'Other',
 ]);
