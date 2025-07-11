@@ -100,7 +100,7 @@ const Gateway = ({ route, top = false }) => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Start your disability benefits dependents verification"
         />
       );
   }
