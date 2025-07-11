@@ -98,6 +98,7 @@
   }
 
   &__card {
+    padding: 24px 20px;
     > a {
       display: flex;
     }
@@ -108,7 +109,7 @@
     }
 
     &-title {
-      margin: 3px 0 0 0;
+      margin: 12px 0 0 0;
       font-weight: 700;
     }
 
