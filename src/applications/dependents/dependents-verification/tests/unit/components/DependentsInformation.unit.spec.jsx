@@ -19,7 +19,9 @@ function renderPage({
   contentAfterButtons = null,
 } = {}) {
   const mockStore = {
-    getState: () => {},
+    getState: () => ({
+      dependents: { data: defaultData.dependents },
+    }),
     dispatch: () => {},
     subscribe: () => {},
   };
@@ -45,7 +47,7 @@ describe('DependentsInformation', () => {
     const cards = $$('va-card', container);
     expect(cards).to.have.lengthOf(2);
     const firstList = $$('div.item', cards[0]);
-    expect($('h4', cards[0]).textContent).to.include('Morty Charles Smith');
+    expect($('h4', cards[0]).textContent).to.include('Morty Smith');
     expect(firstList[0].textContent).to.include('Relationship:\u00a0Child');
     expect(firstList[1].textContent).to.include(
       'Date of birth:\u00a0January 4, 2011',
@@ -53,7 +55,7 @@ describe('DependentsInformation', () => {
     expect(firstList[2].textContent).to.include('Age:\u00a014 years old');
     expect(firstList[3].textContent).to.include('SSN:\u00a0●●●–●●-6791');
 
-    expect($('h4', cards[1]).textContent).to.include('Summer Susan Smith');
+    expect($('h4', cards[1]).textContent).to.include('Summer Smith');
     expect($('.removal-date', cards[1]).textContent).to.include(
       'Automatic removal date:\u00a0August 1, 2026',
     );
@@ -61,25 +63,19 @@ describe('DependentsInformation', () => {
 
     expect($$('va-radio-option', container)).to.have.lengthOf(2);
     expect(
-      $$('.dd-privacy-mask[data-dd-action-name]', container),
-    ).to.have.lengthOf(5);
+      $$('.dd-privacy-hidden[data-dd-action-name]', container),
+    ).to.have.lengthOf(11);
   });
 
   it('should set form data with radio choice', () => {
     const setFormDataSpy = sinon.spy();
     const { container } = renderPage({ data: {}, setFormData: setFormDataSpy });
 
-    // const changeEvent = new MouseEvent('vaValueChange', {
-    //   detail: { value: 'Y' },
-    // });
-    // fireEvent($('va-radio', container), changeEvent);
-    $('va-radio', container).__events.vaValueChange({ detail: { value: 'Y' } });
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: defaultData.hasDependentsStatusChanged },
+    });
 
-    expect(
-      setFormDataSpy.calledWith({
-        hasDependentsStatusChanged: 'Y',
-      }),
-    ).to.be.true;
+    expect(setFormDataSpy.calledWith(defaultData)).to.be.true;
   });
 
   it('shows error if no selection is made', () => {
