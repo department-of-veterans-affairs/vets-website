@@ -18,6 +18,7 @@ export const uploadScannedForm = (
   onFileUploaded,
   onProgress,
   accept = '.pdf,.jpeg,.png',
+  password,
 ) => {
   const uiOptions = {
     fileUploadUrl,
@@ -34,9 +35,25 @@ export const uploadScannedForm = (
       onProgress,
       file => onFileUploaded(file),
       () => {}, // onError
+      '', // tracking prefix placeholder
+      password,
     );
     uploadRequest(dispatch, () => ({ form: { formId: formNumber } }));
   };
+};
+
+/**
+ * Not used in form system but imported elsewhere in applications
+ * Remove when possible.
+ */
+export const getFileSize = num => {
+  if (num > 999999) {
+    return `${(num / 1000000).toFixed(1)} MB`;
+  }
+  if (num > 999) {
+    return `${Math.floor(num / 1000)} KB`;
+  }
+  return `${num} B`;
 };
 
 // Defaulting obj to {} in case we get a null

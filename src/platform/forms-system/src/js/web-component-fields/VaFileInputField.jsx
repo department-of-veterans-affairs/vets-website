@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
+import debounce from 'platform/utilities/data/debounce';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import { uploadScannedForm } from './vaFileInputFieldHelpers';
 
@@ -9,7 +12,7 @@ const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
   const [isUploading, setIsUploading] = useState(false);
   const [percentUploaded, setPercentUploaded] = useState(null);
 
-  const uploadFile = (file, onSuccess) => {
+  const uploadFile = (file, onSuccess, password = null) => {
     setIsUploading(true);
 
     const onFileUploaded = uploadedFile => {
@@ -31,6 +34,7 @@ const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
         onFileUploaded,
         onFileUploading,
         accept,
+        password,
       ),
     );
   };
@@ -43,18 +47,18 @@ const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
  * ```
  * fileInput: {
  *   'ui:title': 'A file input',
- *   'ui:description': 'Text description',
  *   'ui:webComponentField': VaFileInput,
  *   'ui:hint': 'hint',
  *   'ui:errorMessages': {
  *     required: 'This is a custom error message.',
  *   },
+ *   formNumber: '20-10206'
+ *   fileUploadUrl: 'https://api.test.gov',
  *   'ui:options': {
  *     accept: '.pdf,.jpeg,.png',
- *     buttonText: 'Push this button',
  *     enableAnalytics: true,
- *     labelHeaderLevel: "1",
- *     messageAriaDescribedby: 'text description to be read by screen reader',
+ *     encrypted: true,
+ *     maxFileSize: 1048576
  *   },
  * }
  * ```
@@ -63,70 +67,119 @@ const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
  * ```
  * uploadedFile: {
  *   type: 'object',
- *   properties: {},
+ *    properties: {
+ *       confirmationCode: {
+ *         type: 'string',
+ *       },
+ *       isEncrypted: {
+ *         type: 'boolean',
+ *       },
+ *       password: {
+ *         type: 'string',
+ *       },
+ *       name: {
+ *         type: 'string',
+ *       },
+ *       size: {
+ *         type: 'integer',
+ *       },
+ *       fileType: {
+ *         type: 'string',
+ *       },
+ *       warnings: {
+ *         type: 'array',
+ *         items: {
+ *           type: 'string',
+ *         },
+ *       },
+ *       additionalData: {
+ *         type: 'object',
+ *         properties: {},
+ *       },
+ *     },
  * },
  * ```
+ 
+ 
  * @param {WebComponentFieldProps} props */
 const VaFileInputField = props => {
   const { uiOptions = {}, childrenProps } = props;
   const { formNumber } = uiOptions;
   const mappedProps = vaFileInputFieldMapping(props);
-  const { fileUploadUrl, accept } = mappedProps;
+  const { accept } = mappedProps;
   const dispatch = useDispatch();
   const [error, setError] = useState(mappedProps.error);
-  const { isUploading, percentUploaded, uploadFile } = useFileUpload(
-    fileUploadUrl,
+  const [fileWithPassword, setFileWithPassword] = useState(null);
+  const { percentUploaded, uploadFile } = useFileUpload(
+    uiOptions.fileUploadUrl,
     accept,
     formNumber,
     dispatch,
   );
 
-  const additionalInputError =
-    childrenProps.errorSchema.additionalData.__errors[0] || null;
-  const passwordError =
-    childrenProps.errorSchema.isEncrypted.__errors[0] || null;
+  const getErrorMessage = field => {
+    let errorMessage = null;
+    const errorArray = childrenProps.errorSchema[field].__errors;
+    if (errorArray && errorArray.length > 0) {
+      errorMessage = errorArray[0];
+    }
+    return errorMessage;
+  };
+  const additionalInputError = getErrorMessage('additionalData');
+  let passwordError = getErrorMessage('isEncrypted');
 
-  // useEffect(() => {
-  //   if (additionalInputError) {
-  //     childrenProps.onChange({
-  //       ...childrenProps.formData,
-  //       additionalData: {
-  //         hasError: true
-  //       }
-  //     })
-  //   }
-  // }, [additionalInputError]);
+  useEffect(
+    () => {
+      if (additionalInputError || passwordError) {
+        childrenProps.onChange({
+          ...childrenProps.formData,
+          hasAdditionalInputError: !!additionalInputError,
+          hasPasswordError: !!passwordError,
+        });
+      }
+    },
+    [additionalInputError, passwordError],
+  );
 
   const assignFileUploadToStore = uploadedFile => {
     if (!uploadedFile) return;
 
-    const {
-      confirmationCode,
-      isEncrypted,
-      name,
-      size,
-      file,
-      warnings,
-      errorMessage,
-    } = uploadedFile;
+    const { file, ...rest } = uploadedFile;
+
+    const { name, size, type } = file;
 
     childrenProps.onChange({
-      confirmationCode,
-      isEncrypted,
+      ...childrenProps.formData,
+      ...rest,
       name,
       size,
-      type: file.type,
-      warnings,
-      errorMessage,
+      type,
     });
   };
 
   const handleFileProcessing = uploadedFile => {
     if (!uploadedFile || !uploadedFile.file) return;
 
-    setError(uploadedFile.errorMessage);
+    if (!uiOptions.skipUpload) {
+      setError(uploadedFile.errorMessage);
+    }
+
     assignFileUploadToStore(uploadedFile);
   };
+
+  // upload after debounce
+  const debouncePassword = useMemo(() =>
+    debounce(500, password => {
+      if (fileWithPassword) {
+        childrenProps.onChange({
+          ...childrenProps.formData,
+          hasPasswordError: false,
+        });
+        passwordError = null;
+        uploadFile(fileWithPassword, handleFileProcessing, password);
+      }
+    }),
+  );
 
   const handleVaChange = e => {
     const fileFromEvent = e.detail.files[0];
@@ -140,15 +193,21 @@ const VaFileInputField = props => {
       ...childrenProps.formData,
       name: 'uploading',
     });
-    uploadFile(fileFromEvent, handleFileProcessing);
+
+    // cypress test / skip the network call and its callbacks
+    if (environment.isTest() && !environment.isUnitTest()) {
+      handleFileProcessing(fileFromEvent);
+      // delay uploading for encrypted files until password is entered
+    } else if (uiOptions.encrypted) {
+      setFileWithPassword(fileFromEvent);
+    } else {
+      uploadFile(fileFromEvent, handleFileProcessing);
+    }
   };
 
   const handleVaPasswordChange = e => {
     const { password } = e.detail;
-    childrenProps.onChange({
-      ...childrenProps.formData,
-      password,
-    });
+    debouncePassword(password);
   };
 
   const handleAdditionalInput = e => {
@@ -157,31 +216,33 @@ const VaFileInputField = props => {
       childrenProps.onChange({
         ...childrenProps.formData,
         additionalData: payload,
+        hasAdditionalInputError: false,
       });
     }
   };
 
+  const _error = error || mappedProps.error;
   return (
     <VaFileInput
       {...mappedProps}
-      error={error || mappedProps.error}
+      error={_error}
+      resetVisualState={!!_error}
       uploadedFile={mappedProps.uploadedFile}
       onVaChange={handleVaChange}
       onVaPasswordChange={handleVaPasswordChange}
       percentUploaded={percentUploaded || null}
       passwordError={passwordError}
     >
-      {isUploading && (
-        <div>
-          <em>Uploading...</em>
-        </div>
-      )}
       <div className="additional-input-container">
         {mappedProps.additionalInput &&
           React.cloneElement(
             // clone element so we can attach listeners
-            mappedProps.additionalInput(additionalInputError),
+            mappedProps.additionalInput(
+              additionalInputError,
+              childrenProps.formData.additionalData,
+            ),
             {
+              // attach other listeners as needed
               onVaChange: handleAdditionalInput,
               onVaSelect: handleAdditionalInput,
               onVaValueChange: handleAdditionalInput,

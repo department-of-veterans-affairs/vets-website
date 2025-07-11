@@ -10,23 +10,33 @@ export default {
   uiSchema: {
     wcv3FileInput: fileInputUI({
       title: 'Web component v3 file input',
-      required: false,
-      fileUploadUrl: 'http://localhost:3000/upload', // https://api.test.gov',
+      required: true,
+      fileUploadUrl: 'http://localhost:3000/upload', // 'https://api.test.gov',
       accept: 'image/*',
-      hint: 'This is a hint',
-      headerSize: '4',
+      hint: 'Upload a file that is less than 1MB',
+      headerSize: '3',
       encrypted: true,
       formNumber: '31-4159',
+      skipUpload: true, // mock-forms does not have a backend for upload
+      maxFileSize: 1024 * 1024,
       errorMessages: {
         additionalInput: 'Choose a document status',
       },
       additionalInputRequired: true,
-      additionalInput: error => (
-        <VaSelect required error={error} label="Document status">
-          <option value="public">Public</option>
-          <option value="private">Private</option>
-        </VaSelect>
-      ),
+      additionalInput: (error, data) => {
+        const { documentStatus } = data;
+        return (
+          <VaSelect
+            required
+            error={error}
+            value={documentStatus}
+            label="Document status"
+          >
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+          </VaSelect>
+        );
+      },
       handleAdditionalInput: e => {
         return { documentStatus: e.detail.value };
       },
