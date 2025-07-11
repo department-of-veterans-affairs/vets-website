@@ -61,5 +61,5 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - Use `yarn new:app` to create new React applications
 
 ## Forms
-- For understanding valid uiSchema and schema web component patterns to use, reference `src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json`.
-- For finding the root folder a form, directory path, entryName or rootUrl, reference `src/applications/manifest-catalog.json`.
+- For understanding valid uiSchema and schema web component patterns, reference `src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json`.
+- For understanding a form's name, directory path, entryName and rootUrl, reference `src/applications/manifest-catalog.json`.
