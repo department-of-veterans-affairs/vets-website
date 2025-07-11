@@ -160,6 +160,7 @@ const VaFileInputField = props => {
   const handleFileProcessing = uploadedFile => {
     if (!uploadedFile || !uploadedFile.file) return;
 
+    // if there is no back-end (e.g. mock-forms) don't set network errors that would prevent navigation
     if (!uiOptions.skipUpload) {
       setError(uploadedFile.errorMessage);
     }

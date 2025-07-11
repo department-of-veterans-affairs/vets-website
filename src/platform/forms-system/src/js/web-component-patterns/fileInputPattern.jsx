@@ -111,10 +111,12 @@ export const fileInputUI = options => {
         const isRequired =
           typeof required === 'function' ? required(formData) : !!required;
 
-        // encrypted files upload after password entry
-        // password is required so that check will catch any missing files
-        if (isRequired && !uiOptions.encrypted) {
-          // && (!data.password && data.name !== 'uploading')
+        const { additionalData, ...rest } = data;
+        const untouched =
+          isEmpty(additionalData) &&
+          Object.values(rest).every(value => value === undefined);
+
+        if (isRequired && untouched && isNavigationEvent) {
           filePresenceValidation(
             errors,
             data,
@@ -123,6 +125,10 @@ export const fileInputUI = options => {
             uiErrorMessages,
           );
         }
+
+        // don't do any additional validation if user tries to advance
+        // without having interacted with component
+        if (untouched) return;
 
         if (
           uiOptions.encrypted &&
