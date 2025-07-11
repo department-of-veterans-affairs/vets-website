@@ -121,7 +121,7 @@ describe('YourPersonalInformationAuthenticated', () => {
       </Provider>,
     );
 
-    expect(getByText('Date of birth: None provided')).to.exist;
+    expect(getByText('Date of birth: Not provided')).to.exist;
   });
 
   it('should redirect if not logged in', () => {
