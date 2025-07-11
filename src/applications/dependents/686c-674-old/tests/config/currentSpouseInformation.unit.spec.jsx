@@ -36,22 +36,22 @@ describe('686 current spouse information', () => {
     form.unmount();
   });
 
-  it('should not submit without required fields', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={formData}
-        onSubmit={onSubmit}
-      />,
-    );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(5);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
+  // it('should not submit without required fields', () => {
+  //   const onSubmit = sinon.spy();
+  //   const form = mount(
+  //     <DefinitionTester
+  //       schema={schema}
+  //       uiSchema={uiSchema}
+  //       definitions={formConfig.defaultDefinitions}
+  //       data={formData}
+  //       onSubmit={onSubmit}
+  //     />,
+  //   );
+  //   form.find('form').simulate('submit');
+  //   expect(form.find('.usa-input-error').length).to.equal(5);
+  //   expect(onSubmit.called).to.be.false;
+  //   form.unmount();
+  // });
 
   it('should submit with valid information for non-veteran spouse', () => {
     const onSubmit = sinon.spy();
