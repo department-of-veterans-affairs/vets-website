@@ -65,19 +65,16 @@ describe('<App>', () => {
     'when isProduction and accredited_representative_portal_frontend is false',
     () => {
       let isProduction;
-      let oldLocation;
+      let replaceSpy;
 
       beforeEach(() => {
         isProduction = sinon.stub(constants, 'isProduction').returns(true);
-        oldLocation = global.window.location;
-        global.window.location = {
-          replace: sinon.spy(),
-        };
+        replaceSpy = sinon.stub(window.location, 'replace');
       });
 
       afterEach(() => {
         isProduction.restore();
-        global.window.location = oldLocation;
+        replaceSpy.restore();
       });
 
       it('should exit app', () => {
@@ -86,23 +83,20 @@ describe('<App>', () => {
             ...getState({ accreditedRepresentativePortalFrontend: false }),
           },
         });
-        expect(window.location.replace.calledWith('/')).to.be.true;
+        expect(replaceSpy.calledWith('/')).to.be.true;
       });
     },
   );
 
   context('when accredited_representative_portal_form_21a is false', () => {
-    let oldLocation;
+    let replaceSpy;
 
     beforeEach(() => {
-      oldLocation = global.window.location;
-      global.window.location = {
-        replace: sinon.spy(),
-      };
+      replaceSpy = sinon.stub(window.location, 'replace');
     });
 
     afterEach(() => {
-      global.window.location = oldLocation;
+      replaceSpy.restore();
     });
 
     it('should go to Accredited Representative Portal', () => {
@@ -111,23 +105,19 @@ describe('<App>', () => {
           ...getState({ accreditedRepresentativePortalForm21a: false }),
         },
       });
-      expect(window.location.replace.calledWith('/representative')).to.be.true;
+      expect(replaceSpy.calledWith('/representative')).to.be.true;
     });
   });
 
   context('when selectShouldGoToSignIn is true', () => {
-    let oldLocation;
+    let assignSpy;
 
     beforeEach(() => {
-      oldLocation = global.window.location;
-      global.window.location = {
-        replace: sinon.spy(),
-        assign: sinon.spy(),
-      };
+      assignSpy = sinon.stub(window.location, 'assign');
     });
 
     afterEach(() => {
-      global.window.location = oldLocation;
+      assignSpy.restore();
     });
 
     it('should go to the sign in page', () => {
@@ -138,7 +128,7 @@ describe('<App>', () => {
           }),
         },
       });
-      expect(window.location.assign.called).to.be.true;
+      expect(assignSpy.called).to.be.true;
     });
   });
 
