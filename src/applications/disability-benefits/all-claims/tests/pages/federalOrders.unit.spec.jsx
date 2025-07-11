@@ -240,6 +240,7 @@ describe('Federal orders info', () => {
     );
 
     await waitFor(() => {
+      form.find('form').simulate('submit');
       expect(form.find('.usa-input-error-message').length).to.equal(1);
       expect(onSubmit.called).to.be.false;
     });
