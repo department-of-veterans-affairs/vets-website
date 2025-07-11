@@ -67,11 +67,6 @@
     "widgetType": "manage-va-debt-cta"
   },
   {
-    "appName": "Dispute debt on manage your VA debt",
-    "rootUrl": "/manage-va-debt/",
-    "widgetType": "dispute-debt-link"
-  },
-  {
     "appName": "1095B Download",
     "rootUrl": "/health-care/download-1095b/",
     "widgetType": "download-1095b"
