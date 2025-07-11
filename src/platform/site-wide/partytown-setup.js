@@ -23,17 +23,33 @@ export default function initPartytown() {
   loaderScript.async = true;
   document.head.appendChild(loaderScript);
 
-  const deferThirdPartyScripts = () => {
-    const selectors = [
-      'script[src*="googletagmanager.com/gtm.js"]',
-      'script[src*="google-analytics.com/analytics.js"]',
-      'script[src*="dap.digitalgov.gov"]',
-      'script[src*="fontawesome"]',
-      'script[src*="kit.fontawesome.com"]',
-    ].join(',');
+  /* ------------------------------------------------------------
+   * 3. Defer only scripts whose hostnames are explicitly allowed.
+   *    Feature teams can opt-out by adding `data-no-partytown`.
+   * ---------------------------------------------------------- */
+  const allowedHosts = new Set([
+    'www.googletagmanager.com',
+    'www.google-analytics.com',
+    'dap.digitalgov.gov',
+    'www.dap.digitalgov.gov',
+    'cdn.dap.digitalgov.gov',
+    'kit.fontawesome.com',
+    'use.fontawesome.com',
+  ]);
 
-    document.querySelectorAll(selectors).forEach(original => {
-      if (original.type === 'text/partytown') return;
+  const deferThirdPartyScripts = () => {
+    document.querySelectorAll('script[src]').forEach(original => {
+      if (original.type === 'text/partytown') return; // Already handled.
+      if (original.hasAttribute('data-no-partytown')) return; // Explicit opt-out.
+
+      let host;
+      try {
+        host = new URL(original.src, window.location.href).hostname;
+      } catch (_) {
+        return; // Malformed URL or relative path – skip.
+      }
+
+      if (!allowedHosts.has(host)) return; // Not in allow-list.
 
       const replacement = original.cloneNode(true);
       replacement.type = 'text/partytown';
