@@ -102,7 +102,7 @@ const App = ({ children }) => {
     clientToken: 'pubf11b8d8bfe126a01d84e01c177a90ad3',
     site: 'ddog-gov.com',
     service: 'va.gov-mhv-medical-records',
-    sessionSampleRate: 50, // controls the percentage of overall sessions being tracked
+    sessionSampleRate: 50, // controls the percentage of overall sessions being tracked.
     sessionReplaySampleRate: 50, // is applied after the overall sample rate, and controls the percentage of sessions tracked as Browser RUM & Session Replay
     trackInteractions: true,
     trackFrustrations: true,
