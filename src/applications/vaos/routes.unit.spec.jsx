@@ -207,7 +207,7 @@ describe('VAOS <handleLoadError>', () => {
       render(<>{webComponent}</>);
 
       // Assert
-      expect(window.location.replace.lastCall.args[0]).to.equal('/?retry=1');
+      expect(window.location.search).to.equal('?retry=1');
       expect(webComponent.type).to.equal('va-loading-indicator');
       expect(webComponent.props.message).to.equal('Reloading page');
     });
