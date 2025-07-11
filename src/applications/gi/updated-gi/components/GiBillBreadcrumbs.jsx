@@ -38,6 +38,7 @@ const GiBillBreadcrumbs = () => {
   return (
     <div className="gi-bill-container__bread-crumbs">
       <VaBreadcrumbs
+        label="search breadcrumbs"
         uswds
         breadcrumbList={crumbs}
         onRouteChange={handleRouteChange}
