@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
@@ -53,7 +53,7 @@ describe('COE applicant loan history', () => {
     expect($$('select', container).length).to.equal(3);
   });
 
-  it('Should not submit without required fields', () => {
+  it('Should not submit without required fields', async () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={defaultStore}>
@@ -69,7 +69,10 @@ describe('COE applicant loan history', () => {
 
     fireEvent.submit($('form'));
 
-    expect($$('.usa-input-error', container).length).to.equal(6);
+    await waitFor(() => {
+      expect($$('.usa-input-error', container).length).to.equal(6);
+    });
+
     expect(onSubmit.called).to.be.false;
   });
 
@@ -158,7 +161,7 @@ describe('COE applicant loan history', () => {
 
     expect($$('.usa-input-error', container).length).to.equal(0);
   });
-  it('Should not allow loan number with a leading dash', () => {
+  it('Should not allow loan number with a leading dash', async () => {
     const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
@@ -179,11 +182,14 @@ describe('COE applicant loan history', () => {
     );
 
     fireEvent.submit($('form'));
-    const error = $$('.usa-input-error', container)?.[0];
-    expect(error).to.exist;
-    expect(error.textContent).to.contain('numbers only');
+
+    await waitFor(() => {
+      const error = $$('.usa-input-error', container)?.[0];
+      expect(error).to.exist;
+      expect(error.textContent).to.contain('numbers only');
+    });
   });
-  it('Should not allow non-digits in loan number', () => {
+  it('Should not allow non-digits in loan number', async () => {
     const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
@@ -204,9 +210,12 @@ describe('COE applicant loan history', () => {
     );
 
     fireEvent.submit($('form'));
-    const error = $$('.usa-input-error', container)?.[0];
-    expect(error).to.exist;
-    expect(error.textContent).to.contain('numbers only');
+
+    await waitFor(() => {
+      const error = $$('.usa-input-error', container)?.[0];
+      expect(error).to.exist;
+      expect(error.textContent).to.contain('numbers only');
+    });
   });
 
   it('Should allow same month/year closing & paid off dates', () => {
