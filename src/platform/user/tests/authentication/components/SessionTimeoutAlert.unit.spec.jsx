@@ -23,10 +23,13 @@ describe('SessionTimeoutAlert', () => {
 
   it('renders when session has expired and there is no downtime', () => {
     const originalLocation = global.window.location;
-    global.window.location = {
-      ...originalLocation,
-      search: '?status=session_expired',
-    };
+    window.location.search = '?status=session_expired';
+    if (!window.location.search) {
+      global.window.location = {
+        ...originalLocation,
+        search: '?status=session_expired',
+      };
+    }
 
     const screen = renderInReduxProvider(<SessionTimeoutAlert />, {
       initialState: generateState({}),

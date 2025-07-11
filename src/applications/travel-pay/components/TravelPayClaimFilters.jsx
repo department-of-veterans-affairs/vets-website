@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import TravelPayStatusCheckboxes from './TravelPayStatusCheckboxes';
+import TravelPayDateFilterSelect from './TravelPayDateFilterSelect';
 
 export default function TravelPayClaimFilters(props) {
   const {
     statusesToFilterBy,
     checkedStatusFilters,
     onStatusFilterChange,
-    selectedClaimsOrder,
-    setSelectedClaimsOrder,
     applyFilters,
     resetSearch,
+    datesToFilterBy,
+    selectedDateFilter,
+    onDateFilterChange,
   } = props;
 
   return (
@@ -21,26 +20,8 @@ export default function TravelPayClaimFilters(props) {
       <va-accordion-item
         bordered="true"
         data-testid="filters-accordion"
-        header="Filter and sort travel claims"
+        header="Filter travel claims"
       >
-        <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
-          <VaSelect
-            full-width
-            hint={null}
-            title="Show appointments with travel claims in this order"
-            label="Show appointments with travel claims in this order"
-            name="claimsOrder"
-            id="claimsOrder"
-            data-testid="claimsOrder"
-            value={selectedClaimsOrder}
-            onVaSelect={e => setSelectedClaimsOrder(e.target.value)}
-            uswds
-          >
-            <option value="mostRecent">Most Recent</option>
-            <option value="oldest">Oldest</option>
-          </VaSelect>
-        </div>
-
         <div className="filter-your-results">
           <TravelPayStatusCheckboxes
             statusesToFilterBy={statusesToFilterBy}
@@ -48,6 +29,11 @@ export default function TravelPayClaimFilters(props) {
             onStatusFilterChange={onStatusFilterChange}
           />
           <hr />
+          <TravelPayDateFilterSelect
+            datesToFilterBy={datesToFilterBy}
+            selectedDateFilter={selectedDateFilter}
+            onDateFilterChange={onDateFilterChange}
+          />
           <div className="modal-button-wrapper vads-u-margin-top--3">
             <va-button
               onClick={applyFilters}
@@ -72,9 +58,10 @@ export default function TravelPayClaimFilters(props) {
 TravelPayClaimFilters.propTypes = {
   applyFilters: PropTypes.func,
   checkedStatusFilters: PropTypes.array,
+  datesToFilterBy: PropTypes.array,
   resetSearch: PropTypes.func,
-  selectedClaimsOrder: PropTypes.string,
-  setSelectedClaimsOrder: PropTypes.func,
+  selectedDateFilter: PropTypes.string,
   statusesToFilterBy: PropTypes.array,
+  onDateFilterChange: PropTypes.func,
   onStatusFilterChange: PropTypes.func,
 };

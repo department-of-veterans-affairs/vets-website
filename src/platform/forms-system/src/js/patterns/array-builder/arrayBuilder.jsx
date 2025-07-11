@@ -269,6 +269,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   let hasItemsKey;
   const itemPages = [];
   const orderedPageTypes = [];
+  const missingInformationKey = `view:${options?.arrayPath}MissingInformation`;
 
   if (
     !options ||
@@ -527,6 +528,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       introPath,
       isItemIncomplete,
       maxItems,
+      missingInformationKey,
       hideMaxItemsAlert,
       nounPlural,
       nounSingular,

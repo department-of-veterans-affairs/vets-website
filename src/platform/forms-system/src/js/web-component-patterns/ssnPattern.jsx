@@ -3,6 +3,8 @@ import get from 'platform/utilities/data/get';
 import SsnField, { maskSSN } from '../web-component-fields/SsnField';
 import { validateSSN } from '../validation';
 import SSNReviewWidget from '../review/SSNWidget';
+import VAFileNumberWidget from '../review/VAFileNumberWidget';
+import ServiceNumberWidget from '../review/ServiceNumberWidget';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
 const SSN_DEFAULT_TITLE = 'Social Security number';
@@ -67,6 +69,7 @@ const vaFileNumberUI = title => {
   return {
     'ui:title': title ?? VA_FILE_NUMBER_DEFAULT_TITLE,
     'ui:webComponentField': VaTextInputField,
+    'ui:reviewWidget': VAFileNumberWidget,
     'ui:errorMessages': {
       pattern: 'Your VA file number must be 8 or 9 digits',
     },
@@ -106,6 +109,7 @@ const serviceNumberUI = title => {
   return {
     'ui:title': title ?? SERVICE_NUMBER_DEFAULT_TITLE,
     'ui:webComponentField': VaTextInputField,
+    'ui:reviewWidget': ServiceNumberWidget,
     'ui:errorMessages': {
       pattern: `Your ${title ??
         SERVICE_NUMBER_DEFAULT_TITLE} must start with 0, 1, or 2 uppercase letters followed by 5 to 8 digits`,
