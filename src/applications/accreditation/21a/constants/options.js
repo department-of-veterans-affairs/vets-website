@@ -11,12 +11,6 @@ export const typeOfPhoneOptions = Object.freeze({
   WORK: 'Work',
 });
 
-export const descriptionRequired = Object.freeze([
-  'UNEMPLOYED',
-  'SELF_EMPLOYED',
-  'OTHER',
-]);
-
 export const primaryMailingAddressOptions = Object.freeze({
   HOME: 'Home',
   WORK: 'Work',
@@ -78,6 +72,11 @@ export const employmentActivitiesOptions = Object.freeze({
   SOCIAL_WORK: 'Social work',
   VOCATIONAL_REHABILITATION: 'Vocational rehabilitation',
 });
+
+export const descriptionRequired = Object.freeze([
+  'UNEMPLOYED',
+  'SELF_EMPLOYED',
+]);
 
 // Chapter 4
 
