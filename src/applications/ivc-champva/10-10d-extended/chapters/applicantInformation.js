@@ -47,11 +47,10 @@ import {
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
 import { page15aDepends } from '../helpers/utilities';
-import { MAIL_OR_FAX_LATER_MSG, MAX_APPLICANTS } from '../constants';
+import { MAX_APPLICANTS } from '../constants';
 
 import {
   // TODO: convert to standard file upload.
-  uploadWithInfoComponent,
   acceptableFiles,
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
@@ -82,7 +81,7 @@ function editTitleWrapper(title) {
   return withEditTitle(title)(title);
 }
 
-const applicantOptions = {
+export const applicantOptions = {
   arrayPath: 'applicants',
   nounSingular: 'applicant',
   nounPlural: 'applicants',
@@ -314,31 +313,38 @@ const applicantRelationshipOriginPage = {
   },
 };
 
-// TODO: switch to v3 file upload after initial page implementation
-const applicantBirthCertConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.birthCert,
-  'birth certificates',
-);
-
 const applicantBirthCertUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Upload birth certificate',
-      ({ formData }) => (
-        <>
-          To help us process this application faster, submit a copy of{' '}
+      ({ formData, formContext }) => {
+        const index = +formContext?.pagePerItemIndex; // NaN if not present
+        // since we don't have the standard access to full form data here,
+        // make use of the previously added `view:certifierRole` property.
+        const tmpFormData = {
+          ...formData,
+          /*
+          If idx is 0, we want to take certifier role into account. Otherwise not
+          because we consistently assume that if the certifier is an applicant
+          then they will be the first applicant. All other cases we should use 
+          third person addressing.
+          */
+          certifierRole: index === 0 ? formData?.['view:certifierRole'] : '',
+        };
+        const posessiveName = (
           <b className="dd-privacy-hidden">
-            {applicantWording(formData, true, false)}
-          </b>{' '}
-          birth certificate.
-          <br />
-          Submitting a copy can help us process this application faster.
-          <br />
-          {MAIL_OR_FAX_LATER_MSG}
-        </>
-      ),
+            {nameWording(tmpFormData, true, false)}
+          </b>
+        );
+
+        return (
+          <p>
+            You’ll need to submit a copy of {posessiveName} birth certificate.
+          </p>
+        );
+      },
     ),
-    ...applicantBirthCertConfig.uiSchema,
+    ...fileUploadBlurbCustom(),
     applicantBirthCertOrSocialSecCard: fileUploadUI({
       label: 'Upload a copy of birth certificate',
     }),
@@ -348,10 +354,18 @@ const applicantBirthCertUploadPage = {
     required: ['applicantBirthCertOrSocialSecCard'],
     properties: {
       titleSchema,
-      ...applicantBirthCertConfig.schema,
-      applicantBirthCertOrSocialSecCard: fileWithMetadataSchema(
-        acceptableFiles.birthCert,
-      ),
+      'view:fileUploadBlurb': blankSchema,
+      applicantBirthCertOrSocialSecCard: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
     },
   },
 };

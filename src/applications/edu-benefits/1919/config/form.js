@@ -1,8 +1,13 @@
+import React from 'react';
+
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrivacyPolicy from '../containers/PrivacyPolicy';
 
 import {
   allProprietaryProfitConflictsArrayOptions,
@@ -24,7 +29,16 @@ import {
 } from '../pages';
 import SubmissionInstructions from '../components/SubmissionInstructions';
 
+export const confirmFormLogic = ({ router, route }) => (
+  <ConfirmationPage router={router} route={route} />
+);
+
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+
+const scrollAndFocusTarget = () => {
+  scrollToTop('topScrollElement');
+  focusElement('h3');
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -34,7 +48,7 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'Edu-1919-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: confirmFormLogic,
   formId: '22-1919',
   useCustomScrollAndFocus: true,
   saveInProgress: {
@@ -53,12 +67,24 @@ const formConfig = {
   },
   title: 'Conflicting interests certification for proprietary schools',
   subTitle: 'VA Form 22-1919',
+  customText: {
+    submitButtonText: 'Continue',
+    appType: 'form',
+  },
   defaultDefinitions: {
     fullName,
     ssn,
     date,
     dateRange,
     usaPhone,
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body: PrivacyPolicy,
+      heading: 'Certification statement',
+      fullNamePath: 'certifyingOfficial',
+      messageAriaDescribedBy: 'I have read and accept the privacy policy.',
+    },
   },
   chapters: {
     institutionDetailsChapter: {
@@ -104,6 +130,7 @@ const formConfig = {
               path: 'proprietary-profit-1',
               uiSchema: affiliatedIndividualsSummary.uiSchema,
               schema: affiliatedIndividualsSummary.schema,
+              scrollAndFocusTarget,
             }),
             affiliatedIndividualsAssociation: pageBuilder.itemPage({
               title:
@@ -128,6 +155,7 @@ const formConfig = {
                 'Review the individuals with a potential conflict of interest that receive VA educational benefits',
               uiSchema: conflictOfInterestSummary.uiSchema,
               schema: conflictOfInterestSummary.schema,
+              scrollAndFocusTarget,
             }),
             conflictOfInterestCertifyingOfficial: pageBuilder.itemPage({
               path: 'conflict-of-interest/:index/certifying-official',

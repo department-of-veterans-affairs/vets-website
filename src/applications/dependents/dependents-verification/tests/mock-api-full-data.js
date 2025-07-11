@@ -9,6 +9,7 @@ const delay = require('mocker-api/lib/delay');
 
 const mockUser = require('./e2e/user.json');
 const mockMaxData = require('./e2e/fixtures/data/maximal-test.json');
+const mockDependents = require('../../shared/tests/fixtures/mocks/mock-dependents.json');
 
 const submission = {
   formSubmissionId: '123fake-submission-id-567',
@@ -50,7 +51,6 @@ const mockSipPut = {
  * @returns mock user data with inProgressForms
  */
 const userData = () => {
-  const lastUpdated = new Date().getTime();
   const twoMonthsAgo = dateFns.getUnixTime(
     dateFns.add(new Date(), { months: -2 }),
   );
@@ -73,7 +73,7 @@ const userData = () => {
       lastUpdated: twoMonthsAgo,
       inProgressFormId: 1234,
     },
-    lastUpdated,
+    lastUpdated: twoMonthsAgo,
   };
 
   return {
@@ -100,6 +100,8 @@ const responses = {
 
   'GET /v0/in_progress_forms/21-0538': mockSipGet,
   'PUT /v0/in_progress_forms/21-0538': mockSipPut,
+
+  'GET /v0/dependents_applications/show': mockDependents,
 
   'POST /v0/dependents_applications': submission,
 };

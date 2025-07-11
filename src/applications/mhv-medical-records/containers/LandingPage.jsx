@@ -60,10 +60,6 @@ const LandingPage = () => {
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
   );
-  const SMHDL = useSelector(
-    state =>
-      state.featureToggles.mhv_landing_page_show_share_my_health_data_link,
-  );
 
   const { isLoading } = useAcceleratedData();
 
@@ -399,31 +395,29 @@ const LandingPage = () => {
                   {MEDICAL_RECORDS_SETTINGS_LABEL}
                 </Link>
               </section>
-              {SMHDL && (
-                <section className="vads-u-padding-bottom--3">
-                  <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                    Share personal health data with your care team
-                  </h2>
-                  <p className="vads-u-margin-bottom--2">
-                    You can share your personal health data with your care team
-                    using the Share My Health Data website.
-                  </p>
-                  <va-link
-                    href={
-                      environment.isProduction()
-                        ? 'https://veteran.apps.va.gov/smhdWeb'
-                        : 'https://veteran.apps-staging.va.gov/smhdWeb'
-                    }
-                    text={SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
-                    data-testid="health-data-landing-page-link"
-                    onClick={() => {
-                      sendDataDogAction(
-                        SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM,
-                      );
-                    }}
-                  />
-                </section>
-              )}
+              <section className="vads-u-padding-bottom--3">
+                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                  Share personal health data with your care team
+                </h2>
+                <p className="vads-u-margin-bottom--2">
+                  You can share your personal health data with your care team
+                  using the Share My Health Data website.
+                </p>
+                <va-link
+                  href={
+                    environment.isProduction()
+                      ? 'https://veteran.apps.va.gov/smhdWeb'
+                      : 'https://veteran.apps-staging.va.gov/smhdWeb'
+                  }
+                  text={SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
+                  data-testid="health-data-landing-page-link"
+                  onClick={() => {
+                    sendDataDogAction(
+                      SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM,
+                    );
+                  }}
+                />
+              </section>
             </>
           )}
 

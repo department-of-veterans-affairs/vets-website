@@ -102,6 +102,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_0304_UPLOAD: '21-0304-UPLOAD',
   FORM_21_651_UPLOAD: '21-651-UPLOAD',
   FORM_21P_4185_UPLOAD: '21P-4185-UPLOAD',
+  FORM_22_10297: '22-10297',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -156,7 +157,6 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21_10210]: `${tryGetAppUrl(
       '10210-lay-witness-statement',
     )}/`,
-    [VA_FORM_IDS.FORM_21A]: `${tryGetAppUrl('representative-21a')}/`,
     [VA_FORM_IDS.FORM_21_22]: `${tryGetAppUrl('appoint-a-representative')}/`,
     [VA_FORM_IDS.FORM_21_22A]: `${tryGetAppUrl('appoint-a-representative')}/`,
     [VA_FORM_IDS.FORM_21_4142]: `${tryGetAppUrl('21-4142-medical-release')}/`,
@@ -186,12 +186,13 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION]: `${tryGetAppUrl(
       'welcome-va-setup-review-information',
     )}/`,
-    [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('DISPUTE-DEBT')}/`,
+    [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('dispute-debt')}/`,
     [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330M2')}/`,
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10D-EXTENDED')}/`,
     [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl('21-0538')}/`,
+    [VA_FORM_IDS.FORM_22_10297]: `${tryGetAppUrl('22-10297')}/`,
   };
 };
 
@@ -433,13 +434,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'lay/witness statement (21-10210)',
     description: 'lay/witness statement application (21-10210)',
     trackingPrefix: 'lay-witness-10210-',
-  },
-  {
-    id: VA_FORM_IDS.FORM_21A,
-    benefit: `Application for Accreditation as a Claims Agent or Attorney`,
-    title: `Application for Accreditation as a Claims Agent or Attorney (21a)`,
-    description: 'Claims Agent or Attorney accreditation application (21a)',
-    trackingPrefix: '21a-',
   },
   {
     id: VA_FORM_IDS.FORM_21_22,
@@ -723,6 +717,13 @@ export const MY_VA_SIP_FORMS = [
     title: '21-0538 Dependents verification',
     description: 'dependent-benefits',
     trackingPrefix: '0538-dependents-verification-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10297,
+    benefit: 'education benefits',
+    title: '10297',
+    description: 'education benefits',
+    trackingPrefix: 'edu-10297',
   },
 ];
 

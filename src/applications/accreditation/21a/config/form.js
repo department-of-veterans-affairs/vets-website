@@ -3,7 +3,7 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import manifest from '../manifest.json';
-import transformForSubmit from './submit-transformer';
+import submitTransformer from './submit-transformer';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import GetFormHelp from '../components/common/GetFormHelp';
@@ -22,7 +22,7 @@ const formConfig = {
   version: 0,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  transformForSubmit,
+  transformForSubmit: submitTransformer,
   submitUrl: `${
     environment.API_URL
   }/accredited_representative_portal/v0/form21a`,

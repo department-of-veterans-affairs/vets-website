@@ -11,6 +11,8 @@ const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
 const mockMaxData = require('./e2e/fixtures/maximal.json');
 
+const returnUrl = '/review-and-submit';
+
 const submission = {
   formSubmissionId: '123fake-submission-id-567',
   timestamp: '2020-11-12',
@@ -24,7 +26,7 @@ const mockSipGet = {
   metadata: {
     version: 0,
     prefill: true,
-    returnUrl: '/veteran-information',
+    returnUrl,
   },
 };
 
@@ -38,7 +40,7 @@ const mockSipPut = {
       updatedAt: '2021-06-03T00:00:00.000Z',
       metadata: {
         version: 1,
-        returnUrl: '/review-and-submit',
+        returnUrl,
         savedAt: 1593500000000,
         lastUpdated: 1593500000000,
         expiresAt: 99999999999,
@@ -51,7 +53,6 @@ const mockSipPut = {
  * @returns mock user data with inProgressForms
  */
 const userData = () => {
-  const lastUpdated = new Date().getTime();
   const twoMonthsAgo = dateFns.getUnixTime(
     dateFns.add(new Date(), { months: -2 }),
   );
@@ -60,7 +61,7 @@ const userData = () => {
     form: '686C-674-V2',
     metadata: {
       version: 1,
-      returnUrl: '/veteran-information',
+      returnUrl,
       savedAt: new Date().getTime(),
       submission: {
         status: false,
@@ -74,7 +75,7 @@ const userData = () => {
       lastUpdated: twoMonthsAgo,
       inProgressFormId: 1234,
     },
-    lastUpdated,
+    lastUpdated: twoMonthsAgo,
   };
 
   return {
