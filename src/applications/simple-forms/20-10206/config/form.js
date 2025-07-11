@@ -12,6 +12,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
 import trickQuestionPg from '../pages/trickQuestion';
 import persInfoPg from '../pages/personalInfo';
+import otherNamesPg from '../pages/otherNames';
+import currentEmploymentPg from '../pages/currentEmployment';
 import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
 import nonCitizenIdInfoPg from '../pages/nonCitizenIdentificationInfo';
 import addressPg from '../pages/address';
@@ -128,6 +130,20 @@ const formConfig = {
           uiSchema: persInfoPg.uiSchema,
           schema: persInfoPg.schema,
           pageClass: 'personal-information',
+        },
+        otherNamesPage: {
+          path: 'other-names',
+          title: 'Other names',
+          uiSchema: otherNamesPg.uiSchema,
+          schema: otherNamesPg.schema,
+          pageClass: 'other-names',
+        },
+        currentEmploymentPage: {
+          path: 'current-employment',
+          title: 'Current employment',
+          uiSchema: currentEmploymentPg.uiSchema,
+          schema: currentEmploymentPg.schema,
+          pageClass: 'current-employment',
         },
         citizenIdentificationInfoPage: {
           depends: {
