@@ -7,7 +7,7 @@ import { combineReducers, createStore } from 'redux';
 
 import { commonReducer } from 'platform/startup/store';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers.js';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 
 import Form526Entry, {
   serviceRequired,
@@ -318,8 +318,11 @@ describe('Form 526EZ Entry Page', () => {
       services: serviceRequired,
     });
     window.localStorage.removeItem('hasSession');
-    expect(tree.find('main')).to.have.lengthOf(1);
-    expect(tree.find('h1').text()).to.contain('Need to be verified');
+    // When user is not verified, it should render the content with RequiredLoginView
+    expect(tree.find('article#form-526')).to.have.lengthOf(1);
+    expect(tree.find('RequiredLoginView')).to.have.lengthOf(1);
+    // The verify prop on RequiredLoginView should show verification message
+    expect(tree.find('RequiredLoginView').prop('verify')).to.be.true;
 
     tree.unmount();
   });
