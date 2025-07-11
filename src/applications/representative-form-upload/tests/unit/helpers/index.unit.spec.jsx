@@ -25,33 +25,29 @@ import * as constants from '../../../config/constants';
 describe('Helpers', () => {
   describe('getFormNumber', () => {
     it('returns correct path when formNumber matches', () => {
-      global.window.location = {
-        pathname: '/representative/representative-form-upload/21-686c/upload',
-      };
+      global.window.location.href =
+        'http://localhost/representative/representative-form-upload/21-686c/upload';
       expect(getFormNumber()).to.eq('21-686c');
     });
 
     // put back in when we have a form with upper-case characters
     // it('retains upper-case characters from formMappings', () => {
-    //   global.window.location = {
-    //     pathname: '/representative/representative-form-upload/21-686c/upload',
-    //   };
+    //   global.window.location.href =
+    //     'http://localhost/representative/representative-form-upload/21-686c/upload';
     //   expect(getFormNumber()).to.eq('21P-0518-1');
     // });
 
     it('returns empty string when formNumber does not match', () => {
-      global.window.location = {
-        pathname: 'representative/representative-form-upload/fake-form/upload',
-      };
+      global.window.location.href =
+        'http://localhost/representative/representative-form-upload/fake-form/upload';
       expect(getFormNumber()).to.eq('');
     });
   });
 
   describe('getFormContent', () => {
     it('returns appropriate content when the form number is mapped', () => {
-      global.window.location = {
-        pathname: 'representative/representative-form-upload/21-686c/upload',
-      };
+      global.window.location.href =
+        'http://localhost/representative/representative-form-upload/21-686c/upload';
       expect(getFormContent()).to.include({ title: 'VA Form 21-686c' });
     });
   });
@@ -288,10 +284,7 @@ describe('Helpers', () => {
 
     before(() => {
       originalHref = window.location.href;
-      Object.defineProperty(window, 'location', {
-        value: { href: 'http://localhost/test-page' },
-        writable: true,
-      });
+      global.window.location.href = 'http://localhost/test-page';
     });
 
     it('does not throw if no matching URL', async () => {
@@ -307,10 +300,7 @@ describe('Helpers', () => {
     });
 
     after(() => {
-      Object.defineProperty(window, 'location', {
-        value: { href: originalHref },
-        writable: true,
-      });
+      global.window.location.href = originalHref;
     });
   });
 });
