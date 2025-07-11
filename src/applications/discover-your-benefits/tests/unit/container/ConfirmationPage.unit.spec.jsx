@@ -120,28 +120,101 @@ describe('<ConfirmationPage>', () => {
       expect(props.router.goBack.called).to.be.true;
     });
   });
+
+  it('calls handleResultsData on componentDidUpdate when new results appear', () => {
+    const { mockStore, props } = getData([], form2);
+    const { rerender } = subject({ mockStore, props });
+
+    const updatedResults = {
+      ...mockStore,
+      getState: () => ({
+        ...mockStore.getState(),
+        results: {
+          data: mockBenefits,
+          error: null,
+          isError: false,
+          isLoading: false,
+        },
+      }),
+    };
+
+    rerender(
+      <Provider store={updatedResults}>
+        <ConfirmationPage {...props} />
+      </Provider>,
+    );
+    expect(document.querySelectorAll('va-link').length).to.be.above(0);
+  });
+
+  it('renders an error alert when results has an error', () => {
+    const errorStore = {
+      getState: () => ({
+        form: form2,
+        results: {
+          data: [],
+          error: 'Something went wrong',
+          isError: true,
+          isLoading: false,
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const { container } = subject({
+      mockStore: errorStore,
+      props: getData().props,
+    });
+
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.exist;
+    expect(alert).to.have.attribute('status', 'info');
+  });
+
+  it('should show a loading indicator when results are loading', () => {
+    const loadingStore = {
+      getState: () => ({
+        form: form2,
+        results: {
+          data: [],
+          error: null,
+          isError: false,
+          isLoading: true,
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const { container } = subject({
+      mockStore: loadingStore,
+      props: getData().props,
+    });
+
+    const loadingIndicator = container.querySelector('va-loading-indicator');
+    expect(loadingIndicator).to.exist;
+  });
 });
 
 describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
   sinon.stub(Date, 'getTime');
 
-  // TODO write tests for filtering results by goals.
-  // it('should sort benefits by goal', () => {
-  //   const { mockStore, props } = getData(mockBenefits);
-  //   const wrapper = subject({ mockStore, props });
-  //   const { container } = wrapper;
+  it('should sort benefits by goal', () => {
+    const { mockStore, props } = getData(mockBenefits);
+    const wrapper = subject({ mockStore, props });
+    const { container } = wrapper;
 
-  //   const sortSelect = container.querySelector('[name="sort-benefits"]');
-  //   sortSelect.__events.vaSelect({ target: { value: 'goal' } });
-  //   const updateButton = container.querySelector('#update-results');
-  //   fireEvent.click(updateButton);
+    const sortSelect = container.querySelector('[name="sort-benefits"]');
+    sortSelect.__events.vaSelect({ target: { value: 'goal' } });
+    const updateButton = container.querySelector('#update-results');
+    fireEvent.click(updateButton);
 
-  //   const benefitNames = wrapper
-  //     .getAllByRole('listitem')
-  //     .map(li => li.textContent);
+    const benefitNames = wrapper
+      .getAllByRole('listitem')
+      .map(li => li.textContent);
 
-  //   expect(benefitNames[0]).to.contain('Careers & Employment');
-  // });
+    expect(benefitNames[0]).to.contain('Education');
+  });
 
   it('should sort benefits alphabetically', () => {
     const { mockStore, props } = getData(mockBenefits, form2);
@@ -210,6 +283,53 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     expect(benefitNames).to.have.lengthOf(3);
     expect(benefitNames[0]).to.contain('Careers');
     expect(benefitNames[1]).to.contain('Education');
+  });
+
+  it('should show all benefits when no results are found but allBenefits=true is in the query', () => {
+    const { mockStore, props } = getData([], form2, { allBenefits: 'true' });
+
+    const updatedStore = {
+      ...mockStore,
+      getState: () => ({
+        ...mockStore.getState(),
+        results: {
+          data: [],
+          error: null,
+          isError: false,
+          isLoading: false,
+        },
+      }),
+    };
+
+    const { getAllByRole } = subject({ mockStore: updatedStore, props });
+
+    const items = getAllByRole('listitem');
+
+    expect(items.length).to.equal(BENEFITS_LIST.length);
+  });
+
+  it('should sort benefits by time sensitivity', () => {
+    const timeSensitiveBenefits = [
+      { name: 'Benefit A', isTimeSensitive: false },
+      { name: 'Benefit B', isTimeSensitive: true },
+      { name: 'Benefit C', isTimeSensitive: false },
+    ];
+
+    const { mockStore, props } = getData(timeSensitiveBenefits, form2);
+    const wrapper = subject({ mockStore, props });
+    const { container } = wrapper;
+
+    const sortSelect = container.querySelector('[name="sort-benefits"]');
+    sortSelect.__events.vaSelect({ target: { value: 'isTimeSensitive' } });
+
+    const updateButton = container.querySelector('#update-results');
+    fireEvent.click(updateButton);
+
+    const benefitNames = wrapper
+      .getAllByRole('listitem')
+      .map(li => li.textContent);
+
+    expect(benefitNames[0]).to.contain('Benefit B');
   });
 });
 
