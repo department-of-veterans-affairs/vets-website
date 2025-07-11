@@ -3,6 +3,7 @@ import {
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
+  normalizeFullName,
   replaceStrValues,
 } from '../utils/helpers';
 import { DEFAULT_SIGNATURE_STATE } from '../utils/constants';
@@ -79,9 +80,15 @@ export const useSignaturesSync = ({ formData, isRep }) => {
     config => config.shouldRender,
   );
 
+  const shouldPrefill = label => label !== LABELS.representative;
+
   const [signatures, setSignatures] = useState(() =>
-    requiredElements.reduce((acc, { label }) => {
-      acc[label] = DEFAULT_SIGNATURE_STATE;
+    requiredElements.reduce((acc, { fullName, label }) => {
+      acc[label] = {
+        ...DEFAULT_SIGNATURE_STATE,
+        matches: shouldPrefill(label),
+        value: shouldPrefill(label) ? normalizeFullName(fullName, true) : '',
+      };
       return acc;
     }, {}),
   );
@@ -92,17 +99,35 @@ export const useSignaturesSync = ({ formData, isRep }) => {
       const requiredLabels = requiredElements.map(e => e.label);
       const currentLabels = Object.keys(signatures);
 
-      const labelsChanged =
-        requiredLabels.length !== currentLabels.length ||
-        requiredLabels.some(label => !currentLabels.includes(label));
+      const next = requiredLabels.reduce((acc, label) => {
+        const existing = signatures[label];
+        const el = requiredElements?.find(e => e.label === label);
+        const fullName = shouldPrefill(label)
+          ? normalizeFullName(el?.fullName, true)
+          : '';
+        const shouldReplace =
+          !existing || (shouldPrefill(label) && existing?.value !== fullName);
 
-      if (labelsChanged) {
-        const next = requiredLabels.reduce((acc, label) => {
-          acc[label] = signatures[label] || DEFAULT_SIGNATURE_STATE;
-          return acc;
-        }, {});
-        setSignatures(next);
-      }
+        acc[label] = shouldReplace
+          ? {
+              ...DEFAULT_SIGNATURE_STATE,
+              matches: shouldPrefill(label),
+              value: fullName,
+            }
+          : existing;
+        return acc;
+      }, {});
+
+      const nextLabels = Object.keys(next);
+      const hasChanged =
+        nextLabels.length !== currentLabels.length ||
+        nextLabels.some(label => {
+          const a = next[label];
+          const b = signatures[label];
+          return a.value !== b?.value || a.matches !== b?.matches;
+        });
+
+      if (hasChanged) setSignatures(next);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [formData, isRep],
