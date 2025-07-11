@@ -43,7 +43,7 @@ describe('create MHV Signin Call To Action widget', () => {
   });
 
   afterEach(() => {
-    document.body = document.createElement('body');
+    document.body.innerHTML = '';
     ReactDOM.render.restore();
   });
 
@@ -79,7 +79,7 @@ describe('create MHV Signin Call To Action widget', () => {
   it('widget rendered with content and data attributes', async () => {
     const div = document.createElement('div');
     div.innerHTML = `
-    <div id="${divId}" data-widget-type=${widgetTypes.MHV_SIGNIN_CTA} 
+    <div id="${divId}" data-widget-type=${widgetTypes.MHV_SIGNIN_CTA}
      data-heading-level="${headingLevel}"
      data-service-description="${serviceDescription}">
       ${noAlertContent}
