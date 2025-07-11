@@ -243,7 +243,8 @@ describe('Helpers', () => {
 
   describe('createPayload', () => {
     it('creates a FormData with form_id and file', () => {
-      const file = new Blob(['content'], { type: 'text/plain' });
+      const blob = new Blob(['content']);
+      const file = new File([blob], 'test.txt', { type: 'text/plain' });
       const formId = '21-686c';
 
       const payload = createPayload(file, formId);
