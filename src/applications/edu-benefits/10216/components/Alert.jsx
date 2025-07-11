@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Alert = () => {
-  const isAccredited = localStorage.getItem('isAccredited') === 'true';
+  const isAccredited = window.localStorage.getItem('isAccredited') === 'true';
 
   return (
     <va-alert
