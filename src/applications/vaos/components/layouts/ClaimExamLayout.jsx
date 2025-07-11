@@ -86,7 +86,9 @@ export default function ClaimExamLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName}</What>
+      <What>
+        <span data-dd-privacy="mask">{typeOfCareName}</span>
+      </What>
       <Who>{practitionerName}</Who>
       <Where
         heading={
@@ -134,8 +136,19 @@ export default function ClaimExamLayout({ data: appointment }) {
               <FacilityDirectionsLink location={facility} icon />
             </div>
             <br />
-            <span>Clinic: {clinicName || 'Not available'}</span> <br />
-            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
+            <span>
+              Clinic:{' '}
+              <span data-dd-privacy="mask">
+                {clinicName || 'Not available'}
+              </span>
+            </span>{' '}
+            <br />
+            <span>
+              Location:{' '}
+              <span data-dd-privacy="mask">
+                {clinicPhysicalLocation || 'Not available'}
+              </span>
+            </span>
             <br />
           </>
         )}
