@@ -32,7 +32,7 @@ class ApiInitializer {
         'GET',
         `${
           API_PATHS.CLAIMS
-        }?startDate=2024-03-25T00:00:00&endDate=2024-06-25T23:59:59`,
+        }?start_date=2024-03-25T00:00:00&end_date=2024-06-25T23:59:59`,
         claims,
       ).as('sm');
     },
@@ -59,7 +59,7 @@ class ApiInitializer {
         'GET',
         `${
           API_PATHS.CLAIMS
-        }?startDate=2024-01-01T00:00:00&endDate=2024-03-31T23:59:59`,
+        }?start_date=2024-01-01T00:00:00&end_date=2024-03-31T23:59:59`,
         {
           fixture: 'applications/travel-pay/tests/fixtures/test-data-2.json',
         },
