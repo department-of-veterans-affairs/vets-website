@@ -62,12 +62,12 @@ describe('formConfig', () => {
     });
 
     it('onNavBack redirects to the My VA page', () => {
-      const originalLocation = window.location;
+      const originalLocation = window.location.href;
 
       contactInfoPage.onNavBack();
-      expect(window.location).to.equal('https://dev.va.gov/my-va/');
+      expect(window.location.href).to.equal('https://dev.va.gov/my-va/');
 
-      global.window.location = originalLocation;
+      global.window.location.href = originalLocation;
     });
   });
 
