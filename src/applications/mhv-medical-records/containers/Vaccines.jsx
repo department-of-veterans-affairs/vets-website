@@ -57,6 +57,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { LinkTags } from '../util/ddConstants';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -244,7 +245,7 @@ const Vaccines = props => {
           to="/allergies"
           className="no-print"
           onClick={() => {
-            sendDataDogAction('Go to your allergy records - Vaccines');
+            sendDataDogAction(LinkTags.vaccinesToAllergies);
           }}
         >
           Go to your allergy records

@@ -5,6 +5,7 @@ import {
   formatDateAndTimeWithGenericZone,
   sendDataDogAction,
 } from '../../util/helpers';
+import { RadiologyTags } from '../../util/ddConstants';
 
 export default function JobsCompleteAlert({ records, studyJobs }) {
   const endDate = formatDateAndTimeWithGenericZone(
@@ -28,7 +29,7 @@ export default function JobsCompleteAlert({ records, studyJobs }) {
             to={`/labs-and-tests/${records[0].id}/images`}
             data-testid="radiology-view-all-images"
             onClick={() => {
-              sendDataDogAction('View all images');
+              sendDataDogAction(RadiologyTags.viewAll);
             }}
           >
             <strong>View all {imageCount} images</strong>
@@ -57,7 +58,7 @@ export default function JobsCompleteAlert({ records, studyJobs }) {
                 to={`/labs-and-tests/${record.id}/images`}
                 data-testid="radiology-view-all-images"
                 onClick={() => {
-                  sendDataDogAction('View all images');
+                  sendDataDogAction(RadiologyTags.viewAll);
                 }}
               >
                 {record.name} ({record.imageCount}{' '}

@@ -40,6 +40,7 @@ import useAlerts from '../../hooks/use-alerts';
 import HeaderSection from '../shared/HeaderSection';
 import LabelValue from '../shared/LabelValue';
 import TrackedSpinner from '../shared/TrackedSpinner';
+import { RadiologyTags } from '../../util/ddConstants';
 import JobCompleteAlert from '../shared/JobsCompleteAlert';
 
 const RadiologyDetails = props => {
@@ -262,7 +263,7 @@ ${record.results}`;
           href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
           text="Go back to the previous version of My HealtheVet"
           onClick={() => {
-            sendDataDogAction('Go back to MHV - Radiology');
+            sendDataDogAction(RadiologyTags.back);
           }}
         />
       )}
