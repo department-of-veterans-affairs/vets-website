@@ -94,6 +94,7 @@ export default function UpcomingAppointmentsPage() {
                 'vads-u-margin-top--0': index === 0,
               })}
               data-testid="appointment-list-header"
+              data-dd-privacy="mask"
             >
               {monthDate.format('MMMM YYYY')}
             </h2>
@@ -106,6 +107,7 @@ export default function UpcomingAppointmentsPage() {
                 'vads-u-border-color--gray-medium',
               )}
               data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
+              data-dd-privacy="mask"
               role="list"
             >
               {UpcomingAppointmentLayout({

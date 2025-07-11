@@ -485,3 +485,6 @@ export const DATE_FORMATS = {
   // e.g. 2025-05-21
   yearMonthDay: 'yyyy-MM-dd',
 };
+
+export const POST_DRAFT_REFERRAL_APPOINTMENT_CACHE =
+  'postDraftReferralAppointmentCache';

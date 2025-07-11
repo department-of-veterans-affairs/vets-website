@@ -11,8 +11,8 @@ const CustomPersonalInfoReview = props => (
       dateOfBirth: { show: false },
     }}
     dataAdapter={{
-      ssnPath: 'veteranSocialSecurityNumber',
-      vaFileNumberPath: 'vaFileNumber',
+      ssnPath: 'veteranSsnLastFour',
+      vaFileNumberPath: 'vaFileNumberLastFour',
     }}
     title="Personal information"
   />

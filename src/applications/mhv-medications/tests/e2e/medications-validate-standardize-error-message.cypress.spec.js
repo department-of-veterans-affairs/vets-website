@@ -16,7 +16,7 @@ describe('Medications List Page standardize error message', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     cy.visit('/my-health/medications/wrongUrl');
-    listPage.verifyPageNotFoundTextDisplayed();
+    cy.findByTestId('mhv-page-not-found');
   });
   it('visits Medications Details Page standardize error message', () => {
     const detailsPage = new MedicationsDetailsPage();
