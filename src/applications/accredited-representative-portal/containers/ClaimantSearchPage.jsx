@@ -323,6 +323,7 @@ const ClaimantSearchPage = () => {
           }
         />
         <VaDate
+          className="poa-request-search__date-field"
           label="Date of birth"
           name="dob"
           required="required"
