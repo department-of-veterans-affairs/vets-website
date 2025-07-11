@@ -3,6 +3,7 @@ import {
   setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import { addDays, format, subDays } from 'date-fns';
 import React from 'react';
@@ -124,9 +125,12 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     });
 
     // Assert
-    expect(
-      await screen.findByText(/Contact one of your registered VA facilities/i),
-    ).to.be.ok;
+    await waitFor(
+      () =>
+        expect(
+          screen.findByText(/Contact one of your registered VA facilities/i),
+        ).to.be.ok,
+    );
   });
 
   it('should render warning message', async () => {
@@ -188,12 +192,15 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     });
 
     // Assert
-    expect(
-      await screen.findByRole('heading', {
-        level: 3,
-        name: /You may have trouble using the VA appointments tool right now/,
-      }),
-    ).to.exist;
+    await waitFor(
+      () =>
+        expect(
+          screen.findByRole('heading', {
+            level: 3,
+            name: /You may have trouble using the VA appointments tool right now/,
+          }),
+        ).to.exist,
+    );
   });
 
   it('should redirect to home page', async () => {
