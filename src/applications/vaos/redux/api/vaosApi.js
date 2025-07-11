@@ -42,7 +42,30 @@ export const vaosApi = createApi({
         dispatch(fetchPendingAppointments());
       },
     }),
+    postDraftReferralAppointment: builder.mutation({
+      async queryFn(referralNumber) {
+        try {
+          return await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            // eslint-disable-next-line camelcase
+            body: JSON.stringify({ referral_id: referralNumber }),
+          });
+        } catch (error) {
+          captureError(error, false, 'post draft referral appointment');
+          return {
+            error: { status: error.status || 500, message: error.message },
+          };
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetReferralByIdQuery, useGetPatientReferralsQuery } = vaosApi;
+export const {
+  useGetReferralByIdQuery,
+  useGetPatientReferralsQuery,
+  usePostDraftReferralAppointmentMutation,
+} = vaosApi;

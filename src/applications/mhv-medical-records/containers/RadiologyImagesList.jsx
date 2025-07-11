@@ -16,10 +16,12 @@ import {
   accessAlertTypes,
   ALERT_TYPE_ERROR,
   pageTitles,
+  statsdFrontEndActions,
   studyJobStatus,
 } from '../util/constants';
 import { sendDataDogAction } from '../util/helpers';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const RadiologyImagesList = ({ isTesting }) => {
   const apiImagingPath = `${
@@ -38,6 +40,7 @@ const RadiologyImagesList = ({ isTesting }) => {
   );
   const imageList = useSelector(state => state.mr.images.imageList);
   const studyJobs = useSelector(state => state.mr.images.imageStatus);
+  useTrackAction(statsdFrontEndActions.RADIOLOGY_IMAGES_LIST);
 
   const [isRadiologyDetailsLoaded, setRadiologyDetailsLoaded] = useState(
     isTesting || false,

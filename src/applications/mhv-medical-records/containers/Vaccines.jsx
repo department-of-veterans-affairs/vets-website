@@ -36,6 +36,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   CernerAlertContent,
+  statsdFrontEndActions,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -54,8 +55,10 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -91,12 +94,25 @@ const Vaccines = props => {
   const history = useHistory();
   const paramPage = getParamValue(location.search, 'page');
 
+  const { isAcceleratingVaccines } = useAcceleratedData();
+
+  const dispatchAction = isCurrent => {
+    return getVaccinesList(
+      isCurrent,
+      paramPage,
+      useBackendPagination,
+      isAcceleratingVaccines,
+    );
+  };
+
+  useTrackAction(statsdFrontEndActions.VITALS_LIST);
+
   useListRefresh({
     listState,
     listCurrentAsOf: vaccinesCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.VPR,
-    dispatchAction: getVaccinesList,
+    dispatchAction,
     dispatch,
     page: paramPage,
     useBackendPagination,
@@ -160,35 +176,58 @@ const Vaccines = props => {
 
   const generateVaccineListItemTxt = item => {
     setDownloadStarted(true);
-    return `
-${txtLine}\n\n
-${item.name}\n
-Date received: ${item.date}\n
-Location: ${item.location}\n`;
-  };
+    const content = [
+      `${txtLine}\n\n`,
+      `${item.name}\n`,
+      `Date received: ${item.date}\n`,
+    ];
 
+    // Add conditional fields based on whether accelerating vaccines is enabled
+    if (isAcceleratingVaccines) {
+      content.push(`Provider: ${item.location || 'None recorded'}\n`);
+      content.push(`Type and dosage: ${item.shortDescription}\n`);
+      content.push(`Manufacturer: ${item.manufacturer}\n`);
+      content.push(`Series status: ${item.doseDisplay}\n`);
+      content.push(`Dose number: ${item.doseNumber}\n`);
+      content.push(`Dose series: ${item.doseSeries}\n`);
+      content.push(`CVX code: ${item.cvxCode}\n`);
+      content.push(`Reactions: ${item.reaction}\n`);
+      content.push(`Notes: ${item.note}\n`);
+    } else {
+      content.push(`Location: ${item.location || 'None recorded'}\n`);
+    }
+
+    return content.join('');
+  };
   const generateVaccinesTxt = async () => {
-    const content = `
-${crisisLineHeader}\n\n
-Vaccines\n
-${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatUserDob(user)}\n
-${reportGeneratedBy}\n
-This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records. \n
-Showing ${vaccines.length} records from newest to oldest
-${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
+    const content = [
+      `${crisisLineHeader}\n\n`,
+      `Vaccines\n`,
+      `${formatNameFirstLast(user.userFullName)}\n`,
+      `Date of birth: ${formatUserDob(user)}\n`,
+      `${reportGeneratedBy}\n`,
+      `This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records. \n`,
+      `Showing ${vaccines.length} records from newest to oldest`,
+      `${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`,
+    ];
 
     const fileName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
 
-    generateTextFile(content, fileName);
+    generateTextFile(content.join(''), fileName);
   };
-
   /**
    * Change to page 1 and fetch the list of vaccines from the server.
    */
   const loadUpdatedRecords = () => {
     if (paramPage === '1') {
-      dispatch(getVaccinesList(true, paramPage, useBackendPagination));
+      dispatch(
+        getVaccinesList(
+          true,
+          paramPage,
+          useBackendPagination,
+          isAcceleratingVaccines,
+        ),
+      );
     } else {
       // The page change will trigger a fetch.
       history.push(`${history.location.pathname}?page=1`);
@@ -229,24 +268,26 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            useBackendPagination
-              ? updateNeeded
-              : Array.isArray(vaccines) &&
-                Array.isArray(updatedRecordList) &&
-                vaccines.length !== updatedRecordList.length
-          }
-          reloadFunction={
-            useBackendPagination
-              ? loadUpdatedRecords
-              : () => {
-                  dispatch(reloadRecords());
-                }
-          }
-        />
+        {!isAcceleratingVaccines && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              useBackendPagination
+                ? updateNeeded
+                : Array.isArray(vaccines) &&
+                  Array.isArray(updatedRecordList) &&
+                  vaccines.length !== updatedRecordList.length
+            }
+            reloadFunction={
+              useBackendPagination
+                ? loadUpdatedRecords
+                : () => {
+                    dispatch(reloadRecords());
+                  }
+            }
+          />
+        )}
 
         {vaccines?.length ? (
           <>
@@ -263,12 +304,21 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
             />
             {useBackendPagination && vaccines ? (
               <RecordListNew
-                records={vaccines}
+                records={vaccines?.map(vaccine => ({
+                  ...vaccine,
+                  isOracleHealthData: isAcceleratingVaccines,
+                }))}
                 type={recordType.VACCINES}
                 metadata={metadata}
               />
             ) : (
-              <RecordList records={vaccines} type={recordType.VACCINES} />
+              <RecordList
+                records={vaccines?.map(vaccine => ({
+                  ...vaccine,
+                  isOracleHealthData: isAcceleratingVaccines,
+                }))}
+                type={recordType.VACCINES}
+              />
             )}
           </>
         ) : (
