@@ -17,7 +17,7 @@ export const getCardDescription = (item, type) => {
           <b>Email:</b> {item?.email}
         </p>
         <p>
-          <b>Realtionship:</b> {item?.relationship}
+          <b>Relationship:</b> {item?.relationship}
         </p>
       </>
     );
