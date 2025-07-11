@@ -14,7 +14,7 @@ const basicUserPersonalInfo = {
       preferredName: '',
       pronouns: ['heHimHis', 'theyThemTheirs'],
       pronounsNotListedText: 'Other/pronouns/here',
-      genderIdentity: { code: null, name: null },
+      genderIdentity: { code: '', name: null },
       sexualOrientation: ['straightOrHeterosexual'],
       sexualOrientationNotListedText: 'Some other orientation',
     },
