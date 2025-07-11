@@ -2,6 +2,7 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { format } from 'date-fns-tz';
 import { cloneDeep } from 'lodash';
+import { remapOtherVeteranFields } from './submit-helpers';
 
 const disallowedFields = [
   'vaFileNumberLastFour',
@@ -10,25 +11,6 @@ const disallowedFields = [
   'otherVeteranSocialSecurityNumber',
   'otherVaFileNumber',
 ];
-
-export function remapOtherVeteranFields(data = {}) {
-  // Map 'otherVeteranInformation' fields to standard submission keys if applicable
-  const updated = { ...data };
-
-  if (data.otherVeteranFullName) {
-    updated.veteranFullName = data.otherVeteranFullName;
-  }
-
-  if (data.otherVeteranSocialSecurityNumber) {
-    updated.veteranSocialSecurityNumber = data.otherVeteranSocialSecurityNumber;
-  }
-
-  if (data.otherVaFileNumber) {
-    updated.vaFileNumber = data.otherVaFileNumber;
-  }
-
-  return updated;
-}
 
 export function replacer(key, value) {
   // Clean up empty objects, which we have no reason to send
@@ -90,9 +72,8 @@ export function transform(formConfig, form) {
 
   const shouldRemap = isLoggedIn !== true || claimantType !== 'VETERAN';
 
-  // If the applicant is NOT the Veteran and the user is NOT logged in,
-  // map otherVeteran* fields to veteran* fields for backend submission
   if (shouldRemap) {
+    // map otherVeteran* fields to veteran* fields for backend submission
     clonedForm.data = remapOtherVeteranFields(clonedForm.data);
   }
 

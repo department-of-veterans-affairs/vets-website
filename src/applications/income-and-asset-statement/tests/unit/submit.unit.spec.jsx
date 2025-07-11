@@ -3,11 +3,12 @@ import sinon from 'sinon';
 
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import * as SubmitHelpers from '../../config/submit-helpers';
 import {
   replacer,
   submit,
   removeDisallowedFields,
-  remapOtherVeteranFields,
+  transform,
 } from '../../config/submit';
 
 describe('Income and asset submit', () => {
@@ -105,64 +106,59 @@ describe('Income and asset submit', () => {
     });
   });
 
-  describe('remapOtherVeteranFields', () => {
-    it('should copy otherVeteran fields into standard fields when claimantType is not VETERAN', () => {
-      const input = {
-        claimantType: 'SPOUSE',
-        otherVeteranFullName: {
-          first: 'John',
-          last: 'Doe',
-        },
-        otherVeteranSocialSecurityNumber: '123456789',
-        otherVaFileNumber: 'VA1234',
-      };
+  describe('transform - shouldRemap conditions', () => {
+    let spy;
 
-      const result = remapOtherVeteranFields(input);
-
-      expect(result.veteranFullName).to.deep.equal({
-        first: 'John',
-        last: 'Doe',
-      });
-      expect(result.veteranSocialSecurityNumber).to.equal('123456789');
-      expect(result.vaFileNumber).to.equal('VA1234');
+    beforeEach(() => {
+      spy = sinon.spy(SubmitHelpers, 'remapOtherVeteranFields');
     });
 
-    it('should not override veteran fields if claimantType is VETERAN', () => {
-      const input = {
-        claimantType: 'VETERAN',
-        veteranFullName: {
-          first: 'Alice',
-          last: 'Smith',
-        },
-        veteranSocialSecurityNumber: '999999999',
-        vaFileNumber: 'VA5678',
-        otherVeteranFullName: {
-          first: 'John',
-          last: 'Doe',
-        },
-        otherVeteranSocialSecurityNumber: '123456789',
-        otherVaFileNumber: 'VA1234',
-      };
-
-      const result = remapOtherVeteranFields(input);
-
-      expect(result.veteranFullName).to.deep.equal({
-        first: 'Alice',
-        last: 'Smith',
-      });
-      expect(result.veteranSocialSecurityNumber).to.equal('999999999');
-      expect(result.vaFileNumber).to.equal('VA5678');
+    afterEach(() => {
+      spy.restore();
     });
 
-    it('should return original data if no remapping is needed', () => {
-      const input = {
-        claimantType: 'VETERAN',
-        unrelatedField: 'unchanged',
+    it('calls remapOtherVeteranFields when not logged in', () => {
+      const form = {
+        data: {
+          isLoggedIn: false,
+        },
       };
 
-      const result = remapOtherVeteranFields(input);
+      transform({}, form);
+      expect(spy.calledOnce).to.be.true;
+    });
 
-      expect(result).to.deep.equal(input);
+    it('calls remapOtherVeteranFields when isLoggedIn is undefined', () => {
+      const form = {
+        data: {},
+      };
+
+      transform({}, form);
+      expect(spy.calledOnce).to.be.true;
+    });
+
+    it('calls remapOtherVeteranFields when logged in and claimantType is not VETERAN', () => {
+      const form = {
+        data: {
+          isLoggedIn: true,
+          claimantType: 'SPOUSE',
+        },
+      };
+
+      transform({}, form);
+      expect(spy.calledOnce).to.be.true;
+    });
+
+    it('does not call remapOtherVeteranFields when logged in and claimantType is VETERAN', () => {
+      const form = {
+        data: {
+          isLoggedIn: true,
+          claimantType: 'VETERAN',
+        },
+      };
+
+      transform({}, form);
+      expect(spy.called).to.be.false;
     });
   });
 });
