@@ -143,6 +143,7 @@ const AddressPage = ({
       <HelpTextOptions
         trigger="If you didn't travel from your home address"
         headline="If you traveled from a different address, you can’t file a claim in this tool right now."
+        dataTestId="vehicle-help-text"
       />
       <VaButtonPair
         class="vads-u-margin-y--2"
