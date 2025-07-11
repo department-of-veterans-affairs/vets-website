@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -90,11 +90,9 @@ describe('Address page', () => {
     expect(screen.getByText(/Building 2/i)).to.exist;
     expect($('va-button-pair')).to.exist;
 
-    fireEvent.click(
-      $(
-        `va-additional-info[trigger="If you didn't travel from your home address"]`,
-      ),
-    );
+    const additionalInfoElement = screen.getByTestId('address-help-text');
+    expect(additionalInfoElement).to.exist;
+    userEvent.click(additionalInfoElement);
     expect(screen.getByText(/If you traveled from a different address/i)).to
       .exist;
   });
