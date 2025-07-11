@@ -19,7 +19,6 @@ import { formatDateTime } from '../../util/dates';
 import travelClaims from '../../services/mocks/travel-claims-31.json';
 
 describe('TravelPayStatusApp', () => {
-  const oldLocation = global.window.location;
   const getData = ({
     areFeatureTogglesLoading = true,
     hasFeatureFlag = true,
@@ -49,10 +48,11 @@ describe('TravelPayStatusApp', () => {
   const febDate = '2024-02-22T16:45:34.465Z';
   const previousYearDate = '2023-09-21T17:11:43.034Z';
 
+  let oldLocation = global.window.location;
   beforeEach(() => {
-    global.window.location = {
-      replace: sinon.spy(),
-    };
+    oldLocation = global.window.location;
+    global.window.location.replace = sinon.spy();
+
     const mockTravelClaims = {
       data: [
         {
