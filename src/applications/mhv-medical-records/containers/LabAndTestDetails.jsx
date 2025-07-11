@@ -15,11 +15,13 @@ import {
   accessAlertTypes,
   labTypes,
   pageTitles,
+  statsdFrontEndActions,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import UnifiedLabsAndTests from '../components/LabsAndTests/UnifiedLabAndTest';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -37,6 +39,7 @@ const LabAndTestDetails = () => {
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
   const { isAcceleratingLabsAndTests, isLoading } = useAcceleratedData();
+  useTrackAction(statsdFrontEndActions.LABS_AND_TESTS_DETAILS);
 
   useEffect(
     () => {

@@ -28,6 +28,7 @@ import {
   documentTypes,
   pageTitles,
   refreshExtractTypes,
+  statsdFrontEndActions,
 } from '../util/constants';
 import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
@@ -35,6 +36,7 @@ import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
+import { postRecordDatadogAction } from '../api/MrApi';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -98,6 +100,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       }
       return null;
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [ccdError],
   );
 
@@ -181,6 +184,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         userProfile?.userFullName?.last,
       ),
     );
+    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
     sendDataDogAction('Download Continuity of Care Document xml Link');
   };
 
@@ -203,6 +207,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         setSeiPdfGenerationError(err);
         setSelfEnteredPdfLoading(false);
       });
+    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_SEI);
     sendDataDogAction('Download self-entered health information PDF link');
   };
 
