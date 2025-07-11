@@ -88,25 +88,27 @@ describe('Autocomplete Component', () => {
   });
 
   describe('Updating State', () => {
-    it('should render with value when there is initial formData', () => {
+    it('should render with value when there is initial formData', async () => {
       props.formData = 'initial value';
       const { getByTestId } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
 
-      expect(input).to.have.value('initial value');
+      await waitFor(() => {
+        expect(input).to.have.value('initial value');
+      });
     });
 
-    it('should call onChange with searchTerm when input changes', () => {
+    it('should call onChange with searchTerm when input changes', async () => {
       const searchTerm = 'a';
       const { getByTestId } = render(<Autocomplete {...props} />);
-
       const input = getByTestId('autocomplete-input');
+
       simulateInputChange(input, searchTerm);
 
-      // Verify input value was set
-      expect(input.value).to.equal(searchTerm);
-      // We'll verify the input value instead of the onChange call
+      await waitFor(() => {
+        expect(props.onChange.calledWith(searchTerm)).to.be.true;
+      });
     });
 
     it('should render list with max of 21 results', async () => {
@@ -117,12 +119,10 @@ describe('Autocomplete Component', () => {
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
 
-      // Verify search algorithm works and would return results
-      expect(searchResults).to.be.an('array');
-      expect(searchResults.length).to.be.at.least(20);
-
-      // Verify the input accepts the value
-      expect(input.value).to.equal(searchTerm);
+      await waitFor(() => {
+        const listResultsCount = getAllByRole('option').length;
+        expect(listResultsCount).to.eq(21);
+      });
     });
 
     it('should render list results in alignment with string similarity search', async () => {
@@ -170,12 +170,17 @@ describe('Autocomplete Component', () => {
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
 
-      // Verify the input accepts free text
-      expect(input).to.have.value(searchTerm);
+      await waitFor(() => {
+        const listResults = getAllByRole('option');
 
-      // Verify the search algorithm would work with free text
-      const searchResults = fullStringSimilaritySearch(searchTerm, results);
-      expect(searchResults).to.be.an('array');
+        expect(listResults).to.have.length(1);
+
+        fireEvent.click(listResults[0]);
+        const updatedList = queryByTestId('autocomplete-list');
+
+        expect(input).to.have.value(searchTerm);
+        expect(updatedList).to.not.exist;
+      });
     });
 
     it('should handle search term input and verify search algorithm', async () => {
@@ -186,13 +191,18 @@ describe('Autocomplete Component', () => {
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
 
-      // Verify input accepts the search term
-      expect(input).to.have.value(searchTerm);
+      await waitFor(() => {
+        const listResults = getAllByRole('option');
 
-      // Verify search algorithm returns expected results
-      expect(searchResults).to.be.an('array');
-      expect(searchResults.length).to.be.greaterThan(0);
-      expect(searchResults[0]).to.be.a('string');
+        expect(listResults).to.have.length(21);
+
+        fireEvent.click(listResults[1]);
+
+        expect(input).to.have.value(searchResults[0]);
+
+        const updatedList = queryByTestId('autocomplete-list');
+        expect(updatedList).to.not.exist;
+      });
     });
 
     it('should retain input value when clicking outside', async () => {
@@ -202,15 +212,19 @@ describe('Autocomplete Component', () => {
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
 
-      // In Node 22, the value may not persist through web component
-      // Verify the input can accept the value initially
-      expect(input.value).to.equal(searchTerm);
+      await waitFor(() => {
+        const list = getByTestId('autocomplete-list');
+        expect(list).to.have.length(21);
+      });
 
       // Simulate clicking outside
       fireEvent.mouseDown(document);
 
-      // The component should handle the outside click event
-      expect(input).to.have.attribute('data-testid', 'autocomplete-input');
+      await waitFor(() => {
+        const updatedList = queryByTestId('autocomplete-list');
+        expect(input).to.have.value(searchTerm);
+        expect(updatedList).to.not.exist;
+      });
     });
   });
 
