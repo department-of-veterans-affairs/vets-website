@@ -46,7 +46,7 @@ describe('COE applicant loan screener', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form'));
+    fireEvent.submit($('form', container));
 
     await waitFor(() => {
       expect($$('.usa-input-error', container).length).to.equal(1);
@@ -71,7 +71,7 @@ describe('COE applicant loan screener', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form'));
+    fireEvent.submit($('form', container));
 
     expect($$('.usa-input-error', container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;

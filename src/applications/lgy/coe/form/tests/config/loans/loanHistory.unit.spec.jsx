@@ -67,7 +67,7 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form'));
+    fireEvent.submit($('form', container));
 
     await waitFor(() => {
       expect($$('.usa-input-error', container).length).to.equal(6);
@@ -90,7 +90,7 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form'));
+    fireEvent.submit($('form', container));
 
     await waitFor(() => {
       expect($$('.usa-input-error', container).length).to.equal(6);
@@ -137,7 +137,7 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form'));
+    fireEvent.submit($('form', container));
 
     expect($$('.usa-input-error', container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -163,7 +163,7 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form'));
+    fireEvent.submit($('form', container));
 
     expect($$('.usa-input-error', container).length).to.equal(0);
   });
@@ -187,7 +187,7 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form'));
+    fireEvent.submit($('form', container));
 
     await waitFor(() => {
       const error = $$('.usa-input-error', container)?.[0];
@@ -215,7 +215,7 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form'));
+    fireEvent.submit($('form', container));
 
     await waitFor(() => {
       const error = $$('.usa-input-error', container)?.[0];
@@ -255,7 +255,7 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form'));
+    fireEvent.submit($('form', container));
 
     expect($$('.usa-input-error', container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
