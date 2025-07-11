@@ -77,7 +77,7 @@ describe('behavior change description pages', () => {
     });
 
     it('should submit if text entered', async () => {
-      const { testContainer, getByText } = render(
+      const { container: testContainer, getByText } = render(
         <DefinitionTester
           schema={pageSchema.schema}
           uiSchema={pageSchema.uiSchema}
@@ -88,8 +88,8 @@ describe('behavior change description pages', () => {
 
       // Wait for the `va-textarea` element to be rendered
       await waitFor(() => {
-        const testTextarea = testContainer.querySelector('va-textarea');
-        expect(testTextarea).to.not.be.null;
+        const textareaElement = testContainer.querySelector('va-textarea');
+        expect(textareaElement).to.not.be.null;
       });
 
       inputVaTextInput(
