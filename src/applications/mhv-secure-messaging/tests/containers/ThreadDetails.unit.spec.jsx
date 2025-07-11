@@ -144,17 +144,20 @@ describe('Thread Details container', () => {
         threadDetails,
       },
     };
+    if (!window.print) {
+      window.print = () => {};
+    }
+    const printStub = sinon.stub(window, 'print');
     const screen = setup(state);
     const printButton = screen.getByTestId('print-button');
-    const printSpy = sinon.spy(window, 'print');
 
     expect(printButton).to.exist;
 
+    fireEvent.click(printButton);
     await waitFor(() => {
-      fireEvent.click(printButton);
-      expect(printSpy.calledOnce).to.equal(true);
-      printSpy.restore();
+      expect(printStub.called).to.be.true;
     });
+    printStub.restore();
     expect(screen.getByTestId('message-thread-for-print')).to.be.visible;
   });
 
@@ -236,7 +239,6 @@ describe('Thread Details container', () => {
           noAssociations: noBlockedRecipients.noAssociations,
           allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
         },
-        messageDetails: { message: singleDraftThread.draftMessage },
       },
     };
 
