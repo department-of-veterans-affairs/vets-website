@@ -1,6 +1,5 @@
 {
   "name": "@department-of-veterans-affairs/platform-testing",
-  "type": "commonjs",
   "version": "1.0.0",
   "scripts": {
     "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
@@ -32,7 +31,7 @@
     "cypress-real-events": "^1.12.0",
     "cypress-wait-until": "^1.7.2",
     "express-history-api-fallback": "^2.2.1",
-    "happy-dom": "^17.0.0",
+    "jsdom": "^15.2.1",
     "morgan": "^1.10.0",
     "node-resemble-js": "^0.2.0",
     "process": "^0.11.10",
@@ -43,24 +42,24 @@
     "winston": "^3.3.3"
   },
   "peerDependencies": {
-    "@department-of-veterans-affairs/react-jsonschema-form": "*",
+    "node-fetch": "*",
+    "axe-core": "*",
+    "mochawesome": "*",
+    "command-line-args": "*",
+    "mocker-api": "*",
+    "chai": "*",
+    "enzyme": "*",
+    "chai-as-promised": "*",
+    "history-v4": "*",
+    "react-dom": "*",
     "@sentry/browser": "*",
     "@testing-library/dom": "*",
+    "redux-thunk": "*",
     "@testing-library/react": "*",
-    "axe-core": "*",
-    "chai": "*",
-    "chai-as-promised": "*",
-    "chalk": "*",
-    "cli-table": "*",
-    "command-line-args": "*",
-    "enzyme": "*",
+    "@department-of-veterans-affairs/react-jsonschema-form": "*",
     "fs-extra": "*",
-    "history-v4": "*",
-    "mochawesome": "*",
-    "mocker-api": "*",
-    "node-fetch": "*",
-    "react-dom": "*",
-    "redux-thunk": "*"
+    "chalk": "*",
+    "cli-table": "*"
   },
   "license": "MIT",
   "private": true

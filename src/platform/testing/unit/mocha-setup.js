@@ -8,13 +8,15 @@ import os from 'os';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';
-import { Window } from 'happy-dom';
+import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
 import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
+import { setupServer } from 'msw/node';
+import { rest } from 'msw';
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
@@ -54,7 +56,10 @@ function resetFetch() {
   }
 }
 
-function initHappyDom() {
+/**
+ * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
+ */
+function setupJSDom() {
   // Prevent warnings from displaying
   /* eslint-disable no-console */
   if (process.env.LOG_LEVEL === 'debug') {
@@ -74,17 +79,20 @@ function initHappyDom() {
     console.error = () => {};
     console.warn = () => {};
   }
-  const window = new Window({
+  /* eslint-enable no-console */
+
+  // setup the simplest document possible
+  const dom = new JSDOM('<!doctype html><html><body></body></html>', {
     url: 'http://localhost',
   });
-  const { document } = window;
 
+  const { window } = dom;
+
+  /* sets up `global` for testing */
+  global.dom = dom;
   global.window = window;
-  global.document = document;
-  // global.navigator = {
-  //   userAgent: 'node.js'
-  // }
-
+  global.document = window.document;
+  global.navigator = { userAgent: 'node.js' };
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
@@ -92,6 +100,28 @@ function initHappyDom() {
     clearTimeout(id);
   };
   global.Blob = window.Blob;
+
+  /* Overwrites JSDOM global defaults from read-only to configurable */
+  Object.defineProperty(global, 'window', {
+    value: global.window,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+
+  Object.defineProperty(global, 'sessionStorage', {
+    value: window.sessionStorage,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+
+  Object.defineProperty(global, 'localStorage', {
+    value: window.localStorage,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
 
   /* sets up `window` for testing */
   const scroll = { duration: 0, delay: 0, smooth: false };
@@ -108,10 +138,17 @@ function initHappyDom() {
   window.Mocha = true;
 
   copyProps(window, global);
+
+  Object.defineProperty(window, 'location', {
+    value: window.location,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
 }
+/* eslint-disable no-console */
 
-initHappyDom();
-
+setupJSDom();
 const checkAllowList = testContext => {
   const file = testContext.currentTest.file.slice(
     testContext.currentTest.file.indexOf('src'),
@@ -135,9 +172,19 @@ function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
+const server = setupServer(
+  rest.get('/feature_toggles', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.body(''));
+  }),
+);
+
 export const mochaHooks = {
+  beforeAll() {
+    server.listen({ onUnhandledRequest: 'bypass' });
+  },
+
   beforeEach() {
-    initHappyDom();
+    setupJSDom();
     resetFetch();
     cleanupStorage();
     if (isStressTest == 'false') {
@@ -149,9 +196,16 @@ export const mochaHooks = {
         this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
       );
     }
+    server.resetHandlers();
   },
+
   afterEach() {
     cleanupStorage();
     flushPromises();
   },
+
+  afterAll() {
+    server.close();
+  }
+
 };
