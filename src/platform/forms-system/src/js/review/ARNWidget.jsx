@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function ARNWidget({ value }) {
   if (value && value.length >= 7 && value.length <= 9) {
@@ -7,7 +8,9 @@ export default function ARNWidget({ value }) {
         className="dd-privacy-hidden"
         data-dd-action-name="Alien registration number"
       >
-        {`${value.substr(0, 3)}-${value.substr(3, 3)}-${value.substr(6)}`}
+        {`${value.substring(0, 3)}-${value.substring(3, 6)}-${value.substring(
+          6,
+        )}`}
       </span>
     );
   }
@@ -21,3 +24,7 @@ export default function ARNWidget({ value }) {
     </span>
   );
 }
+
+ARNWidget.propTypes = {
+  value: PropTypes.string,
+};

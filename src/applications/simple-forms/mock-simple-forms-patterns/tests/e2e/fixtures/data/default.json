@@ -116,6 +116,7 @@
     "formsPatternMultiple": "Test",
     "formsPatternOtherField": "Test",
     "arrayBuilderPatternFlowType": "optional",
+    "arrayBuilderPatternInteractionType": "yesNoQuestion",
     "exampleArrayOne": [
       {
         "facilityName": "facility a",

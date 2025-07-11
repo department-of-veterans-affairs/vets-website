@@ -245,6 +245,18 @@ export const getVaccine = id => {
   });
 };
 
+export const getAcceleratedImmunizations = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/immunizations`, {
+    headers,
+  });
+};
+
+export const getAcceleratedImmunization = id => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/immunizations/${id}`, {
+    headers,
+  });
+};
+
 /**
  * Get the VHIE sharing status of the current user.
  *

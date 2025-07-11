@@ -83,6 +83,20 @@ class DownloadReportsPage {
       );
   };
 
-  // verifyCcdDownloadStartedError = () => {
+  clickDownloadSelfEnteredButton = selfEnteredResponse => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/self_entered',
+      selfEnteredResponse,
+    ).as('getSelfEnteredRecords');
+    cy.get('[data-testid="downloadSelfEnteredButton"]').click();
+  };
+
+  verifySelfEnteredDownloadStartedAlert = () => {
+    cy.get('[data-testid="download-success-alert-message"]').should(
+      'contain',
+      'Self-entered health information report download started',
+    );
+  };
 }
 export default new DownloadReportsPage();
