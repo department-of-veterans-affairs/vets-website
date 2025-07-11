@@ -32,7 +32,6 @@ import * as categoriesActions from '../../../actions/categories';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   getProps,
-  // inputVaTextInput,
   selectVaRadio,
   selectVaSelect,
   checkVaCheckbox,
