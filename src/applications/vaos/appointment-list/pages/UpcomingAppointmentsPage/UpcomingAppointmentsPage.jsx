@@ -1,6 +1,6 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
-import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -82,7 +82,7 @@ export default function UpcomingAppointmentsPage() {
       </div>
 
       {keys.map((key, index) => {
-        const monthDate = moment(key, 'YYYY-MM');
+        const monthDate = parseISO(key, 'yyyy-MM');
 
         let hashTable = appointmentsByMonth;
         hashTable = groupAppointmentByDay(hashTable[key]);
@@ -96,7 +96,7 @@ export default function UpcomingAppointmentsPage() {
               data-testid="appointment-list-header"
               data-dd-privacy="mask"
             >
-              {monthDate.format('MMMM YYYY')}
+              {format(monthDate, 'MMMM yyyy')}
             </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
@@ -106,7 +106,7 @@ export default function UpcomingAppointmentsPage() {
                 'vads-u-border-bottom--1px',
                 'vads-u-border-color--gray-medium',
               )}
-              data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
+              data-testid={`appointment-list-${format(monthDate, 'yyyy-MM')}`}
               data-dd-privacy="mask"
               role="list"
             >

@@ -127,7 +127,10 @@ export default function EpsAppointmentDetailsPage() {
         <Section heading="When">
           <span data-dd-privacy="mask">{appointmentDate}</span>
           <br />
-          <AppointmentTime appointment={appointment} />
+          <AppointmentTime
+            appointment={appointment}
+            timezone={appointment.timezone}
+          />
         </Section>
         <Section heading="Provider">
           <span data-dd-privacy="mask">

@@ -68,6 +68,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     const ccAppointmentRequest = MockAppointmentResponse.createCCResponse({
       pending: true,
+      status: APPOINTMENT_STATUS.proposed,
     })
       .setLocation(new MockFacilityResponse())
       .setTypeOfCare(TYPE_OF_CARE_IDS.AUDIOLOGY_ID);

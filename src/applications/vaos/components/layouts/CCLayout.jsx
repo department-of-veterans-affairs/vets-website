@@ -63,9 +63,12 @@ export default function CCLayout({ data: appointment }) {
     <>
       <DetailPageLayout heading={heading} data={appointment}>
         <When>
-          <AppointmentDate date={startDate} />
+          <AppointmentDate date={startDate} timezone={appointment.timezone} />
           <br />
-          <AppointmentTime appointment={appointment} />
+          <AppointmentTime
+            appointment={appointment}
+            timezone={appointment.timezone}
+          />
           <br />
           {APPOINTMENT_STATUS.cancelled !== status &&
             !isPastAppointment && (

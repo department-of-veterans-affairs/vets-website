@@ -9,6 +9,7 @@ import {
   subMonths,
   subYears,
 } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import MockDate from 'mockdate';
 import React from 'react';
 import PastAppointmentsList from '.';
@@ -22,6 +23,7 @@ import {
   getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -130,7 +132,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   it('should show information without facility name', async () => {
     // Arrange
     const pastDate = subDays(new Date(), 3);
-    const appointment = new MockAppointmentResponse({
+    const response = new MockAppointmentResponse({
       past: true,
       localStartTime: pastDate,
     })
@@ -141,7 +143,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       start,
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
-      response: [appointment],
+      response: [response],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -152,13 +154,27 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     // Assert
     await screen.findAllByLabelText(
-      new RegExp(format(pastDate, 'EEEE, MMMM d'), 'i'),
+      new RegExp(
+        formatInTimeZone(
+          response.attributes.start,
+          'America/Denver',
+          'EEEE, MMMM d',
+        ),
+        'i',
+      ),
     );
 
     const firstCard = screen.getAllByRole('listitem')[0];
 
     const timeHeader = within(firstCard).getAllByText(
-      new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
+      new RegExp(
+        `^${formatInTimeZone(
+          response.attributes.start,
+          'America/Denver',
+          'h:mm',
+        )}`,
+        'i',
+      ),
     )[0];
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -171,12 +187,15 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   it('should show information with facility name', async () => {
     // Arrange
     const pastDate = subDays(new Date(), 3);
+    const response = new MockAppointmentResponse({
+      localStartTime: pastDate,
+    }).setLocation(new MockFacilityResponse());
 
     mockAppointmentsApi({
       start,
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
-      response: [new MockAppointmentResponse({ localStartTime: pastDate })],
+      response: [response],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -187,14 +206,28 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     // Assert
     await screen.findAllByLabelText(
-      new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
+      new RegExp(
+        formatInTimeZone(
+          response.attributes.start,
+          'America/Denver',
+          'eeee, MMMM d',
+        ),
+        'i',
+      ),
     );
 
     const firstCard = screen.getAllByRole('listitem')[0];
 
     expect(
       within(firstCard).getByText(
-        new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
+        new RegExp(
+          `^${formatInTimeZone(
+            response.attributes.start,
+            'America/Denver',
+            'h:mm',
+          )}`,
+          'i',
+        ),
       ),
     ).to.exist;
     // TODO: Skipping until api call is made to get facility data on page load.
@@ -231,15 +264,16 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   it('should show expected video information', async () => {
     // Arrange
     const pastDate = subDays(new Date(), 3);
-
+    const responses = MockAppointmentResponse.createGfeResponses({
+      localStartTime: pastDate,
+      past: true,
+    });
+    responses[0].setLocation(new MockFacilityResponse());
     mockAppointmentsApi({
       start,
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
-      response: MockAppointmentResponse.createGfeResponses({
-        localStartTime: pastDate,
-        past: true,
-      }),
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -250,7 +284,14 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     // Assert
     await screen.findAllByLabelText(
-      new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
+      new RegExp(
+        formatInTimeZone(
+          responses[0].attributes.start,
+          'America/Denver',
+          'eeee, MMMM d',
+        ),
+        'i',
+      ),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -260,13 +301,26 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     expect(
       within(firstCard).getAllByLabelText(
-        new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
+        new RegExp(
+          formatInTimeZone(
+            responses[0].attributes.start,
+            'America/Denver',
+            'eeee, MMMM d',
+          ),
+          'i',
+        ),
       ),
     ).to.exist;
-
     expect(
       within(firstCard).getByText(
-        new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
+        new RegExp(
+          `^${formatInTimeZone(
+            responses[0].attributes.start,
+            'America/Denver',
+            'h:mm',
+          )}`,
+          'i',
+        ),
       ),
     ).to.exist;
 
@@ -278,17 +332,17 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     // Arrange
     const yesterday = subDays(new Date(), 1);
     const facility = new MockFacilityResponse();
-    const appointment = new MockAppointmentResponse({
+    const response = new MockAppointmentResponse({
       localStartTime: yesterday,
     });
-    appointment.setLocation(facility);
+    response.setLocation(facility);
 
     mockAppointmentsApi({
       start,
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      response: [appointment],
+      response: [response],
     });
 
     // Act
@@ -298,7 +352,14 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     // Assert
     await screen.findAllByLabelText(
-      new RegExp(format(yesterday, 'eeee, MMMM d'), 'i'),
+      new RegExp(
+        formatInTimeZone(
+          response.attributes.start,
+          'America/Denver',
+          'eeee, MMMM d',
+        ),
+        'i',
+      ),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -311,17 +372,19 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     // Arrange
     const yesterday = subDays(new Date(), 1);
     const facility = new MockFacilityResponse();
-    const appointment = new MockAppointmentResponse({
+    const response = new MockAppointmentResponse({
       localStartTime: yesterday,
+      past: true,
+      status: APPOINTMENT_STATUS.cancelled,
     });
-    appointment.setLocation(facility);
+    response.setLocation(facility);
 
     mockAppointmentsApi({
       start,
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      response: [appointment],
+      response: [response],
     });
 
     // Act
@@ -331,7 +394,14 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     // Assert
     await screen.findAllByLabelText(
-      new RegExp(format(yesterday, 'eeee, MMMM d'), 'i'),
+      new RegExp(
+        formatInTimeZone(
+          response.attributes.start,
+          'America/Denver',
+          'eeee, MMMM d',
+        ),
+        'i',
+      ),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
