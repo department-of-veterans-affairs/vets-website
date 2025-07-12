@@ -22,7 +22,6 @@ export default function DateTimeRequestOptions({
   selectedDates,
   rowSize,
   selectedCellIndex,
-  maxSelections,
   hasError,
   onChange,
   id,
@@ -68,25 +67,17 @@ export default function DateTimeRequestOptions({
     <div className={cssClasses}>
       {options.map((o, index) => {
         const checked = selectedDates.includes(o.value);
-        const disabled = !checked && selectedDates?.length === maxSelections;
 
         const divClasses = classNames(
           'vaos-calendar__option',
           'vaos-calendar__option--checkbox',
           'vads-u-background-color--white',
-          {
-            'vads-u-border-color--gray-light': disabled,
-            disabled,
-          },
         );
 
         const labelClasses = classNames(
           'vads-u-margin--0',
           'vads-u-font-weight--bold',
-          {
-            'vads-u-color--primary': !disabled,
-            'vads-u-color--gray-medium': disabled,
-          },
+          'vads-u-color--primary',
         );
 
         return (

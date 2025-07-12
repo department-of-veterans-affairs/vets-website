@@ -247,7 +247,6 @@ function CalendarWidget({
   disabledMessage,
   maxDate,
   maxSelections = 1,
-  maxSelectionsError = "You've exceeded the maximum number of selections",
   minDate,
   onChange,
   onNextMonth,
@@ -267,9 +266,9 @@ function CalendarWidget({
   isAppointmentSelectionError,
   hideWhileDisabled = false,
 }) {
-  const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
-    if (value.length > 0) {
-      return value[0].split('T')[0];
+  const [currentlySelectedDate, setCurrentlySelectedDate] = useState(date => {
+    if (date) {
+      return date.split('T')[0];
     }
 
     return null;
@@ -278,6 +277,14 @@ function CalendarWidget({
   const maxMonth = getMaxMonth(maxDate, overrideMaxDays);
   const [months, setMonths] = useState([moment(startMonth || minDate)]);
   const exceededMaximumSelections = value.length > maxSelections;
+  let maxSelectionsError;
+  if (exceededMaximumSelections) {
+    const deselect =
+      value.length === maxSelections + 1
+        ? `the ${value.length}th time`
+        : `${value.length - maxSelections} times`;
+    maxSelectionsError = `You can only select up ${maxSelections} times for your appointment. Deselect ${deselect} to continue.`;
+  }
   const hasError = (required && showValidation) || exceededMaximumSelections;
 
   // Undefined allows to unset aria-hidden
@@ -337,12 +344,12 @@ function CalendarWidget({
                   <>
                     {index === 0 && (
                       <CalendarNavigation
-                        prevOnClick={() =>
-                          handlePrev(onPreviousMonth, months, setMonths)
-                        }
-                        nextOnClick={() =>
-                          handleNext(onNextMonth, months, setMonths)
-                        }
+                        prevOnClick={() => {
+                          handlePrev(onPreviousMonth, months, setMonths);
+                        }}
+                        nextOnClick={() => {
+                          handleNext(onNextMonth, months, setMonths);
+                        }}
                         momentMonth={month}
                         prevDisabled={prevDisabled}
                         nextDisabled={nextDisabled}

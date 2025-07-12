@@ -98,7 +98,6 @@ export default function VARequest() {
       <CalendarWidget
         multiSelect
         maxSelections={maxSelections}
-        maxSelectionsError="You can only choose up to 3 dates for your appointment"
         onChange={(...args) => dispatch(onCalendarChange(...args))}
         minDate={minDate.format('YYYY-MM-DD')}
         maxDate={moment()
