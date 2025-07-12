@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format, parse } from 'date-fns';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
@@ -22,6 +22,7 @@ function ViewDependentsListItem(props) {
     stateKey,
     openFormlett,
     submittedDependents,
+    vadvToggle,
   } = props;
 
   const handleClick = () => {
@@ -37,7 +38,7 @@ function ViewDependentsListItem(props) {
 
   const fullName = `${firstName} ${lastName}`;
 
-  return (
+  const content = (
     <div className="mng-dependents-list-item vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding--2">
       <h3 className="vads-u-font-family--serif vads-u-font-size--lg vads-u-margin-top--0 mng-dependents-name">
         {fullName}
@@ -70,7 +71,14 @@ function ViewDependentsListItem(props) {
         {dateOfBirth ? (
           <div>
             <dt>Date of birth:&nbsp;</dt>
-            <dd>{moment(dateOfBirth).format('MMMM D, YYYY')}</dd>
+            <dd>
+              {dateOfBirth
+                ? format(
+                    parse(dateOfBirth, 'MM/dd/yyyy', new Date()),
+                    'MMMM d, yyyy',
+                  )
+                : ''}
+            </dd>
           </div>
         ) : null}
       </dl>
@@ -110,6 +118,43 @@ function ViewDependentsListItem(props) {
       )}
     </div>
   );
+
+  const vadvContent = (
+    <div className="mng-dependents-list-item">
+      <h3 className="vads-u-font-family--serif vads-u-font-size--lg vads-u-margin-top--0 mng-dependents-name">
+        {fullName}
+      </h3>
+      <dl>
+        <div>
+          <dt>Relationship:&nbsp;</dt>
+          <dd>{relationship}</dd>
+        </div>
+
+        {ssn ? (
+          <div>
+            <dt>SSN:&nbsp;</dt>
+            <dd>{maskID(ssn)}</dd>
+          </div>
+        ) : null}
+
+        {dateOfBirth ? (
+          <div>
+            <dt>Date of birth:&nbsp;</dt>
+            <dd>
+              {dateOfBirth
+                ? format(
+                    parse(dateOfBirth, 'MM/dd/yyyy', new Date()),
+                    'MMMM d, yyyy',
+                  )
+                : ''}
+            </dd>
+          </div>
+        ) : null}
+      </dl>
+    </div>
+  );
+
+  return vadvToggle ? vadvContent : content;
 }
 
 const mapStateToProps = state => ({

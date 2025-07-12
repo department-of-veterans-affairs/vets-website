@@ -29,6 +29,7 @@ function ViewDependentsLists(props) {
         dependents={props.onAwardDependents}
         isAward
         manageDependentsToggle={props.manageDependentsToggle}
+        vadvToggle={props.vadvToggle}
       />
       <ViewDependentsList
         loading={props.loading}
@@ -37,6 +38,7 @@ function ViewDependentsLists(props) {
         link="/disability/add-remove-dependent/"
         linkText="Learn more about adding or removing a dependent from your VA benefits."
         dependents={props.notOnAwardDependents}
+        vadvToggle={props.vadvToggle}
       />
     </div>
   );
