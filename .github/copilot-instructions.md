@@ -59,3 +59,7 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - Use `yarn lint:js:changed:fix` to fix lint issues in changed files
 - Use `yarn update:schema` to update vets-json-schema to latest
 - Use `yarn new:app` to create new React applications
+
+## Forms
+- For understanding valid uiSchema and schema web component patterns, reference `src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json`.
+- For understanding a form's name, directory path, entryName and rootUrl, reference `src/applications/manifest-catalog.json`.
