@@ -98,7 +98,7 @@ describe('Form 526EZ Entry Page', () => {
     gaData = global.window.dataLayer;
     if (addBranches && currentlyLoggedIn) {
       // stop fetchBranches call
-      window.sessionStorage.setItem(SERVICE_BRANCHES, '["1","2","3"]');
+      sessionStorage.setItem(SERVICE_BRANCHES, '["1","2","3"]');
     }
     return mount(
       <Provider store={fakeStore}>
@@ -122,13 +122,13 @@ describe('Form 526EZ Entry Page', () => {
   };
 
   beforeEach(() => {
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    sessionStorage.removeItem(WIZARD_STATUS);
     clearBranches();
   });
 
   // Not logged in
   it('should render content when not logged in', () => {
-    window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = testPage({
       currentlyLoggedIn: false,
     });
@@ -153,7 +153,7 @@ describe('Form 526EZ Entry Page', () => {
     describe('When there is no form526RequiredIdentifierPresence object in the profile claims object', () => {
       // Logged in & verified, but missing ID
       it('should render Missing ID page', () => {
-        window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
         const tree = testPage({
           currentlyLoggedIn: true,
           verified: true,
@@ -172,7 +172,7 @@ describe('Form 526EZ Entry Page', () => {
 
       // Logged in & verified, but missing 526 services
       it('should render Missing services page', () => {
-        window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
         const tree = testPage({
           currentlyLoggedIn: true,
           verified: true,
@@ -194,7 +194,7 @@ describe('Form 526EZ Entry Page', () => {
 
       // Logged in & verified, but missing DOB
       it('should render Missing DOB alert', () => {
-        window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
         const tree = testPage({
           currentlyLoggedIn: true,
           verified: true,
@@ -216,7 +216,7 @@ describe('Form 526EZ Entry Page', () => {
     // claims.form526RequiredIdentifierPresence is included in the profile when the form_526_required_identifiers_in_user_object feature flag is enabled on the back end
     describe('When a form526RequiredIdentifierPresence object is in the profile claims object', () => {
       it('should render Missing identifers page and log an event in Google Analytics', () => {
-        window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
         const tree = testPage({
           verified: true,
           claims: {
@@ -246,7 +246,7 @@ describe('Form 526EZ Entry Page', () => {
   });
 
   it('should render loading indicator when feature is undefined', () => {
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    sessionStorage.removeItem(WIZARD_STATUS);
     const initialState = {
       form: {
         loadedStatus: 'success',
@@ -290,7 +290,7 @@ describe('Form 526EZ Entry Page', () => {
   // Logged in & verified & has services
   it('should render form app content', done => {
     mockApiRequest(mockBranches);
-    window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = testPage({
       currentlyLoggedIn: true,
       verified: true,
@@ -311,7 +311,7 @@ describe('Form 526EZ Entry Page', () => {
   // Logged in & not verified (has services to allow proceeding)
   it('should render verify your identity page', () => {
     window.localStorage.setItem('hasSession', true);
-    window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = testPage({
       currentlyLoggedIn: true,
       verified: false,
@@ -330,7 +330,7 @@ describe('Form 526EZ Entry Page', () => {
   // Logged in but has add-person service (missing BIRLS or participant ID)
   it('should render add-person loader', () => {
     window.localStorage.setItem('hasSession', true);
-    window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = testPage({
       currentlyLoggedIn: true,
       verified: true,
@@ -352,7 +352,7 @@ describe('Form 526EZ Entry Page', () => {
   // succeeded in adding id
   it('should render intro page after successful add person', () => {
     window.localStorage.setItem('hasSession', true);
-    window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = testPage({
       currentlyLoggedIn: true,
       verified: true,
@@ -367,7 +367,7 @@ describe('Form 526EZ Entry Page', () => {
 
   // Logged in & failed add person call
   it('should render Missing services page after failed add person call', () => {
-    window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = testPage({
       currentlyLoggedIn: true,
       verified: true,
@@ -390,7 +390,7 @@ describe('Form 526EZ Entry Page', () => {
 
   // Wizard
   it('should not redirect to the wizard when not logged in', () => {
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    sessionStorage.removeItem(WIZARD_STATUS);
     const tree = testPage({
       currentlyLoggedIn: false,
     });
@@ -399,7 +399,7 @@ describe('Form 526EZ Entry Page', () => {
   });
   it('should redirect to the wizard when logged in', () => {
     window.localStorage.setItem('hasSession', true);
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    sessionStorage.removeItem(WIZARD_STATUS);
     const router = [];
     const tree = testPage({
       currentlyLoggedIn: true,
@@ -412,7 +412,7 @@ describe('Form 526EZ Entry Page', () => {
     tree.unmount();
   });
   it('should not redirect to the wizard there is a saved form', () => {
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    sessionStorage.removeItem(WIZARD_STATUS);
     const tree = testPage({
       currentlyLoggedIn: false,
       show526Wizard: false,
@@ -422,7 +422,7 @@ describe('Form 526EZ Entry Page', () => {
     tree.unmount();
   });
   it('should redirect to the wizard when restarting', () => {
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    sessionStorage.removeItem(WIZARD_STATUS);
     const tree = testPage({
       currentlyLoggedIn: false,
       show526Wizard: false,
@@ -431,7 +431,7 @@ describe('Form 526EZ Entry Page', () => {
     tree.unmount();
   });
   it('should render loading indicator when feature is undefined', () => {
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    sessionStorage.removeItem(WIZARD_STATUS);
     const initialState = {
       form: {
         loadedStatus: 'success',
