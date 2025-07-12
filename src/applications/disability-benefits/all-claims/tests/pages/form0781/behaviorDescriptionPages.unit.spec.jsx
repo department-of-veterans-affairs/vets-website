@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import userEvent from '@testing-library/user-event';
 import Sinon from 'sinon';
@@ -76,7 +76,7 @@ describe('behavior change description pages', () => {
       expect(onSubmit.calledOnce).to.be.true;
     });
 
-    it('should submit if text entered', () => {
+    it('should submit if text entered', async () => {
       const { container: testContainer, getByText } = render(
         <DefinitionTester
           schema={pageSchema.schema}
@@ -85,6 +85,12 @@ describe('behavior change description pages', () => {
           onSubmit={onSubmit}
         />,
       );
+
+      // Wait for the `va-textarea` element to be rendered
+      await waitFor(() => {
+        const textareaElement = testContainer.querySelector('va-textarea');
+        expect(textareaElement).to.not.be.null;
+      });
 
       inputVaTextInput(
         testContainer,

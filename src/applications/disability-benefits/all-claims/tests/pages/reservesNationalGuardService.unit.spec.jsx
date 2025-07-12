@@ -8,6 +8,7 @@ import {
   fillDate,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { mount } from 'enzyme';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('Reserve and National Guard Information', () => {
@@ -16,7 +17,7 @@ describe('Reserve and National Guard Information', () => {
     uiSchema,
   } = formConfig.chapters.veteranDetails.pages.reservesNationalGuardService;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -31,7 +32,7 @@ describe('Reserve and National Guard Information', () => {
     form.unmount();
   });
 
-  it('should fail to submit when no data is filled out', () => {
+  it('should fail to submit when no data is filled out', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -44,13 +45,15 @@ describe('Reserve and National Guard Information', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(3);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
-  it('should submit when data filled in', () => {
+  it('should submit when data filled in', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -84,13 +87,15 @@ describe('Reserve and National Guard Information', () => {
       'Lorem epsum',
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 
-  it('should fail to submit when obligation end date is before start date', () => {
+  it('should fail to submit when obligation end date is before start date', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -128,9 +133,11 @@ describe('Reserve and National Guard Information', () => {
       'Lorem epsum',
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 });

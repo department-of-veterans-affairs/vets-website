@@ -103,7 +103,9 @@ describe('Toxic Exposure Conditions', () => {
       detail: { checked: true },
     });
 
-    await userEvent.click(getByText('Submit'));
-    expect($('va-checkbox-group').error).to.equal(noneAndConditionError);
+    userEvent.click(getByText('Submit'));
+    await waitFor(() => {
+      expect($('va-checkbox-group').error).to.equal(noneAndConditionError);
+    });
   });
 });

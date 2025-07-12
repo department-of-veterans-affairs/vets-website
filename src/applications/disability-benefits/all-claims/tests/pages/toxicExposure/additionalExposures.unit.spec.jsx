@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { expect } from 'chai';
@@ -117,11 +117,13 @@ describe('Additional Exposures', () => {
     checkVaCheckbox(checkboxGroup, 'asbestos');
     checkVaCheckbox(checkboxGroup, 'none');
 
-    await userEvent.click(getByText('Submit'));
-    expect($('va-checkbox-group').error).to.equal(noneAndHazardError);
+    userEvent.click(getByText('Submit'));
+    await waitFor(() => {
+      expect($('va-checkbox-group').error).to.equal(noneAndHazardError);
+    });
   });
 
-  it('should display error when other exposures does not match pattern', () => {
+  it('should display error when other exposures does not match pattern', async () => {
     const formData = {};
     const onSubmit = sinon.spy();
     const { container, getByText } = render(
@@ -136,7 +138,9 @@ describe('Additional Exposures', () => {
     inputVaTextInput(container, 'Test hazard?', 'va-textarea');
 
     userEvent.click(getByText('Submit'));
-    expect($('va-textarea').error).to.equal(otherInvalidCharError);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      expect($('va-textarea').error).to.equal(otherInvalidCharError);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 });

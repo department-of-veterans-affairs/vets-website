@@ -88,7 +88,7 @@ describe('<IntroductionPage/>', () => {
   });
 
   it('should render a BDD form title', () => {
-    sessionStorage.setItem(
+    window.sessionStorage.setItem(
       SAVED_SEPARATION_DATE,
       moment()
         .add(90, 'days')
@@ -112,7 +112,7 @@ describe('<IntroductionPage/>', () => {
   });
 
   it('should render BDD SiP intros', () => {
-    sessionStorage.setItem(
+    window.sessionStorage.setItem(
       SAVED_SEPARATION_DATE,
       moment()
         .add(90, 'days')

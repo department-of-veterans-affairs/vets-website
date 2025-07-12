@@ -10,10 +10,10 @@ import { WIZARD_STATUS } from '../../constants';
 
 describe('Wizard Container', () => {
   beforeEach(() => {
-    sessionStorage.removeItem(WIZARD_STATUS);
+    window.sessionStorage.removeItem(WIZARD_STATUS);
   });
   afterEach(() => {
-    sessionStorage.removeItem(WIZARD_STATUS);
+    window.sessionStorage.removeItem(WIZARD_STATUS);
   });
 
   it('should render', () => {

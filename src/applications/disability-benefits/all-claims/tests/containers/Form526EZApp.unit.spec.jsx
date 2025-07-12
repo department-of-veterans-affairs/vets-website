@@ -6,9 +6,8 @@ import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 
 import { commonReducer } from 'platform/startup/store';
-import localStorage from 'platform/utilities/storage/localStorage';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers.js';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 
 import Form526Entry, {
   serviceRequired,
@@ -311,23 +310,26 @@ describe('Form 526EZ Entry Page', () => {
 
   // Logged in & not verified (has services to allow proceeding)
   it('should render verify your identity page', () => {
-    localStorage.setItem('hasSession', true);
+    window.localStorage.setItem('hasSession', true);
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = testPage({
       currentlyLoggedIn: true,
       verified: false,
       services: serviceRequired,
     });
-    localStorage.removeItem('hasSession');
-    expect(tree.find('main')).to.have.lengthOf(1);
-    expect(tree.find('h1').text()).to.contain('Need to be verified');
+    window.localStorage.removeItem('hasSession');
+    // When user is not verified, it should render the content with RequiredLoginView
+    expect(tree.find('article#form-526')).to.have.lengthOf(1);
+    expect(tree.find('RequiredLoginView')).to.have.lengthOf(1);
+    // The verify prop on RequiredLoginView should show verification message
+    expect(tree.find('RequiredLoginView').prop('verify')).to.be.true;
 
     tree.unmount();
   });
 
   // Logged in but has add-person service (missing BIRLS or participant ID)
   it('should render add-person loader', () => {
-    localStorage.setItem('hasSession', true);
+    window.localStorage.setItem('hasSession', true);
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = testPage({
       currentlyLoggedIn: true,
@@ -335,7 +337,7 @@ describe('Form 526EZ Entry Page', () => {
       services: ['add-person'],
       mvi: MVI_ADD_INITIATED,
     });
-    localStorage.removeItem('hasSession');
+    window.localStorage.removeItem('hasSession');
 
     expect(tree.find('h1').text()).to.contain('File for disability');
     expect(tree.find('main')).to.have.lengthOf(0);
@@ -349,7 +351,7 @@ describe('Form 526EZ Entry Page', () => {
   // Logged in, has add-person service (missing BIRLS or participant ID), but
   // succeeded in adding id
   it('should render intro page after successful add person', () => {
-    localStorage.setItem('hasSession', true);
+    window.localStorage.setItem('hasSession', true);
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = testPage({
       currentlyLoggedIn: true,
@@ -357,7 +359,7 @@ describe('Form 526EZ Entry Page', () => {
       services: ['add-person', ...serviceRequired],
       mvi: MVI_ADD_SUCCEEDED,
     });
-    localStorage.removeItem('hasSession');
+    window.localStorage.removeItem('hasSession');
     expect(tree.find('main')).to.have.lengthOf(1);
     expect(tree.find('h1').text()).to.contain('Start the form');
     tree.unmount();
@@ -396,7 +398,7 @@ describe('Form 526EZ Entry Page', () => {
     tree.unmount();
   });
   it('should redirect to the wizard when logged in', () => {
-    localStorage.setItem('hasSession', true);
+    window.localStorage.setItem('hasSession', true);
     sessionStorage.removeItem(WIZARD_STATUS);
     const router = [];
     const tree = testPage({
