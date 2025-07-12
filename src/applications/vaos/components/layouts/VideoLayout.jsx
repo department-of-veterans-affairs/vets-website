@@ -117,7 +117,9 @@ export default function VideoLayout({ data: appointment }) {
             </>
           )}
           <br />
-          {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+          <span data-dd-privacy="mask">
+            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+          </span>
           <br />
           <ClinicOrFacilityPhone
             clinicPhone={clinicPhone}
@@ -172,7 +174,9 @@ export default function VideoLayout({ data: appointment }) {
               'Facility not available'
             )}
             <br />
-            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+            <span data-dd-privacy="mask">
+              {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+            </span>
             <br />
             <ClinicOrFacilityPhone
               clinicPhone={clinicPhone}

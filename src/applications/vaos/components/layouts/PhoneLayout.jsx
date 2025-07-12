@@ -89,7 +89,9 @@ export default function PhoneLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName}</What>
+      <What>
+        <span data-dd-privacy="mask">{typeOfCareName}</span>
+      </What>
       <Who>{practitionerName}</Who>
       <Section heading="Scheduling facility">
         {!facility && (
@@ -110,7 +112,11 @@ export default function PhoneLayout({ data: appointment }) {
             <Address address={facility?.address} />
           </>
         )}
-        <span>Clinic: {clinicName || 'Not available'}</span> <br />
+        <span>
+          Clinic:{' '}
+          <span data-dd-privacy="mask">{clinicName || 'Not available'}</span>
+        </span>{' '}
+        <br />
         <ClinicOrFacilityPhone
           clinicPhone={clinicPhone}
           clinicPhoneExtension={clinicPhoneExtension}

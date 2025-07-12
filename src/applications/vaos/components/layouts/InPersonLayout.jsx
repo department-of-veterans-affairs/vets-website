@@ -135,8 +135,19 @@ export default function InPersonLayout({ data: appointment }) {
               <FacilityDirectionsLink location={facility} icon />
             </div>
             <br />
-            <span>Clinic: {clinicName || 'Not available'}</span> <br />
-            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
+            <span>
+              Clinic:{' '}
+              <span data-dd-privacy="mask">
+                {clinicName || 'Not available'}
+              </span>
+            </span>{' '}
+            <br />
+            <span>
+              Location:{' '}
+              <span data-dd-privacy="mask">
+                {clinicPhysicalLocation || 'Not available'}
+              </span>
+            </span>
             <br />
           </>
         )}
