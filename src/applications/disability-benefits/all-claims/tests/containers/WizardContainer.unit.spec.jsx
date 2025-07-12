@@ -27,7 +27,7 @@ describe('Wizard Container', () => {
     const { container } = render(<WizardContainer />);
     fireEvent.click($('.skip-wizard-link', container));
     expect($('.wizard-container', container)).to.exist;
-    expect(window.sessionStorage.getItem(WIZARD_STATUS)).to.equal(
+    expect(sessionStorage.getItem(WIZARD_STATUS)).to.equal(
       WIZARD_STATUS_COMPLETE,
     );
   });
