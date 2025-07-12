@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 
@@ -50,9 +51,9 @@ describe('Pre-need applicant contact information', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  it('should not submit empty form', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <Provider store={store}>
         <DefinitionTester
           schema={schema}
@@ -62,12 +63,13 @@ describe('Pre-need applicant contact information', () => {
         />
       </Provider>,
     );
+    fireEvent.submit(container.querySelector('form'));
 
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(5);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      const errorElements = container.querySelectorAll('.usa-input-error');
+      expect(errorElements.length).to.equal(5);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 
   it('should submit with valid data', () => {
