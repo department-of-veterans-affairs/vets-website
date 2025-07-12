@@ -1,8 +1,8 @@
 import PageObject from './PageObject';
 
-class AudiologyPageObject extends PageObject {
+class TypeOfSleepCarePageObject extends PageObject {
   assertUrl() {
-    cy.url().should('include', 'audiology-care');
+    cy.url().should('include', '/sleep-care');
     cy.axeCheckBestPractice();
 
     this.clickNextButton();
@@ -11,9 +11,9 @@ class AudiologyPageObject extends PageObject {
     return this;
   }
 
-  selectTypeOfCare(label) {
+  selectTypeOfSleepCare(label) {
     return super.selectRadioButtonShadow(label);
   }
 }
 
-export default new AudiologyPageObject();
+export default new TypeOfSleepCarePageObject();

@@ -5,6 +5,9 @@ class TypeOfEyeCarePageObject extends PageObject {
     cy.url().should('include', '/eye-care');
     cy.axeCheckBestPractice();
 
+    this.clickNextButton();
+    this.assertValidationError('You must provide a response');
+
     return this;
   }
 

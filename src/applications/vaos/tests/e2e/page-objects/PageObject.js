@@ -47,6 +47,11 @@ export default class PageObject {
     return this.assertAlert({ text, exist, status: 'error' });
   }
 
+  assertValidationError(error) {
+    cy.get(`[error="${error}"]`).should('exist');
+    return this;
+  }
+
   /**
    *
    *

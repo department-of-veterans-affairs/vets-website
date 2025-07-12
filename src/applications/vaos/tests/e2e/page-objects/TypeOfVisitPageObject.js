@@ -12,6 +12,9 @@ class TypeOfVisitPageObject extends PageObject {
     cy.url().should('include', '/preferred-method');
     cy.axeCheckBestPractice();
 
+    this.clickNextButton();
+    this.assertValidationError('Select an option');
+
     return this;
   }
 
