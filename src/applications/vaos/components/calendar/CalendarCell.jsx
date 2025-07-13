@@ -115,7 +115,7 @@ const CalendarCell = ({
         onClick={() => onClick(date)}
         disabled={disabled}
         aria-label={buttonLabel}
-        aria-expanded={isCurrentlySelected}
+        // aria-expanded={isCurrentlySelected}
         type="button"
         ref={buttonRef}
       >

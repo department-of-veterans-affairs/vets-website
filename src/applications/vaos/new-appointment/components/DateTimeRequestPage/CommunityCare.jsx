@@ -57,6 +57,7 @@ export default function CCRequest() {
   const [submitted, setSubmitted] = useState(false);
   // Add a counter state to trigger focusing
   const [focusTrigger, setFocusTrigger] = useState(0);
+  const [alertTrigger, setAlertTrigger] = useState(0);
   const appointmentSlotsStatus = useSelector(state =>
     selectAppointmentSlotsStatus(state),
   );
@@ -113,6 +114,8 @@ export default function CCRequest() {
         required
         requiredMessage="Select at least one preferred timeframe for your appointment."
         showValidation={submitted && !userSelectedSlot(selectedDates)}
+        alertTrigger={alertTrigger}
+        setAlertTrigger={() => setAlertTrigger(prev => prev + 1)}
       />
       <FormButtons
         onBack={() => {
@@ -132,6 +135,7 @@ export default function CCRequest() {
         }}
         onSubmit={() => {
           // Increment the focus trigger to force re-focusing the validation message
+          setAlertTrigger(prev => prev + 1);
           setFocusTrigger(prev => prev + 1);
           goForward({
             dispatch,
