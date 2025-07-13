@@ -16,6 +16,7 @@ export const information = {
     fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
     birthDate: currentOrPastDateUI({
       title: 'Child’s date of birth',
+      dataDogHidden: true,
       required: () => true,
     }),
   },

@@ -9,6 +9,12 @@ import { DOWNLOAD_FORMAT } from '../../../util/constants';
 describe('Medications Print/Download button component', () => {
   let handleFullListDownload;
   let handlePrintPage;
+
+  const setGlobalNavigator = value => {
+    if (!global.navigator) global.navigator = {};
+    global.navigator.onLine = value;
+  };
+
   const setup = (
     onDownload = handleFullListDownload,
     success = false,
@@ -84,9 +90,7 @@ describe('Medications Print/Download button component', () => {
   });
 
   it('should start downloading PDF on PDF button click', () => {
-    global.navigator = {
-      onLine: true,
-    };
+    setGlobalNavigator(true);
     const screen = setup(handleFullListDownload, false, true);
     const downloadButton = screen.getByText(
       'Download a PDF of all medications',
@@ -98,9 +102,7 @@ describe('Medications Print/Download button component', () => {
   });
 
   it('should start downloading TXT on TXT button click', () => {
-    global.navigator = {
-      onLine: true,
-    };
+    setGlobalNavigator(true);
     const screen = setup(handleFullListDownload, false, true);
     const downloadButton = screen.getByText(
       'Download a text file (.txt) of all medications',

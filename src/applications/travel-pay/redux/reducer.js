@@ -16,7 +16,8 @@ import {
 const initialState = {
   travelClaims: {
     isLoading: false,
-    claims: {},
+    error: null,
+    data: [],
   },
   claimDetails: {
     isLoading: false,
@@ -49,16 +50,9 @@ function travelPayReducer(state = initialState, action) {
       return {
         ...state,
         travelClaims: {
-          ...state.travelClaims,
+          error: null,
           isLoading: false,
-          claims: {
-            ...state.travelClaims.claims,
-            [action.dateRangeId]: {
-              error: null,
-              metadata: action.payload.metadata,
-              data: action.payload.data,
-            },
-          },
+          data: action.payload,
         },
       };
     case FETCH_TRAVEL_CLAIMS_FAILURE:
@@ -67,14 +61,7 @@ function travelPayReducer(state = initialState, action) {
         travelClaims: {
           ...state.travelClaims,
           isLoading: false,
-          claims: {
-            ...state.travelClaims.claims,
-            [action.dateRangeId]: {
-              error: action.error,
-              metadata: {},
-              data: [],
-            },
-          },
+          error: action.error,
         },
       };
     case FETCH_CLAIM_DETAILS_STARTED:
