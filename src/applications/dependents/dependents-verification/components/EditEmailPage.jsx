@@ -3,9 +3,10 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { isValidEmail } from 'platform/forms/validations';
-import { Title } from '~/platform/forms-system/src/js/web-component-patterns/titlePattern';
-import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
+import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 /**
  * This component allows the user to edit their email address.
@@ -65,7 +66,7 @@ const EditEmailPage = props => {
     <form onSubmit={handlers.onUpdate} noValidate>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          <Title title="Edit email" />
+          <Title title="Edit email address" />
         </legend>
         <va-text-input
           label="Email address"
@@ -79,23 +80,15 @@ const EditEmailPage = props => {
           error={error}
           required
         />
-        <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-          <div className="small-6 medium-5 columns">
-            <ProgressButton
-              onButtonClick={handlers.onCancel}
-              buttonText="Cancel"
-              buttonClass="usa-button-secondary"
-            />
-          </div>
-          <div className="small-6 medium-5 end columns">
-            <ProgressButton
-              buttonText="Update"
-              onButtonClick={handlers.onUpdate}
-              buttonClass="usa-button-primary"
-              ariaLabel="Update email address"
-            />
-          </div>
-        </div>
+
+        <VaButtonPair
+          class="vads-u-margin-top--2"
+          primaryLabel="Update email address"
+          secondaryLabel="Cancel editing email address"
+          onPrimaryClick={handlers.onUpdate}
+          onSecondaryClick={handlers.onCancel}
+          update
+        />
       </fieldset>
     </form>
   );

@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { Title } from '~/platform/forms-system/src/js/web-component-patterns/titlePattern';
-import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 const EditInternationalPhonePage = props => {
   const { formData = {}, goToPath, setFormData } = props;
@@ -69,23 +70,15 @@ const EditInternationalPhonePage = props => {
           hint="Enter a phone number including the country code (e.g., +44 20 1234 5678)"
           required
         />
-        <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-          <div className="small-6 medium-5 columns">
-            <ProgressButton
-              onButtonClick={handlers.onCancel}
-              buttonText="Cancel"
-              buttonClass="usa-button-secondary"
-            />
-          </div>
-          <div className="small-6 medium-5 end columns">
-            <ProgressButton
-              buttonText="Update"
-              onButtonClick={handlers.onUpdate}
-              buttonClass="usa-button-primary"
-              ariaLabel="Update international phone number"
-            />
-          </div>
-        </div>
+
+        <VaButtonPair
+          class="vads-u-margin-top--2"
+          primaryLabel="Update international phone number"
+          secondaryLabel="Cancel editing international phone number"
+          onPrimaryClick={handlers.onUpdate}
+          onSecondaryClick={handlers.onCancel}
+          update
+        />
       </fieldset>
     </form>
   );

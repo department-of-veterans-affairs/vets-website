@@ -166,10 +166,11 @@ export default function VAFacilityPageV2() {
         <InfoAlert
           status="error"
           level={2}
-          headline="You can't schedule an appointment online right now"
+          headline="We can’t schedule your appointment right now"
         >
           <p>
-            We're sorry. There's a problem with our system. Try again later.
+            We’re sorry. There’s a problem with our system. Refresh this page to
+            start over or try again later.
           </p>
           <p>
             If you need to schedule now, call your VA facility.

@@ -78,6 +78,17 @@ export class LetterList extends React.Component {
             }
           </Toggler.Hoc>
         );
+      } else if (letter.letterType === LETTER_TYPES.benefitSummaryDependent) {
+        letterTitle = 'Benefit Summary Letter';
+        content = (
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue
+                ? newLetterContent[letter.letterType] || ''
+                : letterContent[letter.letterType] || ''
+            }
+          </Toggler.Hoc>
+        );
       } else {
         letterTitle = letter.name;
         content = (

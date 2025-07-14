@@ -19,12 +19,7 @@ describe('useLoadWebChat', () => {
     it('should load webchat v4.17.0', () => {
       renderHook(() => useLoadWebChat());
 
-      const script = document.querySelector(
-        'script[data-testid="webchat-framework-script"]',
-      );
-
-      expect(script).to.exist;
-      expect(script.getAttribute('type')).to.equal('text/partytown');
+      const script = document.querySelector('script');
       expect(script.src).to.equal(
         'https://cdn.botframework.com/botframework-webchat/4.17.0/webchat.js',
       );

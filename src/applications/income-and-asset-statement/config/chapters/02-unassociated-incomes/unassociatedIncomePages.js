@@ -32,8 +32,8 @@ import { relationshipLabels, incomeTypeLabels } from '../../../labels';
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'unassociatedIncomes',
-  nounSingular: 'recurring income not associated with accounts or assets',
-  nounPlural: 'recurring incomes not associated with accounts or assets',
+  nounSingular: 'recurring income',
+  nounPlural: 'recurring income',
   required: false,
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||
@@ -66,18 +66,18 @@ export const options = {
           </li>
         </ul>
       ),
-    reviewAddButtonText: 'Add another unassociated income',
-    alertItemUpdated: 'Your unassociated income information has been updated',
-    alertItemDeleted: 'Your unassociated income information has been deleted',
-    cancelAddTitle: 'Cancel adding this unassociated income',
-    cancelAddButtonText: 'Cancel adding this unassociated income',
-    cancelAddYes: 'Yes, cancel adding this unassociated income',
+    reviewAddButtonText: 'Add another recurring income',
+    alertItemUpdated: 'Your recurring income information has been updated',
+    alertItemDeleted: 'Your recurring income information has been deleted',
+    cancelAddTitle: 'Cancel adding this recurring income',
+    cancelAddButtonText: 'Cancel adding this recurring income',
+    cancelAddYes: 'Yes, cancel adding this recurring income',
     cancelAddNo: 'No',
-    cancelEditTitle: 'Cancel editing this unassociated income',
-    cancelEditYes: 'Yes, cancel editing this unassociated income',
+    cancelEditTitle: 'Cancel editing this recurring income',
+    cancelEditYes: 'Yes, cancel editing this recurring income',
     cancelEditNo: 'No',
-    deleteTitle: 'Delete this unassociated income',
-    deleteYes: 'Yes, delete this unassociated income',
+    deleteTitle: 'Delete this recurring income',
+    deleteYes: 'Yes, delete this recurring income',
     deleteNo: 'No',
     deleteDescription: props =>
       generateDeleteDescription(props, options.text.getItemName),
@@ -124,7 +124,7 @@ const summaryPage = {
 const incomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Recurring income not associated with accounts or assets',
+      title: 'Recurring income relationship',
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
@@ -160,9 +160,7 @@ const incomeRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Recurring income not associated with accounts or assets',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Recurring income recipient'),
     recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
@@ -176,9 +174,7 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const incomeTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Recurring income not associated with accounts or assets',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Recurring income type'),
     incomeType: radioUI({
       title: 'What is the type of income?',
       labels: incomeTypeLabels,
@@ -219,28 +215,28 @@ export const unassociatedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
     unassociatedIncomePagesSummary: pageBuilder.summaryPage({
-      title: 'Income not associated with accounts or assets',
-      path: 'unassociated-incomes-summary',
+      title: 'Recurring income',
+      path: 'recurring-income-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     unassociatedIncomeRecipientPage: pageBuilder.itemPage({
-      title: 'Unassociated income recipient',
-      path: 'unassociated-incomes/:index/income-recipient',
+      title: 'Recurring income recipient',
+      path: 'recurring-income/:index/income-recipient',
       uiSchema: incomeRecipientPage.uiSchema,
       schema: incomeRecipientPage.schema,
     }),
     unassociatedIncomeRecipientNamePage: pageBuilder.itemPage({
-      title: 'Unassociated income recipient name',
-      path: 'unassociated-incomes/:index/recipient-name',
+      title: 'Recurring income recipient name',
+      path: 'recurring-income/:index/recipient-name',
       depends: (formData, index) =>
         recipientNameRequired(formData, index, 'unassociatedIncomes'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),
     unassociatedIncomeTypePage: pageBuilder.itemPage({
-      title: 'Unassociated income type',
-      path: 'unassociated-incomes/:index/income-type',
+      title: 'Recurring income type',
+      path: 'recurring-income/:index/income-type',
       uiSchema: incomeTypePage.uiSchema,
       schema: incomeTypePage.schema,
     }),

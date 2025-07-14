@@ -30,7 +30,9 @@ const BenefitCard = ({ benefit }) => {
           label={label}
           type="secondary"
           disable-analytics
-          onClick={handleClick(url, text, label)}
+          onClick={() => {
+            handleClick(url, text, label);
+          }}
         />
       ) : (
         <va-link
@@ -39,7 +41,9 @@ const BenefitCard = ({ benefit }) => {
           text={text}
           label={label}
           disable-analytics
-          onClick={handleClick(url, text, label)}
+          onClick={() => {
+            handleClick(url, text, label);
+          }}
         />
       );
     }

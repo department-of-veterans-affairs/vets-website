@@ -41,7 +41,7 @@ export const VeteranInformation = ({ formData }) => {
             </dt>
             <dd
               className="name dd-privacy-hidden"
-              data-dd-action-name="Veteran's name"
+              data-dd-action-name="Veteran’s name"
             >
               {getFullName(userFullName)}
             </dd>
@@ -53,7 +53,7 @@ export const VeteranInformation = ({ formData }) => {
               </dt>
               <dd
                 className="dd-privacy-mask"
-                data-dd-action-name="Veteran's SSN"
+                data-dd-action-name="Veteran’s SSN"
               >
                 {maskID(ssnLastFour, '')}
               </dd>
@@ -65,7 +65,7 @@ export const VeteranInformation = ({ formData }) => {
             </dt>
             <dd
               className="dob dd-privacy-mask"
-              data-dd-action-name="Veteran's date of birth"
+              data-dd-action-name="Veteran’s date of birth"
             >
               {dobDate}
             </dd>

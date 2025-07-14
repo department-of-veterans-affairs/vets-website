@@ -79,7 +79,8 @@ describe('DisabilityRatingCard', () => {
       totalRating: {
         totalDisabilityRating: null,
         error: {
-          code: 500,
+          code: 'EVSS400',
+          status: 500,
         },
       },
     });

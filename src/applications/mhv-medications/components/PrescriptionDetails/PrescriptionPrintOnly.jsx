@@ -12,6 +12,7 @@ import {
   pharmacyPhoneNumber,
   determineRefillLabel,
   getShowRefillHistory,
+  displayProviderName,
 } from '../../util/helpers';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { selectPendingMedsFlag } from '../../util/selectors';
@@ -68,9 +69,7 @@ const PrescriptionPrintOnly = props => {
       </p>
       <p>
         <strong>Documented by: </strong>
-        {pres.providerLastName
-          ? `${pres.providerLastName}, ${pres.providerFirstName || ''}`
-          : FIELD_NONE_NOTED}
+        {displayProviderName(pres?.providerFirstName, pres?.providerLastName)}
       </p>
       <p>
         <strong>Documented at this facility: </strong>
@@ -190,9 +189,7 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Prescribed by:</strong>{' '}
-              {rx.providerLastName
-                ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
-                : 'None noted'}
+              {displayProviderName(rx?.providerFirstName, rx?.providerLastName)}
             </p>
             {!isDetailsRx &&
               rx.groupedMedications?.length > 0 && (
@@ -346,9 +343,10 @@ const PrescriptionPrintOnly = props => {
                           </p>
                           <p>
                             <strong>Prescribed by:</strong>{' '}
-                            {(entry.providerFirstName &&
-                              entry.providerLastName) ||
-                              FIELD_NONE_NOTED}
+                            {displayProviderName(
+                              entry?.providerFirstName,
+                              entry?.providerLastName,
+                            )}
                           </p>
                         </div>
                       );

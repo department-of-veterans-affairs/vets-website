@@ -17,7 +17,6 @@ import {
 } from 'date-fns';
 import {
   selectFeatureCommunityCare,
-  selectFeatureConvertSlotsToUtc,
   selectFeatureDirectScheduling,
   selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureRecentLocationsFilter,
@@ -636,7 +635,6 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
-    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
     let startDate = start;
     let endDate = end;
@@ -684,7 +682,6 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
-          convertToUtc: featureConvertSlotsToUTC,
         });
         const tomorrow = startOfDay(
           addDays(new Date(new Date().toISOString()), 1),

@@ -27,7 +27,7 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   }
   return (
     <p className="poa-request__meta">
-      Showing {initCount}-{pageSizeCount} of {totalCount} {searchStatus}{' '}
+      Showing {initCount}-{pageSizeCount} of {totalCount} {searchStatus || ''}{' '}
       {resultType || ''} sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
