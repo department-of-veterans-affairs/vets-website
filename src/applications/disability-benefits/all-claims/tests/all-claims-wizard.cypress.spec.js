@@ -9,7 +9,7 @@ import {
   OMB_CONTROL,
 } from '../constants';
 
-// Date saved to sessionStorage includes leading zeros
+// Date saved to window.sessionStorage includes leading zeros
 const mockDate = moment()
   .add(120, 'days')
   .format('YYYY-MM-DD');
@@ -20,7 +20,7 @@ const checkOpt = {
 
 Cypress.Commands.add('checkStorage', (key, expectedValue) => {
   cy.window()
-    .its(`sessionStorage.${key}`)
+    .its(`window.sessionStorage.${key}`)
     .should('eq', expectedValue);
 });
 
@@ -62,9 +62,9 @@ describe('526 wizard', () => {
   beforeEach(() => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
-    sessionStorage.removeItem(WIZARD_STATUS);
-    sessionStorage.removeItem(FORM_STATUS_BDD);
-    sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+    window.sessionStorage.removeItem(WIZARD_STATUS);
+    window.sessionStorage.removeItem(FORM_STATUS_BDD);
+    window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
     cy.visit(`${DISABILITY_526_V2_ROOT_URL}/start`);
     cy.injectAxe();
   });
