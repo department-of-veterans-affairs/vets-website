@@ -149,7 +149,7 @@ const SearchResults = ({ claimant, searchData }) => {
           <div className="poa-status-cta">{poaStatusCta(claimant)}</div>
           <ul
             data-testid="poa-requests-card"
-            className="poa-request__list"
+            className="poa-request__list poa-request__list--search"
             sort-column={1}
           >
             {claimant.poaRequests.map((request, index) => (
