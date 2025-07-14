@@ -3,6 +3,7 @@ import {
   addMonths,
   format,
   lastDayOfMonth,
+  parseISO,
   startOfMonth,
 } from 'date-fns';
 import { scrollToFirstError } from 'platform/utilities/scroll';
@@ -166,7 +167,7 @@ export default function DateTimeSelectPage() {
 
   useEffect(
     () => {
-      const prefDateObj = new Date(preferredDate);
+      const prefDateObj = parseISO(preferredDate);
       const startDateObj = startOfMonth(prefDateObj);
       const endDateObj = lastDayOfMonth(addMonths(prefDateObj, 1));
       dispatch(getAppointmentSlots(startDateObj, endDateObj, true));
@@ -207,7 +208,7 @@ export default function DateTimeSelectPage() {
 
   const { selectedDates } = data;
   const startMonth = preferredDate
-    ? format(new Date(preferredDate), 'yyyy-MM')
+    ? format(parseISO(preferredDate), 'yyyy-MM')
     : null;
 
   return (
@@ -254,6 +255,7 @@ export default function DateTimeSelectPage() {
               required: true,
             }}
             disabled={loadingSlots}
+            hideWhileDisabled
             disabledMessage={
               // eslint-disable-next-line react/jsx-wrap-multilines
               <va-loading-indicator

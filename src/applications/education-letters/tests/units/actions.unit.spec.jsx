@@ -36,7 +36,7 @@ describe('Render Letters UI', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(
         MEB_FETCH_CLAIM_STATUS_SUCCESS,
       );
-      expect(dispatch.secondCall.args[0].response.claimStatus).to.equal(
+      expect(dispatch.secondCall.args[0].response.claimStatus).to.deep.equal(
         mockResponse['GET /meb_api/v0/claim_status?latest=true'].claimStatus,
       );
       expect(
@@ -65,7 +65,7 @@ describe('Render Letters UI', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(
         TOE_FETCH_CLAIM_STATUS_SUCCESS,
       );
-      expect(dispatch.secondCall.args[0].response.claimStatus).to.equal(
+      expect(dispatch.secondCall.args[0].response.claimStatus).to.deep.equal(
         mockResponse['GET /meb_api/v0/forms_claim_status?latest=true']
           .claimStatus,
       );
