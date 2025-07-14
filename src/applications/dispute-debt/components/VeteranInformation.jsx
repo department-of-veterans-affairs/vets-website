@@ -3,12 +3,11 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isValid, format } from 'date-fns';
 
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { selectProfile } from '~/platform/user/selectors';
-
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 
 import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../constants';
-
 import { parseDateToDateObj } from '../utils';
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
@@ -81,8 +80,8 @@ const VeteranInformation = ({ formData }) => {
         <strong>Note:</strong> To protect your personal information, we don’t
         allow online changes to your name, date of birth, or VA file number. If
         you need to update your personal information, call our VA benefits
-        hotline at <va-telephone contact="8008271000" />(
-        <va-telephone contact="711" tty="true" />
+        hotline at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact={CONTACTS['711']} tty />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
         <dfn>
           <abbr title="Eastern Time">ET</abbr>

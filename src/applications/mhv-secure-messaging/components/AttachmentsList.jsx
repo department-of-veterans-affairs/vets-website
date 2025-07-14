@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { datadogRum } from '@datadog/browser-rum';
@@ -26,6 +26,7 @@ const AttachmentsList = props => {
     setAttachFileError,
   } = props;
   const dispatch = useDispatch();
+  const { isPilot } = useSelector(state => state.sm.app);
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAttachmentRemoved, setIsAttachmentRemoved] = useState(false);
@@ -165,7 +166,7 @@ const AttachmentsList = props => {
           ''
         )}
       </div>
-      {editingEnabled && <HowToAttachFiles />}
+      {editingEnabled && <HowToAttachFiles isPilot={isPilot} />}
 
       {attachFileSuccess &&
         attachments.length > 0 &&
@@ -397,6 +398,7 @@ AttachmentsList.propTypes = {
   editingEnabled: PropTypes.bool,
   forPrint: PropTypes.bool,
   reply: PropTypes.bool,
+  setAttachFileError: PropTypes.func,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
   setIsModalVisible: PropTypes.func,

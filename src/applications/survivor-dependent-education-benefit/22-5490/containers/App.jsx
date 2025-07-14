@@ -11,6 +11,7 @@ import {
 } from '../actions';
 import formConfig from '../config/form';
 import { getAppData } from '../selectors';
+// import { prefillTransformer } from '../helpers';
 
 function App({
   children,
@@ -71,6 +72,29 @@ function App({
     },
     [user?.profile],
   );
+
+  // useEffect(
+  //   () => {
+  //     if (
+  //       user?.profile &&
+  //       (!formData?.claimantFullName?.first ||
+  //         !formData?.claimantFullName?.last ||
+  //         !formData?.claimantDateOfBirth)
+  //     ) {
+  //       setFormData({
+  //         ...formData,
+  //         claimantFullName: {
+  //           first: user.profile.userFullName.first,
+  //           middle: user.profile.userFullName.middle,
+  //           last: user.profile.userFullName.last,
+  //           suffix: user.profile.userFullName.suffix,
+  //         },
+  //         claimantDateOfBirth: user.profile.dob,
+  //       });
+  //     }
+  //   },
+  //   [user?.profile, setFormData],
+  // );
 
   useEffect(
     () => {
@@ -173,6 +197,26 @@ App.propTypes = {
   setFormData: PropTypes.func,
   user: PropTypes.object,
 };
+
+// const mapStateToProps = state => {
+//   const prefillData =
+//     prefillTransformer(null, null, null, state)?.formData || {};
+//   const formStateData = state.form?.data || {};
+
+//   return {
+//     ...getAppData(state),
+//     formData: {
+//       ...prefillData,
+//       ...formStateData,
+//       chosenBenefit: formStateData?.chosenBenefit || prefillData?.chosenBenefit,
+//       highSchoolDiploma:
+//         formStateData?.highSchoolDiploma || prefillData?.highSchoolDiploma,
+//       graduationDate:
+//         formStateData?.graduationDate || prefillData?.graduationDate,
+//     },
+//     user: state.user,
+//   };
+// };
 
 const mapStateToProps = state => ({
   ...getAppData(state),

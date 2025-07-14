@@ -80,8 +80,14 @@ const PrivacyPolicy = () => {
       <span data-testid="privacy-policy-text">
         I have read and accept the{' '}
         <va-link
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              setIsModalVisible(true);
+            }
+          }}
           onClick={() => setIsModalVisible(true)}
           text="privacy policy."
+          tabIndex="0"
         />
       </span>
       <VaModal

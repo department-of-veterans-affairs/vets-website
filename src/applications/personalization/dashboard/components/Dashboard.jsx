@@ -48,7 +48,7 @@ import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderM
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
-import BenefitPayments from './benefit-payments/BenefitPayments';
+import BenefitPaymentsLegacy from './benefit-payments/BenefitPaymentsLegacy';
 import Debts from './debts/Debts';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
@@ -58,6 +58,7 @@ import BenefitApplications from './benefit-application-drafts/BenefitApplication
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
 import FormsAndApplications from './benefit-application-drafts/FormsAndApplications';
+import PaymentsAndDebts from './benefit-payments/PaymentsAndDebts';
 
 const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -383,7 +384,7 @@ const Dashboard = ({
                   <Toggler.Disabled>
                     <HealthCare isVAPatient={isVAPatient} />
                     <Debts />
-                    <BenefitPayments
+                    <BenefitPaymentsLegacy
                       payments={payments}
                       showNotifications={showNotifications}
                     />
@@ -393,11 +394,10 @@ const Dashboard = ({
                   <Toggler.Enabled>
                     <FormsAndApplications />
                     <HealthCare isVAPatient={isVAPatient} />
-                    <BenefitPayments
+                    <PaymentsAndDebts
                       payments={payments}
                       showNotifications={showNotifications}
                     />
-                    <Debts />
                   </Toggler.Enabled>
                 </Toggler>
               )}
