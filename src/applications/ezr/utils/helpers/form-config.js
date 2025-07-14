@@ -198,6 +198,20 @@ export function includeHouseholdInformation(formData) {
   return formData['view:householdEnabled'];
 }
 
+export function includeHouseholdInformationV1(formData) {
+  return (
+    includeHouseholdInformation(formData) &&
+    !formData['view:isSpouseConfirmationFlowEnabled']
+  );
+}
+
+export function includeHouseholdInformationV2(formData) {
+  return (
+    includeHouseholdInformation(formData) &&
+    formData['view:isSpouseConfirmationFlowEnabled']
+  );
+}
+
 /**
  * Helper that determines if the form data contains values that require the financial
  * status alert to be shown
