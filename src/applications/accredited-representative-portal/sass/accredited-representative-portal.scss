@@ -270,9 +270,11 @@
 }
 
 #poa-request__search-form {
+  margin-bottom: 0;
   .poa-request-search__form-buttons-container {
     display: inline-block;
     margin-top: 24px;
+    margin-bottom: 0;
   }
   .poa-request-search__form-submit {
     height: 40px;
@@ -291,13 +293,12 @@
   color: var(--vads-color-yellow);
 }
 hr.claimant-search {
-  margin-top: 28px;
-  margin-bottom: 20px;
+  margin: 16px 0;
 }
 h2.claimant-name {
   margin-bottom: 5px;
   margin-top: 24px;
 }
 .poa-status-cta {
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
