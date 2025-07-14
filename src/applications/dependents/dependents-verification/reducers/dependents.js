@@ -4,6 +4,8 @@ import {
   DEPENDENTS_FETCH_FAILED,
 } from '../actions';
 
+import { processDependents } from '../helpers';
+
 const initialState = {
   loading: true,
   error: null,
@@ -23,7 +25,7 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         error: null,
-        data: action.data,
+        data: processDependents(action.data),
       };
     case DEPENDENTS_FETCH_FAILED:
       return {
