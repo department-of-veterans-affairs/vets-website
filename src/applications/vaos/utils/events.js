@@ -88,7 +88,12 @@ export function recordAppointmentDetailsNullStates(attributes, nullStates) {
 
   recordEvent({
     event: `${GA_PREFIX}-null-states`,
-    ...attributes,
+    type:
+      typeof attributes.type === 'object'
+        ? JSON.stringify(attributes.type)
+        : attributes.type,
+    modality: attributes.modality,
+    isCerner: attributes.isCerner,
     'fields-load-success': presentFields.join(','),
     'fields-load-fail': missingFields.join(','),
   });

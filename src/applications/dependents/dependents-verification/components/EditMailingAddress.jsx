@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { SchemaForm, setData } from 'platform/forms-system/exportsFile';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-// import mergeWith from 'lodash/mergeWith';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { SchemaForm, setData } from 'platform/forms-system/exportsFile';
 import { scrollTo } from 'platform/utilities/scroll';
 
 const EditMailingAddress = ({
@@ -34,7 +34,7 @@ const EditMailingAddress = ({
         address: inputData.address,
       });
     },
-    onSubmit: () => {
+    onUpdate: () => {
       returnToPath();
     },
     onCancel: () => {
@@ -73,8 +73,13 @@ const EditMailingAddress = ({
       >
         {contentBeforeButtons}
         <div className="vads-u-margin-y--2">
-          <VaButton text="Save" submit="prevent" />
-          <VaButton text="Cancel" onClick={handlers.onCancel} secondary />
+          <VaButtonPair
+            primaryLabel="Update mailing address"
+            secondaryLabel="Cancel editing mailing address"
+            onPrimaryClick={handlers.onUpdate}
+            onSecondaryClick={handlers.onCancel}
+            update
+          />
         </div>
         {contentAfterButtons}
       </SchemaForm>

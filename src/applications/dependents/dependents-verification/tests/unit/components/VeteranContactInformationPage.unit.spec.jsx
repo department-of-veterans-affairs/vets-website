@@ -14,8 +14,10 @@ const defaultProfile = ({
   hasAddress = true,
   hasEmail = true,
 } = {}) => ({
-  email: hasEmail ? 'vet@example.com' : '',
   vapContactInfo: {
+    email: {
+      emailAddress: hasEmail ? 'vet@example.com' : '',
+    },
     mailingAddress: hasAddress
       ? {
           addressType: 'DOMESTIC',
@@ -237,7 +239,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     fireEvent.click(continueBtn);
 
     expect(container.textContent).to.include(
-      'Your email and mailing address is required before you continue',
+      'Your email and mailing address are required before you continue.',
     );
 
     expect(goToPath.called).to.be.false;

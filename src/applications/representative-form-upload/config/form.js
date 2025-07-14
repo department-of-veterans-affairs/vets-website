@@ -3,9 +3,9 @@ import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import { uploadPage, UploadPage } from '../pages/upload';
-import * as claimantInformationModule from '../pages/claimantInformation';
-import * as veteranInformationModule from '../pages/veteranInformation';
+import { uploadPage } from '../pages/upload';
+import { claimantInformationPage } from '../pages/claimantInformation';
+import { veteranInformationPage } from '../pages/veteranInformation';
 import * as isVeteranModule from '../pages/isVeteranPage';
 import transformForSubmit from './submit-transformer';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
@@ -25,14 +25,6 @@ const { subTitle, formNumber } = getFormContent();
 const formId = `${formNumber.toUpperCase()}-UPLOAD`;
 const trackingPrefix = `form-${formNumber.toLowerCase()}-upload-`;
 
-const {
-  claimantInformationPage,
-  ClaimantInformationPage,
-} = claimantInformationModule;
-const {
-  veteranInformationPage,
-  VeteranInformationPage,
-} = veteranInformationModule;
 const { isVeteranPage } = isVeteranModule;
 
 const formConfig = {
@@ -85,7 +77,6 @@ const formConfig = {
             return formData.isVeteran === 'yes';
           },
           schema: veteranInformationPage.schema,
-          CustomPage: VeteranInformationPage,
           scrollAndFocusTarget,
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
@@ -106,7 +97,6 @@ const formConfig = {
             );
           },
           schema: claimantInformationPage.schema,
-          CustomPage: ClaimantInformationPage,
           scrollAndFocusTarget,
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
@@ -122,7 +112,6 @@ const formConfig = {
           title: `Upload VA Form ${formNumber}`,
           uiSchema: uploadPage.uiSchema,
           schema: uploadPage.schema,
-          CustomPage: UploadPage,
           scrollAndFocusTarget,
         },
       },

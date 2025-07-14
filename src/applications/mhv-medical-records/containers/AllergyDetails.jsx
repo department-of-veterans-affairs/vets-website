@@ -26,6 +26,7 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   pageTitles,
+  statsdFrontEndActions,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -36,6 +37,7 @@ import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -55,6 +57,7 @@ const AllergyDetails = props => {
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+  useTrackAction(statsdFrontEndActions.ALLERGIES_DETAILS);
 
   const allergyData = useMemo(
     () => {

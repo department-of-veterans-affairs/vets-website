@@ -61,7 +61,7 @@ const IntroductionPage = ({ onStart }) => {
                 <va-link-action
                   onClick={e => onStart(e)}
                   href="javascript0:void"
-                  text="File a mileage-only claim"
+                  text="Start a mileage-only claim"
                 />
               )}
             <p>

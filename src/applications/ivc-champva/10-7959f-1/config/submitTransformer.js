@@ -33,6 +33,13 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
+  // Combine all the parts of the international phone number into a single string
+  const intlPhoneJoined = `+${
+    transformedData?.veteranPhoneNumber?.callingCode
+  } ${transformedData?.veteranPhoneNumber?.contact} (${
+    transformedData?.veteranPhoneNumber?.countryCode
+  })`;
+
   const dataPostTransform = {
     veteran: {
       date_of_birth: formatDateShort(transformedData.veteranDateOfBirth),
@@ -55,7 +62,7 @@ export default function transformForSubmit(formConfig, form) {
       },
       ssn: transformedData?.veteranSocialSecurityNumber?.ssn,
       vaClaimNumber: transformedData?.veteranSocialSecurityNumber?.vaFileNumber,
-      phone_number: transformedData.veteranPhoneNumber || '',
+      phone_number: intlPhoneJoined || '',
       email_address: transformedData.veteranEmailAddress || '',
     },
     statementOfTruthSignature: transformedData.statementOfTruthSignature,
@@ -66,7 +73,7 @@ export default function transformForSubmit(formConfig, form) {
         last: transformedData.veteranFullName?.last,
       },
       email: transformedData.veteranEmailAddress,
-      phone: transformedData.veteranPhoneNumber,
+      phone: intlPhoneJoined,
     },
   };
 
