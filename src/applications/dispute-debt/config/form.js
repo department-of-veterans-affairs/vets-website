@@ -3,6 +3,7 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { focusH3 } from '../utils/helpers';
 
 import {
   veteranInformation,
@@ -37,6 +38,8 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/debts_api/v0/digital_disputes`,
   submit: submitForm,
   trackingPrefix: 'dispute-debt',
+  useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3, // scroll and focus fallback
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
