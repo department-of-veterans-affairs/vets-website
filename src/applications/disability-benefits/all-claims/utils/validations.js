@@ -10,8 +10,8 @@ const messages = {
   // inputting dates in the future. However, this is in place just in case, because...
   // TODO: The current schema validation says that the Veteran can input a year
   // up to 100 years in the future. That is incorrect and should be corrected/removed.
-  futureDate: 'Enter a service date no later than today’s date',
-  beforeDate: 'Enter a service start date no later than today’s date',
+  endServiceDate: 'Enter a service end date no later than today’s date',
+  startServiceDate: 'Enter a service start date no later than today’s date',
   // Schema validations will display an error when a value is missing, however it
   // will not properly prevent the Veteran from progressing, necessitating this.
   // TODO: The error message here can be made more specific, but that will somewhat
@@ -28,11 +28,11 @@ export function validateRange(errors, startDate, endDate) {
   }
 
   if (startDateApproximate > Date.now()) {
-    errors.startDate.addError(messages.beforeDate);
+    errors.startDate.addError(messages.startServiceDate);
   }
 
   if (endDateApproximate > Date.now()) {
-    errors.endDate.addError(messages.futureDate);
+    errors.endDate.addError(messages.endServiceDate);
   }
 }
 
