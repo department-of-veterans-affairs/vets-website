@@ -22,9 +22,10 @@ export const phoneFormSchema = ({ allowInternational = true } = {}) => {
         inputPhoneNumber: {
           type: 'object',
           properties: {
-            contact: { type: 'string' },
-            callingCode: { type: 'string' },
-            countryCode: { type: 'string' },
+            callingCode: { type: 'number', title: 'Calling code' },
+            countryCode: { type: 'string', title: 'Country code' },
+            contact: { type: 'string', title: 'Contact' },
+            _isValid: { type: 'boolean', title: 'Is valid' },
           },
           required: ['contact', 'callingCode', 'countryCode'],
         },
@@ -34,7 +35,7 @@ export const phoneFormSchema = ({ allowInternational = true } = {}) => {
     };
   }
 
-  // Legacy view for U.S. numbers only
+  // Legacy view for NANP numbers only
   return {
     type: 'object',
     properties: {
@@ -64,13 +65,19 @@ export const phoneUiSchema = (
         'ui:title': `${fieldName}`,
         'ui:webComponentField': VaTelephoneInputField,
         'ui:errorMessages': {
-          pattern: 'Please enter a valid phone number',
+          required: 'Please enter a valid phone number',
         },
-        // 'ui:autocomplete': 'tel',
+        'ui:hint': 'For international phone numbers, include the country code.',
         'ui:options': {
-          // inputType: 'tel',
-          ariaDescribedby: 'error-message-details',
+          header: fieldName,
         },
+        'ui:validations': [
+          (errors, field) => {
+            if (!field?._isValid) {
+              errors.addError('Please enter a valid phone number');
+            }
+          },
+        ],
       },
       extension: {
         'ui:title': 'Extension (6 digits maximum)',
@@ -82,6 +89,7 @@ export const phoneUiSchema = (
     };
   }
 
+  // Legacy ui schema
   return {
     inputPhoneNumber: {
       'ui:title': `${fieldName} (U.S. numbers only)`,
@@ -115,20 +123,54 @@ export const phoneUiSchema = (
 };
 
 export const phoneConvertNextValueToCleanData = value => {
-  const { id, countryCode, extension, phoneType, inputPhoneNumber } = value;
+  const { id, extension = null, phoneType, inputPhoneNumber } = value;
 
-  const strippedPhone = (inputPhoneNumber || '').replace(/[^\d]/g, '');
-  const strippedExtension = (extension || '').replace(/[^a-zA-Z0-9]/g, '');
+  // Legacy string input
+  if (typeof inputPhoneNumber === 'string') {
+    const cleanedPhone = inputPhoneNumber.replace(/[^\d]/g, '');
+    const areaCode = cleanedPhone.substring(0, 3);
+    const phoneNumber = cleanedPhone.substring(3);
+
+    return {
+      id,
+      phoneType,
+      inputPhoneNumber,
+      countryCode: '1',
+      areaCode,
+      phoneNumber,
+      extension,
+    };
+  }
+
+  // Using VaTelephoneInput where inputPhoneNumber is an object
+  let areaCode = null;
+  let phoneNumber = null;
+  let countryCode = '1';
+
+  if (
+    typeof inputPhoneNumber === 'object' &&
+    inputPhoneNumber?.contact &&
+    inputPhoneNumber?.callingCode
+  ) {
+    const cleanedPhone = inputPhoneNumber.contact.replace(/[^\d]/g, '');
+    countryCode = inputPhoneNumber.callingCode;
+
+    if (countryCode === '1') {
+      areaCode = cleanedPhone.substring(0, 3);
+      phoneNumber = cleanedPhone.substring(3);
+    } else {
+      phoneNumber = cleanedPhone;
+    }
+  }
 
   return {
     id,
-    areaCode: strippedPhone.substring(0, 3),
-    countryCode,
-    extension: strippedExtension,
-    inputPhoneNumber,
-    isInternational: countryCode !== USA.COUNTRY_CODE,
-    phoneNumber: strippedPhone.substring(3),
     phoneType,
+    inputPhoneNumber,
+    countryCode,
+    areaCode,
+    phoneNumber,
+    extension,
   };
 };
 
@@ -137,14 +179,16 @@ export const phoneConvertCleanDataToPayload = (data, fieldName) => {
   if (data.inputPhoneNumber) {
     cleanData = phoneConvertNextValueToCleanData(data);
   }
+
+  const { id, areaCode, countryCode, extension, phoneNumber } = cleanData;
   return pickBy(
     {
-      id: cleanData.id,
-      areaCode: cleanData.areaCode,
-      countryCode: USA.COUNTRY_CODE, // currently no international phone number support
-      extension: cleanData.extension,
-      isInternational: false, // currently no international phone number support
-      phoneNumber: cleanData.phoneNumber,
+      id,
+      areaCode,
+      countryCode,
+      extension,
+      isInternational: countryCode !== USA.COUNTRY_CODE,
+      phoneNumber,
       phoneType: PHONE_TYPE[fieldName],
     },
     e => !!e,
