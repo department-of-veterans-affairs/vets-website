@@ -133,6 +133,7 @@ import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
+import ExperimentalReviewPage from '../containers/ExperimentalReviewPage';
 import getPreSubmitInfo from '../content/preSubmitInfo';
 
 /** @type {FormConfig} */
@@ -191,6 +192,16 @@ const formConfig = {
   subTitle: 'VA Form 21-526EZ',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
+
+  additionalRoutes: [
+    {
+      path: 'experimental-review-page',
+      component: ExperimentalReviewPage,
+      pageKey: 'experimental-review-page',
+      depends: () => true,
+    },
+  ],
+
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>

@@ -309,8 +309,8 @@ export const PrintOnlyHeader = () => {
 
 export const OpenReviewPageLink = ({
   className = '',
-  text = 'Review the information you provided',
-  href = '/my-va#benefit-applications',
+  href = '/disability/file-disability-claim-form-21-526ez/experimental-review-page',
+  text = 'TKTK...Review the information you provided',
 }) => {
   return (
     <div className={classNames('review-submission', className)}>

@@ -20,8 +20,8 @@ import { BddConfirmationAlert } from '../content/bddConfirmationAlert';
 
 let mockData;
 if (!environment.isProduction() && !environment.isStaging()) {
-  mockData = require('../tests/fixtures/data/maximal-modern-0781-test.json');
-  // mockData = require('../tests/fixtures/data/maximal-toxic-exposure-test.json');
+  // mockData = require('../tests/fixtures/data/maximal-modern-0781-test.json');
+  mockData = require('../tests/fixtures/data/maximal-toxic-exposure-test.json');
   mockData = mockData?.data;
 }
 
@@ -58,10 +58,7 @@ export default class ConfirmationPage extends React.Component {
           >
             Review the information you provided
           </h2>
-          <ConfirmationView.OpenReviewPageLink
-            href="/review"
-            text="TKTK...Review the information you provided"
-          />
+          <ConfirmationView.OpenReviewPageLink />
         </Toggler.Enabled>
       </Toggler>
       <ConfirmationView.PrintThisPage />
