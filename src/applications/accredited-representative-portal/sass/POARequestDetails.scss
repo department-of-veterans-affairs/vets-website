@@ -12,6 +12,13 @@
     }
   }
 
+  &__visibility-hidden-dt {
+    display: none;
+    @media (min-width: $small-desktop-screen) {
+      visibility: hidden;
+      display: block;
+    }
+  }
   &__form {
     padding: 34px 38px;
     background-color: $vads-color-base-lightest;
@@ -66,16 +73,24 @@
     @media (min-width: $small-desktop-screen) {
       flex-direction: row;
       flex-wrap: wrap;
-      margin: 24px 0 48px;
+      justify-content: space-evenly;
 
       &--col {
         margin: 0;
+        width: 780px;
       }
     }
 
     &-item {
       @media (min-width: $small-desktop-screen) {
-        flex: 33%;
+        max-width: 350px;
+
+        &:first-child {
+          margin-right: auto;
+        }
+        &:last-child {
+          margin-left: auto;
+        }
       }
     }
 
