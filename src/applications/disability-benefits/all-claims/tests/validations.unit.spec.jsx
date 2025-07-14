@@ -6,6 +6,7 @@ import moment from 'moment';
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
 
 import {
+  isValidYear,
   isWithinServicePeriod,
   startedAfterServicePeriod,
   oneDisabilityRequired,
@@ -13,6 +14,8 @@ import {
   validateBooleanGroup,
   validateAge,
   validateSeparationDate,
+  isInFuture,
+  isLessThan180DaysInFuture,
   title10BeforeRad,
   validateTitle10StartDate,
   requireRatedDisability,
@@ -22,12 +25,6 @@ import {
   limitNewDisabilities,
   requireSeparationLocation,
 } from '../validations';
-
-import {
-  isValidYear,
-  isInFuture,
-  isLessThan180DaysInFuture,
-} from '../utils/dates';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
