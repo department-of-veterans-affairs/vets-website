@@ -122,15 +122,18 @@ export default function EpsAppointmentDetailsPage() {
           />
         </div>
         <h1 className="vaos__dynamic-font-size--h2">
-          Community Care Appointment
+          <span data-dd-privacy="mask">Community Care Appointment</span>
         </h1>
         <Section heading="When">
-          {appointmentDate}
+          <span data-dd-privacy="mask">{appointmentDate}</span>
           <br />
-          <AppointmentTime appointment={appointment} />
+          <AppointmentTime
+            appointment={appointment}
+            timezone={appointment.timezone}
+          />
         </Section>
         <Section heading="Provider">
-          <span>
+          <span data-dd-privacy="mask">
             {`${appointment.provider.location.name ||
               'Provider information not available'}`}
           </span>

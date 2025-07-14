@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import { SIGN_IN_URL } from '../../../constants';
+import { SIGN_IN_URL_21A } from '../../../constants';
 import UserNav from './UserNav';
 import { selectUserProfile } from '../../../selectors/user';
 
@@ -10,7 +10,7 @@ function SignInButton() {
     <a
       data-testid="user-nav-sign-in-link"
       className="nav__btn is--sign-in"
-      href={SIGN_IN_URL}
+      href={SIGN_IN_URL_21A}
     >
       Sign in
     </a>

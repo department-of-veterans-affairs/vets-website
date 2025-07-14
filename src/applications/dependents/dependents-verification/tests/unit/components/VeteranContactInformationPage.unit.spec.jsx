@@ -3,25 +3,34 @@ import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
+
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+
 import VeteranContactInformationPage from '../../../components/VeteranContactInformationPage';
 
 const defaultProfile = ({
   isInternationalHome = false,
   isInternationalMobile = false,
+  hasAddress = true,
+  hasEmail = true,
 } = {}) => ({
-  email: 'vet@example.com',
   vapContactInfo: {
-    mailingAddress: {
-      addressType: 'DOMESTIC',
-      addressLine1: '123 Main St',
-      addressLine2: 'Unit 2',
-      city: 'Springfield',
-      stateCode: 'VA',
-      province: '',
-      zipCode: '12345',
-      internationalPostalCode: '',
-      countryCodeIso3: 'USA',
+    email: {
+      emailAddress: hasEmail ? 'vet@example.com' : '',
     },
+    mailingAddress: hasAddress
+      ? {
+          addressType: 'DOMESTIC',
+          addressLine1: '123 Main St',
+          addressLine2: 'Unit 2',
+          city: 'Springfield',
+          stateCode: 'VA',
+          province: '',
+          zipCode: '12345',
+          internationalPostalCode: '',
+          countryCodeIso3: 'USA',
+        }
+      : {},
     homePhone: {
       areaCode: '555',
       phoneNumber: '1234567',
@@ -62,7 +71,7 @@ function renderPage({
   goBack = () => {},
   goToPath = () => {},
   setFormData = () => {},
-  profile = defaultProfile,
+  profile = defaultProfile(),
   contentBeforeButtons = null,
   contentAfterButtons = null,
 } = {}) {
@@ -137,7 +146,19 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     expect(container.textContent).to.include('None provided');
   });
 
-  it('shows error alert on submit if email is missing', () => {
+  it('does not show missing prefill alert if prefill data in place', () => {
+    const { container } = renderPage({
+      data: {
+        email: '',
+        phone: '',
+        address: {},
+        internationalPhone: '',
+      },
+    });
+    expect($$('va-alert', container)).to.have.lengthOf(0);
+  });
+
+  it('shows prefill & error alert on submit if email is missing', () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       data: {
@@ -151,17 +172,74 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
           country: 'USA',
         },
       },
+      profile: defaultProfile({ hasEmail: false }),
       goToPath,
     });
 
-    const continueBtn = Array.from(container.querySelectorAll('button')).find(
-      btn => (btn.textContent || '').match(/Continue/i),
+    expect(container.textContent).to.include(
+      'We could not prefill this form with your email address.',
     );
+
+    const continueBtn = $('button[type="submit"]', container);
     expect(continueBtn).to.not.be.null;
     fireEvent.click(continueBtn);
 
     expect(container.textContent).to.include(
-      'Your email address and  is required before you continue.',
+      'Your email address is required before you continue.',
+    );
+
+    expect(goToPath.called).to.be.false;
+  });
+
+  it('shows prefill & error alert on submit if mailing address is missing', () => {
+    const goToPath = sinon.spy();
+    const { container } = renderPage({
+      data: {
+        email: 'test@test.com',
+        phone: '5551234567',
+        address: {},
+      },
+      profile: defaultProfile({ hasAddress: false }),
+      goToPath,
+    });
+
+    expect(container.textContent).to.include(
+      'We could not prefill this form with your mailing address.',
+    );
+
+    const continueBtn = $('button[type="submit"]', container);
+    expect(continueBtn).to.not.be.null;
+    fireEvent.click(continueBtn);
+
+    expect(container.textContent).to.include(
+      'Your mailing address is required before you continue.',
+    );
+
+    expect(goToPath.called).to.be.false;
+  });
+
+  it('shows prefill & error alert on submit if email & mailing address are missing', () => {
+    const goToPath = sinon.spy();
+    const { container } = renderPage({
+      data: {
+        email: '',
+        phone: '',
+        address: {},
+      },
+      profile: defaultProfile({ hasAddress: false, hasEmail: false }),
+      goToPath,
+    });
+
+    expect(container.textContent).to.include(
+      'We could not prefill this form with your email and mailing address.',
+    );
+
+    const continueBtn = $('button[type="submit"]', container);
+    expect(continueBtn).to.not.be.null;
+    fireEvent.click(continueBtn);
+
+    expect(container.textContent).to.include(
+      'Your email and mailing address are required before you continue.',
     );
 
     expect(goToPath.called).to.be.false;

@@ -11,11 +11,19 @@ const Pagination = ({ meta }) => {
     const status = searchParams.get('status');
     const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
     const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
-    navigate(
-      `?status=${status}&sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${
-        e.detail.page
-      }&pageSize=${pageSize}`,
-    );
+    if (status) {
+      navigate(
+        `?status=${status}&sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${
+          e.detail.page
+        }&pageSize=${pageSize}`,
+      );
+    } else {
+      navigate(
+        `?sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${
+          e.detail.page
+        }&pageSize=${pageSize}`,
+      );
+    }
   };
 
   return (

@@ -16,7 +16,6 @@ export default function ReferralLayout({
   hasEyebrow,
   apiFailure,
   heading,
-  categoryOfCare = '',
   loadingMessage,
   errorBody = '',
 }) {
@@ -31,7 +30,7 @@ export default function ReferralLayout({
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
-        <ReferralBreadcrumbs categoryOfCare={categoryOfCare} />
+        <ReferralBreadcrumbs />
         {location.pathname.endsWith('type-of-care') && (
           <DowntimeNotification
             appTitle="appointments tool"
@@ -77,7 +76,6 @@ export default function ReferralLayout({
 
 ReferralLayout.propTypes = {
   apiFailure: PropTypes.bool,
-  categoryOfCare: PropTypes.string,
   children: PropTypes.node,
   errorBody: PropTypes.string,
   hasEyebrow: PropTypes.bool,

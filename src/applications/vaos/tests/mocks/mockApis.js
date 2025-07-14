@@ -2,8 +2,8 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   addMonths,
-  endOfMonth,
   format,
+  lastDayOfMonth,
   startOfDay,
   startOfMonth,
   subDays,
@@ -510,17 +510,15 @@ export function mockAppointmentSlotApi({
   startDate,
   response: data = [],
   responseCode = 200,
-}) {
-  const start = startDate || startOfMonth(preferredDate, 'month');
-  const end =
-    endDate || startOfDay(endOfMonth(addMonths(preferredDate, 1), 'month'));
-
+} = {}) {
+  const start = startDate || startOfMonth(preferredDate);
+  const end = endDate || lastDayOfMonth(addMonths(preferredDate, 1));
   const baseUrl =
     `${
       environment.API_URL
     }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
-    `start=${format(start, "yyyy-MM-dd'T'HH:mm:ssxxx")}` +
-    `&end=${format(end, "yyyy-MM-dd'T'HH:mm:ssxxx")}`;
+    `start=${encodeURIComponent(start.toISOString())}` +
+    `&end=${encodeURIComponent(end.toISOString())}`;
 
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
@@ -532,7 +530,7 @@ export function mockAppointmentSlotApi({
     });
   }
 
-  return baseUrl;
+  return decodeURIComponent(baseUrl);
 }
 
 /**
@@ -653,7 +651,7 @@ export function mockEligibilityFetches({
     mockAppointmentsApi({
       start: range.start,
       end: range.end,
-      useRFC3339: true,
+      useRFC3339: false,
       response: pastClinics ? pastAppointments : [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });

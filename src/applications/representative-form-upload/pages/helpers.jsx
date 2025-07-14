@@ -11,7 +11,7 @@ export const emptyObjectSchema = {
 
 const formNumber = getFormNumber();
 export const form686cBcList = [
-  { href: '/representative', label: 'Representative.va.gov home' },
+  { href: '/representative', label: 'VA.gov/representative home' },
   { href: '/representative/submissions', label: 'Submissions' },
   {
     href: `/representative/representative-form-upload/${formNumber}/introduction`,
@@ -21,10 +21,9 @@ export const form686cBcList = [
 
 export const uploadTitleAndDescription = {
   'view:uploadTitle': {
-    'ui:title': 'Upload files',
-  },
-  'view:uploadFormNumberDescription': {
-    'ui:title': `Upload VA Form ${getFormNumber()}`,
+    'ui:description': Object.freeze(
+      <h3>{`Upload VA Form ${getFormNumber()}`}</h3>,
+    ),
   },
   'view:uploadDescription': {
     'ui:description': Object.freeze(
@@ -39,7 +38,7 @@ export const uploadTitleAndDescription = {
 
 export const claimantTitleAndDescription = {
   'view:claimantTitle': {
-    'ui:title': 'Claimant and Veteran information',
+    'ui:title': 'Claimant information',
   },
   'view:claimantDescription': {
     'ui:description': Object.freeze(
@@ -67,11 +66,11 @@ export const veteranTitleAndDescription = {
   },
   'view:veteranDescription': {
     'ui:description': Object.freeze(
-      <>
+      <div className="veteran-note">
         <span className="vads-u-font-weight--bold">Note:</span> If the veteran’s
         information here doesn’t match the uploaded PDF, it will cause
         processing delays.
-      </>,
+      </div>,
     ),
   },
 };

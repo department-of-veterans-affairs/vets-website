@@ -20,15 +20,15 @@ import VeteranContactInformationReviewPage from '../components/VeteranContactInf
 import NeedHelp from '../components/NeedHelp';
 
 import { dependents } from './chapters/dependents/dependents';
-import { DependentsInformationReview } from '../components/DependentsInformation';
+import { DependentsInformation } from '../components/DependentsInformation';
+import { DependentsInformationReview } from '../components/DependentsInformationReview';
+import { submit } from '../util';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit,
   trackingPrefix: '0538-dependents-verification-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -106,12 +106,14 @@ const formConfig = {
         editInternationalPhonePage,
       },
     },
+
     dependents: {
-      title: 'Review your dependents',
+      title: 'Dependents on your VA benefits',
       pages: {
         dependents: {
           path: 'dependents',
           title: 'Dependents on your VA benefits',
+          CustomPage: DependentsInformation,
           CustomPageReview: DependentsInformationReview,
           uiSchema: dependents.uiSchema,
           schema: dependents.schema,

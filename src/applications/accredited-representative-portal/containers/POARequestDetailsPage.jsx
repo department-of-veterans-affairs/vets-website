@@ -9,9 +9,7 @@ import {
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
 import {
-  expiresSoon,
   formatStatus,
-  resolutionDate,
   BANNER_TYPES,
   DETAILS_BC_LABEL,
   poaDetailsBreadcrumbs,
@@ -19,6 +17,7 @@ import {
 import { recordDatalayerEvent } from '../utilities/analytics';
 import api from '../utilities/api';
 import ProcessingBanner from '../components/ProcessingBanner';
+import POADetailsColumn from '../components/POADetailsColumn';
 
 const DECISION_TYPES = {
   ACCEPTANCE: 'acceptance',
@@ -28,47 +27,48 @@ const DECISION_TYPES = {
 const DECLINATION_OPTIONS = {
   DECLINATION_HEALTH_RECORDS_WITHHELD: {
     type: DECISION_TYPES.DECLINATION,
-    reason: "Decline, because change of address isn't authorized",
+    declinationReason: "Decline, because change of address isn't authorized",
   },
   DECLINATION_ADDRESS_CHANGE_WITHHELD: {
     type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because protected medical record access is limited',
+    declinationReason:
+      'Decline, because protected medical record access is limited',
   },
   DECLINATION_BOTH_WITHHELD: {
     type: DECISION_TYPES.DECLINATION,
-    reason:
+    declinationReason:
       "Decline, because change of address isn't authorized and protected medical record access is limited",
   },
   DECLINATION_NOT_ACCEPTING_CLIENTS: {
     type: DECISION_TYPES.DECLINATION,
-    reason: "Decline, because the VSO isn't accepting new clients",
+    declinationReason: "Decline, because the VSO isn't accepting new clients",
   },
   DECLINATION_OTHER: {
     type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because of another reason',
+    declinationReason: 'Decline, because of another reason',
   },
 };
 
 const DECLINATION_OPTIONS_UPDATE = {
   DECLINATION_LIMITED_AUTH: {
     type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because authorization is limited',
+    declinationReason: 'Decline, because authorization is limited',
   },
   DECLINATION_OUTSIDE_SERVICE_TERRITORY: {
     type: DECISION_TYPES.DECLINATION,
-    reason:
+    declinationReason:
       'Decline, because the claimant is outside of the organization’s service territory',
   },
   DECLINATION_OTHER: {
     type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because of another reason',
+    declinationReason: 'Decline, because of another reason',
   },
 };
 
 const DECISION_OPTIONS = {
   ACCEPTANCE: {
     type: DECISION_TYPES.ACCEPTANCE,
-    reason: null,
+    declinationReason: null,
   },
   ...DECLINATION_OPTIONS,
   ...DECLINATION_OPTIONS_UPDATE,
@@ -236,88 +236,7 @@ const POARequestDetailsPage = title => {
             </p>
           </h1>
 
-          <ul className="poa-request-details__list poa-request-details__list--col">
-            <li className="poa-request-details__list-item">
-              <p className="poa-request-details__title">
-                Requested representative
-              </p>
-              <p className="poa-request-details__subtitle">
-                {poaRequest?.powerOfAttorneyHolder?.name}
-              </p>
-            </li>
-            <li className="poa-request-details__list-item">
-              {poaRequest?.createdAt && (
-                <>
-                  <p className="poa-request-details__title">
-                    Request submitted on
-                  </p>
-                  {resolutionDate(poaRequest?.createdAt, poaStatus.id)}
-                </>
-              )}
-            </li>
-            <li className="poa-request-details__list-item">
-              {poaStatus === 'declination' && (
-                <>
-                  <p className="poa-request-details__title">
-                    Request declined on
-                  </p>
-                  {resolutionDate(
-                    poaRequest.resolution?.createdAt,
-                    poaStatus.id,
-                  )}
-                </>
-              )}
-              {poaStatus === 'acceptance' && (
-                <span
-                  className={
-                    (poaRequestSubmission === BANNER_TYPES.PROCESSING ||
-                      poaRequestSubmission === BANNER_TYPES.FAILED) &&
-                    'vads-u-display--none'
-                  }
-                >
-                  <p className="poa-request-details__title">
-                    <va-icon
-                      icon="check_circle"
-                      class="vads-u-color--success-dark poa-request__card-icon"
-                    />{' '}
-                    Request accepted on
-                  </p>
-                  {resolutionDate(
-                    poaRequest.resolution?.createdAt,
-                    poaStatus.id,
-                  )}
-                </span>
-              )}
-              {poaStatus === 'expiration' && (
-                <>
-                  <p className="poa-request-details__title">
-                    Request expired on
-                  </p>
-                  {resolutionDate(
-                    poaRequest.resolution?.createdAt,
-                    poaStatus.id,
-                  )}
-                </>
-              )}
-              {poaStatus === 'Pending' && (
-                <>
-                  <p className="poa-request-details__title">
-                    {expiresSoon(poaRequest.expiresAt) && (
-                      <va-icon
-                        class="poa-request__card-icon"
-                        icon="warning"
-                        size={2}
-                        srtext="warning"
-                        aria-hidden="true"
-                      />
-                    )}
-                    Request expires on
-                  </p>
-                  {resolutionDate(poaRequest?.expiresAt, poaStatus.id)}
-                </>
-              )}
-            </li>
-          </ul>
+          <POADetailsColumn poaRequest={poaRequest} poaStatus={poaStatus} />
 
           <span
             className="poa-request-details__divider"
@@ -508,7 +427,7 @@ const POARequestDetailsPage = title => {
                         ([value, decision]) => (
                           <VaRadioOption
                             key={value}
-                            label={decision.reason}
+                            label={decision.declinationReason}
                             value={value}
                             name="decision"
                             data-eventname="int-radio-button-option-click"
@@ -563,7 +482,7 @@ const POARequestDetailsPage = title => {
                         ([value, decision]) => (
                           <VaRadioOption
                             key={value}
-                            label={decision.reason}
+                            label={decision.declinationReason}
                             value={value}
                             name="decision"
                             data-eventname="int-radio-button-option-click"

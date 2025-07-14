@@ -139,7 +139,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         <va-button
           secondary
           class="edit-page float-right"
-          onClick={handlers.editEmail}
+          onClick={handlers.editPhone}
           label="Edit homne phone number"
           text="Edit"
         />
@@ -152,7 +152,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
               {phone ? (
                 <va-telephone contact={phone} not-clickable />
               ) : (
-                showError('Missing home phone number')
+                'None provided'
               )}
             </strong>
           </dd>
@@ -166,7 +166,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         <va-button
           secondary
           class="edit-page float-right"
-          onClick={handlers.editEmail}
+          onClick={handlers.editInternationalPhone}
           label="Edit international phone number"
           text="Edit"
         />
@@ -178,10 +178,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
             className="dd-privacy-hidden"
             data-dd-action-name="international phone"
           >
-            <strong>
-              {internationalPhone ??
-                showError('Missing internationalPhone phone number')}
-            </strong>
+            <strong>{internationalPhone || 'None provided'}</strong>
           </dd>
         </div>
       </dl>

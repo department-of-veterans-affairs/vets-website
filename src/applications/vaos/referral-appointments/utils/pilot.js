@@ -7,25 +7,9 @@
  */
 const getIsInCCPilot = (featureCCDirectScheduling, patientFacilities = []) => {
   const stagingStations = ['984', '983'];
-  const prodStations = [
-    '659',
-    '659BY',
-    '659BZ',
-    '659GA',
-    '657A5',
-    '657GJ',
-    '657GK',
-    '657GL',
-    '657GM',
-    '657GO',
-    '657GP',
-    '657GQ',
-    '657GR',
-    '657GT',
-    '657GU',
-    '657QD',
-  ];
+  const prodStations = ['659', '657'];
   const pilotStations = [...stagingStations, ...prodStations];
+  // eslint-disable-next-line no-unused-vars
   const hasPilotStation = patientFacilities.some(station =>
     pilotStations.includes(station.facilityId),
   );

@@ -3,6 +3,7 @@ import {
   createVAPharmacyText,
   dateFormat,
   determineRefillLabel,
+  displayProviderName,
   getRefillHistory,
   getShowRefillHistory,
   processList,
@@ -252,9 +253,10 @@ export const buildPrescriptionsPDFList = prescriptions => {
             },
             {
               title: 'Prescribed by',
-              value: rx.providerLastName
-                ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
-                : 'Provider name not available',
+              value: displayProviderName(
+                rx.providerFirstName,
+                rx.providerLastName,
+              ),
               inline: true,
               indent: 32,
             },
@@ -485,11 +487,10 @@ export const buildVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Prescribed by',
-              value: prescription.providerLastName
-                ? `${
-                    prescription.providerLastName
-                  }, ${prescription.providerFirstName || ''}`
-                : 'Provider name not available',
+              value: displayProviderName(
+                prescription.providerFirstName,
+                prescription.providerLastName,
+              ),
               inline: true,
             },
           ],
@@ -672,11 +673,10 @@ export const buildVAPrescriptionPDFList = prescription => {
               },
               {
                 title: 'Prescribed by',
-                value: previousPrescription.providerLastName
-                  ? `${
-                      previousPrescription.providerLastName
-                    }, ${previousPrescription.providerFirstName || ''}`
-                  : 'Provider name not available',
+                value: displayProviderName(
+                  previousPrescription.providerFirstName,
+                  previousPrescription.providerLastName,
+                ),
                 inline: true,
                 indent: 32,
               },

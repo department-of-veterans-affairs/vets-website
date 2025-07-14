@@ -31,7 +31,7 @@ export const ConfirmationDecisionReviews = ({
       if (alertRef?.current) {
         scrollTo('topScrollElement');
         // delay focus for Safari
-        waitForRenderThenFocus('#main h2', alertRef.current);
+        waitForRenderThenFocus('va-alert h2', alertRef.current);
       }
     },
     [alertRef],

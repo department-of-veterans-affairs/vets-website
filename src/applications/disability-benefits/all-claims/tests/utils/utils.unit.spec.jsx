@@ -50,7 +50,6 @@ import {
   makeConditionsSchema,
   validateConditions,
   formatFullName,
-  showNewDisabilityFollowUpPage,
 } from '../../utils';
 import { testBranches } from '../../utils/serviceBranches';
 
@@ -992,7 +991,7 @@ describe('526 v2 depends functions', () => {
 
   describe('isBDD', () => {
     afterEach(() => {
-      sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+      window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
     });
 
     it('should return true if the most recent service period has a separation date 90 to 180 days from today', () => {
@@ -1008,7 +1007,7 @@ describe('526 v2 depends functions', () => {
       expect(isBDD({ 'view:isBddData': true })).to.be.false;
     });
     it('should return true if a valid date is added to session storage from the wizard', () => {
-      sessionStorage.setItem(
+      window.sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
         moment()
           .add(90, 'days')
@@ -1017,7 +1016,7 @@ describe('526 v2 depends functions', () => {
       expect(isBDD(null)).to.be.true;
     });
     it('should return true if a valid date is added to session storage from the wizard even if active duty flag is false', () => {
-      sessionStorage.setItem(
+      window.sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
         moment()
           .add(90, 'days')
@@ -1026,7 +1025,7 @@ describe('526 v2 depends functions', () => {
       expect(isBDD({ 'view:isBddData': true })).to.be.true;
     });
     it('should return false for invalid dates in session storage from the wizard', () => {
-      sessionStorage.setItem(
+      window.sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
         moment()
           .add(200, 'days')
@@ -1035,7 +1034,7 @@ describe('526 v2 depends functions', () => {
       expect(isBDD(null)).to.be.false;
     });
     it('should return false for invalid dates in session storage from the wizard even if active duty flag is true', () => {
-      sessionStorage.setItem(
+      window.sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
         moment()
           .add(200, 'days')
@@ -1265,41 +1264,6 @@ describe('truncateDescriptions', () => {
     ].forEach(key => {
       expect(getResult(key, +20)[key].length).to.eq(CHAR_LIMITS[key]);
     });
-  });
-});
-
-describe('showNewDisabilityFollowUpPage', () => {
-  const getModernFlowData = ({ condition } = {}) => ({
-    syncModern0781Flow: true,
-    newDisabilities: [{ condition }],
-    'view:claimType': {
-      'view:claimingNew': true,
-    },
-  });
-  const getLegacyFlowData = ({ condition } = {}) => ({
-    syncModern0781Flow: false,
-    newDisabilities: [{ condition }],
-    'view:claimType': {
-      'view:claimingNew': true,
-    },
-  });
-
-  it('should return true to show the newDisabilityFollowUp page for modern 0781 flow', () => {
-    const formData = getModernFlowData({ condition: 'PTSD' });
-    const item = formData.newDisabilities[0];
-    expect(showNewDisabilityFollowUpPage(item, formData)).to.be.true;
-  });
-
-  it('should return false to not show the newDisabilityFollowUp page for legacy 0781 flow', () => {
-    const formData = getLegacyFlowData({ condition: 'PTSD' });
-    const item = formData.newDisabilities[0];
-    expect(showNewDisabilityFollowUpPage(item, formData)).to.be.false;
-  });
-
-  it('should return true to show the newDisabilityFollowUpPage for legacy 0781 flow for non-PTSD conditions', () => {
-    const formData = getLegacyFlowData({ condition: 'broken leg' });
-    const item = formData.newDisabilities[0];
-    expect(showNewDisabilityFollowUpPage(item, formData)).to.be.true;
   });
 });
 

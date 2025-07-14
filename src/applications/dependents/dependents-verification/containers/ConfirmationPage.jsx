@@ -1,16 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { format } from 'date-fns';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { selectProfile } from 'platform/user/selectors';
+
+import { getFullName } from '../../shared/utils';
 
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const { userFullName = {} } = useSelector(selectProfile);
-  const { first = '', middle = '', last = '', suffix = '' } = userFullName;
   const submission = form?.submission || {};
-  const submitDate = submission?.timestamp || '';
-  const confirmationNumber = submission?.response?.confirmationNumber || 'N/A';
+  const submitDate = submission?.timestamp || Date.now();
+  const confirmationNumber = submission?.response?.confirmationNumber || '';
+
+  const alertContent = (
+    <>
+      <p>Your submission is in progress.</p>
+      <p>
+        It can take up to 10 days for us to receive your form.
+        {confirmationNumber &&
+          ` Your confirmation number is ${confirmationNumber}.`}
+      </p>
+    </>
+  );
+
+  const step1Content = (
+    <p>
+      This can take up to 10 days. When we receive your form, we’ll update the
+      status on My VA.
+    </p>
+  );
 
   return (
     <ConfirmationView
@@ -18,23 +40,28 @@ export const ConfirmationPage = props => {
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       pdfUrl={submission.response?.pdfUrl}
-      devOnly={{
-        showButtons: true,
-      }}
     >
-      <ConfirmationView.SubmissionAlert />
+      <ConfirmationView.SubmissionAlert content={alertContent} />
       <va-summary-box>
         <h3 slot="headline">Your submission information</h3>
         <p>
           <strong>Veteran’s name</strong>
         </p>
         <p className="dd-privacy-hidden" data-dd-action-name="Veteran's name">
-          {first} {middle} {last} {suffix}
+          {getFullName(userFullName)}
         </p>
         <p>
           <strong>Date submitted</strong>
         </p>
-        <p data-testid="dateSubmitted">{submitDate}</p>
+        <p data-testid="dateSubmitted">{format(submitDate, 'MMMM d, yyyy')}</p>
+        {confirmationNumber && (
+          <>
+            <p>
+              <strong>Confirmation number</strong>
+            </p>
+            <p>{confirmationNumber}</p>
+          </>
+        )}
         <va-button
           text="Print this page for your records"
           onClick={() => {
@@ -42,10 +69,24 @@ export const ConfirmationPage = props => {
           }}
         />
       </va-summary-box>
-      <ConfirmationView.WhatsNextProcessList />
+      <ConfirmationView.WhatsNextProcessList item1Content={step1Content} />
       <ConfirmationView.HowToContact />
-      <ConfirmationView.GoBackLink />
-      <ConfirmationView.NeedHelp />
+      <div>
+        <strong>If you don’t hear back from us about your claim,</strong> don’t
+        file another claim. Contact us online or call us instead.
+      </div>
+
+      <ConfirmationView.GoBackLink text="Go back to VA.gov" />
+
+      <va-need-help class="vads-u-margin-y--6">
+        <div slot="content">
+          For help filling out this form, or if the form isn’t working right,
+          please call VA Benefits and Services at{' '}
+          <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+          <va-telephone contact="711" tty />
+          ).
+        </div>
+      </va-need-help>
     </ConfirmationView>
   );
 };

@@ -1,37 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import {
+  addDays,
+  addMonths,
+  format,
+  lastDayOfMonth,
+  parseISO,
+  startOfMonth,
+} from 'date-fns';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { addDays, addMonths, startOfMonth, endOfMonth, format } from 'date-fns';
+import { useHistory } from 'react-router-dom';
 
 import InfoAlert from '../../../components/InfoAlert';
 
+import { fetchFutureAppointments } from '../../../appointment-list/redux/actions';
+import {
+  getUpcomingAppointmentListInfo,
+  selectUpcomingAppointments,
+} from '../../../appointment-list/redux/selectors';
+import CalendarWidget from '../../../components/calendar/CalendarWidget';
+import FormButtons from '../../../components/FormButtons';
+import NewTabAnchor from '../../../components/NewTabAnchor';
+import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
+import { getRealFacilityId } from '../../../utils/appointment';
+import { FETCH_STATUS } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { getPageTitle } from '../../newAppointmentFlow';
 import {
   getAppointmentSlots,
   onCalendarChange,
+  requestAppointmentDateChoice,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  requestAppointmentDateChoice,
 } from '../../redux/actions';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import FormButtons from '../../../components/FormButtons';
 import {
+  getChosenClinicInfo,
   getDateTimeSelect,
   selectEligibility,
-  getChosenClinicInfo,
 } from '../../redux/selectors';
-import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
-import { FETCH_STATUS } from '../../../utils/constants';
-import { getRealFacilityId } from '../../../utils/appointment';
-import NewTabAnchor from '../../../components/NewTabAnchor';
-import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
-import { getPageTitle } from '../../newAppointmentFlow';
-import {
-  selectUpcomingAppointments,
-  getUpcomingAppointmentListInfo,
-} from '../../../appointment-list/redux/selectors';
-import { fetchFutureAppointments } from '../../../appointment-list/redux/actions';
 
 const pageKey = 'selectDateTime';
 
@@ -108,8 +116,6 @@ function goForward({
 
   if (data.selectedDates?.length && !isAppointmentSelectionError) {
     dispatch(routeToNextAppointmentPage(history, pageKey));
-  } else {
-    scrollAndFocus('.usa-input-error-message');
   }
 }
 
@@ -136,6 +142,9 @@ export default function DateTimeSelectPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
+  // Add a counter state to trigger focusing
+  const [focusTrigger, setFocusTrigger] = useState(0);
+
   const fetchFailed = appointmentSlotsStatus === FETCH_STATUS.failed;
   const loadingSlots =
     appointmentSlotsStatus === FETCH_STATUS.loading ||
@@ -148,11 +157,19 @@ export default function DateTimeSelectPage() {
   const clinic = useSelector(state => getChosenClinicInfo(state));
   const upcomingAppointments = useSelector(selectUpcomingAppointments);
 
+  // Effect to focus on validation message whenever error state changes
   useEffect(
     () => {
-      const prefDateObj = new Date(preferredDate);
+      scrollToFirstError();
+    },
+    [focusTrigger],
+  );
+
+  useEffect(
+    () => {
+      const prefDateObj = parseISO(preferredDate);
       const startDateObj = startOfMonth(prefDateObj);
-      const endDateObj = endOfMonth(addMonths(prefDateObj, 1));
+      const endDateObj = lastDayOfMonth(addMonths(prefDateObj, 1));
       dispatch(getAppointmentSlots(startDateObj, endDateObj, true));
       document.title = `${pageTitle} | Veterans Affairs`;
     },
@@ -191,7 +208,7 @@ export default function DateTimeSelectPage() {
 
   const { selectedDates } = data;
   const startMonth = preferredDate
-    ? format(new Date(preferredDate), 'yyyy-MM')
+    ? format(parseISO(preferredDate), 'yyyy-MM')
     : null;
 
   return (
@@ -238,6 +255,7 @@ export default function DateTimeSelectPage() {
               required: true,
             }}
             disabled={loadingSlots}
+            hideWhileDisabled
             disabledMessage={
               // eslint-disable-next-line react/jsx-wrap-multilines
               <va-loading-indicator
@@ -268,15 +286,17 @@ export default function DateTimeSelectPage() {
         onBack={() =>
           dispatch(routeToPreviousAppointmentPage(history, pageKey))
         }
-        onSubmit={() =>
+        onSubmit={() => {
+          // Increment the focus trigger to force re-focusing the validation message
+          setFocusTrigger(prev => prev + 1);
           goForward({
             dispatch,
             data,
             history,
             setSubmitted,
             isAppointmentSelectionError,
-          })
-        }
+          });
+        }}
         disabled={loadingSlots || fetchFailed}
         pageChangeInProgress={pageChangeInProgress}
         loadingText="Page change in progress"

@@ -6,7 +6,6 @@ import sinon from 'sinon';
 
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { HCA_ENROLLMENT_STATUSES } from '../../../utils/constants';
-import { simulateInputChange } from '../../helpers';
 import formConfig from '../../../config/form';
 import IdentityPage from '../../../containers/IdentityPage';
 
@@ -100,16 +99,22 @@ describe('hca IdentityPage', () => {
     const { props, mockStore } = getData({});
     const { container, selectors } = subject({ props, mockStore });
     const { dispatch } = mockStore;
-    await waitFor(() => {
-      simulateInputChange(container, '#root_firstName', 'Diane');
-      simulateInputChange(container, '#root_lastName', 'Smith');
-      simulateInputChange(container, '#root_dobMonth', '1');
-      simulateInputChange(container, '#root_dobDay', '1');
-      simulateInputChange(container, '#root_dobYear', '1990');
-      simulateInputChange(container, '#root_ssn', '211111111');
-      fireEvent.click(selectors().buttons.submit);
-      expect(dispatch.called).to.be.true;
-    });
+    const dataToSet = {
+      firstName: 'Diane',
+      lastName: 'Smith',
+      dobMonth: '1',
+      dobDay: '1',
+      dobYear: '1990',
+      ssn: '211111111',
+    };
+
+    for (const [key, value] of Object.entries(dataToSet)) {
+      const el = container.querySelector(`#root_${key}`);
+      fireEvent.change(el, { target: { value } });
+    }
+
+    fireEvent.click(selectors().buttons.submit);
+    await waitFor(() => sinon.assert.called(dispatch));
   });
 
   it('should not fire the `setData` action or router `push` method when existing record is found in VES', () => {

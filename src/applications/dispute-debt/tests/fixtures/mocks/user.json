@@ -10,19 +10,21 @@
         "form-save-in-progress",
         "form-prefill",
         "evss-claims",
+        "lighthouse",
         "form526",
         "user-profile",
         "appeals-status",
-        "identity-proofed"
+        "identity-proofed",
+        "vet360"
       ],
       "account": {
         "accountUuid": "6af59b36-f14d-482e-88b4-3d7820422343"
       },
       "profile": {
         "email": "vets.gov.user+228@gmail.com",
-        "firstName": "MARK",
+        "firstName": "Mark",
         "middleName": null,
-        "lastName": "WEBB",
+        "lastName": "Webb",
         "birthDate": "1950-10-04",
         "gender": "M",
         "zip": null,
@@ -35,7 +37,8 @@
         "verified": true,
         "signIn": {
           "serviceName": "idme",
-          "accountType": "N/A"
+          "accountType": "N/A",
+          "ssoe": true
         },
         "authnContext": "http://idmanagement.gov/ns/assurance/loa/3/vets"
       },
@@ -59,9 +62,13 @@
         "vaPatient": true,
         "mhvAccountState": "NONE"
       },
-      "veteranStatus": null,
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": true,
+        "servedInMilitary": true
+      },
       "inProgressForms": [],
-      "prefillsAvailable": ["5655", "dispute-debt"],
+      "prefillsAvailable": ["5655", "DISPUTE-DEBT"],
       "vet360ContactInformation": {
         "email": {
           "emailAddress": "test@user.com"
