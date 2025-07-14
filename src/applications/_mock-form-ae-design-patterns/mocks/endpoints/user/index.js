@@ -122,7 +122,6 @@ const loa3User = {
         '28-1900',
         '26-1880',
         '26-4555',
-        '21-4138',
       ],
       vet360ContactInformation: {
         email: {
