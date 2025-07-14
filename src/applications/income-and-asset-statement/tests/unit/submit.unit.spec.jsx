@@ -104,6 +104,63 @@ describe('Income and asset submit', () => {
       expect(transformed).not.to.haveOwnProperty('mailingAddress');
       expect(transformed).not.to.haveOwnProperty('telephone');
     });
+
+    it('should fix arrays', () => {
+      const formConfig = {
+        chapters: {},
+      };
+      const formData = {
+        data: {
+          someArray: [{ recipientName: { first: 'John', last: 'Doe' } }, 2, 3],
+        },
+      };
+      const transformed = transformForSubmit(formConfig, formData, replacer);
+
+      expect(transformed).to.equal(
+        JSON.stringify({
+          someArray: [{ recipientName: 'John Doe' }, null, null],
+        }),
+      );
+    });
+  });
+
+  describe('flattenRecipientName', () => {
+    context('should correctly flatten recipient name object to string', () => {
+      it('when only first and last are present', () => {
+        const recipientName = {
+          first: 'John',
+          last: 'Doe',
+        };
+        const flattenedName = replacer('recipientName', recipientName);
+        expect(flattenedName).to.equal('John Doe');
+      });
+
+      it('when first, middle, and last are present', () => {
+        const recipientName = {
+          first: 'John',
+          middle: 'M',
+          last: 'Doe',
+        };
+        const flattenedName = replacer('recipientName', recipientName);
+        expect(flattenedName).to.equal('John M Doe');
+      });
+
+      it('when first and last are strings and middle is null', () => {
+        const recipientName = {
+          first: 'John',
+          middle: null,
+          last: 'Doe',
+        };
+        const flattenedName = replacer('recipientName', recipientName);
+        expect(flattenedName).to.equal('John Doe');
+      });
+    });
+
+    it('should return string as is', () => {
+      const recipientName = 'Jane Doe';
+      const flattenedName = replacer('recipientName', recipientName);
+      expect(flattenedName).to.equal('Jane Doe');
+    });
   });
 
   describe('transform - shouldRemap conditions', () => {

@@ -3,8 +3,8 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { inputVaTextInput } from 'platform/testing/unit/helpers';
 import InsurancePolicyInformation from '../../../../components/FormPages/InsurancePolicyInformation';
-import { inputVaTextInput } from '../../../helpers';
 import content from '../../../../locales/en/content.json';
 
 describe('ezr InsurancePolicyInformation', () => {
@@ -118,12 +118,17 @@ describe('ezr InsurancePolicyInformation', () => {
         },
       };
 
-      inputVaTextInput(selectors.inputs.insuranceName, 'Cigna');
+      inputVaTextInput(container, 'Cigna', selectors.inputs.insuranceName);
       inputVaTextInput(
-        selectors.inputs.insurancePolicyHolderName,
+        container,
         'John Smith',
+        selectors.inputs.insurancePolicyHolderName,
       );
-      inputVaTextInput(selectors.inputs.insurancePolicyNumber, '006655');
+      inputVaTextInput(
+        container,
+        '006655',
+        selectors.inputs.insurancePolicyNumber,
+      );
 
       fireEvent.click(selectors.continueBtn);
 

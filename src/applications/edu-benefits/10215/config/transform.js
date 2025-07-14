@@ -30,12 +30,14 @@ export default function transform(form) {
     return program;
   });
 
-  // Strip view fieldds and statement of truth checkbox value
+  // Strip view fields and statement of truth checkbox value
   for (const i of formData.data.programs) {
     delete i['view:calcs'];
   }
   delete formData.data.statementOfTruthCertified;
   delete formData.data['view:programsSummary'];
+  // Added by arrayBuilder platform change
+  delete formData.data['view:programsMissingInformation'];
 
   // Send date signed
   let today = new Date();

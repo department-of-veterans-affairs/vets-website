@@ -123,7 +123,11 @@ describe('ezr <ConfirmationScreenView>', () => {
 
   describe('when the print button is clicked', () => {
     it('should fire `window.print` function', () => {
-      const printSpy = sinon.spy(window, 'print');
+      const printSpy = sinon.spy();
+      Object.defineProperty(window, 'print', {
+        value: printSpy,
+        configurable: true,
+      });
       const { selectors } = subject();
       const { printBtn } = selectors();
       fireEvent.click(printBtn);
