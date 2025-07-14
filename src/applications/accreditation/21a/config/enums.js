@@ -116,6 +116,20 @@ export const EMPLOYMENT_STATUS_ENUM = Object.freeze({
 });
 
 // Chapter 4
+// INSTITUTION_TYPE - GCLAWS Mapping
+const INSTITUTION_TYPE_ID = {
+  HIGH_SCHOOL: 1,
+  COMMUNITY_COLLEGE: 2,
+  UNDER_GRADUATE: 3,
+  GRADUATE: 4,
+};
+// INSTITUTION_TYPE - Frontend Options to GCLAWS Mapping
+export const INSTITUTION_TYPE_ENUM = {
+  'High School': INSTITUTION_TYPE_ID.HIGH_SCHOOL,
+  'Community College': INSTITUTION_TYPE_ID.COMMUNITY_COLLEGE,
+  'Under Graduate': INSTITUTION_TYPE_ID.UNDER_GRADUATE,
+  Graduate: INSTITUTION_TYPE_ID.GRADUATE,
+};
 // DEGREE_TYPE - GCLAWS Mapping
 const DEGREE_TYPE_ID = {
   GED: 1,
@@ -217,11 +231,4 @@ export const ADDRESS_TYPE_ID = {
   employment: 3,
   institution: 4,
   characterReference: 5,
-};
-
-export const INSTITUTION_TYPE_ID = {
-  'High School': 1,
-  'Community College': 2,
-  'Under Graduate': 3,
-  Graduate: 4,
 };

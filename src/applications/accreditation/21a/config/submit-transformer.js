@@ -13,6 +13,11 @@ import {
 
 const build21aPayload = data => {
   return {
+    // Unique Identifiers and fields needed by GCLAWS
+    icnNo: null,
+    uId: null,
+    applicationStatusId: 1,
+
     // Chapter 1 - Role
     accreditationTypeId: ACCREDITATION_TYPE_ENUM[data.role],
 
@@ -146,8 +151,8 @@ const build21aPayload = data => {
     // hasJurisdiction: !!data.view?.hasJurisdictions, // v5 field - not currently setting this field
     jurisdictions:
       data.jurisdictions?.map(j => ({
-        name: j.jurisdiction, // will be renamed to admittedName
-        jurisdiction: j.otherJurisdiction || null, // will be renamed to admittedNotes
+        admittedName: j.jurisdiction,
+        admittedNote: j.otherJurisdiction || null,
         admittanceTypeId: ADMITTANCE_TYPE_ENUM.JURISDICTION,
         admissionDate: j.admissionDate,
         membershipRegistrationNumber: j.membershipOrRegistrationNumber,
@@ -160,8 +165,8 @@ const build21aPayload = data => {
     admittedToPracticeAgency: !!data.view?.hasAgenciesOrCourts,
     agencies:
       data.agenciesOrCourts?.map(a => ({
-        name: a.agencyOrCourt, // will be renamed to admittedName
-        jurisdiction: a.otherAgencyOrCourt || null, // will be renamed to admittedNotes
+        admittedName: a.agencyOrCourt,
+        admittedNote: a.otherAgencyOrCourt || null,
         admittanceTypeId: ADMITTANCE_TYPE_ENUM.AGENCY,
         admissionDate: a.admissionDate,
         membershipRegistrationNumber: a.membershipOrRegistrationNumber,
@@ -319,10 +324,6 @@ const build21aPayload = data => {
     // Chapter 9 - Review
     signature: data.statementOfTruthSignature || null,
     instructionAcknowledge: !!data.statementOfTruthCertified,
-
-    // Unique Identifiers
-    icnNo: null,
-    uId: null,
   };
 };
 
