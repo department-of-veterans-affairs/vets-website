@@ -40,7 +40,6 @@ export default function lazyRoute(loader, loadingMessage = 'Loading page...') {
       if (this.state.hasError) {
         return (
           <div className="lazy-route-error">
-            {/* Using the VA design system web component for consistency */}
             <va-alert status="error" visible>
               <h3 slot="headline">We're sorry, something went wrong</h3>
               <p>
