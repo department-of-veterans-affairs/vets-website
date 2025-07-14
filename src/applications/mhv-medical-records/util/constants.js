@@ -545,3 +545,25 @@ export const allowedVitalLoincs = [
   loincCodes.PULSE_OXIMETRY_1,
   loincCodes.PULSE_OXIMETRY_2,
 ];
+
+export const statsdFrontEndActions = {
+  // list calls
+  LABS_AND_TESTS_LIST: 'labs_and_tests_list',
+  CARE_SUMMARIES_AND_NOTES_LIST: 'care_summaries_and_notes_list',
+  VACCINES_LIST: 'vaccines_list',
+  ALLERGIES_LIST: 'allergies_list',
+  HEALTH_CONDITIONS_LIST: 'health_conditions_list',
+  VITALS_LIST: 'vitals_list',
+  // detail calls
+  LABS_AND_TESTS_DETAILS: 'labs_and_tests_details',
+  RADIOLOGY_IMAGES_LIST: 'radiology_images_list',
+  CARE_SUMMARIES_AND_NOTES_DETAILS: 'care_summaries_and_notes_details',
+  VACCINES_DETAILS: 'vaccines_details',
+  ALLERGIES_DETAILS: 'allergies_details',
+  HEALTH_CONDITIONS_DETAILS: 'health_conditions_details',
+  VITALS_DETAILS: 'vitals_details',
+  // download calls
+  DOWNLOAD_BLUE_BUTTON: 'download_blue_button',
+  DOWNLOAD_CCD: 'download_ccd',
+  DOWNLOAD_SEI: 'download_sei',
+};

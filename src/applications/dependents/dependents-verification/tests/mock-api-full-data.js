@@ -11,6 +11,8 @@ const mockUser = require('./e2e/user.json');
 const mockMaxData = require('./e2e/fixtures/data/maximal-test.json');
 const mockDependents = require('../../shared/tests/fixtures/mocks/mock-dependents.json');
 
+const returnUrl = '/veteran-information'; // '/review-and-submit';
+
 const submission = {
   formSubmissionId: '123fake-submission-id-567',
   timestamp: '2020-11-12',
@@ -24,7 +26,7 @@ const mockSipGet = {
   metadata: {
     version: 1,
     prefill: true,
-    returnUrl: '/veteran-information',
+    returnUrl,
   },
 };
 
@@ -59,7 +61,7 @@ const userData = () => {
     form: '21-0538',
     metadata: {
       version: 1,
-      returnUrl: '/veteran-information',
+      returnUrl,
       savedAt: new Date().getTime(),
       submission: {
         status: false,
