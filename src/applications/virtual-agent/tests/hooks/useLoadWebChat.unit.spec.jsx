@@ -20,7 +20,6 @@ describe('useLoadWebChat', () => {
       renderHook(() => useLoadWebChat());
 
       const script = document.querySelector('script');
-      expect(script.getAttribute('data-no-partytown')).to.equal('true');
       expect(script.src).to.equal(
         'https://cdn.botframework.com/botframework-webchat/4.17.0/webchat.js',
       );

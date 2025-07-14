@@ -24,7 +24,7 @@ export default function initPartytown() {
   document.head.appendChild(loaderScript);
 
   /* ------------------------------------------------------------
-   * 3. Defer only scripts whose hostnames are explicitly allowed.
+   *    Defer only scripts whose hostnames are explicitly allowed.
    *    Feature teams can opt-out by adding `data-no-partytown`.
    * ---------------------------------------------------------- */
   const allowedHosts = new Set([

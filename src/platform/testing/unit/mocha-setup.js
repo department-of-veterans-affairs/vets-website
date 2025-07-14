@@ -176,6 +176,16 @@ const server = setupServer(
   rest.get('/feature_toggles', (req, res, ctx) => {
     return res(ctx.status(200), ctx.body(''));
   }),
+  rest.post('/chatbot/token', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        token: 'fake-test-token',
+        conversationId: 'conv-id-123',
+        code: 'fake-code',
+      }),
+    );
+  }),
 );
 
 export const mochaHooks = {
