@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { SchemaForm, setData } from 'platform/forms-system/exportsFile';
 import { scrollTo } from 'platform/utilities/scroll';
+import EditPageButtons from './EditPageButtons';
 
 const EditMailingAddress = ({
   schema,
@@ -69,18 +69,10 @@ const EditMailingAddress = ({
         data={data}
         uiSchema={uiSchema}
         onChange={handlers.onInput}
-        onSubmit={handlers.onSubmit}
+        onSubmit={handlers.onUpdate}
       >
         {contentBeforeButtons}
-        <div className="vads-u-margin-y--2">
-          <VaButtonPair
-            primaryLabel="Update mailing address"
-            secondaryLabel="Cancel editing mailing address"
-            onPrimaryClick={handlers.onUpdate}
-            onSecondaryClick={handlers.onCancel}
-            update
-          />
-        </div>
+        <EditPageButtons handlers={handlers} pageName="Mailing address" />
         {contentAfterButtons}
       </SchemaForm>
     </>

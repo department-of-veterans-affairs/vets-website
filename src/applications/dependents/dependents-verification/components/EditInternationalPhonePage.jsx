@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import EditPageButtons from './EditPageButtons';
 
 const EditInternationalPhonePage = props => {
   const { formData = {}, goToPath, setFormData } = props;
@@ -68,16 +67,11 @@ const EditInternationalPhonePage = props => {
           onInput={handlers.onInput}
           error={error}
           hint="Enter a phone number including the country code (e.g., +44 20 1234 5678)"
-          required
+          required={false}
         />
-
-        <VaButtonPair
-          class="vads-u-margin-top--2"
-          primaryLabel="Update international phone number"
-          secondaryLabel="Cancel editing international phone number"
-          onPrimaryClick={handlers.onUpdate}
-          onSecondaryClick={handlers.onCancel}
-          update
+        <EditPageButtons
+          handlers={handlers}
+          pageName="International phone number"
         />
       </fieldset>
     </form>

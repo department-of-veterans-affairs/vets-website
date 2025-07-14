@@ -3,17 +3,9 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { isValidEmail } from 'platform/forms/validations';
 import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-
-/**
- * This component allows the user to edit their email address.
- * Based on the value of the input (`email`), the component updates the `email`
- * field in the form data. Validation ensures the entered value is a properly formatted email address.
- * The user can choose to update the email or cancel and return to the contact information page.
- */
+import EditPageButtons from './EditPageButtons';
 
 const EditEmailPage = props => {
   const { formData = {}, goToPath, setFormData } = props;
@@ -80,15 +72,7 @@ const EditEmailPage = props => {
           error={error}
           required
         />
-
-        <VaButtonPair
-          class="vads-u-margin-top--2"
-          primaryLabel="Update email address"
-          secondaryLabel="Cancel editing email address"
-          onPrimaryClick={handlers.onUpdate}
-          onSecondaryClick={handlers.onCancel}
-          update
-        />
+        <EditPageButtons handlers={handlers} pageName="Email address" />
       </fieldset>
     </form>
   );

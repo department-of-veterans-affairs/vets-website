@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { isValidPhone } from 'platform/forms/validations';
 import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-
-/**
- * This component allows the user to edit their phone number.
- * Based on the value of the input (`phone`), the component updates the `phone`
- * field in the form data. Validation ensures the entered value is a valid U.S. phone number,
- * but the user may leave the field blank if they prefer. The user can choose to update the phone
- * number or cancel and return to the contact information page.
- */
+import EditPageButtons from './EditPageButtons';
 
 const EditPhonePage = ({ data, goToPath, setFormData }) => {
   const { phone = '' } = data || {};
@@ -75,16 +67,9 @@ const EditPhonePage = ({ data, goToPath, setFormData }) => {
             value={fieldData}
             onInput={handlers.onInput}
             error={error}
+            required={false}
           />
-
-          <VaButtonPair
-            class="vads-u-margin-top--2"
-            primaryLabel="Update phone number"
-            secondaryLabel="Cancel editing phone number"
-            onPrimaryClick={handlers.onUpdate}
-            onSecondaryClick={handlers.onCancel}
-            update
-          />
+          <EditPageButtons handlers={handlers} pageName="Phone Number" />
         </fieldset>
       </form>
     </>
