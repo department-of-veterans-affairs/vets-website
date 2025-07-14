@@ -14,24 +14,14 @@ import {
   addFile,
   cancelUpload,
   clearNotification,
-  // START lighthouse_migration
   getClaim as getClaimAction,
-  // END lighthouse_migration
   removeFile,
   resetUploads,
   setFieldsDirty,
   submitFiles,
-  // START lighthouse_migration
-  submitFilesLighthouse,
-  // END lighthouse_migration
   updateField,
 } from '../actions';
-// START lighthouse_migration
-import {
-  benefitsDocumentsUseLighthouse,
-  cstFriendlyEvidenceRequests,
-} from '../selectors';
-// END lighthouse_migration
+import { cstFriendlyEvidenceRequests } from '../selectors';
 import {
   setDocumentRequestPageTitle,
   getClaimType,
@@ -98,21 +88,12 @@ class DocumentRequestPage extends React.Component {
           onDirtyFields={this.props.setFieldsDirty}
           onFieldChange={this.props.updateField}
           onSubmit={() => {
-            // START lighthouse_migration
-            if (this.props.documentsUseLighthouse) {
-              this.props.submitFilesLighthouse(
-                this.props.claim.id,
-                this.props.trackedItem,
-                this.props.files,
-              );
-            } else {
-              this.props.submitFiles(
-                this.props.claim.id,
-                this.props.trackedItem,
-                this.props.files,
-              );
-            }
-            // END lighthouse_migration
+            // Always use Lighthouse endpoint (no more feature flag checks)
+            this.props.submitFiles(
+              this.props.claim.id,
+              this.props.trackedItem,
+              this.props.files,
+            );
           }}
           onRemoveFile={this.props.removeFile}
           progress={this.props.progress}
@@ -247,9 +228,6 @@ function mapStateToProps(state, ownProps) {
 
   return {
     claim: claimDetail.detail,
-    // START lighthouse_migration
-    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
-    // END lighthouse_migration
     files: uploads.files,
     lastPage: claimsState.routing.lastPage,
     loading: claimDetail.loading,
@@ -273,9 +251,6 @@ const mapDispatchToProps = {
   resetUploads,
   setFieldsDirty,
   submitFiles,
-  // START lighthouse_migration
-  submitFilesLighthouse,
-  // END lighthouse_migration
   updateField,
 };
 
@@ -291,9 +266,6 @@ DocumentRequestPage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
-  // START lighthouse_migration
-  documentsUseLighthouse: PropTypes.bool,
-  // END lighthouse_migration
   files: PropTypes.array,
   friendlyEvidenceRequests: PropTypes.bool,
   getClaim: PropTypes.func,
@@ -307,9 +279,6 @@ DocumentRequestPage.propTypes = {
   resetUploads: PropTypes.func,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
-  // START lighthouse_migration
-  submitFilesLighthouse: PropTypes.func,
-  // END lighthouse_migration
   trackedItem: PropTypes.object,
   updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
