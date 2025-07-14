@@ -4,7 +4,7 @@ import VaTelephoneInputField from '../../../../../forms-system/src/js/web-compon
 
 import { PHONE_TYPE, USA } from '../../constants';
 
-export const phoneFormSchema = ({ allowInternational = true } = {}) => {
+export const phoneFormSchema = ({ allowInternational = false } = {}) => {
   const extensionField = {
     type: 'string',
     pattern: '^\\s*[0-9-]{0,6}\\s*$',
