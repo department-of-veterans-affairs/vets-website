@@ -9,6 +9,16 @@
   @media (min-width: $small-desktop-screen) {
     &__h2 {
       margin: 32px 0 24px;
+
+      &.is--authorization-h2 {
+        margin: 32px 0 8px;
+      }
+    }
+
+    &__h3 {
+      &.is--authorization-h3 {
+        margin: 32px 0 0;
+      }
     }
   }
 
@@ -99,7 +109,7 @@
 
       li {
         border-bottom: 1px solid $vads-color-base;
-        padding: 0 15px 8px;
+        padding: 8px 16px;
         margin: 0;
         display: flex;
         flex-direction: column;
@@ -109,6 +119,7 @@
           flex-direction: row;
           height: 56px;
           align-items: center;
+          padding: 16px;
         }
 
         &:first-child {
@@ -116,10 +127,15 @@
         }
 
         p {
-          margin: 8px 0 0;
+          margin: 0;
           flex: 50%;
           &:first-child {
             font-weight: 700;
+            margin: 0 0 16px;
+
+            @media (min-width: $small-desktop-screen) {
+              margin: 0;
+            }
           }
 
           span {
