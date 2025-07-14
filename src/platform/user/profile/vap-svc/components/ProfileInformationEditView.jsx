@@ -284,15 +284,15 @@ export class ProfileInformationEditView extends Component {
         const vaComboBox = vaTel?.shadowRoot?.querySelector?.('va-combo-box');
         const countrySelect = vaComboBox?.shadowRoot?.querySelector?.('input');
 
-        if (countrySelect) {
+        if (vaTel && countrySelect) {
           countrySelect.focus();
-        }
+        } else {
+          // If no va-telephone-input, focus the first focusable element in the form
+          const focusableElement = getFocusableElements(this.editForm)?.[0];
 
-        // If no va-telephone-input, focus the first focusable element in the form
-        const focusableElement = getFocusableElements(this.editForm)?.[0];
-
-        if (focusableElement) {
-          focusElement(focusableElement);
+          if (focusableElement) {
+            focusElement(focusableElement);
+          }
         }
       }, 100);
     }
