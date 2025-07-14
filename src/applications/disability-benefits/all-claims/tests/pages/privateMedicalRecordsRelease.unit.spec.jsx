@@ -88,19 +88,26 @@ describe('Disability benefits 4142 provider medical records facility information
           initialData,
           ...claimType,
           ratedDisabilities,
-          'view:selectableEvidenceTypes': {
-            'view:hasPrivateMedicalRecords': true,
-          },
+          providerFacility: [
+            {
+              treatmentCenterName: 'Sommerset VA Clinic',
+              treatedDisabilityNames: {
+                diabetesmelitus: true,
+              },
+              treatmentDateRange: {
+                from: '2010-04-XX',
+              },
+              treatmentCenterAddress: {
+                country: 'USA',
+                city: 'APO',
+                state: 'VA',
+              },
+            },
+          ],
         }}
-        // formData={{
-        //   initialData,
-        //   ratedDisabilities,
-        // }}
         uiSchema={uiSchema}
       />,
     );
-
-    // const formDom = findDOMNode(form1);
 
     //  All fields filled
     fillData(
@@ -140,18 +147,6 @@ describe('Disability benefits 4142 provider medical records facility information
       '29414',
     );
 
-    // console.log(
-    //   form.find('va-checkbox[data-key="posttraumaticstressdisorder"]').debug(),
-    // );
-
-    const checkbox = () =>
-      form.find('va-checkbox[data-key="posttraumaticstressdisorder"]');
-
-    checkbox().simulate('click', { target: { checked: true } });
-
-    form.update();
-
-    // console.log(checkbox().debug());
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -226,8 +221,6 @@ describe('Disability benefits 4142 provider medical records facility information
         }}
       />,
     );
-
-    // console.log(form.find('va-checkbox').debug());
 
     expect(form.find('va-checkbox').length).to.equal(4);
     expect(form.find('select').length).to.equal(6);
