@@ -16,8 +16,9 @@ export default function FormButtons({
 }) {
   return (
     <div className="vads-l-row form-progress-buttons schemaform-buttons">
-      <div className="vaos__form-button-back mobile:vads-u-padding-right--1p5 medium-screen:vads-u-padding-right--0p5">
+      <div className="vaos__form-button mobile:vads-u-padding-right--1p5 medium-screen:vads-u-padding-right--0p5">
         <ProgressButton
+          submitButton={false}
           onButtonClick={onBack}
           buttonText={backButtonText || 'Back'}
           buttonClass="usa-button-secondary"
@@ -25,7 +26,7 @@ export default function FormButtons({
         />
       </div>
       {displayNextButton && (
-        <div className="vaos__form-button-next">
+        <div className="vaos__form-button">
           <LoadingButton
             isLoading={pageChangeInProgress}
             loadingText={loadingText}

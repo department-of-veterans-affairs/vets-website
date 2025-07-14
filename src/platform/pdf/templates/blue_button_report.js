@@ -92,7 +92,7 @@ const generateTitleSection = (doc, parent, data) => {
     }),
   );
 
-  doc.moveDown();
+  doc.moveDown(0.75);
 
   titleSection.add(
     doc.struct('P', () => {
@@ -150,11 +150,11 @@ const generateTitleSection = (doc, parent, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(data.lastUpdated, config.margins.left, doc.y, { lineGap: 20 });
+        .text(data.lastUpdated, config.margins.left, doc.y);
     }),
   );
 
-  doc.moveDown(0.5);
+  doc.moveDown();
   titleSection.end();
 };
 
@@ -207,6 +207,9 @@ const getEmptyRecordSets = (recordSets, failedDomains) => {
         recordSet.records.some(type => type?.results?.items?.length === 0) &&
         !failedDomains.includes('VA appointments')
       );
+    }
+    if (recordSet.type === 'demographics' && !recordSet.records.length) {
+      return !failedDomains.includes('VA demographics records');
     }
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length === 0;
@@ -295,7 +298,7 @@ const generateInfoForAvailableRecords = (infoSection, doc, data) => {
   addBulletList(infoSection, doc, items, config, {
     bulletRadius: 2,
     bulletIndent: config.indents.bulletList,
-    paragraphGap: 4,
+    paragraphGap: 3,
     textOffset: 4,
   });
 };
@@ -333,7 +336,7 @@ const generateInfoForEmptyRecords = (infoSection, doc, recordSets) => {
   addBulletList(infoSection, doc, items, config, {
     bulletRadius: 2,
     bulletIndent: config.indents.bulletList,
-    paragraphGap: 4,
+    paragraphGap: 3,
     textOffset: 4,
   });
 };
@@ -373,7 +376,7 @@ const generateInfoForFailedRecordsets = (
   addBulletList(infoSection, doc, items, config, {
     bulletRadius: 2,
     bulletIndent: config.indents.bulletList,
-    paragraphGap: 4,
+    paragraphGap: 3,
     textOffset: 4,
   });
 };
