@@ -1,6 +1,6 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import { isEmpty } from 'lodash';
-import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
+import { getProviderName } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT_V2,
@@ -164,14 +164,6 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
       reasonForAppointment,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
-      type: {
-        coding: [
-          {
-            code: appt.serviceType || null,
-            display: getTypeOfCareById(appt.serviceType)?.name,
-          },
-        ],
-      },
       contact: appt.contact,
       preferredDates: appt?.preferredDates || [],
       preferredModality: appt?.preferredModality,
