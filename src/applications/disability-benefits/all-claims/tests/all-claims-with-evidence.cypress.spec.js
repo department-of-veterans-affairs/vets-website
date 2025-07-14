@@ -4,10 +4,8 @@ import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import mockUser from './fixtures/mocks/user.json';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockServiceBranches from './fixtures/mocks/service-branches.json';
-// import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockLocations from './fixtures/mocks/separation-locations.json';
 import mockPayment from './fixtures/mocks/payment-information.json';
-// import mockUpload from './fixtures/mocks/document-upload.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
 import { mockItf } from './cypress.helpers';
@@ -202,16 +200,23 @@ describe('Supporting Evidence uploads', () => {
       });
     }).as('uploadFile');
 
-    cy.intercept(
-      'POST',
-      '/v0/disability_compensation_form/submit_all_claim*',
-      mockSubmit,
-    );
+    // cy.intercept(
+    //   'POST',
+    //   '/v0/disability_compensation_form/submit_all_claim*',
+    //   mockSubmit,
+    // ).as('Submit');
+
     cy.intercept(
       'GET',
       '/v0/disability_compensation_form/submission_status/*',
       '',
     );
+    cy.intercept(
+      'POST',
+      '/v0/disability_compensation_form/submit_all_claim*',
+      mockSubmit,
+    ).as('submitClaim');
+
     cy.fixture(
       path.join(__dirname, 'fixtures/data/maximal-toxic-exposure-test.json'),
     ).then(data => {
@@ -511,17 +516,14 @@ describe('Supporting Evidence uploads', () => {
       force: true,
     });
 
-    // Submit application
-    cy.intercept(
-      'POST',
-      '/v0/disability_compensation_form/submit_all_claim*',
-    ).as('submitClaim');
+    // VI. Submit application
+    // ======================
     cy.get('button#4-continueButton').click();
   });
 
-  it('uploads and processes encrypted PDF with password', () => {
+  it('uploads and processes encrypted PDF with password for Private Medical Records and Additional Documents', () => {
     cy.injectAxeThenAxeCheck();
-    cy.wait('@submitClaim').then(({ request }) => {
+    cy.wait('@submitClaim').then(({ request, _response }) => {
       // Verify private medical records attachment with password
       expect(request.body.form526.privateRecordsAttachments).to.have.length(1);
       expect(request.body.form526.additionalDocuments).to.have.length(1);
@@ -534,6 +536,7 @@ describe('Supporting Evidence uploads', () => {
         'test-code',
       );
 
+      // Verify additional documents attachment with password
       const { additionalDocuments } = request.body.form526;
       expect(additionalDocuments.name).to.equal('foo_protected.PDF');
       expect(additionalDocuments.isEncrypted).to.be.true; // Should be false after password added - is this true
