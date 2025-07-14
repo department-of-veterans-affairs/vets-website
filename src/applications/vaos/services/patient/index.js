@@ -102,7 +102,7 @@ async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
  * @async
  * @param {TypeOfCare} params.typeOfCare Type of care object for which to check patient relationships
  * @param {string} params.facilityId of facility to check for relationships
- * @param {Date} params.hasAvailabilityBefore Whether or not to consider the patient's appointment history when filtering results.
+ * @param {Date} params.hasAvailabilityBefore A date object for determining how long into the future to look for appointment availability
  * @returns {Array<PatientProviderRelationship>} Returns an array of PatientProviderRelationship objects
  */
 
