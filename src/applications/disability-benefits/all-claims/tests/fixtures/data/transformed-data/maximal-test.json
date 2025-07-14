@@ -169,16 +169,8 @@
       "name": "terminal-cheat-sheet_protected.PDF",
       "confirmationCode": "9f153a64-29f7-4b5b-9053-c788f45942cd",
       "attachmentId": "L049",
-      "isEncrypted": true, // Does not change to false after password is added
-      "password": {
-        "value": "dancing",
-        "dirty": true
-      },
-      "docType": {
-        "value": "L049",
-        "dirty": true
+      "isEncrypted": true
       }
-    }
     ]
   }
 }

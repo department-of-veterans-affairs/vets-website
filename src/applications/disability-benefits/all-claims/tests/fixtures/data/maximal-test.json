@@ -68,6 +68,12 @@
         "name": "Success.jpg",
         "confirmationCode": "de89492d-2d3f-4486-a73d-1fa4868aa49d",
         "attachmentId": "L023"
+      },
+      {
+        "name": "terminal-cheat-sheet_protected.PDF",
+        "confirmationCode": "9f153a64-29f7-4b5b-9053-c788f45942cd",
+        "attachmentId": "L015",
+        "isEncrypted": true
       }
     ],
     "view:uploadPrivateRecordsQualifier": {
