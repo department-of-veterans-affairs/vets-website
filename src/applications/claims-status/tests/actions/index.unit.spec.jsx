@@ -243,7 +243,7 @@ describe('Actions', () => {
     it('navigates to `/your-claims` when errors on 404 ', done => {
       const apiStub = sinon.stub(api, 'apiRequest');
 
-      apiStub.returns(Promise.reject({ status: 404 }));
+      apiStub.returns(Promise.reject(new Error('404')));
 
       const navigate = sinon.spy();
 
@@ -291,7 +291,7 @@ describe('Actions', () => {
     it('dispatches FETCH_CLAIMS_ERROR - null', done => {
       const apiStub = sinon.stub(api, 'apiRequest');
 
-      apiStub.returns(Promise.reject(null));
+      apiStub.returns(Promise.reject(new Error('null')));
 
       const thunk = getClaims();
       const dispatch = sinon.spy();
@@ -306,7 +306,7 @@ describe('Actions', () => {
     it('dispatches FETCH_CLAIMS_ERROR - not null error code', done => {
       const apiStub = sinon.stub(api, 'apiRequest');
 
-      apiStub.returns(Promise.reject({ errors: [{ status: 404 }] }));
+      apiStub.returns(Promise.reject(new Error('404')));
 
       const thunk = getClaims();
       const dispatch = sinon.spy();

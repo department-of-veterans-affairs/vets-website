@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import {
   createGetHandler,
-  networkError,
   jsonResponse,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
