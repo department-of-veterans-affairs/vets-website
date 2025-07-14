@@ -98,7 +98,7 @@
   }
   #root_supportingDocuments_add_label {
     margin: 0;
-    padding: 0;
+    padding: 0 0 40px;
   }
   .schemaform-file-upload {
     margin-top: 32px !important;
@@ -171,6 +171,19 @@
   [name="uploadPageScrollElement"] {
     display: none;
   }
+  .rjsf {
+    div.vads-u-margin-y--2:first-child {
+      margin-top: 0 !important;
+      [id="root_view:claimantTitle__title"]  {
+        padding: 0;
+      }
+    }
+  }
+
+  [id="root_view:veteranTitle__title"] {
+    padding-top: 32px;
+  }
+
 }
 .form-review-panel-page-representative-form-upload {
   margin-bottom: 0;

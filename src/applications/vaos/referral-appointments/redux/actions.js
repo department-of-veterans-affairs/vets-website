@@ -3,7 +3,6 @@ import { formatISO, differenceInMilliseconds } from 'date-fns';
 import { captureError } from '../../utils/error';
 import {
   postReferralAppointment,
-  postDraftReferralAppointment,
   getProviderById,
   getAppointmentInfo,
 } from '../../services/referral';
@@ -16,12 +15,6 @@ export const CREATE_REFERRAL_APPOINTMENT_SUCCEEDED =
   'CREATE_REFERRAL_APPOINTMENT_SUCCEEDED';
 export const CREATE_REFERRAL_APPOINTMENT_FAILED =
   'CREATE_REFERRAL_APPOINTMENT_FAILED';
-export const CREATE_DRAFT_REFERRAL_APPOINTMENT =
-  'CREATE_DRAFT_REFERRAL_APPOINTMENT';
-export const CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED =
-  'CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED';
-export const CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED =
-  'CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED';
 export const FETCH_PROVIDER_DETAILS = 'FETCH_PROVIDER_DETAILS';
 export const FETCH_PROVIDER_DETAILS_SUCCEEDED =
   'FETCH_PROVIDER_DETAILS_SUCCEEDED';
@@ -40,35 +33,6 @@ export function setFormCurrentPage(currentPage) {
   return {
     type: SET_FORM_CURRENT_PAGE,
     payload: currentPage,
-  };
-}
-
-export function createDraftReferralAppointment(
-  referralNumber,
-  referralConsultId,
-) {
-  return async dispatch => {
-    try {
-      dispatch({
-        type: CREATE_DRAFT_REFERRAL_APPOINTMENT,
-      });
-
-      const providerDetails = await postDraftReferralAppointment(
-        referralNumber,
-        referralConsultId,
-      );
-
-      dispatch({
-        type: CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
-        data: providerDetails,
-      });
-      return providerDetails;
-    } catch (error) {
-      dispatch({
-        type: CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED,
-      });
-      return captureError(error);
-    }
   };
 }
 

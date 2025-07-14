@@ -77,7 +77,9 @@ const SubmissionCard = ({ submission }) => {
           </span>
           {submission.confirmationNumber}
           <br />
-          <span className="submission__card-status--row">
+          <span
+            className={`submission__card-status--row ${submission.vbmsStatus}`}
+          >
             <span className="submission__card-attribute-text">
               {'VBMS eFolder status: '}
             </span>

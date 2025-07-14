@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 import { useEditOrAddForm } from './useEditOrAddForm';
 import ArrayBuilderCancelButton from './ArrayBuilderCancelButton';
 import { getArrayUrlSearchParams } from './helpers';
@@ -58,6 +59,13 @@ export default function ArrayBuilderItemPage({
         required(props.data) && introRoute && !data?.length
           ? introRoute
           : summaryRoute;
+
+      // We might end up here from a save in progress continue,
+      // but ?add=true or ?edit=true won't be set...
+      // Consider how to handle this in the future, so save in progress can work.
+      // In the meantime, go back to intro or summary, and set navigation event
+      // so that validation for missing info will work properly.
+      navigationState.setNavigationEvent();
       props.goToPath(path);
       return null;
     }
