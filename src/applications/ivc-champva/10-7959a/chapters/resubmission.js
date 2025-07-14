@@ -59,6 +59,9 @@ export const claimIdentifyingNumber = {
     pdiOrClaimNumber: selectUI({
       title: 'Is this a PDI or claim control number?',
     }),
+    identifyingNumber: {
+      ...textUI('PDI number or Claim identifying number'),
+    },
     'view:adtlInfo': {
       'ui:description': (
         <div>
@@ -98,9 +101,11 @@ export const claimIdentifyingNumber = {
   },
   schema: {
     type: 'object',
+    required: ['pdiOrClaimNumber', 'identifyingNumber'],
     properties: {
       titleSchema,
       pdiOrClaimNumber: selectSchema(claimIdentifyingNumberOptions),
+      identifyingNumber: textSchema,
       'view:adtlInfo': {
         type: 'object',
         properties: {},
