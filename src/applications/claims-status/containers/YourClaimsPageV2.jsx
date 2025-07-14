@@ -241,7 +241,9 @@ class YourClaimsPageV2 extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             <div
               className={`${
-                this.props.isSmoothLoadingEnabled ? 'breadcrumbs-container' : ''
+                this.props.isSmoothLoadingEnabled
+                  ? 'breadcrumbs-loading-container'
+                  : ''
               }`}
             >
               <ClaimsBreadcrumbs />
@@ -252,7 +254,7 @@ class YourClaimsPageV2 extends React.Component {
             <div
               className={`${
                 this.props.isSmoothLoadingEnabled
-                  ? 'on-this-page-container'
+                  ? 'on-this-page-loading-container'
                   : ''
               }`}
             >
@@ -265,7 +267,7 @@ class YourClaimsPageV2 extends React.Component {
             <div
               className={`${
                 this.props.isSmoothLoadingEnabled
-                  ? 'additional-info-container'
+                  ? 'additional-info-loading-container'
                   : ''
               }`}
             >
