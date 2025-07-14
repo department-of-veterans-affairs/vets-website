@@ -373,6 +373,6 @@ export const postRecordDatadogAction = async (metric, tags = []) => {
   return apiRequest(`${environment.API_URL}/v0/datadog_action`, {
     method: 'POST',
     headers,
-    body: JSON.stringify({ metric, tags }),
+    body: JSON.stringify({ metric: `mr.${metric}`, tags }),
   });
 };
