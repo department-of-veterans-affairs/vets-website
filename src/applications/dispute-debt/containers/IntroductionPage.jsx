@@ -6,7 +6,6 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { TITLE } from '../constants';
 import ShowAlertOrSip from '../components/ShowAlertOrSip';
-import { setPageFocus } from '../utils/helpers';
 
 export const IntroductionPage = props => {
   const { route, location, user } = props;
@@ -40,7 +39,6 @@ export const IntroductionPage = props => {
 
   useEffect(() => {
     scrollToTop();
-    setPageFocus('h1');
   }, []);
 
   return (

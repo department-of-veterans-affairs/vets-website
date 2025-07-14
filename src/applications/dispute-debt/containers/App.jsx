@@ -8,7 +8,6 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import formConfig from '../config/form';
 import { fetchDebts } from '../actions';
-import { setPageFocus } from '../utils/helpers';
 
 export default function App({ children, location }) {
   const dispatch = useDispatch();
@@ -25,7 +24,6 @@ export default function App({ children, location }) {
       if (userLoggedIn && isVerified) {
         fetchDebts(dispatch);
       }
-      setPageFocus('h1');
     },
     [dispatch, userLoggedIn, isVerified],
   );
