@@ -78,7 +78,9 @@ describe('Actions', () => {
 
     beforeEach(() => {
       server.events.on('request:start', req => {
-        expectedUrl = req.url.href;
+        // TODO: After Node 14 support is dropped, simplify to: expectedUrl = req.url.href;
+        // The req.request?.url fallback is only needed for Node 14 compatibility
+        expectedUrl = req.url ? req.url.href : req.request?.url;
       });
     });
 
