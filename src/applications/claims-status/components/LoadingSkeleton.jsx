@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
  * @param {React.ReactNode} [children]  Rows or any other markup to render
  * @param {string}   [className]  Class names for custom container styling
  * @param {string}   [id]         Passed to the data-testid attribute which appends "-loading-skeleton" to the id
- * @param {boolean}  [isLoading=true]  Whether content is loading which determines if the skeleton is shown or not
+ * @param {boolean}  [isLoading=true]  Indicates whether content is loading. When true, displays skeleton. When false, renders empty but announces srLoadedLabel to screen readers for accessibility.
  * @param {number}   [rowCount]   Number of rows to render
  * @param {string}   [srLabel="Loading…"]      Screen‑reader text when loading
  * @param {string}   [srLoadedLabel="Content has loaded"] Screen‑reader text when loaded
