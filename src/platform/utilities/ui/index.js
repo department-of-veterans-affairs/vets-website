@@ -102,3 +102,6 @@ export function formatARN(arnString = '') {
   val = val.replace(/^(.{3})-(.{2})(.{1,4})$/, '$1-$2-$3');
   return val;
 }
+
+// Lazy-loading helper (added 2025-07)
+export { default as lazyRoute } from './lazyRoute';

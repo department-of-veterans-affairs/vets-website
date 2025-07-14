@@ -115,3 +115,4 @@ export {
   displayPercent,
   formatSSN,
 } from './ui/index';
+export { default as lazyRoute } from './ui/lazyRoute';

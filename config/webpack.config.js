@@ -267,9 +267,17 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
     });
   /* eslint-enable no-nested-ternary */
 
-  return [...appRegistry, ...scaffoldRegistry]
-    .filter(({ rootUrl }) => rootUrl)
-    .map(generateHtmlFile);
+  // Merge app and scaffold registries, drop entries without a rootUrl, and
+  // de-duplicate by rootUrl to prevent HtmlWebpackPlugin filename conflicts.
+  const uniqueEntries = [...appRegistry, ...scaffoldRegistry].filter(
+    entry => entry.rootUrl,
+  );
+
+  const deduped = Array.from(
+    new Map(uniqueEntries.map(entry => [entry.rootUrl, entry])).values(),
+  );
+
+  return deduped.map(generateHtmlFile);
 }
 
 module.exports = async (env = {}) => {
@@ -450,10 +458,10 @@ module.exports = async (env = {}) => {
       symlinks: false,
     },
     optimization: {
-      // 'chunkIds' and 'moduleIds' are set to 'named' for preserving
-      // consistency between full and single app builds
-      chunkIds: 'named',
-      moduleIds: 'named',
+      // Use deterministic ids for production/staging to improve long-term caching.
+      // Retain named ids for local development to aid debugging.
+      chunkIds: isOptimizedBuild ? 'deterministic' : 'named',
+      moduleIds: isOptimizedBuild ? 'deterministic' : 'named',
       minimizer: [
         new TerserPlugin({
           terserOptions: {
@@ -468,12 +476,20 @@ module.exports = async (env = {}) => {
       ],
       splitChunks: {
         cacheGroups: {
-          // this needs to be "vendors" to overwrite a default group
+          // Retain existing vendor chunk logic
           vendors: {
             chunks: 'all',
             test: 'vendor',
             name: 'vendor',
             enforce: true,
+          },
+          // New async shared chunk – grabs modules used in at least two
+          // dynamically-imported chunks to avoid duplication.
+          async: {
+            chunks: 'async',
+            minChunks: 2,
+            name: 'async',
+            priority: -20,
           },
         },
       },

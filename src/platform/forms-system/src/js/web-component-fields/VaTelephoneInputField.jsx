@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { VaTelephoneInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaInputTelephone as VaTelephoneInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaTelephoneInputFieldMapping from './vaTelephoneInputFieldMapping';
 import environment from '../../../../utilities/environment';
 

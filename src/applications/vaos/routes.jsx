@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
-import asyncLoader from '@department-of-veterans-affairs/platform-utilities/asyncLoader';
+import { lazyRoute } from '@department-of-veterans-affairs/platform-utilities/ui';
 import VAOSApp from './components/VAOSApp';
 import ErrorBoundary from './components/ErrorBoundary';
 import { captureError } from './utils/error';
@@ -41,7 +41,7 @@ export default function createRoutesWithStore(store) {
         <Switch>
           <EnrolledRoute
             path={vaccinePaths}
-            component={asyncLoader(() =>
+            component={lazyRoute(() =>
               import(/* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine')
                 .then(({ NewBookingSection, reducer }) => {
                   store.injectReducer('covid19Vaccine', reducer);
@@ -52,7 +52,7 @@ export default function createRoutesWithStore(store) {
           />
           <EnrolledRoute
             path={newAppointmentPaths}
-            component={asyncLoader(() =>
+            component={lazyRoute(() =>
               import(/* webpackChunkName: "vaos-form" */ './new-appointment')
                 .then(({ NewAppointment, reducer }) => {
                   store.injectReducer('newAppointment', reducer);
