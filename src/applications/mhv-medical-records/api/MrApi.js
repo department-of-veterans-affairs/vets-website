@@ -245,6 +245,18 @@ export const getVaccine = id => {
   });
 };
 
+export const getAcceleratedImmunizations = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/immunizations`, {
+    headers,
+  });
+};
+
+export const getAcceleratedImmunization = id => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/immunizations/${id}`, {
+    headers,
+  });
+};
+
 /**
  * Get the VHIE sharing status of the current user.
  *
@@ -352,4 +364,15 @@ export const downloadCCD = timestamp => {
       'Content-Type': 'application/xml',
     },
   );
+};
+
+/**
+ * Send Datadog actions to the backend to be recorded in StatsD metrics
+ */
+export const postRecordDatadogAction = async (metric, tags = []) => {
+  return apiRequest(`${environment.API_URL}/v0/datadog_action`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ metric: `mr.${metric}`, tags }),
+  });
 };

@@ -68,16 +68,15 @@ const SearchResults = ({ claimant, searchData }) => {
     return (
       <>
         <p data-testid="poa-requests-table-fetcher-no-poa-requests">
-          No result found for{' '}
-          <strong>
-            “{searchData.first_name} {searchData.last_name}”
-          </strong>
+          No result found for <strong>"{searchData.first_name}"</strong>
           {', '}
-          <strong>“{searchData.dob}”</strong>
+          <strong>"{searchData.last_name}"</strong>
+          {', '}
+          <strong>"{searchData.dob}"</strong>
           {', '}
           <strong>
-            “***-**-
-            {lastFour(searchData.ssn)}”
+            "***-**-
+            {lastFour(searchData.ssn)}"
           </strong>
         </p>
         <va-banner
@@ -101,15 +100,15 @@ const SearchResults = ({ claimant, searchData }) => {
   return (
     <>
       <p data-testid="poa-requests-table-fetcher-poa-requests">
-        Showing result for <strong>“{searchData.first_name}“</strong>
+        Showing result for <strong>"{searchData.first_name}"</strong>
         {', '}
-        <strong>“{searchData.last_name}“</strong>
+        <strong>"{searchData.last_name}"</strong>
         {', '}
-        <strong>“{searchData.dob}”</strong>
+        <strong>"{searchData.dob}"</strong>
         {', '}
         <strong>
-          “***-**-
-          {lastFour(searchData.ssn)}”
+          "***-**-
+          {lastFour(searchData.ssn)}"
         </strong>
       </p>
       <h2 className="claimant-name">

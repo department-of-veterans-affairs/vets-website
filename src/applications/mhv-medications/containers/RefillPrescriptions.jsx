@@ -6,10 +6,10 @@ import {
   VaCheckbox,
   VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import {
   updatePageTitle,
   usePrintTitle,
+  MhvPageNotFound,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -193,7 +193,7 @@ const RefillPrescriptions = () => {
 
   const content = () => {
     if (!showRefillContent) {
-      return <PageNotFound />;
+      return <MhvPageNotFound />;
     }
     if (isLoading || isRefilling) {
       return (

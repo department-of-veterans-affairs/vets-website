@@ -3,6 +3,18 @@ export const FORM_TYPE_ID = {
   Forma: 2,
 };
 
+export const CHAPTER_TYPE = {
+  PERSONAL: 1,
+  MILITARY: 2,
+  EMPLOYMENT: 3,
+  EDUCATION: 4,
+  PROFESSIONAL: 5,
+  BACKGROUND: 6,
+  CHARACTER: 7,
+  OPTIONAL_STATEMENTS: 8,
+  REVIEW: 9,
+};
+
 // Chapter 1
 
 // ACCREDITATION_TYPE - GCLAWS Mapping
@@ -87,6 +99,95 @@ export const DISCHARGE_TYPE_ENUM = {
   'Other Than Honorable': DISCHARGE_TYPE_ID.OTHER_THAN_HONORABLE,
 };
 
+// Chapter 3
+// EMPLOYMENT_STATUS - GCLAWS Mapping
+const EMPLOYMENT_STATUS_ID = {
+  EMPLOYED: 1,
+  UNEMPLOYED: 2,
+  SELF_EMPLOYED: 3,
+  STUDENT: 4,
+};
+// EMPLOYMENT_STATUS - Frontend Options to GCLAWS Mapping
+export const EMPLOYMENT_STATUS_ENUM = Object.freeze({
+  EMPLOYED: EMPLOYMENT_STATUS_ID.EMPLOYED,
+  UNEMPLOYED: EMPLOYMENT_STATUS_ID.UNEMPLOYED,
+  SELF_EMPLOYED: EMPLOYMENT_STATUS_ID.SELF_EMPLOYED,
+  STUDENT: EMPLOYMENT_STATUS_ID.STUDENT,
+});
+
+// Chapter 4
+// DEGREE_TYPE - GCLAWS Mapping
+const DEGREE_TYPE_ID = {
+  GED: 1,
+  HS: 2,
+  ASSOCIATES: 3,
+  BACHELORS: 4,
+  MASTERS: 5,
+  DOCTORATE: 6,
+};
+// DEGREE_TYPE - Frontend Options to GCLAWS Mapping
+export const DEGREE_TYPE_ENUM = {
+  GED: DEGREE_TYPE_ID.GED,
+  'HS Diploma': DEGREE_TYPE_ID.HS,
+  Associates: DEGREE_TYPE_ID.ASSOCIATES,
+  Bachelors: DEGREE_TYPE_ID.BACHELORS,
+  Masters: DEGREE_TYPE_ID.MASTERS,
+  Doctorate: DEGREE_TYPE_ID.DOCTORATE,
+};
+
+// Chapter 5
+// ADMITTANCE_TYPE - GCLAWS Mapping
+export const ADMITTANCE_TYPE_ENUM = {
+  JURISDICTION: 1,
+  AGENCY: 2,
+};
+
+// Chapter 6
+// DOCUMENT_TYPE - GCLAWS Mapping
+export const DOCUMENT_TYPE_ENUM = {
+  Jurisdiction: 1,
+  Agency: 2,
+  Imprisoned: 3,
+  Convicted: 4,
+  CurrentlyCharged: 5,
+  Suspended: 6,
+  Withdrawn: 7,
+  Disciplined: 8,
+  ResignedRetired: 9,
+  AgencyAttorney: 10,
+  Reprimanded: 11,
+  ResignedToAvoidReprimand: 12,
+  AppliedForAccreditation: 13,
+  AccreditationTerminated: 14,
+  Impairments: 15,
+  PhysicalLimitations: 16,
+};
+
+// Chapter 7
+
+// RELATION_TO_APPLICANT - GCLAWS Mapping
+const RELATION_TO_APPLICANT_ID = {
+  CLASSMATE: 1,
+  COLLEAGUE: 2,
+  CUSTOMER_CLIENT: 3,
+  FRIEND: 4,
+  NEIGHBOR: 5,
+  SUPERVISOR: 6,
+  EDUCATOR: 7,
+  OTHER: 8,
+};
+// RELATION_TO_APPLICANT - Frontend Options to GCLAWS Mapping
+export const RELATIONSHIP_TO_APPLICANT_ENUM = {
+  Classmate: RELATION_TO_APPLICANT_ID.CLASSMATE,
+  Colleague: RELATION_TO_APPLICANT_ID.COLLEAGUE,
+  'Customer/Client': RELATION_TO_APPLICANT_ID.CUSTOMER_CLIENT,
+  Friend: RELATION_TO_APPLICANT_ID.FRIEND,
+  Neighbor: RELATION_TO_APPLICANT_ID.NEIGHBOR,
+  Supervisor: RELATION_TO_APPLICANT_ID.SUPERVISOR,
+  Educator: RELATION_TO_APPLICANT_ID.EDUCATOR,
+  Other: RELATION_TO_APPLICANT_ID.OTHER,
+};
+
 export const APPLICATION_STATUS_ID = {
   Pending: 1,
   'Request/Return for information': 2,
@@ -118,60 +219,9 @@ export const ADDRESS_TYPE_ID = {
   characterReference: 5,
 };
 
-export const EMPLOYMENT_STATUS_ID = {
-  Employed: 1,
-  Unemployed: 2,
-  'Self-employed': 3,
-  Student: 4,
-};
-
 export const INSTITUTION_TYPE_ID = {
   'High School': 1,
   'Community College': 2,
   'Under Graduate': 3,
   Graduate: 4,
-};
-
-export const DEGREE_TYPE_ID = {
-  GED: 1,
-  'HS Diploma': 2,
-  Associates: 3,
-  Bachelors: 4,
-  Masters: 5,
-  Doctorate: 6,
-};
-
-export const ADMITTANCE_TYPE_ID = {
-  Jurisdiction: 1,
-  Agency: 2,
-};
-
-export const DOCUMENT_TYPE_ID = {
-  Jurisdiction: 1,
-  Agency: 2,
-  Imprisoned: 3,
-  Convicted: 4,
-  CurrentlyCharged: 5,
-  Suspended: 6,
-  Withdrawn: 7,
-  Disciplined: 8,
-  ResignedRetired: 9,
-  AgencyAttorney: 10,
-  Reprimanded: 11,
-  ResignedToAvoidReprimand: 12,
-  AppliedForAccreditation: 13,
-  AccreditationTerminated: 14,
-  Impairments: 15,
-  PhysicalLimitations: 16,
-};
-
-export const RELATION_TO_APPLICANT_ID = {
-  Classmate: 1,
-  Colleague: 2,
-  'Customer/Client': 3,
-  Friend: 4,
-  Neighbor: 5,
-  Supervisor: 6,
-  Educator: 7,
-  Other: 8,
 };

@@ -11,21 +11,6 @@ export const typeOfPhoneOptions = Object.freeze({
   WORK: 'Work',
 });
 
-export const employmentStatusOptions = Object.freeze({
-  EMPLOYED: 'Employed',
-  UNEMPLOYED: 'Unemployed',
-  SELF_EMPLOYED: 'Self-employed',
-  STUDENT: 'Student',
-  RETIRED: 'Retired',
-  OTHER: 'Other',
-});
-
-export const descriptionRequired = Object.freeze([
-  'UNEMPLOYED',
-  'SELF_EMPLOYED',
-  'OTHER',
-]);
-
 export const primaryMailingAddressOptions = Object.freeze({
   HOME: 'Home',
   WORK: 'Work',
@@ -71,6 +56,13 @@ export const explanationRequired = Object.freeze([
 
 // Chapter 3
 
+export const employmentStatusOptions = Object.freeze({
+  EMPLOYED: 'Employed',
+  UNEMPLOYED: 'Unemployed',
+  SELF_EMPLOYED: 'Self-employed',
+  STUDENT: 'Student',
+});
+
 export const employmentActivitiesOptions = Object.freeze({
   BUSINESS: 'Business or service that advertises predominately to Veterans',
   CONSULTING: 'Consulting or referral services for Veterans',
@@ -79,16 +71,33 @@ export const employmentActivitiesOptions = Object.freeze({
   MEDICAL: 'Medical services',
   SOCIAL_WORK: 'Social work',
   VOCATIONAL_REHABILITATION: 'Vocational rehabilitation',
-  NONE: 'None of these apply',
 });
+
+export const descriptionRequired = Object.freeze([
+  'UNEMPLOYED',
+  'SELF_EMPLOYED',
+]);
 
 // Chapter 4
 
 export const degreeOptions = Object.freeze([
-  'High school diploma or equivalent',
+  'GED',
+  'High school diploma',
   'Associate degree',
   "Bachelor's degree",
   "Master's degree",
   'Doctoral degree',
+]);
+
+// Chapter 7
+
+export const characterReferencesRelationship = Object.freeze([
+  'Classmate',
+  'Colleague',
+  'Customer/Client',
+  'Friend',
+  'Neighbor',
+  'Supervisor',
+  'Educator',
   'Other',
 ]);
