@@ -8,6 +8,7 @@ import { formatDateTime } from '../util/dates';
 import { STATUSES, FORM_100998_LINK } from '../constants';
 import { toPascalCase } from '../util/string-helpers';
 import DocumentDownload from './DocumentDownload';
+import DecisionReason from './DecisionReason';
 
 const title = 'Your travel reimbursement claim';
 
@@ -39,6 +40,13 @@ export default function ClaimDetailsContent({
   );
   const [createDate, createTime] = formatDateTime(createdOn);
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
+
+  const showDecisionReason =
+    decisionLetterReason && claimsMgmtDecisionReasonToggle;
+
+  const isDeniedStatus =
+    claimStatus === STATUSES.Denied.name ||
+    claimStatus === STATUSES.PartialPayment.name;
 
   const getDocLinkList = list =>
     list.map(({ filename, text, documentId }) => (
@@ -109,18 +117,12 @@ export default function ClaimDetailsContent({
               you call.
             </p>
           )}
-          {decisionLetterReason &&
-            claimsMgmtDecisionReasonToggle &&
-            (claimStatus === STATUSES.Denied.name ||
-              claimStatus === STATUSES.PartialPayment.name) && (
-              <>
-                <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-                  {claimStatus === STATUSES.Denied.name
-                    ? 'Why we denied your claim'
-                    : 'Why we made a partial payment'}{' '}
-                </p>
-                <p className="vads-u-margin-top--0">{decisionLetterReason}</p>
-              </>
+          {showDecisionReason &&
+            isDeniedStatus && (
+              <DecisionReason
+                claimStatus={claimStatus}
+                decisionLetterReason={decisionLetterReason}
+              />
             )}
           {documentCategories.clerk.length > 0 &&
             getDocLinkList(documentCategories.clerk)}
