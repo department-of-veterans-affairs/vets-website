@@ -19,8 +19,8 @@ import {
   FACILITY_TYPES,
   FLOW_TYPES,
   GA_PREFIX,
+  TYPE_OF_CARE_IDS,
   TYPES_OF_CARE,
-  COVID_VACCINE_ID,
   OH_ENABLED_TYPES_OF_CARE,
 } from '../utils/constants';
 import {
@@ -38,16 +38,12 @@ import {
 } from './redux/actions';
 import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
-const AUDIOLOGY = '203';
-const SLEEP_CARE = 'SLEEP';
-const EYE_CARE = 'EYE';
-const PODIATRY = 'tbd-podiatry';
 const VA_FACILITY_V2_KEY = 'vaFacilityV2';
 
 function isCCAudiology(state) {
   return (
     getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
-    getFormData(state).typeOfCareId === AUDIOLOGY
+    getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.AUDIOLOGY_ID
   );
 }
 
@@ -63,19 +59,19 @@ function isCCFacility(state) {
 }
 
 function isSleepCare(state) {
-  return getFormData(state).typeOfCareId === SLEEP_CARE;
+  return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.SLEEP_MEDICINE_ID;
 }
 
 function isEyeCare(state) {
-  return getFormData(state).typeOfCareId === EYE_CARE;
+  return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.EYE_CARE_ID;
 }
 
 function isPodiatry(state) {
-  return getFormData(state).typeOfCareId === PODIATRY;
+  return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.PODIATRY_ID;
 }
 
 function isCovidVaccine(state) {
-  return getFormData(state).typeOfCareId === COVID_VACCINE_ID;
+  return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
 }
 
 async function vaFacilityNext(state, dispatch) {

@@ -60,7 +60,6 @@ describe('SignInInterruptPage', () => {
   it('should navigate to introduction with modal flag when clicking sign in', () => {
     const { props, mockStore } = getData({ loggedIn: false });
     const oldLocation = window.location;
-    delete window.location;
     window.location = { href: '' };
 
     const { container } = render(

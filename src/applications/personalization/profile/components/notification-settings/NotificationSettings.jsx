@@ -1,8 +1,8 @@
 import React, { useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { animateScroll as scroll } from 'react-scroll';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -81,7 +81,7 @@ const NotificationSettings = ({
       // issue: 48011
       // used via passed state from contact info - mobile update alert link
       if (location.state?.scrollToTop) {
-        scroll.scrollToTop({ duration: 0, smooth: false });
+        scrollToTop();
       }
 
       focusElement('[data-focus-target]');
@@ -162,7 +162,6 @@ const NotificationSettings = ({
               // this will hide the Payments header when there are no items to display
               if (
                 id === NOTIFICATION_GROUPS.PAYMENTS &&
-                !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting &&
                 !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
                 !mobilePhoneNumber
               ) {
@@ -171,8 +170,16 @@ const NotificationSettings = ({
               return <NotificationGroup groupId={id} key={id} />;
             })}
             <p className="vads-u-margin-bottom--0">
-              <strong>Note:</strong> We have limited notification options at
-              this time. Check back for more options in the future.
+              <strong>Note:</strong> Text messaging and email aren’t encrypted
+              forms of communication.{' '}
+              <Link
+                to="/privacy-policy/digital-notifications-terms-and-conditions/#privacy-and-security"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="vads-u-display--block desktop-lg:vads-u-display--inline"
+              >
+                Read more about privacy and security for digital notifications
+              </Link>
             </p>
           </>
         )}

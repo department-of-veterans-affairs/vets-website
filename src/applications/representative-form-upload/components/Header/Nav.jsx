@@ -58,7 +58,7 @@ export const Nav = () => {
               <Toggler.Enabled>
                 <a
                   className="nav__btn desktop"
-                  to="/poa-search"
+                  href="/representative/poa-search"
                   data-testid="desktop-search-link"
                 >
                   <va-icon
@@ -66,17 +66,32 @@ export const Nav = () => {
                     size={2}
                     className="people-search-icon"
                   />
-                  Search People
+                  Find Claimant
                 </a>
               </Toggler.Enabled>
             </Toggler>
             <a
               className="nav__btn desktop"
-              to="/poa-requests"
+              href="/representative/poa-requests"
               data-testid="desktop-poa-link"
             >
-              Power of Attorney Requests
+              Representation Requests
             </a>
+            <Toggler
+              toggleName={
+                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
+              }
+            >
+              <Toggler.Enabled>
+                <a
+                  className="nav__btn desktop"
+                  href="/representative/submissions"
+                  data-testid="desktop-submissions-link"
+                >
+                  Submissions
+                </a>
+              </Toggler.Enabled>
+            </Toggler>
             <a
               to="/get-help"
               className="nav__btn desktop vads-u-display--none"

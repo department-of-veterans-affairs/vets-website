@@ -68,7 +68,7 @@ export default function getPageFlow() {
   };
 }
 
-export function routeToPageInFlow(history, current, action, data) {
+function routeToPageInFlow(history, current, action, data) {
   return async (dispatch, getState) => {
     const pageFlow = getPageFlow();
 

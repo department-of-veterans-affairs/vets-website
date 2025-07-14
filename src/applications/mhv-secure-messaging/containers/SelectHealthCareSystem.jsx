@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropType from 'prop-types';
 import {
@@ -9,8 +10,10 @@ import {
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { Paths } from '../util/constants';
 
-const SelectHealthCareSystem = ({ acknowledge }) => {
+const SelectHealthCareSystem = () => {
+  const history = useHistory();
   const allFacilities = useSelector(state => state.sm.recipients.allFacilities);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -32,7 +35,7 @@ const SelectHealthCareSystem = ({ acknowledge }) => {
         setShowError('Select a VA health care system');
       } else {
         setShowError(null);
-        acknowledge();
+        history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
       }
     },
   };

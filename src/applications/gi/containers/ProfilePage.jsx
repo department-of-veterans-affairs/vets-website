@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { Element as ScrollElement } from 'platform/utilities/scroll';
+import { focusElement } from 'platform/utilities/ui/focus';
+import {
+  getScrollOptions,
+  Element as ScrollElement,
+  scrollTo,
+} from 'platform/utilities/scroll';
 
 import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';

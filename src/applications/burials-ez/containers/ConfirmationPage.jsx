@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';

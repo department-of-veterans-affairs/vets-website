@@ -1,13 +1,5 @@
 import { apiRequestWithUrl } from '../utils';
 
-export async function getPatientReferrals() {
-  const response = await apiRequestWithUrl(`/vaos/v2/referrals`, {
-    method: 'GET',
-  });
-
-  return response.data;
-}
-
 export async function getPatientReferralById(referralId) {
   const response = await apiRequestWithUrl(`/vaos/v2/referrals/${referralId}`, {
     method: 'GET',
@@ -45,19 +37,6 @@ export async function postReferralAppointment({
       providerServiceId,
     }),
   });
-  return response.data;
-}
-
-export async function postDraftReferralAppointment(referralNumber) {
-  const response = await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    // eslint-disable-next-line camelcase
-    body: JSON.stringify({ referral_id: referralNumber }),
-  });
-
   return response.data;
 }
 

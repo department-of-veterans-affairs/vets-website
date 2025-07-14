@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import set from 'lodash/set';
 
 // vap-svc deps
@@ -57,6 +57,10 @@ const CopyAddressModal = props => {
     [mailingAddress, homeAddress, updateCopyAddressModalAction],
   );
 
+  const validationKey = useSelector(
+    state => state?.vapService?.addressValidation?.validationKey,
+  );
+
   useEffect(
     () => {
       if (copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.CHECKING) {
@@ -75,6 +79,10 @@ const CopyAddressModal = props => {
 
       // make sure we are sending correct id in payload, or empty string if no mailing address for user
       const payloadWithUpdatedId = set(payload, 'id', mailingAddress?.id || '');
+
+      if (validationKey) {
+        payloadWithUpdatedId.validationKey = validationKey;
+      }
 
       const method = payloadWithUpdatedId.id ? 'PUT' : 'POST';
 

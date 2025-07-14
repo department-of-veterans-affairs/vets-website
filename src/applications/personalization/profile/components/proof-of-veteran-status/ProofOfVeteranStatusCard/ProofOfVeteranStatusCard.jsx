@@ -32,14 +32,15 @@ const ProofOfVeteranStatusCard = ({
                 <dt className="vads-u-font-weight--bold">DoD ID Number</dt>
                 <dd>{edipi}</dd>
               </div>
-              {!!totalDisabilityRating && (
-                <div>
-                  <dt className="vads-u-font-weight--bold">
-                    VA disability rating
-                  </dt>
-                  <dd>{`${totalDisabilityRating}%`}</dd>
-                </div>
-              )}
+              {totalDisabilityRating != null &&
+                totalDisabilityRating >= 0 && (
+                  <div>
+                    <dt className="vads-u-font-weight--bold">
+                      VA disability rating
+                    </dt>
+                    <dd>{`${totalDisabilityRating}%`}</dd>
+                  </div>
+                )}
             </div>
           </div>
         </dl>

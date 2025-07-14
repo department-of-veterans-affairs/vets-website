@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/dom';
+import { cleanup } from '@testing-library/react';
 import { Route, Routes } from 'react-router-dom-v5-compat';
 import { prescriptionsApi } from '../../api/prescriptionsApi';
 import { allergiesApi } from '../../api/allergiesApi';
@@ -63,22 +64,34 @@ describe('Prescription details documentation container', () => {
     stubPrescriptionDocumentationQuery({ sandbox });
   });
 
-  afterEach(() => {
-    sandbox.restore();
+  afterEach(async () => {
+    cleanup();
+    await sandbox.restore();
   });
 
   it('renders without errors', async () => {
     const screen = setup();
     await waitFor(() => {
-      expect(screen);
+      expect(screen).to.exist;
     });
   });
 
   it('should display loading message when loading specific rx documentation', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionIdApi({ sandbox });
+    stubPrescriptionDocumentationQuery({
+      sandbox,
+      isLoading: true,
+      data: null,
+    });
     const screen = setup();
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('loading-indicator')).to.exist;
-      expect(screen.getByText('Loading information...')).to.exist;
+      expect(screen.getByTestId('loading-indicator')).to.have.attribute(
+        'message',
+        'Loading information...',
+      );
     });
   });
 
@@ -181,9 +194,9 @@ describe('Prescription details documentation container', () => {
         revokeObjectURL: sinon.spy(),
       };
       window.location = { assign: sinon.spy() };
-      global.navigator = {
-        onLine: true,
-      };
+
+      if (!global.navigator) global.navigator = {};
+      global.navigator.onLine = true;
     });
 
     it('should call downloadFile with TXT format and generate TXT file', async () => {
@@ -193,9 +206,6 @@ describe('Prescription details documentation container', () => {
         const downloadTxtBtn = screen.getByTestId('download-txt-button');
         expect(downloadTxtBtn).to.exist;
         downloadTxtBtn.click();
-      });
-
-      await waitFor(() => {
         expect(screen.getByText('Download started')).to.exist;
       });
     });
@@ -207,9 +217,6 @@ describe('Prescription details documentation container', () => {
         const downloadPdfBtn = screen.getByTestId('download-pdf-button');
         expect(downloadPdfBtn).to.exist;
         downloadPdfBtn.click();
-      });
-
-      await waitFor(() => {
         expect(screen.getByText('Download started')).to.exist;
       });
     });

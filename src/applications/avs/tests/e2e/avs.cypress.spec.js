@@ -49,7 +49,6 @@ describe('After-visit Summary - Happy Path', () => {
     cy.visit(testUrl);
     cy.get('h1').contains('After-visit summary');
     cy.get("[header='Your appointment on January 1, 2023'][open='true']")
-      .shadow()
       .get('.avs-accordion-item')
       .contains('You were diagnosed with')
       .should('be.visible');

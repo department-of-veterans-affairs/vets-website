@@ -1,3 +1,5 @@
+export const REASON_MAX_CHARS = 250;
+
 export const FETCH_STATUS = {
   loading: 'loading',
   notStarted: 'notStarted',
@@ -60,8 +62,6 @@ export const PURPOSE_TEXT_V2 = [
   },
 ];
 
-export const PODIATRY_ID = 'tbd-podiatry';
-export const COVID_VACCINE_ID = 'covid';
 export const COMP_AND_PEN = 'COMPENSATION & PENSION';
 
 /**
@@ -77,26 +77,30 @@ export const COMP_AND_PEN = 'COMPENSATION & PENSION';
  * @property {Array<string>} specialities PPMS specialty codes associated with this type of care
  */
 
-export const PRIMARY_CARE = '323';
-export const MENTAL_HEALTH = '502';
-export const PHARMACY_ID = '160';
-export const SOCIAL_WORK_ID = '125';
-export const AMPUTATION_ID = '211';
-export const AUDIOLOGY_ID = '203';
-export const MOVE_PROGRAM_ID = '372';
-export const FOOD_AND_NUTRITION_ID = '123';
-export const SLEEP_MEDICINE_ID = 'SLEEP';
-export const EYE_CARE_ID = 'EYE';
-export const CPAP_ID = '349';
-export const HOME_SLEEP_TESTING_ID = '143';
-export const OPTOMETRY_ID = '408';
-export const OPHTHALMOLOGY_ID = '407';
-export const AUDIOLOGY_ROUTINE_ID = 'CCAUDRTNE';
-export const AUDIOLOGY_HEARING_ID = 'CCAUDHEAR';
+export const TYPE_OF_CARE_IDS = {
+  PRIMARY_CARE: '323',
+  COVID_VACCINE_ID: 'covid',
+  MENTAL_HEALTH: '502',
+  PHARMACY_ID: '160',
+  SOCIAL_WORK_ID: '125',
+  AMPUTATION_ID: '211',
+  AUDIOLOGY_ID: '203',
+  MOVE_PROGRAM_ID: '372',
+  FOOD_AND_NUTRITION_ID: '123',
+  SLEEP_MEDICINE_ID: 'SLEEP',
+  EYE_CARE_ID: 'EYE',
+  CPAP_ID: '349',
+  HOME_SLEEP_TESTING_ID: '143',
+  OPTOMETRY_ID: '408',
+  OPHTHALMOLOGY_ID: '407',
+  AUDIOLOGY_ROUTINE_ID: 'CCAUDRTNE',
+  AUDIOLOGY_HEARING_ID: 'CCAUDHEAR',
+  PODIATRY_ID: 'tbd-podiatry',
+};
 
 export const TYPES_OF_CARE = [
   {
-    id: PRIMARY_CARE,
+    id: TYPE_OF_CARE_IDS.PRIMARY_CARE,
     idV2: 'primaryCare',
     name: 'Primary care',
     group: 'primary',
@@ -105,31 +109,31 @@ export const TYPES_OF_CARE = [
     specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
   },
   {
-    id: '160',
+    id: TYPE_OF_CARE_IDS.PHARMACY_ID,
     idV2: 'clinicalPharmacyPrimaryCare',
     name: 'Pharmacy',
     group: 'primary',
   },
   {
-    id: MENTAL_HEALTH,
+    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH,
     idV2: 'outpatientMentalHealth',
     name: 'Mental health',
     group: 'mentalHealth',
   },
   {
-    id: '125',
+    id: TYPE_OF_CARE_IDS.SOCIAL_WORK_ID,
     idV2: 'socialWork',
     name: 'Social work',
     group: 'mentalHealth',
   },
   {
-    id: '211',
+    id: TYPE_OF_CARE_IDS.AMPUTATION_ID,
     idV2: 'amputation',
     name: 'Amputation care',
     group: 'specialty',
   },
   {
-    id: '203',
+    id: TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
     idV2: 'audiology',
     name: 'Audiology and speech',
     label: 'Audiology and speech (including hearing aid support)',
@@ -138,13 +142,13 @@ export const TYPES_OF_CARE = [
     cceType: 'Audiology',
   },
   {
-    id: '372',
+    id: TYPE_OF_CARE_IDS.MOVE_PROGRAM_ID,
     idV2: 'moveProgram',
     name: 'MOVE! weight management program',
     group: 'specialty',
   },
   {
-    id: '123',
+    id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
     idV2: 'foodAndNutrition',
     name: 'Nutrition and food',
     group: 'specialty',
@@ -153,7 +157,7 @@ export const TYPES_OF_CARE = [
     specialties: ['133V00000X', '133VN1201X', '133N00000X', '133NN1002X'],
   },
   {
-    id: PODIATRY_ID,
+    id: TYPE_OF_CARE_IDS.PODIATRY_ID,
     idV2: 'podiatry',
     name: 'Podiatry',
     label: 'Podiatry (only available online for Community Care appointments)',
@@ -169,30 +173,30 @@ export const TYPES_OF_CARE = [
     ],
   },
   {
-    id: 'SLEEP',
+    id: TYPE_OF_CARE_IDS.SLEEP_MEDICINE_ID,
     name: 'Sleep medicine',
     group: 'specialty',
   },
   {
-    id: 'EYE',
+    id: TYPE_OF_CARE_IDS.EYE_CARE_ID,
     name: 'Eye care',
     group: 'specialty',
   },
   {
-    id: COVID_VACCINE_ID,
-    idV2: COVID_VACCINE_ID,
+    id: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+    idV2: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
     name: 'COVID-19 vaccine',
   },
 ];
 
 export const TYPES_OF_SLEEP_CARE = [
   {
-    id: '349',
+    id: TYPE_OF_CARE_IDS.CPAP_ID,
     idV2: 'cpap',
     name: 'Continuous Positive Airway Pressure (CPAP)',
   },
   {
-    id: '143',
+    id: TYPE_OF_CARE_IDS.HOME_SLEEP_TESTING_ID,
     idV2: 'homeSleepTesting',
     name: 'Sleep medicine and home sleep testing',
   },
@@ -200,7 +204,7 @@ export const TYPES_OF_SLEEP_CARE = [
 
 export const TYPES_OF_EYE_CARE = [
   {
-    id: '408',
+    id: TYPE_OF_CARE_IDS.OPTOMETRY_ID,
     idV2: 'optometry',
     name: 'Optometry',
     ccId: 'CCOPT',
@@ -208,7 +212,7 @@ export const TYPES_OF_EYE_CARE = [
     specialties: ['152W00000X', '152WC0802X'],
   },
   {
-    id: '407',
+    id: TYPE_OF_CARE_IDS.OPHTHALMOLOGY_ID,
     idV2: 'ophthalmology',
     name: 'Ophthalmology',
   },
@@ -216,13 +220,13 @@ export const TYPES_OF_EYE_CARE = [
 
 export const AUDIOLOGY_TYPES_OF_CARE = [
   {
-    ccId: 'CCAUDRTNE',
+    ccId: TYPE_OF_CARE_IDS.AUDIOLOGY_ROUTINE_ID,
     idV2: 'audiology-routine exam',
     name: 'Routine hearing exam',
     specialties: ['231H00000X', '237600000X', '261QH0700X'],
   },
   {
-    ccId: 'CCAUDHEAR',
+    ccId: TYPE_OF_CARE_IDS.AUDIOLOGY_HEARING_ID,
     idV2: 'audiology-hearing aid support',
     name: 'Hearing aid support',
     specialties: ['231H00000X', '237600000X'],
@@ -349,41 +353,9 @@ export const TYPE_OF_VISIT_ID = TYPE_OF_VISIT.reduce((acc, visit) => {
   return acc;
 }, {});
 
-// todo: not used, delete?
-export const DISTANCES = [
-  {
-    id: '25',
-    name: 'Up to 25 miles',
-  },
-  {
-    id: '50',
-    name: 'Up to 50 miles',
-  },
-  {
-    id: '50+',
-    name: 'Further than 50 miles',
-  },
-];
-
-export const EXPRESS_CARE = 'CR1';
-
 export const GA_PREFIX = 'vaos';
 
 export const VHA_FHIR_ID = 'urn:oid:2.16.840.1.113883.6.233';
-
-export const FREE_BUSY_TYPES = {
-  busy: 'busy',
-  free: 'free',
-  busyUnavailable: 'busy-unavailable',
-  busyTentative: 'busy-tentative',
-};
-
-export const UNABLE_TO_REACH_VETERAN_DETCODE = 'DETCODE23';
-
-export const EXPRESS_CARE_ERROR_REASON = {
-  error: 'error',
-  noActiveFacility: 'noActiveFacility',
-};
 
 export const DEFAULT_WEEK_DAYS = [
   {
@@ -422,8 +394,6 @@ export const CANCELLATION_REASONS = {
   patient: 'pat',
   provider: 'prov',
 };
-
-export const SPACE_BAR = 32;
 
 export const ERROR_CODES = [
   {
@@ -497,19 +467,26 @@ export const DATE_FORMATS = {
   // Friendly formats for displaying dates to users
   // e.g. January 1, 2023
   friendlyDate: 'MMMM d, yyyy',
+  // e.g. Monday, January 1, 2023
+  friendlyWeekdayDate: 'EEEE, MMMM d, yyyy',
   // ISO 8601
   // e.g. 2025-05-06T21:00:00
   ISODateTime: "yyyy-MM-dd'T'HH:mm:ss",
   // e.g. 2025-05-06T21:00:00Z
   ISODateTimeUTC: "yyyy-MM-dd'T'HH:mm:ss'Z'",
   // e.g. 2025-05-06T21:00:00-05:00"
-  ISODateTimeLocal: "yyyy-MM-dd'T'HH:mm:ssxxx",
+  ISODateTimeLocal: "yyyy-MM-dd'T'HH:mm:ssXXX",
   // iCalendar RFC 5545
+  // e.g. 20250506T225403
+  iCalDateTime: "yyyyMMdd'T'HHmmss",
   // e.g. 20250506T225403Z
-  iCalDateTimeUTC: "yyyyMMdd'T'HHmmss'Z'",
+  iCalDateTimeUTC: "yyyyMMdd'T'HHmmssXXX",
   // Internal formats for use in source code
   // e.g. 2025-05
   yearMonth: 'yyyy-MM',
   // e.g. 2025-05-21
   yearMonthDay: 'yyyy-MM-dd',
 };
+
+export const POST_DRAFT_REFERRAL_APPOINTMENT_CACHE =
+  'postDraftReferralAppointmentCache';

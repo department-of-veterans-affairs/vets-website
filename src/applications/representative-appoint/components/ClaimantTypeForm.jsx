@@ -7,7 +7,7 @@ import { schema, uiSchema } from '../pages/claimant/claimantType';
 import GetFormHelp from './GetFormHelp';
 
 const ClaimantTypeForm = props => {
-  const { data, onGoBack, onChange, onSubmit } = props;
+  const { data, onChange, onGoBack, onSubmit } = props;
 
   return (
     <div className="vads-u-margin-top--2p5">
@@ -15,7 +15,7 @@ const ClaimantTypeForm = props => {
         title="Request help from a VA accredited representative or VSO"
         subTitle="VA Forms 21-22 and 21-22a"
       />
-      <h3>Tell us who you are</h3>{' '}
+      <h2>Tell us who you are</h2>{' '}
       <SchemaForm
         name="Claimant Form"
         title="Claimant Form"
@@ -38,6 +38,7 @@ const ClaimantTypeForm = props => {
 ClaimantTypeForm.propTypes = {
   data: PropTypes.object,
   onChange: PropTypes.func,
+  onGoBack: PropTypes.func,
   onLogin: PropTypes.func,
   onSubmit: PropTypes.func,
 };

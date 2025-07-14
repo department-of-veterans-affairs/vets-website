@@ -28,7 +28,7 @@ const disabilityRatingClassesSmall = prefixUtilityClasses(
 
 const dtRatingClasses = prefixUtilityClasses(['margin-right--0p5'], 'medium');
 
-const DisabilityRatingContent = ({ rating }) => {
+const DisabilityRatingContent = ({ rating, ratingIsValid }) => {
   const classes = [
     ...disabilityRatingClasses,
     ...disabilityRatingClassesMedium,
@@ -36,14 +36,14 @@ const DisabilityRatingContent = ({ rating }) => {
   ].join(' ');
   return (
     <div className={classes}>
-      <dt className={rating ? dtRatingClasses : null}>
-        {rating ? `Your disability rating:` : null}
+      <dt className={ratingIsValid ? dtRatingClasses : null}>
+        {ratingIsValid ? `Your disability rating:` : null}
       </dt>
       <dd>
         <a
           href="/disability/view-disability-rating/rating"
           aria-label={
-            rating
+            ratingIsValid
               ? `${rating} percent service connected disability rating`
               : 'Review your disability rating'
           }
@@ -51,7 +51,7 @@ const DisabilityRatingContent = ({ rating }) => {
           style={{ whiteSpace: 'nowrap' }}
         >
           <strong>
-            {rating
+            {ratingIsValid
               ? `${rating}% service connected`
               : 'Review your disability rating'}
           </strong>
@@ -68,6 +68,7 @@ const DisabilityRatingContent = ({ rating }) => {
 
 DisabilityRatingContent.propTypes = {
   rating: PropTypes.number,
+  ratingIsValid: PropTypes.bool,
 };
 
 const DisabilityRating = ({ rating, showFallbackLink }) => {
@@ -75,8 +76,12 @@ const DisabilityRating = ({ rating, showFallbackLink }) => {
     return <DisabilityRatingContent />;
   }
 
-  if (rating) {
-    return <DisabilityRatingContent rating={rating} />;
+  const ratingIsValid = rating !== undefined && rating !== null;
+
+  if (ratingIsValid) {
+    return (
+      <DisabilityRatingContent rating={rating} ratingIsValid={ratingIsValid} />
+    );
   }
 
   return null;
@@ -92,7 +97,7 @@ const NameTag = ({
   latestBranchOfService,
   showBadgeImage,
   totalDisabilityRating,
-  totalDisabilityRatingServerError,
+  totalDisabilityRatingError,
 }) => {
   const fullName = formatFullName({ first, middle, last, suffix });
 
@@ -214,7 +219,7 @@ const NameTag = ({
             )}
             <DisabilityRating
               rating={totalDisabilityRating}
-              showFallbackLink={totalDisabilityRatingServerError}
+              showFallbackLink={totalDisabilityRatingError}
             />
           </dl>
         </div>
@@ -251,7 +256,7 @@ NameTag.propTypes = {
   latestBranchOfService: PropTypes.string,
   showBadgeImage: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
-  totalDisabilityRatingServerError: PropTypes.bool,
+  totalDisabilityRatingError: PropTypes.bool,
   userFullName: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,

@@ -5,6 +5,8 @@ import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
+const API_BASE_PATH_V2 = `${environment.API_URL}/my_health/v2`;
+
 const headers = {
   'Content-Type': 'application/json',
 };
@@ -66,6 +68,19 @@ export const getLabsAndTests = async () => {
   return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
     headers,
   });
+};
+export const getAcceleratedLabsAndTests = async ({
+  startDate,
+  endDate,
+} = {}) => {
+  const startDateParam = `start_date=${startDate}`;
+  const endDateParam = `&end_date=${endDate}`;
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/labs_and_tests?${startDateParam}${endDateParam}`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getLabOrTest = id => {
@@ -203,8 +218,18 @@ export const getAcceleratedAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = async () => {
-  return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
+export const getVaccineList = async (page, useCache = true) => {
+  const params = new URLSearchParams();
+  // Send pagination params if page is defined and != 0
+  if (page) {
+    params.append('page', page);
+    params.append('per_page', '10');
+  }
+  if (!useCache) {
+    params.append('use_cache', 'false');
+  }
+  const queryString = params.toString() ? `?${params.toString()}` : '';
+  return apiRequest(`${apiBasePath}/medical_records/vaccines${queryString}`, {
     headers,
   });
 };
@@ -216,6 +241,18 @@ export const getVaccineList = async () => {
  */
 export const getVaccine = id => {
   return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
+    headers,
+  });
+};
+
+export const getAcceleratedImmunizations = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/immunizations`, {
+    headers,
+  });
+};
+
+export const getAcceleratedImmunization = id => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/immunizations/${id}`, {
     headers,
   });
 };
@@ -327,4 +364,15 @@ export const downloadCCD = timestamp => {
       'Content-Type': 'application/xml',
     },
   );
+};
+
+/**
+ * Send Datadog actions to the backend to be recorded in StatsD metrics
+ */
+export const postRecordDatadogAction = async (metric, tags = []) => {
+  return apiRequest(`${environment.API_URL}/v0/datadog_action`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ metric: `mr.${metric}`, tags }),
+  });
 };

@@ -9,7 +9,11 @@
  */
 
 import moment from '../../../lib/moment-tz';
-import { PURPOSE_TEXT_V2, TYPE_OF_VISIT } from '../../../utils/constants';
+import {
+  PURPOSE_TEXT_V2,
+  TYPE_OF_VISIT,
+  REASON_MAX_CHARS,
+} from '../../../utils/constants';
 
 export function getReasonCode({ data, isCC, isDS }) {
   const apptReasonCode = PURPOSE_TEXT_V2.find(
@@ -22,7 +26,7 @@ export function getReasonCode({ data, isCC, isDS }) {
   ).map(visit => visit.vsGUI);
 
   if (isCC) {
-    reasonText = data.reasonAdditionalInfo?.slice(0, 250);
+    reasonText = data.reasonAdditionalInfo?.slice(0, REASON_MAX_CHARS);
     return {
       text: reasonText,
     };
@@ -40,7 +44,10 @@ export function getReasonCode({ data, isCC, isDS }) {
     const email = `email: ${data.email}`;
     const preferredDates = `preferred dates:${formattedDates.toString()}`;
     const reasonCode = `reason code:${apptReasonCode}`;
-    reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
+    reasonText = `comments:${data.reasonAdditionalInfo.slice(
+      0,
+      REASON_MAX_CHARS,
+    )}`;
     // Add station id, preferred modality, phone number, email, preferred Date, reason Code to
     // appointmentInfo string in this order: [0]station id, [1]preferred modality, [2]phone number,
     // [3]email, [4]preferred Date, [5]reason Code
@@ -48,7 +55,10 @@ export function getReasonCode({ data, isCC, isDS }) {
   }
   if (isDS) {
     appointmentInfo = `reason code:${apptReasonCode}`;
-    reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
+    reasonText = `comments:${data.reasonAdditionalInfo.slice(
+      0,
+      REASON_MAX_CHARS,
+    )}`;
   }
   return {
     text: data.reasonAdditionalInfo ? `${appointmentInfo}|${reasonText}` : null,

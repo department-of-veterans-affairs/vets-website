@@ -21,7 +21,6 @@ import AddToCalendarButton from '../AddToCalendarButton';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import NewTabAnchor from '../NewTabAnchor';
 import Address from '../Address';
-import VideoInstructions from '../VideoInstructions';
 import State from '../State';
 import {
   NULL_STATE_FIELD,
@@ -75,16 +74,16 @@ export default function VideoLayoutAtlas({ data: appointment }) {
         !isPastAppointment && (
           <Section heading="How to join">
             You’ll use this appointment code to find your appointment using the
-            computer provided at the site:
-            <br />
-            {atlasConfirmationCode}
-            <br />
+            computer provided at the site: {atlasConfirmationCode}
           </Section>
         )}
       <When>
-        <AppointmentDate date={startDate} />
+        <AppointmentDate date={startDate} timezone={appointment.timezone} />
         <br />
-        <AppointmentTime appointment={appointment} />
+        <AppointmentTime
+          appointment={appointment}
+          timezone={appointment.timezone}
+        />
         <br />
         {APPOINTMENT_STATUS.cancelled !== status &&
           !isPastAppointment && (
@@ -150,17 +149,21 @@ export default function VideoLayoutAtlas({ data: appointment }) {
           <Prepare>
             <ul className="vads-u-margin-top--0">
               <li>
-                Bring your insurance cards. And bring a list of your medications
-                and other information to share with your provider.
+                Bring your insurance cards, a list of your medications, and
+                other things to share with your provider
                 <br />
                 <va-link
-                  text="Find a full list of things to bring to your appointment"
+                  text="Find out what to bring to your appointment"
                   href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
                 />
               </li>
               <li>
-                Get your device ready to join.
-                <VideoInstructions />
+                Get your device ready to join
+                <br />
+                <va-link
+                  text="Learn how to prepare for your video appointment"
+                  href="https://www.va.gov/resources/how-should-i-prepare-for-a-video-health-appointment/"
+                />
               </li>
             </ul>
           </Prepare>

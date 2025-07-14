@@ -18,14 +18,14 @@ export const Data = {
     'Showing 11 to 20 of 26 prescriptions, from newest to oldest',
   PREVIOUS_PRESCRIPTION_PAGINATION_THIRD:
     'Showing 21 to 26 of 26 prescriptions, from newest to oldest',
-  REFILL_HISTORY_INFO: 'Showing 11 refills, from newest to oldest',
+  REFILL_HISTORY_INFO: 'Showing 11 fills, from newest to oldest',
   FILL_DATE_FIELD: 'Filled by pharmacy on',
   IMAGE_FIELD: 'Image',
   MED_DESCRIPTION: 'Medication description',
   LAST_FILLED_DATE: 'Last filled on March 18, 2024',
   REFILL_LINK_TEXT: 'Request a refill',
   ORIGINAL_FILL_LINK_TEXT: 'Request a fill',
-  SINGLE_REFILL_HISTORY_INFO: 'Showing 1 refill',
+  SINGLE_REFILL_HISTORY_INFO: 'Showing 1 fill',
   SINGLE_PREVIOUS_RX_INFO: 'Showing 1 prescription',
   SINGLE_CERNER_FACILITY_USER:
     'Some of your medications may be in a different portal. To view or manage medications at VA Spokane health care, go to My VA Health.',
@@ -83,8 +83,7 @@ export const Data = {
   PHARMACY_PHONE_NUMBER_EMPTY: 'Pharmacy phone number not available',
   REASON_FOR_USE_EMPTY: 'Reason for use not available',
   INSTRUCTIONS_EMPTY: 'Instructions not available',
-  PARTIAL_FILL_TEXT:
-    'This fill has a smaller quantity on purpose. This is temporary.',
+  PARTIAL_FILL_TEXT: 'This fill has a smaller quantity on purpose.',
   DOWNLOAD_TXT_REFILL_HISTORY: 'Medication description',
   TRACKING_HEADING: 'Track the shipment of your most recent refill',
   PRESCRIPTION_INFO_TRACKING: 'Prescriptions in this package',
@@ -92,34 +91,43 @@ export const Data = {
   DOWNLOAD_SUCCESS_CONFIRMATION_MESSAGE: 'Download started',
   DOWNLOAD_SUCCESS_ALERT_CONTENT:
     'Your file should download automatically. If it doesn’t, try again. If you can’t find it, check your browser settings to find where your browser saves downloaded files.',
+  REFILL_REQUEST_ERROR_ALERT_TEXT: 'Request not submitted',
+  FAILED_REQUEST_DESCRIPTION_TEXT:
+    'We’re sorry. There’s a problem with our system.',
+  FAILED_REQUEST_RETRY_TEXT:
+    'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
+  PARTIAL_FAILED_REQUEST_ALERT_TEXT: 'Only part of your request was submitted',
+  PENDING_RX_FILL_DATE_TEXT: 'Not filled yet',
+  NOTE_ABOUT_IMAGES:
+    'Note: Images on this page are for identification purposes only. They don’t mean that this is the amount of medication you’re supposed to take.',
+  PROVIDER_FULL_NAME: 'MOHAMMAD ISLAM',
+  DOCUMENTED_BY_FULL_NAME: 'BHAVIN PATEL',
 };
 export const Paths = {
   LANDING_LIST:
-    '/my_health/v1/prescriptions?page=1&per_page=10&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    '/my_health/v1/prescriptions?page=1&per_page=10&sort=alphabetical-status',
   MED_LIST:
-    '/my_health/v1/prescriptions?page=1&per_page=10&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    '/my_health/v1/prescriptions?page=1&per_page=10&sort=alphabetical-status',
   EMPTY_MED_LIST:
     '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort[]=prescription_name&sort[]=dispensed_date',
   DELAY_ALERT:
-    '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort[]=prescription_name&sort[]=dispensed_date',
+    '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-rx-name',
   SORT_BY_NAME:
-    'my_health/v1/prescriptions?page=1&per_page=10&sort[]=prescription_name&sort[]=dispensed_date',
+    'my_health/v1/prescriptions?page=1&per_page=10&sort=alphabetical-rx-name',
   SORT_BY_LAST_FILLED:
-    'my_health/v1/prescriptions?page=1&per_page=10&sort[]=-dispensed_date&sort[]=prescription_name',
-  SORT_BY_STATUS:
-    '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    'my_health/v1/prescriptions?page=1&per_page=10&sort=last-fill-date',
+  SORT_BY_STATUS: '&sort=alphabetical-status',
   ACTIVE_FILTER:
-    '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active,Active:%20Refill%20in%20Process,Active:%20Non-VA,Active:%20On%20Hold,Active:%20Parked,Active:%20Submitted&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active,Active:%20Refill%20in%20Process,Active:%20Non-VA,Active:%20On%20Hold,Active:%20Parked,Active:%20Submitted&sort=alphabetical-status',
   INTERCEPT: {
     PAGINATION_NEXT:
-      '/my_health/v1/prescriptions?page=2&per_page=10&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-
+      '/my_health/v1/prescriptions?page=2&per_page=10&sort=alphabetical-status',
     RECENTLY_REQUESTED_FILTER_LIST:
-      '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      'my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-status',
     RENEW_FILTER_LIST:
-      'my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active,Expired&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active,Expired&sort=alphabetical-status',
     NON_ACTIVE_FILTER_LIST:
-      '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      'my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown&sort=alphabetical-status',
     AAL: 'my_health/v1/aal',
   },
 };

@@ -4,7 +4,7 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
+import { TASK_KEYS } from './constants';
 import { isChapterFieldRequired } from './helpers';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -127,6 +127,7 @@ import prefillTransformer from './prefill-transformer';
 import { chapter as addChild } from './chapters/report-add-child';
 import { spouseAdditionalEvidence } from './chapters/additional-information/spouseAdditionalEvidence';
 import { childAdditionalEvidence as finalChildAdditionalEvidence } from './chapters/additional-information/childAdditionalEvidence';
+import { spouseEvidence, childEvidence } from './utilities';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -242,7 +243,7 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.['view:addOrRemoveDependents']?.add,
-          title: 'Spouse’s name',
+          title: 'Spouse’s current legal name',
           path: 'add-spouse/current-legal-name',
           uiSchema: spouseInformation.uiSchema,
           schema: spouseInformation.schema,
@@ -251,7 +252,7 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.['view:addOrRemoveDependents']?.add,
-          title: 'Spouse information',
+          title: 'Spouse’s identification information',
           path: 'add-spouse/personal-information',
           uiSchema: spouseInformationPartTwo.uiSchema,
           schema: spouseInformationPartTwo.schema,
@@ -261,7 +262,7 @@ export const formConfig = {
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.['view:addOrRemoveDependents']?.add &&
             formData?.spouseInformation?.isVeteran,
-          title: 'Spouse’s VA file number',
+          title: 'Your spouse’s military service information',
           path: 'add-spouse/military-service-information',
           uiSchema: spouseInformationPartThree.uiSchema,
           schema: spouseInformationPartThree.schema,
@@ -300,7 +301,7 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.['view:addOrRemoveDependents']?.add,
-          title: 'Information about your marriage',
+          title: 'Spouse’s income',
           path: 'current-marriage-information/spouse-income',
           uiSchema: currentMarriageInformationPartTwo.uiSchema,
           schema: currentMarriageInformationPartTwo.schema,
@@ -1076,20 +1077,11 @@ export const formConfig = {
       pages: {
         marriageAdditionalEvidence: {
           depends: formData => {
-            const { veteranAddress: address } =
-              formData.veteranContactInformation || {};
-            const isOutsideUSA =
-              address?.country !== 'USA' || Boolean(address?.isMilitary);
-            const { typeOfMarriage } =
-              formData?.currentMarriageInformation || {};
-            const isValidNonCeremonialMarriage =
-              typeof typeOfMarriage === 'string' &&
-              typeOfMarriage !== MARRIAGE_TYPES.ceremonial;
-
+            const { needsSpouseUpload } = spouseEvidence(formData);
             return (
-              (isOutsideUSA || isValidNonCeremonialMarriage) &&
               isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-              formData?.['view:addOrRemoveDependents']?.add
+              formData?.['view:addOrRemoveDependents']?.add &&
+              needsSpouseUpload
             );
           },
           title: 'Submit supporting evidence to add your spouse',
@@ -1099,18 +1091,12 @@ export const formConfig = {
         },
         childAdditionalEvidence: {
           depends: formData => {
-            const pageCondition = formData?.childrenToAdd?.some(
-              child =>
-                child?.relationshipToChild?.stepchild ||
-                child?.relationshipToChild?.adopted ||
-                child?.doesChildHaveDisability,
-            );
-
+            const { needsChildUpload } = childEvidence(formData);
             return (
               (isChapterFieldRequired(formData, TASK_KEYS.addChild) ||
                 isChapterFieldRequired(formData, TASK_KEYS.addDisabledChild)) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              pageCondition
+              needsChildUpload
             );
           },
           title: 'Upload your supporting evidence to add your child',

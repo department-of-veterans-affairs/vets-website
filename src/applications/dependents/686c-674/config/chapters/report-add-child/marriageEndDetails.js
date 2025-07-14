@@ -5,6 +5,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 export const marriageEndDetails = {
   uiSchema: {
@@ -31,6 +32,25 @@ export const marriageEndDetails = {
         },
       }),
     },
+    marriageEndDescription: {
+      'ui:title': 'Briefly describe how the marriage ended',
+      'ui:webComponentField': VaTextInputField,
+      'ui:errorMessages': {
+        required: 'Provide details on how the marriage ended.',
+      },
+      'ui:required': (formData, index) => {
+        const addMode =
+          formData?.childrenToAdd?.[index]?.marriageEndReason === 'other';
+        const editMode = formData?.marriageEndReason === 'other';
+        return addMode || editMode;
+      },
+      'ui:options': {
+        expandUnder: 'marriageEndReason',
+        expandUnderCondition: 'other',
+        expandedContentFocus: true,
+        preserveHiddenData: true,
+      },
+    },
   },
   schema: {
     type: 'object',
@@ -42,6 +62,9 @@ export const marriageEndDetails = {
         'annulment',
         'other',
       ]),
+      marriageEndDescription: {
+        type: 'string',
+      },
     },
   },
 };

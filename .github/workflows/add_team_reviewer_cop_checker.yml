@@ -9,15 +9,28 @@ jobs:
     # Only run this job when changes are requested
     if: github.event.review.state == 'changes_requested'
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+       - name: Checkout repository
+         uses: actions/checkout@v4
+  
+       - name: Configure AWS credentials
+         uses: ./.github/workflows/configure-aws-credentials
+         with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+       - name: Get va-vsp-bot token
+         uses: ./.github/workflows/inject-secrets
+         with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
       
-      - name: Check if reviewer is team member and add team
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+       - name: Check if reviewer is team member and add team
+         uses: actions/github-script@v7
+         with:
+          github-token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           script: |
             const reviewer = context.payload.review.user.login;
             const teamSlug = 'va-platform-cop-frontend';

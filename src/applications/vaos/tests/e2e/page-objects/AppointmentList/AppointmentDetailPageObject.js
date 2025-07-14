@@ -1,8 +1,8 @@
 import { addMinutes } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { getICSTokens } from '../../../../utils/calendar';
+import { DATE_FORMATS, VIDEO_TYPES } from '../../../../utils/constants';
 import PageObject from '../PageObject';
-import { VIDEO_TYPES, DATE_FORMATS } from '../../../../utils/constants';
 
 function assertDescription(type, tokens) {
   // Description text longer than 74 characters should start on newline beginning
@@ -76,7 +76,7 @@ function assertSummary(type, tokens) {
   }
 }
 
-export class AppointmentDetailPageObject extends PageObject {
+class AppointmentDetailPageObject extends PageObject {
   assertAddToCalendar() {
     this.assertShadow({
       element: '[data-testid="add-to-calendar-button"]',

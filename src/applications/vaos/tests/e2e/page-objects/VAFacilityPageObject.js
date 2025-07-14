@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class VAFacilityPageObject extends PageObject {
+class VAFacilityPageObject extends PageObject {
   /**
    * Method to assert exisitence of home address.
    *

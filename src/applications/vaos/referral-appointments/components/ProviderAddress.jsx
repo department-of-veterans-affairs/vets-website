@@ -32,25 +32,28 @@ const ProviderAddress = props => {
       <p className="vads-u-margin--0">
         {!isAddressString ? (
           <>
-            {normalizedAddress.street1} <br />
+            <span data-dd-privacy="mask">{normalizedAddress.street1}</span>
+            <br />
             {normalizedAddress.street2 && (
-              <span data-testid="street2">
+              <span data-dd-privacy="mask" data-testid="street2">
                 {normalizedAddress.street2}
                 <br />
               </span>
             )}
             {normalizedAddress.street3 && (
-              <span data-testid="street3">
+              <span data-dd-privacy="mask" data-testid="street3">
                 {normalizedAddress.street3}
                 <br />
               </span>
             )}
-            {normalizedAddress.city},{' '}
-            {normalizedAddress.state && `${normalizedAddress.state},`}{' '}
-            {normalizedAddress.zip}
+            <span data-dd-privacy="mask">
+              {normalizedAddress.city},{' '}
+              {normalizedAddress.state && `${normalizedAddress.state},`}{' '}
+              {normalizedAddress.zip}
+            </span>
           </>
         ) : (
-          <>{normalizedAddress}</>
+          <span data-dd-privacy="mask">{normalizedAddress}</span>
         )}
       </p>
       {showDirections &&
@@ -75,20 +78,26 @@ const ProviderAddress = props => {
             </a>
           </div>
         )}
-      <p className="vads-u-margin-bottom--0" data-testid="phone">
-        <strong>Main phone:</strong>
-      </p>
-      <p className="vads-u-margin--0">
-        <va-telephone contact={phone} data-testid="provider-telephone" />
-      </p>
+      {phone && (
+        <div data-testid="provider-phone">
+          <p className="vads-u-margin-bottom--0" data-testid="phone">
+            <strong>Main phone:</strong>
+          </p>
+          <p className="vads-u-margin--0">
+            <span data-dd-privacy="mask">
+              <va-telephone contact={phone} data-testid="provider-telephone" />
+            </span>
+          </p>
+        </div>
+      )}
     </address>
   );
 };
 
 ProviderAddress.propTypes = {
   address: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  phone: PropTypes.string.isRequired,
   directionsName: PropTypes.string,
+  phone: PropTypes.string,
   showDirections: PropTypes.bool,
 };
 

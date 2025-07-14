@@ -5,8 +5,8 @@
       "first": "John",
       "last": "Veteran"
     },
-    "veteranDateOfBirth": "1932-02-05",
-    "isVeteran": false,
+    "veteranDateOfBirth": {},
+    "isVeteran": "no",
     "address": {
       "country": "USA",
       "street": "123 Any St",
@@ -14,7 +14,7 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "email": "john@veteran.com",
+    "vaFileNumber": "99999999",
     "veteranSsn": "234232345",
     "claimantFullName": {
       "first": "John",

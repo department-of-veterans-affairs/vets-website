@@ -4,11 +4,11 @@ import { redirect } from 'react-router-dom';
 import App from './containers/App';
 import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
-import POARequestIndividualSearchPage from './containers/POARequestIndividualSearchPage';
+import ClaimantSearchPage from './containers/ClaimantSearchPage';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
 import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
-import ErrorBoundary from './components/ErrorBoundary';
+import ErrorBoundary from './components/Error/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
@@ -74,8 +74,8 @@ const routes = [
             loader: POARequestSearchPage.loader,
           },
           {
-            path: 'poa-search',
-            element: <POARequestIndividualSearchPage />,
+            path: 'claimant-search',
+            element: <ClaimantSearchPage />,
           },
           {
             path: 'poa-requests/:id',

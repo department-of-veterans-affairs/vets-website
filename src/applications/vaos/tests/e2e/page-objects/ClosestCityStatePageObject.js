@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class ClosestCityStatePageObject extends PageObject {
+class ClosestCityStatePageObject extends PageObject {
   assertHeading({ name }) {
     return this.assertShadow({
       element: 'va-radio',

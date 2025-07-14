@@ -6,21 +6,12 @@ import {
 import { YOUR_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 
 const educationOptions = [
-  { key: 'firstGrade', label: '1st grade' },
-  { key: 'secondGrade', label: '2nd grade' },
-  { key: 'thirdGrade', label: '3rd grade' },
-  { key: 'fourthGrade', label: '4th grade' },
-  { key: 'fifthGrade', label: '5th grade' },
-  { key: 'sixthGrade', label: '6th grade' },
-  { key: 'seventhGrade', label: '7th grade' },
-  { key: 'eighthGrade', label: '8th grade' },
-  { key: 'ninthGrade', label: '9th grade' },
-  { key: 'tenthGrade', label: '10th grade' },
-  { key: 'eleventhGrade', label: '11th grade' },
-  { key: 'twelfthGrade', label: '12th grade' },
-  { key: 'twelfthGradeOrGED', label: '12th grade or GED' },
-  { key: 'someOrAllOfCollege', label: 'Some or all of college' },
-  { key: 'someOrAllOfGraduateSchool', label: 'Some or all of graduate school' },
+  { key: '10', label: 'Some high school' },
+  { key: '12', label: 'High school / GED' },
+  { key: '14', label: 'Some college' },
+  { key: '15', label: 'Associate degree' },
+  { key: '17', label: "Bachelor's degree" },
+  { key: '19', label: "Master's degree or higher" },
 ];
 
 const labels = Object.fromEntries(
@@ -32,7 +23,7 @@ const selectUIInput = {
   title: "What's the highest level of school you've completed?",
   labels,
   errorMessages: {
-    required: 'Please select your years of education.',
+    required: 'Select the highest level of school you’ve completed.',
   },
 };
 

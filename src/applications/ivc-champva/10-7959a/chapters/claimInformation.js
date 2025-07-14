@@ -199,11 +199,11 @@ export const medicalClaimUploadSchema = {
             </ul>
           </li>
           <li>
-            <b>A list of charges</b> for
+            <b>A list of charges</b> for{' '}
             {privWrapper(nameWording(formData, true, false, true))} care
           </li>
           <li>
-            <b>The date of service</b> when
+            <b>The date of service</b> when{' '}
             {privWrapper(nameWording(formData, false, false, true))} got the
             care
           </li>

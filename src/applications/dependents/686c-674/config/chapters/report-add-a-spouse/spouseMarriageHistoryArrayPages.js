@@ -1,7 +1,5 @@
 import React from 'react';
-import { capitalize } from 'lodash';
 import {
-  titleUI,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -21,6 +19,7 @@ import {
   spouseFormerMarriageLabels,
   customLocationSchema,
 } from '../../helpers';
+import { getFullName } from '../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
 export const spouseMarriageHistoryOptions = {
@@ -49,14 +48,8 @@ export const spouseMarriageHistoryOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your spouse’s marital history',
-    getItemName: () => 'Spouse’s former marriage',
-    cardDescription: item => (
-      <span className="dd-privacy" data-dd-privacy="mask">
-        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
-          item?.fullName?.last,
-        ) || ''}`.trim()}
-      </span>
-    ),
+    summaryTitleWithoutItems: 'Spouse’s former marriages',
+    getItemName: item => getFullName(item.fullName),
   },
 };
 
@@ -64,25 +57,16 @@ export const spouseMarriageHistoryOptions = {
 export const spouseMarriageHistorySummaryPage = {
   uiSchema: {
     'view:completedSpouseFormerMarriage': {
-      ...arrayBuilderYesNoUI(
-        spouseMarriageHistoryOptions,
-        {
-          title: 'Does your spouse have any former marriages to add?',
-          hint:
-            'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
-          labels: {
-            Y: 'Yes',
-            N: 'No',
-          },
+      ...arrayBuilderYesNoUI(spouseMarriageHistoryOptions, {
+        title: 'Has your spouse been married before?',
+        hint:
+          'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
         },
-        {
-          title: 'Does your spouse have any other marriages to add?',
-          labels: {
-            Y: 'Yes',
-            N: 'No',
-          },
-        },
-      ),
+        labelHeaderLevel: 4,
+      }),
     },
   },
   schema: {
@@ -120,7 +104,6 @@ export const formerMarriageEndReasonPage = {
     reasonMarriageEnded: radioUI({
       title: 'How did your spouse’s previous marriage end?',
       labels: spouseFormerMarriageLabels,
-      labelHeaderLevel: '3',
     }),
     otherReasonMarriageEnded: {
       'ui:title': 'Briefly describe how your spouse’s previous marriage ended',
@@ -216,10 +199,9 @@ export const formerMarriageStartLocationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Spouse’s former marriage'),
     startLocation: {
-      'ui:title': 'Where did your spouse previously get married?',
-      'ui:options': {
-        labelHeaderLevel: '4',
-      },
+      'ui:description': () => (
+        <h4>Where did your spouse previously get married?</h4>
+      ),
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
@@ -283,14 +265,16 @@ export const formerMarriageEndLocationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Spouse’s former marriage'),
     endLocation: {
-      ...titleUI({
-        title: 'Where did the marriage end?',
-        description:
-          'If your spouse got a divorce or an annulment, we want to know where they filed the paperwork. If the former spouse died, we want to know where the death certificate was filed.',
-      }),
-      'ui:options': {
-        labelHeaderLevel: '4',
-      },
+      'ui:description': () => (
+        <>
+          <h4>Where did the marriage end?</h4>
+          <p>
+            If your spouse got a divorce or an annulment, we want to know where
+            they filed the paperwork. If the former spouse died, we want to know
+            where the death certificate was filed.
+          </p>
+        </>
+      ),
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,

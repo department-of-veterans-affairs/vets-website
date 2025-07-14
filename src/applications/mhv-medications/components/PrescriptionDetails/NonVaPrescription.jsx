@@ -1,7 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { validateField, dateFormat } from '../../util/helpers';
+import {
+  validateField,
+  dateFormat,
+  displayProviderName,
+} from '../../util/helpers';
 import ExtraDetails from '../shared/ExtraDetails';
 import { selectGroupingFlag } from '../../util/selectors';
 import { dataDogActionNames } from '../../util/dataDogConstants';
@@ -92,11 +96,10 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Documented by
           </h3>
-          <p data-dd-privacy="mask">
-            {validateField(
-              `${prescription.providerLastName}, ${
-                prescription.providerFirstName
-              }`,
+          <p data-testid="documented-by" data-dd-privacy="mask">
+            {displayProviderName(
+              prescription?.providerFirstName,
+              prescription?.providerLastName,
             )}
           </p>
         </section>

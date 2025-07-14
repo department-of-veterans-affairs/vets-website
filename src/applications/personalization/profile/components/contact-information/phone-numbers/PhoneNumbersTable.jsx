@@ -15,17 +15,17 @@ const rows = [
     ),
   },
   {
-    title: 'Work',
-    id: FIELD_IDS[FIELD_NAMES.WORK_PHONE],
-    value: (
-      <ProfileInformationFieldController fieldName={FIELD_NAMES.WORK_PHONE} />
-    ),
-  },
-  {
     title: 'Mobile',
     id: FIELD_IDS[FIELD_NAMES.MOBILE_PHONE],
     value: (
       <ProfileInformationFieldController fieldName={FIELD_NAMES.MOBILE_PHONE} />
+    ),
+  },
+  {
+    title: 'Work',
+    id: FIELD_IDS[FIELD_NAMES.WORK_PHONE],
+    value: (
+      <ProfileInformationFieldController fieldName={FIELD_NAMES.WORK_PHONE} />
     ),
   },
 ];

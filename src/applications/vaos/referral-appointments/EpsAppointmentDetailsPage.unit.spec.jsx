@@ -172,21 +172,19 @@ describe('EpsAppointmentDetailsPage', () => {
 
     // Check sections exist
     expect(getByText('When')).to.exist;
-    expect(getByText('What')).to.exist;
     expect(getByText('Provider')).to.exist;
     expect(getByText('Prepare for your appointment')).to.exist;
     expect(getByText('Need to make changes?')).to.exist;
 
     // Check specific content from appointment data
     const { attributes } = referralAppointmentInfo;
-    expect(getByText('Optometry')).to.exist;
-    expect(getByText(attributes.provider.name)).to.exist;
+    expect(getByText(attributes.provider.location.name)).to.exist;
 
     // Check preparation instructions
     expect(getByText(/Bring your insurance cards/)).to.exist;
     expect(
       container.querySelector(
-        'va-link[text="Find a full list of things to bring to your appointment"]',
+        'va-link[text="Find out what to bring to your appointment"]',
       ),
     ).to.exist;
 

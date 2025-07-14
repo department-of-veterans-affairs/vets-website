@@ -1,44 +1,4 @@
 /**
- * Mocks Atlas Appoinment.
- *
- * @export
- * @returns {AtlasAppoinment} VAOS Atlas Appoinment object
- */
-export function AtlasAppoinment() {
-  return {
-    videoData: {
-      providers: [
-        {
-          name: {
-            firstName: ['TEST'],
-            lastName: 'PROV',
-          },
-          display: 'TEST PROV',
-        },
-      ],
-      isVideo: true,
-      isAtlas: true,
-      atlasConfirmationCode: '7VBBCA',
-      atlasLocation: {
-        id: '9931',
-        resourceType: 'Location',
-        address: {
-          line: ['114 Dewey Ave'],
-          city: 'Eureka',
-          state: 'MT',
-          postalCode: '59917',
-        },
-        position: {
-          longitude: -115.1,
-          latitude: 48.8,
-        },
-      },
-      extension: { patientHasMobileGfe: true },
-      kind: 'ADHOC',
-    },
-  };
-}
-/**
  * Mocks Facility object.
  *
  * @export

@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('Social Behavior Changes 781a', () => {
@@ -11,7 +12,7 @@ describe('Social Behavior Changes 781a', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.socialBehaviorChanges;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig}
@@ -31,7 +32,7 @@ describe('Social Behavior Changes 781a', () => {
     form.unmount();
   });
 
-  it('should submit if no options selected', () => {
+  it('should submit if no options selected', async () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -49,9 +50,11 @@ describe('Social Behavior Changes 781a', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Toggler } from '~/platform/utilities/feature-toggles';
+import { isBefore, parseISO } from 'date-fns';
 import {
   scrubDescription,
   buildDateFormatter,
@@ -25,6 +26,33 @@ export default function DefaultPage({
   uploading,
 }) {
   const dateFormatter = buildDateFormatter();
+  const now = new Date();
+  const dueDate = parseISO(item.suspenseDate);
+  const pastDueDate = isBefore(dueDate, now);
+  const getItemDisplayName = () => {
+    if (item.displayName.toLowerCase().includes('dbq')) {
+      return 'Request for an exam';
+    }
+    if (item.friendlyName) {
+      return `Your ${getDisplayFriendlyName(item)}`;
+    }
+    return 'Request for evidence outside VA';
+  };
+  const getRequestText = () => {
+    if (evidenceDictionary[item.displayName]?.isDBQ) {
+      return `We made a request on ${dateFormatter(item.requestedDate)} for: ${
+        item.friendlyName ? getDisplayFriendlyName(item) : item.displayName
+      }`;
+    }
+    if (item.friendlyName) {
+      return `We made a request outside VA on ${dateFormatter(
+        item.requestedDate,
+      )}`;
+    }
+    return `We made a request outside VA on ${dateFormatter(
+      item.requestedDate,
+    )} for: ${item.displayName}`;
+  };
 
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}>
@@ -33,25 +61,51 @@ export default function DefaultPage({
           <h1 className="claims-header">
             {item.status === 'NEEDED_FROM_YOU' ? (
               <>
-                {item.friendlyName || item.displayName}
+                {item.friendlyName || 'Request for evidence'}
                 <span className="vads-u-font-family--sans vads-u-margin-bottom--1 vads-u-margin-top--1">
-                  Respond by {dateFormatter(item.suspenseDate)}
-                  <DueDate date={item.suspenseDate} />
+                  {item.friendlyName
+                    ? `Respond by ${dateFormatter(item.suspenseDate)}`
+                    : `Respond by ${dateFormatter(item.suspenseDate)} for: ${
+                        item.displayName
+                      }`}
                 </span>
               </>
             ) : (
               <>
-                {item.friendlyName
-                  ? `Your ${getDisplayFriendlyName(item)}`
-                  : item.displayName}
+                {getItemDisplayName()}
                 <span className="vads-u-font-family--sans vads-u-margin-top--1">
-                  Requested from outside VA on{' '}
-                  {dateFormatter(item.requestedDate)}
+                  {getRequestText()}
                 </span>
               </>
             )}
           </h1>
-
+          {item.status === 'NEEDED_FROM_YOU' &&
+            (pastDueDate ? (
+              <va-alert status="warning" class="vads-u-margin-top--4">
+                <h2 slot="headline">
+                  Deadline passed for requested information
+                </h2>
+                <p className="vads-u-margin-y--0">
+                  We haven’t received the information we asked for. You can
+                  still send it, but we may review your claim without it.
+                </p>
+                <p>
+                  If you have questions, call the VA benefits hotline at{' '}
+                  <va-telephone contact="8008271000" /> (
+                  <va-telephone contact="711" tty="true" />
+                  ).
+                </p>
+              </va-alert>
+            ) : (
+              !item.friendlyName && (
+                <p>
+                  We requested this evidence from you on{' '}
+                  {dateFormatter(item.requestedDate)}. You can still send the
+                  evidence after the “respond by” date, but it may delay your
+                  claim.
+                </p>
+              )
+            ))}
           {item.status === 'NEEDED_FROM_YOU' ? (
             <h2>What we need from you</h2>
           ) : (
@@ -83,28 +137,63 @@ export default function DefaultPage({
             </div>
           )}
 
-          {item.status === 'NEEDED_FROM_YOU' && (
-            <>
-              <h3>Learn about this request in your claim letter</h3>
-              <p>
-                On {dateFormatter(item.requestedDate)}, we mailed you a letter
-                titled “Request for Specific Evidence or Information,” which may
-                include more details about this request. You can access this and
-                all your claim letters online.
-                <br />
-                <va-link
-                  text="Your claim letters"
-                  label="Your claim letters"
-                  href="/track-claims/your-claim-letters"
-                />
-              </p>
-            </>
-          )}
+          {item.status === 'NEEDED_FROM_YOU' &&
+            evidenceDictionary[item.displayName] && (
+              <>
+                <h3>Learn about this request in your claim letter</h3>
+                <p>
+                  On {dateFormatter(item.requestedDate)}, we mailed you a letter
+                  titled “Request for Specific Evidence or Information,” which
+                  may include more details about this request. You can access
+                  this and all your claim letters online.
+                  <br />
+                  <va-link
+                    text="Your claim letters"
+                    label="Your claim letters"
+                    href="/track-claims/your-claim-letters"
+                  />
+                </p>
+              </>
+            )}
           {evidenceDictionary[item.displayName] &&
             evidenceDictionary[item.displayName].nextSteps && (
               <>
                 <h2>Next steps</h2>
                 {evidenceDictionary[item.displayName].nextSteps}
+              </>
+            )}
+          {!evidenceDictionary[item.displayName]?.nextSteps &&
+            item.status === 'NEEDED_FROM_YOU' && (
+              <>
+                <h2>Next steps</h2>
+                <p>To respond to this request:</p>
+                <ul className="bullet-disc">
+                  <li>
+                    Gather and submit any documents or forms listed in the{' '}
+                    <strong>What we need from you</strong> section.
+                  </li>
+                  <li>You can upload documents online or mail them to us.</li>
+                </ul>
+                <p>
+                  If you need help understanding this request, check your claim
+                  letter online.
+                  <br />
+                  <va-link
+                    text="Your claim letters"
+                    label="Your claim letters"
+                    href="/track-claims/your-claim-letters"
+                  />
+                </p>
+                <p>
+                  You can find blank copies of many VA forms online.
+                  <br />
+                  <va-link
+                    active
+                    text="Find a VA form"
+                    label="Find a VA form"
+                    href="/find-forms"
+                  />
+                </p>
               </>
             )}
           {item.canUploadFile && (

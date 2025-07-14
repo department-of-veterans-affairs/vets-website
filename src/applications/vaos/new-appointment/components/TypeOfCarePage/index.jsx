@@ -17,15 +17,10 @@ import {
   startDirectScheduleFlow,
 } from '../../redux/actions';
 import { selectTypeOfCarePage } from '../../redux/selectors';
-import {
-  selectFeatureFeSourceOfTruth,
-  selectFeatureFeSourceOfTruthCC,
-  selectFeatureFeSourceOfTruthModality,
-  selectFeatureFeSourceOfTruthVA,
-} from '../../../redux/selectors';
+import { selectFeatureFeSourceOfTruthTelehealth } from '../../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
-import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
+import { TYPE_OF_CARE_IDS, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 import { getPageTitle } from '../../newAppointmentFlow';
@@ -35,17 +30,8 @@ const pageKey = 'typeOfCare';
 
 export default function TypeOfCarePage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
-  const useFeSourceOfTruth = useSelector(state =>
-    selectFeatureFeSourceOfTruth(state),
-  );
-  const useFeSourceOfTruthCC = useSelector(state =>
-    selectFeatureFeSourceOfTruthCC(state),
-  );
-  const useFeSourceOfTruthVA = useSelector(state =>
-    selectFeatureFeSourceOfTruthVA(state),
-  );
-  const useFeSourceOfTruthModality = useSelector(state =>
-    selectFeatureFeSourceOfTruthModality(state),
+  const useFeSourceOfTruthTelehealth = useSelector(state =>
+    selectFeatureFeSourceOfTruthTelehealth(state),
   );
 
   const dispatch = useDispatch();
@@ -91,7 +77,7 @@ export default function TypeOfCarePage() {
     initialSchema: () => {
       const sortedCare = TYPES_OF_CARE.filter(
         typeOfCare =>
-          typeOfCare.id !== PODIATRY_ID ||
+          typeOfCare.id !== TYPE_OF_CARE_IDS.PODIATRY_ID ||
           (showCommunityCare && !removePodiatry),
       ).sort(
         (careA, careB) =>
@@ -158,12 +144,7 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              getLongTermAppointmentHistoryV2(
-                useFeSourceOfTruth,
-                useFeSourceOfTruthCC,
-                useFeSourceOfTruthVA,
-                useFeSourceOfTruthModality,
-              );
+              getLongTermAppointmentHistoryV2(useFeSourceOfTruthTelehealth);
             }
 
             setData(newData);

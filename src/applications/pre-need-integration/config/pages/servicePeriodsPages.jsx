@@ -252,6 +252,7 @@ export function servicePeriodInformationPage(isVet, isPrep) {
           'Sponsor’s service end date',
           'Applicant’s service end date',
         ),
+        'The service end date must be after the service start date.', // Range error message
       ),
       dischargeType: {
         'ui:title': handleTitle(

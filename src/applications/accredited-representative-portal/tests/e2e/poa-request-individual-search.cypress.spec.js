@@ -14,7 +14,7 @@ const vamcUser = {
   },
 };
 
-const POA_SEARCH = '/representative/poa-search';
+const POA_SEARCH = '/representative/claimant-search';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
@@ -85,7 +85,7 @@ describe('Accredited Representative Portal', () => {
       cy.contains('Enter a first name');
       cy.contains('Enter a last name');
       cy.contains('Enter a date of birth');
-      cy.contains('Enter a Social Security number');
+      cy.contains('Please enter a valid 9 digit Social Security number');
     });
 
     it('Clicking on Clear Search resets all fields', () => {
@@ -141,7 +141,7 @@ describe('Accredited Representative Portal', () => {
         "[data-testid='poa-requests-table-fetcher-no-poa-requests']",
       ).should(
         'have.text',
-        'No result found for “asdf ghjkl”, “2024-01-01”, “***-**-6666”',
+        'No result found for "asdf", "ghjkl", "2024-01-01", "***-**-6666"',
       );
     });
   });

@@ -307,7 +307,7 @@ class TrackClaimsPageV2 {
   }
 
   submitFilesForReview(isOldVersion = false) {
-    cy.intercept('POST', `/v0/evss_claims/189685/documents`, {
+    cy.intercept('POST', `/v0/benefits_claims/189685/benefits_documents`, {
       body: {},
     }).as('documents');
     cy.get('#file-upload')
@@ -342,19 +342,28 @@ class TrackClaimsPageV2 {
     }
 
     cy.wait('@documents');
-    cy.get('va-alert h2').should('contain', 'We have your evidence');
+    cy.get('va-alert h2').should('contain', 'We received your file upload');
   }
 
   submitFilesShowsError() {
-    cy.get('va-button#submit')
+    // Try to upload an empty file to trigger validation error
+    cy.get('#file-upload')
       .shadow()
-      .find('button')
-      .click()
+      .find('input')
+      .selectFile(
+        {
+          contents: Cypress.Buffer.alloc(0),
+          fileName: 'empty-file.txt',
+          mimeType: 'text/plain',
+          lastModified: Date.now(),
+        },
+        { force: true },
+      )
       .then(() => {
         cy.get('va-file-input')
           .shadow()
           .find('#error-message')
-          .should('contain', 'Please select a file first');
+          .should('contain', 'The file you selected is empty');
         cy.injectAxeThenAxeCheck();
       });
   }
@@ -829,15 +838,12 @@ class TrackClaimsPageV2 {
       .as('friendlyMessage');
     cy.assertChildText('@friendlyMessage', 'h1', 'Submit Buddy Statement(s)');
     cy.assertChildText('@friendlyMessage', 'h2', 'What we need from you');
-    cy.assertChildText(
-      '@friendlyMessage',
-      'h3',
-      'Learn about this request in your claim letter',
-    );
+    cy.assertChildText('@friendlyMessage', 'h2', 'Next steps');
+    cy.assertChildText('@friendlyMessage', 'p', 'To respond to this request:');
     cy.assertChildText(
       '@friendlyMessage',
       'p:last-of-type',
-      'On January 1, 2022, we mailed you a letter titled “Request for Specific Evidence or Information,” which may include more details about this request. You can access this and all your claim letters online.',
+      'You can find blank copies of many VA forms online.',
     );
   }
 

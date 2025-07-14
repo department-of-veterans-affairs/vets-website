@@ -1,90 +1,91 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { scrollAndFocus } from 'platform/utilities/scroll';
+import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
+import environment from '~/platform/utilities/environment';
+import { setSubmission } from 'platform/forms-system/src/js/actions';
+import { childContent } from '../helpers';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+const CLAIM_ID = '8794ClaimId';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
+export const setClaimIdInLocalStage = submission => {
+  if (submission?.response?.id) {
+    localStorage.setItem(CLAIM_ID, JSON.stringify(submission?.response?.id));
   }
+};
 
-  render() {
-    const { form } = this.props;
-    const { submission, formId, data } = form;
-    const submitDate = new Date(submission?.timestamp);
-    const { fullName } = data;
+export const getClaimIdFromLocalStage = () => {
+  return JSON.parse(localStorage.getItem(CLAIM_ID));
+};
 
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Designation Of Certifying Official(S) Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
+export const ConfirmationPage = ({ router, route }) => {
+  const [claimId, setClaimId] = React.useState(null);
+  const form = useSelector(state => state?.form);
+  const { submission } = form;
+  const submitDate = submission?.timestamp;
+  const confirmationNumber = submission?.response?.confirmationNumber;
 
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null}
-          <va-button
-            text="Print this for your records"
-            onClick={window.print}
-            uswds
-          />
-        </div>
-      </div>
-    );
-  }
-}
+  const dispatch = useDispatch();
+
+  const resetSubmissionStatus = () => {
+    const now = new Date().getTime();
+
+    dispatch(setSubmission('status', false));
+    dispatch(setSubmission('timestamp', now));
+  };
+
+  const goBack = e => {
+    e.preventDefault();
+    resetSubmissionStatus();
+    router.push('/review-and-submit');
+  };
+
+  useEffect(
+    () => {
+      setClaimIdInLocalStage(submission);
+      setClaimId(getClaimIdFromLocalStage());
+    },
+    [submission],
+  );
+
+  useEffect(() => {
+    const firsth2 = document.querySelector('va-alert + h2');
+    scrollAndFocus(firsth2);
+  }, []);
+
+  return (
+    <ConfirmationView
+      formConfig={route?.formConfig}
+      confirmationNumber={confirmationNumber}
+      submitDate={submitDate}
+    >
+      {childContent(
+        `${
+          environment.API_URL
+        }/v0/education_benefits_claims/download_pdf/${claimId}`,
+        route?.formConfig?.trackingPrefix,
+        goBack,
+      )}
+    </ConfirmationView>
+  );
+};
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
+    data: PropTypes.object,
     formId: PropTypes.string,
     submission: PropTypes.shape({
       timestamp: PropTypes.string,
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

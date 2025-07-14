@@ -1,10 +1,8 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { CalendarContext } from './CalendarContext';
 import CalendarOptionsSlots from './CalendarOptionsSlots';
-import { selectFeatureDirectScheduleAppointmentConflict } from '../../redux/selectors';
 
 const smallMediaQuery = '(min-width: 481px)';
 const smallDesktopMediaQuery = '(min-width: 1008px)';
@@ -42,9 +40,6 @@ export default function CalendarOptions({
     isAppointmentSelectionError,
     appointmentSelectionErrorMsg,
   } = useContext(CalendarContext);
-  const featureDirectScheduleAppointmentConflict = useSelector(
-    selectFeatureDirectScheduleAppointmentConflict,
-  );
   // Because we need to conditionally apply classes to get the right padding
   // and border radius for each cell, we need to know when the page size trips
   // a breakpoint
@@ -68,11 +63,7 @@ export default function CalendarOptions({
   }, []);
 
   useEffect(() => {
-    if (
-      featureDirectScheduleAppointmentConflict &&
-      optionsHeightRef?.current &&
-      buttonRef?.current
-    ) {
+    if (optionsHeightRef?.current && buttonRef?.current) {
       const newHeight =
         optionsHeightRef.current.getBoundingClientRect().height +
         buttonRef.current.getBoundingClientRect().height +

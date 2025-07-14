@@ -2,6 +2,9 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
+import * as focusUtils from 'platform/utilities/ui/focus';
+
 import {
   generateTransition,
   generateTitle,
@@ -43,6 +46,14 @@ describe('generateTransition and generateTitle', () => {
 });
 
 describe('CancelButton Component (Web Components)', () => {
+  let focusElementSpy;
+  beforeEach(() => {
+    focusElementSpy = sinon.stub(focusUtils, 'focusElement');
+  });
+  afterEach(() => {
+    focusElementSpy.restore();
+  });
+
   it('should render the cancel button', () => {
     const { getByTestId } = render(<CancelButton />);
     const cancelBtn = getByTestId('cancel-btn');
@@ -61,6 +72,8 @@ describe('CancelButton Component (Web Components)', () => {
 
     await waitFor(() => {
       expect(modal.getAttribute('visible')).to.eql('false');
+      expect(focusElementSpy.called).to.be.true;
+      expect(focusElementSpy.args[0][0]).to.eq('button');
     });
   });
 
@@ -78,6 +91,12 @@ describe('CancelButton Component (Web Components)', () => {
       await waitFor(() => {
         const modal = getByTestId('cancel-modal');
         expect(modal.getAttribute('modal-title')).to.include(expectedString);
+        expect(modal.getAttribute('primary-button-text')).to.equal(
+          'Yes, cancel',
+        );
+        expect(modal.getAttribute('secondary-button-text')).to.include(
+          `No, continue ${addOrRemove} spouse`,
+        );
       });
     });
 
@@ -88,13 +107,27 @@ describe('CancelButton Component (Web Components)', () => {
         : '/options-selection/remove-dependents';
       const props = {
         isAddChapter,
-        dependentType: 'spouse',
+        dependentType: 'children who got married',
+        dependentButtonType: 'children',
         router: { push: pushSpy },
       };
       const { getByTestId } = render(<CancelButton {...props} />);
 
       fireEvent.click(getByTestId('cancel-btn'));
       const modal = getByTestId('cancel-modal');
+
+      expect(modal.getAttribute('modal-title')).to.include(
+        `Cancel ${isAddChapter ? 'adding' : 'removing'} ${
+          props.dependentType
+        }?`,
+      );
+      expect(modal.getAttribute('primary-button-text')).to.equal('Yes, cancel');
+      expect(modal.getAttribute('secondary-button-text')).to.include(
+        `No, continue ${isAddChapter ? 'adding' : 'removing'} ${
+          props.dependentButtonType
+        }`,
+      );
+
       modal.__events.primaryButtonClick();
 
       await waitFor(() => {

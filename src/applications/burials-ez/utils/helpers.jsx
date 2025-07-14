@@ -1,4 +1,5 @@
 import React from 'react';
+import { endOfDay } from 'date-fns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
@@ -99,3 +100,25 @@ export const isProductionEnv = () => {
     !window.Mocha
   );
 };
+
+export const pageAndReviewTitle = title => ({
+  title,
+  reviewTitle: () => <span className="vads-u-font-size--h3">{title}</span>,
+});
+
+// Elizabeth Dole Act law change for VA Home Hospice; ignoring start date of
+// July 1, 2025 to immediately
+const endDate = endOfDay(new Date('2026-09-30')).getTime();
+
+export const showHomeHospiceCarePage = form => {
+  const dayOfDeath = get('deathDate', form);
+  if (!dayOfDeath) {
+    return false;
+  }
+  const date = new Date(dayOfDeath).getTime();
+  return get('locationOfDeath.location', form) === 'atHome' && date <= endDate;
+};
+
+export const showHomeHospiceCareAfterDischargePage = form =>
+  get('locationOfDeath.location', form) === 'atHome' &&
+  get('homeHospiceCare', form);

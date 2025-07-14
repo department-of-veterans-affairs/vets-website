@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -16,7 +16,7 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3>Your claim has been submitted.</h3>
+        <h2>Your claim has been submitted.</h2>
         <p>
           We’ll let you know by mail or phone if we need more information.
           <br />

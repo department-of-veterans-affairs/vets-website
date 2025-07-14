@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import ActionLink from '../../shared/components/web-component-wrappers/ActionLink';
 
 export const EvidencePageNavigation = ({ path, content, handlers }) => (
   <>
     <div className="vads-u-margin-top--2">
-      <Link
-        to={path}
+      <ActionLink
+        disableAnalytics
+        path={path}
+        primary
         onClick={handlers.onAddAnother}
-        className="vads-c-action-link--green"
-      >
-        {content.addAnotherLink}
-      </Link>
+        text={content.addAnotherLink}
+      />
     </div>
 
     <div className="vads-u-margin-top--4">

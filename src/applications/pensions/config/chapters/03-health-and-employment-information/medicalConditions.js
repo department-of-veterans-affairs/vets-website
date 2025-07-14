@@ -25,8 +25,6 @@ export default {
     'ui:description': MedicalConditionDescription,
     medicalCondition: yesNoUI({
       title: 'Do you have a medical condition that prevents you from working?',
-      hint:
-        "Your answer to this question helps us determine if you're eligible for Veterans Pension benefits. We consider your age, income, and medical history in our determination.",
       classNames: 'vads-u-margin-bottom--2',
     }),
   },

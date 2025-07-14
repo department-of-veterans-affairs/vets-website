@@ -1,7 +1,7 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .arp-container {
-  max-width: 1000px;
+  max-width: 960px;
   width: 100%;
   padding: 0 $vads-spacing-2;
   margin: 0 auto $vads-spacing-6;
@@ -44,7 +44,7 @@
   width: 100%;
 
   &__container {
-    max-width: 1000px;
+    max-width: 960px;
     margin: 0 auto 20px;
   }
 
@@ -80,7 +80,7 @@
   -webkit-font-smoothing: antialiased;
 
   &__container {
-    max-width: 1000px;
+    max-width: 960px;
     margin: 0 auto;
 
     .home__full-width--portal & {
@@ -106,7 +106,7 @@
     background-position: center;
 
     &-container {
-      max-width: 1000px;
+      max-width: 960px;
       margin: 0 auto;
       color: $vads-color-base-lightest;
       padding: 30px 16px;
@@ -283,8 +283,9 @@
   }
 }
 .poa-search {
-  max-width: 660px;
+  max-width: 627px;
   margin-bottom: 20px;
+  width: 100%;
 }
 .yellow-warning {
   color: var(--vads-color-yellow);
@@ -292,4 +293,10 @@
 hr.claimant-search {
   margin-top: 28px;
   margin-bottom: 20px;
+}
+h2.claimant-name {
+  margin-bottom: 5px;
+}
+.poa-status-cta {
+  margin-bottom: 10px;
 }

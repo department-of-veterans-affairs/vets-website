@@ -11,12 +11,9 @@ import { getReferralAppointmentInfo } from './redux/selectors';
 import PageLayout from '../appointment-list/components/PageLayout';
 import FullWidthLayout from '../components/FullWidthLayout';
 import Section from '../components/Section';
-import {
-  AppointmentTime,
-  // eslint-disable-next-line import/no-restricted-paths
-} from '../appointment-list/components/AppointmentDateTime';
+// eslint-disable-next-line import/no-restricted-paths
+import { AppointmentTime } from '../appointment-list/components/AppointmentDateTime';
 import ProviderAddress from './components/ProviderAddress';
-import { titleCase } from '../utils/formatters';
 
 export default function EpsAppointmentDetailsPage() {
   const { pathname } = useLocation();
@@ -125,41 +122,39 @@ export default function EpsAppointmentDetailsPage() {
           />
         </div>
         <h1 className="vaos__dynamic-font-size--h2">
-          Community Care Appointment
+          <span data-dd-privacy="mask">Community Care Appointment</span>
         </h1>
         <Section heading="When">
-          {appointmentDate}
+          <span data-dd-privacy="mask">{appointmentDate}</span>
           <br />
-          <AppointmentTime appointment={appointment} />
-        </Section>
-        <Section heading="What">
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            {titleCase(appointment.typeOfCare)}
-          </p>
+          <AppointmentTime
+            appointment={appointment}
+            timezone={appointment.timezone}
+          />
         </Section>
         <Section heading="Provider">
-          <span>
-            {`${appointment.provider.name ||
+          <span data-dd-privacy="mask">
+            {`${appointment.provider.location.name ||
               'Provider information not available'}`}
           </span>
           <br />
-          {appointment.provider.address && (
+          {appointment.provider.location.address && (
             <ProviderAddress
-              address={appointment.provider.address}
+              address={appointment.provider.location.address}
               showDirections
-              directionsName={appointment.provider.name}
+              directionsName={appointment.provider.location.name}
               phone={appointment.provider.phone}
             />
           )}
         </Section>
         <Section heading="Prepare for your appointment">
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            Bring your insurance cards. And bring a list of your medications
-            other information to share with your provider.
+            Bring your insurance cards, a list of your medications, and other
+            things to share with your provider
           </p>
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
             <va-link
-              text="Find a full list of things to bring to your appointment"
+              text="Find out what to bring to your appointment"
               href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
             />
           </p>

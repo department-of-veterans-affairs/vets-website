@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
@@ -16,32 +16,24 @@ export default function ReferralLayout({
   hasEyebrow,
   apiFailure,
   heading,
-  categoryOfCare = '',
   loadingMessage,
   errorBody = '',
 }) {
   const location = useLocation();
 
   const content = apiFailure ? <ErrorAlert body={errorBody} /> : children;
-  const h1Ref = React.createRef();
 
-  useEffect(
-    () => {
-      // only on load
-      if (h1Ref.current) {
-        scrollAndFocus(h1Ref.current);
-      }
-    },
-    [h1Ref],
-  );
+  useEffect(() => {
+    scrollAndFocus();
+  }, []);
 
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
-        <ReferralBreadcrumbs categoryOfCare={categoryOfCare} />
-        {location.pathname.endsWith('new-appointment') && (
+        <ReferralBreadcrumbs />
+        {location.pathname.endsWith('type-of-care') && (
           <DowntimeNotification
-            appTitle="VA online scheduling tool"
+            appTitle="appointments tool"
             dependencies={[externalServices.vaosWarning]}
             render={(props, childContent) => (
               <WarningNotification {...props}>
@@ -58,9 +50,7 @@ export default function ReferralLayout({
               </span>
             )}
             {heading && (
-              <h1 ref={h1Ref} data-testid="referral-layout-heading">
-                {heading}
-              </h1>
+              <h1 data-testid="referral-layout-heading">{heading}</h1>
             )}
             <ErrorBoundary>
               {!!loadingMessage && (
@@ -86,7 +76,6 @@ export default function ReferralLayout({
 
 ReferralLayout.propTypes = {
   apiFailure: PropTypes.bool,
-  categoryOfCare: PropTypes.string,
   children: PropTypes.node,
   errorBody: PropTypes.string,
   hasEyebrow: PropTypes.bool,

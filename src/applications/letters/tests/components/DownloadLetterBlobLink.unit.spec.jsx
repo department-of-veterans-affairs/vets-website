@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import sinon from 'sinon';
 import DownloadLetterBlobLink from '../../components/DownloadLetterBlobLink';
 import { DOWNLOAD_STATUSES } from '../../utils/constants';
 
@@ -18,7 +19,9 @@ describe('<DownloadLetterBlobLink />', () => {
     const store = mockStore({
       letters: {
         enhancedLetters: [],
-        enhancedLettersAvailability: DOWNLOAD_STATUSES.downloading,
+        enhancedLetterStatus: {
+          [defaultProps.letterType]: DOWNLOAD_STATUSES.downloading,
+        },
       },
     });
 
@@ -31,7 +34,7 @@ describe('<DownloadLetterBlobLink />', () => {
     expect(container.querySelector('va-loading-indicator')).to.exist;
     expect(container.querySelector('va-loading-indicator')).to.have.attribute(
       'message',
-      'Creating letter...',
+      'Loading your letter...',
     );
   });
 
@@ -44,7 +47,9 @@ describe('<DownloadLetterBlobLink />', () => {
             downloadUrl: 'http://example.com/test_letter.pdf',
           },
         ],
-        enhancedLettersAvailability: DOWNLOAD_STATUSES.success,
+        enhancedLetterStatus: {
+          [defaultProps.letterType]: DOWNLOAD_STATUSES.success,
+        },
       },
     });
 
@@ -60,14 +65,16 @@ describe('<DownloadLetterBlobLink />', () => {
       'href',
       'http://example.com/test_letter.pdf',
     );
-    expect(link).to.have.attribute('text', 'Test Letter');
+    expect(link).to.have.attribute('text', 'Download Test Letter');
   });
 
   it('renders error alert when status is failure', () => {
     const store = mockStore({
       letters: {
         enhancedLetters: [],
-        enhancedLettersAvailability: DOWNLOAD_STATUSES.failure,
+        enhancedLetterStatus: {
+          [defaultProps.letterType]: DOWNLOAD_STATUSES.failure,
+        },
       },
     });
 
@@ -83,14 +90,18 @@ describe('<DownloadLetterBlobLink />', () => {
     expect(alert).to.have.attribute('status', 'error');
     expect(alert).to.have.attribute('role', 'alert');
     expect(alertText).to.exist;
-    expect(alertText).to.have.text('We can’t create your letter right now.');
+    expect(alertText).to.have.text(
+      'If you need help accessing your letter, please call VA Benefits and Services at . If you have hearing loss, call .',
+    );
   });
 
   it('renders default message when status is unknown', () => {
     const store = mockStore({
       letters: {
         enhancedLetters: [],
-        enhancedLettersAvailability: 'unknown_status',
+        enhancedLetterStatus: {
+          [defaultProps.letterType]: 'unknown_status',
+        },
       },
     });
 
@@ -102,6 +113,41 @@ describe('<DownloadLetterBlobLink />', () => {
 
     const div = container.querySelector('div');
     expect(div).to.exist;
-    expect(div).to.have.text('Your letter should begin loading shortly.');
+    expect(div).to.have.text('Refresh the browser to download your letter.');
+  });
+  it('dispatches getSingleLetterPDFLinkAction when accordion is open on mount', () => {
+    const dispatchSpy = sinon.spy();
+    const fakeRef = {
+      current: document.createElement('details'),
+    };
+    fakeRef.current.setAttribute('open', '');
+
+    const mockStorewithDispatch = {
+      getState: () => ({
+        letters: {
+          enhancedLetters: [],
+          enhancedLetterStatus: {},
+        },
+      }),
+      subscribe: () => {},
+      dispatch: dispatchSpy,
+    };
+
+    const { unmount } = render(
+      <Provider store={mockStorewithDispatch}>
+        <DownloadLetterBlobLink
+          letterTitle="Test Letter"
+          letterType="test_letter"
+          accordionRef={fakeRef}
+          LH_MIGRATION__options={{ foo: 'bar' }}
+        />
+      </Provider>,
+    );
+
+    expect(dispatchSpy.calledOnce).to.be.true;
+    const dispatchedAction = dispatchSpy.firstCall.args[0];
+    expect(dispatchedAction).to.be.a('function');
+
+    unmount();
   });
 });

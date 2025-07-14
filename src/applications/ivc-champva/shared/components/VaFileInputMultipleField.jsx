@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { pick } from 'lodash';
 import { useDispatch } from 'react-redux';
-import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaFileInputMultiple,
+  VaProgressBar,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldMapping';
 import { uploadScannedForm as uploadFile } from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldHelpers';
@@ -79,6 +82,22 @@ const VaFileInputMultipleField = props => {
   const pendingUpdate = useRef(null);
   const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
+  const [progress, setProgress] = useState(0);
+
+  const incompleteUploadMsg = 'File not finished uploading - please wait';
+
+  // Handles showing an error while a file is uploading
+  useEffect(
+    () => {
+      if (uploadInProgress === false) {
+        setErrorsList(
+          errorsList.filter(e => e?.errorMessage !== incompleteUploadMsg),
+        );
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [uploadInProgress],
+  );
 
   useEffect(
     () => {
@@ -123,6 +142,22 @@ const VaFileInputMultipleField = props => {
     [props.childrenProps, uploadArray],
   );
 
+  // Produces an error message for a given file stating that it is still uploading.
+  // Used in conjunction with `uploadInProgress`.
+  function addLoadingMsg(f) {
+    return {
+      name: f?.name,
+      size: f?.size,
+      errorMessage: incompleteUploadMsg,
+    };
+  }
+
+  // Function called on every progress update cycle while file is uploading
+  function updateProgress(percent) {
+    setUploadInProgress(true);
+    setProgress(percent);
+  }
+
   /**
    * Identifies the overlap in two arrays of files based on file name and size
    * @param {Array} arr1 Array to check against
@@ -136,9 +171,9 @@ const VaFileInputMultipleField = props => {
     );
 
     // Filter arr2 to only include items whose identifiers exist in the Set
-    return arr2.filter(item =>
-      arr1Identifiers.has(`${item.name}-${item.size}`),
-    );
+    return arr2
+      .filter(item => arr1Identifiers.has(`${item.name}-${item.size}`))
+      ?.reverse(); // preserve initial order
   }
 
   /**
@@ -193,7 +228,12 @@ const VaFileInputMultipleField = props => {
     const fd = props.childrenProps.formData;
     const fileFromEvent = e.detail.file;
 
-    setErrorsList(getErrorsForFiles(e, errorsList));
+    setErrorsList([
+      ...getErrorsForFiles(e, errorsList),
+      // Temporary error indicating file not uploaded yet. Is automatically
+      // cleared when `isUploading` becomes `false`
+      addLoadingMsg(e?.detail?.file),
+    ]);
 
     if (e.detail.action === 'FILE_ADDED') {
       let fileAlreadyUploaded = false;
@@ -237,7 +277,7 @@ const VaFileInputMultipleField = props => {
 
       let fileAlreadyUploaded = false;
 
-      // Use functional updates here too
+      // Identify which items have changed and drop any that were replaced
       setUploadArray(prevArray => {
         const baseArray = prevArray.length === 0 ? [...(fd || [])] : prevArray;
         const newArray = filterToMatchingObjects(
@@ -259,19 +299,30 @@ const VaFileInputMultipleField = props => {
 
     // Default behavior for when action is FILE_ADDED:
     dispatch(
-      uploadFile(fileUploadUrl, formNumber, fileFromEvent, onFileUploaded, () =>
-        setUploadInProgress(true),
+      uploadFile(
+        fileUploadUrl,
+        formNumber,
+        fileFromEvent,
+        onFileUploaded,
+        percent => updateProgress(percent),
       ),
     );
   };
 
   return (
-    <VaFileInputMultiple
-      {...mappedProps}
-      errors={errorsListDisplay.map(e => e?.errorMessage)}
-      value={localFile}
-      onVaMultipleChange={handleVaChange}
-    />
+    <>
+      <VaFileInputMultiple
+        {...mappedProps}
+        errors={errorsListDisplay.map(e => e?.errorMessage)}
+        value={localFile}
+        onVaMultipleChange={handleVaChange}
+      />
+      {uploadInProgress ? (
+        <VaProgressBar percent={progress} label="Uploading file" />
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 

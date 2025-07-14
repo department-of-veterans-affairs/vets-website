@@ -92,3 +92,9 @@ export const stubPrescriptionDocumentationQuery = ({
       isFetching,
     });
 };
+
+export const stubUsePrefetch = ({ sandbox }) => {
+  const prefetchStub = sandbox.spy();
+  sandbox.stub(prescriptionsApiModule, 'usePrefetch').returns(prefetchStub);
+  return prefetchStub;
+};

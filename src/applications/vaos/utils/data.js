@@ -20,17 +20,6 @@ export function arrayToObject(items, idProp = 'id') {
 }
 
 /**
- * Returns an array with any duplicate values removed
- *
- * @export
- * @param {Array} items
- * @returns {Array} items array with duplicates removed
- */
-export function dedupeArray(items) {
-  return Array.from(new Set(items)).filter(i => !!i);
-}
-
-/**
  * Returns an array with any duplicate id objects removed
  *
  * @export

@@ -80,7 +80,7 @@ function ActionButtons(props) {
   );
 }
 
-export const WaitTimeAlert = ({
+const WaitTimeAlert = ({
   eligibleForRequests,
   facilityId,
   nextAvailableApptDate,

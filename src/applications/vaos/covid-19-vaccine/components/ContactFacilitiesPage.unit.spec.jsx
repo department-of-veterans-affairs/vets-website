@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 import MockSchedulingConfigurationResponse, {
   MockServiceConfiguration,
@@ -27,7 +28,7 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
           id: '983',
           services: [
             {
-              id: 'covid',
+              id: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               direct: {
                 enabled: true,
               },
@@ -204,7 +205,7 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
           facilityId: '983',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'covid',
+              typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
               requestEnabled: true,
               directEnabled: true,
             }),
@@ -262,7 +263,12 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
         facilitySettings: [
           {
             id: '983',
-            services: [{ id: 'covid', direct: { enabled: false } }],
+            services: [
+              {
+                id: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                direct: { enabled: false },
+              },
+            ],
           },
         ],
       },

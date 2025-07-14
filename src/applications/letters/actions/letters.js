@@ -288,61 +288,56 @@ export function getLetterBlobUrl(
   });
 }
 
-// Enhanced Letter functions to generate blob URLs on first render
-// Create an array of enhanced letter objects with blob URLs
-export async function getLetterPdfLink(
-  dispatch,
-  // eslint-disable-next-line -- LH_MIGRATION
-  LH_MIGRATION__options,
-  lettersArr,
-) {
-  dispatch({
-    type: GET_ENHANCED_LETTERS_DOWNLOADING,
-  });
-
-  const enhancedLettersArr = [];
-
-  await Promise.all(
-    lettersArr.map(async letter => {
-      const { letterType } = letter;
-      const urlString = await getLetterBlobUrl(
-        dispatch,
-        letterType,
-        LH_MIGRATION__options,
-      );
-
-      return {
-        ...letter,
-        downloadUrl: urlString,
-      };
-    }),
-  )
-    .then(enhancedLetters => {
-      enhancedLettersArr.push(...enhancedLetters);
-
-      recordEvent({ event: 'enhanced-letter-list-success' });
-      return dispatch({
-        type: GET_ENHANCED_LETTERS_SUCCESS,
-        data: enhancedLettersArr,
-      });
-    })
-    .catch(() => {
-      recordEvent({ event: 'enhanced-letter-list-failure' });
-      return dispatch({ type: GET_ENHANCED_LETTERS_FAILURE });
-    });
-}
-
-// Synchronous wrapper for getLetterPdfLink
-export function getLettersPdfLinksWrapper(
-  // eslint-disable-next-line -- LH_MIGRATION
-  LH_MIGRATION__options,
-  lettersArr,
-) {
-  return dispatch => {
-    getLetterPdfLink(dispatch, LH_MIGRATION__options, lettersArr);
-  };
-}
-
 export const profileHasEmptyAddress = () => ({
   type: LETTER_HAS_EMPTY_ADDRESS,
 });
+
+export async function getSingleLetterPDFLink(
+  dispatch,
+  letterType,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+  getState,
+) {
+  try {
+    dispatch({
+      type: GET_ENHANCED_LETTERS_DOWNLOADING,
+      letterType,
+    });
+    const blobUrl = await getLetterBlobUrl(
+      dispatch,
+      letterType,
+      LH_MIGRATION__options,
+    );
+
+    const state = getState();
+    const currentLetters = state.letters?.enhancedLetters || [];
+    const updatedLetters = [
+      ...currentLetters.filter(letter => letter.letterType !== letterType),
+      { letterType, downloadUrl: blobUrl },
+    ];
+    return dispatch({
+      type: GET_ENHANCED_LETTERS_SUCCESS,
+      data: updatedLetters,
+    });
+  } catch {
+    return dispatch({
+      type: GET_ENHANCED_LETTERS_FAILURE,
+      letterType,
+    });
+  }
+}
+export const getSingleLetterPDFLinkAction = (
+  letterType,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+) => {
+  return (dispatch, getState) => {
+    getSingleLetterPDFLink(
+      dispatch,
+      letterType,
+      LH_MIGRATION__options,
+      getState,
+    );
+  };
+};

@@ -3,7 +3,6 @@ import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
 import tooltip from '../fixtures/tooltip-for-filtering-list-page.json';
-import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
@@ -19,6 +18,11 @@ class MedicationsListPage {
       'delayAlertRxList',
     );
     cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-rx-name',
+      prescriptions,
+    ).as('medicationsSortByName');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -237,7 +241,7 @@ class MedicationsListPage {
   clickDownloadListAsPDFButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
@@ -251,7 +255,7 @@ class MedicationsListPage {
   verifyLoadingSpinnerForDownloadOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
@@ -260,7 +264,7 @@ class MedicationsListPage {
   clickDownloadListAsTxtButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-txt-button"]').should(
@@ -410,13 +414,8 @@ class MedicationsListPage {
       .and('contain', 'We’re sorry. There’s a problem with our system.');
   };
 
-  verifyInformationBasedOnStatusActiveRefillsLeft = () => {
-    cy.get(
-      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(4)',
-    ).should(
-      'contain',
-      `${activeRxRefills.data.attributes.refillRemaining} refills left`,
-    );
+  verifyNumberOfRefillsLeftNotDisplayedOnMedicationCard = () => {
+    cy.contains('refills left').should('not.be.visible');
   };
 
   verifyInformationBaseOnStatusSubmitted = () => {
@@ -479,12 +478,10 @@ class MedicationsListPage {
     );
   };
 
-  selectSortDropDownOption = (text, intercept) => {
-    cy.intercept('GET', `${intercept}`, prescriptions).as('medicationList');
+  selectSortDropDownOption = text => {
     cy.get('[data-testid="sort-dropdown"]')
       .find('#options')
       .select(text, { force: true });
-    cy.intercept('GET', `${intercept}`, prescriptions);
   };
 
   loadRxDefaultSortAlphabeticallyByStatus = () => {
@@ -497,6 +494,52 @@ class MedicationsListPage {
       'GET',
       '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
+    );
+  };
+
+  sortPrescriptionsByStatusNameAndFillDate = data => {
+    return {
+      ...data,
+      data: data.data
+        .slice() // Create a shallow copy to avoid mutating the original array
+        .sort((a, b) => {
+          // Sort by status alphabetically
+          const statusA = a.attributes.dispStatus?.toLowerCase() || '';
+          const statusB = b.attributes.dispStatus?.toLowerCase() || '';
+          if (statusA < statusB) return -1;
+          if (statusA > statusB) return 1;
+          // If statuses are the same, sort by medication name alphabetically
+          const nameA = a.attributes.prescriptionName?.toLowerCase() || '';
+          const nameB = b.attributes.prescriptionName?.toLowerCase() || '';
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          // If names are the same, sort by fill date in descending order
+          const fillDateA = new Date(a.attributes.dispensedDate || 0);
+          const fillDateB = new Date(b.attributes.dispensedDate || 0);
+          return fillDateB - fillDateA;
+        }),
+    };
+  };
+
+  validateMedicationsListSortedAlphabeticallyByStatus = sortedData => {
+    cy.get('[data-testid="medications-history-details-link"]').then(
+      $nameEls => {
+        const seen = new Set();
+        const actualUniqueNames = [...$nameEls]
+          .map(el => el.textContent.trim())
+          .filter(name => {
+            if (seen.has(name)) return false;
+            seen.add(name);
+            return true;
+          });
+
+        const expectedUniqueNames = sortedData.data.map(
+          rx => rx.attributes.prescriptionName,
+        );
+        expect(actualUniqueNames).to.deep.equal(
+          expectedUniqueNames.slice(0, actualUniqueNames.length),
+        );
+      },
     );
   };
 
@@ -540,6 +583,36 @@ class MedicationsListPage {
     // cy.get('[data-testid="loading-indicator"]').should('exist');
   };
 
+  sortPrescriptionsByNameAndLastFillDate = data => {
+    return {
+      ...data,
+      data: data.data.slice().sort((a, b) => {
+        const nameA = a.attributes.prescriptionName?.toLowerCase() || '';
+        const nameB = b.attributes.prescriptionName?.toLowerCase() || '';
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        // If names are the same, sort by fill date in descending order
+        const fillDateA = new Date(a.attributes.dispensedDate || 0);
+        const fillDateB = new Date(b.attributes.dispensedDate || 0);
+        return fillDateB - fillDateA;
+      }),
+    };
+  };
+
+  validateMedicationsListSorted = sortedData => {
+    cy.get('[data-testid="medications-history-details-link"]').then(
+      $nameEls => {
+        const actualNames = [...$nameEls]
+          .map(el => el.textContent.trim())
+          .slice(0, 20);
+        const expectedNames = sortedData.data
+          .map(rx => rx.attributes.prescriptionName)
+          .slice(0, 20);
+        expect(actualNames).to.deep.equal(expectedNames);
+      },
+    );
+  };
+
   verifyPaginationDisplayedforSortAlphabeticallyByName = (
     displayedStartNumber,
     displayedEndNumber,
@@ -556,27 +629,51 @@ class MedicationsListPage {
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by name`,
       );
     });
+    cy.get('[data-testid="page-total-info"]').should('be.focused');
   };
 
-  loadRxAfterSortLastFilledFirst = () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
-      prescriptions,
-    );
-    // cy.intercept(
-    //   '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
-    //   req => {
-    //     return Cypress.Promise.delay(500).then(() => req.continue());
-    //   },
-    // ).as('prescriptions');
+  sortPrescriptionsByLastFilledCustom = data => {
+    const filled = [];
+    const notYetFilled = [];
+    const nonVA = [];
 
-    // cy.get('[data-testid="loading-indicator"]').should('exist');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20null&sort[]=-dispensed_date&sort[]=prescription_name',
-      prescriptions,
-    );
+    data.data.forEach(item => {
+      const { dispensedDate, prescriptionSource } = item.attributes;
+      if (prescriptionSource === 'NV') {
+        nonVA.push(item);
+      } else if (dispensedDate) {
+        filled.push(item);
+      } else {
+        notYetFilled.push(item);
+      }
+    });
+
+    filled.sort((a, b) => {
+      const dateA = new Date(a.attributes.dispensedDate).getTime();
+      const dateB = new Date(b.attributes.dispensedDate).getTime();
+      return dateB - dateA; // newest to oldest
+    });
+
+    notYetFilled.sort((a, b) => {
+      const nameA = a.attributes.prescriptionName?.toLowerCase() || '';
+      const nameB = b.attributes.prescriptionName?.toLowerCase() || '';
+      if (nameA < nameB) return -1;
+      if (nameA > nameB) return 1;
+      return 0;
+    });
+
+    nonVA.sort((a, b) => {
+      const nameA = a.attributes.prescriptionName?.toLowerCase() || '';
+      const nameB = b.attributes.prescriptionName?.toLowerCase() || '';
+      if (nameA < nameB) return -1;
+      if (nameA > nameB) return 1;
+      return 0;
+    });
+
+    return {
+      ...data,
+      data: [...filled, ...notYetFilled, ...nonVA],
+    };
   };
 
   verifyPaginationDisplayedforSortLastFilledFirst = (
@@ -590,6 +687,7 @@ class MedicationsListPage {
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, last filled first`,
       );
     });
+    cy.get('[data-testid="page-total-info"]').should('be.focused');
   };
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
@@ -867,10 +965,10 @@ class MedicationsListPage {
     cardNumber,
   ) => {
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="rx-number"]`,
+      `.landing-page-content > [data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"]`,
     )
       .first()
-      .should('contain', prescriptionNumber);
+      .should('not.contain', prescriptionNumber);
   };
 
   verifyPendingNewRxInfoTextOnMedicationCardOnListPage = text => {
@@ -923,7 +1021,9 @@ class MedicationsListPage {
   };
 
   verifyNeedHelpSectionOnListPage = text => {
-    cy.get('[data-testid="rx-need-help-container"]').should('contain', text);
+    cy.get('[data-testid="rx-need-help-container"]')
+      .should('contain', text)
+      .and('be.visible');
   };
 
   verifyGoToUseMedicationLinkOnListPage = () => {
@@ -1001,6 +1101,24 @@ class MedicationsListPage {
   loadListPageWithoutToolTip = () => {
     cy.intercept('GET', '/my_health/v1/tooltips', hidden).as('tooltips');
     cy.visit(medicationsUrls.MEDICATIONS_URL);
+  };
+
+  verifyContentInListPageDownload = text => {
+    const downloadsFolder = Cypress.config('downloadsFolder');
+    const pad = n => n.toString().padStart(2, '0');
+    let hours = text.getHours();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12 || 12;
+    const formattedTime = `${hours}${pad(text.getMinutes())}${pad(
+      text.getSeconds(),
+    )}${ampm}`;
+    const date = `${text.getMonth() +
+      1}-${text.getDate()}-${text.getFullYear()}_${formattedTime}`;
+    const fileName = `${downloadsFolder}/VA-medications-list-Safari-Mhvtp-${date}.txt`;
+    cy.readFile(fileName).then(fileContent => {
+      expect(fileContent).to.contain('not available');
+      expect(fileContent).to.not.contain('None noted');
+    });
   };
 }
 

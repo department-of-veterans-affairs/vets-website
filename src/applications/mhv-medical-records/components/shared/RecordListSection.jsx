@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import AccessTroubleAlertBox from './AccessTroubleAlertBox';
 import TrackedSpinner from './TrackedSpinner';
 import useInitialFhirLoadTimeout from '../../hooks/useInitialFhirLoadTimeout';
+import { recordTypeKeyNames } from '../../util/constants';
 
 const RecordListSection = ({
   children,
   accessAlert,
   accessAlertType,
   recordCount,
+  recordType,
   listCurrentAsOf,
   initialFhirLoad,
 }) => {
@@ -41,7 +43,7 @@ const RecordListSection = ({
   return (
     <div className="vads-u-margin-y--8">
       <TrackedSpinner
-        id="loading-list-spinner"
+        id={`${recordTypeKeyNames[recordType]}-list-spinner`}
         message="We’re loading your records. This could take up to a minute."
         setFocus
         data-testid="loading-indicator"

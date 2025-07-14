@@ -34,15 +34,29 @@ export default function Verify() {
   let buttonContent;
   if (!loading && isAuthenticated) {
     if (loginServiceName === 'idme') {
-      buttonContent = <VerifyIdmeButton />;
+      buttonContent = (
+        <VerifyIdmeButton
+          queryParams={{ operation: 'verify_page_authenticated' }}
+        />
+      );
     } else {
-      buttonContent = <VerifyLogingovButton />;
+      buttonContent = (
+        <VerifyLogingovButton
+          queryParams={{ operation: 'verify_page_authenticated' }}
+        />
+      );
     }
   } else {
     buttonContent = (
       <>
-        <VerifyLogingovButton useOAuth />
-        <VerifyIdmeButton useOAuth />
+        <VerifyLogingovButton
+          useOAuth
+          queryParams={{ operation: 'verify_page_unauthenticated' }}
+        />
+        <VerifyIdmeButton
+          useOAuth
+          queryParams={{ operation: 'verify_page_unauthenticated' }}
+        />
       </>
     );
   }

@@ -8,8 +8,8 @@ import { CSP_IDS } from 'platform/user/authentication/constants';
 function createDefaultData() {
   return {
     attributes: {
-      account: {
-        accountUuid: 'user-1234',
+      userAccount: {
+        id: 'user-1234',
       },
       profile: {
         sign_in: {
@@ -101,7 +101,7 @@ describe('Profile utilities', () => {
       });
 
       expect(mappedData.accountUuid).to.deep.equal(
-        data.attributes.account.accountUuid,
+        data.attributes.userAccount.id,
       );
     });
 

@@ -34,7 +34,7 @@ describe('Goals Form', () => {
 
   it('should render the correct hint for goals checkbox group', () => {
     const hint = document.querySelector(
-      'va-checkbox-group[hint="Check all that apply."]',
+      'va-checkbox-group[hint="Select all that apply."]',
     );
     expect(hint).to.exist;
   });

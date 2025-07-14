@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 import { content } from '../content/evidenceSummary';
 import { content as vaContent } from '../content/evidenceVaRecords';
 import { EVIDENCE_VA_PATH } from '../constants';
@@ -37,6 +37,7 @@ export const EvidenceVaContent = ({
     return null;
   }
   const Header = isOnReviewPage ? 'h5' : 'h4';
+  const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
   return (
     <>
@@ -85,12 +86,12 @@ export const EvidenceVaContent = ({
             >
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
-                  <strong
-                    className="va-location dd-privacy-hidden overflow-wrap-word"
+                  <SubHeader
+                    className="va-location dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
                     data-dd-action-name="VA location name"
                   >
                     {locationAndName}
-                  </strong>
+                  </SubHeader>
                 )}
                 <div
                   className="dd-privacy-hidden overflow-wrap-word"
@@ -120,16 +121,16 @@ export const EvidenceVaContent = ({
                   ))}
                 {!reviewMode && (
                   <div className="vads-u-margin-top--1p5">
-                    <Link
+                    <BasicLink
+                      disableAnalytics
                       key={`edit-va-${index}`}
                       id={`edit-va-${index}`}
                       className="edit-item"
-                      to={path}
+                      path={path}
                       aria-label={`${content.edit} ${locationAndName}`}
                       data-link={testing ? path : null}
-                    >
-                      {content.edit}
-                    </Link>
+                      text={content.edit}
+                    />
                     <va-button
                       data-index={index}
                       data-type="va"

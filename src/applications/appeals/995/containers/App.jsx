@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
@@ -133,17 +135,22 @@ export const App = ({
 
   let content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      <ITFWrapper
-        loggedIn={loggedIn}
-        pathname={pathname}
-        title={formConfig.title}
-        benefitType={subTaskBenefitType}
-        router={router}
-        accountUuid={accountUuid}
-        inProgressFormId={inProgressFormId}
+      <DowntimeNotification
+        appTitle="Supplemental Claims application"
+        dependencies={[externalServices.decisionReviews]}
       >
-        {children}
-      </ITFWrapper>
+        <ITFWrapper
+          loggedIn={loggedIn}
+          pathname={pathname}
+          title={formConfig.title}
+          benefitType={subTaskBenefitType}
+          router={router}
+          accountUuid={accountUuid}
+          inProgressFormId={inProgressFormId}
+        >
+          {children}
+        </ITFWrapper>
+      </DowntimeNotification>
     </RoutedSavableApp>
   );
 

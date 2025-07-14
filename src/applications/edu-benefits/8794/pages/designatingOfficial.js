@@ -6,8 +6,8 @@ import {
   textUI,
   phoneUI,
   phoneSchema,
-  internationalPhoneUI,
-  internationalPhoneSchema,
+  internationalPhoneDeprecatedUI,
+  internationalPhoneDeprecatedSchema,
   emailUI,
   emailSchema,
   fullNameNoSuffixUI,
@@ -59,7 +59,7 @@ const uiSchema = {
       },
     },
     internationalPhoneNumber: {
-      ...internationalPhoneUI({
+      ...internationalPhoneDeprecatedUI({
         title: 'International phone number',
         hint:
           'For non-US phone numbers. Enter a phone number with up to 15 digits.',
@@ -112,11 +112,11 @@ const schema = {
         title: {
           type: 'string',
           minLength: 1,
-          maxLength: 30,
+          maxLength: 60,
         },
         phoneType: radioSchema(Object.keys(phoneLabels)),
         phoneNumber: phoneSchema,
-        internationalPhoneNumber: internationalPhoneSchema,
+        internationalPhoneNumber: internationalPhoneDeprecatedSchema,
         emailAddress: emailSchema,
       },
       required: ['title', 'phoneType', 'emailAddress'],

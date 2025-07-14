@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 import withRouter from '../utils/withRouter';
 
 import {
@@ -78,11 +79,14 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     getStemClaims();
-
-    if (claimsLoading && appealsLoading && stemClaimsLoading) {
-      scrollToTop();
+    if (!this.props.isSmoothLoadingEnabled) {
+      if (claimsLoading && appealsLoading && stemClaimsLoading) {
+        scrollToTop();
+      } else {
+        setUpPage();
+      }
     } else {
-      setUpPage();
+      focusElement('h1');
     }
   }
 
@@ -241,29 +245,53 @@ class YourClaimsPageV2 extends React.Component {
 
     return (
       <>
-        <div name="topScrollElement" />
+        {!this.props.isSmoothLoadingEnabled && <div name="topScrollElement" />}
         <article className="row">
           <div className="usa-width-two-thirds medium-8 columns">
-            <ClaimsBreadcrumbs />
+            <div
+              className={`${
+                this.props.isSmoothLoadingEnabled
+                  ? 'breadcrumbs-loading-container'
+                  : ''
+              }`}
+            >
+              <ClaimsBreadcrumbs />
+            </div>
             <h1 className="claims-container-title">
               Check your claim, decision review, or appeal status
             </h1>
-            <va-on-this-page />
+            <div
+              className={`${
+                this.props.isSmoothLoadingEnabled
+                  ? 'on-this-page-loading-container'
+                  : ''
+              }`}
+            >
+              <va-on-this-page />
+            </div>
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>
             <div>{this.renderErrorMessages()}</div>
-            <va-additional-info
-              id="claims-combined"
-              class="claims-combined"
-              trigger="Find out why we sometimes combine claims."
+            <div
+              className={`${
+                this.props.isSmoothLoadingEnabled
+                  ? 'additional-info-loading-container'
+                  : ''
+              }`}
             >
-              <div>
-                If you turn in a new claim while we’re reviewing another one
-                from you, we’ll add any new information to the original claim
-                and close the new claim, with no action required from you.
-              </div>
-            </va-additional-info>
+              <va-additional-info
+                id="claims-combined"
+                class="claims-combined"
+                trigger="Find out why we sometimes combine claims."
+              >
+                <div>
+                  If you turn in a new claim while we’re reviewing another one
+                  from you, we’ll add any new information to the original claim
+                  and close the new claim, with no action required from you.
+                </div>
+              </va-additional-info>
+            </div>
             {content}
             <ClaimLetterSection />
             <h2 id="what-if-i-dont-see-my-appeal">

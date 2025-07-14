@@ -1,6 +1,9 @@
 // @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
-import { APPOINTMENT_STATUS, OPTOMETRY_ID } from '../../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
@@ -34,8 +37,9 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 
-const typeOfCareId = getTypeOfCareById(OPTOMETRY_ID).idV2;
-const { cceType } = getTypeOfCareById(OPTOMETRY_ID);
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.OPTOMETRY_ID,
+);
 
 describe('VAOS direct schedule flow - Optometry', () => {
   beforeEach(() => {

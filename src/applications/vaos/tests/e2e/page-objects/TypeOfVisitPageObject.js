@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class TypeOfVisitPageObject extends PageObject {
+class TypeOfVisitPageObject extends PageObject {
   assertHeading({ name }) {
     return this.assertShadow({
       element: 'va-radio',

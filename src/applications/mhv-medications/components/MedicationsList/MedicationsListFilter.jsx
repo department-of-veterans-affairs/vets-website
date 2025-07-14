@@ -10,7 +10,7 @@ import {
   VaAccordion,
   VaAccordionItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   ALL_MEDICATIONS_FILTER_KEY,
   filterOptions,
@@ -78,13 +78,13 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
     });
 
     updateFilter(selectedFilterOption);
-    focusElement(document.getElementById('showingRx'));
+    waitForRenderThenFocus('#showingRx', document, 500);
   };
 
   const handleFilterReset = () => {
     updateFilter(ALL_MEDICATIONS_FILTER_KEY);
     setSelectedFilterOption(ALL_MEDICATIONS_FILTER_KEY);
-    focusElement(document.getElementById('showingRx'));
+    waitForRenderThenFocus('#showingRx', document, 500);
   };
 
   const handleAccordionItemToggle = ({ target }) => {

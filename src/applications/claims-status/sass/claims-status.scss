@@ -6,6 +6,19 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 
+.breadcrumbs-loading-container {
+  min-height: 4rem;
+}
+
+.on-this-page-loading-container {
+  min-height: 350px;
+}
+
+.additional-info-loading-container {
+  min-height: 1.625rem;
+  margin: 1rem 0;
+}
+
 .claim-list {
   margin-bottom: 2em;
 }

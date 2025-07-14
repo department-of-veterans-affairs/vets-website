@@ -16,7 +16,7 @@ describe('SM DRAFT FOLDER FILTER-SORT CHECKS', () => {
 
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(mockDraftMessages);
     FolderLoadPage.loadDraftMessages();
   });
 
@@ -58,6 +58,8 @@ describe('SM DRAFT FOLDER FILTER-SORT CHECKS', () => {
     PatientFilterPage.clickApplyFilterButton(noMatchResponse);
 
     PatientFilterPage.verifyNoMatchFilterFocusAndText();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
 

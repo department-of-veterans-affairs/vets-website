@@ -251,7 +251,7 @@ export const ProfileInformationEditViewFc = ({
       if (isPendingTransactionMemo && !intervalId) {
         const newIntervalId = window.setInterval(
           () => handleRefreshTransaction(),
-          window.VetsGov.pollTimeout || 1000,
+          window.VetsGov.pollTimeout || 2000,
         );
         setIntervalId(newIntervalId);
       }

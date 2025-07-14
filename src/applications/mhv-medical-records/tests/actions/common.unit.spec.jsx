@@ -28,8 +28,9 @@ describe('getListWithRetry', () => {
       result = await getListWithRetry(
         mockDispatch,
         mockedGetListNoRetry,
-        200,
-        Date.now() + 100,
+        1,
+        20,
+        Date.now() + 10,
       );
     } catch (error) {
       expect.fail('Function should not have thrown an error');
@@ -45,8 +46,9 @@ describe('getListWithRetry', () => {
       await getListWithRetry(
         mockDispatch,
         mockedGetListRetry,
-        200,
-        Date.now() + 100,
+        1,
+        20,
+        Date.now() + 10,
       );
       expect.fail('Function should have thrown an error due to timeout');
     } catch (error) {
@@ -63,8 +65,9 @@ describe('getListWithRetry', () => {
       result = await getListWithRetry(
         mockDispatch,
         mockedGetListRetry,
-        200,
-        Date.now() + 500,
+        1,
+        20,
+        Date.now() + 50,
       );
     } catch (error) {
       expect.fail('Function should not have thrown an error');

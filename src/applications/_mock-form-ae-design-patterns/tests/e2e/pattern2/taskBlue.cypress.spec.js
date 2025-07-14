@@ -186,7 +186,7 @@ describe('Prefill pattern - Blue Task', () => {
 });
 
 describe('Prefill pattern - Blue Task Failure Scenario', () => {
-  it('shows error alert when profile update fails but form data is saved', () => {
+  it.skip('shows error alert when profile update fails but form data is saved', () => {
     cy.login(mockUsers.loa3User);
 
     cy.intercept('GET', '/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS', {

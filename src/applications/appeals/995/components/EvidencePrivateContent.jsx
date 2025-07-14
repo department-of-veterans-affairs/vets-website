@@ -1,15 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 import { title4142WithId } from '../content/title';
 import { content } from '../content/evidenceSummary';
-import {
-  authorizationLabel,
-  authorizationError,
-} from '../content/evidencePrivateRecordsAuthorization';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
 import {
+  AUTHORIZATION_LABEL,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_PRIVATE_AUTHORIZATION,
   EVIDENCE_LIMITATION_PATH,
@@ -52,6 +49,7 @@ export const EvidencePrivateContent = ({
     return null;
   }
   const Header = isOnReviewPage ? 'h5' : 'h4';
+  const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
   const showAddress = (
     { street, street2, city, state, postalCode, country },
@@ -82,84 +80,85 @@ export const EvidencePrivateContent = ({
       <ul className="evidence-summary remove-bullets" role="list">
         {showScNewForm && (
           <li className={listClassNames(!showListOnly)}>
-            <div
-              className={`private-authorization ${confirmationPageLabel(
+            <SubHeader
+              className={`private-authorization vads-u-margin-y--0 ${confirmationPageLabel(
                 showListOnly,
               )}`}
             >
               {title4142WithId}
-            </div>
+            </SubHeader>
             <div>
               {privacyAgreementAccepted ? (
-                authorizationLabel
+                AUTHORIZATION_LABEL
               ) : (
                 // including non-empty error attribute for focus management
                 <span className="usa-input-error-message" error="error">
-                  {authorizationError}
+                  You must give us authorization for us to get your non-VA
+                  medical records
                 </span>
               )}
             </div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
-                <Link
+                <BasicLink
+                  disableAnalytics
                   id="edit-private-authorization"
                   className="edit-item"
-                  to={`/${EVIDENCE_PRIVATE_AUTHORIZATION}`}
                   aria-label={`edit ${title4142WithId}`}
                   data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION : null}
-                >
-                  {content.edit}
-                </Link>
+                  path={`/${EVIDENCE_PRIVATE_AUTHORIZATION}`}
+                  text={content.edit}
+                />
               </div>
             )}
           </li>
         )}
         {showScNewForm && (
           <li className={listClassNames(!showListOnly)}>
-            <div
-              className={`private-limitation-yn ${confirmationPageLabel(
+            <SubHeader
+              className={`private-limitation-yn vads-u-margin-y--0 ${confirmationPageLabel(
                 showListOnly,
               )}`}
             >
               {limitContent.title}
-            </div>
+            </SubHeader>
             <div>{showLimitedConsentYN ? 'Yes' : 'No'}</div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
-                <Link
+                <BasicLink
+                  disableAnalytics
                   id="edit-limitation-y-n"
                   className="edit-item"
-                  to={`/${EVIDENCE_LIMITATION_PATH1}`}
+                  path={`/${EVIDENCE_LIMITATION_PATH1}`}
                   aria-label={`${content.edit} ${limitContent.title} `}
                   data-link={testing ? EVIDENCE_LIMITATION_PATH1 : null}
-                >
-                  {content.edit}
-                </Link>
+                  text={content.edit}
+                />
               </div>
             )}
           </li>
         )}
         {showLimitedConsentYN && (
           <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
-            <div
-              className={`private-limitation ${confirmationPageLabel(
-                showListOnly,
-              )}`}
+            <SubHeader
+              className={`private-limitation
+                vads-u-margin-y--0
+                ${confirmationPageLabel(showListOnly)}`}
             >
               {limitContent.textAreaTitle}
-            </div>
+            </SubHeader>
             <div>{limitedConsent}</div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
-                <Link
+                <BasicLink
+                  disableAnalytics
                   id="edit-limitation"
                   className="edit-item"
-                  to={`/${EVIDENCE_LIMITATION_PATH2}`}
+                  path={`/${EVIDENCE_LIMITATION_PATH2}`}
                   aria-label={`${content.edit} ${limitContent.textAreaTitle}`}
                   data-link={testing ? EVIDENCE_LIMITATION_PATH2 : null}
-                >
-                  {content.edit}
-                </Link>
+                  text={content.edit}
+                />
               </div>
             )}
           </li>
@@ -201,12 +200,12 @@ export const EvidencePrivateContent = ({
             >
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
-                  <strong
-                    className="private-facility dd-privacy-hidden overflow-wrap-word"
+                  <SubHeader
+                    className="private-facility dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
                     data-dd-action-name="Non-VA facility name"
                   >
                     {providerFacilityName}
-                  </strong>
+                  </SubHeader>
                 )}
                 {showListOnly ? (
                   showAddress(providerFacilityAddress, errors)
@@ -230,15 +229,15 @@ export const EvidencePrivateContent = ({
                 )}
                 {!reviewMode && (
                   <div className="vads-u-margin-top--1p5">
-                    <Link
+                    <BasicLink
+                      disableAnalytics
                       id={`edit-private-${index}`}
                       className="edit-item"
-                      to={path}
+                      path={path}
                       aria-label={`${content.edit} ${providerFacilityName}`}
                       data-link={testing ? path : null}
-                    >
-                      {content.edit}
-                    </Link>
+                      text={content.edit}
+                    />
                     <va-button
                       data-index={index}
                       data-type="private"
@@ -256,27 +255,26 @@ export const EvidencePrivateContent = ({
         })}
         {!showScNewForm && (
           <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
-            <strong
-              className={`private-limitation ${confirmationPageLabel(
-                showListOnly,
-              )}`}
+            <SubHeader
+              className={`private-limitation vads-u-margin-y--0
+                ${confirmationPageLabel(showListOnly)}`}
             >
               {limitContent.title}
-            </strong>
+            </SubHeader>
 
             <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
 
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
-                <Link
+                <BasicLink
+                  disableAnalytics
                   id="edit-limitation"
                   className="edit-item"
-                  to={`/${EVIDENCE_LIMITATION_PATH}`}
+                  path={`/${EVIDENCE_LIMITATION_PATH}`}
                   aria-label={`${content.edit} ${limitContent.name}`}
                   data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
-                >
-                  {content.edit}
-                </Link>
+                  text={content.edit}
+                />
                 {limitedConsent.length ? (
                   <va-button
                     data-type={LIMITATION_KEY}

@@ -9,9 +9,7 @@ describe(`${appName} -- non Patient landing page -- milestone-2`, () => {
   beforeEach(() => {
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeMessageData.withNoUnreadMessages();
-    LandingPage.visit({
-      registered: false,
-      verified: true,
+    LandingPage.visitNonPatientPage({
       mhvAccountState: 'OK',
       edipi: '1234567890',
     });
@@ -109,37 +107,28 @@ describe(`${appName} -- non Patient landing page -- milestone-2`, () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  // it's not clear why this test is failing
-  it.skip('renders the SEI information download link', () => {
-    cy.get('va-links').should('be.visible');
-    cy.get('va-links')
-      .shadow()
-      .findByRole('link', {
-        name: /Download self-entered health information report (PDF)/i,
-      });
+  it('renders the SEI information download link', () => {
+    cy.get('va-link')
+      .contains('Download self-entered health information report (PDF)')
+      .should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
-  // it's not clear why this test is failing
-  it.skip('renders the DoD information download link', () => {
-    cy.get('va-links').should('be.visible');
-    cy.get('va-links')
-      .shadow()
-      .findByRole('link', {
-        name: /Download your DOD military service data (PDF)/,
-      });
+  it('renders the DoD information download link', () => {
+    cy.get('va-link')
+      .contains('Download your DOD military service data (PDF)')
+      .should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
-  // it's not clear why this test is failing
-  it.skip('renders the hub section', () => {
+  it('renders the hub section', () => {
     const healthBenefits = {
       level: 2,
-      name: /^My VA health benefits$/,
+      name: /^VA health benefits$/,
     };
     const moreResources = {
       level: 2,
-      name: /^More resources and support$/,
+      name: /^More resources$/,
     };
     const spotlight = {
       level: 2,

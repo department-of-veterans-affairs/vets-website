@@ -27,23 +27,18 @@ const ui = (
 let view;
 let server;
 
-function getEditButton() {
-  let editButton = view.queryByText(/add.*email address/i, {
-    selector: 'button',
-  });
-  if (!editButton) {
-    // Need to use `queryByRole` since the visible label is simply `Edit`, but
-    // the aria-label is more descriptive
-    editButton = view.queryByRole('button', { name: /edit.*email address/i });
-  }
-  return editButton;
+// helper function that returns the Edit va-button
+// since RTL doesn't support getByRole/getByText queries for web components
+function getEditEmailVaButton() {
+  return view.container.querySelector(
+    `va-button[label="Edit Contact email address"]`,
+  );
 }
 
 // helper function that enters the `Edit email address` view, enters an
 // address, and clicks the `Update` button.
 function editEmailAddress() {
-  const editButton = getEditButton();
-  editButton.click();
+  getEditEmailVaButton().click();
 
   const emailAddressInput = $('va-text-input[label^="Email"]', view.container);
   expect(emailAddressInput).to.exist;
@@ -68,12 +63,9 @@ async function testQuickSuccess() {
   await waitForElementToBeRemoved(emailAddressInput);
 
   // the edit email button should exist
-  expect(view.getByRole('button', { name: /edit.*email address/i })).to.exist;
+  expect(getEditEmailVaButton()).to.exist;
   // and the new email address should exist in the DOM
   expect(view.container.textContent).to.contain(newEmailAddress);
-  // and the add email button should be gone
-  expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not.to
-    .exist;
 }
 
 // When the update happens but not until after the Edit View has exited and the
@@ -97,16 +89,9 @@ async function testSlowSuccess() {
   await waitForElementToBeRemoved(savingMessage);
 
   // the edit email button should exist
-  expect(
-    view.getByRole('button', {
-      name: /edit.*email address/i,
-    }),
-  ).to.exist;
+  expect(getEditEmailVaButton()).to.exist;
   // and the new email address should exist in the DOM
   expect(view.container.textContent).to.contain(newEmailAddress);
-  // and the add email button should be gone
-  expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not.to
-    .exist;
 }
 
 // When the initial transaction creation request fails
@@ -122,8 +107,7 @@ async function testTransactionCreationFails() {
   // make sure that edit mode is not automatically exited
   await wait(75);
   expect(view.getByText(DEFAULT_ERROR_MESSAGE)).to.exist;
-  const editButton = getEditButton();
-  expect(editButton).to.not.exist;
+  expect(getEditEmailVaButton()).to.not.exist;
 }
 
 // When the update fails while the Edit View is still active
@@ -139,8 +123,7 @@ async function testQuickFailure() {
   // make sure that edit mode is not automatically exited
   await wait(75);
   expect(view.getByText(DEFAULT_ERROR_MESSAGE)).to.exist;
-  const editButton = getEditButton();
-  expect(editButton).to.not.exist;
+  expect(getEditEmailVaButton()).to.not.exist;
 }
 
 // When the update fails but not until after the Edit View has exited and the
@@ -172,8 +155,8 @@ async function testSlowFailure() {
 
   // and the new email address should not exist in the DOM
   expect(view.container.textContent).to.not.contain(newEmailAddress);
-  // and the add/edit email button should be back
-  expect(getEditButton()).to.exist;
+  // and the edit email button should be back
+  expect(getEditEmailVaButton()).to.exist;
 }
 
 describe('Editing email address', () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import { getAlert, getFormNumber, onClickContinue } from '../helpers';
 
 export const CustomTopContent = () => {

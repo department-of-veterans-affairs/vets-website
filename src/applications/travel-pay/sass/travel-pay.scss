@@ -68,3 +68,28 @@ h2#pagination-info {
     }
   }
 }
+
+.travel-pay-download-error {
+  padding-bottom: 0.25rem;
+  padding-top: 0.25rem;
+  color: rgb(181, 9, 9);
+  display: block;
+  font-weight: 700;
+
+  va-icon {
+    margin-right: 0.2rem;
+    vertical-align: middle;
+  }
+}
+
+.travel-pay-download-loading-icon {
+  animation: spin 1.5s linear infinite;
+  margin: 0 0.2rem 0 0;
+  vertical-align: middle;
+}
+
+@media (prefers-reduced-motion) {
+  .travel-pay-download-loading-icon {
+    animation: none;
+  }
+}

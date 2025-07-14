@@ -1,6 +1,5 @@
 import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -12,7 +11,7 @@ import numberInput from '../pages/mockNumberInput';
 import fullName from '../pages/mockFullName';
 import address from '../pages/mockAddress';
 import ssn from '../pages/mockSsn';
-import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
+import checkbox from '../pages/mockCheckbox';
 import checkboxGroup from '../pages/mockCheckboxGroup';
 import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
@@ -29,14 +28,11 @@ import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateIte
 import mockData from '../tests/e2e/fixtures/data/default.json';
 import mockArrayBuilderData from '../tests/e2e/fixtures/data/arrayBuilder.json';
 // import arrayAddresses from '../pages/mockArrayAddresses';
-
+import internationalPhone from '../pages/mockInternationalPhone';
 import {
-  employersDatesPage,
-  employersIntroPage,
-  employersOptionalPage,
-  employersOptions,
-  employersPageNameAndAddressPage,
-  employersSummaryPage,
+  arrayBuilderPagesYesNoQuestion,
+  arrayBuilderPagesAddButton,
+  arrayBuilderPagesAddLink,
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
@@ -49,6 +45,7 @@ const initialData = {
     checkbox: true,
     date: true,
     fileInput: true,
+    internationalPhone: true,
     formsPattern: true,
     miscellaneous: true,
     numberInput: true,
@@ -191,11 +188,11 @@ const formConfig = {
     checkbox: {
       title: 'Checkbox',
       pages: {
-        checkboxAndTextInput: {
+        checkbox: {
           title: 'Checkbox and text input', // for review page (has to be more than one word)
-          path: 'checkbox-and-text-input',
-          uiSchema: checkboxAndTextInput.uiSchema,
-          schema: checkboxAndTextInput.schema,
+          path: 'checkbox',
+          uiSchema: checkbox.uiSchema,
+          schema: checkbox.schema,
           depends: includeChapter('checkbox'),
         },
         checkboxGroup: {
@@ -247,6 +244,18 @@ const formConfig = {
           uiSchema: date.uiSchema,
           schema: date.schema,
           depends: includeChapter('date'),
+        },
+      },
+    },
+    internationalPhone: {
+      title: 'International phone',
+      pages: {
+        internationalPhone: {
+          title: 'International phone',
+          path: 'international-phone',
+          uiSchema: internationalPhone.uiSchema,
+          schema: internationalPhone.schema,
+          depends: includeChapter('internationalPhone'),
         },
       },
     },
@@ -327,7 +336,7 @@ const formConfig = {
       title: 'Array Multi-Page Builder (WIP)',
       pages: {
         // this page is not part of the pattern, but is needed
-        // to showcase the 2 different styles of array builder pattern
+        // to showcase the different styles of array builder pattern
         multiPageBuilderChooseFlow: {
           title: 'Array builder pattern choose flow',
           path: 'array-multiple-page-builder-choose-flow',
@@ -336,58 +345,12 @@ const formConfig = {
           depends: includeChapter('arrayMultiPageBuilder'),
           initialData: {
             arrayBuilderPatternFlowType: 'required',
+            arrayBuilderPatternInteractionType: 'yesNoQuestion',
           },
         },
-        ...arrayBuilderPages(employersOptions, pageBuilder => ({
-          // introPage needed for "required" flow
-          multiPageBuilderIntro: pageBuilder.introPage({
-            title: 'Your Employers',
-            path: 'array-multiple-page-builder',
-            uiSchema: employersIntroPage.uiSchema,
-            schema: employersIntroPage.schema,
-            depends: formData =>
-              includeChapter('arrayMultiPageBuilder')(formData) &&
-              // normally you don't need this kind of check,
-              // but this is so we can test the 2 different styles
-              // of array builder pattern - "required" and "optional".
-              // "introPage" is needed in the "required" flow,
-              // but unnecessary in the "optional" flow
-              formData?.arrayBuilderPatternFlowType === 'required',
-          }),
-          multiPageBuilderSummary: pageBuilder.summaryPage({
-            title: 'Array with multiple page builder summary',
-            path: 'array-multiple-page-builder-summary',
-            uiSchema: employersSummaryPage.uiSchema,
-            schema: employersSummaryPage.schema,
-            depends: includeChapter('arrayMultiPageBuilder'),
-          }),
-          multiPageBuilderStepOne: pageBuilder.itemPage({
-            title: 'Employer name and address',
-            path: 'array-multiple-page-builder/:index/name-and-address',
-            uiSchema: employersPageNameAndAddressPage.uiSchema,
-            schema: employersPageNameAndAddressPage.schema,
-            depends: includeChapter('arrayMultiPageBuilder'),
-          }),
-          multiPageBuilderStepTwo: pageBuilder.itemPage({
-            title: 'Employer dates',
-            path: 'array-multiple-page-builder/:index/dates',
-            uiSchema: employersDatesPage.uiSchema,
-            schema: employersDatesPage.schema,
-            depends: includeChapter('arrayMultiPageBuilder'),
-          }),
-          multiPageBuilderOptional: pageBuilder.itemPage({
-            title: 'Optional page',
-            path: 'array-multiple-page-builder/:index/optional',
-            uiSchema: employersOptionalPage.uiSchema,
-            schema: employersOptionalPage.schema,
-            depends: (formData, index) => {
-              return (
-                includeChapter('arrayMultiPageBuilder') &&
-                formData?.employers?.[index]?.address?.state === 'CA'
-              );
-            },
-          }),
-        })),
+        ...arrayBuilderPagesYesNoQuestion,
+        ...arrayBuilderPagesAddButton,
+        ...arrayBuilderPagesAddLink,
       },
     },
   },

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import {
   expiresSoon,
   formatStatus,
+  expiresSoonIcon,
   resolutionDate,
   formSubmissionStatus,
   hideStatus,
@@ -16,6 +16,9 @@ const POARequestCard = ({ poaRequest }) => {
   const city = poaRequest?.powerOfAttorneyForm?.claimant?.address.city;
   const state = poaRequest?.powerOfAttorneyForm?.claimant?.address.stateCode;
   const zipCode = poaRequest?.powerOfAttorneyForm?.claimant?.address.zipCode;
+  const requestedOrg = poaRequest?.powerOfAttorneyHolder?.name;
+  const requestedRep =
+    poaRequest?.accreditedIndividual?.fullName || 'None selected';
   const poaStatus =
     poaRequest.resolution?.decisionType || poaRequest.resolution?.type;
   const poaRequestSubmission =
@@ -31,17 +34,14 @@ const POARequestCard = ({ poaRequest }) => {
         >
           {formatStatus(poaStatus)}
         </span>
-        <Link
-          to={`/poa-requests/${poaRequest.id}`}
+        <h3
           data-testid={`poa-request-card-${poaRequest.id}-name`}
-          className="poa-request__card-title vads-u-font-size--h4 vads-u-font-family--serif"
-          onClick={recordDatalayerEvent}
-          data-eventname="arp-card"
+          className="poa-request__card-title vads-u-font-family--serif"
         >
           {`${lastName}, ${firstName}`}
-        </Link>
+        </h3>
 
-        <p className="poa-request__card-field poa-request__card-field--location">
+        <p className="poa-request__card-field">
           <span data-testid={`poa-request-card-${poaRequest.id}-city`}>
             {city}
           </span>
@@ -55,6 +55,12 @@ const POARequestCard = ({ poaRequest }) => {
           </span>
         </p>
 
+        <p className="poa-request__card-field--label poa-request__card-field--org">
+          Requested organization: <span>{requestedOrg}</span>
+        </p>
+        <p className="poa-request__card-field--label">
+          Preferred representative: <span>{requestedRep}</span>
+        </p>
         <p
           data-testid="poa-request-card-field-received"
           className="poa-request__card-field poa-request__card-field--request"
@@ -65,7 +71,7 @@ const POARequestCard = ({ poaRequest }) => {
                 poaRequestSubmission,
               )}`}
             >
-              POA request declined on:
+              Request declined on:
               {resolutionDate(poaRequest.resolution?.createdAt, poaRequest.id)}
             </span>
           )}
@@ -75,7 +81,7 @@ const POARequestCard = ({ poaRequest }) => {
                 poaRequestSubmission,
               )}`}
             >
-              POA request accepted on:
+              Request accepted on:
               <span>
                 {resolutionDate(
                   poaRequest.resolution?.createdAt,
@@ -91,7 +97,7 @@ const POARequestCard = ({ poaRequest }) => {
                 poaRequestSubmission,
               )}`}
             >
-              POA request expired on:
+              Request expired on:
               <span>
                 {resolutionDate(
                   poaRequest.resolution?.createdAt,
@@ -105,7 +111,7 @@ const POARequestCard = ({ poaRequest }) => {
 
           {!poaRequest.resolution && (
             <>
-              {expiresSoon(poaRequest.expiresAt) && (
+              {expiresSoonIcon(poaRequest.expiresAt) && (
                 <va-icon
                   class="poa-request__card-icon"
                   icon="warning"
@@ -115,15 +121,23 @@ const POARequestCard = ({ poaRequest }) => {
                 />
               )}
               <span className="poa-request__card-field--label">
-                POA request expires on:
+                Request submitted on:
               </span>
-              {resolutionDate(poaRequest.expiresAt, poaRequest.id)}
+              {resolutionDate(poaRequest.createdAt, poaRequest.id)}
               <span className="poa-request__card-field--expiry">
                 {expiresSoon(poaRequest.expiresAt)}
               </span>
             </>
           )}
         </p>
+        <va-link
+          active
+          disable-analytics
+          href={`/representative/poa-requests/${poaRequest.id}`}
+          onClick={recordDatalayerEvent}
+          data-eventname="arp-card"
+          text="View representation request"
+        />
       </va-card>
     </li>
   );

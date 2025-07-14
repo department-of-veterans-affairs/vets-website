@@ -43,7 +43,6 @@ const MedicationsList = props => {
 
   const onPageChange = page => {
     datadogRum.addAction(dataDogActionNames.medicationsListPage.PAGINATION);
-    document.getElementById('showingRx').scrollIntoView();
     navigate(`/?page=${page}`, {
       replace: true,
     });

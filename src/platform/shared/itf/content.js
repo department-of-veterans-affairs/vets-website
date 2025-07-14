@@ -66,15 +66,12 @@ export const showLoading = (message, label) => (
 
 export const ItfSearchSpinner = () =>
   showLoading(
-    'Please wait while we check to see if you have an existing Intent to File.',
+    'Checking if you have an existing intent to file...',
     'looking for an intent to file',
   );
 
 export const ItfCreateSpinner = () =>
-  showLoading(
-    'Please wait while we create your Intent to File.',
-    'creating an intent to file',
-  );
+  showLoading('Recording your intent to file...', 'creating an intent to file');
 
 export const itfMessage = ({ headline, content, status }) => (
   <va-alert visible status={status}>
@@ -83,23 +80,23 @@ export const itfMessage = ({ headline, content, status }) => (
   </va-alert>
 );
 
-export const ItfCreatedAlert = ({ itfType, expirationDateFormatted }) =>
+export const ItfCreatedAlert = ({
+  creationDateFormatted,
+  expirationDateFormatted,
+}) =>
   itfMessage({
     status: 'success',
-    headline: `Your intent to file a ${itfType} application`,
+    headline: `We recorded your intent to file`,
     content: (
       <>
-        <div>
-          We automatically recorded your intent to file. If you’re approved,
-          we’ll use your intent to file date as your potential start date for
-          potential benefits.
-        </div>
+        <p>Your intent to file date is {creationDateFormatted}.</p>
         <p>
           <span>
-            Submit your application by{' '}
-            <strong>{expirationDateFormatted}</strong>. If you’re not ready to
-            submit your application by then, don’t worry. You can start a new
-            application, and we’ll record a new benefits start date.
+            Submit your saved application by{' '}
+            <strong>{expirationDateFormatted}</strong> to keep your intent to
+            file date. If you don’t submit your application by this date, you
+            can start a new application. But you may have a later effective date
+            for benefits.
           </span>
         </p>
       </>
@@ -107,37 +104,39 @@ export const ItfCreatedAlert = ({ itfType, expirationDateFormatted }) =>
   });
 
 ItfCreatedAlert.propTypes = {
+  creationDateFormatted: PropTypes.string.isRequired,
   expirationDateFormatted: PropTypes.string.isRequired,
-  itfType: PropTypes.string.isRequired,
 };
 
-export const ItfFoundAlert = ({ itfType, expirationDateFormatted }) =>
+export const ItfFoundAlert = ({
+  itfType,
+  creationDateFormatted,
+  expirationDateFormatted,
+}) =>
   itfMessage({
     status: 'success',
-    headline: 'We’ve recorded your intent to file',
+    headline: 'We have your intent to file',
     content: (
       <>
         <div>
-          {`We’ve found your intent to file a ${itfType} application in our records.`}
+          We have your intent to file a {itfType} application in our records.
+          Your intent to file date is {creationDateFormatted}.
         </div>
         <p>
           <span>
-            Submit your application by{' '}
-            <strong>{expirationDateFormatted}</strong>. If you don’t submit your
-            application by that date and you still want to apply, you can start
-            a new application. And, we’ll set a new benefits start date.
+            Submit your saved application by{' '}
+            <strong>{expirationDateFormatted}</strong> to keep your intent to
+            file date. If you don’t submit your application by this date, you
+            can start a new application. But you may have a later effective date
+            for benefits.
           </span>
         </p>
-        <va-link
-          external
-          href="/resources/your-intent-to-file-a-va-claim/"
-          text="Learn more about intent to file"
-        />
       </>
     ),
   });
 
 ItfFoundAlert.propTypes = {
+  creationDateFormatted: PropTypes.string.isRequired,
   expirationDateFormatted: PropTypes.string.isRequired,
   itfType: PropTypes.string.isRequired,
 };
@@ -145,24 +144,32 @@ ItfFoundAlert.propTypes = {
 export const ItfFailedAlert = ({ itfType }) =>
   itfMessage({
     status: 'warning',
-    headline: `You may want to confirm your intent to file for ${itfType} benefits`,
+    headline: `You can call to confirm your intent to file`,
     content: (
       <>
         <div>
-          We tried to check for your intent to file in our records, but there
-          was a problem with our system. You can still work on your application.
+          <p>
+            We’re sorry. We can’t find a record of your intent to file a
+            Veterans <span className="capitalize">{itfType}</span> application
+            right now.
+          </p>
         </div>
+        <va-additional-info trigger="What’s an intent to file?">
+          <div>
+            Your intent to file tells us that you plan to submit an application.
+            We use your intent to file date to help set a start date (or
+            effective date) for your benefits. If we approve your claim, you may
+            be able to get retroactive payments for the time between your intent
+            to file date and the date we approve your claim.
+          </div>
+        </va-additional-info>
         <p>
-          Submitting your intent to file a Veterans {itfType} application is
-          optional, but may help you get more benefits, depending on your
-          situation.
+          Call us at <va-telephone contact="8008271000" /> (
+          <va-telephone contact="711" tty />) to confirm your intent to file.
+          We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. We can
+          also help you submit a new intent to file if you need one.
         </p>
-        <p>
-          To submit or confirm your intent to file, we recommend calling{' '}
-          <va-telephone contact="8008271000" /> (
-          <va-telephone contact="711" tty />
-          ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-        </p>
+        <p>You can still work on this application online.</p>
       </>
     ),
   });

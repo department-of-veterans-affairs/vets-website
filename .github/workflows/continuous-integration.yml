@@ -160,6 +160,8 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
+      tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
+      e2e_count: ${{ steps.e2e-count.outputs.count }}
 
     steps:
       - name: Checkout
@@ -182,7 +184,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name, url'
+          output-type: 'entry_name, url, folder'
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
@@ -209,6 +211,11 @@ jobs:
         run: node script/github-actions/select-unit-tests.js
         env:
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Set output of TESTS_RAN
+        if: ${{ always() }}
+        id: tests-ran
+        run: echo "tests_ran=$TESTS_RAN" >> $GITHUB_OUTPUT
 
       - name: Set output of DISALLOWED_TESTS
         if: ${{ always() }}
@@ -243,6 +250,12 @@ jobs:
           name: e2e-tests-to-test
           path: e2e_tests_to_test.json
 
+      - name: Count Cypress specs
+        id: e2e-count
+        run: |
+          COUNT=$(node -e "console.log(require('./e2e_tests_to_test.json').length)")
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
+
       - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
         id: cypress-tests-to-stress-test
         run: echo tests=$CYPRESS_TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
@@ -264,12 +277,11 @@ jobs:
 
   unit-tests:
     name: Unit Tests
+    # if: ${{ needs.tests-prep.outputs.tests_ran == 'true' }}
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
     outputs:
-      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
-      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
       tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
 
     env:
@@ -326,29 +338,19 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'folder'
-
       - name: Run unit tests
         id: run-tests
         run: |
-          # if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
-          #   yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
-          #   echo "tests_ran=true" >> $GITHUB_OUTPUT
-          # else
-          #   echo "No tests to run"
-          #   echo "tests_ran=false" >> $GITHUB_OUTPUT
-          # fi
-          yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
-          echo "tests_ran=true" >> $GITHUB_OUTPUT
+          if [[ -n "$APP_FOLDERS" ]]; then
+            yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+          else
+            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+          fi
+          
         env:
           MOCHA_FILE: test-results/unit-tests.xml
-          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
-          APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
+          CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
+          APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
       
       - name: Archive unit test results
@@ -420,13 +422,17 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
+
+      - name: Rename results directory to avoid merge collisions
+        run: |
+          mv mocha/results/unit-tests.json mocha/results/unit-tests-${{ matrix.runs }}.json
     
       - name: Archive unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-stress-test-results-${{ matrix.runs }}
-          path: mocha/results
+          path: mocha/results/unit-tests-${{ matrix.runs }}.json
 
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
@@ -664,7 +670,9 @@ jobs:
     needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
       needs.build.result == 'success' &&
-      needs.tests-prep.result == 'success'
+      needs.tests-prep.result == 'success' &&
+      needs.tests-prep.outputs.e2e_count != '0'
+      
     container:
       image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
       credentials:
@@ -1201,7 +1209,6 @@ jobs:
           role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role_duration: 900
           session_name: vsp-frontendteam-githubaction
-          
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
@@ -1214,6 +1221,12 @@ jobs:
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
 
+      - name: Manual Mochawesome merge
+        working-directory: qa-standards-dashboard-data
+        run: |
+          rm -f src/testing-reports/data/unit-tests.json
+          node src/testing-reports/manual-merge.js
+         
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
@@ -1622,7 +1635,7 @@ jobs:
         update-e2e-allow-list,
         update-unit-test-allow-list,
       ]
-    if: ${{ always() && !cancelled() && github.ref != 'refs/heads/main' }}
+    if: always() && !cancelled() && github.ref != 'refs/heads/main' && ( needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure' || needs.tests-prep.result == 'skipped' )
     continue-on-error: true
     steps:
       - name: Checkout
@@ -1739,7 +1752,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs: [build, cypress-tests, unit-tests, security-audit, linting]
+    needs: [build, tests-prep, cypress-tests, unit-tests, security-audit, linting]
 
     env:
       IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
@@ -1748,7 +1761,7 @@ jobs:
       always() &&
       (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'skipped') &&
       needs.build.result == 'success' &&
-      needs.unit-tests.result == 'success' &&
+      (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped') &&
       needs.security-audit.result == 'success' &&
       (needs.linting.result == 'success' || needs.linting.result == 'skipped')
 
@@ -1773,7 +1786,7 @@ jobs:
         run: ./script/github-actions/remove-global-assets.sh
         env:
           ENTRY_NAMES: ${{ needs.build.outputs.entry_names }}
-          APP_DIRS: ${{ needs.unit-tests.outputs.app_folders }}
+          APP_DIRS: ${{ needs.tests-prep.outputs.app_folders }}
           BUILD_DIR: build/${{ matrix.buildtype }}
 
       - name: Generate build details

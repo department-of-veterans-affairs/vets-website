@@ -42,24 +42,6 @@ describe('Refill Notification Component', () => {
     expect(screen);
   });
 
-  it('All refill requests are failed', async () => {
-    const screen = setup(
-      initRefillStatus,
-      [],
-      [refillableList[3], refillableList[4], refillableList[5]],
-    );
-    const failedList = screen.getAllByTestId('medication-requested-failed');
-    expect(failedList.length).to.eq(3);
-    expect(screen.getByText('Request not submitted')).to.exist;
-  });
-
-  it('Part of the refill requests are successful', () => {
-    const screen = setup();
-    expect(screen.getByText('Only part of your request was submitted')).to
-      .exist;
-    expect(screen.getByText('Refills requested')).to.exist;
-  });
-
   it('should render items', () => {
     const screen = setup();
     const successfulList = screen.getAllByTestId(
@@ -69,21 +51,67 @@ describe('Refill Notification Component', () => {
     expect(successfulList.length + failedList.length).to.eq(6);
   });
 
+  it('All refill requests have failed', async () => {
+    const screen = setup(
+      initRefillStatus,
+      [],
+      [refillableList[3], refillableList[4], refillableList[5]],
+    );
+
+    const failedAlert = screen.getByTestId('failed-refill');
+    const errorAlert = screen.getByTestId('error-refill');
+    const partialAlert = screen.getByTestId('partial-refill');
+    const successAlert = screen.getByTestId('success-refill');
+
+    expect(failedAlert).to.have.attribute('visible', 'false');
+    expect(errorAlert).to.have.attribute('visible', 'true');
+    expect(partialAlert).to.have.attribute('visible', 'false');
+    expect(successAlert).to.have.attribute('visible', 'false');
+  });
+
+  it('Part of the refill requests are successful', () => {
+    const screen = setup();
+
+    const failedAlert = screen.getByTestId('failed-refill');
+    const errorAlert = screen.getByTestId('error-refill');
+    const partialAlert = screen.getByTestId('partial-refill');
+    const successAlert = screen.getByTestId('success-refill');
+
+    expect(failedAlert).to.have.attribute('visible', 'false');
+    expect(errorAlert).to.have.attribute('visible', 'false');
+    expect(partialAlert).to.have.attribute('visible', 'true');
+    expect(successAlert).to.have.attribute('visible', 'true');
+  });
+
   it('All refill requests are successful', () => {
     const screen = setup(
       initRefillStatus,
       [refillableList[0], refillableList[1], refillableList[2]],
       [],
     );
-    expect(
-      screen.getByText(
-        'To check the status of your refill requests, go to your medications list and filter by "recently requested."',
-      ),
-    ).to.exist;
-    expect(screen.getByText('Go to your medications list')).to.exist;
-    const successfulList = screen.getAllByTestId(
-      'medication-requested-successful',
-    );
-    expect(successfulList.length).to.eq(3);
+
+    const failedAlert = screen.getByTestId('failed-refill');
+    const errorAlert = screen.getByTestId('error-refill');
+    const partialAlert = screen.getByTestId('partial-refill');
+    const successAlert = screen.getByTestId('success-refill');
+
+    expect(failedAlert).to.have.attribute('visible', 'false');
+    expect(errorAlert).to.have.attribute('visible', 'false');
+    expect(partialAlert).to.have.attribute('visible', 'false');
+    expect(successAlert).to.have.attribute('visible', 'true');
+  });
+
+  it('The request was not submitted', () => {
+    const screen = setup(initRefillStatus, [], []);
+
+    const failedAlert = screen.getByTestId('failed-refill');
+    const errorAlert = screen.getByTestId('error-refill');
+    const partialAlert = screen.getByTestId('partial-refill');
+    const successAlert = screen.getByTestId('success-refill');
+
+    expect(failedAlert).to.have.attribute('visible', 'true');
+    expect(errorAlert).to.have.attribute('visible', 'false');
+    expect(partialAlert).to.have.attribute('visible', 'false');
+    expect(successAlert).to.have.attribute('visible', 'false');
   });
 });

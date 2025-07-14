@@ -5,10 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
-import {
-  introductionPageFlow,
-  selectDropdownWebComponent,
-} from '../../../shared/tests/e2e/helpers';
+import { introductionPageFlow } from '../../../shared/tests/e2e/helpers';
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -32,13 +29,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             // widgets
-            cy.fillPage();
-            // fillPage doesn't catch state select, so select state manually
-            selectDropdownWebComponent(
-              `wcv3Address_state`,
-              data.wcv3Address.state,
-            );
-
+            cy.fillAddressWebComponentPattern(`wcv3Address`, data.wcv3Address);
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });

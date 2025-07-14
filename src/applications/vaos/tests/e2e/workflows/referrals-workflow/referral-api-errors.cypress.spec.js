@@ -365,5 +365,74 @@ describe('VAOS Referral API Error Handling', () => {
         completeReferral.assertApiError();
       });
     });
+
+    // TODO: This test is flaky and needs to be corrected using fixed dates
+    it.skip('should display an error when appointment remains in proposed state and times out', () => {
+      // Mock appointment details to always return proposed status (never transitions to booked)
+      const proposedAppointmentResponse = new MockReferralAppointmentDetailsResponse(
+        {
+          appointmentId,
+          typeOfCare: 'OPTOMETRY',
+          providerName: 'Dr. Bones',
+          organizationName: 'Meridian Health',
+          status: 'proposed',
+          success: true,
+        },
+      ).toJSON();
+
+      // Use the simpler mock - app will handle polling internally
+      mockAppointmentDetailsApi({
+        id: appointmentId,
+        response: proposedAppointmentResponse,
+      });
+
+      // Use cy.clock() to control time and speed up the polling timeout test
+      cy.clock(new Date('2025-06-02T12:00:00Z'), ['Date']);
+
+      // Navigate to the Referrals and Requests page
+      appointmentList.navigateToReferralsAndRequests();
+
+      // Wait for referrals to load
+      cy.wait('@v2:get:referrals');
+
+      // Select the first referral
+      referralsAndRequests.selectReferral(0);
+
+      // Wait for referral detail to load
+      cy.wait('@v2:get:referral:detail');
+
+      // Click the schedule appointment button
+      scheduleReferral.clickScheduleAppointment();
+
+      // Wait for draft referral appointment to load
+      cy.wait('@v2:post:draftReferralAppointment');
+
+      // Select the first appointment slot
+      chooseDateAndTime.selectNextMonth();
+      chooseDateAndTime.selectAppointmentSlot(0);
+      cy.findAllByRole('radio')
+        .eq(0)
+        .click();
+
+      // Click continue to proceed with scheduling
+      chooseDateAndTime.clickContinue();
+
+      // Click the continue button to finalize the appointment
+      reviewAndConfirm.clickContinue();
+
+      // Wait for submit appointment response
+      cy.wait('@v2:post:submitAppointment');
+
+      // Wait for at least two requests to make sure we are polling
+      cy.wait('@v2:get:appointmentDetails', { timeout: 10000 });
+      cy.wait('@v2:get:appointmentDetails', { timeout: 10000 });
+
+      // Advance time by 35 seconds (beyond the app's 30-second timeout)
+      cy.tick(35000);
+
+      // Verify error message is displayed
+      completeReferral.assertNotBookedError();
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });

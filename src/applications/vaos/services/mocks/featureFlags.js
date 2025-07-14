@@ -1,1 +1,20 @@
-../../utils/featureFlags.js
+module.exports = [
+  { name: 'profile_show_profile_2.0', value: false },
+  { name: 'vaOnlineScheduling', value: true },
+  { name: 'vaOnlineSchedulingCancel', value: true },
+  { name: 'vaOnlineSchedulingCommunityCare', value: true },
+  { name: 'vaOnlineSchedulingDirect', value: true },
+  { name: 'vaOnlineSchedulingRequests', value: true },
+  { name: 'vaOnlineSchedulingBookingExclusion', value: false },
+  { name: 'vaOnlineSchedulingCCDirectScheduling', value: true },
+  { name: 'vaOnlineSchedulingRecentLocationsFilter', value: true },
+  { name: 'vaOnlineSchedulingOhDirectSchedule', value: true },
+  { name: 'vaOnlineSchedulingOhRequest', value: true },
+  { name: 'vaOnlineSchedulingRemovePodiatry', value: false },
+  { name: 'vaOnlineSchedulingFeSourceOfTruthTelehealth', value: true },
+  { name: 'edu_section_103', value: true },
+  { name: 'gibctEybBottomSheet', value: true },
+  { name: 'travelPayViewClaimDetails', value: false },
+  { name: 'travelPaySubmitMileageExpense', value: false },
+  { name: 'vaOnlineSchedulingMentalHealthHistoryFiltering', value: true },
+];

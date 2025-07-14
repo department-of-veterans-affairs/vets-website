@@ -1,30 +1,22 @@
 const appointmentData = {
-  id: '12345',
+  id: 'yyQYn7be',
   type: 'epsAppointment',
   attributes: {
-    id: 'qdm61cJ5',
+    id: 'yyQYn7be',
     status: 'booked',
-    start: '2024-11-21T18:00:00Z',
-    typeOfCare: 'OPTOMETRY',
-    isLatest: true,
-    lastRetrieved: '2024-11-21T18:00:00Z',
-    modality: 'Office Visit',
+    start: '2024-11-18T13:30:00Z',
+    isLatest: false,
+    lastRetrieved: '2025-01-29T16:30:25Z',
+    modality: 'OV',
     provider: {
       id: 'DBKQ-123',
-      name: 'Dr. Jane Smith',
-      practice: 'Springfield Medical Group',
-      phone: '(505) 248-4062',
-      address: {
-        street1: '123 Medical Dr',
-        street2: 'Suite 456',
-        city: 'Springfield',
-        state: 'VA',
-        zip: '22150',
+      location: {
+        name: 'FHA South Melbourne Medical Complex',
+        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
+        latitude: 28.08061,
+        longitude: -80.60322,
+        timezone: 'America/New_York',
       },
-    },
-    referringFacility: {
-      name: 'Different Test Medical Complex',
-      phoneNumber: '555-555-5555',
     },
   },
 };

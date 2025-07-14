@@ -4,20 +4,16 @@ import { CancelButton } from '../../helpers';
 
 export const intro = {
   uiSchema: {
-    ...titleUI({
-      title: 'Your children',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your children. You
-              must add at least one child.
-            </p>
-            <CancelButton dependentType="children" isAddChapter />
-          </>
-        );
-      },
-    }),
+    ...titleUI('Your children'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your children. You must
+          add at least one child.
+        </p>
+        <CancelButton dependentType="children" isAddChapter />
+      </>
+    ),
   },
   schema: {
     type: 'object',

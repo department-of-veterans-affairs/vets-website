@@ -13,7 +13,6 @@ describe('VAOS provider utils', () => {
   describe('createDraftAppointmentInfo', () => {
     const providerObjectTwoSlots = draftAppointmentUtil.createDraftAppointmentInfo(
       2,
-      'VA0000009880-default',
     );
     it('Creates a provider with specified number of slots', () => {
       waitFor(() => {
@@ -52,7 +51,12 @@ describe('VAOS provider utils', () => {
     });
   });
   describe('hasConflict', () => {
-    MockDate.set('2024-12-05T00:00:00Z');
+    before(() => {
+      MockDate.set('2024-12-05T00:00:00Z');
+    });
+    after(() => {
+      MockDate.reset();
+    });
     const tz = 'America/Los_Angeles';
     const appointmentsByMonth = {
       '2024-12': [

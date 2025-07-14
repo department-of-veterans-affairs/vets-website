@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  useLocation,
+  useHistory,
+} from 'react-router-dom/cjs/react-router-dom.min';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
@@ -18,7 +22,12 @@ import {
   formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { getVaccinesList, reloadRecords } from '../actions/vaccines';
+import RecordListNew from '../components/RecordList/RecordListNew';
+import {
+  getVaccinesList,
+  reloadRecords,
+  checkForVaccineUpdates,
+} from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
 import {
   recordType,
@@ -27,6 +36,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   CernerAlertContent,
+  statsdFrontEndActions,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -34,6 +44,7 @@ import {
   generateTextFile,
   getLastUpdatedText,
   sendDataDogAction,
+  getParamValue,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -44,36 +55,68 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
+
   const dispatch = useDispatch();
-  const updatedRecordList = useSelector(state => state.mr.vaccines.updatedList);
-  const listState = useSelector(state => state.mr.vaccines.listState);
-  const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
+
+  const {
+    updatedList: updatedRecordList,
+    listState,
+    vaccinesList: vaccines,
+    listMetadata: metadata,
+    updateNeeded,
+    listCurrentAsOf: vaccinesCurrentAsOf,
+  } = useSelector(state => state.mr.vaccines);
   const user = useSelector(state => state.user.profile);
   const refresh = useSelector(state => state.mr.refresh);
-  const vaccinesCurrentAsOf = useSelector(
-    state => state.mr.vaccines.listCurrentAsOf,
-  );
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
+  const { allowTxtDownloads, useBackendPagination } = useSelector(state => {
+    const toggles = state.featureToggles;
+    return {
+      allowTxtDownloads:
+        toggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads],
+      useBackendPagination:
+        toggles[
+          FEATURE_FLAG_NAMES.mhvMedicalRecordsSupportBackendPaginationVaccine
+        ],
+    };
+  });
+
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const location = useLocation();
+  const history = useHistory();
+  const paramPage = getParamValue(location.search, 'page');
+
+  const { isAcceleratingVaccines } = useAcceleratedData();
+
+  const dispatchAction = isCurrent => {
+    return getVaccinesList(
+      isCurrent,
+      paramPage,
+      useBackendPagination,
+      isAcceleratingVaccines,
+    );
+  };
+
+  useTrackAction(statsdFrontEndActions.VITALS_LIST);
 
   useListRefresh({
     listState,
     listCurrentAsOf: vaccinesCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.VPR,
-    dispatchAction: getVaccinesList,
+    dispatchAction,
     dispatch,
+    page: paramPage,
+    useBackendPagination,
+    checkUpdatesAction: checkForVaccineUpdates,
   });
 
   useEffect(
@@ -133,27 +176,62 @@ const Vaccines = props => {
 
   const generateVaccineListItemTxt = item => {
     setDownloadStarted(true);
-    return `
-${txtLine}\n\n
-${item.name}\n
-Date received: ${item.date}\n
-Location: ${item.location}\n`;
-  };
+    const content = [
+      `${txtLine}\n\n`,
+      `${item.name}\n`,
+      `Date received: ${item.date}\n`,
+    ];
 
+    // Add conditional fields based on whether accelerating vaccines is enabled
+    if (isAcceleratingVaccines) {
+      content.push(`Provider: ${item.location || 'None recorded'}\n`);
+      content.push(`Type and dosage: ${item.shortDescription}\n`);
+      content.push(`Manufacturer: ${item.manufacturer}\n`);
+      content.push(`Series status: ${item.doseDisplay}\n`);
+      content.push(`Dose number: ${item.doseNumber}\n`);
+      content.push(`Dose series: ${item.doseSeries}\n`);
+      content.push(`CVX code: ${item.cvxCode}\n`);
+      content.push(`Reactions: ${item.reaction}\n`);
+      content.push(`Notes: ${item.note}\n`);
+    } else {
+      content.push(`Location: ${item.location || 'None recorded'}\n`);
+    }
+
+    return content.join('');
+  };
   const generateVaccinesTxt = async () => {
-    const content = `
-${crisisLineHeader}\n\n
-Vaccines\n
-${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatUserDob(user)}\n
-${reportGeneratedBy}\n
-This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records. \n
-Showing ${vaccines.length} records from newest to oldest
-${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
+    const content = [
+      `${crisisLineHeader}\n\n`,
+      `Vaccines\n`,
+      `${formatNameFirstLast(user.userFullName)}\n`,
+      `Date of birth: ${formatUserDob(user)}\n`,
+      `${reportGeneratedBy}\n`,
+      `This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records. \n`,
+      `Showing ${vaccines.length} records from newest to oldest`,
+      `${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`,
+    ];
 
     const fileName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
 
-    generateTextFile(content, fileName);
+    generateTextFile(content.join(''), fileName);
+  };
+  /**
+   * Change to page 1 and fetch the list of vaccines from the server.
+   */
+  const loadUpdatedRecords = () => {
+    if (paramPage === '1') {
+      dispatch(
+        getVaccinesList(
+          true,
+          paramPage,
+          useBackendPagination,
+          isAcceleratingVaccines,
+        ),
+      );
+    } else {
+      // The page change will trigger a fetch.
+      history.push(`${history.location.pathname}?page=1`);
+    }
   };
 
   return (
@@ -176,30 +254,40 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           Go to your allergy records
         </Link>
       </div>
-
       <AcceleratedCernerFacilityAlert {...CernerAlertContent.VACCINES} />
-
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.VACCINE}
-        recordCount={vaccines?.length}
+        recordCount={
+          useBackendPagination
+            ? metadata?.pagination?.totalEntries
+            : vaccines?.length
+        }
         recordType={recordType.VACCINES}
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(vaccines) &&
-            Array.isArray(updatedRecordList) &&
-            vaccines.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!isAcceleratingVaccines && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              useBackendPagination
+                ? updateNeeded
+                : Array.isArray(vaccines) &&
+                  Array.isArray(updatedRecordList) &&
+                  vaccines.length !== updatedRecordList.length
+            }
+            reloadFunction={
+              useBackendPagination
+                ? loadUpdatedRecords
+                : () => {
+                    dispatch(reloadRecords());
+                  }
+            }
+          />
+        )}
 
         {vaccines?.length ? (
           <>
@@ -214,7 +302,24 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
               allowTxtDownloads={allowTxtDownloads}
               description="Vaccines"
             />
-            <RecordList records={vaccines} type={recordType.VACCINES} />
+            {useBackendPagination && vaccines ? (
+              <RecordListNew
+                records={vaccines?.map(vaccine => ({
+                  ...vaccine,
+                  isOracleHealthData: isAcceleratingVaccines,
+                }))}
+                type={recordType.VACCINES}
+                metadata={metadata}
+              />
+            ) : (
+              <RecordList
+                records={vaccines?.map(vaccine => ({
+                  ...vaccine,
+                  isOracleHealthData: isAcceleratingVaccines,
+                }))}
+                type={recordType.VACCINES}
+              />
+            )}
           </>
         ) : (
           <NoRecordsMessage type={recordType.VACCINES} />

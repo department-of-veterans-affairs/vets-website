@@ -65,4 +65,10 @@ describe('VAOS Component: ProviderAddress', () => {
     expect(screen.queryByTestId('Address2')).to.not.exist;
     expect(screen.queryByTestId('Address3')).to.not.exist;
   });
+  it('does not render phone block if no phone number is present', () => {
+    const screen = render(
+      <ProviderAddress address="123 Main St, Springfield, IL 62704" />,
+    );
+    expect(screen.queryByTestId('provider-phone')).to.not.exist;
+  });
 });
