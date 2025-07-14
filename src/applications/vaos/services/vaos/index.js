@@ -1,6 +1,8 @@
 import appendQuery from 'append-query';
 import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { getTestFacilityId } from '../../utils/appointment';
+import { DATE_FORMATS } from '../../utils/constants';
 import {
   apiRequestWithUrl,
   parseApiList,
@@ -122,9 +124,17 @@ export function getPatientEligibility(
   ).then(parseApiObject);
 }
 
-export function getPatientRelationships({ locationId, typeOfCareId }) {
+export function getPatientRelationships({
+  locationId,
+  typeOfCareId,
+  hasAvailabilityBefore,
+}) {
   return apiRequestWithUrl(
-    `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}`,
+    `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}&has_availability_before=${formatInTimeZone(
+      hasAvailabilityBefore,
+      'UTC',
+      DATE_FORMATS.ISODateTimeUTC,
+    )}`,
   );
 }
 
