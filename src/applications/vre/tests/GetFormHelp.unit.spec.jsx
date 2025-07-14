@@ -7,6 +7,6 @@ import GetFormHelp from '../components/GetFormHelp';
 describe.skip('GetFormHelp', () => {
   it('should render', () => {
     const { container } = render(<GetFormHelp />);
-    expect($$('a', container).length).to.eql(2);
+    expect($$('a', container).length).to.eql(1);
   });
 });

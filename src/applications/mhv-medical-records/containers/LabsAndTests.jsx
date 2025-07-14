@@ -19,6 +19,7 @@ import {
   refreshExtractTypes,
   studyJobStatus,
   loadStates,
+  statsdFrontEndActions,
 } from '../util/constants';
 import { getMonthFromSelectedDate } from '../util/helpers';
 
@@ -32,6 +33,7 @@ import DatePicker from '../components/shared/DatePicker';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { fetchImageRequestStatus } from '../actions/images';
 import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -62,6 +64,7 @@ const LabsAndTests = () => {
   const labsAndTestsCurrentAsOf = useSelector(
     state => state.mr.labsAndTests.listCurrentAsOf,
   );
+  useTrackAction(statsdFrontEndActions.LABS_AND_TESTS_LIST);
 
   useEffect(
     () => {

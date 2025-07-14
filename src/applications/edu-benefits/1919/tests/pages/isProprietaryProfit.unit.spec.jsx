@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
@@ -35,7 +35,7 @@ describe('Proprietary Profit Step 2 - Page 1', () => {
     expect($$('va-additional-info', container).length).to.equal(1);
   });
 
-  it('should render an error message if no radio button is selected', () => {
+  it('should render an error message if no radio button is selected', async () => {
     const { container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -46,6 +46,8 @@ describe('Proprietary Profit Step 2 - Page 1', () => {
 
     expect($$('va-radio-option', container).length).to.equal(2);
     getByRole('button', { name: /submit/i }).click();
-    expect($$('va-radio[error]', container).length).to.equal(1);
+    await waitFor(() => {
+      expect($$('va-radio[error]', container).length).to.equal(1);
+    });
   });
 });

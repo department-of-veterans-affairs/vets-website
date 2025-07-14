@@ -1,221 +1,214 @@
 {
   "data": {
-    "role": "ATTORNEY",
-    "lawLicense": true,
-    "fullName": {
-      "first": "Test",
-      "last": "Test"
+    "supplementalStatement": "test",
+    "personalStatement": "test",
+    "view:hasCharacterReferences": false,
+    "conditionThatAffectsRepresentation": false,
+    "terminatedByVsorg": false,
+    "appliedForVaAccreditation": false,
+    "resignedFromAgency": false,
+    "reprimandedInAgency": false,
+    "representativeForAgency": false,
+    "resignedForDishonesty": false,
+    "disciplinedForDishonesty": false,
+    "withdrawnFromEducation": false,
+    "resignedFromEducation": false,
+    "underCharges": false,
+    "courtMartialed": false,
+    "conviction": false,
+    "view:hasAgenciesOrCourts": false,
+    "view:hasJurisdictions": false,
+    "view:hasEducationalInstitutions": false,
+    "employmentActivities": {
+      "BUSINESS": true,
+      "CONSULTING": true,
+      "MEDICAL": true
     },
-    "dateOfBirth": "2020-01-01",
+    "view:hasEmployers": false,
+    "describeEmployment": "Work at Hogwarts",
+    "employmentStatus": "EMPLOYED",
+    "view:isAVeteran": false,
+    "primaryMailingAddress": "HOME",
+    "homeAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Main Street",
+      "city": "Boise",
+      "state": "ID",
+      "postalCode": "83704"
+    },
+    "phone": "123-123-1234",
+    "typeOfPhone": "CELL",
+    "canReceiveTexts": true,
+    "email": "happyp@gmail.com",
     "placeOfBirth": {
       "view:militaryBaseDescription": {},
       "country": "USA",
       "city": "Boise",
       "state": "ID"
     },
-    "phone": "1231231234",
-    "typeOfPhone": "CELL",
-    "canReceiveTexts": true,
-    "email": "test@gmail.com",
-    "homeAddress": {
-      "view:militaryBaseDescription": {},
-      "country": "USA",
-      "street": "123 Main st",
-      "city": "Boise",
-      "state": "ID",
-      "postalCode": "83704"
+    "fullName": {
+      "first": "Harry",
+      "middle": "James",
+      "last": "Potter"
     },
-    "primaryMailingAddress": "HOME",
+    "dateOfBirth": "1990-01-09",
+    "lawLicense": true,
+    "role": "ATTORNEY",
     "otherAddress": {
       "view:militaryBaseDescription": {}
     },
+    "convictionDetailsDocuments": {},
+    "convictionDetailsCertification": {},
+    "courtMartialedDetailsDocuments": {},
+    "courtMartialedDetailsCertification": {},
+    "underChargesDetailsDocuments": {},
+    "underChargesDetailsCertification": {},
+    "resignedFromEducationDetailsDocuments": {},
+    "resignedFromEducationDetailsCertification": {},
+    "withdrawnFromEducationDetailsDocuments": {},
+    "withdrawnFromEducationDetailsCertification": {},
+    "disciplinedForDishonestyDetailsDocuments": {},
+    "disciplinedForDishonestyDetailsCertification": {},
+    "resignedForDishonestyDetailsDocuments": {},
+    "resignedForDishonestyDetailsCertification": {},
+    "representativeForAgencyDetailsDocuments": {},
+    "representativeForAgencyDetailsCertification": {},
+    "reprimandedInAgencyDetailsDocuments": {},
+    "reprimandedInAgencyDetailsCertification": {},
+    "resignedFromAgencyDetailsDocuments": {},
+    "resignedFromAgencyDetailsCertification": {},
+    "appliedForVaAccreditationDetailsDocuments": {},
+    "appliedForVaAccreditationDetailsCertification": {},
+    "terminatedByVsorgDetailsDocuments": {},
+    "terminatedByVsorgDetailsCertification": {},
+    "conditionThatAffectsRepresentationDetailsDocuments": {},
+    "conditionThatAffectsRepresentationDetailsCertification": {},
+    "conditionThatAffectsExaminationDetailsDocuments": {},
+    "conditionThatAffectsExaminationDetailsCertification": {},
     "militaryServiceExperiences": [
       {
-        "branch": "AIR_FORCE",
+        "branch": "Air Force",
         "dateRange": {
-          "from": "1990-01",
-          "to": "2000-01"
+          "from": "2010-01"
         },
-        "characterOfDischarge": "Honorable"
+        "view:currentToLabel": {},
+        "currentlyServing": true
       }
     ],
-    "view:isAVeteran": true,
-    "employmentStatus": "EMPLOYED",
-    "describeEmployment": "test",
     "employers": [
       {
-        "name": "Test",
-        "positionTitle": "test",
-        "supervisorName": "test",
+        "dateRange": {
+          "from": "2012-01"
+        },
+        "view:currentToLabel": {},
+        "currentlyEmployed": true,
+        "phone": "123-345-3456",
         "address": {
           "view:militaryBaseDescription": {},
           "country": "USA",
-          "street": "123 Main St",
-          "city": "Boise",
-          "state": "ID",
-          "postalCode": "83704"
+          "street": "123 Broomstick Lane",
+          "city": "MagicVille",
+          "state": "AK",
+          "postalCode": "89033"
         },
         "primaryWorkAddress": {
           "selected": true
         },
-        "phone": "1112223333",
-        "extension": "444",
+        "name": "Hogwarts School of Witchcraft and Wizardry",
+        "positionTitle": "Professor",
+        "supervisorName": "Hagrid"
+      }
+    ],
+    "educationalInstitutions": [
+      {
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "444 Cauldron Way",
+          "city": "Happyville",
+          "state": "MI",
+          "postalCode": "12333"
+        },
+        "degree": "Bachelor's degree",
+        "name": "Hogwarts ",
         "dateRange": {
           "from": "2000-01"
         },
-        "currentlyEmployed": true,
-        "view:currentToLabel": {}
-      }
-    ],
-    "employmentActivities": {
-      "BUSINESS": true,
-      "CONSULTING": true,
-      "FINANCIAL": false,
-      "HOME_OR_NURSING": false,
-      "MEDICAL": false,
-      "NONE": false,
-      "SOCIAL_WORK": false,
-      "VOCATIONAL_REHABILITATION": false
-    },
-    "view:hasEmployers": false,
-    "educationalInstitutions": [
-      {
-        "name": "test",
-        "dateRange": {
-          "from": "2002-01",
-          "to": "2004-01"
-        },
+        "view:currentToLabel": {},
+        "currentlyEnrolled": true,
         "degreeReceived": true,
-        "major": "Management",
-        "degree": "Bachelor's degree",
-        "address": {
-          "view:militaryBaseDescription": {},
-          "country": "USA",
-          "street": "123 main st",
-          "city": "Boise",
-          "state": "ID",
-          "postalCode": "83704"
-        }
+        "major": "Potions"
       }
     ],
-    "view:hasEducationalInstitutions": false,
     "jurisdictions": [
       {
         "jurisdiction": "Alabama",
-        "admissionDate": "2004-01-01",
-        "membershipOrRegistrationNumber": "1234567"
+        "admissionDate": "2005-01-08",
+        "membershipOrRegistrationNumber": "fcvwef24dw"
       }
     ],
-    "view:hasJurisdictions": false,
     "agenciesOrCourts": [
       {
         "agencyOrCourt": "Court of Appeals for the Federal Circuit",
-        "admissionDate": "2005-01-10",
-        "membershipOrRegistrationNumber": "2rwegef4e"
+        "admissionDate": "2006-01-09",
+        "membershipOrRegistrationNumber": "f34fw3cw"
       }
     ],
-    "view:hasAgenciesOrCourts": false,
-    "conviction": false,
-    "convictionDetailsExplanation": null,
-    "convictionDetailsCertification": {},
-    "convictionDetailsDocuments": {},
-    "courtMartialed": false,
-    "courtMartialedDetailsDocuments": {},
-    "courtMartialedDetailsCertification": {},
-    "underCharges": false,
-    "underChargesDetailsDocuments": {},
-    "underChargesDetailsCertification": {},
-    "resignedFromEducation": false,
-    "resignedFromEducationDetailsDocuments": {},
-    "resignedFromEducationDetailsCertification": {},
-    "withdrawnFromEducation": false,
-    "withdrawnFromEducationDetailsDocuments": {},
-    "withdrawnFromEducationDetailsCertification": {},
-    "disciplinedForDishonesty": false,
-    "disciplinedForDishonestyDetailsDocuments": {},
-    "disciplinedForDishonestyDetailsCertification": {},
-    "resignedForDishonesty": false,
-    "resignedForDishonestyDetailsDocuments": {},
-    "resignedForDishonestyDetailsCertification": {},
-    "representativeForAgency": false,
-    "representativeForAgencyDetailsDocuments": {},
-    "representativeForAgencyDetailsCertification": {},
-    "reprimandedInAgency": false,
-    "reprimandedInAgencyDetailsDocuments": {},
-    "reprimandedInAgencyDetailsCertification": {},
-    "resignedFromAgency": false,
-    "resignedFromAgencyDetailsDocuments": {},
-    "resignedFromAgencyDetailsCertification": {},
-    "appliedForVaAccreditation": false,
-    "appliedForVaAccreditationDetailsDocuments": {},
-    "appliedForVaAccreditationDetailsCertification": {},
-    "terminatedByVsorg": false,
-    "terminatedByVsorgDetailsDocuments": {},
-    "terminatedByVsorgDetailsCertification": {},
-    "conditionThatAffectsRepresentation": false,
-    "conditionThatAffectsRepresentationDetailsDocuments": {},
-    "conditionThatAffectsRepresentationDetailsCertification": {},
-    "conditionThatAffectsExamination": false,
-    "conditionThatAffectsExaminationDetailsDocuments": {},
-    "conditionThatAffectsExaminationDetailsCertification": {},
     "characterReferences": [
       {
-        "fullName": {
-          "first": "Lily",
-          "last": "Potter"
-        },
+        "relationship": "Other",
+        "phone": "432-234-444",
+        "email": "jenny@gmail.com",
         "address": {
           "view:militaryBaseDescription": {},
           "country": "USA",
-          "street": "123 main st",
-          "city": "Test",
-          "state": "ID",
+          "street": "123 Hotshot Lane",
+          "city": "Happyville",
+          "state": "MT",
           "postalCode": "23423"
         },
-        "phone": "2134567890",
-        "email": "t@gmail.com",
-        "relationship": "test"
+        "fullName": {
+          "first": "Jenny",
+          "last": "Potter"
+        }
       },
       {
-        "fullName": {
-          "first": "Frank",
-          "last": "Hamilton"
-        },
+        "relationship": "Friend",
+        "phone": "543-655-7666",
+        "email": "ron@gmail.com",
         "address": {
           "view:militaryBaseDescription": {},
           "country": "USA",
-          "street": "123 test",
-          "city": "test",
-          "state": "AL",
-          "postalCode": "43211"
+          "street": "444 Blue Lane",
+          "city": "Smith",
+          "state": "NV",
+          "postalCode": "54321"
         },
-        "phone": "1231231234",
-        "email": "fh@gmail.com",
-        "relationship": "test"
+        "fullName": {
+          "first": "Ron",
+          "last": "Wesley"
+        }
       },
       {
-        "fullName": {
-          "first": "Bob",
-          "last": "James",
-          "suffix": "Jr."
-        },
+        "relationship": "Classmate",
+        "phone": "908-444-5454",
+        "email": "draco@gmail.com",
         "address": {
           "view:militaryBaseDescription": {},
           "country": "USA",
-          "street": "123 Test Street",
-          "city": "Hamilton",
-          "state": "ME",
-          "postalCode": "12345"
+          "street": "897 Tree Street",
+          "city": "Jane",
+          "state": "AK",
+          "postalCode": "78555"
         },
-        "phone": "1113332321",
-        "email": "bob@gmail.com",
-        "relationship": "test"
+        "fullName": {
+          "first": "Draco",
+          "last": "Malfoy"
+        }
       }
     ],
-    "view:hasCharacterReferences": false,
-    "supplementalStatement": "test",
-    "personalStatement": "test",
-    "statementOfTruthCertified": true,
-    "statementOfTruthSignature": "Test Test"
+    "statementOfTruthSignature": "Harry James Potter",
+    "statementOfTruthCertified": true
   }
 }
