@@ -25,16 +25,22 @@ const createReferralListItem = (
   expirationDate,
   uuid,
   categoryOfCare = 'OPTOMETRY',
+  stationId = '659',
 ) => {
   const [year, month, day] = expirationDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
   const mydFormat = 'yyyy-MM-dd';
   return {
+    id: '',
+    type: 'referrals',
     attributes: {
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
       uuid,
       categoryOfCare,
+      referralNumber: '',
+      referralConsultId: '',
+      stationId,
     },
   };
 };
@@ -118,6 +124,8 @@ const createReferralById = (
  * @param {Number} numberOfReferrals The number of referrals to create in the array
  * @param {String} baseDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {Number} numberOfExpiringReferrals The number of referrals that should be expired
+ * @param {Boolean} includeErrorReferrals Whether to include error referrals in the array
+ * @param {Boolean} includeOutOfPilotStation Whether to include an out of pilot station referral
  * @returns {Array} Referrals array
  */
 const createReferrals = (
@@ -125,6 +133,7 @@ const createReferrals = (
   baseDate,
   numberOfExpiringReferrals = 0,
   includeErrorReferrals = false,
+  includeOutOfPilotStation = false,
 ) => {
   // create a date object for today that is not affected by the time zone
   const dateOjbect = baseDate ? new Date(baseDate) : new Date();
@@ -154,10 +163,19 @@ const createReferrals = (
       ),
     );
   }
+  if (includeOutOfPilotStation) {
+    referrals.push(
+      createReferralListItem(
+        '2025-11-14',
+        'out-of-pilot-station',
+        'OPTOMETRY',
+        '123',
+      ),
+    );
+  }
   if (includeErrorReferrals) {
     return [...referrals, ...errorReferralsList];
   }
-
   return [...referrals];
 };
 

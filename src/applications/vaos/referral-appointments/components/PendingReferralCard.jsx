@@ -6,6 +6,7 @@ import AppointmentFlexGrid from '../../components/AppointmentFlexGrid';
 import ListItem from '../../components/ListItem';
 import AppointmentRow from '../../components/AppointmentRow';
 import AppointmentColumn from '../../components/AppointmentColumn';
+import { OPTOMETRY_STATION_IDS } from '../../utils/constants';
 
 const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
@@ -55,21 +56,48 @@ const PendingReferralCard = ({ referral, index }) => {
                   </AppointmentColumn>
                 </AppointmentRow>
               </AppointmentColumn>
-
-              <AppointmentColumn
-                className="vaos-hide-for-print"
-                padding="0p5"
-                size="1"
-              >
-                <va-link-action
-                  type="secondary"
-                  href={link}
-                  aria-labelledby={`ref-title-${index} ref-desc-${index}`}
-                  text="Schedule your appointment"
-                  data-testid="schedule-appointment-link"
-                  onClick={e => e.preventDefault()}
-                />
-              </AppointmentColumn>
+              {OPTOMETRY_STATION_IDS.includes(referral.stationId) ? (
+                <AppointmentColumn
+                  className="vaos-hide-for-print"
+                  padding="0p5"
+                  size="1"
+                >
+                  <va-link-action
+                    type="secondary"
+                    href={link}
+                    aria-labelledby={`ref-title-${index} ref-desc-${index}`}
+                    text="Schedule your appointment"
+                    data-testid="schedule-appointment-link"
+                    onClick={e => e.preventDefault()}
+                  />
+                </AppointmentColumn>
+              ) : (
+                <AppointmentColumn
+                  className="vaos-hide-for-print"
+                  padding="0p5"
+                  size="1"
+                >
+                  <va-alert
+                    status="warning"
+                    visible
+                    data-testid="referral-not-available-alert"
+                  >
+                    <h3
+                      className="vads-u-font-size--h4 vads-u-margin-top--0"
+                      slot="headline"
+                    >
+                      Online scheduling is not available for this referral at
+                      this time. Please call your provider directly for help
+                      scheduling an appointment.
+                    </h3>
+                    <va-link
+                      href="/find-locations"
+                      text="Find your community care provider’s phone number"
+                      data-testid="referral-not-available-phone-link"
+                    />
+                  </va-alert>
+                </AppointmentColumn>
+              )}
             </AppointmentRow>
           </AppointmentColumn>
         </AppointmentRow>
