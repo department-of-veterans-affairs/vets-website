@@ -278,6 +278,19 @@ export class ProfileInformationEditView extends Component {
 
     if (this.editForm) {
       setTimeout(() => {
+        // Temporary workaround to set focus on the country picker if we're using
+        // the va-telephone-input component
+        const vaTel = this.editForm.querySelector('va-telephone-input');
+        if (!vaTel?.shadowRoot) return;
+
+        const vaComboBox = vaTel.shadowRoot.querySelector('va-combo-box');
+        const countrySelect = vaComboBox?.shadowRoot?.querySelector('input');
+        if (countrySelect) {
+          countrySelect.focus();
+          return;
+        }
+
+        // If no va-telephone-input, focus the first focusable element in the form
         const focusableElement = getFocusableElements(this.editForm)?.[0];
 
         if (focusableElement) {
