@@ -771,16 +771,15 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
-  describe('makeAuthRequest', () => {
+  // TODO: Remove skip when migration to Node 22 is complete
+  describe.skip('makeAuthRequest', () => {
     let expectedUrl;
     const server = setupServer();
 
     before(() => {
       server.listen();
       server.events.on('request:start', req => {
-        // TODO: After Node 14 support is dropped, simplify to: expectedUrl = req.url.href;
-        // The || req.url fallback is only needed for Node 14 compatibility
-        expectedUrl = req.url?.href || req.url;
+        expectedUrl = req.url?.href;
       });
     });
 
