@@ -403,7 +403,7 @@ describe('ClaimDetailsContent', () => {
 
       expect(
         screen.getByText(
-          "Some of the expenses you submitted aren't eligible for reimbursement. You can review the decision letter for more information.",
+          'Some of the expenses you submitted aren’t eligible for reimbursement. You can review the decision letter for more information.',
         ),
       ).to.exist;
       expect(screen.getByText('We only paid some of your requested amount')).to
