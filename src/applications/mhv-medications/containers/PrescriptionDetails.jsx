@@ -7,8 +7,8 @@ import {
   updatePageTitle,
   reportGeneratedBy,
   usePrintTitle,
+  MhvPageNotFound,
 } from '@department-of-veterans-affairs/mhv/exports';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import PrintOnlyPage from './PrintOnlyPage';
 import {
   dateFormat,
@@ -241,7 +241,7 @@ const PrescriptionDetails = () => {
         'medications',
         `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
           userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
+        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
         pdfData(allergiesList),
       ).then(() => {
         setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
@@ -256,7 +256,7 @@ const PrescriptionDetails = () => {
         txtData(allergiesList),
         `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
           userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
+        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
       );
       setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
     },
@@ -411,7 +411,7 @@ const PrescriptionDetails = () => {
     }
 
     if (prescriptionApiError.message === recordNotFoundMessage) {
-      return <PageNotFound />;
+      return <MhvPageNotFound />;
     }
 
     if (prescription || prescriptionApiError) {

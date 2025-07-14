@@ -138,6 +138,7 @@
   "mhvAcceleratedDeliveryEnabled": "mhv_accelerated_delivery_enabled",
   "mhvAcceleratedDeliveryAllergiesEnabled": "mhv_accelerated_delivery_allergies_enabled",
   "mhvAcceleratedDeliveryVitalSignsEnabled": "mhv_accelerated_delivery_vital_signs_enabled",
+  "mhvAcceleratedDeliveryVaccinesEnabled": "mhv_accelerated_delivery_vaccines_enabled",
   "mhvAcceleratedDeliveryLabsAndTestsEnabled": "mhv_accelerated_delivery_labs_and_tests_enabled",
   "mhvBypassDowntimeNotification": "mhv_bypass_downtime_notification",
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
