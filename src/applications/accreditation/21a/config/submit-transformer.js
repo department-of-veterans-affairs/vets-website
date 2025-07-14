@@ -36,7 +36,7 @@ const build21aPayload = data => {
     birthCountry: data.placeOfBirth?.country,
 
     // Chapter 1 - Contact Info
-    homePhone: data.phone,
+    homePhone: `${data.phone.callingCode}${data.phone.contact}`,
     homePhoneTypeId: PHONE_TYPE_ENUM[data.typeOfPhone?.toUpperCase()],
     canReceiveTexts: !!data.canReceiveTexts,
     homeEmail: data.email,
