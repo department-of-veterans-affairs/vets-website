@@ -166,13 +166,13 @@
         "attachmentId": "L023"
       },
       {
-      "name": "terminal-cheat-sheet_protected.PDF",
+      "name": "foo_protected.PDF",
       "confirmationCode": "9f153a64-29f7-4b5b-9053-c788f45942cd",
       "attachmentId": "L049",
       "isEncrypted": true
       },
       {
-      "name": "terminal-cheat-sheet_protected.PDF",
+      "name": "foo_protected.PDF",
       "confirmationCode": "9f153a64-29f7-4b5b-9053-c788f45942cd",
       "attachmentId": "L015",
       "isEncrypted": true

@@ -45,7 +45,7 @@ describe('Supporting Evidence uploads', () => {
             formData: {
               privateMedicalRecordsAttachments: {
                 isEncrypted: true,
-                name: 'terminal-cheat-sheet_protected.PDF',
+                name: 'foo_protected.PDF',
                 file: {},
               },
             },
@@ -72,7 +72,7 @@ describe('Supporting Evidence uploads', () => {
             formData: {
               privateMedicalRecordsAttachments: {
                 isEncrypted: true,
-                name: 'terminal-cheat-sheet_protected.PDF',
+                name: 'foo_protected.PDF',
                 password: 'dancing',
                 uploading: true,
               },
@@ -101,7 +101,7 @@ describe('Supporting Evidence uploads', () => {
               attachmentId: '',
               confirmationCode: 'kdfjaadsf',
               isEncrypted: true,
-              name: 'terminal-cheat-sheet_protected.PDF',
+              name: 'foo_protected.PDF',
             },
             metadata: {
               version: 1,
@@ -128,13 +128,13 @@ describe('Supporting Evidence uploads', () => {
                 attachmentId: 'L049',
                 confirmationCode: 'kdfjaadsf',
                 isEncrypted: true,
-                name: 'terminal-cheat-sheet_protected.PDF',
+                name: 'foo_protected.PDF',
               },
               additionalDocuments: {
                 attachmentId: 'L015',
                 confirmationCode: 'kdfjaadsf',
                 isEncrypted: true,
-                name: 'terminal-cheat-sheet_protected.PDF',
+                name: 'foo_protected.PDF',
               },
             },
             metadata: {
@@ -162,7 +162,7 @@ describe('Supporting Evidence uploads', () => {
                 attachmentId: 'L049',
                 confirmationCode: 'kdfjaadsf',
                 isEncrypted: true,
-                name: 'terminal-cheat-sheet_protected.PDF',
+                name: 'foo_protected.PDF',
               },
             },
             metadata: {
@@ -191,7 +191,7 @@ describe('Supporting Evidence uploads', () => {
           data: {
             attributes: {
               guid: 'test-guid-12345',
-              name: 'terminal-cheat-sheet_protected.PDF',
+              name: 'foo_protected.PDF',
               size: 12345,
               confirmationCode: 'test-code',
               isEncrypted: true, // This triggers the password prompt
@@ -370,11 +370,11 @@ describe('Supporting Evidence uploads', () => {
     // IV. Supporting Evidence > B. 3. Upload - Private medical records
     // ==========================================================
     cy.get('input[type="file"]').selectFile(
-      'src/applications/disability-benefits/all-claims/tests/fixtures/data/terminal-cheat-sheet_protected.PDF',
+      'src/applications/disability-benefits/all-claims/tests/fixtures/data/foo_protected.PDF',
       { force: true },
     );
 
-    cy.findByText(/terminal-cheat-sheet_protected.PDF/i).should('exist');
+    cy.findByText(/foo_protected.PDF/i).should('exist');
 
     cy.get('.schemaform-file-uploading').should('not.exist');
 
@@ -429,11 +429,11 @@ describe('Supporting Evidence uploads', () => {
     // =================================================
 
     cy.get('input[type="file"]').selectFile(
-      'src/applications/disability-benefits/all-claims/tests/fixtures/data/terminal-cheat-sheet_protected.PDF',
+      'src/applications/disability-benefits/all-claims/tests/fixtures/data/foo_protected.PDF',
       { force: true },
     );
 
-    cy.findByText(/terminal-cheat-sheet_protected.PDF/i).should('exist');
+    cy.findByText(/foo_protected.PDF/i).should('exist');
 
     cy.get('.schemaform-file-uploading').should('not.exist');
 
@@ -527,9 +527,7 @@ describe('Supporting Evidence uploads', () => {
       expect(request.body.form526.additionalDocuments).to.have.length(1);
       const privateMedicalRecordAttachment =
         request.body.form526.privateRecordsAttachments[0];
-      expect(privateMedicalRecordAttachment.name).to.equal(
-        'terminal-cheat-sheet_protected.PDF',
-      );
+      expect(privateMedicalRecordAttachment.name).to.equal('foo_protected.PDF');
       expect(privateMedicalRecordAttachment.isEncrypted).to.be.true; // Should be false after password added - is this true
       expect(privateMedicalRecordAttachment.docType).to.equal('L049');
       expect(privateMedicalRecordAttachment.confirmationCode).to.equal(
@@ -537,9 +535,7 @@ describe('Supporting Evidence uploads', () => {
       );
 
       const { additionalDocuments } = request.body.form526;
-      expect(additionalDocuments.name).to.equal(
-        'terminal-cheat-sheet_protected.PDF',
-      );
+      expect(additionalDocuments.name).to.equal('foo_protected.PDF');
       expect(additionalDocuments.isEncrypted).to.be.true; // Should be false after password added - is this true
       expect(additionalDocuments.docType).to.equal('L049');
       expect(additionalDocuments.confirmationCode).to.equal('test-code');
