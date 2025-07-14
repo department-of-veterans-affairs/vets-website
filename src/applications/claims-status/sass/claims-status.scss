@@ -178,6 +178,49 @@
   }
 }
 
+.loading-skeleton {
+  &--loading {
+    padding: 1em;
+    border: 1px solid var(--vads-color-gray-medium);
+  }
+
+  &--row {
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--vads-color-gray-medium);
+    border-radius: 6px;
+
+    @media (forced-colors: active) {
+      border: 1px solid;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 150%;
+      height: 100%;
+      background-image: linear-gradient(
+        90deg,
+        transparent 0,
+        var(--vads-color-white) 50%,
+        transparent 100%
+      );
+      transform: translateX(-100%);
+      animation: skeleton-shimmer 1.6s linear infinite;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &--row::after { animation: none; }
+  }
+}
+
+@keyframes skeleton-shimmer {
+  100% { transform: translateX(100%); }
+}
+
 .last-changed-label {
   position: absolute;
   top: 0;

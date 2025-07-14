@@ -18,6 +18,7 @@ import {
 
 import AppealListItem from '../components/appeals-v2/AppealListItem';
 import AppealsUnavailable from '../components/AppealsUnavailable';
+import ClaimCardLoadingSkeleton from '../components/ClaimCard/ClaimCardLoadingSkeleton';
 import NeedHelp from '../components/NeedHelp';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -193,9 +194,13 @@ class YourClaimsPageV2 extends React.Component {
       claimsLoading || appealsLoading || stemClaimsLoading;
     const emptyList = !(list && list.length);
     if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
-      content = (
-        <va-loading-indicator message="Loading your claims and appeals..." />
-      );
+      if (this.props.isSmoothLoadingEnabled) {
+        content = <ClaimCardLoadingSkeleton />;
+      } else {
+        content = (
+          <va-loading-indicator message="Loading your claims and appeals..." />
+        );
+      }
     } else if (!emptyList) {
       const listLen = list.length;
       const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
@@ -216,10 +221,14 @@ class YourClaimsPageV2 extends React.Component {
         <>
           {pageInfo}
           <div className="claim-list">
-            {atLeastOneRequestLoading && (
-              <va-loading-indicator message="Loading your claims and appeals..." />
-            )}
+            {!this.props.isSmoothLoadingEnabled &&
+              atLeastOneRequestLoading && (
+                <va-loading-indicator message="Loading your claims and appeals..." />
+              )}
             {pageItems.map(claim => this.renderListItem(claim))}
+            {this.props.isSmoothLoadingEnabled && (
+              <ClaimCardLoadingSkeleton isLoading={atLeastOneRequestLoading} />
+            )}
             {shouldPaginate && (
               <VaPagination
                 page={this.state.page}
