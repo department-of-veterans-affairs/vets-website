@@ -31,8 +31,8 @@ const ClaimantInfoViewField = props => {
   const veteranDisplay = {
     'First name': veteranFullName.first ? veteranFullName.first : '',
     'Last name': veteranFullName.last ? veteranFullName.last : '',
-    'Date of birth': formatDate(veteranDateOfBirth),
     'Social Security Number': veteranSsn ? mask(veteranSsn) : '',
+    'Date of birth': formatDate(veteranDateOfBirth),
     'Postal code': address?.postalCode || '',
     'VA file number': vaFileNumber ? maskVaFileNumber(vaFileNumber) : '',
   };
@@ -41,8 +41,8 @@ const ClaimantInfoViewField = props => {
     ? {
         'First name': claimantFullName.first,
         'Last name': claimantFullName.last,
-        'Date of birth': formatDate(claimantDateOfBirth),
         'Social Security Number': claimantSsn ? mask(claimantSsn) : '',
+        'Date of birth': formatDate(claimantDateOfBirth),
       }
     : veteranDisplay;
 

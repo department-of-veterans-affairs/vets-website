@@ -1,0 +1,214 @@
+{
+  "data": {
+    "supplementalStatement": "test",
+    "personalStatement": "test",
+    "view:hasCharacterReferences": false,
+    "conditionThatAffectsRepresentation": false,
+    "terminatedByVsorg": false,
+    "appliedForVaAccreditation": false,
+    "resignedFromAgency": false,
+    "reprimandedInAgency": false,
+    "representativeForAgency": false,
+    "resignedForDishonesty": false,
+    "disciplinedForDishonesty": false,
+    "withdrawnFromEducation": false,
+    "resignedFromEducation": false,
+    "underCharges": false,
+    "courtMartialed": false,
+    "conviction": false,
+    "view:hasAgenciesOrCourts": false,
+    "view:hasJurisdictions": false,
+    "view:hasEducationalInstitutions": false,
+    "employmentActivities": {
+      "BUSINESS": true,
+      "CONSULTING": true,
+      "MEDICAL": true
+    },
+    "view:hasEmployers": false,
+    "describeEmployment": "Work at Hogwarts",
+    "employmentStatus": "EMPLOYED",
+    "view:isAVeteran": false,
+    "primaryMailingAddress": "HOME",
+    "homeAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Main Street",
+      "city": "Boise",
+      "state": "ID",
+      "postalCode": "83704"
+    },
+    "phone": "123-123-1234",
+    "typeOfPhone": "CELL",
+    "canReceiveTexts": true,
+    "email": "happyp@gmail.com",
+    "placeOfBirth": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "city": "Boise",
+      "state": "ID"
+    },
+    "fullName": {
+      "first": "Harry",
+      "middle": "James",
+      "last": "Potter"
+    },
+    "dateOfBirth": "1990-01-09",
+    "lawLicense": true,
+    "role": "ATTORNEY",
+    "otherAddress": {
+      "view:militaryBaseDescription": {}
+    },
+    "convictionDetailsDocuments": {},
+    "convictionDetailsCertification": {},
+    "courtMartialedDetailsDocuments": {},
+    "courtMartialedDetailsCertification": {},
+    "underChargesDetailsDocuments": {},
+    "underChargesDetailsCertification": {},
+    "resignedFromEducationDetailsDocuments": {},
+    "resignedFromEducationDetailsCertification": {},
+    "withdrawnFromEducationDetailsDocuments": {},
+    "withdrawnFromEducationDetailsCertification": {},
+    "disciplinedForDishonestyDetailsDocuments": {},
+    "disciplinedForDishonestyDetailsCertification": {},
+    "resignedForDishonestyDetailsDocuments": {},
+    "resignedForDishonestyDetailsCertification": {},
+    "representativeForAgencyDetailsDocuments": {},
+    "representativeForAgencyDetailsCertification": {},
+    "reprimandedInAgencyDetailsDocuments": {},
+    "reprimandedInAgencyDetailsCertification": {},
+    "resignedFromAgencyDetailsDocuments": {},
+    "resignedFromAgencyDetailsCertification": {},
+    "appliedForVaAccreditationDetailsDocuments": {},
+    "appliedForVaAccreditationDetailsCertification": {},
+    "terminatedByVsorgDetailsDocuments": {},
+    "terminatedByVsorgDetailsCertification": {},
+    "conditionThatAffectsRepresentationDetailsDocuments": {},
+    "conditionThatAffectsRepresentationDetailsCertification": {},
+    "conditionThatAffectsExaminationDetailsDocuments": {},
+    "conditionThatAffectsExaminationDetailsCertification": {},
+    "militaryServiceExperiences": [
+      {
+        "branch": "Air Force",
+        "dateRange": {
+          "from": "2010-01"
+        },
+        "view:currentToLabel": {},
+        "currentlyServing": true
+      }
+    ],
+    "employers": [
+      {
+        "dateRange": {
+          "from": "2012-01"
+        },
+        "view:currentToLabel": {},
+        "currentlyEmployed": true,
+        "phone": "123-345-3456",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "123 Broomstick Lane",
+          "city": "MagicVille",
+          "state": "AK",
+          "postalCode": "89033"
+        },
+        "primaryWorkAddress": {
+          "selected": true
+        },
+        "name": "Hogwarts School of Witchcraft and Wizardry",
+        "positionTitle": "Professor",
+        "supervisorName": "Hagrid"
+      }
+    ],
+    "educationalInstitutions": [
+      {
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "444 Cauldron Way",
+          "city": "Happyville",
+          "state": "MI",
+          "postalCode": "12333"
+        },
+        "degree": "Bachelor's degree",
+        "name": "Hogwarts ",
+        "dateRange": {
+          "from": "2000-01"
+        },
+        "view:currentToLabel": {},
+        "currentlyEnrolled": true,
+        "degreeReceived": true,
+        "major": "Potions"
+      }
+    ],
+    "jurisdictions": [
+      {
+        "jurisdiction": "Alabama",
+        "admissionDate": "2005-01-08",
+        "membershipOrRegistrationNumber": "fcvwef24dw"
+      }
+    ],
+    "agenciesOrCourts": [
+      {
+        "agencyOrCourt": "Court of Appeals for the Federal Circuit",
+        "admissionDate": "2006-01-09",
+        "membershipOrRegistrationNumber": "f34fw3cw"
+      }
+    ],
+    "characterReferences": [
+      {
+        "relationship": "Other",
+        "phone": "432-234-444",
+        "email": "jenny@gmail.com",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "123 Hotshot Lane",
+          "city": "Happyville",
+          "state": "MT",
+          "postalCode": "23423"
+        },
+        "fullName": {
+          "first": "Jenny",
+          "last": "Potter"
+        }
+      },
+      {
+        "relationship": "Friend",
+        "phone": "543-655-7666",
+        "email": "ron@gmail.com",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "444 Blue Lane",
+          "city": "Smith",
+          "state": "NV",
+          "postalCode": "54321"
+        },
+        "fullName": {
+          "first": "Ron",
+          "last": "Wesley"
+        }
+      },
+      {
+        "relationship": "Classmate",
+        "phone": "908-444-5454",
+        "email": "draco@gmail.com",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "897 Tree Street",
+          "city": "Jane",
+          "state": "AK",
+          "postalCode": "78555"
+        },
+        "fullName": {
+          "first": "Draco",
+          "last": "Malfoy"
+        }
+      }
+    ],
+    "statementOfTruthSignature": "Harry James Potter",
+    "statementOfTruthCertified": true
+  }
+}
