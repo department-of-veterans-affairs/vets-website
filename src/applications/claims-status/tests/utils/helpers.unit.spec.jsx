@@ -771,8 +771,7 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
-  // TODO: Remove skip when migration to Node 22 is complete
-  describe.skip('makeAuthRequest', () => {
+  describe('makeAuthRequest', () => {
     let expectedUrl;
     const server = setupServer();
 
@@ -790,7 +789,8 @@ describe('Disability benefits helpers: ', () => {
 
     after(() => server.close());
 
-    it('should make an apiRequest request', done => {
+    // TODO: Remove skip when migration to Node 22 is complete
+    it.skip('should make an apiRequest request', done => {
       server.use(
         createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
@@ -844,7 +844,8 @@ describe('Disability benefits helpers: ', () => {
       );
     });
 
-    it('should dispatch auth error', done => {
+    // TODO: Remove skip when migration to Node 22 is complete
+    it.skip('should dispatch auth error', done => {
       server.use(
         createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
