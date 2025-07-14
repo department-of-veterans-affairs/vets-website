@@ -21,6 +21,7 @@ describe('ClaimStatusExplainerPage', () => {
   let oldLocation;
   beforeEach(() => {
     oldLocation = global.window.location;
+    global.window.location = {};
     global.window.location.replace = sinon.spy();
   });
 
