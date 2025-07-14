@@ -20,9 +20,6 @@ export const ConfirmationPage = props => {
       formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      devOnly={{
-        showButtons: true,
-      }}
     >
       <ConfirmationView.SubmissionAlert
         title="You’ve submitted your application for the High Technology Program"
