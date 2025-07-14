@@ -33,6 +33,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvAcceleratedDeliveryVaccinesEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
 
     mhvMedicalRecordsMilestoneTwo = false,
@@ -41,6 +42,8 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
     mhvSecureMessagingRecipientCombobox = true,
+    mhvSecureMessagingCernerPilot = true,
+    mhvSecureMessagingLargeAttachments = true,
   } = toggles;
 
   return {
@@ -62,6 +65,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_accelerated_delivery_allergies_enabled',
           value: mhvAcceleratedDeliveryAllergiesEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_vaccines_enabled',
+          value: mhvAcceleratedDeliveryVaccinesEnabled,
         },
         {
           name: 'mhv_accelerated_delivery_vital_signs_enabled',
@@ -186,6 +193,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_recipient_combobox',
           value: mhvSecureMessagingRecipientCombobox,
+        },
+        {
+          name: 'mhv_secure_messaging_cerner_pilot',
+          value: mhvSecureMessagingCernerPilot,
+        },
+        {
+          name: 'mhv_secure_messaging_large_attachments',
+          value: mhvSecureMessagingLargeAttachments,
         },
       ],
     },

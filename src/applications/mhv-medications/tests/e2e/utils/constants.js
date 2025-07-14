@@ -98,6 +98,8 @@ export const Data = {
     'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
   PARTIAL_FAILED_REQUEST_ALERT_TEXT: 'Only part of your request was submitted',
   PENDING_RX_FILL_DATE_TEXT: 'Not filled yet',
+  NOTE_ABOUT_IMAGES:
+    'Note: Images on this page are for identification purposes only. They don’t mean that this is the amount of medication you’re supposed to take.',
   PROVIDER_FULL_NAME: 'MOHAMMAD ISLAM',
   DOCUMENTED_BY_FULL_NAME: 'BHAVIN PATEL',
 };

@@ -20,8 +20,13 @@ export const IntroductionPage = props => {
     downtime,
   } = formConfig;
 
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
   const disputeDebtActive = useToggleValue(TOGGLE_NAMES.disputeDebt);
+  const isLoadingFeatures = useToggleLoadingValue();
 
   const sipOptions = {
     formId,
@@ -42,6 +47,17 @@ export const IntroductionPage = props => {
     scrollToTop();
     focusElement('h1');
   }, []);
+
+  // Show loading indicator while feature flags are loading
+  if (isLoadingFeatures) {
+    return (
+      <va-loading-indicator
+        label="Loading"
+        message="Loading application..."
+        set-focus
+      />
+    );
+  }
 
   return (
     <article className="schemaform-intro">
