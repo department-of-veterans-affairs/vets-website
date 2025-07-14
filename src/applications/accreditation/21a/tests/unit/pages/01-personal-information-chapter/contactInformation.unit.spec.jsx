@@ -13,7 +13,11 @@ describe('Contact information page', () => {
         schema={contactInformationPage.schema}
         uiSchema={contactInformationPage.uiSchema}
         data={{
-          phone: '206-555-0100',
+          phone: {
+            callingCode: 1,
+            countryCode: 'US',
+            contact: '206-555-0100',
+          },
           typeOfPhone: 'CELL',
           canReceiveTexts: true,
           email: 'test@example.com',
@@ -25,10 +29,9 @@ describe('Contact information page', () => {
 
     expect(getByText('Contact information')).to.exist;
 
-    const vaPhoneInput = container.querySelector(
-      'va-text-input[label="Primary phone number"]',
-    );
+    const vaPhoneInput = container.querySelector('va-telephone-input');
     expect(vaPhoneInput).to.exist;
+    expect(vaPhoneInput.getAttribute('label')).to.equal('Primary phone number');
 
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio).to.exist;
