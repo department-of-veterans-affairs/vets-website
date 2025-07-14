@@ -6,15 +6,16 @@ class ClinicChoicePageObject extends PageObject {
     return this;
   }
 
-  assertUrl({ isCovid = false } = {}) {
+  assertUrl() {
     cy.url().should('include', '/clinic', { timeout: 5000 });
     cy.axeCheckBestPractice();
 
-    this.clickNextButton();
-    if (!isCovid) {
-      this.assertValidationError('You must provide a response');
-    }
+    return this;
+  }
 
+  assertClinicChoiceValidationErrors() {
+    this.clickNextButton();
+    this.assertValidationError('You must provide a response');
     return this;
   }
 

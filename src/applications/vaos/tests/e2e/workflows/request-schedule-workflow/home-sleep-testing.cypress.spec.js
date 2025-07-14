@@ -109,6 +109,7 @@ describe('VAOS request schedule flow - sleep care', () => {
           .clickNextButton();
 
         TypeOfSleepCarePageObject.assertUrl()
+          .assertTypeOfSleepCareValidationErrors()
           .selectTypeOfSleepCare(/Sleep medicine and home sleep testing/i)
           .clickNextButton();
 

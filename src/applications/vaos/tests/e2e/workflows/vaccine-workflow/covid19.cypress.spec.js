@@ -119,7 +119,7 @@ describe('VAOS covid-19 vaccine flow', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton();
 
-        ClinicChoicePageObject.assertUrl({ isCovid: true })
+        ClinicChoicePageObject.assertUrl()
           .selectClinic({ selection: /Clinic 1/i, isCovid: true })
           .clickNextButton();
 
@@ -180,7 +180,7 @@ describe('VAOS covid-19 vaccine flow', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton();
 
-        ClinicChoicePageObject.assertUrl({ isCovid: true })
+        ClinicChoicePageObject.assertUrl()
           .selectClinic({ selection: /Clinic 1/i, isCovid: true })
           .clickNextButton();
 
@@ -284,7 +284,7 @@ describe('VAOS covid-19 vaccine flow', () => {
           })
           .clickNextButton();
 
-        ClinicChoicePageObject.assertUrl({ isCovid: true })
+        ClinicChoicePageObject.assertUrl()
           .selectClinic({ selection: /Clinic 1/i, isCovid: true })
           .clickNextButton();
 
@@ -350,7 +350,7 @@ describe('VAOS covid-19 vaccine flow', () => {
           })
           .clickNextButton();
 
-        ClinicChoicePageObject.assertUrl({ isCovid: true })
+        ClinicChoicePageObject.assertUrl()
           .selectClinic({ selection: /Clinic 1/i, isCovid: true })
           .clickNextButton();
 
@@ -567,7 +567,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         .selectLocation(/Facility 983/i)
         .clickNextButton();
 
-      ClinicChoicePageObject.assertUrl({ isCovid: true })
+      ClinicChoicePageObject.assertUrl()
         .selectClinic({ selection: /Clinic 1/i, isCovid: true })
         .clickNextButton();
 

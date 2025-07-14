@@ -6,6 +6,10 @@ class TypeOfFacilityPageObject extends PageObject {
     cy.axeCheckBestPractice();
     cy.wait('@v2:get:facilities');
 
+    return this;
+  }
+
+  assertTypeOfFacilityValidationErrors() {
     this.clickNextButton();
     this.assertValidationError('You must provide a response');
 

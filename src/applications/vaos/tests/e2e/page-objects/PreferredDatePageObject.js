@@ -31,18 +31,6 @@ class PreferredDatePageObject extends PageObject {
     cy.url().should('include', '/preferred-date');
     cy.axeCheckBestPractice();
 
-    const pastDate = new Date(2020, 2, 2);
-    const farFutureDate = addMonths(new Date(), 24);
-
-    this.typeDate({ date: pastDate });
-    this.clickNextButton();
-    this.assertValidationError('Please enter a future date');
-    this.typeDate({ date: farFutureDate });
-    this.clickNextButton();
-    this.assertValidationError(
-      'Please enter a date less than 395 days in the future',
-    );
-
     return this;
   }
 
@@ -70,6 +58,22 @@ class PreferredDatePageObject extends PageObject {
           : dateComponent,
     );
     enterVaDateFields(year, month, day);
+
+    return this;
+  }
+
+  assertPreferredDateValidationErrors() {
+    const pastDate = new Date(2020, 2, 2);
+    const farFutureDate = addMonths(new Date(), 24);
+
+    this.typeDate({ date: pastDate });
+    this.clickNextButton();
+    this.assertValidationError('Please enter a future date');
+    this.typeDate({ date: farFutureDate });
+    this.clickNextButton();
+    this.assertValidationError(
+      'Please enter a date less than 395 days in the future',
+    );
 
     return this;
   }

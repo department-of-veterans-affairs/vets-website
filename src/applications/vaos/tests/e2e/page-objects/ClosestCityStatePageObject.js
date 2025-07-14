@@ -12,6 +12,10 @@ class ClosestCityStatePageObject extends PageObject {
     cy.url().should('include', 'closest-city');
     cy.axeCheckBestPractice();
 
+    return this;
+  }
+
+  assertClosestCityStateValidationErrors() {
     this.clickNextButton();
     this.assertValidationError('Select a city');
 

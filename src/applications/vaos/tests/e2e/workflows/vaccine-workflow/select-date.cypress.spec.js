@@ -101,7 +101,7 @@ describe('VAOS select appointment date', () => {
         .selectLocation(/Facility 983/i)
         .clickNextButton();
 
-      ClinicChoicePageObject.assertUrl({ isCovid: true })
+      ClinicChoicePageObject.assertUrl()
         .selectClinic({ selection: /Clinic 1/i, isCovid: true })
         .clickNextButton();
 
@@ -110,7 +110,7 @@ describe('VAOS select appointment date', () => {
         .assertDateSelected(firstDate)
         .clickBackButton();
 
-      ClinicChoicePageObject.assertUrl({ isCovid: true })
+      ClinicChoicePageObject.assertUrl()
         .selectClinic({ selection: /Clinic 2/i, isCovid: true })
         .clickNextButton();
 
@@ -162,7 +162,7 @@ describe('VAOS select appointment date', () => {
         .selectLocation(/Facility 983/i)
         .clickNextButton();
 
-      ClinicChoicePageObject.assertUrl({ isCovid: true })
+      ClinicChoicePageObject.assertUrl()
         .selectClinic({ selection: /Clinic 1/i, isCovid: true })
         .clickNextButton();
 
@@ -224,7 +224,7 @@ describe('VAOS select appointment date', () => {
         .selectLocation(/Facility 983/i)
         .clickNextButton();
 
-      ClinicChoicePageObject.assertUrl({ isCovid: true })
+      ClinicChoicePageObject.assertUrl()
         .selectClinic({ selection: /Clinic 1/i, isCovid: true })
         .clickNextButton();
 
@@ -284,7 +284,7 @@ describe('VAOS select appointment date', () => {
         .selectLocation(/Facility 983/i)
         .clickNextButton();
 
-      ClinicChoicePageObject.assertUrl({ isCovid: true })
+      ClinicChoicePageObject.assertUrl()
         .selectClinic({ selection: /Clinic 1/i, isCovid: true })
         .clickNextButton();
 
