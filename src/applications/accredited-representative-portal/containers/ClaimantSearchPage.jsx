@@ -98,9 +98,6 @@ const SearchResults = ({ claimant, searchData }) => {
     );
   }
 
-  // if(claimant.representative){
-  //   debugger
-  // }
   return (
     <>
       <p
