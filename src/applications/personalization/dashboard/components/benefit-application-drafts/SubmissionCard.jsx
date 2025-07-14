@@ -202,13 +202,15 @@ const SubmissionCard = ({
             {formatFormTitle(formTitle)}
           </span>
         </h3>
-        <p
-          id={formId}
-          className="vads-u-text-transform--uppercase vads-u-margin-top--0p5 vads-u-margin-bottom--2"
-        >
-          {/* TODO: rethink our helpers for presentable form ID */}
-          VA {presentableFormId.replace(/\bFORM\b/, 'Form')}
-        </p>
+        {presentableFormId && (
+          <p
+            id={formId}
+            className="vads-u-text-transform--uppercase vads-u-margin-top--0p5 vads-u-margin-bottom--2"
+          >
+            {/* TODO: rethink our helpers for presentable form ID */}
+            VA {presentableFormId.replace(/\bFORM\b/, 'Form')}
+          </p>
+        )}
 
         <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormPdfLink}>
           <Toggler.Enabled>
@@ -255,11 +257,11 @@ SubmissionCard.propTypes = {
   // The display-ready date when the application was last updated by the user
   lastSavedDate: PropTypes.string.isRequired,
   pdfSupport: PropTypes.bool.isRequired,
-  presentableFormId: PropTypes.string.isRequired,
   status: PropTypes.oneOf(['inProgress', 'actionNeeded', 'received'])
     .isRequired,
   submittedDate: PropTypes.string.isRequired,
   getPdfDownloadUrl: PropTypes.func,
+  presentableFormId: PropTypes.string,
   showLoadingIndicator: PropTypes.bool,
 };
 
