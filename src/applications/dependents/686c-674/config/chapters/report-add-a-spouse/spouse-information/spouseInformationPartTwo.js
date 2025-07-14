@@ -29,10 +29,12 @@ export const uiSchema = {
       ...ssnUI('Spouse’s Social Security number'),
       'ui:required': () => true,
     },
-    birthDate: {
-      ...dateOfBirthUI('Spouse’s date of birth'),
-      'ui:required': () => true,
-    },
+    birthDate: dateOfBirthUI({
+      title: 'Spouse’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
+
     isVeteran: {
       ...yesNoUI('Is your spouse a Veteran?'),
       'ui:required': () => true,

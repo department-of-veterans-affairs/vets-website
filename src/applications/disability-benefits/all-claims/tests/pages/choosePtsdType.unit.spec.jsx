@@ -9,6 +9,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form.js';
 
 describe('Disability benefits 718 PTSD type', () => {
@@ -103,13 +104,14 @@ describe('Disability benefits 718 PTSD type', () => {
       />,
     );
 
-    await userEvent.click(getByText('Submit'));
-    expect(
-      $$(
-        'va-checkbox-group[error="Please select at least one event type"]',
-        container,
-      ).length,
-    ).to.equal(1);
-    await userEvent.click(getByText('Submit'));
+    userEvent.click(getByText('Submit'));
+    +(await waitFor(() => {
+      expect(
+        $$(
+          'va-checkbox-group[error="Please select at least one event type"]',
+          container,
+        ).length,
+      ).to.equal(1);
+    }));
   });
 });

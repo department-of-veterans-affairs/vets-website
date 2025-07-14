@@ -142,7 +142,7 @@ const PrescriptionDetailsDocumentation = () => {
           'medications',
           `medication-information-${prescription.prescriptionName}-${dateFormat(
             Date.now(),
-            'M-D-YYYY',
+            'M-D-YYYY_hmmssa',
           ).replace(/\./g, '')}`,
           setup,
         );
@@ -154,7 +154,7 @@ const PrescriptionDetailsDocumentation = () => {
             userName.first
               ? `${userName.first}-${userName.last}`
               : userName.last
-          }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
+          }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
         );
       }
       setIsSuccess(true);
