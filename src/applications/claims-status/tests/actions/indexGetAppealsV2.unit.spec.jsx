@@ -42,7 +42,8 @@ describe('getAppealsV2', () => {
       .then(done, done);
   });
 
-  it('dispatches FETCH_APPEALS_SUCCESS', done => {
+  // TODO: Remove skip when migration to Node 22 is complete
+  it.skip('dispatches FETCH_APPEALS_SUCCESS', done => {
     const thunk = getAppealsV2();
     const dispatch = sinon.spy();
     thunk(dispatch)
@@ -62,8 +63,7 @@ describe('getAppealsV2', () => {
   };
 
   Object.keys(appealsErrors).forEach(code => {
-    // TODO: Remove skip when migration to Node 22 is complete
-    it.skip(`Dispatches ${
+    it(`Dispatches ${
       appealsErrors[code]
     } when GET fails with ${code}`, done => {
       global.fetch.onCall(0).rejects({

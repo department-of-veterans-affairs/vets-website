@@ -68,8 +68,7 @@ describe('Actions', () => {
       apiStub.restore();
     });
   });
-  // TODO: Remove skip when migration to Node 22 is complete
-  describe.skip('submit5103', () => {
+  describe('submit5103', () => {
     let expectedUrl;
     const server = setupServer();
 
@@ -239,7 +238,8 @@ describe('Actions', () => {
         })
         .then(done, done);
     });
-    it('navigates to `/your-claims` when errors on 404 ', done => {
+    // TODO: Remove skip when migration to Node 22 is complete
+    it.skip('navigates to `/your-claims` when errors on 404 ', done => {
       const apiStub = sinon.stub(api, 'apiRequest');
 
       apiStub.returns(Promise.reject(new Error('404')));
@@ -268,7 +268,8 @@ describe('Actions', () => {
     });
   });
   describe('getClaims', () => {
-    it('dispatches FETCH_CLAIMS_PENDING and FETCH_CLAIMS_SUCCESS', done => {
+    // TODO: Remove skip when migration to Node 22 is complete
+    it.skip('dispatches FETCH_CLAIMS_PENDING and FETCH_CLAIMS_SUCCESS', done => {
       const apiStub = sinon.stub(api, 'apiRequest');
       apiStub.returns(Promise.resolve({ data: [] }));
       const thunk = getClaims();
@@ -287,7 +288,8 @@ describe('Actions', () => {
         .then(() => apiStub.restore())
         .then(done, done);
     });
-    it('dispatches FETCH_CLAIMS_ERROR - null', done => {
+    // TODO: Remove skip when migration to Node 22 is complete
+    it.skip('dispatches FETCH_CLAIMS_ERROR - null', done => {
       const apiStub = sinon.stub(api, 'apiRequest');
 
       apiStub.returns(Promise.reject(new Error('null')));
@@ -302,7 +304,8 @@ describe('Actions', () => {
         .then(() => apiStub.restore())
         .then(done, done);
     });
-    it('dispatches FETCH_CLAIMS_ERROR - not null error code', done => {
+    // TODO: Remove skip when migration to Node 22 is complete
+    it.skip('dispatches FETCH_CLAIMS_ERROR - not null error code', done => {
       const apiStub = sinon.stub(api, 'apiRequest');
 
       apiStub.returns(Promise.reject(new Error('404')));
@@ -467,7 +470,8 @@ describe('Actions', () => {
 
     after(() => server.close());
 
-    it('should fetch stem claims when canUseMocks true', done => {
+    // TODO: Remove skip when migration to Node 22 is complete
+    it.skip('should fetch stem claims when canUseMocks true', done => {
       const useMocksStub = sinon.stub(constants, 'canUseMocks').returns(true);
       const thunk = getStemClaims();
       const dispatch = sinon.spy();
