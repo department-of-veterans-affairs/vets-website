@@ -60,7 +60,9 @@ describe('Disability benefits 4142 provider medical records facility information
         pagePerItemIndex={0}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={initialData}
+        data={{
+          initialData,
+        }}
         uiSchema={uiSchema}
       />,
     );
@@ -74,6 +76,7 @@ describe('Disability benefits 4142 provider medical records facility information
 
   it('should add a provider facility', () => {
     const onSubmit = sinon.spy();
+
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -81,11 +84,23 @@ describe('Disability benefits 4142 provider medical records facility information
         onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={initialData}
-        formData={initialData}
+        data={{
+          initialData,
+          ...claimType,
+          ratedDisabilities,
+          'view:selectableEvidenceTypes': {
+            'view:hasPrivateMedicalRecords': true,
+          },
+        }}
+        // formData={{
+        //   initialData,
+        //   ratedDisabilities,
+        // }}
         uiSchema={uiSchema}
       />,
     );
+
+    // const formDom = findDOMNode(form1);
 
     //  All fields filled
     fillData(
@@ -125,11 +140,18 @@ describe('Disability benefits 4142 provider medical records facility information
       '29414',
     );
 
-    // id found from inspecting checkbox on website
-    // const vaCheckboxes = form.find('input#checkbox-element.va-checkbox__input');
+    // console.log(
+    //   form.find('va-checkbox[data-key="posttraumaticstressdisorder"]').debug(),
+    // );
 
-    // console.log(vaCheckboxes.debug());
+    const checkbox = () =>
+      form.find('va-checkbox[data-key="posttraumaticstressdisorder"]');
 
+    checkbox().simulate('click', { target: { checked: true } });
+
+    form.update();
+
+    // console.log(checkbox().debug());
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -204,6 +226,8 @@ describe('Disability benefits 4142 provider medical records facility information
         }}
       />,
     );
+
+    // console.log(form.find('va-checkbox').debug());
 
     expect(form.find('va-checkbox').length).to.equal(4);
     expect(form.find('select').length).to.equal(6);
