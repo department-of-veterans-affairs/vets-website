@@ -1,16 +1,9 @@
 import _ from 'platform/utilities/data';
 import some from 'lodash/some';
-/**
- * TODO: tech-debt(you-dont-need-momentjs): Waiting for Node upgrade to support Temporal API
- * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
- */
-/* eslint-disable you-dont-need-momentjs/no-import-moment */
-/* eslint-disable you-dont-need-momentjs/no-moment-constructor */
-/* eslint-disable you-dont-need-momentjs/add */
-/* eslint-disable you-dont-need-momentjs/is-after */
 import moment from 'moment';
 
 import {
+  isWithinRange,
   getPOWValidationMessage,
   pathWithIndex,
   hasClaimedConditions,
@@ -19,13 +12,6 @@ import {
   showSeparationLocation,
   sippableId,
 } from './utils';
-
-import {
-  isWithinRange,
-  findEarliestServiceDate,
-  isMonthOnly,
-  isTreatmentBeforeService,
-} from './utils/dates/index';
 
 import {
   MILITARY_CITIES,
@@ -340,6 +326,37 @@ export const isValidYear = (err, fieldData) => {
  * first visited the facility.
  * @param {Object} formData - Full formData for the form
  */
+export function findEarliestServiceDate(servicePeriods) {
+  return servicePeriods
+    .filter(({ serviceBranch } = {}) => (serviceBranch || '') !== '')
+    .map(period => moment(period.dateRange.from, 'YYYY-MM-DD'))
+    .reduce(
+      (earliestDate, current) =>
+        current.isBefore(earliestDate) ? current : earliestDate,
+      moment(),
+    );
+}
+export function isMonthOnly(fieldData) {
+  return /^XXXX-\d{2}-XX$/.test(fieldData);
+}
+export function isYearOnly(fieldData) {
+  return /^\d{4}-XX-XX$/.test(fieldData);
+}
+export function isYearMonth(fieldData) {
+  return /^\d{4}-\d{2}-XX$/.test(fieldData);
+}
+export function isTreatmentBeforeService(
+  treatmentDate,
+  earliestServiceDate,
+  fieldData,
+) {
+  return (
+    (isYearOnly(fieldData) &&
+      treatmentDate.diff(earliestServiceDate, 'year') < 0) ||
+    (isYearMonth(fieldData) &&
+      treatmentDate.diff(earliestServiceDate, 'month') < 0)
+  );
+}
 export function startedAfterServicePeriod(err, fieldData, formData) {
   if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
     return;
@@ -665,12 +682,3 @@ export const validateTitle10StartDate = (
     );
   }
 };
-
-// Re-export date utilities for convenience
-export {
-  isMonthOnly,
-  isYearOnly,
-  isYearMonth,
-  findEarliestServiceDate,
-  isTreatmentBeforeService,
-} from './utils/dates/index';
