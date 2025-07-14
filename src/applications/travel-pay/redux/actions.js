@@ -38,7 +38,7 @@ export function getTravelClaims(dateRangeSelection) {
     try {
       const claimsUrl = `${
         environment.API_URL
-      }/travel_pay/v0/claims?startDate=${start}&endDate=${end}`;
+      }/travel_pay/v0/claims?start_date=${start}&end_date=${end}`;
       const response = await apiRequest(claimsUrl);
 
       dispatch(fetchTravelClaimsSuccess(dateRangeId, response));
