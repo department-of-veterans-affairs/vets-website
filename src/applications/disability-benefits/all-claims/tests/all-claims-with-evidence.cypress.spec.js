@@ -224,8 +224,6 @@ describe('Supporting Evidence uploads', () => {
       'POST',
       '/v0/disability_compensation_form/submit_all_claim*',
       req => {
-        // cy.log('Submit request received:', JSON.stringify(req.body, null, 2));
-
         req.reply({
           statusCode: 200,
           body: {
@@ -510,13 +508,7 @@ describe('Supporting Evidence uploads', () => {
       .parent()
       .select('L015');
     cy.findByText(/continue/i, { selector: 'button' }).click();
-    // TODO figure out why this isn't getting hit:
-    // cy.wait('@saveInProgressFormAdditionalDocFileTypeAdded').then(
-    //   ({ _request, response }) => {
-    //     expect(response.statusCode).to.eq(200);
-    //     cy.log('File Type selection successful');
-    //   },
-    // );
+
     // III. Supporting evidence > C. Summary of evidence
     // =================================================
     cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -548,7 +540,6 @@ describe('Supporting Evidence uploads', () => {
 
     // VI. Submit application
     // ======================
-    // Wait for form validation
     cy.findByText('Submit application', {
       selector: 'button',
     }).click();
