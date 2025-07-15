@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
@@ -390,26 +389,24 @@ export class ProfileInformationEditView extends Component {
                 isLoading={isLoading}
               >
                 <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
-                  <LoadingButton
+                  <va-button
                     data-action="save-edit"
                     data-testid="save-edit-button"
-                    isLoading={isLoading}
-                    loadingText="Saving changes"
-                    type="submit"
+                    loading={isLoading}
+                    submit="prevent"
                     onClick={onClickUpdateHandler}
-                  >
-                    {saveButtonText || 'Save'}
-                  </LoadingButton>
+                    text={isLoading ? '' : saveButtonText || 'Save'}
+                    class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                  />
 
                   {!isLoading && (
-                    <button
+                    <va-button
                       data-testid="cancel-edit-button"
-                      type="button"
-                      className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
                       onClick={onCancel}
-                    >
-                      {cancelButtonText || 'Cancel'}
-                    </button>
+                      text={cancelButtonText || 'Cancel'}
+                      class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                      secondary
+                    />
                   )}
                 </div>
               </ProfileInformationActionButtons>
