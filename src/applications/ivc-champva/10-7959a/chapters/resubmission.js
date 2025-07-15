@@ -16,6 +16,7 @@ import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUpload
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { nameWording, privWrapper } from '../../shared/utilities';
 import { CHAMPVA_PHONE_NUMBER } from '../../shared/constants';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 export const claimIdentifyingNumberOptions = [
   'PDI number',
@@ -60,8 +61,12 @@ export const claimIdentifyingNumber = {
       title: 'Is this a PDI or claim control number?',
     }),
     identifyingNumber: {
-      ...textUI('PDI number or Claim identifying number'),
+      ...textUI('PDI number or claim identification number'),
     },
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(errors, null, formData, 'identifyingNumber'),
+    ],
     'view:adtlInfo': {
       'ui:description': (
         <div>
