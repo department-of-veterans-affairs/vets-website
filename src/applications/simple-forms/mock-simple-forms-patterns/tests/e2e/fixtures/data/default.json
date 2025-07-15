@@ -26,16 +26,6 @@
       "from": "1999-01",
       "to": "1999-01"
     },
-    "wcv3FileInput": {
-      "name": "my_form.pdf",
-      "size": 12345,
-      "fileType": "pdf",
-      "confirmationCode": "7564298",
-      "password": "abc",
-      "additionalData": {
-        "documentStatus": "private"
-      }
-    },
     "vaCompensationType": "none",
     "isCurrentlyActiveDuty": false,
     "wcv3VaCompensationType": "highDisability",
