@@ -142,11 +142,11 @@ const DEGREE_TYPE_ID = {
 // DEGREE_TYPE - Frontend Options to GCLAWS Mapping
 export const DEGREE_TYPE_ENUM = {
   GED: DEGREE_TYPE_ID.GED,
-  'HS Diploma': DEGREE_TYPE_ID.HS,
-  Associates: DEGREE_TYPE_ID.ASSOCIATES,
-  Bachelors: DEGREE_TYPE_ID.BACHELORS,
-  Masters: DEGREE_TYPE_ID.MASTERS,
-  Doctorate: DEGREE_TYPE_ID.DOCTORATE,
+  'High school diploma': DEGREE_TYPE_ID.HS,
+  'Associate degree': DEGREE_TYPE_ID.ASSOCIATES,
+  "Bachelor's degree": DEGREE_TYPE_ID.BACHELORS,
+  "Master's degree": DEGREE_TYPE_ID.MASTERS,
+  'Doctoral degree': DEGREE_TYPE_ID.DOCTORATE,
 };
 
 // Chapter 5
