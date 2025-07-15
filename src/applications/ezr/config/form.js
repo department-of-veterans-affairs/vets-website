@@ -1,4 +1,3 @@
-// platform imports
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -9,7 +8,6 @@ import manifest from '../manifest.json';
 import content from '../locales/en/content.json';
 import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
-  includeSpousalInformation,
   includeSpousalInformationV1,
   includeSpousalInformationV2,
   includeHouseholdInformation,
@@ -381,6 +379,10 @@ const formConfig = {
           ...spousalInformationPages.spousePersonalInformationPage,
           depends: includeSpousalInformationV2,
         },
+        spouseAdditionalInformationV2: {
+          ...spousalInformationPages.spouseAdditionalInformationPage,
+          depends: includeSpousalInformationV2,
+        },
         spousePersonalInformation: {
           path: 'household-information/spouse-personal-information',
           title: 'Spouse\u2019s personal information',
@@ -393,7 +395,7 @@ const formConfig = {
           path: 'household-information/spouse-additional-information',
           title: 'Spouse\u2019s additional information',
           initialData: {},
-          depends: includeSpousalInformation,
+          depends: includeSpousalInformationV1,
           uiSchema: spouseAdditionalInformation.uiSchema,
           schema: spouseAdditionalInformation.schema,
         },
