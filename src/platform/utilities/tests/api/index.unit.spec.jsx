@@ -4,7 +4,12 @@ import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import sinon from 'sinon';
-import { apiRequest, fetchAndUpdateSessionExpiration } from '../../api';
+import localStorage from '../../storage/localStorage';
+import {
+  apiRequest,
+  fetchAndUpdateSessionExpiration,
+  getAndStoreCSRFToken,
+} from '../../api';
 import environment from '../../environment';
 import * as ssoModule from '../../sso';
 import * as oauthModule from '../../oauth/utilities';
@@ -25,6 +30,10 @@ describe('test wrapper', () => {
 
   after(() => {
     server.close();
+  });
+
+  afterEach(() => {
+    localStorage.clear();
   });
 
   describe('apiRequest', () => {
@@ -305,6 +314,162 @@ describe('test wrapper', () => {
       expect(response.bodyUsed).to.be.false;
       expect(response.status).to.eql(200);
       expect(expected.response.body).to.not.be.null;
+    });
+
+    describe('refresh csrf token', () => {
+      it('should fetch and store a CSRF token in a HEAD request if none exists', async () => {
+        const mockCsrfToken = 'mock-csrf-token';
+        localStorage.clear();
+
+        server.use(
+          rest.head(`${environment.API_URL}/v0/csrf_token`, (req, res, ctx) =>
+            res(ctx.status(200), ctx.set('X-CSRF-Token', mockCsrfToken)),
+          ),
+        );
+
+        server.use(
+          rest.post(
+            `${environment.API_URL}/v0/health_care_application`,
+            (_, res, ctx) => {
+              return res(ctx.status(200));
+            },
+          ),
+        );
+
+        const response = await apiRequest(
+          '/health_care_application',
+          {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            body: JSON.stringify({}),
+          },
+          undefined,
+          undefined,
+          undefined,
+          true,
+        );
+
+        expect(localStorage.getItem('csrfToken')).to.equal(mockCsrfToken);
+        expect(response.status).to.eql(200);
+      });
+
+      it('should not fetch and store a CSRF token on GET requests', async () => {
+        const getAndStoreCSRFTokenSpy = sinon.spy(getAndStoreCSRFToken);
+
+        server.use(
+          rest.get(/v0\/status/, (_req, res, ctx) => res(ctx.status(200))),
+        );
+
+        const response = await apiRequest(
+          '/status',
+          {
+            headers: { 'Content-Type': 'application/json' },
+          },
+          undefined,
+          undefined,
+          undefined,
+          true,
+        );
+
+        expect(getAndStoreCSRFTokenSpy.called).to.be.false;
+        expect(localStorage.getItem('csrfToken')).to.equal(null);
+        expect(response.status).to.eql(200);
+
+        getAndStoreCSRFTokenSpy.reset();
+      });
+
+      it('should use the existing CSRF token if it exists', async () => {
+        const mockCsrfToken = 'existing-csrf-token';
+        localStorage.setItem('csrfToken', mockCsrfToken);
+
+        server.use(
+          rest.post(
+            `${environment.API_URL}/v0/health_care_application`,
+            (_, res, ctx) => {
+              return res(ctx.status(200));
+            },
+          ),
+        );
+
+        const response = await apiRequest(
+          '/health_care_application',
+          {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            body: JSON.stringify({}),
+          },
+          undefined,
+          undefined,
+          undefined,
+          true,
+        );
+
+        expect(localStorage.getItem('csrfToken')).to.equal(mockCsrfToken);
+        expect(response.status).to.equal(200);
+      });
+
+      context('error refreshing csrf token', () => {
+        beforeEach(() => {
+          localStorage.clear();
+        });
+
+        it('should throw an error if the CSRF token header is missing in HEAD response', async () => {
+          server.use(
+            rest.head(
+              `${environment.API_URL}/v0/csrf_token`,
+              (_req, res, ctx) => res(ctx.status(200)),
+            ),
+          );
+
+          try {
+            await apiRequest(
+              '/health_care_application',
+              {
+                headers: { 'Content-Type': 'application/json' },
+                method: 'POST',
+                body: JSON.stringify({}),
+              },
+              undefined,
+              undefined,
+              undefined,
+              true,
+            );
+          } catch (error) {
+            expect(error.message).to.equal(
+              'CSRF token header not found in the refresh response.',
+            );
+          }
+        });
+
+        it('should throw an error if the request fails', async () => {
+          server.use(
+            rest.head(
+              `${environment.API_URL}/v0/csrf_token`,
+              (_req, res, ctx) =>
+                res(ctx.status(500), ctx.text('Internal Server Error')),
+            ),
+          );
+
+          try {
+            await apiRequest(
+              '/health_care_application',
+              {
+                headers: { 'Content-Type': 'application/json' },
+                method: 'POST',
+                body: JSON.stringify({}),
+              },
+              undefined,
+              undefined,
+              undefined,
+              true,
+            );
+          } catch (error) {
+            expect(error.message).to.include(
+              'Failed to get new CSRF token (HTTP 500)',
+            );
+          }
+        });
+      });
     });
   });
 
