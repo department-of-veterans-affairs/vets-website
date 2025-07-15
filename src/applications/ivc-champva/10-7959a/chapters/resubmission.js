@@ -300,6 +300,7 @@ export const pharmacyClaimUploadDocs = {
     pharmacyUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
+      attachmentId: 'pharmacy invoice', // hard-set for LLM verification
     }),
   },
   schema: {
