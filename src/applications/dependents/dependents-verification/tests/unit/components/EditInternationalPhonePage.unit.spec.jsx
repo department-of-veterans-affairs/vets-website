@@ -2,11 +2,17 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
 import { EditInternationalPhonePage } from '../../../components/EditInternationalPhonePage';
 
 describe('EditInternationalPhonePage', () => {
   let goToPath;
   let setFormData;
+
+  const clickEvent = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+  });
 
   beforeEach(() => {
     goToPath = sinon.spy();
@@ -43,10 +49,7 @@ describe('EditInternationalPhonePage', () => {
     const input = container.querySelector('va-text-input');
     fireEvent.input(input, { detail: { value: '' } });
 
-    const updateBtn = container.querySelector(
-      'button[aria-label="Update international phone number"]',
-    );
-    fireEvent.click(updateBtn);
+    container.querySelector('va-button-pair').__events.primaryClick(clickEvent);
 
     await waitFor(() => {
       expect(input.getAttribute('error')).to.include(
@@ -90,8 +93,9 @@ describe('EditInternationalPhonePage', () => {
       />,
     );
 
-    const cancelBtn = container.querySelector('button.usa-button-secondary');
-    fireEvent.click(cancelBtn);
+    container
+      .querySelector('va-button-pair')
+      .__events.secondaryClick(clickEvent);
 
     await waitFor(() => {
       expect(goToPath.called).to.be.true;

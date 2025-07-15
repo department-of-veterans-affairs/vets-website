@@ -4,7 +4,16 @@ import { expect } from 'chai';
 import ClaimantInfoViewField from '../../../components/ClaimantInfoViewField';
 
 describe('ClaimantInfoViewField', () => {
-  it('shows correct information for dependent claim', () => {
+  const defaultEditButton = () => <va-button text="edit" />;
+
+  const getDtDdValue = (section, label) => {
+    const dt = within(section).queryByText(label);
+    if (!dt) return null;
+    const dd = dt.parentNode.querySelector('dd');
+    return dd?.textContent.trim();
+  };
+
+  it('renders full claimant and veteran sections when dependent claim', () => {
     const formData = {
       veteranSsn: '123-45-6789',
       veteranFullName: { first: 'John', last: 'Doe' },
@@ -15,19 +24,18 @@ describe('ClaimantInfoViewField', () => {
       claimantDateOfBirth: '2010-05-21',
     };
 
-    const { getByText } = render(<ClaimantInfoViewField formData={formData} />);
+    const { getByText } = render(
+      <ClaimantInfoViewField
+        formData={formData}
+        defaultEditButton={defaultEditButton}
+      />,
+    );
 
     const claimantHeader = getByText('Claimant information');
     const veteranHeader = getByText('Veteran identification information');
 
     const claimantSection = claimantHeader.closest('div');
     const veteranSection = veteranHeader.closest('div');
-
-    const getDtDdValue = (section, label) => {
-      const dt = within(section).getByText(label);
-      const dd = dt.parentNode.querySelector('dd');
-      return dd.textContent.trim();
-    };
 
     expect(getDtDdValue(claimantSection, 'First name')).to.equal('Jane');
     expect(getDtDdValue(claimantSection, 'Last name')).to.equal('Doe');
@@ -47,29 +55,28 @@ describe('ClaimantInfoViewField', () => {
     expect(getDtDdValue(veteranSection, 'VA file number')).to.include('6789');
   });
 
-  it('shows veteran info when claimant is the veteran', () => {
+  it('renders claimant with veteran info when not dependent claim', () => {
     const formData = {
       veteranSsn: '123-45-6789',
       veteranFullName: { first: 'John', last: 'Doe' },
       address: { postalCode: '54321' },
-      veteranDateOfBirth: '1975-09-15',
       vaFileNumber: '987654321',
+      veteranDateOfBirth: '1975-09-15',
       claimantSsn: undefined,
       claimantFullName: { first: undefined, last: undefined },
       claimantDateOfBirth: undefined,
     };
 
     const { getByText, queryByText } = render(
-      <ClaimantInfoViewField formData={formData} />,
+      <ClaimantInfoViewField
+        formData={formData}
+        defaultEditButton={defaultEditButton}
+      />,
     );
 
     const claimantSection = getByText('Claimant information').closest('div');
 
-    const getDtDdValue = (section, label) => {
-      const dt = within(section).getByText(label);
-      const dd = dt.parentNode.querySelector('dd');
-      return dd.textContent.trim();
-    };
+    expect(queryByText('Veteran identification information')).to.be.null;
 
     expect(getDtDdValue(claimantSection, 'First name')).to.equal('John');
     expect(getDtDdValue(claimantSection, 'Last name')).to.equal('Doe');
@@ -81,7 +88,34 @@ describe('ClaimantInfoViewField', () => {
     );
     expect(getDtDdValue(claimantSection, 'Postal code')).to.equal('54321');
     expect(getDtDdValue(claimantSection, 'VA file number')).to.include('4321');
+  });
 
-    expect(queryByText('Veteran identification information')).to.be.null;
+  it('does not render fields when values are missing', () => {
+    const formData = {
+      veteranSsn: '',
+      veteranFullName: { first: '', last: '' },
+      address: { postalCode: '' },
+      vaFileNumber: '',
+      veteranDateOfBirth: '',
+      claimantSsn: '',
+      claimantFullName: { first: '', last: '' },
+      claimantDateOfBirth: '',
+    };
+
+    const { getByText } = render(
+      <ClaimantInfoViewField
+        formData={formData}
+        defaultEditButton={defaultEditButton}
+      />,
+    );
+
+    const claimantSection = getByText('Claimant information').closest('div');
+
+    expect(getDtDdValue(claimantSection, 'First name')).to.be.null;
+    expect(getDtDdValue(claimantSection, 'Last name')).to.be.null;
+    expect(getDtDdValue(claimantSection, 'Date of birth')).to.be.null;
+    expect(getDtDdValue(claimantSection, 'Social Security Number')).to.be.null;
+    expect(getDtDdValue(claimantSection, 'Postal code')).to.be.null;
+    expect(getDtDdValue(claimantSection, 'VA file number')).to.be.null;
   });
 });

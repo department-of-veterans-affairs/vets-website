@@ -7,7 +7,6 @@ import {
 } from '@department-of-veterans-affairs/platform-user/exports';
 import { format, isAfter, isDate, parseISO, startOfMinute } from 'date-fns';
 import {
-  selectFeatureConvertSlotsToUtc,
   selectFeatureFeSourceOfTruthTelehealth,
   selectSystemIds,
 } from '../../redux/selectors';
@@ -263,7 +262,6 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
     );
     const newBooking = selectCovid19VaccineNewBooking(state);
     const { data } = newBooking;
-    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
     let startDate = start;
     let endDate = end;
@@ -305,7 +303,6 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
           clinicId: data.clinicId,
           startDate,
           endDate,
-          convertToUtc: featureConvertSlotsToUTC,
         });
 
         if (initialFetch) {

@@ -17,7 +17,7 @@ describe('VAOS referral generator', () => {
     });
     it('Creates referrals with extra error referrals when specified', () => {
       const referrals = referralUtil.createReferrals(2, null, null, true);
-      expect(referrals.length).to.equal(6);
+      expect(referrals.length).to.equal(7);
     });
     it('Creates each referral on day later', () => {
       const referrals = referralUtil.createReferrals(2, '2025-10-11');

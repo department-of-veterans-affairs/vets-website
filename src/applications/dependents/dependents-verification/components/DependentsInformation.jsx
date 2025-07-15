@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -7,7 +8,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { scrollAndFocus } from 'platform/utilities/scroll';
 
 import { DEPENDENT_CHOICES } from '../constants';
-import { maskID, getFullName } from '../../shared/utils';
+import { maskID } from '../../shared/utils';
 
 export const DependentsInformation = ({
   data = {},
@@ -17,12 +18,14 @@ export const DependentsInformation = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
+  const dependents = useSelector(state => state.dependents?.data || []);
   const [showError, setShowError] = useState(false);
 
   const handlers = {
     onValueChange: ({ detail }) => {
       setFormData({
         ...data,
+        dependents,
         hasDependentsStatusChanged: detail.value,
       });
       setShowError(false);
@@ -33,95 +36,99 @@ export const DependentsInformation = ({
         setShowError(true);
         return;
       }
-      if (data.hasDependentsStatusChanged === 'N') {
-        goToPath('/exit-form', { force: true });
-      } else {
-        goForward(data);
-      }
+      goForward(data);
     },
     goBack: () => {
       goToPath('/veteran-contact-information', { force: true });
     },
-    goToExitPage: event => {
-      event.preventDefault();
-      goToPath('/exit-form', { force: true });
-    },
   };
-
-  const dependents = Array.isArray(data.dependents) ? data.dependents : [];
 
   return (
     <>
       <h3>Dependents on your VA benefits</h3>
       {dependents.length > 0 ? (
-        dependents.map((dep = {}, index) => (
-          <div className="vads-u-margin-bottom--2" key={index}>
-            <va-card>
-              <h4 className="vads-u-font-size--h4 vads-u-margin-top--0">
-                {getFullName(dep.fullName)}
-              </h4>
-              <dl>
-                <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
-                  <dt>Relationship:&nbsp;</dt>
-                  <dd>{dep.relationship}</dd>
-                </div>
-                <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
-                  <dt>Date of birth:&nbsp;</dt>
-                  <dd>{dep.dob}</dd>
-                </div>
-                {dep.age && (
+        dependents.map((dependent = {}, index) => {
+          return (
+            <div className="vads-u-margin-bottom--2" key={index}>
+              <va-card>
+                <h4
+                  className="vads-u-font-size--h4 vads-u-margin-top--0 dd-privacy-hidden"
+                  data-dd-action-name="Dependent's name"
+                >
+                  {dependent.fullName}
+                </h4>
+                <dl>
                   <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
-                    <dt>Age:&nbsp;</dt>
+                    <dt>Relationship:&nbsp;</dt>
                     <dd
-                      className="dd-privacy-mask"
-                      data-dd-action-name="Dependent's age"
+                      className="dd-privacy-hidden"
+                      data-dd-action-name="Dependent's relationship"
                     >
-                      {dep.age} years old
+                      {dependent.relationship}
                     </dd>
                   </div>
-                )}
-                <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
-                  <dt>SSN:&nbsp;</dt>
-                  <dd
-                    className="dd-privacy-mask"
-                    data-dd-action-name="Dependent's SSN"
-                  >
-                    {maskID(dep.ssnLastFour)}
-                  </dd>
-                </div>
-                {dep.removalDate && (
-                  <div className="removal-date vads-u-margin-top--2">
-                    <dt className="vads-u-display--inline-block vads-u-width--auto">
-                      <strong>Automatic removal date:&nbsp;</strong>
-                    </dt>
-                    <dd className="vads-u-display--inline-block vads-u-width--auto">
-                      <span
-                        className="dd-privacy-mask"
-                        data-dd-action-name="Dependent's removal date"
+                  <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
+                    <dt>Date of birth:&nbsp;</dt>
+                    <dd
+                      className="dd-privacy-hidden"
+                      data-dd-action-name="Dependent's date of birth"
+                    >
+                      {dependent.dob}
+                    </dd>
+                  </div>
+                  {dependent.age && (
+                    <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
+                      <dt>Age:&nbsp;</dt>
+                      <dd
+                        className="dd-privacy-hidden"
+                        data-dd-action-name="Dependent's age"
                       >
-                        {dep.removalDate}
-                      </span>
-                    </dd>
-                    <dd className="vads-u-margin-top--1">
-                      <va-alert status="info" background-only visible>
-                        <strong>Note:</strong> If no other action is taken, this
-                        dependent will be removed automatically when they turn
-                        18, which may reduce the amount you receive each month.
-                        If this child is continuing education, they need to be
-                        added back to your benefits.{' '}
-                        <va-link
-                          href="/exit-form"
-                          text="Learn about how to add a dependent"
-                          onClick={handlers.goToExitPage}
-                        />
-                      </va-alert>
+                        {dependent.age} years old
+                      </dd>
+                    </div>
+                  )}
+                  <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
+                    <dt>SSN:&nbsp;</dt>
+                    <dd
+                      className="dd-privacy-hidden"
+                      data-dd-action-name="Dependent's last four of SSN"
+                    >
+                      {maskID(dependent.ssn)}
                     </dd>
                   </div>
-                )}
-              </dl>
-            </va-card>
-          </div>
-        ))
+                  {dependent.removalDate && (
+                    <div className="removal-date vads-u-margin-top--2">
+                      <dt className="vads-u-display--inline-block vads-u-width--auto">
+                        <strong>Automatic removal date:&nbsp;</strong>
+                      </dt>
+                      <dd className="vads-u-display--inline-block vads-u-width--auto">
+                        <span
+                          className="dd-privacy-hidden"
+                          data-dd-action-name="Dependent's removal date"
+                        >
+                          {dependent.removalDate}
+                        </span>
+                      </dd>
+                      <dd className="vads-u-margin-top--1">
+                        <va-alert status="info" background-only visible>
+                          <strong>Note:</strong> If no other action is taken,
+                          this dependent will be removed automatically when they
+                          turn 18, which may reduce the amount you receive each
+                          month. If this child is continuing education, they
+                          need to be added back to your benefits.{' '}
+                          <va-link
+                            href="/exit-form"
+                            text="Learn about how to add a dependent"
+                          />
+                        </va-alert>
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              </va-card>
+            </div>
+          );
+        })
       ) : (
         <strong>No dependents found</strong>
       )}
@@ -142,6 +149,8 @@ export const DependentsInformation = ({
         external
         text="Find more detailed instructions for how to change your dependents’ name"
       />
+      {/* Values and labels are flipped as 21-0538 form asks a differently
+       worded question, which allows pdf mapping to be more intuitive */}
       <VaRadio
         label="Is your dependent information correct?"
         required
@@ -152,17 +161,17 @@ export const DependentsInformation = ({
       >
         <va-radio-option
           name="hasDependentsStatusChanged"
-          value="Y"
+          value="N"
           label={DEPENDENT_CHOICES.Y}
           tile
-          checked={data.hasDependentsStatusChanged === 'Y'}
+          checked={data.hasDependentsStatusChanged === 'N'}
         />
         <va-radio-option
           name="hasDependentsStatusChanged"
-          value="N"
+          value="Y"
           label={DEPENDENT_CHOICES.N}
           tile
-          checked={data.hasDependentsStatusChanged === 'N'}
+          checked={data.hasDependentsStatusChanged === 'Y'}
         />
       </VaRadio>
 

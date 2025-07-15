@@ -46,6 +46,15 @@ import {
   sponsorContactSchema,
 } from '../chapters/sponsorInformation';
 
+import {
+  claimIdentifyingNumber,
+  claimType,
+  medicalClaimDetails,
+  medicalUploadSupportingDocs,
+  pharmacyClaimDetails,
+  pharmacyClaimUploadDocs,
+} from '../chapters/resubmission';
+
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
 // first name posessive
@@ -167,6 +176,55 @@ const formConfig = {
         },
       },
     },
+    resubmissionInformation: {
+      title: 'Claim information',
+      pages: {
+        page1e1: {
+          path: 'resubmission-claim-number',
+          title: 'Claim ID number',
+          depends: formData => get('claimStatus', formData) === 'resubmission',
+          ...claimIdentifyingNumber,
+        },
+        page1f: {
+          path: 'resubmission-claim-type',
+          title: 'Claim type',
+          depends: formData => get('claimStatus', formData) === 'resubmission',
+          ...claimType,
+        },
+        page1g: {
+          path: 'resubmission-medical-claim-details',
+          title: 'Claim details',
+          depends: formData =>
+            get('claimStatus', formData) === 'resubmission' &&
+            get('claimType', formData) === 'medical',
+          ...medicalClaimDetails,
+        },
+        page1h: {
+          path: 'resubmission-medical-supporting-docs',
+          title: 'claim details',
+          depends: formData =>
+            get('claimStatus', formData) === 'resubmission' &&
+            get('claimType', formData) === 'medical',
+          ...medicalUploadSupportingDocs,
+        },
+        pageij: {
+          path: 'resubmission-pharmacy-claim-details',
+          title: 'claim details',
+          depends: formData =>
+            get('claimStatus', formData) === 'resubmission' &&
+            get('claimType', formData) === 'pharmacy',
+          ...pharmacyClaimDetails,
+        },
+        page1k: {
+          path: 'resubmission-pharmacy-supporting-docs',
+          title: 'Upload support documents for your pharmacy claim',
+          depends: formData =>
+            get('claimStatus', formData) === 'resubmission' &&
+            get('claimType', formData) === 'pharmacy',
+          ...pharmacyClaimUploadDocs,
+        },
+      },
+    },
     sponsorInformation: {
       title: 'Sponsor information',
       pages: {
@@ -266,6 +324,7 @@ const formConfig = {
         page4: {
           path: 'claim-type',
           title: 'Claim type',
+          depends: formData => get('claimStatus', formData) !== 'resubmission',
           ...claimTypeSchema,
         },
         page5: {
@@ -283,7 +342,9 @@ const formConfig = {
         page7: {
           path: 'medical-claim-upload',
           title: 'Supporting documents',
-          depends: formData => get('claimType', formData) === 'medical',
+          depends: formData =>
+            get('claimType', formData) === 'medical' &&
+            get('claimStatus', formData) !== 'resubmission',
           ...medicalClaimUploadSchema,
         },
         page8: {
@@ -314,7 +375,9 @@ const formConfig = {
         page10: {
           path: 'pharmacy-claim-upload',
           title: 'Upload supporting document for prescription medication claim',
-          depends: formData => get('claimType', formData) === 'pharmacy',
+          depends: formData =>
+            get('claimType', formData) === 'pharmacy' &&
+            get('claimStatus', formData) !== 'resubmission',
           ...pharmacyClaimUploadSchema,
         },
       },

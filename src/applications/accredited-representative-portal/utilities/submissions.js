@@ -4,7 +4,7 @@ export const SUBMISSIONS_BC_LABEL = 'submissions breadcrumb';
 export const submissionsBC = [
   {
     href: '/representative',
-    label: 'Representative.va.gov home',
+    label: 'VA.gov/representative home',
   },
   {
     href: window.location.href,

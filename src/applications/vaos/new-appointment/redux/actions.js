@@ -17,7 +17,6 @@ import {
 } from 'date-fns';
 import {
   selectFeatureCommunityCare,
-  selectFeatureConvertSlotsToUtc,
   selectFeatureDirectScheduling,
   selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureRecentLocationsFilter,
@@ -264,6 +263,7 @@ export function getPatientRelationships() {
     const typeOfCare = getTypeOfCare(newAppointment.data);
     const typeOfCareId = typeOfCare;
     const facilityId = newAppointment.data.vaFacility;
+    const hasAvailabilityBefore = addDays(new Date(), 395);
 
     dispatch({
       type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
@@ -273,6 +273,7 @@ export function getPatientRelationships() {
       patientProviderRelationships = await fetchPatientRelationships(
         facilityId,
         typeOfCareId,
+        hasAvailabilityBefore,
       );
     } catch (error) {
       dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
@@ -636,7 +637,6 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
-    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
     let startDate = start;
     let endDate = end;
@@ -684,7 +684,6 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
-          convertToUtc: featureConvertSlotsToUTC,
         });
         const tomorrow = startOfDay(
           addDays(new Date(new Date().toISOString()), 1),

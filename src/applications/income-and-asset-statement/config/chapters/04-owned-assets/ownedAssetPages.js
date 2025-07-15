@@ -30,8 +30,8 @@ import SupplementaryFormsAlert from '../../../components/FormAlerts/Supplementar
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'ownedAssets',
-  nounSingular: 'income and net worth associated with owned assets',
-  nounPlural: 'incomes and net worth associated with owned assets',
+  nounSingular: 'owned asset',
+  nounPlural: 'owned assets',
   required: false,
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||
@@ -128,7 +128,7 @@ const summaryPage = {
 const ownedAssetRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Income and net worth associated with owned assets',
+      title: 'Property and business relationship',
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
@@ -164,9 +164,7 @@ const ownedAssetRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Income and net worth associated with owned assets',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Property and business recipient'),
     recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
@@ -180,9 +178,7 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const ownedAssetTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Income and net worth associated with owned assets',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Property and business type'),
     assetType: radioUI({
       title: 'What is the type of the owned asset?',
       labels: ownedAssetTypeLabels,
@@ -204,27 +200,27 @@ const ownedAssetTypePage = {
 export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
   ownedAssetPagesSummary: pageBuilder.summaryPage({
     title: 'Income and net worth associated with owned assets',
-    path: 'owned-assets-summary',
+    path: 'property-and-business-summary',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   ownedAssetRecipientPage: pageBuilder.itemPage({
-    title: 'Owned asset recipient',
-    path: 'owned-assets/:index/income-recipient',
+    title: 'Property and business recipient',
+    path: 'property-and-business/:index/income-recipient',
     uiSchema: ownedAssetRecipientPage.uiSchema,
     schema: ownedAssetRecipientPage.schema,
   }),
   ownedAssetRecipientNamePage: pageBuilder.itemPage({
-    title: 'Owned Asset recipient name',
-    path: 'owned-assets/:index/recipient-name',
+    title: 'Property and business recipient name',
+    path: 'property-and-business/:index/recipient-name',
     depends: (formData, index) =>
       recipientNameRequired(formData, index, 'ownedAssets'),
     uiSchema: recipientNamePage.uiSchema,
     schema: recipientNamePage.schema,
   }),
   ownedAssetTypePage: pageBuilder.itemPage({
-    title: 'Owned asset type',
-    path: 'owned-assets/:index/income-type',
+    title: 'Property and business type',
+    path: 'property-and-business/:index/income-type',
     uiSchema: ownedAssetTypePage.uiSchema,
     schema: ownedAssetTypePage.schema,
   }),

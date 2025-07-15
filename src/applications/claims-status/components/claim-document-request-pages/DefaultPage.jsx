@@ -29,6 +29,31 @@ export default function DefaultPage({
   const now = new Date();
   const dueDate = parseISO(item.suspenseDate);
   const pastDueDate = isBefore(dueDate, now);
+  const getItemDisplayName = () => {
+    if (item.displayName.toLowerCase().includes('dbq')) {
+      return 'Request for an exam';
+    }
+    if (item.friendlyName) {
+      return `Your ${getDisplayFriendlyName(item)}`;
+    }
+    return 'Request for evidence outside VA';
+  };
+  const getRequestText = () => {
+    if (evidenceDictionary[item.displayName]?.isDBQ) {
+      return `We made a request on ${dateFormatter(item.requestedDate)} for: ${
+        item.friendlyName ? getDisplayFriendlyName(item) : item.displayName
+      }`;
+    }
+    if (item.friendlyName) {
+      return `We made a request outside VA on ${dateFormatter(
+        item.requestedDate,
+      )}`;
+    }
+    return `We made a request outside VA on ${dateFormatter(
+      item.requestedDate,
+    )} for: ${item.displayName}`;
+  };
+
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}>
       <Toggler.Enabled>
@@ -36,36 +61,33 @@ export default function DefaultPage({
           <h1 className="claims-header">
             {item.status === 'NEEDED_FROM_YOU' ? (
               <>
-                {item.friendlyName || item.displayName}
+                {item.friendlyName || 'Request for evidence'}
                 <span className="vads-u-font-family--sans vads-u-margin-bottom--1 vads-u-margin-top--1">
-                  Respond by {dateFormatter(item.suspenseDate)}
+                  {item.friendlyName
+                    ? `Respond by ${dateFormatter(item.suspenseDate)}`
+                    : `Respond by ${dateFormatter(item.suspenseDate)} for: ${
+                        item.displayName
+                      }`}
                 </span>
               </>
             ) : (
               <>
-                {item.friendlyName
-                  ? `Your ${getDisplayFriendlyName(item)}`
-                  : item.displayName}
+                {getItemDisplayName()}
                 <span className="vads-u-font-family--sans vads-u-margin-top--1">
-                  {evidenceDictionary[item.displayName] &&
-                  evidenceDictionary[item.displayName].isDBQ
-                    ? `Requested from examiner’s office on`
-                    : 'Requested from outside VA on'}{' '}
-                  {dateFormatter(item.requestedDate)}
+                  {getRequestText()}
                 </span>
               </>
             )}
           </h1>
           {item.status === 'NEEDED_FROM_YOU' &&
-            pastDueDate && (
+            (pastDueDate ? (
               <va-alert status="warning" class="vads-u-margin-top--4">
                 <h2 slot="headline">
                   Deadline passed for requested information
                 </h2>
                 <p className="vads-u-margin-y--0">
                   We haven’t received the information we asked for. You can
-                  still upload or mail it to us, but we may review your claim
-                  without it.
+                  still send it, but we may review your claim without it.
                 </p>
                 <p>
                   If you have questions, call the VA benefits hotline at{' '}
@@ -74,7 +96,16 @@ export default function DefaultPage({
                   ).
                 </p>
               </va-alert>
-            )}
+            ) : (
+              !item.friendlyName && (
+                <p>
+                  We requested this evidence from you on{' '}
+                  {dateFormatter(item.requestedDate)}. You can still send the
+                  evidence after the “respond by” date, but it may delay your
+                  claim.
+                </p>
+              )
+            ))}
           {item.status === 'NEEDED_FROM_YOU' ? (
             <h2>What we need from you</h2>
           ) : (

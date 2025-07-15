@@ -534,9 +534,12 @@ const VaPrescription = prescription => {
                         Refill history
                       </h3>
                     )}
-                    {refillHistory?.length > 1 &&
+                    {refillHistory?.length >= 1 &&
                       hasCmopNdcNumber(refillHistory) && (
-                        <p className="vads-u-margin--0">
+                        <p
+                          className="vads-u-margin--0"
+                          data-testid="note-images"
+                        >
                           <strong>Note:</strong> Images on this page are for
                           identification purposes only. They don’t mean that
                           this is the amount of medication you’re supposed to

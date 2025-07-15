@@ -9,9 +9,7 @@ import {
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
 import {
-  expiresSoon,
   formatStatus,
-  resolutionDate,
   BANNER_TYPES,
   DETAILS_BC_LABEL,
   poaDetailsBreadcrumbs,
@@ -19,6 +17,8 @@ import {
 import { recordDatalayerEvent } from '../utilities/analytics';
 import api from '../utilities/api';
 import ProcessingBanner from '../components/ProcessingBanner';
+import POADetailsColumn from '../components/POADetailsColumn';
+import POADetailsAuthorization from '../components/POADetailsAuthorization';
 
 const DECISION_TYPES = {
   ACCEPTANCE: 'acceptance',
@@ -87,58 +87,6 @@ const ERROR_BANNER = {
     'We’re sorry, there was a problem with our system. We weren’t able to process your decision and update the status on the request. To try again, contact the claimant and ask them to resubmit VA Form 21-22.',
 };
 
-const Authorized = () => {
-  return (
-    <span>
-      <va-icon
-        height={20}
-        maxWidth={20}
-        icon="check_circle"
-        class="vads-u-color--success-dark poa-request__card-icon"
-      />
-      Authorized
-    </span>
-  );
-};
-
-const NoAccess = () => {
-  return (
-    <span>
-      <va-icon
-        height={20}
-        maxWidth={20}
-        icon="warning"
-        class="vads-u-color--warning-dark poa-request__card-icon"
-      />
-      No Access
-    </span>
-  );
-};
-
-const AccessToSome = () => {
-  return (
-    <span>
-      <va-icon
-        height={20}
-        maxWidth={20}
-        icon="warning"
-        class="vads-u-color--warning-dark poa-request__card-icon"
-      />
-      Access to some
-    </span>
-  );
-};
-const checkAuthorizations = x => {
-  if (x) {
-    return <NoAccess />;
-  }
-  return <Authorized />;
-};
-const checkLimitations = (limitations, limit) => {
-  const checkLimitation = limitations.includes(limit);
-  return checkAuthorizations(checkLimitation);
-};
-
 const POARequestDetailsPage = title => {
   const poaRequest = useLoaderData();
   const [error, setError] = useState();
@@ -172,7 +120,8 @@ const POARequestDetailsPage = title => {
   const {
     recordDisclosureLimitations,
   } = poaRequest.powerOfAttorneyForm.authorizations;
-
+  const addressChange =
+    poaRequest?.powerOfAttorneyForm.authorizations.addressChange;
   const poaRequestSubmission =
     poaRequest?.powerOfAttorneyFormSubmission?.status;
   const navigation = useNavigation();
@@ -237,88 +186,7 @@ const POARequestDetailsPage = title => {
             </p>
           </h1>
 
-          <ul className="poa-request-details__list poa-request-details__list--col">
-            <li className="poa-request-details__list-item">
-              <p className="poa-request-details__title">
-                Requested representative
-              </p>
-              <p className="poa-request-details__subtitle">
-                {poaRequest?.powerOfAttorneyHolder?.name}
-              </p>
-            </li>
-            <li className="poa-request-details__list-item">
-              {poaRequest?.createdAt && (
-                <>
-                  <p className="poa-request-details__title">
-                    Request submitted on
-                  </p>
-                  {resolutionDate(poaRequest?.createdAt, poaStatus.id)}
-                </>
-              )}
-            </li>
-            <li className="poa-request-details__list-item">
-              {poaStatus === 'declination' && (
-                <>
-                  <p className="poa-request-details__title">
-                    Request declined on
-                  </p>
-                  {resolutionDate(
-                    poaRequest.resolution?.createdAt,
-                    poaStatus.id,
-                  )}
-                </>
-              )}
-              {poaStatus === 'acceptance' && (
-                <span
-                  className={
-                    (poaRequestSubmission === BANNER_TYPES.PROCESSING ||
-                      poaRequestSubmission === BANNER_TYPES.FAILED) &&
-                    'vads-u-display--none'
-                  }
-                >
-                  <p className="poa-request-details__title">
-                    <va-icon
-                      icon="check_circle"
-                      class="vads-u-color--success-dark poa-request__card-icon"
-                    />{' '}
-                    Request accepted on
-                  </p>
-                  {resolutionDate(
-                    poaRequest.resolution?.createdAt,
-                    poaStatus.id,
-                  )}
-                </span>
-              )}
-              {poaStatus === 'expiration' && (
-                <>
-                  <p className="poa-request-details__title">
-                    Request expired on
-                  </p>
-                  {resolutionDate(
-                    poaRequest.resolution?.createdAt,
-                    poaStatus.id,
-                  )}
-                </>
-              )}
-              {poaStatus === 'Pending' && (
-                <>
-                  <p className="poa-request-details__title">
-                    {expiresSoon(poaRequest.expiresAt) && (
-                      <va-icon
-                        class="poa-request__card-icon"
-                        icon="warning"
-                        size={2}
-                        srtext="warning"
-                        aria-hidden="true"
-                      />
-                    )}
-                    Request expires on
-                  </p>
-                  {resolutionDate(poaRequest?.expiresAt, poaStatus.id)}
-                </>
-              )}
-            </li>
-          </ul>
+          <POADetailsColumn poaRequest={poaRequest} poaStatus={poaStatus} />
 
           <span
             className="poa-request-details__divider"
@@ -354,7 +222,7 @@ const POARequestDetailsPage = title => {
               <li>
                 <p>Address</p>
                 <p>
-                  {city}, {state}, {zipCode}
+                  {city}, {state} {zipCode}
                 </p>
               </li>
               <li>
@@ -412,53 +280,11 @@ const POARequestDetailsPage = title => {
               </>
             )}
 
-            <h2 className="poa-request-details__h2">
-              Authorization information
-            </h2>
-            <ul className="poa-request-details__list poa-request-details__list--info">
-              <li>
-                <p>Change of address</p>
-                <p>
-                  {poaRequest?.powerOfAttorneyForm.authorizations
-                    .addressChange ? (
-                    <Authorized />
-                  ) : (
-                    <NoAccess />
-                  )}
-                </p>
-              </li>
-              <li>
-                <p>Protected medical records</p>
-                <p>
-                  {recordDisclosureLimitations.length === 0 && <Authorized />}
-                  {recordDisclosureLimitations.length < 4 &&
-                    recordDisclosureLimitations.length > 0 && <AccessToSome />}
-                  {recordDisclosureLimitations.length === 4 && <NoAccess />}
-                </p>
-              </li>
-              <li>
-                <p>Alcoholism or alcohol abuse records</p>
-                <p>
-                  {checkLimitations(recordDisclosureLimitations, 'ALCOHOLISM')}
-                </p>
-              </li>
-              <li>
-                <p>Drug abuse records</p>
-                <p>
-                  {checkLimitations(recordDisclosureLimitations, 'DRUG_ABUSE')}
-                </p>
-              </li>
-              <li>
-                <p>HIV records</p>
-                <p>{checkLimitations(recordDisclosureLimitations, 'HIV')}</p>
-              </li>
-              <li>
-                <p>Sickle cell anemia records</p>
-                <p>
-                  {checkLimitations(recordDisclosureLimitations, 'SICKLE_CELL')}
-                </p>
-              </li>
-            </ul>
+            {/* Authorization component */}
+            <POADetailsAuthorization
+              recordDisclosureLimitations={recordDisclosureLimitations}
+              addressChange={addressChange}
+            />
 
             {poaStatus === 'Pending' && (
               <Toggler

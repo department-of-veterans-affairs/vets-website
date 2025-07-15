@@ -1,6 +1,6 @@
 import { unreportedAssetPages } from './unreportedAssetPages';
 
 export default {
-  title: 'Assets previously not reported information',
+  title: 'Other assets',
   pages: unreportedAssetPages,
 };

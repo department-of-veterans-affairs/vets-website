@@ -12,7 +12,6 @@ import {
   statementOfTruthBodyElement,
 } from '~/platform/forms/components/review/PreSubmitSection';
 
-// platform - form-system actions
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
 const PreSubmitInfo = ({
@@ -24,15 +23,27 @@ const PreSubmitInfo = ({
 }) => {
   const { statementOfTruth } = preSubmitInfo;
   const statementOfTruthCertified = formData.statementOfTruthCertified || false;
+  const { claimantType } = formData;
   const loggedIn = useSelector(isLoggedIn);
   const [
     statementOfTruthSignatureBlurred,
     setStatementOfTruthSignatureBlurred,
   ] = useState(false);
 
+  const useProfileFullName = loggedIn && claimantType === 'VETERAN';
+
+  const expectedFullName = statementOfTruthFullName(
+    formData,
+    {
+      ...statementOfTruth,
+      useProfileFullName,
+    },
+    user?.profile?.userFullName,
+  );
+
   return (
     <>
-      {loggedIn ? (
+      {useProfileFullName ? (
         <>
           <div className="vads-u-margin-y--2p5">
             <strong>Note:</strong> According to federal law, there are criminal
@@ -44,14 +55,7 @@ const PreSubmitInfo = ({
             name="statementOfTruthCertified"
             onVaChange={event => {
               setPreSubmit('statementOfTruthCertified', event.detail.checked);
-              setPreSubmit(
-                'statementOfTruthSignature',
-                statementOfTruthFullName(
-                  formData,
-                  statementOfTruth,
-                  user?.profile?.userFullName,
-                ),
-              );
+              setPreSubmit('statementOfTruthSignature', expectedFullName);
             }}
             showError={showError && !statementOfTruthCertified}
           />
@@ -66,14 +70,8 @@ const PreSubmitInfo = ({
           inputError={
             (showError || statementOfTruthSignatureBlurred) &&
             fullNameReducer(formData.statementOfTruthSignature) !==
-              fullNameReducer(
-                statementOfTruthFullName(formData, statementOfTruth, null),
-              )
-              ? `Please enter your name exactly as it appears on your application: ${statementOfTruthFullName(
-                  formData,
-                  statementOfTruth,
-                  null,
-                )}`
+              fullNameReducer(expectedFullName)
+              ? `Please enter your name exactly as it appears on your application: ${expectedFullName}`
               : undefined
           }
           checked={formData.statementOfTruthCertified}

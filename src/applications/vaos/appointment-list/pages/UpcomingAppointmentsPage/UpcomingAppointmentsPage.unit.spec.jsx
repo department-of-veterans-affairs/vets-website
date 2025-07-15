@@ -1,16 +1,13 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import { addDays, format, subDays } from 'date-fns';
-import MockDate from 'mockdate';
+import { formatInTimeZone } from 'date-fns-tz';
 import React from 'react';
 import reducers from '../../../redux/reducer';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { mockAppointmentsApi } from '../../../tests/mocks/mockApis';
-import {
-  getTestDate,
-  renderWithStoreAndRouter,
-} from '../../../tests/mocks/setup';
+import { renderWithStoreAndRouter } from '../../../tests/mocks/setup';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import UpcomingAppointmentsPage from './UpcomingAppointmentsPage';
 
@@ -23,11 +20,8 @@ const initialState = {
 describe('VAOS Component: UpcomingAppointmentsList', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTestDate());
   });
-  afterEach(() => {
-    MockDate.reset();
-  });
+  afterEach(() => {});
   const now = new Date();
   const start = subDays(now, 30); // Subtract 30 days
   const end = addDays(now, 395); // Add 395 days
@@ -67,15 +61,22 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Assert
+    // Using date string here since we don't want the timezone coversion twice.
+    // Notice the 'Z' is appended to the current local time. This is saying, use
+    // local time as UTC time when we call 'formatInTimeZone'.
+    const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
     await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
+      new RegExp(
+        formatInTimeZone(utcString, 'America/Denver', 'EEEE, MMMM d'),
+        'i',
+      ), // Format as 'Day, Month Date'
     );
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
   });
 
   it('should show CC appointment text', async () => {
     // Arrange
-    const appointments = MockAppointmentResponse.createCCResponses({
+    const responses = MockAppointmentResponse.createCCResponses({
       localStartTime: now,
       status: APPOINTMENT_STATUS.booked,
       future: true,
@@ -91,7 +92,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     mockAppointmentsApi({
       start,
       end,
-      response: appointments,
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -102,15 +103,19 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Assert
+    const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
     await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
+      new RegExp(
+        formatInTimeZone(utcString, 'America/Denver', 'EEEE, MMMM d'),
+        'i',
+      ), // Format as 'Day, Month Date'
     );
     expect(screen.baseElement).to.contain.text('Community care');
   });
 
   it('should show at home video appointment text', async () => {
     // Arrange
-    const appointments = MockAppointmentResponse.createGfeResponses({
+    const responses = MockAppointmentResponse.createGfeResponses({
       localStartTime: now,
       future: true,
     });
@@ -125,7 +130,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     mockAppointmentsApi({
       start,
       end,
-      response: appointments,
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -136,15 +141,19 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Assert
+    const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
     await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
+      new RegExp(
+        formatInTimeZone(utcString, 'America/Denver', 'EEEE, MMMM d'),
+        'i',
+      ), // Format as 'Day, Month Date'
     );
     expect(screen.baseElement).to.contain.text('Video');
   });
 
   it('should show phone appointment text', async () => {
     // Arrange
-    const appointments = MockAppointmentResponse.createPhoneResponses({
+    const responses = MockAppointmentResponse.createPhoneResponses({
       localStartTime: now,
       future: true,
     });
@@ -159,7 +168,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     mockAppointmentsApi({
       start,
       end,
-      response: appointments,
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -170,15 +179,19 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Assert
+    const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
     await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
+      new RegExp(
+        formatInTimeZone(utcString, 'America/Denver', 'EEEE, MMMM d'),
+        'i',
+      ), // Format as 'Day, Month Date'
     );
 
     expect(screen.baseElement).to.contain.text('Phone');
   });
 
   it('should show cancelled appointment text', async () => {
-    const appointments = MockAppointmentResponse.createCCResponses({
+    const responses = MockAppointmentResponse.createCCResponses({
       localStartTime: now,
       status: APPOINTMENT_STATUS.cancelled,
       future: true,
@@ -194,7 +207,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     mockAppointmentsApi({
       start,
       end,
-      response: appointments,
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -203,19 +216,23 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       reducers,
     });
 
+    const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
     await screen.findAllByLabelText(
-      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
+      new RegExp(
+        formatInTimeZone(utcString, 'America/Denver', 'EEEE, MMMM d'),
+        'i',
+      ), // Format as 'Day, Month Date'
     );
 
     expect(screen.findAllByLabelText(/canceled Community care/i));
     expect(screen.baseElement).to.contain.text('Community care');
   });
   it('should show VA appointment text for telehealth appointments without vvsKind', async () => {
-    const appointments = MockAppointmentResponse.createVAResponses({
+    const responses = MockAppointmentResponse.createVAResponses({
       localStartTime: now,
       future: true,
     });
-    appointments[0]
+    responses[0]
       .setLocation(new MockFacilityResponse())
       .setTypeOfCare(null)
       .setVvsKind(null);
@@ -230,7 +247,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     mockAppointmentsApi({
       start,
       end,
-      response: appointments,
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
