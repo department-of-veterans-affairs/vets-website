@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  MhvPageNotFound,
-  MhvUnauthorized,
-} from '@department-of-veterans-affairs/mhv/exports';
+
 import { captureError } from '../utils/errors';
 
 class ErrorBoundary extends React.Component {
@@ -11,25 +8,10 @@ class ErrorBoundary extends React.Component {
     super(props);
     this.state = {
       hasError: false,
-      errorType: null,
     };
   }
 
-  static getDerivedStateFromError(error) {
-    const errorTypeMap = {
-      unauthorized: 401,
-      // eslint-disable-next-line camelcase
-      not_found: 404,
-      notFound: 404,
-      // eslint-disable-next-line camelcase
-      bad_request: 400,
-      badRequest: 400,
-    };
-    // Update state so the next render will show the fallback UI.
-    const status = error?.error?.[0]?.status;
-    if (errorTypeMap[status]) {
-      return { hasError: true, errorType: errorTypeMap[status] };
-    }
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
@@ -39,8 +21,7 @@ class ErrorBoundary extends React.Component {
 
   render() {
     const { children } = this.props;
-    const { hasError, errorType } = this.state;
-
+    const { hasError } = this.state;
     const ErrorMessage = () => (
       <div className="vads-l-grid-container main-content vads-u-padding-y--1p5">
         <va-alert status="error" uswds>
@@ -53,18 +34,7 @@ class ErrorBoundary extends React.Component {
       </div>
     );
 
-    let ErrorComponent = <ErrorMessage />;
-    if (hasError && errorType) {
-      if (errorType === 401) {
-        // Unauthorized access, show MhvUnauthorized component
-        ErrorComponent = <MhvUnauthorized />;
-      } else {
-        // bad_request or not_found, show MhvPageNotFound component
-        ErrorComponent = <MhvPageNotFound />;
-      }
-    }
-
-    return hasError || !children ? ErrorComponent : <>{children}</>;
+    return hasError || !children ? <ErrorMessage /> : <>{children}</>;
   }
 }
 
