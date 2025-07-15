@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
   VaCheckboxGroup,
@@ -14,7 +15,7 @@ import {
   conditionsQuestion,
   makeTEConditionsUISchema,
 } from '../../content/toxicExposure';
-import { formTitle } from '../../utils';
+import { formTitle, showToxicExposureDestructionModal } from '../../utils';
 import {
   deletedToxicExposureAlertConfirmationContent,
   deleteToxicExposureModalContent,
@@ -61,6 +62,8 @@ const ToxicExposureChoicePage = ({
   onReviewPage,
   updatePage,
 }) => {
+  const showDestructiveModal = useSelector(showToxicExposureDestructionModal);
+
   const [
     showDeleteToxicExposureModal,
     setShowDeleteToxicExposureModal,
@@ -193,7 +196,7 @@ const ToxicExposureChoicePage = ({
         return;
       }
 
-      if (shouldShowDeleteToxicExposureModal()) {
+      if (showDestructiveModal && shouldShowDeleteToxicExposureModal()) {
         setShowDeleteToxicExposureModal(true);
       } else {
         goForward(data);
@@ -204,9 +207,15 @@ const ToxicExposureChoicePage = ({
       setShowDeleteToxicExposureModal(false);
     },
     onConfirmDeleteToxicExposureData: () => {
-      deleteToxicExposureData();
+      if (showDestructiveModal) {
+        deleteToxicExposureData();
+      }
       setShowDeleteToxicExposureModal(false);
-      setShowDeletedToxicExposureConfirmation(true);
+      setShowDeletedToxicExposureConfirmation(showDestructiveModal);
+
+      if (!showDestructiveModal) {
+        goForward(data);
+      }
     },
     onCancelDeleteToxicExposureData: () => {
       handlers.onCloseModal();
@@ -231,7 +240,7 @@ const ToxicExposureChoicePage = ({
         return;
       }
 
-      if (shouldShowDeleteToxicExposureModal()) {
+      if (showDestructiveModal && shouldShowDeleteToxicExposureModal()) {
         setShowDeleteToxicExposureModal(true);
       } else {
         updatePage(event);
@@ -263,7 +272,7 @@ const ToxicExposureChoicePage = ({
             <p>
               <va-link
                 text="Continue with your claim"
-                onClick={() => goForward(data)}
+                onClick={handlers.onClickConfirmationLink}
               />
             </p>
           )}

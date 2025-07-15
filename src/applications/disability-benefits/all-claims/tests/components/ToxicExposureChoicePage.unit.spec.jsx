@@ -6,9 +6,26 @@ import {
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { Provider } from 'react-redux';
 import ToxicExposureChoicePage from '../../pages/toxicExposure/toxicExposureChoicePage';
 
 describe('ToxicExposureChoicePage', () => {
+  const TOXIC_EXPOSURE_TOGGLE_NAME = 'toxic_exposure_destruction_modal_enabled';
+
+  const getMockStore = (featureToggleEnabled = true) => {
+    const toggles = {};
+
+    toggles[TOXIC_EXPOSURE_TOGGLE_NAME] = featureToggleEnabled;
+
+    return {
+      getState: () => ({
+        featureToggles: toggles,
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+  };
+
   const page = ({
     data = {},
     goBack = () => {},
@@ -16,18 +33,22 @@ describe('ToxicExposureChoicePage', () => {
     setFormData = () => {},
     updatePage = () => {},
     onReviewPage = false,
+    featureToggleEnabled = true,
   } = {}) => {
+    const mockStore = getMockStore(featureToggleEnabled);
     return (
-      <div>
-        <ToxicExposureChoicePage
-          setFormData={setFormData}
-          data={data}
-          goBack={goBack}
-          goForward={goForward}
-          onReviewPage={onReviewPage}
-          updatePage={updatePage}
-        />
-      </div>
+      <Provider store={mockStore}>
+        <div>
+          <ToxicExposureChoicePage
+            setFormData={setFormData}
+            data={data}
+            goBack={goBack}
+            goForward={goForward}
+            onReviewPage={onReviewPage}
+            updatePage={updatePage}
+          />
+        </div>
+      </Provider>
     );
   };
 
@@ -769,6 +790,136 @@ describe('ToxicExposureChoicePage', () => {
       expect(alert.textContent).to.contain(
         'Review your conditions and supporting documents to remove any information you',
       );
+    });
+  });
+
+  describe('Feature toggle for toxic exposure destruction modal', () => {
+    const dataWithNoneSelectedAndExistingData = {
+      newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+      toxicExposure: {
+        conditions: {
+          none: true,
+        },
+        gulfWar1990: {
+          bahrain: true,
+        },
+      },
+    };
+
+    describe('when feature toggle is enabled', () => {
+      it('should show the modal when "none" is selected with existing data', () => {
+        const { container } = render(
+          page({
+            data: dataWithNoneSelectedAndExistingData,
+            featureToggleEnabled: true,
+          }),
+        );
+
+        fireEvent.click($('button[type="submit"]', container));
+        expect($('va-modal[visible="true"]', container)).to.exist;
+      });
+
+      it('should delete toxic exposure data when confirming modal', () => {
+        const setFormDataSpy = sinon.spy();
+        const { container } = render(
+          page({
+            data: dataWithNoneSelectedAndExistingData,
+            setFormData: setFormDataSpy,
+            featureToggleEnabled: true,
+          }),
+        );
+
+        fireEvent.click($('button[type="submit"]', container));
+
+        const modal = container.querySelector('va-modal');
+        modal.__events.primaryButtonClick();
+
+        // Should have called setFormData with deleted toxic exposure data
+        const calledData = setFormDataSpy.firstCall.args[0];
+        expect(calledData.toxicExposure.gulfWar1990).to.be.undefined;
+        expect(calledData.toxicExposure.conditions.none).to.be.true;
+      });
+
+      it('should show confirmation alert after deleting data', () => {
+        const { container } = render(
+          page({
+            data: dataWithNoneSelectedAndExistingData,
+            featureToggleEnabled: true,
+          }),
+        );
+
+        fireEvent.click($('button[type="submit"]', container));
+
+        const modal = container.querySelector('va-modal');
+        modal.__events.primaryButtonClick();
+
+        const alert = container.querySelector(
+          'va-alert[status="warning"][visible="true"]',
+        );
+        expect(alert).to.exist;
+      });
+    });
+
+    describe('when feature toggle is disabled', () => {
+      it('should NOT show the modal when "none" is selected with existing data', () => {
+        const goForwardSpy = sinon.spy();
+        const { container } = render(
+          page({
+            data: dataWithNoneSelectedAndExistingData,
+            goForward: goForwardSpy,
+            featureToggleEnabled: false,
+          }),
+        );
+
+        fireEvent.click($('button[type="submit"]', container));
+
+        // Should not show modal
+        expect($('va-modal[visible="true"]', container)).not.to.exist;
+
+        // Should proceed forward
+        expect(goForwardSpy.called).to.be.true;
+      });
+
+      it('should NOT delete toxic exposure data when feature toggle is disabled', () => {
+        const setFormDataSpy = sinon.spy();
+        const goForwardSpy = sinon.spy();
+        const { container } = render(
+          page({
+            data: dataWithNoneSelectedAndExistingData,
+            setFormData: setFormDataSpy,
+            goForward: goForwardSpy,
+            featureToggleEnabled: false,
+          }),
+        );
+
+        fireEvent.click($('button[type="submit"]', container));
+
+        // Should not have called setFormData to delete data
+        expect(setFormDataSpy.called).to.be.false;
+
+        // Should proceed forward
+        expect(goForwardSpy.called).to.be.true;
+      });
+
+      it('should work the same on review page when feature toggle is disabled', () => {
+        const updatePageSpy = sinon.spy();
+        const { container } = render(
+          page({
+            data: dataWithNoneSelectedAndExistingData,
+            updatePage: updatePageSpy,
+            onReviewPage: true,
+            featureToggleEnabled: false,
+          }),
+        );
+
+        fireEvent.click($('va-button[text="Update page"]', container));
+
+        // Should not show modal
+        expect($('va-modal[visible="true"]', container)).not.to.exist;
+
+        // Should update page
+        expect(updatePageSpy.called).to.be.true;
+      });
     });
   });
 });

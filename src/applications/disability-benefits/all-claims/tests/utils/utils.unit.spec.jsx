@@ -37,6 +37,7 @@ import {
   isValidServicePeriod,
   isBDD,
   show526Wizard,
+  showToxicExposureDestructionModal,
   isUndefined,
   isDisabilityPtsd,
   showSeparationLocation,
@@ -1055,6 +1056,37 @@ describe('526 v2 depends functions', () => {
     it('should get wizard feature flag value of false', () => {
       expect(show526Wizard({ featureToggles: { show526Wizard: false } })).to.be
         .false;
+    });
+  });
+
+  describe('showToxicExposureDestructionModal', () => {
+    const TOXIC_EXPOSURE_TOGGLE_NAME =
+      'toxic_exposure_destruction_modal_enabled';
+    it('should get toxic exposure destruction modal feature flag value of true', () => {
+      const toggles = {};
+      toggles[TOXIC_EXPOSURE_TOGGLE_NAME] = true;
+      const state = {
+        featureToggles: toggles,
+      };
+      expect(showToxicExposureDestructionModal(state)).to.be.true;
+    });
+    it('should get toxic exposure destruction modal feature flag value of false', () => {
+      const toggles = {};
+      toggles[TOXIC_EXPOSURE_TOGGLE_NAME] = false;
+      const state = {
+        featureToggles: toggles,
+      };
+      expect(showToxicExposureDestructionModal(state)).to.be.false;
+    });
+    it('should return false when feature toggle is undefined', () => {
+      expect(showToxicExposureDestructionModal({ featureToggles: {} })).to.be
+        .false;
+    });
+    it('should return false when featureToggles object is undefined', () => {
+      expect(showToxicExposureDestructionModal({})).to.be.false;
+    });
+    it('should return false when state is undefined', () => {
+      expect(showToxicExposureDestructionModal(undefined)).to.be.false;
     });
   });
 
