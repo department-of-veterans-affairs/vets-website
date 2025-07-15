@@ -193,7 +193,7 @@ const build21aPayload = data => {
 
     // Chapter 6 - Conviction (13A and 13B)
     wasImprisoned: !!data.conviction,
-    imprisonedExplanation: !!data.hasConviction,
+    imprisonedExplanation: data.convictionDetailsExplanation,
     // docType: DOCUMENT_TYPE_ENUM.Imprisoned, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
     imprisonedUploadedAllDocuments: !!data.convictionDetailsCertification
       ?.certified,
