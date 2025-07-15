@@ -34,6 +34,7 @@ const STATEMENTS = {
 };
 
 export const useSignaturesSync = ({ formData, isRep }) => {
+  const veteranName = normalizeFullName(formData.veteranFullName);
   const signatureConfig = useMemo(
     () => ({
       veteran: {
@@ -47,7 +48,7 @@ export const useSignaturesSync = ({ formData, isRep }) => {
         schemaKey: 'veteran',
         label: LABELS.representative,
         fullName: formData.veteranFullName,
-        statementText: STATEMENTS.representative(formData.veteranFullName),
+        statementText: STATEMENTS.representative(veteranName),
         shouldRender: isRep,
       },
       primary: {
