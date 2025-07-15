@@ -12,6 +12,7 @@
       margin-top: 0;
     }
   }
+
   .form-expanding-group {
     margin-bottom: 1em;
   }
@@ -24,7 +25,8 @@
 .autosuggest-list {
   max-height: 10.625rem;
   position: absolute;
-  top: 100%; /* Ensures dropdown appears right below the input */
+  top: 100%;
+  /* Ensures dropdown appears right below the input */
   left: 0;
   right: 0;
   z-index: 10;
@@ -85,16 +87,17 @@ h3.name-of-deceased-text {
 article#pre-need[data-location="applicant-demographics"],
 article#pre-need[data-location="applicant-demographics-preparer"],
 article#pre-need[data-location="sponsor-demographics"] {
-  .schemaform-widget-wrapper > fieldset {
+  .schemaform-widget-wrapper>fieldset {
     margin-top: 0em !important;
   }
 }
 
 article#pre-need[data-location="applicant-demographics-2"],
 article#pre-need[data-location="applicant-demographics-2-preparer"] {
-  .schemaform-widget-wrapper > fieldset {
+  .schemaform-widget-wrapper>fieldset {
     margin-top: -1em !important;
   }
+
   .form-checkbox {
     margin-bottom: -1em;
   }
@@ -102,25 +105,32 @@ article#pre-need[data-location="applicant-demographics-2-preparer"] {
 
 article#pre-need[data-location="sponsor-deceased"],
 article#pre-need[data-location="sponsor-date-of-death"] {
-  .schemaform-first-field .schemaform-label  {
+  .schemaform-first-field .schemaform-label {
     padding-top: 3em;
   }
 }
+
+article#form-4010007[data-location="applicant-military-name"],
+article#form-4010007[data-location="applicant-military-name-preparer"]{
+.schemaform-first-field .schemaform-label {
+  padding-top: 3em;
+}}
 
 .sponsorDeceasedDescriptionNotProd {
   margin-bottom: 2em;
 }
 
 article#pre-need[data-location="review-and-submit"] {
-  .schemaform-widget-wrapper > fieldset {
+  .schemaform-widget-wrapper>fieldset {
     margin-top: 0em !important;
   }
+
   .form-checkbox {
     margin-bottom: -1em;
   }
 }
 
-dl.review + dl.review .review-row {
+dl.review+dl.review .review-row {
   border-top: none;
   padding-top: 0px;
 }
@@ -130,7 +140,7 @@ fieldset.schemaform-field-template.schemaform-first-field {
   margin-bottom: 0em;
 }
 
-.schemaform-file-list > li {
+.schemaform-file-list>li {
   margin-top: 3em;
   margin-bottom: -2em;
 }
@@ -150,6 +160,7 @@ fieldset.schemaform-field-template.schemaform-first-field {
 .preparer-contact-details-additional-info {
   padding-top: 1em;
 }
+
 .preparer-additonal-info {
   padding-top: 1em;
   padding-bottom: 1em;
@@ -221,7 +232,7 @@ fieldset.schemaform-field-template.schemaform-first-field {
   padding-bottom: 1em;
 }
 
-.sponsorDateOfDeathSubheader{
+.sponsorDateOfDeathSubheader {
   margin-top: -1em;
 }
 
@@ -259,7 +270,8 @@ fieldset.schemaform-field-template.schemaform-first-field {
   padding-bottom: 1em;
 }
 
-h3, .schemaform-block-title {
+h3,
+.schemaform-block-title {
   color: var(--vads-color-base) !important;
 }
 
