@@ -75,30 +75,30 @@ export default function DetailsVA({ appointment, facilityData }) {
             <p>
               Something went wrong when we tried to cancel this appointment.
               Please contact your medical center to cancel:
-              <br />
-              <br />
-              {isCC && (
-                <>
-                  <strong>{facility?.name}</strong>
-                  <br />
-                  <FacilityAddress
-                    facility={facility}
-                    showPhone
-                    phoneHeading="Scheduling facility phone:"
-                  />
-                </>
-              )}
-              {!!facility &&
-                !isCC && (
-                  <VAFacilityLocation
-                    facility={facility}
-                    facilityName={facility?.name}
-                    facilityId={facility?.id}
-                    isPhone
-                    showDirectionsLink={false}
-                  />
-                )}
             </p>
+            <br />
+            <br />
+            {isCC && (
+              <>
+                <strong>{facility?.name}</strong>
+                <br />
+                <FacilityAddress
+                  facility={facility}
+                  showPhone
+                  phoneHeading="Scheduling facility phone:"
+                />
+              </>
+            )}
+            {!!facility &&
+              !isCC && (
+                <VAFacilityLocation
+                  facility={facility}
+                  facilityName={facility?.name}
+                  facilityId={facility?.id}
+                  isPhone
+                  showDirectionsLink={false}
+                />
+              )}
           </VaAlert>
         </div>
       </>

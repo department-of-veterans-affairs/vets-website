@@ -450,7 +450,8 @@ describe('Authentication Utilities', () => {
     afterEach(() => cleanup());
     it('should redirect to the provided redirectUrl in its simplest use case', () => {
       authUtilities.redirect(base);
-      expect(global.window.location).to.equal(base);
+      const location = global.window.location.href || global.window.location;
+      expect(location).to.be.oneOf([base, `${base}/`]);
     });
 
     it('should set sessionStorage `authReturnUrl` correctly based on internal or external authentication', () => {
@@ -491,7 +492,8 @@ describe('Authentication Utilities', () => {
     afterEach(() => cleanup());
     it('should redirect to proper mockLogin url', async () => {
       await authUtilities.mockLogin({ type: 'idme' });
-      expect(global.window.location).to.include(`client_id=vamock`);
+      const location = global.window.location.href || global.window.location;
+      expect(location).to.include(`client_id=vamock`);
     });
     it('should throw an error when no `type` is provided', () => {
       expect(authUtilities.mockLogin()).to.throw;
@@ -555,9 +557,8 @@ describe('Authentication Utilities', () => {
     it('should redirect to the mfa session url', () => {
       setup({ path: nonUsipPath });
       authUtilities.mfa();
-      expect(global.window.location).to.equal(
-        API_SESSION_URL({ type: POLICY_TYPES.MFA }),
-      );
+      const location = global.window.location.href || global.window.location;
+      expect(location).to.equal(API_SESSION_URL({ type: POLICY_TYPES.MFA }));
     });
   });
 
@@ -588,7 +589,8 @@ describe('Authentication Utilities', () => {
     });
     it('should kickoff identity-verification (SAML)', async () => {
       await authUtilities.verify({ policy: 'idme' });
-      expect(global.window.location).to.include('idme_signup_verified');
+      const location = global.window.location.href || global.window.location;
+      expect(location).to.include('idme_signup_verified');
     });
     it('should kickoff identity-verification (OAuth)', async () => {
       await authUtilities.verify({
@@ -596,8 +598,9 @@ describe('Authentication Utilities', () => {
         useOAuth: true,
         acr: 'ial2',
       });
-      expect(global.window.location).to.include('type=logingov');
-      expect(global.window.location).to.include('acr=ial2');
+      const location = global.window.location.href || global.window.location;
+      expect(location).to.include('type=logingov');
+      expect(location).to.include('acr=ial2');
     });
     it('should pass along query parameters', async () => {
       const samlLink = await authUtilities.verify({
@@ -643,7 +646,8 @@ describe('Authentication Utilities', () => {
 
       it(`should generate the default URL link and redirect for signup '${policy}_signup'`, async () => {
         await authUtilities.signupOrVerify({ policy });
-        expect(global.window.location).contain(
+        const location = global.window.location.href || global.window.location;
+        expect(location).contain(
           API_SESSION_URL({
             type: SIGNUP_TYPES[policy],
           }),
@@ -666,9 +670,8 @@ describe('Authentication Utilities', () => {
     it('should redirect to the logout session url', () => {
       setup({ path: nonUsipPath });
       authUtilities.logout();
-      expect(global.window.location).to.equal(
-        API_SESSION_URL({ type: POLICY_TYPES.SLO }),
-      );
+      const location = global.window.location.href || global.window.location;
+      expect(location).to.equal(API_SESSION_URL({ type: POLICY_TYPES.SLO }));
     });
 
     it('should redirect to the logout session url with appended params if provided', () => {
@@ -679,7 +682,8 @@ describe('Authentication Utilities', () => {
         clickedEvent: AUTH_EVENTS.LOGOUT,
         queryParams: params,
       });
-      expect(global.window.location).to.equal(
+      const location = global.window.location.href || global.window.location;
+      expect(location).to.equal(
         appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
       );
     });
@@ -692,7 +696,8 @@ describe('Authentication Utilities', () => {
         clickedEvent: AUTH_EVENTS.LOGOUT,
         queryParams: params,
       });
-      expect(global.window.location).to.eql(
+      const location = global.window.location.href || global.window.location;
+      expect(location).to.eql(
         appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
       );
     });

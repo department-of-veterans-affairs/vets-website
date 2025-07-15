@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import merge from 'lodash/merge';
 
 import {
   fetchDuplicateContactInfo,
@@ -48,34 +49,10 @@ function App({
     },
     [
       fetchedUserInfo,
-      formData,
       getPersonalInformation,
       user?.login?.currentlyLoggedIn,
       setFormData,
     ],
-  );
-
-  useEffect(
-    () => {
-      if (
-        user?.profile &&
-        (!formData?.claimantFullName?.first ||
-          !formData?.claimantFullName?.last ||
-          !formData?.claimantDateOfBirth)
-      ) {
-        setFormData({
-          ...formData,
-          claimantFullName: {
-            first: user.profile.userFullName.first,
-            middle: user.profile.userFullName.middle,
-            last: user.profile.userFullName.last,
-            suffix: user.profile.userFullName.suffix,
-          },
-          claimantDateOfBirth: user.profile.dob,
-        });
-      }
-    },
-    [user?.profile, setFormData],
   );
 
   useEffect(
@@ -128,7 +105,7 @@ function App({
         );
       }
     },
-    [getDuplicateContactInfo, formData],
+    [getDuplicateContactInfo, formData?.email, formData?.mobilePhone?.phone],
   );
 
   return (
@@ -185,17 +162,12 @@ const mapStateToProps = state => {
     prefillTransformer(null, null, null, state)?.formData || {};
   const formStateData = state.form?.data || {};
 
+  // Deeply merge form state over prefill data
+  const formData = merge({}, prefillData, formStateData);
+
   return {
     ...getAppData(state),
-    formData: {
-      ...formStateData,
-      ...prefillData,
-      chosenBenefit: formStateData?.chosenBenefit || prefillData?.chosenBenefit,
-      highSchoolDiploma:
-        formStateData?.highSchoolDiploma || prefillData?.highSchoolDiploma,
-      graduationDate:
-        formStateData?.graduationDate || prefillData?.graduationDate,
-    },
+    formData,
     user: state.user,
   };
 };

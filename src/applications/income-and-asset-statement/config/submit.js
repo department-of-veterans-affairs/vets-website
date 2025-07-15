@@ -3,10 +3,22 @@ import { apiRequest } from 'platform/utilities/api';
 import { format } from 'date-fns-tz';
 import { cloneDeep } from 'lodash';
 
-const disallowedFields = ['vaFileNumberLastFour', 'veteranSsnLastFour'];
+const disallowedFields = [
+  '_metadata',
+  'vaFileNumberLastFour',
+  'veteranSsnLastFour',
+];
+
+export function flattenRecipientName({ first, middle, last }) {
+  // Filter out undefined values and join with spaces
+  const parts = [first, middle, last].filter(part => !!part);
+
+  // Join remaining parts with space and trim extra spaces
+  return parts.join(' ').trim();
+}
 
 export function replacer(key, value) {
-  // clean up empty objects, which we have no reason to send
+  // Clean up empty objects, which we have no reason to send
   if (typeof value === 'object' && value) {
     const fields = Object.keys(value);
     if (
@@ -17,8 +29,18 @@ export function replacer(key, value) {
     }
   }
 
+  // Clean up null values, which we have no reason to send
   if (value === null) {
     return undefined;
+  }
+
+  if (key === 'recipientName') {
+    // If the value is an object, flatten it to a string
+    if (typeof value === 'object' && value !== null) {
+      return flattenRecipientName(value);
+    }
+    // If it's already a string, return it as is
+    return value;
   }
 
   return value;
