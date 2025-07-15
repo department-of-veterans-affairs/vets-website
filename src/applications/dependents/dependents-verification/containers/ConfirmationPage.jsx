@@ -71,10 +71,10 @@ export const ConfirmationPage = props => {
       </va-summary-box>
       <ConfirmationView.WhatsNextProcessList item1Content={step1Content} />
       <ConfirmationView.HowToContact />
-      <div>
+      <p>
         <strong>If you don’t hear back from us about your claim,</strong> don’t
         file another claim. Contact us online or call us instead.
-      </div>
+      </p>
 
       <ConfirmationView.GoBackLink text="Go back to VA.gov" />
 
