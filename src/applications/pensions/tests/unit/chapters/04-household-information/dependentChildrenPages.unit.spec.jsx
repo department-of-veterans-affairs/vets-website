@@ -87,8 +87,8 @@ describe('dependents full name page', () => {
     dependentChildFullNamePage.schema,
     dependentChildFullNamePage.uiSchema,
     [
-      `va-text-input[label="Child's first name"]`,
-      `va-text-input[label="Child's last name"]`,
+      `va-text-input[name="root_fullName_first"]`,
+      `va-text-input[name="root_fullName_last"]`,
     ],
     pageTitle,
   );

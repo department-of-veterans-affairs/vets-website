@@ -24,9 +24,7 @@ describe('Unreimbursed care expenses pension page', () => {
     formConfig,
     schema,
     uiSchema,
-    [
-      `va-radio[label="Do you, your spouse, or your dependents pay recurring care expenses that aren't reimbursed?"]`,
-    ],
+    [`va-radio[name="root_hasCareExpenses"]`],
     pageTitle,
   );
 

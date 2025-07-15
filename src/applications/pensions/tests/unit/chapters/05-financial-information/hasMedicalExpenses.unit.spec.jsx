@@ -24,9 +24,7 @@ describe('Unreimbursed medical expenses pension page', () => {
     formConfig,
     schema,
     uiSchema,
-    [
-      `va-radio[label="Do you, your spouse, or your dependents pay medical or other expenses that aren't reimbursed?"]`,
-    ],
+    [`va-radio[name="root_hasMedicalExpenses"]`],
     pageTitle,
   );
 

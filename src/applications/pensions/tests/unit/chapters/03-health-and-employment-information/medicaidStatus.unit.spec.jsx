@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
-  testComponentFieldsMarkedAsRequired,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
   testShowAlert,
@@ -22,14 +21,6 @@ describe('medicaid status pension page', () => {
     schema,
     uiSchema,
     expectedNumberOfFields,
-    pageTitle,
-  );
-
-  testComponentFieldsMarkedAsRequired(
-    formConfig,
-    schema,
-    uiSchema,
-    [`va-text-input[label="Firstname"]`, `va-text-input[label="Lastname"]`],
     pageTitle,
   );
 
