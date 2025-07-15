@@ -288,7 +288,7 @@ describe('actions', () => {
         },
         [mappingTypes.BRANCH_COMPONENT]: {
           [militaryBranchTypes.ARMY]: {
-            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+            [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
           },
         },
         [mappingTypes.EXPECTED_SEPARATION]:
@@ -309,7 +309,7 @@ describe('actions', () => {
         },
         [mappingTypes.BRANCH_COMPONENT]: {
           [militaryBranchTypes.ARMY]: {
-            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+            [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
           },
         },
         [mappingTypes.SEPARATION]: {
