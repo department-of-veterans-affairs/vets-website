@@ -52,6 +52,7 @@ import {
   getAcceleratedLabsAndTests,
   getAcceleratedImmunizations,
   getAcceleratedImmunization,
+  postRecordDatadogAction,
 } from '../../api/MrApi';
 
 describe('Get labs and tests api call', () => {
@@ -416,5 +417,53 @@ describe('Accelerated OH API calls', () => {
         expect(res.mock).to.equal('data');
       });
     });
+  });
+});
+
+describe('postRecordDatadogAction', () => {
+  const endpoint = `${environment.API_URL}/v0/datadog_action`;
+
+  it('should make an api call to record datadog action and return the response', () => {
+    const mockData = { status: 'ok' };
+    mockApiRequest(mockData);
+
+    return postRecordDatadogAction('TestAction', ['tag1', 'tag2']).then(res => {
+      expect(res.status).to.equal('ok');
+    });
+  });
+
+  it('should call the correct endpoint with correct method, headers, and body, including the "mr." prefix', async () => {
+    const fetchStub = Sinon.stub(global, 'fetch');
+    const mockResponse = new Response(JSON.stringify({ result: 'done' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+    fetchStub.resolves(mockResponse);
+
+    const metricName = 'MyMetric';
+    const result = await postRecordDatadogAction(metricName, ['foo', 'bar']);
+
+    // ensure we hit the right URL once
+    expect(fetchStub.calledOnce, 'fetch was called once').to.be.true;
+    const [url, options] = fetchStub.firstCall.args;
+    expect(url).to.equal(endpoint);
+
+    // verify it includes the Content-Type we set
+    expect(options.headers).to.have.property(
+      'Content-Type',
+      'application/json',
+    );
+
+    // verify body payload
+    const parsed = JSON.parse(options.body);
+    // explicit check for "mr." prefix
+    expect(parsed.metric).to.equal(`mr.${metricName}`);
+    expect(parsed.metric.startsWith('mr.')).to.be.true;
+    expect(parsed.tags).to.deep.equal(['foo', 'bar']);
+
+    // and that apiRequest returns the parsed JSON
+    expect(result.result).to.equal('done');
+
+    fetchStub.restore();
   });
 });

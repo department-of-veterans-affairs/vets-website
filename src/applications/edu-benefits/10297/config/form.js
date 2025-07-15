@@ -17,10 +17,6 @@ const formConfig = {
   trackingPrefix: 'edu-10297',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
-  },
   formId: VA_FORM_IDS.FORM_22_10297,
   saveInProgress: {
     // messages: {

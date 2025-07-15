@@ -1,5 +1,5 @@
 {
-  "appName": "VA Online Scheduling",
+  "appName": "Appointments",
   "entryFile": "./vaos-entry",
   "entryName": "vaos",
   "rootUrl": "/my-health/appointments",
