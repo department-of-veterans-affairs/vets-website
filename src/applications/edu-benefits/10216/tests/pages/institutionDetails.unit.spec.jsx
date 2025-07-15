@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
@@ -8,13 +9,19 @@ import formConfig from '../../config/form';
 const definitions = formConfig.defaultDefinitions;
 
 describe('Form Configuration', () => {
+  let sandbox;
   const {
     institutionDetails,
   } = formConfig.chapters.institutionDetailsChapter.pages;
   const { schema, uiSchema } = institutionDetails;
 
   beforeEach(() => {
+    sandbox = sinon.createSandbox();
     window.localStorage.clear();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   it('should have the correct uiSchema and schema for institutionDetails', () => {
@@ -23,7 +30,7 @@ describe('Form Configuration', () => {
   });
 
   it('should navigate to service history if accredited', async () => {
-    const goPath = sinon.spy();
+    const goPath = sandbox.spy();
     const formData = {
       facilityCode: '45769814',
       institutionName: 'test',
@@ -37,7 +44,7 @@ describe('Form Configuration', () => {
   });
 
   it('should navigate to additional form if not accredited', async () => {
-    const goPath = sinon.spy();
+    const goPath = sandbox.spy();
     const formData = {
       facilityCode: '09101909',
       institutionName: 'test',
@@ -111,8 +118,8 @@ describe('Form Configuration', () => {
     );
   });
 
-  it('should show errors when required field is empty', () => {
-    const onSubmit = sinon.spy();
+  it('should show errors when required field is empty', async () => {
+    const onSubmit = sandbox.spy();
     delete uiSchema.institutionDetails.institutionName;
     delete schema.properties.institutionDetails.properties.institutionName;
     const form = mount(
@@ -125,9 +132,14 @@ describe('Form Configuration', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('va-text-input[error]').length).to.equal(1);
-    expect(form.find('va-memorable-date[error]').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      form.update();
+      expect(form.find('va-text-input[error]').length).to.equal(1);
+      expect(form.find('va-memorable-date[error]').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+
     form.unmount();
   });
 });

@@ -1,9 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import {
-  mockApiRequest,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import * as api from 'platform/utilities/api';
 import { fetchEnrollmentStatus } from '../../../../utils/actions/enrollment-status';
 import {
   ENROLLMENT_STATUS_ACTIONS,
@@ -20,13 +17,19 @@ describe('ezr enrollment status actions', () => {
   let getState;
   let mockData;
   let thunk;
+  let apiRequestStub;
 
   beforeEach(() => {
     dispatch = sinon.spy();
+    apiRequestStub = sinon.stub(api, 'apiRequest');
     getState = () => ({
       enrollmentStatus: { loading: false },
     });
     mockData = { data: 'data' };
+  });
+
+  afterEach(() => {
+    apiRequestStub.restore();
   });
 
   context('when environment is not localhost', () => {
@@ -36,11 +39,11 @@ describe('ezr enrollment status actions', () => {
 
     context('when fetch operation starts', () => {
       it('should dispatch a fetch started action', done => {
-        mockApiRequest(mockData);
+        apiRequestStub.onFirstCall().resolves(mockData);
         thunk(dispatch, getState)
           .then(() => {
-            const action = dispatch.firstCall.args[0];
-            expect(action.type).to.equal(FETCH_ENROLLMENT_STATUS_STARTED);
+            const { type } = dispatch.firstCall.args[0];
+            expect(type).to.eq(FETCH_ENROLLMENT_STATUS_STARTED);
           })
           .then(done, done);
       });
@@ -48,12 +51,12 @@ describe('ezr enrollment status actions', () => {
 
     context('when fetch operation succeeds', () => {
       it('should dispatch a fetch succeeded action with data', done => {
-        mockApiRequest(mockData);
+        apiRequestStub.onFirstCall().resolves(mockData);
         thunk(dispatch, getState)
           .then(() => {
-            const action = dispatch.secondCall.args[0];
-            expect(action.type).to.equal(FETCH_ENROLLMENT_STATUS_SUCCEEDED);
-            expect(action.response).to.equal(mockData);
+            const { type, response } = dispatch.secondCall.args[0];
+            expect(type).to.eq(FETCH_ENROLLMENT_STATUS_SUCCEEDED);
+            expect(response).to.eq(mockData);
           })
           .then(done, done);
       });
@@ -61,16 +64,11 @@ describe('ezr enrollment status actions', () => {
 
     context('when fetch operation fails', () => {
       it('should dispatch a fetch failed action', done => {
-        mockApiRequest(mockData, false);
-        setFetchJSONResponse(
-          global.fetch.onCall(0),
-          // eslint-disable-next-line prefer-promise-reject-errors
-          Promise.reject({ status: 503, error: 'error' }),
-        );
+        apiRequestStub.onFirstCall().rejects({ status: 503, error: 'error' });
         thunk(dispatch, getState)
           .then(() => {
-            const action = dispatch.secondCall.args[0];
-            expect(action.type).to.equal(FETCH_ENROLLMENT_STATUS_FAILED);
+            const { type } = dispatch.secondCall.args[0];
+            expect(type).to.eq(FETCH_ENROLLMENT_STATUS_FAILED);
           })
           .then(done, done);
       });

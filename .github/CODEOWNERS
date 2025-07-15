@@ -244,6 +244,7 @@ src/applications/representative-form-upload @department-of-veterans-affairs/bene
 src/applications/representative-appoint @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/representative-search @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/accreditation @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/accreditation/21a @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Income and Asset Statement
 src/applications/income-and-asset-statement @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
@@ -278,7 +279,6 @@ src/applications/mock-sip-form @department-of-veterans-affairs/va-platform-cop-f
 src/applications/third-party-app-directory @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/analytics @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/download-1095b @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/accreditation @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/benefit-eligibility-questionnaire @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/ivc-champv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/office-directory @department-of-veterans-affairs/va-platform-cop-frontend

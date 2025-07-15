@@ -140,10 +140,11 @@ export const studentInformationPage = {
       nounSingular: addStudentsOptions.nounSingular,
     }),
     fullName: fullNameNoSuffixUI(title => `Student’s ${title}`),
-    birthDate: {
-      ...currentOrPastDateUI('Student’s date of birth'),
-      'ui:required': () => true,
-    },
+    birthDate: currentOrPastDateUI({
+      title: 'Student’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',
@@ -498,21 +499,20 @@ export const studentTermDatesPage = {
     schoolInformation: {
       currentTermDates: {
         officialSchoolStartDate: {
-          ...currentOrPastDateUI(
-            'When did the student’s regular school term or course officially start?',
-          ),
-          'ui:required': () => true,
+          ...currentOrPastDateUI({
+            title:
+              'When did the student’s regular school term or course officially start?',
+            required: () => true,
+          }),
           'ui:description': TermDateHint,
         },
-        expectedStudentStartDate: {
-          'ui:title':
-            'When did the student start or expect to start their course?',
-          'ui:webComponentField': VaMemorableDateField,
-          'ui:required': () => true,
-          'ui:errorMessages': {
+        expectedStudentStartDate: currentOrPastDateUI({
+          title: 'When did the student start or expect to start their course?',
+          required: () => true,
+          errorMessages: {
             pattern: 'Enter a valid date',
           },
-        },
+        }),
         expectedGraduationDate: {
           'ui:title': 'When does the student expect to graduate?',
           'ui:webComponentField': VaMemorableDateField,
