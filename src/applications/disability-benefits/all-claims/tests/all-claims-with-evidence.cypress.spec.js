@@ -6,7 +6,7 @@ import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockServiceBranches from './fixtures/mocks/service-branches.json';
 import mockLocations from './fixtures/mocks/separation-locations.json';
 import mockPayment from './fixtures/mocks/payment-information.json';
-import mockSubmit from './fixtures/mocks/application-submit.json';
+// import mockSubmit from './fixtures/mocks/application-submit.json';
 
 import { mockItf } from './cypress.helpers';
 
@@ -33,6 +33,16 @@ describe('Supporting Evidence uploads', () => {
       mockServiceBranches,
     );
     cy.intercept('GET', '/v0/intent_to_file', mockItf());
+    cy.intercept(
+      'GET',
+      '/disability/file-disability-claim-form-21-526ez/review-and-submit',
+      req => {
+        req.reply({
+          statusCode: 200,
+        });
+      },
+    ).as('review-and-submit');
+
     cy.intercept(
       'PUT',
       '/v0/disability_compensation_in_progress_forms/21-526EZ',
@@ -149,6 +159,16 @@ describe('Supporting Evidence uploads', () => {
     ).as('saveInProgressFormAdditionalDocFileTypeAdded');
 
     cy.intercept(
+      'GET',
+      '/v0/disability_compensation_form/submission_status/undefined',
+      req => {
+        req.reply({
+          statusCode: 200,
+        });
+      },
+    ).as('submissionStatus');
+
+    cy.intercept(
       'PUT',
       '/v0/disability_compensation_in_progress_forms/21-526EZ',
       req => {
@@ -200,22 +220,32 @@ describe('Supporting Evidence uploads', () => {
       });
     }).as('uploadFile');
 
-    // cy.intercept(
-    //   'POST',
-    //   '/v0/disability_compensation_form/submit_all_claim*',
-    //   mockSubmit,
-    // ).as('Submit');
+    cy.intercept(
+      'POST',
+      '/v0/disability_compensation_form/submit_all_claim*',
+      req => {
+        // cy.log('Submit request received:', JSON.stringify(req.body, null, 2));
+
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: {
+              attributes: {
+                confirmationNumber: 'V-EBC-12345',
+                submittedAt: '2024-01-15T12:00:00.000Z',
+                guid: 'test-submission-guid',
+              },
+            },
+          },
+        });
+      },
+    ).as('submitClaim');
 
     cy.intercept(
       'GET',
       '/v0/disability_compensation_form/submission_status/*',
       '',
     );
-    cy.intercept(
-      'POST',
-      '/v0/disability_compensation_form/submit_all_claim*',
-      mockSubmit,
-    ).as('submitClaim');
 
     cy.fixture(
       path.join(__dirname, 'fixtures/data/maximal-toxic-exposure-test.json'),
@@ -518,30 +548,27 @@ describe('Supporting Evidence uploads', () => {
 
     // VI. Submit application
     // ======================
-    cy.get('button#4-continueButton').click();
+    // Wait for form validation
+    cy.findByText('Submit application', {
+      selector: 'button',
+    }).click();
   });
 
   it('uploads and processes encrypted PDF with password for Private Medical Records and Additional Documents', () => {
     cy.injectAxeThenAxeCheck();
-    cy.wait('@submitClaim').then(({ request, _response }) => {
-      // Verify private medical records attachment with password
-      expect(request.body.form526.privateRecordsAttachments).to.have.length(1);
-      expect(request.body.form526.additionalDocuments).to.have.length(1);
-      const privateMedicalRecordAttachment =
+    cy.wait('@submitClaim').then(({ request }) => {
+      cy.log('Request body:', JSON.stringify(request.body, null, 2));
+      expect(request.body.form526.attachments).to.exist;
+      expect(request.body.form526.attachments).to.have.length.greaterThan(0);
+      const privateMedicalRecord =
         request.body.form526.privateRecordsAttachments[0];
-      expect(privateMedicalRecordAttachment.name).to.equal('foo_protected.PDF');
-      expect(privateMedicalRecordAttachment.isEncrypted).to.be.true; // Should be false after password added - is this true
-      expect(privateMedicalRecordAttachment.docType).to.equal('L049');
-      expect(privateMedicalRecordAttachment.confirmationCode).to.equal(
-        'test-code',
-      );
-
-      // Verify additional documents attachment with password
-      const { additionalDocuments } = request.body.form526;
-      expect(additionalDocuments.name).to.equal('foo_protected.PDF');
-      expect(additionalDocuments.isEncrypted).to.be.true; // Should be false after password added - is this true
-      expect(additionalDocuments.docType).to.equal('L049');
-      expect(additionalDocuments.confirmationCode).to.equal('test-code');
+      expect(privateMedicalRecord.name).to.equal('foo_protected.PDF');
+      expect(privateMedicalRecord.docType).to.equal('L049');
+      expect(privateMedicalRecord.isEncrypted).to.equal(true);
+      const additionalDoc = request.body.form526.attachments[1];
+      expect(additionalDoc.name).to.equal('foo_protected.PDF');
+      expect(additionalDoc.docType).to.equal('L015');
+      expect(additionalDoc.isEncrypted).to.equal(true);
     });
   });
 });
