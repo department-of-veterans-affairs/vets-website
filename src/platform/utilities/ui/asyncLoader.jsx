@@ -3,6 +3,13 @@ import React from 'react';
 // import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 export default function asyncLoader(getComponent, message) {
+  if (process.env.NODE_ENV !== 'production' && !window.vaAsyncLoaderWarned) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      'DEPRECATION: asyncLoader is being phased out. Please migrate to React.lazy + Suspense or lazyRoute().',
+    );
+    window.vaAsyncLoaderWarned = true;
+  }
   return class AsyncComponent extends React.Component {
     static Component = null;
 
