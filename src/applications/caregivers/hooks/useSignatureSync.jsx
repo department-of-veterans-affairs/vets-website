@@ -20,9 +20,8 @@ export const LABELS = {
 
 const STATEMENTS = {
   veteran: [content['certification-statement--vet']],
-  representative: [
-    content['certification-statement--rep-1'],
-    content['certification-statement--rep-2'],
+  representative: vetName => [
+    replaceStrValues(content['certification-statement--rep'], vetName),
   ],
   caregiver: role => [
     content['certification-statement--caregiver-1'],
@@ -48,7 +47,7 @@ export const useSignaturesSync = ({ formData, isRep }) => {
         schemaKey: 'veteran',
         label: LABELS.representative,
         fullName: formData.veteranFullName,
-        statementText: STATEMENTS.representative,
+        statementText: STATEMENTS.representative(formData.veteranFullName),
         shouldRender: isRep,
       },
       primary: {
