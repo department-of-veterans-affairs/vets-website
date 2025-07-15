@@ -61,7 +61,9 @@ describe('Disability benefits 4142 provider medical records facility information
         pagePerItemIndex={0}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={initialData}
+        data={{
+          initialData,
+        }}
         uiSchema={uiSchema}
       />,
     );
@@ -75,6 +77,7 @@ describe('Disability benefits 4142 provider medical records facility information
 
   it('should add a provider facility', async () => {
     const onSubmit = sinon.spy();
+
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -82,8 +85,27 @@ describe('Disability benefits 4142 provider medical records facility information
         onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={initialData}
-        formData={initialData}
+        data={{
+          initialData,
+          ...claimType,
+          ratedDisabilities,
+          providerFacility: [
+            {
+              treatmentCenterName: 'Sommerset VA Clinic',
+              treatedDisabilityNames: {
+                diabetesmelitus: true,
+              },
+              treatmentDateRange: {
+                from: '2010-04-XX',
+              },
+              treatmentCenterAddress: {
+                country: 'USA',
+                city: 'APO',
+                state: 'VA',
+              },
+            },
+          ],
+        }}
         uiSchema={uiSchema}
       />,
     );
@@ -188,6 +210,27 @@ describe('Disability benefits 4142 provider medical records facility information
       expect(form.find('input').length).to.equal(8); // non-checkbox inputs
       expect(form.find('va-checkbox').length).to.equal(1);
     });
+    form.unmount();
+  });
+
+  it('should render with rated disabilities', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...claimType,
+          ratedDisabilities,
+          'view:selectableEvidenceTypes': {
+            'view:hasPrivateMedicalRecords': true,
+          },
+        }}
+      />,
+    );
+
+    expect(form.find('va-checkbox').length).to.equal(4);
+    expect(form.find('select').length).to.equal(6);
     form.unmount();
   });
 });
