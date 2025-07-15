@@ -89,8 +89,12 @@ export default function InPersonLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName}</What>
-      <Who>{practitionerName}</Who>
+      <What>
+        <span data-dd-privacy="mask">{typeOfCareName}</span>
+      </What>
+      <Who>
+        <span data-dd-privacy="mask">{practitionerName}</span>
+      </Who>
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined

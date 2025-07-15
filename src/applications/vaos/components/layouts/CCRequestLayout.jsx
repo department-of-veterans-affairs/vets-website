@@ -89,9 +89,11 @@ export default function CCRequestLayout({ data: appointment }) {
           <span data-dd-privacy="mask">{facilityName}</span>
         </Section>
         <Section heading="Preferred community care provider">
-          <span>{`${providerName || 'Provider name not available'}`}</span>
+          <span data-dd-privacy="mask">
+            {`${providerName || 'Provider name not available'}`}
+          </span>
           <br />
-          <span>
+          <span data-dd-privacy="mask">
             {`${treatmentSpecialty || 'Treatment specialty not available'}`}
           </span>
           <br />

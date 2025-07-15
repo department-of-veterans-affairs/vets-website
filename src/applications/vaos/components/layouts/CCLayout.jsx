@@ -81,7 +81,7 @@ export default function CCLayout({ data: appointment }) {
           <span data-dd-privacy="mask">{typeOfCareName}</span>
         </What>
         <Section heading="Provider">
-          <span>
+          <span data-dd-privacy="mask">
             {`${providerName || 'Provider information not available'}`}
           </span>
           <br />

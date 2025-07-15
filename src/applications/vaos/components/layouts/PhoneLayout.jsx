@@ -92,7 +92,9 @@ export default function PhoneLayout({ data: appointment }) {
       <What>
         <span data-dd-privacy="mask">{typeOfCareName}</span>
       </What>
-      <Who>{practitionerName}</Who>
+      <Who>
+        <span data-dd-privacy="mask">{practitionerName}</span>
+      </Who>
       <Section heading="Scheduling facility">
         {!facility && (
           <>

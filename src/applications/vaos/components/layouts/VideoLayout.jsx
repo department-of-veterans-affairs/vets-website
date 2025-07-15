@@ -100,9 +100,13 @@ export default function VideoLayout({ data: appointment }) {
           )}
       </When>
 
-      <What>{typeOfCareName}</What>
+      <What>
+        <span data-dd-privacy="mask">{typeOfCareName}</span>
+      </What>
 
-      <Who>{videoProviderName}</Who>
+      <Who>
+        <span data-dd-privacy="mask">{videoProviderName}</span>
+      </Who>
 
       {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
         isCanceledAppointment) && (

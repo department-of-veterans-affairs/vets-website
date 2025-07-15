@@ -92,8 +92,12 @@ export default function VideoLayoutVA({ data: appointment }) {
           )}
       </When>
 
-      <What>{typeOfCareName}</What>
-      <Who>{videoProviderName}</Who>
+      <What>
+        <span data-dd-privacy="mask">{typeOfCareName}</span>
+      </What>
+      <Who>
+        <span data-dd-privacy="mask">{videoProviderName}</span>
+      </Who>
       <Section heading="Where to attend">
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
         {!facility &&
@@ -133,8 +137,13 @@ export default function VideoLayoutVA({ data: appointment }) {
               <FacilityDirectionsLink location={facility} icon />
             </div>
             <br />
-            <span>Clinic: {clinicName || 'Not available'}</span> <br />
-            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
+            <span data-dd-privacy="mask">
+              Clinic: {clinicName || 'Not available'}
+            </span>{' '}
+            <br />
+            <span data-dd-privacy="mask">
+              Location: {clinicPhysicalLocation || 'Not available'}
+            </span>
             <br />
           </>
         )}
