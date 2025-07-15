@@ -1,3 +1,5 @@
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '~/platform/utilities/environment';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusByOrder } from 'platform/utilities/ui/focus';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
@@ -128,7 +130,19 @@ export function parseResponse({ data }) {
   };
 }
 
-export function createPayload(file, formId, password) {
+export async function createPayload(file, formId, password) {
+  /**
+   * Platform's file upload client doesn't attempt to refresh expired access
+   * tokens, so it becomes impossible to make progress on the form without
+   * starting over when the user's access token expires.
+   *
+   * To get around this for now, we call another endpoint with a client that
+   * does refresh access tokens in this callback that runs right before
+   * uploading the file.
+   */
+  const path = '/accredited_representative_portal/v0/user';
+  await apiRequest(`${environment.API_URL}${path}`);
+
   const payload = new FormData();
   payload.set('form_id', formId);
   payload.append('file', file);
