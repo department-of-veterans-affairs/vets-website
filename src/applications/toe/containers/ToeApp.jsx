@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { isArray } from 'lodash';
-import merge from 'lodash/merge';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -58,23 +57,19 @@ function ToeApp({
         isArray(sponsorsSavedState?.sponsors)
       ) {
         setFormData(mapFormSponsors(formData, sponsorsSavedState));
-      } else if (
-        sponsorsInitial &&
-        !sponsors &&
-        isArray(sponsorsInitial?.sponsors)
-      ) {
+      } else if (sponsorsInitial && !sponsors) {
         setFormData(mapFormSponsors(formData, sponsorsInitial));
       }
     },
     [
       fetchedUserInfo,
+      formData,
       getPersonalInformation,
       user?.login?.currentlyLoggedIn,
       setFormData,
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
-      formData.sponsors,
     ],
   );
 
@@ -87,7 +82,7 @@ function ToeApp({
         });
       }
     },
-    [isLOA3],
+    [formData, setFormData, isLOA3],
   );
 
   useEffect(
@@ -102,7 +97,7 @@ function ToeApp({
         });
       }
     },
-    [showMeb1990ER6MaintenanceMessage],
+    [formData, setFormData, showMeb1990ER6MaintenanceMessage],
   );
 
   useEffect(
@@ -144,7 +139,13 @@ function ToeApp({
         });
       }
     },
-    [getDuplicateContactInfo, duplicateEmail, duplicatePhone],
+    [
+      formData,
+      setFormData,
+      duplicateEmail,
+      duplicatePhone,
+      getDuplicateContactInfo,
+    ],
   );
 
   useEffect(
@@ -160,7 +161,7 @@ function ToeApp({
         });
       }
     },
-    [toeLightHouseDgiDirectDeposit],
+    [formData, setFormData, toeLightHouseDgiDirectDeposit],
   );
 
   useEffect(
@@ -181,6 +182,7 @@ function ToeApp({
       getDirectDeposit,
       user?.login?.currentlyLoggedIn,
       lightHouseFlag,
+      formData?.toeLightHouseDgiDirectDeposit,
     ],
   );
 
@@ -193,7 +195,7 @@ function ToeApp({
         });
       }
     },
-    [toeHighSchoolInfoChange],
+    [formData, setFormData, toeHighSchoolInfoChange],
   );
 
   useEffect(
@@ -205,7 +207,7 @@ function ToeApp({
         });
       }
     },
-    [mebDpoAddressOptionEnabled],
+    [formData, setFormData, mebDpoAddressOptionEnabled],
   );
 
   useEffect(
@@ -217,7 +219,7 @@ function ToeApp({
         });
       }
     },
-    [dob, setFormData],
+    [dob, formData, setFormData],
   );
   return (
     <>
@@ -280,20 +282,13 @@ ToeApp.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const prefillData =
-    prefillTransformer(null, null, null, state)?.formData || {};
-  const formStateData = state.form?.data || {};
-
-  // Deeply merge form state over prefill data
-  const formData = merge({}, prefillData, formStateData);
-
   return {
     ...getAppData(state),
-    claimant: state?.data?.formData?.data?.attributes?.claimant,
     dob:
       state?.user?.profile?.dob ||
       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
-    formData,
+    formData: state.form?.data || {},
+    claimant: prefillTransformer(null, null, null, state)?.formData,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,
     sponsorsInitial: state?.data?.sponsors,
@@ -301,6 +296,31 @@ const mapStateToProps = state => {
     user: state.user,
   };
 };
+
+// const mapStateToProps = state => {
+//   const prefillData =
+//     prefillTransformer(null, null, null, state)?.formData || {};
+//   const formStateData = state.form?.data || {};
+
+//   return {
+//     ...getAppData(state),
+//     claimant: state?.data?.formData?.data?.attributes?.claimant,
+//     dob:
+//       state?.user?.profile?.dob ||
+//       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
+//     formData: {
+//       ...prefillData,
+//       ...formStateData,
+//       sponsors: formStateData.sponsors || prefillData.sponsors,
+//     },
+//     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
+//     sponsors: state.form?.data?.sponsors,
+//     sponsorsInitial: state?.data?.sponsors,
+//     sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
+//     user: state.user,
+//   };
+// };
+
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,

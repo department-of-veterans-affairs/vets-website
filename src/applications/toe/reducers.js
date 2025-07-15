@@ -94,7 +94,6 @@ export default {
                   id: `${sponsor?.sponsorVaId}`,
                   name: [sponsor.firstName, sponsor.lastName].join(' '),
                   relationship: sponsor.sponsorRelationship,
-                  selected: false,
                 };
               },
             ),
@@ -117,7 +116,6 @@ export default {
                   id: `${sponsor?.sponsorVaId}`,
                   name: [sponsor.firstName, sponsor.lastName].join(' '),
                   relationship: sponsor.sponsorRelationship,
-                  selected: false,
                 };
               },
             ),

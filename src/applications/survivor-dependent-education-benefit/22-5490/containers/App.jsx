@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import merge from 'lodash/merge';
 
 import {
   fetchDuplicateContactInfo,
@@ -12,7 +11,7 @@ import {
 } from '../actions';
 import formConfig from '../config/form';
 import { getAppData } from '../selectors';
-import { prefillTransformer } from '../helpers';
+// import { prefillTransformer } from '../helpers';
 
 function App({
   children,
@@ -49,11 +48,53 @@ function App({
     },
     [
       fetchedUserInfo,
+      formData,
       getPersonalInformation,
       user?.login?.currentlyLoggedIn,
       setFormData,
     ],
   );
+
+  useEffect(
+    () => {
+      if (user?.profile) {
+        setFormData({
+          ...formData,
+          claimantFullName: {
+            first: user.profile.userFullName.first,
+            middle: user.profile.userFullName.middle,
+            last: user.profile.userFullName.last,
+            suffix: user.profile.userFullName.suffix,
+          },
+          claimantDateOfBirth: user.profile.dob,
+        });
+      }
+    },
+    [user?.profile],
+  );
+
+  // useEffect(
+  //   () => {
+  //     if (
+  //       user?.profile &&
+  //       (!formData?.claimantFullName?.first ||
+  //         !formData?.claimantFullName?.last ||
+  //         !formData?.claimantDateOfBirth)
+  //     ) {
+  //       setFormData({
+  //         ...formData,
+  //         claimantFullName: {
+  //           first: user.profile.userFullName.first,
+  //           middle: user.profile.userFullName.middle,
+  //           last: user.profile.userFullName.last,
+  //           suffix: user.profile.userFullName.suffix,
+  //         },
+  //         claimantDateOfBirth: user.profile.dob,
+  //       });
+  //     }
+  //   },
+  //   [user?.profile, setFormData],
+  // );
 
   useEffect(
     () => {
@@ -105,7 +146,7 @@ function App({
         );
       }
     },
-    [getDuplicateContactInfo, formData?.email, formData?.mobilePhone?.phone],
+    [getDuplicateContactInfo, formData],
   );
 
   return (
@@ -157,20 +198,31 @@ App.propTypes = {
   user: PropTypes.object,
 };
 
-const mapStateToProps = state => {
-  const prefillData =
-    prefillTransformer(null, null, null, state)?.formData || {};
-  const formStateData = state.form?.data || {};
+// const mapStateToProps = state => {
+//   const prefillData =
+//     prefillTransformer(null, null, null, state)?.formData || {};
+//   const formStateData = state.form?.data || {};
 
-  // Deeply merge form state over prefill data
-  const formData = merge({}, prefillData, formStateData);
+//   return {
+//     ...getAppData(state),
+//     formData: {
+//       ...prefillData,
+//       ...formStateData,
+//       chosenBenefit: formStateData?.chosenBenefit || prefillData?.chosenBenefit,
+//       highSchoolDiploma:
+//         formStateData?.highSchoolDiploma || prefillData?.highSchoolDiploma,
+//       graduationDate:
+//         formStateData?.graduationDate || prefillData?.graduationDate,
+//     },
+//     user: state.user,
+//   };
+// };
 
-  return {
-    ...getAppData(state),
-    formData,
-    user: state.user,
-  };
-};
+const mapStateToProps = state => ({
+  ...getAppData(state),
+  formData: state.form?.data || {},
+  user: state.user,
+});
 
 const mapDispatchToProps = {
   getPersonalInformation: fetchPersonalInformation,
