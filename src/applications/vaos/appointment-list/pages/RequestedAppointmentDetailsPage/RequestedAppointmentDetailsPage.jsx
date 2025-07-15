@@ -43,7 +43,6 @@ export default function RequestedAppointmentDetailsPage() {
     facilityPhone,
     isCC,
     isCanceled,
-    typeOfCareText,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
@@ -52,11 +51,7 @@ export default function RequestedAppointmentDetailsPage() {
   useEffect(
     () => {
       if (appointment) {
-        let title = `${isCanceled ? 'Canceled ' : 'Pending '}${
-          isCC ? 'Community care' : 'VA'
-        } ${typeOfCareText} appointment`;
-
-        title = `${
+        let title = `${
           isCanceled ? 'Canceled Request For ' : 'Pending Request For '
         }${isCC ? 'Community Care Appointment' : 'Appointment'}`;
         title = title.concat(` | Veterans Affairs`);
@@ -65,7 +60,7 @@ export default function RequestedAppointmentDetailsPage() {
       }
       scrollAndFocus();
     },
-    [dispatch, typeOfCareText, isCanceled, isCC, appointment, cancelInfo],
+    [dispatch, isCanceled, isCC, appointment],
   );
 
   useEffect(
