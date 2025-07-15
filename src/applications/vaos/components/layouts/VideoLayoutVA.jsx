@@ -93,10 +93,12 @@ export default function VideoLayoutVA({ data: appointment }) {
       </When>
 
       <What>
-        <span data-dd-privacy="mask">{typeOfCareName}</span>
+        {typeOfCareName && <span data-dd-privacy="mask">{typeOfCareName}</span>}
       </What>
       <Who>
-        <span data-dd-privacy="mask">{videoProviderName}</span>
+        {videoProviderName && (
+          <span data-dd-privacy="mask">{videoProviderName}</span>
+        )}
       </Who>
       <Section heading="Where to attend">
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}

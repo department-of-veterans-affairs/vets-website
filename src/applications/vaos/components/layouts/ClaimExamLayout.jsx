@@ -87,10 +87,16 @@ export default function ClaimExamLayout({ data: appointment }) {
           )}
       </When>
       <What>
-        <span data-dd-privacy="mask">{typeOfCareName}</span>
+        {typeOfCareName && (
+          <span className="typeOfCareName" data-dd-privacy="mask">
+            {typeOfCareName}
+          </span>
+        )}
       </What>
       <Who>
-        <span data-dd-privacy="mask">{practitionerName}</span>
+        {practitionerName && (
+          <span data-dd-privacy="mask">{practitionerName}</span>
+        )}
       </Who>
       <Where
         heading={

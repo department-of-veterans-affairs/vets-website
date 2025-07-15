@@ -342,7 +342,9 @@ describe('VAOS Component: ClaimExamLayout', () => {
       ).to.be.ok;
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
-      expect(screen.queryByText('Claim exam'), { exact: true });
+      const typeOfCare = screen.container.querySelector('.typeOfCareName');
+      expect(typeOfCare).to.exist;
+      expect(typeOfCare.textContent).to.equal('Claim exam');
 
       expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
       expect(screen.getByText(/Test User/i));

@@ -90,10 +90,12 @@ export default function PhoneLayout({ data: appointment }) {
           )}
       </When>
       <What>
-        <span data-dd-privacy="mask">{typeOfCareName}</span>
+        {typeOfCareName && <span data-dd-privacy="mask">{typeOfCareName}</span>}
       </What>
       <Who>
-        <span data-dd-privacy="mask">{practitionerName}</span>
+        {practitionerName && (
+          <span data-dd-privacy="mask">{practitionerName}</span>
+        )}
       </Who>
       <Section heading="Scheduling facility">
         {!facility && (
