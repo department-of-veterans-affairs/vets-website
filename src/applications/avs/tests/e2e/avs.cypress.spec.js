@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import manifest from '../../manifest.json';
 import features from '../fixtures/features';
 
