@@ -102,6 +102,8 @@ export const formConfig = {
           title: 'Military Branch Served',
           uiSchema: militaryBranch.uiSchema,
           schema: militaryBranch.schema,
+          // CustomPageReview: () => null,
+          // showPagePerItem: true,
           depends: () => !environment.isProduction(),
         },
         titleTenActiveDuty: {

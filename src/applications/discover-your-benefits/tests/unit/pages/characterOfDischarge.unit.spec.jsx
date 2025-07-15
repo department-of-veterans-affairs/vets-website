@@ -1,11 +1,16 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { Provider } from 'react-redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import characterOfDischargeConfig from '../../../pages/characterOfDischarge';
 import { getData } from '../mocks/mockFormData';
+import {
+  characterOfDischargeTypes,
+  characterOfDischargeTypeLabels,
+} from '../../../constants/benefits';
+import 'css.escape';
 
 describe('Character of Discharge Form', () => {
   let wrapper;
@@ -42,6 +47,34 @@ describe('Character of Discharge Form', () => {
 
     expect(select.getAttribute('label')).to.equal(title);
     expect(select.getAttribute('hint')).to.contain(hint);
+  });
+
+  it('should render the correct hint', () => {
+    const escapedHint = CSS.escape(
+      'If you served multiple times with different characters of discharge, please select the "highest" of your discharge statuses. If you feel your character of discharge is unjust, you can apply for a discharge upgrade.',
+    );
+    const hint = document.querySelector(`va-select[hint=${escapedHint}]`);
+    expect(hint).to.exist;
+  });
+
+  it('should render the correct radio labels for character of discharge', () => {
+    wrapper = setupForm();
+    const labels = Object.values(characterOfDischargeTypeLabels);
+
+    labels.forEach(label => {
+      const selectLabel = screen.getByLabelText(label);
+
+      expect(selectLabel).to.exist;
+    });
+  });
+
+  it('should render the correct radio options for character of discharge', () => {
+    const types = Object.values(characterOfDischargeTypes);
+
+    types.forEach(type => {
+      const selectOption = document.querySelector(`option[value="${type}"]`);
+      expect(selectOption).to.exist;
+    });
   });
 
   it('should require characterOfDischarge and show an error message when not selected', async () => {
