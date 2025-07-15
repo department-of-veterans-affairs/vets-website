@@ -7,6 +7,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import Gateway from '../components/Gateway';
 import { TITLE, SUBTITLE } from '../constants';
+import { PRIVACY_ACT_NOTICE } from '../helpers';
 
 const OMB_RES_BURDEN = 10;
 const OMB_NUMBER = '2900-0500';
@@ -38,16 +39,21 @@ const ProcessList = () => {
       <va-process-list-item header="Start your dependents verification">
         <p>
           We’ll take you through each step of the process. It should take about
-          10 minutes. When you submit your verification form, you’ll get a
-          confirmation message. You can print this message for your records.
+          10 minutes.
+        </p>
+        <p>
+          When you submit your verification form, you’ll get a confirmation
+          message. You can print this message for your records.
         </p>
         <va-additional-info trigger="What happens after I submit the form?">
           <p>
             You’re all set! Make it a habit to verify your disability benefits
             dependents information once a year to help us capture any life
-            changes that may affect your eligibility. This is the best way to
-            make sure you receive your full benefits and avoid overpayments,
-            which you’d be required to pay back.
+            changes that may affect your eligibility.
+          </p>
+          <p>
+            This is the best way to make sure you receive your full benefits and
+            avoid overpayments, which you’d be required to pay back.
           </p>
         </va-additional-info>
       </va-process-list-item>
@@ -67,16 +73,20 @@ export const IntroductionPage = props => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to get started
+        Follow the steps below to get started:
       </h2>
       <Gateway route={route} top />
       <ProcessList />
       <Gateway route={route} />
-      <va-omb-info
-        res-burden={OMB_RES_BURDEN}
-        omb-number={OMB_NUMBER}
-        exp-date={OMB_EXP_DATE}
-      />
+      <div className="vads-u-margin-top--3">
+        <va-omb-info
+          res-burden={OMB_RES_BURDEN}
+          omb-number={OMB_NUMBER}
+          exp-date={OMB_EXP_DATE}
+        >
+          {PRIVACY_ACT_NOTICE}
+        </va-omb-info>
+      </div>
     </article>
   );
 };
