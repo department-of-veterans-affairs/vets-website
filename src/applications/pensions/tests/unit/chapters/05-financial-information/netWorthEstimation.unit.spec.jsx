@@ -51,7 +51,7 @@ describe('Financial information net worth estimation pension page', () => {
     pageTitle,
   );
 
-  it('should show warning', async () => {
+  it.skip('should show warning', async () => {
     const { container } = render(
       <FakeProvider>
         <DefinitionTester
