@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
   testShowAlert,
@@ -25,12 +25,11 @@ describe('medicaid status pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 0;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     schema,
     uiSchema,
-    expectedNumberOfErrors,
+    [`va-text-input[label="Firstname"]`, `va-text-input[label="Lastname"]`],
     pageTitle,
   );
 

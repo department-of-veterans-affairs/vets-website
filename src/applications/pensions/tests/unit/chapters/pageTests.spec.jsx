@@ -123,7 +123,6 @@ export const testComponentFieldsMarkedAsRequired = (
 ) => {
   describe(`${pageTitle} page`, () => {
     let container;
-
     beforeEach(() => {
       const result = render(
         <FakeProvider>
@@ -138,7 +137,6 @@ export const testComponentFieldsMarkedAsRequired = (
       );
       container = result.container;
     });
-
     componentFieldSelectors.forEach(componentFieldSelector => {
       it(`${componentFieldSelector} should be marked as required`, () => {
         const element = container.querySelector(
