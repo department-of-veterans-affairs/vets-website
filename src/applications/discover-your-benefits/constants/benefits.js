@@ -770,11 +770,13 @@ export const BENEFITS_LIST = [
       'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Find out if you, or a person you’re planning a burial for, can get this benefit.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.PLAN],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
       [mappingTypes.BRANCH_COMPONENT]: [
         militaryBranchComponentTypes.ACTIVE_DUTY,
+        militaryBranchComponentTypes.NATIONAL_GUARD,
+        militaryBranchComponentTypes.RESERVE,
       ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
