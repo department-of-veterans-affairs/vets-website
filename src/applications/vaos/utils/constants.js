@@ -488,14 +488,10 @@ export const DATE_FORMATS = {
   yearMonthDay: 'yyyy-MM-dd',
 };
 
-<<<<<<< HEAD
 export const POST_DRAFT_REFERRAL_APPOINTMENT_CACHE =
   'postDraftReferralAppointmentCache';
 
-export const OPTOMETRY_STATION_IDS = [
-=======
 export const VALID_STATION_IDS = [
->>>>>>> 01d85e784d (Rename constant and update alert to slim)
   '659',
   '659BY',
   '659BZ',
