@@ -144,23 +144,21 @@ describe(`${appName} -- Claim Details Content`, () => {
       cy.contains('Appealing a claim decision', { timeout: 10000 }).should(
         'be.visible',
       );
-      cy.contains('If you would like to appeal this decision you can:').should(
+      cy.contains('You can appeal a claim decision online or by mail').should(
         'be.visible',
       );
 
       // Check appeal options
-      cy.contains('Submit an appeal via the Board of Appeals').should(
-        'be.visible',
-      );
+      cy.contains('Option 1: Online').should('be.visible');
       cy.contains(
         'Send a secure message to the Beneficiary Travel team',
       ).should('be.visible');
-      cy.contains('Mail a printed version of').should('be.visible');
+      cy.contains('Option 2: By mail').should('be.visible');
 
-      // Check appeal link
-      cy.get('va-link-action[text="Appeal the claim decision"]')
-        .should('be.visible')
-        .should('have.attr', 'href', '/decision-reviews');
+      // Check form download link
+      cy.get('va-link[text="Get VA Form 10-0998 to download"]').should(
+        'be.visible',
+      );
     });
   });
 
@@ -257,8 +255,10 @@ describe(`${appName} -- Claim Details Content`, () => {
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
       // Should show download link for form in appeal section
-      cy.contains('Mail a printed version of').should('be.visible');
-      cy.contains('VA Form 10-0998 (PDF)').should('be.visible');
+      cy.contains('Option 2: By mail').should('be.visible');
+      cy.get('va-link[text="Get VA Form 10-0998 to download"]').should(
+        'be.visible',
+      );
     });
 
     it('shows fallback link for form 10-0998 when document not available', () => {
@@ -279,7 +279,7 @@ describe(`${appName} -- Claim Details Content`, () => {
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
-      cy.get('va-link[text="VA Form 10-0998 (PDF)"]')
+      cy.get('va-link[text="Get VA Form 10-0998 to download"]')
         .should('be.visible')
         .should('have.attr', 'href')
         .and('include', '/find-forms/about-form-10-0998/');

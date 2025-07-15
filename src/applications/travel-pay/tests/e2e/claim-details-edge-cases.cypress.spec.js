@@ -324,7 +324,9 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
 
       // Should show appeal section with form download
       cy.contains('h2', 'Appealing a claim decision').should('be.visible');
-      cy.contains('VA Form 10-0998 (PDF)').should('be.visible');
+      cy.get('va-link[text="Get VA Form 10-0998 to download"]').should(
+        'be.visible',
+      );
 
       // Clerk note should not be visible (no mimetype)
       cy.contains('internal-note.txt').should('not.exist');
