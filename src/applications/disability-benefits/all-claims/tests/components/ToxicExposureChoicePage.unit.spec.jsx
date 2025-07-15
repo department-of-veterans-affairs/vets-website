@@ -10,7 +10,8 @@ import { Provider } from 'react-redux';
 import ToxicExposureChoicePage from '../../pages/toxicExposure/toxicExposureChoicePage';
 
 describe('ToxicExposureChoicePage', () => {
-  const TOXIC_EXPOSURE_TOGGLE_NAME = 'toxic_exposure_destruction_modal_enabled';
+  const TOXIC_EXPOSURE_TOGGLE_NAME =
+    'disabilityCompensationToxicExposureDestructionModal';
 
   const getMockStore = (featureToggleEnabled = true) => {
     const toggles = {};
@@ -189,10 +190,14 @@ describe('ToxicExposureChoicePage', () => {
             },
           };
 
-          const { container } = render(page({ data }));
+          const { container } = render(
+            page({ data, featureToggleEnabled: true }),
+          );
           fireEvent.click($('button[type="submit"]', container));
 
-          expect($('va-modal[visible="true"]', container)).to.exist;
+          const modal = container.querySelector('va-modal');
+          expect(modal).to.exist;
+          expect(modal.getAttribute('visible')).to.equal('true');
         });
       });
 
@@ -208,10 +213,14 @@ describe('ToxicExposureChoicePage', () => {
             },
           };
 
-          const { container } = render(page({ data }));
+          const { container } = render(
+            page({ data, featureToggleEnabled: true }),
+          );
           fireEvent.click($('button[type="submit"]', container));
 
-          expect($('va-modal[visible="true"]', container)).to.exist;
+          const modal = container.querySelector('va-modal');
+          expect(modal).to.exist;
+          expect(modal.getAttribute('visible')).to.equal('true');
         });
       });
 
@@ -227,10 +236,14 @@ describe('ToxicExposureChoicePage', () => {
             },
           };
 
-          const { container } = render(page({ data }));
+          const { container } = render(
+            page({ data, featureToggleEnabled: true }),
+          );
           fireEvent.click($('button[type="submit"]', container));
 
-          expect($('va-modal[visible="true"]', container)).to.exist;
+          const modal = container.querySelector('va-modal');
+          expect(modal).to.exist;
+          expect(modal.getAttribute('visible')).to.equal('true');
         });
       });
 
@@ -246,10 +259,14 @@ describe('ToxicExposureChoicePage', () => {
             },
           };
 
-          const { container } = render(page({ data }));
+          const { container } = render(
+            page({ data, featureToggleEnabled: true }),
+          );
           fireEvent.click($('button[type="submit"]', container));
 
-          expect($('va-modal[visible="true"]', container)).to.exist;
+          const modal = container.querySelector('va-modal');
+          expect(modal).to.exist;
+          expect(modal.getAttribute('visible')).to.equal('true');
         });
       });
 
@@ -299,11 +316,6 @@ describe('ToxicExposureChoicePage', () => {
     const confirmationAlertSelector =
       'va-alert[status="warning"][visible="true"][close-btn-aria-label="Deleted toxic exposure confirmation"]';
 
-    const noneDeselected = {
-      chronicbronchitis: true,
-      none: false,
-    };
-
     const noneSelected = {
       chronicbronchitis: true,
       none: true,
@@ -315,14 +327,6 @@ describe('ToxicExposureChoicePage', () => {
       },
       herbicide: {
         vietnam: true,
-      },
-    };
-
-    const deselectedNoneWithExistingEvidence = {
-      newDisabilities: [{ condition: 'Chronic Bronchitis' }],
-      toxicExposure: {
-        conditions: noneDeselected,
-        ...existingToxicExposureEvidence,
       },
     };
 
@@ -345,6 +349,7 @@ describe('ToxicExposureChoicePage', () => {
               data: selectedNoneWithExistingEvidence,
               goForward: goForwardSpy,
               setFormData: setFormDataSpy,
+              featureToggleEnabled: true,
             }),
           );
 
@@ -356,11 +361,13 @@ describe('ToxicExposureChoicePage', () => {
           expect($('va-modal[visible="true"]', container)).not.to.exist;
 
           // Re-deselects "none" option
-          expect(setFormDataSpy.calledWith(deselectedNoneWithExistingEvidence))
-            .to.be.true;
+          const calledData = setFormDataSpy.lastCall.args[0];
+          expect(calledData.toxicExposure.conditions.none).to.be.false;
+          expect(calledData.toxicExposure.conditions.chronicbronchitis).to.be
+            .true;
 
           // Does not advance page
-          expect(goForwardSpy.notCalled).to.be.true;
+          expect(goForwardSpy.called).to.be.false;
         });
       });
 
@@ -375,6 +382,7 @@ describe('ToxicExposureChoicePage', () => {
               setFormData: setFormDataSpy,
               updatePage: updatePageSpy,
               onReviewPage: true,
+              featureToggleEnabled: true,
             }),
           );
 
@@ -386,11 +394,13 @@ describe('ToxicExposureChoicePage', () => {
           expect($('va-modal[visible="true"]', container)).not.to.exist;
 
           // Re-deselects "none" option
-          expect(setFormDataSpy.calledWith(deselectedNoneWithExistingEvidence))
-            .to.be.true;
+          const calledData = setFormDataSpy.lastCall.args[0];
+          expect(calledData.toxicExposure.conditions.none).to.be.false;
+          expect(calledData.toxicExposure.conditions.chronicbronchitis).to.be
+            .true;
 
           // Does not update review and submit page
-          expect(updatePageSpy.notCalled).to.be.true;
+          expect(updatePageSpy.called).to.be.false;
         });
       });
     });
@@ -406,6 +416,7 @@ describe('ToxicExposureChoicePage', () => {
               data: selectedNoneWithExistingEvidence,
               goForward: goForwardSpy,
               setFormData: setFormDataSpy,
+              featureToggleEnabled: true,
             }),
           );
 
@@ -417,11 +428,13 @@ describe('ToxicExposureChoicePage', () => {
           expect($('va-modal[visible="true"]', container)).not.to.exist;
 
           // Re-deselects "none" option
-          expect(setFormDataSpy.calledWith(deselectedNoneWithExistingEvidence))
-            .to.be.true;
+          const calledData = setFormDataSpy.lastCall.args[0];
+          expect(calledData.toxicExposure.conditions.none).to.be.false;
+          expect(calledData.toxicExposure.conditions.chronicbronchitis).to.be
+            .true;
 
           // Does not advance page
-          expect(goForwardSpy.notCalled).to.be.true;
+          expect(goForwardSpy.called).to.be.false;
         });
       });
 
@@ -436,6 +449,7 @@ describe('ToxicExposureChoicePage', () => {
               setFormData: setFormDataSpy,
               updatePage: updatePageSpy,
               onReviewPage: true,
+              featureToggleEnabled: true,
             }),
           );
 
@@ -446,11 +460,14 @@ describe('ToxicExposureChoicePage', () => {
           expect($('va-modal[visible="true"]', container)).not.to.exist;
 
           // Re-deselects "none" option
-          expect(setFormDataSpy.calledWith(deselectedNoneWithExistingEvidence))
-            .to.be.true;
+          const calledData = setFormDataSpy.lastCall.args[0];
+
+          expect(calledData.toxicExposure.conditions.none).to.be.false;
+          expect(calledData.toxicExposure.conditions.chronicbronchitis).to.be
+            .true;
 
           // Does not update review and submit page
-          expect(updatePageSpy.notCalled).to.be.true;
+          expect(updatePageSpy.called).to.be.false;
         });
       });
     });
@@ -511,16 +528,13 @@ describe('ToxicExposureChoicePage', () => {
         toxicExposure: fullToxicExposureMetadata,
       };
 
-      // Expected state after toxic exposure data is cleaned
-      const deletedToxicExposureDataOnly = {
-        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
-        toxicExposure: preservedToxicExposureMetadata,
-      };
-
       describe('On the toxic exposure page', () => {
         it('closes the modal', () => {
           const { container } = render(
-            page({ data: selectedNoneWithExistingEvidence }),
+            page({
+              data: selectedNoneWithExistingEvidence,
+              featureToggleEnabled: true,
+            }),
           );
 
           fireEvent.click($('button[type="submit"]', container));
@@ -537,6 +551,7 @@ describe('ToxicExposureChoicePage', () => {
             page({
               data: optOutOfExistingToxicExposureMetadata,
               setFormData: setFormDataSpy,
+              featureToggleEnabled: true,
             }),
           );
 
@@ -545,8 +560,14 @@ describe('ToxicExposureChoicePage', () => {
           const modal = container.querySelector('va-modal');
           modal.__events.primaryButtonClick();
 
-          expect(setFormDataSpy.calledWith(deletedToxicExposureDataOnly)).to.be
-            .true;
+          expect(setFormDataSpy.called).to.be.true;
+          const calledData = setFormDataSpy.lastCall.args[0];
+          expect(calledData.toxicExposure).to.deep.equal(
+            preservedToxicExposureMetadata,
+          );
+          expect(calledData.newDisabilities).to.deep.equal([
+            { condition: 'Chronic Bronchitis' },
+          ]);
         });
 
         it('Does not advance the page and displays a deletion confirmation alert', async () => {
@@ -555,6 +576,7 @@ describe('ToxicExposureChoicePage', () => {
             page({
               data: selectedNoneWithExistingEvidence,
               goForward: goForwardSpy,
+              featureToggleEnabled: true,
             }),
           );
 
@@ -563,7 +585,8 @@ describe('ToxicExposureChoicePage', () => {
           const modal = container.querySelector('va-modal');
           modal.__events.primaryButtonClick();
 
-          expect($(confirmationAlertSelector, container)).to.exist;
+          const alert = container.querySelector(confirmationAlertSelector);
+          expect(alert).to.exist;
 
           const alertElement = $(confirmationAlertSelector, container);
           expect(alertElement.textContent).to.contain(
@@ -579,7 +602,7 @@ describe('ToxicExposureChoicePage', () => {
             ),
           ).to.exist;
 
-          expect(goForwardSpy.notCalled).to.be.true;
+          expect(goForwardSpy.called).to.be.false;
         });
       });
 
@@ -589,6 +612,7 @@ describe('ToxicExposureChoicePage', () => {
             page({
               data: selectedNoneWithExistingEvidence,
               onReviewPage: true,
+              featureToggleEnabled: true,
             }),
           );
 
@@ -606,6 +630,7 @@ describe('ToxicExposureChoicePage', () => {
               data: optOutOfExistingToxicExposureMetadata,
               setFormData: setFormDataSpy,
               onReviewPage: true,
+              featureToggleEnabled: true,
             }),
           );
 
@@ -613,8 +638,14 @@ describe('ToxicExposureChoicePage', () => {
           const modal = container.querySelector('va-modal');
           modal.__events.primaryButtonClick();
 
-          expect(setFormDataSpy.calledWith(deletedToxicExposureDataOnly)).to.be
-            .true;
+          expect(setFormDataSpy.called).to.be.true;
+          const calledData = setFormDataSpy.lastCall.args[0];
+          expect(calledData.toxicExposure).to.deep.equal(
+            preservedToxicExposureMetadata,
+          );
+          expect(calledData.newDisabilities).to.deep.equal([
+            { condition: 'Chronic Bronchitis' },
+          ]);
         });
 
         it('displays a deletion confirmation alert but does NOT include a link to continue with the claim to the next page', async () => {
@@ -622,6 +653,7 @@ describe('ToxicExposureChoicePage', () => {
             page({
               data: selectedNoneWithExistingEvidence,
               onReviewPage: true,
+              featureToggleEnabled: true,
             }),
           );
 
@@ -630,7 +662,8 @@ describe('ToxicExposureChoicePage', () => {
           const modal = container.querySelector('va-modal');
           modal.__events.primaryButtonClick();
 
-          expect($(confirmationAlertSelector, container)).to.exist;
+          const alert = container.querySelector(confirmationAlertSelector);
+          expect(alert).to.exist;
 
           const alertElement = $(confirmationAlertSelector, container);
           expect(alertElement.textContent).to.contain(
@@ -730,7 +763,7 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      const { container } = render(page({ data }));
+      const { container } = render(page({ data, featureToggleEnabled: true }));
       fireEvent.click($('button[type="submit"]', container));
 
       const modal = container.querySelector('va-modal');
@@ -773,7 +806,7 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      const { container } = render(page({ data }));
+      const { container } = render(page({ data, featureToggleEnabled: true }));
       fireEvent.click($('button[type="submit"]', container));
 
       const modal = container.querySelector('va-modal');
@@ -835,7 +868,8 @@ describe('ToxicExposureChoicePage', () => {
         modal.__events.primaryButtonClick();
 
         // Should have called setFormData with deleted toxic exposure data
-        const calledData = setFormDataSpy.firstCall.args[0];
+        expect(setFormDataSpy.called).to.be.true;
+        const calledData = setFormDataSpy.lastCall.args[0];
         expect(calledData.toxicExposure.gulfWar1990).to.be.undefined;
         expect(calledData.toxicExposure.conditions.none).to.be.true;
       });

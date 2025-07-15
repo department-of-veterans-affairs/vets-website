@@ -733,6 +733,52 @@ export const addFileAttachments = formData => {
   return { ...clonedData, ...(attachments.length && { attachments }) };
 };
 
+export const addToxicExposure = formData => {
+  // If no toxic exposure data exists, return unchanged
+  if (!formData.toxicExposure) {
+    return formData;
+  }
+
+  // If user selected only "none" for conditions, remove all toxic exposure data except conditions
+  const conditions = formData.toxicExposure.conditions || {};
+  const hasOnlyNoneSelected =
+    conditions.none === true &&
+    Object.keys(conditions).filter(
+      key => key !== 'none' && conditions[key] === true,
+    ).length === 0;
+
+  if (hasOnlyNoneSelected) {
+    const clonedData = _.cloneDeep(formData);
+    const toxicExposureKeys = [
+      'gulfWar1990',
+      'gulfWar1990Details',
+      'gulfWar2001',
+      'gulfWar2001Details',
+      'herbicide',
+      'herbicideDetails',
+      'herbicideOtherLocations',
+      'additionalExposures',
+      'additionalExposuresDetails',
+      'specifyOtherExposures',
+    ];
+
+    // Remove all toxic exposure data except conditions
+    toxicExposureKeys.forEach(key => {
+      if (clonedData.toxicExposure[key]) {
+        delete clonedData.toxicExposure[key];
+      }
+    });
+
+    // Keep only the 'none' condition
+    clonedData.toxicExposure.conditions = { none: true };
+
+    return clonedData;
+  }
+
+  // Otherwise return unchanged
+  return formData;
+};
+
 /**
  * Check validations for Custom pages
  * @param {Function[]} validations - array of validation functions

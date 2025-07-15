@@ -682,9 +682,10 @@ export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
 
 export const showToxicExposureDestructionModal = state =>
-  toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.disabilityCompensationToxicExposureDestructionModal
-  ] || false;
+  state
+    ? toggleValues(state)
+        ?.disabilityCompensationToxicExposureDestructionModal || false
+    : false;
 
 export const wrapWithBreadcrumb = (title, component) => (
   <>

@@ -1061,7 +1061,7 @@ describe('526 v2 depends functions', () => {
 
   describe('showToxicExposureDestructionModal', () => {
     const TOXIC_EXPOSURE_TOGGLE_NAME =
-      'toxic_exposure_destruction_modal_enabled';
+      'disabilityCompensationToxicExposureDestructionModal';
     it('should get toxic exposure destruction modal feature flag value of true', () => {
       const toggles = {};
       toggles[TOXIC_EXPOSURE_TOGGLE_NAME] = true;
