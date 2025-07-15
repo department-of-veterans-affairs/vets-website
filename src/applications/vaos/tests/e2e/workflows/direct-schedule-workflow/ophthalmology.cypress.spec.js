@@ -119,6 +119,7 @@ describe('VAOS request schedule flow - Audiology', () => {
           .clickNextButton();
 
         TypeOfEyeCarePageObject.assertUrl()
+          .assertTypeOfEyeCareValidationErrors()
           .selectTypeOfEyeCare(/Ophthalmology/i)
           .clickNextButton();
 

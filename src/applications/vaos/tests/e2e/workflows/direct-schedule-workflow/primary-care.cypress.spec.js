@@ -118,10 +118,12 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ClinicChoicePageObject.assertUrl()
+            .assertClinicChoiceValidationErrors()
             .selectClinic({ selection: /Clinic 1/i })
             .clickNextButton();
 
           PreferredDatePageObject.assertUrl()
+            .assertPreferredDateValidationErrors()
             .typeDate()
             .clickNextButton();
 

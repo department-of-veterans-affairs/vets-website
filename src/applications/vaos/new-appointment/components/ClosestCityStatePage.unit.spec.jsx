@@ -63,12 +63,7 @@ describe('VAOS Page: ClosestCityStatePage', () => {
     // When the user continues
     userEvent.click(screen.getByText(/Continue/i));
 
-    // Then there should be a validation error
-    // Assertion currently disabled due to
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
-    // expect(await screen.findByRole('alert')).to.contain.text('Select a city');
-
-    // And the user should stay on the page
+    // The user should stay on the page
     expect(screen.history.push.called).to.be.false;
   });
 

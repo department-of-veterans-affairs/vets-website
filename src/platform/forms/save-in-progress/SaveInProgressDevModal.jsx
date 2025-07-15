@@ -104,6 +104,7 @@ const SipsDevModal = props => {
     <>
       {isModalVisible ? (
         <VaModal
+          class="vads-u-width--full"
           modalTitle="Save in progress data"
           id="sip-menu"
           visible={isModalVisible}
@@ -134,41 +135,35 @@ const SipsDevModal = props => {
             <p />
             <va-link href={docsPage} text="How to use this menu" />
             <p />
-            <div className="row">
-              <div className="small-6 columns">
-                <button
-                  type="button"
-                  disabled={!!errorMessage}
-                  className="usa-button-primary"
-                  title="Replace all save-in-progress data"
-                  onClick={e => handlers.saveData(e, 'replace')}
-                >
-                  Replace
-                </button>
-              </div>
-              <div className="small-6 columns end">
-                <button
-                  type="button"
-                  disabled={!!errorMessage}
-                  className="usa-button-secondary"
-                  title="Merge new data into existing save-in-progress data"
-                  onClick={e => handlers.saveData(e, 'merge')}
-                >
-                  Merge
-                </button>
-              </div>
+            <div className="vads-u-display--flex">
+              <va-button
+                class="vads-u-margin-right--1"
+                disabled={!!errorMessage}
+                text="Replace"
+                label="Replace all save-in-progress data"
+                onClick={e => handlers.saveData(e, 'replace')}
+                full-width
+              />
+
+              <va-button
+                disabled={!!errorMessage}
+                secondary
+                label="Merge new data into existing save-in-progress data"
+                text="Merge"
+                onClick={e => handlers.saveData(e, 'merge')}
+                full-width
+              />
             </div>
           </>
         </VaModal>
       ) : null}{' '}
-      <button
+      <va-link
         key={showLink}
-        type="button"
-        className="va-button-link vads-u-margin-left--2"
+        class="vads-u-margin-left--2"
         onClick={handlers.openSipsModal}
-      >
-        <va-icon icon="settings" /> Open save-in-progress menu
-      </button>
+        icon-name="settings"
+        text="Open save-in-progress menu"
+      />
     </>
   );
 };

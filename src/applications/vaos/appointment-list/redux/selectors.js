@@ -1,5 +1,4 @@
 import { formatInTimeZone } from 'date-fns-tz';
-import { lowerCase } from 'lodash';
 import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import { createSelector } from 'reselect';
@@ -664,7 +663,6 @@ export function selectRequestedAppointmentData(state, appointment) {
   const status = appointment?.status;
   const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
   const typeOfCareName = typeOfCare?.name;
-  const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const isPendingAppointment = selectIsPendingAppointment(appointment);
 
   return {
@@ -690,7 +688,6 @@ export function selectRequestedAppointmentData(state, appointment) {
     status,
     typeOfCare,
     typeOfCareName,
-    typeOfCareText,
   };
 }
 export function selectRequestedAppointmentDetails(state, id) {
@@ -723,7 +720,6 @@ export function selectRequestedAppointmentDetails(state, id) {
   const status = appointment?.status;
   const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
   const typeOfCareName = typeOfCare?.name;
-  const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const preferredModality = appointment?.preferredModality;
 
   return {
@@ -749,7 +745,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     status,
     typeOfCare,
     typeOfCareName,
-    typeOfCareText,
     preferredModality,
   };
 }

@@ -1,23 +1,23 @@
 import PageObject from './PageObject';
 
-class TypeOfEyeCarePageObject extends PageObject {
+class TypeOfSleepCarePageObject extends PageObject {
   assertUrl() {
-    cy.url().should('include', '/eye-care');
+    cy.url().should('include', '/sleep-care');
     cy.axeCheckBestPractice();
 
     return this;
   }
 
-  assertTypeOfEyeCareValidationErrors() {
+  assertTypeOfSleepCareValidationErrors() {
     this.clickNextButton();
     this.assertValidationError('You must provide a response');
 
     return this;
   }
 
-  selectTypeOfEyeCare(label) {
+  selectTypeOfSleepCare(label) {
     return super.selectRadioButtonShadow(label);
   }
 }
 
-export default new TypeOfEyeCarePageObject();
+export default new TypeOfSleepCarePageObject();

@@ -63,15 +63,11 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
     });
     await screen.findByText(/Continue/i);
 
+    // When the user continues
     fireEvent.click(await screen.findByText(/Continue/i));
 
-    // Then there should be a validation error
-    // Assertion currently disabled due to
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
-    // expect(await screen.findByRole('alert')).to.contain.text(
-    //   'You must provide a response',
-    // );
-    expect(screen.history.push.called).not.to.be.true;
+    // The user should stay on the page
+    expect(screen.history.push.called).to.be.false;
 
     await cleanup();
   });

@@ -13,6 +13,12 @@ class ClinicChoicePageObject extends PageObject {
     return this;
   }
 
+  assertClinicChoiceValidationErrors() {
+    this.clickNextButton();
+    this.assertValidationError('You must provide a response');
+    return this;
+  }
+
   /**
    * Method to select a clinic.
    *

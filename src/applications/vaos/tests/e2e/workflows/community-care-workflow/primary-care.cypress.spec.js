@@ -87,6 +87,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
+          .assertTypeOfFacilityValidationErrors()
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
@@ -219,6 +220,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         ClosestCityStatePageObject.assertUrl()
+          .assertClosestCityStateValidationErrors()
           .assertHeading({ name: /What.s the nearest city to you/i })
           .selectFacility({ label: /City 983/i })
           .clickNextButton();
