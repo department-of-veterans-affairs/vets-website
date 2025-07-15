@@ -89,7 +89,9 @@ export default function ClaimExamLayout({ data: appointment }) {
       <What>
         <span data-dd-privacy="mask">{typeOfCareName}</span>
       </What>
-      <Who>{practitionerName}</Who>
+      <Who>
+        <span data-dd-privacy="mask">{practitionerName}</span>
+      </Who>
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status && !isPastAppointment
