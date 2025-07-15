@@ -86,7 +86,7 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
     schema: spousePersonalInformationPageSchema.schema,
   }),
   spouseAdditionalInformationPage: pageBuilder.itemPage({
-    title: 'Additional information',
+    title: content['household-spouse-addtl-info-title'],
     path:
       'household-information/spouse-information/:index/spouse-additional-information',
     uiSchema: spouseAdditionalInformationPageSchema.uiSchema,
