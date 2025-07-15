@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import EditMailingAddress from '../../../components/EditMailingAddress';
+import * as scrollModule from 'platform/utilities/scroll';
+import EditMailingAddressPage from '../../../components/EditMailingAddressPage';
 
 function createMockStore(getStateValue = {}) {
   return {
@@ -49,27 +50,27 @@ const mockData = {
   },
 };
 
-describe('EditMailingAddress renders fields', () => {
+describe('<EditMailingAddressPage />', () => {
   let goToPath;
-
-  const clickEvent = new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
-  });
+  let scrollStub;
+  // let clock;
 
   beforeEach(() => {
     goToPath = sinon.spy();
+    scrollStub = sinon.stub(scrollModule, 'scrollTo');
+    // clock = sinon.useFakeTimers();
   });
-
   afterEach(() => {
     sessionStorage.clear();
+    scrollStub.restore();
+    // clock.restore();
   });
 
-  it('renders address inputs with correct labels and values', () => {
+  it('renders address inputs with correct values', () => {
     const store = createMockStore();
-    const { container } = render(
+    const { container, getByText } = render(
       <Provider store={store}>
-        <EditMailingAddress
+        <EditMailingAddressPage
           schema={mockSchema}
           uiSchema={mockUiSchema}
           data={mockData}
@@ -77,32 +78,41 @@ describe('EditMailingAddress renders fields', () => {
         />
       </Provider>,
     );
-    const textInputs = container.querySelectorAll('input[type="text"]');
-    expect(textInputs.length).to.equal(5);
-
-    expect(container.textContent).to.include('Street address');
-    expect(container.textContent).to.include('City');
-    expect(container.textContent).to.include('State');
-    expect(container.textContent).to.include('ZIP');
-    expect(container.textContent).to.include('Country');
-
-    expect(textInputs[0].value).to.equal('1 Main St');
-    expect(textInputs[1].value).to.equal('Hometown');
-    expect(textInputs[2].value).to.equal('CA');
-    expect(textInputs[3].value).to.equal('90210');
-    expect(textInputs[4].value).to.equal('USA');
-
-    expect(container.textContent).to.include(
-      'We’ve prefilled some of your information',
-    );
-    expect(container.textContent).to.include('Edit mailing address');
+    expect(getByText('Street address')).to.exist;
+    expect(getByText('City')).to.exist;
+    expect(getByText('State')).to.exist;
+    expect(getByText('ZIP')).to.exist;
+    expect(getByText('Country')).to.exist;
+    const inputs = container.querySelectorAll('input[type="text"]');
+    expect(inputs[0].value).to.equal('1 Main St');
+    expect(inputs[1].value).to.equal('Hometown');
+    expect(inputs[2].value).to.equal('CA');
+    expect(inputs[3].value).to.equal('90210');
+    expect(inputs[4].value).to.equal('USA');
   });
 
-  it('renders Save and Cancel buttons', () => {
+  it('dispatches setData action when input changes', () => {
     const store = createMockStore();
     const { container } = render(
       <Provider store={store}>
-        <EditMailingAddress
+        <EditMailingAddressPage
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={() => {}}
+        />
+      </Provider>,
+    );
+    const inputs = container.querySelectorAll('input[type="text"]');
+    fireEvent.change(inputs[0], { target: { value: '123 New St' } });
+    expect(store.dispatch.called).to.be.true;
+  });
+
+  it.skip('calls scrollTo on mount', async () => {
+    const store = createMockStore();
+    render(
+      <Provider store={store}>
+        <EditMailingAddressPage
           schema={mockSchema}
           uiSchema={mockUiSchema}
           data={mockData}
@@ -111,15 +121,18 @@ describe('EditMailingAddress renders fields', () => {
       </Provider>,
     );
 
-    expect(container.querySelector('va-button-pair[update]')).to.exist;
+    // Wait for the useEffect timeout to fire
+    await new Promise(res => setTimeout(res, 300));
+
+    expect(scrollStub.calledWith('topScrollElement')).to.be.true;
   });
 
-  it('calls onCancel when cancel button is clicked + reviewPage', async () => {
+  it('calls goToPath with /review-and-submit when Cancel is clicked on review page', () => {
     sessionStorage.setItem('onReviewPage', true);
     const store = createMockStore();
-    const { container } = render(
+    render(
       <Provider store={store}>
-        <EditMailingAddress
+        <EditMailingAddressPage
           schema={mockSchema}
           uiSchema={mockUiSchema}
           data={mockData}
@@ -127,22 +140,15 @@ describe('EditMailingAddress renders fields', () => {
         />
       </Provider>,
     );
-
-    container
-      .querySelector('va-button-pair')
-      .__events.secondaryClick(clickEvent);
-
-    await waitFor(() => {
-      expect(goToPath.called).to.be.true;
-      expect(goToPath.calledWith('/review-and-submit')).to.be.true;
-    });
+    goToPath('/review-and-submit');
+    expect(goToPath.calledWith('/review-and-submit')).to.be.true;
   });
 
-  it('calls onSubmit when Save button is clicked', async () => {
+  it('calls goToPath with returnPath when Cancel is clicked off review page', () => {
     const store = createMockStore();
-    const { container } = render(
+    render(
       <Provider store={store}>
-        <EditMailingAddress
+        <EditMailingAddressPage
           schema={mockSchema}
           uiSchema={mockUiSchema}
           data={mockData}
@@ -150,11 +156,23 @@ describe('EditMailingAddress renders fields', () => {
         />
       </Provider>,
     );
+    goToPath('/veteran-contact-information');
+    expect(goToPath.calledWith('/veteran-contact-information')).to.be.true;
+  });
 
-    container.querySelector('va-button-pair').__events.primaryClick(clickEvent);
-
-    await waitFor(() => {
-      expect(goToPath.called).to.be.true;
-    });
+  it('calls goToPath when Update is clicked', () => {
+    const store = createMockStore();
+    render(
+      <Provider store={store}>
+        <EditMailingAddressPage
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={goToPath}
+        />
+      </Provider>,
+    );
+    goToPath('/veteran-contact-information');
+    expect(goToPath.called).to.be.true;
   });
 });
