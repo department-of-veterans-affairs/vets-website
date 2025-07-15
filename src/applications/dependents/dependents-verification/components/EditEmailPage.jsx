@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { isValidEmail } from 'platform/forms/validations';
-import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import { SchemaForm, setData } from 'platform/forms-system/exportsFile';
+import { scrollTo } from 'platform/utilities/scroll';
 import EditPageButtons from './EditPageButtons';
 
-const EditEmailPage = props => {
-  const { formData = {}, goToPath, setFormData } = props;
-  const { email = '' } = formData;
+const EditEmailPage = ({
+  schema,
+  uiSchema,
+  data,
+  goToPath,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
+  const dispatch = useDispatch();
 
-  const [fieldData, setFieldData] = useState(email);
-  const [error, setError] = useState(null);
-
-  const validateEmail = value => {
-    if (!isValidEmail(value)) {
-      return 'Enter a valid email address without spaces using this format: email@domain.com';
-    }
-    return null;
+  const setFormData = oData => {
+    dispatch(setData(oData));
   };
 
   const returnPath = '/veteran-contact-information';
@@ -31,22 +29,13 @@ const EditEmailPage = props => {
   };
 
   const handlers = {
-    onInput: event => {
-      const { value } = event.target;
-      setFieldData(value);
-      setError(validateEmail(value));
-    },
-    onUpdate: e => {
-      e.preventDefault();
-      const validationError = validateEmail(fieldData);
-      setError(validationError);
-      if (validationError) return;
-
+    onInput: inputData => {
       setFormData({
-        ...formData,
-        email: fieldData,
+        ...data,
+        email: inputData.email,
       });
-
+    },
+    onUpdate: () => {
       returnToPath();
     },
     onCancel: () => {
@@ -54,48 +43,45 @@ const EditEmailPage = props => {
     },
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      scrollTo('topScrollElement');
+    }, 250);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
-    <form onSubmit={handlers.onUpdate} noValidate>
-      <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">
-          <Title title="Edit email address" />
-        </legend>
-        <va-text-input
-          label="Email address"
-          type="email"
-          inputmode="email"
-          id="root_email"
-          name="root_email"
-          hint="We may use your contact information so we can get in touch with you if we have questions about your application."
-          value={fieldData}
-          onInput={handlers.onInput}
-          error={error}
-          required
-        />
+    <>
+      <h3 className="vads-u-margin-bottom--4">Edit email address</h3>
+      <SchemaForm
+        addNameAttribute
+        name="Contact Info Form"
+        title="Contact Info Form"
+        idSchema={{}}
+        schema={schema}
+        data={data}
+        uiSchema={uiSchema}
+        onChange={handlers.onInput}
+        onSubmit={handlers.onUpdate}
+      >
+        {contentBeforeButtons}
         <EditPageButtons handlers={handlers} pageName="Email address" />
-      </fieldset>
-    </form>
+        {contentAfterButtons}
+      </SchemaForm>
+    </>
   );
 };
 
 EditEmailPage.propTypes = {
-  formData: PropTypes.shape({
-    email: PropTypes.string,
-  }),
-  goToPath: PropTypes.func,
-  setFormData: PropTypes.func,
+  data: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  schema: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
 };
 
-const mapStateToProps = state => ({
-  formData: state.form?.data,
-});
-
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export { EditEmailPage };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withRouter(EditEmailPage));
+export default EditEmailPage;

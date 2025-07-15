@@ -1,3 +1,7 @@
+import {
+  emailSchema,
+  emailUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import EditEmailPage from '../../../components/EditEmailPage';
 
 /** @type {PageSchema} */
@@ -9,12 +13,20 @@ export default {
   CustomPage: EditEmailPage,
   CustomPageReview: null,
   uiSchema: {
-    'ui:options': {
-      hideOnReview: true,
+    email: {
+      ...emailUI({
+        title: 'Email address',
+        required: () => true,
+      }),
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   },
   schema: {
     type: 'object',
-    properties: {},
+    properties: {
+      email: emailSchema,
+    },
   },
 };

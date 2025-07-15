@@ -1,8 +1,10 @@
-import {
-  phoneSchema,
-  phoneUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { phoneUI } from 'platform/forms-system/src/js/web-component-patterns';
 import EditInternationalPhonePage from '../../../components/EditInternationalPhonePage';
+
+const intPhoneSchema = {
+  type: 'string',
+  pattern: '^$|^\\d{11}$', // needs to allow empty string OR 11 digits
+};
 
 /** @type {PageSchema} */
 export default {
@@ -13,7 +15,12 @@ export default {
   CustomPageReview: null,
   uiSchema: {
     internationalPhone: {
-      ...phoneUI(),
+      ...phoneUI({
+        title: 'International phone number',
+        errorMessages: {
+          pattern: 'Enter an international phone number up to 11 digits',
+        },
+      }),
       'ui:options': {
         hideOnReview: true,
       },
@@ -22,28 +29,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      internationalPhone: phoneSchema,
+      internationalPhone: intPhoneSchema,
     },
   },
 };
-
-// export default {
-//   title: 'Edit mailing address',
-//   path: 'veteran-contact-information/mailing-address',
-//   CustomPage: EditMailingAddressPage,
-//   CustomPageReview: null,
-//   uiSchema: {
-//     address: {
-//       ...addressUI(),
-//       'ui:options': {
-//         hideOnReview: true,
-//       },
-//     },
-//   },
-//   schema: {
-//     type: 'object',
-//     properties: {
-//       address: addressSchema(),
-//     },
-//   },
-// };

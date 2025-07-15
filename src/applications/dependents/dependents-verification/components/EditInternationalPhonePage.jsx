@@ -68,7 +68,10 @@ const EditInternationalPhonePage = ({
         onSubmit={handlers.onUpdate}
       >
         {contentBeforeButtons}
-        <EditPageButtons handlers={handlers} pageName="Mailing address" />
+        <EditPageButtons
+          handlers={handlers}
+          pageName="International phone number"
+        />
         {contentAfterButtons}
       </SchemaForm>
     </>

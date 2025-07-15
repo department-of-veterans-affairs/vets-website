@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { isValidPhone } from 'platform/forms/validations';
-import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import { SchemaForm, setData } from 'platform/forms-system/exportsFile';
+import { scrollTo } from 'platform/utilities/scroll';
 import EditPageButtons from './EditPageButtons';
 
-const EditPhonePage = ({ data, goToPath, setFormData }) => {
-  const { phone = '' } = data || {};
-  const [fieldData, setFieldData] = useState(phone);
-  const [error, setError] = useState(null);
+const EditPhonePage = ({
+  schema,
+  uiSchema,
+  data,
+  goToPath,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
+  const dispatch = useDispatch();
 
-  const validatePhone = value => {
-    if (!value) return null;
-    if (!isValidPhone(value)) {
-      return 'Enter a valid 10-digit U.S. phone number';
-    }
-    return null;
+  const setFormData = oData => {
+    dispatch(setData(oData));
   };
 
   const returnPath = '/veteran-contact-information';
@@ -28,21 +29,13 @@ const EditPhonePage = ({ data, goToPath, setFormData }) => {
   };
 
   const handlers = {
-    onInput: event => {
-      const { value } = event.target;
-      setFieldData(value);
-      setError(validatePhone(value));
-    },
-    onUpdate: e => {
-      e.preventDefault();
-      const validationError = validatePhone(fieldData);
-      setError(validationError);
-      if (validationError) return;
-
+    onInput: inputData => {
       setFormData({
         ...data,
-        phone: fieldData || '',
+        phone: inputData.phone,
       });
+    },
+    onUpdate: () => {
       returnToPath();
     },
     onCancel: () => {
@@ -50,38 +43,45 @@ const EditPhonePage = ({ data, goToPath, setFormData }) => {
     },
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      scrollTo('topScrollElement');
+    }, 250);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <>
-      <form onSubmit={handlers.onUpdate} noValidate>
-        <fieldset className="vads-u-margin-y--2">
-          <legend className="schemaform-block-title">
-            <Title title="Edit phone number" />
-          </legend>
-          <va-text-input
-            label="Phone number"
-            type="tel"
-            inputmode="tel"
-            id="root_phone"
-            name="root_phone"
-            hint="Enter a 10-digit phone number"
-            value={fieldData}
-            onInput={handlers.onInput}
-            error={error}
-            required={false}
-          />
-          <EditPageButtons handlers={handlers} pageName="Phone Number" />
-        </fieldset>
-      </form>
+      <h3 className="vads-u-margin-bottom--4">Edit phone number</h3>
+      <SchemaForm
+        addNameAttribute
+        name="Contact Info Form"
+        title="Contact Info Form"
+        idSchema={{}}
+        schema={schema}
+        data={data}
+        uiSchema={uiSchema}
+        onChange={handlers.onInput}
+        onSubmit={handlers.onUpdate}
+      >
+        {contentBeforeButtons}
+        <EditPageButtons handlers={handlers} pageName="Phone number" />
+        {contentAfterButtons}
+      </SchemaForm>
     </>
   );
 };
 
 EditPhonePage.propTypes = {
-  data: PropTypes.shape({
-    phone: PropTypes.string,
-  }),
-  goToPath: PropTypes.func,
-  setFormData: PropTypes.func,
+  data: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  schema: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
 };
 
 export default EditPhonePage;
