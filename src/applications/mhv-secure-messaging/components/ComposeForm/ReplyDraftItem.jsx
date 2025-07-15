@@ -28,6 +28,7 @@ import {
   draftAutoSaveTimeout,
   Alerts,
 } from '../../util/constants';
+import { isPilotState } from '../../selectors';
 import useDebounce from '../../hooks/use-debounce';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -59,6 +60,7 @@ const ReplyDraftItem = props => {
   const composeFormActionButtonsRef = useRef(null);
 
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
+  const isPilot = useSelector(isPilotState);
 
   const [category, setCategory] = useState(null);
   const [subject, setSubject] = useState('');
@@ -570,6 +572,7 @@ const ReplyDraftItem = props => {
                 attachmentScanError={attachmentScanError}
                 attachFileError={attachFileError}
                 setAttachFileError={setAttachFileError}
+                isPilot={isPilot}
               />
             </section>
           )}

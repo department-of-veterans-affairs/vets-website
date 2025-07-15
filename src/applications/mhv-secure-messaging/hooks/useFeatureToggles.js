@@ -8,6 +8,7 @@ const useFeatureToggles = () => {
     isAalEnabled,
     readReceiptsEnabled,
     customFoldersRedesignEnabled,
+    largeAttachmentsEnabled,
     isDowntimeBypassEnabled,
     cernerPilotSmFeatureFlag,
     mhvMockSessionFlag,
@@ -31,6 +32,10 @@ const useFeatureToggles = () => {
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingCustomFoldersRedesign
           ],
+        largeAttachmentsEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingLargeAttachments
+          ],
         isDowntimeBypassEnabled:
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification
@@ -51,6 +56,7 @@ const useFeatureToggles = () => {
     readReceiptsEnabled,
     isAalEnabled,
     customFoldersRedesignEnabled,
+    largeAttachmentsEnabled,
     isDowntimeBypassEnabled,
     cernerPilotSmFeatureFlag,
     mhvMockSessionFlag,
