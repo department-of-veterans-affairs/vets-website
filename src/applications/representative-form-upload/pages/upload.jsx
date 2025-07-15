@@ -69,7 +69,7 @@ export const uploadPage = {
             Select supporting documents to upload.
           </p>
           <p className="form-686c__upload-hint">
-            You can only upload one file at a time no larger than 25MB.
+            You can upload one file at a time no larger than 25MB.
             <br />
             Your file can be .pdf, .png or .jpg.
           </p>
