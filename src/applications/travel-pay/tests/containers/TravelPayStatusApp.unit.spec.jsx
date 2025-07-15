@@ -47,55 +47,6 @@ describe('TravelPayStatusApp', () => {
   beforeEach(() => {
     global.window.location = {};
     global.window.location.replace = sinon.spy();
-    const mockTravelClaims = {
-      data: [
-        {
-          id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
-          claimNumber: 'TC0928098230498',
-          claimName: 'string',
-          claimStatus: 'In process',
-          appointmentDateTime: aprDate,
-          appointmentName: 'more recent',
-          appointmentLocation: 'Cheyenne VA Medical Center',
-          createdOn: '2024-04-22T21:22:34.465Z',
-          modifiedOn: '2024-04-23T16:44:34.465Z',
-        },
-        {
-          id: '6ea23179-e87c-44ae-a20a-f31fb2c132ig',
-          claimNumber: 'TC0928098230498',
-          claimName: 'string',
-          claimStatus: 'Incomplete',
-          appointmentDateTime: febDate,
-          appointmentName: 'older',
-          appointmentLocation: 'Cheyenne VA Medical Center',
-          createdOn: '2024-02-22T21:22:34.465Z',
-          modifiedOn: '2024-02-23T16:44:34.465Z',
-        },
-        {
-          id: 'abcd1234-65af-4495-b18e-7fd28cab546a',
-          claimNumber: 'TC0928098231234',
-          claimName: 'string',
-          claimStatus: 'Saved',
-          appointmentDateTime: null,
-          appointmentName: 'Medical imaging',
-          appointmentLocation: 'Tomah VA Medical Center',
-          createdOn: '2024-01-22T17:11:43.034Z',
-          modifiedOn: '2024-01-22T17:11:43.034Z',
-        },
-        {
-          id: '6cecf332-65af-4495-b18e-7fd28ccb546a',
-          claimNumber: '39b7b38f-b7cf-4d19-91cf-fb5360c0b8b8',
-          claimName: '3583ec0e-34e0-4cf5-99d6-78930c2be969',
-          claimStatus: 'Saved',
-          appointmentDateTime: previousYearDate,
-          appointmentName: 'Medical imaging',
-          appointmentLocation: 'Tomah VA Medical Center',
-          createdOn: '2023-09-22T17:11:43.034Z',
-          modifiedOn: '2023-09-27T17:11:43.034Z',
-        },
-      ],
-    };
-    mockApiRequest(mockTravelClaims);
     MockDate.set('2024-06-25');
   });
 
