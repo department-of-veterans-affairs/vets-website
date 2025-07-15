@@ -9,6 +9,7 @@ import {
   ADMITTANCE_TYPE_ENUM,
   // DOCUMENT_TYPE_ENUM,
   RELATIONSHIP_TO_APPLICANT_ENUM,
+  INSTITUTION_TYPE_ENUM,
 } from './enums';
 
 const build21aPayload = data => {
@@ -144,7 +145,7 @@ const build21aPayload = data => {
         addressState: e.address?.state || null,
         addressPostalCode: e.address?.postalCode || null,
         addressCountry: e.address?.country || null,
-        institutionTypeId: null, // v5 field - not currently setting this field
+        institutionTypeId: INSTITUTION_TYPE_ENUM[e.institution], // v5 field - not currently setting this field
       })) || [],
 
     // Chapter 5 - Jurisdictions and Summary
