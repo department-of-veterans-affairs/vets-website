@@ -31,15 +31,15 @@ const createReferralListItem = (
   const relativeDate = new Date(year, month - 1, day);
   const mydFormat = 'yyyy-MM-dd';
   return {
-    id: '',
+    id: uuid,
     type: 'referrals',
     attributes: {
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
       uuid,
       categoryOfCare,
-      referralNumber: '',
-      referralConsultId: '',
+      referralNumber: 'VA0000007241',
+      referralConsultId: '984_646907',
       stationId,
     },
   };

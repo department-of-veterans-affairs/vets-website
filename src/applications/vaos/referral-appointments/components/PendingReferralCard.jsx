@@ -12,7 +12,9 @@ const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
   const stationIdValid = VALID_STATION_IDS.includes(referral.stationId);
   const idClickable = `id-${referral.uuid.replace(/[.=\\]/g, '\\$&')}`;
-  const link = `/referral-appointments/${referral.uuid}/schedule`;
+  const link = `schedule-referral?id=${
+    referral.uuid
+  }&referrer=referrals-requests`;
 
   const parsedDate = parseISO(referral.expirationDate);
   const expiration = format(parsedDate, 'MMMM d, yyyy');
