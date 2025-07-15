@@ -1,6 +1,6 @@
 import pickBy from 'lodash/pickBy';
+import VaTelephoneInputField from '~/platform/forms-system/src/js/web-component-fields/VaTelephoneInputField';
 import VaTextInputField from '~/platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import VaTelephoneInputField from '../../../../../forms-system/src/js/web-component-fields/VaTelephoneInputField';
 
 import { PHONE_TYPE, USA } from '../../constants';
 
