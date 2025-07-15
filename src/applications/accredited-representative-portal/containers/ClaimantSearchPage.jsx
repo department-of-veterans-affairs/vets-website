@@ -99,8 +99,11 @@ const SearchResults = ({ claimant, searchData }) => {
 
   return (
     <>
-      <p data-testid="poa-requests-table-fetcher-poa-requests">
-        Showing result for <strong>"{searchData.first_name}"</strong>
+      <p
+        data-testid="poa-requests-table-fetcher-poa-requests"
+        className="claimant-search-showing-results"
+      >
+        Showing result for <strong>“{searchData.first_name}“</strong>
         {', '}
         <strong>"{searchData.last_name}"</strong>
         {', '}
@@ -114,33 +117,38 @@ const SearchResults = ({ claimant, searchData }) => {
       <h2 className="claimant-name">
         {claimant.lastName}, {claimant.firstName}
       </h2>
-      {claimant.city}
-      {claimant.city ? ', ' : ''}
-      {claimant.state} {claimant.postalCode}
-      <br />
-      <br />
+      <p className="poa-request__card-field vads-u-margin-bottom--2">
+        <span>{claimant.city}</span>
+        <span>
+          {claimant.city ? ', ' : ''}
+          {claimant.state}
+        </span>
+        <span> {claimant.postalCode}</span>
+      </p>
       {claimant.representative ? (
-        <>
+        <span>
           <strong>POA Status:</strong> {claimant.representative} has POA for
           this claimant.
-        </>
+        </span>
       ) : (
-        <>
+        <span>
           <strong>POA Status: </strong>
           <span>
             <va-icon size={3} icon="warning" className="yellow-warning" />
           </span>{' '}
           You do not have POA for this claimant.
-        </>
+        </span>
       )}
       {claimant.poaRequests?.length ? (
         <>
           <hr className="divider claimant-search" />
-          <h3>Recent representation requests</h3>
+          <h3 className="claimant-search-recent-representation-requests">
+            Recent representation requests
+          </h3>
           <div className="poa-status-cta">{poaStatusCta(claimant)}</div>
           <ul
             data-testid="poa-requests-card"
-            className="poa-request__list"
+            className="poa-request__list poa-request__list--search"
             sort-column={1}
           >
             {claimant.poaRequests.map((request, index) => (
@@ -322,6 +330,7 @@ const ClaimantSearchPage = () => {
           }
         />
         <VaDate
+          className="poa-request-search__date-field"
           label="Date of birth"
           name="dob"
           required="required"
