@@ -11,6 +11,14 @@ import avsData from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
 
 const avs = require('../../api/mocks/avs');
 
+const getAvsApiResponse = apiStatus => {
+  if (apiStatus === 200) return avsData;
+  if (apiStatus === 400) return avs.badRequestError;
+  if (apiStatus === 401) return avs.unauthorizedError;
+  if (apiStatus === 404) return avs.notFoundError;
+  return {};
+};
+
 const setup = ({
   featureToggleDelay = 0,
   avsDelay = 0,
@@ -27,17 +35,7 @@ const setup = ({
   cy.intercept('GET', `/avs/v0/avs/*`, {
     statusCode: apiStatus,
     delay: avsDelay,
-    body:
-      // eslint-disable-next-line no-nested-ternary
-      apiStatus === 200
-        ? avsData
-        : apiStatus === 400
-          ? avs.badRequestError
-          : apiStatus === 401
-            ? avs.unauthorizedError
-            : apiStatus === 404
-              ? avs.notFoundError
-              : {},
+    body: getAvsApiResponse(apiStatus),
   });
 
   if (login) {
