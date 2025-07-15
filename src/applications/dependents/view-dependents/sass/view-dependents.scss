@@ -24,3 +24,11 @@
     display: inline-block;
   }
 }
+
+.vadv {
+  .mng-dependents-list-item {
+    border: 1px solid var(--vads-color-gray-medium) !important;
+    background-color: var(--vads-color-white) !important;
+    padding: 0.9375rem 0.9375rem !important;
+  }
+}
