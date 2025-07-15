@@ -42,7 +42,7 @@ export const SpouseEvidencePreparation = () => {
             <br />
             <va-link
               href="/find-forms/about-form-21-4170"
-              external="true"
+              external
               text="Download VA Form 21-4170"
             />
           </li>
@@ -52,7 +52,7 @@ export const SpouseEvidencePreparation = () => {
             <br />
             <va-link
               href="/find-forms/about-form-21-4171"
-              external="true"
+              external
               text="Download VA Form 21-4171"
             />
           </li>

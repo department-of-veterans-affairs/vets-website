@@ -89,6 +89,7 @@ export const deceasedDependentIntroPage = {
         </p>
         <CancelButton
           dependentType="dependents who have died"
+          dependentButtonType="dependents"
           isAddChapter={false}
         />
       </>
@@ -144,6 +145,7 @@ export const deceasedDependentPersonalInfoPage = {
     },
     birthDate: currentOrPastDateUI({
       title: 'Dependent’s date of birth',
+      dataDogHidden: true,
       required: () => true,
     }),
   },

@@ -67,7 +67,7 @@ const emergencyContactsAddressPageSchemas = emergencyContactsAddressPage(
  */
 const emergencyContactPages = arrayBuilderPages(
   arrayBuilderOptions,
-  (pageBuilder, helpers) => ({
+  pageBuilder => ({
     emergencyContactsSummary: pageBuilder.summaryPage({
       title: content['emergency-contact-summary-title'],
       path: 'veteran-information/emergency-contacts-summary',
@@ -79,13 +79,6 @@ const emergencyContactPages = arrayBuilderPages(
       path: 'veteran-information/emergency-contacts/:index/contact',
       uiSchema: emergencyContactsPageSchemas.uiSchema,
       schema: emergencyContactsPageSchemas.schema,
-      onNavForward: props => {
-        return props.formData.emergencyContacts[props.index][
-          'view:hasEmergencyContactAddress'
-        ]
-          ? helpers.navForwardKeepUrlParams(props) // go to next page
-          : helpers.navForwardFinishedItem(props); // return to summary
-      },
     }),
     emergencyContactsAddressPage: pageBuilder.itemPage({
       title: content['emergency-contact-address-title'],

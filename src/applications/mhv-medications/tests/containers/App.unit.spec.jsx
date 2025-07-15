@@ -129,7 +129,7 @@ describe('Medications <App>', () => {
             globalDowntime: true,
             isReady: true,
             isPending: false,
-            serviceMap: downtime([]),
+            serviceMap: downtime(['global']),
             dismissedDowntimeWarnings: [],
           },
         },
@@ -190,10 +190,52 @@ describe('Medications <App>', () => {
       );
     });
     expect(
-      screen.getByText('We’re working on Medications right now', {
+      screen.getByText('We’re working on this medications tool right now', {
         exact: false,
       }),
     );
+  });
+
+  it('bypasses downtime notification when bypassDowntime flag is true', async () => {
+    const screen = renderWithStoreAndRouterV6(
+      <App>
+        <p data-testid="app-unit-test-p">unit test paragraph</p>
+      </App>,
+      {
+        initialState: {
+          featureToggles: {
+            loading: false,
+            // eslint-disable-next-line camelcase
+            mhv_medications_to_va_gov_release: true,
+            // eslint-disable-next-line camelcase
+            mhv_bypass_downtime_notification: true,
+          },
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              verified: true,
+              services: [backendServices.RX],
+            },
+          },
+          scheduledDowntime: {
+            globalDowntime: null,
+            isReady: true,
+            isPending: false,
+            serviceMap: downtime(['mhv_meds']),
+            dismissedDowntimeWarnings: [],
+          },
+        },
+      },
+    );
+    const downtimeComponent = await waitFor(() => {
+      return screen.queryByText('Maintenance on My HealtheVet', {
+        selector: 'h2',
+        exact: true,
+      });
+    });
+    expect(downtimeComponent).to.be.null;
   });
 
   it('renders the downtime notification for multiple configured services', async () => {
@@ -236,7 +278,7 @@ describe('Medications <App>', () => {
       );
     });
     expect(
-      screen.getByText('We’re working on Medications right now', {
+      screen.getByText('We’re working on this medications tool right now', {
         exact: false,
       }),
     );
@@ -282,7 +324,7 @@ describe('Medications <App>', () => {
       );
     });
     expect(
-      screen.getByText('We’re working on Medications right now', {
+      screen.getByText('We’re working on this medications tool right now', {
         exact: false,
       }),
     );

@@ -2,9 +2,11 @@ import React, { useRef, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   acceptedFileTypes,
+  acceptedFileTypesExtended,
   Attachments,
   ErrorMessages,
 } from '../../util/constants';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const FileInput = props => {
   const {
@@ -15,11 +17,23 @@ const FileInput = props => {
     attachmentScanError,
     attachFileError,
     setAttachFileError,
+    isPilot,
   } = props;
 
   const fileInputRef = useRef();
   const errorRef = useRef(null);
   const [selectedFileId, setSelectedFileId] = useState(null);
+  const { largeAttachmentsEnabled } = useFeatureToggles();
+
+  const acceptedFileTypesToUse = useMemo(
+    () => {
+      if (largeAttachmentsEnabled) {
+        return acceptedFileTypesExtended;
+      }
+      return acceptedFileTypes;
+    },
+    [largeAttachmentsEnabled],
+  );
 
   // Validation for files
   const handleFiles = event => {
@@ -47,9 +61,14 @@ const FileInput = props => {
       return;
     }
 
-    if (!fileExtension || !acceptedFileTypes[fileExtension.toLowerCase()]) {
+    if (
+      !fileExtension ||
+      !acceptedFileTypesToUse[fileExtension.toLowerCase()]
+    ) {
       setAttachFileError({
-        message: ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE,
+        message: largeAttachmentsEnabled
+          ? ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE_EXTENDED
+          : ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE,
       });
       fileInputRef.current.value = null;
       return;
@@ -73,11 +92,17 @@ const FileInput = props => {
 
     if (
       currentTotalSize + selectedFile.size >
-      Attachments.TOTAL_MAX_FILE_SIZE
+      (largeAttachmentsEnabled && isPilot
+        ? Attachments.TOTAL_MAX_FILE_SIZE_LARGE
+        : Attachments.TOTAL_MAX_FILE_SIZE)
     ) {
       setAttachFileError({
         message:
-          ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
+          largeAttachmentsEnabled && isPilot
+            ? ErrorMessages.ComposeForm.ATTACHMENTS
+                .TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE
+            : ErrorMessages.ComposeForm.ATTACHMENTS
+                .TOTAL_MAX_FILE_SIZE_EXCEEDED,
       });
       fileInputRef.current.value = null;
       return;
@@ -154,7 +179,10 @@ const FileInput = props => {
         </label>
       )}
 
-      {attachments?.length < Attachments.MAX_FILE_COUNT &&
+      {attachments?.length <
+        (largeAttachmentsEnabled
+          ? Attachments.MAX_FILE_COUNT_LARGE
+          : Attachments.MAX_FILE_COUNT) &&
         !attachmentScanError && (
           <>
             {/* Wave plugin addressed this as an issue, label required */}
@@ -200,6 +228,7 @@ FileInput.propTypes = {
   attachmentScanError: PropTypes.bool,
   attachments: PropTypes.array,
   draftSequence: PropTypes.number,
+  isPilot: PropTypes.bool,
   setAttachFileError: PropTypes.func,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,

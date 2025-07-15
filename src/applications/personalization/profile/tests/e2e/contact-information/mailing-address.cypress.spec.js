@@ -38,11 +38,7 @@ const setup = (mobile = false) => {
 
 const editMailingAddress = () => {
   // Open edit view
-  cy.findByRole('button', {
-    name: new RegExp(`edit mailing address`, 'i'),
-  }).click({
-    force: true,
-  });
+  cy.get('va-button[label="Edit Mailing address"]').click({ force: true });
 };
 
 const SELECTORS = {

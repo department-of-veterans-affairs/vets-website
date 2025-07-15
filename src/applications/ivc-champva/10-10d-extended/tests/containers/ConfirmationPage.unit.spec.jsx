@@ -20,7 +20,7 @@ const initConfirmationPage = ({ formData } = {}) => {
         },
         timestamp: new Date(),
       },
-      data: formData,
+      data: { ...formData, statementOfTruthSignature: 'Lorem ipsum' },
     },
   });
 

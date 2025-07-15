@@ -21,6 +21,7 @@ import {
 import useClinicFormState from './useClinicFormState';
 import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import { getPageTitle } from '../../newAppointmentFlow';
+import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
 
 function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -42,6 +43,11 @@ export default function ClinicChoicePage() {
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
   const eligibility = useSelector(selectEligibility);
 
+  // Flipper state
+  const usePastVisitMHFilter = useSelector(
+    selectFeatureMentalHealthHistoryFiltering,
+  );
+
   const {
     data,
     schema,
@@ -55,7 +61,7 @@ export default function ClinicChoicePage() {
     data.clinicId === 'NONE' && !eligibility?.request;
   const usingPastClinics =
     typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-    typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH;
+    (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH || usePastVisitMHFilter);
 
   useEffect(
     () => {

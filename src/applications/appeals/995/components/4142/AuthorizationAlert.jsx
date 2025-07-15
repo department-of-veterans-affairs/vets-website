@@ -6,28 +6,29 @@ import BasicLink from '../../../shared/components/web-component-wrappers/BasicLi
 const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
   <va-alert status="error" visible={hasError} role="alert">
     <h3 slot="headline">
-      Authorize your doctor to release your records or upload them yourself
+      Authorize your providers to release your records or upload them yourself
     </h3>
     <p className="vads-u-margin-bottom--0">
-      If you want us to request your non-VA medical records from your doctor,
-      you must authorize the release.
+      If you want us to request your non-VA medical records from your provider,
+      you must authorize the release by checking the box labeled "I acknowledge
+      and authorize this release of information."
     </p>
     <va-link
-      disable-analytics
+      class="vads-u-display--block vads-u-margin-top--2"
       href="#privacy-agreement"
       onClick={onAnchorClick}
       id="checkbox-anchor"
-      text="Check box to authorize"
+      text="Check the box to authorize"
     />
     <p className="vads-u-margin-bottom--0">
-      Or, go back a page and select <strong>No</strong> where we ask about
-      non-VA medical records. Then you can upload your records or submit a
-      21-4142 and 21-4142a after submitting this form.
+      <strong>Or</strong>, go back a page and select ‘No’ where we ask if you
+      want us to get your non-VA medical records. You’ll be able to upload
+      non-VA records later in the form or by mail.
     </p>
     <BasicLink
-      disableAnalytics
+      className="vads-u-display--block vads-u-margin-top--2"
       path={`/${EVIDENCE_PRIVATE_REQUEST}`}
-      text="Go back to upload records"
+      text="Go back to select ‘No’"
     />
   </va-alert>
 );

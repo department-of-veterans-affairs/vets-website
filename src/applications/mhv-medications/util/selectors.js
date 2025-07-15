@@ -26,3 +26,6 @@ export const selectPartialFillContentFlag = state =>
 
 export const selectDontIncrementIpeCountFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDontIncrementIpeCount];
+
+export const selectBypassDowntime = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification];

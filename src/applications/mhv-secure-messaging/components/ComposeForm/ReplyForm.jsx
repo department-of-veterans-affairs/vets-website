@@ -102,7 +102,7 @@ const ReplyForm = props => {
       }
       // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
     },
-    [drafts, recipients],
+    [drafts, messages, recipients],
   );
 
   useEffect(
@@ -172,6 +172,7 @@ const ReplyForm = props => {
 
         <CannotReplyAlert
           visible={cannotReply && !showBlockedTriageGroupAlert}
+          isOhMessage={replyMessage.isOhMessage}
         />
 
         {currentRecipient && (
@@ -180,6 +181,7 @@ const ReplyForm = props => {
             parentComponent={ParentComponent.REPLY_FORM}
             currentRecipient={currentRecipient}
             setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+            isOhMessage={replyMessage.isOhMessage}
           />
         )}
 

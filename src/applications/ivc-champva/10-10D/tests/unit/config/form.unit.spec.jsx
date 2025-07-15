@@ -72,9 +72,9 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page7.schema,
   formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
-  2,
-  'Sponsor - SSN (with VA File Number)',
-  { ssn: { vaFileNumber: '123123123' } },
+  1,
+  'Sponsor - SSN',
+  { ssn: '123123123' },
 );
 
 testNumberOfWebComponentFields(

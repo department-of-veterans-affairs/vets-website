@@ -50,6 +50,7 @@ export const removeMarriedChildIntroPage = {
         </p>
         <CancelButton
           dependentType="children who got married"
+          dependentButtonType="children"
           isAddChapter={false}
         />
       </>
@@ -103,10 +104,11 @@ export const marriedChildInformationPage = {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
     },
-    birthDate: {
-      ...currentOrPastDateUI('Child’s date of birth'),
-      'ui:required': () => true,
-    },
+    birthDate: currentOrPastDateUI({
+      title: 'Child’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',

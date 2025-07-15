@@ -342,6 +342,47 @@ describe('Schemaform helpers:', () => {
         field: 'testing',
       });
     });
+    it('should flatten view objects and remove null, undefined, or empty fields', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {},
+            },
+          },
+        },
+      };
+      const formData = {
+        data: {
+          'view:Test': {
+            field: 'testing',
+            fieldObject: {
+              field: 'testing',
+              nullField: null,
+              undefinedField: undefined,
+            },
+            nullField: null,
+            undefinedField: undefined,
+            nullObject: {
+              nullField: null,
+            },
+            undefinedObject: {
+              undefinedField: undefined,
+            },
+            empty: {},
+          },
+        },
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+      expect(output['view:Test']).to.be.undefined;
+      expect(output).to.eql({
+        field: 'testing',
+        fieldObject: {
+          field: 'testing',
+        },
+      });
+    });
     it('should remove inactive pages', () => {
       const formConfig = {
         chapters: {
@@ -492,7 +533,7 @@ describe('Schemaform helpers:', () => {
       expect(output.address.country).to.eql('testing');
     });
 
-    it('should remove empty objects', () => {
+    it('should remove empty objects, null fields, and undefined fields', () => {
       const formConfig = {
         chapters: {
           chapter1: {
@@ -504,19 +545,99 @@ describe('Schemaform helpers:', () => {
       };
       const formData = {
         data: {
-          someField: {},
+          someField1: {},
           someField2: {
             someData: undefined,
+          },
+          someField3: {
+            someData: null,
           },
         },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output.someField).to.be.undefined;
-      expect(output.someField2).to.be.undefined;
+      expect(output).to.deep.equal({});
     });
-    it('should remove empty objects within an array', () => {
+
+    it('should remove nested empty objects, null fields, and undefined fields', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {},
+            },
+          },
+        },
+      };
+      const formData = {
+        data: {
+          someField1: {
+            someData: {
+              someOtherData: null,
+            },
+          },
+          someField2: {
+            someData: {
+              someOtherData: undefined,
+            },
+          },
+          someField3: {
+            someData: {
+              someOtherData: null,
+              someValue: 'some value',
+            },
+          },
+          someField4: {
+            someData: {
+              someOtherData: undefined,
+              someValue: 'some value',
+            },
+          },
+          someField5: {
+            someData: {
+              someOtherData: {
+                yetMoreData: null,
+                yetMoreValue: 'yet more value',
+              },
+              someValue: 'some value',
+            },
+          },
+          someField6: {
+            someData: {
+              someOtherData: {
+                yetMoreData: undefined,
+                yetMoreValue: 'yet more value',
+              },
+              someValue: 'some value',
+            },
+          },
+        },
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output).to.deep.equal({
+        someField1: {},
+        someField2: {},
+        someField3: { someData: { someValue: 'some value' } },
+        someField4: { someData: { someValue: 'some value' } },
+        someField5: {
+          someData: {
+            someOtherData: { yetMoreValue: 'yet more value' },
+            someValue: 'some value',
+          },
+        },
+        someField6: {
+          someData: {
+            someOtherData: { yetMoreValue: 'yet more value' },
+            someValue: 'some value',
+          },
+        },
+      });
+    });
+
+    it('should remove empty objects, null fields, and undefined fields within an array', () => {
       const formConfig = {
         chapters: {
           chapter1: {
@@ -529,18 +650,38 @@ describe('Schemaform helpers:', () => {
       const formData = {
         data: {
           someField: {
-            subField: [{ foo: 'bar' }, {}],
+            subField: [
+              { foo: 'bar' },
+              {},
+              { someField1: null },
+              { someField2: undefined },
+              {
+                someField3: {
+                  someData: 'some data',
+                  notSomeData: null,
+                  alsoNotSomeData: undefined,
+                },
+              },
+            ],
           },
-          arrayField: [{ foo: 'bar' }, {}],
-          emtpyArray: [{}, {}],
+          arrayField: [
+            { foo: 'bar' },
+            {},
+            { someField1: null },
+            { someField2: undefined },
+          ],
+          emptyArray: [{}, {}, { someField1: null }, { someField2: undefined }],
         },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output.someField.subField.length).to.equal(1);
-      expect(output.arrayField.length).to.equal(1);
-      expect(output.emptyArray).to.be.undefined;
+      expect(output).to.deep.equal({
+        someField: {
+          subField: [{ foo: 'bar' }, { someField3: { someData: 'some data' } }],
+        },
+        arrayField: [{ foo: 'bar' }],
+      });
     });
     it('should convert autosuggest field to id', () => {
       const formConfig = {

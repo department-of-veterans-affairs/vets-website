@@ -70,6 +70,13 @@ const serviceHistoryConfirmed = {
     message: [],
   },
 };
+const serviceHistoryConfirmedReverse = {
+  serviceHistory: [...serviceEpisodes].reverse(),
+  vetStatusEligibility: {
+    confirmed: true,
+    message: [],
+  },
+};
 const serviceHistory403Error = {
   error: {
     errors: [{ code: '403' }],
@@ -213,21 +220,18 @@ describe('VeteranStatus', () => {
         }),
       ).to.exist;
 
-      // Check that the description is rendered
-      expect(
-        view.getByText(
-          'This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure.',
-        ),
-      ).to.exist;
-
-      // Check that the FAQ section is rendered
-      expect(view.getByText('Frequently asked questions')).to.exist;
-
       await waitFor(() => {
         sinon.assert.calledWith(
           apiRequestStub,
           '/profile/vet_verification_status',
         );
+
+        // Check that the description is rendered
+        expect(
+          view.getByText(
+            'This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure.',
+          ),
+        ).to.exist;
 
         // Check that the user's full name is rendered on the card
         expect(
@@ -237,6 +241,9 @@ describe('VeteranStatus', () => {
             }`,
           ),
         ).to.exist;
+
+        // Check that the FAQ section is rendered
+        expect(view.getByText('Frequently asked questions')).to.exist;
       });
 
       // Check that the PDF download link exists and can be clicked
@@ -260,6 +267,30 @@ describe('VeteranStatus', () => {
     });
   });
 
+  // Test case for when the user is eligible for a Veteran Status Card with reversed service history
+  describe('when the user is eligible for a Veteran Status Card and their service history is reversed', () => {
+    const initialState = createBasicInitialState(
+      serviceHistoryConfirmedReverse,
+    );
+
+    it('should render the correct latest service history start and end years', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+
+        // Check for the correct lastest service history start and end years
+        expect(view.getByText('United States Air Force • 2009–2013')).to.exist;
+      });
+    });
+  });
+
   // Test case for when the user is not eligible for a Veteran Status Card
   describe('when the user is not eligible for a Veteran Status Card', () => {
     it('should render the LoadFail alert for non-403 service history errors', async () => {
@@ -275,6 +306,16 @@ describe('VeteranStatus', () => {
           '/profile/vet_verification_status',
         );
         expect(view.getByText(`This page isn't available right now.`)).to.exist;
+
+        // Check that the description is not rendered
+        expect(
+          view.queryByText(
+            'This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure.',
+          ),
+        ).to.be.null;
+
+        // Check that the FAQ section is not rendered
+        expect(view.queryByText('Frequently asked questions')).to.not.exist;
 
         // Check that the PDF download link is not rendered
         expect(pdfLink(view)).to.not.exist;

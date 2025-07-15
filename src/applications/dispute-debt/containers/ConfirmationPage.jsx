@@ -4,6 +4,7 @@ import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
 import { scrollTo } from 'platform/utilities/scroll';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import GetFormHelp from '../components/GetFormHelp';
 
@@ -62,7 +63,7 @@ export const ConfirmationPage = () => {
         <h4>Requested Dispute</h4>
         <ul>
           {selectedDebts.map(item => (
-            <li key={item.id}>
+            <li key={item.compositeDebtId}>
               <span>{item.label}</span>
             </li>
           ))}
@@ -90,8 +91,9 @@ export const ConfirmationPage = () => {
         receive an email and a letter in the mail confirming receipt and letting
         you know whether you need to continue paying.Then we’ll mail you a
         letter with our decision. If you have questions about your dispute, call
-        us at <va-telephone contact="8664001238" tty />. We’re here Monday
-        through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        us at <va-telephone contact={CONTACTS.DMC} /> (
+        <va-telephone contact={CONTACTS['711']} tty />
+        ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
         Go back to VA.gov

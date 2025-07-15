@@ -150,6 +150,9 @@ export const formConfig = {
     },
   },
   formId: VA_FORM_IDS.FORM_21_686CV2,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your application is in progress',
@@ -194,6 +197,11 @@ export const formConfig = {
           path: 'options-selection',
           uiSchema: addOrRemoveDependents.uiSchema,
           schema: addOrRemoveDependents.schema,
+          initialData: {
+            // Set in prefill, but included here because we're seeing v2
+            // submissions without it
+            useV2: true,
+          },
         },
         addDependentOptions: {
           title: 'Add a dependent',
@@ -243,7 +251,7 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.['view:addOrRemoveDependents']?.add,
-          title: 'Spouse’s name',
+          title: 'Spouse’s current legal name',
           path: 'add-spouse/current-legal-name',
           uiSchema: spouseInformation.uiSchema,
           schema: spouseInformation.schema,
@@ -252,7 +260,7 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.['view:addOrRemoveDependents']?.add,
-          title: 'Spouse information',
+          title: 'Spouse’s identification information',
           path: 'add-spouse/personal-information',
           uiSchema: spouseInformationPartTwo.uiSchema,
           schema: spouseInformationPartTwo.schema,
@@ -262,7 +270,7 @@ export const formConfig = {
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.['view:addOrRemoveDependents']?.add &&
             formData?.spouseInformation?.isVeteran,
-          title: 'Spouse’s VA file number',
+          title: 'Your spouse’s military service information',
           path: 'add-spouse/military-service-information',
           uiSchema: spouseInformationPartThree.uiSchema,
           schema: spouseInformationPartThree.schema,
@@ -301,7 +309,7 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.['view:addOrRemoveDependents']?.add,
-          title: 'Information about your marriage',
+          title: 'Spouse’s income',
           path: 'current-marriage-information/spouse-income',
           uiSchema: currentMarriageInformationPartTwo.uiSchema,
           schema: currentMarriageInformationPartTwo.schema,

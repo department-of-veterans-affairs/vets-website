@@ -48,6 +48,7 @@ export const Paths = {
     MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
+    SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads?*',
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
   },
@@ -305,11 +306,13 @@ export const Alerts = {
     LOAD_API_ERROR: `We can’t load your contact list right now`,
   },
   ATTACHMENT: {
-    TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+    TYPES: `We can't attach this file type.`,
     EMPTY: `Your file is empty. Try attaching a different file.`,
-    FILE_IS_TOO_LARGE_TEXT:
+    VISTA_TOO_LARGE:
       'Your file is too large. Try attaching a file smaller than 6MB.',
-    ALREADY_ATTACHED_FILE: 'You have already attached this file.',
+    OH_TOO_LARGE:
+      'Your file is too large. Try attaching a file smaller than 25MB.',
+    ALREADY_ATTACHED: 'You have already attached this file.',
   },
   MAINTENANCE: {
     ACTIVE: `Maintenance on My HealtheVet`,
@@ -320,6 +323,12 @@ export const Alerts = {
     EMPTY_END_DATE: `Error Please enter an end date.`,
     INVALID_START_DATE: `Start date must be on or before end date.`,
     INVALID_END_DATE: `End date must be on or after start date.`,
+  },
+  OH_OLD_MSG: {
+    HEADER: 'This conversation is too old for new replies',
+    P_1: `The last message in this conversation is more than 45 days old.`,
+    P_2: `If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.`,
+    P_3: `Or you can send a message to other care teams in your contact list.`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
@@ -344,11 +353,16 @@ export const Data = {
   TEST_SUBJECT: 'Test Subject',
   TEST_IMAGE: 'test_image.jpg',
   TEST_LARGE_IMAGE: 'test_image_10mb.jpg',
+  TEST_VIDEO_MKV: 'test_video.mkv',
   MESSAGE_WAS_SAVED: 'message was saved',
   TEST_MESSAGE_SUBJECT: 'Test Message Subject',
   SAMPLE_DOC: 'sample_docx.docx',
-  SAMPLE_PDF: 'sample_pdf.pdf',
   SAMPLE_XLS: 'sample_XLS.xls',
+  SAMPLE_PDF: 'sample_pdf.pdf',
+  SAMPLE_TXT_1: 'test_txt_1.txt',
+  SAMPLE_TXT_2: 'test_txt_2.txt',
+  SAMPLE_TXT_3: 'test_txt_3.txt',
+  SAMPLE_TXT_4: 'test_txt_4.txt',
   SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
   EDIT_DRAFT: 'Edit draft',
@@ -387,6 +401,18 @@ export const Data = {
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',
     'The maximum size for each file is 6 MB',
     'The maximum total size for all files attached to 1 message is 10 MB',
+  ],
+  VISTA_LARGE_ATTACH_INFO: [
+    'You can attach up to 10 files to each message',
+    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
+    'The maximum size for each file is 6 MB',
+    'The maximum total size for all files attached to 1 message is 10 MB',
+  ],
+  OH_LARGE_ATTACH_INFO: [
+    'You can attach up to 10 files to each message',
+    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
+    'The maximum size for each file is 6 MB',
+    'The maximum total size for all files attached to 1 message is 25 MB',
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   EDIT_SIGNATURE: `Edit signature for all messages`,
@@ -446,11 +472,9 @@ export const Data = {
 
   NOT_FOUND: {
     H2: `Or try these other health resources`,
-    P_O: `If you typed or copied the web address, check that it’s correct.`,
-    P_1: `If you still can’t find what you’re looking for, try visiting the My HealtheVet homepage.`,
-    LINK_0: `Go to our My HealtheVet on VA.gov homepage`,
-    LINK_1: `Chat live with a health professional on VA health chat`,
-    LINK_2: `Find a VA facility`,
+    P_O: `If you typed or copied the URL into your web browser, check that it’s correct.`,
+    P_1: `If that doesn’t work, try going to the My HealtheVet homepage.`,
+    LINK: `Go to the My HealtheVet on VA.gov homepage`,
   },
 };
 

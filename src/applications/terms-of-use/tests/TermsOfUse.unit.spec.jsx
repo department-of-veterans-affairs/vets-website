@@ -8,8 +8,6 @@ import {
   createPostHandler,
   jsonResponse,
 } from 'platform/testing/unit/msw-adapter';
-
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import TermsOfUse from '../containers/TermsOfUse';
 
 const store = ({
@@ -34,13 +32,13 @@ const store = ({
 });
 
 describe('TermsOfUse', () => {
-  const oldLocation = global.window.location;
+  const oldLocation = window.location;
   const server = setupServer();
   const touResponse200 = { termsOfUseAgreement: { 'some-key': 'some-value' } };
 
   before(() => server.listen());
   afterEach(() => {
-    global.window.location = oldLocation;
+    window.location = oldLocation;
     cleanup();
     server.resetHandlers();
   });
@@ -53,11 +51,11 @@ describe('TermsOfUse', () => {
         <TermsOfUse />
       </Provider>,
     );
-    expect($('h1', container).textContent).to.eql(
+    expect(container.querySelector('h1', container).textContent).to.eql(
       'VA online services terms of use',
     );
-    expect($('va-accordion', container)).to.exist;
-    expect($('va-alert', container)).to.exist;
+    expect(container.querySelector('va-accordion', container)).to.exist;
+    expect(container.querySelector('va-alert', container)).to.exist;
   });
 
   it('should display buttons by default', async () => {
@@ -75,7 +73,9 @@ describe('TermsOfUse', () => {
     );
 
     await waitFor(() => {
-      expect($$('va-button', container).length).to.eql(4); // modal
+      expect(container.querySelectorAll('va-button', container).length).to.eql(
+        4,
+      ); // modal
     });
   });
 
@@ -94,7 +94,9 @@ describe('TermsOfUse', () => {
     );
 
     await waitFor(() => {
-      expect($$('va-button', container).length).to.eql(2); // modal
+      expect(container.querySelectorAll('va-button', container).length).to.eql(
+        2,
+      ); // modal
     });
   });
 
@@ -117,7 +119,9 @@ describe('TermsOfUse', () => {
     );
 
     await waitFor(() => {
-      expect($$('va-button', container).length).to.eql(2); // modal
+      expect(container.querySelectorAll('va-button', container).length).to.eql(
+        2,
+      ); // modal
     });
   });
 
@@ -129,7 +133,7 @@ describe('TermsOfUse', () => {
       </Provider>,
     );
 
-    expect($$('va-button', container).length).to.eql(2); // modal
+    expect(container.querySelectorAll('va-button', container).length).to.eql(2); // modal
   });
 
   it('should display the declined modal if the decline button is clicked', async () => {
@@ -160,7 +164,12 @@ describe('TermsOfUse', () => {
   it('should call `/decline` when `Decline and sign out button` is clicked', async () => {
     const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
     const termsCode = `555abc`;
-    global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}&terms_code=${termsCode}`;
+    const startingLocation = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}&terms_code=${termsCode}`;
+    if (Window.prototype.href) {
+      window.location.href = startingLocation;
+    } else {
+      window.location = startingLocation;
+    }
 
     const mockStore = store();
     server.use(
@@ -188,18 +197,25 @@ describe('TermsOfUse', () => {
 
       fireEvent.click(declineButton);
 
-      const modal = $('va-modal', container);
+      const modal = container.querySelector('va-modal', container);
       expect(modal).to.exist;
       expect(modal).to.have.attribute('visible', 'true');
 
       // // click the Decline and sign out button
-      fireEvent.click($('[text="Decline and sign out"]', container));
+      fireEvent.click(
+        container.querySelector('[text="Decline and sign out"]', container),
+      );
     });
   });
 
   it('should redirect to the `redirect_url`', async () => {
     const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
-    global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}`;
+    const startingLocation = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}`;
+    if (Window.prototype.href) {
+      window.location.href = startingLocation;
+    } else {
+      window.location = startingLocation;
+    }
 
     const mockStore = store();
     server.use(
@@ -224,13 +240,19 @@ describe('TermsOfUse', () => {
     fireEvent.click(acceptButton);
 
     await waitFor(() => {
-      expect(global.window.location).to.eql(redirectUrl);
+      const location = window.location.href || window.location;
+      expect(location).to.eql(redirectUrl);
     });
   });
 
   it('should redirect to sessionStorage rather than the `redirect_url`', async () => {
     const redirectUrl = `https://dev.va.gov/?next=loginModal`;
-    global.window.location = `https://dev.va.gov/terms-of-use/`;
+    const startingLocation = `https://dev.va.gov/terms-of-use/`;
+    if (Window.prototype.href) {
+      window.location.href = startingLocation;
+    } else {
+      window.location = startingLocation;
+    }
     sessionStorage.setItem('authReturnUrl', redirectUrl);
 
     const mockStore = store();
@@ -256,14 +278,23 @@ describe('TermsOfUse', () => {
     fireEvent.click(acceptButton);
 
     await waitFor(() => {
-      expect(global.window.location).to.not.eql(redirectUrl);
-      expect(global.window.location).to.eql('https://dev.va.gov');
+      const location = window.location.href || window.location;
+      expect(location).to.not.eql(redirectUrl);
+      expect(location).to.be.oneOf([
+        'https://dev.va.gov',
+        'https://dev.va.gov/',
+      ]);
     });
   });
 
   it('should redirect to the `ssoeTarget`', async () => {
     const redirectUrl = `https://int.eauth.va.gov/isam/sps/auth?PartnerId=https://staging-patientportal.myhealth.va.gov/session-api/protocol/saml2/metadata`;
-    global.window.location = `https://dev.va.gov/terms-of-use/?ssoeTarget=https%3A%2F%2Fint.eauth.va.gov%2Fisam%2Fsps%2Fauth%3FPartnerId%3Dhttps%3A%2F%2Fstaging-patientportal.myhealth.va.gov%2Fsession-api%2Fprotocol%2Fsaml2%2Fmetadata`;
+    const startingLocation = `https://dev.va.gov/terms-of-use/?ssoeTarget=https%3A%2F%2Fint.eauth.va.gov%2Fisam%2Fsps%2Fauth%3FPartnerId%3Dhttps%3A%2F%2Fstaging-patientportal.myhealth.va.gov%2Fsession-api%2Fprotocol%2Fsaml2%2Fmetadata`;
+    if (Window.prototype.href) {
+      window.location.href = startingLocation;
+    } else {
+      window.location = startingLocation;
+    }
     sessionStorage.setItem('authReturnUrl', redirectUrl);
 
     const mockStore = store();
@@ -289,14 +320,20 @@ describe('TermsOfUse', () => {
     fireEvent.click(acceptButton);
 
     await waitFor(() => {
-      expect(global.window.location).to.eql(redirectUrl);
+      const location = window.location.href || window.location;
+      expect(location).to.eql(redirectUrl);
     });
   });
 
   it('should pass along `terms_code` to API', async () => {
     const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=logingov`;
     const termsCode = '123456abc';
-    global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}&terms_code=${termsCode}`;
+    const startingLocation = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}&terms_code=${termsCode}`;
+    if (Window.prototype.href) {
+      window.location.href = startingLocation;
+    } else {
+      window.location = startingLocation;
+    }
 
     const mockStore = store();
     server.use(
@@ -323,14 +360,20 @@ describe('TermsOfUse', () => {
       const acceptButton = queryAllByTestId('accept')[0];
       expect(acceptButton).to.exist;
       fireEvent.click(acceptButton);
-      expect(global.window.location).to.not.eql(redirectUrl);
+      const location = window.location.href || window.location;
+      expect(location).to.not.eql(redirectUrl);
     });
   });
 
   it('should pass along `skip_mhv_account_creation` to API', async () => {
     const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=logingov`;
     const skipMhvAccountCreation = true;
-    global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}&skip_mhv_account_creation=${skipMhvAccountCreation}`;
+    const startingLocation = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}&skip_mhv_account_creation=${skipMhvAccountCreation}`;
+    if (Window.prototype.href) {
+      window.location.href = startingLocation;
+    } else {
+      window.location = startingLocation;
+    }
 
     const mockStore = store();
     server.use(
@@ -359,7 +402,8 @@ describe('TermsOfUse', () => {
       const acceptButton = queryAllByTestId('accept')[0];
       expect(acceptButton).to.exist;
       fireEvent.click(acceptButton);
-      expect(global.window.location).to.not.eql(redirectUrl);
+      const location = window.location.href || window.location;
+      expect(location).to.not.eql(redirectUrl);
     });
   });
 
@@ -384,23 +428,32 @@ describe('TermsOfUse', () => {
       fireEvent.click(declineButton);
 
       // click close button on modal
-      const openedModal = $('va-modal[visible="true"]', container);
+      const openedModal = container.querySelector(
+        'va-modal[visible="true"]',
+        container,
+      );
       openedModal.__events.closeEvent();
-      expect($('va-modal[visible="false"]', container)).to.be.exist;
+      expect(container.querySelector('va-modal[visible="false"]', container)).to
+        .be.exist;
 
       // open the modal again
       fireEvent.click(declineButton);
       expect(openedModal).to.exist;
       // click `Go back` button
-      fireEvent.click($('[text="Go back"]', container));
-      expect($('va-modal[visible="false"]', container)).to.be.exist;
+      fireEvent.click(container.querySelector('[text="Go back"]', container));
+      expect(container.querySelector('va-modal[visible="false"]', container)).to
+        .be.exist;
     });
   });
 
   ['sis', 'ssoe'].forEach(authBroker => {
     it(`should use the proper logout for Auth Broker: ${authBroker}`, async () => {
       const touPage = `https://dev.va.gov/terms-of-use`;
-      global.window.location = touPage;
+      if (Window.prototype.href) {
+        window.location.href = touPage;
+      } else {
+        window.location = touPage;
+      }
       const authenticatedWithSiS = authBroker === 'sis';
       const mockStore = store({ authenticatedWithSiS });
       server.use(
@@ -426,10 +479,12 @@ describe('TermsOfUse', () => {
         fireEvent.click(declineButton);
 
         // click close button on modal
-        fireEvent.click($('[text="Decline and sign out"]', container));
+        fireEvent.click(
+          container.querySelector('[text="Decline and sign out"]', container),
+        );
 
         // should send them to logout
-        expect(global.window.location.href).to.not.eql(touPage);
+        expect(window.location.href).to.not.eql(touPage);
       });
     });
   });

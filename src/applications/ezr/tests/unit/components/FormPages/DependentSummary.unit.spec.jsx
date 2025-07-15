@@ -217,7 +217,7 @@ describe('ezr DependentSummary page', () => {
       const { props } = getData({});
       const { container } = render(<DependentSummary {...props} />);
       const selector = container.querySelector(
-        '#root_view\\3A reportDependentsNo',
+        '#root_view\\:reportDependentsNo',
       );
       fireEvent.click(selector);
       expect(props.setFormData.called).to.be.true;

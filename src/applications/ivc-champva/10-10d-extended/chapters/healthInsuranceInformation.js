@@ -3,7 +3,6 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
-  titleUI,
   titleSchema,
   radioUI,
   arrayBuilderItemFirstPageTitleUI,
@@ -68,15 +67,34 @@ export function generateParticipantNames(item) {
   return 'No participants';
 }
 
-const healthInsuranceOptions = {
+/**
+ * Options for the yes/no text on summary page:
+ */
+const yesNoOptions = {
+  title:
+    'Do you have any other health insurance to report for one or more applicants?',
+  labelHeaderLevel: '5',
+  labelHeaderLevelStyle: '5',
+  hint:
+    'If any applicants have other health insurance, it is required to report it to process your application for CHAMPVA benefits.',
+};
+const yesNoOptionsMore = {
+  title: 'Do you have any other health insurance to report?',
+  labelHeaderLevel: '5',
+  labelHeaderLevelStyle: '5',
+  hint:
+    'If any applicants have other health insurance, it is required to report it to process your application for CHAMPVA benefits.',
+};
+export const healthInsuranceOptions = {
   arrayPath: 'healthInsurance',
   nounSingular: 'plan',
   nounPlural: 'plans',
   required: false,
   isItemIncomplete: item =>
     !(item.provider && item.insuranceType && item.effectiveDate),
-  // maxItems: MAX_APPLICANTS,
   text: {
+    summaryTitle: 'Report other health insurance',
+    summaryTitleWithoutItems: 'Report other health insurance',
     getItemName: item => item?.provider,
     cardDescription: item => (
       <ul className="no-bullets">
@@ -133,7 +151,11 @@ const healthInsuranceIntroPage = {
 
 const healthInsuranceSummaryPage = {
   uiSchema: {
-    'view:hasHealthInsurance': arrayBuilderYesNoUI(healthInsuranceOptions),
+    'view:hasHealthInsurance': arrayBuilderYesNoUI(
+      healthInsuranceOptions,
+      yesNoOptions,
+      yesNoOptionsMore,
+    ),
   },
   schema: {
     type: 'object',
@@ -198,7 +220,7 @@ const providerInformation = {
 const employer = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Type of insurance for ${formData.provider}`,
+      ({ formData }) => `Type of insurance for ${formData?.provider}`,
     ),
     throughEmployer: yesNoUI({
       title: 'Is this insurance through the applicant(s) employer?',
@@ -219,7 +241,7 @@ const additionalComments = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData.provider} health insurance additional comments`,
+        `${formData?.provider} health insurance additional comments`,
     ),
     additionalComments: textareaUI({
       title: 'Any additional comments about the applicant(s) health insurance?',
@@ -242,7 +264,7 @@ const additionalComments = {
 const healthInsuranceCardUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Upload ${formData.provider} health insurance card`,
+      ({ formData }) => `Upload ${formData?.provider} health insurance card`,
       'You’ll need to submit a copy of the front and back of this health insurance card.',
     ),
     ...fileUploadBlurb,
@@ -290,29 +312,6 @@ const healthInsuranceCardUploadPage = {
 export const healthInsurancePages = arrayBuilderPages(
   healthInsuranceOptions,
   pageBuilder => ({
-    healthInsuranceIntro: pageBuilder.introPage({
-      path: 'health-insurance-intro',
-      title: '[noun plural]',
-      // initialData: mockData.data,
-      uiSchema: {
-        ...titleUI(
-          'Report other health insurance plans',
-          <>
-            Medicare and other health insurance certification is required to
-            process your application for CHAMPVA benefits.
-            <br />
-            If you and/or your applicants don’t have other health insurance,
-            select Continue to go to the next question.
-          </>,
-        ),
-      },
-      schema: {
-        type: 'object',
-        properties: {
-          titleSchema,
-        },
-      },
-    }),
     healthInsuranceSummary: pageBuilder.summaryPage({
       path: 'health-insurance-summary',
       title: 'Review your plans',

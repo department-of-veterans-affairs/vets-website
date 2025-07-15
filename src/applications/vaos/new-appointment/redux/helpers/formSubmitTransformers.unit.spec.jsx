@@ -29,7 +29,7 @@ describe('VAOS V2 data transformation', () => {
             email: 'test@va.gov',
             reasonForAppointment: 'routine-follow-up',
             reasonAdditionalInfo: 'asdfasdf',
-            selectedDates: ['2019-11-22T09:30:00'],
+            selectedDates: ['2019-11-22T09:30:00Z'],
             preferredDate: '2019-12-02',
             clinicId: '983_308',
             vaParent: '983',
@@ -39,12 +39,12 @@ describe('VAOS V2 data transformation', () => {
           },
           availableSlots: [
             {
-              start: '2019-12-22T09:30:00',
-              end: '2019-12-22T10:00:00',
+              start: '2019-12-22T09:30:00Z',
+              end: '2019-12-22T10:00:00Z',
             },
             {
-              start: '2019-11-22T09:30:00',
-              end: '2019-11-22T10:00:00',
+              start: '2019-11-22T09:30:00Z',
+              end: '2019-11-22T10:00:00Z',
             },
           ],
           parentFacilities: [

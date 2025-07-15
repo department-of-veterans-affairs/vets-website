@@ -33,6 +33,7 @@ describe('VAOS Component: TravelReimbursement', () => {
           isCommunityCare: false,
           isPhone: false,
           isVideo: true,
+          isVideoAtVA: true,
         },
         videoData: {
           kind,

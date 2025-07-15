@@ -140,10 +140,11 @@ export const studentInformationPage = {
       nounSingular: addStudentsOptions.nounSingular,
     }),
     fullName: fullNameNoSuffixUI(title => `Student’s ${title}`),
-    birthDate: {
-      ...currentOrPastDateUI('Student’s date of birth'),
-      'ui:required': () => true,
-    },
+    birthDate: currentOrPastDateUI({
+      title: 'Student’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',
@@ -293,21 +294,21 @@ export const studentEducationBenefitsPage = {
       },
     },
     'ui:options': {
-      // Use updateSchema to set
       updateSchema: (formData, formSchema) => {
-        if (formSchema.properties.otherProgramOrBenefit['ui:collapsed']) {
-          return { ...formSchema, required: ['typeOfProgramOrBenefit'] };
+        const requiredFields = ['tuitionIsPaidByGovAgency'];
+        if (formData?.typeOfProgramOrBenefit?.other) {
+          requiredFields.push('otherProgramOrBenefit');
         }
         return {
           ...formSchema,
-          required: ['typeOfProgramOrBenefit', 'otherProgramOrBenefit'],
+          required: requiredFields,
         };
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['typeOfProgramOrBenefit'],
+    required: ['tuitionIsPaidByGovAgency'],
     properties: {
       typeOfProgramOrBenefit: checkboxGroupSchema(benefitSchemaLabels),
       otherProgramOrBenefit: {
@@ -498,18 +499,20 @@ export const studentTermDatesPage = {
     schoolInformation: {
       currentTermDates: {
         officialSchoolStartDate: {
-          ...currentOrPastDateUI(
-            'When did the student’s regular school term or course officially start?',
-          ),
-          'ui:required': () => true,
+          ...currentOrPastDateUI({
+            title:
+              'When did the student’s regular school term or course officially start?',
+            required: () => true,
+          }),
           'ui:description': TermDateHint,
         },
-        expectedStudentStartDate: {
-          ...currentOrPastDateUI(
-            'When did the student start or expect to start their course?',
-          ),
-          'ui:required': () => true,
-        },
+        expectedStudentStartDate: currentOrPastDateUI({
+          title: 'When did the student start or expect to start their course?',
+          required: () => true,
+          errorMessages: {
+            pattern: 'Enter a valid date',
+          },
+        }),
         expectedGraduationDate: {
           'ui:title': 'When does the student expect to graduate?',
           'ui:webComponentField': VaMemorableDateField,

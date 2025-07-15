@@ -25,8 +25,8 @@ import {
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'annuities',
-  nounSingular: 'Annuity',
-  nounPlural: 'Annuities',
+  nounSingular: 'annuity',
+  nounPlural: 'annuities',
   required: false,
   isItemIncomplete: item =>
     !isDefined(item?.establishedDate) ||
@@ -113,7 +113,7 @@ const summaryPage = {
 const informationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Annuity',
+      title: 'Annuity establishment',
       nounSingular: options.nounSingular,
     }),
     establishedDate: currentOrPastDateUI('When was the annuity established?'),
@@ -134,7 +134,7 @@ const informationPage = {
 /** @returns {PageSchema} */
 const revocablePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Annuity'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Type of annuity'),
     revocable: yesNoUI({
       title: 'Is the annuity revocable or irrevocable?',
       labels: {
@@ -155,7 +155,7 @@ const revocablePage = {
 /** @returns {PageSchema} */
 const incomePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Annuity'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Income from annuity'),
     receivingIncomeFromAnnuity: yesNoUI(
       'Do you receive income from the annuity?',
     ),
@@ -181,7 +181,7 @@ const incomePage = {
 /** @returns {PageSchema} */
 const liquidationPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Annuity'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Annuity liquidation'),
     canBeLiquidated: yesNoUI('Can the annuity be liquidated?'),
     surrenderValue: {
       ...currencyUI({
@@ -205,7 +205,7 @@ const liquidationPage = {
 /** @returns {PageSchema} */
 const hasAddedFundsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Annuity'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Funds added to annuity'),
     addedFundsAfterEstablishment: yesNoUI(
       'Have you added funds to the annuity in the current or prior three years?',
     ),
@@ -222,7 +222,7 @@ const hasAddedFundsPage = {
 /** @returns {PageSchema} */
 const addedFundsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Annuity'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Amount added to annuity'),
     addedFundsDate: currentOrPastDateUI('When did you add funds?'),
     addedFundsAmount: currencyUI('How much did you add?'),
   },

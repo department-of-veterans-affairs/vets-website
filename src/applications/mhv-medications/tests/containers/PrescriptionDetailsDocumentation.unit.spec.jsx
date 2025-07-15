@@ -194,9 +194,9 @@ describe('Prescription details documentation container', () => {
         revokeObjectURL: sinon.spy(),
       };
       window.location = { assign: sinon.spy() };
-      global.navigator = {
-        onLine: true,
-      };
+
+      if (!global.navigator) global.navigator = {};
+      global.navigator.onLine = true;
     });
 
     it('should call downloadFile with TXT format and generate TXT file', async () => {

@@ -76,7 +76,7 @@ export const CancelButton = withRouter(
   ({
     isAddChapter = false,
     dependentType = 'dependents',
-    altMessage = false,
+    dependentButtonType,
     router,
   }) => {
     const buttonRef = useRef(null);
@@ -86,35 +86,35 @@ export const CancelButton = withRouter(
       focusElement('button', {}, buttonRef.current.shadowRoot);
     };
 
-    const cancelText =
+    const cancelButtonText =
       dependentType && typeof dependentType === 'string'
         ? `Cancel ${isAddChapter ? 'adding' : 'removing'} ${dependentType}`
         : 'Cancel';
 
-    const modalText = `Cancel ${
+    const modalTitle = `Cancel ${
       isAddChapter ? 'adding' : 'removing'
     } ${dependentType}?`;
 
-    const secondaryText = `No, continue ${
+    const secondaryButtonText = `No, continue ${
       isAddChapter ? 'adding' : 'removing'
-    } ${dependentType}`;
+    } ${dependentButtonType || dependentType}`;
 
     return (
       <>
         <va-button
           ref={buttonRef}
           data-testid="cancel-btn"
-          aria-label={cancelText}
+          aria-label={cancelButtonText}
           onClick={() => setIsVisible(true)}
           secondary
-          text={cancelText}
+          text={cancelButtonText}
         />
 
         <VaModal
           data-testid="cancel-modal"
-          modalTitle={modalText}
+          modalTitle={modalTitle}
           primaryButtonText="Yes, cancel"
-          secondaryButtonText={secondaryText}
+          secondaryButtonText={secondaryButtonText}
           visible={isVisible}
           status="warning"
           onPrimaryButtonClick={() => {
@@ -127,16 +127,10 @@ export const CancelButton = withRouter(
           onCloseEvent={closeModal}
           clickToClose
         >
-          {altMessage ? (
-            <p>
-              If you cancel, the information entered won’t be saved and you’ll
-              be taken to step 1, to update your selection.
-            </p>
-          ) : (
-            <p>
-              If you cancel, you’ll be taken to step 1 to update your selection.
-            </p>
-          )}
+          <p>
+            If you cancel, we’ll take you back to Step 1 to update your
+            selection.
+          </p>
         </VaModal>
       </>
     );

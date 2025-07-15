@@ -1,32 +1,28 @@
+/* eslint-disable camelcase */
 import React from 'react';
+import { Provider } from 'react-redux';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import sinon from 'sinon-v20';
 import ConfirmationScreenView from '../../../../components/ConfirmationPage/ConfirmationScreenView';
-import { normalizeFullName } from '../../../../utils/helpers';
+
+// declare static data values
+const VETERAN_NAME = 'John Marjorie Smith Sr.';
+const TIMESTAMP = 1666887649663;
 
 describe('hca <ConfirmationScreenView>', () => {
-  const getProps = ({ timestamp = undefined }) => ({
-    name: normalizeFullName(
-      { first: 'John', middle: 'Marjorie', last: 'Smith', suffix: 'Sr.' },
-      true,
-    ),
-    form: {
-      submission: {
-        response: undefined,
-        timestamp,
+  const subject = ({ timestamp = undefined, features = {} } = {}) => {
+    const props = {
+      name: VETERAN_NAME,
+      form: {
+        submission: { response: undefined, timestamp },
+        data: { veteranFullName: {} },
       },
-      data: { veteranFullName: {} },
-    },
-    timestamp,
-  });
-
-  const subject = (props = getProps({}), featureToggles = {}) => {
-    const getStore = () =>
-      createStore(() => ({
-        featureToggles,
+      timestamp,
+    };
+    const mockStore = {
+      getState: () => ({
+        featureToggles: features,
         form: {
           data: {
             'view:veteranInformation': {
@@ -34,14 +30,16 @@ describe('hca <ConfirmationScreenView>', () => {
             },
           },
         },
-      }));
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
     const { container } = render(
-      <Provider store={getStore()}>
+      <Provider store={mockStore}>
         <ConfirmationScreenView {...props} />
       </Provider>,
     );
     const selectors = () => ({
-      subtitles: container.querySelectorAll('h2, h3'),
       veteranName: container.querySelector('.hca-veteran-fullname'),
       timestamp: container.querySelector('.hca-application-date'),
       printBtn: container.querySelector('va-button'),
@@ -49,71 +47,37 @@ describe('hca <ConfirmationScreenView>', () => {
     });
     return { selectors };
   };
+  let printSpy;
 
-  context('when the component renders without a timestamp', () => {
-    it('should render subtitles and applicant name', () => {
-      const { selectors } = subject();
-      const { subtitles, veteranName } = selectors();
-      expect(subtitles).to.have.lengthOf(2);
-      expect(subtitles[0]).to.contain.text(
-        'Thank you for completing your application for health care',
-      );
-      expect(subtitles[1]).to.contain.text('Your application information');
-      expect(veteranName).to.contain.text('John Marjorie Smith Sr.');
-    });
-
-    it('should render application print button', () => {
-      const { selectors } = subject();
-      const { printBtn } = selectors();
-      expect(printBtn).to.exist;
-      expect(printBtn).to.have.attribute('text', 'Print this page');
-    });
-
-    it('should not render timestamp in `application information` section', () => {
-      const { selectors } = subject();
-      const { timestamp } = selectors();
-      expect(timestamp).to.not.exist;
+  beforeEach(() => {
+    printSpy = sinon.spy();
+    Object.defineProperty(window, 'print', {
+      value: printSpy,
+      configurable: true,
     });
   });
 
-  context('when the component renders with a timestamp', () => {
-    it('should render timestamp with the correct date format', () => {
-      const { selectors } = subject(getProps({ timestamp: 1666887649663 }));
-      const { timestamp } = selectors();
-
-      expect(timestamp).to.exist;
-      expect(timestamp).to.contain.text('Oct. 27, 2022');
-    });
+  afterEach(() => {
+    printSpy.resetHistory();
   });
 
-  context('when `print` button is clicked', () => {
-    it('should render timestamp with the correct date format', () => {
-      const { selectors } = subject(getProps({ timestamp: 1666887649663 }));
-      const { printBtn } = selectors();
-      const printSpy = sinon.spy(window, 'print');
-
-      fireEvent.click(printBtn);
-      expect(printSpy.called).to.be.true;
-    });
+  it('should render Veteran name & application date when provided', () => {
+    const { selectors } = subject({ timestamp: TIMESTAMP });
+    const { veteranName, timestamp } = selectors();
+    expect(veteranName).to.contain.text(VETERAN_NAME);
+    expect(timestamp).to.contain.text('Oct. 27, 2022');
   });
 
-  context('download pdf button', () => {
-    it('should render when `hca_download_completed_pdf` is true', () => {
-      const { selectors } = subject(undefined, {
-        // eslint-disable-next-line camelcase
-        hca_download_completed_pdf: true,
-      });
-      const { downloadLink } = selectors();
-      expect(downloadLink).to.exist;
-    });
+  it('should not render application date when submission timestamp value is `undefined`', () => {
+    const { selectors } = subject();
+    const { timestamp } = selectors();
+    expect(timestamp).to.not.exist;
+  });
 
-    it('should not render when `hca_download_completed_pdf` is false', () => {
-      const { selectors } = subject(undefined, {
-        // eslint-disable-next-line camelcase
-        hca_download_completed_pdf: false,
-      });
-      const { downloadLink } = selectors();
-      expect(downloadLink).not.exist;
-    });
+  it('should fire the correct event when the print button is clicked', () => {
+    const { selectors } = subject({ timestamp: TIMESTAMP });
+    const { printBtn } = selectors();
+    fireEvent.click(printBtn);
+    sinon.assert.calledOnce(printSpy);
   });
 });

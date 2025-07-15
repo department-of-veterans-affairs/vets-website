@@ -10,6 +10,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { createStore } from 'redux';
 import { render } from '@testing-library/react';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import { SAVED_SEPARATION_DATE } from '../../constants';
 import { selfAssessmentHeadline } from '../../content/selfAssessmentAlert';
@@ -37,7 +38,7 @@ describe('526EZ document upload', () => {
   const page = formConfig.chapters.supportingEvidence.pages.additionalDocuments;
   const { schema, uiSchema, arrayPath } = page;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
@@ -55,7 +56,7 @@ describe('526EZ document upload', () => {
     form.unmount();
   });
 
-  it('should not submit without an upload', () => {
+  it('should not submit without an upload', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -71,14 +72,16 @@ describe('526EZ document upload', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
+    await waitFor(() => {
+      form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.equal(false);
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.equal(false);
+    });
     form.unmount();
   });
 
-  it('should not submit without required info', () => {
+  it('should not submit without required info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -94,14 +97,16 @@ describe('526EZ document upload', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
+    await waitFor(() => {
+      form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.equal(false);
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.equal(false);
+    });
     form.unmount();
   });
 
-  it('should submit with valid data', () => {
+  it('should submit with valid data', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -117,9 +122,11 @@ describe('526EZ document upload', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.equal(true);
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.called).to.equal(true);
+    });
     form.unmount();
   });
 
@@ -146,7 +153,7 @@ describe('526EZ document upload', () => {
     }));
 
     // mock BDD
-    sessionStorage.setItem(
+    window.sessionStorage.setItem(
       SAVED_SEPARATION_DATE,
       moment()
         .add(90, 'days')

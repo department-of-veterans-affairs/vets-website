@@ -133,3 +133,9 @@ export const APP_URLS = {
 
 export const MAX_NEXT_OF_KINS = 1;
 export const MAX_DEPENDENTS = 6;
+
+export const API_ENDPOINTS = {
+  csrfCheck: '/maintenance_windows',
+  downloadPdf: '/form1010_ezrs/download_pdf',
+  enrollmentStatus: '/health_care_applications/enrollment_status',
+};

@@ -7,17 +7,30 @@ export default function transformForSubmit(formConfig, form) {
     }),
   );
 
-  const { fullName, dob, ...otherFields } = baseData;
+  const normalizedData = Object.entries(baseData).reduce(
+    (acc, [key, value]) => {
+      acc[key] =
+        typeof value === 'string' && key.toLowerCase().includes('phone')
+          ? value.replace(/-/g, '')
+          : value;
+      return acc;
+    },
+    {},
+  );
+
+  const { fullName, dob, ...otherFields } = normalizedData;
 
   const payload = {
-    form: {
-      ...otherFields,
-      veteranInformation: {
-        fullName,
-        dob,
-      },
+    ...otherFields,
+    veteranInformation: {
+      fullName,
+      dob,
     },
   };
 
-  return JSON.stringify(payload);
+  return JSON.stringify({
+    veteranReadinessEmploymentClaim: {
+      form: JSON.stringify(payload),
+    },
+  });
 }

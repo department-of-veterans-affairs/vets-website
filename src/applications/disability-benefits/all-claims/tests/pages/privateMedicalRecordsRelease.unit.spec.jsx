@@ -7,10 +7,11 @@ import {
   DefinitionTester,
   fillData,
   fillDate,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
-import initialData from '../initialData.js';
-import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
+} from 'platform/testing/unit/schemaform-utils';
+import { waitFor } from '@testing-library/dom';
+import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
+import formConfig from '../../config/form';
+import initialData from '../initialData';
 
 const {
   schema,
@@ -53,7 +54,7 @@ const newDisabilities = [
 ];
 
 describe('Disability benefits 4142 provider medical records facility information', () => {
-  it('should render 4142 form', () => {
+  it('should render 4142 form', async () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -72,7 +73,7 @@ describe('Disability benefits 4142 provider medical records facility information
     form.unmount();
   });
 
-  it('should add a provider facility', () => {
+  it('should add a provider facility', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -125,13 +126,15 @@ describe('Disability benefits 4142 provider medical records facility information
       '29414',
     );
 
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.true;
-    expect(form.find('.usa-input-error').length).to.equal(0);
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(onSubmit.called).to.be.true;
+      expect(form.find('.usa-input-error').length).to.equal(0);
+    });
     form.unmount();
   });
 
-  it('does not submit (and renders error messages) when no fields touched', () => {
+  it('does not submit (and renders error messages) when no fields touched', async () => {
     const submit = sinon.spy();
 
     const form = mount(
@@ -146,18 +149,20 @@ describe('Disability benefits 4142 provider medical records facility information
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(submit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(submit.called).to.be.false;
 
-    expect(form.find('.usa-input-error').length).to.equal(7);
+      expect(form.find('.usa-input-error').length).to.equal(7);
 
-    expect(form.find('select').length).to.equal(6);
-    expect(form.find('input').length).to.equal(7); // non-checkbox inputs
-    expect(form.find('va-checkbox').length).to.equal(1);
+      expect(form.find('select').length).to.equal(6);
+      expect(form.find('input').length).to.equal(7); // non-checkbox inputs
+      expect(form.find('va-checkbox').length).to.equal(1);
+    });
     form.unmount();
   });
 
-  it('does not submit (and renders error messages) when limited consent option chosen and no fields touched', () => {
+  it('does not submit (and renders error messages) when limited consent option chosen and no fields touched', async () => {
     const submit = sinon.spy();
 
     const form = mount(
@@ -174,13 +179,15 @@ describe('Disability benefits 4142 provider medical records facility information
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(submit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(submit.called).to.be.false;
 
-    expect(form.find('.usa-input-error').length).to.equal(8);
+      expect(form.find('.usa-input-error').length).to.equal(8);
 
-    expect(form.find('input').length).to.equal(8); // non-checkbox inputs
-    expect(form.find('va-checkbox').length).to.equal(1);
+      expect(form.find('input').length).to.equal(8); // non-checkbox inputs
+      expect(form.find('va-checkbox').length).to.equal(1);
+    });
     form.unmount();
   });
 });

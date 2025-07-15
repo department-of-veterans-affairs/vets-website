@@ -112,7 +112,7 @@ import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import general from './chapters/insuranceInformation/general';
 import insurancePolicyPages from './chapters/insuranceInformation/insurancePolicies';
-import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
+import vaFacilityPage from './chapters/insuranceInformation/vaFacility';
 import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
 
 // declare shared paths for custom form page navigation
@@ -276,7 +276,7 @@ const formConfig = {
           path: 'va-benefits/benefits-package',
           title: 'VA benefits package',
           depends: includeRegOnlyGuestQuestions,
-          CustomPageReview: () => null,
+          CustomPageReview: null,
           uiSchema: benefitsPackage.uiSchema,
           schema: benefitsPackage.schema,
         },
@@ -573,22 +573,12 @@ const formConfig = {
           uiSchema: general.uiSchema,
           schema: general.schema,
         },
-        healthInsurancePolicySummary: {
-          ...insurancePolicyPages.healthInsurancePolicySummary,
-          depends: formData => formData['view:isInsuranceV2Enabled'],
-        },
-        healthInsurancePolicyInformation: {
-          ...insurancePolicyPages.healthInsurancePolicyInformation,
-          depends: formData => formData['view:isInsuranceV2Enabled'],
-        },
-        vaFacilityLighthouse: {
-          path: 'insurance-information/va-facility-api',
+        ...insurancePolicyPages,
+        vaFacility: {
+          path: 'insurance-information/va-facility',
           title: 'VA Facility',
-          initialData: {
-            isEssentialAcaCoverage: false,
-          },
-          uiSchema: vaFacilityApiPage.uiSchema,
-          schema: vaFacilityApiPage.schema,
+          uiSchema: vaFacilityPage.uiSchema,
+          schema: vaFacilityPage.schema,
         },
       },
     },

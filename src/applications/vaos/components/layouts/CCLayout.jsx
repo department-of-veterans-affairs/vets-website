@@ -63,9 +63,12 @@ export default function CCLayout({ data: appointment }) {
     <>
       <DetailPageLayout heading={heading} data={appointment}>
         <When>
-          <AppointmentDate date={startDate} />
+          <AppointmentDate date={startDate} timezone={appointment.timezone} />
           <br />
-          <AppointmentTime appointment={appointment} />
+          <AppointmentTime
+            appointment={appointment}
+            timezone={appointment.timezone}
+          />
           <br />
           {APPOINTMENT_STATUS.cancelled !== status &&
             !isPastAppointment && (
@@ -109,12 +112,12 @@ export default function CCLayout({ data: appointment }) {
             APPOINTMENT_STATUS.cancelled === status) && (
             <Prepare>
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                Bring your insurance cards. And bring a list of your medications
-                and other information to share with your provider.
+                Bring your insurance cards, a list of your medications, and
+                other things to share with your provider
               </p>
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
                 <va-link
-                  text="Find a full list of things to bring to your appointment"
+                  text="Find out what to bring to your appointment"
                   href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
                 />
               </p>

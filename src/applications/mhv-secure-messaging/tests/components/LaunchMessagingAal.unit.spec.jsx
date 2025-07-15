@@ -102,7 +102,10 @@ describe('LaunchMessagingAal', () => {
     delete window.DD_RUM; // Ensure DD_RUM is undefined
     const errorObj = { errors: [{ code: '500', detail: 'fail' }] };
     submitStub.rejects(errorObj);
-    useFeatureTogglesStub = stubUseFeatureToggles({ isAalEnabled: true });
+    useFeatureTogglesStub = stubUseFeatureToggles({
+      isAalEnabled: true,
+      largeAttachmentsEnabled: false,
+    });
 
     render(<LaunchMessagingAal />);
 

@@ -1,0 +1,467 @@
+{
+  "title": "VA.gov Web Component Form Field Patterns Catalog (RJSF)",
+  "description": "Catalog of all acceptable web component uiSchema and schema patterns for form fields in VA.gov applications. These patterns are used in pairs to define form field behavior and validation in RJSF (React JSON Schema Form) implementations using the VA design system web components.",
+  "importPath": "platform/forms-system/src/js/web-component-patterns",
+  "totalPatterns": 51,
+  "patterns": [
+    {
+      "category": "Address",
+      "uiSchema": "addressNoMilitaryUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for address - Same as addressUI, but without the military checkbox. Includes fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.",
+      "schema": "addressNoMilitarySchema",
+      "schemaType": "function",
+      "schemaDescription": "Schema for addressNoMilitaryUI. Fields may be omitted."
+    },
+    {
+      "category": "Address",
+      "uiSchema": "addressUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.",
+      "schema": "addressSchema",
+      "schemaType": "function",
+      "schemaDescription": "Schema for addressUI. Fields may be omitted."
+    },
+    {
+      "category": "AddressDeprecated",
+      "uiSchema": "addressDeprecatedUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "Web component v3 uiSchema for address",
+      "schema": "addressDeprecatedSchema",
+      "schemaType": "function",
+      "schemaDescription": "Web component schema for address"
+    },
+    {
+      "category": "AddressDeprecated",
+      "uiSchema": "addressNoMilitaryDeprecatedUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "Web component v3 uiSchema for address",
+      "schema": "addressNoMilitaryDeprecatedSchema",
+      "schemaType": "function",
+      "schemaDescription": "Web component schema for address"
+    },
+    {
+      "category": "Arn",
+      "uiSchema": "arnOrVaFileNumberUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for Alien registration number or VA File Number. Includes two fields.",
+      "schema": "arnOrVaFileNumberSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema for arnOrVaFileNumberUI"
+    },
+    {
+      "category": "Arn",
+      "uiSchema": "arnUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for Alien registration number (ARN)",
+      "schema": "arnSchema",
+      "schemaType": "object",
+      "schemaDescription": "schema for arnUI"
+    },
+    {
+      "category": "ArrayBuilder",
+      "uiSchema": "arrayBuilderItemFirstPageTitleUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "Title for the first page of an item in an array builder",
+      "schema": null,
+      "schemaType": null,
+      "schemaDescription": null
+    },
+    {
+      "category": "ArrayBuilder",
+      "uiSchema": "arrayBuilderItemSubsequentPageTitleUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "Title for the top of a subsequent page (not the first) of an item in array builder pattern",
+      "schema": null,
+      "schemaType": null,
+      "schemaDescription": null
+    },
+    {
+      "category": "ArrayBuilder",
+      "uiSchema": "arrayBuilderYesNoUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for the yes/no question in an array builder summary page. Includes array builder options, options when no cards are present, and options when cards are present.",
+      "schema": "arrayBuilderYesNoSchema",
+      "schemaType": "object",
+      "schemaDescription": "schema for arrayBuilderYesNoUI"
+    },
+    {
+      "category": "Bank",
+      "uiSchema": "bankAccountUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for bank account information. Includes fields for account type, account number, routing number, and bank name. Bank name may be omitted.",
+      "schema": "bankAccountSchema",
+      "schemaType": "function",
+      "schemaDescription": "schema for bankAccountUI"
+    },
+    {
+      "category": "Checkbox",
+      "uiSchema": null,
+      "uiSchemaType": null,
+      "uiSchemaDescription": null,
+      "schema": "checkboxRequiredSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "Checkbox",
+      "uiSchema": "checkboxUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "Web component v3 uiSchema for checkbox",
+      "schema": "checkboxSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "CheckboxGroup",
+      "uiSchema": "checkboxGroupUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for checkbox group. Includes title and labels.",
+      "schema": "checkboxGroupSchema",
+      "schemaType": "function",
+      "schemaDescription": "schema for checkboxGroupUI"
+    },
+    {
+      "category": "Currency",
+      "uiSchema": null,
+      "uiSchemaType": null,
+      "uiSchemaDescription": null,
+      "schema": "currencyStringSchema",
+      "schemaType": "object",
+      "schemaDescription": "schema for currencyUI with type string"
+    },
+    {
+      "category": "Currency",
+      "uiSchema": "currencyUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for currency based input which uses VaTextInputField",
+      "schema": "currencySchema",
+      "schemaType": "object",
+      "schemaDescription": "schema for currencyUI with type number"
+    },
+    {
+      "category": "Date",
+      "uiSchema": "currentOrPastDateDigitsUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for current or past dates with digit select for month",
+      "schema": "currentOrPastDateDigitsSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "Date",
+      "uiSchema": "currentOrPastDateRangeUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for a \"from\" and \"to\" date range with current or past dates. Includes two fields.",
+      "schema": "currentOrPastDateRangeSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema for currentOrPastDateRangeUI"
+    },
+    {
+      "category": "Date",
+      "uiSchema": "currentOrPastDateUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for a generic current or past date",
+      "schema": "currentOrPastDateSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "Date",
+      "uiSchema": "currentOrPastMonthYearDateRangeUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for month and year only date range. Includes two fields for \"from\" and \"to\" dates.",
+      "schema": "currentOrPastMonthYearDateRangeSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema for currentOrPastMonthYearDateRangeUI"
+    },
+    {
+      "category": "Date",
+      "uiSchema": "currentOrPastMonthYearDateUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for a current or past month and year",
+      "schema": "currentOrPastMonthYearDateSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "Date",
+      "uiSchema": "dateOfBirthUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for date of birth",
+      "schema": "dateOfBirthSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "Date",
+      "uiSchema": "dateOfDeathUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for date of death",
+      "schema": "dateOfDeathSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "Email",
+      "uiSchema": "emailToSendNotificationsUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for email which also has an additional hint explaining it will be used for notifications about form submission. Preferred if it is the only email field in the form. Generally required.",
+      "schema": "emailToSendNotificationsSchema",
+      "schemaType": "object",
+      "schemaDescription": "schema for emailToSendNotificationsUI"
+    },
+    {
+      "category": "Email",
+      "uiSchema": "emailUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for email",
+      "schema": "emailSchema",
+      "schemaType": "object",
+      "schemaDescription": "schema for emailUI"
+    },
+    {
+      "category": "FileInput",
+      "uiSchema": "fileInputUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for file input field",
+      "schema": "fileInputSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema for fileInputUI"
+    },
+    {
+      "category": "FullName",
+      "uiSchema": "firstNameLastNameNoSuffixUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for `first` and `last name` only",
+      "schema": "firstNameLastNameNoSuffixSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "FullName",
+      "uiSchema": "firstNameLastNameUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for `first`, `last name`, and `suffix`",
+      "schema": "firstNameLastNameSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "FullName",
+      "uiSchema": "fullNameNoSuffixUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for `first`, `middle`, and `last name`",
+      "schema": "fullNameNoSuffixSchema",
+      "schemaType": "object",
+      "schemaDescription": "schema for `fullNameNoSuffixUI`"
+    },
+    {
+      "category": "FullName",
+      "uiSchema": "fullNameUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for `first`, `middle`, `last name`, and `suffix`",
+      "schema": "fullNameSchema",
+      "schemaType": "object",
+      "schemaDescription": "schema for `fullNameUI`"
+    },
+    {
+      "category": "FullName",
+      "uiSchema": "fullNameWithMaidenNameUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for `first`, `middle`, `last name`, `suffix`, and `maiden name`",
+      "schema": "fullNameWithMaidenNameSchema",
+      "schemaType": "object",
+      "schemaDescription": "schema for `fullNameWithMaidenNameUI`"
+    },
+    {
+      "category": "InternationalPhone",
+      "uiSchema": "internationalPhoneUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "Web component v3 uiSchema for an international phone number",
+      "schema": "internationalPhoneSchema",
+      "schemaType": "function",
+      "schemaDescription": null
+    },
+    {
+      "category": "Number",
+      "uiSchema": "numberUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for a number based input which uses VaTextInputField",
+      "schema": "numberSchema",
+      "schemaType": "object",
+      "schemaDescription": "schema for numberUI"
+    },
+    {
+      "category": "Phone",
+      "uiSchema": "internationalPhoneDeprecatedUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "Web component v3 uiSchema for international phone number",
+      "schema": "internationalPhoneDeprecatedSchema",
+      "schemaType": "object",
+      "schemaDescription": "It allows optional dashes in between"
+    },
+    {
+      "category": "Phone",
+      "uiSchema": "phoneUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for a phone number - a single text input field",
+      "schema": "phoneSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "Radio",
+      "uiSchema": "radioUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for generic radio field",
+      "schema": "radioSchema",
+      "schemaType": "function",
+      "schemaDescription": "schema for radioUI"
+    },
+    {
+      "category": "RelationshipToVeteran",
+      "uiSchema": "claimantRelationshipToVeteranSpouseOrChildUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for claimant relationship to veteran, specifically for spouse or child",
+      "schema": null,
+      "schemaType": null,
+      "schemaDescription": null
+    },
+    {
+      "category": "RelationshipToVeteran",
+      "uiSchema": "relationshipToVeteranSpouseOrChildUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for relationship to veteran, specifically for spouse or child",
+      "schema": "relationshipToVeteranSpouseOrChildSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "RelationshipToVeteran",
+      "uiSchema": "relationshipToVeteranUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for relationship to veteran. Includes spouse, child, parent, executor, and other fields",
+      "schema": "relationshipToVeteranSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "Select",
+      "uiSchema": "selectUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for generic select field",
+      "schema": "selectSchema",
+      "schemaType": "function",
+      "schemaDescription": "schema for selectUI"
+    },
+    {
+      "category": "Ssn",
+      "uiSchema": "serviceNumberUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for Service Number",
+      "schema": "serviceNumberSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema for serviceNumberUI"
+    },
+    {
+      "category": "Ssn",
+      "uiSchema": null,
+      "uiSchemaType": null,
+      "uiSchemaDescription": null,
+      "schema": "ssnOrServiceNumberSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema ssnOrServiceNumberUI"
+    },
+    {
+      "category": "Ssn",
+      "uiSchema": "ssnOrVaFileNumberNoHintUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for Social Security number or VA File Number. Should be used with a description above the fields such as: \"You must enter a Social Security number or VA file number\"",
+      "schema": "ssnOrVaFileNumberNoHintSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema for ssnOrVaFileNumberNoHintUI"
+    },
+    {
+      "category": "Ssn",
+      "uiSchema": "ssnOrVaFileNumberUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for Social Security number or VA File Number. Includes two fields, and a hint about entering either or.",
+      "schema": "ssnOrVaFileNumberSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema for ssnOrVaFileNumberUI"
+    },
+    {
+      "category": "Ssn",
+      "uiSchema": "ssnUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for Social Security number field",
+      "schema": "ssnSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema for ssnUI"
+    },
+    {
+      "category": "Ssn",
+      "uiSchema": "vaFileNumberUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for VA File Number",
+      "schema": "vaFileNumberSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema for vaFileNumberUI"
+    },
+    {
+      "category": "Text",
+      "uiSchema": "textareaUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for generic textarea input field",
+      "schema": "textareaSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema for textareaUI"
+    },
+    {
+      "category": "Text",
+      "uiSchema": "textUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for generic text input field",
+      "schema": "textSchema",
+      "schemaType": "object",
+      "schemaDescription": "Schema textUI"
+    },
+    {
+      "category": "Title",
+      "uiSchema": "descriptionUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for a description. Prefer to use second argument of titleUI instead.",
+      "schema": "descriptionSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "Title",
+      "uiSchema": "inlineTitleUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for an inline title for (in the middle of) a form page. Try not to use this.",
+      "schema": "inlineTitleSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "Title",
+      "uiSchema": "titleUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema title for the form page, which appears at the top of the page, implemented with object spread into the uiSchema like such: ...titleUI('title')",
+      "schema": "titleSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    },
+    {
+      "category": "YesNo",
+      "uiSchema": "yesNoUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for yes or no questions. yesNoUI is an abstraction of radioUI tailored for binary yes/no questions.",
+      "schema": "yesNoSchema",
+      "schemaType": "object",
+      "schemaDescription": null
+    }
+  ]
+}

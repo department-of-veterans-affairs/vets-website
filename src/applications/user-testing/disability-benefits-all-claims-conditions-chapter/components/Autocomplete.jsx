@@ -15,6 +15,7 @@ const Autocomplete = ({
   formData,
   id,
   label,
+  hint,
   onChange,
 }) => {
   const [value, setValue] = useState(formData);
@@ -167,6 +168,7 @@ const Autocomplete = ({
         data-testid="autocomplete-input"
         id={id}
         label={label}
+        hint={hint}
         message-aria-describedby={!value ? INSTRUCTIONS : null}
         ref={inputRef}
         required
@@ -221,6 +223,7 @@ Autocomplete.propTypes = {
   availableResults: PropTypes.array,
   debounceDelay: PropTypes.number,
   formData: PropTypes.string,
+  hint: PropTypes.string,
   id: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func,

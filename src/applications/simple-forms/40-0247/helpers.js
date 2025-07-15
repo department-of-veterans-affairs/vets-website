@@ -2,6 +2,8 @@ import React from 'react';
 
 import moment from 'moment';
 
+import environment from 'platform/utilities/environment';
+
 import recordEvent from 'platform/monitoring/record-event';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
@@ -32,7 +34,19 @@ export const pageFocusScroll = () => {
   };
 };
 
-export const supportingDocsDescription = (
+export const supportingDocsDescriptionNotProd = (
+  <div className="supp-docs-description">
+    <p>Guidelines for uploading a file:</p>
+    <ul>
+      <>
+        <li>You can upload a .pdf, .jpeg, .jpg, or .png file.</li>
+        <li>Your file should be no larger than 20MB.</li>
+      </>
+    </ul>
+  </div>
+);
+
+export const supportingDocsDescriptionProd = (
   <div className="supp-docs-description">
     <p>We prefer that you upload the Veteran’s or Reservist’s DD214.</p>
     <p>Guidelines for uploading a file:</p>
@@ -44,6 +58,10 @@ export const supportingDocsDescription = (
     </ul>
   </div>
 );
+
+export const supportingDocsDescription = environment.isProduction()
+  ? supportingDocsDescriptionProd
+  : supportingDocsDescriptionNotProd;
 
 export const createPayload = (file, formId, password) => {
   const payload = new FormData();

@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { Provider } from 'react-redux';
 
 // simulate v1 forms library input change
 export const simulateInputChange = (formDOM, querySelectorElement, value) => {
@@ -57,4 +58,22 @@ export const expectStateInputToBeRequired = (
   });
 
   expect(state).to.have.attr('required', 'true');
+};
+
+export const setMockStoreData = data => ({
+  mockStore: {
+    getState: () => ({
+      form: {
+        data,
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  },
+});
+
+// This can be used for rendering components that need the redux store
+export const renderProviderWrappedComponent = (storeData, component) => {
+  const { mockStore } = setMockStoreData(storeData);
+  return render(<Provider store={mockStore}>{component}</Provider>);
 };

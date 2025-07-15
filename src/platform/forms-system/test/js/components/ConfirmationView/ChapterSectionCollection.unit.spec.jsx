@@ -467,9 +467,7 @@ describe('confirmation page view helpers', () => {
     expect(getByText('Social Security number')).to.exist;
     expect(getByText('VA file number')).to.exist;
     expect(getByText('●●●-●●-6789')).to.exist;
-
-    // bug: va file number should also be masked
-    expect(getByText('987654321')).to.exist;
+    expect(getByText('●●●-●●-4321')).to.exist;
   });
 
   it('should show checkbox group correctly', () => {
@@ -588,7 +586,7 @@ describe('Component ChapterSectionCollection', () => {
     expect(getByText('Social Security number')).to.exist;
     expect(getByText('VA file number')).to.exist;
     expect(getByText('●●●-●●-6789')).to.exist;
-    expect(getByText('987654321')).to.exist;
+    expect(getByText('●●●-●●-4321')).to.exist;
 
     expect(getByText('Checkbox group chapter')).to.exist;
     expect(getByText('Checkbox group')).to.exist;
@@ -656,5 +654,31 @@ describe('Component ChapterSectionCollection', () => {
 
     expect(getByText('Radio page confirmation field')).to.exist;
     expect(getByText('Page level confirmation field rendered')).to.exist;
+  });
+
+  it('should render dividers (hr) between chapters', () => {
+    const { mockStore } = mockRedux({
+      formData: {
+        ...mockChapterRadioData,
+        ...mockChapterTextData,
+      },
+    });
+
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ChapterSectionCollection
+          formConfig={{
+            chapters: {
+              radioChapter: mockChapterRadio,
+              textChapter: mockChapterText,
+            },
+          }}
+        />
+      </Provider>,
+    );
+
+    // Should have exactly one <hr> since there are two chapters
+    const hrElements = container.querySelectorAll('hr');
+    expect(hrElements.length).to.equal(1);
   });
 });

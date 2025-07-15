@@ -29,6 +29,8 @@ const App = props => {
     isProdEnabled,
     isEmergencyContactsEnabled,
     isNextOfKinEnabled,
+    isProvidersAndDependentsPrefillEnabled,
+    isDownloadPdfEnabled,
   } = features;
   const {
     dob: veteranDateOfBirth,
@@ -68,6 +70,8 @@ const App = props => {
           'view:householdEnabled': !!canSubmitFinancialInfo,
           'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
           'view:isNextOfKinEnabled': !!isNextOfKinEnabled,
+          'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
+          'view:isDownloadPdfEnabled': !!isDownloadPdfEnabled,
         };
 
         setFormData({
@@ -77,7 +81,12 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isAppLoading, canSubmitFinancialInfo, veteranFullName],
+    [
+      isAppLoading,
+      canSubmitFinancialInfo,
+      veteranFullName,
+      isProvidersAndDependentsPrefillEnabled,
+    ],
   );
 
   // Add Datadog UX monitoring to the application
@@ -116,6 +125,9 @@ const mapStateToProps = state => ({
     isEmergencyContactsEnabled:
       state.featureToggles.ezrEmergencyContactsEnabled,
     isNextOfKinEnabled: state.featureToggles.ezrNextOfKinEnabled,
+    isProvidersAndDependentsPrefillEnabled:
+      state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
+    isDownloadPdfEnabled: state.featureToggles.ezrDownloadPdfEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,

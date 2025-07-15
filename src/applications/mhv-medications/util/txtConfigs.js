@@ -2,7 +2,10 @@ import {
   createNoDescriptionText,
   createVAPharmacyText,
   dateFormat,
+  determineRefillLabel,
+  displayProviderName,
   getRefillHistory,
+  getShowRefillHistory,
   processList,
   validateField,
   validateIfAvailable,
@@ -82,6 +85,10 @@ export const buildPrescriptionsTXT = prescriptions => {
       result += buildNonVAPrescriptionTXT(rx).slice(84);
       return;
     }
+    const pendingMed =
+      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+    const pendingRenewal =
+      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
 
     result += `
 ${rx.prescriptionName}
@@ -93,9 +100,13 @@ Last filled on: ${dateFormat(
       'MMMM D, YYYY',
       'Date not available',
     )}
-
+${
+      !pendingMed && !pendingRenewal
+        ? `
 Prescription number: ${rx.prescriptionNumber}
-
+`
+        : ''
+    }
 Status: ${rx.dispStatus || 'Unknown'}
 ${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
       (fullStatus, item) =>
@@ -132,11 +143,7 @@ Prescribed on: ${dateFormat(
       'Date not available',
     )}
 
-Prescribed by: ${
-      rx.providerLastName
-        ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
-        : 'Provider name not available'
-    }
+Prescribed by: ${displayProviderName(rx.providerFirstName, rx.providerLastName)}
 
 ${
       rx.groupedMedications?.length > 0
@@ -158,11 +165,11 @@ ${
  */
 export const buildAllergiesTXT = allergies => {
   if (!allergies) {
-    return '\nAllergies\n\nWe couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.\n';
+    return '\n\nAllergies\n\nWe couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.\n';
   }
 
   if (allergies && allergies.length === 0) {
-    return '\nAllergies\n\nThere are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.\n';
+    return '\n\nAllergies\n\nThere are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.\n';
   }
 
   let result = `
@@ -203,6 +210,13 @@ Provider notes: ${validateField(item.notes)}
  */
 export const buildVAPrescriptionTXT = prescription => {
   const refillHistory = getRefillHistory(prescription);
+  const showRefillHistory = getShowRefillHistory(refillHistory);
+  const pendingMed =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'NewOrder';
+  const pendingRenewal =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'Renew';
   let result = `
 ---------------------------------------------------------------------------------
 
@@ -221,9 +235,13 @@ Last filled on: ${dateFormat(
     'MMMM D, YYYY',
     'Date not available',
   )}
-
+${
+    !pendingMed && !pendingRenewal
+      ? `
 Prescription number: ${prescription.prescriptionNumber}
-
+`
+      : ''
+  }
 Status: ${prescription.dispStatus || 'Unknown'}
 ${(
     pdfStatusDefinitions[prescription.refillStatus] ||
@@ -266,59 +284,70 @@ Prescribed on: ${dateFormat(
     'Date not available',
   )}
 
-Prescribed by: ${
-    prescription.providerLastName
-      ? `${prescription.providerLastName}, ${prescription.providerFirstName ||
-          ''}`
-      : 'Provider name not available'
-  }
-
-
-Refill history
-
-Showing ${refillHistory.length} refill${
-    refillHistory.length > 1 ? 's, from newest to oldest' : ''
-  }
-
+Prescribed by: ${displayProviderName(
+    prescription.providerFirstName,
+    prescription.providerLastName,
+  )}
   `;
 
-  refillHistory.forEach((entry, i) => {
-    const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
-    const { shape, color, backImprint, frontImprint } = entry;
-    const hasValidDesc = shape?.trim() && color?.trim() && frontImprint?.trim();
-    const index = refillHistory.length - i - 1;
-    const description = hasValidDesc
-      ? `
+  if (showRefillHistory) {
+    result += `
+Refill history
+
+Showing ${refillHistory.length} fill${
+      refillHistory.length > 1 ? 's, from newest to oldest' : ''
+    }
+
+`;
+
+    refillHistory.forEach((entry, i) => {
+      const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+      const { shape, color, backImprint, frontImprint } = entry;
+      const hasValidDesc =
+        shape?.trim() && color?.trim() && frontImprint?.trim();
+      const isPartialFill = entry.prescriptionSource === 'PF';
+      const refillLabel = determineRefillLabel(isPartialFill, refillHistory, i);
+      const description = hasValidDesc
+        ? `
 Note: If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
-          phone,
-        )}
+            phone,
+          )}
 
 * Shape: ${shape[0].toUpperCase()}${shape.slice(1).toLowerCase()}
 * Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
 * Front marking: ${frontImprint}
 ${backImprint ? `* Back marking: ${backImprint}` : ''}`
-      : createNoDescriptionText(phone);
-    result += `
-${index === 0 ? 'Original fill' : `Refill`}: ${dateFormat(
-      entry.dispensedDate,
-      'MMMM D, YYYY',
-      'Date not available',
-    )}
+        : createNoDescriptionText(phone);
+      result += `
+${refillLabel}: ${dateFormat(
+        entry.dispensedDate,
+        'MMMM D, YYYY',
+        'Date not available',
+      )}
 ${
-      i === 0
-        ? `
-Shipped on: ${dateFormat(
-            prescription?.trackingList?.[0]?.completeDateTime,
-            'MMMM D, YYYY',
-            'Date not available',
-          )}
-`
-        : ``
-    }
-Medication description: ${description}
+        isPartialFill
+          ? `
+This fill has a smaller quantity on purpose.
 
-    `;
-  });
+Quantity: ${entry.quantity}`
+          : ``
+      }
+${
+        i === 0 && !isPartialFill
+          ? `
+Shipped on: ${dateFormat(
+              prescription?.trackingList?.[0]?.completeDateTime,
+              'MMMM D, YYYY',
+              'Date not available',
+            )}
+`
+          : ``
+      }
+${!isPartialFill ? `Medication description: ${description}` : ``}
+
+  `;
+    });
+  }
 
   if (prescription?.groupedMedications?.length > 0) {
     result += `
@@ -350,13 +379,10 @@ Prescribed on: ${dateFormat(
         'Date not available',
       )}
 
-Prescribed by: ${
-        previousPrescription.providerLastName
-          ? `${
-              previousPrescription.providerLastName
-            }, ${previousPrescription.providerFirstName || ''}`
-          : 'Provider name not available'
-      }
+Prescribed by: ${displayProviderName(
+        prescription.providerFirstName,
+        prescription.providerLastName,
+      )}
       `;
     });
   }

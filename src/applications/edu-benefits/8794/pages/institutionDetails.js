@@ -4,18 +4,31 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const updateFormData = (oldData, formData) => {
+  const prev = oldData?.institutionDetails?.hasVaFacilityCode;
+  const curr = formData?.institutionDetails?.hasVaFacilityCode;
+
+  if (prev !== curr) {
+    return {
+      ...formData,
+      institutionDetails: {
+        ...formData.institutionDetails,
+        institutionName: '',
+        institutionAddress: {},
+      },
+    };
+  }
+  return formData;
+};
+
 const uiSchema = {
   institutionDetails: {
     ...titleUI('VA facility code'),
 
     hasVaFacilityCode: yesNoUI({
       title: 'Has your institution been assigned a VA facility code?',
-      labels: {
-        N: 'Not yet',
-      },
-      errorMessages: {
-        required: 'Please provide a response',
-      },
+      labels: { N: 'Not yet' },
+      errorMessages: { required: 'Please provide a response' },
     }),
   },
 };
@@ -33,4 +46,4 @@ const schema = {
   },
 };
 
-export { uiSchema, schema };
+export { uiSchema, schema, updateFormData };

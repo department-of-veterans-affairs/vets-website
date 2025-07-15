@@ -2,31 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAppointmentCreateStatus, getSelectedSlot } from './redux/selectors';
 import {
-  getAppointmentCreateStatus,
-  getDraftAppointmentInfo,
-  getSelectedSlot,
-} from './redux/selectors';
-import { FETCH_STATUS } from '../utils/constants';
+  FETCH_STATUS,
+  POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
+} from '../utils/constants';
 import {
   createReferralAppointment,
-  createDraftReferralAppointment,
   setFormCurrentPage,
   setSelectedSlot,
 } from './redux/actions';
+import { usePostDraftReferralAppointmentMutation } from '../redux/api/vaosApi';
 import ReferralLayout from './components/ReferralLayout';
 import {
   routeToPreviousReferralPage,
   routeToCCPage,
   routeToNextReferralPage,
 } from './flow';
+
 import { getReferralSlotKey } from './utils/referrals';
 import { getSlotByDate } from './utils/provider';
-import {
-  getTimezoneDescByFacilityId,
-  getTimezoneByFacilityId,
-} from '../utils/timezone';
+import { stripDST } from '../utils/timezone';
 import ProviderAddress from './components/ProviderAddress';
 import { titleCase } from '../utils/formatters';
 
@@ -35,10 +32,18 @@ const ReviewAndConfirm = props => {
   const dispatch = useDispatch();
   const history = useHistory();
   const selectedSlot = useSelector(state => getSelectedSlot(state));
-  const { draftAppointmentInfo, draftAppointmentCreateStatus } = useSelector(
-    state => getDraftAppointmentInfo(state),
-    shallowEqual,
-  );
+  const [
+    postDraftReferralAppointment,
+    {
+      data: draftAppointmentInfo,
+      isError: isDraftError,
+      isLoading: isDraftLoading,
+      isUninitialized: isDraftUninitialized,
+      isSuccess: isDraftSuccess,
+    },
+  ] = usePostDraftReferralAppointmentMutation({
+    fixedCacheKey: POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
+  });
 
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const [loading, setLoading] = useState(true);
@@ -48,9 +53,6 @@ const ReviewAndConfirm = props => {
   const slotDetails = getSlotByDate(
     draftAppointmentInfo?.attributes?.slots,
     selectedSlot,
-  );
-  const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacility.code,
   );
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.uuid),
@@ -73,27 +75,28 @@ const ReviewAndConfirm = props => {
 
   useEffect(
     () => {
-      if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-        dispatch(
-          createDraftReferralAppointment(currentReferral.referralNumber),
-        );
-      } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
+      if (isDraftUninitialized) {
+        postDraftReferralAppointment(currentReferral.referralNumber);
+      } else if (isDraftSuccess) {
         setLoading(false);
-      } else if (draftAppointmentCreateStatus === FETCH_STATUS.failed) {
+      } else if (isDraftError) {
         setLoading(false);
         setFailed(true);
       }
     },
-    [currentReferral.referralNumber, dispatch, draftAppointmentCreateStatus],
+    [
+      currentReferral.referralNumber,
+      dispatch,
+      isDraftError,
+      isDraftSuccess,
+      isDraftUninitialized,
+      postDraftReferralAppointment,
+    ],
   );
 
   useEffect(
     () => {
-      if (
-        !selectedSlot &&
-        savedSelectedSlot &&
-        draftAppointmentCreateStatus === FETCH_STATUS.succeeded
-      ) {
+      if (!selectedSlot && savedSelectedSlot && isDraftSuccess) {
         const savedSlot = getSlotByDate(
           draftAppointmentInfo?.attributes?.slots,
           savedSelectedSlot,
@@ -110,8 +113,8 @@ const ReviewAndConfirm = props => {
       savedSelectedSlot,
       draftAppointmentInfo,
       history,
-      draftAppointmentCreateStatus,
       selectedSlot,
+      isDraftSuccess,
     ],
   );
 
@@ -146,7 +149,7 @@ const ReviewAndConfirm = props => {
       } else if (
         appointmentCreateStatus === FETCH_STATUS.failed &&
         draftAppointmentInfo?.id &&
-        draftAppointmentCreateStatus === FETCH_STATUS.succeeded
+        isDraftSuccess
       ) {
         setCreateLoading(false);
         setCreateFailed(true);
@@ -156,12 +159,12 @@ const ReviewAndConfirm = props => {
       appointmentCreateStatus,
       draftAppointmentInfo?.id,
       currentReferral.uuid,
-      draftAppointmentCreateStatus,
+      isDraftSuccess,
       history,
     ],
   );
 
-  if (loading) {
+  if (loading || isDraftLoading) {
     return (
       <ReferralLayout
         hasEyebrow
@@ -187,23 +190,32 @@ const ReviewAndConfirm = props => {
           <div className="vads-l-row">
             <div className="vads-l-col">
               <h2 className={headingStyles}>
-                {`${titleCase(currentReferral.categoryOfCare)} Provider`}
+                <span data-dd-privacy="mask">
+                  {`${titleCase(currentReferral.categoryOfCare)} provider`}
+                </span>
               </h2>
             </div>
           </div>
         </div>
         <p className="vads-u-margin--0">
-          {draftAppointmentInfo.attributes.provider.name} <br />
-          {draftAppointmentInfo.attributes.provider.providerOrganization.name}
+          <span data-dd-privacy="mask">
+            {draftAppointmentInfo.attributes.provider.name}
+          </span>{' '}
+          <br />
+          <span data-dd-privacy="mask">
+            {draftAppointmentInfo.attributes.provider.providerOrganization.name}
+          </span>
         </p>
         {draftAppointmentInfo.attributes.provider.location.address}
         {currentReferral.provider?.telephone && (
           <p className="vads-u-margin--0" data-testid="phone">
             Phone:{' '}
-            <va-telephone
-              contact={currentReferral.provider?.telephone}
-              data-testid="provider-telephone"
-            />
+            <span data-dd-privacy="mask">
+              <va-telephone
+                contact={currentReferral.provider?.telephone}
+                data-testid="provider-telephone"
+              />
+            </span>
           </p>
         )}
         <hr className="vads-u-margin-y--2" />
@@ -232,20 +244,19 @@ const ReviewAndConfirm = props => {
             <>
               {formatInTimeZone(
                 new Date(slotDetails.start),
-                facilityTimeZone,
+                draftAppointmentInfo.attributes.provider.location.timezone,
                 'EEEE, LLLL d, yyyy',
               )}
             </>
             <br />
             <>
-              {formatInTimeZone(
-                new Date(slotDetails.start),
-                facilityTimeZone,
-                'h:mm aaaa',
-              )}{' '}
-              {`${getTimezoneDescByFacilityId(
-                currentReferral.referringFacility.code,
-              )}`}
+              {stripDST(
+                formatInTimeZone(
+                  new Date(slotDetails.start),
+                  draftAppointmentInfo.attributes.provider.location.timezone,
+                  'h:mm aaaa zzz',
+                ),
+              )}
             </>
           </p>
         )}
@@ -264,8 +275,8 @@ const ReviewAndConfirm = props => {
             data-testid="continue-button"
             loading={createLoading}
             class="vads-u-margin-left--2"
-            label="Continue"
-            text="Continue"
+            label="Confirm"
+            text="Confirm"
             uswds
             onClick={e => {
               e.preventDefault();

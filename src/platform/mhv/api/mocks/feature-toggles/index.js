@@ -28,15 +28,22 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
+
+    // OH integration work
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvAcceleratedDeliveryVaccinesEnabled = false,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
+
     mhvMedicalRecordsMilestoneTwo = false,
 
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
     mhvSecureMessagingRecipientCombobox = true,
+    mhvSecureMessagingCernerPilot = true,
+    mhvSecureMessagingLargeAttachments = true,
   } = toggles;
 
   return {
@@ -60,8 +67,16 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvAcceleratedDeliveryAllergiesEnabled,
         },
         {
+          name: 'mhv_accelerated_delivery_vaccines_enabled',
+          value: mhvAcceleratedDeliveryVaccinesEnabled,
+        },
+        {
           name: 'mhv_accelerated_delivery_vital_signs_enabled',
           value: mhvAcceleratedDeliveryVitalSignsEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_labs_and_tests_enabled',
+          value: mhvAcceleratedDeliveryLabsAndTestsEnabled,
         },
         {
           name: 'mhv_landing_page_personalization',
@@ -178,6 +193,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_recipient_combobox',
           value: mhvSecureMessagingRecipientCombobox,
+        },
+        {
+          name: 'mhv_secure_messaging_cerner_pilot',
+          value: mhvSecureMessagingCernerPilot,
+        },
+        {
+          name: 'mhv_secure_messaging_large_attachments',
+          value: mhvSecureMessagingLargeAttachments,
         },
       ],
     },

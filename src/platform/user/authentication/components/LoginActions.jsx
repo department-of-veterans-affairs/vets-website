@@ -67,9 +67,6 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
           <>
             <h2>Other sign-in options</h2>
 
-            {dslogonEnabled &&
-              renderRetiredNotice('mhvH3', 'My HealtheVet sign-in option')}
-
             {dslogonEnabled && (
               <>
                 <h3

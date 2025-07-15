@@ -111,7 +111,7 @@ const api = {
       : `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${
           SORT_DEFAULTS.SORT_ORDER
         }`;
-    return [`/submissions?${size}${number}${sort}`];
+    return [`/claim_submissions?${size}${number}${sort}`];
   }),
   claimantSearch: wrapApiRequest(data => {
     return [

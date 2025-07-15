@@ -23,7 +23,7 @@ const selectUIInput = {
   title: "What's the highest level of school you've completed?",
   labels,
   errorMessages: {
-    required: 'Please select your years of education.',
+    required: 'Select the highest level of school you’ve completed.',
   },
 };
 

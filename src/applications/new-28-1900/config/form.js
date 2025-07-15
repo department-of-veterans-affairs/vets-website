@@ -18,8 +18,10 @@ import movingYesNoPage from '../pages/movingYesNo';
 import newAddressPage from '../pages/newAddress';
 import personalInformationPage from '../pages/personalInformation';
 import phoneAndEmailPage from '../pages/phoneAndEmail';
-import veteranAddressPage from '../pages/veteranAddress';
 
+import PreSubmit from '../components/PreSubmit';
+
+import veteranAddressPage from '../pages/veteranAddress';
 import transformForSubmit from './submit-transformer';
 
 /** @type {FormConfig} */
@@ -57,6 +59,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  preSubmitInfo: PreSubmit,
   chapters: {
     yourInformationChapter: {
       title: 'Your information',

@@ -150,57 +150,8 @@ describe('ezr prefill transformer', () => {
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
           undefined,
         );
-      });
-    });
-
-    context('when contacts have an address', () => {
-      const state = {
-        user: {
-          profile: {
-            vapContactInfo: {},
-          },
-        },
-      };
-
-      it('should auto-fill correct formData from user state', () => {
-        const { formData: prefillData } = prefillTransformer(
-          null,
-          formData,
-          null,
-          state,
-        );
-        expect(
-          prefillData.emergencyContacts[0]['view:hasEmergencyContactAddress'],
-        ).to.be.true;
-        expect(prefillData.nextOfKins[0]['view:hasNextOfKinAddress']).to.be
-          .true;
-      });
-    });
-
-    context('when contacts does not have an address', () => {
-      const state = {
-        user: {
-          profile: {
-            vapContactInfo: {},
-          },
-        },
-      };
-
-      it('should auto-fill correct formData from user state', () => {
-        const newFormData = { ...formData };
-        delete newFormData.emergencyContacts[0].address;
-        delete newFormData.nextOfKins[0].address;
-        const { formData: prefillData } = prefillTransformer(
-          null,
-          newFormData,
-          null,
-          state,
-        );
-        expect(
-          prefillData.emergencyContacts[0]['view:hasEmergencyContactAddress'],
-        ).to.be.false;
-        expect(prefillData.nextOfKins[0]['view:hasNextOfKinAddress']).to.be
-          .false;
+        expect(prefillData.emergencyContacts[0].address).to.exist;
+        expect(prefillData.nextOfKins[0].address).to.exist;
       });
     });
 

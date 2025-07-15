@@ -47,6 +47,11 @@ export default class PageObject {
     return this.assertAlert({ text, exist, status: 'error' });
   }
 
+  assertValidationError(error) {
+    cy.get(`[error="${error}"]`).should('exist');
+    return this;
+  }
+
   /**
    *
    *
@@ -126,11 +131,33 @@ export default class PageObject {
    * @memberof PageObject
    */
   assertText({ text, exist = true } = {}) {
-    cy.get('va-loading-indicator.hydrated', { timeout: 120000 }).should(
-      'not.exist',
-    );
+    cy.get('va-loading-indicator.hydrated', {
+      timeout: 120000,
+    }).should('not.exist');
 
     cy.findByText(text).should(exist ? 'exist' : 'not.exist');
+    return this;
+  }
+
+  /**
+   * Asserts that the text exists in the DOM but between a min and max number of occurrences.
+   * @param {Object} props - Properties used to determine what type of mock appointment to create.
+   * @param {string|RegExp=} props.text - Text to assert.
+   * @param {number} [props.minNumber=-1] - Minimum number (inclusive) of occurrences to assert. Default, at least one
+   * @param {number} [props.maxNumber=-1] - Maximum number (exclusive) of occurrences to assert. Default, any number
+   * @returns
+   * @memberof PageObject
+   */
+  assertSomeText({ text, minNumber = 1, maxNumber = -1 } = {}) {
+    cy.get('va-loading-indicator.hydrated', {
+      timeout: 120000,
+    }).should('not.exist');
+    cy.findAllByText(text).then($found => {
+      expect($found).to.have.length.gte(minNumber);
+      if (maxNumber > 0) {
+        expect($found).to.have.length.lt(maxNumber);
+      }
+    });
     return this;
   }
 

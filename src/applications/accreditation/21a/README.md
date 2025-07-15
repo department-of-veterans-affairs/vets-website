@@ -1,7 +1,7 @@
 ### 🚨WIP Form 21A🚨
 This sub-application is incomplete and its development has been paused. It is dependency-free from the `representative` application that it might eventually live under.
 
-This tool allows attorneys or claims agents to start the application (Fowm 21A) process to become a VA-accredited representative. 
+This tool allows attorneys or claims agents to start the application (Form 21A) process to become a VA-accredited representative. 
 
 ## How to run locally
 

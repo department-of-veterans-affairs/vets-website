@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -15,7 +15,11 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import ExternalLink from '../components/shared/ExternalLink';
-import { getLastSuccessfulUpdate, sendDataDogAction } from '../util/helpers';
+import {
+  getFailedDomainList,
+  getLastSuccessfulUpdate,
+  sendDataDogAction,
+} from '../util/helpers';
 import {
   accessAlertTypes,
   ALERT_TYPE_BB_ERROR,
@@ -24,6 +28,7 @@ import {
   documentTypes,
   pageTitles,
   refreshExtractTypes,
+  statsdFrontEndActions,
 } from '../util/constants';
 import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
@@ -31,18 +36,7 @@ import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
-
-/**
- * Formats failed domain lists with display names.
- * Special logic: If allergies fail but medications don't fail, push medications for completeness.
- */
-const getFailedDomainList = (failed, displayMap) => {
-  const modFailed = [...failed];
-  if (modFailed.includes('allergies') && !modFailed.includes('medications')) {
-    modFailed.push('medications');
-  }
-  return modFailed.map(domain => displayMap[domain]);
-};
+import { postRecordDatadogAction } from '../api/MrApi';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -80,8 +74,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
   const [failedSeiDomains, setFailedSeiDomains] = useState([]);
   const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(null);
+  const [expandSelfEntered, setExpandSelfEntered] = useState(false);
 
   const activeAlert = useAlerts(dispatch);
+  const selfEnteredAccordionRef = useRef(null);
 
   // Checks if CCD retry is needed and returns a formatted timestamp or null.
   const CCDRetryTimestamp = useMemo(
@@ -104,19 +100,42 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       }
       return null;
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [ccdError],
   );
 
   // Initial page setup effect
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('sei') === 'true') {
+        // Expand and focus the self-entered accordion if ?sei=true query param is present
+        setExpandSelfEntered(true);
+      } else {
+        // Focus h1 and set page title
+        focusElement(document.querySelector('h1'));
+      }
       return () => {
         dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
       };
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (expandSelfEntered) {
+        setTimeout(() => {
+          const accordion = selfEnteredAccordionRef.current;
+          const heading = accordion?.shadowRoot?.querySelector('h3');
+          if (heading) {
+            focusElement(heading);
+          }
+        }, 400);
+      }
+    },
+    [expandSelfEntered],
   );
 
   const accessErrors = () => {
@@ -165,6 +184,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         userProfile?.userFullName?.last,
       ),
     );
+    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
     sendDataDogAction('Download Continuity of Care Document xml Link');
   };
 
@@ -187,6 +207,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         setSeiPdfGenerationError(err);
         setSelfEnteredPdfLoading(false);
       });
+    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_SEI);
     sendDataDogAction('Download self-entered health information PDF link');
   };
 
@@ -247,7 +268,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       <h2>Other reports you can download</h2>
 
       {(generatingCCD || ccdDownloadSuccess) &&
-        !ccdError && (
+        (!ccdError && !CCDRetryTimestamp) && (
           <DownloadSuccessAlert
             type="Continuity of Care Document download"
             className="vads-u-margin-bottom--1"
@@ -319,8 +340,15 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             />
           )}
         </va-accordion-item>
-        <va-accordion-item bordered data-testid="selfEnteredAccordionItem">
-          <h3 slot="headline">Self-entered health information</h3>
+        <va-accordion-item
+          bordered
+          data-testid="selfEnteredAccordionItem"
+          open={expandSelfEntered ? 'true' : undefined}
+          ref={selfEnteredAccordionRef}
+        >
+          <h3 id="self-entered-header" slot="headline" tabIndex="-1">
+            Self-entered health information
+          </h3>
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
             in the previous version of My HealtheVet.
