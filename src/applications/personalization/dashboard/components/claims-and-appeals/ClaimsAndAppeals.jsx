@@ -216,6 +216,7 @@ const ClaimsAndAppeals = ({
                   toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
                 >
                   <Toggler.Disabled>
+                    {!isLOA1 && <NoClaimsOrAppealsText />}
                     <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
                   </Toggler.Disabled>
                   <Toggler.Enabled>
