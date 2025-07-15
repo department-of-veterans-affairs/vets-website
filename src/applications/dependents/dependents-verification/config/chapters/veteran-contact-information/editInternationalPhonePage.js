@@ -3,7 +3,7 @@ import EditInternationalPhonePage from '../../../components/EditInternationalPho
 
 const intPhoneSchema = {
   type: 'string',
-  pattern: '^$|^\\d{11}$', // needs to allow empty string OR 11 digits
+  pattern: '^$|^\\d{11}$', // needs to allow empty string OR 11 digits for downstream services
 };
 
 /** @type {PageSchema} */

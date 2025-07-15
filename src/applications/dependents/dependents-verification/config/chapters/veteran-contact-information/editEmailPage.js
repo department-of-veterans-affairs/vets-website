@@ -1,3 +1,4 @@
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   emailSchema,
   emailUI,
@@ -20,6 +21,15 @@ export default {
       }),
       'ui:options': {
         hideOnReview: true,
+        classNames: 'vads-u-margin-bottom--3',
+      },
+    },
+    electronicCorrespondence: {
+      'ui:title':
+        'I agree to receive electronic correspondence from the VA about my claim.',
+      'ui:webComponentField': VaCheckboxField,
+      'ui:options': {
+        classNames: 'custom-width',
       },
     },
   },
@@ -27,6 +37,7 @@ export default {
     type: 'object',
     properties: {
       email: emailSchema,
+      electronicCorrespondence: { type: 'boolean' },
     },
   },
 };

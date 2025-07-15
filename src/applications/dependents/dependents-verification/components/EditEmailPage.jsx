@@ -32,7 +32,7 @@ const EditEmailPage = ({
     onInput: inputData => {
       setFormData({
         ...data,
-        email: inputData.email,
+        ...inputData,
       });
     },
     onUpdate: () => {
