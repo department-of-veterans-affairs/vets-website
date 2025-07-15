@@ -2,10 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import {
+  ConfirmationGoBackLink,
+  ConfirmationPrintThisPage,
+  ConfirmationSubmissionAlert,
+  ConfirmationWhatsNextProcessList,
+} from '../helpers';
 
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
-  const submission = form?.submission || {};
+  const submission = form?.submission;
   const submitDate = submission?.timestamp || '';
   const confirmationNumber = submission?.response?.confirmationNumber || '';
 
@@ -14,19 +20,15 @@ export const ConfirmationPage = props => {
       formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      pdfUrl={submission.response?.pdfUrl}
-      devOnly={{
-        showButtons: true,
-      }}
     >
-      <ConfirmationView.SubmissionAlert />
-      <ConfirmationView.SavePdfDownload />
-      <ConfirmationView.ChapterSectionCollection />
-      <ConfirmationView.PrintThisPage />
-      <ConfirmationView.WhatsNextProcessList />
-      <ConfirmationView.HowToContact />
-      <ConfirmationView.GoBackLink />
-      <ConfirmationView.NeedHelp />
+      <ConfirmationView.SubmissionAlert
+        title="You’ve submitted your application for the High Technology Program"
+        content={<ConfirmationSubmissionAlert />}
+        actions=""
+      />
+      <ConfirmationPrintThisPage data={form.data} submitDate={submitDate} />
+      <ConfirmationWhatsNextProcessList />
+      <ConfirmationGoBackLink />
     </ConfirmationView>
   );
 };
