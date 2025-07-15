@@ -200,7 +200,6 @@ describe('<AdditionalEvidencePage>', () => {
             {...fileFormProps}
             claim={claim}
             files={[file]}
-            documentsUseLighthouse={false}
             submitFiles={submitFilesSpy}
           />
           ,

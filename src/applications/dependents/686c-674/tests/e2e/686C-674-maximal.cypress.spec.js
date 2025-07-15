@@ -47,9 +47,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
-          cy.get('a.vads-c-action-link--green')
-            .first()
-            .click();
+          cy.clickStartForm();
         });
       },
 
@@ -59,7 +57,7 @@ const testConfig = createTestConfig(
           cy.get('.progress-box va-telephone')
             .contains('800-827-1000')
             .should('have.prop', 'href');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
@@ -71,7 +69,7 @@ const testConfig = createTestConfig(
           )
             .should('be.visible')
             .select('AL');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
@@ -81,7 +79,7 @@ const testConfig = createTestConfig(
           cy.get('select#options[name="root_doesLiveWithSpouse_address_state"]')
             .should('be.visible')
             .select('AL');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
@@ -91,42 +89,42 @@ const testConfig = createTestConfig(
           cy.get('select#options[name="root_address_state"]')
             .should('be.visible')
             .select('CA');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
       'report-674/add-students/0/term-dates': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
       'report-674/add-students/0/previous-term-dates': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
       'report-674/add-students/0/additional-remarks': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
       'report-674/add-students/0/student-marriage-date': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
       '686-report-marriage-of-child/0/date-child-married': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
@@ -135,7 +133,7 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
@@ -147,14 +145,14 @@ const testConfig = createTestConfig(
           cy.get('select#options[name="root_address_state"]')
             .should('be.visible')
             .select('AL');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
       '686-report-dependent-death/0/date-of-death': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
@@ -167,13 +165,13 @@ const testConfig = createTestConfig(
           cy.get('#root_dateYear').type('1991');
           cy.get('#root_location_state').select('Alabama');
           cy.get('#root_location_city').type('city');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
       '686-report-add-child/introduction': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
@@ -183,14 +181,14 @@ const testConfig = createTestConfig(
           cy.get('select#options[name="root_address_state"]')
             .should('be.visible')
             .select('CA');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
       '686-report-add-child/summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="N"]').click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
@@ -203,14 +201,14 @@ const testConfig = createTestConfig(
               cy.get('#root_childStatus_biologicalStepchildYes').check();
             }
           });
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
       'add-child/0/additional-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#root_doesChildLiveWithYouYes').click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
 
@@ -224,7 +222,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input[type="checkbox"]')
             .check({ force: true });
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
     },
