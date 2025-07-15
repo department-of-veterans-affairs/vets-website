@@ -3,7 +3,6 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import { focusH3 } from '../utils/helpers';
 
 import {
   veteranInformation,
@@ -25,7 +24,7 @@ import manifest from '../manifest.json';
 import submitForm from './submitForm';
 import { TITLE } from '../constants';
 import transformForSubmit from './transformForSubmit';
-import { getDebtPageTitle } from '../utils';
+import { getDebtPageTitle, focusH3 } from '../utils';
 
 // Function to return the NeedHelp component
 const getHelp = () => <NeedHelp />;
