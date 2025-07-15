@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
@@ -6,6 +6,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { selectProfile } from 'platform/user/selectors';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import { getFullName } from '../../shared/utils';
 
@@ -15,6 +16,10 @@ export const ConfirmationPage = props => {
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || Date.now();
   const confirmationNumber = submission?.response?.confirmationNumber || '';
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
 
   const alertContent = (
     <>
