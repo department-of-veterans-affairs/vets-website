@@ -25,6 +25,8 @@ const {
 } = form4142.properties.providerFacility.items.properties;
 const { limitedConsent } = form4142.properties;
 
+// TODO: add treatment disability options
+
 export const uiSchema = {
   'ui:title': standardTitle('Request medical records from private providers'),
   'ui:description': recordReleaseDescription,
