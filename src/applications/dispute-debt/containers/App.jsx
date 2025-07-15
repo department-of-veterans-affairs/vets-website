@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
@@ -17,7 +17,8 @@ export default function App({ children, location }) {
     state => selectProfile(state)?.verified || false,
   );
   const { isDebtPending } = useSelector(state => state.availableDebts);
-  const isLoadingFeatures = useSelector(state => toggleValues(state).loading);
+  const { useToggleLoadingValue } = useFeatureToggle();
+  const isLoadingFeatures = useToggleLoadingValue();
 
   useEffect(
     () => {
