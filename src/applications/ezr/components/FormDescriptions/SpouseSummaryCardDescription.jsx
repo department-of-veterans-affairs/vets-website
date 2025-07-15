@@ -4,9 +4,7 @@ import { useSelector } from 'react-redux';
 const SpouseSummaryCardDescription = item => {
   const { data: formData } = useSelector(state => state.form);
   const { maritalStatus } = formData['view:maritalStatus'];
-  return item === null ? null : (
-    <p className="vads-u-margin-bottom--0">{maritalStatus}</p>
-  );
+  return item && <p className="vads-u-margin-bottom--0">{maritalStatus}</p>;
 };
 
 export default SpouseSummaryCardDescription;
