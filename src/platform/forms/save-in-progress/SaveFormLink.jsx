@@ -60,6 +60,7 @@ class SaveFormLink extends React.Component {
     const { savedStatus } = this.props.form;
     const { formConfig } = this.props;
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+    const { useWebComponentForNavigation } = formConfig?.formOptions || {};
 
     return (
       <div
@@ -93,17 +94,25 @@ class SaveFormLink extends React.Component {
           </div>
         )}
         {savedStatus !== SAVE_STATUSES.noAuth && (
-          <span>
-            <button
-              type="button"
-              className="va-button-link schemaform-sip-save-link"
-              onClick={this.handleSave}
-            >
-              {this.props.children || `Finish this ${appType} later`}
-            </button>
+          <div className="vads-u-display--flex vads-u-margin-top--2">
+            {useWebComponentForNavigation ? (
+              <va-link
+                onClick={this.handleSave}
+                class="schemaform-sip-save-link"
+                text={this.props.children || `Finish this ${appType} later`}
+              />
+            ) : (
+              <button
+                type="button"
+                className="va-button-link schemaform-sip-save-link"
+                onClick={this.handleSave}
+              >
+                {this.props.children || `Finish this ${appType} later`}
+              </button>
+            )}
             {!this.props.children && '.'}
             <SipsDevModal {...this.props} />
-          </span>
+          </div>
         )}
       </div>
     );
@@ -125,6 +134,9 @@ SaveFormLink.propTypes = {
   user: PropTypes.object.isRequired,
   children: PropTypes.any,
   formConfig: PropTypes.shape({
+    formOptions: PropTypes.shape({
+      useWebComponentForNavigation: PropTypes.bool,
+    }),
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),
