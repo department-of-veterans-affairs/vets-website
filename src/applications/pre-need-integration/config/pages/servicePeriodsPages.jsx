@@ -1,3 +1,4 @@
+import { merge } from 'lodash';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -6,6 +7,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -232,27 +234,39 @@ export function servicePeriodInformationPage(isVet, isPrep) {
         ),
         null,
         {
+          'ui:webComponentField': VaTextInputField,
           'ui:options': {
             labels: serviceLabels,
           },
         },
       ),
-      dateRange: dateRangeUI(
-        handleTitle(
-          isVet,
-          isPrep,
-          'Service start date',
-          'Sponsor’s service start date',
-          'Applicant’s service start date',
+      dateRange: merge(
+        {},
+        dateRangeUI(
+          handleTitle(
+            isVet,
+            isPrep,
+            'Service start date',
+            'Sponsor’s service start date',
+            'Applicant’s service start date',
+          ),
+          handleTitle(
+            isVet,
+            isPrep,
+            'Service end date',
+            'Sponsor’s service end date',
+            'Applicant’s service end date',
+          ),
+          'The service end date must be after the service start date.', // Range error message
         ),
-        handleTitle(
-          isVet,
-          isPrep,
-          'Service end date',
-          'Sponsor’s service end date',
-          'Applicant’s service end date',
-        ),
-        'The service end date must be after the service start date.', // Range error message
+        // {
+        //   from: {
+        //     year: { 'ui:webComponentField': VaTextInputField, }
+        //   },
+        //   to: {
+        //     year: { 'ui:webComponentField': VaTextInputField, }
+        //   },
+        // }
       ),
       dischargeType: {
         'ui:title': handleTitle(
@@ -275,6 +289,7 @@ export function servicePeriodInformationPage(isVet, isPrep) {
         },
       },
       highestRank: autosuggest.uiSchema('Highest rank attained', null, {
+        'ui:webComponentField': VaTextInputField,
         'ui:options': {
           labels: rankLabels,
           hint:
