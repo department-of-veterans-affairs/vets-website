@@ -57,9 +57,8 @@ export const fillSpousePersonalInformation = (spouseData = {}) => {
   cy.fillVaTextInput('root_spouseSocialSecurityNumber', ssn);
 
   // Filling using fillDateWebComponentPattern causes Cypress to change
-  // pages/introduces 'Leave site?' alert.
-  // fillDateWebComponentPattern('root_spouseDateOfBirth', dateOfBirth);
-  // fillDateWebComponentPattern('root_dateOfMarriage', dateOfMarriage);
+  // pages/introduces 'Leave site?' alert, but only on local. Use the
+  // following code instead.
 
   // Fill spouse date of birth.
   cy.get('va-memorable-date[name="root_spouseDateOfBirth"]')
