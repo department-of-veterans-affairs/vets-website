@@ -78,10 +78,13 @@ const build21aPayload = data => {
       data.militaryServiceExperiences?.map(m => ({
         serviceBranchId: SERVICE_BRANCH_ENUM[m.branch],
         serviceBranchExplanation: null, // v5 field - not currently setting this field
-        entryDate: m.dateRange?.from || null,
+        entryDate: `${m.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
         // Not using `currentlyServing` so if it exists we set `dischargeDate` to null
+        // adding a day here since GCLAWS requires it
         dischargeDate:
-          !!m.currentlyServing && m.dateRange?.to ? m.dateRange?.to : null,
+          !!m.currentlyServing && m.dateRange?.to
+            ? `${m.dateRange?.to}-01`
+            : null,
         dischargeTypeId: DISCHARGE_TYPE_ENUM[m.characterOfDischarge] || null,
         dischargeTypeExplanation: m.explanationOfDischarge || null,
       })) || [],
@@ -110,10 +113,13 @@ const build21aPayload = data => {
         phoneTypeId: PHONE_TYPE_ENUM.WORK,
         phoneNumber: e.phone,
         phoneExtension: null,
-        startDate: e.dateRange?.from,
+        startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
         // Not using `currentlyEmployed` so if it exists we set `endDate` to null
+        // adding a day here since GCLAWS requires it
         endDate:
-          !!e.currentlyEmployed && e.dateRange?.to ? e.dateRange?.to : null,
+          !!e.currentlyEmployed && e.dateRange?.to
+            ? `${e.dateRange?.to}-01`
+            : null,
       })) || [],
 
     // Chapter 3 - Employment Activities
@@ -132,8 +138,8 @@ const build21aPayload = data => {
     education:
       data.educationalInstitutions?.map(e => ({
         name: e.name,
-        startDate: e.dateRange?.from,
-        endDate: e.dateRange?.to || null,
+        startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
+        endDate: `${e.dateRange?.to}-01` || null, // adding a day here since GCLAWS requires it
         wasDegreeReceived: !!e.degreeReceived,
         major: e.major,
         degreeTypeId: DEGREE_TYPE_ENUM[e.degree],
