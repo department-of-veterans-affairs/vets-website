@@ -7,11 +7,11 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import WorkflowChoicePage, {
-  form0781WorkflowChoices,
   modalTitleUpload,
   modalTitleOnline,
   modalTitleSkip,
 } from '../../../content/form0781/workflowChoicePage';
+import { form0781WorkflowChoices } from '../../../content/form0781/workflowChoices';
 
 describe('WorkflowChoicePage', () => {
   const page = ({

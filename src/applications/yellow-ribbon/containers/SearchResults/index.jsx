@@ -11,7 +11,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import SearchResult from '../../components/SearchResult';
 import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';

@@ -195,3 +195,13 @@ export function titleWithTag(title, headingTag) {
     </legend>
   );
 }
+
+export function standardTitle(title) {
+  return (
+    <h3 className="vads-u-margin--0">
+      <span className="vads-u-display--block vads-u-font-size--h3 vads-u-color--base">
+        {title}
+      </span>
+    </h3>
+  );
+}

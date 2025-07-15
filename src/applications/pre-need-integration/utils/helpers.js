@@ -41,7 +41,7 @@ export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
 export const veteranApplicantDetailsSubHeader = (
   <div className="applicantDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Your details</h3>
+    <h3 className="vads-u-font-size--h3">Your details</h3>
   </div>
 );
 
@@ -66,13 +66,13 @@ export function veteranApplicantDetailsSummary({ formContext }) {
 
 export const veteranApplicantDetailsPreparerSubHeader = (
   <div className="applicantDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Applicant details</h3>
+    <h3>Applicant details</h3>
   </div>
 );
 
 export const nonVeteranApplicantDetailsSubHeader = (
   <div className="applicantDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Your details</h3>
+    <h3>Your details</h3>
   </div>
 );
 
@@ -92,9 +92,7 @@ export function CurrentlyBurriedPersonsDescriptionWrapper({ formContext }) {
   );
 }
 
-export const currentlyBuriedPersonsTitle = (
-  <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
-);
+export const currentlyBuriedPersonsTitle = <h3>Name of deceased person(s)</h3>;
 
 export const sponsorDeceasedDescription = (
   <div className="sponsorDeceasedDescriptionNotProd">
@@ -126,7 +124,7 @@ export function sponsorDetailsSubHeader({ formContext, formData }) {
           </div>
         )}
       <div className="sponsorDetailsSubHeader">
-        <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+        <h3>Sponsor details</h3>
       </div>
     </>
   );
@@ -143,7 +141,7 @@ export const sponsorDetailsGuidingText = (
 
 export const sponsorDemographicsSubHeader = (
   <div className="sponsorDemographicsSubHeader">
-    <h3 className="vads-u-font-size--h5">Sponsor demographics</h3>
+    <h3>Sponsor demographics</h3>
   </div>
 );
 
@@ -170,19 +168,19 @@ export const sponsorDateOfDeathSubheader = (
 
 export const sponsorMilitaryDetailsSubHeader = (
   <div className="sponsorMilitaryDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Sponsor’s military details</h3>
+    <h3>Sponsor’s military details</h3>
   </div>
 );
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
-    <h3 className="vads-u-font-size--h5">Your demographics</h3>
+    <h3>Your demographics</h3>
   </div>
 );
 
 export const applicantDemographicsPreparerSubHeader = (
   <div className="applicantDemographicsSubHeader">
-    <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
+    <h3>Applicant demographics</h3>
   </div>
 );
 
@@ -200,9 +198,9 @@ export function militaryDetailsSubHeader(formData) {
     <div className="militaryDetailsSubHeader">
       {get('applicant.applicantRelationshipToClaimant', formData.formData) ===
       'Authorized Agent/Rep' ? (
-        <h3 className="vads-u-font-size--h5">Applicant’s military details</h3>
+        <h3>Applicant’s military details</h3>
       ) : (
-        <h3 className="vads-u-font-size--h5">Your military details</h3>
+        <h3>Your military details</h3>
       )}
     </div>
   );
@@ -308,26 +306,33 @@ export const nonVeteranApplicantDetailsDescription =
 export const nonVeteranApplicantDetailsDescriptionPreparer =
   'Provide the details for the person you are filling out the application for (called the applicant). Then we’ll ask for the details for the Veteran or service member the applicant is connected to.';
 
-export const applicantContactInfoAddressTitle = 'Your mailing address';
+export const applicantContactInfoAddressTitle = (
+  <div>
+    <h3>Your mailing address</h3>
+  </div>
+);
 
-export const applicantContactInfoPreparerAddressTitle =
-  'Applicant mailing address';
+export const applicantContactInfoPreparerAddressTitle = (
+  <div>
+    <h3>Applicant mailing address</h3>
+  </div>
+);
 
 export const applicantContactInfoSubheader = (
   <div className="applicantContactInfoSubheader">
-    <h3 className="vads-u-font-size--h5">Your contact details</h3>
+    <h3>Your contact details</h3>
   </div>
 );
 
 export const applicantContactInfoPreparerSubheader = (
   <div className="applicantContactInfoPreparerSubheader">
-    <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
+    <h3>Applicant’s contact details</h3>
   </div>
 );
 
 export const sponsorContactInfoSubheader = (
   <div className="sponsorContactInfoSubheader">
-    <h3 className="vads-u-font-size--h5">Sponsor’s contact details</h3>
+    <h3>Sponsor’s contact details</h3>
   </div>
 );
 

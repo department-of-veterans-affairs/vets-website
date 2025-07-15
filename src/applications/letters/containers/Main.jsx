@@ -82,7 +82,7 @@ export class Main extends React.Component {
 
         <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
           {toggleValue =>
-            toggleValue ? (
+            toggleValue && (
               <>
                 <h2 slot="headline">
                   Other sources of VA benefit documentation
@@ -145,7 +145,7 @@ export class Main extends React.Component {
                   </div>
                 </va-need-help>
               </>
-            ) : null
+            )
           }
         </Toggler.Hoc>
       </div>

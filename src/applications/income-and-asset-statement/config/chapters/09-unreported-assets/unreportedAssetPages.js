@@ -85,7 +85,7 @@ const summaryPage = {
         hint: 'If yes, you’ll need to report at least one asset ',
         labels: {
           Y: 'Yes, I have an asset to report',
-          N: 'No, I don’t have an assets to report',
+          N: 'No, I don’t have any assets to report',
         },
       },
       {
@@ -110,7 +110,7 @@ const summaryPage = {
 const relationshipPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Unreported asset',
+      title: 'Unreported asset owner relationship',
       nounSingular: options.nounSingular,
     }),
     assetOwnerRelationship: radioUI({
@@ -141,7 +141,7 @@ const relationshipPage = {
 /** @returns {PageSchema} */
 const assetTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Unreported asset'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Unreported asset type'),
     assetType: textUI({
       title: 'What is the type of asset?',
       hint: 'Cash, art, etc',

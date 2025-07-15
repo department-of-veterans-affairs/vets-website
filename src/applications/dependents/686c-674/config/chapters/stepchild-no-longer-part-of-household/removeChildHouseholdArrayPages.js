@@ -1,5 +1,5 @@
 import React from 'react';
-import { capitalize } from 'lodash';
+
 import {
   titleUI,
   arrayBuilderItemFirstPageTitleUI,
@@ -19,7 +19,9 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { CancelButton } from '../../helpers';
+import { getFullName } from '../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
 export const removeChildHouseholdOptions = {
@@ -43,38 +45,23 @@ export const removeChildHouseholdOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your stepchildren who have left your household',
-    getItemName: () => 'Stepchild',
-    cardDescription: item => (
-      <span className="dd-privacy" data-dd-privacy="mask">
-        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
-          item?.fullName?.last,
-        ) || ''}`.trim()}
-      </span>
-    ),
+    getItemName: item => getFullName(item.fullName),
     cancelAddButtonText: 'Cancel removing this child',
   },
 };
 
 export const removeChildHouseholdIntroPage = {
   uiSchema: {
-    ...titleUI(
-      'Your stepchildren who have left your household',
-      'In the next few questions, we’ll ask you about your stepchildren. You must add at least one stepchild.',
+    ...titleUI('Your stepchildren who have left your household'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your stepchildren. You
+          must add at least one stepchild.
+        </p>
+        <CancelButton dependentType="stepchildren" isAddChapter={false} />
+      </>
     ),
-    ...titleUI({
-      title: 'Your stepchildren who have left your household',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your stepchildren.
-              You must add at least one stepchild.
-            </p>
-            <CancelButton dependentType="stepchildren" isAddChapter={false} />
-          </>
-        );
-      },
-    }),
   },
   schema: {
     type: 'object',
@@ -124,10 +111,11 @@ export const householdChildInfoPage = {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
     },
-    birthDate: {
-      ...currentOrPastDateUI('Child’s date of birth'),
-      'ui:required': () => true,
-    },
+    birthDate: currentOrPastDateUI({
+      title: 'Child’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',

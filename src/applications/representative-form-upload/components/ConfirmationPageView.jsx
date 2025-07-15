@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
 
 export const ConfirmationPageView = ({
   submitDate,
@@ -44,34 +44,37 @@ export const ConfirmationPageView = ({
             <strong>{formattedSubmitDate}</strong>
           </p>
         ) : null}
-        <p>Your confirmation number is: {confirmationNumber}.</p>
-        <p>We’ve emailed this confirmation number to you for your records.</p>
+        <p>
+          Your confirmation number is: <strong>{confirmationNumber}</strong>
+        </p>
+        <p>
+          <strong>Note:</strong> Print this page or copy the confirmation number
+          for your records.
+        </p>
       </va-alert>
-      <div className="inset">
-        <section>
-          <h2>What to expect</h2>
-          <va-process-list>
-            <va-process-list-item header="Now, we'll process your form">
-              <p>
-                The submission is in progress and is being processed through
-                Central Mail before reaching VBMS.
-              </p>
-            </va-process-list-item>
-            <va-process-list-item pending header="Next, we'll review the files">
-              <p>
-                If we need more information after reviewing the form and
-                supporting evidence, we’ll contact you by email.
-              </p>
-            </va-process-list-item>
-          </va-process-list>
-        </section>
-        <a
-          className="vads-c-action-link--green vads-u-margin-bottom--4"
-          href="/representative/submissions"
-        >
-          Review submissions history
-        </a>
-      </div>
+      <section>
+        <h2>What to expect</h2>
+        <va-process-list>
+          <va-process-list-item header="Now, we'll process your form">
+            <p>
+              The submission is in progress and is being processed through
+              Central Mail before reaching VBMS.
+            </p>
+          </va-process-list-item>
+          <va-process-list-item header="Next, we'll review the files">
+            <p>
+              If we need more information after reviewing the form and
+              supporting evidence, we’ll contact you by email.
+            </p>
+          </va-process-list-item>
+        </va-process-list>
+      </section>
+      <a
+        className="vads-c-action-link--green vads-u-margin-bottom--4"
+        href="/representative/submissions"
+      >
+        Review submissions history
+      </a>
       {childContent || null}
     </div>
   );

@@ -1,6 +1,7 @@
 {
   "description": "Third party signer, beneficiary has foreign address, OHI, medical claim, work related, auto related",
   "data": {
+    "claimStatus": "new",
     "view:hasPolicies": true,
     "primaryEob": [
       {

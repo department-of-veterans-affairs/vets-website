@@ -18,7 +18,7 @@ import {
   getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -58,14 +58,20 @@ describe('VAOS Page: AppointmentsPage', () => {
       start: subDays(new Date(), 120),
       end: addDays(new Date(), 1),
       statuses: ['proposed', 'cancelled'],
-      response: MockAppointmentResponse.createCCResponses(),
+      response: MockAppointmentResponse.createCCResponses({
+        pending: true,
+        status: APPOINTMENT_STATUS.proposed,
+      }),
     });
     mockAppointmentsApi({
       start: subDays(new Date(), 120),
       end: addDays(new Date(), 1),
       includes: ['facilities', 'clinics', 'eps'],
       statuses: ['proposed', 'cancelled'],
-      response: MockAppointmentResponse.createCCResponses(),
+      response: MockAppointmentResponse.createCCResponses({
+        pending: true,
+        status: APPOINTMENT_STATUS.proposed,
+      }),
     });
   });
   afterEach(() => {
@@ -87,10 +93,10 @@ describe('VAOS Page: AppointmentsPage', () => {
             id: '139',
             type: 'maintenance_windows',
             attributes: {
-              externalService: 'vaosWarning',
+              externalService: 'vaoswarning',
               description: 'My description',
-              startTime: subDays(new Date(), '1'),
-              endTime: addDays(new Date(), '1'),
+              startTime: subDays(new Date(), '1')?.toISOString(),
+              endTime: addDays(new Date(), '1')?.toISOString(),
             },
           },
         ],
@@ -314,139 +320,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
     // Then it should display the tertiary print button
     expect(screen.getByTestId('print-list')).to.be.ok;
-  });
-
-  describe('when scheduling breadcrumb url update flag is on', () => {
-    const defaultState = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingDirect: true,
-        vaOnlineSchedulingCommunityCare: false,
-      },
-      user: userState,
-    };
-
-    it('should display updated title on upcoming appointments page', async () => {
-      // Given the veteran lands on the VAOS homepage
-      // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-        initialState: defaultState,
-      });
-
-      // Then it should display the upcoming appointments
-      expect(
-        await screen.findByRole('heading', {
-          level: 1,
-          name: 'Appointments',
-        }),
-      );
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Appointments | Veterans Affairs`,
-        );
-      });
-
-      // and breadcrumbs should be updated
-      const navigation = screen.getByTestId('vaos-breadcrumbs');
-      expect(navigation).to.be.ok;
-      expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
-        .exist;
-      expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
-        .exist;
-
-      // and scheduling link should be displayed
-      expect(screen.getByRole('link', { name: 'Start scheduling' })).to.be.ok;
-
-      // and appointment list navigation should be displayed
-      expect(screen.getByRole('navigation', { name: 'Appointment list' })).to.be
-        .ok;
-      expect(screen.getByRole('link', { name: 'Upcoming' })).to.be.ok;
-      expect(screen.getByRole('link', { name: /Pending \(\d\)/ })).to.be.ok;
-      expect(screen.getByRole('link', { name: 'Past' })).to.be.ok;
-
-      // and status dropdown should not be displayed
-      expect(screen.queryByLabelText('Show by status')).not.to.exists;
-    });
-
-    it('should display updated title on pending appointments page', async () => {
-      // Given the veteran lands on the VAOS homepage
-      // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-        initialState: defaultState,
-      });
-
-      // Then it should display upcoming appointments
-      await screen.findByRole('heading', { name: 'Appointments' });
-
-      // When the veteran clicks the Pending button
-      const navigation = await screen.findByRole('link', {
-        name: /^Pending \(1\)/,
-      });
-      userEvent.click(navigation);
-      await waitFor(() => {
-        expect(screen.history.push.lastCall.args[0].pathname).to.equal(
-          '/pending',
-        );
-      });
-
-      // Then it should display the requested appointments
-      await waitFor(() => {
-        expect(
-          screen.findByRole('heading', {
-            level: 1,
-            name: 'Pending appointments',
-          }),
-        );
-      });
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Pending appointments | Veterans Affairs`,
-        );
-      });
-
-      expect(
-        global.window.dataLayer.some(
-          e => e === `vaos-status-pending-link-clicked`,
-        ),
-      );
-    });
-
-    it('should display updated past appointments page title', async () => {
-      // Given the veteran lands on the VAOS homepage
-      // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-        initialState: defaultState,
-      });
-
-      // Then it should display the upcoming appointments
-      await screen.findByRole('heading', { name: 'Appointments' });
-
-      // When the veteran clicks the Past button
-      const navigation = screen.getByRole('link', { name: 'Past' });
-      userEvent.click(navigation);
-      await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0].pathname).to.equal('/past'),
-      );
-
-      // Then it should display the past appointments
-      expect(
-        await screen.findByRole('heading', {
-          level: 1,
-          name: 'Past appointments',
-        }),
-      ).to.be.ok;
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Past appointments | Veterans Affairs`,
-        );
-      });
-
-      expect(
-        global.window.dataLayer.some(
-          e => e === `vaos-status-past-link-clicked`,
-        ),
-      );
-    });
   });
 
   describe('when CC direct scheduling flag is on', () => {

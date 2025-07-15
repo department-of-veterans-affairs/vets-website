@@ -4,6 +4,7 @@ describe('Accessibility', () => {
   beforeEach(() => {
     setFeatureToggles({
       isAppEnabled: true,
+      isForm21Enabled: true,
       isInPilot: true,
     });
   });

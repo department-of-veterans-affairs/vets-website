@@ -6,12 +6,9 @@ import { useSelector } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
 
 import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import {
-  formatFullName,
-  obfuscateAccountNumber,
-  scrollToTop,
-} from '../helpers';
+import { formatFullName, obfuscateAccountNumber } from '../helpers';
 
 const centralTz = 'America/Chicago';
 

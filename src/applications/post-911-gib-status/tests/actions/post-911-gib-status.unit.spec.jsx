@@ -108,7 +108,7 @@ describe('getEnrollmentData', () => {
       .then(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_ENROLLMENT_DATA_SUCCESS);
-        expect(action.data).to.equal(successResponse.data.attributes);
+        expect(action.data).to.deep.equal(successResponse.data.attributes);
       })
       .then(done, done);
   });

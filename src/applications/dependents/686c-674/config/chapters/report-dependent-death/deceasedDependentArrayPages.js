@@ -1,5 +1,5 @@
 import React from 'react';
-import { capitalize } from 'lodash';
+
 import {
   titleUI,
   arrayBuilderItemFirstPageTitleUI,
@@ -22,6 +22,7 @@ import {
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+
 import {
   relationshipEnums,
   relationshipLabels,
@@ -33,6 +34,7 @@ import {
   generateHelpText,
   CancelButton,
 } from '../../helpers';
+import { getFullName } from '../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
 export const deceasedDependentOptions = {
@@ -54,7 +56,8 @@ export const deceasedDependentOptions = {
       !item?.dependentDeathLocation?.location?.country),
   maxItems: 20,
   text: {
-    getItemName: item => {
+    getItemName: item => getFullName(item.fullName),
+    cardDescription: item => {
       const dependentType = item?.dependentType;
 
       if (!dependentType) {
@@ -69,15 +72,6 @@ export const deceasedDependentOptions = {
 
       return 'Dependent';
     },
-    cardDescription: item => {
-      const firstName = capitalize(item?.fullName?.first || '');
-      const lastName = capitalize(item?.fullName?.last || '');
-      return (
-        <span className="dd-privacy" data-dd-privacy="mask">
-          {`${firstName} ${lastName}`.trim()}
-        </span>
-      );
-    },
     summaryTitle: 'Review your dependents who have died',
     cancelAddButtonText: 'Cancel removing this dependent',
   },
@@ -86,23 +80,20 @@ export const deceasedDependentOptions = {
 /** @returns {PageSchema} */
 export const deceasedDependentIntroPage = {
   uiSchema: {
-    ...titleUI({
-      title: 'Your dependents who have died',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your dependents who
-              have died. You must add at least one dependent who has died.
-            </p>
-            <CancelButton
-              dependentType="dependents who have died"
-              isAddChapter={false}
-            />
-          </>
-        );
-      },
-    }),
+    ...titleUI('Your dependents who have died'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your dependents who
+          have died. You must add at least one dependent who has died.
+        </p>
+        <CancelButton
+          dependentType="dependents who have died"
+          dependentButtonType="dependents"
+          isAddChapter={false}
+        />
+      </>
+    ),
   },
   schema: {
     type: 'object',
@@ -154,6 +145,7 @@ export const deceasedDependentPersonalInfoPage = {
     },
     birthDate: currentOrPastDateUI({
       title: 'Dependent’s date of birth',
+      dataDogHidden: true,
       required: () => true,
     }),
   },

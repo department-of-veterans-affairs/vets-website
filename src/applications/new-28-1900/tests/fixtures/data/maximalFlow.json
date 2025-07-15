@@ -1,10 +1,10 @@
 {
   "data": {
-    "phone": "1234567890",
+    "mainPhone": "1234567890",
     "cellPhone": "2345678901",
     "internationalPhone": "3456789012",
-    "emailAddress": "john.veteran@example.com",
-    "newMailingAddress": {
+    "email": "john.veteran@example.com",
+    "newAddress": {
       "view:militaryBaseDescription": {},
       "country": "USA",
       "street": "1234 Other Street",
@@ -14,9 +14,9 @@
       "state": "KS",
       "postalCode": "66099"
     },
-    "movingYesNo": true,
+    "isMoving": true,
     "checkBoxGroup": {},
-    "mainMailingAddress": {
+    "veteranAddress": {
       "view:militaryBaseDescription": {},
       "country": "USA",
       "street": "1001 Easy Street",
@@ -26,14 +26,13 @@
       "state": "NE",
       "postalCode": "11023"
     },
-    "yearsOfCollegeOrGraduateStudies": "4",
-    "yearsOfEducation": "someOrAllOfGraduateSchool",
-    "veteranFullName": {
+    "yearsOfEducation": "19",
+    "fullName": {
       "first": "John",
       "middle": "S.",
       "last": "Veteran",
       "suffix": "Sr."
     },
-    "veteranDateOfBirth": "2000-01-01"
+    "dob": "2000-01-01"
   }
 }

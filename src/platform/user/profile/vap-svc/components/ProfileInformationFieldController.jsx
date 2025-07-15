@@ -64,11 +64,10 @@ const wrapperClasses = prefixUtilityClasses([
   'align-items--flex-start',
 ]);
 
-const editButtonClasses = [...prefixUtilityClasses(['margin-top--1p5'])];
-
 const classes = {
   wrapper: wrapperClasses.join(' '),
-  editButton: editButtonClasses.join(' '),
+  buttons:
+    'vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto',
 };
 
 class ProfileInformationFieldController extends React.Component {
@@ -125,13 +124,31 @@ class ProfileInformationFieldController extends React.Component {
         if (forceEditView && typeof successCallback === 'function') {
           successCallback();
         }
+        // Focus on the edit button after the update success alert is shown
+        waitForRenderThenFocus(
+          `#${getEditButtonId(fieldName)}`,
+          document,
+          50,
+          'button',
+        );
       } else if (!forceEditView) {
         if (prevProps.showRemoveModal && !this.props.showRemoveModal) {
-          waitForRenderThenFocus(
-            `#${getRemoveButtonId(fieldName)}`,
-            document,
-            50,
-          );
+          // Focus on the remove button if it exists, otherwise focus on the edit button
+          if (document.querySelector(`#${getRemoveButtonId(fieldName)}`)) {
+            waitForRenderThenFocus(
+              `#${getRemoveButtonId(fieldName)}`,
+              document,
+              50,
+              'button',
+            );
+          } else {
+            waitForRenderThenFocus(
+              `#${getEditButtonId(fieldName)}`,
+              document,
+              50,
+              'button',
+            );
+          }
         } else {
           // forcesEditView will result in now standard edit button being rendered, so we don't want to focus on it
           // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
@@ -139,6 +156,7 @@ class ProfileInformationFieldController extends React.Component {
             `#${getEditButtonId(fieldName)}`,
             document,
             50,
+            'button',
           );
         }
       }
@@ -407,13 +425,6 @@ class ProfileInformationFieldController extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        <ProfileInformationView
-          data={data}
-          fieldName={fieldName}
-          title={title}
-          id={ariaDescribedBy}
-        />
-
         {this.props.showUpdateSuccessAlert ? (
           <div
             data-testid="update-success-alert"
@@ -423,35 +434,38 @@ class ProfileInformationFieldController extends React.Component {
           </div>
         ) : null}
 
+        <ProfileInformationView
+          data={data}
+          fieldName={fieldName}
+          title={title}
+          id={ariaDescribedBy}
+        />
         <div className="vads-u-width--full">
           <div>
             {this.isEditLinkVisible() && (
-              <button
-                aria-label={`Edit ${title}`}
-                type="button"
-                data-action="edit"
-                aria-describedby={ariaDescribedBy}
+              <va-button
+                text="Edit"
+                label={`Edit ${title}`}
+                message-aria-describedby={ariaDescribedBy}
                 onClick={() => {
                   this.onEdit(isEmpty ? 'add-link' : 'edit-link');
                 }}
                 id={getEditButtonId(fieldName)}
-                className={classes.editButton}
-              >
-                Edit
-              </button>
+                class={`vads-u-margin-top--1p5 ${classes.buttons}`}
+                primary
+              />
             )}
             {data &&
               !isDeleteDisabled &&
               fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
-                <button
-                  aria-label={`Remove ${title}`}
-                  type="button"
+                <va-button
+                  text="Remove"
+                  label={`Remove ${title}`}
                   id={getRemoveButtonId(fieldName)}
-                  className="mobile-lg:vads-u-margin--0 usa-button-secondary"
+                  class={`vads-u-margin-top--1 ${classes.buttons}`}
                   onClick={this.handleDeleteInitiated}
-                >
-                  Remove
-                </button>
+                  secondary
+                />
               )}
           </div>
         </div>
@@ -615,7 +629,9 @@ export const mapStateToProps = (state, ownProps) => {
     uiSchema,
     formSchema,
     title,
-  } = getProfileInfoFieldAttributes(fieldName);
+  } = getProfileInfoFieldAttributes(fieldName, {
+    allowInternational: ownProps.allowInternationalPhones,
+  });
 
   const hasUnsavedEdits = state.vapService?.hasUnsavedEdits;
   return {

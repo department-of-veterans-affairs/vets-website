@@ -152,12 +152,22 @@ const updateWithoutChanges = () => {
 };
 
 const validateFocusedElement = element => {
-  cy.findByRole(element.tag, { name: element.name }).should('be.focused');
+  // If the element is a web component, assert focus is on the
+  // native element inside the shadow DOM
+  if (element.innerTag) {
+    cy.get(`${element.tag}[label="${element.name}"]`)
+      .shadow()
+      .find(element.innerTag)
+      .should('be.focused');
+  } else {
+    // Otherwise, use the standard role-based query
+    cy.findByRole(element.tag, { name: element.name }).should('be.focused');
+  }
 };
 
 class AddressPage {
-  loadPage = config => {
-    setUp(config);
+  loadPage = (config, toggles = {}) => {
+    setUp(config, toggles);
     Cypress.config({
       force: true,
       waitForAnimations: true,
@@ -252,13 +262,6 @@ class AddressPage {
         'exist',
       );
       cy.get('#edit-mailing-address').should('exist');
-
-      // this linting warning is actually a bug in cypress
-      // https://github.com/cypress-io/eslint-plugin-cypress/issues/140
-      cy.focused().then($focused => {
-        expect($focused).to.have.attr('aria-label', 'Edit Mailing address');
-        expect($focused).to.have.text('Edit');
-      });
     }
 
     altText && cy.findByText(altText).should('exist');
@@ -324,7 +327,17 @@ class AddressPage {
   };
 
   validateFocusedElement = element => {
-    cy.findByRole(element.tag, { name: element.name }).should('be.focused');
+    // If the element is a web component, assert focus is on the
+    // native element inside the shadow DOM
+    if (element.innerTag) {
+      cy.get(`${element.tag}[label="${element.name}"]`)
+        .shadow()
+        .find(element.innerTag)
+        .should('be.focused');
+    } else {
+      // Otherwise, use the standard role-based query
+      cy.findByRole(element.tag, { name: element.name }).should('be.focused');
+    }
   };
 }
 

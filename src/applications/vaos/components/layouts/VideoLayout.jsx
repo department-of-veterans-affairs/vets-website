@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { shallowEqual } from 'recompose';
 import VideoLayoutAtlas from './VideoLayoutAtlas';
-import {
-  selectConfirmedAppointmentData,
-  selectIsAtlasVideo,
-} from '../../appointment-list/redux/selectors';
+import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import VideoLayoutVA from './VideoLayoutVA';
-import { isClinicVideoAppointment } from '../../services/appointment';
+import {
+  isClinicVideoAppointment,
+  isAtlasVideoAppointment,
+} from '../../services/appointment';
 import DetailPageLayout, {
   What,
   When,
@@ -24,7 +24,6 @@ import {
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
 import AddToCalendarButton from '../AddToCalendarButton';
-import VideoInstructions from '../VideoInstructions';
 import State from '../State';
 import {
   NULL_STATE_FIELD,
@@ -50,7 +49,7 @@ export default function VideoLayout({ data: appointment }) {
     shallowEqual,
   );
 
-  const isAtlasVideo = useSelector(() => selectIsAtlasVideo(appointment));
+  const isAtlasVideo = useSelector(() => isAtlasVideoAppointment(appointment));
   const isClinicVideo = isClinicVideoAppointment(appointment);
 
   if (isAtlasVideo) return <VideoLayoutAtlas data={appointment} />;
@@ -86,9 +85,12 @@ export default function VideoLayout({ data: appointment }) {
           </Section>
         )}
       <When>
-        <AppointmentDate date={startDate} />
+        <AppointmentDate date={startDate} timezone={appointment.timezone} />
         <br />
-        <AppointmentTime appointment={appointment} />
+        <AppointmentTime
+          appointment={appointment}
+          timezone={appointment.timezone}
+        />
         <br />
         {APPOINTMENT_STATUS.cancelled !== status &&
           !isPastAppointment && (
@@ -134,17 +136,21 @@ export default function VideoLayout({ data: appointment }) {
           <Prepare>
             <ul className="vads-u-margin-top--0">
               <li>
-                Bring your insurance cards. And bring a list of your medications
-                and other information to share with your provider.
+                Bring your insurance cards, a list of your medications, and
+                other things to share with your provider
                 <br />
                 <va-link
-                  text="Find a full list of things to bring to your appointment"
+                  text="Find out what to bring to your appointment"
                   href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
                 />
               </li>
               <li>
-                Get your device ready to join.
-                <VideoInstructions />
+                Get your device ready to join
+                <br />
+                <va-link
+                  text="Learn how to prepare for your video appointment"
+                  href="https://www.va.gov/resources/how-should-i-prepare-for-a-video-health-appointment/"
+                />
               </li>
             </ul>
           </Prepare>

@@ -20,7 +20,7 @@ const initConfirmationPage = ({ formData } = {}) => {
         },
         timestamp: new Date(),
       },
-      data: formData,
+      data: { ...formData, statementOfTruthSignature: 'Lorem ipsum' },
     },
   });
 
@@ -62,9 +62,6 @@ describe('ConfirmationPage', () => {
     const { container } = initConfirmationPage({ formData: mockData });
     const alert = container.querySelector('va-alert');
     expect(alert).to.have.attribute('status', 'success');
-    expect(alert.querySelector('h2')).to.contain.text(
-      'Form submission started',
-    );
-    expect(alert).to.contain.text('Your confirmation number is 1234567890');
+    expect(alert.querySelector('h2')).to.contain.text("You've submitted");
   });
 });

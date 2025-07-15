@@ -5,8 +5,8 @@ import {
   emailUI,
   phoneSchema,
   phoneUI,
-  internationalPhoneUI,
-  internationalPhoneSchema,
+  internationalPhoneDeprecatedUI,
+  internationalPhoneDeprecatedSchema,
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -32,7 +32,7 @@ const yourContactInformationPage = {
     phoneNumber: phoneUI(),
     emailAddress: emailUI(),
     businessPhone: {
-      ...internationalPhoneUI('Phone number'),
+      ...internationalPhoneDeprecatedUI('Phone number'),
       'ui:errorMessages': {
         required:
           'Enter up to a 16-digit phone number (with or without dashes)',
@@ -78,7 +78,7 @@ const yourContactInformationPage = {
             required: ['businessPhone', 'businessEmail', 'contactPreference'],
             properties: {
               businessPhone: {
-                ...internationalPhoneSchema,
+                ...internationalPhoneDeprecatedSchema,
                 pattern: '^\\+?[0-9](?:-?[0-9]){0,15}$',
               },
               businessEmail: emailSchema,
@@ -103,7 +103,7 @@ const yourContactInformationPage = {
             required: ['businessPhone', 'businessEmail'],
             properties: {
               businessPhone: {
-                ...internationalPhoneSchema,
+                ...internationalPhoneDeprecatedSchema,
                 pattern: '^\\+?[0-9](?:-?[0-9]){0,15}$',
               },
               businessEmail: emailSchema,

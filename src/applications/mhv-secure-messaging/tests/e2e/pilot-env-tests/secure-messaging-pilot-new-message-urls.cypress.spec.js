@@ -3,6 +3,7 @@ import { AXE_CONTEXT, Paths, Data } from '../utils/constants';
 import mockFeatureToggles from '../fixtures/toggles-response.json';
 import PilotEnvPage from '../pages/PilotEnvPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
+import mockSentThreads from '../fixtures/sentResponse/sent-messages-response.json';
 
 describe('SM PILOT NEW MESSAGE', () => {
   const pilotFeatureFlag = {
@@ -20,6 +21,10 @@ describe('SM PILOT NEW MESSAGE', () => {
   it('verify url by direct navigation', () => {
     SecureMessagingSite.login(mockPilotFeatureToggles);
     PilotEnvPage.loadInboxMessages();
+
+    cy.intercept('GET', Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      'sentThreadsResponse',
+    );
 
     cy.visit(`${Paths.UI_PILOT}/new-message/select-health-care-system`);
     GeneralFunctionsPage.verifyPageHeader(Data.HCS_SELECT);

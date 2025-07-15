@@ -18,13 +18,11 @@ const MOCK_GUID = 'mock-guid';
 const MOCK_URL = 'http://www.example.submission.pdf';
 
 describe('fetchFormPdfUrl action creator', () => {
-  let downloadStub;
   let recordEventStub;
   let dispatchStub;
 
   beforeEach(() => {
     mockFetch();
-    downloadStub = stub();
     recordEventStub = stub();
     dispatchStub = stub();
   });
@@ -36,7 +34,7 @@ describe('fetchFormPdfUrl action creator', () => {
   it('dispatches appropriate actions on success response', async () => {
     const response = { url: MOCK_URL };
     setFetchJSONResponse(global.fetch.onCall(0), response);
-    const fetchFormPdfUrl = makeFetchFormPdfUrl(downloadStub, recordEventStub);
+    const fetchFormPdfUrl = makeFetchFormPdfUrl(recordEventStub);
     await fetchFormPdfUrl(MOCK_ID, MOCK_GUID)(dispatchStub);
     const actions = dispatchStub.getCalls().map(c => c.args[0]);
     expect(actions).to.deep.equal([
@@ -48,7 +46,7 @@ describe('fetchFormPdfUrl action creator', () => {
   it('dispatches appropriate actions on failure response', async () => {
     const response = { error: 'bad request' };
     setFetchJSONFailure(global.fetch.onCall(0), response);
-    const fetchFormPdfUrl = makeFetchFormPdfUrl(downloadStub, recordEventStub);
+    const fetchFormPdfUrl = makeFetchFormPdfUrl(recordEventStub);
     await fetchFormPdfUrl(MOCK_ID, MOCK_GUID)(dispatchStub);
     const actions = dispatchStub.getCalls().map(c => c.args[0]);
     expect(actions).to.deep.equal([
@@ -60,18 +58,10 @@ describe('fetchFormPdfUrl action creator', () => {
   it('fails if success response returns empty url', async () => {
     const response = { url: '' };
     setFetchJSONResponse(global.fetch.onCall(0), response);
-    const fetchFormPdfUrl = makeFetchFormPdfUrl(downloadStub, recordEventStub);
+    const fetchFormPdfUrl = makeFetchFormPdfUrl(recordEventStub);
     await fetchFormPdfUrl(MOCK_ID, MOCK_GUID)(dispatchStub);
     const actions = dispatchStub.getCalls().map(c => c.args[0]);
     expect(actions[1].type).to.equal(actionFail().type);
     expect(actions[1].error).to.be.ok;
-  });
-
-  it('attempts to download url on success response', async () => {
-    setFetchJSONResponse(global.fetch.onCall(0), { url: MOCK_URL });
-    const fetchFormPdfUrl = makeFetchFormPdfUrl(downloadStub, recordEventStub);
-    await fetchFormPdfUrl(MOCK_ID, MOCK_GUID)(dispatchStub);
-    expect(downloadStub.callCount).to.equal(1);
-    expect(downloadStub.firstCall.args[0]).to.equal(MOCK_URL);
   });
 });

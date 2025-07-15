@@ -88,7 +88,6 @@
       }
     ],
     "view:hasEmergencyContacts": true,
-    "view:hasEmergencyContactAddress": true,
     "emergencyContacts": [
       {
         "fullName": {
@@ -131,6 +130,7 @@
         "contactType": "Other emergency contact"
       }
     ],
+    "view:hasNextOfKin": true,
     "nextOfKins": [
       {
         "fullName": {

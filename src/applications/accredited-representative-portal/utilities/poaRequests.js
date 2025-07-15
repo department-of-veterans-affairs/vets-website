@@ -11,15 +11,24 @@ export const BANNER_TYPES = {
 };
 
 export const expiresSoon = expDate => {
-  const EXPIRES_SOON_THRESHOLD_DURATION = 7;
   const now = new Date();
   const expiresAt = new Date(expDate);
   const daysLeft = timeFromNow(expiresAt, now);
+  if (differenceInDays(expiresAt, now) > 0) {
+    return `(expires in ${daysLeft})`;
+  }
+  return null;
+};
+
+export const expiresSoonIcon = expDate => {
+  const EXPIRES_SOON_THRESHOLD_DURATION = 7;
+  const now = new Date();
+  const expiresAt = new Date(expDate);
   if (
     differenceInDays(expiresAt, now) > 0 &&
     differenceInDays(expiresAt, now) < EXPIRES_SOON_THRESHOLD_DURATION
   ) {
-    return `(in ${daysLeft})`;
+    return true;
   }
   return null;
 };

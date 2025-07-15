@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import GetFormHelp from '../components/GetFormHelp';
 
 import manifest from '../manifest.json';
 
 export default function ConfirmationPage() {
   const form = useSelector(state => state?.form);
+  const alertRef = useRef(null);
 
   const { submission, data } = form;
   const response = submission?.response ?? {};
@@ -22,14 +23,17 @@ export default function ConfirmationPage() {
     ? format(new Date(submission?.timestamp), 'MMMM d, yyyy')
     : '';
 
-  useEffect(() => {
-    focusElement('#thank-you-message');
-    scrollToTop('topScrollElement');
-  }, []);
+  useLayoutEffect(
+    () => {
+      scrollToTop('topScrollElement');
+      waitForRenderThenFocus('va-alert h2', alertRef.current, 1000);
+    },
+    [alertRef],
+  );
 
   return (
     <>
-      <va-alert status="success" class="vads-u-margin-bottom--4">
+      <va-alert ref={alertRef} status="success" class="vads-u-margin-bottom--4">
         <h2 className="vads-u-font-size--h3">
           Form submission started on {dateSubmitted}
         </h2>
@@ -41,8 +45,6 @@ export default function ConfirmationPage() {
         <va-link-action
           href="/my-va/"
           text="Check the status of your form on My VA"
-          label="Check the status of your form on My VA"
-          message-aria-describedby="Check the status of your form on My VA"
         />
       </va-alert>
       <va-summary-box>
@@ -50,7 +52,7 @@ export default function ConfirmationPage() {
         <p>
           <strong>Your name</strong>
         </p>
-        <p>
+        <p className="dd-privacy-hidden" data-dd-action-name="Veteran's name">
           {veteranFirstName} {veteranLastName}
         </p>
         <p>
@@ -59,7 +61,6 @@ export default function ConfirmationPage() {
         <p data-testid="dateSubmitted">{dateSubmitted}</p>
         <va-button
           text="Print this page for your records"
-          message-aria-describedby="Print this page for your records"
           onClick={() => {
             window.print();
           }}
@@ -70,13 +71,12 @@ export default function ConfirmationPage() {
         <va-process-list>
           <va-process-list-item header="We’ll confirm that we’ve received your form">
             <p>
-              This can take up to 10 days. When we receive your form, we'll
+              This can take up to 10 days. When we receive your form, we’ll
               update the status on My VA.
             </p>
             <va-link
               href="/my-va/"
               text="Check the status of your form on My VA"
-              label="Check the status of your form on My VA"
             />
           </va-process-list-item>
           <va-process-list-item header="Next, we’ll review your form">
@@ -102,7 +102,6 @@ export default function ConfirmationPage() {
         <va-link
           href="/track-claims"
           text="Use the Claim Status Tool to upload your documents"
-          label="Use the Claim Status Tool to upload your documents"
         />
         <h3>Option 2: Mail us copies of your documents</h3>
         <p>
@@ -144,11 +143,7 @@ export default function ConfirmationPage() {
           If you need to add or remove another dependent, complete and submit
           another dependency claim.
         </p>
-        <va-link
-          href={manifest.rootUrl}
-          text="Start a new dependency claim"
-          label="Start a new dependency claim"
-        />
+        <va-link href={manifest.rootUrl} text="Start a new dependency claim" />
       </section>
       <section>
         <h2>How to contact us if you have questions</h2>
@@ -162,19 +157,11 @@ export default function ConfirmationPage() {
           category and topic for the VA benefit this form is related to.
         </p>
         <va-link
-          text="Contact us online
-        through Ask VA"
-          label="Contact us online
-        through Ask VA"
+          text="Contact us online through Ask VA"
           href="https://ask.va.gov"
         />
         <div className="vads-u-margin-top--3 vads-u-margin-bottom--6">
-          <va-link-action
-            text="Go back to VA.gov"
-            label="Go back to VA.gov"
-            href="/"
-            type="secondary"
-          />
+          <va-link-action text="Go back to VA.gov" href="/" type="secondary" />
         </div>
       </section>
 

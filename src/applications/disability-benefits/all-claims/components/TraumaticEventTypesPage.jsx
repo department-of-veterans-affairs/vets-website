@@ -6,7 +6,7 @@ import {
 import React, { useRef, useEffect, useState } from 'react';
 
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import PropTypes from 'prop-types';
 import {

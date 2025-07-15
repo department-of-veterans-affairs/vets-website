@@ -1,6 +1,6 @@
 import { royaltiesAndOtherPropertyPages } from './royaltiesAndOtherPropertyPages';
 
 export default {
-  title: 'Royalties and other properties information',
+  title: 'Royalties',
   pages: royaltiesAndOtherPropertyPages,
 };

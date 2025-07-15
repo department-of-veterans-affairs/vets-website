@@ -82,8 +82,8 @@ describe('VAOS App: VAOSApp', () => {
             attributes: {
               externalService: 'vaos',
               description: 'My description',
-              startTime: subDays(new Date(), '1'),
-              endTime: addDays(new Date(), '1'),
+              startTime: subDays(new Date(), '1')?.toISOString(),
+              endTime: addDays(new Date(), '1')?.toISOString(),
             },
           },
         ],
@@ -108,8 +108,8 @@ describe('VAOS App: VAOSApp', () => {
             attributes: {
               externalService: 'vaos',
               description: 'My description',
-              startTime: addMinutes(new Date(), '30'),
-              endTime: addDays(new Date(), '1'),
+              startTime: addMinutes(new Date(), '30')?.toISOString(),
+              endTime: addDays(new Date(), '1')?.toISOString(),
             },
           },
         ],

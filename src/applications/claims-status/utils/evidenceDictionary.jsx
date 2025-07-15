@@ -27,13 +27,14 @@ export const evidenceDictionary = {
         <p>
           You can complete and sign this form online, or use a PDF version and
           upload or mail it.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-4142"
+            text="VA Form 21-4142"
+            href="/find-forms/about-form-21-4142/"
+          />
         </p>
-        <va-link
-          active
-          data-testid="VA Form 21-4142"
-          text="VA Form 21-4142"
-          href="/find-forms/about-form-21-4142/"
-        />
       </>
     ),
   },
@@ -49,13 +50,14 @@ export const evidenceDictionary = {
         <p>
           Give VA Form 21-4192 to your most recent employer and ask them to mail
           us your employment information.
+          <br />
+          <va-link
+            active
+            text="VA Form 21-4192"
+            data-testid="VA Form 21-4192"
+            href="/find-forms/about-form-21-4192/"
+          />
         </p>
-        <va-link
-          active
-          text="VA Form 21-4192"
-          data-testid="VA Form 21-4192"
-          href="/find-forms/about-form-21-4192/"
-        />
       </>
     ),
     isProperNoun: false,
@@ -72,33 +74,35 @@ export const evidenceDictionary = {
         <p>
           You can update your direct deposit information in your VA.gov profile,
           by phone, or by mail.
+          <br />
+          <va-link
+            active
+            text="Add or change direct deposit information"
+            data-testid="Add or change direct deposit information"
+            href="/profile/direct-deposit"
+          />
         </p>
-        <va-link
-          active
-          text="Add or change direct deposit information"
-          data-testid="Add or change direct deposit information"
-          href="/profile/direct-deposit"
-        />
+
         <p>
           If you don’t already have a bank account, the Veterans Benefits
           Banking Program (VBBP) can connect you with a bank that will help you
           set up an account.
+          <a
+            className="external-active-link vads-u-margin-top--0"
+            rel="noopener noreferrer"
+            target="_blank"
+            data-testid="Set up a bank account through VBBP (opens in new tab)"
+            href="https://veteransbenefitsbanking.org/"
+          >
+            Set up a bank account through VBBP (opens in new tab)
+            <va-icon
+              icon="chevron_right"
+              class="active-link-icon"
+              size={2}
+              aria-hidden="true"
+            />
+          </a>
         </p>
-        <a
-          className="external-active-link"
-          rel="noopener noreferrer"
-          target="_blank"
-          data-testid="Set up a bank account through VBBP (opens in new tab)"
-          href="https://veteransbenefitsbanking.org/"
-        >
-          Set up a bank account through VBBP (opens in new tab)
-          <va-icon
-            icon="chevron_right"
-            class="active-link-icon"
-            size={2}
-            aria-hidden="true"
-          />
-        </a>
       </>
     ),
     isProperNoun: false,
@@ -130,6 +134,7 @@ export const evidenceDictionary = {
       </>
     ),
     noActionNeeded: true,
+    isDBQ: true,
   },
   'DBQ PSYCH Mental Disorders': {
     longDescription: (
@@ -141,6 +146,7 @@ export const evidenceDictionary = {
       </>
     ),
     noActionNeeded: true,
+    isDBQ: true,
   },
   'Proof of service (DD214, etc.)': {
     longDescription: (

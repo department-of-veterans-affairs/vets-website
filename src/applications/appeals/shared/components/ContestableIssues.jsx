@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { focusElement, scrollTo } from 'platform/utilities/ui';
-
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
+import ActionLink from './web-component-wrappers/ActionLink';
 import { LAST_ISSUE, MAX_LENGTH, REVIEW_ISSUES, SELECTED } from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { IssueCard } from './IssueCard';
@@ -255,15 +254,14 @@ const ContestableIssues = props => {
           {content}
         </ul>
         {onReviewPage && inReviewMode ? null : (
-          <Link
-            className="add-new-issue vads-c-action-link--green"
-            to={{
-              pathname: '/add-issue',
-              search: `?index=${items.length}`,
-            }}
-          >
-            Add a new issue
-          </Link>
+          <ActionLink
+            className="add-new-issue"
+            disable-analytics
+            path="/add-issue"
+            search={`?index=${items.length}`}
+            primary
+            text="Add a new issue"
+          />
         )}
         {showErrorModal && (
           <MaxSelectionsAlert

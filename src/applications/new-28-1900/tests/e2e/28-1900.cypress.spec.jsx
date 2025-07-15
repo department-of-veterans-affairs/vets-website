@@ -4,14 +4,13 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import user from '../fixtures/mocks/user.json';
+import submit from '../fixtures/mocks/submit.json';
 import featureToggles from '../fixtures/mocks/featureToggles.json';
 import minimalFlow from '../fixtures/data/minimalFlow.json';
 import maximalFlow from '../fixtures/data/maximalFlow.json';
 import militaryAddressFlow from '../fixtures/data/militaryAddressFlow.json';
-import {
-  fillAddressWebComponentPattern,
-  selectCheckboxWebComponent,
-} from './utilities';
+import { selectCheckboxWebComponent } from './utilities';
+import { normalizeFullName } from '../../utils';
 
 const testConfig = createTestConfig(
   {
@@ -26,11 +25,13 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
+          cy.injectAxeThenAxeCheck();
           cy.get('a.vads-c-action-link--green').click();
         });
       },
-      'main-mailing-address': ({ afterHook }) => {
+      'veteran-address': ({ afterHook }) => {
         afterHook(() => {
+          cy.injectAxeThenAxeCheck();
           cy.get('@testData').then(data => {
             if (data.checkBoxGroup?.checkForMailingAddress) {
               selectCheckboxWebComponent(
@@ -38,24 +39,36 @@ const testConfig = createTestConfig(
                 data.checkBoxGroup.checkForMailingAddress,
               );
             } else {
-              fillAddressWebComponentPattern(
-                'mainMailingAddress',
-                data.mainMailingAddress,
+              cy.fillAddressWebComponentPattern(
+                'veteranAddress',
+                data.veteranAddress,
               );
             }
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
-      'new-mailing-address': ({ afterHook }) => {
+      'new-address': ({ afterHook }) => {
         afterHook(() => {
+          cy.injectAxeThenAxeCheck();
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
-              'newMailingAddress',
-              data.newMailingAddress,
-            );
+            cy.fillAddressWebComponentPattern('newAddress', data.newAddress);
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
+        });
+      },
+      'review-and-submit': () => {
+        cy.injectAxeThenAxeCheck();
+        cy.get('@testData').then(testData => {
+          cy.get('[data-testid="privacy-agreement-checkbox"]').then($el =>
+            cy.selectVaCheckbox($el, true),
+          );
+          cy.get('.signature-input').then($el => {
+            cy.fillVaTextInput($el, normalizeFullName(testData.fullName, true));
+          });
+          cy.get('.signature-checkbox').then($el =>
+            cy.selectVaCheckbox($el, true),
+          );
         });
       },
     },
@@ -66,6 +79,7 @@ const testConfig = createTestConfig(
       cy.intercept('PUT', '/v0/in_progress_forms/28-1900', {
         statusCode: 200,
       });
+      cy.intercept('POST', '/v0/veteran_readiness_employment_claims', submit);
       cy.login(user);
     },
   },

@@ -112,25 +112,25 @@ describe('removeChildStoppedAttendingSchoolOptions', () => {
     });
   });
 
-  describe('getItemName + cardDescription', () => {
-    it('should return the correctly capitalized full name', () => {
+  describe('getItemName', () => {
+    it('should return the correctly full name', () => {
       const item = {
         fullName: { first: 'john', last: 'doe' },
       };
       const { container } = render(
-        removeChildStoppedAttendingSchoolOptions.text.cardDescription(item),
+        removeChildStoppedAttendingSchoolOptions.text.getItemName(item),
       );
-      expect(container.textContent).to.equal('John Doe');
+      expect(container.textContent).to.equal('john doe');
     });
 
-    it('should return the correctly capitalized full name with mixed case', () => {
+    it('should return the correctly full name with mixed case', () => {
       const item = {
         fullName: { first: 'jOhN', last: 'dOe' },
       };
       const { container } = render(
-        removeChildStoppedAttendingSchoolOptions.text.cardDescription(item),
+        removeChildStoppedAttendingSchoolOptions.text.getItemName(item),
       );
-      expect(container.textContent).to.equal('John Doe');
+      expect(container.textContent).to.equal('jOhN dOe');
     });
 
     it('should handle the case when both names are empty', () => {
@@ -138,7 +138,7 @@ describe('removeChildStoppedAttendingSchoolOptions', () => {
         fullName: { first: '', last: '' },
       };
       const { container } = render(
-        removeChildStoppedAttendingSchoolOptions.text.cardDescription(item),
+        removeChildStoppedAttendingSchoolOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('');
     });
@@ -165,7 +165,7 @@ describe('686 report child who stopped attending school: Intro page', () => {
     );
 
     expect($$('h3', container).length).to.equal(1);
-    expect($$('span', container).length).to.equal(1);
+    expect($$('[data-testid="cancel-btn"]', container).length).to.equal(1);
   });
 });
 

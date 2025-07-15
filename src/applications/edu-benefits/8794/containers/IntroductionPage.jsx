@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import OmbInfo from '../components/OmbInfo';
@@ -10,6 +10,114 @@ const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
+  }, []);
+
+  useEffect(() => {
+    const vaOmbInfoButton = document.getElementById('va-omb-info');
+    let closeButtonInModalShadowDom = null;
+    let modalObserver = null;
+
+    const handleCloseModalClick = () => {
+      if (vaOmbInfoButton) {
+        const vaButton = vaOmbInfoButton.shadowRoot.querySelector(
+          'va-button[secondary]',
+        );
+        const button = vaButton.shadowRoot.querySelector(
+          'button[class="usa-button usa-button--outline"]',
+        );
+        button.focus();
+      }
+
+      // Cleanup the observer once the modal is closed and btn is focused
+      if (modalObserver) {
+        modalObserver.disconnect();
+        modalObserver = null;
+      }
+      // Remove listener from the close button if it's going away
+      if (closeButtonInModalShadowDom) {
+        closeButtonInModalShadowDom.removeEventListener(
+          'click',
+          handleCloseModalClick,
+        );
+        closeButtonInModalShadowDom = null;
+      }
+    };
+
+    const setupCloseButtonObserverInModal = modalShadowRoot => {
+      if (modalObserver) {
+        modalObserver.disconnect();
+      }
+
+      modalObserver = new MutationObserver(
+        (mutationsList, observerInstance) => {
+          for (const mutation of mutationsList) {
+            if (
+              mutation.type === 'childList' &&
+              mutation.addedNodes.length > 0
+            ) {
+              const foundCloseButton = modalShadowRoot.querySelector(
+                'button[aria-label="Close Privacy Act Statement modal"]',
+              );
+
+              if (foundCloseButton) {
+                if (closeButtonInModalShadowDom) {
+                  closeButtonInModalShadowDom.removeEventListener(
+                    'click',
+                    handleCloseModalClick,
+                  );
+                }
+                closeButtonInModalShadowDom = foundCloseButton;
+                closeButtonInModalShadowDom.addEventListener(
+                  'click',
+                  handleCloseModalClick,
+                );
+
+                observerInstance.disconnect();
+                modalObserver = null;
+                return; // Exit the loop and function
+              }
+            }
+          }
+        },
+      );
+      modalObserver.observe(modalShadowRoot, {
+        childList: true,
+        subtree: true,
+      });
+    };
+
+    const handleOpenModalClick = () => {
+      if (vaOmbInfoButton && vaOmbInfoButton.shadowRoot) {
+        const outerShadowRoot = vaOmbInfoButton.shadowRoot;
+
+        // Step 1: Find the <va-modal> element within the va-omb-info's Shadow DOM
+        const vaModalElement = outerShadowRoot.querySelector('va-modal');
+
+        if (vaModalElement && vaModalElement.shadowRoot) {
+          setupCloseButtonObserverInModal(vaModalElement.shadowRoot);
+        }
+      }
+    };
+
+    // --- Setup on Component Mount ---
+    if (vaOmbInfoButton) {
+      vaOmbInfoButton.addEventListener('click', handleOpenModalClick);
+    }
+
+    return () => {
+      if (vaOmbInfoButton) {
+        vaOmbInfoButton.removeEventListener('click', handleOpenModalClick);
+      }
+      if (closeButtonInModalShadowDom) {
+        closeButtonInModalShadowDom.removeEventListener(
+          'click',
+          handleCloseModalClick,
+        );
+      }
+      if (modalObserver) {
+        modalObserver.disconnect();
+      }
+    };
   }, []);
 
   return (

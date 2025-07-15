@@ -1,3 +1,8 @@
+import {
+  LABS_AND_TESTS_DISPLAY_DISPLAY_MAP,
+  OBSERVATION_DISPLAY_DISPLAY_MAP,
+} from '../constants';
+
 export const generateLabsIntro = record => {
   return {
     title: `${record.name}`,
@@ -8,6 +13,79 @@ export const generateLabsIntro = record => {
   };
 };
 
+export const generateGenericContent = record => {
+  const itemKeys = [
+    'date',
+    'testCode',
+    'sampleTested',
+    'bodySite',
+    'orderedBy',
+    'location',
+    'result',
+  ];
+
+  const details = {
+    header: 'Details about this test',
+    items: itemKeys.filter(key => record[key]).map(key => {
+      return {
+        title: LABS_AND_TESTS_DISPLAY_DISPLAY_MAP[key],
+        value: record[key],
+        inline: true,
+      };
+    }),
+  };
+
+  const rv = {
+    details,
+  };
+
+  if (record.observations) {
+    const observationKeys = [
+      'referenceRange',
+      'status',
+      'bodySite',
+      'sampleTested',
+      'comments',
+    ];
+    const results = {
+      header: 'Results',
+      preface: [
+        {
+          prefaceOptions: { paragraphGap: 20 },
+          value:
+            'Your provider will review your results. If you need to do anything, your provider will contact you. If you have questions, send a message to the care team that ordered this test.',
+        },
+        {
+          prefaceOptions: { paragraphGap: 20 },
+          value:
+            'Note: If you have questions about more than 1 test ordered by the same care team, send 1 message with all of your questions.',
+        },
+      ],
+      sectionSeparators: false,
+      items: record.observations.map(item => ({
+        header: item.testCode,
+        items: [
+          {
+            title: 'Result',
+            value: item.value.text,
+            inline: true,
+          },
+          ...observationKeys.filter(key => item[key]).map(key => {
+            return {
+              title: OBSERVATION_DISPLAY_DISPLAY_MAP[key],
+              value: item[key],
+              inline: true,
+            };
+          }),
+        ],
+      })),
+    };
+    rv.results = results;
+  }
+  return {
+    ...rv,
+  };
+};
 export const generateChemHemContent = record => ({
   details: {
     header: 'Details about this test',
@@ -167,11 +245,6 @@ export const generatePathologyContent = record => ({
       },
       {
         title: 'Site or sample tested',
-        value: record.sampleTested,
-        inline: true,
-      },
-      {
-        title: 'Collection sample',
         value: record.sampleFrom,
         inline: true,
       },
@@ -211,33 +284,6 @@ export const generatePathologyContent = record => ({
   },
 });
 
-export const generateEkgContent = record => ({
-  results: {
-    sectionSeparators: false,
-    items: [
-      {
-        items: [
-          {
-            title: 'Date',
-            value: record.date,
-            inline: true,
-          },
-          {
-            title: 'Location',
-            value: record.facility,
-            inline: true,
-          },
-          {
-            title: 'Provider',
-            value: record.orderedBy,
-            inline: true,
-          },
-        ],
-      },
-    ],
-  },
-});
-
 export const generateRadiologyContent = record => ({
   details: {
     header: 'Details about this test',
@@ -254,7 +300,7 @@ export const generateRadiologyContent = record => ({
       },
       {
         title: 'Clinical history',
-        value: record.clinicalHistory,
+        value: String(record.clinicalHistory).replace(/\r\n|\r/g, '\n'),
         inline: true,
       },
       {

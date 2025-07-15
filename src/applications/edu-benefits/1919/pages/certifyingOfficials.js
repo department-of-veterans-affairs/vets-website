@@ -1,12 +1,11 @@
 import React from 'react';
-import {
-  textSchema,
-  textUI,
-} from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
+
 import {
   titleUI,
   radioUI,
   radioSchema,
+  textSchema,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const levelNames = {
@@ -55,6 +54,7 @@ const uiSchema = {
             placeholder="Example: Registrar, Bursar, Campus director"
             defaultValue={props.value || ''}
             onChange={e => props.onChange(e.target.value)}
+            maxLength={50}
           />
         ),
         'ui:errorMessages': {
@@ -82,8 +82,8 @@ const schema = {
       type: 'object',
       required: ['first', 'last', 'role'],
       properties: {
-        first: { ...textSchema, pattern: noSpaceOnlyPattern },
-        last: { ...textSchema, pattern: noSpaceOnlyPattern },
+        first: { ...textSchema, pattern: noSpaceOnlyPattern, maxLength: 30 },
+        last: { ...textSchema, pattern: noSpaceOnlyPattern, maxLength: 30 },
         role: {
           type: 'object',
           required: ['level'],
@@ -91,7 +91,10 @@ const schema = {
             level: {
               ...radioSchema(Object.keys(levelNames)),
             },
-            other: { type: 'string', pattern: noSpaceOnlyPattern },
+            other: {
+              type: 'string',
+              pattern: noSpaceOnlyPattern,
+            },
           },
         },
       },

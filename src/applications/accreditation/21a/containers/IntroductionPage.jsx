@@ -5,12 +5,14 @@ import { useSelector } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';
-import { SIGN_IN_URL } from '../constants';
-import { selectIsUserLoggedIn } from '../selectors/user';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+
+import { SIGN_IN_URL_21A } from '../constants';
+import { selectIsUserLoggedIn, selectAuthStatus } from '../selectors/user';
 
 const SIGN_IN_LINK_PROPS = {
   onClick: undefined,
-  href: SIGN_IN_URL,
+  href: SIGN_IN_URL_21A,
 };
 
 function StartLink({ children, ...props }) {
@@ -29,6 +31,8 @@ function StartLink({ children, ...props }) {
 
 const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
+
+  const { isUserLOA1 } = useSelector(selectAuthStatus);
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -141,16 +145,23 @@ const IntroductionPage = ({ route }) => {
           <p>Review your answers before submitting.</p>
         </va-process-list-item>
       </va-process-list>
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start your Application"
-        customLink={StartLink}
-        hideUnauthedStartLink
-        displayNonVeteranMessaging
-      />
+
+      {isUserLOA1 ? (
+        <div className="vads-u-margin-y--4">
+          <VerifyAlert headingLevel={3} dataTestId="ezr-identity-alert" />
+        </div>
+      ) : (
+        <SaveInProgressIntro
+          headingLevel={2}
+          prefillEnabled={formConfig.prefillEnabled}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
+          startText="Start your Application"
+          customLink={StartLink}
+          hideUnauthedStartLink
+          displayNonVeteranMessaging
+        />
+      )}
       <va-omb-info
         res-burden={45}
         omb-number="2900-0605"

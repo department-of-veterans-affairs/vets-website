@@ -25,6 +25,8 @@ import {
   GET_ENHANCED_LETTERS_DOWNLOADING,
   GET_ENHANCED_LETTERS_SUCCESS,
   GET_ENHANCED_LETTERS_FAILURE,
+  INVALID_ADDRESS_PROPERTY,
+  UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
 } from '../../utils/constants';
 
 import {
@@ -34,6 +36,7 @@ import {
   getLetterPdf,
   getLetterBlobUrl,
   getSingleLetterPDFLink,
+  updateBenefitSummaryRequestOption,
 } from '../../actions/letters';
 
 /**
@@ -131,6 +134,7 @@ describe('getLettersList', () => {
     403: BACKEND_AUTHENTICATION_ERROR,
     502: LETTER_ELIGIBILITY_ERROR,
     500: GET_LETTERS_FAILURE,
+    422: INVALID_ADDRESS_PROPERTY,
   };
 
   Object.keys(lettersErrors).forEach(code => {
@@ -159,6 +163,36 @@ describe('getLettersList', () => {
         })
         .then(done, done);
     });
+  });
+  it('calls the discrepancies endpoint when shouldUseLettersDiscrepancies is true', done => {
+    setFetchJSONResponse(global.fetch.onCall(0), { data: { attributes: {} } });
+
+    const discrepancyCall = sinon.stub().resolves({});
+    const originalApiRequest = require('../../utils/helpers').apiRequest;
+    const helpers = require('../../utils/helpers');
+
+    sinon.stub(helpers, 'apiRequest').callsFake(url => {
+      if (url === '/v0/letters_discrepancy') {
+        return discrepancyCall(url);
+      }
+      return originalApiRequest(url);
+    });
+
+    const dispatch = sinon.spy();
+    getLetterList(dispatch, migrationOptions, true)
+      .then(() => {
+        expect(discrepancyCall.calledOnce).to.be.true;
+        expect(discrepancyCall.firstCall.args[0]).to.equal(
+          '/v0/letters_discrepancy',
+        );
+
+        helpers.apiRequest.restore();
+        done();
+      })
+      .catch(error => {
+        helpers.apiRequest.restore();
+        done(error);
+      });
   });
 });
 
@@ -348,29 +382,6 @@ describe('getLetterPdf', () => {
       .then(done, done);
   });
 
-  it('dispatches SUCCESS action when fetch succeeds on IE10', done => {
-    const ieDownloadSpy = sinon.spy();
-    const blobObj = { test: '123 testing' };
-    global.window.navigator.msSaveOrOpenBlob = ieDownloadSpy; // fakes IE
-    setFetchBlobResponse(global.fetch.onCall(0), blobObj);
-    const { letterType, letterName, letterOptions } = civilSLetter;
-    const thunk = getLetterPdf(
-      letterType,
-      letterName,
-      letterOptions,
-      migrationOptions,
-    );
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.secondCall.args[0];
-        const msBlobArgs = ieDownloadSpy.firstCall.args;
-        expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
-        expect(msBlobArgs).to.have.members([blobObj, `${letterName}.pdf`]);
-      })
-      .then(done, done);
-  });
-
   it('dispatches FAILURE action if download fails', done => {
     setFetchJSONFailure(global.fetch.onCall(0), new Error('Oops, this failed'));
     const { letterType, letterName, letterOptions } = benefitSLetter;
@@ -407,11 +418,15 @@ describe('getSingleLetterPDFLink', () => {
 
   it('dispatches downloading and success actions with the correct blob URL', async () => {
     const dispatch = sinon.spy();
-    const mockBlob = () => Promise.resolve(Buffer.from('PDF content'));
     const mockUrl = 'http://fake-site.com/letter.pdf';
-
     stubCreateObjectUrl.onCall(0).returns(mockUrl);
-    setFetchJSONResponse(global.fetch.onCall(0), { blob: mockBlob });
+
+    const blob = new Blob(['PDF content'], { type: 'application/pdf' });
+    const response = new Response(blob, {
+      status: 200,
+      headers: { 'Content-Type': 'application/pdf' },
+    });
+    setFetchBlobResponse(global.fetch.onCall(0), response);
 
     await getSingleLetterPDFLink(
       dispatch,
@@ -500,5 +515,20 @@ describe('getLetterBlobUrl', () => {
         expect(action1.data).to.equal(LETTER_TYPES.civilService);
       })
       .then(done, done);
+  });
+});
+
+describe('updateBenefitSummaryRequestOption', () => {
+  it('returns the correct action object', () => {
+    const propertyPath = 'serviceInfo.includesServiceBefore1978';
+    const value = true;
+
+    const action = updateBenefitSummaryRequestOption(propertyPath, value);
+
+    expect(action).to.eql({
+      type: UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
+      propertyPath,
+      value,
+    });
   });
 });

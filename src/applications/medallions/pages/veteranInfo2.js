@@ -6,7 +6,7 @@ import {
 
 import { merge } from 'lodash';
 
-import { validateSSN } from '../helpers';
+import { validateSSN } from '../utils/helpers';
 
 /** @type {PageSchema} */
 export default {

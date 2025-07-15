@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { selectVAPMailingAddress } from 'platform/user/selectors';
+import { focusElement } from 'platform/utilities/ui';
 import { TRANSACTION_CATEGORY_TYPES } from '@@vap-svc/constants';
 import PropTypes from 'prop-types';
 
@@ -10,6 +11,16 @@ import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 export function NewAddressSection({ success }) {
   const mailingAddress = useSelector(selectVAPMailingAddress);
+  const successRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (success && successRef?.current) {
+        focusElement('h3', {}, successRef.current);
+      }
+    },
+    [success],
+  );
 
   return (
     <div className="va-profile-wrapper">
@@ -26,6 +37,7 @@ export function NewAddressSection({ success }) {
             <va-alert
               status="success"
               class="vads-u-margin-top--3 vads-u-margin-bottom--3"
+              ref={successRef}
             >
               <h3 slot="headline">We've updated your mailing address</h3>
               <p>

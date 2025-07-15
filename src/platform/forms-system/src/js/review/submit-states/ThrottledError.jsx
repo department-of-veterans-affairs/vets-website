@@ -19,6 +19,8 @@ export default function ThrottledError(props) {
     ariaDescribedBy = null;
   }
   const hideBackButton = formConfig?.useTopBackLink || false;
+  const useWebComponents =
+    formConfig?.formOptions?.useWebComponentForNavigation;
 
   return (
     <>
@@ -44,13 +46,17 @@ export default function ThrottledError(props) {
                 onButtonClick={onSubmit}
                 buttonText={buttonText}
                 buttonClass="usa-button-primary"
+                useWebComponents={useWebComponents}
               />
             </Column>
           </>
         ) : (
           <>
             <Column classNames="small-6 medium-5">
-              <Back onButtonClick={onBack} />
+              <Back
+                onButtonClick={onBack}
+                useWebComponents={useWebComponents}
+              />
             </Column>
             <Column classNames="small-6 medium-5">
               <ProgressButton
@@ -58,6 +64,7 @@ export default function ThrottledError(props) {
                 onButtonClick={onSubmit}
                 buttonText={buttonText}
                 buttonClass="usa-button-primary"
+                useWebComponents={useWebComponents}
               />
             </Column>
             <Column classNames="small-1 medium-1 end">

@@ -8,12 +8,9 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import unset from 'platform/utilities/data/unset';
-import {
-  displayFileSize,
-  focusElement,
-  scrollTo,
-  scrollToFirstError,
-} from 'platform/utilities/ui';
+import { displayFileSize } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollTo, scrollToFirstError } from 'platform/utilities/scroll';
 
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 import { ERROR_ELEMENTS } from 'platform/utilities/constants';

@@ -8,6 +8,7 @@ import sinon from 'sinon';
 import createCommonStore from 'platform/startup/store';
 import createSchemaFormReducer from 'platform/forms-system/src/js/state';
 import reducers from 'platform/forms-system/src/js/state/reducers';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ClientError from '../../../../src/js/review/submit-states/ClientError';
 
@@ -45,7 +46,7 @@ const createformReducer = (options = {}) =>
     reducers,
   );
 
-const getFormConfig = (options = {}) => ({
+const getFormConfig = (useWebComponents = false) => ({
   ariaDescribedBySubmit: '22-0994-submit-application',
   preSubmitInfo: {
     required: true,
@@ -71,139 +72,278 @@ const getFormConfig = (options = {}) => ({
       },
     },
   },
-  ...options,
+  formOptions: {
+    useWebComponentForNavigation: useWebComponents,
+  },
 });
 
 describe('Schemaform review: <ClientError />', () => {
-  it('has a back button', () => {
-    const onBack = sinon.spy();
-    const onSubmit = sinon.spy();
+  context('with React components', () => {
+    it('has a back button', () => {
+      const onBack = sinon.spy();
+      const onSubmit = sinon.spy();
 
-    const form = createForm();
-    const formConfig = getFormConfig();
+      const form = createForm();
+      const formConfig = getFormConfig();
 
-    const formReducer = createformReducer({
-      formConfig: form,
+      const formReducer = createformReducer({
+        formConfig: form,
+      });
+
+      const store = createStore();
+      store.injectReducer('form', formReducer);
+
+      const tree = render(
+        <Provider store={store}>
+          <ClientError
+            buttonText="test"
+            formConfig={formConfig}
+            onBack={onBack}
+            onSubmit={onSubmit}
+          />
+        </Provider>,
+      );
+
+      const backButton = tree.getByText('Back');
+      expect(backButton).to.not.be.null;
+      fireEvent.click(backButton);
+      expect(onBack.called).to.be.true;
+
+      tree.unmount();
     });
 
-    const store = createStore();
-    store.injectReducer('form', formReducer);
+    it('has a pre-submit section', () => {
+      const onBack = sinon.spy();
+      const onSubmit = sinon.spy();
 
-    const tree = render(
-      <Provider store={store}>
-        <ClientError
-          buttonText="test"
-          formConfig={formConfig}
-          onBack={onBack}
-          onSubmit={onSubmit}
-        />
-      </Provider>,
-    );
+      const form = createForm();
+      const formConfig = getFormConfig();
 
-    const backButton = tree.getByText('Back');
-    expect(backButton).to.not.be.null;
-    fireEvent.click(backButton);
-    expect(onBack.called).to.be.true;
+      const formReducer = createformReducer({
+        formConfig: form,
+      });
 
-    tree.unmount();
+      const store = createStore();
+      store.injectReducer('form', formReducer);
+
+      const tree = render(
+        <Provider store={store}>
+          <ClientError
+            buttonText="test"
+            formConfig={formConfig}
+            onBack={onBack}
+            onSubmit={onSubmit}
+          />
+        </Provider>,
+      );
+
+      expect(tree.container.querySelector('va-privacy-agreement')).does.exist;
+
+      tree.unmount();
+    });
+
+    it('has an enabled submit button', () => {
+      const onBack = sinon.spy();
+      const onSubmit = sinon.spy();
+
+      const form = createForm();
+      const formConfig = getFormConfig();
+
+      const formReducer = createformReducer({
+        formConfig: form,
+      });
+
+      const store = createStore();
+      store.injectReducer('form', formReducer);
+
+      const tree = render(
+        <Provider store={store}>
+          <ClientError
+            buttonText="custom text"
+            formConfig={formConfig}
+            onBack={onBack}
+            onSubmit={onSubmit}
+          />
+        </Provider>,
+      );
+
+      const submitButton = tree.getByText('custom text');
+      expect(submitButton).to.not.be.null;
+      expect(submitButton).to.not.have.attribute('disabled');
+      expect(submitButton).to.have.attr;
+      fireEvent.click(submitButton);
+      expect(onBack.called).to.be.false;
+
+      tree.unmount();
+    });
+
+    it('has the expected error message', () => {
+      const onBack = sinon.spy();
+      const onSubmit = sinon.spy();
+
+      const form = createForm();
+      const formConfig = getFormConfig();
+
+      const formReducer = createformReducer({
+        formConfig: form,
+      });
+
+      const store = createStore();
+      store.injectReducer('form', formReducer);
+
+      const tree = render(
+        <Provider store={store}>
+          <ClientError
+            buttonText="test"
+            formConfig={formConfig}
+            onBack={onBack}
+            onSubmit={onSubmit}
+            testId="12345"
+          />
+        </Provider>,
+      );
+
+      expect(
+        tree.getByText('Please check your Internet connection and try again.'),
+      ).to.not.be.null;
+      expect(tree.getByTestId('12345')).to.have.attribute('role', 'alert');
+
+      tree.unmount();
+    });
   });
 
-  it('has a pre-submit section', () => {
-    const onBack = sinon.spy();
-    const onSubmit = sinon.spy();
+  context('with Web components', () => {
+    const useWebComponents = true;
+    it('has a back button', () => {
+      const onBack = sinon.spy();
+      const onSubmit = sinon.spy();
 
-    const form = createForm();
-    const formConfig = getFormConfig();
+      const form = createForm();
+      const formConfig = getFormConfig(useWebComponents);
 
-    const formReducer = createformReducer({
-      formConfig: form,
+      const formReducer = createformReducer({
+        formConfig: form,
+      });
+
+      const store = createStore();
+      store.injectReducer('form', formReducer);
+
+      const tree = render(
+        <Provider store={store}>
+          <ClientError
+            buttonText="test"
+            formConfig={formConfig}
+            onBack={onBack}
+            onSubmit={onSubmit}
+          />
+        </Provider>,
+      );
+
+      const backButton = $('va-button[text="Back"]', tree.container);
+      expect(backButton).to.not.be.null;
+      fireEvent.click(backButton);
+      expect(onBack.called).to.be.true;
+
+      tree.unmount();
     });
 
-    const store = createStore();
-    store.injectReducer('form', formReducer);
+    it('has a pre-submit section', () => {
+      const onBack = sinon.spy();
+      const onSubmit = sinon.spy();
 
-    const tree = render(
-      <Provider store={store}>
-        <ClientError
-          buttonText="test"
-          formConfig={formConfig}
-          onBack={onBack}
-          onSubmit={onSubmit}
-        />
-      </Provider>,
-    );
+      const form = createForm();
+      const formConfig = getFormConfig(useWebComponents);
 
-    expect(tree.container.querySelector('va-privacy-agreement')).does.exist;
+      const formReducer = createformReducer({
+        formConfig: form,
+      });
 
-    tree.unmount();
-  });
+      const store = createStore();
+      store.injectReducer('form', formReducer);
 
-  it('has an enabled submit button', () => {
-    const onBack = sinon.spy();
-    const onSubmit = sinon.spy();
+      const tree = render(
+        <Provider store={store}>
+          <ClientError
+            buttonText="test"
+            formConfig={formConfig}
+            onBack={onBack}
+            onSubmit={onSubmit}
+          />
+        </Provider>,
+      );
 
-    const form = createForm();
-    const formConfig = getFormConfig();
+      expect($('va-privacy-agreement', tree.container)).does.exist;
 
-    const formReducer = createformReducer({
-      formConfig: form,
+      tree.unmount();
     });
 
-    const store = createStore();
-    store.injectReducer('form', formReducer);
+    it('has an enabled submit button', () => {
+      const onBack = sinon.spy();
+      const onSubmit = sinon.spy();
 
-    const tree = render(
-      <Provider store={store}>
-        <ClientError
-          buttonText="custom text"
-          formConfig={formConfig}
-          onBack={onBack}
-          onSubmit={onSubmit}
-        />
-      </Provider>,
-    );
+      const form = createForm();
+      const formConfig = getFormConfig(useWebComponents);
 
-    const submitButton = tree.getByText('custom text');
-    expect(submitButton).to.not.be.null;
-    expect(submitButton).to.not.have.attribute('disabled');
-    expect(submitButton).to.have.attr;
-    fireEvent.click(submitButton);
-    expect(onBack.called).to.be.false;
+      const formReducer = createformReducer({
+        formConfig: form,
+      });
 
-    tree.unmount();
-  });
+      const store = createStore();
+      store.injectReducer('form', formReducer);
 
-  it('has the expected error message', () => {
-    const onBack = sinon.spy();
-    const onSubmit = sinon.spy();
+      const tree = render(
+        <Provider store={store}>
+          <ClientError
+            buttonText="custom text"
+            formConfig={formConfig}
+            onBack={onBack}
+            onSubmit={onSubmit}
+          />
+        </Provider>,
+      );
 
-    const form = createForm();
-    const formConfig = getFormConfig();
+      const submitButton = $('va-button[text="custom text"]', tree.container);
+      expect(submitButton).to.not.be.null;
+      expect(submitButton).to.not.have.attribute('disabled');
+      expect(submitButton).to.have.attr;
+      fireEvent.click(submitButton);
+      expect(onBack.called).to.be.false;
 
-    const formReducer = createformReducer({
-      formConfig: form,
+      tree.unmount();
     });
 
-    const store = createStore();
-    store.injectReducer('form', formReducer);
+    it('has the expected error message', () => {
+      const onBack = sinon.spy();
+      const onSubmit = sinon.spy();
 
-    const tree = render(
-      <Provider store={store}>
-        <ClientError
-          buttonText="test"
-          formConfig={formConfig}
-          onBack={onBack}
-          onSubmit={onSubmit}
-          testId="12345"
-        />
-      </Provider>,
-    );
+      const form = createForm();
+      const formConfig = getFormConfig(useWebComponents);
 
-    expect(
-      tree.getByText('Please check your Internet connection and try again.'),
-    ).to.not.be.null;
-    expect(tree.getByTestId('12345')).to.have.attribute('role', 'alert');
+      const formReducer = createformReducer({
+        formConfig: form,
+      });
 
-    tree.unmount();
+      const store = createStore();
+      store.injectReducer('form', formReducer);
+
+      const tree = render(
+        <Provider store={store}>
+          <ClientError
+            buttonText="test"
+            formConfig={formConfig}
+            onBack={onBack}
+            onSubmit={onSubmit}
+            testId="12345"
+          />
+        </Provider>,
+      );
+
+      expect(
+        tree.getByText('Please check your Internet connection and try again.'),
+      ).to.not.be.null;
+      expect(tree.getByTestId('12345')).to.have.attribute('role', 'alert');
+
+      tree.unmount();
+    });
   });
 });

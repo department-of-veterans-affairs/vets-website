@@ -1,21 +1,18 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-
+import content from '../../locales/en/content.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
-import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
+import mockPdfDownload from './fixtures/mocks/mock-pdf-download.json';
+import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
+import { selectYesNoWebComponent, goToNextPage } from './helpers';
 import {
-  fillAddressWebComponentPattern,
-  selectYesNoWebComponent,
-  goToNextPage,
-} from './helpers';
-import {
-  fillEmergencyContactPersonalInfo,
-  fillEmergencyContactAddress,
+  fillContactPersonalInfo,
+  fillContactAddress,
 } from './helpers/emergency-contacts';
 
 const testConfig = createTestConfig(
@@ -48,7 +45,7 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             const fieldName = 'veteranHomeAddress';
             const fieldData = data.veteranHomeAddress;
-            fillAddressWebComponentPattern(fieldName, fieldData);
+            cy.fillAddressWebComponentPattern(fieldName, fieldData);
             cy.injectAxeThenAxeCheck();
             goToNextPage();
           });
@@ -77,7 +74,7 @@ const testConfig = createTestConfig(
       'veteran-information/emergency-contacts/0/contact': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactPersonalInfo(data.emergencyContacts[0]);
+            fillContactPersonalInfo(data.emergencyContacts[0]);
           });
         });
       },
@@ -86,14 +83,14 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactAddress(data.emergencyContacts[0]);
+            fillContactAddress(data.emergencyContacts[0]);
           });
         });
       },
       'veteran-information/emergency-contacts/1/contact': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactPersonalInfo(data.emergencyContacts[1]);
+            fillContactPersonalInfo(data.emergencyContacts[1]);
           });
         });
       },
@@ -102,7 +99,54 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactAddress(data.emergencyContacts[1]);
+            fillContactAddress(data.emergencyContacts[1]);
+          });
+        });
+      },
+      'veteran-information/next-of-kin-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('body').then($body => {
+              if (
+                $body.find('va-radio-option[name="root_view:hasNextOfKin"]')
+                  .length
+              ) {
+                selectYesNoWebComponent(
+                  'view:hasNextOfKin',
+                  data['view:hasNextOfKin'],
+                );
+              }
+            });
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'veteran-information/next-of-kin/0/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillContactPersonalInfo(data.nextOfKins[0]);
+          });
+        });
+      },
+      'veteran-information/next-of-kin/0/contact-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillContactAddress(data.nextOfKins[0]);
+          });
+        });
+      },
+      'veteran-information/next-of-kin/1/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillContactPersonalInfo(data.nextOfKins[1]);
+          });
+        });
+      },
+      'veteran-information/next-of-kin/1/contact-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillContactAddress(data.nextOfKins[1]);
           });
         });
       },
@@ -112,7 +156,7 @@ const testConfig = createTestConfig(
             const fieldName = 'spouseAddress';
             const fieldData =
               data['view:spouseContactInformation'].spouseAddress;
-            fillAddressWebComponentPattern(fieldName, fieldData);
+            cy.fillAddressWebComponentPattern(fieldName, fieldData);
             cy.injectAxeThenAxeCheck();
             goToNextPage();
           });
@@ -127,6 +171,13 @@ const testConfig = createTestConfig(
           cy.get('va-checkbox[name="privacyAgreementAccepted"]').find('label');
           cy.get('va-checkbox[name="privacyAgreementAccepted"]').click();
           cy.findByText(/submit/i, { selector: 'button' }).click();
+
+          cy.get(`va-link[text="${content['button-pdf-download']}"]`)
+            .as('downloadButton')
+            .click();
+
+          cy.wait('@downloadPdf');
+          cy.get('@downloadButton').should('be.visible');
         });
       },
     },
@@ -137,7 +188,7 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles).as(
         'mockFeatures',
       );
-      cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
+      cy.intercept('GET', `/v0/${API_ENDPOINTS.enrollmentStatus}*`, {
         statusCode: 200,
         body: MOCK_ENROLLMENT_RESPONSE,
       }).as('mockEnrollmentStatus');
@@ -149,6 +200,11 @@ const testConfig = createTestConfig(
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2023-11-01',
       }).as('mockSubmit');
+      cy.intercept(
+        'POST',
+        `/v0/${API_ENDPOINTS.downloadPdf}`,
+        mockPdfDownload,
+      ).as('downloadPdf');
     },
 
     useWebComponentFields: true,

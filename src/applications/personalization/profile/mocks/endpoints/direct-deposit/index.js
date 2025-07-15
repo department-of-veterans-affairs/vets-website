@@ -102,6 +102,9 @@ const errors = {
   generic: createError({
     code: 'cnp.payment.generic.error',
   }),
+  accountNumberFlagged: createError({
+    code: 'cnp.payment.account.number.fraud',
+  }),
   routingNumberFlagged: createError({
     code: 'cnp.payment.routing.number.fraud',
   }),

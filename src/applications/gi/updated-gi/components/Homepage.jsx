@@ -10,17 +10,18 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="vads-u-margin-bottom--8 vads-u-display--flex vads-u-flex-direction--column">
+    <div className="medium-8 vads-u-margin-bottom--8 vads-u-display--flex vads-u-flex-direction--column">
       <h1 data-testid="comparison-tool-title">GI Bill® Comparison Tool</h1>
       <p
-        className="medium-8 vads-u-color--gray-dark vads-u-font-family--serif vads-u-margin-bottom--4"
+        className="medium-6 vads-u-color--gray-dark vads-u-font-family--serif vads-u-margin-bottom--4"
         data-testid="comparison-tool-description"
+        style={{ minWidth: '100%' }}
       >
         Discover how your GI Bill benefits can support your education. Search
         and compare approved schools, employers, exams, licenses, and
         certifications to see how much your VA benefits can help cover.
       </p>
-      <div className="usa-width-two-thirds">
+      <div className="usa-width-two-thirds" style={{ minWidth: '100%' }}>
         <NewFeatureProgramsYRTAlert
           visible={visibleAlert}
           onClose={() => setVisibleAlert(false)}
@@ -29,7 +30,8 @@ const HomePage = () => {
         />
       </div>
       <div
-        className="vads-u-display--flex flex-container"
+        className="vads-u-display--flex flex-container vads-u-flex-direction--column"
+        data-testid="comparison-tool-links"
         style={{ gap: '20px' }}
       >
         <LinkWithDescription

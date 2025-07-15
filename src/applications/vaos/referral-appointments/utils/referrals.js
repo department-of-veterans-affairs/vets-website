@@ -4,12 +4,20 @@ const { addDays, addMonths, format, subMonths } = require('date-fns');
 const defaultUUIDBase = '6cg8T26YivnL68JzeTaV0w==';
 const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
 
+const errorUUIDs = [
+  'appointment-submit-error',
+  'details-retry-error',
+  'details-error',
+  'draft-no-slots-error',
+  'referral-without-provider-error',
+];
+
 /**
  * Creates a referral list object relative to a start date.
  *
  * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
- * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
+ * @param {String} categoryOfCare The category of care for the referral
  * @returns {Object} Referral object
  */
 
@@ -31,11 +39,21 @@ const createReferralListItem = (
   };
 };
 
+/* Creates a list of error referrals with specific UUIDs.
+ * These are used to test error handling.
+ */
+const errorReferralsList = (errorUUIDs || []).map(uuid => {
+  return createReferralListItem('2025-11-14', uuid);
+});
+
 /**
  * Creates a referral object with specified uuid and expiration date.
  *
  * @param {String} uuid The UUID for the referral
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
+ * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
+ * @param {String} categoryOfCare The category of care for the referral
+ * @param {Boolean} hasProvider Whether the referral has a provider
  * @returns {Object} Referral object
  */
 const createReferralById = (
@@ -43,20 +61,27 @@ const createReferralById = (
   uuid,
   expirationDate,
   categoryOfCare = 'OPTOMETRY',
-  noSlots,
+  hasProvider = true,
 ) => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
 
   const mydFormat = 'yyyy-MM-dd';
 
-  const generateReferralNumber = () => {
-    if (noSlots) {
-      return 'no-slots';
-    }
-    return 'VA0000009880-default';
-  };
-  const referralNumber = generateReferralNumber();
+  const provider = hasProvider
+    ? {
+        name: 'Dr. Moreen S. Rafa',
+        npi: '1346206547',
+        phone: '(937) 236-6750',
+        facilityName: 'fake facility name',
+        address: {
+          street1: '76 Veterans Avenue',
+          city: 'BATH',
+          state: null,
+          zip: '14810',
+        },
+      }
+    : null;
 
   return {
     id: uuid,
@@ -67,7 +92,7 @@ const createReferralById = (
       stationId: '528A4',
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-      referralNumber,
+      referralNumber: 'VA0000007241',
       categoryOfCare,
       referralConsultId: '984_646907',
       hasAppointments: false,
@@ -82,18 +107,7 @@ const createReferralById = (
           zip: '14020',
         },
       },
-      provider: {
-        name: 'Dr. Moreen S. Rafa',
-        npi: '1346206547',
-        phone: '(937) 236-6750',
-        facilityName: 'fake facility name',
-        address: {
-          street1: '76 Veterans Avenue',
-          city: 'BATH',
-          state: null,
-          zip: '14810',
-        },
-      },
+      provider,
     },
   };
 };
@@ -110,6 +124,7 @@ const createReferrals = (
   numberOfReferrals = 3,
   baseDate,
   numberOfExpiringReferrals = 0,
+  includeErrorReferrals = false,
 ) => {
   // create a date object for today that is not affected by the time zone
   const dateOjbect = baseDate ? new Date(baseDate) : new Date();
@@ -119,6 +134,7 @@ const createReferrals = (
     dateOjbect.getUTCDate(),
   );
   const referrals = [];
+
   for (let i = 0; i < numberOfReferrals; i++) {
     const isExpired = i < numberOfExpiringReferrals;
     const uuidBase = isExpired ? expiredUUIDBase : defaultUUIDBase;
@@ -138,7 +154,11 @@ const createReferrals = (
       ),
     );
   }
-  return referrals;
+  if (includeErrorReferrals) {
+    return [...referrals, ...errorReferralsList];
+  }
+
+  return [...referrals];
 };
 
 /**
@@ -162,7 +182,8 @@ const filterReferrals = referrals => {
   }
 
   return referrals.filter(
-    referral => referral.attributes.categoryOfCare === 'Physical Therapy',
+    referral =>
+      referral.attributes.categoryOfCare?.toLowerCase() === 'optometry',
   );
 };
 

@@ -6,7 +6,6 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
 import { initializeProfile } from 'platform/user/profile/actions';
@@ -154,11 +153,6 @@ export class Main extends Component {
           onClose={this.closeFormSignInModal}
           onSignIn={this.openLoginModal}
           visible={this.props.showFormSignInModal}
-        />
-        <SignInModal
-          onClose={this.closeLoginModal}
-          visible={this.props.showLoginModal}
-          useSiS={this.props.useSignInService}
         />
         <AutoSSO />
       </div>

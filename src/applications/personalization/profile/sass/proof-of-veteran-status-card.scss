@@ -3,9 +3,6 @@
   width: 29rem;
   border-radius: 1rem;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
-  h2 {
-    border-radius: 1rem 1rem 0 0;
-  }
   h3 {
     border-radius: 1rem 1rem 0 0;
   }
@@ -19,22 +16,6 @@
     display: flex;
     div:first-child {
       padding-right: 4rem;
-    }
-  }
-  .vets-status-card-row {
-    display: grid;
-    grid-template-rows: auto auto;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(0, 1fr);
-
-    dt,
-    dd {
-      margin: 0;
-    }
-
-    dt:nth-of-type(1),
-    dd:nth-of-type(1) {
-      padding-right: 2rem;
     }
   }
 }

@@ -1,3 +1,4 @@
+import { subYears, addMonths, startOfDay, endOfDay } from 'date-fns';
 import {
   getLabsAndTests,
   getNotes,
@@ -47,8 +48,25 @@ export const getBlueButtonReportData = (
           dateFilter.option === 'any' ? null : dateFilter.toDate,
         );
 
+        // Checking if selected date range is within the 2 years/13 months for appointments
+        const now = new Date();
+        const earliest = startOfDay(subYears(now, 2));
+        const latest = endOfDay(addMonths(now, 13));
+        if (
+          dateFilter.option !== 'any' &&
+          (new Date(dateFilter.toDate) < earliest ||
+            latest < new Date(dateFilter.fromDate))
+        ) {
+          return {
+            key: 'appointments',
+            response: new Response([], { status: 200 }),
+          };
+        }
+
         return fetchFn(startDate, endDate)
-          .then(response => ({ key, response }))
+          .then(response => {
+            return { key, response };
+          })
           .catch(error => {
             const newError = new Error(error);
             newError.key = key;

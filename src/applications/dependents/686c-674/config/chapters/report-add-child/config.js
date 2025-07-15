@@ -1,4 +1,4 @@
-import React from 'react';
+import { getFullName } from '../../../../shared/utils';
 
 function isFieldMissing(value) {
   return value === undefined || value === null || value === '';
@@ -43,14 +43,6 @@ function isChildDisabilityInfoIncomplete(item) {
     typeof item.doesChildHaveDisability === 'undefined' ||
     (item.doesChildHaveDisability &&
       typeof item.doesChildHavePermanentDisability === 'undefined')
-  );
-}
-
-function isMarriageInfoMissing(item) {
-  return (
-    item.hasChildEverBeenMarried &&
-    (isFieldMissing(item.marriageEndDate) ||
-      isFieldMissing(item.marriageEndReason))
   );
 }
 
@@ -107,7 +99,6 @@ function isItemIncomplete(item) {
   );
 
   fail(isStepchildInfoIncomplete(item), 'Stepchild info is incomplete');
-  fail(isMarriageInfoMissing(item), 'Marriage end date or reason missing');
   fail(
     isOtherMarriageReasonMissing(item),
     'Marriage end reason "other" description missing',
@@ -128,12 +119,6 @@ export const arrayBuilderOptions = {
   isItemIncomplete,
   maxItems: 20,
   text: {
-    getItemName: () => 'Child',
-    cardDescription: item => (
-      <span className="dd-privacy" data-dd-privacy="mask">
-        {`${item?.fullName?.first ?? ''} ${item?.fullName?.last ??
-          ''}`.trim() || ' '}
-      </span>
-    ),
+    getItemName: item => getFullName(item.fullName),
   },
 };

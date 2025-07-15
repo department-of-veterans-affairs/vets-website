@@ -173,9 +173,10 @@ describe("EZR branching logic based on the user's DOB", () => {
       cy.injectAxeThenAxeCheck();
 
       goToNextPage('/military-service/other-toxic-exposure');
-      cy.get('[name="root_view:otherToxicExposures_exposureToOther"]')
-        .scrollIntoView()
-        .click();
+      cy.get(
+        '[name="root_view:otherToxicExposures_exposureToOther"]',
+      ).scrollIntoView();
+      cy.get('[name="root_view:otherToxicExposures_exposureToOther"]').click();
       cy.injectAxeThenAxeCheck();
 
       goToNextPage('/military-service/other-toxins-or-hazards');
@@ -194,9 +195,10 @@ describe("EZR branching logic based on the user's DOB", () => {
 
     it('only displays the other toxic exposure pages', () => {
       goToNextPage('/military-service/other-toxic-exposure');
-      cy.get('[name="root_view:otherToxicExposures_exposureToOther"]')
-        .scrollIntoView()
-        .click();
+      cy.get(
+        '[name="root_view:otherToxicExposures_exposureToOther"]',
+      ).scrollIntoView();
+      cy.get('[name="root_view:otherToxicExposures_exposureToOther"]').click();
       cy.injectAxeThenAxeCheck();
 
       goToNextPage('/military-service/other-toxins-or-hazards');

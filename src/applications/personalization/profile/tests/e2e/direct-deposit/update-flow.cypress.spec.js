@@ -229,6 +229,11 @@ describe('Direct Deposit - CNP using Lighthouse endpoint', () => {
     testFailure('generic-error', mockDirectDeposits.updates.errors.unspecified);
 
     testFailure(
+      'payment-restriction-error',
+      mockDirectDeposits.updates.errors.accountNumberFlagged,
+    );
+
+    testFailure(
       'flagged-routing-number-error',
       mockDirectDeposits.updates.errors.routingNumberFlagged,
     );

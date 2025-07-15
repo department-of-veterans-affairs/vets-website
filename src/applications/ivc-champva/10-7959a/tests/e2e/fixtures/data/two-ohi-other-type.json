@@ -1,6 +1,7 @@
 {
   "description": "Two OHIs, medical claim, insurance type other, NOT work, NOT auto",
   "data": {
+    "claimStatus": "new",
     "view:hasPolicies": true,
     "pharmacyUpload": [
       {

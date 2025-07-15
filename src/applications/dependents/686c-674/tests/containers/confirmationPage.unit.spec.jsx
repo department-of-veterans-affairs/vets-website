@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import ConfirmationPage from '../../containers/ConfirmationPage';
@@ -30,7 +30,9 @@ const getData = ({
           },
         },
         data: {
-          veteranFullName: { first: 'Jane', last: 'Doe' },
+          veteranInformation: {
+            fullName: { first: 'Jane', last: 'Doe' },
+          },
         },
       },
     }),
@@ -54,12 +56,18 @@ describe('Dependents Form (686c-674) confirmation page', () => {
     expect($('va-button', container).getAttribute('text')).to.eq(
       'Print this page for your records',
     );
+    expect($('.dd-privacy-hidden', container).textContent).to.include(
+      'Jane Doe',
+    );
 
     const sections = $$('section');
     expect(sections.length).to.eql(4);
 
     expect($$('.va-address-block', container).length).to.eq(2);
     expect($$('va-telephone', container).length).to.eq(4);
+    waitFor(() => {
+      expect(document.activeElement.tagName).to.equal('H2');
+    });
   });
 
   it('should render empty date string', () => {

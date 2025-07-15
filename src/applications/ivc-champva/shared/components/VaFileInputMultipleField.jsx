@@ -171,9 +171,9 @@ const VaFileInputMultipleField = props => {
     );
 
     // Filter arr2 to only include items whose identifiers exist in the Set
-    return arr2.filter(item =>
-      arr1Identifiers.has(`${item.name}-${item.size}`),
-    );
+    return arr2
+      .filter(item => arr1Identifiers.has(`${item.name}-${item.size}`))
+      ?.reverse(); // preserve initial order
   }
 
   /**
@@ -277,7 +277,7 @@ const VaFileInputMultipleField = props => {
 
       let fileAlreadyUploaded = false;
 
-      // Use functional updates here too
+      // Identify which items have changed and drop any that were replaced
       setUploadArray(prevArray => {
         const baseArray = prevArray.length === 0 ? [...(fd || [])] : prevArray;
         const newArray = filterToMatchingObjects(

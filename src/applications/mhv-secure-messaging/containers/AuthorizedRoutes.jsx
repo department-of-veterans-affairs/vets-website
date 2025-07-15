@@ -1,9 +1,9 @@
 import React from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
 import pilotManifest from '../pilot/manifest.json';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
@@ -18,6 +18,7 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
 import SelectHealthCareSystem from './SelectHealthCareSystem';
+import { isPilotState } from '../selectors';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
 const AppRoute = ({ children, ...rest }) => {
@@ -37,7 +38,7 @@ const { Paths } = Constants;
 
 const AuthorizedRoutes = () => {
   const location = useLocation();
-  const isPilot = useSelector(state => state.sm.app.isPilot);
+  const isPilot = useSelector(isPilotState);
 
   const cernerPilotSmFeatureFlag = useSelector(
     state =>
@@ -128,7 +129,7 @@ const AuthorizedRoutes = () => {
           </AppRoute>
         )}
         <Route>
-          <PageNotFound />
+          <MhvPageNotFoundContent />
         </Route>
       </Switch>
     </div>

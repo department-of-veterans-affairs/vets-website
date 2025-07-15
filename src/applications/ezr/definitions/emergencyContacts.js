@@ -9,8 +9,6 @@ import {
   phoneUI,
   selectUI,
   titleUI,
-  yesNoUI,
-  yesNoSchema,
   arrayBuilderItemFirstPageTitleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import content from '../locales/en/content.json';
@@ -65,10 +63,6 @@ export const emergencyContactsPage = options => ({
     contactType: {
       ...selectUI({ title: 'Default relationship type', inert: true }),
     },
-    'view:hasEmergencyContactAddress': yesNoUI({
-      title: content['emergency-contact-address-label'],
-      hint: content['emergency-contact-address-hint'],
-    }),
   },
   schema: {
     type: 'object',
@@ -80,15 +74,8 @@ export const emergencyContactsPage = options => ({
         ...contactType,
         default: contactType.enum[0],
       },
-      'view:hasEmergencyContactAddress': yesNoSchema,
     },
-    required: [
-      'fullName',
-      'primaryPhone',
-      'relationship',
-      'contactType',
-      'view:hasEmergencyContactAddress',
-    ],
+    required: ['fullName', 'primaryPhone', 'relationship', 'contactType'],
   },
 });
 
@@ -108,7 +95,6 @@ export const emergencyContactsAddressPage = () => ({
         properties: address.properties,
       }),
     },
-    required: ['address'],
   },
 });
 
@@ -120,7 +106,6 @@ export const emergencyContactsSummaryPage = (options = {}) => ({
   uiSchema: {
     'view:hasEmergencyContacts': arrayBuilderYesNoUI(options, {
       title: content['emergency-contact-add-contacts-label'],
-      titleHeaderLevel: 'h2',
       hint: content['emergency-contact-hint-text'],
     }),
   },

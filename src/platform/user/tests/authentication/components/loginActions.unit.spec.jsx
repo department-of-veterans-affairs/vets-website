@@ -1,23 +1,21 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import sinon from 'sinon';
+import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import sinon from 'sinon';
 
 import * as authUtilities from '../../../authentication/utilities';
 import LoginActions from '../../../authentication/components/LoginActions';
 import { CSP_IDS } from '../../../authentication/constants';
 
-describe('login DOM ', () => {
-  const sandbox = sinon.createSandbox();
-  const generateStore = () => ({
-    dispatch: sinon.spy(),
-    subscribe: sinon.spy(),
-    getState: () => ({}),
-  });
-  const mockStore = generateStore();
+describe('LoginActions component', () => {
+  const mockStore = configureStore([]);
+  let store;
+  let sandbox;
 
   beforeEach(() => {
+    sandbox = sinon.createSandbox();
     sandbox.spy(authUtilities, 'login');
   });
 
@@ -26,14 +24,16 @@ describe('login DOM ', () => {
   });
 
   it('login buttons should properly call login method', () => {
-    const loginButtons = mount(
-      <Provider store={mockStore}>
+    store = mockStore({});
+    const wrapper = mount(
+      <Provider store={store}>
         <LoginActions />
       </Provider>,
     );
 
-    const testButton = button => {
+    wrapper.find('button').forEach(button => {
       const loginCSP = button.prop('data-csp');
+      if (!loginCSP) return;
 
       const expectedArgs = {
         idme: { policy: CSP_IDS.ID_ME },
@@ -49,23 +49,14 @@ describe('login DOM ', () => {
       );
 
       sandbox.reset();
-    };
+    });
 
-    loginButtons.find('button').forEach(testButton);
-    loginButtons.unmount();
+    wrapper.unmount();
   });
-  it('sets actionLocation to "usip" when isUnifiedSignIn is true and "modal" otherwise', () => {
-    const testActionLocation = (isUnifiedSignIn, expectedLocation) => {
-      const store = {
-        dispatch: sinon.spy(),
-        subscribe: sinon.spy(),
-        getState: () => ({}),
-      };
 
-      global.window.location = new URL(
-        'https://dev.va.gov/sign-in/?application=vaoccmobile&OAuth=true',
-      );
-
+  it('sets actionLocation correctly based on isUnifiedSignIn prop', () => {
+    const testLocation = (isUnifiedSignIn, expected) => {
+      store = mockStore({});
       const wrapper = mount(
         <Provider store={store}>
           <LoginActions
@@ -74,16 +65,57 @@ describe('login DOM ', () => {
           />
         </Provider>,
       );
-
       wrapper.find('LoginButton').forEach(button => {
-        expect(button.prop('actionLocation')).to.equal(expectedLocation);
+        expect(button.prop('actionLocation')).to.equal(expected);
       });
-
       wrapper.unmount();
     };
 
-    testActionLocation(true, 'usip');
-    testActionLocation(false, 'modal');
-    testActionLocation(undefined, 'modal'); // also test default
+    testLocation(true, 'usip');
+    testLocation(false, 'modal');
+    testLocation(undefined, 'modal');
+  });
+
+  it('renders DS Logon retired notice when feature flag disables it', () => {
+    const state = {
+      featureToggles: {
+        dslogonButtonDisabled: true,
+      },
+    };
+    const config = {
+      OAuthEnabled: false,
+      allowedSignInProviders: [],
+      legacySignInProviders: { dslogon: true },
+    };
+
+    const originalConfig =
+      require.cache[require.resolve('../../../authentication/usip-config')];
+    require.cache[require.resolve('../../../authentication/usip-config')] = {
+      exports: {
+        externalApplicationsConfig: {
+          dslogonApp: config,
+          default: config,
+        },
+      },
+    };
+
+    store = mockStore(state);
+    const wrapper = mount(
+      <Provider store={store}>
+        <LoginActions externalApplication="dslogonApp" />
+      </Provider>,
+    );
+
+    expect(wrapper.text()).to.contain('DS Logon sign-in option');
+    expect(wrapper.text()).to.contain(
+      'We’ll remove this option after September 30, 2025',
+    );
+
+    wrapper.unmount();
+    if (originalConfig) {
+      require.cache[
+        require.resolve('../../../authentication/usip-config')
+      ] = originalConfig;
+    }
   });
 });

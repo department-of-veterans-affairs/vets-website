@@ -1,5 +1,5 @@
 import React from 'react';
-import { capitalize } from 'lodash';
+
 import {
   titleUI,
   arrayBuilderItemFirstPageTitleUI,
@@ -15,7 +15,9 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { CancelButton } from '../../helpers';
+import { getFullName } from '../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
 export const removeChildStoppedAttendingSchoolOptions = {
@@ -32,38 +34,27 @@ export const removeChildStoppedAttendingSchoolOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your children between ages 18 and 23 who left school',
-    getItemName: () => 'Child',
-    cardDescription: item => (
-      <span className="dd-privacy" data-dd-privacy="mask">
-        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
-          item?.fullName?.last,
-        ) || ''}`.trim()}
-      </span>
-    ),
+    getItemName: item => getFullName(item.fullName),
     cancelAddButtonText: 'Cancel removing this child',
   },
 };
 
 export const removeChildStoppedAttendingSchoolIntroPage = {
   uiSchema: {
-    ...titleUI({
-      title: 'Your children',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your children
-              between ages 18 and 23 who left school. You must add at least one
-              child.
-            </p>
-            <CancelButton
-              dependentType="children who left school"
-              isAddChapter={false}
-            />
-          </>
-        );
-      },
-    }),
+    ...titleUI('Your children'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your children between
+          ages 18 and 23 who left school. You must add at least one child.
+        </p>
+        <CancelButton
+          dependentType="children who left school"
+          dependentButtonType="children"
+          isAddChapter={false}
+        />
+      </>
+    ),
   },
   schema: {
     type: 'object',
@@ -115,10 +106,11 @@ export const childInformationPage = {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
     },
-    birthDate: {
-      ...currentOrPastDateUI('Child’s date of birth'),
-      'ui:required': () => true,
-    },
+    birthDate: currentOrPastDateUI({
+      title: 'Child’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',

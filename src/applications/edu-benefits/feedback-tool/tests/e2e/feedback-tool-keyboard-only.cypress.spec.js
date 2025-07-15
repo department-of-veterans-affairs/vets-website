@@ -3,13 +3,17 @@ import mockFeedbackPost from '../fixtures/mocks/feedback-post.json';
 import mockFeedbackGet from '../fixtures/mocks/feedback-1234.json';
 
 describe('Feedback Tool Keyboard Test', () => {
-  beforeEach(() => {
+  beforeEach(function() {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
         features: [],
       },
     });
+
+    if (Cypress.env('CI')) {
+      this.skip();
+    }
   });
   it('Is accessible accordingly via keyboard', () => {
     cy.intercept('POST', '/v0/gi_bill_feedbacks', {

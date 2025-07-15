@@ -7,7 +7,7 @@ import PhoneNumbersTable from './phone-numbers/PhoneNumbersTable';
 const ContactInformationSection = ({ className, showBadAddress }) => {
   return (
     <div className={className}>
-      <div className="vads-u-margin-bottom--2">
+      <div className="vads-u-margin-bottom--4">
         <va-additional-info
           trigger="Which benefits and services does VA use this contact information for?"
           uswds
@@ -37,10 +37,21 @@ const ContactInformationSection = ({ className, showBadAddress }) => {
               </li>
             </ul>
             <p>
-              <a href="/resources/change-your-address-on-file-with-va/#change-your-address-by-contact">
-                Find out how to change your contact information for other VA
-                benefits{' '}
-              </a>
+              <va-link
+                href="/resources/change-your-address-on-file-with-va/#change-your-address-by-contact"
+                text="Find out how to change your contact information for other VA
+                benefits"
+              />
+            </p>
+            <p>
+              This address is not used for Montgomery GI Bill benefits. Use the
+              link below to update your address.
+            </p>
+            <p>
+              <va-link
+                href="/education/verify-school-enrollment/#for-montgomery-gi-bill-benefit"
+                text="Update mailing address for Montgomery GI Bill benefits"
+              />
             </p>
           </div>
         </va-additional-info>
@@ -50,7 +61,7 @@ const ContactInformationSection = ({ className, showBadAddress }) => {
         showBadAddress={showBadAddress}
       />
 
-      <PhoneNumbersTable className="vads-u-margin-bottom--3" />
+      <PhoneNumbersTable className="vads-u-margin-bottom--6" />
     </div>
   );
 };
