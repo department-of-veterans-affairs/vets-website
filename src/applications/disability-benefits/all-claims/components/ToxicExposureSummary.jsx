@@ -1,6 +1,13 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import {
+  ADDITIONAL_EXPOSURES,
+  GULF_WAR_1990_LOCATIONS,
+  GULF_WAR_2001_LOCATIONS,
+  HERBICIDE_LOCATIONS,
+  TE_URL_PREFIX,
+} from '../constants';
 import {
   datesDescription,
   getOtherFieldDescription,
@@ -95,4 +102,62 @@ ToxicExposureSummary.propTypes = {
    * Name of the object containg an 'other' field info
    */
   otherObjectName: PropTypes.string,
+};
+
+export const AdditionalExposuresSummaryDescription = ({ formData }) => (
+  <ToxicExposureSummary
+    formData={formData}
+    checkboxObjectName="otherExposures"
+    checkboxDefinitions={ADDITIONAL_EXPOSURES}
+    datesObjectName="otherExposuresDetails"
+    goBackUrlPath={`${TE_URL_PREFIX}/additional-exposures`}
+    otherObjectName="specifyOtherExposures"
+  />
+);
+
+AdditionalExposuresSummaryDescription.propTypes = {
+  formData: PropTypes.object.isRequired,
+};
+
+export const GulfWar1990SummaryDescription = ({ formData }) => (
+  <ToxicExposureSummary
+    formData={formData}
+    checkboxObjectName="gulfWar1990"
+    checkboxDefinitions={GULF_WAR_1990_LOCATIONS}
+    datesObjectName="gulfWar1990Details"
+    goBackUrlPath={`${TE_URL_PREFIX}/gulf-war-1990`}
+  />
+);
+
+GulfWar1990SummaryDescription.propTypes = {
+  formData: PropTypes.object.isRequired,
+};
+
+export const GulfWar2001SummaryDescription = ({ formData }) => (
+  <ToxicExposureSummary
+    formData={formData}
+    checkboxObjectName="gulfWar2001"
+    checkboxDefinitions={GULF_WAR_2001_LOCATIONS}
+    datesObjectName="gulfWar2001Details"
+    goBackUrlPath={`${TE_URL_PREFIX}/gulf-war-2001`}
+  />
+);
+
+GulfWar2001SummaryDescription.propTypes = {
+  formData: PropTypes.object.isRequired,
+};
+
+export const HerbicideSummaryDescription = ({ formData }) => (
+  <ToxicExposureSummary
+    formData={formData}
+    checkboxObjectName="herbicide"
+    checkboxDefinitions={HERBICIDE_LOCATIONS}
+    datesObjectName="herbicideDetails"
+    goBackUrlPath={`${TE_URL_PREFIX}/herbicide`}
+    otherObjectName="otherHerbicideLocations"
+  />
+);
+
+HerbicideSummaryDescription.propTypes = {
+  formData: PropTypes.object.isRequired,
 };
