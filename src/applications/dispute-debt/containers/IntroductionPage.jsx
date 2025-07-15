@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollToTop } from 'platform/utilities/scroll';
 import environment from 'platform/utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -20,8 +19,13 @@ export const IntroductionPage = props => {
     downtime,
   } = formConfig;
 
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
   const disputeDebtActive = useToggleValue(TOGGLE_NAMES.disputeDebt);
+  const isLoadingFeatures = useToggleLoadingValue();
 
   const sipOptions = {
     formId,
@@ -40,8 +44,18 @@ export const IntroductionPage = props => {
 
   useEffect(() => {
     scrollToTop();
-    focusElement('h1');
   }, []);
+
+  // Show loading indicator while feature flags are loading
+  if (isLoadingFeatures) {
+    return (
+      <va-loading-indicator
+        label="Loading"
+        message="Loading application..."
+        set-focus
+      />
+    );
+  }
 
   return (
     <article className="schemaform-intro">
