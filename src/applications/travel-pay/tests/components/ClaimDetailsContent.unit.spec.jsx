@@ -54,7 +54,7 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText('Claim status: Claim submitted')).to.exist;
   });
 
-  it('renders appeal link for denied claims', () => {
+  it('renders secure messaging link for denied claims', () => {
     const screen = renderWithStoreAndRouter(
       <ClaimDetailsContent {...claimDetailsProps} claimStatus="Denied" />,
       {
@@ -65,7 +65,7 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText('Claim status: Denied')).to.exist;
     expect(
       $(
-        'va-link-action[text="Appeal the claim decision"][href="/decision-reviews"]',
+        'va-link[text="Send a secure message"][href="/health-care/send-receive-messages/"]',
       ),
     ).to.exist;
   });
@@ -223,8 +223,9 @@ describe('ClaimDetailsContent', () => {
         },
       );
 
-      expect($('va-link[download="true"][text="VA Form 10-0998 (PDF)"]')).to
-        .exist;
+      expect(
+        $('va-link[download="true"][text="Get VA Form 10-0998 to download"]'),
+      ).to.exist;
       expect(screen.queryByText('Documents you submitted')).to.not.exist;
     });
   });
