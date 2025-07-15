@@ -3,6 +3,7 @@ import { isEmpty } from 'lodash';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { VaFileInputField } from '../web-component-fields';
 import navigationState from '../utilities/navigation/navigationState';
+import passwordErrorState from '../utilities/file/errorState';
 
 export const filePresenceValidation = (
   errors,
@@ -130,25 +131,25 @@ export const fileInputUI = options => {
         // without having interacted with component
         if (untouched) return;
 
-        if (
-          uiOptions.encrypted &&
-          (data.hasPasswordError ||
-            (!data.password &&
-              isNavigationEvent &&
-              (isRequired || data.name === 'uploading')))
-        ) {
+        const passwordError = passwordErrorState.hasPasswordError();
+        const touched = passwordErrorState.touched();
+        if ((isNavigationEvent || touched) && passwordError) {
           errors.isEncrypted.addError('Encrypted file requires a password.');
           scrollAndFocus(`va-file-input`);
         }
 
         if (
           uiOptions.additionalInputRequired &&
-          (data.hasAdditionalInputError ||
-            (isEmpty(data.additionalData) && isNavigationEvent))
+          isNavigationEvent &&
+          isEmpty(data.additionalData)
         ) {
           const errorMessage =
             uiErrorMessages.additionalInput || 'Enter additional input';
           errors.additionalData.addError(errorMessage);
+          // prevents the clearing of a password error (if one exists) after this error is cleared
+          if (passwordError) {
+            passwordErrorState.setTouched(true);
+          }
         }
       },
     ],
