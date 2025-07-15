@@ -272,7 +272,7 @@ const POARequestDetailsPage = title => {
               <li>
                 <p>Address</p>
                 <p>
-                  {city}, {state}, {zipCode}
+                  {city}, {state} {zipCode}
                 </p>
               </li>
               <li>
