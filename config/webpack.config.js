@@ -452,8 +452,10 @@ module.exports = async (env = {}) => {
     optimization: {
       // 'chunkIds' and 'moduleIds' are set to 'named' for preserving
       // consistency between full and single app builds
-      chunkIds: 'named',
-      moduleIds: 'named',
+      // Use deterministic ids for longer-lived caching between builds.
+      chunkIds: isOptimizedBuild ? 'deterministic' : 'named',
+      moduleIds: isOptimizedBuild ? 'deterministic' : 'named',
+      runtimeChunk: isOptimizedBuild ? 'single' : undefined,
       minimizer: [
         new TerserPlugin({
           terserOptions: {
@@ -467,6 +469,8 @@ module.exports = async (env = {}) => {
         }),
       ],
       splitChunks: {
+        chunks: 'all',
+        minSize: 20000, // 20 KB, consolidate tiny chunks
         cacheGroups: {
           // this needs to be "vendors" to overwrite a default group
           vendors: {
@@ -474,6 +478,26 @@ module.exports = async (env = {}) => {
             test: 'vendor',
             name: 'vendor',
             enforce: true,
+          },
+          // Collect async-only shared modules appearing in 2+ chunks.
+          asyncCommons: {
+            name: 'async~common',
+            chunks: 'async',
+            minChunks: 2,
+            priority: -20,
+          },
+          momentLocales: {
+            test: /[\\/]moment[\\/]locale[\\/]/,
+            name: 'moment-locales',
+            chunks: 'async',
+            priority: -15,
+            enforce: true,
+          },
+          chartsPdf: {
+            test: /[\\/](pdfkit|apexcharts|chart\.js)[\\/]/,
+            name: 'charts-pdf',
+            chunks: 'async',
+            priority: -16,
           },
         },
       },

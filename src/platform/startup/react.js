@@ -3,6 +3,7 @@
  * @module platform/startup/react
  * @see module:platform/startup
  */
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 
 /**
@@ -53,11 +54,17 @@ export default function startReactApp(
     return;
   }
 
+  const app = (
+    <Suspense fallback={<va-loading-indicator message="Loading..." />}>
+      {component}
+    </Suspense>
+  );
+
   if (document.readyState !== 'loading') {
-    ReactDOM.render(component, root);
+    ReactDOM.render(app, root);
   } else {
     document.addEventListener('DOMContentLoaded', () => {
-      ReactDOM.render(component, root);
+      ReactDOM.render(app, root);
     });
   }
 }
