@@ -6,6 +6,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import identificationInformation from '../pages/identificationInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -44,6 +45,17 @@ const formConfig = {
           title: 'Name and date of birth',
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
+        },
+      },
+    },
+    identificationChapter: {
+      title: 'Veteran’s information',
+      pages: {
+        identificationInformation: {
+          path: 'identification-information',
+          title: 'Identification information',
+          uiSchema: identificationInformation.uiSchema,
+          schema: identificationInformation.schema,
         },
       },
     },
