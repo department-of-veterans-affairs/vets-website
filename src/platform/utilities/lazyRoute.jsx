@@ -1,3 +1,5 @@
+/* eslint-disable react/state-in-constructor */
+/* eslint-disable react/prop-types */
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React, { lazy, useState } from 'react';
 
@@ -14,7 +16,6 @@ export default function lazyRoute(
     importer().then(mod => (mod.default ? mod : { default: mod })),
   );
 
-  // eslint-disable-next-line react/prop-types
   function ErrorBoundary({ children }) {
     const [error, setError] = useState(null);
 
@@ -42,7 +43,6 @@ export default function lazyRoute(
 
   // Separate component so we can use componentDidCatch
   class InnerBoundary extends React.Component {
-    /* eslint-disable react/state-in-constructor */
     state = { hasError: false };
 
     componentDidCatch(err) {
@@ -55,7 +55,6 @@ export default function lazyRoute(
       return this.props.children;
     }
   }
-  /* eslint-enable react/state-in-constructor */
 
   return function LazyRouteWrapper(props) {
     return (
