@@ -1,5 +1,5 @@
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -20,12 +20,11 @@ describe('medicaid coverage pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 0;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     schema,
     uiSchema,
-    expectedNumberOfErrors,
+    [`va-text-input[label="Firstname"]`, `va-text-input[label="Lastname"]`],
     pageTitle,
   );
 

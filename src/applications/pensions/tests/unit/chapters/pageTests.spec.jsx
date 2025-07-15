@@ -113,6 +113,41 @@ export const testNumberOfWebComponentFields = (
   });
 };
 
+export const testComponentFieldsMarkedAsRequired = (
+  formConfig,
+  schema,
+  uiSchema,
+  componentFieldSelectors,
+  pageTitle,
+  data = {},
+) => {
+  describe(`${pageTitle} page`, () => {
+    let container;
+    beforeEach(() => {
+      const result = render(
+        <FakeProvider>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={data}
+            formData={{}}
+          />
+        </FakeProvider>,
+      );
+      container = result.container;
+    });
+    componentFieldSelectors.forEach(componentFieldSelector => {
+      it(`${componentFieldSelector} should be marked as required`, () => {
+        const element = container.querySelector(
+          `${componentFieldSelector}[required=true]`,
+        );
+        expect(element).to.exist;
+      });
+    });
+  });
+};
+
 export const testNumberOfFieldsByType = (
   formConfig,
   schema,
