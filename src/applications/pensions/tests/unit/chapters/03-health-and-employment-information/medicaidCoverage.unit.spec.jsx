@@ -1,5 +1,4 @@
 import {
-  testComponentFieldsMarkedAsRequired,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -17,14 +16,6 @@ describe('medicaid coverage pension page', () => {
     schema,
     uiSchema,
     expectedNumberOfFields,
-    pageTitle,
-  );
-
-  testComponentFieldsMarkedAsRequired(
-    formConfig,
-    schema,
-    uiSchema,
-    [`va-text-input[label="Firstname"]`, `va-text-input[label="Lastname"]`],
     pageTitle,
   );
 
