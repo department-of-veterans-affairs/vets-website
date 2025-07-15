@@ -312,7 +312,7 @@ const build21aPayload = data => {
         addressCountry: r.address?.country || null,
         phoneNumber: r.phone,
         phoneExtension: null, // v5 field - not currently setting this field
-        phoneTypeId: null, // v5 field - not currently setting this field
+        phoneTypeId: PHONE_TYPE_ENUM.HOME, // v5 field - have to set this field manually for GCLAWS
         email: r.email,
         relationshipToApplicantTypeId:
           RELATIONSHIP_TO_APPLICANT_ENUM[r.relationship],
