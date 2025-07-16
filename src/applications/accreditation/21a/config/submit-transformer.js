@@ -102,7 +102,7 @@ const build21aPayload = data => {
         addressPostalCode: e.address?.postalCode || null,
         addressCountry: e.address?.country || null,
         phoneTypeId: PHONE_TYPE_ENUM.WORK,
-        phoneNumber: e.phone,
+        phoneNumber: `${e.phone.callingCode}${e.phone.contact}`,
         phoneExtension: null,
         startDate: e.dateRange?.from,
         // Not using `currentlyEmployed` so if it exists we set `endDate` to null
@@ -304,7 +304,7 @@ const build21aPayload = data => {
         addressState: r.address?.state || null,
         addressPostalCode: r.address?.postalCode || null,
         addressCountry: r.address?.country || null,
-        phoneNumber: r.phone,
+        phoneNumber: `${r.phone.callingCode}${r.phone.contact}`,
         phoneExtension: null, // v5 field - not currently setting this field
         phoneTypeId: null, // v5 field - not currently setting this field
         email: r.email,

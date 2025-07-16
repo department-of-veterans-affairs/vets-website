@@ -13,14 +13,12 @@ import {
   fullNameUI,
   selectSchema,
   selectUI,
+  internationalPhoneSchema,
+  internationalPhoneUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import CharacterReferencesIntro from '../../components/07-character-references-chapter/CharacterReferencesIntro';
 import { createName } from '../helpers/createName';
-import {
-  internationalPhoneSchema,
-  internationalPhoneUI,
-} from '../helpers/internationalPhonePatterns';
 import { characterReferencesRelationship } from '../../constants/options';
 import { getCardDescription } from '../helpers/getCardDescription';
 import { CHAPTER_TYPE } from '../../config/enums';

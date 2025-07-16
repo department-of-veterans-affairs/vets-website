@@ -13,6 +13,8 @@ import {
   textareaUI,
   textSchema,
   textUI,
+  internationalPhoneSchema,
+  internationalPhoneUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import { createDateRangeText } from '../helpers/createDateRangeText';
@@ -21,10 +23,6 @@ import {
   dateRangeWithCurrentCheckboxSchema,
   dateRangeWithCurrentCheckboxUI,
 } from '../helpers/dateRangeWithCurrentCheckboxPattern';
-import {
-  internationalPhoneSchema,
-  internationalPhoneUI,
-} from '../helpers/internationalPhonePatterns';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
