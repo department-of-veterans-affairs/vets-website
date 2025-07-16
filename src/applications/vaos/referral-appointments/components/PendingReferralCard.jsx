@@ -20,6 +20,46 @@ const PendingReferralCard = ({ referral, index }) => {
   const expiration = format(parsedDate, 'MMMM d, yyyy');
   const categoryOfCare = titleCase(referral.categoryOfCare);
 
+  if (!stationIdValid) {
+    return (
+      <li className="vaos-appts__listItem--not-clickable vads-u-margin--0 vads-u-border-bottom--1px vads-u-border-color--gray-medium">
+        <div>
+          <AppointmentRow className="vads-u-margin-x--0p5 mobile:vads-u-flex-direction--row">
+            <AppointmentColumn className="vads-u-padding-y--1" size="1">
+              <div
+                // canceled={isCanceled}
+                className="vads-u-font-weight--bold vaos-appts__display--table vads-u-padding--0p5"
+                data-testid="typeOfCare"
+                id={`ref-title-${index}`}
+              >
+                <span data-dd-privacy="mask">{`${categoryOfCare} referral`}</span>
+              </div>
+              <div className="vaos-appts__display--table vads-u-padding--0p5">
+                <va-alert
+                  slim
+                  status="warning"
+                  visible
+                  data-testid="referral-not-available-alert"
+                >
+                  <span className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--1 vads-u-display--block">
+                    Online scheduling is not available for this referral at this
+                    this time. Please call your provider directly for help
+                    scheduling an appointment.
+                  </span>
+                  <va-link
+                    href="/find-locations"
+                    text="Find your community care provider’s phone number"
+                    data-testid="referral-not-available-phone-link"
+                  />
+                </va-alert>
+              </div>
+            </AppointmentColumn>
+          </AppointmentRow>
+        </div>
+      </li>
+    );
+  }
+
   return (
     <ListItem
       appointment={referral}
@@ -30,29 +70,15 @@ const PendingReferralCard = ({ referral, index }) => {
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
         <AppointmentRow className="vads-u-margin-x--0p5 mobile:vads-u-flex-direction--row">
           <AppointmentColumn className="vads-u-padding-y--1" size="1">
-            {/* <AppointmentRow className="vaos-appts__column-gap--3 mobile-lg:vads-u-flex-direction--row"> */}
-            {/* <AppointmentColumn size="1" className="vads-u-flex--4"> */}
-            {/* <AppointmentRow className="vaos-appts__column-gap--3 vaos-appts__display--table mobile:vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row"> */}
-            {/* <AppointmentColumn
-                    padding="0"
-                    
-                    className="vads-u-font-weight--bold vaos-appts__display--table"
-                > */}
             <div
-              // canceled={isCanceled}
-              className="vads-u-font-weight--bold vaos-appts__display--table"
-              data-testid="typeOfCare"
               id={`ref-title-${index}`}
+              data-testid="typeOfCare"
+              // canceled={isCanceled}
+              className="vads-u-font-weight--bold vaos-appts__display--table vads-u-padding--0p5"
             >
               <span data-dd-privacy="mask">{`${categoryOfCare} referral`}</span>
             </div>
-            {/* </AppointmentColumn>
-                  <AppointmentColumn
-                    padding="0p5"
-                    size="1"
-                    className="vaos-appts__display--table"
-                  > */}
-            <div className="vaos-appts__display--table">
+            <div className="vaos-appts__display--table vads-u-padding--0p5">
               <span
                 id={`ref-desc-${index}`}
                 className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center"
@@ -60,7 +86,7 @@ const PendingReferralCard = ({ referral, index }) => {
                 {`We’ve approved your community care referral. You must schedule all appointments for this referral by ${expiration}.`}
               </span>
             </div>
-            {stationIdValid ? (
+            <div className="vaos-hide-for-print vads-u-padding--0p5">
               <va-link-action
                 type="secondary"
                 href={link}
@@ -69,31 +95,7 @@ const PendingReferralCard = ({ referral, index }) => {
                 data-testid="schedule-appointment-link"
                 onClick={e => e.preventDefault()}
               />
-            ) : (
-              <va-alert
-                status="warning"
-                visible
-                data-testid="referral-not-available-alert"
-              >
-                <h3
-                  className="vads-u-font-size--h4 vads-u-margin-top--0"
-                  slot="headline"
-                >
-                  Online scheduling is not available for this referral at this
-                  this time. Please call your provider directly for help
-                  scheduling an appointment.
-                </h3>
-                <va-link
-                  href="/find-locations"
-                  text="Find your community care provider’s phone number"
-                  data-testid="referral-not-available-phone-link"
-                />
-              </va-alert>
-            )}
-            {/* </AppointmentColumn> */}
-            {/* </AppointmentRow> */}
-            {/* </AppointmentColumn> */}
-            {/* </AppointmentRow> */}
+            </div>
           </AppointmentColumn>
         </AppointmentRow>
       </AppointmentFlexGrid>
