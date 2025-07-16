@@ -62,10 +62,10 @@ export const IntroductionPage = ({ route }) => {
             Yourself and/or the surviving child, <strong>and</strong>
           </li>
           <li>
-            Child’s custodian (unless the child’s custodian is an institution),{' '}
-            <strong>and</strong>
+            the child’s custodian (unless the child’s custodian is an
+            institution), <strong>and</strong>
           </li>
-          <li>Custodian’s spouse</li>
+          <li>the custodian’s spouse</li>
         </ul>
       </va-accordion-item>
       <va-accordion-item header="If you’re the parent" level="3">
