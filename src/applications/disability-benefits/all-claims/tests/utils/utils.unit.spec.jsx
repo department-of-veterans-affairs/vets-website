@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
@@ -33,6 +34,7 @@ import {
   activeServicePeriods,
   formatDate,
   formatDateRange,
+  isNotExpired,
   isValidFullDate,
   isValidServicePeriod,
   isBDD,
@@ -1125,6 +1127,47 @@ describe('526 v2 depends functions', () => {
     it('should return false for disabilities unrealted to PTSD', () => {
       expect(isDisabilityPtsd('uncontrollable transforming into the Hulk')).to
         .be.false;
+    });
+  });
+
+  describe('isNotExpired', () => {
+    let clock;
+    beforeEach(() => {
+      clock = sinon.useFakeTimers({
+        now: new Date('2025-07-16'),
+        shouldAdvanceTime: false,
+        toFake: ['Date'],
+      });
+    });
+    afterEach(() => {
+      if (clock) {
+        clock.restore();
+      }
+    });
+
+    it('should return true for current or future dates', () => {
+      expect(isNotExpired('2025-07-16')).to.be.true; // today
+      expect(isNotExpired('2025-07-17')).to.be.true; // tomorrow
+      expect(isNotExpired('2025-08-16')).to.be.true; // next month
+      expect(isNotExpired('2026-01-01')).to.be.true; // next year
+      expect(isNotExpired('2030-12-31')).to.be.true; // far future
+    });
+    it('should return false for past dates', () => {
+      expect(isNotExpired('2025-07-15')).to.be.false; // yesterday
+      expect(isNotExpired('2025-06-16')).to.be.false; // previous month
+      expect(isNotExpired('2024-07-16')).to.be.false; // previous year
+      expect(isNotExpired('2020-01-01')).to.be.false; // far past
+    });
+    it('should return false for empty/undefined dates', () => {
+      expect(isNotExpired()).to.be.false;
+      expect(isNotExpired('')).to.be.false;
+      expect(isNotExpired(null)).to.be.false;
+      expect(isNotExpired(undefined)).to.be.false;
+    });
+    it('should handle invalid date values', () => {
+      expect(isNotExpired('invalid-date')).to.be.false;
+      expect(isNotExpired('2025-02-30')).to.be.false;
+      expect(isNotExpired('XXXX-01-01')).to.be.false;
     });
   });
 
