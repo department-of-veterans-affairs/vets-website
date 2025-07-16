@@ -1,5 +1,7 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
+
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { FeatureToggleReducer } from 'platform/site-wide/feature-toggles/reducers';
 
 export function createReduxStore() {
