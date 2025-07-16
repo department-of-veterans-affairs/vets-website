@@ -949,7 +949,7 @@ describe('<CallToActionWidget>', () => {
         expect(props.mhvAccount.loading).to.be.false;
       });
 
-      it('sendToMHV redirects correctly', () => {
+      it('should redirect correctly when sendToMHV is called', () => {
         const tree = mount(
           <CallToActionWidget
             isLoggedIn
@@ -977,7 +977,7 @@ describe('<CallToActionWidget>', () => {
         tree.unmount();
       });
 
-      it('redirectToTermsAndConditions redirects correctly', () => {
+      it('should redirect correctly when redirectToTermsAndConditions is called', () => {
         const tree = mount(
           <CallToActionWidget
             isLoggedIn
@@ -1005,7 +1005,7 @@ describe('<CallToActionWidget>', () => {
         tree.unmount();
       });
 
-      it('mfaHandler redirects correctly', () => {
+      it('should redirect correctly when mfaHandler is called', () => {
         const tree = mount(
           <CallToActionWidget
             isLoggedIn
