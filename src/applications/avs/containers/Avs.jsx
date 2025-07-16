@@ -18,6 +18,7 @@ import AvsPageHeader from '../components/AvsPageHeader';
 import YourAppointment from '../components/YourAppointment';
 import YourHealthInformation from '../components/YourHealthInformation';
 import YourTreatmentPlan from '../components/YourTreatmentPlan';
+import AvsErrorElement from '../components/AvsErrorElement';
 
 const generateAppointmentHeader = avs => {
   const appointmentDate = getFormattedAppointmentDate(avs);
@@ -69,7 +70,7 @@ const Avs = props => {
         serviceRequired={[backendServices.USER_PROFILE]}
       >
         <Suspense fallback={loadingIndicator}>
-          <Await resolve={loader.avs}>
+          <Await resolve={loader.avs} errorElement={<AvsErrorElement />}>
             {avs => (
               <>
                 <BreadCrumb />
