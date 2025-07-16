@@ -14,7 +14,14 @@ import {
 
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
-const PreSubmitInfo = ({ formData, showError, setPreSubmit, user }) => {
+const PreSubmitInfo = ({
+  formData,
+  preSubmitInfo,
+  showError,
+  setPreSubmit,
+  user,
+}) => {
+  const { statementOfTruth } = preSubmitInfo;
   const statementOfTruthCertified = formData.statementOfTruthCertified || false;
   const { claimantType } = formData;
   const loggedIn = useSelector(isLoggedIn);
@@ -25,23 +32,12 @@ const PreSubmitInfo = ({ formData, showError, setPreSubmit, user }) => {
 
   const useProfileFullName = loggedIn && claimantType === 'VETERAN';
 
-  let fallbackFullNamePath = 'claimantFullName';
-  if (!loggedIn && claimantType === 'VETERAN') {
-    fallbackFullNamePath = 'otherVeteranFullName';
-  }
-
-  const statementOfTruth = {
-    body:
-      'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-    messageAriaDescribedby:
-      'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-    fullNamePath: fallbackFullNamePath,
-    useProfileFullName,
-  };
-
   const expectedFullName = statementOfTruthFullName(
     formData,
-    statementOfTruth,
+    {
+      ...statementOfTruth,
+      useProfileFullName,
+    },
     user?.profile?.userFullName,
   );
 

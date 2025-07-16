@@ -11,6 +11,7 @@ const disallowedFields = [
   'otherVeteranSocialSecurityNumber',
   'otherVaFileNumber',
   '_metadata',
+  'isLoggedIn',
 ];
 
 export function flattenRecipientName({ first, middle, last }) {
