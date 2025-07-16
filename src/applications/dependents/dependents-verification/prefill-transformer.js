@@ -1,6 +1,5 @@
 export default function prefillTransformer(pages, formData, metadata) {
-  const { ssnLastFour = '', ssn = '', vaFileNumber = '' } =
-    formData?.veteranInformation || {};
+  const { ssnLastFour = '' } = formData?.veteranInformation || {};
 
   return {
     pages,
@@ -8,8 +7,6 @@ export default function prefillTransformer(pages, formData, metadata) {
       veteranInformation: {
         ...formData?.veteranInformation,
         ssnLastFour,
-        ssn,
-        vaFileNumber,
       },
     },
     metadata,
