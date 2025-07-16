@@ -4,8 +4,7 @@ import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
-import environment from '../../../utilities/environment';
-
+import navigationState from './utilities/navigation/navigationState';
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
   isValidSSN,
@@ -654,12 +653,21 @@ export function validateAutosuggestOption(errors, formData) {
   }
 }
 
-export function validateInputTelephone(errors, { _error }) {
-  // temporarily disable validation for cypress tests
-  // fix before entering production
-  if (environment.isTest() && !environment.isUnitTest()) return;
+export function validateTelephoneInput(
+  errors,
+  { _isValid, _error, _touched, _required, contact },
+) {
+  // was validation triggered by navigation attempt
+  const navState = navigationState.getNavigationEventStatus();
 
-  if (_error !== '') {
+  let valid = _isValid;
+  const notRequiredEmpty = !_required && !contact;
+  const requiredUntouchedNotNav = (!_touched || !contact) && !navState;
+  if (notRequiredEmpty || requiredUntouchedNotNav) {
+    valid = true;
+  }
+
+  if (!valid) {
     errors.addError(_error);
   }
 }

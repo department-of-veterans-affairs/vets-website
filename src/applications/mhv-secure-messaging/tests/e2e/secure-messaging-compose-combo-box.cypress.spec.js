@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT /* Locators, Data */ } from './utils/constants';
+import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 
@@ -19,24 +19,21 @@ describe('SM MESSAGING COMBO BOX', () => {
     PatientComposePage.interceptSentFolder();
   });
 
-  // Temporarily commented out due to known issues with the TG name
-  // https://dsva.slack.com/archives/C03T8JY2DM2/p1748623627814679
+  it('verify drop down list behavior', () => {
+    PatientComposePage.verifyHeader(Data.START_NEW_MSG);
+    cy.get(Locators.FIELDS.RECIPIENTS_COMBO).click();
+    cy.get(Locators.DROPDOWN.RECIPIENTS_COMBO).should('be.visible');
 
-  // it('verify drop down list behavior', () => {
-  //   PatientComposePage.verifyHeader(Data.START_NEW_MSG);
-  //   cy.get(Locators.FIELDS.RECIPIENTS_COMBO).click();
-  //   cy.get(Locators.DROPDOWN.RECIPIENTS_COMBO).should('be.visible');
-  //
-  //   PatientComposePage.selectComboBoxRecipient('TG');
-  //   PatientComposePage.verifyRecipientsDropdownList('TG');
-  //
-  //   PatientComposePage.selectComboBoxRecipient('slc');
-  //   PatientComposePage.verifyRecipientsDropdownList('SLC');
-  //
-  //   cy.get(Locators.BUTTONS.DELETE_DRAFT).click();
-  //
-  //   cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-  // });
+    PatientComposePage.selectComboBoxRecipient('TG');
+    PatientComposePage.verifyRecipientsDropdownList('TG');
+
+    PatientComposePage.selectComboBoxRecipient('slc');
+    PatientComposePage.verifyRecipientsDropdownList('SLC');
+
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).click();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
 
   it('verify combo box auto select', () => {
     PatientComposePage.selectComboBoxRecipient('TG');

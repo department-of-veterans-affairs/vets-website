@@ -3,6 +3,7 @@ import {
   FIELD_NONE_NOTED,
   imageRootUri,
   medicationsUrls,
+  NO_PROVIDER_NAME,
 } from '../../util/constants';
 import {
   dateFormat,
@@ -21,6 +22,8 @@ import {
   sanitizeKramesHtmlStr,
   hasCmopNdcNumber,
   getRefillHistory,
+  getShowRefillHistory,
+  displayProviderName,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
@@ -446,6 +449,28 @@ describe('hasCmopNdcNumber function', () => {
   });
 });
 
+describe('getShowRefillHistory function', () => {
+  it('should return false when refill history is an empty array', () => {
+    const refillHistory = [];
+    expect(getShowRefillHistory(refillHistory)).to.equal(false);
+  });
+
+  it('should return false when refill history is 1 element with dispensedDate undefined', () => {
+    const refillHistory = [{ dispensedDate: undefined }];
+    expect(getShowRefillHistory(refillHistory)).to.equal(false);
+  });
+
+  it('should return true when refill history is 1 element with dispensed date undefined', () => {
+    const refillHistory = [{ dispensedDate: '2023-08-04T04:00:00.000Z' }];
+    expect(getShowRefillHistory(refillHistory)).to.equal(true);
+  });
+
+  it('should return true when refill history is 2 elements', () => {
+    const refillHistory = [{}, {}];
+    expect(getShowRefillHistory(refillHistory)).to.equal(true);
+  });
+});
+
 describe('getRefillHistory function', () => {
   it('should return an empty array when prescription is null', () => {
     const result = getRefillHistory(null);
@@ -688,6 +713,20 @@ describe('sanitizeKramesHtmlStr function', () => {
     const outputHtml = sanitizeKramesHtmlStr(inputHtml);
     expect(outputHtml).to.include(
       '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li><li>Item 1.1</li><p>Paragraph inside nested list</p></ul>',
+    );
+  });
+});
+
+describe('Provider name function', () => {
+  it('should return no provider available constant when no values are passed', () => {
+    expect(displayProviderName()).to.equal(NO_PROVIDER_NAME);
+  });
+
+  it('should return provider name "first last" format', () => {
+    const firstName = 'Tony';
+    const lastName = 'Stark';
+    expect(displayProviderName(firstName, lastName)).to.equal(
+      `${firstName} ${lastName}`,
     );
   });
 });

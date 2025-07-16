@@ -4,8 +4,6 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { MUST_MATCH_ALERT } from '../config/constants';
-import { onCloseAlert } from '../helpers';
 import { CustomAlertPage } from './helpers';
 
 const veteranLabels = {
@@ -32,6 +30,5 @@ export const isVeteranPage = {
 };
 
 export function IsVeteranPage(props) {
-  const alert = MUST_MATCH_ALERT('is-veteran', onCloseAlert, props.data);
   return <CustomAlertPage {...props} alert={alert} />;
 }

@@ -220,21 +220,18 @@ describe('VeteranStatus', () => {
         }),
       ).to.exist;
 
-      // Check that the description is rendered
-      expect(
-        view.getByText(
-          'This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure.',
-        ),
-      ).to.exist;
-
-      // Check that the FAQ section is rendered
-      expect(view.getByText('Frequently asked questions')).to.exist;
-
       await waitFor(() => {
         sinon.assert.calledWith(
           apiRequestStub,
           '/profile/vet_verification_status',
         );
+
+        // Check that the description is rendered
+        expect(
+          view.getByText(
+            'This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure.',
+          ),
+        ).to.exist;
 
         // Check that the user's full name is rendered on the card
         expect(
@@ -244,6 +241,9 @@ describe('VeteranStatus', () => {
             }`,
           ),
         ).to.exist;
+
+        // Check that the FAQ section is rendered
+        expect(view.getByText('Frequently asked questions')).to.exist;
       });
 
       // Check that the PDF download link exists and can be clicked
@@ -306,6 +306,16 @@ describe('VeteranStatus', () => {
           '/profile/vet_verification_status',
         );
         expect(view.getByText(`This page isn't available right now.`)).to.exist;
+
+        // Check that the description is not rendered
+        expect(
+          view.queryByText(
+            'This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure.',
+          ),
+        ).to.be.null;
+
+        // Check that the FAQ section is not rendered
+        expect(view.queryByText('Frequently asked questions')).to.not.exist;
 
         // Check that the PDF download link is not rendered
         expect(pdfLink(view)).to.not.exist;

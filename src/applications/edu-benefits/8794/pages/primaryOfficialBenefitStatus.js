@@ -4,6 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PrimaryOfficialBenefitStatusTitle from '../components/PrimaryOfficialBenefitStatusTitle';
 import PrimaryOfficialBenefitsDisclaimer from '../components/PrimaryOfficialBenefitsDisclaimer';
+import BenefitsDisclaimerCustomReviewField from '../components/BenefitsDisclaimerCustomReviewField';
 
 const uiSchema = {
   primaryOfficialBenefitStatus: {
@@ -17,6 +18,7 @@ const uiSchema = {
     }),
     'view:benefitsDisclaimer': {
       'ui:field': PrimaryOfficialBenefitsDisclaimer,
+      'ui:reviewField': BenefitsDisclaimerCustomReviewField,
       'ui:options': {
         hideIf: formData =>
           !formData?.primaryOfficialBenefitStatus?.hasVaEducationBenefits,

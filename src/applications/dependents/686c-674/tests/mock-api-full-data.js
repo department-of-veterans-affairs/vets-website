@@ -11,7 +11,7 @@ const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
 const mockMaxData = require('./e2e/fixtures/maximal.json');
 
-const returnUrl = '/veteran-information'; // '/review-and-submit';
+const returnUrl = '/review-and-submit';
 
 const submission = {
   formSubmissionId: '123fake-submission-id-567',
@@ -53,7 +53,6 @@ const mockSipPut = {
  * @returns mock user data with inProgressForms
  */
 const userData = () => {
-  const lastUpdated = new Date().getTime();
   const twoMonthsAgo = dateFns.getUnixTime(
     dateFns.add(new Date(), { months: -2 }),
   );
@@ -76,7 +75,7 @@ const userData = () => {
       lastUpdated: twoMonthsAgo,
       inProgressFormId: 1234,
     },
-    lastUpdated,
+    lastUpdated: twoMonthsAgo,
   };
 
   return {

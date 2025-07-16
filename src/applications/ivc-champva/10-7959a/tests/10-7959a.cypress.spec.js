@@ -31,6 +31,7 @@ const testConfig = createTestConfig(
 
     // Rename and modify the test data as needed.
     dataSets: [
+      'basic-resubmission.json',
       'test-data.json',
       'military-address-no-ohi-pharmacy-work.json',
       'third-party-foreign-address-ohi-medical-claim-work-auto.json',
@@ -146,6 +147,21 @@ const testConfig = createTestConfig(
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
+      // Resubmission pharmacy upload path
+      [ALL_PAGES.page1k.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('input[type="file"]')
+            .upload(
+              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
+              'testing',
+            )
+            .get('.schemaform-file-uploading')
+            .should('not.exist');
+          cy.axeCheck();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+      },
       [ALL_PAGES.page9.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -170,7 +186,7 @@ const testConfig = createTestConfig(
             attributes: {
               confirmationCode: '1b39d28c-5d38-4467-808b-9da252b6e95a',
               isEncrypted: 'false',
-              name: 'file.png',
+              name: 'example_upload.png',
               size: '123',
             },
           },

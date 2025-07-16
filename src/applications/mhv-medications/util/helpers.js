@@ -7,6 +7,7 @@ import {
   PRINT_FORMAT,
   DOWNLOAD_FORMAT,
   dispStatusObj,
+  NO_PROVIDER_NAME,
 } from './constants';
 
 // Cache the dynamic import promise to avoid redundant network requests
@@ -251,6 +252,18 @@ export const getRefillHistory = prescription => {
     refillHistory.push(originalFill);
   }
   return refillHistory;
+};
+
+/**
+ * Get show refill history
+ *
+ * @param {Array} refillHistory - refill history array
+ * @returns {Boolean}
+ */
+export const getShowRefillHistory = refillHistory => {
+  return (
+    refillHistory?.length > 1 || refillHistory?.[0]?.dispensedDate !== undefined
+  );
 };
 
 /**
@@ -643,4 +656,53 @@ export const determineRefillLabel = (isPartialFill, rxHistory, i) => {
     return 'Partial fill';
   }
   return i + 1 === rxHistory.length ? 'Original fill' : 'Refill';
+};
+
+/**
+ * Convert a prescription resource from the API response into the expected format
+ * @param {Object} prescription - The prescription data from API
+ * @returns {Object} - Formatted prescription object
+ */
+export const convertPrescription = prescription => {
+  // Handle the case where prescription might be null/undefined
+  if (!prescription) return null;
+
+  // Extract from attributes if available, otherwise use the prescription object directly
+  return prescription.attributes || prescription;
+};
+
+/**
+ * Filter recently requested prescriptions to only include those taking longer than expected
+ * @param {Array} recentlyRequested - Array of recently requested prescriptions
+ * @returns {Array} - Filtered array of prescriptions taking longer than expected
+ */
+export const filterRecentlyRequestedForAlerts = recentlyRequested => {
+  if (!Array.isArray(recentlyRequested)) return [];
+
+  return recentlyRequested.reduce((alertList, prescription) => {
+    const rx = convertPrescription(prescription);
+    if (isRefillTakingLongerThanExpected(rx)) {
+      alertList.push(rx);
+    }
+    return alertList;
+  }, []);
+};
+
+/**
+ * Display the provider's name based on availability
+ * @param {String} first - The first name of the provider.
+ * @param {String} last - The last name of the provider.
+ * @returns {String}
+ * - If both first and last names are provided, return them in "First Last" format.
+ * - If only one name is available, return that name.
+ * - If no names are given, return a default message.
+ */
+export const displayProviderName = (first, last) => {
+  if (first && last) {
+    return `${first} ${last}`;
+  }
+  if (first || last) {
+    return first || last;
+  }
+  return NO_PROVIDER_NAME;
 };

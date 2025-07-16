@@ -401,7 +401,7 @@ const responses = {
   },
   'GET /vaos/v2/referrals': (req, res) => {
     return res.json({
-      data: referralUtils.createReferrals(4),
+      data: referralUtils.createReferrals(4, null, null, true),
     });
   },
   'GET /vaos/v2/referrals/:referralId': (req, res) => {
@@ -425,6 +425,19 @@ const responses = {
       const expiredReferral = referralUtils.createReferralById(
         '2024-12-02',
         req.params.referralId,
+      );
+      return res.json({
+        data: expiredReferral,
+      });
+    }
+
+    if (req.params.referralId === 'referral-without-provider-error') {
+      const expiredReferral = referralUtils.createReferralById(
+        '2024-12-02',
+        req.params.referralId,
+        undefined,
+        undefined,
+        false, // hasProvider
       );
       return res.json({
         data: expiredReferral,

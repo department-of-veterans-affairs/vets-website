@@ -10,9 +10,11 @@ const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
     </h3>
     <p className="vads-u-margin-bottom--0">
       If you want us to request your non-VA medical records from your provider,
-      you must authorize the release.
+      you must authorize the release by checking the box labeled "I acknowledge
+      and authorize this release of information."
     </p>
     <va-link
+      class="vads-u-display--block vads-u-margin-top--2"
       href="#privacy-agreement"
       onClick={onAnchorClick}
       id="checkbox-anchor"
@@ -24,6 +26,7 @@ const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
       non-VA records later in the form or by mail.
     </p>
     <BasicLink
+      className="vads-u-display--block vads-u-margin-top--2"
       path={`/${EVIDENCE_PRIVATE_REQUEST}`}
       text="Go back to select ‘No’"
     />

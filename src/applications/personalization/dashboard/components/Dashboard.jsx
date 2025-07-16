@@ -42,13 +42,13 @@ import MPIConnectionError from '~/applications/personalization/components/MPICon
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
-import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
+import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
-import BenefitPayments from './benefit-payments/BenefitPayments';
+import BenefitPaymentsLegacy from './benefit-payments/BenefitPaymentsLegacy';
 import Debts from './debts/Debts';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
@@ -57,6 +57,8 @@ import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntime
 import BenefitApplications from './benefit-application-drafts/BenefitApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
+import FormsAndApplications from './benefit-application-drafts/FormsAndApplications';
+import PaymentsAndDebts from './benefit-payments/PaymentsAndDebts';
 
 const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -163,7 +165,14 @@ const LOA1Content = ({
         </Toggler.Disabled>
       </Toggler>
 
-      <BenefitApplications />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          <BenefitApplications />
+        </Toggler.Disabled>
+        <Toggler.Enabled>
+          <FormsAndApplications />
+        </Toggler.Enabled>
+      </Toggler>
 
       {showWelcomeToMyVaMessage &&
         userIsNew && (
@@ -315,8 +324,8 @@ const Dashboard = ({
                   <div id="name-tag">
                     <NameTag
                       totalDisabilityRating={props.totalDisabilityRating}
-                      totalDisabilityRatingServerError={
-                        props.totalDisabilityRatingServerError
+                      totalDisabilityRatingError={
+                        props.totalDisabilityRatingError
                       }
                     />
                   </div>
@@ -375,7 +384,7 @@ const Dashboard = ({
                   <Toggler.Disabled>
                     <HealthCare isVAPatient={isVAPatient} />
                     <Debts />
-                    <BenefitPayments
+                    <BenefitPaymentsLegacy
                       payments={payments}
                       showNotifications={showNotifications}
                     />
@@ -383,13 +392,12 @@ const Dashboard = ({
                     <BenefitApplications />
                   </Toggler.Disabled>
                   <Toggler.Enabled>
-                    <BenefitApplications />
+                    <FormsAndApplications />
                     <HealthCare isVAPatient={isVAPatient} />
-                    <BenefitPayments
+                    <PaymentsAndDebts
                       payments={payments}
                       showNotifications={showNotifications}
                     />
-                    <Debts />
                   </Toggler.Enabled>
                 </Toggler>
               )}
@@ -554,7 +562,7 @@ const mapStateToProps = state => {
     showNameTag,
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
-    totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
+    totalDisabilityRatingError: hasTotalDisabilityError(state),
     user: state.user,
     showMPIConnectionError,
     showNotInMPIError,
@@ -595,7 +603,7 @@ Dashboard.propTypes = {
   showNotifications: PropTypes.bool,
   showValidateIdentityAlert: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
-  totalDisabilityRatingServerError: PropTypes.bool,
+  totalDisabilityRatingError: PropTypes.bool,
   user: PropTypes.object,
 };
 

@@ -11,7 +11,8 @@ const vamcUser = {
   },
 };
 
-const SUBMISSIONS_PAGE = '/representative/submissions';
+const SUBMISSIONS_PAGE =
+  '/representative/submissions?sortOrder=desc&sortBy=created_at&pageSize=20&pageNumber=1';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
