@@ -96,6 +96,7 @@ const responses = {
             authExpVbaDowntimeMessage: false,
             profileHideDirectDeposit: false,
             representativeStatusEnableV2Features: true,
+            profileInternationalPhoneNumbers: false,
             profileLimitDirectDepositForNonBeneficiaries: true,
             profileShowCredentialRetirementMessaging: true,
             profileShowNewHealthCareCopayBillNotificationSetting: false,

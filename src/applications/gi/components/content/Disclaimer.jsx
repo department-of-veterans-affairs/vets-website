@@ -4,9 +4,9 @@ const Disclaimer = () => {
   return (
     <div className="disclaimer-border vads-u-margin-y--3">
       <div className="vads-u-font-family--sans" data-testid="info-disclaimer">
-        <h3 className="vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4 vads-u-font-size--h4">
+        <h2 className="vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4 vads-u-font-size--h4">
           Need help?
-        </h3>
+        </h2>
         <p>
           Note: Content on this web page is for informational purposes only. It
           is not intended to provide legal advice or to be a comprehensive
