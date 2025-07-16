@@ -78,7 +78,7 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 function editTitleWrapper(title) {
   // Array builder helper `withEditTitle` returns a function, which we
   // always want to call, so just do that:
-  return withEditTitle(title)(title);
+  return withEditTitle(title, false)(title);
 }
 
 export const applicantOptions = {
@@ -163,6 +163,8 @@ const applicantIdentificationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${applicantWording(formData)} identification`,
+      '',
+      false,
     ),
     applicantSSN: ssnUI(),
   },
