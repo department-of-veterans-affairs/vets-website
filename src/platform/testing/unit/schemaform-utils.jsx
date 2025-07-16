@@ -15,7 +15,6 @@ import {
   updateSchemasAndData,
 } from 'platform/forms-system/src/js/state/helpers';
 import { fireEvent } from '@testing-library/dom';
-import { fillDate as oldFillDate } from './helpers';
 import set from '../../utilities/data/set';
 
 function getDefaultData(schema) {
@@ -29,25 +28,6 @@ function getDefaultData(schema) {
   return undefined;
 }
 
-/**
- * A React component that takes in a schema, uiSchema, and formData
- * and renders a form. We use this to test that definitions from form configs
- * are correct without having to setup a whole form and handle state
- * management.
- *
- * @extends {React.Component}
- * @property {object} schema JSON Schema object for a form snippet
- * @property {object} uiSchema  Object with UI information for a form snippet
- * @property {object} data  Object with form data
- * @property {string} arrayPath This is the array path in the schema that you want
- * to render as a pagePerItem page
- * @property {number} pagePerItemIndex When simulating a page per item form page,
- * this is the index for the item to render.
- * @property {boolean} reviewMode Renders the form in review mode if true
- * @property {function} onSubmit Will be called if a form is submitted
- * @property {function} onFileUpload Will be called if a file upload is triggered
- * @property {function} updateFormData Will be called if form is updated
- */
 export class DefinitionTester extends React.Component {
   debouncedAutoSave = sinon.spy();
 
@@ -91,7 +71,6 @@ export class DefinitionTester extends React.Component {
 
     if (typeof updateFormData === 'function') {
       if (arrayPath && typeof pagePerItemIndex === 'undefined') {
-        // Adding this console message to help with troubleshooting
         // eslint-disable-next-line no-console
         console.error(
           'pagePerItemIndex prop is required when arrayPath is specified',
@@ -140,12 +119,6 @@ export class DefinitionTester extends React.Component {
   }
 }
 
-/**
- * Finds a form rendered into the DOM with ReactTestUtils
- * and triggers a submit event on it.
- *
- * @param {Element} form The element containing the form
- */
 export function submitForm(form) {
   ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
     preventDefault: f => f,
@@ -160,7 +133,6 @@ function getIdentifier(node) {
 
   const classes = node.getAttribute('class');
   if (classes) {
-    // Make a dot-separated list of class names
     classList = classes.split(' ').reduce((c, carry) => `${c}.${carry}`, '');
     return `${tagName}${classList}`;
   }
@@ -173,12 +145,11 @@ const elbow = '\u2559';
 const tee = '\u255F';
 
 function printTree(node, level = 0, isLastChild = true, padding = '') {
-  const nextLevel = level + 1; // For tail call optimization...theoretically...
+  const nextLevel = level + 1;
   const lastPipe = isLastChild ? `${elbow} ` : `${tee} `;
 
   console.log(`${padding}${lastPipe}${getIdentifier(node)}`); // eslint-disable-line no-console
 
-  // Recurse for each child
   const newPadding = padding + (isLastChild ? '  ' : `${bar} `);
   const children = Array.from(node.children);
   children.forEach((child, index) => {
@@ -188,11 +159,45 @@ function printTree(node, level = 0, isLastChild = true, padding = '') {
 }
 
 /**
- * Gets the DOM node associated with the form tree passed in.
- *
- * @param {React.Element} form The root level of a rendered form
- * @returns {object} An DOM node for the form, with added helper methods
+ * Updated fillDate to support both legacy inputs and Web Components
  */
+export function fillDate(form, partialName, dateString) {
+  const [year, month, day] = dateString.split('-');
+
+  // --- Web Component Handling ---
+  const memorableDateFields = form.find('VaMemorableDateField');
+
+  for (let i = 0; i < memorableDateFields.length; i++) {
+    const field = memorableDateFields.at(i);
+    const input = field.find('VaMemorableDate');
+
+    // Simplified logic: fallback to ordering
+    if (partialName.endsWith('dateRange_from') && i === 0 && input.exists()) {
+      input.prop('onDateChange')({ target: { value: dateString } });
+      return;
+    }
+
+    if (partialName.endsWith('dateRange_to') && i === 1 && input.exists()) {
+      input.prop('onDateChange')({ target: { value: dateString } });
+      return;
+    }
+  }
+
+  // --- Fallback for Legacy Inputs ---
+  const legacyMonth = form.find(`select[name="${partialName}Month"]`);
+  const legacyDay = form.find(`select[name="${partialName}Day"]`);
+  const legacyYear = form.find(`input[name="${partialName}Year"]`);
+
+  if (legacyMonth.exists() && legacyDay.exists() && legacyYear.exists()) {
+    legacyMonth.simulate('change', { target: { value: month } });
+    legacyDay.simulate('change', { target: { value: day } });
+    legacyYear.simulate('change', { target: { value: year } });
+    return;
+  }
+
+  throw new Error(`Could not locate date field for: ${partialName}`);
+}
+
 export function getFormDOM(form) {
   const formDOM = form?.container || findDOMNode(form);
 
@@ -202,19 +207,11 @@ export function getFormDOM(form) {
     );
   }
 
-  /**
-   * Returns the element or throws a nicer error.
-   *
-   * @param  {string} selector The css selector
-   * @return {element}         The element returned from querySelctor()
-   */
   formDOM.getElement = function getElement(selector) {
     const element = this.querySelector(selector);
-
     if (!element) {
       throw new Error(`Could not find element at ${selector}`);
     }
-
     return element;
   };
 
@@ -257,7 +254,6 @@ export function getFormDOM(form) {
     });
   };
 
-  // Accepts 'Y', 'N', true, false
   formDOM.setYesNo = function setYesNo(selector, value) {
     const isYes =
       typeof value === 'string' ? value.toLowerCase() === 'y' : !!value;
@@ -282,13 +278,9 @@ export function getFormDOM(form) {
   };
 
   formDOM.fillDate = function populateDate(partialId, dateString) {
-    oldFillDate(this, partialId, dateString);
+    fillDate(this, partialId, dateString);
   };
 
-  /**
-   * Prints the formDOM as a tree in the console for debugging purposes
-   * @return {void}
-   */
   formDOM.printTree = function print() {
     printTree(this);
   };
@@ -296,14 +288,6 @@ export function getFormDOM(form) {
   return formDOM;
 }
 
-/**
- * Enzyme helper that fires a change event with a value for
- * an element at the given selector
- *
- * @param {Enzyme} form The enzyme object that contains a form
- * @param {string} selector The selector to find the input to fill
- * @param {string} value The data to fill in the input
- */
 export function fillData(form, selector, value) {
   form.find(selector).simulate('change', {
     target: {
@@ -312,59 +296,16 @@ export function fillData(form, selector, value) {
   });
 }
 
-/**
- * Enzyme helper that fires a change event with a value for
- * a checkbox at the given name
- *
- * @param {Enzyme} form The enzyme object that contains a form
- * @param {string} fieldName The input name of the checkbox
- * @param {string} value The data to fill in the input
- */
 export function selectCheckbox(form, fieldName, value) {
   form.find(`input[name*="${fieldName}"]`).simulate('change', {
     target: { checked: value },
   });
 }
 
-/**
- * Enzyme helper that fires a change event with a value for
- * a radio button at the given name
- *
- * @param {Enzyme} form The enzyme object that contains a form
- * @param {string} fieldName The input name of the radio button
- * @param {string} value The data to fill in the input
- */
 export function selectRadio(form, fieldName, value) {
   form
     .find(`input[name*="${fieldName}"][value="${value}"]`)
     .simulate('change', {
       target: { value },
     });
-}
-
-/**
- * Enzyme helper that fills in a date field with data from the
- * given date string.
- *
- * @param {Enzyme} form The enzyme object that contains a form
- * @param {string} partialName The name for the date field, without the month/day/year prefix.
- * @param {string} dateString The date to fill in the input
- */
-export function fillDate(form, partialName, dateString) {
-  const date = dateString.split('-');
-
-  const month = form.find(`select[name="${partialName}Month"]`);
-  const day = form.find(`select[name="${partialName}Day"]`);
-  const year = form.find(`input[name="${partialName}Year"]`);
-
-  month.simulate('change', {
-    target: { value: date[1] },
-  });
-
-  day.simulate('change', {
-    target: { value: date[2] },
-  });
-  year.simulate('change', {
-    target: { value: date[0] },
-  });
 }

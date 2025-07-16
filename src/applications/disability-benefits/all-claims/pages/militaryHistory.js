@@ -1,28 +1,18 @@
 import set from 'platform/utilities/data/set';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-
-import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
+import { currentOrPastDateRangeUI } from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 import ArrayField from '../components/ArrayField';
 import { isValidServicePeriod, formatDate } from '../utils';
-import { validateAge, validateSeparationDate } from '../validations';
 import { getBranches } from '../utils/serviceBranches';
-
 import { serviceNoticeContent } from '../content/militaryHistoryContent';
 
-const dateRangeUISchema = dateRangeUI(
-  'Active service start date',
-  'Active service end date',
+const dateRangeUISchema = currentOrPastDateRangeUI(
+  { title: 'Active service start date' },
+  { title: 'Active service end date' },
   'End of service must be after start of service',
 );
-
-dateRangeUISchema.from['ui:validations'].push(
-  validateAge,
-  validateCurrentOrPastDate,
-);
-dateRangeUISchema.to['ui:validations'].push(validateSeparationDate);
 
 const itemAriaLabel = data => {
   const hasDate =

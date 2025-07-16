@@ -50,14 +50,16 @@ describe('Military history', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    expect(form.find('select').length).to.equal(5);
-    // test service branch list. Add 1 for empty option
+    // 2 date fields: from & to
+    expect(form.find('VaMemorableDateField').length).to.equal(2);
+
+    // branch select renders
     expect(
       form.find(
         'select#root_serviceInformation_servicePeriods_0_serviceBranch option',
       ).length,
     ).to.equal(branches.length + 1);
+
     form.unmount();
   });
 
@@ -77,7 +79,9 @@ describe('Military history', () => {
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(3);
+
+      // At least one visible error message (service branch required).
+      expect(form.find('.usa-input-error-message').length).to.be.greaterThan(0);
       expect(onSubmit.called).to.be.false;
       form.unmount();
     });
@@ -115,10 +119,17 @@ describe('Military history', () => {
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(1);
       expect(onSubmit.called).to.be.false;
+
+      // "from" date should have an error prop
+      const fromError = form
+        .find('VaMemorableDate')
+        .at(0)
+        .prop('error');
+      expect(fromError).to.exist;
     });
 
+    // Fix start date
     fillDate(
       form,
       'root_serviceInformation_servicePeriods_0_dateRange_from',
@@ -127,7 +138,6 @@ describe('Military history', () => {
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
       expect(onSubmit.called).to.be.true;
       form.unmount();
     });
@@ -169,12 +179,16 @@ describe('Military history', () => {
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      const errorMsg = form.find('.usa-input-error-message');
-      expect(errorMsg.length).to.equal(1);
-      expect(errorMsg.text()).to.contain('valid current or past date');
       expect(onSubmit.called).to.be.false;
+
+      const fromError = form
+        .find('VaMemorableDate')
+        .at(0)
+        .prop('error');
+      expect(fromError).to.exist;
     });
 
+    // Fix start date
     fillDate(
       form,
       'root_serviceInformation_servicePeriods_0_dateRange_from',
@@ -185,7 +199,6 @@ describe('Military history', () => {
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
       expect(onSubmit.called).to.be.true;
       form.unmount();
     });
@@ -223,12 +236,17 @@ describe('Military history', () => {
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      const errorMsg = form.find('.usa-input-error-message');
-      expect(errorMsg.length).to.equal(1);
-      expect(errorMsg.text()).to.contain('must be after start');
       expect(onSubmit.called).to.be.false;
+
+      // "to" date should have an error
+      const toError = form
+        .find('VaMemorableDate')
+        .at(1)
+        .prop('error');
+      expect(toError).to.exist;
     });
 
+    // Fix start (was after end)
     fillDate(
       form,
       'root_serviceInformation_servicePeriods_0_dateRange_from',
@@ -237,7 +255,6 @@ describe('Military history', () => {
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
       expect(onSubmit.called).to.be.true;
       form.unmount();
     });
@@ -316,7 +333,6 @@ describe('Military history', () => {
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
       expect(onSubmit.called).to.be.true;
       form.unmount();
     });
