@@ -342,22 +342,13 @@ export class CallToActionWidget extends Component {
 
     const { accountLevel } = this.props.mhvAccount;
 
-    const redirectToTermsAndConditions = () => {
-      const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
-      const termsConditionsUrl = appendQuery(
-        '/health-care/medical-information-terms-conditions/',
-        redirectQuery,
-      );
-      window.location = termsConditionsUrl;
-    };
-
     if (!accountLevel) {
       return (
         <NoMHVAccount
           serviceDescription={this._serviceDescription}
           primaryButtonHandler={
             accountState === 'needs_terms_acceptance'
-              ? redirectToTermsAndConditions
+              ? this.redirectToTermsAndConditions
               : this.sendToMHV
           }
           secondaryButtonHandler={this.signOut}
@@ -370,7 +361,7 @@ export class CallToActionWidget extends Component {
         serviceDescription={this._serviceDescription}
         primaryButtonHandler={
           accountState === 'needs_terms_acceptance'
-            ? redirectToTermsAndConditions
+            ? this.redirectToTermsAndConditions
             : this.sendToMHV
         }
       />
@@ -444,6 +435,15 @@ export class CallToActionWidget extends Component {
         this._popup = true;
       }
     }
+  };
+
+  redirectToTermsAndConditions = () => {
+    const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
+    const termsConditionsUrl = appendQuery(
+      '/health-care/medical-information-terms-conditions/',
+      redirectQuery,
+    );
+    window.location = termsConditionsUrl;
   };
 
   signOut = () => {
@@ -545,7 +545,7 @@ CallToActionWidget.defaultProps = {
   setFocus: true,
 };
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   // Derive profile properties.
   const {
     loading,
