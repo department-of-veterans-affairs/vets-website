@@ -34,7 +34,7 @@ import { incomeFrequencyLabels, relationshipLabels } from '../../../labels';
 export const options = {
   arrayPath: 'discontinuedIncomes',
   nounSingular: 'discontinued income',
-  nounPlural: 'discontinued incomes',
+  nounPlural: 'discontinued income',
   required: false,
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||
@@ -107,7 +107,7 @@ const summaryPage = {
         title: 'Do you have any more discontinued incomes to report?',
         labels: {
           Y: 'Yes, I have another discontinued income to report',
-          N: 'No, I don’t have anymore discontinued incomes to report',
+          N: 'No, I don’t have any more discontinued incomes to report',
         },
       },
     ),
