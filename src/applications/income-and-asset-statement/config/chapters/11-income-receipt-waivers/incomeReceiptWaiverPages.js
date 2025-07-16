@@ -36,7 +36,7 @@ import { relationshipLabels } from '../../../labels';
 export const options = {
   arrayPath: 'incomeReceiptWaivers',
   nounSingular: 'waived income',
-  nounPlural: 'waived incomes',
+  nounPlural: 'waived income',
   required: false,
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||
@@ -102,10 +102,10 @@ const summaryPage = {
         },
       },
       {
-        title: 'Do you have any more waived-income to report?',
+        title: 'Do you have any more waivedincome to report?',
         labels: {
           Y: 'Yes, I have another waived income to report',
-          N: 'No, I don’t have another waived income to report',
+          N: 'No, I don’t have any more waived income to report',
         },
       },
     ),
