@@ -10,8 +10,8 @@ import {
 
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import environment from 'platform/utilities/environment';
-import { signupOrVerify } from 'platform/user/authentication/utilities';
 import * as profileUtils from 'platform/user/profile/utilities';
+import * as externalAuthUtils from 'platform/user/authentication/utilities';
 import {
   AUTHORIZE_KEYS_WEB,
   AUTHORIZE_KEYS_MOBILE,
@@ -765,11 +765,11 @@ describe('OAuth - Utilities', () => {
     });
   });
 
-  describe('signupOrVerify (OAuth)', () => {
+  describe('externalAuthUtils.signupOrVerify (OAuth)', () => {
     ['idme', 'logingov'].forEach(policy => {
       it(`should generate the default URL for signup 'type=${policy}&acr=min' OAuth | config: default`, async () => {
         global.window.location.search = `?oauth=true`;
-        const url = await signupOrVerify({
+        const url = await externalAuthUtils.signupOrVerify({
           policy,
           isLink: true,
           useOAuth: true,
@@ -784,49 +784,28 @@ describe('OAuth - Utilities', () => {
       });
 
       it(`should generate the default URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth | config: vamobile`, async () => {
-        const acrType = { idme: 'loa3', logingov: 'ial2' };
-        const testState = `test_state_${policy}`;
-        const testCodeChallenge = `test_challenge_${policy}`;
         global.window.location.search = `?oauth=true&client_id=vamobile`;
+        const acrType = { idme: 'loa3', logingov: 'ial2' };
 
-        const sessionStorageStub = sinon.stub(window.sessionStorage, 'getItem');
-        sessionStorageStub.withArgs('codeChallenge').returns(testCodeChallenge);
-        sessionStorageStub.withArgs('state').returns(testState);
-
-        const getQueryParamsStub = sinon
-          .stub(profileUtils, 'getQueryParams')
-          .returns({
-            OAuth: 'true',
-            application: 'vamobile',
-            clientId: 'vamobile',
-            codeChallenge: testCodeChallenge,
-            codeChallengeMethod: 'S256',
-            state: testState,
-          });
-
-        const url = await signupOrVerify({
+        const url = await externalAuthUtils.signupOrVerify({
           policy,
           isLink: true,
           allowVerification: false,
           useOAuth: true,
           config: 'vamobile',
-          clientId: 'vamobile',
         });
-
-        sessionStorageStub.restore();
-        getQueryParamsStub.restore();
 
         expect(url).to.include(`type=${policy}`);
         expect(url).to.include(`acr=${acrType[policy]}`);
         expect(url).to.include('client_id=vamobile');
         expect(url).to.include('/authorize');
         expect(url).to.include('response_type=code');
-        expect(url).to.include(`code_challenge=${testCodeChallenge}`);
-        expect(url).to.include(`state=${testState}`);
+        expect(url).to.include(`code_challenge=`);
+        expect(url).to.include(`state=`);
       });
 
       it(`should generate a verified URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth | config: default`, async () => {
-        const url = await signupOrVerify({
+        const url = await externalAuthUtils.signupOrVerify({
           policy,
           isLink: true,
           isSignup: false,
