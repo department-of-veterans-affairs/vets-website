@@ -47,7 +47,7 @@ function updateAddress(addressName) {
   const cityInput = $('va-text-input[label="City"]', container);
   const stateDropdown = $('va-select[label="State"]', container);
   const zipCodeInput = $('va-text-input[label="Zip code"]', container);
-  const submitButton = view.getByText(/save/i, { selector: 'button' });
+  const submitButton = view.getByTestId('save-edit-button');
 
   // input the address info (can't type into web components using RTL)
   countryDropdown.__events.vaSelect({ target: { value: 'USA' } });

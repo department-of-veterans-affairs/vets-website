@@ -103,6 +103,7 @@ export const AccountUpdateView = props => {
         onSubmit={formSubmit}
       >
         <va-button
+          data-testid="save-direct-deposit"
           label="save your bank information for benefits"
           loading={isSaving}
           submit="prevent"
