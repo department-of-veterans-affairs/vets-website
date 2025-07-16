@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { VaFileInputField } from '../web-component-fields';
 import navigationState from '../utilities/navigation/navigationState';
-import passwordErrorState from '../utilities/file/errorState';
+import errorStates from '../utilities/file/passwordErrorState';
 
 export const filePresenceValidation = (
   errors,
@@ -33,6 +33,7 @@ export const filePresenceValidation = (
  *   name: 'form-upload-file-input',
  *   errorMessages: { required: 'File upload required' },
  *   maxFileSize: 1048576,
+ *   minFileSize: 1024,
  *   headerSize: '3',
  *   skipUpload: true, // set to true if your app does not yet have a backend for upload
  *   formNumber: '20-10206', // required for upload
@@ -82,6 +83,16 @@ export const filePresenceValidation = (
  *  formHeading?: UIOptions['formHeading'],
  *  formDescription?: UIOptions['formDescription'],
  *  formHeadingLevel?: UIOptions['formHeadingLevel'],
+ *  accept?: UIOptions['accept'],
+ *  formNumber?: UIOptions['formNumber'],
+ *  skipUpload?: UIOptions['skipUpload'],
+ *  required?: UIOptions['required'],
+ *  fileUploadUrl?: UIOptions['fileUploadUrl'],
+ *  maxFileSize?: UIOptions['maxFileSize'],
+ *  minFileSize?: UIOptions['minFileSize'],
+ *  additionalInputRequired?: UIOptions['additionalInputRequired'],
+ *  additionalInput?: UIOptions['additionalLInput'],
+ *  handleAdditionalInput: UIOptions['handleAdditionalInput'],
  * }} options
  * @returns {UISchemaOptions}
  */
@@ -112,12 +123,14 @@ export const fileInputUI = options => {
         const isRequired =
           typeof required === 'function' ? required(formData) : !!required;
 
-        const { additionalData, ...rest } = data;
-        const untouched =
-          isEmpty(additionalData) &&
-          Object.values(rest).every(value => value === undefined);
+        const { additionalData, _id } = data;
 
-        if (isRequired && untouched && isNavigationEvent) {
+        if (
+          !uiOptions.skipUpload &&
+          isRequired &&
+          isNavigationEvent &&
+          data.name !== 'uploading'
+        ) {
           filePresenceValidation(
             errors,
             data,
@@ -129,26 +142,30 @@ export const fileInputUI = options => {
 
         // don't do any additional validation if user tries to advance
         // without having interacted with component
-        if (untouched) return;
+        if (!_id) return;
+        const passwordErrorManager = errorStates.getInstance(_id);
 
-        const passwordError = passwordErrorState.hasPasswordError();
-        const touched = passwordErrorState.touched();
+        const passwordError = passwordErrorManager.hasPasswordError();
+        const touched = passwordErrorManager.touched();
         if ((isNavigationEvent || touched) && passwordError) {
           errors.isEncrypted.addError('Encrypted file requires a password.');
-          scrollAndFocus(`va-file-input`);
+          scrollAndFocus(`va-file-input[name=${_id}]`);
+        } else {
+          passwordErrorManager.setTouched(true);
         }
 
         if (
           uiOptions.additionalInputRequired &&
-          isNavigationEvent &&
-          isEmpty(data.additionalData)
+          isEmpty(additionalData) &&
+          (isNavigationEvent || touched)
         ) {
           const errorMessage =
             uiErrorMessages.additionalInput || 'Enter additional input';
           errors.additionalData.addError(errorMessage);
+
           // prevents the clearing of a password error (if one exists) after this error is cleared
           if (passwordError) {
-            passwordErrorState.setTouched(true);
+            passwordErrorManager.setTouched(true);
           }
         }
       },
@@ -183,45 +200,41 @@ export const fileInputUI = options => {
  * exampleFileInput: fileInputSchema()
  * ```
  */
-export const fileInputSchema = () => ({
-  type: 'object',
-  properties: {
-    confirmationCode: {
-      type: 'string',
-    },
-    isEncrypted: {
-      type: 'boolean',
-    },
-    password: {
-      type: 'string',
-    },
-    name: {
-      type: 'string',
-    },
-    size: {
-      type: 'integer',
-    },
-    fileType: {
-      type: 'string',
-    },
-    warnings: {
-      type: 'array',
-      items: {
+export const fileInputSchema = () => {
+  return {
+    type: 'object',
+    properties: {
+      confirmationCode: {
+        type: 'string',
+      },
+      isEncrypted: {
+        type: 'boolean',
+      },
+      name: {
+        type: 'string',
+      },
+      size: {
+        type: 'integer',
+      },
+      fileType: {
+        type: 'string',
+      },
+      warnings: {
+        type: 'array',
+        items: {
+          type: 'string',
+        },
+      },
+      additionalData: {
+        type: 'object',
+        properties: {},
+      },
+      type: {
+        type: 'string',
+      },
+      _id: {
         type: 'string',
       },
     },
-    additionalData: {
-      type: 'object',
-      properties: {},
-    },
-    hasPasswordError: {
-      type: 'boolean',
-    },
-    hasAdditionalInputError: {
-      type: 'boolean',
-    },
-    type: {
-      type: 'string',
-    },
-  },
-});
+  };
+};
