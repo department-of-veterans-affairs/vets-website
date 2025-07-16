@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { getAppointmentConflict } from '../../utils/appointment';
 
 import CalendarNavigation from './CalendarNavigation';
 import CalendarRow from './CalendarRow';
@@ -380,12 +381,13 @@ function CalendarWidget({
                                   onChange(value.concat(date));
                                 }
                               } else {
-                                onChange(
+                                const appointmentHasConflict = getAppointmentConflict(
                                   [date],
-                                  maxSelections,
                                   upcomingAppointments,
+                                  maxSelections,
                                   availableSlots,
                                 );
+                                onChange([date], appointmentHasConflict);
                               }
                             }}
                             hasError={hasError}

@@ -8,7 +8,7 @@ import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
 import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
-import { getSlotByDate, hasConflict } from '../utils/provider';
+import { getSlotByDate } from '../utils/provider';
 import { getDriveTimeString } from '../../utils/appointment';
 import {
   getTimezoneDescByFacilityId,
@@ -69,16 +69,24 @@ export const DateAndTimeContent = props => {
     [dispatch, selectedSlotKey, draftAppointmentInfo.attributes.slots],
   );
   const onChange = useCallback(
-    value => {
+    (value, appointmentHasConflict = false) => {
+      if (appointmentHasConflict) {
+        setError(
+          'You already have an appointment at this time. Please select another day or time.',
+        );
+      }
       const newSlot = getSlotByDate(
         draftAppointmentInfo.attributes.slots,
         value[0],
       );
-      if (newSlot) {
+      if (!appointmentHasConflict && newSlot) {
         setError('');
-        dispatch(setSelectedSlot(newSlot.start));
-        setSelectedDate(newSlot.start);
         sessionStorage.setItem(selectedSlotKey, newSlot.start);
+        dispatch(setSelectedSlot(newSlot.start));
+      }
+      // Even if there is a conflict, we still want to set the selected date to show the selection and conflict
+      if (newSlot) {
+        setSelectedDate(newSlot.start);
       }
     },
     [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
@@ -95,15 +103,6 @@ export const DateAndTimeContent = props => {
     if (!selectedSlot) {
       setError(
         'Please choose your preferred date and time for your appointment',
-      );
-      return;
-    }
-    if (
-      appointmentsByMonth &&
-      hasConflict(selectedDate, appointmentsByMonth, facilityTimeZone)
-    ) {
-      setError(
-        'You already have an appointment at this time. Please select another day or time.',
       );
       return;
     }
@@ -219,6 +218,7 @@ export const DateAndTimeContent = props => {
               showValidation={error.length > 0}
               showWeekends
               overrideMaxDays
+              upcomingAppointments={appointmentsByMonth}
             />
           </div>
           <FormButtons
