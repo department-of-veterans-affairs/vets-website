@@ -7,8 +7,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import manifest from '../manifest.json';
 import ratedOrNewNextPagePages from '../pages/ratedOrNewNextPage';
-import conditionTypeRadioPages from '../pages/conditionTypeRadio';
-import ratedOrNewNextPageSecondaryEnhancedPages from '../pages/ratedOrNewNextPageSecondaryEnhanced';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -22,10 +20,6 @@ const formConfig = {
   confirmation: ConfirmationPage,
   getHelp: GetFormHelp,
   footerContent: FormFooter,
-  // dev: {
-  //   showNavLinks: true,
-  //   collapsibleNavLinks: true,
-  // },
   formId: VA_FORM_IDS.FORM_21_526EZ,
   saveInProgress: {
     messages: {
@@ -52,8 +46,6 @@ const formConfig = {
       title: 'Conditions',
       pages: {
         ...ratedOrNewNextPagePages,
-        ...conditionTypeRadioPages,
-        ...ratedOrNewNextPageSecondaryEnhancedPages,
       },
     },
   },
