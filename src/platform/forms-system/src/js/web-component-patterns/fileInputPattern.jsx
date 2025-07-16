@@ -38,12 +38,20 @@ export const filePresenceValidation = (
  *   skipUpload: true, // set to true if your app does not yet have a backend for upload
  *   formNumber: '20-10206', // required for upload
  *   additionalInputRequired: true, // user must supply additional input
- *   additionalInput: ( // will be rendered
- *     <VaSelect label="What kind of file is this?">
- *       <option value="public">Public</option>
- *       <option value="private">Private</option>
- *     </VaSelect />
- *   ),
+ *   additionalInput: (error, data) => {
+ *     const { documentStatus } = data;
+ *     return (
+ *       <VaSelect
+ *         required
+ *         error={error}
+ *         value={documentStatus}
+ *         label="Document status"
+ *       >
+ *         <option value="public">Public</option>
+ *         <option value="private">Private</option>
+ *       </VaSelect>
+ *     );
+ *   },
  *   handleAdditionalInput: (e) => {    // handle optional additional input
  *     return { documentStatus: e.detail.value }
  *   }
@@ -83,16 +91,16 @@ export const filePresenceValidation = (
  *  formHeading?: UIOptions['formHeading'],
  *  formDescription?: UIOptions['formDescription'],
  *  formHeadingLevel?: UIOptions['formHeadingLevel'],
- *  accept?: UIOptions['accept'],
- *  formNumber?: UIOptions['formNumber'],
- *  skipUpload?: UIOptions['skipUpload'],
- *  required?: UIOptions['required'],
- *  fileUploadUrl?: UIOptions['fileUploadUrl'],
- *  maxFileSize?: UIOptions['maxFileSize'],
- *  minFileSize?: UIOptions['minFileSize'],
- *  additionalInputRequired?: UIOptions['additionalInputRequired'],
- *  additionalInput?: UIOptions['additionalLInput'],
- *  handleAdditionalInput: UIOptions['handleAdditionalInput'],
+ *  accept?: string,
+ *  formNumber?: string,
+ *  skipUpload?: boolean,
+ *  required?: boolean,
+ *  fileUploadUrl?: string,
+ *  maxFileSize?: number,
+ *  minFileSize?: number,
+ *  additionalInputRequired?: boolean,
+ *  additionalInput?: ((error: any, data: any) => React.ReactNode),
+ *  handleAdditionalInput: (e: CustomEvent) => {[key: string]: any},
  * }} options
  * @returns {UISchemaOptions}
  */
