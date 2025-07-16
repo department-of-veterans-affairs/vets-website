@@ -77,7 +77,10 @@ const confirmWebAddressesAreBlocked = () => {
 
   cy.fillVaTextInput(SELECTORS.STREET1, 'x.com');
 
-  cy.findByRole('button', { name: 'Save' }).focus();
+  cy.findByTestId('save-edit-button')
+    .shadow()
+    .find('button')
+    .focus();
 
   cy.get(`[name="${SELECTORS.STREET1}"][error*="valid street address"]`);
 
@@ -86,7 +89,10 @@ const confirmWebAddressesAreBlocked = () => {
   cy.get('[error]').should('not.exist');
 
   cy.fillVaTextInput(SELECTORS.STREET2, 'www.x.blah');
-  cy.findByRole('button', { name: 'Save' }).focus();
+  cy.findByTestId('save-edit-button')
+    .shadow()
+    .find('button')
+    .focus();
 
   cy.get(`[name="${SELECTORS.STREET2}"][error*="valid street address"]`);
 
@@ -98,7 +104,10 @@ const confirmWebAddressesAreBlocked = () => {
   // street lines on this form with identical labels :(
   cy.fillVaTextInput(SELECTORS.STREET3, 'x.net');
 
-  cy.findByRole('button', { name: 'Save' }).focus();
+  cy.findByTestId('save-edit-button')
+    .shadow()
+    .find('button')
+    .focus();
 
   cy.get(`[name="${SELECTORS.STREET3}"][error*="valid street address"]`);
 
@@ -108,7 +117,10 @@ const confirmWebAddressesAreBlocked = () => {
 
   cy.fillVaTextInput(SELECTORS.CITY, 'http://');
 
-  cy.findByRole('button', { name: 'Save' }).focus();
+  cy.findByTestId('save-edit-button')
+    .shadow()
+    .find('button')
+    .focus();
 
   cy.get(`[name="${SELECTORS.CITY}"][error*="valid city"]`);
 
@@ -118,13 +130,19 @@ const confirmWebAddressesAreBlocked = () => {
 
   cy.fillVaTextInput(SELECTORS.PROVINCE, 'Paris');
 
-  cy.findByRole('button', { name: 'Save' }).focus();
+  cy.findByTestId('save-edit-button')
+    .shadow()
+    .find('button')
+    .focus();
 
   cy.get('[error]').should('not.exist');
 
   cy.fillVaTextInput(SELECTORS.POSTAL, 'x.edu');
 
-  cy.findByRole('button', { name: 'Save' }).focus();
+  cy.findByTestId('save-edit-button')
+    .shadow()
+    .find('button')
+    .focus();
 
   cy.get(`[name="${SELECTORS.POSTAL}"][error*="valid postal code"]`);
 
@@ -133,7 +151,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.get('[error]').should('not.exist');
 
   // cancel out of edit mode and discard unsaved changes
-  cy.findByText('Cancel').click();
+  cy.findByTestId('cancel-edit-button').click();
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()
