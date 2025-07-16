@@ -1,4 +1,5 @@
 import appendQuery from 'append-query';
+import Cookies from 'js-cookie';
 import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 import environment from 'platform/utilities/environment';
@@ -449,4 +450,27 @@ export async function signupOrVerify({
 
 export const logoutUrl = () => {
   return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
+};
+
+export const determineAuthBroker = featureFlagEnabled => {
+  if (featureFlagEnabled) {
+    const cookieValue = Cookies.get('CERNER_ELIGIBLE');
+    const rawCookie = cookieValue?.split('--')[0];
+
+    // If there isn't a rawCookie value
+    if (!cookieValue || !rawCookie) return false;
+
+    const parsedJson = JSON.parse(atob(rawCookie));
+    const message = parsedJson?._rails?.message;
+
+    // If there isn't a value in the `message` field
+    if (!['T', 'F']?.includes(message)) return false;
+
+    const secondDecode = atob(message);
+    const parsedCookie = secondDecode?.charAt(2);
+
+    // Refer to: https://github.com/department-of-veterans-affairs/identity-documentation/issues/260
+    return parsedCookie === 'F';
+  }
+  return false;
 };
