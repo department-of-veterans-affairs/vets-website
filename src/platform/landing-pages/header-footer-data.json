@@ -211,7 +211,7 @@
     },
     {
       "column": 4,
-      "href": "/contact-us/",
+      "href": "/contact-us",
       "order": 2,
       "target": null,
       "title": "Contact us"
@@ -235,7 +235,7 @@
     {
       "column": 4,
       "label": "Visit a medical center or regional office",
-      "href": "/find-locations",
+      "href": "/find-locations/",
       "order": 5,
       "target": null,
       "title": "Find a VA location"
