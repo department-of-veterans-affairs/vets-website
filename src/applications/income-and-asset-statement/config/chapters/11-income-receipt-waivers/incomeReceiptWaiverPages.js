@@ -102,7 +102,7 @@ const summaryPage = {
         },
       },
       {
-        title: 'Do you have any more waivedincome to report?',
+        title: 'Do you have any more waived income to report?',
         labels: {
           Y: 'Yes, I have another waived income to report',
           N: 'No, I don’t have any more waived income to report',
