@@ -127,11 +127,11 @@ const relationshipPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'What is the income recipient’s relationship to the Veteran?',
+      title: 'Who received the income?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
-      'ui:title': 'Tell us the type of relationship',
+      'ui:title': 'Describe their relationship to the Veteran',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'recipientRelationship',
