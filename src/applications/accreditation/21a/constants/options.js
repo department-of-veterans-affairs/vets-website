@@ -80,6 +80,13 @@ export const descriptionRequired = Object.freeze([
 
 // Chapter 4
 
+export const institutionTypeOptions = Object.freeze([
+  'High School',
+  'Community College',
+  'Under Graduate',
+  'Graduate',
+]);
+
 export const degreeOptions = Object.freeze([
   'GED',
   'High school diploma',

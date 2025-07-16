@@ -3,6 +3,7 @@
   "data": {
     "claimStatus": "resubmission",
     "pdiOrClaimNumber": "PDI number",
+    "identifyingNumber": "va12345678",
     "medicationName": "Benadryl",
     "prescriptionFillDate": "2023-01-01",
     "view:hasPolicies": false,

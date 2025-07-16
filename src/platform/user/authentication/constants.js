@@ -96,7 +96,7 @@ export const ARP_APPS = {
 };
 
 export const TEST_APPS = {
-  OKTA: 'okta_test',
+  OKTA: ['okta_test', 'okta_stg'],
 };
 
 export const eAuthURL = `https://${
