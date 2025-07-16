@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { parseISO, format } from 'date-fns';
 
 /*
  * Simiarly to slots, but for checkboxes, which we know we only ever have two of
@@ -97,6 +98,7 @@ export default function DateTimeRequestOptions({
               >
                 <span aria-hidden="true">{o.label}</span>
                 <span className="vads-u-visibility--screen-reader">
+                  {format(parseISO(currentlySelectedDate), 'EEEE, MMMM d')}{' '}
                   {o.label} appointment
                 </span>
               </label>

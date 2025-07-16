@@ -109,13 +109,12 @@ const CalendarCell = ({
         aria-controls={
           isCurrentlySelected ? `vaos-options-container-${date}` : undefined
         }
-        aria-describedby={`vaos-calendar-instructions-${momentDate.month()}`}
         className="vaos-calendar__calendar-day-button"
         id={`date-cell-${date}`}
         onClick={() => onClick(date)}
         disabled={disabled}
         aria-label={buttonLabel}
-        // aria-expanded={isCurrentlySelected}
+        aria-expanded={isCurrentlySelected}
         type="button"
         ref={buttonRef}
       >

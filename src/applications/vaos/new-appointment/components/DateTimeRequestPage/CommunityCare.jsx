@@ -134,7 +134,7 @@ export default function CCRequest() {
           return dispatch(routeToPreviousAppointmentPage(history, pageKey));
         }}
         onSubmit={() => {
-          // Increment the focus trigger to force re-focusing the validation message
+          // Increment the alert and focus triggers to force re-focusing the validation message and re-announce it
           setAlertTrigger(prev => prev + 1);
           setFocusTrigger(prev => prev + 1);
           goForward({
