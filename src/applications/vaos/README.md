@@ -1,4 +1,4 @@
-# VA Online Scheduling
+# Appointments
 
 This is the front end source for the Appointments application. Veterans can schedule, request, and view appointments through this application.
 
