@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -7,6 +8,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
+import { trainingProviderSummary } from '../pages/trainingProviderSummary';
+
+import { trainingProviderArrayOptions } from '../helpers';
+import { trainingProviderDetails } from '../pages/trainingProviderDetails';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -57,6 +62,32 @@ const formConfig = {
           uiSchema: identificationInformation.uiSchema,
           schema: identificationInformation.schema,
         },
+      },
+    },
+    trainingProviderChapter: {
+      title: 'Training provider details',
+      pages: {
+        ...arrayBuilderPages(trainingProviderArrayOptions, pageBuilder => ({
+          trainingProviderSummary: pageBuilder.summaryPage({
+            title: 'Tell us about your training provider',
+            path: 'training-provider',
+            uiSchema: trainingProviderSummary.uiSchema,
+            schema: trainingProviderSummary.schema,
+            // scrollAndFocusTarget,
+          }),
+          trainingProviderDetails: pageBuilder.itemPage({
+            title: 'Training provider name and mail address',
+            path: 'training-provider/:index/details',
+            uiSchema: trainingProviderDetails.uiSchema,
+            schema: trainingProviderDetails.schema,
+          }),
+        })),
+        // isProprietaryProfit: {
+        //   path: 'proprietary-profit',
+        //   title: "Confirm your institution's classification",
+        //   uiSchema: isProprietaryProfit.uiSchema,
+        //   schema: isProprietaryProfit.schema,
+        // },
       },
     },
   },

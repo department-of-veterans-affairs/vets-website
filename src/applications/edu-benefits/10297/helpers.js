@@ -87,3 +87,27 @@ export const ConfirmationGoBackLink = () => (
     <va-link-action href="/" text="Go back to VA.gov" type="primary" />
   </div>
 );
+
+export const trainingProviderArrayOptions = {
+  arrayPath: 'trainingProvider',
+  nounSingular: 'training provider',
+  nounPlural: 'training providers',
+  required: false,
+  text: {
+    getItemName: item => `${item?.name}`.trim(),
+    cardDescription: item => (
+      <>
+        {item?.title}
+        {/* <div className=" vads-u-margin-y--2">
+          {item?.individualAssociationType === 'vaEmployee'
+            ? 'VA employee'
+            : 'SAA employee'}
+        </div> */}
+      </>
+    ),
+    cancelAddYes: 'Yes, cancel',
+    cancelAddNo: 'No, continue adding information',
+    summaryTitle: 'Review your training provider information',
+    cancelAddButtonText: "Cancel adding this individual's information",
+  },
+};

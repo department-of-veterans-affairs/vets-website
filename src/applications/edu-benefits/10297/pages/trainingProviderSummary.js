@@ -1,0 +1,64 @@
+import React from 'react';
+
+import {
+  arrayBuilderYesNoUI,
+  arrayBuilderYesNoSchema,
+  titleUI,
+} from '~/platform/forms-system/src/js/web-component-patterns';
+
+import { trainingProviderArrayOptions } from '../helpers';
+
+const trainingProviderSummary = {
+  uiSchema: {
+    'view:introduction': {
+      ...titleUI('Tell us about your training provider'),
+      'ui:description': (
+        <>
+          <div data-testid="instructions">
+            <p>
+              In the next few questions, you’ll be asked to provide information
+              about your training providers. You may add up to 4 training
+              providers.
+            </p>
+            <p>You’ll be asked to provide:</p>
+            <ul>
+              <li>
+                The name of the institution or organization that you wish to
+                provide your training
+              </li>
+              <li>The current mail address of your training provider</li>
+            </ul>
+          </div>
+        </>
+      ),
+      'ui:options': {
+        hideIf: formData => formData?.trainingProvider?.length > 0,
+      },
+    },
+    'view:summary': arrayBuilderYesNoUI(trainingProviderArrayOptions, {
+      title: 'Do you have a training provider to add?',
+      labels: {
+        Y: 'Yes, I have a training provider to add.',
+        N: 'No, I do not have a training provider to add.',
+      },
+      hint: () =>
+        'Select yes if you would like to add a training provider. You can add up to 4.',
+      errorMessages: {
+        required: 'Select yes if you have another training provider to add.',
+      },
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:introduction': {
+        type: 'object',
+        properties: {},
+      },
+      'view:summary': arrayBuilderYesNoSchema,
+    },
+    required: ['view:summary'],
+  },
+};
+
+export { trainingProviderSummary };
