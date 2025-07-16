@@ -241,6 +241,7 @@ class AddressValidationView extends React.Component {
     ) {
       return (
         <va-button
+          data-testid="edit-address-button"
           onClick={this.onEditClick}
           text="Edit address"
           class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
@@ -411,6 +412,7 @@ class AddressValidationView extends React.Component {
             {!addressValidationError &&
               !isLoading && (
                 <va-button
+                  data-testid="edit-address-button"
                   onClick={this.onEditClick}
                   text="Edit address"
                   class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
