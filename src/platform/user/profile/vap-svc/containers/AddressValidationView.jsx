@@ -22,6 +22,7 @@ import { setData } from 'platform/forms-system/exportsFile';
 import { ContactInfoFormAppConfigContext } from '../components/ContactInfoFormAppConfigContext';
 import * as VAP_SERVICE from '../constants';
 import {
+  clearAddressValidationKey,
   closeModal,
   createTransaction,
   openModal,
@@ -171,6 +172,7 @@ class AddressValidationView extends React.Component {
       // if the user selected a suggested address, we need to remove the validationKey
       // so that the API doesn't throw an error
       delete payload.validationKey;
+      this.props.clearAddressValidationKey();
     }
     if (this.requiresNewValidationKey(payload)) {
       // if the suggested address selected, there will be no validationKey so if the
@@ -477,6 +479,7 @@ const mapDispatchToProps = {
   updateValidationKeyAndSave,
   createTransaction,
   resetAddressValidation: resetAddressValidationAction,
+  clearAddressValidationKey,
   setDataAction: setData,
 };
 
@@ -484,6 +487,7 @@ AddressValidationView.propTypes = {
   addressFromUser: PropTypes.object.isRequired,
   addressValidationError: PropTypes.bool.isRequired,
   addressValidationType: PropTypes.string.isRequired,
+  clearAddressValidationKey: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
