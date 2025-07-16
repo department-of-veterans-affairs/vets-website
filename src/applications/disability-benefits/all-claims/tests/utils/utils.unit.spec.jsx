@@ -964,28 +964,86 @@ describe('526 v2 depends functions', () => {
   });
 
   describe('format date & date range', () => {
-    it('should format dates with full month names', () => {
-      expect(formatDate(true)).to.equal('Unknown');
-      expect(formatDate('foobar')).to.equal('Unknown');
-      expect(formatDate('2020-02-31')).to.equal('Unknown');
-      expect(formatDate('2020-01-31')).to.equal('January 31, 2020');
-      expect(formatDate('2020-04-05')).to.equal('April 5, 2020');
-      expect(formatDate('2020-05-05')).to.equal('May 5, 2020');
-      expect(formatDate('2020-06-15')).to.equal('June 15, 2020');
-      expect(formatDate('2020-07-25')).to.equal('July 25, 2020');
-      expect(formatDate('2020-08-05')).to.equal('August 5, 2020');
-      expect(formatDate('2020-12-05')).to.equal('December 5, 2020');
+    describe('formatDate', () => {
+      it('should format dates with full month names', () => {
+        expect(formatDate('2020-01-31')).to.equal('January 31, 2020');
+        expect(formatDate('2020-04-05')).to.equal('April 5, 2020');
+        expect(formatDate('2020-05-05')).to.equal('May 5, 2020');
+        expect(formatDate('2020-06-15')).to.equal('June 15, 2020');
+        expect(formatDate('2020-07-25')).to.equal('July 25, 2020');
+        expect(formatDate('2020-08-05')).to.equal('August 5, 2020');
+        expect(formatDate('2020-12-05')).to.equal('December 5, 2020');
+      });
+      it('should return valid dates with custom format', () => {
+        expect(formatDate('2020-01-31', 'YYYY-MM-DD')).to.equal('2020-01-31');
+        expect(formatDate('2020-05-05', 'MMM DD, YYYY')).to.equal(
+          'May 05, 2020',
+        );
+        expect(formatDate('2020-12-05', 'DD/MM/YYYY')).to.equal('05/12/2020');
+      });
+      it('should return "Unknown" for invalid dates', () => {
+        expect(formatDate(true)).to.equal('Unknown');
+        expect(formatDate(null)).to.equal('Unknown');
+        expect(formatDate(undefined)).to.equal('Unknown');
+        expect(formatDate('')).to.equal('Unknown');
+        expect(formatDate('foobar')).to.equal('Unknown');
+        expect(formatDate('2020-02-31')).to.equal('Unknown');
+      });
+      it('should return "Unknown" for partial dates', () => {
+        expect(formatDate('2020-01-XX')).to.equal('Unknown');
+        expect(formatDate('2020-XX-15')).to.equal('Unknown');
+        // because moment.js uses 2001 when it can't parse the year
+        expect(formatDate('XXXX-01-15')).to.equal('January 15, 2001');
+      });
     });
-    it('should format dates ranges', () => {
-      expect(
-        formatDateRange({ from: '2020-01-31', to: '2020-02-14' }),
-      ).to.equal('January 31, 2020 to February 14, 2020');
-      expect(
-        formatDateRange({ from: '2020-04-05', to: '2020-05-05' }),
-      ).to.equal('April 5, 2020 to May 5, 2020');
-      expect(
-        formatDateRange({ from: '2020-06-15', to: '2020-12-31' }),
-      ).to.equal('June 15, 2020 to December 31, 2020');
+    describe('formatDateRange', () => {
+      it('should format dates ranges', () => {
+        expect(
+          formatDateRange({ from: '2020-01-31', to: '2020-02-14' }),
+        ).to.equal('January 31, 2020 to February 14, 2020');
+        expect(
+          formatDateRange({ from: '2020-04-05', to: '2020-05-05' }),
+        ).to.equal('April 5, 2020 to May 5, 2020');
+        expect(
+          formatDateRange({ from: '2020-06-15', to: '2020-12-31' }),
+        ).to.equal('June 15, 2020 to December 31, 2020');
+      });
+      it('should return a valid range with custom format', () => {
+        expect(
+          formatDateRange(
+            { from: '2020-01-31', to: '2020-02-14' },
+            'YYYY-MM-DD',
+          ),
+        ).to.equal('2020-01-31 to 2020-02-14');
+      });
+      it('should return "Unknown" for the omitted or invalid portion of a range', () => {
+        expect(formatDateRange({ from: '2020-01-31' })).to.equal(
+          'January 31, 2020 to Unknown',
+        );
+        expect(formatDateRange({ from: '2020-04-05' })).to.equal(
+          'April 5, 2020 to Unknown',
+        );
+        expect(formatDateRange({ to: '2020-02-14' })).to.equal(
+          'Unknown to February 14, 2020',
+        );
+        expect(formatDateRange({ to: '2020-05-05' })).to.equal(
+          'Unknown to May 5, 2020',
+        );
+        expect(
+          formatDateRange({ from: 'invalid-date', to: '2020-02-14' }),
+        ).to.equal('Unknown to February 14, 2020');
+        expect(
+          formatDateRange({ from: '2020-01-31', to: 'invalid-date' }),
+        ).to.equal('January 31, 2020 to Unknown');
+        expect(
+          formatDateRange({ from: 'invalid-date', to: 'invalid-date' }),
+        ).to.equal('Unknown to Unknown');
+      });
+      it('should return "Unknown" for entirely empty/invald ranges', () => {
+        expect(formatDateRange({})).to.equal('Unknown');
+        expect(formatDateRange(null)).to.equal('Unknown');
+        expect(formatDateRange(undefined)).to.equal('Unknown');
+      });
     });
   });
 
