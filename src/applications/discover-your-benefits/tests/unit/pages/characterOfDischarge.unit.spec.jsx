@@ -86,7 +86,7 @@ describe('Character of Discharge Form', () => {
     expect(link.getAttribute('href')).to.equal(href);
   });
 
-  it('should allow radio options to be selected', () => {
+  it('should allow different options to be selected', () => {
     const options = Object.values(characterOfDischargeTypes);
 
     const option = document.querySelector(`option[value="${options[0]}"]`);
