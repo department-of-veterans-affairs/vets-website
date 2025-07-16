@@ -95,7 +95,7 @@ const createReferralById = (
     attributes: {
       uuid,
       referralDate: '2023-01-01',
-      stationId: '528A4',
+      stationId: '659BY',
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
       referralNumber: 'VA0000007241',
