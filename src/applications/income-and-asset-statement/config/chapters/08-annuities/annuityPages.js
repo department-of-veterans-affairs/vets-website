@@ -25,8 +25,8 @@ import {
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'annuities',
-  nounSingular: 'Annuity',
-  nounPlural: 'Annuities',
+  nounSingular: 'annuity',
+  nounPlural: 'annuities',
   required: false,
   isItemIncomplete: item =>
     !isDefined(item?.establishedDate) ||
