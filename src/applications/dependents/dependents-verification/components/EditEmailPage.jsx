@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { SchemaForm, setData } from 'platform/forms-system/exportsFile';
+import { SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollTo } from 'platform/utilities/scroll';
 import EditPageButtons from './EditPageButtons';
 
@@ -12,13 +11,8 @@ const EditEmailPage = ({
   goToPath,
   contentBeforeButtons,
   contentAfterButtons,
+  setFormData,
 }) => {
-  const dispatch = useDispatch();
-
-  const setFormData = oData => {
-    dispatch(setData(oData));
-  };
-
   const returnPath = '/veteran-contact-information';
   const returnToPath = () => {
     goToPath(
