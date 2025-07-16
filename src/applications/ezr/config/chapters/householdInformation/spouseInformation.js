@@ -4,7 +4,7 @@ import spouseInformationSummaryPage from '../../../definitions/spouseInformation
 import spousePersonalInformationPage from '../../../definitions/spousePersonalInformation';
 import { spouseAdditionalInformationPage } from '../../../definitions/spouseAdditionalInformation';
 import { spouseFinancialSupportPage } from '../../../definitions/spouseFinancialSupport';
-
+import spouseContactInformationPage from '../../../definitions/spouseContactInformation';
 import content from '../../../locales/en/content.json';
 import SpouseSummaryCardDescription from '../../../components/FormDescriptions/SpouseSummaryCardDescription';
 import SpouseInformationReviewWarning from '../../../components/FormAlerts/SpouseInformationReviewWarning';
@@ -71,6 +71,15 @@ const spousePersonalInformationPageSchema = spousePersonalInformationPage(
 const spouseAdditionalInformationPageSchema = spouseAdditionalInformationPage;
 
 /**
+ * Schemas for spouse contact information page.
+ *
+ * @returns {PageSchema}
+ */
+const spouseContactInformationPageSchema = spouseContactInformationPage(
+  options,
+);
+
+/**
  * Spouse confirmation flow (ArrayBuilder/List and Loop) form pages.
  *
  * @returns {PageSchema}
@@ -104,6 +113,13 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
       'household-information/spouse-information/:index/spouse-financial-support',
     uiSchema: spouseFinancialSupportPageSchema.uiSchema,
     schema: spouseFinancialSupportPageSchema.schema,
+  }),
+  spouseContactInformationPage: pageBuilder.itemPage({
+    title: content['household-spouse-contact-info-title'],
+    path:
+      'household-information/spouse-information/:index/spouse-contact-information',
+    uiSchema: spouseContactInformationPageSchema.uiSchema,
+    schema: spouseContactInformationPageSchema.schema,
   }),
 }));
 
