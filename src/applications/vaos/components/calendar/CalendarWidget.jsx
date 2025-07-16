@@ -266,8 +266,8 @@ function CalendarWidget({
   upcomingAppointments = [],
   isAppointmentSelectionError,
   hideWhileDisabled = false,
-  alertTrigger,
-  setAlertTrigger,
+  alertTrigger = 0,
+  setAlertTrigger = () => {},
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(date => {
     if (date) {
