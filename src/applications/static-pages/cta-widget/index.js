@@ -1,7 +1,6 @@
 // Node modules.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 // Relative imports.
 import recordEvent from '~/platform/monitoring/record-event';
@@ -346,11 +345,7 @@ export class CallToActionWidget extends Component {
       return (
         <NoMHVAccount
           serviceDescription={this._serviceDescription}
-          primaryButtonHandler={
-            accountState === 'needs_terms_acceptance'
-              ? this.redirectToTermsAndConditions
-              : this.sendToMHV
-          }
+          primaryButtonHandler={this.sendToMHV}
           secondaryButtonHandler={this.signOut}
         />
       );
@@ -359,11 +354,7 @@ export class CallToActionWidget extends Component {
     return (
       <UpgradeAccount
         serviceDescription={this._serviceDescription}
-        primaryButtonHandler={
-          accountState === 'needs_terms_acceptance'
-            ? this.redirectToTermsAndConditions
-            : this.sendToMHV
-        }
+        primaryButtonHandler={this.sendToMHV}
       />
     );
   };
@@ -435,15 +426,6 @@ export class CallToActionWidget extends Component {
         this._popup = true;
       }
     }
-  };
-
-  redirectToTermsAndConditions = () => {
-    const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
-    const termsConditionsUrl = appendQuery(
-      '/health-care/medical-information-terms-conditions/',
-      redirectQuery,
-    );
-    window.location = termsConditionsUrl;
   };
 
   signOut = () => {

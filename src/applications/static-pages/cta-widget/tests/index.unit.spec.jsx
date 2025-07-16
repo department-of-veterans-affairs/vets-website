@@ -977,34 +977,6 @@ describe('<CallToActionWidget>', () => {
         tree.unmount();
       });
 
-      it('should redirect correctly when redirectToTermsAndConditions is called', () => {
-        const tree = mount(
-          <CallToActionWidget
-            isLoggedIn
-            authenticatedWithSSOe
-            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-            profile={{
-              loading: false,
-              verified: true,
-              multifactor: true,
-            }}
-            mhvAccount={{}}
-            featureToggles={{
-              loading: false,
-              vaOnlineScheduling: true,
-            }}
-          >
-            <div className="child-node">Child Node</div>
-          </CallToActionWidget>,
-        );
-        tree.instance().redirectToTermsAndConditions();
-        const location = window.location.href || window.location;
-        expect(location).to.include(
-          '/health-care/medical-information-terms-conditions/?tc_redirect=%2F',
-        );
-        tree.unmount();
-      });
-
       it('should redirect correctly when mfaHandler is called', () => {
         const tree = mount(
           <CallToActionWidget
