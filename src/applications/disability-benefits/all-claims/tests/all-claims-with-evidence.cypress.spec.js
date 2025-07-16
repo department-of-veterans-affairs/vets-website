@@ -163,7 +163,6 @@ describe('Supporting Evidence uploads', () => {
       },
     ).as('saveInProgressFormAdditionalDocFileTypeAdded');
 
-    // Form submission status
     cy.intercept(
       'GET',
       '/v0/disability_compensation_form/submission_status/*',
@@ -225,12 +224,6 @@ describe('Supporting Evidence uploads', () => {
       '/v0/disability_compensation_form/submit_all_claim',
       mockSubmit,
     ).as('submitClaim');
-
-    // cy.intercept(
-    //   'GET',
-    //   '/v0/disability_compensation_form/submission_status/*',
-    //   '',
-    // );
 
     cy.fixture(
       path.join(__dirname, 'fixtures/data/maximal-toxic-exposure-test.json'),
@@ -549,6 +542,7 @@ describe('Supporting Evidence uploads', () => {
     );
     // VI. Submit application
     // ======================
+
     cy.findByText('Submit application', {
       selector: 'button',
       timeout: 10000,
@@ -565,44 +559,27 @@ describe('Supporting Evidence uploads', () => {
   it('uploads and processes encrypted PDF with password for Private Medical Records', () => {
     cy.injectAxeThenAxeCheck();
 
-    cy.log('hit!');
-    cy.wait('@submitClaim').then(({ _request, response }) => {
+    cy.wait('@submitClaim').then(({ request, response }) => {
       expect(response.statusCode).to.eq(200);
-      cy.log('submission successful');
-      // .then(({ request }) => {
-      // cy.log('Request received!');
-      // cy.log('Request body:', JSON.stringify(request.body, null, 2));
-      // expect(request.body.form526.attachments).to.exist;
-      // expect(request.body.form526.attachments).to.have.length.greaterThan(0);
-      // const privateMedicalRecord =
-      //   request.body.form526.privateRecordsAttachments[0];
-      // const documentName = privateMedicalRecord.name;
-      // const isDocEncrypted = privateMedicalRecord.isEncrypted;
-      // const documentType = privateMedicalRecord.docType;
+      const privateMedicalRecord = request.body.form526.attachments[0];
+      const { name, isEncrypted, attachmentId } = privateMedicalRecord;
 
-      // expect(documentName).to.equal('foo_protected.PDF');
-      // expect(documentType).to.equal('L049');
-      // expect(isDocEncrypted).to.equal(true);
+      expect(name).to.equal('foo_protected.PDF');
+      expect(isEncrypted).to.equal(true);
+      expect(attachmentId).to.equal('L049');
     });
   });
 
   it('uploads and processes encrypted PDF with password for Additional Documents', () => {
     cy.injectAxeThenAxeCheck();
-    // cy.log('hit!');
-    cy.wait('@submitClaim').then(({ _request, response }) => {
+    cy.wait('@submitClaim').then(({ request, response }) => {
       expect(response.statusCode).to.eq(200);
-      cy.log('submission successful');
-    });
-    // cy.log('Request received!');
-    // cy.log('Request body:', JSON.stringify(request.body, null, 2));
-    // const additionalDoc = request.body.form526.attachments[1];
-    // const documentName = additionalDoc.name;
-    // const isDocEncrypted = additionalDoc.isEncrypted;
-    // const documentType = additionalDoc.docType;
+      const additionalDoc = request.body.form526.attachments[1];
+      const { name, isEncrypted, attachmentId } = additionalDoc;
 
-    // expect(documentName).to.equal('foo_protected.PDF');
-    // expect(documentType).to.equal('L015');
-    // expect(isDocEncrypted).to.equal(true);
-    // });
+      expect(name).to.equal('foo_protected.PDF');
+      expect(isEncrypted).to.equal(true);
+      expect(attachmentId).to.equal('L015');
+    });
   });
 });
