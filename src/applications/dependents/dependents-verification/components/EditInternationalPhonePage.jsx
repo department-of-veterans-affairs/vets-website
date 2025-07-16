@@ -13,6 +13,7 @@ const EditInternationalPhonePage = ({
   contentAfterButtons,
   setFormData,
 }) => {
+  // const fromReviewPage = sessionStorage.getItem('onReviewPage') || false;
   const returnPath = '/veteran-contact-information';
   const returnToPath = () => {
     goToPath(

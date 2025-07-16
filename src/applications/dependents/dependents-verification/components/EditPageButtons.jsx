@@ -8,7 +8,7 @@ export default function EditPageButtons(props) {
         <va-button
           text="Update"
           message-aria-describedby={`Update ${props.pageName.toLowerCase()}`}
-          click={props.handlers.onUpdate}
+          onClick={props.handlers.onUpdate}
           submit="prevent"
           full-width
         />
@@ -17,7 +17,7 @@ export default function EditPageButtons(props) {
         <va-button
           text="Cancel"
           message-aria-describedby={`Cancel updating ${props.pageName.toLowerCase()}`}
-          click={props.handlers.onCancel}
+          onClick={props.handlers.onCancel}
           secondary
           submit="prevent"
           full-width

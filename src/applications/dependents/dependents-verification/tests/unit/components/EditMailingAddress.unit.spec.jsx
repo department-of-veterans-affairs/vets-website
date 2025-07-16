@@ -1,8 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
+
 import EditMailingAddress from '../../../components/EditMailingAddressPage';
 
 function createMockStore(getStateValue = {}) {
@@ -50,13 +51,8 @@ const mockData = {
 };
 
 describe('EditMailingAddressPage', () => {
-  let goToPath;
-
-  beforeEach(() => {
-    goToPath = sinon.spy();
-  });
-
   afterEach(() => {
+    cleanup();
     sessionStorage.clear();
   });
 
@@ -122,55 +118,105 @@ describe('EditMailingAddressPage', () => {
     expect(cancelButton).to.exist;
   });
 
-  it('handler: onCancel navigates to review-and-submit if onReviewPage', () => {
-    sessionStorage.setItem('onReviewPage', 'true');
-    const fromReviewPage = sessionStorage.getItem('onReviewPage');
-    const returnPath = '/veteran-contact-information';
-    const handler = () => {
-      goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
-    };
+  it('handler: onCancel navigates to review-and-submit if onReviewPage', async () => {
+    sessionStorage.setItem('onReviewPage', true);
+    const store = createMockStore();
+    const goToPathSpy = sinon.spy();
+    const { container } = render(
+      <Provider store={store}>
+        <EditMailingAddress
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={goToPathSpy}
+          setFormData={() => {}}
+        />
+      </Provider>,
+    );
 
-    handler();
+    const cancelButton = container.querySelector('va-button[text="Cancel"]');
 
-    expect(goToPath.calledWith('/review-and-submit')).to.be.true;
+    fireEvent.click(cancelButton);
+
+    await waitFor(() => {
+      expect(goToPathSpy.called).to.be.true;
+
+      expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+    });
   });
 
-  it('handler: onCancel navigates to contact-info if not onReviewPage', () => {
-    sessionStorage.setItem('onReviewPage', '');
-    const fromReviewPage = sessionStorage.getItem('onReviewPage');
-    const returnPath = '/veteran-contact-information';
-    const handler = () => {
-      goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
-    };
+  it('handler: onCancel navigates to contact-info if not onReviewPage', async () => {
+    const store = createMockStore();
+    const goToPathSpy = sinon.spy();
+    const { container } = render(
+      <Provider store={store}>
+        <EditMailingAddress
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={goToPathSpy}
+          setFormData={() => {}}
+        />
+      </Provider>,
+    );
 
-    handler();
+    const cancelButton = container.querySelector('va-button[text="Cancel"]');
 
-    expect(goToPath.calledWith('/veteran-contact-information')).to.be.true;
+    fireEvent.click(cancelButton);
+
+    await waitFor(() => {
+      expect(goToPathSpy.called).to.be.true;
+      expect(goToPathSpy.calledWith('/veteran-contact-information')).to.be.true;
+    });
   });
 
-  it('handler: onUpdate navigates to contact-info if not onReviewPage', () => {
-    sessionStorage.setItem('onReviewPage', '');
-    const fromReviewPage = sessionStorage.getItem('onReviewPage');
-    const returnPath = '/veteran-contact-information';
-    const handler = () => {
-      goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
-    };
+  it('handler: onUpdate navigates to review-and-submit if onReviewPage', async () => {
+    sessionStorage.setItem('onReviewPage', true);
+    const store = createMockStore();
+    const goToPathSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const { container } = render(
+      <Provider store={store}>
+        <EditMailingAddress
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={goToPathSpy}
+          setFormData={setFormDataSpy}
+        />
+      </Provider>,
+    );
 
-    handler();
+    const updateButton = container.querySelector('va-button[text="Update"]');
+    const zipCode = container.querySelector('input[value="90210"]');
 
-    expect(goToPath.calledWith('/veteran-contact-information')).to.be.true;
+    fireEvent.click(updateButton);
+    fireEvent.input(zipCode, { target: { value: '90215' } });
+
+    await waitFor(() => {
+      expect(goToPathSpy.called).to.be.true;
+      expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+      expect(setFormDataSpy.called).to.be.true;
+    });
   });
 
-  it('handler: onUpdate navigates to review-and-submit if onReviewPage', () => {
-    sessionStorage.setItem('onReviewPage', 'true');
-    const fromReviewPage = sessionStorage.getItem('onReviewPage');
-    const returnPath = '/veteran-contact-information';
-    const handler = () => {
-      goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
-    };
+  it('topScrollElement is called', async () => {
+    const store = createMockStore();
+    const { container } = render(
+      <Provider store={store}>
+        <div name="topScrollElement" />
+        <EditMailingAddress
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={() => {}}
+          setFormData={() => {}}
+        />
+      </Provider>,
+    );
 
-    handler();
-
-    expect(goToPath.calledWith('/review-and-submit')).to.be.true;
+    await waitFor(() => {
+      expect(container.querySelector('[name="topScrollElement"]')).to.exist;
+    });
   });
 });

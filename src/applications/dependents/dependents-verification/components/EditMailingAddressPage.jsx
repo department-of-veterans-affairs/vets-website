@@ -13,7 +13,7 @@ const EditMailingAddress = ({
   contentAfterButtons,
   setFormData,
 }) => {
-  const fromReviewPage = sessionStorage.getItem('onReviewPage');
+  const fromReviewPage = sessionStorage.getItem('onReviewPage') || false;
 
   const returnPath = '/veteran-contact-information';
 
