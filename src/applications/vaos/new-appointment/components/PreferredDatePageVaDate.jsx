@@ -49,15 +49,15 @@ const uiSchema = {
       (errors, preferredDate) => {
         const date = parse(preferredDate, 'yyyy-MM-dd', new Date());
         if (!isValid(date)) {
-          errors.addError('Please enter a valid date ');
+          errors.addError('Please enter a valid date');
         }
         const today = startOfDay(new Date());
         if (isBefore(date, today)) {
-          errors.addError('Please enter a future date ');
+          errors.addError('Please enter a future date');
         }
         if (isAfter(date, addDays(today, 395))) {
           errors.addError(
-            'Please enter a date less than 395 days in the future ',
+            'Please enter a date less than 395 days in the future',
           );
         }
       },
