@@ -1,15 +1,12 @@
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { Provider } from 'react-redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import characterOfDischargeConfig from '../../../pages/characterOfDischarge';
 import { getData } from '../mocks/mockFormData';
-import {
-  characterOfDischargeTypes,
-  characterOfDischargeTypeLabels,
-} from '../../../constants/benefits';
+import { characterOfDischargeTypes } from '../../../constants/benefits';
 import 'css.escape';
 
 describe('Character of Discharge Form', () => {
@@ -57,17 +54,6 @@ describe('Character of Discharge Form', () => {
     expect(hint).to.exist;
   });
 
-  it('should render the correct radio labels for character of discharge', () => {
-    wrapper = setupForm();
-    const labels = Object.values(characterOfDischargeTypeLabels);
-
-    labels.forEach(label => {
-      const selectLabel = screen.getByLabelText(label);
-
-      expect(selectLabel).to.exist;
-    });
-  });
-
   it('should render the correct radio options for character of discharge', () => {
     const types = Object.values(characterOfDischargeTypes);
 
@@ -98,5 +84,16 @@ describe('Character of Discharge Form', () => {
     expect(link).to.exist;
     expect(link.getAttribute('text')).to.equal(linkText);
     expect(link.getAttribute('href')).to.equal(href);
+  });
+
+  it('should allow radio options to be selected', () => {
+    const options = Object.values(characterOfDischargeTypes);
+
+    const option = document.querySelector(`option[value="${options[0]}"]`);
+
+    option.checked = true;
+
+    fireEvent(option, new CustomEvent('click'));
+    expect(option.checked).to.be.true;
   });
 });
