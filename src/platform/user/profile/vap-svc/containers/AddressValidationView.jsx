@@ -75,7 +75,15 @@ class AddressValidationView extends React.Component {
   }
 
   onChangeSelectedAddress = (address, selectedAddressId) => {
-    this.props.updateSelectedAddress(address, selectedAddressId);
+    let selectedAddress = {};
+    if (selectedAddressId !== 'userEntered') {
+      // if the user selected a suggested address, grab that address from the confirmedSuggestions prop
+      const { confirmedSuggestions } = this.props;
+      selectedAddress = confirmedSuggestions[parseInt(selectedAddressId, 10)];
+    } else {
+      selectedAddress = address;
+    }
+    this.props.updateSelectedAddress(selectedAddress, selectedAddressId);
   };
 
   requiresNewValidationKey = payload => {
@@ -85,16 +93,16 @@ class AddressValidationView extends React.Component {
       return false;
     }
     if (
-      (addressMetaData.addressType.toUpperCase() === 'DOMESTIC' ||
-        addressMetaData.addressType.toUpperCase() === 'MILITARY' ||
-        addressMetaData.addressType.toUpperCase() === 'OVERSEAS MILITARY') &&
-      addressMetaData.confidenceScore < 80
+      (addressMetaData?.addressType?.toUpperCase() === 'DOMESTIC' ||
+        addressMetaData?.addressType?.toUpperCase() === 'MILITARY' ||
+        addressMetaData?.addressType?.toUpperCase() === 'OVERSEAS MILITARY') &&
+      addressMetaData?.confidenceScore < 80
     ) {
       return true;
     }
     return (
-      addressMetaData.addressType.toUpperCase() === 'INTERNATIONAL' &&
-      addressMetaData.confidenceScore < 70
+      addressMetaData?.addressType?.toUpperCase() === 'INTERNATIONAL' &&
+      addressMetaData?.confidenceScore < 70
     );
   };
 
@@ -395,7 +403,7 @@ class AddressValidationView extends React.Component {
         </div>
         <form onSubmit={this.onSubmit}>
           {this.renderAddressOption(addressFromUser)}
-          {shouldShowSuggestions && this.renderAddressOption('', 'suggested')}
+          {shouldShowSuggestions && this.renderAddressOption({}, 'suggested')}
           {error && (
             <div className="vads-u-margin-bottom--1" role="alert">
               <VAPServiceEditModalErrorMessage error={error} />
@@ -479,11 +487,11 @@ AddressValidationView.propTypes = {
   closeModal: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
+  resetAddressValidation: PropTypes.func.isRequired,
   setDataAction: PropTypes.func.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
   updateValidationKeyAndSave: PropTypes.func.isRequired,
-  resetAddressValidation: PropTypes.func.isRequired,
   analyticsSectionName: PropTypes.string,
   confirmedSuggestions: PropTypes.arrayOf(
     PropTypes.shape({
@@ -492,7 +500,7 @@ AddressValidationView.propTypes = {
       city: PropTypes.string.isRequired,
       countryName: PropTypes.string.isRequired,
       countryCodeIso3: PropTypes.string.isRequired,
-      countyCode: PropTypes.string.isRequired,
+      countyCode: PropTypes.string,
       countyName: PropTypes.string.isRequired,
       stateCode: PropTypes.string.isRequired,
       zipCode: PropTypes.string.isRequired,

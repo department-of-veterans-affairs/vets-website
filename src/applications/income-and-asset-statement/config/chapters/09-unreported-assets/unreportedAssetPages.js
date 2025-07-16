@@ -85,7 +85,7 @@ const summaryPage = {
         hint: 'If yes, you’ll need to report at least one asset ',
         labels: {
           Y: 'Yes, I have an asset to report',
-          N: 'No, I don’t have an assets to report',
+          N: 'No, I don’t have any assets to report',
         },
       },
       {
