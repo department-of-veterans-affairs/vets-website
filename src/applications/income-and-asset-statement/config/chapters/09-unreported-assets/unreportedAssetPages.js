@@ -92,7 +92,7 @@ const summaryPage = {
         title: 'Do you have any more assets to report?',
         labels: {
           Y: 'Yes, I have more assets to report',
-          N: 'No, I don’t have more assets to report',
+          N: 'No, I don’t have any more assets to report',
         },
       },
     ),
