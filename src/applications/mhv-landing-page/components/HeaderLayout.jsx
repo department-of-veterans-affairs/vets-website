@@ -62,7 +62,11 @@ const HeaderLayout = ({
               onClick={() => {
                 datadogRum.addAction('Click on My VA Health portal link');
                 recordEvent({
-                  event: 'va-health-portal-link',
+                  event: 'nav-link-click',
+                  action: 'click',
+                  'link-label': 'Go to the My VA Health portal',
+                  'link-destination': mhvUrl(ssoe, 'home'),
+                  'link-origin': window.location.href,
                 });
               }}
               data-testid="mhv-go-back-1"
