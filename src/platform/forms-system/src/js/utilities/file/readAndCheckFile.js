@@ -1,3 +1,5 @@
+import { checkIsEncryptedPdf } from 'platform/forms-system/src/js/utilities/file';
+
 /**
  * Read in first 256 bytes of the selected file to perform various checks before
  * upload
@@ -41,4 +43,15 @@ export default function readAndCheckFile(file, checks) {
       reader.readAsArrayBuffer(blob);
     }
   });
+}
+
+/**
+ * @param {File} file
+ * @returns {boolean} whether the pdf is encrypted
+ */
+export async function standardPdfEncryptionCheck(file) {
+  const { checkIsEncryptedPdf: result } = await readAndCheckFile(file, {
+    checkIsEncryptedPdf,
+  });
+  return result;
 }

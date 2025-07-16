@@ -1,18 +1,15 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import debounce from 'platform/utilities/data/debounce';
-import {
-  readAndCheckFile,
-  checkIsEncryptedPdf,
-} from 'platform/forms-system/src/js/utilities/file';
+import { standardPdfEncryptionCheck } from 'platform/forms-system/src/js/utilities/file';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import { uploadScannedForm } from './vaFileInputFieldHelpers';
 
-import passwordErrorState from '../utilities/file/errorState';
+import passwordErrorState from '../utilities/file/passwordErrorState';
 
 const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
   const [isUploading, setIsUploading] = useState(false);
@@ -123,6 +120,16 @@ const VaFileInputField = props => {
     dispatch,
   );
   const [encrypted, setEncrypted] = useState(false);
+  const [passwordErrorManager, setPasswordErrorManager] = useState(null);
+  const _id = childrenProps.idSchema.$id;
+
+  useEffect(() => {
+    const instance = passwordErrorState.getInstance(_id);
+    setPasswordErrorManager(instance);
+    return () => {
+      instance.reset();
+    };
+  }, []);
 
   const getErrorMessage = field => {
     let errorMessage = null;
@@ -149,6 +156,7 @@ const VaFileInputField = props => {
       name,
       size,
       type,
+      _id,
     });
   };
 
@@ -167,10 +175,10 @@ const VaFileInputField = props => {
   const debouncePassword = useMemo(() =>
     debounce(500, password => {
       if (fileWithPassword) {
-        passwordErrorState.setHasPassword(password.length > 0);
+        passwordErrorManager.setHasPassword(password.length > 0);
         childrenProps.onChange({
           ...childrenProps.formData,
-          hasPasswordError: false,
+          _id,
         });
         passwordError = null;
         uploadFile(fileWithPassword, handleFileProcessing, password);
@@ -190,18 +198,16 @@ const VaFileInputField = props => {
     let _encrypted = false;
     // set encrypted state
     if (fileFromEvent && fileFromEvent?.type === 'application/pdf') {
-      const result = await readAndCheckFile(fileFromEvent, {
-        checkIsEncryptedPdf,
-      });
-      _encrypted = result.checkIsEncryptedPdf;
-      passwordErrorState.setNeedsPassword(_encrypted);
+      _encrypted = await standardPdfEncryptionCheck(fileFromEvent);
+      passwordErrorManager.setNeedsPassword(_encrypted);
       setEncrypted(_encrypted);
     } else {
-      passwordErrorState.setNeedsPassword(false);
+      passwordErrorManager.setNeedsPassword(false);
     }
 
     childrenProps.onChange({
       ...childrenProps.formData,
+      _id,
       name: 'uploading',
     });
 
@@ -225,9 +231,9 @@ const VaFileInputField = props => {
     if (mappedProps.handleAdditionalInput) {
       const payload = mappedProps.handleAdditionalInput(e);
       childrenProps.onChange({
+        _id,
         ...childrenProps.formData,
         additionalData: payload,
-        hasAdditionalInputError: false,
       });
     }
   };

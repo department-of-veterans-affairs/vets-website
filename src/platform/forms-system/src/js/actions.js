@@ -338,8 +338,6 @@ export function uploadFile(
         onChange({
           ...fileData,
           isEncrypted: !!password,
-          password,
-          hasPasswordError: false,
         });
       } else {
         const fileObj = { file, name: file.name, size: file.size };
@@ -363,8 +361,6 @@ export function uploadFile(
             ...fileObj,
             errorMessage,
             isEncrypted: true,
-            password,
-            hasPasswordError: false,
           });
         } else {
           onChange({ ...fileObj, errorMessage });
@@ -384,7 +380,6 @@ export function uploadFile(
           file, // return file object to allow resubmit
           name: file.name,
           errorMessage,
-          password,
         });
       } else {
         const changePayload = {
