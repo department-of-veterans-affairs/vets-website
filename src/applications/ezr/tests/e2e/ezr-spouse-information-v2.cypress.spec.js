@@ -187,11 +187,13 @@ describe('EZR V2 spouse information flow', () => {
       }).should('not.exist');
 
       // Click the edit button.
-      cy.findAllByRole('link', {
-        name: /edit/i,
-      })
-        .first()
-        .click();
+      cy.get('va-link[text="Edit"]').click();
+
+      // Verify we are on the spouse edit page.
+      cy.get('h3').should('contain', 'Edit spouse information');
+
+      // Fill the spouse information.
+      fillSpousePersonalInformation();
 
       // Axe check.
       cy.injectAxeThenAxeCheck();
