@@ -34,7 +34,7 @@ import { incomeFrequencyLabels, relationshipLabels } from '../../../labels';
 export const options = {
   arrayPath: 'discontinuedIncomes',
   nounSingular: 'discontinued income',
-  nounPlural: 'discontinued income',
+  nounPlural: 'discontinued incomes',
   required: false,
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||

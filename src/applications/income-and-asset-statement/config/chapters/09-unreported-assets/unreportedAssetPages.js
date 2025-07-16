@@ -118,7 +118,7 @@ const relationshipPage = {
       labels: relationshipLabels,
     }),
     otherAssetOwnerRelationshipType: {
-      'ui:title': 'Tell us the type of relationship',
+      'ui:title': 'Describe their relationship to the Veteran',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'assetOwnerRelationship',
