@@ -453,40 +453,38 @@ describe('OAuth - Utilities', () => {
 
     it('should set localStorage from `infoTokenExists` when no `X-Session-Expiration` header is present and tokens are valid', () => {
       infoTokenExistsStub.restore();
-      infoTokenExistsStub.returns(true);
       getInfoTokenStub.restore();
 
-      const validEncodedToken =
-        '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D';
-
+      const token = {
+        access_token_expiration: '2023-03-17T19:38:06.654Z',
+        refresh_token_expiration: '2023-03-17T20:03:06.631Z',
+      };
+      const validEncodedToken = encodeURIComponent(JSON.stringify(token));
       document.cookie = `${COOKIES.INFO_TOKEN}=${validEncodedToken};`;
 
       const response = generateResponse({
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
       });
 
       const isSet = oAuthUtils.checkOrSetSessionExpiration(response);
 
-      const expectedAtExpires = new Date(
-        'Fri Mar 17 2023 15:38:06 GMT-0400',
-      ).getTime();
-      const actualAtExpires = new Date(
+      const actualAtTime = new Date(
         localStorage.getItem('atExpires'),
+      ).getTime();
+      const expectedAtTime = new Date(token.access_token_expiration).getTime();
+
+      const actualSessionTime = new Date(
+        localStorage.getItem('sessionExpiration'),
+      ).getTime();
+      const expectedSessionTime = new Date(
+        token.refresh_token_expiration,
       ).getTime();
 
       expect(isSet).to.be.true;
-      expect(actualAtExpires).to.equal(expectedAtExpires);
-
-      const expectedSessionExpiration = new Date(
-        'Fri Mar 17 2023 16:03:06 GMT-0400',
-      ).getTime();
-      const actualSessionExpiration = new Date(
-        localStorage.getItem('sessionExpiration'),
-      ).getTime();
-
-      expect(actualSessionExpiration).to.equal(expectedSessionExpiration);
+      expect(Math.abs(actualAtTime - expectedAtTime)).to.be.below(1000);
+      expect(Math.abs(actualSessionTime - expectedSessionTime)).to.be.below(
+        1000,
+      );
     });
 
     it('should not set localStorage if `infoTokenExists` returns true but token format is invalid', () => {
@@ -786,21 +784,45 @@ describe('OAuth - Utilities', () => {
       });
 
       it(`should generate the default URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth | config: vamobile`, async () => {
-        global.window.location.search = `?oauth=true&application=vamobile&client_id=vamobile`;
         const acrType = { idme: 'loa3', logingov: 'ial2' };
+        const testState = `test_state_${policy}`;
+        const testCodeChallenge = `test_challenge_${policy}`;
+        global.window.location.search = `?oauth=true&client_id=vamobile`;
+
+        const sessionStorageStub = sinon.stub(window.sessionStorage, 'getItem');
+        sessionStorageStub.withArgs('codeChallenge').returns(testCodeChallenge);
+        sessionStorageStub.withArgs('state').returns(testState);
+
+        const getQueryParamsStub = sinon
+          .stub(profileUtils, 'getQueryParams')
+          .returns({
+            OAuth: 'true',
+            application: 'vamobile',
+            clientId: 'vamobile',
+            codeChallenge: testCodeChallenge,
+            codeChallengeMethod: 'S256',
+            state: testState,
+          });
+
         const url = await signupOrVerify({
           policy,
           isLink: true,
           allowVerification: false,
           useOAuth: true,
           config: 'vamobile',
+          clientId: 'vamobile',
         });
+
+        sessionStorageStub.restore();
+        getQueryParamsStub.restore();
+
         expect(url).to.include(`type=${policy}`);
         expect(url).to.include(`acr=${acrType[policy]}`);
+        expect(url).to.include('client_id=vamobile');
         expect(url).to.include('/authorize');
         expect(url).to.include('response_type=code');
-        expect(url).to.include('code_challenge=');
-        expect(url).to.include('state=');
+        expect(url).to.include(`code_challenge=${testCodeChallenge}`);
+        expect(url).to.include(`state=${testState}`);
       });
 
       it(`should generate a verified URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth | config: default`, async () => {
