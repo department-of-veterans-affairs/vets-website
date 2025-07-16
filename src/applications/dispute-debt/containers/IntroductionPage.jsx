@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { scrollToTop } from 'platform/utilities/scroll';
-import { focusElement } from 'platform/utilities/ui/focus';
 import environment from 'platform/utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
@@ -45,7 +44,6 @@ export const IntroductionPage = props => {
 
   useEffect(() => {
     scrollToTop();
-    focusElement('h1');
   }, []);
 
   // Show loading indicator while feature flags are loading
