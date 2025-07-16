@@ -6,11 +6,11 @@ import AppointmentFlexGrid from '../../components/AppointmentFlexGrid';
 import ListItem from '../../components/ListItem';
 import AppointmentRow from '../../components/AppointmentRow';
 import AppointmentColumn from '../../components/AppointmentColumn';
-import { VALID_STATION_IDS } from '../../utils/constants';
+import { useIsInPilotReferralStation } from '../hooks/useIsInPilotReferralStation';
 
 const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
-  const stationIdValid = VALID_STATION_IDS.includes(referral.stationId);
+  const stationIdValid = useIsInPilotReferralStation(referral);
   const idClickable = `id-${referral.uuid.replace(/[.=\\]/g, '\\$&')}`;
   const link = `schedule-referral?id=${
     referral.uuid
@@ -22,7 +22,7 @@ const PendingReferralCard = ({ referral, index }) => {
 
   if (!stationIdValid) {
     return (
-      <li className="vaos-appts__listItem--not-clickable vads-u-margin--0 vads-u-border-bottom--1px vads-u-border-color--gray-medium">
+      <li className="vads-u-margin--0 vads-u-border-bottom--1px vads-u-border-color--gray-medium">
         <div>
           <AppointmentRow className="vads-u-margin-x--0p5 mobile:vads-u-flex-direction--row">
             <AppointmentColumn className="vads-u-padding-y--1" size="1">
