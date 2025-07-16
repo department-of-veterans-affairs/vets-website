@@ -117,7 +117,7 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
     schema: spouseFinancialSupportPageSchema.schema,
   }),
   spouseContactInformationPage: pageBuilder.itemPage({
-    title: 'Contact information',
+    title: content['household-spouse-contact-info-title'],
     path:
       'household-information/spouse-information/:index/spouse-contact-information',
     uiSchema: spouseContactInformationPageSchema.uiSchema,
