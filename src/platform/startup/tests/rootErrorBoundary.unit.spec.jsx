@@ -26,7 +26,9 @@ describe('platform/startup RootErrorBoundary', () => {
   });
 
   it('renders fallback UI when a child component throws', done => {
-    startReactApp(<Boom />);
+    startReactApp(<Boom />, rootDiv);
+
+    document.dispatchEvent(new Event('DOMContentLoaded'));
 
     setTimeout(() => {
       const alertEl = document.querySelector('va-alert');
