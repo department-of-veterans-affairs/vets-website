@@ -262,7 +262,7 @@ export const incomeReceiptWaiverPages = arrayBuilderPages(
   pageBuilder => ({
     incomeReceiptWaiverPagesSummary: pageBuilder.summaryPage({
       title: 'Waived income',
-      path: 'income-receipt-waivers-summary',
+      path: 'waived-income-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
