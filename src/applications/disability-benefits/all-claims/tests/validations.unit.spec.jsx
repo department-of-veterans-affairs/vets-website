@@ -86,83 +86,155 @@ describe('526 All Claims validations', () => {
 
   describe('isValidYear', () => {
     it('should add an error if the year is not a number', () => {
-      const err = {
-        addError: sinon.spy(),
-      };
+      const err = { addError: sinon.spy() };
       isValidYear(err, 'asdf');
       expect(err.addError.called).to.be.true;
+
+      const err2 = { addError: sinon.spy() };
+      isValidYear(err2, '');
+      expect(err2.addError.called).to.be.true;
+
+      const err3 = { addError: sinon.spy() };
+      isValidYear(err3, null);
+      expect(err3.addError.called).to.be.true;
+
+      const err4 = { addError: sinon.spy() };
+      isValidYear(err4, undefined);
+      expect(err4.addError.called).to.be.true;
     });
 
     it('should add an error if the year contains more than just four digits', () => {
-      const err = {
-        addError: sinon.spy(),
-      };
+      const err = { addError: sinon.spy() };
       isValidYear(err, '1990asdf');
       expect(err.addError.called).to.be.true;
     });
 
     it(`should add an error if the year is less than ${minYear}`, () => {
-      const err = {
-        addError: sinon.spy(),
-      };
+      const err = { addError: sinon.spy() };
       isValidYear(err, minYear - 1);
       expect(err.addError.called).to.be.true;
     });
 
     it(`should add an error if the year is more than ${maxYear}`, () => {
-      const err = {
-        addError: sinon.spy(),
-      };
+      const err = { addError: sinon.spy() };
       isValidYear(err, maxYear + 1);
       expect(err.addError.called).to.be.true;
     });
 
     it(`should not add an error if the year is between ${minYear} and ${maxYear}`, () => {
-      const err = {
-        addError: sinon.spy(),
-      };
+      const err = { addError: sinon.spy() };
       isValidYear(err, '2010');
       expect(err.addError.called).to.be.false;
     });
 
     it('should add an error if the year is in the future', () => {
-      const err = {
-        addError: sinon.spy(),
-      };
+      const err = { addError: sinon.spy() };
       isValidYear(err, maxYear - 1);
       expect(err.addError.called).to.be.true;
     });
-    describe('oneDisabilityRequired', () => {
-      it('should not add an error if at least one disability is selected', () => {
-        const err = {
-          addError: sinon.spy(),
-        };
-        const formData = {
-          ratedDisabilities: [
-            {
-              unemployabilityDisability: true,
-            },
-          ],
-          newDisabilities: [
-            {
-              unemployabilityDisability: false,
-            },
-          ],
-        };
-        oneDisabilityRequired('rated')(err, null, formData);
-        expect(err.addError.called).to.be.false;
+
+    it('should add an error for years that are not exactly 4 digits', () => {
+      const err = { addError: sinon.spy() };
+      isValidYear(err, '123');
+      expect(err.addError.called).to.be.true;
+
+      const err2 = { addError: sinon.spy() };
+      isValidYear(err2, '12');
+      expect(err2.addError.called).to.be.true;
+
+      const err3 = { addError: sinon.spy() };
+      isValidYear(err3, '12345');
+      expect(err3.addError.called).to.be.true;
+    });
+
+    it('should add an error for years with leading zeros', () => {
+      const err = { addError: sinon.spy() };
+      isValidYear(err, '0123');
+      expect(err.addError.called).to.be.true;
+    });
+
+    describe('should test boundary years correctly', () => {
+      let getFullYearStub;
+      beforeEach(() => {
+        // make 3000 the "current" year
+        getFullYearStub = sinon
+          .stub(Date.prototype, 'getFullYear')
+          .returns(3000);
       });
-      it('should add an error if no disabilities are selected', () => {
-        const err = {
-          addError: sinon.spy(),
-        };
-        const formData = {
-          ratedDisabilities: [],
-          newDisabilities: [],
-        };
-        oneDisabilityRequired('rated')(err, null, formData);
-        expect(err.addError.called).to.be.true;
+      afterEach(() => {
+        getFullYearStub.restore();
       });
+
+      it('should test exact boundaries when current year is 3000', () => {
+        const err1900 = { addError: sinon.spy() };
+        isValidYear(err1900, '1900');
+        expect(err1900.addError.called).to.be.false;
+
+        const err3000 = { addError: sinon.spy() };
+        isValidYear(err3000, '3000');
+        expect(err3000.addError.called).to.be.false;
+
+        const err1899 = { addError: sinon.spy() };
+        isValidYear(err1899, '1899');
+        expect(err1899.addError.called).to.be.true;
+
+        const err3001 = { addError: sinon.spy() };
+        isValidYear(err3001, '3001');
+        expect(err3001.addError.called).to.be.true;
+      });
+    });
+
+    it('should test current year', () => {
+      const currentYear = new Date().getFullYear();
+      const err = { addError: sinon.spy() };
+      isValidYear(err, currentYear.toString());
+      expect(err.addError.called).to.be.false;
+    });
+
+    it('should add error for future years', () => {
+      const nextYear = new Date().getFullYear() + 1;
+      const err = { addError: sinon.spy() };
+      isValidYear(err, nextYear.toString());
+      expect(err.addError.called).to.be.true;
+    });
+
+    it('should handle numeric input types', () => {
+      const err = { addError: sinon.spy() };
+      isValidYear(err, 2010);
+      expect(err.addError.called).to.be.false;
+    });
+  });
+
+  describe('oneDisabilityRequired', () => {
+    it('should not add an error if at least one disability is selected', () => {
+      const err = {
+        addError: sinon.spy(),
+      };
+      const formData = {
+        ratedDisabilities: [
+          {
+            unemployabilityDisability: true,
+          },
+        ],
+        newDisabilities: [
+          {
+            unemployabilityDisability: false,
+          },
+        ],
+      };
+      oneDisabilityRequired('rated')(err, null, formData);
+      expect(err.addError.called).to.be.false;
+    });
+    it('should add an error if no disabilities are selected', () => {
+      const err = {
+        addError: sinon.spy(),
+      };
+      const formData = {
+        ratedDisabilities: [],
+        newDisabilities: [],
+      };
+      oneDisabilityRequired('rated')(err, null, formData);
+      expect(err.addError.called).to.be.true;
     });
   });
 
