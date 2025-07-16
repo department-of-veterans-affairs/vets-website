@@ -260,6 +260,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
+        separationTypes.UP_TO_3_MONTHS,
         separationTypes.UP_TO_6_MONTHS,
         separationTypes.UP_TO_1_YEAR,
       ],
