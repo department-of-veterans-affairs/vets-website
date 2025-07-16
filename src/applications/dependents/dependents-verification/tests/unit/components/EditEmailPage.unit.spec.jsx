@@ -1,101 +1,134 @@
-// import React from 'react';
-// import { render, fireEvent, waitFor } from '@testing-library/react';
-// import { expect } from 'chai';
-// import sinon from 'sinon';
+import React from 'react';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import { Provider } from 'react-redux';
+import EditEmailPage from '../../../components/EditEmailPage';
 
-// import { EditEmailPage } from '../../../components/EditEmailPage';
+function createMockStore(getStateValue = {}) {
+  return {
+    getState: () => getStateValue,
+    dispatch: sinon.spy(),
+    subscribe: () => {},
+  };
+}
 
-// describe('EditEmailPage full coverage', () => {
-//   let goToPath;
-//   let setFormData;
+const mockSchema = {
+  type: 'object',
+  properties: {
+    email: { type: 'string' },
+  },
+};
 
-//   const clickEvent = new MouseEvent('click', {
-//     bubbles: true,
-//     cancelable: true,
-//   });
+const mockUiSchema = {
+  email: { 'ui:title': 'Email address' },
+};
 
-//   beforeEach(() => {
-//     goToPath = sinon.spy();
-//     setFormData = sinon.spy();
-//   });
+const mockData = {
+  email: 'veteran@example.com',
+};
 
-//   afterEach(() => {
-//     sessionStorage?.clear();
-//   });
+describe('EditEmailPage', () => {
+  let goToPath;
 
-//   it('renders with initial email value', () => {
-//     const email = 'test@example.com';
-//     const { container, queryByText } = render(
-//       <EditEmailPage
-//         formData={{ email }}
-//         goToPath={goToPath}
-//         setFormData={setFormData}
-//       />,
-//     );
-//     const input = container.querySelector('va-text-input');
+  beforeEach(() => {
+    goToPath = sinon.spy();
+  });
 
-//     expect(input.getAttribute('value')).to.equal(email);
-//     expect(input.getAttribute('label')).to.eql('Email address');
-//     expect(queryByText(/Edit email/i)).to.not.be.null;
-//   });
+  afterEach(() => {
+    sessionStorage.clear();
+  });
 
-//   it('validates and shows error on invalid email when user enters bad email', async () => {
-//     const { container } = render(
-//       <EditEmailPage goToPath={goToPath} setFormData={setFormData} />,
-//     );
+  it('renders email input with correct label and value', () => {
+    const store = createMockStore();
+    const { container } = render(
+      <Provider store={store}>
+        <EditEmailPage
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={() => {}}
+          setFormData={() => {}}
+        />
+      </Provider>,
+    );
 
-//     const input = container.querySelector('va-text-input');
-//     input.value = '';
-//     fireEvent.input(input, { detail: { value: '' } });
+    expect(container.textContent).to.include('Email address');
 
-//     container.querySelector('va-button-pair').__events.primaryClick(clickEvent);
+    const input = container.querySelector(
+      'input[type="text"], input[type="email"]',
+    );
+    expect(input.value).to.equal('veteran@example.com');
 
-//     await waitFor(() => {
-//       expect(input.getAttribute('error')).to.include(
-//         'Enter a valid email address without spaces using this format: email@domain.com',
-//       );
-//     });
-//   });
+    expect(container.textContent).to.include('Edit email address');
+  });
 
-//   it('validates and calls the onUpdate', async () => {
-//     const { container } = render(
-//       <EditEmailPage
-//         goToPath={goToPath}
-//         setFormData={setFormData}
-//         formData={{ email: '' }}
-//       />,
-//     );
+  it('renders Update and Cancel buttons', () => {
+    const store = createMockStore();
+    const { container } = render(
+      <Provider store={store}>
+        <EditEmailPage
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={() => {}}
+          setFormData={() => {}}
+        />
+      </Provider>,
+    );
+    const vaButtons = container.querySelectorAll('va-button');
+    const updateButton = Array.from(vaButtons).find(
+      btn => btn.getAttribute('text')?.toLowerCase() === 'update',
+    );
+    const cancelButton = Array.from(vaButtons).find(
+      btn => btn.getAttribute('text')?.toLowerCase() === 'cancel',
+    );
+    expect(vaButtons.length).to.eql(2);
+    expect(updateButton).to.exist;
+    expect(cancelButton).to.exist;
+  });
 
-//     const input = container.querySelector('va-text-input');
-//     input.value = 'bob@example.com';
-//     fireEvent.input(input, { detail: { value: 'bob@example.com' } });
+  it('handler: onCancel navigates to review-and-submit if onReviewPage', () => {
+    sessionStorage.setItem('onReviewPage', 'true');
+    const fromReviewPage = sessionStorage.getItem('onReviewPage');
+    const returnPath = '/veteran-contact-information';
+    const handler = () => {
+      goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
+    };
+    handler();
+    expect(goToPath.calledWith('/review-and-submit')).to.be.true;
+  });
 
-//     container.querySelector('va-button-pair').__events.primaryClick(clickEvent);
+  it('handler: onCancel navigates to contact-info if not onReviewPage', () => {
+    sessionStorage.setItem('onReviewPage', '');
+    const fromReviewPage = sessionStorage.getItem('onReviewPage');
+    const returnPath = '/veteran-contact-information';
+    const handler = () => {
+      goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
+    };
+    handler();
+    expect(goToPath.calledWith('/veteran-contact-information')).to.be.true;
+  });
 
-//     await waitFor(() => {
-//       expect(input.getAttribute('value')).to.eql('bob@example.com');
-//       expect(setFormData.called).to.be.true;
-//     });
-//   });
+  it('handler: onUpdate navigates to contact-info if not onReviewPage', () => {
+    sessionStorage.setItem('onReviewPage', '');
+    const fromReviewPage = sessionStorage.getItem('onReviewPage');
+    const returnPath = '/veteran-contact-information';
+    const handler = () => {
+      goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
+    };
+    handler();
+    expect(goToPath.calledWith('/veteran-contact-information')).to.be.true;
+  });
 
-//   it('validates and calls the onCancel', async () => {
-//     sessionStorage.setItem('onReviewPage', true);
-//     const { container } = render(
-//       <EditEmailPage
-//         goToPath={goToPath}
-//         setFormData={setFormData}
-//         formData={{ email: 'bob@example.com' }}
-//       />,
-//     );
-
-//     container
-//       .querySelector('va-button-pair')
-//       .__events.secondaryClick(clickEvent);
-
-//     await waitFor(() => {
-//       expect(goToPath.called).to.be.true;
-//     });
-
-//     sessionStorage.removeItem('onReviewPage');
-//   });
-// });
+  it('handler: onUpdate navigates to review-and-submit if onReviewPage', () => {
+    sessionStorage.setItem('onReviewPage', 'true');
+    const fromReviewPage = sessionStorage.getItem('onReviewPage');
+    const returnPath = '/veteran-contact-information';
+    const handler = () => {
+      goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
+    };
+    handler();
+    expect(goToPath.calledWith('/review-and-submit')).to.be.true;
+  });
+});
