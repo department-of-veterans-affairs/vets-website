@@ -104,7 +104,6 @@ export const DateAndTimeContent = props => {
       if (!savedSlot) {
         return;
       }
-      // dispatch(setSelectedSlot(savedSlot.start));
       const appointmentHasConflict = getAppointmentConflict(
         [savedSlot.start],
         appointmentsByMonth,
