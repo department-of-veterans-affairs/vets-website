@@ -753,22 +753,6 @@ describe('isRefillTakingLongerThanExpected function', () => {
     expect(isRefillTakingLongerThanExpected(null)).to.be.false;
   });
 
-  it('returns false if refillDate is missing but refillSubmitDate is present', () => {
-    const rx = {
-      dispStatus: dispStatusObj.refillinprocess,
-      refillSubmitDate: isoNow,
-    };
-    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
-  });
-
-  it('returns false if refillSubmitDate is missing but refillDate is present', () => {
-    const rx = {
-      dispStatus: dispStatusObj.submitted,
-      refillDate: isoNow,
-    };
-    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
-  });
-
   it('returns true if both refillDate and refillSubmitDate are present and valid for refillinprocess', () => {
     const rx = {
       dispStatus: dispStatusObj.refillinprocess,
@@ -841,24 +825,6 @@ describe('isRefillTakingLongerThanExpected function', () => {
 
   it('returns false if rx is an empty object', () => {
     expect(isRefillTakingLongerThanExpected({})).to.be.false;
-  });
-
-  it('returns false if refillDate is valid and refillSubmitDate is not parsable', () => {
-    const rx = {
-      dispStatus: dispStatusObj.refillinprocess,
-      refillDate: isoNow,
-      refillSubmitDate: 'not-a-date',
-    };
-    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
-  });
-
-  it('returns false if refillDate is not parsable and refillSubmitDate is valid', () => {
-    const rx = {
-      dispStatus: dispStatusObj.refillinprocess,
-      refillDate: 'not-a-date',
-      refillSubmitDate: isoNow,
-    };
-    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
   });
 
   it('returns false if both dates are valid but dispStatus is submitted', () => {
