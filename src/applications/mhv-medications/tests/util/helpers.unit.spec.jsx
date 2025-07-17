@@ -24,6 +24,7 @@ import {
   getRefillHistory,
   getShowRefillHistory,
   displayProviderName,
+  isRefillTakingLongerThanExpected,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
@@ -728,5 +729,142 @@ describe('Provider name function', () => {
     expect(displayProviderName(firstName, lastName)).to.equal(
       `${firstName} ${lastName}`,
     );
+  });
+});
+
+describe('isRefillTakingLongerThanExpected function', () => {
+  const dispStatusObj = {
+    submitted: 'submitted',
+    refillinprocess: 'refillinprocess',
+  };
+
+  it('returns false if rx is null', () => {
+    expect(isRefillTakingLongerThanExpected(null)).to.be.false;
+  });
+
+  it('returns false if refillDate is missing but refillSubmitDate is present', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      refillSubmitDate: '2025-03-01T12:00:00Z',
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns false if refillSubmitDate is missing but refillDate is present', () => {
+    const rx = {
+      dispStatus: dispStatusObj.submitted,
+      refillDate: '2025-03-01T12:00:00Z',
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns true if both refillDate and refillSubmitDate are present and valid for refillinprocess', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      refillDate: '2025-03-01T12:00:00Z',
+      refillSubmitDate: '2025-03-01T12:00:00Z',
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.true;
+  });
+
+  it('returns false if both refillDate and refillSubmitDate are not parsable', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      refillDate: 'not-a-date',
+      refillSubmitDate: 'not-a-date',
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns false if rxRfRecords is present but empty', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      rxRfRecords: [],
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns false if both refillDate and refillSubmitDate are empty strings', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      refillDate: '',
+      refillSubmitDate: '',
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns false if both refillDate and refillSubmitDate are null', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      refillDate: null,
+      refillSubmitDate: null,
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns false if both refillDate and refillSubmitDate are undefined', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      refillDate: undefined,
+      refillSubmitDate: undefined,
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns false if dispStatus is unexpected value', () => {
+    const rx = {
+      dispStatus: 'unknownstatus',
+      refillDate: '2025-03-01T12:00:00Z',
+      refillSubmitDate: '2025-03-01T12:00:00Z',
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns false if rxRfRecords is not an array', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      rxRfRecords: null,
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns false if rx is an empty object', () => {
+    expect(isRefillTakingLongerThanExpected({})).to.be.false;
+  });
+
+  it('returns false if refillDate is valid and refillSubmitDate is not parsable', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      refillDate: '2025-03-01T12:00:00Z',
+      refillSubmitDate: 'not-a-date',
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns false if refillDate is not parsable and refillSubmitDate is valid', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      refillDate: 'not-a-date',
+      refillSubmitDate: '2025-03-01T12:00:00Z',
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns false if both dates are valid but dispStatus is submitted', () => {
+    const rx = {
+      dispStatus: dispStatusObj.submitted,
+      refillDate: '2025-03-01T12:00:00Z',
+      refillSubmitDate: '2025-03-01T12:00:00Z',
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns false if refillDate is in the future and refillSubmitDate is in the past', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      refillDate: '2030-01-01T12:00:00Z',
+      refillSubmitDate: '2020-01-01T12:00:00Z',
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.true;
   });
 });
