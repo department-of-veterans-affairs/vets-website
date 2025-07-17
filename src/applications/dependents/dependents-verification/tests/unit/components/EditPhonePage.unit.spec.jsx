@@ -8,6 +8,11 @@ describe('EditPhonePage full coverage', () => {
   let goToPath;
   let setFormData;
 
+  const clickEvent = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+  });
+
   beforeEach(() => {
     goToPath = sinon.spy();
     setFormData = sinon.spy();
@@ -42,10 +47,7 @@ describe('EditPhonePage full coverage', () => {
     input.value = '123'; // Invalid phone number
     fireEvent.input(input, { detail: { value: '123' } });
 
-    const updateBtn = container.querySelector(
-      'button[aria-label="Update phone number"]',
-    );
-    fireEvent.click(updateBtn);
+    container.querySelector('va-button-pair').__events.primaryClick(clickEvent);
 
     await waitFor(() => {
       expect(input.getAttribute('error')).to.include(
@@ -67,10 +69,7 @@ describe('EditPhonePage full coverage', () => {
     input.value = '5559876543';
     fireEvent.input(input, { detail: { value: '5559876543' } });
 
-    const updateBtn = container.querySelector(
-      'button[aria-label="Update phone number"]',
-    );
-    fireEvent.click(updateBtn);
+    container.querySelector('va-button-pair').__events.primaryClick(clickEvent);
 
     await waitFor(() => {
       expect(input.getAttribute('value')).to.eql('5559876543');
@@ -88,8 +87,9 @@ describe('EditPhonePage full coverage', () => {
       />,
     );
 
-    const cancelBtn = container.querySelector('button.usa-button-secondary');
-    fireEvent.click(cancelBtn);
+    container
+      .querySelector('va-button-pair')
+      .__events.secondaryClick(clickEvent);
 
     await waitFor(() => {
       expect(goToPath.called).to.be.true;

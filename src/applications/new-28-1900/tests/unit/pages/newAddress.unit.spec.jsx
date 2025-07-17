@@ -16,7 +16,7 @@ describe('28-1900 newAddress page', () => {
     const formData = {}; // doesn’t matter: should always be true
     FIELDS.forEach(field => {
       const requiredFn = addrUI[field]['ui:required'];
-      expect(requiredFn(formData)).to.be.true;
+      expect(requiredFn(formData, 0, {}, 'path')).to.be.true;
     });
   });
 

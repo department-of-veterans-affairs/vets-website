@@ -9,6 +9,7 @@ const errorUUIDs = [
   'details-retry-error',
   'details-error',
   'draft-no-slots-error',
+  'referral-without-provider-error',
 ];
 
 /**
@@ -50,6 +51,9 @@ const errorReferralsList = (errorUUIDs || []).map(uuid => {
  *
  * @param {String} uuid The UUID for the referral
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
+ * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
+ * @param {String} categoryOfCare The category of care for the referral
+ * @param {Boolean} hasProvider Whether the referral has a provider
  * @returns {Object} Referral object
  */
 const createReferralById = (
@@ -57,11 +61,27 @@ const createReferralById = (
   uuid,
   expirationDate,
   categoryOfCare = 'OPTOMETRY',
+  hasProvider = true,
 ) => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
 
   const mydFormat = 'yyyy-MM-dd';
+
+  const provider = hasProvider
+    ? {
+        name: 'Dr. Moreen S. Rafa',
+        npi: '1346206547',
+        phone: '(937) 236-6750',
+        facilityName: 'fake facility name',
+        address: {
+          street1: '76 Veterans Avenue',
+          city: 'BATH',
+          state: null,
+          zip: '14810',
+        },
+      }
+    : null;
 
   return {
     id: uuid,
@@ -72,7 +92,7 @@ const createReferralById = (
       stationId: '528A4',
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-      referralNumber: uuid,
+      referralNumber: 'VA0000007241',
       categoryOfCare,
       referralConsultId: '984_646907',
       hasAppointments: false,
@@ -87,18 +107,7 @@ const createReferralById = (
           zip: '14020',
         },
       },
-      provider: {
-        name: 'Dr. Moreen S. Rafa',
-        npi: '1346206547',
-        phone: '(937) 236-6750',
-        facilityName: 'fake facility name',
-        address: {
-          street1: '76 Veterans Avenue',
-          city: 'BATH',
-          state: null,
-          zip: '14810',
-        },
-      },
+      provider,
     },
   };
 };

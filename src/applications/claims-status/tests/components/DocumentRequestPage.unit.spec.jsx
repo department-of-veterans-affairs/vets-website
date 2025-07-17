@@ -346,9 +346,10 @@ describe('<DocumentRequestPage>', () => {
       const trackedItem = {
         status: 'NEEDED_FROM_OTHERS',
         suspenseDate: '2010-05-10',
+        displayName: 'test item',
       };
       const { context } = renderWithRouter(
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
@@ -402,8 +403,8 @@ describe('<DocumentRequestPage>', () => {
       expect(onSubmit.called).to.be.true;
     });
 
-    it('should handle submit files lighthouse and navigate to files page', () => {
-      const submitFilesLighthouse = sinon.spy();
+    it('should handle submit files and navigate to files page', () => {
+      const submitFiles = sinon.spy();
       const trackedItem = {
         status: 'NEEDED_FROM_YOU',
         suspenseDate: '2010-05-10',
@@ -414,8 +415,7 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
-            submitFilesLighthouse={submitFilesLighthouse}
-            documentsUseLighthouse
+            submitFiles={submitFiles}
           />
           ,
         </Provider>,
@@ -439,16 +439,15 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
-            submitFilesLighthouse={submitFilesLighthouse}
+            submitFiles={submitFiles}
             files={[file]}
-            documentsUseLighthouse
           />
           ,
         </Provider>,
       );
 
       fireEvent.click($('#submit', container));
-      expect(submitFilesLighthouse.called).to.be.true;
+      expect(submitFiles.called).to.be.true;
     });
 
     it('should reset uploads and set title on mount', () => {
@@ -541,7 +540,12 @@ describe('<DocumentRequestPage>', () => {
 
         const { container } = renderWithRouter(
           <Provider store={getStore()}>
-            <DocumentRequestPage {...defaultProps} trackedItem={item} />,
+            <DocumentRequestPage
+              {...defaultProps}
+              trackedItem={item}
+              friendlyEvidenceRequests
+            />
+            ,
           </Provider>,
         );
         const breadcrumbs = $('va-breadcrumbs', container);
@@ -555,6 +559,7 @@ describe('<DocumentRequestPage>', () => {
           'Authorization to Disclose Information | Veterans Affairs',
         );
       });
+
       it('should render Your {friendlyName} in breadcrumb for third party request', () => {
         const item = {
           closedDate: null,
@@ -577,7 +582,12 @@ describe('<DocumentRequestPage>', () => {
 
         const { container } = renderWithRouter(
           <Provider store={getStore()}>
-            <DocumentRequestPage {...defaultProps} trackedItem={item} />,
+            <DocumentRequestPage
+              {...defaultProps}
+              trackedItem={item}
+              friendlyEvidenceRequests
+            />
+            ,
           </Provider>,
         );
         const breadcrumbs = $('va-breadcrumbs', container);
@@ -587,7 +597,158 @@ describe('<DocumentRequestPage>', () => {
         expect(breadcrumbs.breadcrumbList[3].label).to.equal(
           'Your reserve records',
         );
-        expect(document.title).to.equal('Reserve records | Veterans Affairs');
+        expect(document.title).to.equal(
+          'Your reserve records | Veterans Affairs',
+        );
+      });
+      it('should render Request for evidence in breadcrumb for first party request with default content', () => {
+        const item = {
+          closedDate: null,
+          description: 'default content',
+          displayName: 'First party default request',
+          id: 467558,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-21',
+          status: 'NEEDED_FROM_YOU',
+          suspenseDate: '2024-05-07',
+          uploadsAllowed: true,
+          documents: [],
+          date: '2024-03-21',
+        };
+
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <DocumentRequestPage
+              {...defaultProps}
+              trackedItem={item}
+              friendlyEvidenceRequests
+            />
+            ,
+          </Provider>,
+        );
+        const breadcrumbs = $('va-breadcrumbs', container);
+        expect(breadcrumbs.breadcrumbList[3].href).to.equal(
+          `../needed-from-you/${item.id}`,
+        );
+        expect(breadcrumbs.breadcrumbList[3].label).to.equal(
+          'Request for evidence',
+        );
+        expect(document.title).to.equal(
+          'Request for evidence | Veterans Affairs',
+        );
+      });
+      it('should render Request for evidence outside VA in breadcrumb for third party non DBQ request with default content', () => {
+        const item = {
+          closedDate: null,
+          description: 'default content',
+          displayName: 'Third party default request',
+          id: 467558,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-28',
+          status: 'NEEDED_FROM_OTHERS',
+          suspenseDate: '2024-05-07',
+          uploadsAllowed: true,
+          documents: [],
+          date: '2024-03-21',
+        };
+
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <DocumentRequestPage
+              {...defaultProps}
+              trackedItem={item}
+              friendlyEvidenceRequests
+            />
+            ,
+          </Provider>,
+        );
+        const breadcrumbs = $('va-breadcrumbs', container);
+        expect(breadcrumbs.breadcrumbList[3].href).to.equal(
+          `../needed-from-others/${item.id}`,
+        );
+        expect(breadcrumbs.breadcrumbList[3].label).to.equal(
+          'Request for evidence outside VA',
+        );
+        expect(document.title).to.equal(
+          'Request for evidence outside VA | Veterans Affairs',
+        );
+      });
+      it('should render Request for an exam in breadcrumb for third party DBQ request with default content', () => {
+        const item = {
+          closedDate: null,
+          description: 'default content',
+          displayName: 'Third party DBQ default request',
+          id: 467558,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-28',
+          status: 'NEEDED_FROM_OTHERS',
+          suspenseDate: '2024-05-07',
+          uploadsAllowed: true,
+          documents: [],
+          date: '2024-03-21',
+        };
+
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <DocumentRequestPage
+              {...defaultProps}
+              trackedItem={item}
+              friendlyEvidenceRequests
+            />
+            ,
+          </Provider>,
+        );
+        const breadcrumbs = $('va-breadcrumbs', container);
+        expect(breadcrumbs.breadcrumbList[3].href).to.equal(
+          `../needed-from-others/${item.id}`,
+        );
+        expect(breadcrumbs.breadcrumbList[3].label).to.equal(
+          'Request for an exam',
+        );
+        expect(document.title).to.equal(
+          'Request for an exam | Veterans Affairs',
+        );
+      });
+      it('should render Request for an exam in breadcrumb for third party DBQ request with override content', () => {
+        const item = {
+          closedDate: null,
+          description: 'default content',
+          displayName: 'Third party DBQ override request',
+          friendlyName: 'Friendly DBQ',
+          id: 467558,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-28',
+          status: 'NEEDED_FROM_OTHERS',
+          suspenseDate: '2024-05-07',
+          uploadsAllowed: true,
+          documents: [],
+          date: '2024-03-21',
+        };
+
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <DocumentRequestPage
+              {...defaultProps}
+              trackedItem={item}
+              friendlyEvidenceRequests
+            />
+            ,
+          </Provider>,
+        );
+        const breadcrumbs = $('va-breadcrumbs', container);
+        expect(breadcrumbs.breadcrumbList[3].href).to.equal(
+          `../needed-from-others/${item.id}`,
+        );
+        expect(breadcrumbs.breadcrumbList[3].label).to.equal(
+          'Request for an exam',
+        );
+        expect(document.title).to.equal(
+          'Request for an exam | Veterans Affairs',
+        );
       });
     },
   );

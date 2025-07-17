@@ -307,5 +307,79 @@ export const createAddressValidationResponse = type => {
       validationKey: 1786974931,
     };
   }
+
+  if (type === 'show-suggestions-no-override') {
+    return {
+      addresses: [
+        {
+          address: {
+            addressLine1: '123 Main St',
+            city: 'Springfield',
+            stateCode: 'IL',
+            zipCode: '62704',
+            countryName: 'United States',
+            addressType: 'DOMESTIC',
+          },
+          addressMetaData: {
+            confidenceScore: 90,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'CONFIRMED',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
+        },
+      ],
+      // Does the response send null or nothing for validationKey?
+      validationKey: null,
+    };
+  }
+
+  if (type === 'show-suggestions-no-confirmed-override') {
+    return {
+      addresses: [
+        {
+          address: {
+            addressLine1: '999 Unknown Ave',
+            city: 'Springfield',
+            stateCode: 'IL',
+            zipCode: '62704',
+            countryName: 'United States',
+            addressType: 'DOMESTIC',
+          },
+          addressMetaData: {
+            confidenceScore: 80,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'UNDELIVERABLE',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
+        },
+      ],
+      validationKey: 1785474938,
+    };
+  }
+
+  // validation-error also applies to the NO_SUGGESTIONS_NO_OVERRIDE case
+  // when the profileShowNoValidationKeyAddressAlert flag is enabled
+  if (type === 'validation-error') {
+    return {
+      errors: [
+        {
+          title: 'Address Validation Error',
+          detail: {
+            messages: [
+              {
+                code: 'ADDRVAL108',
+                key: 'CandidateAddressNotFound',
+                severity: 'INFO',
+                text: 'No Candidate Address Found',
+              },
+            ],
+          },
+          code: 'VET360_AV_ERROR',
+          status: '400',
+        },
+      ],
+    };
+  }
+
   return {};
 };

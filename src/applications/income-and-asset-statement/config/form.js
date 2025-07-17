@@ -2,6 +2,7 @@
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
+import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
@@ -37,6 +38,9 @@ const formConfig = {
   confirmation: ConfirmationPage,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   formId: VA_FORM_IDS.FORM_21P_0969,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your benefits application (21P-0969) is in progress.',
@@ -56,6 +60,7 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
     statementOfTruth: {
       body:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',

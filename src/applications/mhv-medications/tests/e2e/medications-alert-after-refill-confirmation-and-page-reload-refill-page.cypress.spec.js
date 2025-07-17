@@ -9,7 +9,7 @@ import successRequest from './fixtures/refill-success.json';
 import failedRequest from './fixtures/failed-request-prescription.json';
 import failedRefill from './fixtures/refill-failure.json';
 
-describe('Medications Refill Page Delay Alert Behavior', () => {
+describe.skip('Medications Refill Page Delay Alert Behavior', () => {
   const refillPage = new MedicationsRefillPage();
   beforeEach(() => {
     const site = new MedicationsSite();

@@ -1,15 +1,25 @@
 import React from 'react';
 import { expect } from 'chai';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import sinon from 'sinon';
+import { waitFor } from '@testing-library/react';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
-import sinon from 'sinon';
 
 describe('Stem Eligibility Details', () => {
+  let sandbox;
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.programDetails.pages.stemEligibility;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   it('should render', () => {
     const form = mount(
@@ -38,7 +48,7 @@ describe('Stem Eligibility Details', () => {
   });
 
   it('should successfully submit', () => {
-    const onSubmit = sinon.spy();
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -54,8 +64,8 @@ describe('Stem Eligibility Details', () => {
     form.unmount();
   });
 
-  it('should require isEnrolledStem', () => {
-    const onSubmit = sinon.spy();
+  it('should require isEnrolledStem', async () => {
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -66,13 +76,18 @@ describe('Stem Eligibility Details', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+
     form.unmount();
   });
 
-  it('should require benefitLeft', () => {
-    const onSubmit = sinon.spy();
+  it('should require benefitLeft', async () => {
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -83,13 +98,18 @@ describe('Stem Eligibility Details', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+
     form.unmount();
   });
 
-  it('should require isPursuingTeachingCert', () => {
-    const onSubmit = sinon.spy();
+  it('should require isPursuingTeachingCert', async () => {
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -100,8 +120,13 @@ describe('Stem Eligibility Details', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+
     form.unmount();
   });
 });

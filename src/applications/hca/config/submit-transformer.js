@@ -43,7 +43,11 @@ const sanitizeDependents = dependents => {
  * @param {Object} form - the state object that holds the form data
  * @returns {Object} - an object containing the form submission payload
  */
-export const submitTransformer = (formConfig, form) => {
+export const submitTransformer = (
+  formConfig,
+  form,
+  disableAnalytics = false,
+) => {
   const logErrorToDatadog = error =>
     window.DD_LOGS?.logger.error('HCA Submit Transformer error', {}, error);
   let dataToMap = JSON.parse(transformForSubmit(formConfig, form));
@@ -75,25 +79,27 @@ export const submitTransformer = (formConfig, form) => {
     dataToMap = set('dependents', [], dataToMap);
   }
 
-  // add logging to track user volume of forms submitted with specific questions answered
-  const { lastDischargeDate } = form.data;
-  const isDischargeAfterToday = isAfter(
-    new Date(lastDischargeDate),
-    new Date(),
-  );
-  if (isDischargeAfterToday) {
-    recordEvent({
-      event: 'hca-future-discharge-date-submission',
-    });
-  }
-
-  // populate Google Analytics data
   let gaClientId;
-  try {
-    // eslint-disable-next-line no-undef
-    gaClientId = ga.getAll()[0].get('clientId');
-  } catch (e) {
-    // lets not break submission because of any GA issues
+  if (!disableAnalytics) {
+    // add logging to track user volume of forms submitted with specific questions answered
+    const { lastDischargeDate } = form.data;
+    const isDischargeAfterToday = isAfter(
+      new Date(lastDischargeDate),
+      new Date(),
+    );
+    if (isDischargeAfterToday) {
+      recordEvent({
+        event: 'hca-future-discharge-date-submission',
+      });
+    }
+
+    // populate Google Analytics data
+    try {
+      // eslint-disable-next-line no-undef
+      gaClientId = ga.getAll()[0].get('clientId');
+    } catch (e) {
+      // lets not break submission because of any GA issues
+    }
   }
 
   // stringify form data for submission

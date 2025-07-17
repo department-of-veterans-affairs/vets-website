@@ -77,9 +77,15 @@ export const loincCodes = {
   DISCHARGE_SUMMARY: '18842-5',
   // vitals
   BLOOD_PRESSURE: '85354-9',
+  BREATHING_RATE: '9279-1',
+  HEIGHT: '8302-2',
+  TEMPERATURE: '8310-5',
+  WEIGHT: '29463-7',
   SYSTOLIC: '8480-6',
   DIASTOLIC: '8462-4',
   HEART_RATE: '8867-4',
+  PULSE_OXIMETRY_1: '59408-5',
+  PULSE_OXIMETRY_2: '2708-6',
 };
 
 export const fhirResourceTypes = {
@@ -164,7 +170,6 @@ export const vitalTypes = {
   TEMPERATURE: ['TEMPERATURE', 'BODY_TEMPERATURE'],
   WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
   HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
-  PAIN_SEVERITY: ['PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED'],
 };
 
 export const vitalTypeDisplayNames = {
@@ -210,7 +215,8 @@ export const vitalUnitDisplayText = {
   TEMPERATURE: ' °F',
   WEIGHT: ' pounds',
   BODY_WEIGHT: ' pounds',
-  HEIGHT: ' inches',
+  HEIGHT_FT: ' feet',
+  HEIGHT_IN: ' inches',
   BODY_HEIGHT: ' inches',
   PAIN_SEVERITY: '',
 };
@@ -527,4 +533,37 @@ export const radiologyErrors = {
     'We’re sorry. There was a problem with our system. Try requesting your images again.',
   ERROR_TRY_LATER:
     'We’re sorry. There was a problem with our system. Try again later.',
+};
+
+export const allowedVitalLoincs = [
+  loincCodes.BLOOD_PRESSURE,
+  loincCodes.BREATHING_RATE,
+  loincCodes.HEART_RATE,
+  loincCodes.WEIGHT,
+  loincCodes.HEIGHT,
+  loincCodes.TEMPERATURE,
+  loincCodes.PULSE_OXIMETRY_1,
+  loincCodes.PULSE_OXIMETRY_2,
+];
+
+export const statsdFrontEndActions = {
+  // list calls
+  LABS_AND_TESTS_LIST: 'labs_and_tests_list',
+  CARE_SUMMARIES_AND_NOTES_LIST: 'care_summaries_and_notes_list',
+  VACCINES_LIST: 'vaccines_list',
+  ALLERGIES_LIST: 'allergies_list',
+  HEALTH_CONDITIONS_LIST: 'health_conditions_list',
+  VITALS_LIST: 'vitals_list',
+  // detail calls
+  LABS_AND_TESTS_DETAILS: 'labs_and_tests_details',
+  RADIOLOGY_IMAGES_LIST: 'radiology_images_list',
+  CARE_SUMMARIES_AND_NOTES_DETAILS: 'care_summaries_and_notes_details',
+  VACCINES_DETAILS: 'vaccines_details',
+  ALLERGIES_DETAILS: 'allergies_details',
+  HEALTH_CONDITIONS_DETAILS: 'health_conditions_details',
+  VITALS_DETAILS: 'vitals_details',
+  // download calls
+  DOWNLOAD_BLUE_BUTTON: 'download_blue_button',
+  DOWNLOAD_CCD: 'download_ccd',
+  DOWNLOAD_SEI: 'download_sei',
 };

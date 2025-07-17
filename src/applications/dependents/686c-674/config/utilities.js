@@ -38,10 +38,16 @@ const validateName = (errors, pageData) => {
   validateWhiteSpace(errors.last, last);
 };
 
+const PHONE_KEYS = ['phoneNumber', 'internationalPhone'];
+
 /**
  * Mostly copied from the platform provided stringifyFormReplacer, with the removal of the address check. We don't need it here for our location use.
  */
 export const customFormReplacer = (key, value) => {
+  // Remove all non-digit characters from phone-related fields
+  if (typeof value === 'string' && PHONE_KEYS.includes(key)) {
+    return value.replace(/\D/g, '');
+  }
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);

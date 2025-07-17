@@ -85,7 +85,7 @@ DisabilityRating.propTypes = {
   showFallbackLink: PropTypes.bool,
 };
 
-const NameTag = ({ totalDisabilityRatingServerError }) => {
+const NameTag = ({ totalDisabilityRatingError }) => {
   // workaround to get the page to be scrolled to top when nametag renders
   useEffect(() => {
     setTimeout(() => {
@@ -207,7 +207,7 @@ const NameTag = ({ totalDisabilityRatingServerError }) => {
 
             <DisabilityRating
               rating={40}
-              showFallbackLink={totalDisabilityRatingServerError}
+              showFallbackLink={totalDisabilityRatingError}
             />
           </dl>
         </div>
@@ -218,7 +218,7 @@ const NameTag = ({ totalDisabilityRatingServerError }) => {
 
 NameTag.propTypes = {
   totalDisabilityRating: PropTypes.number,
-  totalDisabilityRatingServerError: PropTypes.bool,
+  totalDisabilityRatingError: PropTypes.bool,
 };
 
 export default NameTag;

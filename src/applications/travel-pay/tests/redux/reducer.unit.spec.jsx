@@ -41,15 +41,25 @@ describe('Redux - reducer', () => {
     expect(
       reducer(defaultState, {
         type: FETCH_TRAVEL_CLAIMS_SUCCESS,
-        payload: { a: 'b' },
+        dateRangeId: 'test',
+        payload: { data: [{ a: 'b' }], metadata: { c: 'd' } },
       }),
     ).to.deep.equal({
       ...defaultState,
       travelClaims: {
-        data: {
-          a: 'b',
+        claims: {
+          test: {
+            metadata: {
+              c: 'd',
+            },
+            data: [
+              {
+                a: 'b',
+              },
+            ],
+            error: null,
+          },
         },
-        error: null,
         isLoading: false,
       },
     });
@@ -59,12 +69,19 @@ describe('Redux - reducer', () => {
     expect(
       reducer(defaultState, {
         type: FETCH_TRAVEL_CLAIMS_FAILURE,
+        dateRangeId: 'test',
         error: { status: 400, message: 'there was a problem' },
       }),
     ).to.deep.equal({
       ...defaultState,
       travelClaims: {
-        error: { status: 400, message: 'there was a problem' },
+        claims: {
+          test: {
+            metadata: {},
+            data: [],
+            error: { status: 400, message: 'there was a problem' },
+          },
+        },
         isLoading: false,
       },
     });

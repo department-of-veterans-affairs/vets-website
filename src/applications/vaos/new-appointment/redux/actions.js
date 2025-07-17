@@ -17,9 +17,7 @@ import {
 } from 'date-fns';
 import {
   selectFeatureCommunityCare,
-  selectFeatureConvertSlotsToUtc,
   selectFeatureDirectScheduling,
-  selectFeatureFeSourceOfTruthModality,
   selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
@@ -265,6 +263,7 @@ export function getPatientRelationships() {
     const typeOfCare = getTypeOfCare(newAppointment.data);
     const typeOfCareId = typeOfCare;
     const facilityId = newAppointment.data.vaFacility;
+    const hasAvailabilityBefore = addDays(new Date(), 395);
 
     dispatch({
       type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
@@ -274,6 +273,7 @@ export function getPatientRelationships() {
       patientProviderRelationships = await fetchPatientRelationships(
         facilityId,
         typeOfCareId,
+        hasAvailabilityBefore,
       );
     } catch (error) {
       dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
@@ -318,9 +318,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-      state,
-    );
     const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
       state,
     );
@@ -346,7 +343,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
             location,
             typeOfCare,
             directSchedulingEnabled,
-            useFeSourceOfTruthModality,
             useFeSourceOfTruthTelehealth,
             isCerner: true,
           });
@@ -381,7 +377,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
           usePastVisitMHFilter,
         });
@@ -642,7 +637,6 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
-    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
     let startDate = start;
     let endDate = end;
@@ -690,7 +684,6 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
-          convertToUtc: featureConvertSlotsToUTC,
         });
         const tomorrow = startOfDay(
           addDays(new Date(new Date().toISOString()), 1),
@@ -849,9 +842,6 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-      state,
-    );
     const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
       state,
     );
@@ -880,7 +870,6 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
-          useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });
 
@@ -969,7 +958,6 @@ export function submitAppointmentOrRequest(history) {
 
         const requestData = await createAppointment({
           appointment: requestBody,
-          useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });
 

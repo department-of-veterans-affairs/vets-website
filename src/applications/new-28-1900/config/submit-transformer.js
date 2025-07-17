@@ -7,7 +7,18 @@ export default function transformForSubmit(formConfig, form) {
     }),
   );
 
-  const { fullName, dob, ...otherFields } = baseData;
+  const normalizedData = Object.entries(baseData).reduce(
+    (acc, [key, value]) => {
+      acc[key] =
+        typeof value === 'string' && key.toLowerCase().includes('phone')
+          ? value.replace(/-/g, '')
+          : value;
+      return acc;
+    },
+    {},
+  );
+
+  const { fullName, dob, ...otherFields } = normalizedData;
 
   const payload = {
     ...otherFields,

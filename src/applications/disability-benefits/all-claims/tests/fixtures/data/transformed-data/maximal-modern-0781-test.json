@@ -213,11 +213,6 @@
         "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
         "condition": "asthma"
       },
-       {
-        "cause": "NEW",
-        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
-        "condition": "PTSD (post-traumatic stress disorder)"
-      },
       {
         "cause": "WORSENED",
         "worsenedDescription": "My knee was strained in the service",

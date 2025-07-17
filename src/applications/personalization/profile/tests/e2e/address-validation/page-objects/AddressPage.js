@@ -166,8 +166,8 @@ const validateFocusedElement = element => {
 };
 
 class AddressPage {
-  loadPage = config => {
-    setUp(config);
+  loadPage = (config, toggles = {}) => {
+    setUp(config, toggles);
     Cypress.config({
       force: true,
       waitForAnimations: true,

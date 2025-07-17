@@ -72,9 +72,23 @@ export class ProfileInformationEditView extends Component {
       this.focusOnFirstFormElement();
     }
 
+    const isAddressValidationError =
+      this.props.transactionRequest?.error?.errors?.some(
+        e => e.code === 'VET360_AV_ERROR',
+      ) || false;
+
+    // If we get an address validation error, open the validation modal
     if (
-      this.props.transactionRequest?.error ||
-      isFailedTransaction(this.props.transaction)
+      isAddressValidationError &&
+      !prevProps.transactionRequest?.error // Only trigger on new error
+    ) {
+      this.props.openModal(ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION);
+    }
+
+    if (
+      !isAddressValidationError &&
+      (this.props.transactionRequest?.error ||
+        isFailedTransaction(this.props.transaction))
     ) {
       focusElement('button[aria-label="Close notification"]');
     }
@@ -264,10 +278,21 @@ export class ProfileInformationEditView extends Component {
 
     if (this.editForm) {
       setTimeout(() => {
-        const focusableElement = getFocusableElements(this.editForm)?.[0];
+        // Temporary workaround to set focus on the country picker if we're using
+        // the va-telephone-input component
+        const vaTel = this.editForm?.querySelector?.('va-telephone-input');
+        const vaComboBox = vaTel?.shadowRoot?.querySelector?.('va-combo-box');
+        const countrySelect = vaComboBox?.shadowRoot?.querySelector?.('input');
 
-        if (focusableElement) {
-          focusElement(focusableElement);
+        if (vaTel && countrySelect) {
+          countrySelect.focus();
+        } else {
+          // If no va-telephone-input, focus the first focusable element in the form
+          const focusableElement = getFocusableElements(this.editForm)?.[0];
+
+          if (focusableElement) {
+            focusElement(focusableElement);
+          }
         }
       }, 100);
     }
