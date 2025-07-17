@@ -28,6 +28,7 @@ import {
   ADDRESS_VALIDATION_INITIALIZE,
   ADDRESS_VALIDATION_UPDATE,
   ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY,
+  ADDRESS_VALIDATION_SET_VALIDATION_KEY,
   COPY_ADDRESS_MODAL,
 } from '../actions';
 
@@ -413,6 +414,15 @@ export default function vapService(state = initialState, action) {
       return {
         ...state,
         addressValidation: { ...initialAddressValidationState },
+      };
+
+    case ADDRESS_VALIDATION_SET_VALIDATION_KEY:
+      return {
+        ...state,
+        addressValidation: {
+          ...state.addressValidation,
+          validationKey: action.validationKey,
+        },
       };
 
     case ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY:
