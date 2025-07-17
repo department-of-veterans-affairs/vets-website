@@ -266,3 +266,12 @@ h3, .schemaform-block-title {
 article#form-4010007[data-location^="service-periods-"] .vads-u-color--gray-dark {
   color: var(--vads-color-base) !important;
 }
+
+.row.small-collapse > .column,
+.row.small-collapse > .columns {
+  padding-left: unset !important;
+}
+
+article#form-4010007[data-location="current-burial-benefits"] .input-section:only-child {
+  padding-left: 0.5859375rem !important;
+}
