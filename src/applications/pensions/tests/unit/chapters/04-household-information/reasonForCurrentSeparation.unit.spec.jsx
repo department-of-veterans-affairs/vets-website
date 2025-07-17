@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -22,13 +22,11 @@ describe('reason for current separation page', () => {
     pageTitle,
     formData,
   );
-
-  const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     reasonForCurrentSeparation.schema,
     reasonForCurrentSeparation.uiSchema,
-    expectedNumberOfErrors,
+    [`va-radio[label="What’s the reason you’re separated from your spouse?"]`],
     pageTitle,
     formData,
   );
