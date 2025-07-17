@@ -7,39 +7,25 @@ const DecisionReason = ({ claimStatus, decisionLetterReason }) => {
   const formatDecisionReason = text => {
     if (!text) return '';
 
-    const cfrRegex = /Authority (\d+) CFR (\d+)\.(\d+)/g;
-    const parts = [];
-    let lastIndex = 0;
-    let match;
+    const cfrPattern = /Authority (\d+) CFR (\d+)\.(\d+)/;
+    const parts = text.split(new RegExp(`(${cfrPattern.source})`, 'g'));
 
-    // eslint-disable-next-line no-cond-assign
-    while ((match = cfrRegex.exec(text)) !== null) {
-      // Add text before the match
-      if (match.index > lastIndex) {
-        parts.push(text.slice(lastIndex, match.index));
-      }
-
-      // Add the hyperlink
-      const [fullMatch, title, chapter, section] = match;
-      const url = `https://www.ecfr.gov/current/title-${title}/chapter-I/section-${chapter}.${section}`;
-      parts.push(
-        <va-link
-          key={`cfr-${match.index}`}
-          external
-          href={url}
-          text={fullMatch}
-        />,
-      );
-
-      lastIndex = cfrRegex.lastIndex;
-    }
-
-    // Add any remaining text
-    if (lastIndex < text.length) {
-      parts.push(text.slice(lastIndex));
-    }
-
-    return parts.length > 0 ? parts : text;
+    return parts
+      .map((part, index) => {
+        if (part && cfrPattern.test(part)) {
+          const [, title, chapter, section] = part.match(cfrPattern);
+          return (
+            <va-link
+              key={`cfr-${index}`}
+              external
+              href={`https://www.ecfr.gov/current/title-${title}/chapter-I/section-${chapter}.${section}`}
+              text={part}
+            />
+          );
+        }
+        return part;
+      })
+      .filter(Boolean);
   };
 
   return (
