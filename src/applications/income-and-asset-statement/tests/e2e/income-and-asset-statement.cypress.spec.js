@@ -77,7 +77,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'recurring-incomes/:index/income-type': ({ afterHook }) => {
+      'recurring-income/:index/income-type': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { unassociatedIncomes } = data;
@@ -97,7 +97,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'associated-incomes-summary': ({ afterHook }) => {
+      'financial-accounts-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             let isAddingAssociatedIncomes =
@@ -116,7 +116,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'associated-incomes/:index/income-type': ({ afterHook }) => {
+      'financial-accounts/:index/income-type': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { associatedIncomes } = data;
@@ -138,7 +138,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'owned-assets-summary': ({ afterHook }) => {
+      'property-and-business-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             let isAddingOwnedAssets = data['view:isAddingOwnedAssets'];
@@ -156,7 +156,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'owned-assets/:index/income-type': ({ afterHook }) => {
+      'property-and-business/:index/income-type': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { ownedAssets } = data;
@@ -176,7 +176,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'royalties-and-other-properties-summary': ({ afterHook }) => {
+      'royalties-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             let isAddingRoyalties = data['view:isAddingRoyalties'];
@@ -194,7 +194,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'royalties-and-other-properties/:index/income-type': ({ afterHook }) => {
+      'royalties/:index/income-type': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { royaltiesAndOtherProperties } = data;
@@ -245,8 +245,6 @@ const testConfig = createTestConfig(
             const { transferDate } = assetTransfers[0];
 
             fillDateWebComponentPattern('transferDate', transferDate);
-
-            addedTrustItem = true;
 
             cy.clickFormContinue();
           });
@@ -408,7 +406,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'income-receipt-waivers-summary': ({ afterHook }) => {
+      'waived-income-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             let isAddingIncomeReceiptWaivers =
@@ -427,7 +425,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'income-receipt-waivers/:index/payments': ({ afterHook }) => {
+      'waived-income/:index/payments': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(() => {
             selectYesNoWebComponent('view:paymentsWillResume', false);
