@@ -34,22 +34,28 @@ export default {
   uiSchema: {
     ...titleUI('Upload supporting documents'),
     'ui:description': Description,
-    files: fileUploadUI('', {
-      buttonText: 'Upload supporting document',
-      fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
-      maxSize: MAX_FILE_SIZE_BYTES,
-      fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-      fileUploadNetworkErrorMessage:
-        'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
-      fileUploadNetworkErrorAlert: {
-        header: 'We couldn’t upload your file',
-        body: [
-          'We’re sorry. There was a problem with our system and we couldn’t upload your file. Try uploading your file again.',
-          'Or select Continue to fill out the rest of your form. And then follow the instructions at the end to learn how to submit your documents.',
-        ],
-      },
-      hideLabelText: true,
-    }),
+    files: {
+      ...fileUploadUI('', {
+        buttonText: 'Upload supporting document',
+        fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+        maxSize: MAX_FILE_SIZE_BYTES,
+        fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+        fileUploadNetworkErrorMessage:
+          'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
+        fileUploadNetworkErrorAlert: {
+          header: 'We couldn’t upload your file',
+          body: [
+            'We’re sorry. There was a problem with our system and we couldn’t upload your file. Try uploading your file again.',
+            'Or select Continue to fill out the rest of your form. And then follow the instructions at the end to learn how to submit your documents.',
+          ],
+        },
+        hideLabelText: true,
+      }),
+      'ui:confirmationField': ({ formData }) => ({
+        data: formData?.map(item => item.name || item.fileName),
+        label: 'Supporting documents',
+      }),
+    },
     'view:uploadMessage': {
       'ui:description': UploadMessage,
     },

@@ -5,38 +5,70 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 const disputeDebtUrl = getAppUrl('dispute-debt');
 
 const DisputeDebtLink = () => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+  const isLoadingFeatures = useToggleLoadingValue();
   const disputeDebtEnabled = useToggleValue(TOGGLE_NAMES.disputeDebt);
 
-  if (!disputeDebtEnabled) {
-    return null;
+  if (isLoadingFeatures) {
+    return (
+      <va-loading-indicator
+        label="Loading"
+        message="Loading application..."
+        set-focus
+      />
+    );
   }
 
   return (
     <>
-      <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-        <va-link
-          data-testid="dispute-debt-link"
-          href={disputeDebtUrl}
-          text="Dispute your VA overpayments"
-        />
-      </h3>
+      <h3>Overpayment debts</h3>
       <p>
-        If you disagree with the charges or amounts on your overpayment bill,
-        you can file a dispute.
+        You’ll need to submit a written statement explaining why you think the
+        debt is incorrect. The time limit to dispute a debt is{' '}
+        <strong>1 year</strong> from the date you received your first debt
+        letter. If you dispute the debt within <strong>30 days</strong>, you can
+        avoid collection actions.
       </p>
-      <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-        <va-link
-          data-testid="dispute-copay-link"
-          href="https://www.va.gov/health-care/pay-copay-bill/dispute-charges/"
-          text="Dispute your VA copay charges"
-        />
-      </h3>
+      {disputeDebtEnabled ? (
+        <>
+          <p>You can submit your dispute statement online or by mail.</p>
+          <h4>Option 1: Online</h4>
+          <va-link
+            data-testid="dispute-debt-link"
+            href={disputeDebtUrl}
+            text="Dispute your VA debt"
+          />
+          <h4>Option 2: By mail</h4>
+        </>
+      ) : (
+        <>
+          <p>You can submit your dispute statement by mail.</p>
+        </>
+      )}
+      {/* end debt section */}
+      <p>Send your statement to this address:</p>
+      <p className="va-address-block">
+        Debt Management Center
+        <br />
+        P.O. Box 11930
+        <br />
+        St. Paul, MN 55111-0930
+        <br />
+      </p>
+      <h3>Copay bills</h3>
       <p>
-        You have the right to dispute all or part of your VA copay charges. To
-        avoid late charges, you’ll need to dispute the debt within 30 days of
-        receiving your bill.
+        You can start the process to dispute your copay bills by phone, by mail,
+        or in person.
       </p>
+      <va-link
+        data-testid="dispute-copay-link"
+        href="https://www.va.gov/health-care/pay-copay-bill/dispute-charges/"
+        text="Learn more about disputing your VA copay charges"
+      />
     </>
   );
 };

@@ -1,12 +1,13 @@
+import { formatInTimeZone } from 'date-fns-tz';
 import { isEmpty } from 'lodash';
-import moment from 'moment';
-import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
+import { getProviderName } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT_V2,
   TYPE_OF_VISIT,
   VIDEO_TYPES,
 } from '../../utils/constants';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
 
 export function getAppointmentType(appt) {
@@ -67,7 +68,7 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
   const isUpcoming = appt.future;
   const isCCRequest = appointmentType === APPOINTMENT_TYPES.ccRequest;
   const providers = appt.practitioners;
-  const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
+  const start = new Date(appt.start);
   const vvsKind = appt.telehealth?.vvsKind;
   let isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   let isAtlas = !!appt.telehealth?.atlas;
@@ -92,7 +93,9 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
   }
 
   const isCancellable = appt.cancellable;
-  const appointmentTZ = appt.location?.attributes?.timezone?.timeZoneId;
+  const appointmentTZ = appt.location
+    ? appt.location?.attributes?.timezone?.timeZoneId
+    : getTimezoneByFacilityId(appt.locationId);
 
   let videoData = { isVideo };
   if (isVideo) {
@@ -125,17 +128,22 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
 
   if (isRequest) {
     const { requestedPeriods, created } = appt;
-    const reqPeriods = requestedPeriods?.map(d => ({
-      // by passing the format into the moment constructor, we are
-      // preventing the local time zone conversion from occuring
-      // which was causing incorrect dates to be displayed
-      start: `${moment(d.start, 'YYYY-MM-DDTHH:mm:ss').format(
-        'YYYY-MM-DDTHH:mm:ss',
-      )}.000`,
-      end: `${moment(d.end, 'YYYY-MM-DDTHH:mm:ss').format(
-        'YYYY-MM-DDTHH:mm:ss',
-      )}.999`,
-    }));
+    const reqPeriods = requestedPeriods?.map(d => {
+      const endDate = d.end || d.start;
+
+      return {
+        start: `${formatInTimeZone(
+          d.start,
+          appointmentTZ,
+          "yyyy-MM-dd'T'HH:mm:ssXXX",
+        )}`,
+        end: `${formatInTimeZone(
+          endDate,
+          appointmentTZ,
+          "yyyy-MM-dd'T'HH:mm:ssXXX",
+        )}`,
+      };
+    });
 
     // hasReasonCode is only applicable to v0 appointments
     const hasReasonCode = appt.reasonCode?.coding?.length > 0;
@@ -156,14 +164,6 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
       reasonForAppointment,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
-      type: {
-        coding: [
-          {
-            code: appt.serviceType || null,
-            display: getTypeOfCareById(appt.serviceType)?.name,
-          },
-        ],
-      },
       contact: appt.contact,
       preferredDates: appt?.preferredDates || [],
       preferredModality: appt?.preferredModality,
@@ -194,9 +194,7 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     showScheduleLink: appt.showScheduleLink,
     avsPath: isPast ? appt.avsPath : null,
-    // NOTE: Timezone will be converted to the local timezone when using 'format()'.
-    // So use format without the timezone information.
-    start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
+    start: !isRequest ? start : null,
     startUtc: !isRequest ? appt.start : null,
     reasonForAppointment,
     patientComments,
