@@ -869,4 +869,12 @@ describe('isRefillTakingLongerThanExpected function', () => {
     };
     expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
   });
+
+  it('returns false if rxRfRecords[0] is an empty object', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      rxRfRecords: [{}],
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
 });
