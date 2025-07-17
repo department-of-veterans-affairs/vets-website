@@ -75,7 +75,9 @@ export default function VARequestLayout({ data: appointment }) {
           </ul>
         </Section>
         <Section heading="Type of care">
-          {typeOfCareName || 'Type of care not noted'}
+          <span data-dd-privacy="mask">
+            {typeOfCareName || 'Type of care not noted'}
+          </span>
         </Section>
         <Section heading="How you prefer to attend">
           <span>{preferredModality}</span>
