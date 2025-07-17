@@ -6,6 +6,7 @@ import omit from 'platform/utilities/data/omit';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -20,16 +21,19 @@ export const uiSchema = {
       serviceName: merge({}, nonRequiredFullNameUI, {
         first: {
           'ui:title': 'Sponsor’s previous first name',
+          'ui:webComponentField': VaTextInputField,
           'ui:required': form =>
             get('application.veteran.view:hasServiceName', form) === true,
         },
         last: {
           'ui:title': 'Sponsor’s previous last name',
+          'ui:webComponentField': VaTextInputField,
           'ui:required': form =>
             get('application.veteran.view:hasServiceName', form) === true,
         },
         middle: {
           'ui:title': 'Sponsor’s previous middle name',
+          'ui:webComponentField': VaTextInputField,
         },
         suffix: {
           'ui:title': 'Sponsor’s previous suffix',
