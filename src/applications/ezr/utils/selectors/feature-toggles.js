@@ -10,10 +10,10 @@ const selectFeatureToggles = createSelector(
     ],
     isUploadEnabled: toggleValues(state)[FEATURE_FLAG_NAMES.ezrUploadEnabled],
     isEmergencyContactsEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.ezrEmergencyContactsEnabled
+      FEATURE_FLAG_NAMES.ezrAssociationsApiEnabled
     ],
     isNextOfKinEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.ezrNextOfKinEnabled
+      FEATURE_FLAG_NAMES.ezrAssociationsApiEnabled
     ],
   }),
   toggles => toggles,
