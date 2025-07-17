@@ -157,12 +157,7 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('displays text inside refill box "find a list of prescriptions you can refill online."', async () => {
-    const screen = setup({
-      ...initialState,
-      breadcrumbs: {
-        list: [],
-      },
-    });
+    const screen = setup(initialState);
     expect(
       screen.findByText('find a list of prescriptions you can refill online..'),
     );
