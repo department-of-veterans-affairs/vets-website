@@ -18,7 +18,7 @@ const getIsInCCPilot = (featureCCDirectScheduling, patientFacilities = []) => {
 };
 
 const getIsInPilotReferralStation = referral => {
-  const VALID_STATION_IDS = [
+  const validStationIds = [
     '659',
     '659BY',
     '659BZ',
@@ -36,7 +36,7 @@ const getIsInPilotReferralStation = referral => {
     '657GU',
     '657QD',
   ];
-  return VALID_STATION_IDS.includes(referral.stationId);
+  return validStationIds.includes(referral.stationId);
 };
 
 export { getIsInCCPilot, getIsInPilotReferralStation };
