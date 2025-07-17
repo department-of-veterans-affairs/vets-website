@@ -26,6 +26,8 @@ const ApplicationsInProgress = ({
   submittedForms,
   savedForms,
   hideH3,
+  hideMissingApplicationHelp,
+  emptyState,
 }) => {
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
@@ -83,13 +85,14 @@ const ApplicationsInProgress = ({
   const isEmptyState = allForms.length === 0 && !submittedError;
   const hasForms = allForms.length > 0 && !submittedError;
 
-  const emptyStateText = 'You have no benefit applications or forms to show.';
+  const emptyStateText =
+    emptyState || 'You have no benefit applications or forms to show.';
 
   return (
     <div data-testid="applications-in-progress">
       {!hideH3 && (
         <h3
-          className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5"
+          className="vads-u-font-size--h4 vads-u-margin-bottom--2p5"
           data-testid="applications-in-progress-header"
         >
           Applications in progress
@@ -103,7 +106,7 @@ const ApplicationsInProgress = ({
             <p data-testid="applications-in-progress-empty-state">
               {emptyStateText}
             </p>
-            <MissingApplicationHelp />
+            {!hideMissingApplicationHelp && <MissingApplicationHelp />}
           </>
         )}
         {hasForms && (
@@ -112,10 +115,14 @@ const ApplicationsInProgress = ({
               const formId = form.form;
               const formStatus = form.status;
               const { pdfSupport } = form;
-              const formTitle = `application for ${
-                MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-              }`;
-              const presentableFormId = presentableFormIDs[formId];
+              // Determine form title: use benefit name for SiP forms,
+              // otherwise use "VA Form {formId}" for non-SiP forms
+              const formMeta = MY_VA_SIP_FORMS.find(e => e.id === formId);
+              const hasBenefit = !!formMeta?.benefit;
+              const formTitle = hasBenefit
+                ? `application for ${formMeta.benefit}`
+                : `VA Form ${form.form}`;
+              const presentableFormId = presentableFormIDs[formId] || '';
               const { lastUpdated } = form || {};
               const lastSavedDate = format(
                 fromUnixTime(lastUpdated),
@@ -139,7 +146,7 @@ const ApplicationsInProgress = ({
                     formId={formId}
                     formTitle={formTitle}
                     lastSavedDate={lastSavedDate}
-                    presentableFormId={presentableFormId}
+                    presentableFormId={hasBenefit ? presentableFormId : false}
                   />
                 );
               }
@@ -161,7 +168,7 @@ const ApplicationsInProgress = ({
                     lastSavedDate={lastSavedDate}
                     submittedDate={submittedDate}
                     pdfSupport={pdfSupport}
-                    presentableFormId={presentableFormId}
+                    presentableFormId={hasBenefit ? presentableFormId : false}
                     status={normalizeSubmissionStatus(formStatus)}
                   />
                 );
@@ -169,7 +176,7 @@ const ApplicationsInProgress = ({
 
               return null;
             })}
-            <MissingApplicationHelp />
+            {!hideMissingApplicationHelp && <MissingApplicationHelp />}
           </div>
         )}
       </DashboardWidgetWrapper>
@@ -178,7 +185,9 @@ const ApplicationsInProgress = ({
 };
 
 ApplicationsInProgress.propTypes = {
+  emptyState: PropTypes.string,
   hideH3: PropTypes.bool,
+  hideMissingApplicationHelp: PropTypes.bool,
   savedForms: PropTypes.array,
   submittedError: PropTypes.bool, // bool error for _any_ error in request for "submitted forms"
   submittedForms: PropTypes.array,

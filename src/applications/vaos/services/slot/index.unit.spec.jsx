@@ -54,15 +54,12 @@ describe('VAOS Services: Slot ', () => {
       const data = await getSlots({
         siteId: '983',
         clinicId: '983_308',
-        startDate: format(startDate, 'yyyy-MM-dd'),
-        endDate: format(endDate, 'yyyy-MM-dd'),
+        startDate,
+        endDate,
       });
 
       expect(decodeURIComponent(global.fetch.firstCall.args[0])).to.contain(
-        `/vaos/v2/locations/983/clinics/308/slots?start=${format(
-          startDate,
-          DATE_FORMATS.ISODateTimeLocal,
-        )}&end=${format(endDate, DATE_FORMATS.ISODateTimeLocal)}`,
+        `/vaos/v2/locations/983/clinics/308/slots?start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
       );
       expect(data[0].start).to.equal(
         format(startDate, DATE_FORMATS.ISODateTimeUTC),
@@ -82,17 +79,14 @@ describe('VAOS Services: Slot ', () => {
         await getSlots({
           siteId: '983',
           clinicId: '983_308',
-          startDate: format(startDate, 'yyyy-MM-dd'),
-          endDate: format(endDate, 'yyyy-MM-dd'),
+          startDate,
+          endDate,
         });
       } catch (e) {
         error = e;
       }
       expect(decodeURIComponent(global.fetch.firstCall.args[0])).to.contain(
-        `/vaos/v2/locations/983/clinics/308/slots?start=${format(
-          startDate,
-          DATE_FORMATS.ISODateTimeLocal,
-        )}&end=${format(endDate, DATE_FORMATS.ISODateTimeLocal)}`,
+        `/vaos/v2/locations/983/clinics/308/slots?start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
@@ -104,7 +98,6 @@ describe('VAOS Services: Slot ', () => {
         clinicId: '983_308',
         startDate: '2025-05-01T00:00:00+05:00',
         endDate: '2025-06-30T00:00:00+05:00',
-        convertToUtc: true,
       };
       const mockApiResponse = [{ id: 'slot1', start: '2025-05-01T10:00:00Z' }];
       const mockTransformed = [
@@ -155,7 +148,6 @@ describe('VAOS Services: Slot ', () => {
         provider: 'Practitioner/123456',
         startDate: '2025-05-01T00:00:00+05:00',
         endDate: '2025-06-30T00:00:00+05:00',
-        convertToUtc: true,
       };
       const mockApiResponse = [{ id: 'slot1', start: '2025-05-01T10:00:00Z' }];
       const mockTransformed = [

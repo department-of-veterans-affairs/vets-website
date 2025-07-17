@@ -49,7 +49,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page7.schema,
   formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
-  2,
+  1,
   'Sponsor Information - Identification info',
   {},
 );
@@ -57,7 +57,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page7.schema,
   formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
-  2,
+  1,
   'Sponsor Information - Identification info (role: sponsor)',
   { certifierRole: 'sponsor' },
 );

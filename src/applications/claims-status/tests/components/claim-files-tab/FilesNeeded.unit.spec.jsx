@@ -99,7 +99,7 @@ describe('<FilesNeeded>', () => {
     });
   });
   context('when cstFriendlyEvidenceRequests is true', () => {
-    it('should dispaly friendly description of 21-4142', () => {
+    it('should dispaly friendly description and friendlyName of 21-4142', () => {
       const item214142 = {
         closedDate: null,
         description: '21-4142 text',
@@ -124,6 +124,26 @@ describe('<FilesNeeded>', () => {
         </Provider>,
       );
       getByText('good description');
+      getByText('Provide authorization to Disclose Information');
+    });
+    it('should dispaly Request for evidence for item without override content', () => {
+      const noOverrideItem = {
+        closedDate: null,
+        description: 'Description comes from API',
+        displayName: 'track item',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: '2024-12-01',
+        uploadsAllowed: true,
+        documents: '[]',
+        date: '2024-03-07',
+      };
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(true, true)}>
+          <FilesNeeded item={noOverrideItem} />
+        </Provider>,
+      );
+      getByText('Request for evidence');
+      getByText('Description comes from API');
     });
   });
 });

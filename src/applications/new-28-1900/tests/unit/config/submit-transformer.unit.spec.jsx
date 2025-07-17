@@ -50,4 +50,24 @@ describe('28-1900 submit-transformer', () => {
       dob: mockFormData.dob,
     });
   });
+
+  it('removes dashes from all phone fields', () => {
+    const formWithDashes = {
+      data: {
+        ...mockFormData,
+        mainPhone: '212-555-1234',
+        cellPhone: '212-555-5678',
+        internationalPhone: '+1-212-555-9999',
+      },
+    };
+
+    const resultString = transformForSubmit(formConfig, formWithDashes);
+    const result = JSON.parse(
+      JSON.parse(resultString).veteranReadinessEmploymentClaim.form,
+    );
+
+    expect(result.mainPhone).to.equal('2125551234');
+    expect(result.cellPhone).to.equal('2125555678');
+    expect(result.internationalPhone).to.equal('+12125559999');
+  });
 });

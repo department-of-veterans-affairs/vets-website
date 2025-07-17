@@ -4,7 +4,8 @@
  * @module services/Appointment
  */
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { startOfDay, subYears } from 'date-fns';
+import { isAfter, isBefore, parseISO, startOfDay, subYears } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import moment from 'moment-timezone';
 import { getProviderName } from '../../utils/appointment';
 import {
@@ -68,7 +69,6 @@ function apptRequestSort(a, b) {
  * @param {String} endDate Date in YYYY-MM-DD format
  * @param {Boolean} fetchClaimStatus Boolean to fetch travel claim data
  * @param {Boolean} includeEPS Boolean to include EPS appointments
- * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
@@ -78,7 +78,6 @@ export async function fetchAppointments({
   avs = false,
   fetchClaimStatus = false,
   includeEPS = false,
-  useFeSourceOfTruthModality = false,
   useFeSourceOfTruthTelehealth = false,
 }) {
   try {
@@ -103,7 +102,6 @@ export async function fetchAppointments({
     appointments.push(
       ...transformVAOSAppointments(
         filteredAppointments,
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       ),
       {
@@ -129,7 +127,6 @@ export async function fetchAppointments({
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
  * @param {Boolean} includeEPS Boolean to include EPS appointments
- * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
@@ -137,7 +134,6 @@ export async function getAppointmentRequests({
   startDate,
   endDate,
   includeEPS = false,
-  useFeSourceOfTruthModality = false,
   useFeSourceOfTruthTelehealth = false,
 }) {
   try {
@@ -157,7 +153,6 @@ export async function getAppointmentRequests({
 
     const transformRequests = transformVAOSAppointments(
       requestsWithoutAppointments,
-      useFeSourceOfTruthModality,
       useFeSourceOfTruthTelehealth,
     );
 
@@ -181,23 +176,17 @@ export async function getAppointmentRequests({
  * @export
  * @async
  * @param {string} id Appointment request id
- * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {Appointment} An Appointment object for the given request id
  */
 export async function fetchRequestById({
   id,
-  useFeSourceOfTruthModality = false,
   useFeSourceOfTruthTelehealth = false,
 }) {
   try {
     const appointment = await getAppointment(id);
 
-    return transformVAOSAppointment(
-      appointment,
-      useFeSourceOfTruthModality,
-      useFeSourceOfTruthTelehealth,
-    );
+    return transformVAOSAppointment(appointment, useFeSourceOfTruthTelehealth);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -214,7 +203,6 @@ export async function fetchRequestById({
  * @param {string} id MAS or community care booked appointment id
  * @param {avs} Boolean to fetch avs data
  * @param {fetchClaimStatus} Boolean to fetch travel claim data
- * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {Appointment} A transformed appointment with the given id
  */
@@ -222,16 +210,11 @@ export async function fetchBookedAppointment({
   id,
   avs = true,
   fetchClaimStatus = true,
-  useFeSourceOfTruthModality = false,
   useFeSourceOfTruthTelehealth = false,
 }) {
   try {
     const appointment = await getAppointment(id, avs, fetchClaimStatus);
-    return transformVAOSAppointment(
-      appointment,
-      useFeSourceOfTruthModality,
-      useFeSourceOfTruthTelehealth,
-    );
+    return transformVAOSAppointment(appointment, useFeSourceOfTruthTelehealth);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -363,39 +346,6 @@ export function isValidPastAppointment(appt) {
 }
 
 /**
- * Returns true if the given Appointment is a confirmed appointment
- * or a request that still needs processing
- *
- * @export
- * @param {Appointment} appt The FHIR Appointment to check
- * @returns {boolean} Whether or not the appointment is a valid upcoming
- *  appointment or request
- */
-export function isUpcomingAppointmentOrRequest(appt) {
-  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
-    return (
-      !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-      appt.vaos.isUpcomingAppointment
-    );
-  }
-
-  const today = moment().startOf('day');
-  const hasValidDate = appt.requestedPeriod.some(period => {
-    const momentStart = moment(period.start);
-    const momentEnd = moment(period.end);
-    return (
-      momentStart.isValid() && momentStart.isAfter(today) && momentEnd.isValid()
-    );
-  });
-
-  return (
-    !appt.vaos.isExpressCare &&
-    (appt.status === APPOINTMENT_STATUS.proposed ||
-      appt.status === APPOINTMENT_STATUS.pending ||
-      (appt.status === APPOINTMENT_STATUS.cancelled && hasValidDate))
-  );
-}
-/**
  * Returns cancelled and pending requests, which should be visible to users
  *
  * @export
@@ -436,7 +386,7 @@ export function isUpcomingAppointment(appt) {
  * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByDateDescending(a, b) {
-  return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
+  return isAfter(a.start, b.start) ? -1 : 1;
 }
 
 /**
@@ -445,7 +395,7 @@ export function sortByDateDescending(a, b) {
  * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByDateAscending(a, b) {
-  return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
+  return isBefore(a.start, b.start) ? -1 : 1;
 }
 
 /**
@@ -454,49 +404,7 @@ export function sortByDateAscending(a, b) {
  * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByCreatedDateDescending(a, b) {
-  return moment(a.created).isAfter(moment(b.created)) ? -1 : 1;
-}
-
-/**
- * Sort method for future appointment requests
- * @param {Appointment} a A FHIR appointment resource
- * @param {Appointment} b A FHIR appointment resource
- */
-export function sortUpcoming(a, b) {
-  if (
-    CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) !==
-    CONFIRMED_APPOINTMENT_TYPES.has(b.vaos.appointmentType)
-  ) {
-    return CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) ? -1 : 1;
-  }
-
-  if (CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType)) {
-    return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
-  }
-
-  const typeOfCareA = a.type?.coding?.[0]?.display;
-  const typeOfCareB = b.type?.coding?.[0]?.display;
-
-  // If type of care is the same, return the one with the sooner date
-  if (typeOfCareA === typeOfCareB) {
-    return moment(a.requestedPeriod[0].start).isBefore(
-      moment(b.requestedPeriod[0].start),
-    )
-      ? -1
-      : 1;
-  }
-
-  // Otherwise, return sorted alphabetically by appointmentType
-  return typeOfCareA.toLowerCase() < typeOfCareB.toLowerCase() ? -1 : 1;
-}
-
-/**
- * Sort method for appointment messages
- * @param {Object} a Message object
- * @param {Object} b Message object
- */
-export function sortMessages(a, b) {
-  return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
+  return isAfter(parseISO(a.created), parseISO(b.created)) ? -1 : 1;
 }
 
 /**
@@ -530,7 +438,7 @@ export function groupAppointmentsByMonth(appointments) {
   }
 
   return appointments.reduce((previous, current) => {
-    const key = moment(current.start).format('YYYY-MM');
+    const key = formatInTimeZone(current.start, current.timezone, 'yyyy-MM');
     // eslint-disable-next-line no-param-reassign
     previous[key] = previous[key] || [];
     previous[key].push(current);
@@ -545,22 +453,16 @@ export function groupAppointmentsByMonth(appointments) {
  * @export
  * @param {Object} params
  * @param {VAOSAppointment} params.appointment The appointment to send
- * @param {Boolean} params.useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} params.useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {Appointment} The created appointment
  */
 export async function createAppointment({
   appointment,
-  useFeSourceOfTruthModality,
   useFeSourceOfTruthTelehealth,
 }) {
   const result = await postAppointment(appointment);
 
-  return transformVAOSAppointment(
-    result,
-    useFeSourceOfTruthModality,
-    useFeSourceOfTruthTelehealth,
-  );
+  return transformVAOSAppointment(result, useFeSourceOfTruthTelehealth);
 }
 
 const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
@@ -571,13 +473,11 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
  * @export
  * @param {Object} params
  * @param {Appointment} params.appointment The appointment to cancel
- * @param {Boolean} params.useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @param {Boolean} params.useFeSourceOfTruthTelehealth whether to use vets-api payload as the FE source of truth for appointment telehealth modality
  * @returns {?Appointment} Returns either null or the updated appointment data
  */
 export async function cancelAppointment({
   appointment,
-  useFeSourceOfTruthModality,
   useFeSourceOfTruthTelehealth,
 }) {
   const additionalEventData = {
@@ -606,7 +506,6 @@ export async function cancelAppointment({
 
     return transformVAOSAppointment(
       updatedAppointment,
-      useFeSourceOfTruthModality,
       useFeSourceOfTruthTelehealth,
     );
   } catch (e) {
@@ -649,9 +548,11 @@ export function getCalendarData({ appointment, facility }) {
       summary: 'Phone appointment',
       providerName: facility?.name,
       location: formatFacilityAddress(facility),
-      text: `A provider will call you at ${moment
-        .parseZone(appointment.start)
-        .format('h:mm a')}`,
+      text: `A provider will call you at ${formatInTimeZone(
+        appointment.start,
+        appointment.timezone,
+        'h:mm aaa',
+      )}`,
       phone: getFacilityPhone(facility),
       additionalText: [signinText],
     };
@@ -791,7 +692,7 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
   const batch = [];
   let promise = null;
 
-  return (useFeSourceOfTruthModality, useFeSourceOfTruthTelehealth) => {
+  return useFeSourceOfTruthTelehealth => {
     if (!promise || navigator.userAgent === 'node.js') {
       // Creating an array of start and end dates for each chunk
       const ranges = Array.from(Array(chunks).keys()).map(i => {
@@ -816,7 +717,6 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
         const p1 = await fetchAppointments({
           startDate: curr.start,
           endDate: curr.end,
-          useFeSourceOfTruthModality,
           useFeSourceOfTruthTelehealth,
         });
         batch.push(p1);
@@ -828,21 +728,13 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
   };
 })(3);
 
-/**
- * Function to return appointment date. Date is return with conversion to locale
- * timezone.
- *
- * @export
- * @param {*} appointment
- * @returns Appointment date
- */
-export function getAppointmentDate(appointment) {
-  return moment.parseZone(appointment.start);
-}
-
 export function groupAppointmentByDay(appointments) {
   return appointments.reduce((previous, current) => {
-    const key = moment(current.start).format('YYYY-MM-DD');
+    const key = formatInTimeZone(
+      current.start,
+      appointments.timezone,
+      'yyyy-MM-dd',
+    );
     // eslint-disable-next-line no-param-reassign
     previous[key] = previous[key] || [];
     previous[key].push(current);
@@ -883,12 +775,4 @@ export function getVideoAppointmentLocationText(appointment) {
 // TODO: Verify if isCanceledConfirmed can be used
 export function isCanceled(appointment) {
   return appointment.status === APPOINTMENT_STATUS.cancelled;
-}
-
-export function getLabelText(appointment) {
-  const appointmentDate = getAppointmentDate(appointment);
-
-  return `Details for ${
-    isCanceled(appointment) ? 'canceled ' : ''
-  }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
 }

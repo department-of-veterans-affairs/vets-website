@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { getIsInCCPilot } from '../../utils/pilot';
 
 describe('VAOS CC pilot utils', () => {
-  describe.skip('getIsInCCPilot', () => {
+  describe('getIsInCCPilot', () => {
     it('Returns false when the user has a facility within the pilot list but the feature is off', () => {
       expect(getIsInCCPilot(false)).to.be.false;
     });
@@ -21,7 +21,7 @@ describe('VAOS CC pilot utils', () => {
     });
     it('Returns true when the user has a facility within the pilot list as well as some outside', () => {
       expect(
-        getIsInCCPilot(true, [{ facilityId: '657GL' }, { facilityId: '400' }]),
+        getIsInCCPilot(true, [{ facilityId: '659' }, { facilityId: '400' }]),
       ).to.be.true;
     });
   });

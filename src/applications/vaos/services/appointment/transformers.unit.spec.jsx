@@ -45,98 +45,82 @@ describe('getAppointmentType util', () => {
 });
 
 describe('VAOS <transformVAOSAppointment>', () => {
+  it('should set modality fields for claim exams', async () => {
+    // Arrange
+    const appointment = new MockAppointment();
+    appointment.setModality('claimExamAppointment');
+
+    // Act
+    const a = transformVAOSAppointment(appointment);
+
+    // Assert
+    expect(a.vaos.isCompAndPenAppointment).to.be.true;
+    expect(a.vaos.isPhoneAppointment).to.be.false;
+    expect(a.vaos.isCOVIDVaccine).to.be.false;
+    expect(a.vaos.isInPersonVisit).to.be.true;
+    expect(a.vaos.isVideo).to.be.false;
+    expect(a.vaos.isVideoAtHome).to.be.false;
+    expect(a.vaos.isAtlas).to.be.false;
+    expect(a.vaos.isVideoAtVA).to.be.false;
+  });
+  it('should set modality fields for phone appointments', async () => {
+    // Arrange
+    const appointment = new MockAppointment();
+    appointment.setModality('vaPhone');
+
+    // Act
+    const a = transformVAOSAppointment(appointment);
+
+    // Assert
+    expect(a.vaos.isCompAndPenAppointment).to.be.false;
+    expect(a.vaos.isPhoneAppointment).to.be.true;
+    expect(a.vaos.isCOVIDVaccine).to.be.false;
+    expect(a.vaos.isInPersonVisit).to.be.false;
+    expect(a.vaos.isVideo).to.be.false;
+    expect(a.vaos.isVideoAtHome).to.be.false;
+    expect(a.vaos.isAtlas).to.be.false;
+    expect(a.vaos.isVideoAtVA).to.be.false;
+  });
+  it('should set modality fields for vaccine appointments', async () => {
+    // Arrange
+    const appointment = new MockAppointment();
+    appointment.setModality('vaInPersonVaccine');
+
+    // Act
+    const a = transformVAOSAppointment(appointment);
+
+    // Assert
+    expect(a.vaos.isCompAndPenAppointment).to.be.false;
+    expect(a.vaos.isPhoneAppointment).to.be.false;
+    expect(a.vaos.isCOVIDVaccine).to.be.true;
+    expect(a.vaos.isInPersonVisit).to.be.true;
+    expect(a.vaos.isVideo).to.be.false;
+    expect(a.vaos.isVideoAtHome).to.be.false;
+    expect(a.vaos.isAtlas).to.be.false;
+    expect(a.vaos.isVideoAtVA).to.be.false;
+  });
+  it('should set modality fields for in person appointments', async () => {
+    // Arrange
+    const appointment = new MockAppointment();
+    appointment.setModality('vaInPerson');
+
+    // Act
+    const a = transformVAOSAppointment(appointment);
+
+    // Assert
+    expect(a.vaos.isCompAndPenAppointment).to.be.false;
+    expect(a.vaos.isPhoneAppointment).to.be.false;
+    expect(a.vaos.isCOVIDVaccine).to.be.false;
+    expect(a.vaos.isInPersonVisit).to.be.true;
+    expect(a.vaos.isVideo).to.be.false;
+    expect(a.vaos.isVideoAtHome).to.be.false;
+    expect(a.vaos.isAtlas).to.be.false;
+    expect(a.vaos.isVideoAtVA).to.be.false;
+  });
+
   describe('When modality feature flag is on', () => {
-    const useFeSourceOfTruthModality = true;
     const useFeSourceOfTruthTelehealth = true;
 
-    it('should set modality fields for claim exams', async () => {
-      // Arrange
-      const appointment = new MockAppointment();
-      appointment.setModality('claimExamAppointment');
-
-      // Act
-      const a = transformVAOSAppointment(
-        appointment,
-        useFeSourceOfTruthModality,
-        useFeSourceOfTruthTelehealth,
-      );
-
-      // Assert
-      expect(a.vaos.isCompAndPenAppointment).to.be.true;
-      expect(a.vaos.isPhoneAppointment).to.be.false;
-      expect(a.vaos.isCOVIDVaccine).to.be.false;
-      expect(a.vaos.isInPersonVisit).to.be.true;
-      expect(a.vaos.isVideo).to.be.false;
-      expect(a.vaos.isVideoAtHome).to.be.false;
-      expect(a.vaos.isAtlas).to.be.false;
-      expect(a.vaos.isVideoAtVA).to.be.false;
-    });
-    it('should set modality fields for phone appointments', async () => {
-      // Arrange
-      const appointment = new MockAppointment();
-      appointment.setModality('vaPhone');
-
-      // Act
-      const a = transformVAOSAppointment(
-        appointment,
-        useFeSourceOfTruthModality,
-        useFeSourceOfTruthTelehealth,
-      );
-
-      // Assert
-      expect(a.vaos.isCompAndPenAppointment).to.be.false;
-      expect(a.vaos.isPhoneAppointment).to.be.true;
-      expect(a.vaos.isCOVIDVaccine).to.be.false;
-      expect(a.vaos.isInPersonVisit).to.be.false;
-      expect(a.vaos.isVideo).to.be.false;
-      expect(a.vaos.isVideoAtHome).to.be.false;
-      expect(a.vaos.isAtlas).to.be.false;
-      expect(a.vaos.isVideoAtVA).to.be.false;
-    });
-    it('should set modality fields for vaccine appointments', async () => {
-      // Arrange
-      const appointment = new MockAppointment();
-      appointment.setModality('vaInPersonVaccine');
-
-      // Act
-      const a = transformVAOSAppointment(
-        appointment,
-        useFeSourceOfTruthModality,
-        useFeSourceOfTruthTelehealth,
-      );
-
-      // Assert
-      expect(a.vaos.isCompAndPenAppointment).to.be.false;
-      expect(a.vaos.isPhoneAppointment).to.be.false;
-      expect(a.vaos.isCOVIDVaccine).to.be.true;
-      expect(a.vaos.isInPersonVisit).to.be.true;
-      expect(a.vaos.isVideo).to.be.false;
-      expect(a.vaos.isVideoAtHome).to.be.false;
-      expect(a.vaos.isAtlas).to.be.false;
-      expect(a.vaos.isVideoAtVA).to.be.false;
-    });
-    it('should set modality fields for in person appointments', async () => {
-      // Arrange
-      const appointment = new MockAppointment();
-      appointment.setModality('vaInPerson');
-
-      // Act
-      const a = transformVAOSAppointment(
-        appointment,
-        useFeSourceOfTruthModality,
-        useFeSourceOfTruthTelehealth,
-      );
-
-      // Assert
-      expect(a.vaos.isCompAndPenAppointment).to.be.false;
-      expect(a.vaos.isPhoneAppointment).to.be.false;
-      expect(a.vaos.isCOVIDVaccine).to.be.false;
-      expect(a.vaos.isInPersonVisit).to.be.true;
-      expect(a.vaos.isVideo).to.be.false;
-      expect(a.vaos.isVideoAtHome).to.be.false;
-      expect(a.vaos.isAtlas).to.be.false;
-      expect(a.vaos.isVideoAtVA).to.be.false;
-    });
     it('should set modality fields for video at home appointments', async () => {
       // Arrange
       const appointment = new MockAppointment();
@@ -145,7 +129,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
 
@@ -183,7 +166,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
 
@@ -206,7 +188,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         parseApiObject({ data: response }),
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
 
@@ -222,107 +203,8 @@ describe('VAOS <transformVAOSAppointment>', () => {
     });
   });
   describe('When modality flag is off', () => {
-    const useFeSourceOfTruthModality = false;
     const useFeSourceOfTruthTelehealth = false;
 
-    it('should set modality fields for claim exams', async () => {
-      // Arrange
-      const appointment = new MockAppointment();
-      appointment.serviceCategory = [
-        {
-          coding: [
-            {
-              system: 'http://www.va.gov/Terminology/VistADefinedTerms/409_1',
-              code: 'COMPENSATION & PENSION',
-              display: 'COMPENSATION & PENSION',
-            },
-          ],
-          text: 'COMPENSATION & PENSION',
-        },
-      ];
-
-      // Act
-      const a = transformVAOSAppointment(
-        appointment,
-        useFeSourceOfTruthModality,
-        useFeSourceOfTruthTelehealth,
-      );
-
-      // Assert
-      expect(a.vaos.isCompAndPenAppointment).to.be.true;
-      expect(a.vaos.isPhoneAppointment).to.be.false;
-      expect(a.vaos.isCOVIDVaccine).to.be.false;
-      expect(a.vaos.isInPersonVisit).to.be.true;
-      expect(a.vaos.isVideo).to.be.false;
-      expect(a.vaos.isVideoAtHome).to.be.false;
-      expect(a.vaos.isAtlas).to.be.false;
-      expect(a.vaos.isVideoAtVA).to.be.false;
-    });
-    it('should set modality fields for phone appointments', async () => {
-      // Arrange
-      const appointment = new MockAppointment();
-      appointment.kind = 'phone';
-
-      // Act
-      const a = transformVAOSAppointment(
-        appointment,
-        useFeSourceOfTruthModality,
-        useFeSourceOfTruthTelehealth,
-      );
-
-      // Assert
-      expect(a.vaos.isCompAndPenAppointment).to.be.false;
-      expect(a.vaos.isPhoneAppointment).to.be.true;
-      expect(a.vaos.isCOVIDVaccine).to.be.false;
-      expect(a.vaos.isInPersonVisit).to.be.false;
-      expect(a.vaos.isVideo).to.be.false;
-      expect(a.vaos.isVideoAtHome).to.be.false;
-      expect(a.vaos.isAtlas).to.be.false;
-      expect(a.vaos.isVideoAtVA).to.be.false;
-    });
-    it('should set modality fields for vaccine appointments', async () => {
-      // Arrange
-      const appointment = new MockAppointment();
-      appointment.serviceType = 'covid';
-
-      // Act
-      const a = transformVAOSAppointment(
-        appointment,
-        useFeSourceOfTruthModality,
-        useFeSourceOfTruthTelehealth,
-      );
-
-      // Assert
-      expect(a.vaos.isCompAndPenAppointment).to.be.false;
-      expect(a.vaos.isPhoneAppointment).to.be.false;
-      expect(a.vaos.isCOVIDVaccine).to.be.true;
-      expect(a.vaos.isInPersonVisit).to.be.true;
-      expect(a.vaos.isVideo).to.be.false;
-      expect(a.vaos.isVideoAtHome).to.be.false;
-      expect(a.vaos.isAtlas).to.be.false;
-      expect(a.vaos.isVideoAtVA).to.be.false;
-    });
-    it('should set modality fields for in person appointments', async () => {
-      // Arrange
-      const appointment = new MockAppointment();
-
-      // Act
-      const a = transformVAOSAppointment(
-        appointment,
-        useFeSourceOfTruthModality,
-        useFeSourceOfTruthTelehealth,
-      );
-
-      // Assert
-      expect(a.vaos.isCompAndPenAppointment).to.be.false;
-      expect(a.vaos.isPhoneAppointment).to.be.false;
-      expect(a.vaos.isCOVIDVaccine).to.be.false;
-      expect(a.vaos.isInPersonVisit).to.be.true;
-      expect(a.vaos.isVideo).to.be.false;
-      expect(a.vaos.isVideoAtHome).to.be.false;
-      expect(a.vaos.isAtlas).to.be.false;
-      expect(a.vaos.isVideoAtVA).to.be.false;
-    });
     it('should set modality fields for video at home appointments', async () => {
       // Arrange
       const mobile = new MockAppointment();
@@ -337,16 +219,8 @@ describe('VAOS <transformVAOSAppointment>', () => {
       };
 
       // Act
-      const a = transformVAOSAppointment(
-        mobile,
-        useFeSourceOfTruthModality,
-        useFeSourceOfTruthTelehealth,
-      );
-      const b = transformVAOSAppointment(
-        adhoc,
-        useFeSourceOfTruthModality,
-        useFeSourceOfTruthTelehealth,
-      );
+      const a = transformVAOSAppointment(mobile, useFeSourceOfTruthTelehealth);
+      const b = transformVAOSAppointment(adhoc, useFeSourceOfTruthTelehealth);
 
       // Assert
       expect(a.vaos.isCompAndPenAppointment).to.be.false;
@@ -379,12 +253,10 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         parseApiObject({ data: mobile }),
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
       const b = transformVAOSAppointment(
         parseApiObject({ data: storeForward }),
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
 
@@ -432,7 +304,6 @@ describe('VAOS <transformVAOSAppointment>', () => {
       // Act
       const a = transformVAOSAppointment(
         appointment,
-        useFeSourceOfTruthModality,
         useFeSourceOfTruthTelehealth,
       );
 

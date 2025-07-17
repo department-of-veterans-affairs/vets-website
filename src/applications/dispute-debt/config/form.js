@@ -24,7 +24,7 @@ import manifest from '../manifest.json';
 import submitForm from './submitForm';
 import { TITLE } from '../constants';
 import transformForSubmit from './transformForSubmit';
-import { getDebtPageTitle } from '../utils';
+import { getDebtPageTitle, focusH3 } from '../utils';
 
 // Function to return the NeedHelp component
 const getHelp = () => <NeedHelp />;
@@ -37,6 +37,8 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/debts_api/v0/digital_disputes`,
   submit: submitForm,
   trackingPrefix: 'dispute-debt',
+  useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3, // scroll and focus fallback
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
@@ -59,6 +61,9 @@ const formConfig = {
     notFound: 'Please start your application over to dispute your VA debt.',
     noAuth:
       'Please sign in again to continue your application to dispute your VA debt.',
+  },
+  customText: {
+    reviewTitle: 'Review and submit',
   },
   title: TITLE,
   downtime: {
