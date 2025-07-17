@@ -9,7 +9,6 @@ import {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
-import { isPilotState } from '../../selectors';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -61,7 +60,11 @@ const ComposeForm = props => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { isComboBoxEnabled, largeAttachmentsEnabled } = useFeatureToggles();
+  const {
+    isComboBoxEnabled,
+    largeAttachmentsEnabled,
+    cernerPilotSmFeatureFlag,
+  } = useFeatureToggles();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
@@ -118,7 +121,6 @@ const ComposeForm = props => {
     draftAutoSaveTimeout,
   );
   const alertsList = useSelector(state => state.sm.alerts.alertList);
-  const isPilot = useSelector(isPilotState);
 
   const validMessageType = {
     SAVE: 'save',
@@ -969,7 +971,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
-                    isPilot={isPilot}
+                    isPilot={cernerPilotSmFeatureFlag}
                   />
                 </section>
               ))}

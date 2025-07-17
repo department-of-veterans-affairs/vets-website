@@ -330,19 +330,16 @@ describe('App', () => {
     const customState = {
       ...initialState,
       featureToggles: [],
-      sm: {
-        ...initialState.sm,
-        app: { isPilot: true },
-      },
     };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+    ] = true;
 
     if (!window.location) window.location = {};
     window.location.replace = sinon.spy();
     window.location.pathname = '/secure-messaging-pilot/';
 
-    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
-
-    const { queryByText } = renderWithStoreAndRouter(<App isPilot />, {
+    const { queryByText } = renderWithStoreAndRouter(<App />, {
       initialState: customState,
       reducers: reducer,
       path: `/`,
@@ -360,7 +357,9 @@ describe('App', () => {
   it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
     window.location.replace = sinon.spy();
     const customState = { ...initialState, featureToggles: [] };
-    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+    ] = true;
     const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
       initialState: customState,
       reducers: reducer,
@@ -377,7 +376,7 @@ describe('App', () => {
     window.location.replace = sinon.spy();
     const customState = { ...initialState, featureToggles: [] };
     customState.featureToggles[
-      `${'mhv_secure_messaging_cerner_pilot'}`
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
     ] = false;
     const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
       initialState: customState,
