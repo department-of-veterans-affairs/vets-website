@@ -119,15 +119,15 @@ const summaryPage = {
           'In this year or in the past 3 tax years, did you or your dependents transfer any assets?',
         hint: 'If yes, you’ll need to report at least one asset transfer',
         labels: {
-          Y: 'Yes, I have an asset transfer to report',
-          N: 'No, I don’t have an asset transfer to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
         title: 'Do you have more asset transfers to report?',
         labels: {
-          Y: 'Yes, I have more asset transfers to report',
-          N: 'No, I don’t have more asset transfers to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),

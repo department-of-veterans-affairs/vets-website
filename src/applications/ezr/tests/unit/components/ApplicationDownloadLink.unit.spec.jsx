@@ -1,37 +1,30 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as api from 'platform/utilities/api';
 import * as recordEventModule from 'platform/monitoring/record-event';
 import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink';
 import content from '../../../locales/en/content.json';
+import { renderProviderWrappedComponent } from '../../helpers';
 
 describe('ezr <ApplicationDownloadLink>', () => {
   const subject = ({ veteranInformation } = {}) => {
     const expectedVeteranInformation = veteranInformation ?? {
       veteranFullName: { first: 'John', last: 'Smith' },
     };
-
-    const mockStore = {
-      // We need to have all of the necessary data to supply to the submitTransformer
-      getState: () => ({
-        form: {
-          data: {
-            'view:veteranInformation': expectedVeteranInformation,
-            veteranDateOfBirth: '1990-01-01',
-            gender: 'M',
-          },
+    const mockStoreData = {
+      form: {
+        data: {
+          'view:veteranInformation': expectedVeteranInformation,
+          veteranDateOfBirth: '1990-01-01',
+          gender: 'M',
         },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
+      },
     };
-    const { container } = render(
-      <Provider store={mockStore}>
-        <ApplicationDownloadLink formConfig={{}} linkText="My Link Text" />
-      </Provider>,
+    const { container } = renderProviderWrappedComponent(
+      mockStoreData,
+      <ApplicationDownloadLink formConfig={{}} linkText="My Link Text" />,
     );
     const selectors = () => ({
       vaAlert: container.querySelector('va-alert'),

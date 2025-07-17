@@ -266,3 +266,9 @@ h3, .schemaform-block-title {
 article#form-4010007[data-location^="service-periods-"] .vads-u-color--gray-dark {
   color: var(--vads-color-base) !important;
 }
+
+article#form-4010007[data-location^="applicant-military-name"],
+article#form-4010007[data-location^="sponsor-military-name"]{
+.schemaform-first-field .schemaform-label {
+  padding-top: 3em;
+}}

@@ -13,9 +13,9 @@ const errorType = {
 };
 
 const AvsErrorElement = () => {
-  const error = useAsyncError();
+  const err = useAsyncError();
 
-  const status = error?.error?.[0]?.status;
+  const status = err?.errors[0]?.status;
 
   if (status === errorType.unauthorized) {
     return <MhvUnauthorized />;
@@ -24,7 +24,7 @@ const AvsErrorElement = () => {
     return <MhvPageNotFound />;
   }
 
-  // Render the ErrorBoundary to handle any unexpected errors gracefully.
+  // Render the ErrorBoundary to handle any unexpected errors gracefully
   return <ErrorBoundary />;
 };
 

@@ -184,7 +184,7 @@ Cypress.Commands.add('tabToGoBack', (forward = true) => {
 Cypress.Commands.add('tabToSubmitForm', () => {
   // Form submit button is a button type?
   cy.tabToElement(
-    'button[id$="continueButton"].usa-button-primary, va-button:not([secondary]',
+    'button[id$="continueButton"].usa-button-primary, va-button:not([secondary])',
   );
   cy.realPress('Space');
 });

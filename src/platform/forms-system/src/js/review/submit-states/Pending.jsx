@@ -31,6 +31,7 @@ export default function Pending(props) {
                 onButtonClick={onSubmit}
                 buttonText="Sending..."
                 disabled
+                loading
                 buttonClass="usa-button-disabled"
                 useWebComponents={useWebComponents}
               />
@@ -50,6 +51,7 @@ export default function Pending(props) {
                 onButtonClick={onSubmit}
                 buttonText="Sending..."
                 disabled
+                loading
                 buttonClass="usa-button-disabled"
                 useWebComponents={useWebComponents}
               />

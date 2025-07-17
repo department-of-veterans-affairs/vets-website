@@ -18,7 +18,7 @@ const data = id => {
 // status: 401, error.status: 'unauthorized'
 // eg. id: '9448C91A721810765817079493131823'
 const unauthorizedError = {
-  error: [
+  errors: [
     {
       title: 'Not authorized',
       detail: 'User may not view this AVS.',
@@ -30,7 +30,7 @@ const unauthorizedError = {
 // status: 404, error.status: 'not_found'
 // eg. id: '9A7AF40B2BC2471EA116891839113200'
 const notFoundError = {
-  error: [
+  errors: [
     {
       title: 'Not found',
       detail: 'No AVS found for sid 9A7AF40B2BC2471EA116891839113200',
@@ -42,7 +42,7 @@ const notFoundError = {
 // status: 400, error-status: 'bad_request'
 // eg. id: '1234567890'
 const badRequestError = {
-  error: [
+  errors: [
     {
       title: 'Invalid AVS id',
       detail: 'AVS id does not match accepted format.',

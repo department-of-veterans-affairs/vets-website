@@ -1357,3 +1357,29 @@ export const renderOverrideThirdPartyMessage = item => {
   }
   return item.activityDescription;
 };
+
+export const getUploadErrorMessage = (error, claimId) => {
+  if (error?.errors?.[0]?.detail === 'DOC_UPLOAD_DUPLICATE') {
+    return {
+      title: `You've already uploaded ${error?.fileName || 'files'}`,
+      body: (
+        <>
+          It can take up to 2 days for the file to show up in{' '}
+          <va-link
+            text="your list of documents filed"
+            href={`/track-claims/your-claims/${claimId}/files`}
+          />
+          . Try checking back later before uploading again.
+        </>
+      ),
+      type: 'error',
+    };
+  }
+  return {
+    title: `Error uploading ${error?.fileName || 'files'}`,
+    body:
+      error?.errors?.[0]?.title ||
+      'There was an error uploading your files. Please try again',
+    type: 'error',
+  };
+};

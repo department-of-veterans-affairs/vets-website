@@ -63,6 +63,10 @@
   &__awaiting {
     display: flex;
     padding: 0 !important;
+
+    .submissions__inline-status-icon.submissions__card-check {
+      color: $vads-color-base;
+    }
   }
 }
 .submission {
