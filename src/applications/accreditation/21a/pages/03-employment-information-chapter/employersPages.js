@@ -35,7 +35,7 @@ const arrayBuilderOptions = {
     !item?.positionTitle ||
     !item?.supervisorName ||
     !item?.address ||
-    !item?.phone ||
+    !item?.phone.contact ||
     !item?.dateRange?.from ||
     (!item?.dateRange?.to && !item?.currentlyEmployed) ||
     (!item?.currentlyEmployed && !item?.reasonForLeaving),
@@ -145,9 +145,7 @@ const phoneNumberPage = {
           fallback: 'Employer',
         })} phone number`,
     ),
-    phone: internationalPhoneUI({
-      hint: 'Enter with dashes and no spaces. For example: 206-555-0100',
-    }),
+    phone: internationalPhoneUI(),
     extension: textUI({
       title: 'Extension',
       width: 'sm',
@@ -159,7 +157,7 @@ const phoneNumberPage = {
   schema: {
     type: 'object',
     properties: {
-      phone: internationalPhoneSchema,
+      phone: internationalPhoneSchema(),
       extension: {
         type: 'string',
         pattern: '^[a-zA-Z0-9]{1,10}$',
