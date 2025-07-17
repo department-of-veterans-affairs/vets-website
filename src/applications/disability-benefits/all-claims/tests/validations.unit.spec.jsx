@@ -940,6 +940,38 @@ describe('526 All Claims validations', () => {
         'you will need to wait',
       );
     });
+
+    it('should add error for invalid date formats', () => {
+      const errors = { addError: sinon.spy() };
+      validateSeparationDate(errors, 'invalid-date', _, _, _, 0, data());
+
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.args[0][0]).to.contain('is not a real date');
+    });
+
+    it('should add error for empty date string', () => {
+      const errors = { addError: sinon.spy() };
+      validateSeparationDate(errors, '', _, _, _, 0, data());
+
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.args[0][0]).to.contain('is not a real date');
+    });
+
+    it('should add error for malformed date', () => {
+      const errors = { addError: sinon.spy() };
+      validateSeparationDate(errors, '2025-13-45', _, _, _, 0, data());
+
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.args[0][0]).to.contain('is not a real date');
+    });
+
+    it('should add error for null/undefined date', () => {
+      const errors = { addError: sinon.spy() };
+      validateSeparationDate(errors, null, _, _, _, 0, data());
+
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.args[0][0]).to.contain('is not a real date');
+    });
   });
 
   describe('isInFuture', () => {
