@@ -576,6 +576,7 @@ const applicantMarriageDatesPage = {
       ({ formData }) =>
         `${applicantWording(formData)} date of marriage to the sponsor`,
       'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system.',
+      false,
     ),
     dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
   },
@@ -592,9 +593,12 @@ const applicantRemarriedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${applicantWording(formData)} marriage status`,
+      '',
+      false,
     ),
     applicantRemarried: {
       ...yesNoUI({
+        title: 'Has this applicant remarried?',
         updateUiSchema: formData => {
           return {
             'ui:title': `Has ${applicantWording(formData, false)} remarried?`,
