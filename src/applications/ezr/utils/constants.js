@@ -132,7 +132,6 @@ export const APP_URLS = {
 };
 
 export const MAX_NEXT_OF_KINS = 1;
-export const MAX_DEPENDENTS = 6;
 
 export const API_ENDPOINTS = {
   csrfCheck: '/maintenance_windows',
