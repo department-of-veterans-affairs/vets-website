@@ -10,7 +10,7 @@ const allResults = conditionObjects
   .map(obj => obj.option)
   .filter(opt => typeof opt === 'string');
 
-// Helper to build free‑text label (mirrors component implementation)
+// Helper to build free‑text label
 const freeTextLabel = val => `Enter your condition as "${val}"`;
 
 // <VaTextInput> is a React binding to a web component, direct value
@@ -34,7 +34,7 @@ export const simulateInputChange = (element, value) => {
   }
 };
 
-// Create props for each test (avoid cross‑test state bleed)
+// Create props for each test
 const getProps = overrides => ({
   availableResults: allResults,
   debounceDelay: 0, // instant for tests
@@ -53,7 +53,7 @@ const renderWithInput = rawProps => {
   return { ...utils, input };
 };
 
-// JSDOM doesn’t implement scrollIntoView; silence errors
+// Silence errors as JSDOM doesn’t implement scrollIntoView
 beforeEach(() => {
   // eslint-disable-next-line no-undef
   Element.prototype.scrollIntoView =
@@ -61,7 +61,7 @@ beforeEach(() => {
 });
 
 // Rendering tests
-describe('Autocomplete – smoke render', () => {
+describe('Autocomplete render', () => {
   it('renders base props (label, required, hint) with empty value and no list', () => {
     const props = getProps();
     const { input, queryByTestId } = renderWithInput(props);
@@ -75,7 +75,7 @@ describe('Autocomplete – smoke render', () => {
 });
 
 // Controlled value / prop sync tests
-describe('Autocomplete – controlled value sync', () => {
+describe('Autocomplete controlled value sync', () => {
   it('renders initial formData value and opens list on focus when value present', async () => {
     const props = getProps({ formData: 'mig' });
     const { input, findAllByRole, queryByRole } = renderWithInput(props);
@@ -106,7 +106,7 @@ describe('Autocomplete – controlled value sync', () => {
 });
 
 // Typing & results tests
-describe('Autocomplete – typing & results', () => {
+describe('Autocomplete typing & results', () => {
   it('typing updates value, calls onChange, and shows free-text + suggestions', async () => {
     const props = getProps();
     const { input, findAllByRole } = renderWithInput(props);
@@ -131,7 +131,7 @@ describe('Autocomplete – typing & results', () => {
 });
 
 // Mouse selection behavior tests
-describe('Autocomplete – mouse interactions', () => {
+describe('Autocomplete mouse interactions', () => {
   it('clicking a suggestion selects it, calls onChange, closes list', async () => {
     const props = getProps();
     const { input, findAllByRole, queryByTestId } = renderWithInput(props);
@@ -211,7 +211,7 @@ describe('Autocomplete – mouse interactions', () => {
 });
 
 // Keyboard navigation tests
-describe('Autocomplete – keyboard navigation', () => {
+describe('Autocomplete keyboard navigation', () => {
   it('ArrowDown from input moves active to first option (free-text)', async () => {
     it('ArrowDown from input moves active from free-text (index 0) to first suggestion (index 1)', async () => {
       const props = getProps();
@@ -311,7 +311,7 @@ describe('Autocomplete – keyboard navigation', () => {
 });
 
 // Accessibility tests
-describe('Autocomplete – accessibility attributes & aria-live', () => {
+describe('Autocomplete accessibility attributes & aria-live', () => {
   it('includes instructions (message-aria-describedby) when input is empty', () => {
     const props = getProps({ formData: '' });
     const { input } = renderWithInput(props);
