@@ -1,7 +1,6 @@
 // Node modules.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 // Relative imports.
 import recordEvent from '~/platform/monitoring/record-event';
@@ -42,33 +41,6 @@ import { ACCOUNT_STATES, ACCOUNT_STATES_SET } from './constants';
 import { ctaWidgetsLookup, CTA_WIDGET_TYPES } from './ctaWidgets';
 
 export class CallToActionWidget extends Component {
-  static propTypes = {
-    // Directly passed in props.
-    appId: PropTypes.string,
-    children: PropTypes.node,
-    headerLevel: PropTypes.string,
-    setFocus: PropTypes.bool,
-    // From mapStateToProps.
-    authenticatedWithSSOe: PropTypes.bool,
-    featureToggles: PropTypes.object,
-    isLoggedIn: PropTypes.bool,
-    isVaPatient: PropTypes.bool,
-    mhvAccount: PropTypes.object,
-    mhvAccountIdState: PropTypes.string,
-    mviStatus: PropTypes.string,
-    profile: PropTypes.object,
-    serviceName: PropTypes.string,
-    // From mapDispatchToProps.
-    fetchMHVAccount: PropTypes.func.isRequired,
-    toggleLoginModal: PropTypes.func.isRequired,
-    ariaLabel: PropTypes.string,
-    ariaDescribedby: PropTypes.string,
-  };
-
-  static defaultProps = {
-    setFocus: true,
-  };
-
   constructor(props) {
     super(props);
     const { appId } = props;
@@ -369,24 +341,11 @@ export class CallToActionWidget extends Component {
 
     const { accountLevel } = this.props.mhvAccount;
 
-    const redirectToTermsAndConditions = () => {
-      const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
-      const termsConditionsUrl = appendQuery(
-        '/health-care/medical-information-terms-conditions/',
-        redirectQuery,
-      );
-      window.location = termsConditionsUrl;
-    };
-
     if (!accountLevel) {
       return (
         <NoMHVAccount
           serviceDescription={this._serviceDescription}
-          primaryButtonHandler={
-            accountState === 'needs_terms_acceptance'
-              ? redirectToTermsAndConditions
-              : this.sendToMHV
-          }
+          primaryButtonHandler={this.sendToMHV}
           secondaryButtonHandler={this.signOut}
         />
       );
@@ -395,11 +354,7 @@ export class CallToActionWidget extends Component {
     return (
       <UpgradeAccount
         serviceDescription={this._serviceDescription}
-        primaryButtonHandler={
-          accountState === 'needs_terms_acceptance'
-            ? redirectToTermsAndConditions
-            : this.sendToMHV
-        }
+        primaryButtonHandler={this.sendToMHV}
       />
     );
   };
@@ -548,7 +503,31 @@ export class CallToActionWidget extends Component {
   }
 }
 
-const mapStateToProps = state => {
+CallToActionWidget.propTypes = {
+  fetchMHVAccount: PropTypes.func.isRequired, // From mapDispatchToProps.
+  toggleLoginModal: PropTypes.func.isRequired, // From mapDispatchToProps.
+  appId: PropTypes.string, // Directly passed in props.
+  ariaDescribedby: PropTypes.string, // From mapDispatchToProps.
+  ariaLabel: PropTypes.string, // From mapDispatchToProps.
+  authenticatedWithSSOe: PropTypes.bool, // From mapStateToProps.
+  children: PropTypes.node, // Directly passed in props.
+  featureToggles: PropTypes.object, // From mapStateToProps.
+  headerLevel: PropTypes.string, // Directly passed in props.
+  isLoggedIn: PropTypes.bool, // From mapStateToProps.
+  isVaPatient: PropTypes.bool, // From mapStateToProps.
+  mhvAccount: PropTypes.object, // From mapStateToProps.
+  mhvAccountIdState: PropTypes.string, // From mapStateToProps.
+  mviStatus: PropTypes.string, // From mapStateToProps.
+  profile: PropTypes.object, // From mapStateToProps.
+  serviceName: PropTypes.string, // From mapStateToProps.
+  setFocus: PropTypes.bool, // Directly passed in props.
+};
+
+CallToActionWidget.defaultProps = {
+  setFocus: true,
+};
+
+export const mapStateToProps = state => {
   // Derive profile properties.
   const {
     loading,
