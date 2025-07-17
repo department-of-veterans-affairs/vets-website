@@ -740,11 +740,18 @@ describe('isRefillTakingLongerThanExpected function', () => {
 
   const now = new Date();
   const isoNow = now.toISOString();
-  const eightDaysAgo = new Date(
-    now.getTime() - 8 * 24 * 60 * 60 * 1000,
-  ).toISOString();
-  const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString();
-  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+  // 8 days ago (past threshold)
+  const eightDaysAgoDate = new Date();
+  eightDaysAgoDate.setDate(now.getDate() - 8);
+  const eightDaysAgo = eightDaysAgoDate.toISOString();
+  // Tomorrow
+  const tomorrowDate = new Date();
+  tomorrowDate.setDate(now.getDate() + 1);
+  const tomorrow = tomorrowDate.toISOString();
+  // Yesterday
+  const yesterdayDate = new Date();
+  yesterdayDate.setDate(now.getDate() - 1);
+  const yesterday = yesterdayDate.toISOString();
 
   it('returns false if rx is null', () => {
     expect(isRefillTakingLongerThanExpected(null)).to.be.false;
