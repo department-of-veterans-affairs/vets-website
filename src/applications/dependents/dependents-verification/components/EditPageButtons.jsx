@@ -8,7 +8,6 @@ export default function EditPageButtons(props) {
         <va-button
           text="Update"
           message-aria-describedby={`Update ${props.pageName.toLowerCase()}`}
-          onClick={props.handlers.onUpdate}
           submit="prevent"
           full-width
         />

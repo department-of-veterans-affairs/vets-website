@@ -134,13 +134,14 @@ describe('EditMailingAddressPage', () => {
       </Provider>,
     );
 
-    const cancelButton = container.querySelector('va-button[text="Cancel"]');
+    const cancelButton = Array.from(
+      container.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text')?.toLowerCase() === 'cancel');
 
     fireEvent.click(cancelButton);
 
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
-
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
     });
   });
@@ -160,7 +161,9 @@ describe('EditMailingAddressPage', () => {
       </Provider>,
     );
 
-    const cancelButton = container.querySelector('va-button[text="Cancel"]');
+    const cancelButton = Array.from(
+      container.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text')?.toLowerCase() === 'cancel');
 
     fireEvent.click(cancelButton);
 
@@ -170,7 +173,7 @@ describe('EditMailingAddressPage', () => {
     });
   });
 
-  it('handler: onUpdate navigates to review-and-submit if onReviewPage', async () => {
+  it('handler: onUpdate navigates to review-and-submit if onReviewPage, and setFormData is called on change', async () => {
     sessionStorage.setItem('onReviewPage', true);
     const store = createMockStore();
     const goToPathSpy = sinon.spy();
@@ -187,16 +190,21 @@ describe('EditMailingAddressPage', () => {
       </Provider>,
     );
 
-    const updateButton = container.querySelector('va-button[text="Update"]');
-    const zipCode = container.querySelector('input[value="90210"]');
+    const cityInput = container.querySelector('input[value="Hometown"]');
+    fireEvent.input(cityInput, { target: { value: 'Big City' } });
 
-    fireEvent.click(updateButton);
-    fireEvent.input(zipCode, { target: { value: '90215' } });
+    const form = container.querySelector('form');
+    form.dispatchEvent(
+      new window.Event('submit', { bubbles: true, cancelable: true }),
+    );
 
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
       expect(setFormDataSpy.called).to.be.true;
+
+      const lastCallArg = setFormDataSpy.lastCall.args[0];
+      expect(lastCallArg.address.city).to.equal('Big City');
     });
   });
 

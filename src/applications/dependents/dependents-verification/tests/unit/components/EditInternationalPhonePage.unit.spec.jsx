@@ -56,6 +56,7 @@ describe('EditInternationalPhonePage', () => {
 
     expect(container.textContent).to.include('International phone number');
     expect(container.textContent).to.include('Edit international phone number');
+    expect(textInputs[0].value).to.equal('18005556666');
   });
 
   it('renders Update and Cancel buttons', () => {
@@ -101,13 +102,14 @@ describe('EditInternationalPhonePage', () => {
       </Provider>,
     );
 
-    const cancelButton = container.querySelector('va-button[text="Cancel"]');
+    const cancelButton = Array.from(
+      container.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text')?.toLowerCase() === 'cancel');
 
     fireEvent.click(cancelButton);
 
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
-
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
     });
   });
@@ -127,7 +129,9 @@ describe('EditInternationalPhonePage', () => {
       </Provider>,
     );
 
-    const cancelButton = container.querySelector('va-button[text="Cancel"]');
+    const cancelButton = Array.from(
+      container.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text')?.toLowerCase() === 'cancel');
 
     fireEvent.click(cancelButton);
 
@@ -137,7 +141,7 @@ describe('EditInternationalPhonePage', () => {
     });
   });
 
-  it('handler: onUpdate navigates to review-and-submit if onReviewPage', async () => {
+  it('handler: onUpdate navigates to review-and-submit if onReviewPage, and setFormData is called on change', async () => {
     sessionStorage.setItem('onReviewPage', true);
     const store = createMockStore();
     const goToPathSpy = sinon.spy();
@@ -154,16 +158,20 @@ describe('EditInternationalPhonePage', () => {
       </Provider>,
     );
 
-    const updateButton = container.querySelector('va-button[text="Update"]');
-    const intPhone = container.querySelector('input[value="18005556666"]');
+    const phoneInput = container.querySelector('input[type="text"]');
+    fireEvent.input(phoneInput, { target: { value: '18005556667' } });
 
-    fireEvent.click(updateButton);
-    fireEvent.input(intPhone, { target: { value: '18005556667' } });
+    const form = container.querySelector('form');
+    form.dispatchEvent(
+      new window.Event('submit', { bubbles: true, cancelable: true }),
+    );
 
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
       expect(setFormDataSpy.called).to.be.true;
+      const lastCallArg = setFormDataSpy.lastCall.args[0];
+      expect(lastCallArg.internationalPhone).to.equal('18005556667');
     });
   });
 
