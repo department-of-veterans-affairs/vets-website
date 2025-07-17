@@ -417,76 +417,255 @@ describe('526 All Claims validations', () => {
       },
     };
 
-    it('should not add an error when date range is within a service period', () => {
-      const err = {
-        from: { addError: sinon.spy() },
-        to: { addError: sinon.spy() },
-      };
-      isWithinServicePeriod(
-        err,
-        { from: '2014-07-01', to: '2014-07-20' },
-        null,
-        null,
-        null,
-        null,
-        appStateData,
-      );
-      expect(err.from.addError.called).to.be.false;
-      expect(err.to.addError.called).to.be.false;
+    describe('dates within service periods', () => {
+      it('should not add an error when date range is within first service period', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2014-07-01', to: '2014-07-20' },
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+        expect(err.from.addError.called).to.be.false;
+        expect(err.to.addError.called).to.be.false;
+      });
+
+      it('should not add an error when date range is within second service period', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2016-01-01', to: '2016-12-31' },
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+        expect(err.from.addError.called).to.be.false;
+        expect(err.to.addError.called).to.be.false;
+      });
+
+      it('should not add an error when date range spans exactly one service period', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2001-03-21', to: '2014-07-21' },
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+        expect(err.from.addError.called).to.be.false;
+        expect(err.to.addError.called).to.be.false;
+      });
     });
 
-    it('should not add an error when with incomplete date ranges', () => {
-      const err = {
-        from: { addError: sinon.spy() },
-        to: { addError: sinon.spy() },
-      };
-      isWithinServicePeriod(
-        err,
-        { from: '2014-07-01', to: '2014-07-XX' },
-        null,
-        null,
-        null,
-        null,
-        appStateData,
-      );
-      expect(err.from.addError.called).to.be.false;
-      expect(err.to.addError.called).to.be.false;
+    describe('dates outside service periods', () => {
+      it('should add an error when date range is before all service periods', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2000-01-01', to: '2000-12-31' },
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+        expect(err.from.addError.called).to.be.true;
+        expect(err.to.addError.called).to.be.true;
+      });
+
+      it('should add an error when date range is after all service periods', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2018-01-01', to: '2018-12-31' },
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+        expect(err.from.addError.called).to.be.true;
+        expect(err.to.addError.called).to.be.true;
+      });
+
+      it('should add an error when date range extends beyond service period end', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2014-07-01', to: '2014-07-30' },
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+        expect(err.from.addError.called).to.be.true;
+        expect(err.to.addError.called).to.be.true;
+      });
     });
 
-    it('should add an error when date range is within a service period', () => {
-      const err = {
-        from: { addError: sinon.spy() },
-        to: { addError: sinon.spy() },
-      };
-      isWithinServicePeriod(
-        err,
-        { from: '2014-07-01', to: '2014-07-30' },
-        null,
-        null,
-        null,
-        null,
-        appStateData,
-      );
-      expect(err.from.addError.called).to.be.true;
-      expect(err.to.addError.called).to.be.true;
+    describe('multiple service periods handling', () => {
+      it('should correctly validate against one service period when another period would fail', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2002-01-01', to: '2002-12-31' }, // Only valid in first period
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+        expect(err.from.addError.called).to.be.false;
+        expect(err.to.addError.called).to.be.false;
+      });
+
+      it('should handle empty service periods array', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        const emptyAppStateData = {
+          serviceInformation: {
+            servicePeriods: [],
+          },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2014-07-01', to: '2014-07-20' },
+          null,
+          null,
+          null,
+          null,
+          emptyAppStateData,
+        );
+        expect(err.from.addError.called).to.be.true;
+        expect(err.to.addError.called).to.be.true;
+      });
     });
 
-    it('should add an error when date range is within a service period', () => {
-      const err = {
-        from: { addError: sinon.spy() },
-        to: { addError: sinon.spy() },
-      };
-      isWithinServicePeriod(
-        err,
-        { from: '2014-08-01', to: '2014-08-10' },
-        null,
-        null,
-        null,
-        null,
-        appStateData,
-      );
-      expect(err.from.addError.called).to.be.true;
-      expect(err.to.addError.called).to.be.true;
+    describe('appropriate error messages', () => {
+      it('should add correct error message to from field', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2018-01-01', to: '2018-12-31' },
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+
+        expect(err.from.addError.called).to.be.true;
+      });
+
+      it('should add correct error message to to field', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2018-01-01', to: '2018-12-31' },
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+
+        expect(
+          err.to.addError.calledWith('Please provide your service periods'),
+        ).to.be.true;
+      });
+    });
+
+    describe('incomplete date handling', () => {
+      it('should not add an error when from date is incomplete', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2014-07-XX', to: '2014-07-30' },
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+        expect(err.from.addError.called).to.be.false;
+        expect(err.to.addError.called).to.be.false;
+      });
+
+      it('should not add an error when to date is incomplete', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2014-07-01', to: '2014-07-XX' },
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+        expect(err.from.addError.called).to.be.false;
+        expect(err.to.addError.called).to.be.false;
+      });
+
+      it('should not add an error when both dates are incomplete', () => {
+        const err = {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        };
+        isWithinServicePeriod(
+          err,
+          { from: '2014-XX-XX', to: '2014-07-XX' },
+          null,
+          null,
+          null,
+          null,
+          appStateData,
+        );
+        expect(err.from.addError.called).to.be.false;
+        expect(err.to.addError.called).to.be.false;
+      });
     });
   });
 
