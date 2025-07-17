@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 
 import { cleanup } from '@testing-library/react';
 import { ReviewPage } from '../../../src/js/review/ReviewPage';
@@ -74,9 +75,8 @@ describe('Schemaform review: ReviewPage', () => {
   });
 
   it('should render h1 header if minimal header is present', () => {
-    minimalHeader = document.createElement('div');
-    minimalHeader.id = 'header-minimal';
-    document.body.appendChild(minimalHeader);
+    const getElementByIdStub = sinon.stub(document, 'getElementById');
+    getElementByIdStub.withArgs('header-minimal').returns({}); // truthy value
 
     const treeWithMinimalHeader = shallow(
       <ReviewPage
@@ -90,11 +90,16 @@ describe('Schemaform review: ReviewPage', () => {
     );
 
     expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
+
+    getElementByIdStub.restore();
     treeWithMinimalHeader.unmount();
   });
 
   it('should not contain the h1 if header-minimal is not present', () => {
-    const treeWithoutMinimalHeader = shallow(
+    const getElementByIdStub = sinon.stub(document, 'getElementById');
+    getElementByIdStub.withArgs('header-minimal').returns(null); // falsy value
+
+    const treeWithMinimalHeader = shallow(
       <ReviewPage
         form={form}
         openChapters={{}}
@@ -105,8 +110,10 @@ describe('Schemaform review: ReviewPage', () => {
       />,
     );
 
-    expect(treeWithoutMinimalHeader.find('h1').exists()).to.be.false;
-    treeWithoutMinimalHeader.unmount();
+    expect(treeWithMinimalHeader.find('h1').exists()).to.be.false;
+
+    getElementByIdStub.restore();
+    treeWithMinimalHeader.unmount();
   });
 
   it('should appropriately render a downtime notification', () => {
