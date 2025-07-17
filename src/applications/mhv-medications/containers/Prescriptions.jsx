@@ -274,7 +274,7 @@ const Prescriptions = () => {
         }
       }
     },
-    [isLoading, prescriptionId],
+    [isLoading],
   );
 
   useEffect(
@@ -310,7 +310,7 @@ const Prescriptions = () => {
         setIsFirstLoad(false);
       }
     },
-    [isLoading, filteredList, isFirstLoad],
+    [isLoading, filteredList],
   );
 
   // Update page title
