@@ -80,28 +80,23 @@ export const filePresenceValidation = (
  * when the label of the field should be the actual form title and
  * have a description with JSX that should be read out by screen readers.
  *
- * @param {UIOptions & {
- *  title?: UISchemaOptions['ui:title'],
- *  description?: UISchemaOptions['ui:description'],
- *  hint?: UIOptions['hint'],
- *  errorMessages?: UISchemaOptions['ui:errorMessages'],
- *  labelHeaderLevel?: UIOptions['labelHeaderLevel'],
- *  messageAriaDescribedby?: UIOptions['messageAriaDescribedby'],
- *  useFormsPattern?: UIOptions['useFormsPattern'],
- *  formHeading?: UIOptions['formHeading'],
- *  formDescription?: UIOptions['formDescription'],
- *  formHeadingLevel?: UIOptions['formHeadingLevel'],
- *  accept?: string,
- *  formNumber?: string,
- *  skipUpload?: boolean,
- *  required?: boolean,
- *  fileUploadUrl?: string,
- *  maxFileSize?: number,
- *  minFileSize?: number,
- *  additionalInputRequired?: boolean,
- *  additionalInput?: ((error: any, data: any) => React.ReactNode),
- *  handleAdditionalInput: (e: CustomEvent) => {[key: string]: any},
- * }} options
+ * @param {Object } options
+ * @param {UISchemaOptions['ui:title']} options.title
+ * @param {UISchemaOptions['ui:description']} options.description
+ * @param {UISchemaOptions['ui:hint']} options.hint
+ * @param {ObjUISchemaOptions['ui:errorMessages']} options.errorMessages
+ * @param {UISchemaOptions['ui:labelHeaderLevel']} options.labelHeaderLevel
+ * @param {UISchemaOptions['ui:messageAriaDescribedby']} options.messageAriaDescribedBy
+ * @param {string | string[]} options.accept - File types to accept
+ * @param {number} options.maxFileSize - maximum allowed file size in bytes
+ * @param {number} options.minFileSize - minimum allowed file size in bytes
+ * @param {string} options.headerSize - Header level for label
+ * @param {boolean} options.additionalInputRequired - is additional information required
+ * @param {((error:any, data:any) => React.ReactNode) } options.additionalInput - renders the additional information
+ * @param {(e: CustomEvent) => {[key: string]: any}} options.handleAdditionalInput - function to handle event payload from additional info
+ * @param {string} options.fileUploadUrl - url to which file will be uploaded
+ * @param {string} options.formNumber - the form's number
+ * @param {boolean} options.skipUpload - skip attempt to upload in dev when there is no backend
  * @returns {UISchemaOptions}
  */
 export const fileInputUI = options => {

@@ -4,6 +4,7 @@ import {
   fileInputUI,
   fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 /** @type {PageSchema} */
 export default {
@@ -11,9 +12,11 @@ export default {
     wcv3FileInput: fileInputUI({
       title: 'Web component v3 file input',
       required: true,
-      fileUploadUrl: 'http://localhost:3000/upload',
+      fileUploadUrl: `${
+        environment.API_URL
+      }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
       accept: '.png,.pdf',
-      hint: 'Upload a file that is less than 1MB',
+      hint: 'Upload a file that is between 1KB and 5MB',
       headerSize: '3',
       formNumber: '31-4159',
       // skipUpload: true, // mock-forms does not have a backend for upload
