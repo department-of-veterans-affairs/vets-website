@@ -73,7 +73,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       .should('be.visible');
   };
 
-  describe('User Story #1: Label and hint text', () => {
+  describe('Component display and instructions', () => {
     it('should display correct label and hint text', () => {
       setupComponentTest();
 
@@ -90,9 +90,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.axeCheck();
     });
-  });
 
-  describe('User Story #2: File input instructions', () => {
     it('should display file input instructions to the user', () => {
       setupComponentTest();
 
@@ -105,7 +103,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     });
   });
 
-  describe('User Story #3 and #4: Adding files by clicking and dragging', () => {
+  describe('Adding files by clicking and dragging', () => {
     it('should allow users to add files by clicking and dragging', () => {
       setupComponentTest();
 
@@ -142,7 +140,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     });
   });
 
-  describe('User Story #5: Submit validation with no files', () => {
+  describe('File validation and error handling', () => {
     it('should show error message when submit clicked without files', () => {
       setupComponentTest();
 
@@ -179,9 +177,80 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.axeCheck();
     });
+
+    it('should show error when uploading unsupported file type', () => {
+      setupComponentTest();
+
+      // The "accept" prop prevents clicking a file with unsupported extension (e.g., .exe, .mp4, .docx) but it can be dragged and dropped - but then there is this an error:
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from('This is an executable file'),
+            fileName: 'malicious-file.exe',
+            mimeType: 'application/x-msdownload',
+          },
+          { action: 'drag-drop' },
+        );
+
+      // Verify error message appears
+      getAboveFileInputError(0)
+        .should('be.visible')
+        .and('contain', 'This is not a valid file type');
+
+      cy.axeCheck();
+    });
+
+    it('should show error when file extension does not match file format', () => {
+      setupComponentTest();
+
+      // Upload a file with mismatched extension (e.g., a text file renamed to .pdf)
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile({
+          contents: Cypress.Buffer.from(
+            'This is plain text content, not a PDF',
+          ),
+          fileName: 'fake-pdf.pdf',
+          mimeType: 'text/plain',
+        });
+
+      // Verify error message appears
+      getFileError(0)
+        .should('be.visible')
+        .and(
+          'contain',
+          'The file extension doesn’t match the file format. Please choose a different file.',
+        );
+
+      cy.axeCheck();
+    });
+
+    it('should show error when file is 0 bytes', () => {
+      setupComponentTest();
+
+      // Upload an empty file (0 bytes)
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile({
+          contents: Cypress.Buffer.from(''),
+          fileName: 'empty-file.txt',
+          mimeType: 'text/plain',
+        });
+
+      // Verify error message appears
+      getFileError(0)
+        .should('be.visible')
+        .and(
+          'contain',
+          'The file you selected is empty. Files uploaded must be larger than 0B.',
+        );
+
+      cy.axeCheck();
+    });
   });
 
-  describe('User Story #6: Encrypted file password input', () => {
+  describe('Encrypted PDF password handling', () => {
     it('should show password input when encrypted PDF is uploaded', () => {
       setupComponentTest();
 
@@ -209,9 +278,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.axeCheck();
     });
-  });
 
-  describe('User Story #7: Password validation for encrypted files', () => {
     it('should show error when submitting encrypted file without password', () => {
       setupComponentTest();
 
@@ -228,9 +295,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.axeCheck();
     });
-  });
 
-  describe('User Story #8: Password error persistence when adding files', () => {
     it('should persist validation errors when adding another file', () => {
       setupComponentTest();
 
@@ -256,9 +321,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.axeCheck();
     });
-  });
 
-  describe('User Story #9: Password error clearing behavior', () => {
     it('should clear password error when password is entered', () => {
       setupComponentTest();
 
@@ -288,7 +351,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     });
   });
 
-  describe('User Story #10: Document type select field', () => {
+  describe('Document type selection and validation', () => {
     it('should show document type select when file is added', () => {
       setupComponentTest();
 
@@ -315,9 +378,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.axeCheck();
     });
-  });
 
-  describe('User Story #11: Document type validation', () => {
     it('should show error when submitting without selecting document type', () => {
       setupComponentTest();
 
@@ -339,9 +400,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.axeCheck();
     });
-  });
 
-  describe('User Story #12: Document type error clearing', () => {
     it('should clear error when document type is selected after validation error', () => {
       setupComponentTest();
 
@@ -370,99 +429,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     });
   });
 
-  describe('User Story #13: File extension mismatch validation', () => {
-    it('should show error when file extension does not match file format', () => {
-      setupComponentTest();
-
-      // Upload a file with mismatched extension (e.g., a text file renamed to .pdf)
-      getFileInput(0)
-        .find('input[type="file"]')
-        .selectFile({
-          contents: Cypress.Buffer.from(
-            'This is plain text content, not a PDF',
-          ),
-          fileName: 'fake-pdf.pdf',
-          mimeType: 'text/plain',
-        });
-
-      // Verify error message appears
-      getFileError(0)
-        .should('be.visible')
-        .and(
-          'contain',
-          'The file extension doesn’t match the file format. Please choose a different file.',
-        );
-
-      cy.axeCheck();
-    });
-  });
-
-  describe('User Story #14: Invalid file type validation', () => {
-    it('should show error when uploading unsupported file type', () => {
-      setupComponentTest();
-
-      // The "accept" prop prevents clicking a file with unsupported extension (e.g., .exe, .mp4, .docx) but it can be dragged and dropped - but then there is this an error:
-      getFileInput(0)
-        .find('input[type="file"]')
-        .selectFile(
-          {
-            contents: Cypress.Buffer.from('This is an executable file'),
-            fileName: 'malicious-file.exe',
-            mimeType: 'application/x-msdownload',
-          },
-          { action: 'drag-drop' },
-        );
-
-      // Verify error message appears
-      getAboveFileInputError(0)
-        .should('be.visible')
-        .and('contain', 'This is not a valid file type');
-
-      cy.axeCheck();
-    });
-  });
-
-  // TODO: Add tests for file size limit validation
-  describe('User Story #15: File size limit validation', () => {
-    it.skip('should show error when PDF file exceeds 99MB', () => {
-      setupComponentTest();
-
-      cy.axeCheck();
-    });
-
-    it.skip('should show error when non-PDF file exceeds 50MB', () => {
-      setupComponentTest();
-
-      cy.axeCheck();
-    });
-  });
-
-  describe('User Story #16: Empty file validation', () => {
-    it('should show error when file is 0 bytes', () => {
-      setupComponentTest();
-
-      // Upload an empty file (0 bytes)
-      getFileInput(0)
-        .find('input[type="file"]')
-        .selectFile({
-          contents: Cypress.Buffer.from(''),
-          fileName: 'empty-file.txt',
-          mimeType: 'text/plain',
-        });
-
-      // Verify error message appears
-      getFileError(0)
-        .should('be.visible')
-        .and(
-          'contain',
-          'The file you selected is empty. Files uploaded must be larger than 0B.',
-        );
-
-      cy.axeCheck();
-    });
-  });
-
-  describe('User Story #17: Remove file modal confirmation', () => {
+  describe('File removal and data retention', () => {
     it('should show confirmation modal when clicking remove button and remove file when confirming in modal', () => {
       setupComponentTest();
 
@@ -531,9 +498,7 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.axeCheck();
     });
-  });
 
-  describe('User Story #18: Data retention after file removal', () => {
     it('should retain data for remaining files when one is removed', () => {
       setupComponentTest();
 
@@ -652,12 +617,12 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
     });
   });
 
-  describe('User Story #19, #20, #22: Submit button functionality and upload modal', () => {
+  describe('Submit button functionality and upload modal', () => {
     beforeEach(() => {
-      cy.intercept('POST', '/v0/benefits_claims/189685/documents', {
-        delay: 2000, // Simulate upload time to see modal
-        body: { data: { success: true } },
-      }).as('uploadFiles');
+      cy.intercept('POST', '/v0/benefits_claims/189685/benefits_documents', {
+        delay: 500,
+        body: {},
+      }).as('documents');
     });
 
     it('should allow submission when all validation passes', () => {
@@ -687,9 +652,15 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
           'Your files are uploading. Please do not close this window.',
         );
 
-      // TODO: User Story #22 - Success alert implementation (currently its an error)
-      cy.get('va-alert').should('be.visible');
-
+      // Success alert after successful file upload
+      cy.wait('@documents');
+      cy.get('va-alert')
+        .should('be.visible')
+        .and('contain.text', `We received your file upload on`)
+        .and(
+          'contain.text',
+          'If your uploaded file doesn’t appear in the Documents Filed section on this page, please try refreshing the page.',
+        );
       cy.axeCheck();
     });
 
@@ -718,16 +689,62 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.axeCheck();
     });
+
+    // Error alert for invalid password
+    it('should show error when submitting PDF with invalid password', () => {
+      setupComponentTest();
+
+      const errorMessage =
+        'We couldn’t unlock your PDF. Save the PDF without a password and try again.';
+      const fileName = 'encrypted-document.pdf';
+      // Mock a server error response for invalid password
+      cy.intercept('POST', `/v0/benefits_claims/189685/benefits_documents`, {
+        statusCode: 422,
+        body: {
+          errors: [
+            {
+              title: errorMessage,
+            },
+          ],
+        },
+      }).as('documentsError');
+
+      // Upload encrypted file with incorrect password
+      setupEncryptedFile(fileName);
+      getFileInput(0)
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .type('wrong-password');
+
+      // Select document type
+      selectDocumentType(0, 'L029'); // Copy of a DD214
+
+      // Submit the files
+      clickSubmitButton();
+
+      // Wait for error response
+      cy.wait('@documentsError');
+
+      // Verify error alert appears with correct content
+      cy.get('va-alert[status="error"]').should('be.visible');
+      cy.get('va-alert[status="error"] h2').should(
+        'contain.text',
+        `Error uploading ${fileName}`,
+      );
+      cy.get('va-alert[status="error"] p').should('contain.text', errorMessage);
+
+      cy.axeCheck();
+    });
   });
 
   // TODO: Remove this test when component development is complete
   // This test is for development debugging only and relies on UI that will be deleted
   describe('Comprehensive data tracking (Development Only - TODO: Delete)', () => {
     beforeEach(() => {
-      cy.intercept('POST', '/v0/benefits_claims/189685/documents', {
-        delay: 1000,
-        body: { data: { success: true } },
-      }).as('uploadFiles');
+      cy.intercept('POST', '/v0/benefits_claims/189685/benefits_documents', {
+        delay: 500,
+      });
     });
 
     it('should track files, passwords, and document types correctly', () => {

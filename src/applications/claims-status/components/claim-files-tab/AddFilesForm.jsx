@@ -11,10 +11,10 @@ import {
   readAndCheckFile,
   checkIsEncryptedPdf,
 } from 'platform/forms-system/src/js/utilities/file';
-import { validateFiles } from './fileValidation';
 
 import { DOC_TYPES } from '../../utils/helpers';
-import { FILE_TYPES } from '../../utils/validations';
+import { FILE_TYPES, validateFiles } from '../../utils/validations';
+import mailMessage from '../MailMessage';
 import UploadStatus from '../UploadStatus';
 import DebugInfo from './DebugInfo';
 
@@ -352,6 +352,12 @@ const NewAddFilesForm = ({
         </VaSelect>
       </VaFileInputMultiple>
       <VaButton text={SUBMIT_TEXT} onClick={handleSubmit} />
+      <va-additional-info
+        class="vads-u-margin-y--3"
+        trigger="Need to mail your documents?"
+      >
+        {mailMessage}
+      </va-additional-info>
       <DebugInfo
         files={files}
         encrypted={encrypted}

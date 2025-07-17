@@ -42,7 +42,7 @@ const DebugInfo = ({ files, encrypted, lastPayload }) => {
           .join(', ') || 'None'}
       </div>
 
-      <div data-testid="debug-doctypes">
+      <div data-testid="debug-doc-types">
         <strong>Document Types:</strong>{' '}
         {lastPayload
           ? lastPayload
