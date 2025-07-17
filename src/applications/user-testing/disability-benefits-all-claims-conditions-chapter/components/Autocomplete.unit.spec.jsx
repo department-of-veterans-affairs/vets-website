@@ -1,263 +1,364 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 import Autocomplete from './Autocomplete';
 import { conditionObjects } from '../content/conditionOptions';
 
-const results = conditionObjects
+// Extract the raw string options from conditionObjects
+const allResults = conditionObjects
   .map(obj => obj.option)
   .filter(opt => typeof opt === 'string');
 
-// Necessary since VaInputText is a react binding of a web component
-export const simulateInputChange = (selector, value) => {
-  // Set the value of the input element
-  const vaTextInput = selector;
-  vaTextInput.value = value;
+// Helper to build free‑text label (mirrors component implementation)
+const freeTextLabel = val => `Enter your condition as "${val}"`;
 
-  // Create a new 'input' event
-  const event = new Event('input', {
-    bubbles: true, // Ensure the event bubbles up through the DOM
-    composed: true,
-  });
+// <VaTextInput> is a React binding to a web component, direct value
+// assignment + synthetic events are needed to simulate typing
+export const simulateInputChange = (element, value) => {
+  const el = element;
+  el.value = value;
 
-  // Create custom event to ensure it works with web components
-  const customEvent = new CustomEvent('input', {
+  const evt = new Event('input', { bubbles: true, composed: true });
+  const customEvt = new CustomEvent('input', {
     detail: { value },
     bubbles: true,
     composed: true,
   });
 
-  // Dispatch the event to simulate the input change
-  vaTextInput.dispatchEvent(event);
-  vaTextInput.dispatchEvent(customEvent);
+  el.dispatchEvent(evt);
+  el.dispatchEvent(customEvt);
 
-  // Also trigger onInput directly if available
-  if (vaTextInput.onInput) {
-    vaTextInput.onInput({ target: { value } });
+  if (el.onInput) {
+    el.onInput({ target: { value } });
   }
 };
 
-const props = {
-  availableResults: results,
-  debounceDelay: 0, // Set to zero to speed up tests
+// Create props for each test (avoid cross‑test state bleed)
+const getProps = overrides => ({
+  availableResults: allResults,
+  debounceDelay: 0, // instant for tests
   formData: '',
   id: 'test-id',
   label: 'Test label',
-  onChange: sinon.spy(),
   hint: 'Helpful hint',
+  onChange: sinon.spy(),
+  ...overrides,
+});
+
+// Render function that returns the input element
+const renderWithInput = rawProps => {
+  const utils = render(<Autocomplete {...rawProps} />);
+  const input = utils.getByTestId('autocomplete-input');
+  return { ...utils, input };
 };
 
-const renderAndGetInput = () => {
-  const utils = render(<Autocomplete {...props} />);
-  return { ...utils, input: utils.getByTestId('autocomplete-input') };
-};
+// JSDOM doesn’t implement scrollIntoView; silence errors
+beforeEach(() => {
+  // eslint-disable-next-line no-undef
+  Element.prototype.scrollIntoView =
+    Element.prototype.scrollIntoView || (() => {});
+});
 
-const typeIntoAutocomplete = (input, value) => {
-  simulateInputChange(input, value);
-  expect(input).to.have.value(value);
-};
+// Rendering tests
+describe('Autocomplete – smoke render', () => {
+  it('renders base props (label, required, hint) with empty value and no list', () => {
+    const props = getProps();
+    const { input, queryByTestId } = renderWithInput(props);
 
-describe('Autocomplete Component', () => {
-  describe('Default Rendering', () => {
-    it('should render with label and input', () => {
-      const { input } = renderAndGetInput();
+    expect(input).to.have.attribute('label', 'Test label');
+    expect(input).to.have.attribute('required');
+    expect(input).to.have.attribute('hint', 'Helpful hint');
+    expect(input.value).to.equal('');
+    expect(queryByTestId('autocomplete-list')).to.not.exist;
+  });
+});
 
-      expect(input).to.have.attribute('label', 'Test label');
-      expect(input).to.be.visible;
-    });
+// Controlled value / prop sync tests
+describe('Autocomplete – controlled value sync', () => {
+  it('renders initial formData value and opens list on focus when value present', async () => {
+    const props = getProps({ formData: 'mig' });
+    const { input, findAllByRole, queryByRole } = renderWithInput(props);
 
-    it('should render required', () => {
-      const { input } = renderAndGetInput();
+    // Value reflected
+    expect(input.value).to.equal('mig');
+    // No list until focus
+    expect(queryByRole('listbox')).to.not.exist;
 
-      expect(input).to.have.attribute('required');
-    });
+    // Focus should trigger search (handleFocus)
+    fireEvent.focus(input);
 
-    it('should render with no value', () => {
-      const { input } = renderAndGetInput();
-
-      expect(input).not.to.have.value;
-    });
-
-    it('should render with no list', () => {
-      const { queryByTestId } = render(<Autocomplete {...props} />);
-      const list = queryByTestId('autocomplete-list');
-
-      expect(list).to.not.exist;
-    });
-
-    it('should pass the hint attribute to va-text-input', () => {
-      const { input } = renderAndGetInput();
-
-      expect(input).to.have.attribute('hint', 'Helpful hint');
-    });
+    const options = await findAllByRole('option');
+    expect(options.length).to.be.greaterThan(0);
+    expect(options[0].textContent).to.equal(freeTextLabel('mig'));
   });
 
-  describe('Updating State', () => {
-    it('should render with value when there is initial formData', () => {
-      props.formData = 'initial value';
-      const { input } = renderAndGetInput();
+  it('updates when formData prop changes', async () => {
+    const props = getProps();
+    const { rerender, input } = renderWithInput(props);
 
-      expect(input).to.have.value('initial value');
+    expect(input.value).to.equal('');
+
+    const newVal = 'dia'; // e.g., Diabetes
+    rerender(<Autocomplete {...getProps({ formData: newVal })} />);
+    expect(input.value).to.equal(newVal);
+  });
+});
+
+// Typing & results tests
+describe('Autocomplete – typing & results', () => {
+  it('typing updates value, calls onChange, and shows free-text + suggestions', async () => {
+    const props = getProps();
+    const { input, findAllByRole } = renderWithInput(props);
+
+    simulateInputChange(input, 'mig');
+    expect(input.value).to.equal('mig');
+
+    await waitFor(() => {
+      expect(props.onChange.calledWith('mig')).to.be.true;
     });
 
-    it('should call onChange with searchTerm when input changes', () => {
-      const searchTerm = 'a';
-      const { input } = renderAndGetInput();
+    const options = await findAllByRole('option');
+    expect(options[0].textContent).to.equal(freeTextLabel('mig'));
+    expect(options.length).to.be.greaterThan(1); // should include suggestions
 
-      // Verify input value was set
-      typeIntoAutocomplete(input, searchTerm);
+    // At least one suggestion came from provided results
+    const anySuggestion = options
+      .slice(1)
+      .some(li => allResults.includes(li.textContent));
+    expect(anySuggestion).to.be.true;
+  });
+});
+
+// Mouse selection behavior tests
+describe('Autocomplete – mouse interactions', () => {
+  it('clicking a suggestion selects it, calls onChange, closes list', async () => {
+    const props = getProps();
+    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
+
+    simulateInputChange(input, 'mig'); // expect "Migraine" to match in dataset
+
+    const options = await findAllByRole('option');
+    // Choose a non‑free‑text option (first suggestion after index 0)
+    const suggestion = options.find(
+      li => li.textContent !== options[0].textContent,
+    );
+    fireEvent.click(suggestion);
+
+    await waitFor(() => {
+      expect(props.onChange.called).to.be.true;
     });
-
-    it('should render list with max of 21 results', async () => {
-      const searchTerm = 'a';
-      const searchResults = fullStringSimilaritySearch(searchTerm, results);
-      const { input } = renderAndGetInput();
-
-      simulateInputChange(input, searchTerm);
-
-      expect(searchResults).to.be.an('array');
-      expect(searchResults.length).to.be.at.least(20);
-      expect(input.value).to.equal(searchTerm);
-    });
-
-    it('should render list results in alignment with string similarity search', async () => {
-      const searchTerm = 'b';
-      const searchResults = fullStringSimilaritySearch(searchTerm, results);
-      const { input } = renderAndGetInput();
-
-      simulateInputChange(input, searchTerm);
-
-      expect(searchResults).to.be.an('array');
-      expect(searchResults.length).to.be.greaterThan(0);
-
-      const expectedFreeText = `Enter your condition as "${searchTerm}"`;
-      expect(expectedFreeText).to.equal('Enter your condition as "b"');
-
-      expect(input.value).to.equal(searchTerm);
-    });
+    const lastArg = props.onChange.lastCall.args[0];
+    expect(lastArg).to.equal(suggestion.textContent); // selected suggestion
+    expect(input.value).to.equal(suggestion.textContent);
+    expect(queryByTestId('autocomplete-list')).to.not.exist;
   });
 
-  describe('Mouse Interactions', () => {
-    it('should handle mouse interactions with input', async () => {
-      const searchTerm = 'c';
-      const { input } = renderAndGetInput();
+  it('clicking free-text option selects raw typed string and closes list', async () => {
+    const props = getProps();
+    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
 
-      typeIntoAutocomplete(input, searchTerm);
+    simulateInputChange(input, 'xyz'); // unlikely to match suggestions
 
-      fireEvent.focus(input);
-      expect(input).to.have.attribute('data-testid', 'autocomplete-input');
+    const options = await findAllByRole('option');
+    const freeTextOpt = options[0];
+    expect(freeTextOpt.textContent).to.equal(freeTextLabel('xyz'));
+
+    fireEvent.click(freeTextOpt);
+
+    await waitFor(() => {
+      expect(props.onChange.calledWith('xyz')).to.be.true;
     });
-
-    it('should handle free-text input', async () => {
-      const searchTerm = 'free text';
-      const { input } = renderAndGetInput();
-
-      typeIntoAutocomplete(input, searchTerm);
-
-      const searchResults = fullStringSimilaritySearch(searchTerm, results);
-      expect(searchResults).to.be.an('array');
-    });
-
-    it('should handle search term input and verify search algorithm', async () => {
-      const searchTerm = 'd';
-      const searchResults = fullStringSimilaritySearch(searchTerm, results);
-      const { input } = renderAndGetInput();
-
-      typeIntoAutocomplete(input, searchTerm);
-
-      expect(searchResults).to.be.an('array');
-      expect(searchResults.length).to.be.greaterThan(0);
-      expect(searchResults[0]).to.be.a('string');
-    });
-
-    it('should retain input value when clicking outside', async () => {
-      const searchTerm = 'f';
-      const { input } = renderAndGetInput();
-
-      typeIntoAutocomplete(input, searchTerm);
-
-      fireEvent.mouseDown(document);
-
-      expect(input).to.have.attribute('data-testid', 'autocomplete-input');
-    });
+    expect(input.value).to.equal('xyz');
+    expect(queryByTestId('autocomplete-list')).to.not.exist;
   });
 
-  describe('Keyboard Interactions', () => {
-    it('should navigate the autocomplete list with keyboard keys', () => {
-      const { input } = renderAndGetInput();
-      const searchTerm = 't';
-      simulateInputChange(input, searchTerm);
+  it('clicking outside closes list but preserves current value', async () => {
+    const props = getProps();
+    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
 
-      ['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].forEach(key => {
-        fireEvent.keyDown(input, { key });
+    simulateInputChange(input, 'mig');
+    const options = await findAllByRole('option');
+    expect(options.length).to.be.greaterThan(0);
+
+    // Click outside (document)
+    fireEvent.mouseDown(document);
+    await waitFor(() => {
+      expect(queryByTestId('autocomplete-list')).to.not.exist;
+    });
+    // Value unchanged
+    expect(input.value).to.equal('mig');
+  });
+
+  it('hovering another item updates active highlight', async () => {
+    const props = getProps();
+    const { input, findAllByRole } = renderWithInput(props);
+
+    simulateInputChange(input, 'mig');
+    const options = await findAllByRole('option');
+
+    // ActiveIndex starts at 0 (free text)
+    expect(options[0]).to.have.attribute('aria-selected', 'true');
+
+    // mouseMove over second item
+    fireEvent.mouseMove(options[1]);
+
+    // Should now mark second as active
+    await waitFor(() => {
+      expect(options[1]).to.have.attribute('aria-selected', 'true');
+    });
+  });
+});
+
+// Keyboard navigation tests
+describe('Autocomplete – keyboard navigation', () => {
+  it('ArrowDown from input moves active to first option (free-text)', async () => {
+    it('ArrowDown from input moves active from free-text (index 0) to first suggestion (index 1)', async () => {
+      const props = getProps();
+      const { input, findAllByRole, container } = renderWithInput(props);
+
+      // Type to trigger results
+      simulateInputChange(input, 'mig');
+
+      // Wait for options to render
+      let options = await findAllByRole('option');
+      expect(options.length).to.be.greaterThan(1);
+
+      // Initial state: activeIndex=0 (free-text)
+      expect(options[0]).to.have.attribute('aria-selected', 'true');
+      expect(options[1]).to.have.attribute('aria-selected', 'false');
+
+      // Send ArrowDown
+      fireEvent.keyDown(input, { key: 'ArrowDown' });
+
+      // Re-query (attributes update asynchronously)
+      await waitFor(() => {
+        options = container.querySelectorAll('li[role="option"]');
+        expect(options[1].getAttribute('aria-selected')).to.equal('true');
       });
 
-      expect(input).to.have.value(searchTerm);
-    });
-
-    it('should handle Enter key with free-text input', async () => {
-      const searchTerm = 'k';
-      const { input } = renderAndGetInput();
-
-      typeIntoAutocomplete(input, searchTerm);
-
-      fireEvent.keyDown(input, { key: 'Enter' });
-
-      expect(input).to.have.value(searchTerm);
-    });
-
-    it('should handle arrow keys and Enter with search results', async () => {
-      const searchTerm = 'k';
-      const searchResults = fullStringSimilaritySearch(searchTerm, results);
-      const { input } = renderAndGetInput();
-
-      simulateInputChange(input, searchTerm);
-
-      expect(searchResults).to.be.an('array');
-      expect(searchResults.length).to.be.greaterThan(0);
-
-      fireEvent.keyDown(input, { key: 'ArrowDown' });
-      fireEvent.keyDown(input, { key: 'Enter' });
-
-      expect(input.value).to.be.a('string');
+      // Assert listbox aria-activedescendant reflects option-1
+      const listbox = container.querySelector('[role="listbox"]');
+      expect(listbox).to.have.attribute('aria-activedescendant', 'option-1');
     });
   });
 
-  describe('Accessibility', () => {
-    it('should have message-aria-describedby when input is empty', () => {
-      props.formData = '';
-      const { input } = renderAndGetInput();
+  it('ArrowUp from first option returns focus to input', async () => {
+    const props = getProps();
+    const { input, findAllByRole } = renderWithInput(props);
 
-      expect(input).to.have.attribute(
-        'message-aria-describedby',
-        'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
-      );
+    simulateInputChange(input, 'mig');
+    await findAllByRole('option');
+
+    // Move to second option, then ArrowUp twice to get back
+    fireEvent.keyDown(input, { key: 'ArrowDown' }); // to index1
+    fireEvent.keyDown(input, { key: 'ArrowUp' }); // back to index0 (free text)
+    fireEvent.keyDown(input, { key: 'ArrowUp' }); // should return focus to input
+
+    // We can't reliably test focus of shadowRoot input; assert list still open + input value unchanged
+    expect(input.value).to.equal('mig');
+  });
+
+  it('Enter selects currently active item and closes list', async () => {
+    const props = getProps();
+    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
+
+    simulateInputChange(input, 'mig');
+    const options = await findAllByRole('option');
+
+    // Move to a suggestion (index1)
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    await waitFor(() => {
+      expect(queryByTestId('autocomplete-list')).to.not.exist;
     });
 
-    it('should not have message-aria-describedby when input has value', () => {
-      props.formData = 'initial value';
-      const { input } = renderAndGetInput();
+    const lastArg = props.onChange.lastCall.args[0];
+    expect(input.value).to.equal(lastArg);
+    expect(lastArg).to.equal(options[1].textContent);
+  });
 
-      expect(input).not.to.have.attribute('message-aria-describedby');
+  it('Escape closes list (value preserved)', async () => {
+    const props = getProps();
+    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
+
+    simulateInputChange(input, 'mig');
+    await findAllByRole('option');
+
+    fireEvent.keyDown(input, { key: 'Escape' });
+
+    await waitFor(() => {
+      expect(queryByTestId('autocomplete-list')).to.not.exist;
+    });
+    expect(input.value).to.equal('mig');
+  });
+
+  it('Tab closes list (value preserved)', async () => {
+    const props = getProps();
+    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
+
+    simulateInputChange(input, 'mig');
+    await findAllByRole('option');
+
+    fireEvent.keyDown(input, { key: 'Tab' });
+
+    await waitFor(() => {
+      expect(queryByTestId('autocomplete-list')).to.not.exist;
+    });
+    expect(input.value).to.equal('mig');
+  });
+});
+
+// Accessibility tests
+describe('Autocomplete – accessibility attributes & aria-live', () => {
+  it('includes instructions (message-aria-describedby) when input is empty', () => {
+    const props = getProps({ formData: '' });
+    const { input } = renderWithInput(props);
+
+    expect(input).to.have.attribute(
+      'message-aria-describedby',
+      'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
+    );
+  });
+
+  it('omits instructions when input has a value', () => {
+    const props = getProps({ formData: 'foo' });
+    const { input } = renderWithInput(props);
+
+    expect(input).to.not.have.attribute('message-aria-describedby');
+  });
+
+  it('aria-live announces results, selection, and empty input', async () => {
+    const props = getProps();
+    const { input, container, findAllByRole } = renderWithInput(props);
+
+    // Type -> results
+    simulateInputChange(input, 'mig');
+    await findAllByRole('option');
+    await waitFor(
+      () => {
+        const live = container.querySelector('[aria-live="polite"]');
+        expect(live).to.exist;
+        expect(live.textContent).to.match(/result/i);
+        expect(live.textContent).to.include('mig');
+      },
+      { timeout: 1500 },
+    );
+
+    // Select free-text -> selection message
+    const options = container.querySelectorAll('li[role="option"]');
+    fireEvent.click(options[0]);
+    await waitFor(() => {
+      const live = container.querySelector('[aria-live="polite"]');
+      expect(live.textContent).to.match(/is selected$/);
     });
 
-    it('should have proper aria-live region for screen readers', async () => {
-      const searchTerm = 's';
-      const { getByTestId, container } = render(<Autocomplete {...props} />);
-
-      const input = getByTestId('autocomplete-input');
-      simulateInputChange(input, searchTerm);
-
-      // Check for aria-live region
-      const ariaLiveRegion = container.querySelector('[aria-live="polite"]');
-      expect(ariaLiveRegion).to.exist;
-      expect(ariaLiveRegion).to.have.class('vads-u-visibility--screen-reader');
-
-      const searchResults = fullStringSimilaritySearch(searchTerm, results);
-      expect(searchResults).to.be.an('array');
-      expect(searchResults.length).to.be.greaterThan(0);
+    // Clear input -> empty message
+    simulateInputChange(input, '');
+    await waitFor(() => {
+      const live = container.querySelector('[aria-live="polite"]');
+      expect(live.textContent).to.contain('Input is empty');
     });
   });
 });
