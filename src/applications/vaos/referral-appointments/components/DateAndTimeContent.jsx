@@ -9,7 +9,10 @@ import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
 import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
 import { getSlotByDate } from '../utils/provider';
-import { getDriveTimeString } from '../../utils/appointment';
+import {
+  getDriveTimeString,
+  getAppointmentConflict,
+} from '../../utils/appointment';
 import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
@@ -43,31 +46,6 @@ export const DateAndTimeContent = props => {
       }),
     ),
   );
-  useEffect(
-    () => {
-      if (selectedSlot) {
-        setSelectedDate(
-          getSlotByDate(draftAppointmentInfo.attributes.slots, selectedSlot)
-            .start,
-        );
-      }
-    },
-    [draftAppointmentInfo.attributes.slots, selectedSlot],
-  );
-  useEffect(
-    () => {
-      const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
-      const savedSlot = getSlotByDate(
-        draftAppointmentInfo.attributes.slots,
-        savedSelectedSlot,
-      );
-      if (!savedSlot) {
-        return;
-      }
-      dispatch(setSelectedSlot(savedSlot.start));
-    },
-    [dispatch, selectedSlotKey, draftAppointmentInfo.attributes.slots],
-  );
   const onChange = useCallback(
     (value, appointmentHasConflict = false) => {
       if (appointmentHasConflict) {
@@ -90,6 +68,58 @@ export const DateAndTimeContent = props => {
       }
     },
     [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
+  );
+  useEffect(
+    () => {
+      if (selectedSlot) {
+        const slot = getSlotByDate(
+          draftAppointmentInfo.attributes.slots,
+          selectedSlot,
+        );
+        if (slot) {
+          const appointmentHasConflict = getAppointmentConflict(
+            [slot.start],
+            appointmentsByMonth,
+            1,
+            draftAppointmentInfo.attributes.slots,
+          );
+          onChange([slot.start], appointmentHasConflict);
+        }
+      }
+    },
+    [
+      draftAppointmentInfo.attributes.slots,
+      selectedSlot,
+      appointmentsByMonth,
+      onChange,
+    ],
+  );
+  useEffect(
+    () => {
+      const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
+      const savedSlot = getSlotByDate(
+        draftAppointmentInfo.attributes.slots,
+        savedSelectedSlot,
+      );
+      if (!savedSlot) {
+        return;
+      }
+      // dispatch(setSelectedSlot(savedSlot.start));
+      const appointmentHasConflict = getAppointmentConflict(
+        [savedSlot.start],
+        appointmentsByMonth,
+        1,
+        draftAppointmentInfo.attributes.slots,
+      );
+      onChange([savedSlot.start], appointmentHasConflict);
+    },
+    [
+      dispatch,
+      selectedSlotKey,
+      draftAppointmentInfo.attributes.slots,
+      appointmentsByMonth,
+      onChange,
+    ],
   );
   const onBack = () => {
     routeToPreviousReferralPage(history, currentPage, currentReferral.uuid);

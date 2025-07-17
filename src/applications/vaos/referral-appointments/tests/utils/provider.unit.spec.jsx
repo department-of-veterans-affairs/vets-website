@@ -50,40 +50,4 @@ describe('VAOS provider utils', () => {
       ).to.equal(draftAppointment.attributes.slots[0]);
     });
   });
-  describe('hasConflict', () => {
-    before(() => {
-      MockDate.set('2024-12-05T00:00:00Z');
-    });
-    after(() => {
-      MockDate.reset();
-    });
-    const tz = 'America/Los_Angeles';
-    const appointmentsByMonth = {
-      '2024-12': [
-        {
-          start: '2024-12-06T09:00:00-08:00',
-          timezone: tz,
-          minutesDuration: 60,
-        },
-      ],
-    };
-    it('returns false when there is no conflict', () => {
-      expect(
-        draftAppointmentUtil.hasConflict(
-          '2024-12-06T16:00:00Z',
-          appointmentsByMonth,
-          tz,
-        ),
-      ).to.be.false;
-    });
-    it('returns true when there is no conflict', () => {
-      expect(
-        draftAppointmentUtil.hasConflict(
-          '2024-12-06T17:00:00Z',
-          appointmentsByMonth,
-          tz,
-        ),
-      ).to.be.true;
-    });
-  });
 });
