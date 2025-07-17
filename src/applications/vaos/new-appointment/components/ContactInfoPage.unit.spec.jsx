@@ -11,6 +11,9 @@ import {
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 
 describe('VAOS Page: ContactInfoPage', () => {
+  beforeEach(() => {
+    sessionStorage.clear();
+  });
   it('should accept email, phone, and preferred time and continue', async () => {
     const store = createTestStore({
       user: {
@@ -32,7 +35,7 @@ describe('VAOS Page: ContactInfoPage', () => {
     });
 
     let input = await screen.findByLabelText(/^Your phone number/);
-    userEvent.type(input, '5555555555');
+    fireEvent.change(input, { target: { value: '5555555555' } });
 
     input = screen.getByLabelText(/^Your email address/);
     userEvent.type(input, 'joe.blow@gmail.com');

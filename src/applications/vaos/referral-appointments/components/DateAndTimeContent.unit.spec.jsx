@@ -25,11 +25,13 @@ describe('VAOS Component: DateAndTimeContent', () => {
     '2024-12': [
       {
         start: '2024-12-06T15:00:00-05:00',
+        startUtc: '2024-12-06T20:00:00Z',
         timezone: 'America/New_York',
         minutesDuration: 30,
       },
       {
         start: '2024-12-19T08:40:00-05:00',
+        startUtc: '2024-12-19T13:40:00Z',
         timezone: 'America/New_York',
         minutesDuration: 60,
       },
@@ -37,11 +39,13 @@ describe('VAOS Component: DateAndTimeContent', () => {
     '2025-01': [
       {
         start: '2025-01-02T12:00:00-05:00',
+        startUtc: '2025-01-02T17:00:00Z',
         timezone: 'America/New_York',
         minutesDuration: 60,
       },
       {
         start: '2025-01-19T08:40:00-05:00',
+        startUtc: '2025-01-19T13:40:00Z',
         timezone: 'America/New_York',
         minutesDuration: 60,
       },
@@ -90,19 +94,19 @@ describe('VAOS Component: DateAndTimeContent', () => {
   });
   it('should show error if conflicting appointment', async () => {
     const selectedSlotKey = getReferralSlotKey(referral.uuid);
-    sessionStorage.setItem(selectedSlotKey, '2024-12-06T15:00:00-05:00');
+    sessionStorage.setItem(selectedSlotKey, '2024-12-06T20:00:00.000Z');
     const initialStateWithSelect = {
       featureToggles: {
         vaOnlineSchedulingCCDirectScheduling: true,
       },
       referral: {
-        selectedSlot: '2024-12-06T15:00:00-05:00',
+        selectedSlot: '2024-12-06T20:00:00.000Z',
         currentPage: 'scheduleAppointment',
       },
     };
     const draftAppointmentInfo = createDraftAppointmentInfo(1);
-    draftAppointmentInfo.attributes.slots[0].start =
-      '2024-12-06T15:00:00-05:00';
+    draftAppointmentInfo.attributes.slots[0].start = '2024-12-06T20:00:00.000Z';
+    draftAppointmentInfo.attributes.slots[0].end = '2024-12-06T20:30:00.000Z';
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
