@@ -4,6 +4,7 @@ import {
   imageRootUri,
   medicationsUrls,
   NO_PROVIDER_NAME,
+  dispStatusObj,
 } from '../../util/constants';
 import {
   dateFormat,
@@ -733,11 +734,6 @@ describe('Provider name function', () => {
 });
 
 describe('isRefillTakingLongerThanExpected function', () => {
-  const dispStatusObj = {
-    submitted: 'submitted',
-    refillinprocess: 'refillinprocess',
-  };
-
   const now = new Date();
   const isoNow = now.toISOString();
   // 8 days ago (past threshold)
