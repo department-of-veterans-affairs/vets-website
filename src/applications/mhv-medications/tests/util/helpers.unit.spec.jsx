@@ -738,6 +738,14 @@ describe('isRefillTakingLongerThanExpected function', () => {
     refillinprocess: 'refillinprocess',
   };
 
+  const now = new Date();
+  const isoNow = now.toISOString();
+  const eightDaysAgo = new Date(
+    now.getTime() - 8 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+  const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString();
+  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+
   it('returns false if rx is null', () => {
     expect(isRefillTakingLongerThanExpected(null)).to.be.false;
   });
@@ -745,7 +753,7 @@ describe('isRefillTakingLongerThanExpected function', () => {
   it('returns false if refillDate is missing but refillSubmitDate is present', () => {
     const rx = {
       dispStatus: dispStatusObj.refillinprocess,
-      refillSubmitDate: '2025-03-01T12:00:00Z',
+      refillSubmitDate: isoNow,
     };
     expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
   });
@@ -753,7 +761,7 @@ describe('isRefillTakingLongerThanExpected function', () => {
   it('returns false if refillSubmitDate is missing but refillDate is present', () => {
     const rx = {
       dispStatus: dispStatusObj.submitted,
-      refillDate: '2025-03-01T12:00:00Z',
+      refillDate: isoNow,
     };
     expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
   });
@@ -761,8 +769,8 @@ describe('isRefillTakingLongerThanExpected function', () => {
   it('returns true if both refillDate and refillSubmitDate are present and valid for refillinprocess', () => {
     const rx = {
       dispStatus: dispStatusObj.refillinprocess,
-      refillDate: '2025-03-01T12:00:00Z',
-      refillSubmitDate: '2025-03-01T12:00:00Z',
+      refillDate: eightDaysAgo,
+      refillSubmitDate: eightDaysAgo,
     };
     expect(isRefillTakingLongerThanExpected(rx)).to.be.true;
   });
@@ -814,8 +822,8 @@ describe('isRefillTakingLongerThanExpected function', () => {
   it('returns false if dispStatus is unexpected value', () => {
     const rx = {
       dispStatus: 'unknownstatus',
-      refillDate: '2025-03-01T12:00:00Z',
-      refillSubmitDate: '2025-03-01T12:00:00Z',
+      refillDate: isoNow,
+      refillSubmitDate: isoNow,
     };
     expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
   });
@@ -835,7 +843,7 @@ describe('isRefillTakingLongerThanExpected function', () => {
   it('returns false if refillDate is valid and refillSubmitDate is not parsable', () => {
     const rx = {
       dispStatus: dispStatusObj.refillinprocess,
-      refillDate: '2025-03-01T12:00:00Z',
+      refillDate: isoNow,
       refillSubmitDate: 'not-a-date',
     };
     expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
@@ -845,7 +853,7 @@ describe('isRefillTakingLongerThanExpected function', () => {
     const rx = {
       dispStatus: dispStatusObj.refillinprocess,
       refillDate: 'not-a-date',
-      refillSubmitDate: '2025-03-01T12:00:00Z',
+      refillSubmitDate: isoNow,
     };
     expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
   });
@@ -853,18 +861,43 @@ describe('isRefillTakingLongerThanExpected function', () => {
   it('returns false if both dates are valid but dispStatus is submitted', () => {
     const rx = {
       dispStatus: dispStatusObj.submitted,
-      refillDate: '2025-03-01T12:00:00Z',
-      refillSubmitDate: '2025-03-01T12:00:00Z',
+      refillDate: isoNow,
+      refillSubmitDate: isoNow,
     };
     expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
   });
 
-  it('returns false if refillDate is in the future and refillSubmitDate is in the past', () => {
+  it('returns true if refillDate is in the future and refillSubmitDate is in the past', () => {
     const rx = {
       dispStatus: dispStatusObj.refillinprocess,
-      refillDate: '2030-01-01T12:00:00Z',
-      refillSubmitDate: '2020-01-01T12:00:00Z',
+      refillDate: tomorrow,
+      refillSubmitDate: eightDaysAgo,
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
+  });
+
+  it('returns true if refillDate is in the past and refillSubmitDate is in the past', () => {
+    const rx = {
+      dispStatus: dispStatusObj.refillinprocess,
+      refillDate: eightDaysAgo,
+      refillSubmitDate: eightDaysAgo,
     };
     expect(isRefillTakingLongerThanExpected(rx)).to.be.true;
+  });
+
+  it('returns true if refillSubmitDate is more than 7 days ago and dispStatus is submitted', () => {
+    const rx = {
+      dispStatus: dispStatusObj.submitted,
+      refillSubmitDate: eightDaysAgo,
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.true;
+  });
+
+  it('returns false if refillSubmitDate is less than 7 days ago and dispStatus is submitted', () => {
+    const rx = {
+      dispStatus: dispStatusObj.submitted,
+      refillSubmitDate: yesterday,
+    };
+    expect(isRefillTakingLongerThanExpected(rx)).to.be.false;
   });
 });
