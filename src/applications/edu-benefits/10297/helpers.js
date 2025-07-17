@@ -87,3 +87,16 @@ export const ConfirmationGoBackLink = () => (
     <va-link-action href="/" text="Go back to VA.gov" type="primary" />
   </div>
 );
+
+// Expects a date as a string in YYYY-MM-DD format
+export const getAgeInYears = date => {
+  let difference = new Date(Date.now() - Date.parse(date));
+
+  // Get UTC offset to account for local TZ (See https://stackoverflow.com/a/9756226)
+  const utcOffsetSeconds =
+    (difference.getTime() + difference.getTimezoneOffset() * 60 * 1000) / 1000;
+
+  difference -= utcOffsetSeconds;
+
+  return Math.abs(new Date(difference).getUTCFullYear() - 1970);
+};
