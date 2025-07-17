@@ -15,7 +15,6 @@ import {
   updatePageTitle,
   reportGeneratedBy,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import {
@@ -41,7 +40,6 @@ import {
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
-import Alert from '../components/shared/Alert';
 import {
   selectAllergiesFlag,
   selectGroupingFlag,
@@ -73,7 +71,6 @@ const Prescriptions = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
 
@@ -168,7 +165,6 @@ const Prescriptions = () => {
     false,
   );
   const [isRetrievingFullList, setIsRetrievingFullList] = useState(false);
-  const isAlertVisible = useMemo(() => false, []);
   const [isLoading, setLoading] = useState();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState('');
@@ -265,18 +261,21 @@ const Prescriptions = () => {
         }));
       }
     },
-    [page],
+    [page, queryParams?.page],
   );
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (prescriptionId) {
-        goToPrevious();
-      } else {
-        focusElement(document.querySelector('h1'));
+  useEffect(
+    () => {
+      if (!isLoading) {
+        if (prescriptionId) {
+          goToPrevious();
+        } else {
+          focusElement(document.querySelector('h1'));
+        }
       }
-    }
-  }, []);
+    },
+    [isLoading, prescriptionId],
+  );
 
   useEffect(
     () => {
@@ -311,7 +310,7 @@ const Prescriptions = () => {
         setIsFirstLoad(false);
       }
     },
-    [isLoading, filteredList],
+    [isLoading, filteredList, isFirstLoad],
   );
 
   // Update page title
@@ -811,12 +810,6 @@ const Prescriptions = () => {
     return (
       <>
         {renderRefillCard()}
-        <Alert
-          isAlertVisible={isAlertVisible}
-          paginatedPrescriptionsList={paginatedPrescriptionsList}
-          selectedFilterOption={selectedFilterOption}
-          ssoe={ssoe}
-        />
         {renderErrorNotification()}
         <div
           className={`landing-page-content vads-u-margin-top--${contentMarginTop}
@@ -888,7 +881,7 @@ const Prescriptions = () => {
       {content()}
       <PrescriptionsPrintOnly
         list={printedList}
-        hasError={hasFullListDownloadError || isAlertVisible || allergiesError}
+        hasError={hasFullListDownloadError || allergiesError}
         isFullList={printedList.length === prescriptionsFullList.length}
       />
     </div>
