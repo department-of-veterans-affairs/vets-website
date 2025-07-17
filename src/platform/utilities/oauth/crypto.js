@@ -9,7 +9,7 @@ const decimal2hex = dec => `0${dec.toString(16)}`.substr(-2);
 export function sha256(plain) {
   // Transforms string into a Uint8Array (utf8)
   const data = new TextEncoder().encode(plain);
-  return window.crypto.subtle.digest('SHA-256', data);
+  return globalThis.crypto.subtle.digest('SHA-256', data);
 }
 
 /**
@@ -38,6 +38,6 @@ export function base64UrlEncode(data) {
  */
 export function generateRandomString(length = 28) {
   const arr = new Uint32Array(length);
-  window.crypto.getRandomValues(arr);
+  globalThis.crypto.getRandomValues(arr);
   return Array.from(arr, decimal2hex).join('');
 }
