@@ -67,6 +67,15 @@ export class ProfileInformationEditView extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    // Check if the cancel button should be focused before focusing
+    // on the first form element
+    if (
+      this.props.shouldFocusCancelButton &&
+      !prevProps.shouldFocusCancelButton
+    ) {
+      this.focusOnCancelButton();
+    }
+
     if (!prevProps.field && !!this.props.field) {
       this.focusOnFirstFormElement();
     }
@@ -277,8 +286,7 @@ export class ProfileInformationEditView extends Component {
 
     if (this.editForm) {
       setTimeout(() => {
-        // Temporary workaround to set focus on the country picker if we're using
-        // the va-telephone-input component
+        // Set focus on the country picker if we're using the va-telephone-input component
         const vaTel = this.editForm?.querySelector?.('va-telephone-input');
         const vaComboBox = vaTel?.shadowRoot?.querySelector?.('va-combo-box');
         const countrySelect = vaComboBox?.shadowRoot?.querySelector?.('input');
@@ -295,6 +303,24 @@ export class ProfileInformationEditView extends Component {
         }
       }, 100);
     }
+  }
+
+  // We manually set focus on the cancel button when the confirm cancel modal is closed
+  // Since va-button is a web component, we need to wait for the shadow DOM to render
+  // before we can focus the native button inside it
+  focusOnCancelButton() {
+    setTimeout(() => {
+      const cancelButton = this.editForm?.querySelector(
+        'va-button[data-testid="cancel-edit-button"]',
+      );
+      if (cancelButton && cancelButton.shadowRoot) {
+        const shadowButton = cancelButton.shadowRoot.querySelector('button');
+        if (shadowButton) shadowButton.focus();
+      }
+      if (this.props.onCancelButtonFocused) {
+        this.props.onCancelButtonFocused();
+      }
+    }, 100);
   }
 
   render() {
@@ -449,11 +475,13 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
+  shouldFocusCancelButton: PropTypes.bool,
   successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
+  onCancelButtonFocused: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
