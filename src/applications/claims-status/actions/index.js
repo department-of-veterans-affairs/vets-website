@@ -11,6 +11,7 @@ import {
   makeAuthRequest,
   roundToNearest,
   buildDateFormatter,
+  getUploadErrorMessage,
 } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
@@ -384,13 +385,9 @@ export function submitFiles(claimId, trackedItem, files) {
                   type: SET_UPLOAD_ERROR,
                 });
                 dispatch(
-                  setAdditionalEvidenceNotification({
-                    title: `Error uploading ${hasError?.fileName || 'files'}`,
-                    body:
-                      hasError?.errors?.[0]?.title ||
-                      'There was an error uploading your files. Please try again',
-                    type: 'error',
-                  }),
+                  setAdditionalEvidenceNotification(
+                    getUploadErrorMessage(hasError),
+                  ),
                 );
               }
             },
