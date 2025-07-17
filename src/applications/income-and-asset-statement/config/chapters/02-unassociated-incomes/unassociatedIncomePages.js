@@ -98,15 +98,15 @@ const summaryPage = {
           'Are you or your dependents receiving or expecting to receive any income in the next 12 months from sources not related to an account or your assets?',
         hint: 'If yes, you’ll need to report at least one income',
         labels: {
-          Y: 'Yes, I have income to report',
-          N: 'No, I don’t have any income to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
-        title: 'Do you have any more recurring income to report?',
+        title: 'Do you have more recurring income to report?',
         labels: {
-          Y: 'Yes, I have more income to report',
-          N: 'No, I don’t have any more income to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),
@@ -128,12 +128,11 @@ const incomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title:
-        'What is the type of income recipient’s relationship to the Veteran?',
+      title: 'Who receives the income?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
-      'ui:title': 'Tell us the type of relationship',
+      'ui:title': 'Describe their relationship to the Veteran',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'recipientRelationship',

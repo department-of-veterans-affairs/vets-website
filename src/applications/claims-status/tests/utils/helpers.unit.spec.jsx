@@ -1,12 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import {
   createGetHandler,
   jsonResponse,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import * as scrollUtils from 'platform/utilities/scroll/scroll';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as page from '../../utils/page';
 
 import {
@@ -37,6 +39,7 @@ import {
   claimAvailable,
   getClaimPhaseTypeHeaderText,
   getPhaseItemText,
+  getUploadErrorMessage,
   getClaimPhaseTypeDescription,
   isAutomated5103Notice,
   setDocumentRequestPageTitle,
@@ -1639,6 +1642,75 @@ describe('Disability benefits helpers: ', () => {
         ).to.equal(
           'Files for August 21, 2024 Request to Add or Remove a Dependent',
         );
+      });
+    });
+  });
+  describe('getUploadErrorMessage', () => {
+    context('when error is due to a duplicate upload', () => {
+      it('should return a specific duplicate error message with file name', () => {
+        const claimId = '14568432';
+        const error = {
+          fileName: 'my-document.pdf',
+          errors: [
+            {
+              detail: 'DOC_UPLOAD_DUPLICATE',
+            },
+          ],
+        };
+
+        const result = getUploadErrorMessage(error, claimId);
+        expect(result.title).to.equal(
+          "You've already uploaded my-document.pdf",
+        );
+        expect(result.type).to.equal('error');
+        const { getByText, container } = render(result.body);
+        getByText(/It can take up to 2 days for the file to show up in/i);
+        expect($('va-link', container)).to.exist;
+        const link = $('va-link', container);
+        expect(link.getAttribute('href')).to.equal(
+          `/track-claims/your-claims/${claimId}/files`,
+        );
+      });
+
+      it('should use a generic name if fileName is missing', () => {
+        const error = {
+          errors: [
+            {
+              detail: 'DOC_UPLOAD_DUPLICATE',
+            },
+          ],
+        };
+
+        const result = getUploadErrorMessage(error);
+        expect(result.title).to.equal("You've already uploaded files");
+      });
+    });
+
+    context('when error is a non-duplicate upload failure', () => {
+      it('should return a generic upload error with file name and title', () => {
+        const error = {
+          fileName: 'my-document.pdf',
+          errors: [
+            {
+              title: 'Unprocessable Entity',
+              detail: 'Some other error',
+            },
+          ],
+        };
+
+        const result = getUploadErrorMessage(error);
+        expect(result.title).to.equal('Error uploading my-document.pdf');
+        expect(result.body).to.equal('Unprocessable Entity');
+        expect(result.type).to.equal('error');
+      });
+
+      it('should handle completely empty error objects gracefully', () => {
+        const result = getUploadErrorMessage({});
+        expect(result.title).to.equal('Error uploading files');
+        expect(result.body).to.equal(
+          'There was an error uploading your files. Please try again',
+        );
+        expect(result.type).to.equal('error');
       });
     });
   });
