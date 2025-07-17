@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
+import { AXE_CONTEXT, Paths } from './utils/constants';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import { Alerts, DefaultFolders } from '../../util/constants';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
@@ -27,10 +27,10 @@ describe('SM back navigation', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
 
-    cy.get(Locators.HEADER).should(
-      'have.text',
+    GeneralFunctionsPage.verifyPageHeader(
       `Messages: ${DefaultFolders.INBOX.header}`,
     );
+
     cy.location().should(loc => {
       expect(loc.pathname).to.eq(Paths.UI_MAIN + Paths.INBOX);
     });
