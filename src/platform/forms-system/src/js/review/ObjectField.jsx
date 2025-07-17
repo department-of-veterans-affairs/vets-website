@@ -188,10 +188,7 @@ class ObjectField extends React.Component {
               const shouldShowTitle =
                 ((titleString && title?.trim()) || !titleString) &&
                 !formContext?.hideTitle;
-              if (!shouldShowTitle) {
-                return null;
-              }
-              if (!title) {
+              if (!shouldShowTitle || !title) {
                 return <div className="form-review-panel-page-header" />;
               }
               const HeaderTag = isMinimalHeaderApp() ? 'h3' : 'h4';
