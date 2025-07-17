@@ -35,7 +35,6 @@ describe('VeteranContactInformationReviewPage', () => {
       />,
     );
 
-    // Mailing address
     expect(getByRole('heading', { level: 4, name: /Mailing address/i })).to
       .exist;
     expect(getAllByText('Country')[0]).to.exist;
@@ -49,22 +48,18 @@ describe('VeteranContactInformationReviewPage', () => {
     expect(getAllByText('Postal code')[0]).to.exist;
     expect(container.textContent).to.include('90210');
 
-    // Email header (h4) and <dt>
     expect(getAllByText('Email address').length).to.be.greaterThan(1);
 
-    // Should render va-telephone (not just the number text)
     expect(container.querySelector('va-telephone')).to.exist;
     expect(
       container.querySelector('va-telephone').getAttribute('contact'),
     ).to.equal('8005551212');
 
-    // International phone
     expect(
       getByRole('heading', { level: 4, name: /International phone number/i }),
     ).to.exist;
     expect(container.textContent).to.include('441234567890');
 
-    // All Edit buttons
     const editButtons = container.querySelectorAll('va-button[text="Edit"]');
     expect(editButtons.length).to.equal(4);
   });
@@ -172,15 +167,14 @@ describe('VeteranContactInformationReviewPage', () => {
       />,
     );
 
-    // Looks for the error class used in showError()
     const errors = container.querySelectorAll('.usa-input-error-message');
-    // There should be at least country, street, city, province, postal, email errors
+
     expect(errors.length).to.be.at.least(6);
 
     expect(container.textContent).to.include('Missing country');
     expect(container.textContent).to.include('Missing street address line 1');
     expect(container.textContent).to.include('Missing city');
-    expect(container.textContent).to.include('Missing province'); // for non-USA or missing country
+    expect(container.textContent).to.include('Missing province');
     expect(container.textContent).to.include('Missing postal code');
     expect(container.textContent).to.include('Missing email address');
   });
