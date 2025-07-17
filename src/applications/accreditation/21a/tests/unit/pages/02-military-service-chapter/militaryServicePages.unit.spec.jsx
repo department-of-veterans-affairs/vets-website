@@ -48,7 +48,6 @@ describe('Military Service Chapter Pages', () => {
         'va-radio[label="Have you ever served in the military?"]',
       );
       expect(vaRadio).to.exist;
-      // Check for Yes/No options
       const yesOption = container.querySelector('va-radio-option[label="Yes"]');
       const noOption = container.querySelector('va-radio-option[label="No"]');
       expect(yesOption).to.exist;
@@ -85,6 +84,34 @@ describe('Military Service Chapter Pages', () => {
       );
       expect(container.innerHTML).to.include('Service start date');
       expect(container.innerHTML).to.include('Service end date');
+      expect(container.innerHTML).to.include(
+        'I am currently serving in this military service experience.',
+      );
+    });
+
+    it("hides 'Service end date' when currently serving is checked", () => {
+      const form = render(
+        <DefinitionTester
+          schema={pages.militaryServiceExperienceBranchDateRangePage.schema}
+          uiSchema={pages.militaryServiceExperienceBranchDateRangePage.uiSchema}
+          data={{
+            militaryServiceExperiences: [
+              {
+                branch: 'Army',
+                dateRange: { from: '2020-01-01', to: '' },
+                currentlyServing: true,
+              },
+            ],
+          }}
+          arrayPath="militaryServiceExperiences"
+          pagePerItemIndex={0}
+        />,
+      );
+      const { container } = form;
+      expect(container.querySelector('va-date[label="Service start date"]')).to
+        .exist;
+      expect(container.querySelector('va-date[label="Service end date"]')).to
+        .not.exist;
       expect(container.innerHTML).to.include(
         'I am currently serving in this military service experience.',
       );
