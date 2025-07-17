@@ -2,12 +2,12 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import * as Sentry from '@sentry/browser';
 import { format } from 'date-fns-tz';
-import moment from 'moment';
 
 import {
   addDays,
   addMinutes,
   areIntervalsOverlapping,
+  differenceInDays,
   endOfMonth,
   isAfter,
   isDate,
@@ -19,10 +19,10 @@ import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectFeatureFeSourceOfTruthTelehealth,
+  selectFeatureMentalHealthHistoryFiltering,
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
-  selectFeatureMentalHealthHistoryFiltering,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -743,7 +743,7 @@ export function onCalendarChange(
           start: new Date(selectedSlot.start),
           end: new Date(selectedSlot.end),
         };
-        const appointmentStart = new Date(appointment.startUtc);
+        const appointmentStart = new Date(appointment.start);
         const appointmentInterval = {
           start: appointmentStart,
           end: addMinutes(appointmentStart, appointment.minutesDuration),
@@ -910,11 +910,11 @@ export function submitAppointmentOrRequest(history) {
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
-      const today = moment().format('YYYYMMDD');
+      const today = new Date();
       const daysFromPreference = ['null', 'null', 'null'];
 
       const diffDays = Object.values(data.selectedDates).map(item =>
-        moment(item, 'YYYYMMDD').diff(today, 'days'),
+        differenceInDays(new Date(item), today),
       );
 
       // takes daysFromPreference array then replace those values from diffDays array

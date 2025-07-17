@@ -404,7 +404,7 @@ export function sortByDateAscending(a, b) {
  * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByCreatedDateDescending(a, b) {
-  return isAfter(a.created, b.created) ? -1 : 1;
+  return isAfter(new Date(a.created), new Date(b.created)) ? -1 : 1;
 }
 
 /**

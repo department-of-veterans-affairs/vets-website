@@ -44,15 +44,15 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
     ];
-    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
+    const startMonth = nowUTC;
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
     // Grouped by YYYY-MM
     const upcomingAppointments = {
-      [startMonth]: [
+      [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          startUtc: formatInTimeZone(
+          start: formatInTimeZone(
             offset,
             timezone,
             DATE_FORMATS.ISODateTimeLocal,
@@ -83,16 +83,8 @@ describe('VAOS Component: CalendarWidget', () => {
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));
           }}
-          minDate={formatInTimeZone(
-            nowUTC,
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
-          maxDate={formatInTimeZone(
-            addYears(nowUTC, 1),
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
+          minDate={nowUTC}
+          maxDate={addYears(nowUTC, 1)}
           renderIndicator={_ => undefined}
           required
           requiredMessage="Please choose your preferred date and time for your appointment"
@@ -158,15 +150,15 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
     ];
-    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
+    const startMonth = nowUTC;
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
     // Grouped by YYYY-MM
     const upcomingAppointments = {
-      [startMonth]: [
+      [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          startUtc: formatInTimeZone(
+          start: formatInTimeZone(
             offset,
             timezone,
             DATE_FORMATS.ISODateTimeLocal,
@@ -198,16 +190,8 @@ describe('VAOS Component: CalendarWidget', () => {
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));
           }}
-          minDate={formatInTimeZone(
-            nowUTC,
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
-          maxDate={formatInTimeZone(
-            addYears(nowUTC, 1),
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
+          minDate={nowUTC}
+          maxDate={addYears(nowUTC, 1)}
           renderIndicator={_ => undefined}
           required
           requiredMessage="Please choose your preferred date and time for your appointment"
@@ -270,19 +254,15 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
     ];
-    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
+    const startMonth = nowUTC;
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
     // Grouped by YYYY-MM
     const upcomingAppointments = {
-      [startMonth]: [
+      [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          startUtc: formatInTimeZone(
-            offset,
-            timezone,
-            DATE_FORMATS.ISODateTimeLocal,
-          ),
+          start: offset,
           minutesDuration: 60,
         },
       ],
@@ -308,16 +288,8 @@ describe('VAOS Component: CalendarWidget', () => {
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));
           }}
-          minDate={formatInTimeZone(
-            nowUTC,
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
-          maxDate={formatInTimeZone(
-            addYears(nowUTC, 1),
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
+          minDate={nowUTC}
+          maxDate={addYears(nowUTC, 1)}
           renderIndicator={_ => undefined}
           required
           requiredMessage="Please choose your preferred date and time for your appointment"
@@ -396,9 +368,9 @@ describe('VAOS Component: CalendarWidget', () => {
     const offset = addMinutes(nowUTC, 30);
     // Grouped by YYYY-MM
     const upcomingAppointments = {
-      [startMonth]: [
+      [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          startUtc: formatInTimeZone(
+          start: formatInTimeZone(
             offset,
             timezone,
             DATE_FORMATS.ISODateTimeLocal,
@@ -430,16 +402,8 @@ describe('VAOS Component: CalendarWidget', () => {
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));
           }}
-          minDate={formatInTimeZone(
-            nowUTC,
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
-          maxDate={formatInTimeZone(
-            addYears(nowUTC, 1),
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
+          minDate={nowUTC}
+          maxDate={addYears(nowUTC, 1)}
           renderIndicator={_ => undefined}
           required
           requiredMessage="Please choose your preferred date and time for your appointment"
@@ -497,9 +461,9 @@ describe('VAOS Component: CalendarWidget', () => {
     const offset = addMinutes(nowUTC, 30);
     // Grouped by YYYY-MM
     const upcomingAppointments = {
-      [startMonth]: [
+      [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          startUtc: formatInTimeZone(
+          start: formatInTimeZone(
             offset,
             timezone,
             DATE_FORMATS.ISODateTimeLocal,
@@ -531,16 +495,8 @@ describe('VAOS Component: CalendarWidget', () => {
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));
           }}
-          minDate={formatInTimeZone(
-            nowUTC,
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
-          maxDate={formatInTimeZone(
-            addYears(nowUTC, 1),
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
+          minDate={nowUTC}
+          maxDate={addYears(nowUTC, 1)}
           renderIndicator={_ => undefined}
           required
           requiredMessage="Please choose your preferred date and time for your appointment"

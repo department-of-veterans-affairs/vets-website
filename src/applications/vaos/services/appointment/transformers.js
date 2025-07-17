@@ -1,4 +1,3 @@
-import { formatInTimeZone } from 'date-fns-tz';
 import { isEmpty } from 'lodash';
 import { getProviderName } from '../../utils/appointment';
 import {
@@ -132,16 +131,8 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
       const endDate = d.end || d.start;
 
       return {
-        start: `${formatInTimeZone(
-          d.start,
-          appointmentTZ,
-          "yyyy-MM-dd'T'HH:mm:ssXXX",
-        )}`,
-        end: `${formatInTimeZone(
-          endDate,
-          appointmentTZ,
-          "yyyy-MM-dd'T'HH:mm:ssXXX",
-        )}`,
+        start: new Date(d.start),
+        end: new Date(endDate),
       };
     });
 
