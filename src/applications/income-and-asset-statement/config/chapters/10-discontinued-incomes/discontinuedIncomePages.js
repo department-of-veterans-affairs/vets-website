@@ -107,7 +107,7 @@ const summaryPage = {
         title: 'Do you have any more discontinued incomes to report?',
         labels: {
           Y: 'Yes, I have another discontinued income to report',
-          N: 'No, I don’t have anymore discontinued incomes to report',
+          N: 'No, I don’t have any more discontinued incomes to report',
         },
       },
     ),
@@ -214,7 +214,7 @@ const incomeFrequencyPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Discontinued income frequency'),
     incomeFrequency: radioUI({
-      title: 'What is the frequency of the income received?',
+      title: 'How often was this income received?',
       labels: incomeFrequencyLabels,
     }),
   },
@@ -232,7 +232,7 @@ const incomeDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Discontinued income date'),
     incomeLastReceivedDate: currentOrPastDateUI(
-      'When was the income last paid?',
+      'When was this income last paid?',
     ),
   },
   schema: {
