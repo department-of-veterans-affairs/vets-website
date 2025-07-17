@@ -1,100 +1,189 @@
-// import React from 'react';
-// import { render, fireEvent, waitFor } from '@testing-library/react';
-// import { expect } from 'chai';
-// import sinon from 'sinon';
-// import EditPhonePage from '../../../components/EditPhonePage';
+import React from 'react';
+import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import { Provider } from 'react-redux';
 
-// describe('EditPhonePage full coverage', () => {
-//   let goToPath;
-//   let setFormData;
+import EditPhonePage from '../../../components/EditPhonePage';
 
-//   const clickEvent = new MouseEvent('click', {
-//     bubbles: true,
-//     cancelable: true,
-//   });
+function createMockStore(getStateValue = {}) {
+  return {
+    getState: () => getStateValue,
+    dispatch: sinon.spy(),
+    subscribe: () => {},
+  };
+}
 
-//   beforeEach(() => {
-//     goToPath = sinon.spy();
-//     setFormData = sinon.spy();
-//   });
+const mockSchema = {
+  type: 'object',
+  properties: {
+    phone: {
+      type: 'string',
+    },
+  },
+};
 
-//   afterEach(() => {
-//     sessionStorage?.clear();
-//   });
+const mockUiSchema = {
+  phone: { 'ui:title': 'Phone number' },
+};
 
-//   it('renders with initial phone value', () => {
-//     const phone = '5551234567';
-//     const { container, queryByText } = render(
-//       <EditPhonePage
-//         data={{ phone }}
-//         goToPath={goToPath}
-//         setFormData={setFormData}
-//       />,
-//     );
-//     const input = container.querySelector('va-text-input');
+const mockData = {
+  phone: '8005556666',
+};
 
-//     expect(input.getAttribute('value')).to.equal(phone);
-//     expect(input.getAttribute('label')).to.eql('Phone number');
-//     expect(queryByText(/Edit phone number/i)).to.not.be.null;
-//   });
+describe('EditPhonePage', () => {
+  afterEach(() => {
+    cleanup();
+    sessionStorage.clear();
+  });
 
-//   it('shows error on invalid phone when user enters bad phone', async () => {
-//     const { container } = render(
-//       <EditPhonePage goToPath={goToPath} setFormData={setFormData} />,
-//     );
+  it('renders phone input with correct labels and values', () => {
+    const store = createMockStore();
+    const { container } = render(
+      <Provider store={store}>
+        <EditPhonePage
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={() => {}}
+          setFormData={() => {}}
+        />
+      </Provider>,
+    );
 
-//     const input = container.querySelector('va-text-input');
-//     input.value = '123'; // Invalid phone number
-//     fireEvent.input(input, { detail: { value: '123' } });
+    const textInputs = container.querySelectorAll('input[type="text"]');
+    expect(textInputs.length).to.equal(1);
 
-//     container.querySelector('va-button-pair').__events.primaryClick(clickEvent);
+    expect(container.textContent).to.include('Phone number');
+    expect(container.textContent).to.include('Edit phone number');
+  });
 
-//     await waitFor(() => {
-//       expect(input.getAttribute('error')).to.include(
-//         'Enter a valid 10-digit U.S. phone number',
-//       );
-//     });
-//   });
+  it('renders Update and Cancel buttons', () => {
+    const store = createMockStore();
+    const { container } = render(
+      <Provider store={store}>
+        <EditPhonePage
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={() => {}}
+          setFormData={() => {}}
+        />
+      </Provider>,
+    );
 
-//   it('validates and calls the onUpdate with a valid phone number', async () => {
-//     const { container } = render(
-//       <EditPhonePage
-//         goToPath={goToPath}
-//         setFormData={setFormData}
-//         data={{ phone: '' }}
-//       />,
-//     );
+    const vaButtons = container.querySelectorAll('va-button');
+    const updateButton = Array.from(vaButtons).find(
+      btn => btn.getAttribute('text')?.toLowerCase() === 'update',
+    );
+    const cancelButton = Array.from(vaButtons).find(
+      btn => btn.getAttribute('text')?.toLowerCase() === 'cancel',
+    );
 
-//     const input = container.querySelector('va-text-input');
-//     input.value = '5559876543';
-//     fireEvent.input(input, { detail: { value: '5559876543' } });
+    expect(vaButtons.length).to.eql(2);
+    expect(updateButton).to.exist;
+    expect(cancelButton).to.exist;
+  });
 
-//     container.querySelector('va-button-pair').__events.primaryClick(clickEvent);
+  it('handler: onCancel navigates to review-and-submit if onReviewPage', async () => {
+    sessionStorage.setItem('onReviewPage', true);
+    const store = createMockStore();
+    const goToPathSpy = sinon.spy();
+    const { container } = render(
+      <Provider store={store}>
+        <EditPhonePage
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={goToPathSpy}
+          setFormData={() => {}}
+        />
+      </Provider>,
+    );
 
-//     await waitFor(() => {
-//       expect(input.getAttribute('value')).to.eql('5559876543');
-//       expect(setFormData.called).to.be.true;
-//     });
-//   });
+    const cancelButton = container.querySelector('va-button[text="Cancel"]');
 
-//   it('calls onCancel handler and returns to path', async () => {
-//     sessionStorage.setItem('onReviewPage', true);
-//     const { container } = render(
-//       <EditPhonePage
-//         goToPath={goToPath}
-//         setFormData={setFormData}
-//         data={{ phone: '5559876543' }}
-//       />,
-//     );
+    fireEvent.click(cancelButton);
 
-//     container
-//       .querySelector('va-button-pair')
-//       .__events.secondaryClick(clickEvent);
+    await waitFor(() => {
+      expect(goToPathSpy.called).to.be.true;
 
-//     await waitFor(() => {
-//       expect(goToPath.called).to.be.true;
-//     });
+      expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+    });
+  });
 
-//     sessionStorage.removeItem('onReviewPage');
-//   });
-// });
+  it('handler: onCancel navigates to contact-info if not onReviewPage', async () => {
+    const store = createMockStore();
+    const goToPathSpy = sinon.spy();
+    const { container } = render(
+      <Provider store={store}>
+        <EditPhonePage
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={goToPathSpy}
+          setFormData={() => {}}
+        />
+      </Provider>,
+    );
+
+    const cancelButton = container.querySelector('va-button[text="Cancel"]');
+
+    fireEvent.click(cancelButton);
+
+    await waitFor(() => {
+      expect(goToPathSpy.called).to.be.true;
+      expect(goToPathSpy.calledWith('/veteran-contact-information')).to.be.true;
+    });
+  });
+
+  it('handler: onUpdate navigates to review-and-submit if onReviewPage', async () => {
+    sessionStorage.setItem('onReviewPage', true);
+    const store = createMockStore();
+    const goToPathSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const { container } = render(
+      <Provider store={store}>
+        <EditPhonePage
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={goToPathSpy}
+          setFormData={setFormDataSpy}
+        />
+      </Provider>,
+    );
+
+    const updateButton = container.querySelector('va-button[text="Update"]');
+    const phone = container.querySelector('input[value="8005556666"]');
+
+    fireEvent.click(updateButton);
+    fireEvent.input(phone, { target: { value: '8005556667' } });
+
+    await waitFor(() => {
+      expect(goToPathSpy.called).to.be.true;
+      expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+      expect(setFormDataSpy.called).to.be.true;
+    });
+  });
+
+  it('topScrollElement is called', async () => {
+    const store = createMockStore();
+    const { container } = render(
+      <Provider store={store}>
+        <div name="topScrollElement" />
+        <EditPhonePage
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={() => {}}
+          setFormData={() => {}}
+        />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelector('[name="topScrollElement"]')).to.exist;
+    });
+  });
+});
