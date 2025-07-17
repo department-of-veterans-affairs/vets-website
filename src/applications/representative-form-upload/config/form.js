@@ -63,6 +63,7 @@ const formConfig = {
           title: "Claimant's background",
           uiSchema: isVeteranPage.uiSchema,
           schema: isVeteranPage.schema,
+          scrollAndFocusTarget,
         },
       },
     },

@@ -31,13 +31,14 @@ const IntroductionPage = ({ route, router }) => {
         return router.push(route.pageList[1].path);
       };
       return (
-        <a
+        <va-link-action
           href="#start"
-          className="vads-c-action-link--green representative-form__start"
+          label="Start form"
+          class=" representative-form__start"
+          text="Start form"
           onClick={startForm}
-        >
-          Start form
-        </a>
+          type="primary"
+        />
       );
     },
     [route.pageList, router],
