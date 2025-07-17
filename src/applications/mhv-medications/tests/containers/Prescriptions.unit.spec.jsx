@@ -159,10 +159,6 @@ describe('Medications Prescriptions container', () => {
   it('displays text inside refill box "find a list of prescriptions you can refill online."', async () => {
     const screen = setup({
       ...initialState,
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_content: true,
-      },
       breadcrumbs: {
         list: [],
       },
