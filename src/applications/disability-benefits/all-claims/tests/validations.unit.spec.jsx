@@ -784,6 +784,20 @@ describe('526 All Claims validations', () => {
   });
 
   describe('isLessThan180DaysInFuture', () => {
+    let clock;
+    beforeEach(() => {
+      clock = sinon.useFakeTimers({
+        now: new Date('2025-07-17'),
+        shouldAdvanceTime: false,
+        toFake: ['Date'],
+      });
+    });
+    afterEach(() => {
+      if (clock) {
+        clock.restore();
+      }
+    });
+
     it('adds an error when date is > 180 days in the future', () => {
       const addError = sinon.spy();
       const errors = { addError };
@@ -797,6 +811,17 @@ describe('526 All Claims validations', () => {
       const addError = sinon.spy();
       const errors = { addError };
       const fieldData = daysFromToday(170);
+
+      isLessThan180DaysInFuture(errors, fieldData);
+      expect(addError.callCount).to.equal(0);
+    });
+
+    it('does not add error for exactly 180 days in the future', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const fieldData = moment()
+        .add(180, 'days')
+        .format('YYYY-MM-DD');
 
       isLessThan180DaysInFuture(errors, fieldData);
       expect(addError.callCount).to.equal(0);
