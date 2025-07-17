@@ -50,6 +50,8 @@ export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
 export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
 export const ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY =
   'ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY';
+export const ADDRESS_VALIDATION_SET_VALIDATION_KEY =
+  'ADDRESS_VALIDATION_SET_VALIDATION_KEY';
 export const ADDRESS_VALIDATION_INITIALIZE = 'ADDRESS_VALIDATION_INITIALIZE';
 export const ADDRESS_VALIDATION_UPDATE = 'ADDRESS_VALIDATION_UPDATE';
 export const VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE =
@@ -479,6 +481,11 @@ export const updateValidationKeyAndSave = (
       : await localVAProfileService.addressValidationSuccess();
     const { validationKey } = response;
 
+    dispatch({
+      type: ADDRESS_VALIDATION_SET_VALIDATION_KEY,
+      validationKey,
+    });
+
     return dispatch(
       createTransaction(
         route,
@@ -501,6 +508,11 @@ export const updateValidationKeyAndSave = (
 
 export const resetAddressValidation = () => ({
   type: ADDRESS_VALIDATION_RESET,
+});
+
+export const setAddressValidationKey = validationKey => ({
+  type: ADDRESS_VALIDATION_SET_VALIDATION_KEY,
+  validationKey,
 });
 
 export const clearAddressValidationKey = () => ({
