@@ -1058,38 +1058,176 @@ describe('526 All Claims validations', () => {
         },
       },
     });
-    const getData = (start, end) => ({
+
+    const getData = (activationDate, separationDate) => ({
       reservesNationalGuardService: {
         title10Activation: {
-          title10ActivationDate: daysFromToday(start),
-          anticipatedSeparationDate: daysFromToday(end),
+          title10ActivationDate: activationDate,
+          anticipatedSeparationDate: separationDate,
         },
       },
     });
-    it('adds an error when date is > 180 days in the future', () => {
-      const addError = sinon.spy();
-      const errors = getErrors(addError);
-      const fieldData = getData(150, 140);
 
-      title10BeforeRad(errors, fieldData);
-      expect(addError.calledOnce).to.be.true;
+    describe('chronological order validation', () => {
+      it('adds an error when separation date is before activation date', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = getData(daysFromToday(150), daysFromToday(140));
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.calledOnce).to.be.true;
+        expect(addError.args[0][0]).to.contain('after your activation date');
+      });
+
+      it('does not add an error when separation date is after activation date', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = getData(daysFromToday(140), daysFromToday(150));
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.callCount).to.equal(0);
+      });
+
+      it('does not add an error when separation date equals activation date', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = getData(daysFromToday(140), daysFromToday(140));
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.callCount).to.equal(0);
+      });
     });
 
-    it('does not add an error when the entered date is < 180 days in the future', () => {
-      const addError = sinon.spy();
-      const errors = getErrors(addError);
-      const fieldData = getData(140, 150);
+    describe('invalid date handling', () => {
+      it('does not add errors for invalid activation date', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = getData('invalid-date', daysFromToday(150));
 
-      title10BeforeRad(errors, fieldData);
-      expect(addError.callCount).to.equal(0);
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.callCount).to.equal(0);
+      });
+
+      it('does not add errors for invalid separation date', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = getData(daysFromToday(140), 'invalid-date');
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.callCount).to.equal(0);
+      });
+
+      it('does not add errors when both dates are invalid', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = getData('invalid-activation', 'invalid-separation');
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.callCount).to.equal(0);
+      });
     });
 
-    it('does not add errors for empty page data', () => {
-      const addError = sinon.spy();
-      const errors = getErrors(addError);
+    describe('missing data handling', () => {
+      it('does not add errors for empty page data', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
 
-      title10BeforeRad(errors);
-      expect(addError.callCount).to.equal(0);
+        title10BeforeRad(errors);
+
+        expect(addError.callCount).to.equal(0);
+      });
+
+      it('does not add errors for missing reservesNationalGuardService', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = {};
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.callCount).to.equal(0);
+      });
+
+      it('does not add errors for missing title10Activation', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = {
+          reservesNationalGuardService: {},
+        };
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.callCount).to.equal(0);
+      });
+
+      it('does not add errors for missing activation date only', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = {
+          reservesNationalGuardService: {
+            title10Activation: {
+              title10ActivationDate: null,
+              anticipatedSeparationDate: daysFromToday(150),
+            },
+          },
+        };
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.calledOnce).to.be.false;
+      });
+
+      it('does not add errors for missing separation date only', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = {
+          reservesNationalGuardService: {
+            title10Activation: {
+              title10ActivationDate: daysFromToday(140),
+              anticipatedSeparationDate: null,
+            },
+          },
+        };
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.calledOnce).to.be.false;
+      });
+
+      it('does not add errors when both dates are null', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = getData(null, null);
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.callCount).to.equal(0);
+      });
+
+      it('does not add errors when both dates are undefined', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = getData(undefined, undefined);
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.callCount).to.equal(0);
+      });
+
+      it('does not add errors when both dates are empty strings', () => {
+        const addError = sinon.spy();
+        const errors = getErrors(addError);
+        const fieldData = getData('', '');
+
+        title10BeforeRad(errors, fieldData);
+
+        expect(addError.callCount).to.equal(0);
+      });
     });
   });
 
