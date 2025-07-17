@@ -391,7 +391,7 @@ const formConfig = {
         },
         dependentSummary: {
           path: DEPENDENT_PATHS.summary,
-          title: 'Your Dependents',
+          title: 'Dependents',
           CustomPage: DependentSummaryPage,
           CustomPageReview: DependentsReviewPage,
           depends: includeHouseholdInformation,
