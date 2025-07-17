@@ -1375,6 +1375,26 @@ export const getUploadErrorMessage = (error, claimId) => {
       type: 'error',
     };
   }
+  if (error?.errors?.[0]?.detail === 'DOC_UPLOAD_INVALID_CLAIMANT') {
+    return {
+      title: `You can’t upload files for this claim here`,
+      body: (
+        <>
+          <>
+            Only the Veteran with the claim can upload files on this page. We’re
+            sorry for the inconvenience.
+          </>
+          <br />
+          <va-link
+            active
+            text="Upload files with QuickSubmit"
+            href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit"
+          />
+        </>
+      ),
+      type: 'error',
+    };
+  }
   return {
     title: `Error uploading ${error?.fileName || 'files'}`,
     body:
