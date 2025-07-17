@@ -287,7 +287,7 @@ function CalendarWidget({
       value.length === maxSelections + 1
         ? `the ${value.length}th time`
         : `${value.length - maxSelections} times`;
-    maxSelectionsError = `You can only select up ${maxSelections} times for your appointment. Deselect ${deselect} to continue.`;
+    maxSelectionsError = `You can only select ${maxSelections} times for your appointment. Deselect ${deselect} to continue.`;
   }
 
   // Undefined allows to unset aria-hidden

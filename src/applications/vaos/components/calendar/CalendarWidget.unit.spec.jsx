@@ -587,7 +587,7 @@ describe('VAOS Component: CalendarWidget', () => {
 
     expect(
       screen.queryByText(
-        'You can only select up 3 times for your appointment. Deselect the 4th time to continue.',
+        'You can only select 3 times for your appointment. Deselect the 4th time to continue.',
       ),
     ).to.exist;
   });
@@ -611,7 +611,7 @@ describe('VAOS Component: CalendarWidget', () => {
 
     expect(
       screen.queryByText(
-        'You can only select up 3 times for your appointment. Deselect 2 times to continue.',
+        'You can only select 3 times for your appointment. Deselect 2 times to continue.',
       ),
     ).to.exist;
   });
