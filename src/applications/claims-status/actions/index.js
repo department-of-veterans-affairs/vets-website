@@ -386,7 +386,7 @@ export function submitFiles(claimId, trackedItem, files) {
                 });
                 dispatch(
                   setAdditionalEvidenceNotification(
-                    getUploadErrorMessage(hasError),
+                    getUploadErrorMessage(hasError, claimId),
                   ),
                 );
               }
