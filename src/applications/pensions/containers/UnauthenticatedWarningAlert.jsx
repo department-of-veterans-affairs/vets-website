@@ -25,9 +25,12 @@ const UnauthenticatedWarningAlert = ({
         This application is 7 steps long and it contains several substeps per
         step. We advise you{' '}
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a href="#" className="usa-link" onClick={showLoginModal}>
-          sign in to save your progress
-        </a>
+        <va-link
+          href="#"
+          class="usa-link"
+          onClick={showLoginModal}
+          text="sign in to save your progress"
+        />
         .
       </p>
       <p>
