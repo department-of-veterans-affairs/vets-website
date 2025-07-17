@@ -27,7 +27,6 @@ const UnauthenticatedWarningAlert = ({
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <va-link
           href="#"
-          class="usa-link"
           onClick={showLoginModal}
           text="sign in to save your progress"
         />
