@@ -246,8 +246,6 @@ const testConfig = createTestConfig(
 
             fillDateWebComponentPattern('transferDate', transferDate);
 
-            addedTrustItem = true;
-
             cy.clickFormContinue();
           });
         });
