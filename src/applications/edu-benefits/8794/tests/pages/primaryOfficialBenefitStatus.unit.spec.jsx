@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { Provider } from 'react-redux';
@@ -10,7 +10,7 @@ import formConfig from '../../config/form';
 const mockStore = configureStore();
 
 const mockData = {
-  primaryOfficial: {
+  primaryOfficialDetails: {
     fullName: {
       first: 'John',
       last: 'Doe',
@@ -24,7 +24,7 @@ describe('Primary certifying official benefit status', () => {
     uiSchema,
   } = formConfig.chapters.primaryOfficialChapter.pages.primaryOfficialBenefitStatus;
 
-  it('Renders the page with the correct number of inputs', () => {
+  it('Renders the page with the correct number of inputs', async () => {
     const store = mockStore({ form: { data: mockData } });
     const { container, getByRole } = render(
       <Provider store={store}>
@@ -39,8 +39,12 @@ describe('Primary certifying official benefit status', () => {
 
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(2);
-    getByRole('button', { name: /submit/i }).click();
-    expect($$('va-radio[error]', container).length).to.equal(1);
+
+    fireEvent.click(getByRole('button', { name: /submit/i }));
+
+    await waitFor(() => {
+      expect($$('va-radio[error]', container).length).to.equal(1);
+    });
   });
   it('should render disclaimer if yes is checked', () => {
     const store = mockStore({ form: { data: mockData } });

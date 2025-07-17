@@ -29,6 +29,12 @@ export default {
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderIntro.path,
   arrayMultiPageBuilderSummary:
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummary.path,
+  arrayMultiPageBuilderSummaryAddButton:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummaryAddButton
+      .path,
+  arrayMultiPageBuilderSummaryAddLink:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummaryAddLink
+      .path,
   arrayMultiPageBuilderStepOne:
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStepOne.path,
   arrayMultiPageBuilderStepTwo:

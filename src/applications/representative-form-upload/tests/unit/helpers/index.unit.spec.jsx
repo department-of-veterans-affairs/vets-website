@@ -15,6 +15,10 @@ import {
   formattedPhoneNumber,
   onClickContinue,
   getAlert,
+  parseResponse,
+  createPayload,
+  maskVaFileNumber,
+  addStyleToShadowDomOnPages,
 } from '../../../helpers';
 import * as constants from '../../../config/constants';
 
@@ -48,7 +52,7 @@ describe('Helpers', () => {
       global.window.location = {
         pathname: 'representative/representative-form-upload/21-686c/upload',
       };
-      expect(getFormContent()).to.include({ title: 'Submit VA Form 21-686c' });
+      expect(getFormContent()).to.include({ title: 'VA Form 21-686c' });
     });
   });
 
@@ -190,6 +194,8 @@ describe('Helpers', () => {
       getAlert(props, continueClicked);
 
       expect(stub.calledOnce).to.be.true;
+
+      stub.restore();
     });
 
     it('displays the uploading... alert if a file is still uploading and Continue was clicked', () => {
@@ -200,12 +206,111 @@ describe('Helpers', () => {
       getAlert(props, continueClicked);
 
       expect(stub.calledOnce).to.be.true;
+
+      stub.restore();
     });
 
     it('displays instructions alert if no warnings and not currently uploading', () => {
-      const props = { data: { uploadedFile: {} } };
+      const props = { data: { uploadedFile: {} }, name: 'uploadPage' };
       const continueClicked = false;
+      const stub = sinon.stub(constants, 'FORM_UPLOAD_INSTRUCTION_ALERT');
+
       getAlert(props, continueClicked);
+
+      expect(stub.calledOnce).to.be.true;
+
+      stub.restore();
+    });
+  });
+
+  describe('parseResponse', () => {
+    it('extracts name, confirmationCode, and size from response', () => {
+      const mockData = {
+        data: {
+          attributes: {
+            name: 'test.pdf',
+            confirmationCode: 'ABC123',
+            size: 12345,
+          },
+        },
+      };
+
+      const result = parseResponse(mockData);
+
+      expect(result).to.deep.equal({
+        name: 'test.pdf',
+        confirmationCode: 'ABC123',
+        size: 12345,
+      });
+    });
+  });
+
+  describe('createPayload', () => {
+    it('creates a FormData with form_id and file', () => {
+      const file = new Blob(['content'], { type: 'text/plain' });
+      const formId = '21-686c';
+
+      const payload = createPayload(file, formId);
+
+      expect(payload.get('form_id')).to.equal(formId);
+
+      const fileFromFormData = payload.get('file');
+      expect(fileFromFormData).to.have.property('type', 'text/plain');
+      expect(fileFromFormData).to.have.property('size', file.size);
+    });
+
+    it('appends password if provided', () => {
+      const file = new Blob(['content'], { type: 'text/plain' });
+      const formId = '21-686c';
+
+      const payload = createPayload(file, formId, 'secret');
+
+      expect(payload.get('password')).to.equal('secret');
+    });
+  });
+
+  describe('maskVaFileNumber', () => {
+    it('returns empty string if no vaFileNumber', () => {
+      expect(maskVaFileNumber()).to.equal('');
+    });
+
+    it('returns masked 8-digit number', () => {
+      expect(maskVaFileNumber('12345678')).to.equal('●●●●5678');
+    });
+
+    it('returns masked longer number', () => {
+      expect(maskVaFileNumber('123456789')).to.equal('●●●●●6789');
+    });
+  });
+
+  describe('addStyleToShadowDomOnPages', () => {
+    let originalHref;
+
+    before(() => {
+      originalHref = window.location.href;
+      Object.defineProperty(window, 'location', {
+        value: { href: 'http://localhost/test-page' },
+        writable: true,
+      });
+    });
+
+    it('does not throw if no matching URL', async () => {
+      await addStyleToShadowDomOnPages(['non-matching-url'], [], 'body { }');
+    });
+
+    it('runs silently if no elements found', async () => {
+      await addStyleToShadowDomOnPages(
+        ['test-page'],
+        ['non-existent'],
+        'body { }',
+      );
+    });
+
+    after(() => {
+      Object.defineProperty(window, 'location', {
+        value: { href: originalHref },
+        writable: true,
+      });
     });
   });
 });

@@ -14,8 +14,8 @@ async function getData(apiRoute, options) {
 
 function getResponseError(response) {
   if (response.errors?.length) {
-    const { code, detail } = response.errors[0];
-    return { code, detail };
+    const { code, detail, status } = response.errors[0];
+    return { code, detail, status };
   }
   if (response.error) {
     return {
@@ -47,7 +47,7 @@ export function fetchTotalDisabilityRating(recordAnalyticsEvent = recordEvent) {
 
     const error = getResponseError(response);
     if (error) {
-      const errorCode = error.code;
+      const errorCode = error.status;
       if (isServerError(errorCode)) {
         recordAnalyticsEvent({
           event: `api_call`,

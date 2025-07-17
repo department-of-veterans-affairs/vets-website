@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { selectProfile } from 'platform/user/selectors';
-import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
-import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
+import { formatDateParsedZoneLong } from 'platform/utilities/date';
+
+import { maskID } from '../../shared/utils';
 
 const VeteranInformationReviewPage = ({ formData }) => {
   const { ssnLastFour } = formData?.veteranInformation || {};
@@ -12,14 +13,6 @@ const VeteranInformationReviewPage = ({ formData }) => {
   const { first, middle, last, suffix } = userFullName;
 
   const dobDateObj = dob ? formatDateParsedZoneLong(dob) : null;
-
-  const mask = value => {
-    const number = (value || '').toString().slice(-4);
-    return srSubstitute(
-      `●●●–●●-${number}`,
-      `ending with ${number.split('').join(' ')}`,
-    );
-  };
 
   const showError = message => (
     <span className="usa-input-error-message">{message}</span>
@@ -58,7 +51,7 @@ const VeteranInformationReviewPage = ({ formData }) => {
         <div className="review-row">
           <dt>First Name</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="first name">
-            {first ?? ''}
+            {first || ''}
           </dd>
         </div>
         {middle ? (
@@ -72,7 +65,7 @@ const VeteranInformationReviewPage = ({ formData }) => {
         <div className="review-row">
           <dt>Last name</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="last name">
-            <strong>{last ?? showError('Missing last name')}</strong>
+            <strong>{last || showError('Missing last name')}</strong>
           </dd>
         </div>
         {suffix ? (
@@ -87,7 +80,7 @@ const VeteranInformationReviewPage = ({ formData }) => {
           <dt>Social Security number</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="SSN">
             <strong>
-              {(ssnLastFour && mask(ssnLastFour)) ?? showError('Missing SSN')}
+              {(ssnLastFour && maskID(ssnLastFour)) || showError('Missing SSN')}
             </strong>
           </dd>
         </div>

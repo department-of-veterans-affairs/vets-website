@@ -91,8 +91,12 @@ export const EXTERNAL_APPS = {
   SMHD: 'smhdweb',
 };
 
+export const ARP_APPS = {
+  FORM21A: 'form21a',
+};
+
 export const TEST_APPS = {
-  OKTA: 'okta_test',
+  OKTA: ['okta_test', 'okta_stg'],
 };
 
 export const eAuthURL = `https://${
@@ -108,6 +112,9 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
   [EXTERNAL_APPS.SMHD]: `${eAuthURL}/MAP/users/v2/landing?application=vaoccmobile&redirect_uri=/smhdWeb/`,
+  [ARP_APPS.FORM21A]: `${
+    environment.BASE_URL
+  }/representative/accreditation/attorney-claims-agent-form-21a`,
 };
 
 export const EXTERNAL_REDIRECTS_ALT = {

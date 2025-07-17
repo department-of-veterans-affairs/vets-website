@@ -1,3 +1,4 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import { format, isValid, parseISO } from 'date-fns';
 
@@ -1227,6 +1228,45 @@ export const generateClaimTitle = (claim, placement, tab) => {
   }
 };
 
+export const getDisplayFriendlyName = item => {
+  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
+    let updatedFriendlyName = item.friendlyName;
+    updatedFriendlyName =
+      updatedFriendlyName.charAt(0).toLowerCase() +
+      updatedFriendlyName.slice(1);
+    return updatedFriendlyName;
+  }
+  return item.friendlyName;
+};
+
+export const getLabel = (toggleValue, trackedItem) => {
+  if (isAutomated5103Notice(trackedItem?.displayName)) {
+    return trackedItem?.displayName;
+  }
+  if (toggleValue) {
+    if (
+      trackedItem?.friendlyName &&
+      trackedItem?.status === 'NEEDED_FROM_YOU'
+    ) {
+      return trackedItem.friendlyName;
+    }
+    if (
+      !trackedItem?.friendlyName &&
+      trackedItem?.status === 'NEEDED_FROM_YOU'
+    ) {
+      return 'Request for evidence';
+    }
+    if (trackedItem?.displayName.toLowerCase().includes('dbq')) {
+      return 'Request for an exam';
+    }
+    if (trackedItem?.friendlyName) {
+      return `Your ${getDisplayFriendlyName(trackedItem)}`;
+    }
+    return 'Request for evidence outside VA';
+  }
+  return trackedItem?.displayName;
+};
+
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
 // It is also used to set the Document Request Page breadcrumb text
 export function setDocumentRequestPageTitle(displayName) {
@@ -1240,10 +1280,10 @@ export function setTabDocumentTitle(claim, tabName) {
   setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
 
-export const setPageTitle = trackedItem => {
+export const setPageTitle = (trackedItem, toggleValue) => {
   if (trackedItem) {
     const pageTitle = setDocumentRequestPageTitle(
-      trackedItem.friendlyName || trackedItem.displayName,
+      getLabel(toggleValue, trackedItem),
     );
     setDocumentTitle(pageTitle);
   } else {
@@ -1288,13 +1328,58 @@ export const getTrackedItemDateFromStatus = item => {
   }
 };
 
-export const getDisplayFriendlyName = item => {
-  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
-    let updatedFriendlyName = item.friendlyName;
-    updatedFriendlyName =
-      updatedFriendlyName.charAt(0).toLowerCase() +
-      updatedFriendlyName.slice(1);
-    return updatedFriendlyName;
+export const renderDefaultThirdPartyMessage = displayName => {
+  return displayName.toLowerCase().includes('dbq') ? (
+    <>
+      We’ve requested an exam related to your claim. The examiner’s office will
+      contact you to schedule this appointment.
+      <br />
+    </>
+  ) : (
+    <>
+      <strong>You don’t have to do anything.</strong> We asked someone outside
+      VA for documents related to your claim.
+      <br />
+    </>
+  );
+};
+
+export const renderOverrideThirdPartyMessage = item => {
+  if (item.displayName.toLowerCase().includes('dbq')) {
+    return item.shortDescription || item.activityDescription;
   }
-  return item.friendlyName;
+  if (item.shortDescription) {
+    return (
+      <>
+        <strong>You don’t have to do anything.</strong> {item.shortDescription}
+      </>
+    );
+  }
+  return item.activityDescription;
+};
+
+export const getUploadErrorMessage = (error, claimId) => {
+  if (error?.errors?.[0]?.detail === 'DOC_UPLOAD_DUPLICATE') {
+    return {
+      title: `You've already uploaded ${error?.fileName || 'files'}`,
+      body: (
+        <>
+          It can take up to 2 days for the file to show up in{' '}
+          <va-link
+            text="your list of documents filed"
+            href={`/track-claims/your-claims/${claimId}/files`}
+          />
+          . Try checking back later before uploading again.
+        </>
+      ),
+      type: 'error',
+    };
+  }
+  return {
+    title: `Error uploading ${error?.fileName || 'files'}`,
+    body:
+      error?.errors?.[0]?.title ||
+      'There was an error uploading your files. Please try again',
+    type: 'error',
+  };
 };

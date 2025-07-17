@@ -1,12 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-
 import formConfig from '../../config/form';
 import {
   facilityTypeChoices,
@@ -17,7 +15,7 @@ import {
 describe('Supplemental Claims option for facility type page', () => {
   const { schema, uiSchema } = formConfig.chapters.evidence.pages.facilityTypes;
 
-  it('should render', () => {
+  it('should render', async () => {
     const onSubmitSpy = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -37,11 +35,13 @@ describe('Supplemental Claims option for facility type page', () => {
 
     fireEvent.click($('button[type="submit"]', container));
 
-    expect($('va-checkbox-group[error]', container)).to.exist;
-    expect(onSubmitSpy.called).to.be.false;
+    await waitFor(() => {
+      expect($('va-checkbox-group[error]', container)).to.exist;
+      expect(onSubmitSpy.called).to.be.false;
+    });
   });
 
-  it('should submit when a checkbox is checked', () => {
+  it('should submit when a checkbox is checked', async () => {
     const onSubmitSpy = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -56,11 +56,13 @@ describe('Supplemental Claims option for facility type page', () => {
 
     fireEvent.click($('button[type="submit"]', container));
 
-    expect($('va-checkbox-group[error]', container)).to.not.exist;
-    expect(onSubmitSpy.called).to.be.true;
+    await waitFor(() => {
+      expect($('va-checkbox-group[error]', container)).to.not.exist;
+      expect(onSubmitSpy.called).to.be.true;
+    });
   });
 
-  it('should submit when the "other" input is filled', () => {
+  it('should submit when the "other" input is filled', async () => {
     const onSubmitSpy = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -75,8 +77,10 @@ describe('Supplemental Claims option for facility type page', () => {
 
     fireEvent.click($('button[type="submit"]', container));
 
-    expect($('va-checkbox-group[error]', container)).to.not.exist;
-    expect(onSubmitSpy.called).to.be.true;
+    await waitFor(() => {
+      expect($('va-checkbox-group[error]', container)).to.not.exist;
+      expect(onSubmitSpy.called).to.be.true;
+    });
   });
 });
 

@@ -18,7 +18,7 @@ import {
   getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -58,14 +58,20 @@ describe('VAOS Page: AppointmentsPage', () => {
       start: subDays(new Date(), 120),
       end: addDays(new Date(), 1),
       statuses: ['proposed', 'cancelled'],
-      response: MockAppointmentResponse.createCCResponses({ pending: true }),
+      response: MockAppointmentResponse.createCCResponses({
+        pending: true,
+        status: APPOINTMENT_STATUS.proposed,
+      }),
     });
     mockAppointmentsApi({
       start: subDays(new Date(), 120),
       end: addDays(new Date(), 1),
       includes: ['facilities', 'clinics', 'eps'],
       statuses: ['proposed', 'cancelled'],
-      response: MockAppointmentResponse.createCCResponses({ pending: true }),
+      response: MockAppointmentResponse.createCCResponses({
+        pending: true,
+        status: APPOINTMENT_STATUS.proposed,
+      }),
     });
   });
   afterEach(() => {
@@ -87,7 +93,7 @@ describe('VAOS Page: AppointmentsPage', () => {
             id: '139',
             type: 'maintenance_windows',
             attributes: {
-              externalService: 'vaosWarning',
+              externalService: 'vaoswarning',
               description: 'My description',
               startTime: subDays(new Date(), '1')?.toISOString(),
               endTime: addDays(new Date(), '1')?.toISOString(),

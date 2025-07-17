@@ -7,7 +7,7 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 
 import ManageDependents from '../../manage-dependents/containers/ManageDependentsApp';
-import { mask } from '../../util';
+import { maskID } from '../../../shared/utils';
 
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);
@@ -63,7 +63,7 @@ function ViewDependentsListItem(props) {
         {ssn ? (
           <div>
             <dt>SSN:&nbsp;</dt>
-            <dd>{mask(ssn)}</dd>
+            <dd>{maskID(ssn)}</dd>
           </div>
         ) : null}
 

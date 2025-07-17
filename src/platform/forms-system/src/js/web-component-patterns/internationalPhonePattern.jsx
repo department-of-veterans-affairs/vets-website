@@ -1,6 +1,6 @@
-import VaInputTelephoneField from '../web-component-fields/VaInputTelephoneField';
+import VaTelephoneInputField from '../web-component-fields/VaTelephoneInputField';
 import internationalPhoneNumberWidget from '../review/InternationalPhoneNumberWidget';
-import { validateInputTelephone } from '../validation';
+import { validateTelephoneInput } from '../validation';
 
 /**
  * Web component v3 uiSchema for an international phone number
@@ -26,9 +26,10 @@ const internationalPhoneUI = options => {
   const { title, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
+  const _title = title ?? 'Home phone number';
   return {
-    'ui:title': title ?? 'Home phone number',
-    'ui:webComponentField': VaInputTelephoneField,
+    'ui:title': _title,
+    'ui:webComponentField': VaTelephoneInputField,
     'ui:reviewField': internationalPhoneNumberWidget,
     'ui:confirmationField': ({ formData }) => {
       const { callingCode, contact, countryCode } = formData;
@@ -38,25 +39,26 @@ const internationalPhoneUI = options => {
       }
       return {
         data,
-        label: 'Contact',
+        label: _title,
       };
     },
     'ui:options': uiOptions,
-    'ui:validations': [validateInputTelephone],
+    'ui:validations': [validateTelephoneInput],
   };
 };
 
-const internationalPhoneSchema = {
-  type: 'object',
-  properties: {
-    callingCode: { type: 'number', title: 'Calling code' },
-    countryCode: { type: 'string', title: 'Country code' },
-    contact: { type: 'string', title: 'Contact' },
-    _error: {
-      type: 'string',
-      title: 'Error',
+const internationalPhoneSchema = (options = { required: false }) => {
+  return {
+    type: 'object',
+    properties: {
+      callingCode: { type: 'number', title: 'Calling code' },
+      countryCode: { type: 'string', title: 'Country code' },
+      contact: { type: 'string', title: 'Contact' },
     },
-  },
+    ...(options.required
+      ? { required: ['callingCode', 'countryCode', 'contact'] }
+      : {}),
+  };
 };
 
 export { internationalPhoneSchema, internationalPhoneUI };

@@ -1,16 +1,13 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
-import MockDate from 'mockdate';
 
 import { addDays, format, subDays } from 'date-fns';
 import {
   fetchBookedAppointment,
-  FUTURE_APPOINTMENTS_HIDDEN_SET,
   getAppointmentRequests,
   getLongTermAppointmentHistoryV2,
   getVAAppointmentLocationId,
-  isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
 } from '.';
 import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
@@ -19,23 +16,7 @@ import {
   mockAppointmentApi,
   mockAppointmentsApi,
 } from '../../tests/mocks/mockApis';
-import {
-  APPOINTMENT_STATUS,
-  APPOINTMENT_TYPES,
-  VIDEO_TYPES,
-} from '../../utils/constants';
-
-function setRequestedPeriod(date, amOrPm) {
-  const isAM = amOrPm.toUpperCase() === 'AM';
-  return {
-    start: `${format(date, 'yyyy-MM-dd')}T${
-      isAM ? '00:00:00.000Z' : `12:00:00.000Z`
-    }`,
-    end: `${format(date, 'yyyy-MM-dd')}T${
-      isAM ? '11:59:59.999Z' : `23:59:59.999Z`
-    }`,
-  };
-}
+import { APPOINTMENT_TYPES, VIDEO_TYPES } from '../../utils/constants';
 
 describe('VAOS Services: Appointment ', () => {
   describe('fetchBookedAppointment by id', () => {
@@ -208,8 +189,6 @@ describe('VAOS Services: Appointment ', () => {
       // Given VA appointment request
       const start = subDays(new Date(), 30);
       const end = addDays(new Date(), 30);
-      const startDate = format(start, 'yyyy-MM-dd');
-      const endDate = format(end, 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 APIs
       mockAppointmentsApi({
@@ -219,7 +198,10 @@ describe('VAOS Services: Appointment ', () => {
         response: MockAppointmentResponse.createVAResponses(),
       });
 
-      const v2Result = await getAppointmentRequests({ startDate, endDate });
+      const v2Result = await getAppointmentRequests({
+        startDate: start,
+        endDate: end,
+      });
 
       // Then expect a VA appointment request to be returned.
       expect(v2Result.length).to.be.gt(0);
@@ -229,8 +211,6 @@ describe('VAOS Services: Appointment ', () => {
       // Given CC appointment request
       const start = subDays(new Date(), 30);
       const end = addDays(new Date(), 30);
-      const startDate = format(start, 'yyyy-MM-dd');
-      const endDate = format(end, 'yyyy-MM-dd');
 
       mockAppointmentsApi({
         start,
@@ -239,7 +219,10 @@ describe('VAOS Services: Appointment ', () => {
         response: MockAppointmentResponse.createCCResponses(),
       });
 
-      const v2Result = await getAppointmentRequests({ startDate, endDate });
+      const v2Result = await getAppointmentRequests({
+        startDate: start,
+        endDate: end,
+      });
 
       // Then expect a CC appointment request to be returned.
       expect(v2Result.length).to.be.gt(0);
@@ -249,8 +232,6 @@ describe('VAOS Services: Appointment ', () => {
       // Given cancelled VA appointment request
       const start = subDays(new Date(), 30);
       const end = addDays(new Date(), 30);
-      const startDate = format(start, 'yyyy-MM-dd');
-      const endDate = format(end, 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 and v0 APIs
       mockAppointmentsApi({
@@ -260,7 +241,10 @@ describe('VAOS Services: Appointment ', () => {
         response: MockAppointmentResponse.createCCResponses(),
       });
 
-      const v2Result = await getAppointmentRequests({ startDate, endDate });
+      const v2Result = await getAppointmentRequests({
+        startDate: start,
+        endDate: end,
+      });
 
       // Then expect a canceled appointment request to be returned.
       expect(v2Result.length).to.be.gt(0);
@@ -276,8 +260,6 @@ describe('VAOS Services: Appointment ', () => {
       };
       const start = subDays(new Date(), 30);
       const end = addDays(new Date(), 30);
-      const startDate = format(start, 'yyyy-MM-dd');
-      const endDate = format(end, 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 and v0 APIs
       mockAppointmentsApi({
@@ -291,7 +273,7 @@ describe('VAOS Services: Appointment ', () => {
       let v2Result = null;
 
       try {
-        await getAppointmentRequests({ startDate, endDate });
+        await getAppointmentRequests({ startDate: start, endDate: end });
       } catch (e) {
         v2Result = e;
       }
@@ -312,180 +294,36 @@ describe('VAOS Services: Appointment ', () => {
         mockAppointmentsApi({
           start: range.start,
           end: range.end,
-          useRFC3339: true,
+          useRFC3339: false,
           response: [],
           statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
         });
       });
 
-      await getLongTermAppointmentHistoryV2(true, true, true);
+      await getLongTermAppointmentHistoryV2();
       expect(global.fetch.callCount).to.equal(3);
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `${dateRanges[0].start.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[0].start, 'yyyy-MM-dd')}`,
       );
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `${dateRanges[0].end.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[0].end, 'yyyy-MM-dd')}`,
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        `${dateRanges[1].start.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[1].start, 'yyyy-MM-dd')}`,
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        `${dateRanges[1].end.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[1].end, 'yyyy-MM-dd')}`,
       );
       expect(global.fetch.thirdCall.args[0]).to.contain(
-        `${dateRanges[2].start.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[2].start, 'yyyy-MM-dd')}`,
       );
       expect(global.fetch.thirdCall.args[0]).to.contain(
-        `${dateRanges[2].end.toISOString().slice(0, 19)}Z`,
+        `${format(dateRanges[2].end, 'yyyy-MM-dd')}`,
       );
     });
   });
 
   //--------
-
-  describe('isUpcomingAppointmentOrRequest', () => {
-    MockDate.reset();
-    const now = new Date();
-    it('should filter future requests', () => {
-      const apptRequests = [
-        // canceled past - should filter out
-        {
-          status: APPOINTMENT_STATUS.cancelled,
-          requestedPeriod: [setRequestedPeriod(subDays(new Date(), 2), 'AM')],
-          vaos: {
-            isExpressCare: false,
-            appointmentType: APPOINTMENT_TYPES.request,
-          },
-        },
-        // cancelled past - should filter out
-        {
-          status: APPOINTMENT_STATUS.cancelled,
-          requestedPeriod: [setRequestedPeriod(subDays(now, 22), 'AM')],
-          vaos: {
-            isExpressCare: false,
-            appointmentType: APPOINTMENT_TYPES.request,
-          },
-        },
-        // pending past - should filter out
-        {
-          status: APPOINTMENT_STATUS.pending,
-          requestedPeriod: [setRequestedPeriod(subDays(now, 2), 'AM')],
-          vaos: {
-            isExpressCare: false,
-            appointmentType: APPOINTMENT_TYPES.request,
-          },
-        },
-        // future within 13 - should not filter out
-        {
-          status: APPOINTMENT_STATUS.pending,
-          requestedPeriod: [
-            setRequestedPeriod(subDays(addDays(new Date(), 395), 1), 'AM'),
-          ],
-          vaos: {
-            isExpressCare: false,
-            appointmentType: APPOINTMENT_TYPES.request,
-          },
-        },
-        // future - should not filter out
-        {
-          status: APPOINTMENT_STATUS.pending,
-          requestedPeriod: [setRequestedPeriod(addDays(now, 2), 'AM')],
-          vaos: {
-            isExpressCare: false,
-            appointmentType: APPOINTMENT_TYPES.request,
-          },
-        },
-        // future canceled - should not filter out
-        {
-          status: APPOINTMENT_STATUS.cancelled,
-          requestedPeriod: [setRequestedPeriod(addDays(now, 3), 'AM')],
-          vaos: {
-            isExpressCare: false,
-            appointmentType: APPOINTMENT_TYPES.request,
-          },
-        },
-      ];
-
-      const filteredRequests = apptRequests.filter(
-        isUpcomingAppointmentOrRequest,
-      );
-
-      expect(
-        filteredRequests.filter(
-          req => req.status === APPOINTMENT_STATUS.cancelled,
-        ).length,
-      ).to.equal(1);
-      expect(
-        filteredRequests.filter(
-          req => req.status === APPOINTMENT_STATUS.pending,
-        ).length,
-      ).to.equal(3);
-      expect(
-        filteredRequests.filter(req => req.status === 'Booked').length,
-      ).to.equal(0);
-    });
-
-    it('should filter future confirmed appointments', () => {
-      const confirmedAppts = [
-        // appointment more than 395 days should not show
-        {
-          facilityId: '984',
-          vaos: {
-            isUpcomingAppointment: true,
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          },
-        },
-        // appointment with status 'NO-SHOW' should not show
-        {
-          description: 'NO-SHOW',
-          vaos: {
-            isUpcomingAppointment: true,
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          },
-        },
-        // appointment with status 'DELETED' should not show
-        {
-          description: 'DELETED',
-          vaos: {
-            isUpcomingAppointment: true,
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          },
-        },
-      ];
-
-      const filteredConfirmed = confirmedAppts.filter(
-        isUpcomingAppointmentOrRequest,
-      );
-      expect(filteredConfirmed.length).to.equal(1);
-    });
-
-    it('should filter out appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
-      const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(
-        currentStatus => ({
-          description: currentStatus,
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-          facilityId: '984',
-        }),
-      );
-
-      const filtered = hiddenAppts.filter(isUpcomingAppointmentOrRequest);
-      expect(hiddenAppts.length).to.equal(2);
-      expect(filtered.length).to.equal(0);
-    });
-
-    it('should filter out video appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
-      const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(code => ({
-        description: code,
-        vaos: {
-          appointmentType: APPOINTMENT_TYPES.vaAppointment,
-        },
-      }));
-
-      const filtered = hiddenAppts.filter(isUpcomingAppointmentOrRequest);
-      expect(hiddenAppts.length).to.equal(2);
-      expect(filtered.length).to.equal(0);
-    });
-  });
 
   describe('getVAAppointmentLocationId', () => {
     it('should return null for undefined appointment', () => {

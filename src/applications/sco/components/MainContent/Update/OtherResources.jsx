@@ -28,12 +28,12 @@ const OtherResources = () => {
           <ul className="vads-u-margin-left--neg2p5">
             <LiSpanAndVaLink
               hrefText="Enrollment Manager User Guide"
-              href="https://vbatraining.adobeconnect.com/pz0f1ckt4nrh/default/index.html"
+              href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000298609/EM-User-Guide"
             />
             <LiSpanAndVaLink
               hrefText="Enrollment Manager FAQs"
               class="hydrated"
-              href="https://vbatraining.adobeconnect.com/ptgxzsnw11w7/default/index.html"
+              href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000300540/Enrollment-Manager-Frequently-Asked-Questions"
             />
           </ul>
           <h4>Quick Start Guides</h4>
@@ -64,6 +64,54 @@ const OtherResources = () => {
             <LiSpanAndVaLink
               hrefText="Download VA Paper-Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)"
               href="https://benefits.va.gov/GIBILL/enrollment-manager/paper-based-enrollment-manager-crosswalk.pptx"
+            />
+          </ul>
+        </va-accordion-item>
+        <va-accordion-item
+          level="3"
+          header="New SCO Toolkit"
+          subheader="A step-by-step onboarding guide for newly designated School Certifying Officials (SCOs). This toolkit includes guidance on training requirements, designation as a certifying official, access to VA systems, enrollment certification, compliance, and helpful resources."
+        >
+          <ul className="vads-u-margin-left--neg2p5">
+            <LiSpanAndVaLink
+              hrefText="New SCO Toolkit"
+              href="https://benefits.va.gov/GIBILL/SCO/new-sco/new-sco-toolkit.asp"
+            />
+            <LiSpanAndVaLink
+              hrefText="Getting Started as an SCO"
+              href="https://benefits.va.gov/GIBILL/SCO/new-sco/getting-started.asp"
+            />
+            <LiSpanAndVaLink
+              hrefText="Role of the SCO"
+              href="https://benefits.va.gov/GIBILL/SCO/new-sco/role-of-the-sco.asp"
+            />
+            <LiSpanAndVaLink
+              hrefText="Required Training"
+              href="https://benefits.va.gov/GIBILL/SCO/new-sco/required-training.asp"
+            />
+            <LiSpanAndVaLink
+              hrefText="Gaining Access to Enrollment Manager"
+              href="https://benefits.va.gov/GIBILL/SCO/new-sco/gaining-access-to-enrollment-manager.asp"
+            />
+            <LiSpanAndVaLink
+              hrefText="Certification Basics"
+              href="https://benefits.va.gov/GIBILL/SCO/new-sco/certification-basics.asp"
+            />
+            <LiSpanAndVaLink
+              hrefText="SCO Responsibilities to the SAA"
+              href="https://benefits.va.gov/GIBILL/SCO/new-sco/sco-responsibilities-to-the-saa.asp"
+            />
+            <LiSpanAndVaLink
+              hrefText="Compliance and Reporting"
+              href="https://benefits.va.gov/GIBILL/SCO/new-sco/compliance-and-reporting.asp"
+            />
+            <LiSpanAndVaLink
+              hrefText="Common Mistakes to Avoid"
+              href="https://benefits.va.gov/GIBILL/SCO/new-sco/common-mistakes-to-avoid.asp"
+            />
+            <LiSpanAndVaLink
+              hrefText="Resources and Support"
+              href="https://benefits.va.gov/GIBILL/SCO/new-sco/resources-and-support.asp"
             />
           </ul>
         </va-accordion-item>

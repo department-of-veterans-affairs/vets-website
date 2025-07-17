@@ -1,7 +1,6 @@
 import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
@@ -25,7 +24,7 @@ import manifest from '../manifest.json';
 import submitForm from './submitForm';
 import { TITLE } from '../constants';
 import transformForSubmit from './transformForSubmit';
-import { getDebtPageTitle } from '../utils';
+import { getDebtPageTitle, focusH3 } from '../utils';
 
 // Function to return the NeedHelp component
 const getHelp = () => <NeedHelp />;
@@ -38,6 +37,8 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/debts_api/v0/digital_disputes`,
   submit: submitForm,
   trackingPrefix: 'dispute-debt',
+  useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3, // scroll and focus fallback
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
@@ -60,6 +61,9 @@ const formConfig = {
     notFound: 'Please start your application over to dispute your VA debt.',
     noAuth:
       'Please sign in again to continue your application to dispute your VA debt.',
+  },
+  customText: {
+    reviewTitle: 'Review and submit',
   },
   title: TITLE,
   downtime: {
@@ -120,12 +124,25 @@ const formConfig = {
           arrayPath: 'selectedDebts',
           CustomPageReview: DebtReviewPage,
         },
+        chapterPlaceholder: {
+          // This is in place for the depends to auto increment the chapter count to match veteran expectations
+          // it does NOT render but MUST be here
+          path: 'chapter-placeholder',
+          title: 'Chapter placeholder',
+          depends: formData => {
+            return !formData?.selectedDebts?.length > 0;
+          },
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
       },
     },
   },
   getHelp,
   footerContent,
-  ...minimalHeaderFormConfigOptions(),
 };
 
 export default formConfig;

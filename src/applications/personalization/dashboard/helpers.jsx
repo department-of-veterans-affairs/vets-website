@@ -85,7 +85,7 @@ export function sipFormSorter(formA, formB) {
 }
 
 export const formatFormTitle = (title = '') =>
-  capitalize(title).replace(/\bva\b/, 'VA');
+  capitalize(title).replace(/\bva\b/gi, 'VA');
 
 export const recordDashboardClick = (
   product,

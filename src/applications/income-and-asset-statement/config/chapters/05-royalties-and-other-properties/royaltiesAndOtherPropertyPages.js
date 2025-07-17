@@ -33,8 +33,8 @@ import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'royaltiesAndOtherProperties',
-  nounSingular: 'royalty and other property',
-  nounPlural: 'royalties and other properties',
+  nounSingular: 'royalty',
+  nounPlural: 'royalties',
   required: false,
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||
@@ -74,20 +74,18 @@ export const options = {
           </li>
         </ul>
       ),
-    reviewAddButtonText: 'Add another royalty and other property',
-    alertItemUpdated:
-      'Your royalty and other property information has been updated',
-    alertItemDeleted:
-      'Your royalty and other property information has been deleted',
-    cancelAddTitle: 'Cancel adding this royalty and other property',
-    cancelAddButtonText: 'Cancel adding this royalty and other property',
-    cancelAddYes: 'Yes, cancel adding this royalty and other property',
+    reviewAddButtonText: 'Add another royalty',
+    alertItemUpdated: 'Your royalty information has been updated',
+    alertItemDeleted: 'Your royalty information has been deleted',
+    cancelAddTitle: 'Cancel adding this royalty',
+    cancelAddButtonText: 'Cancel adding this royalty',
+    cancelAddYes: 'Yes, cancel adding this royalty',
     cancelAddNo: 'No',
-    cancelEditTitle: 'Cancel editing this royalty and other property',
-    cancelEditYes: 'Yes, cancel editing this royalty and other property',
+    cancelEditTitle: 'Cancel editing this royalty',
+    cancelEditYes: 'Yes, cancel editing this royalty',
     cancelEditNo: 'No',
-    deleteTitle: 'Delete this royalty and other property',
-    deleteYes: 'Yes, delete this royalty and other property',
+    deleteTitle: 'Delete this royalty',
+    deleteYes: 'Yes, delete this royalty',
     deleteNo: 'No',
     deleteDescription: props =>
       generateDeleteDescription(props, options.text.getItemName),
@@ -138,17 +136,15 @@ const summaryPage = {
 const royaltyRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title:
-        'Income and net worth associated with royalties and other properties',
+      title: 'Royalty relationship',
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title:
-        'What is the type of income recipient’s relationship to the Veteran?',
+      title: 'Who received the income?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
-      'ui:title': 'Tell us the type of relationship',
+      'ui:title': 'Describe their relationship to the Veteran',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'recipientRelationship',
@@ -175,9 +171,7 @@ const royaltyRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Income and net worth associated with royalties and other properties',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Royalty recipient'),
     recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
@@ -191,9 +185,7 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const generatedIncomeTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Income and net worth associated with royalties and other properties',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Royalty income information'),
     incomeGenerationMethod: radioUI({
       title: 'How is the income generated from this asset?',
       labels: generatedIncomeTypeLabels,
@@ -247,27 +239,27 @@ export const royaltiesAndOtherPropertyPages = arrayBuilderPages(
     royaltyPagesSummary: pageBuilder.summaryPage({
       title:
         'Income and net worth associated with royalties and other properties',
-      path: 'royalties-and-other-properties-summary',
+      path: 'royalties-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     royaltyRecipientPage: pageBuilder.itemPage({
-      title: 'Royalties and other properties recipient',
-      path: 'royalties-and-other-properties/:index/income-recipient',
+      title: 'Royalty recipient',
+      path: 'royalties/:index/income-recipient',
       uiSchema: royaltyRecipientPage.uiSchema,
       schema: royaltyRecipientPage.schema,
     }),
     royaltyRecipientNamePage: pageBuilder.itemPage({
-      title: 'Royalties and other properties recipient name',
-      path: 'royalties-and-other-properties/:index/recipient-name',
+      title: 'Royalty recipient',
+      path: 'royalties/:index/recipient-name',
       depends: (formData, index) =>
         recipientNameRequired(formData, index, 'royaltiesAndOtherProperties'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),
     generatedIncomeTypePage: pageBuilder.itemPage({
-      title: 'Royalties and other properties type',
-      path: 'royalties-and-other-properties/:index/income-type',
+      title: 'Royalty income information',
+      path: 'royalties/:index/income-type',
       uiSchema: generatedIncomeTypePage.uiSchema,
       schema: generatedIncomeTypePage.schema,
     }),

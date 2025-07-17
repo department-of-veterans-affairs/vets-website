@@ -28,6 +28,7 @@ import {
   focusOnErrorField,
   getLastUpdatedText,
   sendDataDogAction,
+  getFailedDomainList,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
@@ -36,13 +37,15 @@ import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
 import { addAlert, clearAlerts } from '../../actions/alerts';
 import {
   ALERT_TYPE_BB_ERROR,
+  BB_DOMAIN_DISPLAY_MAP,
   pageTitles,
   refreshExtractTypes,
+  statsdFrontEndActions,
 } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 import useFocusOutline from '../../hooks/useFocusOutline';
 import { updateReportFileType } from '../../actions/downloads';
-import { postCreateAAL } from '../../api/MrApi';
+import { postCreateAAL, postRecordDatadogAction } from '../../api/MrApi';
 import TrackedSpinner from '../shared/TrackedSpinner';
 
 const DownloadFileType = props => {
@@ -358,6 +361,10 @@ const DownloadFileType = props => {
           const pdfData = {
             ...formatDateRange(),
             recordSets: generateBlueButtonData(recordData, recordFilter),
+            failedDomains: getFailedDomainList(
+              failedDomains,
+              BB_DOMAIN_DISPLAY_MAP,
+            ),
             ...scaffold,
             name,
             dob,
@@ -389,6 +396,7 @@ const DownloadFileType = props => {
       formatDateRange,
       recordData,
       recordFilter,
+      failedDomains,
       name,
       dob,
       refreshStatus,
@@ -410,7 +418,16 @@ const DownloadFileType = props => {
             subject,
           )}`;
           const dateRange = formatDateRange();
-          const content = getTxtContent(recordData, user, dateRange);
+          const failedDomainsList = getFailedDomainList(
+            failedDomains,
+            BB_DOMAIN_DISPLAY_MAP,
+          );
+          const content = getTxtContent(
+            recordData,
+            user,
+            dateRange,
+            failedDomainsList,
+          );
 
           generateTextFile(content, pdfName, user);
           logAal(1);
@@ -421,7 +438,7 @@ const DownloadFileType = props => {
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
-    [dispatch, formatDateRange, isDataFetched, recordData, user],
+    [dispatch, failedDomains, formatDateRange, isDataFetched, recordData, user],
   );
 
   const checkFileTypeValidity = useCallback(
@@ -452,6 +469,7 @@ const DownloadFileType = props => {
     } else if (fileType === 'txt') {
       generateTxt().then(() => history.push('/download'));
     }
+    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_BLUE_BUTTON);
     sendDataDogAction('Download report');
   };
 

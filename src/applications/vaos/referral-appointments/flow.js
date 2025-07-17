@@ -1,5 +1,4 @@
 import { startReferralTimer } from './utils/timer';
-import { titleCase } from '../utils/formatters';
 
 /**
  * Function to get referral page flow.
@@ -120,22 +119,16 @@ export function routeToCCPage(history, page, referralId = null) {
  *
  * @export
  * @param {string} currentPage - the current page in the referral flow
- * @param {string} categoryOfCare - the category of care
  * @returns {string} the label string
  */
 
-export function getReferralUrlLabel(currentPage, categoryOfCare = '') {
+export function getReferralUrlLabel(currentPage) {
   const _flow = getPageFlow();
   const result = _flow[currentPage];
 
   switch (currentPage) {
     case 'complete':
       return 'Back to appointments';
-    case 'scheduleReferral':
-      return result.label.replace(
-        '{{ categoryOfCare }}',
-        titleCase(categoryOfCare),
-      );
     case 'reviewAndConfirm':
     case 'scheduleAppointment':
       return 'Back';

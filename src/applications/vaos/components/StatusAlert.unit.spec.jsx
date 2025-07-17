@@ -213,6 +213,7 @@ describe('VAOS Component: StatusAlert', () => {
       mockAppointment.setIsPendingAppointment(true);
       mockAppointment.setStatus('cancelled');
       mockAppointment.setCancelationReason('pat');
+      mockAppointment.showScheduleLink = true;
 
       const screen = renderWithStoreAndRouter(
         <StatusAlert appointment={mockAppointment} facility={facilityData} />,

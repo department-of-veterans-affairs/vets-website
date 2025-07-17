@@ -26,7 +26,7 @@ function alertOrLink(file, entryName, index, fileNameMap = {}) {
     <>
       {file.uploaded ? (
         <VaAlert status="success" showIcon uswds>
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 dd-privacy-hidden">
             {`${entryName}’s`} {fn} uploaded
           </p>
         </VaAlert>

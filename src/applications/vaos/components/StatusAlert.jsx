@@ -106,25 +106,22 @@ export default function StatusAlert({ appointment, facility }) {
     const who = canceler.get(appointment?.cancelationReason) || 'Facility';
     let message;
     let linkText;
-    let displayScheduleLink = false;
     if (appointment.type === 'COMMUNITY_CARE_APPOINTMENT') {
       message = `${who} canceled this appointment. If you still want this appointment, call your community care provider to schedule.`;
     } else if (appointment.vaos.isCompAndPenAppointment) {
       message = `${who} canceled this appointment. If you still want this appointment, call your VA health facility’s compensation and pension office to schedule.`;
     } else if (appointment.vaos.isPendingAppointment) {
       message = `${who} canceled this request. If you still want this appointment, call your VA health facility or submit another request online.`;
-      displayScheduleLink = true;
       linkText = 'Request a new appointment';
     } else {
       message = `${who} canceled this appointment. If you still want this appointment, call your VA health facility to schedule.`;
-      displayScheduleLink = appointment.showScheduleLink;
       linkText = 'Schedule a new appointment';
     }
     return (
       <>
         <InfoAlert status="error" backgroundOnly>
           {message}
-          {displayScheduleLink && (
+          {appointment.showScheduleLink && (
             <>
               <br />
               <br />

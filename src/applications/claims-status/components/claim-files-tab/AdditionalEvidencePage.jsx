@@ -9,13 +9,9 @@ import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
 
-import { benefitsDocumentsUseLighthouse } from '../../selectors';
 import { setFocus, setPageFocus } from '../../utils/page';
 import {
   submitFiles,
-  // START lighthouse_migration
-  submitFilesLighthouse,
-  // END lighthouse_migration
   cancelUpload,
   getClaim as getClaimAction,
   resetUploads,
@@ -70,16 +66,8 @@ class AdditionalEvidencePage extends React.Component {
     }
   }
 
-  onSubmitFiles(claimId, filesToSubmit = null) {
-    const files = filesToSubmit || this.props.files;
-
-    // START lighthouse_migration
-    if (this.props.documentsUseLighthouse) {
-      this.props.submitFilesLighthouse(claimId, null, files);
-    } else {
-      this.props.submitFiles(claimId, null, files);
-    }
-    // END lighthouse_migration
+  onSubmitFiles(claimId, files) {
+    this.props.submitFiles(claimId, null, files);
   }
 
   scrollToSection = () => {
@@ -186,9 +174,6 @@ function mapStateToProps(state) {
     message: claimsState.notifications.additionalEvidenceMessage,
     filesNeeded: getFilesNeeded(trackedItems),
     filesOptional: getFilesOptional(trackedItems),
-    // START lighthouse_migration
-    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
-    // END lighthouse_migration
   };
 }
 
@@ -196,7 +181,6 @@ const mapDispatchToProps = {
   submitFiles,
   cancelUpload,
   getClaim: getClaimAction,
-  submitFilesLighthouse,
   resetUploads,
   clearAdditionalEvidenceNotification,
 };
@@ -205,9 +189,6 @@ AdditionalEvidencePage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
-  // START lighthouse_migration
-  documentsUseLighthouse: PropTypes.bool,
-  // END lighthouse_migration
   files: PropTypes.array,
   filesNeeded: PropTypes.array,
   filesOptional: PropTypes.array,
@@ -220,9 +201,6 @@ AdditionalEvidencePage.propTypes = {
   progress: PropTypes.number,
   resetUploads: PropTypes.func,
   submitFiles: PropTypes.func,
-  // START lighthouse_migration
-  submitFilesLighthouse: PropTypes.func,
-  // END lighthouse_migration
   uploadComplete: PropTypes.bool,
   uploadError: PropTypes.bool,
   uploading: PropTypes.bool,
