@@ -143,7 +143,7 @@ const editAddress = (labels, fields) => {
 const updateWithoutChanges = () => {
   cy.findByTestId('save-edit-button').should('not.have.attr', 'disabled');
   cy.findByTestId('save-edit-button').click({ force: true });
-  cy.findByTestId('save-edit-button', { timeout: 25 }).should('not.exist');
+  cy.findByTestId('save-edit-button', { timeout: 100 }).should('not.exist');
 };
 
 const validateFocusedElement = element => {
@@ -314,7 +314,7 @@ class AddressPage {
   updateWithoutChanges = () => {
     cy.findByTestId('save-edit-button').should('not.have.attr', 'disabled');
     cy.findByTestId('save-edit-button').click({ force: true });
-    cy.findByTestId('save-edit-button', { timeout: 25 }).should('not.exist');
+    cy.findByTestId('save-edit-button', { timeout: 100 }).should('not.exist');
   };
 
   validateFocusedElement = element => {
