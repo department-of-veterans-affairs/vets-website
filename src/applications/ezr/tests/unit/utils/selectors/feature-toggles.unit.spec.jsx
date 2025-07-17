@@ -7,7 +7,7 @@ describe('ezr FeatureToggles selector', () => {
       /* eslint-disable camelcase */
       hca_browser_monitoring_enabled: true,
       ezr_upload_enabled: true,
-      ezr_associations_api_enabled: true,
+      ezr_emergency_contacts_enabled: true,
       loading: false,
     },
   };
@@ -20,7 +20,6 @@ describe('ezr FeatureToggles selector', () => {
         isBrowserMonitoringEnabled: true,
         isUploadEnabled: true,
         isEmergencyContactsEnabled: true,
-        isNextOfKinEnabled: true,
       });
     });
   });
