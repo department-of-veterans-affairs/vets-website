@@ -75,9 +75,8 @@ export const IntroductionPage = ({ route }) => {
             Yourself, <strong>and</strong>
           </li>
           <li>
-            Your spouse (even if your spouse is the Veteran’s other parent. If
-            your spouse is the Veteran’s other parent, you should file separate
-            claims.)
+            Your spouse (The Veteran’s other parent should file a separate
+            claim.)
           </li>
         </ul>
         <p>
@@ -109,7 +108,7 @@ export const IntroductionPage = ({ route }) => {
           Pension (VA21P-527 or VA21P-527EZ), <strong>or</strong>
         </li>
         <li>
-          As a supporting form requested by your DIC, Survivors’ Pension and/or
+          As a supporting form requested by your DIC, Survivors’ Pension, and/or
           Accrued Benefits (VA21P-534 or 21P-534EZ), <strong>or</strong>
         </li>
         <li>
