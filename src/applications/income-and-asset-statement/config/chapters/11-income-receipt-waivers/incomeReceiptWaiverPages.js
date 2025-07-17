@@ -36,7 +36,7 @@ import { relationshipLabels } from '../../../labels';
 export const options = {
   arrayPath: 'incomeReceiptWaivers',
   nounSingular: 'waived income',
-  nounPlural: 'waived incomes',
+  nounPlural: 'waived income',
   required: false,
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||
@@ -102,10 +102,10 @@ const summaryPage = {
         },
       },
       {
-        title: 'Do you have any more waived-income to report?',
+        title: 'Do you have any more waived income to report?',
         labels: {
           Y: 'Yes, I have another waived income to report',
-          N: 'No, I don’t have another waived income to report',
+          N: 'No, I don’t have any more waived income to report',
         },
       },
     ),
@@ -127,11 +127,11 @@ const relationshipPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'What is the income recipient’s relationship to the Veteran?',
+      title: 'Who received the income?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
-      'ui:title': 'Tell us the type of relationship',
+      'ui:title': 'Describe their relationship to the Veteran',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'recipientRelationship',
@@ -262,7 +262,7 @@ export const incomeReceiptWaiverPages = arrayBuilderPages(
   pageBuilder => ({
     incomeReceiptWaiverPagesSummary: pageBuilder.summaryPage({
       title: 'Waived income',
-      path: 'income-receipt-waivers-summary',
+      path: 'waived-income-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),

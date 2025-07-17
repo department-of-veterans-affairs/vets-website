@@ -4,7 +4,7 @@ import {
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -24,12 +24,11 @@ describe('va medical centers summary page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     vaMedicalCentersSummary.schema,
     vaMedicalCentersSummary.uiSchema,
-    expectedNumberOfErrors,
+    [`va-radio[label="Have you received treatment from a VA medical center?"]`],
     pageTitle,
   );
 
@@ -78,12 +77,11 @@ describe('pension add va medical centers page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     vaMedicalCenterPage.schema,
     vaMedicalCenterPage.uiSchema,
-    expectedNumberOfErrors,
+    [`va-text-input[label="VA medical center"]`],
     pageTitle,
   );
 
