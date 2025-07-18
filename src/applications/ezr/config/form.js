@@ -22,7 +22,6 @@ import {
   includeOtherExposureDates,
   includeOtherExposureDetails,
   isEmergencyContactsEnabled,
-  isNextOfKinEnabled,
   showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
@@ -227,15 +226,15 @@ const formConfig = {
         },
         nextOfKinSummary: {
           ...nextOfKinPages.nextOfKinSummary,
-          depends: isNextOfKinEnabled,
+          depends: isEmergencyContactsEnabled,
         },
         nextOfKinPage: {
           ...nextOfKinPages.nextOfKinPage,
-          depends: isNextOfKinEnabled,
+          depends: isEmergencyContactsEnabled,
         },
         nextOfKinAddressPage: {
           ...nextOfKinPages.nextOfKinAddressPage,
-          depends: isNextOfKinEnabled,
+          depends: isEmergencyContactsEnabled,
         },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
          * having an empty/inactive "Household Info" accordion on the review page
@@ -391,7 +390,7 @@ const formConfig = {
         },
         dependentSummary: {
           path: DEPENDENT_PATHS.summary,
-          title: 'Your Dependents',
+          title: 'Dependents',
           CustomPage: DependentSummaryPage,
           CustomPageReview: DependentsReviewPage,
           depends: includeHouseholdInformation,
