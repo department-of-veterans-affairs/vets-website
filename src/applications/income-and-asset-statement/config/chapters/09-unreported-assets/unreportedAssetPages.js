@@ -82,17 +82,17 @@ const summaryPage = {
       {
         title:
           'Do you or your dependents have any assets not already reported?',
-        hint: 'If yes, you’ll need to report at least one asset ',
+        hint: 'If yes, you’ll need to report at least one asset',
         labels: {
-          Y: 'Yes, I have an asset to report',
-          N: 'No, I don’t have any assets to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
-        title: 'Do you have any more assets to report?',
+        title: 'Do you have more assets to report?',
         labels: {
-          Y: 'Yes, I have more assets to report',
-          N: 'No, I don’t have more assets to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),
@@ -118,7 +118,7 @@ const relationshipPage = {
       labels: relationshipLabels,
     }),
     otherAssetOwnerRelationshipType: {
-      'ui:title': 'Tell us the type of relationship',
+      'ui:title': 'Describe their relationship to the Veteran',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'assetOwnerRelationship',
