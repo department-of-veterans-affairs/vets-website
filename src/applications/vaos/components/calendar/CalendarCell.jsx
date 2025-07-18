@@ -84,9 +84,9 @@ const CalendarCell = ({
   }
 
   const isCurrentlySelected = currentlySelectedDate === date;
-  const aDate = parseISO(date);
-  const dateDay = format(aDate, 'd');
-  const ariaDate = format(aDate, 'EEEE, MMMM do');
+  const dateObj = parseISO(date);
+  const dateDay = format(dateObj, 'd');
+  const ariaDate = format(dateObj, 'EEEE, MMMM do');
   const buttonLabel = inSelectedArray
     ? `${ariaDate}, ${
         renderSelectedLabel
@@ -110,7 +110,7 @@ const CalendarCell = ({
         aria-controls={
           isCurrentlySelected ? `vaos-options-container-${date}` : undefined
         }
-        aria-describedby={`vaos-calendar-instructions-${aDate.getMonth()}`}
+        aria-describedby={`vaos-calendar-instructions-${dateObj.getMonth()}`}
         className="vaos-calendar__calendar-day-button"
         id={`date-cell-${date}`}
         onClick={() => onClick(date)}
