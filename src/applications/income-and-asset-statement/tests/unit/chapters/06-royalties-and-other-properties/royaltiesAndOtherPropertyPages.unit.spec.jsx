@@ -149,9 +149,7 @@ describe('royalties list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="What is the type of income recipient’s relationship to the Veteran?"]',
-      ],
+      ['va-radio[label="Who receives the income?"]'],
       'recipient',
     );
     testSubmitsWithoutErrors(

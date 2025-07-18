@@ -112,9 +112,7 @@ describe('discontinued income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="What is the income recipient’s relationship to the Veteran?"]',
-      ],
+      ['va-radio[name="root_recipientRelationship"]'],
       'relationship',
     );
     testSubmitsWithoutErrors(
@@ -252,7 +250,7 @@ describe('discontinued income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="What is the frequency of the income received?"]'],
+      ['va-radio[name="root_incomeFrequency"]'],
       'frequency',
     );
     testSubmitsWithoutErrors(
@@ -284,7 +282,7 @@ describe('discontinued income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-memorable-date[label="When was the income last paid?"]'],
+      ['va-memorable-date[name="root_incomeLastReceivedDate"]'],
       'date',
     );
     testSubmitsWithoutErrors(

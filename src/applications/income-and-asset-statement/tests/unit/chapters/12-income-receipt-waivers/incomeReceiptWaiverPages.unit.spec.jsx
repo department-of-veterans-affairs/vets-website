@@ -131,9 +131,7 @@ describe('income receipt waiver list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="What is the income recipient’s relationship to the Veteran?"]',
-      ],
+      ['va-radio[label="Who has waived income to report?"]'],
       'relationship',
     );
     testSubmitsWithoutErrors(
