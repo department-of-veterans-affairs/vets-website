@@ -59,10 +59,9 @@ function getFirstDayOfMonth(date) {
  */
 function getMaxMonth(maxDate, overrideMaxDays) {
   const defaultMaxMonth = addDays(new Date(), DEFAULT_MAX_DAYS_AHEAD);
-  const maxMonth = startOfMonth(maxDate);
 
-  if ((maxDate && isAfter(maxMonth, defaultMaxMonth)) || overrideMaxDays) {
-    return maxMonth;
+  if ((maxDate && isAfter(maxDate, defaultMaxMonth)) || overrideMaxDays) {
+    return maxDate;
   }
   // If no available dates array provided, set max to default from now
   return defaultMaxMonth;
@@ -71,7 +70,7 @@ function getMaxMonth(maxDate, overrideMaxDays) {
 /**
  * Gets the initial blank cells
  *
- * @param {Date} aDate A given date
+ * @param {Date} date A given date
  * @param {boolean} [showWeekends] Whether to show full weekend slots or not
  * @returns {Array} Array of blanks to push start day position
  */
@@ -359,13 +358,15 @@ function CalendarWidget({
                             id={id}
                             timezone={timezone}
                             currentlySelectedDate={currentlySelectedDate}
-                            handleSelectDate={aDate => {
+                            handleSelectDate={dateSelection => {
                               if (maxSelections === 1) {
                                 onChange([]);
                               }
 
                               setCurrentlySelectedDate(
-                                aDate === currentlySelectedDate ? null : aDate,
+                                dateSelection === currentlySelectedDate
+                                  ? null
+                                  : dateSelection,
                               );
                             }}
                             handleSelectOption={aDate => {
