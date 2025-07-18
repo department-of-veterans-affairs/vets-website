@@ -47,13 +47,13 @@ Alert.PastDue = ({ copay }) => {
     <va-alert status="warning" data-testid="past-due-balance-alert">
       <h2 slot="headline">Your balance may be overdue</h2>
       <p>
-        Your balance due on{' '}
+        Your balance due on
         <time
           dateTime={statementDate}
           className="vads-u-margin-x--0p5 vads-u-font-weight--bold"
         >
           {statementDate}
-        </time>{' '}
+        </time>
         was <strong>{currency(copay?.pHAmtDue)}</strong>. If you paid your full
         balance, you don’t need to do anything else at this time.
       </p>
