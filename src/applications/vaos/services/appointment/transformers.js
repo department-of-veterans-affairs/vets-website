@@ -114,11 +114,8 @@ export function transformVAOSAppointment(appt) {
   if (isRequest) {
     const { requestedPeriods, created } = appt;
     const reqPeriods = requestedPeriods?.map(d => {
-      const endDate = d.end || d.start;
-
       return {
         start: new Date(d.start),
-        end: new Date(endDate),
       };
     });
 
