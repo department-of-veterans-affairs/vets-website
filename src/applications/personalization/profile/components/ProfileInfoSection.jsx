@@ -72,7 +72,7 @@ export const List = ({ data }) => {
           // eslint-disable-next-line jsx-a11y/no-redundant-roles
           <li
             key={index}
-            className="vads-u-margin--0"
+            className="vads-u-margin--0 vads-u-max-width--none"
             role="listitem"
             id={rowData.id}
           >
