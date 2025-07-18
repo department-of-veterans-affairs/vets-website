@@ -160,7 +160,7 @@ ListOrSections.propTypes = {
 // render a list of items, sections of items, or a single item
 // 'asList' as true, will render as an ordered list instead of series of sections (legacy behavior)
 // if single item is passed as data, it will be rendered as is (passing single node)
-export const ProfileInfoCard = ({
+export const ProfileInfoSection = ({
   className,
   title,
   namedAnchor,
@@ -191,7 +191,7 @@ export const ProfileInfoCard = ({
   );
 };
 
-ProfileInfoCard.propTypes = {
+ProfileInfoSection.propTypes = {
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.node])
     .isRequired,
   asList: PropTypes.bool,
