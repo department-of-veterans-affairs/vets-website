@@ -204,19 +204,30 @@ export const medicalUploadSupportingDocs = {
         return additionalNotesClaims(formData?.formContext?.fullData);
       },
     },
+
     medicalUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
     }),
     'view:fileClaim': {
       'ui:description': (
-        <a
-          href="https://www.va.gov/resources/how-to-file-a-champva-claim/"
-          rel="noopener noreferrer"
-        >
-          Learn more about supporting medical claim documents (opens in a new
-          tab)
-        </a>
+        <>
+          <a
+            href="https://www.va.gov/resources/how-to-file-a-champva-claim/"
+            rel="noopener noreferrer"
+          >
+            Learn more about supporting medical claim documents (opens in a new
+            tab)
+          </a>
+          <br />
+          <br />
+          <va-alert status="info">
+            To help reduce errors that might result in a claim denial, we’ll
+            scan your uploads to verify they meet document requirements. This
+            may cause a 1-2 minute delay during the upload process. Please don’t
+            refresh your screen.
+          </va-alert>
+        </>
       ),
     },
   },
@@ -292,13 +303,6 @@ export const pharmacyClaimUploadDocs = {
           called a superbill) from your provider or Explanation of Benefits from
           your insurance company.
         </p>
-        <a
-          href="https://www.va.gov/resources/how-to-file-a-champva-claim/"
-          rel="noopener noreferrer"
-        >
-          Learn more about supporting pharmacy claim documents (opens in a new
-          tab)
-        </a>
       </>,
     ),
     ...fileUploadBlurb,
@@ -312,6 +316,27 @@ export const pharmacyClaimUploadDocs = {
       attachmentName: true,
       attachmentId: 'pharmacy invoice', // hard-set for LLM verification
     }),
+    'view:fileClaim': {
+      'ui:description': (
+        <>
+          <a
+            href="https://www.va.gov/resources/how-to-file-a-champva-claim/"
+            rel="noopener noreferrer"
+          >
+            Learn more about supporting pharmacy claim documents (opens in a new
+            tab)
+          </a>
+          <br />
+          <br />
+          <va-alert status="info">
+            To help reduce errors that might result in a claim denial, we’ll
+            scan your uploads to verify they meet document requirements. This
+            may cause a 1-2 minute delay during the upload process. Please don’t
+            refresh your screen.
+          </va-alert>
+        </>
+      ),
+    },
   },
   schema: {
     type: 'object',
@@ -320,6 +345,10 @@ export const pharmacyClaimUploadDocs = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
+      'view:fileClaim': {
+        type: 'object',
+        properties: {},
+      },
       pharmacyUpload: {
         type: 'array',
         minItems: 1,
