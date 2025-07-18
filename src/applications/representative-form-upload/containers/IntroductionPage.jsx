@@ -7,6 +7,7 @@ import {
   VaAlert,
   VaButton,
   VaLink,
+  VaLinkAction,
   VaProcessList,
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -31,7 +32,7 @@ const IntroductionPage = ({ route, router }) => {
         return router.push(route.pageList[1].path);
       };
       return (
-        <va-link-action
+        <VaLinkAction
           href="#start"
           label="Start form"
           class=" representative-form__start"
