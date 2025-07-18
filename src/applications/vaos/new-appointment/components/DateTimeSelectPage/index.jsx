@@ -1,7 +1,6 @@
 import {
   addDays,
   addMonths,
-  format,
   lastDayOfMonth,
   parseISO,
   startOfMonth,
@@ -207,9 +206,7 @@ export default function DateTimeSelectPage() {
   );
 
   const { selectedDates } = data;
-  const startMonth = preferredDate
-    ? format(parseISO(preferredDate), 'yyyy-MM')
-    : null;
+  const startMonth = preferredDate ? parseISO(preferredDate) : null;
 
   return (
     <div>
@@ -223,9 +220,9 @@ export default function DateTimeSelectPage() {
         <WaitTimeAlert
           eligibleForRequests={eligibleForRequests}
           facilityId={facilityId}
-          nextAvailableApptDate={availableSlots?.[0]?.start}
-          preferredDate={preferredDate}
-          timezone={timezoneDescription}
+          nextAvailableDate={new Date(availableSlots?.[0]?.start)}
+          preferredDate={parseISO(preferredDate)}
+          timezone={timezone}
         />
       )}
       {fetchFailed && (
@@ -269,8 +266,8 @@ export default function DateTimeSelectPage() {
             onPreviousMonth={(...args) =>
               dispatch(getAppointmentSlots(...args))
             }
-            minDate={format(addDays(new Date(), 1), 'yyyy-MM-dd')}
-            maxDate={format(addDays(new Date(), 395), 'yyyy-MM-dd')}
+            minDate={addDays(new Date(), 1)}
+            maxDate={addDays(new Date(), 395)}
             renderIndicator={_ => undefined}
             required
             requiredMessage="Please choose your preferred date and time for your appointment"
