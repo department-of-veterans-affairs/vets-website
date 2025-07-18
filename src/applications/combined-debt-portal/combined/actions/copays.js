@@ -1,5 +1,5 @@
-// import * as Sentry from '@sentry/browser';
-// import { apiRequest } from 'platform/utilities/api';
+import * as Sentry from '@sentry/browser';
+import { apiRequest } from 'platform/utilities/api';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 
 export const MCP_STATEMENTS_FETCH_INIT = 'MCP_STATEMENTS_FETCH_INIT';
@@ -46,12 +46,24 @@ const transform = data => {
   });
 };
 
-import mockStatements from '../utils/mocks/mockStatements.json';
-
-export const getStatements = dispatch => {
+export const getStatements = async dispatch => {
   dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
-  return dispatch({
-    type: MCP_STATEMENTS_FETCH_SUCCESS,
-    response: transform(mockStatements),
-  });
+  return apiRequest('/medical_copays')
+    .then(({ data }) => {
+      return dispatch({
+        type: MCP_STATEMENTS_FETCH_SUCCESS,
+        response: transform(data),
+      });
+    })
+    .catch(({ errors }) => {
+      const [error] = errors;
+      Sentry.withScope(scope => {
+        scope.setExtra('error', error);
+        Sentry.captureMessage(`medical_copays failed: ${error.detail}`);
+      });
+      return dispatch({
+        type: MCP_STATEMENTS_FETCH_FAILURE,
+        error,
+      });
+    });
 };
