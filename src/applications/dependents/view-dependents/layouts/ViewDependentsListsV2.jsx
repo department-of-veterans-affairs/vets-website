@@ -111,7 +111,7 @@ function ViewDependentsLists(props) {
             Prefer paper form to add or remove a dependent?{' '}
             <va-link
               href="https://www.va.gov/find-forms/about-form-21-686c/"
-              text="Download VA Form 21-686c (PDF)"
+              text="Download VA Form 21-686c"
             />
           </div>
 
@@ -119,7 +119,7 @@ function ViewDependentsLists(props) {
             Prefer paper form to add a student?{' '}
             <va-link
               href="https://www.va.gov/find-forms/about-form-21-674/"
-              text="Download VA Form 21-674 (PDF)"
+              text="Download VA Form 21-674"
             />
           </div>
         </div>
@@ -137,7 +137,7 @@ function ViewDependentsLists(props) {
         Prefer paper?{' '}
         <va-link
           href="https://www.va.gov/find-forms/about-form-21-0538/"
-          text="Download VA Form 21-0538 (PDF)"
+          text="Download VA Form 21-0538"
         />
       </p>
     </div>
