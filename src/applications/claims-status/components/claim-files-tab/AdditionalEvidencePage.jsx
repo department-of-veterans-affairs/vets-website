@@ -11,13 +11,9 @@ import FilesNeeded from './FilesNeeded';
 
 import { setFocus, setPageFocus } from '../../utils/page';
 import {
-  addFile,
-  removeFile,
   submitFiles,
-  updateField,
   cancelUpload,
   getClaim as getClaimAction,
-  setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
 } from '../../actions';
@@ -70,9 +66,8 @@ class AdditionalEvidencePage extends React.Component {
     }
   }
 
-  onSubmitFiles(claimId) {
-    // Always use Lighthouse endpoint (no more feature flag checks)
-    this.props.submitFiles(claimId, null, this.props.files);
+  onSubmitFiles(claimId, files) {
+    this.props.submitFiles(claimId, null, files);
   }
 
   scrollToSection = () => {
@@ -87,7 +82,7 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   render() {
-    const { claim, lastPage } = this.props;
+    const { claim } = this.props;
 
     let content;
 
@@ -138,20 +133,11 @@ class AdditionalEvidencePage extends React.Component {
                 <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
               <AddFilesForm
-                field={this.props.uploadField}
+                fileTab
                 progress={this.props.progress}
                 uploading={this.props.uploading}
-                files={this.props.files}
-                backUrl={lastPage ? `/${lastPage}` : filesPath}
-                onSubmit={() => {
-                  this.onSubmitFiles(claim.id);
-                }}
-                onAddFile={this.props.addFile}
-                onRemoveFile={this.props.removeFile}
-                onFieldChange={this.props.updateField}
                 onCancel={this.props.cancelUpload}
-                onDirtyFields={this.props.setFieldsDirty}
-                fileTab
+                onSubmit={files => this.onSubmitFiles(claim.id, files)}
               />
             </>
           ) : (
@@ -181,13 +167,10 @@ function mapStateToProps(state) {
   return {
     loading: claimsState.claimDetail.loading,
     claim,
-    files: claimsState.uploads.files,
     uploading: claimsState.uploads.uploading,
     progress: claimsState.uploads.progress,
     uploadError: claimsState.uploads.uploadError,
     uploadComplete: claimsState.uploads.uploadComplete,
-    uploadField: claimsState.uploads.uploadField,
-    lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.additionalEvidenceMessage,
     filesNeeded: getFilesNeeded(trackedItems),
     filesOptional: getFilesOptional(trackedItems),
@@ -195,40 +178,30 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  addFile,
-  removeFile,
   submitFiles,
-  updateField,
   cancelUpload,
   getClaim: getClaimAction,
-  setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
 };
 
 AdditionalEvidencePage.propTypes = {
-  addFile: PropTypes.func,
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
-  files: PropTypes.array,
   filesNeeded: PropTypes.array,
   filesOptional: PropTypes.array,
   getClaim: PropTypes.func,
-  lastPage: PropTypes.string,
   loading: PropTypes.bool,
   location: PropTypes.object,
   message: PropTypes.object,
   navigate: PropTypes.func,
   params: PropTypes.object,
   progress: PropTypes.number,
-  removeFile: PropTypes.func,
   resetUploads: PropTypes.func,
-  setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
-  updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
-  uploadField: PropTypes.object,
+  uploadError: PropTypes.bool,
   uploading: PropTypes.bool,
 };
 
