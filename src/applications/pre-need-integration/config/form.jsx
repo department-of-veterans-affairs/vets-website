@@ -5,7 +5,6 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { nounPluralReplaceMePages } from './pages/nounPluralReplaceMe';
 
 import { fileUploadUi } from '../utils/upload';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
@@ -13,7 +12,7 @@ import * as applicantMilitaryNameInformation from './pages/applicantMilitaryName
 import * as applicantMilitaryNameInformationPreparer from './pages/applicantMilitaryNameInformationPreparer';
 import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
 import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
-// import * as burialBenefits from './pages/burialBenefits';
+import * as burialBenefits from './pages/burialBenefits';
 import * as isSponsor from './pages/isSponsor';
 import * as sponsorDetails from './pages/sponsorDetails';
 import * as sponsorContactInformation from './pages/sponsorContactInformation';
@@ -37,8 +36,8 @@ import * as applicantDemographics2 from './pages/applicantDemographics2';
 import * as applicantDemographics2Preparer from './pages/applicantDemographics2Preparer';
 import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
 import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
-// import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
-// import * as burialCemetery from './pages/burialCemetery';
+import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
+import * as burialCemetery from './pages/burialCemetery';
 import {
   servicePeriodsPagesVeteran,
   servicePeriodsPagesNonVeteran,
@@ -64,7 +63,7 @@ import {
   isAuthorizedAgent,
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
-  // buriedWSponsorsEligibility,
+  buriedWSponsorsEligibility,
   relationshipToVetTitle,
   relationshipToVetPreparerTitle,
   relationshipToVetDescription,
@@ -675,47 +674,43 @@ const formConfig = {
       title: 'Sponsor service period(s)',
       pages: servicePeriodsPagesPreparerNonVeteran,
     },
-    nounPluralReplaceMeChapter: {
-      title: 'Noun Plural',
-      pages: nounPluralReplaceMePages,
+    burialBenefits: {
+      title: 'Burial benefits',
+      pages: {
+        burialBenefits: {
+          path: 'burial-benefits',
+          depends: formData =>
+            isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: burialBenefits.uiSchema('decedents'),
+          schema: burialBenefits.schema,
+        },
+        burialBenefitsPreparer: {
+          path: 'burial-benefits-preparer',
+          depends: formData =>
+            isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: burialBenefits.uiSchema('applicant’s cemetery'),
+          schema: burialBenefits.schema,
+        },
+        burialBenefitsSponsor: {
+          path: 'burial-benefits-sponsor',
+          depends: formData => !isVeteran(formData),
+          uiSchema: burialBenefits.uiSchema('sponsor’s cemetery'),
+          schema: burialBenefits.schema,
+        },
+        currentlyBuriedPersons: {
+          path: 'current-burial-benefits',
+          depends: formData => buriedWSponsorsEligibility(formData),
+          editModeOnReviewPage: true,
+          uiSchema: currentlyBuriedPersons.uiSchema,
+          schema: currentlyBuriedPersons.schema,
+        },
+        burialCemetery: {
+          path: 'burial-cemetery',
+          uiSchema: burialCemetery.uiSchema,
+          schema: burialCemetery.schema,
+        },
+      },
     },
-    // burialBenefits: {
-    //   title: 'Burial benefits',
-    //   pages: {
-    //     burialBenefits: {
-    //       path: 'burial-benefits',
-    //       depends: formData =>
-    //         isVeteran(formData) && !isAuthorizedAgent(formData),
-    //       uiSchema: burialBenefits.uiSchema('decedents'),
-    //       schema: burialBenefits.schema,
-    //     },
-    //     burialBenefitsPreparer: {
-    //       path: 'burial-benefits-preparer',
-    //       depends: formData =>
-    //         isVeteran(formData) && isAuthorizedAgent(formData),
-    //       uiSchema: burialBenefits.uiSchema('applicant’s cemetery'),
-    //       schema: burialBenefits.schema,
-    //     },
-    //     burialBenefitsSponsor: {
-    //       path: 'burial-benefits-sponsor',
-    //       depends: formData => !isVeteran(formData),
-    //       uiSchema: burialBenefits.uiSchema('sponsor’s cemetery'),
-    //       schema: burialBenefits.schema,
-    //     },
-    //     currentlyBuriedPersons: {
-    //       path: 'current-burial-benefits',
-    //       depends: formData => buriedWSponsorsEligibility(formData),
-    //       editModeOnReviewPage: true,
-    //       uiSchema: currentlyBuriedPersons.uiSchema,
-    //       schema: currentlyBuriedPersons.schema,
-    //     },
-    //     burialCemetery: {
-    //       path: 'burial-cemetery',
-    //       uiSchema: burialCemetery.uiSchema,
-    //       schema: burialCemetery.schema,
-    //     },
-    //   },
-    // },
     supportingDocuments: {
       title: 'Supporting files',
       pages: {
