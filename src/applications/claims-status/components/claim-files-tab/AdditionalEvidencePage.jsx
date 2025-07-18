@@ -133,8 +133,9 @@ class AdditionalEvidencePage extends React.Component {
                 <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
               <AddFilesForm
-                uploading={this.props.uploading}
+                fileTab
                 progress={this.props.progress}
+                uploading={this.props.uploading}
                 onCancel={this.props.cancelUpload}
                 onSubmit={files => this.onSubmitFiles(claim.id, files)}
               />
@@ -166,7 +167,6 @@ function mapStateToProps(state) {
   return {
     loading: claimsState.claimDetail.loading,
     claim,
-    files: claimsState.uploads.files,
     uploading: claimsState.uploads.uploading,
     progress: claimsState.uploads.progress,
     uploadError: claimsState.uploads.uploadError,
@@ -189,7 +189,6 @@ AdditionalEvidencePage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
-  files: PropTypes.array,
   filesNeeded: PropTypes.array,
   filesOptional: PropTypes.array,
   getClaim: PropTypes.func,

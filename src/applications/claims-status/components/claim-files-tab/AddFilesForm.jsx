@@ -11,6 +11,7 @@ import {
   readAndCheckFile,
   checkIsEncryptedPdf,
 } from 'platform/forms-system/src/js/utilities/file';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { DOC_TYPES } from '../../utils/helpers';
 import { FILE_TYPES, validateFiles } from '../../utils/validations';
@@ -212,13 +213,7 @@ const createSubmissionPayload = (files, docTypes) => {
   }));
 };
 
-const NewAddFilesForm = ({
-  onChange,
-  onSubmit,
-  uploading,
-  progress,
-  onCancel,
-}) => {
+const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
@@ -277,10 +272,6 @@ const NewAddFilesForm = ({
       setErrors([]);
       setEncrypted([]);
     }
-
-    if (onChange) {
-      onChange(event);
-    }
   };
 
   const handleSubmit = () => {
@@ -320,70 +311,81 @@ const NewAddFilesForm = ({
 
     // Show upload modal on successful validation
     setCanShowUploadModal(true);
-
-    if (onSubmit) {
-      onSubmit(formattedFiles);
-    }
+    onSubmit(formattedFiles);
   };
 
   const showUploadModal = uploading && canShowUploadModal;
 
   return (
     <>
-      <VaFileInputMultiple
-        accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-        ref={fileInputRef}
-        hint={HINT_TEXT}
-        label={LABEL_TEXT}
-        onVaMultipleChange={handleFileChange}
-        errors={errors}
-        encrypted={encrypted}
-      >
-        <VaSelect
-          required
-          name="docType"
-          label="What type of document is this?"
+      <div className="add-files-form">
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}>
+          <Toggler.Enabled>
+            <div>
+              {!fileTab && (
+                <>
+                  <h2>Upload documents</h2>
+                  <p>If you have a document to upload, you can do that here.</p>
+                </>
+              )}
+            </div>
+          </Toggler.Enabled>
+        </Toggler>
+        <VaFileInputMultiple
+          accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+          ref={fileInputRef}
+          hint={HINT_TEXT}
+          label={LABEL_TEXT}
+          onVaMultipleChange={handleFileChange}
+          errors={errors}
+          encrypted={encrypted}
         >
-          {DOC_TYPES.map(doc => (
-            <option key={doc.value} value={doc.value}>
-              {doc.label}
-            </option>
-          ))}
-        </VaSelect>
-      </VaFileInputMultiple>
-      <VaButton text={SUBMIT_TEXT} onClick={handleSubmit} />
-      <va-additional-info
-        class="vads-u-margin-y--3"
-        trigger="Need to mail your documents?"
-      >
-        {mailMessage}
-      </va-additional-info>
-      <DebugInfo
-        files={files}
-        encrypted={encrypted}
-        lastPayload={lastPayload}
-      />
-      <VaModal
-        id="upload-status"
-        onCloseEvent={() => setCanShowUploadModal(false)}
-        visible={showUploadModal}
-      >
-        <UploadStatus
-          progress={progress}
-          files={files.length}
-          onCancel={onCancel}
+          <VaSelect
+            required
+            name="docType"
+            label="What type of document is this?"
+          >
+            {DOC_TYPES.map(doc => (
+              <option key={doc.value} value={doc.value}>
+                {doc.label}
+              </option>
+            ))}
+          </VaSelect>
+        </VaFileInputMultiple>
+        <VaButton text={SUBMIT_TEXT} onClick={handleSubmit} />
+        <va-additional-info
+          class="vads-u-margin-y--3"
+          trigger="Need to mail your documents?"
+        >
+          {mailMessage}
+        </va-additional-info>
+        <DebugInfo
+          files={files}
+          encrypted={encrypted}
+          lastPayload={lastPayload}
         />
-      </VaModal>
+        <VaModal
+          id="upload-status"
+          onCloseEvent={() => setCanShowUploadModal(false)}
+          visible={showUploadModal}
+        >
+          <UploadStatus
+            progress={progress}
+            files={files.length}
+            onCancel={onCancel}
+          />
+        </VaModal>
+      </div>
     </>
   );
 };
 
-NewAddFilesForm.propTypes = {
-  progress: PropTypes.number,
-  uploading: PropTypes.bool,
-  onCancel: PropTypes.func,
-  onChange: PropTypes.func,
-  onSubmit: PropTypes.func,
+AddFilesForm.propTypes = {
+  progress: PropTypes.number.isRequired,
+  uploading: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  fileTab: PropTypes.bool,
 };
 
-export default NewAddFilesForm;
+export default AddFilesForm;
