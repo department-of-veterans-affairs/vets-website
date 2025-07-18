@@ -24,8 +24,9 @@ export const formatFullNameNoSuffix = name => {
   }
 
   const first = capitalize(name.first);
-  const middleInitial = name.middle
-    ? `${capitalize(name.middle.charAt(0))}.`
+  const trimmedMiddle = name.middle?.trim();
+  const middleInitial = trimmedMiddle
+    ? `${capitalize(trimmedMiddle.charAt(0))}.`
     : '';
   const last = capitalize(name.last);
 
@@ -95,3 +96,36 @@ export const generateDeleteDescription = (props, getItemName) => {
         props.nounPlural
       }.`;
 };
+
+/**
+ * Resolve the recipient's full name to display on summary cards.
+ *
+ * - If the recipientRelationship is "VETERAN":
+ *   - Use `veteranFullName` when the user is logged in
+ *   - Use `otherVeteranFullName` when the user is not logged in
+ * - If the recipient is not the Veteran, use `recipientName`
+ *
+ * This helper is useful across multiple arrayBuilder pages where we conditionally display
+ * either the Veteran's name or the name of another recipient.
+ *
+ * @param {object} item - The array item object containing recipient data.
+ * @param {object} formData - The overall form data, which may include veteran names and logged in.
+ * @returns {string} The formatted full name string or undefined if no name is resolvable
+ */
+export function resolveRecipientFullName(item, formData) {
+  const { recipientRelationship, recipientName } = item;
+  const {
+    veteranFullName,
+    otherVeteranFullName,
+    isLoggedIn = false,
+  } = formData;
+
+  const isVeteran = recipientRelationship === 'VETERAN';
+
+  if (isVeteran) {
+    const veteranName = isLoggedIn ? veteranFullName : otherVeteranFullName;
+    return formatFullNameNoSuffix(veteranName);
+  }
+
+  return formatFullNameNoSuffix(recipientName);
+}

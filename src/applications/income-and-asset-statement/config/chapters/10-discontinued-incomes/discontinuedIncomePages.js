@@ -20,13 +20,13 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  formatFullNameNoSuffix,
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
   isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  resolveRecipientFullName,
 } from '../../../helpers';
 import { incomeFrequencyLabels, relationshipLabels } from '../../../labels';
 
@@ -44,14 +44,13 @@ export const options = {
     !isDefined(item.incomeLastReceivedDate) ||
     !isDefined(item.grossAnnualAmount), // include all required fields here
   text: {
-    getItemName: (item, index, formData) =>
-      isDefined(item?.recipientRelationship) &&
-      isDefined(item?.payer) &&
-      `${
-        item?.recipientRelationship === 'VETERAN'
-          ? formatFullNameNoSuffix(formData?.veteranFullName)
-          : formatFullNameNoSuffix(item?.recipientName)
-      }’s income from ${item.payer}`,
+    getItemName: (item, index, formData) => {
+      if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
+        return undefined;
+      }
+      const fullName = resolveRecipientFullName(item, formData);
+      return `${fullName}’s income from ${item.payer}`;
+    },
     cardDescription: item =>
       isDefined(item?.grossAnnualAmount) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">

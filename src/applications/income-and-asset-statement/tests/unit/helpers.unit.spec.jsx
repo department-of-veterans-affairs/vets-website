@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { formatFullNameNoSuffix, isDefined } from '../../helpers';
+import {
+  formatFullNameNoSuffix,
+  isDefined,
+  resolveRecipientFullName,
+} from '../../helpers';
 
 describe('formatFullNameNoSuffix', () => {
   it('should format full name with middle initial', () => {
@@ -76,5 +80,54 @@ describe('isDefined', () => {
 
   it('should return true for empty array', () => {
     expect(isDefined([])).to.be.true;
+  });
+});
+
+describe('resolveRecipientFullName', () => {
+  const recipient = { first: 'mary', middle: 'anne', last: 'smith' };
+  const veteran = { first: 'john', middle: 'm', last: 'doe' };
+  const otherVeteran = { first: 'alex', last: 'carter' };
+
+  it('returns veteranFullName when recipient is VETERAN and isLoggedIn is true', () => {
+    const item = { recipientRelationship: 'VETERAN' };
+    const formData = {
+      isLoggedIn: true,
+      veteranFullName: veteran,
+      otherVeteranFullName: otherVeteran,
+    };
+
+    expect(resolveRecipientFullName(item, formData)).to.equal('John M. Doe');
+  });
+
+  it('returns otherVeteranFullName when recipient is VETERAN and isLoggedIn is false', () => {
+    const item = { recipientRelationship: 'VETERAN' };
+    const formData = {
+      isLoggedIn: false,
+      veteranFullName: veteran,
+      otherVeteranFullName: otherVeteran,
+    };
+
+    expect(resolveRecipientFullName(item, formData)).to.equal('Alex Carter');
+  });
+
+  it('returns recipientName when recipient is not the Veteran', () => {
+    const item = {
+      recipientRelationship: 'SPOUSE',
+      recipientName: recipient,
+    };
+    const formData = {
+      isLoggedIn: true,
+      veteranFullName: veteran,
+      otherVeteranFullName: otherVeteran,
+    };
+
+    expect(resolveRecipientFullName(item, formData)).to.equal('Mary A. Smith');
+  });
+
+  it('returns empty string if recipientName is undefined', () => {
+    const item = { recipientRelationship: 'SPOUSE' };
+    const formData = { isLoggedIn: true };
+
+    expect(resolveRecipientFullName(item, formData)).to.equal('');
   });
 });
