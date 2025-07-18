@@ -62,7 +62,7 @@ import {
   onFormLoaded,
 } from '../utils/evidence';
 import { hasMstOption } from '../utils/mstOption';
-import { hasHomeAndMobilePhone } from '../utils/contactInfo';
+import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
 
 import manifest from '../manifest.json';
 import {

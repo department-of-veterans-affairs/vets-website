@@ -5,7 +5,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollToFirstError } from 'platform/utilities/scroll';
 
-import { getFormattedPhone } from '../utils/contactInfo';
+import { getFormattedPhone } from '../../shared/utils/contactInfo';
 import { missingPrimaryPhone } from '../validations';
 import {
   PRIMARY_PHONE,
