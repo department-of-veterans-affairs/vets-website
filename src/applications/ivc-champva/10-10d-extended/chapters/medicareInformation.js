@@ -42,12 +42,27 @@ const MEDICARE_TYPE_LABELS = {
   b: 'Medicare Part B only (medical coverage)',
 };
 
-const medicareYesNoHint =
-  'If any applicants have Medicare, you’re required to report it to process your application for CHAMPVA benefits. ';
-
 // Memoizing the `toHash` helper func since it'll be getting called
 // a lot in the `depends` checks.
 const toHashMemoized = memoize(str => toHash(str));
+
+/**
+ * Options for the yes/no text on summary page:
+ */
+const yesNoOptions = {
+  title: 'Do you have any Medicare to report for one or more applicants?',
+  labelHeaderLevel: '5',
+  labelHeaderLevelStyle: '5',
+  hint:
+    'If any applicants have Medicare, it is required to report it to process your application for CHAMPVA benefits.',
+};
+const yesNoOptionsMore = {
+  title: 'Do you have any other applicants with Medicare to report?',
+  labelHeaderLevel: '5',
+  labelHeaderLevelStyle: '5',
+  hint:
+    'If any applicants have Medicare, it is required to report it to process your application for CHAMPVA benefits.',
+};
 
 // Get the name of the applicant selected on the Medicare participant page
 export function generateParticipantName(item) {
@@ -86,15 +101,8 @@ const medicareSummaryPage = {
     ...titleUI('Report Medicare'),
     'view:hasMedicare': arrayBuilderYesNoUI(
       medicareOptions,
-      {
-        title:
-          'Do you have any Medicare to report for one or more applicants? ',
-        hint: medicareYesNoHint,
-      },
-      {
-        title: 'Do you have another plan to report for one or more applicants?',
-        hint: medicareYesNoHint,
-      },
+      yesNoOptions,
+      yesNoOptionsMore,
     ),
   },
   schema: {

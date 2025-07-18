@@ -148,7 +148,7 @@ const formConfig = {
         },
         page6: {
           path: 'sponsor-info',
-          title: 'Sponsor’s name and date of birth',
+          title: "Sponsor's name and date of birth",
           ...sponsorNameDobSchema,
         },
         page7: {
@@ -158,13 +158,13 @@ const formConfig = {
         },
         page8: {
           path: 'sponsor-status',
-          title: 'Sponsor’s status',
+          title: "Sponsor's status",
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           ...sponsorStatus,
         },
         page9: {
           path: 'sponsor-status-details',
-          title: 'Sponsor’s status details',
+          title: "Sponsor's status details",
           depends: formData =>
             get('certifierRole', formData) !== 'sponsor' &&
             get('sponsorIsDeceased', formData),
@@ -201,13 +201,13 @@ const formConfig = {
         },
         page10: {
           path: 'sponsor-mailing-address',
-          title: 'Sponsor’s mailing address',
+          title: "Sponsor's mailing address",
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorAddress,
         },
         page11: {
           path: 'sponsor-contact-information',
-          title: 'Sponsor’s contact information',
+          title: "Sponsor's contact information",
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorContactInfo,
         },

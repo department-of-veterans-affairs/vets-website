@@ -9,9 +9,9 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { TITLE, SUBTITLE } from '../constants';
 
-const OMB_RES_BURDEN = 15;
+const OMB_RES_BURDEN = 10;
 const OMB_NUMBER = '2900-0219';
-const OMB_EXP_DATE = '10/31/2024';
+const OMB_EXP_DATE = '12/31/2027';
 
 const ProcessList = () => {
   return (
