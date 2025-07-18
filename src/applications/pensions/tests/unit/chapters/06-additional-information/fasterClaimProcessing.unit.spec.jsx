@@ -11,7 +11,7 @@ import {
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
   testNumberOfWebComponentFields,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testSubmitsWithoutErrors,
   testNumberOfFieldsByType,
 } from '../pageTests.spec';
@@ -32,12 +32,14 @@ describe('web component tests', () => {
     expectedNumberOfWebComponentFields,
     pageTitle,
   );
-  const expectedNumberOfErrorsOnSubmitForWebComponents = 1;
-  testNumberOfErrorsOnSubmitForWebComponents(
+
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     schema,
     uiSchema,
-    expectedNumberOfErrorsOnSubmitForWebComponents,
+    [
+      `va-radio[label="Do you want to use the Fully Developed Claims program to apply?"]`,
+    ],
     pageTitle,
   );
 

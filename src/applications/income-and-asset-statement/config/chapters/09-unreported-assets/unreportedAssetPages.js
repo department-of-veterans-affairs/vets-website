@@ -84,15 +84,15 @@ const summaryPage = {
           'Do you or your dependents have any assets not already reported?',
         hint: 'If yes, you’ll need to report at least one asset',
         labels: {
-          Y: 'Yes, I have an asset to report',
-          N: 'No, I don’t have an asset to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
-        title: 'Do you have any more assets to report?',
+        title: 'Do you have more assets to report?',
         labels: {
-          Y: 'Yes, I have more assets to report',
-          N: 'No, I don’t have any more assets to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),

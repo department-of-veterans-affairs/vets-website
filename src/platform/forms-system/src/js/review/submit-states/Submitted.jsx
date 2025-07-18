@@ -31,7 +31,7 @@ export default function Submitted(props) {
                 onButtonClick={onSubmit}
                 buttonText="Submitted"
                 disabled
-                buttonClass="form-button-green"
+                buttonClass=""
                 beforeText="&#10003;"
                 useWebComponents={useWebComponents}
               />
@@ -51,7 +51,7 @@ export default function Submitted(props) {
                 onButtonClick={onSubmit}
                 buttonText="Submitted"
                 disabled
-                buttonClass="form-button-green"
+                buttonClass=""
                 beforeText="&#10003;"
                 useWebComponents={useWebComponents}
               />
