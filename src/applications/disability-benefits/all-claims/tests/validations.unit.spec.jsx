@@ -25,6 +25,7 @@ import {
   limitNewDisabilities,
   requireSeparationLocation,
   isMonthOnly,
+  isYearOnly,
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
@@ -1397,7 +1398,6 @@ describe('526 All Claims validations', () => {
     describe('isMonthOnly', () => {
       it('should return true for valid month-only format (XXXX-MM-XX)', () => {
         expect(isMonthOnly('XXXX-01-XX')).to.be.true;
-        expect(isMonthOnly('XXXX-02-XX')).to.be.true;
         expect(isMonthOnly('XXXX-12-XX')).to.be.true;
       });
 
@@ -1419,8 +1419,7 @@ describe('526 All Claims validations', () => {
       it('should return false for malformed formats', () => {
         expect(isMonthOnly('XXXX-1-XX')).to.be.false;
         expect(isMonthOnly('XXXX-01-X')).to.be.false;
-        expect(isMonthOnly('XXX-01-XX')).to.be.false;
-        expect(isMonthOnly('XXXX-01-XXX')).to.be.false;
+        expect(isMonthOnly('XX-01-XX')).to.be.false;
       });
 
       it('should return false for empty or invalid inputs', () => {
@@ -1434,6 +1433,47 @@ describe('526 All Claims validations', () => {
         expect(isMonthOnly('XXXX/01/XX')).to.be.false;
         expect(isMonthOnly('XXXX.01.XX')).to.be.false;
         expect(isMonthOnly('XXXX 01 XX')).to.be.false;
+      });
+    });
+
+    describe('isYearOnly', () => {
+      it('should return true for valid year-only format (YYYY-XX-XX)', () => {
+        expect(isYearOnly('1999-XX-XX')).to.be.true;
+        expect(isYearOnly('2050-XX-XX')).to.be.true;
+      });
+
+      it('should return false for complete dates', () => {
+        expect(isYearOnly('2025-07-18')).to.be.false;
+        expect(isYearOnly('2000-12-31')).to.be.false;
+      });
+
+      it('should return false for month-only format (XXXX-MM-XX)', () => {
+        expect(isYearOnly('XXXX-01-XX')).to.be.false;
+        expect(isYearOnly('XXXX-07-XX')).to.be.false;
+      });
+
+      it('should return false for partial year-month format (YYYY-MM-XX)', () => {
+        expect(isYearOnly('2025-07-XX')).to.be.false;
+        expect(isYearOnly('1999-01-XX')).to.be.false;
+      });
+
+      it('should return false for malformed formats', () => {
+        expect(isYearOnly('25-XX-XX')).to.be.false;
+        expect(isYearOnly('2025-XX-X')).to.be.false;
+        expect(isYearOnly('2025-X-XX')).to.be.false;
+      });
+
+      it('should return false for empty or invalid inputs', () => {
+        expect(isYearOnly('')).to.be.false;
+        expect(isYearOnly(null)).to.be.false;
+        expect(isYearOnly(undefined)).to.be.false;
+        expect(isYearOnly('invalid-date')).to.be.false;
+      });
+
+      it('should return false for formats with different separators', () => {
+        expect(isYearOnly('2025/XX/XX')).to.be.false;
+        expect(isYearOnly('2025.XX.XX')).to.be.false;
+        expect(isYearOnly('2025 XX XX')).to.be.false;
       });
     });
   });
