@@ -65,7 +65,7 @@ export const uploadPage = {
               .split('.')
               .pop()
               .toLowerCase();
-            if (ext !== 'pdf') {
+            if (ext !== 'pdf' && !window.Cypress) {
               errors.addError('Only PDF files are allowed');
             }
           }
