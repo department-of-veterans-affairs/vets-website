@@ -88,9 +88,9 @@ const CalendarNavigation = ({
 );
 
 CalendarNavigation.propTypes = {
+  date: PropTypes.instanceOf(Date).isRequired,
   nextOnClick: PropTypes.func.isRequired,
   prevOnClick: PropTypes.func.isRequired,
-  date: PropTypes.instanceOf(Date),
   nextDisabled: PropTypes.bool,
   prevDisabled: PropTypes.bool,
 };

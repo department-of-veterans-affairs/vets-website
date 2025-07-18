@@ -161,10 +161,10 @@ const WaitTimeAlert = ({
 
 WaitTimeAlert.propTypes = {
   facilityId: PropTypes.string.isRequired,
+  nextAvailableDate: PropTypes.instanceOf(Date).isRequired,
   preferredDate: PropTypes.instanceOf(Date).isRequired,
   timezone: PropTypes.string.isRequired,
   eligibleForRequests: PropTypes.bool,
-  nextAvailableDate: PropTypes.instanceOf(Date),
   typeOfCareId: PropTypes.string,
 };
 
