@@ -28,6 +28,7 @@ import {
   isYearOnly,
   isYearMonth,
   isTreatmentBeforeService,
+  findEarliestServiceDate,
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
@@ -1619,6 +1620,67 @@ describe('526 All Claims validations', () => {
           );
           expect(result).to.be.false;
         });
+      });
+    });
+
+    describe('findEarliestServiceDate', () => {
+      it('should return the earliest service date from multiple periods', () => {
+        const servicePeriods = [
+          { serviceBranch: 'Army', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Navy', dateRange: { from: '2000-01-14' } },
+          { serviceBranch: 'Air Force', dateRange: { from: '2011-12-25' } },
+        ];
+
+        const result = findEarliestServiceDate(servicePeriods);
+        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+      });
+
+      it('should return the single service date when only one period exists', () => {
+        const servicePeriods = [
+          { serviceBranch: 'Marines', dateRange: { from: '2005-06-15' } },
+        ];
+
+        const result = findEarliestServiceDate(servicePeriods);
+        expect(result.format('YYYY-MM-DD')).to.equal('2005-06-15');
+      });
+
+      it('should filter out service periods with empty serviceBranch', () => {
+        const servicePeriods = [
+          { serviceBranch: '', dateRange: { from: '1990-01-01' } },
+          { serviceBranch: 'Navy', dateRange: { from: '2000-01-14' } },
+        ];
+
+        const result = findEarliestServiceDate(servicePeriods);
+        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+      });
+
+      it('should filter out service periods with missing serviceBranch', () => {
+        const servicePeriods = [
+          { dateRange: { from: '1990-01-01' } },
+          { serviceBranch: 'Navy', dateRange: { from: '2000-01-14' } },
+        ];
+
+        const result = findEarliestServiceDate(servicePeriods);
+        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+      });
+
+      it('should filter out service periods with null serviceBranch', () => {
+        const servicePeriods = [
+          { serviceBranch: null, dateRange: { from: '1990-01-01' } },
+          { serviceBranch: 'Navy', dateRange: { from: '2000-01-14' } },
+        ];
+
+        const result = findEarliestServiceDate(servicePeriods);
+        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+      });
+
+      it('should throw error when service period has undefined dateRange', () => {
+        const servicePeriods = [
+          { serviceBranch: 'Army', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Navy' },
+        ];
+
+        expect(() => findEarliestServiceDate(servicePeriods)).to.throw();
       });
     });
   });
