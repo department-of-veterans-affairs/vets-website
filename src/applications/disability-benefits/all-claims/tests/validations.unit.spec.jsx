@@ -1288,6 +1288,34 @@ describe('526 All Claims validations', () => {
       expect(addError.called).to.be.true;
     });
 
+    it('should not show an error for the same activation date as earliest service start', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const data = {
+        servicePeriods: [
+          { serviceBranch: 'Reserves', dateRange: { from: '2000-01-14' } },
+        ],
+      };
+      validateTitle10StartDate(errors, '2000-01-14', _, _, _, _, data);
+      expect(addError.called).to.be.false;
+    });
+
+    it('should show an error for empty appStateData', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+
+      validateTitle10StartDate(errors, '2001-01-01', _, _, _, _, {});
+      expect(addError.called).to.be.true;
+    });
+
+    it('should show an error for undefined appStateData', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+
+      validateTitle10StartDate(errors, '2001-01-01', _, _, _, _, undefined);
+      expect(addError.called).to.be.true;
+    });
+
     // should never happen since the page is only shown if a Veteran includes
     // a Reserve/National Guard period
     it('should show an error if there are no Reserve/National Guard periods', () => {
