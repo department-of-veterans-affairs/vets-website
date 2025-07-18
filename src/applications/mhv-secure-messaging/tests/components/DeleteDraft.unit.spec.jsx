@@ -91,8 +91,9 @@ describe('Delete Draft component', () => {
         'visible',
         'true',
       );
-      expect(screen.getByText(Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE));
-      expect(screen.getByText('Delete draft'));
+      screen.getByText(Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE);
+      screen.getByText('Delete draft');
+      screen.getByTestId('cancel-delete-draft');
     });
   });
 
