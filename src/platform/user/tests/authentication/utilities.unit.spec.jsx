@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import appendQuery from 'append-query';
-
+import Cookies from 'js-cookie';
 import {
   getLoginAttempted,
   removeLoginAttempted,
@@ -739,6 +739,34 @@ describe('Authentication Utilities', () => {
       expect(() => API_SESSION_URL({})).to.throw(
         'Attempted to call API_SESSION_URL without a type',
       );
+    });
+  });
+
+  describe('determineAuthBroker', () => {
+    const parsedCookieT = `eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaFUiLCJleHAiOiIyMDQ1LTA3LTE2VDE2OjEwOjM0LjY2NFoiLCJwdXIiOiJjb29raWUuQ0VSTkVSX0VMSUdJQkxFIn19--TRUE`;
+    const parsedCookieF = `eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEciLCJleHAiOiIyMDQ1LTA3LTE2VDE2OjAwOjU5LjAxN1oiLCJwdXIiOiJjb29raWUuQ0VSTkVSX0VMSUdJQkxFIn19--FALSE`;
+
+    afterEach(() => {
+      document.cookie = '';
+    });
+
+    it('should return false by default', () => {
+      expect(authUtilities.determineAuthBroker()).to.be.false;
+      expect(authUtilities.determineAuthBroker(false)).to.be.false;
+    });
+
+    it('should return `false` when no cookie is found', () => {
+      expect(authUtilities.determineAuthBroker(true)).to.be.false;
+    });
+
+    it('should return `false` when parsed cookie is `T`', () => {
+      Cookies.set('CERNER_ELIGIBLE', parsedCookieT);
+      expect(authUtilities.determineAuthBroker(true)).to.be.false;
+    });
+
+    it('should return `true` when parsed cookie is `F`', () => {
+      Cookies.set('CERNER_ELIGIBLE', parsedCookieF);
+      expect(authUtilities.determineAuthBroker(true)).to.be.true;
     });
   });
 });
