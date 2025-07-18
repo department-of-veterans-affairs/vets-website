@@ -82,6 +82,10 @@ const listMissingIdentifiers = profile => {
 export const isIntroPage = ({ pathname = '' } = {}) =>
   pathname.endsWith('/introduction');
 
+export const isExperimentalReviewPage = ({ pathname = '' } = {}) => {
+  return pathname.endsWith('/experimental-review-page');
+};
+
 export const Form526Entry = ({
   children,
   inProgressFormId,
@@ -155,6 +159,10 @@ export const Form526Entry = ({
   if (!loggedIn) {
     // clear service branches if not logged in
     clearBranches();
+  }
+
+  if (isExperimentalReviewPage(location)) {
+    return children;
   }
 
   // The router should be doing this, but we're getting lots of Sentry errors

@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 // http://localhost:3001/disability/file-disability-claim-form-21-526ez/experimental-review-page
 
 // AJ TODO - figure out how to skip "in progress form" check
+// AJ TODO - use sessionStorage to pass data to this page?
 
 const ExperimentalReviewPage = ({ location, route, router }) => {
   const { data: formData } = useSelector(state => state.form);

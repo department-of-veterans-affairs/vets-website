@@ -68,6 +68,7 @@ export function isInProgressPath(pathName, additionalNonFormPaths = []) {
     'confirmation',
     'form-saved',
     'error',
+    'experiemental-review-page',
     ...additionalNonFormPaths,
   ];
   return nonFormPaths.every(path => !trimmedPathname.endsWith(path));
