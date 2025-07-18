@@ -82,7 +82,7 @@ export default function CalendarRow({
             index={index}
             key={`row-${rowNumber}-cell-${index}`}
             maxSelections={maxSelections}
-            onClick={() => handleSelectDate(date, rowNumber)}
+            onClick={handleSelectDate}
             selectedDates={selectedDates}
             renderIndicator={renderIndicator}
             renderSelectedLabel={renderSelectedLabel}

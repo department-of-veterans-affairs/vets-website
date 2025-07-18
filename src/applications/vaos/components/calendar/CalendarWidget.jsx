@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
+import { isSameDay, parseISO } from 'date-fns';
 import CalendarNavigation from './CalendarNavigation';
 import CalendarRow from './CalendarRow';
 import CalendarWeekdayHeader from './CalendarWeekdayHeader';
@@ -247,7 +248,6 @@ function CalendarWidget({
   disabledMessage,
   maxDate,
   maxSelections = 1,
-  maxSelectionsError = "You've exceeded the maximum number of selections",
   minDate,
   onChange,
   onNextMonth,
@@ -266,10 +266,12 @@ function CalendarWidget({
   upcomingAppointments = [],
   isAppointmentSelectionError,
   hideWhileDisabled = false,
+  alertTrigger = 0,
+  setAlertTrigger = () => {},
 }) {
-  const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
-    if (value.length > 0) {
-      return value[0].split('T')[0];
+  const [currentlySelectedDate, setCurrentlySelectedDate] = useState(date => {
+    if (date) {
+      return date.split('T')[0];
     }
 
     return null;
@@ -279,6 +281,14 @@ function CalendarWidget({
   const [months, setMonths] = useState([moment(startMonth || minDate)]);
   const exceededMaximumSelections = value.length > maxSelections;
   const hasError = (required && showValidation) || exceededMaximumSelections;
+  let maxSelectionsError;
+  if (exceededMaximumSelections) {
+    const deselect =
+      value.length === maxSelections + 1
+        ? `the ${value.length}th time`
+        : `${value.length - maxSelections} times`;
+    maxSelectionsError = `You can only select ${maxSelections} times for your appointment. Deselect ${deselect} to continue.`;
+  }
 
   // Undefined allows to unset aria-hidden
   const hideCalendar = (disabled && hideWhileDisabled) || undefined;
@@ -322,7 +332,16 @@ function CalendarWidget({
               role="alert"
             >
               {showValidation && requiredMessage}
-              {exceededMaximumSelections && maxSelectionsError}
+            </span>
+          )}
+          {exceededMaximumSelections && (
+            <span
+              className="usa-input-error-message"
+              role="alert"
+              id="vaos-calendar-max-selections-error"
+              key={alertTrigger}
+            >
+              {maxSelectionsError}
             </span>
           )}
           {months.map(
@@ -337,12 +356,14 @@ function CalendarWidget({
                   <>
                     {index === 0 && (
                       <CalendarNavigation
-                        prevOnClick={() =>
-                          handlePrev(onPreviousMonth, months, setMonths)
-                        }
-                        nextOnClick={() =>
-                          handleNext(onNextMonth, months, setMonths)
-                        }
+                        prevOnClick={() => {
+                          setAlertTrigger();
+                          handlePrev(onPreviousMonth, months, setMonths);
+                        }}
+                        nextOnClick={() => {
+                          setAlertTrigger();
+                          handleNext(onNextMonth, months, setMonths);
+                        }}
                         momentMonth={month}
                         prevDisabled={prevDisabled}
                         nextDisabled={nextDisabled}
@@ -362,6 +383,18 @@ function CalendarWidget({
                             handleSelectDate={date => {
                               if (maxSelections === 1) {
                                 onChange([]);
+                              }
+
+                              if (
+                                date === currentlySelectedDate ||
+                                !value.some(selectedDate =>
+                                  isSameDay(
+                                    parseISO(date),
+                                    parseISO(selectedDate),
+                                  ),
+                                )
+                              ) {
+                                setAlertTrigger();
                               }
 
                               setCurrentlySelectedDate(
