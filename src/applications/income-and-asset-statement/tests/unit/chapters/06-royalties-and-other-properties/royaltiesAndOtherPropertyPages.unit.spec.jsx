@@ -20,7 +20,7 @@ import {
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -111,11 +111,13 @@ describe('royalties list and loop pages', () => {
       { 'va-radio': 1 },
       'summary page',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Are you or your dependents receiving or expecting to receive any income and intellectual property royalties, mineral royalties, land use, or other royalties/properties?"]',
+      ],
       'summary page',
     );
     testSubmitsWithoutErrors(
@@ -143,11 +145,13 @@ describe('royalties list and loop pages', () => {
       { 'va-radio': 1 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="What is the type of income recipient’s relationship to the Veteran?"]',
+      ],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -182,11 +186,14 @@ describe('royalties list and loop pages', () => {
       { 'va-text-input': 3 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      2,
+      [
+        'va-text-input[label="Income recipient’s first name"]',
+        'va-text-input[label="Income recipient’s last name"]',
+      ],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -214,11 +221,16 @@ describe('royalties list and loop pages', () => {
       { 'va-radio': 2, 'va-text-input': 2, 'va-textarea': 1 },
       'income type',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      4,
+      [
+        'va-radio[label="How is the income generated from this asset?"]',
+        'va-text-input[label="Gross monthly income"]',
+        'va-text-input[label="Fair market value of this asset"]',
+        'va-radio[label="Can the asset be sold?"]',
+      ],
       'income type',
     );
     testSubmitsWithoutErrors(

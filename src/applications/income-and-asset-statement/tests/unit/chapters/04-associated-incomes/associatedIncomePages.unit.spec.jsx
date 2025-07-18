@@ -16,7 +16,7 @@ import {
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -74,11 +74,13 @@ describe('associated income list and loop pages', () => {
       { 'va-radio': 1 },
       'summary page',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Are you or your dependents receiving or expecting to receive any income in the next 12 months that is related to financial accounts?"]',
+      ],
       'summary page',
     );
     testSubmitsWithoutErrors(
@@ -106,11 +108,13 @@ describe('associated income list and loop pages', () => {
       { 'va-radio': 1 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="What is the type of income recipient’s relationship to the Veteran?"]',
+      ],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -145,11 +149,14 @@ describe('associated income list and loop pages', () => {
       { 'va-text-input': 3 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      2,
+      [
+        'va-text-input[label="Income recipient’s first name"]',
+        'va-text-input[label="Income recipient’s last name"]',
+      ],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -177,11 +184,16 @@ describe('associated income list and loop pages', () => {
       { 'va-radio': 1, 'va-text-input': 3 },
       'income type',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      4,
+      [
+        'va-radio[label="What is the type of income earned?"]',
+        'va-text-input[label="Gross monthly income"]',
+        'va-text-input[label="Value of account"]',
+        'va-text-input[label="Income payer name"]',
+      ],
       'income type',
     );
     testSubmitsWithoutErrors(
