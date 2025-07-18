@@ -781,7 +781,9 @@ describe('Disability benefits helpers: ', () => {
     before(() => {
       server.listen();
       server.events.on('request:start', req => {
-        expectedUrl = req.url?.href;
+        // TODO: After Node 14 support is dropped, simplify to: expectedUrl = req.url.href;
+        // The || req.url fallback is only needed for Node 14 compatibility
+        expectedUrl = req.url?.href || req.url;
       });
     });
 
@@ -792,8 +794,7 @@ describe('Disability benefits helpers: ', () => {
 
     after(() => server.close());
 
-    // TODO: Remove skip when migration to Node 22 is complete
-    it.skip('should make an apiRequest request', done => {
+    it('should make an apiRequest request', done => {
       server.use(
         createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
@@ -847,8 +848,7 @@ describe('Disability benefits helpers: ', () => {
       );
     });
 
-    // TODO: Remove skip when migration to Node 22 is complete
-    it.skip('should dispatch auth error', done => {
+    it('should dispatch auth error', done => {
       server.use(
         createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
