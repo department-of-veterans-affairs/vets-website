@@ -26,6 +26,7 @@ import {
   requireSeparationLocation,
   isMonthOnly,
   isYearOnly,
+  isYearMonth,
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
@@ -1474,6 +1475,48 @@ describe('526 All Claims validations', () => {
         expect(isYearOnly('2025/XX/XX')).to.be.false;
         expect(isYearOnly('2025.XX.XX')).to.be.false;
         expect(isYearOnly('2025 XX XX')).to.be.false;
+      });
+    });
+
+    describe('isYearMonth', () => {
+      it('should return true for valid year-month format (YYYY-MM-XX)', () => {
+        expect(isYearMonth('2025-07-XX')).to.be.true;
+        expect(isYearMonth('1999-12-XX')).to.be.true;
+      });
+
+      it('should return false for complete dates', () => {
+        expect(isYearMonth('2025-07-18')).to.be.false;
+        expect(isYearMonth('1999-01-01')).to.be.false;
+      });
+
+      it('should return false for year-only format (YYYY-XX-XX)', () => {
+        expect(isYearMonth('2025-XX-XX')).to.be.false;
+        expect(isYearMonth('1999-XX-XX')).to.be.false;
+      });
+
+      it('should return false for month-only format (XXXX-MM-XX)', () => {
+        expect(isYearMonth('XXXX-07-XX')).to.be.false;
+        expect(isYearMonth('XXXX-01-XX')).to.be.false;
+      });
+
+      it('should return false for malformed year, month or day formats', () => {
+        expect(isYearMonth('25-07-XX')).to.be.false;
+        expect(isYearMonth('2025-7-XX')).to.be.false;
+        expect(isYearMonth('2025-07-X')).to.be.false;
+        expect(isYearMonth('2025-07-xx')).to.be.false;
+      });
+
+      it('should return false for formats with different separators', () => {
+        expect(isYearMonth('2025/07/XX')).to.be.false;
+        expect(isYearMonth('2025.07.XX')).to.be.false;
+        expect(isYearMonth('2025 07 XX')).to.be.false;
+      });
+
+      it('should return false for empty or invalid inputs', () => {
+        expect(isYearMonth('')).to.be.false;
+        expect(isYearMonth(null)).to.be.false;
+        expect(isYearMonth(undefined)).to.be.false;
+        expect(isYearMonth('invalid-date')).to.be.false;
       });
     });
   });
