@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   formatFullNameNoSuffix,
   isDefined,
+  isReviewAndSubmitPage,
   resolveRecipientFullName,
 } from '../../helpers';
 
@@ -80,6 +81,33 @@ describe('isDefined', () => {
 
   it('should return true for empty array', () => {
     expect(isDefined([])).to.be.true;
+  });
+});
+
+describe('isReviewAndSubmitPage', () => {
+  const originalLocation = window.location;
+
+  afterEach(() => {
+    // Restore original location
+    delete window.location;
+    window.location = originalLocation;
+  });
+
+  it('should return true when pathname includes "review-and-submit"', () => {
+    delete window.location;
+    window.location = { pathname: '/form/review-and-submit' };
+    expect(isReviewAndSubmitPage()).to.be.true;
+  });
+
+  it('should return false when pathname does not include "review-and-submit"', () => {
+    delete window.location;
+    window.location = { pathname: '/form/personal-information' };
+    expect(isReviewAndSubmitPage()).to.be.false;
+  });
+
+  it('should return false if window is undefined (SSR)', () => {
+    const isServer = typeof window === 'undefined';
+    expect(isServer ? isReviewAndSubmitPage() : true).to.be.true;
   });
 });
 

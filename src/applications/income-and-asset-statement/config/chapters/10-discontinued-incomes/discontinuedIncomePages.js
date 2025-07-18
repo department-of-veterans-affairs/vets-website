@@ -98,15 +98,15 @@ const summaryPage = {
           'Did you or your dependents receive income that has stopped or is no longer being received within the last calendar year?',
         hint: 'If yes, you’ll need to report at least one income',
         labels: {
-          Y: 'Yes, I have a discontinued income to report',
-          N: 'No, I don’t have a discontinued income to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
-        title: 'Do you have any more discontinued incomes to report?',
+        title: 'Do you have more discontinued incomes to report?',
         labels: {
-          Y: 'Yes, I have another discontinued income to report',
-          N: 'No, I don’t have anymore discontinued incomes to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),
@@ -128,11 +128,11 @@ const relationshipPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'What is the income recipient’s relationship to the Veteran?',
+      title: 'Who received the income?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
-      'ui:title': 'Tell us the type of relationship',
+      'ui:title': 'Describe their relationship to the Veteran',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'recipientRelationship',
@@ -213,7 +213,7 @@ const incomeFrequencyPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Discontinued income frequency'),
     incomeFrequency: radioUI({
-      title: 'What is the frequency of the income received?',
+      title: 'How often was this income received?',
       labels: incomeFrequencyLabels,
     }),
   },
@@ -231,7 +231,7 @@ const incomeDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Discontinued income date'),
     incomeLastReceivedDate: currentOrPastDateUI(
-      'When was the income last paid?',
+      'When was this income last paid?',
     ),
   },
   schema: {
