@@ -1,8 +1,13 @@
+import React from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { createFormPageList, createPageList } from '../helpers';
 import validateConfig from '../validate-config';
 import FormPage from '../containers/FormPage';
 import ReviewPage from '../review/ReviewPage';
 import ConfirmationPageWrapper from '../containers/ConfirmationPageWrapper';
+
+// Export legacy version for backward compatibility
+export { createLegacyRoutes } from './createLegacyRoutes';
 
 /*
  * Create the routes based on a form config. This goes through each chapter in a form
@@ -18,51 +23,78 @@ export function createRoutes(formConfig) {
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
 
-  let routes = formPages.map(page => ({
-    path: page.path,
-    component: page.component || FormPage,
-    pageConfig: page,
-    pageList,
-    urlPrefix: formConfig.urlPrefix,
-  }));
+  const pageRoutes = formPages.map(page => (
+    <Route
+      key={page.path}
+      path={page.path}
+      render={props => {
+        const PageComponent = page.component || FormPage;
+        return (
+          <PageComponent
+            {...props}
+            pageConfig={page}
+            pageList={pageList}
+            urlPrefix={formConfig.urlPrefix}
+          />
+        );
+      }}
+    />
+  ));
 
-  if (formConfig.additionalRoutes) {
-    routes = formConfig.additionalRoutes
-      .map(route => ({
-        ...route,
-        formConfig,
-        pageList,
-      }))
-      .concat(routes);
-  }
+  const additionalRoutes = formConfig.additionalRoutes
+    ? formConfig.additionalRoutes.map(route => (
+        <Route
+          key={route.path}
+          path={route.path}
+          render={props => (
+            <route.component
+              {...props}
+              formConfig={formConfig}
+              pageList={pageList}
+            />
+          )}
+        />
+      ))
+    : [];
 
-  if (formConfig.introduction) {
-    routes = [
-      {
-        path: 'introduction',
-        component: formConfig.introduction,
-        formConfig,
-        pageList,
-      },
-    ].concat(routes);
-  }
+  const introductionRoute = formConfig.introduction ? (
+    <Route
+      key="introduction"
+      path="introduction"
+      render={props => (
+        <formConfig.introduction
+          {...props}
+          formConfig={formConfig}
+          pageList={pageList}
+        />
+      )}
+    />
+  ) : null;
 
-  return routes.concat([
-    {
-      path: 'review-and-submit',
-      formConfig,
-      component: ReviewPage,
-      pageList,
-    },
-    {
-      path: 'confirmation',
-      formConfig,
-      component: ConfirmationPageWrapper,
-      pageList,
-    },
-    {
-      path: '*',
-      onEnter: (nextState, replace) => replace(formConfig.urlPrefix || '/'),
-    },
-  ]);
+  return (
+    <Switch>
+      {introductionRoute}
+      {additionalRoutes}
+      {pageRoutes}
+      <Route
+        key="review-and-submit"
+        path="review-and-submit"
+        render={props => (
+          <ReviewPage {...props} formConfig={formConfig} pageList={pageList} />
+        )}
+      />
+      <Route
+        key="confirmation"
+        path="confirmation"
+        render={props => (
+          <ConfirmationPageWrapper
+            {...props}
+            formConfig={formConfig}
+            pageList={pageList}
+          />
+        )}
+      />
+      <Route render={() => <Redirect to={formConfig.urlPrefix || '/'} />} />
+    </Switch>
+  );
 }

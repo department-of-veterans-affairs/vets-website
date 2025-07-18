@@ -4,8 +4,8 @@
  */
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router, useRouterHistory, browserHistory } from 'react-router';
-import { createHistory } from 'history';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import { updateRoute } from 'platform/site-wide/user-nav/actions';
 import startReactApp from './react';
 import setUpCommonFunctionality from './setup';
@@ -51,17 +51,16 @@ export default function startApp({
     additionalMiddlewares,
   });
 
-  let history = browserHistory;
+  let history = createBrowserHistory();
   if (url) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    history = useRouterHistory(createHistory)({
+    history = createBrowserHistory({
       basename: url,
     });
 
     try {
-      store.dispatch(updateRoute(history.getCurrentLocation()));
+      store.dispatch(updateRoute(history.location));
 
-      history.listen(location => {
+      history.listen(({ location }) => {
         if (location) {
           store.dispatch(updateRoute(location));
         }
