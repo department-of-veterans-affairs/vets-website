@@ -1,21 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const EditLink = ({ href, router, label }) => {
+const EditLink = ({ href, label }) => {
+  const history = useHistory();
+
   function onClick(e) {
     e.preventDefault();
-    router.push(href);
+    history.push(href);
   }
 
   return <VaLink href={href} onClick={onClick} text="Edit" label={label} />;
 };
 
-export default withRouter(EditLink);
+export default EditLink;
 
 EditLink.propTypes = {
   href: PropTypes.string,
   label: PropTypes.string,
-  router: PropTypes.object,
 };
