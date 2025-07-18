@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import appendQuery from 'append-query';
 import mapboxgl from 'mapbox-gl';
@@ -64,6 +64,12 @@ const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
 
 const FacilitiesMap = props => {
+  const history = useHistory();
+  const location = useLocation();
+
+  // Parse URL search params to create query object for backward compatibility
+  const query = Object.fromEntries(new URLSearchParams(location.search));
+
   const {
     mobileMapPinSelected,
     mobileMapUpdateEnabled,
@@ -98,25 +104,23 @@ const FacilitiesMap = props => {
     if (!!props.location.search && props.results && props.results.length > 0) {
       return;
     }
-    const { location } = props;
 
-    if (!isEmpty(location.query)) {
+    if (!isEmpty(query)) {
       props.updateSearchQuery({
-        facilityType: location.query.facilityType,
-        serviceType: location.query.serviceType,
+        facilityType: query.facilityType,
+        serviceType: query.serviceType,
       });
     }
 
-    if (location.query.address) {
+    if (query.address) {
       const expandedRadius =
-        location.query.facilityType === 'benefits' &&
-        !location.query.serviceType;
+        query.facilityType === 'benefits' && !query.serviceType;
 
       props.genBBoxFromAddress(
         {
-          searchString: location.query.address,
-          context: location.query.context,
-          facilityType: location.query.facilityType,
+          searchString: query.address,
+          context: query.context,
+          facilityType: query.facilityType,
         },
         expandedRadius,
         props.useProgressiveDisclosure,
@@ -126,9 +130,9 @@ const FacilitiesMap = props => {
   };
 
   const updateUrlParams = params => {
-    const { location, currentQuery } = props;
+    const { currentQuery } = props;
     const queryParams = {
-      ...location.query,
+      ...query,
       page: currentQuery.currentPage,
       address: currentQuery.searchString,
       facilityType: currentQuery.facilityType,
@@ -145,7 +149,7 @@ const FacilitiesMap = props => {
       queryParams,
     );
 
-    browserHistory.push(queryStringObj);
+    history.push(queryStringObj);
   };
 
   const addMapMarker = searchCoords => {
@@ -201,6 +205,7 @@ const FacilitiesMap = props => {
         );
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [addMapMarker, map, props.currentQuery],
   );
 
@@ -820,6 +825,7 @@ const FacilitiesMap = props => {
     () => {
       searchCurrentArea();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.currentQuery.searchArea],
   );
 
@@ -838,6 +844,7 @@ const FacilitiesMap = props => {
     () => {
       handleSearchOnQueryChange();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.currentQuery.id],
   );
 
@@ -846,6 +853,7 @@ const FacilitiesMap = props => {
       if (!map) return;
       renderMarkers(props.results);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.results, map],
   );
 
@@ -857,6 +865,7 @@ const FacilitiesMap = props => {
         setFocus(searchResultTitleRef.current);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       searchResultTitleRef.current,
       props.currentQuery.inProgress,
@@ -868,6 +877,7 @@ const FacilitiesMap = props => {
     () => {
       handleMapOnNoResultsFound();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.currentQuery.searchCoords, props.results],
   );
 

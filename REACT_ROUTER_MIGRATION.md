@@ -39,10 +39,52 @@
   - Updated to use `createLegacyRoutes` for backward compatibility
   - Maintained existing API while using v5 internally
 
-### 6. Example Application Migrations ✅
+### 7. Component Migration ✅
 
-- **`src/applications/hca/routes.jsx`**: Migrated using conversion utility
-- **`src/applications/representative-form-upload/routes.jsx`**: Direct v5 migration
+- **Component Updates**: Migrated React Router v3 features to v5 hooks
+  - Replaced `withRouter` HOC with `useHistory`, `useLocation`, `useParams` hooks
+  - Updated components accessing `router` props to use hooks
+  - Converted route component props to hook usage
+  - Created wrapper patterns for class components that need router functionality
+
+#### Successfully Migrated Components:
+
+**Mock Form Design Pattern Components:**
+
+- **`ContactInfo.jsx`**: Complex form component with router state navigation
+  - Migrated `withRouter` HOC to hook-based wrapper
+  - Maintained backward compatibility with legacy route access patterns
+- **`FormTab.jsx`**: Development panel form analyzer component
+- **`HeadingHierarchyInspector.jsx`**: Accessibility analysis tool
+- **`EditContactInfo.jsx`**: Contact editing page builder
+- **`PatternConfigContext.jsx`**: Context provider for form patterns
+- **`CancelButton`**: Reusable cancel modal component helper
+
+**Application Components:**
+
+- **`BackToAppointments.jsx`**: Navigation component using router
+- **`EditLink.jsx`**: Edit link component with navigation
+
+### 8. Programmatic Navigation Migration ✅
+
+- **Browser History Replacement**: Updated `browserHistory` usage to `useHistory` hook
+
+  - `src/applications/discover-your-benefits/containers/ConfirmationPage.jsx`
+  - `src/applications/facility-locator/containers/FacilitiesMap.jsx`
+  - `src/applications/representative-search/containers/SearchPage.jsx`
+  - `src/applications/financial-status-report/containers/App.jsx`
+
+- **Query String Handling**: Migrated from `location.query` to `URLSearchParams`
+
+  - Updated `location.query` access to use `new URLSearchParams(location.search)`
+  - Created helper functions to maintain backward compatibility
+  - Applied to facility locator, representative search, and benefits discovery components
+
+- **Navigation Method Updates**:
+  - `browserHistory.push()` → `history.push()` from `useHistory`
+  - `browserHistory.replace()` → `history.replace()` from `useHistory`
+  - `router.push()` → `history.push()` from `useHistory`
+  - Maintained router prop compatibility through wrapper components
 
 ## Migration Patterns Implemented
 
@@ -68,20 +110,81 @@ const routes = (
 );
 ```
 
-### Pattern 2: Gradual Migration with Conversion Utility
+### Pattern 3: Component Migration with Hooks
 
 ```jsx
-// Migration helper approach
-import { createV5RoutesFromLegacy } from 'platform/forms-system/src/js/routing/convertLegacyRoutes';
+// Old v3 withRouter HOC pattern
+import { withRouter } from 'react-router';
 
-const legacyRoutes = {
-  path: '/',
-  component: App,
-  indexRoute: { onEnter: (nextState, replace) => replace('/intro') },
-  childRoutes: createRoutesWithSaveInProgress(formConfig),
+const Component = ({ router }) => {
+  const handleClick = () => {
+    router.push('/some-path');
+  };
+  return <button onClick={handleClick}>Navigate</button>;
 };
 
-const routes = createV5RoutesFromLegacy(legacyRoutes);
+export default withRouter(Component);
+
+// New v5 hooks pattern
+import { useHistory } from 'react-router-dom';
+
+const Component = () => {
+  const history = useHistory();
+
+  const handleClick = () => {
+    history.push('/some-path');
+  };
+  return <button onClick={handleClick}>Navigate</button>;
+};
+
+export default Component;
+```
+
+### Pattern 4: Query String Migration
+
+```jsx
+// Old v3 location.query pattern
+const Component = ({ location }) => {
+  const param = location.query.someParam;
+  return <div>{param}</div>;
+};
+
+// New v5 URLSearchParams pattern
+import { useLocation } from 'react-router-dom';
+
+const Component = () => {
+  const location = useLocation();
+  const query = Object.fromEntries(new URLSearchParams(location.search));
+  const param = query.someParam;
+  return <div>{param}</div>;
+};
+```
+
+### Pattern 5: Class Component Wrapper
+
+```jsx
+// For class components that can't use hooks directly
+import { useHistory, useLocation } from 'react-router-dom';
+
+class ClassComponent extends React.Component {
+  render() {
+    return <div onClick={() => this.props.history.push('/path')}>Click</div>;
+  }
+}
+
+const ClassComponentWithRouter = props => {
+  const history = useHistory();
+  const location = useLocation();
+
+  // Create router object for backward compatibility
+  const router = {
+    push: history.push,
+    replace: history.replace,
+    location,
+  };
+
+  return <ClassComponent {...props} router={router} history={history} />;
+};
 ```
 
 ## Breaking Changes Addressed
@@ -99,11 +202,51 @@ const routes = createV5RoutesFromLegacy(legacyRoutes);
 - `indexRoute: { onEnter }` → `<Route exact render={() => <Redirect />}>`
 - `childRoutes: [...]` → nested `<Route>` components
 
-### 3. onEnter Lifecycle Hook
+### 4. Programmatic Navigation Changes
 
-- v3: `onEnter: (nextState, replace) => replace('/path')`
-- v5: `<Route render={() => <Redirect to="/path" />}>`
-- Or: Handle in component with `useEffect` + `useHistory`
+- `browserHistory.push()` → `history.push()` from `useHistory`
+- `browserHistory.replace()` → `history.replace()` from `useHistory`
+- `router.push()` → `history.push()` from `useHistory` (when using hooks)
+- For class components: pass `history` prop from wrapper component
+
+### 5. Query String Handling Changes
+
+- v3: `location.query.param` (automatic parsing)
+- v5: `new URLSearchParams(location.search).get('param')` (manual parsing)
+- Or: `Object.fromEntries(new URLSearchParams(location.search))` for object format
+
+### 6. Component Integration Changes
+
+- `withRouter(Component)` → `useHistory()`, `useLocation()`, `useParams()` hooks
+- `context.router` → React Router v5 hooks
+- Route props (`match`, `location`, `history`) → corresponding hooks
+
+## Migration Summary
+
+### ✅ **Completed Migrations:**
+
+1. **Package Dependencies**: Updated to React Router v5 across all packages
+2. **Platform Core**: Migrated startup system and forms-system core
+3. **Migration Utilities**: Created backward compatibility helpers
+4. **Save-in-Progress**: Updated to work with v5 while maintaining API
+5. **Example Applications**: Migrated sample applications as reference
+6. **Component Migration**: Updated key components from withRouter to hooks
+7. **Programmatic Navigation**: Replaced browserHistory with useHistory hook
+8. **Query String Handling**: Migrated from location.query to URLSearchParams
+
+### 🔄 **Components Successfully Updated:**
+
+- **Forms System Components**: ContactInfo, FormTab, EditContactInfo, PatternConfigContext
+- **Navigation Components**: BackToAppointments, EditLink, CancelButton helpers
+- **Application Pages**: ConfirmationPage, FacilitiesMap, SearchPage, App containers
+- **Developer Tools**: HeadingHierarchyInspector
+
+### 📊 **Migration Patterns Implemented:**
+
+1. **Direct Hook Migration**: Functional components using useHistory/useLocation
+2. **Wrapper Pattern**: Class components with hook-based wrappers
+3. **Query Compatibility**: URLSearchParams with backward compatibility helpers
+4. **Router Props**: Maintained router prop interface through wrappers
 
 ## Files Still Requiring Migration
 
