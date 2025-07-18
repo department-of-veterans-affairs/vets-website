@@ -28,19 +28,19 @@ describe('VAOS Component: CalendarWidget', () => {
     const slot2 = addMinutes(nowUTC, 120);
     const availableSlots = [
       {
-        start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
+        start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeLocal),
         end: formatInTimeZone(
           addMinutes(nowUTC, 60),
           'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
+          DATE_FORMATS.ISODateTimeLocal,
         ),
       },
       {
-        start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeUTC),
+        start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeLocal),
         end: formatInTimeZone(
           addMinutes(slot2, 60),
           'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
+          DATE_FORMATS.ISODateTimeLocal,
         ),
       },
     ];
@@ -52,11 +52,7 @@ describe('VAOS Component: CalendarWidget', () => {
     const upcomingAppointments = {
       [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          start: formatInTimeZone(
-            offset,
-            timezone,
-            DATE_FORMATS.ISODateTimeLocal,
-          ),
+          start: offset,
           minutesDuration: 60,
         },
       ],
@@ -158,11 +154,7 @@ describe('VAOS Component: CalendarWidget', () => {
     const upcomingAppointments = {
       [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          start: formatInTimeZone(
-            offset,
-            timezone,
-            DATE_FORMATS.ISODateTimeLocal,
-          ),
+          start: offset,
           minutesDuration: 60,
           status: 'cancelled',
         },
@@ -370,11 +362,7 @@ describe('VAOS Component: CalendarWidget', () => {
     const upcomingAppointments = {
       [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          start: formatInTimeZone(
-            offset,
-            timezone,
-            DATE_FORMATS.ISODateTimeLocal,
-          ),
+          start: offset,
           minutesDuration: 60,
         },
       ],
@@ -463,11 +451,7 @@ describe('VAOS Component: CalendarWidget', () => {
     const upcomingAppointments = {
       [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          start: formatInTimeZone(
-            offset,
-            timezone,
-            DATE_FORMATS.ISODateTimeLocal,
-          ),
+          start: offset,
           minutesDuration: 60,
         },
       ],
