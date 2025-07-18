@@ -296,7 +296,7 @@ describe('Supporting Evidence uploads', () => {
     }).click();
   });
 
-  it('submits a partial date for a toxic exposure location', () => {
+  it('submits an encrypted PDF', () => {
     cy.injectAxeThenAxeCheck();
     cy.wait('@submitClaim').then(({ request, response }) => {
       expect(response.statusCode).to.eq(200);
