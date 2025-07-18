@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { scrollTo } from 'platform/utilities/scroll';
 import { useConfirmation } from './Provider';
 import { ChapterSectionCollection } from './ChapterSectionCollection';
+import { ReviewTable } from './ReviewTable';
 
 export const HowToContact = ({ className = '', title, content }) => {
   const titleText = title || 'How to contact us if you have questions';
@@ -481,3 +482,25 @@ ChapterSectionCollectionWithContext.propTypes = {
 };
 
 export { ChapterSectionCollection } from './ChapterSectionCollection';
+
+// EXPERIMENTAL - based off ChapterSection to review submitted information
+export const ReviewTableWithContext = ({ header, className, collapsible }) => {
+  const { formConfig } = useConfirmation();
+
+  return (
+    <ReviewTable
+      formConfig={formConfig}
+      header={header}
+      className={className}
+      collapsible={collapsible}
+    />
+  );
+};
+
+ReviewTableWithContext.propTypes = {
+  className: PropTypes.string,
+  collapsible: PropTypes.bool,
+  header: PropTypes.string,
+};
+
+export { ReviewTable } from './ReviewTable';
