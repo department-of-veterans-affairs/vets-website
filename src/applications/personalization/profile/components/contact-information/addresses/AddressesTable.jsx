@@ -11,7 +11,7 @@ import ProfileInformationFieldController from '@@vap-svc/components/ProfileInfor
 import { formatAddressTitle } from '@@vap-svc/util/contact-information/addressUtils';
 
 import CopyAddressModalController from './CopyAddressModalController';
-import { ProfileInfoCard } from '../../ProfileInfoCard';
+import { ProfileInfoSection } from '../../ProfileInfoSection';
 import BadAddressAlert from '../../alerts/bad-address/FormAlert';
 
 const generateRows = showBadAddress => [
@@ -44,7 +44,7 @@ const AddressesTable = ({ className, showBadAddress }) => {
     <>
       <CopyAddressModalController />
 
-      <ProfileInfoCard
+      <ProfileInfoSection
         title="Addresses"
         level={2}
         namedAnchor="addresses"
