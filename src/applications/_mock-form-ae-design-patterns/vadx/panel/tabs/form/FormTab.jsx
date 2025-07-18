@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import ChapterAnalyzer from './ChapterAnalyzer';
@@ -74,4 +74,33 @@ FormTabBase.propTypes = {
   router: PropTypes.object.isRequired,
 };
 
-export const FormTab = withRouter(FormTabBase);
+export const FormTab = props => {
+  const history = useHistory();
+  const location = useLocation();
+
+  // Create router object for backward compatibility
+  const router = {
+    push: history.push,
+    replace: history.replace,
+    go: history.go,
+    goBack: history.goBack,
+    goForward: history.goForward,
+    location,
+    // Mock routes structure for legacy compatibility
+    routes: [
+      {},
+      {
+        formConfig: {
+          // Extract form config from current location
+          urlPrefix:
+            location.pathname
+              .split('/')
+              .slice(0, -1)
+              .join('/') || '',
+        },
+      },
+    ],
+  };
+
+  return <FormTabBase {...props} router={router} />;
+};

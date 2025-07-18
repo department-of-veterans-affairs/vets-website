@@ -7,6 +7,7 @@ import { selectProfile } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useHistory } from 'react-router-dom';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -41,13 +42,13 @@ const App = ({
   location,
   pending,
   profile,
-  router,
   setFormData,
   showFSR,
   showReviewPageNavigationFeature,
   showLegacyWizard,
 }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { shouldShowReviewButton } = useDetectFieldChanges(formData);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showUpdatedExpensePages = useToggleValue(
@@ -95,7 +96,7 @@ const App = ({
   const hasRestarted = () => {
     setWizardStatus(WIZARD_STATUS_RESTARTED);
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTED);
-    router.push('/');
+    history.push('/');
   };
 
   // Contact information data
@@ -236,11 +237,10 @@ App.propTypes = {
   profile: PropTypes.shape({
     vapContactInfo: PropTypes.shape({}),
   }),
-  router: PropTypes.object,
   setFormData: PropTypes.func,
   showFSR: PropTypes.bool,
-  showReviewPageNavigationFeature: PropTypes.bool,
   showLegacyWizard: PropTypes.bool,
+  showReviewPageNavigationFeature: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

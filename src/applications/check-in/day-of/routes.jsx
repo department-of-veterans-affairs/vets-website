@@ -99,7 +99,6 @@ const routes = [
   {
     path: URLS.SEE_STAFF,
     component: SeeStaff,
-
     permissions: {
       requiresForm: true,
       requireAuthorization: true,
@@ -246,4 +245,5 @@ const createRoutesWithStore = () => {
     </Switch>
   );
 };
+
 export default createRoutesWithStore;

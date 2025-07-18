@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { MemoryRouter } from 'react-router-dom-v5-compat';
+import { Router, MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
@@ -119,7 +118,9 @@ export function renderWithStoreAndRouter(
 }
 
 /**
- * Takes a React element and wraps it in a Redux Provider and a React Router v6 MemoryRouter.
+ * Takes a React element and wraps it in a Redux Provider and a React Router v5 MemoryRouter.
+ * This function provides an alternative to renderWithStoreAndRouter for cases where
+ * you prefer MemoryRouter over the history-based Router.
  *
  * @export
  * @param {ReactElement} ui ReactElement that you want to render for testing
@@ -130,7 +131,7 @@ export function renderWithStoreAndRouter(
  * @param {string[]} [renderParams.initialEntries=['/'] Array of initial entries for the router
  * @returns {Object} Return value of the React Testing Library render function
  */
-export function renderWithStoreAndRouterV6(
+export function renderWithStoreAndMemoryRouter(
   ui,
   {
     initialState,
