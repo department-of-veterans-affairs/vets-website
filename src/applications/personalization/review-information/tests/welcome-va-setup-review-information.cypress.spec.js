@@ -12,9 +12,7 @@ describe('Welcome to My VA Review Contact Information form', () => {
     cy.get('input[name="root_inputPhoneNumber"]').clear();
     cy.get('input[name="root_inputPhoneNumber"]').type('1234567890');
 
-    // Update fails in CI, so we'll cancel instead
-    // cy.findByText('Update').click();
-    cy.findByText('Cancel').click();
+    cy.findByTestId('save-edit-button').click();
   };
 
   const editEmailAddress = () => {
@@ -25,9 +23,7 @@ describe('Welcome to My VA Review Contact Information form', () => {
     cy.get('input[name="root_emailAddress"]').clear();
     cy.get('input[name="root_emailAddress"]').type('test@email.com');
 
-    // Update fails in CI, so we'll cancel instead
-    // cy.findByText('Update').click();
-    cy.findByText('Cancel').click();
+    cy.findByTestId('save-edit-button').click();
   };
 
   const editMailingAddress = () => {
