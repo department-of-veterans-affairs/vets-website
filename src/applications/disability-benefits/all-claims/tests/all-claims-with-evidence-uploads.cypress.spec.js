@@ -24,7 +24,9 @@ describe('Supporting Evidence uploads', () => {
     window.sessionStorage.setItem(SHOW_8940_4192, 'true');
     window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     window.sessionStorage.removeItem(FORM_STATUS_BDD);
+  });
 
+  it('submits an encrypted PDF', () => {
     cy.login(mockUser);
 
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { body: {} });
@@ -79,7 +81,6 @@ describe('Supporting Evidence uploads', () => {
         },
       });
     });
-
     let idRoot = '';
     cy.visit('/disability/file-disability-claim-form-21-526ez/introduction');
     cy.get('.skip-wizard-link').click();
@@ -286,7 +287,6 @@ describe('Supporting Evidence uploads', () => {
 
     cy.get('input[name="veteran-signature"]').clear();
     cy.get('input[name="veteran-signature"]').type('Mark Tux Polarbear');
-    cy.get('input[name="veteran-signature"]').blur();
     cy.get('input[type="checkbox"][name="veteran-certify"]')
       .should('be.visible')
       .and('not.be.disabled')
@@ -303,9 +303,7 @@ describe('Supporting Evidence uploads', () => {
     cy.findByText('Submit application', {
       selector: 'button',
     }).click();
-  });
 
-  it('submits an encrypted PDF', () => {
     cy.injectAxeThenAxeCheck();
     cy.wait('@submitClaim').then(({ request, response }) => {
       expect(response.statusCode).to.eq(200);
