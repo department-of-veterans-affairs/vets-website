@@ -1,5 +1,5 @@
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -18,12 +18,11 @@ describe('current spouse marital history', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     currentSpouseMaritalHistory.schema,
     currentSpouseMaritalHistory.uiSchema,
-    expectedNumberOfErrors,
+    [`va-radio[label="Has your spouse been married before?"]`],
     pageTitle,
   );
 

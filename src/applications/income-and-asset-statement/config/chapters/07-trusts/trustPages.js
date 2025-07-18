@@ -95,15 +95,15 @@ const summaryPage = {
           'Have you or your dependents established a trust or do you or your dependents have access to a trust?',
         hint: 'If yes, you’ll need to report at least one trust',
         labels: {
-          Y: 'Yes, I have a trust to report',
-          N: 'No, I don’t have a trust to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
         title: 'Do you have more trusts to report?',
         labels: {
-          Y: 'Yes, I have more trusts to report',
-          N: 'No, I don’t have more trusts to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),

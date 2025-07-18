@@ -18,7 +18,6 @@ import {
 import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
-  selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureMentalHealthHistoryFiltering,
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
@@ -318,9 +317,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
-      state,
-    );
 
     // Retrieves flipper state for mental health history filtering
     // Only used in NON-Cerner checks
@@ -343,7 +339,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
             location,
             typeOfCare,
             directSchedulingEnabled,
-            useFeSourceOfTruthTelehealth,
             isCerner: true,
           });
 
@@ -377,7 +372,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          useFeSourceOfTruthTelehealth,
           usePastVisitMHFilter,
         });
 
@@ -841,9 +835,6 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
-      state,
-    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -869,7 +860,6 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
-          useFeSourceOfTruthTelehealth,
         });
 
         dispatch({
@@ -957,7 +947,6 @@ export function submitAppointmentOrRequest(history) {
 
         const requestData = await createAppointment({
           appointment: requestBody,
-          useFeSourceOfTruthTelehealth,
         });
 
         dispatch({
