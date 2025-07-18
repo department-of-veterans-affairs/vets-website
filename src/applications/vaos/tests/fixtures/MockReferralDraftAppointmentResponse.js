@@ -1,4 +1,5 @@
 import { addDays, addMonths, setDate } from 'date-fns';
+import { mockToday } from '../mocks/constants';
 
 /**
  * Class to create mock draft referral appointment responses for Cypress tests.
@@ -242,7 +243,6 @@ class MockReferralDraftAppointmentResponse {
 
     // Get first day of next month
     // Use a fixed date instead of new Date() to avoid flaky tests
-    const mockToday = new Date('2025-06-02T12:00:00Z');
     const firstDayNextMonth = addMonths(setDate(mockToday, 1), 1);
 
     for (let i = 0; i < numberOfSlots; i++) {

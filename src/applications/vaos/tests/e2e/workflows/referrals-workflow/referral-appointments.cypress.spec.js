@@ -26,6 +26,7 @@ import chooseDateAndTime from '../../referrals/page-objects/ChooseDateAndTime';
 import reviewAndConfirm from '../../referrals/page-objects/ReviewAndConfirm';
 import completeReferral from '../../referrals/page-objects/CompleteReferral';
 import epsAppointmentDetails from '../../referrals/page-objects/EpsAppointmentDetails';
+import { mockToday } from '../../../mocks/constants';
 
 describe('VAOS Referral Appointments', () => {
   beforeEach(() => {
@@ -157,7 +158,7 @@ describe('VAOS Referral Appointments', () => {
 
     it('should navigate through the referral scheduling flow', () => {
       // Use cy.clock() to control time and ensure consistent appointment slot dates
-      cy.clock(new Date('2025-06-02T12:00:00Z'), ['Date']);
+      cy.clock(mockToday, ['Date']);
 
       // Navigate to the Referrals and Requests page
       appointmentList.navigateToReferralsAndRequests();
