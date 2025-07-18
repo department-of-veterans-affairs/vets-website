@@ -372,7 +372,6 @@ describe('VAOS Referral API Error Handling', () => {
       });
     });
 
-    // TODO: This test is flaky and needs to be corrected using fixed dates
     it('should display an error when appointment remains in proposed state and times out', () => {
       // Mock appointment details to always return proposed status (never transitions to booked)
       const proposedAppointmentResponse = new MockReferralAppointmentDetailsResponse(
