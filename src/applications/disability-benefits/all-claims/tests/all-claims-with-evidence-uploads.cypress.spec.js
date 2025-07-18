@@ -19,14 +19,14 @@ import {
   SHOW_8940_4192,
 } from '../constants';
 
-const FULL_DATE = /^\d{4}-\d{2}-\d{2}$/;
-
-describe('Toxic exposure date handling when reverting condition association', () => {
+describe('Supporting Evidence uploads', () => {
   beforeEach(() => {
     window.sessionStorage.setItem(SHOW_8940_4192, 'true');
     window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     window.sessionStorage.removeItem(FORM_STATUS_BDD);
+  });
 
+  it('submits an encrypted PDF', () => {
     cy.login(mockUser);
 
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { body: {} });
@@ -37,14 +37,18 @@ describe('Toxic exposure date handling when reverting condition association', ()
       mockServiceBranches,
     );
     cy.intercept('GET', '/v0/intent_to_file', mockItf());
-    cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress);
+    cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress).as(
+      'saveInProgressForm',
+    );
     cy.intercept(
       'GET',
       '/v0/disability_compensation_form/separation_locations',
       mockLocations,
     );
     cy.intercept('GET', '/v0/ppiu/payment_information', mockPayment);
-    cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload);
+    cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload).as(
+      'uploadFile',
+    );
     cy.intercept(
       'POST',
       '/v0/disability_compensation_form/submit_all_claim*',
@@ -77,7 +81,6 @@ describe('Toxic exposure date handling when reverting condition association', ()
         },
       });
     });
-
     let idRoot = '';
     cy.visit('/disability/file-disability-claim-form-21-526ez/introduction');
     cy.get('.skip-wizard-link').click();
@@ -160,89 +163,6 @@ describe('Toxic exposure date handling when reverting condition association', ()
 
     // II. Conditions > D. Toxic exposure (conditions)
     // ===============================================
-    cy.get(
-      '[type="checkbox"][name="root_toxicExposure_conditions_asthma"]',
-    ).check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    // II. Conditions > D. Toxic exposure: Service after August 2, 1990
-    // ================================================================
-    cy.get(
-      '[type="checkbox"][name="root_toxicExposure_gulfWar1990_iraq"]',
-    ).check({ force: true });
-    cy.get(
-      '[type="checkbox"][name="root_toxicExposure_gulfWar1990_oman"]',
-    ).check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    // 1. Location 1 of 2: Iraq
-    // ===============================
-    // Enter only the year for an end date field
-    cy.get(
-      'select[name="root_toxicExposure_gulfWar1990Details_iraq_startDateMonth"]',
-    ).select('July');
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_startDateDay"]',
-    ).type('11');
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_startDateYear"]',
-    ).type('1992');
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).type('1992');
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).blur();
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).clear();
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).type('1993');
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    // 2. Location 2 of 2: Oman
-    // ========================
-    // Enter valid start and end date
-    cy.get(
-      'select[name="root_toxicExposure_gulfWar1990Details_oman_startDateMonth"]',
-    ).select('July');
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_oman_startDateDay"]',
-    ).type('11');
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_oman_startDateYear"]',
-    ).type('1991');
-    cy.get(
-      'select[name="root_toxicExposure_gulfWar1990Details_oman_endDateMonth"]',
-    ).select('July');
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_oman_endDateDay"]',
-    ).type('11');
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_oman_endDateYear"]',
-    ).type('1993');
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    // Return to Toxic exposure (conditions) page
-    cy.findByText(/back/i, { selector: 'button' }).click();
-    cy.findByText(/back/i, { selector: 'button' }).click();
-    cy.findByText(/back/i, { selector: 'button' }).click();
-    cy.findByText(/back/i, { selector: 'button' }).click();
-
-    // II. Conditions > D. Toxic exposure (conditions)
-    // ===============================================
-    // Deselect "asthma"
-    cy.get(
-      '[type="checkbox"][name="root_toxicExposure_conditions_asthma"]',
-    ).uncheck({ force: true });
-
-    // Select "none"
-    cy.get(
-      '[type="checkbox"][name="root_toxicExposure_conditions_none"]',
-    ).check({ force: true });
-
-    // Continue in the form
     cy.findByText(/continue/i, { selector: 'button' }).click();
 
     // II. Conditions > E. Prisioner of War
@@ -264,7 +184,77 @@ describe('Toxic exposure date handling when reverting condition association', ()
 
     // III. Supporting evidence > B. Types of supporting evidence
     // ==========================================================
-    cy.get('[type="radio"][value="N"]').check({ force: true });
+    cy.get('[type="radio"][value="Y"]').check({ force: true });
+    cy.get(
+      'input[type="checkbox"][name="root_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
+    ).check({
+      force: true,
+    });
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+
+    // III. Supporting Evidence > B. 1. Private medical records
+    // ==========================================================
+    cy.get('[type="radio"][value="Y"]').check({ force: true });
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+
+    // III. Supporting Evidence > B. 2. Private medical records
+    // ==========================================================
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+
+    // III. Supporting Evidence > B. 3. Upload - Private medical records
+    // ================================================================
+    cy.get('input[type="file"]').selectFile(
+      'src/applications/disability-benefits/all-claims/tests/fixtures/data/foo_protected.PDF',
+      { force: true },
+    );
+
+    cy.findByText(/foo_protected.PDF/i).should('exist');
+
+    cy.get('.schemaform-file-uploading').should('not.exist');
+
+    // III. Supporting Evidence > B. 4. Add Password - Private medical records
+    // ======================================================================
+    cy.findByText(
+      /This is an encrypted PDF document. In order for us to be able to view the document, we will need the password to decrypt it./,
+    ).should('exist');
+    cy.get('input[name="get_password_0"]').focus();
+    cy.get('input[name="get_password_0"]').should('exist');
+    cy.get('input[name="get_password_0"]').blur();
+
+    cy.get('input[name="get_password_0"]').should('be.visible');
+    cy.get('va-button[text="Add password"]').should('be.visible');
+
+    // Enter password
+    cy.get('input[name="get_password_0"]').clear();
+    cy.get('input[name="get_password_0"]').type('dancing');
+
+    cy.get('va-button[text="Add password"]').then($btn => {
+      const webComponent = $btn[0];
+      const shadowButton = webComponent.shadowRoot.querySelector('button');
+      cy.get(shadowButton).should('be.visible');
+      cy.get(shadowButton).focus();
+      shadowButton.click({ force: true });
+      cy.log('shadow button');
+    });
+
+    cy.wait('@uploadFile').then(({ _request, response }) => {
+      expect(response.statusCode).to.eq(200);
+      cy.log('File upload successful');
+    });
+    cy.get('strong')
+      .contains('The PDF password has been added.')
+      .should('be.visible');
+
+    cy.get('select')
+      .contains('option', 'Medical Treatment Record - Non-Government Facility')
+      .parent()
+      .select('L049');
+
+    cy.wait('@saveInProgressForm').then(({ _request, response }) => {
+      expect(response.statusCode).to.eq(200);
+      cy.log('File Type selection successful');
+    });
+
     cy.findByText(/continue/i, { selector: 'button' }).click();
 
     // III. Supporting evidence > C. Summary of evidence
@@ -291,12 +281,21 @@ describe('Toxic exposure date handling when reverting condition association', ()
 
     // V. Review application
     // =====================
-    cy.get('input[name="veteran-signature"]').type('Mark Tux Polarbear');
-    cy.get('input[type="checkbox"][name="veteran-certify"]').check({
-      force: true,
-    });
+    cy.get('input[name="veteran-signature"]')
+      .should('be.visible')
+      .and('not.be.disabled');
 
-    // Submit application
+    cy.get('input[name="veteran-signature"]').clear();
+    cy.get('input[name="veteran-signature"]').type('Mark Tux Polarbear');
+    cy.get('input[type="checkbox"][name="veteran-certify"]')
+      .should('be.visible')
+      .and('not.be.disabled')
+      .check({
+        force: true,
+      });
+
+    // VI. Submit application
+    // ======================
     cy.intercept(
       'POST',
       '/v0/disability_compensation_form/submit_all_claim*',
@@ -304,29 +303,16 @@ describe('Toxic exposure date handling when reverting condition association', ()
     cy.findByText('Submit application', {
       selector: 'button',
     }).click();
-  });
 
-  it('submits a partial date for a toxic exposure location', () => {
     cy.injectAxeThenAxeCheck();
-    cy.wait('@submitClaim').then(({ request }) => {
-      const gulfDetails = request.body.form526.toxicExposure.gulfWar1990Details;
-      const iraqStart = gulfDetails.iraq.startDate;
-      const iraqEnd = gulfDetails.iraq.endDate;
+    cy.wait('@submitClaim').then(({ request, response }) => {
+      expect(response.statusCode).to.eq(200);
+      const privateMedicalRecord = request.body.form526.attachments[0];
+      const { name, isEncrypted, attachmentId } = privateMedicalRecord;
 
-      expect(iraqStart).to.match(FULL_DATE, 'Iraq startDate is complete');
-      expect(iraqEnd).to.not.match(FULL_DATE, 'Iraq endDate is partial');
-    });
-  });
-
-  it('submits complete dates for a toxic exposure location', () => {
-    cy.wait('@submitClaim').then(({ request }) => {
-      cy.injectAxeThenAxeCheck();
-      const gulfDetails = request.body.form526.toxicExposure.gulfWar1990Details;
-      const omanStart = gulfDetails.oman.startDate;
-      const omanEnd = gulfDetails.oman.endDate;
-
-      expect(omanStart).to.match(FULL_DATE, 'Oman startDate is complete');
-      expect(omanEnd).to.match(FULL_DATE, 'Oman endDate is complete');
+      expect(name).to.equal('foo_protected.PDF');
+      expect(isEncrypted).to.equal(true);
+      expect(attachmentId).to.equal('L049');
     });
   });
 });

@@ -17,7 +17,12 @@
       {
         "name": "subform_8940_4192",
         "value": true
+      },
+      {
+        "name": "allowEncryptedFiles",
+        "value": true
       }
+
     ]
   }
 }
