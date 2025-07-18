@@ -281,7 +281,20 @@ const ComposeForm = props => {
           .catch(() => setSendMessageFlag(false), scrollToTop());
       }
     },
-    [sendMessageFlag, isSaving, scrollToTop],
+    [
+      sendMessageFlag,
+      isSaving,
+      category,
+      messageBody,
+      electronicSignature,
+      subject,
+      draft?.messageId,
+      selectedRecipientId,
+      attachments,
+      dispatch,
+      currentFolder?.folderId,
+      history,
+    ],
   );
 
   useEffect(
@@ -404,12 +417,12 @@ const ComposeForm = props => {
       subject,
       messageBody,
       category,
+      validMessageType.SEND,
       isSignatureRequired,
       electronicSignature,
       checkboxMarked,
-      setMessageInvalid,
-      comboBoxInputValue,
       isComboBoxEnabled,
+      comboBoxInputValue,
     ],
   );
 
@@ -509,24 +522,21 @@ const ComposeForm = props => {
     },
     [
       checkMessageValidity,
-      attachments,
-      isSignatureRequired,
-      electronicSignature,
-      debouncedRecipient,
-      debouncedCategory,
-      debouncedSubject,
-      debouncedMessageBody,
+      validMessageType.SAVE,
+      draft?.messageId,
       selectedRecipientId,
       category,
       subject,
       messageBody,
+      debouncedRecipient,
+      debouncedCategory,
+      debouncedSubject,
+      debouncedMessageBody,
+      attachments.length,
+      isSignatureRequired,
+      electronicSignature,
       fieldsString,
-      saveError,
-      draft,
       dispatch,
-      setUnsavedNavigationError,
-      setNavigationError,
-      setSavedDraft,
     ],
   );
 
@@ -554,7 +564,7 @@ const ComposeForm = props => {
         focusOnErrorField();
       }
     },
-    [checkMessageValidity, isSignatureRequired],
+    [checkMessageValidity, isSignatureRequired, validMessageType.SEND],
   );
 
   // Navigation error effect
@@ -753,13 +763,14 @@ const ComposeForm = props => {
       }
     },
     [
-      draft,
       selectedRecipientId,
+      draft,
       category,
       subject,
       messageBody,
-      attachments,
-      timeoutId,
+      attachments.length,
+      signOutMessage,
+      noTimeout,
     ],
   );
 
@@ -1007,6 +1018,8 @@ const ComposeForm = props => {
 
 ComposeForm.propTypes = {
   draft: PropTypes.object,
+  headerRef: PropTypes.object,
+  pageTitle: PropTypes.string,
   recipients: PropTypes.object,
   signature: PropTypes.object,
 };

@@ -139,7 +139,7 @@ const ReplyDraftItem = props => {
         noTimeout();
       }
     },
-    [draft, messageBody, attachments],
+    [messageBody, draft, attachments.length, signOutMessage, noTimeout],
   );
 
   useSessionExpiration(beforeUnloadHandler, noTimeout);
@@ -235,18 +235,19 @@ const ReplyDraftItem = props => {
       if (!attachments.length) setNavigationError(null);
     },
     [
-      attachments.length,
-      category,
-      checkMessageValidity,
-      debouncedMessageBody,
-      dispatch,
-      draft,
-      fieldsString,
-      messageBody,
-      replyMessage.messageId,
-      selectedRecipient,
-      subject,
       isModalVisible,
+      checkMessageValidity,
+      selectedRecipient,
+      category,
+      subject,
+      debouncedMessageBody,
+      messageBody,
+      fieldsString,
+      attachments.length,
+      setLastFocusableElement,
+      draftId,
+      dispatch,
+      replyMessage.messageId,
     ],
   );
   const sendMessageHandler = useCallback(
@@ -327,6 +328,7 @@ const ReplyDraftItem = props => {
     [
       cannotReply,
       debouncedMessageBody,
+      editMode,
       isAutosave,
       isModalVisible,
       saveDraftHandler,
@@ -391,7 +393,23 @@ const ReplyDraftItem = props => {
           });
       }
     },
-    [sendMessageFlag, isSaving],
+    [
+      sendMessageFlag,
+      isSaving,
+      category,
+      messageBody,
+      subject,
+      draft,
+      replyToMessageId,
+      selectedRecipient,
+      attachments,
+      setIsSending,
+      dispatch,
+      draftsCount,
+      replyMessage.messageId,
+      folderId,
+      history,
+    ],
   );
 
   const populateForm = () => {
@@ -425,7 +443,7 @@ const ReplyDraftItem = props => {
         populateForm();
       }
     },
-    [draft, formPopulated],
+    [draft, formPopulated, populateForm],
   );
 
   useEffect(
@@ -614,10 +632,10 @@ ReplyDraftItem.propTypes = {
   replyToName: PropTypes.string,
   setHideDraft: PropTypes.func,
   setIsEditing: PropTypes.func,
+  setIsSending: PropTypes.func,
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.object,
-  setIsSending: PropTypes.func,
 };
 
 export default ReplyDraftItem;
