@@ -17,7 +17,7 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
 
   const contactUsItem = {
     title: 'Contact us',
-    href: '/contact-us',
+    href: '/contact-us/',
   };
 
   return (

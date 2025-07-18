@@ -220,7 +220,7 @@ export const footerColumnData = {
     },
     {
       column: 4,
-      href: '/contact-us',
+      href: '/contact-us/',
       order: 2,
       target: null,
       title: 'Contact us',
