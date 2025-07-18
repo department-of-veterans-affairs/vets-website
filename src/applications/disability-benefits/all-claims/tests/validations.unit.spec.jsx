@@ -27,6 +27,7 @@ import {
   isMonthOnly,
   isYearOnly,
   isYearMonth,
+  isTreatmentBeforeService,
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
@@ -1517,6 +1518,107 @@ describe('526 All Claims validations', () => {
         expect(isYearMonth(null)).to.be.false;
         expect(isYearMonth(undefined)).to.be.false;
         expect(isYearMonth('invalid-date')).to.be.false;
+      });
+    });
+
+    describe('isTreatmentBeforeService', () => {
+      const createMomentDate = dateString => moment(dateString);
+
+      describe('year-only format (YYYY-XX-XX)', () => {
+        it('should return true when treatment year is before service year', () => {
+          const treatmentDate = createMomentDate('1999-01-01');
+          const earliestServiceDate = createMomentDate('2000-01-01');
+          const fieldData = '1999-XX-XX';
+
+          const result = isTreatmentBeforeService(
+            treatmentDate,
+            earliestServiceDate,
+            fieldData,
+          );
+          expect(result).to.be.true;
+        });
+
+        it('should return false when treatment year is after service year', () => {
+          const treatmentDate = createMomentDate('2001-01-01');
+          const earliestServiceDate = createMomentDate('2000-01-01');
+          const fieldData = '2001-XX-XX';
+
+          const result = isTreatmentBeforeService(
+            treatmentDate,
+            earliestServiceDate,
+            fieldData,
+          );
+          expect(result).to.be.false;
+        });
+      });
+
+      describe('year-month format (YYYY-MM-XX)', () => {
+        it('should return true when treatment year-month is before service year-month', () => {
+          const treatmentDate = createMomentDate('1999-12-01');
+          const earliestServiceDate = createMomentDate('2000-01-01');
+          const fieldData = '1999-12-XX';
+
+          const result = isTreatmentBeforeService(
+            treatmentDate,
+            earliestServiceDate,
+            fieldData,
+          );
+          expect(result).to.be.true;
+        });
+
+        it('should return false when treatment year-month is after service year-month', () => {
+          const treatmentDate = createMomentDate('2000-02-01');
+          const earliestServiceDate = createMomentDate('2000-01-01');
+          const fieldData = '2000-02-XX';
+
+          const result = isTreatmentBeforeService(
+            treatmentDate,
+            earliestServiceDate,
+            fieldData,
+          );
+          expect(result).to.be.false;
+        });
+      });
+
+      describe('non-matching format cases', () => {
+        it('should return false for complete date format (YYYY-MM-DD)', () => {
+          const treatmentDate = createMomentDate('1999-01-01');
+          const earliestServiceDate = createMomentDate('2000-01-01');
+          const fieldData = '1999-01-01';
+
+          const result = isTreatmentBeforeService(
+            treatmentDate,
+            earliestServiceDate,
+            fieldData,
+          );
+          expect(result).to.be.false;
+        });
+
+        it('should return false for month-only format (XXXX-MM-XX)', () => {
+          const treatmentDate = createMomentDate('1999-01-01');
+          const earliestServiceDate = createMomentDate('2000-01-01');
+          const fieldData = 'XXXX-01-XX';
+
+          const result = isTreatmentBeforeService(
+            treatmentDate,
+            earliestServiceDate,
+            fieldData,
+          );
+          expect(result).to.be.false;
+        });
+
+        it('should return false for invalid date format', () => {
+          const treatmentDate = createMomentDate('1999-01-01');
+          const earliestServiceDate = createMomentDate('2000-01-01');
+          const fieldData = 'invalid-date';
+
+          const result = isTreatmentBeforeService(
+            treatmentDate,
+            earliestServiceDate,
+            fieldData,
+          );
+          expect(result).to.be.false;
+        });
       });
     });
   });
