@@ -1383,13 +1383,13 @@ export const getUploadErrorMessage = (error, claimId) => {
           <>
             Only the Veteran with the claim can upload files on this page. We’re
             sorry for the inconvenience.
+            <br />
+            <va-link
+              active
+              text="Upload files with QuickSubmit"
+              href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit"
+            />
           </>
-          <br />
-          <va-link
-            active
-            text="Upload files with QuickSubmit"
-            href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit"
-          />
         </>
       ),
       type: 'error',
