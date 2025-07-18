@@ -85,11 +85,15 @@ describe('gulfWar2001Details', () => {
         }
       });
 
-      it(`should submit without dates for ${locationId}`, () => {
+      // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
+      // however we want Veterans to be able to submit with a completely blank date.
+      // Note to revisit after we land on a solution for accommodating partial dates.
+      // @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
+      it(`should not submit without dates for ${locationId}`, () => {
         pageSubmitTest(
           schemas[`gulf-war-2001-location-${locationId}`],
           formData,
-          true,
+          false,
         );
       });
 
@@ -108,4 +112,172 @@ describe('gulfWar2001Details', () => {
         );
       });
     });
+
+  /*
+   * Edge case validations for toxic exposure dates.
+   * TODO: We currently validate against partial dates on the frontend.
+   * Future consideration: allow Veterans to submit with completely blank dates.
+   * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
+   */
+  describe('edge case validations', () => {
+    const locationId = 'yemen'; // Using yemen as the test case
+
+    it('should not submit with incomplete start date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar2001Details = {
+        [locationId]: {
+          startDate: '2002-XX-15',
+          endDate: '2003-06-30',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-2001-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete start date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar2001Details = {
+        [locationId]: {
+          startDate: '2002-10-XX',
+          endDate: '2003-06-30',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-2001-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete start date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar2001Details = {
+        [locationId]: {
+          startDate: 'XXXX-10-15',
+          endDate: '2003-06-30',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-2001-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar2001Details = {
+        [locationId]: {
+          startDate: '2002-10-15',
+          endDate: '2003-XX-30',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-2001-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar2001Details = {
+        [locationId]: {
+          startDate: '2002-10-15',
+          endDate: '2003-06-XX',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-2001-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar2001Details = {
+        [locationId]: {
+          startDate: '2002-10-15',
+          endDate: 'XXXX-06-30',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-2001-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit when end date is before start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar2001Details = {
+        [locationId]: {
+          startDate: '2003-10-15',
+          endDate: '2002-06-30',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-2001-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit when end date is before September 11, 2001', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar2001Details = {
+        [locationId]: {
+          startDate: '2000-10-15',
+          endDate: '2001-06-30',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-2001-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with only start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar2001Details = {
+        [locationId]: {
+          startDate: '2002-10-15',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-2001-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with only end date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar2001Details = {
+        [locationId]: {
+          endDate: '2003-06-30',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-2001-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+  });
 });
