@@ -13,6 +13,10 @@ const formMappings = {
     subTitle: 'Application Request to Add and/or Remove Dependents',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
   },
+  '21-526EZ': {
+    subTitle: 'File for disability compensation',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf',
+  },
 };
 
 export const getFormNumber = (pathname = null) => {
