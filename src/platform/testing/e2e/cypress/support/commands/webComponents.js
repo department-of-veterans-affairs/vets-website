@@ -143,6 +143,41 @@ Cypress.Commands.add('fillVaTelephoneInput', (field, value) => {
   }
 });
 
+Cypress.Commands.add('fillVaFileInput', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-file-input[name="${field}"]`)
+        : cy.wrap(field);
+
+    element.then($el => {
+      const el = $el[0];
+
+      const mockFormData = {
+        file: {
+          name: value?.name || 'test.pdf',
+          size: value?.size || 1024,
+          type: value?.type || 'application/pdf',
+        },
+        password: value?.password || 'abc',
+        additionalData: value?.additionalData || 'abc',
+        confirmationCode: value?.confirmationCode || '123456',
+        isEncrypted: value?.isEncrypted || true,
+        hasAdditionalInputError: false,
+        hasPasswordError: false,
+      };
+
+      const fileSelectEvent = new CustomEvent('vaChange', {
+        detail: { files: [mockFormData] },
+        bubbles: true,
+        composed: true,
+      });
+
+      el.dispatchEvent(fileSelectEvent);
+    });
+  }
+});
+
 function fillVaDateFields(year, month, day, monthYearOnly) {
   cy.get('@currentElement')
     .shadow()
@@ -327,6 +362,11 @@ Cypress.Commands.add('enterWebComponentData', field => {
 
     case 'VA-MEMORABLE-DATE': {
       cy.fillVaMemorableDate(field.key, field.data);
+      break;
+    }
+
+    case 'VA-FILE-INPUT': {
+      cy.fillVaFileInput(field.key, field.data);
       break;
     }
 
