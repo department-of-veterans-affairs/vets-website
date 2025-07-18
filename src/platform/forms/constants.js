@@ -716,8 +716,8 @@ export const MY_VA_SIP_FORMS = [
   {
     id: VA_FORM_IDS.FORM_21_0538,
     benefit: 'verifying your dependents for disability benefits',
-    title: '21-0538 Dependents Verification',
-    description: 'dependent-benefits',
+    title: 'verifying your dependents for disability benefits (21-0538)',
+    description: 'verifying your dependents for disability benefits (21-0538)',
     trackingPrefix: '0538-dependents-verification-',
   },
   {
