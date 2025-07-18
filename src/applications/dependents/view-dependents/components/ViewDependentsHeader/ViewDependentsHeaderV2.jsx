@@ -15,9 +15,9 @@ const CALLSTATUS = {
 };
 
 function ViewDependentsHeader(props) {
-  const { updateDiariesStatus } = props;
+  const { updateDiariesStatus, showAlert } = props;
 
-  const [warningVisible, setWarningVisible] = useState(true);
+  const [warningVisible, setWarningVisible] = useState(showAlert);
 
   useEffect(() => {
     const handleWarningClose = () => setWarningVisible(false);

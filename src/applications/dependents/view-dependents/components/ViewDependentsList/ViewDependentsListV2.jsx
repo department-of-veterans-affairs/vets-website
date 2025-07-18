@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import ViewDependentsListItem from './ViewDependentsListItemV2';
 
 const RemoveDependentSuccessMessage = () => (
@@ -15,6 +16,7 @@ const RemoveDependentSuccessMessage = () => (
 );
 function ViewDependentsList(props) {
   let mainContent;
+  let showPersonalInformationNote = false;
   const manageDependentsToggle = props?.manageDependentsToggle ?? null;
   if (props.loading) {
     mainContent = (
@@ -29,13 +31,14 @@ function ViewDependentsList(props) {
         {...dependent}
       />
     ));
+    showPersonalInformationNote = props.showPersonalInformationNote;
   } else {
     mainContent = (
-      <p className="vads-u-background-color--gray-lightest vads-u-padding--2p5">
+      <va-alert status="info" slim>
         {props?.isAward
           ? `There are no dependents associated with your VA benefits`
           : `We have no record of dependents who are not on your VA benefits.`}
-      </p>
+      </va-alert>
     );
   }
 
@@ -50,6 +53,25 @@ function ViewDependentsList(props) {
           <RemoveDependentSuccessMessage />
         )}
       {mainContent}
+      {showPersonalInformationNote && (
+        <div className="vads-u-margin-bottom--4" data-testid="default-note">
+          <p>
+            <strong>Note:</strong> To protect your personal information, we
+            don’t allow online changes to your dependents’ names, dates of
+            birth, or Social Security numbers. If you need to change this
+            information, call us at{' '}
+            <va-telephone contact={CONTACTS.VA_BENEFITS} />(
+            <va-telephone contact="711" tty />
+            ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m.
+            ET.
+          </p>
+          <va-link
+            external
+            href="/resources/how-to-change-your-legal-name-on-file-with-va/"
+            text="Find more detailed instructions for how to change your dependents’ names"
+          />
+        </div>
+      )}
     </>
   );
 }
@@ -72,4 +94,5 @@ ViewDependentsList.propTypes = {
   manageDependentsToggle: PropTypes.bool,
   subHeader: PropTypes.object,
   submittedDependents: PropTypes.array,
+  showPersonalInformationNote: PropTypes.bool,
 };
