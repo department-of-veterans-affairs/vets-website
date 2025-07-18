@@ -99,15 +99,15 @@ const summaryPage = {
           'Are you or your dependents receiving or expecting to receive any income in the next 12 months that is related to financial accounts?',
         hint: 'If yes, you’ll need to report at least one income',
         labels: {
-          Y: 'Yes, I have income to report',
-          N: 'No, I don’t have any income to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
-        title: 'Do you have any more recurring income to report?',
+        title: 'Do you have more recurring income to report?',
         labels: {
-          Y: 'Yes, I have more income to report',
-          N: 'No, I don’t have any more income to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),
@@ -129,7 +129,7 @@ const incomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'Who received the income?',
+      title: 'Who receives the income?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
