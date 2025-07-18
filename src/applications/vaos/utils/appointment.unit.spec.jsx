@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import { subDays } from 'date-fns';
-import { getRealFacilityId, getDaysRemainingToFileClaim } from './appointment';
+import MockDate from 'mockdate';
+import {
+  getRealFacilityId,
+  getDaysRemainingToFileClaim,
+  getAppointmentConflict,
+} from './appointment';
 
 describe('VAOS appointment helpers', () => {
   describe('getRealFacilityId', () => {
@@ -25,6 +30,52 @@ describe('VAOS appointment helpers', () => {
           expected,
         );
       });
+    });
+  });
+  describe('getAppointmentConflict', () => {
+    before(() => {
+      MockDate.set('2024-12-05T00:00:00Z');
+    });
+    after(() => {
+      MockDate.reset();
+    });
+    const appointmentsByMonth = {
+      '2024-12': [
+        {
+          minutesDuration: 60,
+          startUtc: '2024-12-06T17:00:00Z',
+        },
+      ],
+    };
+    const availableSlots = [
+      {
+        start: '2024-12-06T16:00:00Z',
+        end: '2024-12-06T17:00:00Z',
+      },
+      {
+        start: '2024-12-06T17:00:00Z',
+        end: '2024-12-06T18:00:00Z',
+      },
+    ];
+    it('returns false when there is no conflict', () => {
+      expect(
+        getAppointmentConflict(
+          ['2024-12-06T16:00:00Z'],
+          appointmentsByMonth,
+          1,
+          availableSlots,
+        ),
+      ).to.be.false;
+    });
+    it('returns true when there is a conflict', () => {
+      expect(
+        getAppointmentConflict(
+          ['2024-12-06T17:00:00Z'],
+          appointmentsByMonth,
+          1,
+          availableSlots,
+        ),
+      ).to.be.true;
     });
   });
 });

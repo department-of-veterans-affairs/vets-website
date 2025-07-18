@@ -5,13 +5,22 @@
  */
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { addDays, differenceInDays, parseISO } from 'date-fns';
+import {
+  addDays,
+  differenceInDays,
+  parseISO,
+  addMinutes,
+  areIntervalsOverlapping,
+  format,
+} from 'date-fns';
 import {
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_CARE,
   SERVICE_CATEGORY,
+  DATE_FORMATS,
+  APPOINTMENT_STATUS,
 } from './constants';
 
 /**
@@ -142,4 +151,54 @@ export function getDriveTimeString(driveTimeInSeconds, driveTimeDistance) {
   }
 
   return driveTimeString;
+}
+
+/**
+ * Checks if a selected appointment time conflicts with existing appointments
+ *
+ * This function determines whether the user's selected appointment slot overlaps
+ * with any of their existing upcoming appointments. It uses UTC timestamps to
+ * avoid timezone conversion issues and only checks conflicts for single selections.
+ *
+ * @param {Array<string>} selectedDates - Array of selected date strings in ISO format
+ * @param {Object} upcomingAppointments - Object containing upcoming appointments organized by month key (YYYY-MM)
+ * @param {number} maxSelections - Maximum number of selections allowed (conflict checking only applies when === 1)
+ * @param {Array<Object>} availableSlots - Array of available appointment slots
+ * @param {string} availableSlots[].start - ISO date string for slot start time
+ * @param {string} availableSlots[].end - ISO date string for slot end time
+ * @returns {boolean} True if there is a scheduling conflict, false otherwise
+ */
+export function getAppointmentConflict(
+  selectedDates,
+  upcomingAppointments,
+  maxSelections,
+  availableSlots,
+) {
+  let appointmentHasConflict = false;
+  if (maxSelections === 1 && selectedDates?.length > 0 && availableSlots) {
+    const selectedSlot = availableSlots?.find(
+      slot => slot.start === selectedDates[0],
+    );
+    if (selectedSlot) {
+      const key = format(new Date(selectedSlot.start), DATE_FORMATS.yearMonth);
+      const appointments = upcomingAppointments[key];
+      appointmentHasConflict = appointments?.some(appointment => {
+        // Use UTC timestamps for conflict detection. This avoids timezone conversion issues.
+        const slotInterval = {
+          start: new Date(selectedSlot.start),
+          end: new Date(selectedSlot.end),
+        };
+        const appointmentStart = new Date(appointment.startUtc);
+        const appointmentInterval = {
+          start: appointmentStart,
+          end: addMinutes(appointmentStart, appointment.minutesDuration),
+        };
+        return (
+          appointment.status !== APPOINTMENT_STATUS.cancelled &&
+          areIntervalsOverlapping(slotInterval, appointmentInterval)
+        );
+      });
+    }
+  }
+  return appointmentHasConflict;
 }

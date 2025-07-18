@@ -8,8 +8,11 @@ import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
 import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
-import { getSlotByDate, hasConflict } from '../utils/provider';
-import { getDriveTimeString } from '../../utils/appointment';
+import { getSlotByDate } from '../utils/provider';
+import {
+  getDriveTimeString,
+  getAppointmentConflict,
+} from '../../utils/appointment';
 import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
@@ -43,16 +46,53 @@ export const DateAndTimeContent = props => {
       }),
     ),
   );
+  const onChange = useCallback(
+    (value, appointmentHasConflict = false) => {
+      if (appointmentHasConflict) {
+        setError(
+          'You already have an appointment at this time. Please select another day or time.',
+        );
+      }
+      const newSlot = getSlotByDate(
+        draftAppointmentInfo.attributes.slots,
+        value[0],
+      );
+      if (!appointmentHasConflict && newSlot) {
+        setError('');
+        sessionStorage.setItem(selectedSlotKey, newSlot.start);
+        dispatch(setSelectedSlot(newSlot.start));
+      }
+      // Even if there is a conflict, we still want to set the selected date to show the selection and conflict
+      if (newSlot) {
+        setSelectedDate(newSlot.start);
+      }
+    },
+    [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
+  );
   useEffect(
     () => {
       if (selectedSlot) {
-        setSelectedDate(
-          getSlotByDate(draftAppointmentInfo.attributes.slots, selectedSlot)
-            .start,
+        const slot = getSlotByDate(
+          draftAppointmentInfo.attributes.slots,
+          selectedSlot,
         );
+        if (slot) {
+          const appointmentHasConflict = getAppointmentConflict(
+            [slot.start],
+            appointmentsByMonth,
+            1,
+            draftAppointmentInfo.attributes.slots,
+          );
+          onChange([slot.start], appointmentHasConflict);
+        }
       }
     },
-    [draftAppointmentInfo.attributes.slots, selectedSlot],
+    [
+      draftAppointmentInfo.attributes.slots,
+      selectedSlot,
+      appointmentsByMonth,
+      onChange,
+    ],
   );
   useEffect(
     () => {
@@ -64,24 +104,21 @@ export const DateAndTimeContent = props => {
       if (!savedSlot) {
         return;
       }
-      dispatch(setSelectedSlot(savedSlot.start));
-    },
-    [dispatch, selectedSlotKey, draftAppointmentInfo.attributes.slots],
-  );
-  const onChange = useCallback(
-    value => {
-      const newSlot = getSlotByDate(
+      const appointmentHasConflict = getAppointmentConflict(
+        [savedSlot.start],
+        appointmentsByMonth,
+        1,
         draftAppointmentInfo.attributes.slots,
-        value[0],
       );
-      if (newSlot) {
-        setError('');
-        dispatch(setSelectedSlot(newSlot.start));
-        setSelectedDate(newSlot.start);
-        sessionStorage.setItem(selectedSlotKey, newSlot.start);
-      }
+      onChange([savedSlot.start], appointmentHasConflict);
     },
-    [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
+    [
+      dispatch,
+      selectedSlotKey,
+      draftAppointmentInfo.attributes.slots,
+      appointmentsByMonth,
+      onChange,
+    ],
   );
   const onBack = () => {
     routeToPreviousReferralPage(history, currentPage, currentReferral.uuid);
@@ -95,15 +132,6 @@ export const DateAndTimeContent = props => {
     if (!selectedSlot) {
       setError(
         'Please choose your preferred date and time for your appointment',
-      );
-      return;
-    }
-    if (
-      appointmentsByMonth &&
-      hasConflict(selectedDate, appointmentsByMonth, facilityTimeZone)
-    ) {
-      setError(
-        'You already have an appointment at this time. Please select another day or time.',
       );
       return;
     }
@@ -219,6 +247,7 @@ export const DateAndTimeContent = props => {
               showValidation={error.length > 0}
               showWeekends
               overrideMaxDays
+              upcomingAppointments={appointmentsByMonth}
             />
           </div>
           <FormButtons
