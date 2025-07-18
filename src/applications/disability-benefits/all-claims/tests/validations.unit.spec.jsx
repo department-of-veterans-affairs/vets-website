@@ -1,4 +1,4 @@
-import { add, format } from 'date-fns';
+import { add, format, subDays, addDays } from 'date-fns';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import moment from 'moment';
@@ -980,44 +980,34 @@ describe('526 All Claims validations', () => {
   });
 
   describe('isInFuture', () => {
-    describe('basic functionality', () => {
-      it('adds an error when entered date is in the past', () => {
-        const addError = sinon.spy();
-        const errors = { addError };
-        const yesterday = moment()
-          .subtract(1, 'day')
-          .format('YYYY-MM-DD');
+    it('adds an error when entered date is in the past', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
-        isInFuture(errors, yesterday);
-        expect(addError.calledOnce).to.be.true;
-        expect(addError.args[0][0]).to.equal(
-          'Start date must be in the future',
-        );
-      });
+      isInFuture(errors, yesterday);
+      expect(addError.calledOnce).to.be.true;
+      expect(addError.args[0][0]).to.equal('Start date must be in the future');
+    });
 
-      it('adds an error when entered date is today', () => {
-        const addError = sinon.spy();
-        const errors = { addError };
-        const today = moment().format('YYYY-MM-DD');
+    it('adds an error when entered date is today', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const today = format(new Date(), 'yyyy-MM-dd');
 
-        isInFuture(errors, today);
+      isInFuture(errors, today);
 
-        expect(addError.calledOnce).to.be.true;
-        expect(addError.args[0][0]).to.equal(
-          'Start date must be in the future',
-        );
-      });
+      expect(addError.calledOnce).to.be.true;
+      expect(addError.args[0][0]).to.equal('Start date must be in the future');
+    });
 
-      it('does not add an error when the entered date is in the future', () => {
-        const addError = sinon.spy();
-        const errors = { addError };
-        const tomorrow = moment()
-          .add(1, 'day')
-          .format('YYYY-MM-DD');
+    it('does not add an error when the entered date is in the future', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const tomorrow = format(add(new Date(), { days: 1 }), 'yyyy-MM-dd');
 
-        isInFuture(errors, tomorrow);
-        expect(addError.callCount).to.equal(0);
-      });
+      isInFuture(errors, tomorrow);
+      expect(addError.callCount).to.equal(0);
     });
   });
 
@@ -1057,9 +1047,7 @@ describe('526 All Claims validations', () => {
     it('does not add error for exactly 180 days in the future', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const fieldData = moment()
-        .add(180, 'days')
-        .format('YYYY-MM-DD');
+      const fieldData = format(add(new Date(), { days: 180 }), 'yyyy-MM-dd');
 
       isLessThan180DaysInFuture(errors, fieldData);
       expect(addError.callCount).to.equal(0);
@@ -1396,10 +1384,7 @@ describe('526 All Claims validations', () => {
   });
 
   describe('requireSeparationLocation', () => {
-    const getDays = days =>
-      moment()
-        .add(days, 'days')
-        .format('YYYY-MM-DD');
+    const getDays = days => format(addDays(new Date(), days), 'yyyy-MM-dd');
     const getFormData = (activeDate, reserveDate) => ({
       serviceInformation: {
         servicePeriods: [{ dateRange: { to: activeDate } }],
