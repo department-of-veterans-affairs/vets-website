@@ -116,12 +116,11 @@ const DetailCopayPage = ({ match }) => {
         <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
           {title}
         </h1>
-        {showVHAPaymentHistory ? null : (
-          <p className="va-introtext">
-            Updated on {statementDate}. Payments after this date will not be
-            reflected here.
-          </p>
-        )}
+
+        <p className="va-introtext">
+          Updated on {statementDate}. Payments after this date will not be
+          reflected here.
+        </p>
 
         <Alert type={alert} copay={selectedCopay} />
 

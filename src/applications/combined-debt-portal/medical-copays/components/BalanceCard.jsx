@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -25,15 +24,10 @@ CurrentContent.propTypes = {
   id: PropTypes.string,
 };
 
-const PastDueContent = ({ id, date, amount }) => (
+const PastDueContent = ({ id, date }) => (
   <p className="vads-u-margin--0">
-    Your balance on{' '}
-    <strong data-testid={`due-date-${id}`}>{formatDate(date)}</strong> was{' '}
-    {currency(amount)}. If you haven’t paid your balance in full or requested
-    financial help, contact the VA Health Resource Center at{' '}
-    <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
-    <va-telephone tty contact={CONTACTS[711]} />
-    ).
+    Pay your balance now or request help by{' '}
+    <strong data-testid={`due-date-${id}`}>{formatDate(date)}</strong>.
   </p>
 );
 
@@ -59,7 +53,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
   const isCurrentBalance = verifyCurrentBalance(date);
   const linkText = isCurrentBalance
     ? `Check details and resolve this bill`
-    : `Check details`;
+    : `Review details`;
 
   // give features a chance to fully load before we conditionally render
   if (togglesLoading) {
