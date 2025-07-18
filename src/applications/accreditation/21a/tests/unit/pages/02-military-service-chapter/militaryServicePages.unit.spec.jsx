@@ -6,6 +6,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import militaryServicePages from '../../../../pages/02-military-service-chapter/militaryServicePages';
 import MilitaryServiceIntro from '../../../../components/02-military-service-chapter/MilitaryServiceIntro';
+import { explanationRequired } from '../../../../constants/options';
 
 const pages = militaryServicePages;
 
@@ -44,12 +45,11 @@ describe('Military Service Chapter Pages', () => {
           onSubmit={() => {}}
         />,
       );
-      const vaRadio = container.querySelector(
-        'va-radio[label="Have you ever served in the military?"]',
-      );
-      expect(vaRadio).to.exist;
-      expect($('va-radio', container).outerHTML).to.contain('value="Y"');
-      expect($('va-radio', container).outerHTML).to.contain('value="N"');
+
+      expect($('va-radio-option', container).getAttribute('value')).to.eq('Y');
+      expect(
+        $('va-radio-option:nth-child(2)', container).getAttribute('value'),
+      ).to.eq('N');
     });
   });
 
@@ -72,17 +72,19 @@ describe('Military Service Chapter Pages', () => {
           pagePerItemIndex={0}
         />,
       );
-      const { container } = form;
+      const { container, getByText } = form;
       expect($('va-select[label="Branch of service"]', container)).to.exist;
       expect($('va-date[label="Service start date"]', container)).to.exist;
       expect($('va-date[label="Service end date"]', container)).to.exist;
+
       expect(
         $(
           'va-checkbox[label="I am currently serving in this military service experience."]',
           container,
         ),
       ).to.exist;
-      expect(container.innerHTML).to.include(
+
+      getByText(
         'List all periods of military service experience. You will be able to add additional periods of service on subsequent screens.',
       );
     });
@@ -108,14 +110,12 @@ describe('Military Service Chapter Pages', () => {
       // service end date should be visible
       expect($('va-date[label="Service start date"]', container)).to.exist;
       expect($('va-date[label="Service end date"]', container)).to.exist;
-      expect(container.innerHTML).to.include(
-        'I am currently serving in this military service experience.',
-      );
 
       // check currently serving checkbox
-      const currentlyServingCheckbox = $(
-        'va-checkbox[label="I am currently serving in this military service experience."]',
-        container,
+
+      const currentlyServingCheckbox = $('va-checkbox', container);
+      expect(currentlyServingCheckbox.getAttribute('label')).to.eq(
+        'I am currently serving in this military service experience.',
       );
       currentlyServingCheckbox.checked = true;
       fireEvent.change(currentlyServingCheckbox, { target: { checked: true } });
@@ -172,15 +172,15 @@ describe('Military Service Chapter Pages', () => {
           pagePerItemIndex={0}
         />,
       );
-      const { container } = form;
+      const { container, getByRole } = form;
       const dischargeSelect = container.querySelector(
         'va-select[label="Character of discharge"]',
       );
       expect(dischargeSelect).to.exist;
-      const html = container.innerHTML;
-      expect(html).to.include('Bad Conduct');
-      expect(html).to.include('Honorable');
-      expect(html).to.include('Other Than Honorable');
+
+      explanationRequired.forEach(option => {
+        expect(getByRole('option', { name: option })).to.exist;
+      });
     });
   });
 
