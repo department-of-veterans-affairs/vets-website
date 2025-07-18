@@ -4,29 +4,10 @@ import { useSelector } from 'react-redux';
 import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { getEligibilityStatus } from '../helpers';
+import { EligibleIcon, getEligibilityStatus } from '../helpers';
 
-const EligibleIcon = ({ isEligible }) => {
-  const icon = isEligible ? 'check' : 'close';
-  const classes = classNames('icon-li', {
-    'vads-u-color--green': isEligible,
-    'vads-u-color--gray-medium': !isEligible,
-  });
-
-  return (
-    <span className={classes}>
-      <va-icon icon={icon} size={3} />
-    </span>
-  );
-};
-
-EligibleIcon.propTypes = {
-  isEligible: PropTypes.bool,
-};
-
-const EligibilitySummaryInfo = ({ goBack, goForward }) => {
+const EligibilitySummary = ({ goBack, goForward }) => {
   const formData = useSelector(state => state.form?.data);
 
   const {
@@ -83,8 +64,8 @@ const EligibilitySummaryInfo = ({ goBack, goForward }) => {
     scrollAndFocus(title);
   }, []);
 
-  const renderItem = (isEligible, text) => (
-    <li className="vads-u-position--relative">
+  const renderItem = (isEligible, text, testid) => (
+    <li className="vads-u-position--relative" data-testid={testid}>
       <EligibleIcon isEligible={isEligible} />
       {text}
     </li>
@@ -94,7 +75,10 @@ const EligibilitySummaryInfo = ({ goBack, goForward }) => {
     <div>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+          <h3
+            className="vads-u-color--gray-dark vads-u-margin-top--0"
+            data-testid="title"
+          >
             High Technology Program eligibility summary
           </h3>
         </legend>
@@ -102,32 +86,43 @@ const EligibilitySummaryInfo = ({ goBack, goForward }) => {
 
       <div className="eligibility-summary">
         <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2">
-          <h4 className="vads-u-margin-top--0">{headerText}</h4>
+          <h4 className="vads-u-margin-top--0" data-testid="header">
+            {headerText}
+          </h4>
           <p className="vads-u-margin-y--2">
             <strong>Your responses:</strong>
           </p>
           <ul className="vads-u-padding-left--0 vads-u-margin-left--3 vads-u-margin-top--0p5 eligibility-ul">
-            {renderItem(isDutyEligible, dutyText)}
-            {renderItem(isDobEligible, dobText)}
-            {renderItem(isDischargeEligible, dischargeText)}
+            {renderItem(isDutyEligible, dutyText, 'duty-requirement')}
+            {renderItem(isDobEligible, dobText, 'dob-requirement')}
+            {renderItem(
+              isDischargeEligible,
+              dischargeText,
+              'discharge-requirement',
+            )}
           </ul>
         </div>
         {!isFullyEligible && (
           <>
-            <p>
+            <p data-testid="failed-requirements-message">
               <strong>
                 You must meet the above requirements to qualify for the program.
               </strong>{' '}
               Please consider that ineligible applications delay the processing
               of benefits for eligible applicants.
             </p>
-            <va-link-action href="/" text="Exit application" type="primary" />
+            <va-link-action
+              href="/"
+              text="Exit application"
+              type="primary"
+              data-testid="exit-button"
+            />
           </>
         )}
       </div>
 
       <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-        <div className="small-6 medium-5 columns">
+        <div className="small-6 medium-5 columns" data-testid="back-button">
           <ProgressButton
             onButtonClick={goBack}
             buttonText="Back"
@@ -136,7 +131,10 @@ const EligibilitySummaryInfo = ({ goBack, goForward }) => {
           />
         </div>
         {isFullyEligible && (
-          <div className="small-6 medium-5 columns">
+          <div
+            className="small-6 medium-5 columns"
+            data-testid="continue-button"
+          >
             <ProgressButton
               onButtonClick={goForward}
               buttonText="Continue"
@@ -150,9 +148,9 @@ const EligibilitySummaryInfo = ({ goBack, goForward }) => {
   );
 };
 
-EligibilitySummaryInfo.propTypes = {
+EligibilitySummary.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
 };
 
-export default EligibilitySummaryInfo;
+export default EligibilitySummary;

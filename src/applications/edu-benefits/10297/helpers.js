@@ -88,8 +88,26 @@ export const ConfirmationGoBackLink = () => (
   </div>
 );
 
+export const EligibleIcon = ({ isEligible }) => {
+  const icon = isEligible ? 'check' : 'close';
+  const classes = classNames('icon-li', {
+    'vads-u-color--green': isEligible,
+    'vads-u-color--gray-medium': !isEligible,
+  });
+
+  return (
+    <span className={classes}>
+      <va-icon icon={icon} size={3} />
+    </span>
+  );
+};
+
+EligibleIcon.propTypes = {
+  isEligible: PropTypes.bool,
+};
+
 // Expects a birthDate as a string in YYYY-MM-DD format
-const getAgeInYears = birthDate =>
+export const getAgeInYears = birthDate =>
   Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
 
 export const getEligibilityStatus = formData => {
@@ -98,8 +116,9 @@ export const getEligibilityStatus = formData => {
   const isDutyEligible = validDutyRequirements.includes(
     formData?.dutyRequirement,
   );
-  const isDobEligible =
-    formData?.dateOfBirth && getAgeInYears(formData?.dateOfBirth) < 62;
+  const isDobEligible = !!(
+    formData?.dateOfBirth && getAgeInYears(formData?.dateOfBirth) < 62
+  );
   const isDischargeEligible = formData?.otherThanDishonorableDischarge === true;
   const isFullyEligible =
     isDutyEligible && isDobEligible && isDischargeEligible;
