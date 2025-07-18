@@ -5,50 +5,68 @@ import {
   base64UrlEncode,
   generateRandomString,
 } from '../../oauth/crypto';
+import { mockCrypto } from '../../oauth/mockCrypto';
 
-describe('OAuth -  Crypto', () => {
-  describe('sha256', async () => {
-    const rs = generateRandomString(64);
-    it('returns a Promise <ArrayBuffer>', async () => {
-      const promisedArrBuff = await sha256(rs);
-      expect(promisedArrBuff).to.be.a('string');
-      expect(promisedArrBuff.byteLength).to.eql(32);
+describe('OAuth - Crypto', () => {
+  before(() => {
+    window.crypto = mockCrypto;
+  });
+
+  describe('sha256', () => {
+    const randomInput = generateRandomString(64);
+
+    it('returns a Promise<ArrayBuffer>', async () => {
+      const hashed = await sha256(randomInput);
+      expect(hashed).to.be.instanceof(ArrayBuffer);
+      expect(hashed.byteLength).to.equal(32);
     });
-    it('should return null if parameter is empty', () => {
-      expect(sha256()).to.be.null;
+
+    it('returns valid hash for an empty string', async () => {
+      const result = await sha256('');
+      expect(result).to.be.instanceof(ArrayBuffer);
+      expect(result.byteLength).to.equal(32);
     });
   });
 
   describe('base64UrlEncode', () => {
-    it('should base64urlencode a string', () => {
-      expect(base64UrlEncode('hello')).to.be.a.string;
+    it('encodes a normal string', () => {
+      expect(base64UrlEncode('hello')).to.be.a('string');
+    });
+
+    it('replaces + and / with - and _', () => {
       expect(base64UrlEncode('h+llo')).to.eql('aCtsbG8');
       expect(base64UrlEncode('jell//o')).to.eql('amVsbC8vbw');
     });
-    it('should not generate for empty parameter', () => {
+
+    it('returns null for empty or undefined input', () => {
       expect(base64UrlEncode()).to.be.null;
       expect(base64UrlEncode('')).to.be.null;
     });
   });
+
   describe('generateRandomString', () => {
-    const mockCrypto = {
+    const mock = {
       getRandomValues(buffer) {
         return randomFillSync(buffer);
       },
     };
-    it('should generate a random string given a length', () => {
-      window.crypto = mockCrypto;
-      expect(generateRandomString(28).length).to.eql(56);
-      expect(generateRandomString(64).length).to.eql(128);
-      expect(generateRandomString(128).length).to.eql(256);
+
+    before(() => {
+      window.crypto = mock;
     });
-    it('should not generate the same string twice', () => {
-      window.crypto = mockCrypto;
-      const tempStr = generateRandomString(16);
-      const tempArr = Array.from({ length: 28 }).map(_ =>
+
+    it('generates a string of the correct length', () => {
+      expect(generateRandomString(28).length).to.equal(56);
+      expect(generateRandomString(64).length).to.equal(128);
+      expect(generateRandomString(128).length).to.equal(256);
+    });
+
+    it('does not generate the same string twice', () => {
+      const str = generateRandomString(16);
+      const generated = Array.from({ length: 28 }).map(() =>
         generateRandomString(16),
       );
-      expect(tempArr.includes(tempStr)).to.be.false;
+      expect(generated.includes(str)).to.be.false;
     });
   });
 });
