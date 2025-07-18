@@ -980,22 +980,44 @@ describe('526 All Claims validations', () => {
   });
 
   describe('isInFuture', () => {
-    it('adds an error when entered date is today or earlier', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const fieldData = '2018-04-12';
+    describe('basic functionality', () => {
+      it('adds an error when entered date is in the past', () => {
+        const addError = sinon.spy();
+        const errors = { addError };
+        const yesterday = moment()
+          .subtract(1, 'day')
+          .format('YYYY-MM-DD');
 
-      isInFuture(errors, fieldData);
-      expect(addError.calledOnce).to.be.true;
-    });
+        isInFuture(errors, yesterday);
+        expect(addError.calledOnce).to.be.true;
+        expect(addError.args[0][0]).to.equal(
+          'Start date must be in the future',
+        );
+      });
 
-    it('does not add an error when the entered date is in the future', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const fieldData = '2099-04-12';
+      it('adds an error when entered date is today', () => {
+        const addError = sinon.spy();
+        const errors = { addError };
+        const today = moment().format('YYYY-MM-DD');
 
-      isInFuture(errors, fieldData);
-      expect(addError.callCount).to.equal(0);
+        isInFuture(errors, today);
+
+        expect(addError.calledOnce).to.be.true;
+        expect(addError.args[0][0]).to.equal(
+          'Start date must be in the future',
+        );
+      });
+
+      it('does not add an error when the entered date is in the future', () => {
+        const addError = sinon.spy();
+        const errors = { addError };
+        const tomorrow = moment()
+          .add(1, 'day')
+          .format('YYYY-MM-DD');
+
+        isInFuture(errors, tomorrow);
+        expect(addError.callCount).to.equal(0);
+      });
     });
   });
 
