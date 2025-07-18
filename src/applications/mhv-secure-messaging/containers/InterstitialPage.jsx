@@ -1,16 +1,15 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
-import { isPilotState } from '../selectors';
+import featureToggles from '../hooks/useFeatureToggles';
 
 const InterstitialPage = props => {
   const { acknowledge, type } = props;
   const history = useHistory();
-  const isPilot = useSelector(isPilotState);
+  const { cernerPilotSmFeatureFlag } = featureToggles();
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
@@ -32,13 +31,13 @@ const InterstitialPage = props => {
 
   const handleContinueButton = useCallback(
     () => {
-      if (isPilot && type !== 'reply') {
+      if (cernerPilotSmFeatureFlag && type !== 'reply') {
         history.push(`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`);
       } else {
         acknowledge();
       }
     },
-    [history, acknowledge, isPilot],
+    [history, acknowledge, cernerPilotSmFeatureFlag, type],
   );
 
   return (

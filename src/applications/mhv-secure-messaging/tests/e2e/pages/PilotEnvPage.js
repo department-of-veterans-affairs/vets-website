@@ -11,7 +11,7 @@ import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PilotEnvPage {
   loadInboxMessages = (
-    url = Paths.UI_PILOT,
+    url = Paths.UI_MAIN,
     messages = mockPilotMessages,
     folders = mockFolders,
     recipients = mockRecipients,

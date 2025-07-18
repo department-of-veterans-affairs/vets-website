@@ -22,8 +22,8 @@ describe('Secure Messaging Pilot feature flag', () => {
   beforeEach(() => {
     SecureMessagingSite.login(updatedFeatureToggles);
 
-    PilotEnvPage.loadInboxMessages(Paths.UI_PILOT, mockMessages);
-    PilotEnvPage.verifyUrl(Paths.UI_PILOT);
+    PilotEnvPage.loadInboxMessages(Paths.UI_MAIN, mockMessages);
+    PilotEnvPage.verifyUrl(Paths.UI_MAIN);
   });
 
   it('verify filter works correctly', () => {
