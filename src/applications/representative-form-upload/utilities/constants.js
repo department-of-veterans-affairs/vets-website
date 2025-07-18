@@ -22,10 +22,7 @@ export const getSignInUrl = ({ __returnUrl } = {}) => {
   url.searchParams.set(USIP_QUERY_PARAMS.application, USIP_APPLICATIONS.ARP);
   url.searchParams.set(USIP_QUERY_PARAMS.OAuth, true);
 
-  url.searchParams.set(
-    USIP_QUERY_PARAMS.to,
-    `/representative-form-upload/${formNumber}`,
-  );
+  url.searchParams.set(USIP_QUERY_PARAMS.to, `/submissions/${formNumber}`);
 
   return url;
 };
