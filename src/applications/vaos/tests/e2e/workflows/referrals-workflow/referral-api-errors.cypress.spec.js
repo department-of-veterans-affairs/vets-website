@@ -212,6 +212,9 @@ describe('VAOS Referral API Error Handling', () => {
 
     errorCases.forEach(({ errorType, responseCode }) => {
       it(`should display an error message when submit appointment returns ${responseCode}`, () => {
+        // Use cy.clock() to control time and ensure consistent appointment slot dates
+        cy.clock(new Date('2025-06-02T12:00:00Z'), ['Date']);
+
         // Mock error response
         const submitAppointmentResponse = new MockReferralSubmitAppointmentResponse(
           {
@@ -310,6 +313,9 @@ describe('VAOS Referral API Error Handling', () => {
 
     errorCases.forEach(({ errorType, responseCode }) => {
       it(`should display an error message when appointment details returns ${responseCode}`, () => {
+        // Use cy.clock() to control time and ensure consistent appointment slot dates
+        cy.clock(new Date('2025-06-02T12:00:00Z'), ['Date']);
+
         // Mock error response
         const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
           {
@@ -367,7 +373,7 @@ describe('VAOS Referral API Error Handling', () => {
     });
 
     // TODO: This test is flaky and needs to be corrected using fixed dates
-    it.skip('should display an error when appointment remains in proposed state and times out', () => {
+    it('should display an error when appointment remains in proposed state and times out', () => {
       // Mock appointment details to always return proposed status (never transitions to booked)
       const proposedAppointmentResponse = new MockReferralAppointmentDetailsResponse(
         {

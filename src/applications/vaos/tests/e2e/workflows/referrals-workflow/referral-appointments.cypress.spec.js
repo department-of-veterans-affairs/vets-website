@@ -156,6 +156,9 @@ describe('VAOS Referral Appointments', () => {
     });
 
     it('should navigate through the referral scheduling flow', () => {
+      // Use cy.clock() to control time and ensure consistent appointment slot dates
+      cy.clock(new Date('2025-06-02T12:00:00Z'), ['Date']);
+
       // Navigate to the Referrals and Requests page
       appointmentList.navigateToReferralsAndRequests();
 

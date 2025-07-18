@@ -241,8 +241,9 @@ class MockReferralDraftAppointmentResponse {
     const startHour = 14; // Starting at 2 PM UTC
 
     // Get first day of next month
-    const today = new Date();
-    const firstDayNextMonth = addMonths(setDate(today, 1), 1);
+    // Use a fixed date instead of new Date() to avoid flaky tests
+    const mockToday = new Date('2025-06-02T12:00:00Z');
+    const firstDayNextMonth = addMonths(setDate(mockToday, 1), 1);
 
     for (let i = 0; i < numberOfSlots; i++) {
       // Create slots on consecutive days starting from the first day of next month
