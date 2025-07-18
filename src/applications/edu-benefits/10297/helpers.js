@@ -88,15 +88,26 @@ export const ConfirmationGoBackLink = () => (
   </div>
 );
 
-// Expects a date as a string in YYYY-MM-DD format
-export const getAgeInYears = date => {
-  let difference = new Date(Date.now() - Date.parse(date));
+// Expects a birthDate as a string in YYYY-MM-DD format
+const getAgeInYears = birthDate =>
+  Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
 
-  // Get UTC offset to account for local TZ (See https://stackoverflow.com/a/9756226)
-  const utcOffsetSeconds =
-    (difference.getTime() + difference.getTimezoneOffset() * 60 * 1000) / 1000;
+export const getEligibilityStatus = formData => {
+  const validDutyRequirements = ['atLeast3Years', 'byDischarge'];
 
-  difference -= utcOffsetSeconds;
+  const isDutyEligible = validDutyRequirements.includes(
+    formData?.dutyRequirement,
+  );
+  const isDobEligible =
+    formData?.dateOfBirth && getAgeInYears(formData?.dateOfBirth) < 62;
+  const isDischargeEligible = formData?.otherThanDishonorableDischarge === true;
+  const isFullyEligible =
+    isDutyEligible && isDobEligible && isDischargeEligible;
 
-  return Math.abs(new Date(difference).getUTCFullYear() - 1970);
+  return {
+    isDutyEligible,
+    isDobEligible,
+    isDischargeEligible,
+    isFullyEligible,
+  };
 };

@@ -5,8 +5,11 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+// Components
+import EligibilitySummary from '../components/EligibilitySummary';
+
+// Pages
 import eligibilityQuestions from '../pages/eligibilityQuestions';
-import eligibilitySummary from '../pages/eligibilitySummary';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 
@@ -51,8 +54,11 @@ const formConfig = {
         eligibilitySummary: {
           path: 'eligibility-summary',
           title: 'Eligibility summary',
-          uiSchema: eligibilitySummary.uiSchema,
-          schema: eligibilitySummary.schema,
+          CustomPage: EligibilitySummary,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          hideOnReview: true,
         },
       },
     },
