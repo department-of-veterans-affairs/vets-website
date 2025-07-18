@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { isAfter, isBefore, isValid, parseISO } from 'date-fns';
+import { isAfter, isBefore, isValid, parseISO, startOfDay } from 'date-fns';
 import CalendarCell from './CalendarCell';
 
 function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
@@ -12,7 +12,7 @@ function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
   if (
     (Array.isArray(availableSlots) &&
       !availableSlots.some(slot => slot?.start?.startsWith(date))) ||
-    isBefore(parseISO(date), new Date())
+    isBefore(startOfDay(parseISO(date)), startOfDay(new Date()))
   ) {
     disabled = true;
   }
@@ -21,7 +21,7 @@ function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
   if (
     minDate &&
     isValid(minDate) &&
-    isBefore(parseISO(date), parseISO(minDate))
+    isBefore(startOfDay(parseISO(date)), startOfDay(minDate))
   ) {
     disabled = true;
   }
@@ -30,7 +30,7 @@ function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
   if (
     maxDate &&
     isValid(maxDate) &&
-    isAfter(parseISO(date), parseISO(maxDate))
+    isAfter(startOfDay(parseISO(date)), startOfDay(maxDate))
   ) {
     disabled = true;
   }
