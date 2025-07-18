@@ -261,8 +261,8 @@ const {
   customDescription: medicarePartAPartBDescription,
   frontProperty: 'medicarePartAPartBFrontCard',
   backProperty: 'medicarePartAPartBBackCard',
-  frontImageSrc: '/img/ivc-champva/medicare_part_a_and_b_front.png',
-  backImageSrc: '/img/ivc-champva/medicare_back_of_card.png',
+  frontImageSrc: '/img/ivc-champva/part_a_and_b_front_high_res.png',
+  backImageSrc: '/img/ivc-champva/medicare_back_high_res.png',
   frontAltText:
     'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part A hospital and Part B medical coverage.',
   backAltText:
@@ -328,8 +328,8 @@ const {
   showFilesBlurb: false,
   frontProperty: 'medicarePartAFrontCard',
   backProperty: 'medicarePartABackCard',
-  frontImageSrc: '/img/ivc-champva/medicare_part_a_front.png',
-  backImageSrc: '/img/ivc-champva/medicare_back_of_card.png',
+  frontImageSrc: '/img/ivc-champva/part_a_card_front_high_res.png',
+  backImageSrc: '/img/ivc-champva/medicare_back_high_res.png',
   frontAltText:
     'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part A hospital coverage.',
   backAltText:
@@ -393,8 +393,8 @@ const {
   showFilesBlurb: false,
   frontProperty: 'medicarePartBFrontCard',
   backProperty: 'medicarePartBBackCard',
-  frontImageSrc: '/img/ivc-champva/medicare_part_b_front.png',
-  backImageSrc: '/img/ivc-champva/medicare_back_of_card.png',
+  frontImageSrc: '/img/ivc-champva/part_b_card_front_high_res.png',
+  backImageSrc: '/img/ivc-champva/medicare_back_high_res.png',
   frontAltText:
     'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part B medical coverage.',
   backAltText:
