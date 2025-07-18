@@ -171,7 +171,7 @@ export const ProfileInfoSection = ({
   const secondaryLevel = level + 1;
 
   return (
-    <section className={classNames(['profile-info-card', className])}>
+    <section className={classNames(['profile-info-section', className])}>
       <HeadingLevel
         level={level}
         namedAnchor={namedAnchor}
