@@ -87,9 +87,11 @@ describe('Delete Draft component', () => {
     fireEvent.click(screen.getByTestId('delete-draft-button'));
     // expect(screen.getByTestId('delete-draft-modal')).to.be.visible;
     await waitFor(() => {
-      expect(screen.getByTestId('delete-draft-modal')).to.have.attribute(
-        'visible',
-        'true',
+      const deleteDraftModal = screen.getByTestId('delete-draft-modal');
+      expect(deleteDraftModal).to.have.attribute('visible', 'true');
+      expect(deleteDraftModal).to.have.attribute(
+        'modal-title',
+        Prompts.Draft.DELETE_DRAFT_CONFIRM,
       );
       screen.getByText(Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE);
       screen.getByText('Delete draft');
