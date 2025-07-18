@@ -58,7 +58,10 @@ export default class ConfirmationPage extends React.Component {
           >
             Review the information you provided
           </h2>
-          <ConfirmationView.ReviewTable formConfig={props.route?.formConfig} />
+          {/* <ConfirmationView.ReviewTable formConfig={props.route?.formConfig} /> */}
+          <ConfirmationView.ReviewAccordion
+            formConfig={props.route?.formConfig}
+          />
         </Toggler.Enabled>
       </Toggler>
       <ConfirmationView.PrintThisPage />

@@ -16,6 +16,7 @@ import {
   PrintOnlyHeader,
   PrintThisPage,
   ReviewTable,
+  ReviewAccordion,
   SubmissionAlert,
   SubmissionAlertWithContext,
 } from './components';
@@ -174,6 +175,7 @@ ConfirmationView.SavePdfDownload = SavePdfDownloadWithContext;
 ConfirmationView.WhatsNextProcessList = WhatsNextProcessListWithContext;
 ConfirmationView.PrintThisPage = PrintThisPage;
 ConfirmationView.ReviewTable = ReviewTable;
+ConfirmationView.ReviewAccordion = ReviewAccordion;
 ConfirmationView.HowToContact = HowToContact;
 ConfirmationView.NeedHelp = NeedHelp;
 ConfirmationView.GoBackLink = GoBackLink;

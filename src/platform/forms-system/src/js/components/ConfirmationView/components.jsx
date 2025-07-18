@@ -504,3 +504,29 @@ ReviewTableWithContext.propTypes = {
 };
 
 export { ReviewTable } from './ReviewTable';
+
+// EXPERIMENTAL - based off ChapterSection to review submitted information
+export const ReviewAccordionWithContext = ({
+  header,
+  className,
+  collapsible,
+}) => {
+  const { formConfig } = useConfirmation();
+
+  return (
+    <ReviewAccordion
+      formConfig={formConfig}
+      header={header}
+      className={className}
+      collapsible={collapsible}
+    />
+  );
+};
+
+ReviewAccordionWithContext.propTypes = {
+  className: PropTypes.string,
+  collapsible: PropTypes.bool,
+  header: PropTypes.string,
+};
+
+export { ReviewAccordion } from './ReviewAccordion';
