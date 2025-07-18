@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
+import { VaAlert } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { errorFragment } from '../../layouts/helpers';
 import { PAGE_TITLE } from '../../util';
 
@@ -19,25 +20,10 @@ function ViewDependentsHeader(props) {
 
   const [warningHidden, setWarningHidden] = useState(false);
 
-  useEffect(
-    () => {
-      const handleWarningClose = () => {
-        setWarningHidden(true);
-      };
-
-      const warningAlert = document.getElementById('update-warning-alert');
-      if (warningAlert) {
-        warningAlert.addEventListener('closeEvent', handleWarningClose);
-      }
-
-      return () => {
-        if (warningAlert) {
-          warningAlert.removeEventListener('closeEvent', handleWarningClose);
-        }
-      };
-    },
-    [showAlert],
-  );
+  function handleWarningClose() {
+    setWarningHidden(true);
+    document.querySelector('.view-deps-header')?.focus();
+  }
 
   let alertProps = null;
 
@@ -102,11 +88,12 @@ function ViewDependentsHeader(props) {
 
         {showAlert &&
           !warningHidden && (
-            <va-alert
+            <VaAlert
               id="update-warning-alert"
               status="warning"
               closeable
               visible
+              onCloseEvent={handleWarningClose}
               close-btn-aria-label="Close notification"
             >
               <>
@@ -133,7 +120,7 @@ function ViewDependentsHeader(props) {
                   </a>
                 </p>
               </>
-            </va-alert>
+            </VaAlert>
           )}
       </div>
     </div>
