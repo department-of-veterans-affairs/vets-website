@@ -2,6 +2,7 @@ import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { currency, calcDueDate, formatDate } from '../utils/helpers';
 
 const Alert = ({ children }) => children;
@@ -46,24 +47,32 @@ Alert.PastDue = ({ copay }) => {
     <va-alert status="warning" data-testid="past-due-balance-alert">
       <h2 slot="headline">Your balance may be overdue</h2>
       <p>
-        Your balance on
-        <time dateTime={statementDate} className="vads-u-margin-x--0p5">
+        Your balance due on{' '}
+        <time
+          dateTime={statementDate}
+          className="vads-u-margin-x--0p5 vads-u-font-weight--bold"
+        >
           {statementDate}
-        </time>
-        was {currency(copay?.pHAmtDue)}. If you paid your full balance, you
-        don’t need to do anything else at this time.
+        </time>{' '}
+        was <strong>{currency(copay?.pHAmtDue)}</strong>. If you paid your full
+        balance, you don’t need to do anything else at this time.
       </p>
       <p>
-        <strong className="vads-u-margin-right--0p5">
-          If you haven’t either paid your full balance or requested financial
-          help,
-        </strong>
-        contact us at{' '}
-        <span className="no-wrap">
-          <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
-        </span>{' '}
-        (TTY: <va-telephone contact={CONTACTS[711]} />
-        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        <Link
+          className="vads-u-font-weight--bold"
+          to={`/copay-balances/${copay.id}/resolve`}
+          data-testid={`resolve-link-${copay.id}`}
+          onClick={() => {
+            recordEvent({ event: 'cta-link-click-copay-balance-card' });
+          }}
+        >
+          Pay your balance, request financial help, or dispute this bill
+          <va-icon
+            icon="navigate_next"
+            size={2}
+            class="cdp-link-icon--active"
+          />
+        </Link>
       </p>
     </va-alert>
   );
@@ -71,6 +80,7 @@ Alert.PastDue = ({ copay }) => {
 
 Alert.PastDue.propTypes = {
   copay: PropTypes.shape({
+    id: PropTypes.string,
     pSStatementDateOutput: PropTypes.string,
     pHAmtDue: PropTypes.number,
   }),
@@ -160,10 +170,7 @@ Alert.Status = ({ copay }) => (
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}
-      Pay your {currency(copay?.pHAmtDue)} balance or request help before{' '}
-      <span className="vads-u-line-height--4 no-wrap">
-        {calcDueDate(copay?.pSStatementDateOutput, 30)}
-      </span>
+      Pay your {currency(copay?.pHAmtDue)} balance or request help now
     </h2>
     <p>
       To avoid late fees or collection action on your bill, you must pay your
@@ -174,39 +181,24 @@ Alert.Status = ({ copay }) => (
       .
     </p>
     <p>
-      <a className="vads-c-action-link--blue" href="#how-to-pay">
-        Pay your copay bill
-      </a>
-    </p>
-    <p>
-      <a
-        aria-label="Request help with your debt"
-        className="vads-c-action-link--blue"
-        data-testid="link-request-help"
-        href="/manage-va-debt/request-debt-help-form-5655"
+      <Link
+        className="vads-u-font-weight--bold"
+        to={`/copay-balances/${copay.id}/resolve`}
+        data-testid={`resolve-link-${copay.id}`}
         onClick={() => {
-          recordEvent({ event: 'cta-link-click-debt-request-help' });
+          recordEvent({ event: 'cta-link-click-copay-balance-card' });
         }}
       >
-        Request help with your bill
-      </a>
-    </p>
-    <h3 className="vads-u-font-size--h4">
-      What if I’ve already requested financial help with my bill?
-    </h3>
-    <p>
-      You may need to continue making payments while we review your request.
-      Call us at{' '}
-      <span className="no-wrap">
-        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
-      </span>
-      , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        Pay your balance, request financial help, or dispute this bill
+        <va-icon icon="navigate_next" size={2} class="cdp-link-icon--active" />
+      </Link>
     </p>
   </va-alert>
 );
 
 Alert.Status.propTypes = {
   copay: PropTypes.shape({
+    id: PropTypes.string,
     pSStatementDateOutput: PropTypes.string,
     pHAmtDue: PropTypes.number,
   }),
@@ -261,6 +253,7 @@ Alerts.propTypes = {
   copay: PropTypes.shape({
     pSStatementDate: PropTypes.string,
     pHAmtDue: PropTypes.number,
+    id: PropTypes.string,
   }),
   error: PropTypes.string,
   type: PropTypes.string,
