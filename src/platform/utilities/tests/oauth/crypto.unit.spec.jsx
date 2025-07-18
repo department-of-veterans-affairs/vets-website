@@ -6,7 +6,7 @@ import {
   generateRandomString,
 } from '../../oauth/crypto';
 
-describe('OAuth - Crypto', () => {
+describe('OAuth -  Crypto', () => {
   describe('sha256', async () => {
     const rs = generateRandomString(64);
     it('returns a Promise <ArrayBuffer>', async () => {
