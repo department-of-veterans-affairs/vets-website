@@ -84,13 +84,11 @@ function ViewDependentsHeader(props) {
           dependent.
         </p>
         <p>
-          <a
+          <va-link-action
+            text="Add or remove a dependent"
             href={form686Url}
-            className="vads-c-action-link--green"
             onClick={handleClick}
-          >
-            Add or remove a dependent
-          </a>
+          />
         </p>
       </div>
     </div>

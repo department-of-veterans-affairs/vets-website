@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
@@ -112,12 +113,10 @@ function ViewDependentsHeader(props) {
                   money.
                 </p>
                 <p>
-                  <a
+                  <va-link-action
+                    text="Verify your VA disability benefits dependents"
                     href={dependentsVerificationUrl}
-                    className="vads-c-action-link--green"
-                  >
-                    Verify your VA disability benefits dependents
-                  </a>
+                  />
                 </p>
               </>
             </VaAlert>
@@ -126,5 +125,10 @@ function ViewDependentsHeader(props) {
     </div>
   );
 }
+
+ViewDependentsHeader.propTypes = {
+  showAlert: PropTypes.bool,
+  updateDiariesStatus: PropTypes.string,
+};
 
 export default ViewDependentsHeader;
