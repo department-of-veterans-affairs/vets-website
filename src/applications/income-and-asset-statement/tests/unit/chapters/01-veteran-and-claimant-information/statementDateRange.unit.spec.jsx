@@ -3,7 +3,7 @@ import testData from '../../../e2e/fixtures/data/test-data.json';
 import formConfig from '../../../../config/form';
 import incomeNetWorthDateRange from '../../../../config/chapters/01-veteran-and-claimant-information/incomeNetWorthDateRange';
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -20,14 +20,11 @@ describe('income and asset statement date range page', () => {
     },
     'statement date range',
   );
-  testComponentFieldsMarkedAsRequired(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [
-      'va-memorable-date[label="Start date"]',
-      'va-memorable-date[label="End date"]',
-    ],
+    2,
     'statement date range',
   );
   testSubmitsWithoutErrors(

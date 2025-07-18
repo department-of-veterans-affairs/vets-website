@@ -1,7 +1,7 @@
 import testData from '../../../e2e/fixtures/data/test-data.json';
 
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -21,13 +21,12 @@ describe('income and asset statement date received by page', () => {
     'date received by',
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [
-      'va-radio[label="Are you submitting an initial application for Veterans Pension or Parents’ DIC, or are you already receiving these benefits?"]',
-    ],
+    expectedNumberOfErrors,
     'date received by',
   );
 
