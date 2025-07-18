@@ -14,7 +14,7 @@ import {
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -70,11 +70,13 @@ describe('unreported asset list and loop pages', () => {
       { 'va-radio': 1 },
       'summary page',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Do you or your dependents have any assets not already reported?"]',
+      ],
       'summary page',
     );
     testSubmitsWithoutErrors(
@@ -102,11 +104,13 @@ describe('unreported asset list and loop pages', () => {
       { 'va-radio': 1 },
       'relationship',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="What is the asset owner’s relationship to the Veteran?"]',
+      ],
       'relationship',
     );
     testSubmitsWithoutErrors(
@@ -141,11 +145,15 @@ describe('unreported asset list and loop pages', () => {
       { 'va-text-input': 3 },
       'type',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      3,
+      [
+        'va-text-input[label="What is the type of asset?"]',
+        'va-text-input[label="What is the value of your portion of the property?"]',
+        'va-text-input[label="Where is the asset located?"]',
+      ],
       'type',
     );
     testSubmitsWithoutErrors(
