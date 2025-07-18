@@ -248,6 +248,9 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.axeCheck();
     });
+
+    // File size validation tests are complex to implement reliably in E2E tests
+    // due to browser limitations with creating large files and mocking file sizes.
   });
 
   describe('Encrypted PDF password handling', () => {

@@ -5,12 +5,10 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { createStore } from 'redux';
-import { fireEvent } from '@testing-library/dom';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
-import { fileTypeSignatures } from 'platform/forms-system/src/js/utilities/file';
 import { AdditionalEvidencePage } from '../../../components/claim-files-tab/AdditionalEvidencePage';
 import { renderWithRouter } from '../../utils';
 
@@ -18,13 +16,7 @@ const getRouter = () => ({ push: sinon.spy() });
 
 const fileFormProps = {
   params: { id: 1 },
-  addFile: () => {},
   cancelUpload: () => {},
-  setFieldsDirty: () => {},
-  updateField: () => {},
-  removeFile: () => {},
-  uploadField: {},
-  files: [],
   filesNeeded: [],
   filesOptional: [],
   resetUploads: () => {},
@@ -181,37 +173,6 @@ describe('<AdditionalEvidencePage>', () => {
       expect(document.activeElement.id).to.equal('add-files');
     });
 
-    it('should handle submit files', () => {
-      const file = {
-        file: new File(['hello'], 'hello.jpg', {
-          type: fileTypeSignatures.jpg.mime,
-        }),
-        size: 40,
-        name: 'hello.jpg',
-        docType: { value: 'L029', dirty: true },
-        password: { value: '', dirty: false },
-        isEncrypted: false,
-      };
-      const submitFilesSpy = sinon.spy();
-
-      const { container } = render(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            files={[file]}
-            submitFiles={submitFilesSpy}
-          />
-          ,
-        </Provider>,
-      );
-
-      fireEvent.click($('#submit', container));
-
-      expect(submitFilesSpy.called).to.be.true;
-      expect(submitFilesSpy.calledWith(1, null, [file])).to.be.true;
-    });
-
     it('should reset uploads on mount', () => {
       const resetUploads = sinon.spy();
       const mainDiv = document.createElement('div');
@@ -222,7 +183,6 @@ describe('<AdditionalEvidencePage>', () => {
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
-            uploadField={{ value: null, dirty: false }}
             resetUploads={resetUploads}
           />
         </Provider>,
