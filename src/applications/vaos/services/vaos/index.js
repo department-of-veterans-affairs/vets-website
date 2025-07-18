@@ -1,19 +1,14 @@
 import appendQuery from 'append-query';
-import {
-  format,
-  isDate,
-  lastDayOfMonth,
-  parseISO,
-  startOfMonth,
-} from 'date-fns';
+import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { getTestFacilityId } from '../../utils/appointment';
+import { DATE_FORMATS } from '../../utils/constants';
 import {
   apiRequestWithUrl,
   parseApiList,
   parseApiListWithErrors,
   parseApiObject,
 } from '../utils';
-import { DATE_FORMATS } from '../../utils/constants';
 
 const acheronHeader = {
   headers: { ACHERON_REQUESTS: 'true' },
@@ -129,9 +124,17 @@ export function getPatientEligibility(
   ).then(parseApiObject);
 }
 
-export function getPatientRelationships({ locationId, typeOfCareId }) {
+export function getPatientRelationships({
+  locationId,
+  typeOfCareId,
+  hasAvailabilityBefore,
+}) {
   return apiRequestWithUrl(
-    `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}`,
+    `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}&has_availability_before=${formatInTimeZone(
+      hasAvailabilityBefore,
+      'UTC',
+      DATE_FORMATS.ISODateTimeUTC,
+    )}`,
   );
 }
 
@@ -162,25 +165,10 @@ export function getAvailableV2Slots({
   provider,
   startDate,
   endDate,
-  convertToUtc = false,
 }) {
   const queryParams = [];
-  const start = convertToUtc
-    ? startDate.toISOString()
-    : format(
-        isDate(startDate)
-          ? startOfMonth(startDate)
-          : startOfMonth(parseISO(startDate)),
-        DATE_FORMATS.ISODateTimeLocal,
-      );
-  const end = convertToUtc
-    ? endDate.toISOString()
-    : format(
-        isDate(endDate)
-          ? lastDayOfMonth(endDate)
-          : lastDayOfMonth(parseISO(endDate)),
-        DATE_FORMATS.ISODateTimeLocal,
-      );
+  const start = startDate.toISOString();
+  const end = endDate.toISOString();
 
   if (typeOfCare) queryParams.push(`clinical_service=${typeOfCare}`);
   if (provider) queryParams.push(`provider=${provider}`);

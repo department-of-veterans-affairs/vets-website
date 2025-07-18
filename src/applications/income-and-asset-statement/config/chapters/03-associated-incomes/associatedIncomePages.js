@@ -32,8 +32,8 @@ import { relationshipLabels, incomeTypeEarnedLabels } from '../../../labels';
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'associatedIncomes',
-  nounSingular: 'income and net worth associated with financial accounts',
-  nounPlural: 'incomes and net worth associated with financial accounts',
+  nounSingular: 'financial account',
+  nounPlural: 'financial accounts',
   required: false,
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||
@@ -99,15 +99,15 @@ const summaryPage = {
           'Are you or your dependents receiving or expecting to receive any income in the next 12 months that is related to financial accounts?',
         hint: 'If yes, you’ll need to report at least one income',
         labels: {
-          Y: 'Yes, I have income to report',
-          N: 'No, I don’t have any income to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
-        title: 'Do you have any more recurring income to report?',
+        title: 'Do you have more recurring income to report?',
         labels: {
-          Y: 'Yes, I have more income to report',
-          N: 'No, I don’t have any more income to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),
@@ -125,16 +125,15 @@ const summaryPage = {
 const incomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Income and net worth associated with financial accounts',
+      title: 'Financial account relationship',
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title:
-        'What is the type of income recipient’s relationship to the Veteran?',
+      title: 'Who receives the income?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
-      'ui:title': 'Tell us the type of relationship',
+      'ui:title': 'Describe their relationship to the Veteran',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'recipientRelationship',
@@ -161,9 +160,7 @@ const incomeRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Income and net worth associated with financial accounts',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Financial account recipient'),
     recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
@@ -177,9 +174,7 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const incomeTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Income and net worth associated with financial accounts',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Financial account type'),
     incomeType: radioUI({
       title: 'What is the type of income earned?',
       labels: incomeTypeEarnedLabels,
@@ -223,19 +218,19 @@ export const associatedIncomePages = arrayBuilderPages(
   pageBuilder => ({
     associatedIncomePagesSummary: pageBuilder.summaryPage({
       title: 'Income and net worth associated with financial accounts',
-      path: 'associated-incomes-summary',
+      path: 'financial-accounts-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     associatedIncomeRecipientPage: pageBuilder.itemPage({
       title: 'Financial account recipient',
-      path: 'associated-incomes/:index/income-recipient',
+      path: 'financial-accounts/:index/income-recipient',
       uiSchema: incomeRecipientPage.uiSchema,
       schema: incomeRecipientPage.schema,
     }),
     associatedIncomeRecipientNamePage: pageBuilder.itemPage({
       title: 'Financial account recipient name',
-      path: 'associated-incomes/:index/recipient-name',
+      path: 'financial-accounts/:index/recipient-name',
       depends: (formData, index) =>
         recipientNameRequired(formData, index, 'associatedIncomes'),
       uiSchema: recipientNamePage.uiSchema,
@@ -243,7 +238,7 @@ export const associatedIncomePages = arrayBuilderPages(
     }),
     associatedIncomeTypePage: pageBuilder.itemPage({
       title: 'Financial account type',
-      path: 'associated-incomes/:index/income-type',
+      path: 'financial-accounts/:index/income-type',
       uiSchema: incomeTypePage.uiSchema,
       schema: incomeTypePage.schema,
     }),

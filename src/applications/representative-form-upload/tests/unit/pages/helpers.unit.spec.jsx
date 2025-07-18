@@ -1,51 +1,21 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { render, cleanup } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import formConfig from '../../../config/form';
-import { CustomTopContent, form686cBcList } from '../../../pages/helpers';
+import * as scroll from 'platform/utilities/scroll';
+import { Provider } from 'react-redux';
+import {
+  CustomTopContent,
+  form686cBcList,
+  CustomAlertPage,
+} from '../../../pages/helpers';
+import * as helpers from '../../../helpers';
 
 const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/test-page';
-const config = formConfig;
 
 const mockStore = {
-  getState: () => ({
-    user: {
-      login: {
-        currentlyLoggedIn: false,
-      },
-      profile: {
-        prefillsAvailable: ['FORM-UPLOAD-FLOW'],
-        dob: '2000-01-01',
-        loa: {
-          current: 3,
-        },
-        verified: true,
-      },
-    },
-    form: {
-      formId: config.formId,
-      loadedStatus: 'success',
-      savedStatus: '',
-      loadedData: {
-        metadata: {},
-      },
-      data: {
-        uploadedFile: { name: 'test-file.png', size: 800 },
-        idNumber: { ssn: '234232345' },
-        address: { postalCode: '55555' },
-        fullName: { first: 'John', last: 'Veteran' },
-      },
-    },
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
-    },
-  }),
+  getState: () => ({}),
   subscribe: () => {},
   dispatch: () => {},
 };
@@ -73,11 +43,75 @@ describe('CustomTopContent', () => {
 
   it('renders the correct breadcrumbs', () => {
     const { container } = subject();
-
     const breadcrumbs = $('va-breadcrumbs', container);
     expect(breadcrumbs).to.exist;
     expect(breadcrumbs.getAttribute('breadcrumb-list')).to.equal(
       JSON.stringify(form686cBcList),
     );
+  });
+});
+
+describe('CustomAlertPage', () => {
+  let sandbox;
+  let scrollAndFocusStub;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    sandbox
+      .stub(helpers, 'getAlert')
+      .returns(<div data-testid="mock-alert">Mock Alert</div>);
+    scrollAndFocusStub = sandbox.stub(scroll, 'scrollAndFocus');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+    cleanup();
+  });
+
+  const defaultProps = {
+    goBack: sinon.spy(),
+    onContinue: sinon.spy(),
+    data: { uploadedFile: { name: 'test-file' } },
+    contentBeforeButtons: <div data-testid="before">Before</div>,
+    contentAfterButtons: <div data-testid="after">After</div>,
+    name: 'uploadPage',
+    schema: {
+      type: 'object',
+      properties: {
+        dummy: { type: 'string' },
+      },
+    },
+    uiSchema: {},
+    formData: {},
+    onChange: () => {},
+    onSubmit: () => {},
+    onError: () => {},
+  };
+
+  it('renders the alert and schema form', () => {
+    const { getByTestId } = render(<CustomAlertPage {...defaultProps} />);
+    expect(getByTestId('mock-alert')).to.exist;
+    expect(getByTestId('before')).to.exist;
+    expect(getByTestId('after')).to.exist;
+  });
+
+  it('calls onClickContinue when Continue clicked', () => {
+    const onClickContinueStub = sandbox
+      .stub(helpers, 'onClickContinue')
+      .callsFake((props, setFn) => setFn(true));
+
+    const { getByRole } = render(<CustomAlertPage {...defaultProps} />);
+    const continueBtn = getByRole('button', { name: /continue/i });
+    fireEvent.click(continueBtn);
+
+    expect(onClickContinueStub.calledOnce).to.be.true;
+  });
+
+  it('does not call scrollAndFocus if no va-alert', () => {
+    const { getByRole } = render(<CustomAlertPage {...defaultProps} />);
+    const continueBtn = getByRole('button', { name: /continue/i });
+    fireEvent.click(continueBtn);
+
+    expect(scrollAndFocusStub.called).to.be.false;
   });
 });

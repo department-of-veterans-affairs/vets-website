@@ -14,7 +14,7 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "email": "john@veteran.com",
+    "vaFileNumber": "99999999",
     "veteranSsn": "234232345",
     "claimantFullName": {
       "first": "John",

@@ -35,8 +35,8 @@ import { relationshipLabels } from '../../../labels';
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'incomeReceiptWaivers',
-  nounSingular: 'income receipt waiver',
-  nounPlural: 'income receipt waivers',
+  nounSingular: 'waived income',
+  nounPlural: 'waived income',
   required: false,
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||
@@ -49,7 +49,7 @@ export const options = {
         item?.recipientRelationship === 'VETERAN'
           ? formatFullNameNoSuffix(formData?.veteranFullName)
           : formatFullNameNoSuffix(item?.recipientName)
-      }’s income receipt waiver`,
+      }’s waived income`,
     cardDescription: item =>
       isDefined(item?.waivedGrossMonthlyIncome) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
@@ -65,18 +65,18 @@ export const options = {
           </li>
         </ul>
       ),
-    reviewAddButtonText: 'Add another income receipt waiver',
-    alertItemUpdated: 'Your income receipt waiver information has been updated',
-    alertItemDeleted: 'Your income receipt waiver information has been deleted',
-    cancelAddTitle: 'Cancel adding this income receipt waiver',
-    cancelAddButtonText: 'Cancel adding this income receipt waiver',
-    cancelAddYes: 'Yes, cancel adding this income receipt waiver',
+    reviewAddButtonText: 'Add another waived income',
+    alertItemUpdated: 'Your waived income information has been updated',
+    alertItemDeleted: 'Your waived income information has been deleted',
+    cancelAddTitle: 'Cancel adding this waived income',
+    cancelAddButtonText: 'Cancel adding this waived income',
+    cancelAddYes: 'Yes, cancel adding this waived income',
     cancelAddNo: 'No',
-    cancelEditTitle: 'Cancel editing this income receipt waiver',
-    cancelEditYes: 'Yes, cancel editing this income receipt waiver',
+    cancelEditTitle: 'Cancel editing this waived income',
+    cancelEditYes: 'Yes, cancel editing this waived income',
     cancelEditNo: 'No',
-    deleteTitle: 'Delete this income receipt waiver',
-    deleteYes: 'Yes, delete this income receipt waiver',
+    deleteTitle: 'Delete this waived income',
+    deleteYes: 'Yes, delete this waived income',
     deleteNo: 'No',
     deleteDescription: props =>
       generateDeleteDescription(props, options.text.getItemName),
@@ -95,18 +95,17 @@ const summaryPage = {
       {
         title:
           'Did you or your dependents waive or expect to waive any receipt of income in the next 12 months?',
-        hint:
-          'If yes, you’ll need to report at least one income receipt waiver',
+        hint: 'If yes, you’ll need to report at least one waived income',
         labels: {
-          Y: 'Yes, I have an income receipt waiver to report',
-          N: 'No, I don’t have an income receipt waiver to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
-        title: 'Do you have any more income receipt waivers to report?',
+        title: 'Do you have more waived income to report?',
         labels: {
-          Y: 'Yes, I have another income receipt waiver to report',
-          N: 'No, I don’t have another income receipt waiver to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),
@@ -124,15 +123,15 @@ const summaryPage = {
 const relationshipPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Income receipt waiver relationship',
+      title: 'Waived income relationship',
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'What is the income recipient’s relationship to the Veteran?',
+      title: 'Who has waived income to report?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
-      'ui:title': 'Tell us the type of relationship',
+      'ui:title': 'Describe their relationship to the Veteran',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'recipientRelationship',
@@ -159,9 +158,7 @@ const relationshipPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Income receipt waiver recipient name',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Waived income recipient name'),
     recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
@@ -175,7 +172,7 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const incomePayerPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver payer'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Waived income payer'),
     payer: textUI({
       title: 'Income payer name',
       hint: 'Name of business, financial institution, etc.',
@@ -193,7 +190,7 @@ const incomePayerPage = {
 /** @returns {PageSchema} */
 const incomeAmountPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver amount'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Waived income amount'),
     waivedGrossMonthlyIncome: currencyUI(
       'What is the gross monthly income amount?',
     ),
@@ -210,7 +207,7 @@ const incomeAmountPage = {
 /** @returns {PageSchema} */
 const paymentsWillResumePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver payments'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Waived income payments'),
     'view:paymentsWillResume': yesNoUI('Do you expect the payments to resume?'),
   },
   schema: {
@@ -225,7 +222,7 @@ const paymentsWillResumePage = {
 /** @returns {PageSchema} */
 const incomeDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver date'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Waived income date'),
     paymentResumeDate: {
       'ui:title': 'When will the payments resume?',
       'ui:webComponentField': VaMemorableDateField,
@@ -248,7 +245,7 @@ const incomeDatePage = {
 /** @returns {PageSchema} */
 const expectedIncomePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver amount'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Waived income amount'),
     expectedIncome: currencyUI('What amount do you expect to receive?'),
   },
   schema: {
@@ -264,54 +261,54 @@ export const incomeReceiptWaiverPages = arrayBuilderPages(
   options,
   pageBuilder => ({
     incomeReceiptWaiverPagesSummary: pageBuilder.summaryPage({
-      title: 'Income receipt waivers',
-      path: 'income-receipt-waivers-summary',
+      title: 'Waived income',
+      path: 'waived-income-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     incomeReceiptWaiverRelationshipPage: pageBuilder.itemPage({
-      title: 'Income receipt waiver relationship',
-      path: 'income-receipt-waivers/:index/relationship',
+      title: 'Waived income relationship',
+      path: 'waived-income/:index/relationship',
       uiSchema: relationshipPage.uiSchema,
       schema: relationshipPage.schema,
     }),
     incomeReceiptWaiverRecipientNamePage: pageBuilder.itemPage({
-      title: 'Income receipt waiver recipient name',
-      path: 'income-receipt-waivers/:index/recipient-name',
+      title: 'Waived income recipient name',
+      path: 'waived-income/:index/recipient-name',
       depends: (formData, index) =>
         recipientNameRequired(formData, index, 'incomeReceiptWaivers'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),
     incomeReceiptWaiverPayerPage: pageBuilder.itemPage({
-      title: 'Income receipt waiver payer',
-      path: 'income-receipt-waivers/:index/payer',
+      title: 'Waived income payer',
+      path: 'waived-income/:index/payer',
       uiSchema: incomePayerPage.uiSchema,
       schema: incomePayerPage.schema,
     }),
     incomeReceiptWaiverGrossAmountPage: pageBuilder.itemPage({
-      title: 'Income receipt waiver gross amount',
-      path: 'income-receipt-waivers/:index/gross-amount',
+      title: 'Waived income gross amount',
+      path: 'waived-income/:index/gross-amount',
       uiSchema: incomeAmountPage.uiSchema,
       schema: incomeAmountPage.schema,
     }),
     incomeReceiptWaiverPaymentsPage: pageBuilder.itemPage({
-      title: 'Income receipt waiver payments',
-      path: 'income-receipt-waivers/:index/payments',
+      title: 'Waived income payments',
+      path: 'waived-income/:index/payments',
       uiSchema: paymentsWillResumePage.uiSchema,
       schema: paymentsWillResumePage.schema,
     }),
     incomeReceiptWaiverDatePage: pageBuilder.itemPage({
-      title: 'Income receipt waiver date',
-      path: 'income-receipt-waivers/:index/date',
+      title: 'Waived income date',
+      path: 'waived-income/:index/date',
       depends: (formData, index) =>
         formData.incomeReceiptWaivers?.[index]?.['view:paymentsWillResume'],
       uiSchema: incomeDatePage.uiSchema,
       schema: incomeDatePage.schema,
     }),
     incomeReceiptWaiverExpectedAmountPage: pageBuilder.itemPage({
-      title: 'Income receipt waiver expected amount',
-      path: 'income-receipt-waivers/:index/expected-amount',
+      title: 'Waived income expected amount',
+      path: 'waived-income/:index/expected-amount',
       depends: (formData, index) =>
         formData.incomeReceiptWaivers?.[index]?.['view:paymentsWillResume'],
       uiSchema: expectedIncomePage.uiSchema,

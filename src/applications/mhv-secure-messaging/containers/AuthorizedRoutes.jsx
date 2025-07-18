@@ -18,6 +18,7 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
 import SelectHealthCareSystem from './SelectHealthCareSystem';
+import { isPilotState } from '../selectors';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
 const AppRoute = ({ children, ...rest }) => {
@@ -37,7 +38,7 @@ const { Paths } = Constants;
 
 const AuthorizedRoutes = () => {
   const location = useLocation();
-  const isPilot = useSelector(state => state.sm.app.isPilot);
+  const isPilot = useSelector(isPilotState);
 
   const cernerPilotSmFeatureFlag = useSelector(
     state =>

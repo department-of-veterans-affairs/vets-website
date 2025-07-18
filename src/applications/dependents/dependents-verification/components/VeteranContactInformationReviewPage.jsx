@@ -139,7 +139,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         <va-button
           secondary
           class="edit-page float-right"
-          onClick={handlers.editEmail}
+          onClick={handlers.editPhone}
           label="Edit homne phone number"
           text="Edit"
         />
@@ -166,7 +166,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         <va-button
           secondary
           class="edit-page float-right"
-          onClick={handlers.editEmail}
+          onClick={handlers.editInternationalPhone}
           label="Edit international phone number"
           text="Edit"
         />

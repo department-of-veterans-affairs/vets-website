@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import recordEvent from '~/platform/monitoring/record-event';
 import WelcomeContainer from '../containers/WelcomeContainer';
 
 const learnMoreLink = {
@@ -58,9 +59,16 @@ const HeaderLayout = ({
             manage your care.
             <br />
             <a
-              onClick={() =>
-                datadogRum.addAction('Click on My VA Health portal link')
-              }
+              onClick={() => {
+                datadogRum.addAction('Click on My VA Health portal link');
+                recordEvent({
+                  event: 'nav-link-click',
+                  action: 'click',
+                  'link-label': 'Go to the My VA Health portal',
+                  'link-destination': mhvUrl(ssoe, 'home'),
+                  'link-origin': window.location.href,
+                });
+              }}
               data-testid="mhv-go-back-1"
               href={mhvUrl(ssoe, 'home')}
             >

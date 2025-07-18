@@ -38,6 +38,9 @@ const formConfig = {
   confirmation: ConfirmationPage,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   formId: VA_FORM_IDS.FORM_21P_0969,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your benefits application (21P-0969) is in progress.',
@@ -67,7 +70,6 @@ const formConfig = {
         formData?.claimantType === 'VETERAN'
           ? 'veteranFullName'
           : 'claimantFullName',
-      useProfileFullName: loggedIn => !!loggedIn,
     },
   },
   title: 'Income and Asset Statement',
