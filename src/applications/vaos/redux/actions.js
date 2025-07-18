@@ -2,7 +2,7 @@
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import { addDays, subDays } from 'date-fns';
-import { getIsInCCPilot } from '../referral-appointments/utils/pilot';
+import { getIsInPilotUserStations } from '../referral-appointments/utils/pilot';
 import { getAppointmentRequests } from '../services/appointment';
 import { GA_PREFIX } from '../utils/constants';
 import { captureError } from '../utils/error';
@@ -40,7 +40,7 @@ export function fetchPendingAppointments() {
       const state = getState();
       const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
       const patientFacilities = selectPatientFacilities(state);
-      const includeEPS = getIsInCCPilot(
+      const includeEPS = getIsInPilotUserStations(
         featureCCDirectScheduling,
         patientFacilities || [],
       );
