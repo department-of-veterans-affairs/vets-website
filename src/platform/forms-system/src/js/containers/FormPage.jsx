@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
@@ -11,6 +11,37 @@ import {
   defaultFocusSelector,
 } from 'platform/utilities/ui';
 import { scrollToTop, customScrollAndFocus } from 'platform/utilities/scroll';
+
+/**
+ * HOC that provides React Router v5 compatibility for FormPage
+ * This maintains the existing router.push API while using hooks internally
+ */
+function withRouterV5(Component) {
+  return function WrappedComponent(props) {
+    const history = useHistory();
+    const location = useLocation();
+    const params = useParams();
+
+    // Create a router object that matches the old API
+    const router = {
+      push: path => history.push(path),
+      replace: path => history.replace(path),
+      // Note: goBack and goForward were removed in history v5
+      // Use history.go(-1) and history.go(1) instead
+      goBack: () => history.go(-1),
+      goForward: () => history.go(1),
+    };
+
+    return (
+      <Component
+        {...props}
+        router={router}
+        location={location}
+        params={params}
+      />
+    );
+  };
+}
 
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
@@ -498,7 +529,7 @@ FormPage.propTypes = {
   uploadFile: PropTypes.func,
 };
 
-export default withRouter(
+export default withRouterV5(
   connect(
     mapStateToProps,
     mapDispatchToProps,

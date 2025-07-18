@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { withRouter } from 'react-router';
 
 import DowntimeNotification, {
   externalServiceStatus,
@@ -62,6 +61,6 @@ ReviewPage.propTypes = {
   }).isRequired,
 };
 
-export default withRouter(ReviewPage);
+export default ReviewPage;
 
 export { ReviewPage };

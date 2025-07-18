@@ -15,8 +15,6 @@ export function createTestHistory(path) {
   sinon.spy(history, 'replace');
   sinon.spy(history, 'push');
   sinon.spy(history, 'go');
-  sinon.spy(history, 'goBack');
-  sinon.spy(history, 'goForward');
 
   return history;
 }

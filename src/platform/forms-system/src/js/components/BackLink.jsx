@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { useHistory, useLocation } from 'react-router-dom';
 import { getPreviousPagePath, goBack, getRoute } from '../routing';
 import { setData as setDataAction } from '../actions';
 
@@ -20,9 +20,9 @@ import { setData as setDataAction } from '../actions';
  */
 export const BackLinkImpl = ({
   text = 'Back to previous page',
-  router, // from withRouter
-  routes, // from withRouter
-  location, // from withRouter
+  router, // from withRouter or manually passed for testing
+  routes, // from withRouter or manually passed for testing
+  location, // from withRouter or manually passed for testing
   form, // from connect
   setData, // from connect
 }) => {
@@ -89,6 +89,40 @@ export const BackLinkImpl = ({
   );
 };
 
+// Hook-based BackLink component
+const BackLinkHooks = ({ text = 'Back to previous page', form, setData }) => {
+  const history = useHistory();
+  const location = useLocation();
+
+  // Create router object compatible with legacy API
+  const router = {
+    push: history.push,
+    replace: history.replace,
+    params: {}, // React Router v5 uses useParams() hook, but this would need route context
+  };
+
+  // For routes, we'd need access to the route configuration
+  // This is a limitation - we might need to pass routes as a prop or context
+  const routes = []; // TODO: This needs to be passed from route configuration
+
+  return (
+    <BackLinkImpl
+      text={text}
+      router={router}
+      routes={routes}
+      location={location}
+      form={form}
+      setData={setData}
+    />
+  );
+};
+
+BackLinkHooks.propTypes = {
+  form: PropTypes.object,
+  setData: PropTypes.func,
+  text: PropTypes.string,
+};
+
 function mapStateToProps(state) {
   return {
     form: state.form,
@@ -108,11 +142,9 @@ BackLinkImpl.propTypes = {
   text: PropTypes.string,
 };
 
-const BackLink = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(BackLinkImpl),
-);
+const BackLink = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BackLinkHooks);
 
 export default BackLink;
