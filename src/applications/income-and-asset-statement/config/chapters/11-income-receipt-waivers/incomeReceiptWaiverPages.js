@@ -97,15 +97,15 @@ const summaryPage = {
           'Did you or your dependents waive or expect to waive any receipt of income in the next 12 months?',
         hint: 'If yes, you’ll need to report at least one waived income',
         labels: {
-          Y: 'Yes, I have a waived income to report',
-          N: 'No, I don’t have a waived income to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
-        title: 'Do you have any more waived income to report?',
+        title: 'Do you have more waived income to report?',
         labels: {
-          Y: 'Yes, I have another waived income to report',
-          N: 'No, I don’t have any more waived income to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),
@@ -127,7 +127,7 @@ const relationshipPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'Who received the income?',
+      title: 'Who has waived income to report?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
@@ -262,7 +262,7 @@ export const incomeReceiptWaiverPages = arrayBuilderPages(
   pageBuilder => ({
     incomeReceiptWaiverPagesSummary: pageBuilder.summaryPage({
       title: 'Waived income',
-      path: 'income-receipt-waivers-summary',
+      path: 'waived-income-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),

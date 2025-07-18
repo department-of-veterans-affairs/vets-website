@@ -7,6 +7,11 @@ export const annualReceivedIncomeFromAnnuityRequired = (form, index) =>
 export const annualReceivedIncomeFromTrustRequired = (form, index) =>
   get(['trusts', index, 'receivingIncomeFromTrust'], form);
 
+export const isReviewAndSubmitPage = () => {
+  if (typeof window === 'undefined') return false;
+  return window.location.pathname.includes('review-and-submit');
+};
+
 export const hasSession = () => {
   return localStorage.getItem('hasSession') === 'true';
 };
