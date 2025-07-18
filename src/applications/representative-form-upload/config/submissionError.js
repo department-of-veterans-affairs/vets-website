@@ -47,8 +47,8 @@ const SubmissionError = () => {
         Once POA is established, you can restart the submission of this form.
       </p>
       <p>
-        If you’re sure that POA is established, come back tomorrow and try
-        again.
+        If you’re sure that POA is established, it may be that our system has
+        not yet updated your POA information. Please try again tomorrow.
       </p>
       <p>
         <a
