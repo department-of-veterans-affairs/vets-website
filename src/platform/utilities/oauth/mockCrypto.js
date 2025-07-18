@@ -20,12 +20,16 @@ export const mockCrypto = {
       const _algorithm = algorithm.toLowerCase().replace('-', '');
       const _data = getArrayBufferOrView(data);
 
-      return new Promise((resolve, _) => {
-        resolve(
-          createHash(_algorithm)
-            .update(_data)
-            .digest(),
+      return new Promise(resolve => {
+        const hash = createHash(_algorithm)
+          .update(_data)
+          .digest();
+        // Convert Node.js Buffer to ArrayBuffer
+        const arrayBuffer = hash.buffer.slice(
+          hash.byteOffset,
+          hash.byteOffset + hash.byteLength,
         );
+        resolve(arrayBuffer);
       });
     },
   },
