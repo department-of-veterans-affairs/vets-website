@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import militaryServicePages from '../../../../pages/02-military-service-chapter/militaryServicePages';
 import MilitaryServiceIntro from '../../../../components/02-military-service-chapter/MilitaryServiceIntro';
 
@@ -43,15 +44,12 @@ describe('Military Service Chapter Pages', () => {
           onSubmit={() => {}}
         />,
       );
-      // Check for the va-radio with the correct label
       const vaRadio = container.querySelector(
         'va-radio[label="Have you ever served in the military?"]',
       );
       expect(vaRadio).to.exist;
-      const yesOption = container.querySelector('va-radio-option[label="Yes"]');
-      const noOption = container.querySelector('va-radio-option[label="No"]');
-      expect(yesOption).to.exist;
-      expect(noOption).to.exist;
+      expect($('va-radio', container).outerHTML).to.contain('value="Y"');
+      expect($('va-radio', container).outerHTML).to.contain('value="N"');
     });
   });
 
