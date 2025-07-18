@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -88,7 +88,7 @@ describe('Military Service Chapter Pages', () => {
     });
 
     it("hides 'Service end date' when currently serving is checked", () => {
-      const form = render(
+      const { container } = render(
         <DefinitionTester
           schema={pages.militaryServiceExperienceBranchDateRangePage.schema}
           uiSchema={pages.militaryServiceExperienceBranchDateRangePage.uiSchema}
@@ -96,8 +96,8 @@ describe('Military Service Chapter Pages', () => {
             militaryServiceExperiences: [
               {
                 branch: 'Army',
-                dateRange: { from: '2020-01-01', to: '' },
-                currentlyServing: true,
+                dateRange: { from: '2020-01-01', to: '2021-01-01' },
+                currentlyServing: false,
               },
             ],
           }}
@@ -105,14 +105,46 @@ describe('Military Service Chapter Pages', () => {
           pagePerItemIndex={0}
         />,
       );
-      const { container } = form;
-      expect(container.querySelector('va-date[label="Service start date"]')).to
-        .exist;
-      expect(container.querySelector('va-date[label="Service end date"]')).to
-        .not.exist;
+      // service end date should be visible
+      expect($('va-date[label="Service start date"]', container)).to.exist;
+      expect($('va-date[label="Service end date"]', container)).to.exist;
       expect(container.innerHTML).to.include(
         'I am currently serving in this military service experience.',
       );
+
+      // check currently serving checkbox
+      const currentlyServingCheckbox = $(
+        'va-checkbox[label="I am currently serving in this military service experience."]',
+        container,
+      );
+      currentlyServingCheckbox.checked = true;
+      fireEvent.change(currentlyServingCheckbox, { target: { checked: true } });
+
+      if ($('va-date[label="Service end date"]', container)) {
+        const { container: updatedContainer } = render(
+          <DefinitionTester
+            schema={pages.militaryServiceExperienceBranchDateRangePage.schema}
+            uiSchema={
+              pages.militaryServiceExperienceBranchDateRangePage.uiSchema
+            }
+            data={{
+              militaryServiceExperiences: [
+                {
+                  branch: 'Army',
+                  dateRange: { from: '2020-01-01', to: '' },
+                  currentlyServing: true,
+                },
+              ],
+            }}
+            arrayPath="militaryServiceExperiences"
+            pagePerItemIndex={0}
+          />,
+        );
+        expect($('va-date[label="Service end date"]', updatedContainer)).to.not
+          .exist;
+      } else {
+        expect($('va-date[label="Service end date"]', container)).to.not.exist;
+      }
     });
   });
 
