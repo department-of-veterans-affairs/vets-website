@@ -73,17 +73,17 @@ describe('Military Service Chapter Pages', () => {
         />,
       );
       const { container } = form;
-      const branchSelect = container.querySelector(
-        'va-select[label="Branch of service"]',
-      );
-      expect(branchSelect).to.exist;
+      expect($('va-select[label="Branch of service"]', container)).to.exist;
+      expect($('va-date[label="Service start date"]', container)).to.exist;
+      expect($('va-date[label="Service end date"]', container)).to.exist;
+      expect(
+        $(
+          'va-checkbox[label="I am currently serving in this military service experience."]',
+          container,
+        ),
+      ).to.exist;
       expect(container.innerHTML).to.include(
         'List all periods of military service experience. You will be able to add additional periods of service on subsequent screens.',
-      );
-      expect(container.innerHTML).to.include('Service start date');
-      expect(container.innerHTML).to.include('Service end date');
-      expect(container.innerHTML).to.include(
-        'I am currently serving in this military service experience.',
       );
     });
 
