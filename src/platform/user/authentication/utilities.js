@@ -452,24 +452,37 @@ export const logoutUrl = () => {
   return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
 };
 
+/**
+ * @description See https://github.com/department-of-veterans-affairs/identity-documentation/issues/260 for technical diagram
+ * @param {Boolean} cernerNonEligibleSisEnabled feature toggle that controls logic
+ * @returns {Boolean} Returns a boolean to determine AuthBroker
+ */
 export const determineAuthBroker = featureFlagEnabled => {
   if (featureFlagEnabled) {
     const cookieValue = Cookies.get('CERNER_ELIGIBLE');
     const rawCookie = cookieValue?.split('--')[0];
 
-    // If there isn't a rawCookie value
+    /**
+     * @returns false if cookie doesn't exist or if cookie does exist with no value
+     */
     if (!cookieValue || !rawCookie) return false;
 
     const parsedJson = JSON.parse(atob(rawCookie));
     const message = parsedJson?._rails?.message;
 
-    // If there isn't a value in the `message` field
-    if (!['T', 'F']?.includes(message)) return false;
+    /**
+     * @returns false when no message or malformed
+     */
+    if (!message) return false;
 
     const secondDecode = atob(message);
     const parsedCookie = secondDecode?.charAt(2);
 
-    // Refer to: https://github.com/department-of-veterans-affairs/identity-documentation/issues/260
+    /**
+     * @returns false if parsed cookie contains a value other than `T` or `F`
+     */
+    if (!['T', 'F']?.includes(parsedCookie)) return false;
+
     return parsedCookie === 'F';
   }
   return false;
