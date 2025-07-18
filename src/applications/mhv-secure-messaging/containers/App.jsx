@@ -58,12 +58,11 @@ const App = ({ isPilot }) => {
     () => {
       if (Object.keys(scheduledDowntimes).length > 0) {
         return (
-          (scheduledDowntimes &&
-            scheduledDowntimes[externalServices.mhvSm] &&
+          scheduledDowntimes &&
+          ((scheduledDowntimes[externalServices.mhvSm] &&
             scheduledDowntimes[externalServices.mhvSm].status) ||
-          (scheduledDowntimes &&
-            scheduledDowntimes[externalServices.mhvPlatform] &&
-            scheduledDowntimes[externalServices.mhvPlatform].status)
+            (scheduledDowntimes[externalServices.mhvPlatform] &&
+              scheduledDowntimes[externalServices.mhvPlatform].status))
         );
       }
       return 'downtime status: ok';
