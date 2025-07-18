@@ -571,7 +571,7 @@
       "directoryPath": "src/applications/representative-form-upload",
       "appName": "Representative Form Upload",
       "entryName": "representative-form-upload",
-      "rootUrl": "/representative/representative-form-upload"
+      "rootUrl": "/representative/submissions"
     },
     {
       "directoryPath": "src/applications/representative-search",
