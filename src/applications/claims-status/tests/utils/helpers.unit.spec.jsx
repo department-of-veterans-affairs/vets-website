@@ -1685,7 +1685,33 @@ describe('Disability benefits helpers: ', () => {
         expect(result.title).to.equal("You've already uploaded files");
       });
     });
+    context('when error is due to an invalid claimant', () => {
+      it('should return a claimant invalidate error message', () => {
+        const error = {
+          fileName: 'my-document.pdf',
+          errors: [
+            {
+              detail: 'DOC_UPLOAD_INVALID_CLAIMANT',
+            },
+          ],
+        };
 
+        const result = getUploadErrorMessage(error);
+        expect(result.title).to.equal(
+          'You can’t upload files for this claim here',
+        );
+        expect(result.type).to.equal('error');
+        const { getByText, container } = render(result.body);
+        getByText(
+          /Only the Veteran with the claim can upload files on this page. We’re sorry for the inconvenience./i,
+        );
+        expect($('va-link', container)).to.exist;
+        const link = $('va-link', container);
+        expect(link.getAttribute('href')).to.equal(
+          'https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit',
+        );
+      });
+    });
     context('when error is a non-duplicate upload failure', () => {
       it('should return a generic upload error with file name and title', () => {
         const error = {
