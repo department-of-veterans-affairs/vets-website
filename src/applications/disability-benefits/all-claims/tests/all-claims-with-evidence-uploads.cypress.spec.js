@@ -280,10 +280,19 @@ describe('Supporting Evidence uploads', () => {
 
     // V. Review application
     // =====================
+    cy.get('input[name="veteran-signature"]')
+      .should('be.visible')
+      .and('not.be.disabled');
+
+    cy.get('input[name="veteran-signature"]').clear();
     cy.get('input[name="veteran-signature"]').type('Mark Tux Polarbear');
-    cy.get('input[type="checkbox"][name="veteran-certify"]').check({
-      force: true,
-    });
+    cy.get('input[name="veteran-signature"]').blur();
+    cy.get('input[type="checkbox"][name="veteran-certify"]')
+      .should('be.visible')
+      .and('not.be.disabled')
+      .check({
+        force: true,
+      });
 
     // VI. Submit application
     // ======================
