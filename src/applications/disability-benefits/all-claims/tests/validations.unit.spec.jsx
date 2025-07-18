@@ -24,6 +24,7 @@ import {
   validateZIP,
   limitNewDisabilities,
   requireSeparationLocation,
+  isMonthOnly,
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
@@ -1389,6 +1390,51 @@ describe('526 All Claims validations', () => {
 
       requireSeparationLocation(err, {}, getFormData('', getDays(1)));
       expect(err.addError.called).to.be.true;
+    });
+  });
+
+  describe('helper functions', () => {
+    describe('isMonthOnly', () => {
+      it('should return true for valid month-only format (XXXX-MM-XX)', () => {
+        expect(isMonthOnly('XXXX-01-XX')).to.be.true;
+        expect(isMonthOnly('XXXX-02-XX')).to.be.true;
+        expect(isMonthOnly('XXXX-12-XX')).to.be.true;
+      });
+
+      it('should return false for complete dates', () => {
+        expect(isMonthOnly('2025-01-15')).to.be.false;
+        expect(isMonthOnly('2000-12-31')).to.be.false;
+      });
+
+      it('should return false for year-only format (YYYY-XX-XX)', () => {
+        expect(isMonthOnly('2025-XX-XX')).to.be.false;
+        expect(isMonthOnly('2000-XX-XX')).to.be.false;
+      });
+
+      it('should return false for partial year-month format (YYYY-MM-XX)', () => {
+        expect(isMonthOnly('2025-01-XX')).to.be.false;
+        expect(isMonthOnly('2000-12-XX')).to.be.false;
+      });
+
+      it('should return false for malformed formats', () => {
+        expect(isMonthOnly('XXXX-1-XX')).to.be.false;
+        expect(isMonthOnly('XXXX-01-X')).to.be.false;
+        expect(isMonthOnly('XXX-01-XX')).to.be.false;
+        expect(isMonthOnly('XXXX-01-XXX')).to.be.false;
+      });
+
+      it('should return false for empty or invalid inputs', () => {
+        expect(isMonthOnly('')).to.be.false;
+        expect(isMonthOnly(null)).to.be.false;
+        expect(isMonthOnly(undefined)).to.be.false;
+        expect(isMonthOnly('invalid-date')).to.be.false;
+      });
+
+      it('should return false for formats with different separators', () => {
+        expect(isMonthOnly('XXXX/01/XX')).to.be.false;
+        expect(isMonthOnly('XXXX.01.XX')).to.be.false;
+        expect(isMonthOnly('XXXX 01 XX')).to.be.false;
+      });
     });
   });
 });
