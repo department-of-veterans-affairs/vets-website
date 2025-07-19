@@ -61,7 +61,7 @@ const checkModals = options => {
     .click();
 
   // Click on cancel in the current section
-  cy.findByText('Cancel').click({ force: true });
+  cy.findByTestId('cancel-edit-button').click({ force: true });
 
   // Confirmation modal appears, confirm cancel
 
@@ -109,7 +109,7 @@ const checkRemovalWhileEditingModal = options => {
     .findByText(/ok/i)
     .click();
 
-  cy.findByText('Cancel').click();
+  cy.findByTestId('cancel-edit-button').click();
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()
@@ -323,7 +323,7 @@ describe('when editing other profile fields on the same page', () => {
     cy.get('[name="root_inputPhoneNumber"]').should('exist');
 
     // Cancel edit should also exist the edit mode with no modal
-    cy.findByText('Cancel').click({ force: true });
+    cy.findByTestId('cancel-edit-button').click({ force: true });
 
     // edit button should reappear once edit mode is exited
     cy.get(`va-button[label="Edit Mobile phone number"]`).should('exist');
