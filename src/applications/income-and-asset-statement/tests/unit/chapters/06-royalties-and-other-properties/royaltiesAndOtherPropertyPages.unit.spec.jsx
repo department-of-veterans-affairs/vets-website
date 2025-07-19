@@ -40,7 +40,9 @@ describe('royalties list and loop pages', () => {
 
   describe('text getItemName function', () => {
     const mockFormData = {
+      isLoggedIn: true,
       veteranFullName: { first: 'John', last: 'Doe' },
+      otherVeteranFullName: { first: 'Alex', last: 'Smith' },
     };
     it('should return "John Doe’s income" if recipient is Veteran', () => {
       const item = {
@@ -50,7 +52,18 @@ describe('royalties list and loop pages', () => {
         'John Doe’s income',
       );
     });
-    it('should return "John Doe’s income', () => {
+    it('should return "Alex Smith’s income" if recipient is Veteran and not logged in', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+      };
+      expect(
+        options.text.getItemName(item, 0, {
+          ...mockFormData,
+          isLoggedIn: false,
+        }),
+      ).to.equal('Alex Smith’s income');
+    });
+    it('should return "Jane Doe’s income', () => {
       const recipientName = { first: 'Jane', middle: 'A', last: 'Doe' };
       const formattedName = formatFullNameNoSuffix(recipientName);
 

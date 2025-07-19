@@ -16,17 +16,17 @@ export default {
   depends: formData => !(formData?.claimantType === 'VETERAN' && hasSession()),
   uiSchema: {
     ...titleUI('Veteran information'),
-    veteranFullName: fullNameNoSuffixUI(title => `Veteran’s ${title}`),
-    veteranSocialSecurityNumber: ssnUI('Veteran’s Social Security number'),
-    vaFileNumber: vaFileNumberUI('File number'),
+    otherVeteranFullName: fullNameNoSuffixUI(title => `Veteran’s ${title}`),
+    otherVeteranSocialSecurityNumber: ssnUI('Veteran’s Social Security number'),
+    otherVaFileNumber: vaFileNumberUI('File number'),
   },
   schema: {
     type: 'object',
-    required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+    required: ['otherVeteranFullName', 'otherVeteranSocialSecurityNumber'],
     properties: {
-      veteranFullName: fullNameNoSuffixSchema,
-      veteranSocialSecurityNumber: ssnSchema,
-      vaFileNumber: vaFileNumberSchema,
+      otherVeteranFullName: fullNameNoSuffixSchema,
+      otherVeteranSocialSecurityNumber: ssnSchema,
+      otherVaFileNumber: vaFileNumberSchema,
     },
   },
 };

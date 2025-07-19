@@ -23,12 +23,12 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  formatFullNameNoSuffix,
   generateDeleteDescription,
   isDefined,
   isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  resolveRecipientFullName,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -43,13 +43,13 @@ export const options = {
     !isDefined(item.payer) ||
     !isDefined(item.waivedGrossMonthlyIncome), // include all required fields here
   text: {
-    getItemName: (item, index, formData) =>
-      isDefined(item?.recipientRelationship) &&
-      `${
-        item?.recipientRelationship === 'VETERAN'
-          ? formatFullNameNoSuffix(formData?.veteranFullName)
-          : formatFullNameNoSuffix(item?.recipientName)
-      }’s waived income`,
+    getItemName: (item, index, formData) => {
+      if (!isDefined(item?.recipientRelationship)) {
+        return undefined;
+      }
+      const fullName = resolveRecipientFullName(item, formData);
+      return `${fullName}’s waived income`;
+    },
     cardDescription: item =>
       isDefined(item?.waivedGrossMonthlyIncome) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
