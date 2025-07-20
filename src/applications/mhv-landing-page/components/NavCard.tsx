@@ -1,9 +1,22 @@
 import React from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
 export const externalLinkText = '(opens in new tab)';
+
+interface NavCardProps {
+  title: string;
+  icon?: "attach_money" | "calendar_today" | "forum" | "medical_services" | "note_add" | "pill";
+  iconClasses?: string;
+  introduction?: string;
+  links?: {
+    text?: string | React.ReactElement;
+    href?: string;
+    isExternal?: boolean;
+    omitExternalLinkText?: boolean;
+  }[];
+  tag?: string;
+}
 
 /**
  * A navigation card.
@@ -20,8 +33,8 @@ const NavCard = ({
   introduction,
   title,
   links,
-  tag,
-}) => {
+  tag
+}: NavCardProps) => {
   const listItems = links?.map(
     ({ ariaLabel, href, text, isExternal, omitExternalLinkText }) => (
       <li className="mhv-c-navlistitem" key={href}>
@@ -133,26 +146,4 @@ const NavCard = ({
   );
 };
 
-NavCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  icon: PropTypes.oneOf([
-    'attach_money',
-    'calendar_today',
-    'forum',
-    'medical_services',
-    'note_add',
-    'pill',
-  ]),
-  iconClasses: PropTypes.string,
-  introduction: PropTypes.string,
-  links: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-      href: PropTypes.string,
-      isExternal: PropTypes.bool,
-      omitExternalLinkText: PropTypes.bool,
-    }),
-  ),
-  tag: PropTypes.string,
-};
 export default NavCard;

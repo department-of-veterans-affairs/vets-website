@@ -1,12 +1,19 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 import VerifyAlert from '~/platform/user/authorization/components/VerifyAlert';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { datadogRum } from '@datadog/browser-rum';
 
-const AlertVerifyAndRegister = ({ recordEvent, testId }) => {
+interface AlertVerifyAndRegisterProps {
+  recordEvent?(...args: unknown[]): unknown;
+  testId?: string;
+}
+
+const AlertVerifyAndRegister = ({
+  recordEvent,
+  testId
+}: AlertVerifyAndRegisterProps) => {
   const headline = 'Verify your identity';
 
   useEffect(() => {
@@ -25,11 +32,6 @@ const AlertVerifyAndRegister = ({ recordEvent, testId }) => {
 AlertVerifyAndRegister.defaultProps = {
   recordEvent: recordEventFn,
   testId: 'mhv-alert--verify-and-register',
-};
-
-AlertVerifyAndRegister.propTypes = {
-  recordEvent: PropTypes.func,
-  testId: PropTypes.string,
 };
 
 export default AlertVerifyAndRegister;

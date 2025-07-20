@@ -1,10 +1,21 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const AlertMhvUserAction = ({ errorCode, testId, recordEvent }) => {
+interface AlertMhvUserActionProps {
+  errorCode?: string;
+  headline?: string;
+  recordEvent?(...args: unknown[]): unknown;
+  testId?: string;
+  title?: string;
+}
+
+const AlertMhvUserAction = ({
+  errorCode,
+  testId,
+  recordEvent
+}: AlertMhvUserActionProps) => {
   const headline = `Error code ${errorCode}: Contact the My HealtheVet help desk`;
   useEffect(() => {
     recordEvent({
@@ -56,14 +67,6 @@ AlertMhvUserAction.defaultProps = {
   errorCode: 'unknown',
   recordEvent: recordEventFn,
   testId: 'mhv-alert--mhv-registration',
-};
-
-AlertMhvUserAction.propTypes = {
-  errorCode: PropTypes.string,
-  headline: PropTypes.string,
-  recordEvent: PropTypes.func,
-  testId: PropTypes.string,
-  title: PropTypes.string,
 };
 
 export default AlertMhvUserAction;

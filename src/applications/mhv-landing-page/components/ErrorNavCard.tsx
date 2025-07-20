@@ -1,8 +1,15 @@
 import React from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { VaIcon, VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+interface ErrorNavCardProps {
+  title: string;
+  code?: string;
+  iconClasses?: string;
+  userActionable?: boolean;
+}
 
 /**
  * A navigation card only displayed when an error occurs.
@@ -14,9 +21,9 @@ const ErrorNavCard = ({
   iconClasses = 'vads-u-margin-right--1p5',
   title,
   code,
-  userActionable = false,
-}) => {
-  const slug = `mhv-c-card-${title.replaceAll(/\W+/g, '-').toLowerCase()}`;
+  userActionable = false
+}: ErrorNavCardProps) => {
+  const slug = `mhv-c-card-${title.replace(/\W+/g, '-').toLowerCase()}`;
   return (
     <div
       className={classnames(
@@ -30,7 +37,7 @@ const ErrorNavCard = ({
       <div className="vads-l-row vads-u-margin-right--neg1">
         <div className="vads-u-display--flex vads-u-align-items--center">
           <div className={`vads-u-flex--auto ${iconClasses}`}>
-            <va-icon icon="error" size={4} />
+            <VaIcon icon="error" size={4} />
           </div>
 
           <div className="vads-u-flex--fill vads-u-margin-right--1p5">
@@ -62,8 +69,8 @@ const ErrorNavCard = ({
               'vada-u-font-size--md',
             )}
           >
-            Call us at <va-telephone contact="8773270022" />({' '}
-            <va-telephone contact={CONTACTS[711]} tty /> ). We’re here Monday
+            Call us at <VaTelephone contact="8773270022" />({' '}
+            <VaTelephone contact={CONTACTS[711]} tty /> ). We’re here Monday
             through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </div>
@@ -86,9 +93,4 @@ const ErrorNavCard = ({
   );
 };
 
-ErrorNavCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  code: PropTypes.string,
-  iconClasses: PropTypes.string,
-};
 export default ErrorNavCard;
