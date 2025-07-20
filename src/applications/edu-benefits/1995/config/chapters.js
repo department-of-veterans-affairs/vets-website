@@ -214,6 +214,7 @@ export const chapters = {
         },
         uiSchema: newSchoolUiSchema(),
         schema: newSchoolSchema(),
+        depends: formData => formData?.rudisillReview !== 'Yes',
       },
     },
   },
