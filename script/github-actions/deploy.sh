@@ -79,7 +79,7 @@ function finish {
         rm -rf "$dir"
     fi
     if [ $EXIT_OK != "yes" ] ; then
-        say_err "ERROR: Script aborted early, deploy may be in an incosistent state!"
+        say_err "ERROR: Script aborted early, deploy may be in an inconsistent state!"
         exit 1
     fi
 }
