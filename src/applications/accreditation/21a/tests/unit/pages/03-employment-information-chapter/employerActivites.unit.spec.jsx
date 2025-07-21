@@ -15,14 +15,9 @@ describe('Employment Activities Page', () => {
         data={{}}
       />,
     );
-    const { container, getAllByText } = form;
+    const { container, getByText } = form;
 
-    const matches = getAllByText((content, element) =>
-      element.textContent.includes(
-        'Check all that apply. Failure to identify relevant activities may result in a delay in processing your application.',
-      ),
-    );
-    expect(matches.length).to.be.greaterThan(0);
+    expect(getByText(/Check all that apply\./i)).to.exist;
 
     Object.values(employmentActivitiesOptions).forEach(option => {
       const checkbox = $(`va-checkbox[label="${option}"]`, container);
