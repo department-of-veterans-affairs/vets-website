@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { DefinitionTester } from '~/platform/testing/unit/schemaform-utils';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 describe('22-10297 Check eligibility page', () => {
@@ -58,5 +59,23 @@ describe('22-10297 Check eligibility page', () => {
     expect(dischargeYesNo.querySelectorAll('va-radio-option').length).to.equal(
       2,
     );
+  });
+
+  it('renders error messages for each field if nothing is entered', async () => {
+    const { container, getByRole } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
+    );
+
+    expect($$('va-radio[error]', container).length).to.equal(0);
+    expect($$('va-memorable-date[error]', container).length).to.equal(0);
+    getByRole('button', { name: /submit/i }).click();
+    await waitFor(() => {
+      expect($$('va-radio[error]', container).length).to.equal(2);
+      expect($$('va-memorable-date[error]', container).length).to.equal(1);
+    });
   });
 });
