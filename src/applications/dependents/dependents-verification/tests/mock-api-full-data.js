@@ -10,6 +10,7 @@ const delay = require('mocker-api/lib/delay');
 const mockUser = require('./e2e/user.json');
 const mockMaxData = require('./e2e/fixtures/data/maximal-test.json');
 const mockDependents = require('../../shared/tests/fixtures/mocks/mock-dependents.json');
+const mockVaFileNumber = require('../../686c-674/tests/e2e/fixtures/va-file-number.json');
 
 const returnUrl = '/review-and-submit';
 
@@ -104,7 +105,11 @@ const responses = {
   'GET /v0/user': userData(),
   'GET /v0/feature_toggles': {
     data: {
-      features: [{ name: 'vaDependentsVerification', value: true }],
+      features: [
+        { name: 'va_dependents_verification', value: true },
+        { name: 'dependents_management', value: true },
+        { name: 'dependency_verification', value: true },
+      ],
     },
   },
   'OPTIONS /v0/maintenance_windows': 'OK',
@@ -115,6 +120,7 @@ const responses = {
   'PUT /v0/in_progress_forms/21-0538': mockSipPut,
 
   'GET /v0/dependents_applications/show': mockDependents,
+  'GET /v0/profile/valid_va_file_number': mockVaFileNumber,
 
   'POST /dependents_verification/v0/claims': submission,
 };
