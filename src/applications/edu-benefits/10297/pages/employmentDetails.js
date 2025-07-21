@@ -6,20 +6,21 @@ import {
 
 const uiSchema = {
   ...titleUI('Your employment'),
-  isEmployed: {
+  isInTechnologyIndustry: {
     ...yesNoUI({
-      title: 'Are you currently employed?',
+      title: 'Do you currently work in the technology industry?',
       labels: {
-        Y: 'Yes', // TODO: If yes OR blank, go to next page
-        N: 'No', // TODO: If no, skip to page 5
+        Y: 'Yes',
+        N: 'No',
       },
     }),
   },
 };
 const schema = {
   type: 'object',
+  required: ['isInTechnologyIndustry'],
   properties: {
-    isEmployed: yesNoSchema,
+    isInTechnologyIndustry: yesNoSchema,
   },
 };
 export { schema, uiSchema };
