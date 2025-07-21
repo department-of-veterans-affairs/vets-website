@@ -35,7 +35,9 @@ describe('owned asset list and loop pages', () => {
 
   describe('text getItemName function', () => {
     const mockFormData = {
+      isLoggedIn: true,
       veteranFullName: { first: 'John', last: 'Doe' },
+      otherVeteranFullName: { first: 'Alex', last: 'Smith' },
     };
     it('should return "John Doe’s income from a business" if recipient is Veteran and asset type is "business"', () => {
       const item = {
@@ -64,13 +66,13 @@ describe('owned asset list and loop pages', () => {
         'John Doe’s income from a rental property',
       );
     });
-    it('should return "Jane Doe’s income from a business" if assetType is "business"', () => {
+    it('should return "Jane Doe’s income from a business" if recipient is not Veteran and assetType is "business"', () => {
       const item = {
         recipientRelationship: 'SPOUSE',
         recipientName: { first: 'Jane', last: 'Doe' },
         assetType: 'BUSINESS',
       };
-      expect(options.text.getItemName(item)).to.equal(
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
         'Jane Doe’s income from a business',
       );
     });
@@ -80,19 +82,55 @@ describe('owned asset list and loop pages', () => {
         recipientName: { first: 'Jane', last: 'Doe' },
         assetType: 'FARM',
       };
-      expect(options.text.getItemName(item)).to.equal(
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
         'Jane Doe’s income from a farm',
       );
     });
-    it('should return "Jane Doe’s income from a rental property" if assetType is "rental property"', () => {
+    it('should return "Jane Doe’s income from a rental property" if recipient is not Veteran and assetType is "rental property"', () => {
       const item = {
         recipientRelationship: 'PARENT',
         recipientName: { first: 'Jane', last: 'Doe' },
         assetType: 'RENTAL_PROPERTY',
       };
-      expect(options.text.getItemName(item)).to.equal(
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
         'Jane Doe’s income from a rental property',
       );
+    });
+    it('should return "Alex Smith’s income from a business" if recipient is Veteran and assetType is "business" and not logged in', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+        assetType: 'BUSINESS',
+      };
+      expect(
+        options.text.getItemName(item, 0, {
+          ...mockFormData,
+          isLoggedIn: false,
+        }),
+      ).to.equal('Alex Smith’s income from a business');
+    });
+    it('should return "Alex Smith’s income from a farm" if recipient is Veteran and assetType is "farm" and not logged in', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+        assetType: 'FARM',
+      };
+      expect(
+        options.text.getItemName(item, 0, {
+          ...mockFormData,
+          isLoggedIn: false,
+        }),
+      ).to.equal('Alex Smith’s income from a farm');
+    });
+    it('should return "Alex Smith’s income from a rental property" if recipient is Veteran and assetType is "rental property" and not logged in', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+        assetType: 'RENTAL_PROPERTY',
+      };
+      expect(
+        options.text.getItemName(item, 0, {
+          ...mockFormData,
+          isLoggedIn: false,
+        }),
+      ).to.equal('Alex Smith’s income from a rental property');
     });
   });
 
