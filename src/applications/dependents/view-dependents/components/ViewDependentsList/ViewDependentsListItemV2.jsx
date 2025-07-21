@@ -19,7 +19,7 @@ function ViewDependentsListItem(props) {
     relationship,
     ssn,
     dateOfBirth,
-    removalDate,
+    upcomingRemoval,
     stateKey,
     openFormlett,
     submittedDependents,
@@ -41,9 +41,9 @@ function ViewDependentsListItem(props) {
   // Format the date of birth and calculate age
   const dobObj = parse(dateOfBirth, 'MM/dd/yyyy', new Date());
   const dobStr = isValid(dobObj) ? format(dobObj, 'MMMM d, yyyy') : '';
-  // const removalDate = person.upcomingRemoval
-  //   ? parse(person.upcomingRemoval, 'MM/dd/yyyy', new Date())
-  //   : '';
+  const removalDate = upcomingRemoval
+    ? parse(upcomingRemoval, 'MM/dd/yyyy', new Date())
+    : '';
   const ageInYears = dobStr ? differenceInYears(new Date(), dobObj) : '';
 
   return (
@@ -112,7 +112,7 @@ function ViewDependentsListItem(props) {
                     className="dd-privacy-mask"
                     data-dd-action-name="Dependent's removal date"
                   >
-                    {format(new Date(removalDate), 'MMMM d, yyyy')}
+                    {removalDate}
                   </span>
                 </dd>
               </div>
@@ -199,8 +199,8 @@ ViewDependentsListItem.propTypes = {
   manageDependentsToggle: PropTypes.bool,
   openFormlett: PropTypes.bool,
   relationship: PropTypes.string,
-  removalDate: PropTypes.string,
   ssn: PropTypes.string,
   stateKey: PropTypes.number,
   submittedDependents: PropTypes.array,
+  upcomingRemoval: PropTypes.string,
 };
