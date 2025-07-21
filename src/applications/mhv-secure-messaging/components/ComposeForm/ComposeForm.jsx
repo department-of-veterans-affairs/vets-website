@@ -532,7 +532,7 @@ const ComposeForm = props => {
       debouncedCategory,
       debouncedSubject,
       debouncedMessageBody,
-      attachments.length,
+      attachments,
       isSignatureRequired,
       electronicSignature,
       fieldsString,
