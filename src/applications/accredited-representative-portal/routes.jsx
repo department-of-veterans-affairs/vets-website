@@ -98,9 +98,7 @@ const routes = [
           },
           {
             path: 'submissions',
-            element: (
-              <SubmissionsPage title="Form Submissions | Veterans Affairs" />
-            ),
+            element: <SubmissionsPage title="Submissions | Veterans Affairs" />,
             loader: SubmissionsPage.loader,
           },
         ],

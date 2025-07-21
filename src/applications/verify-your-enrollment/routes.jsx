@@ -17,7 +17,7 @@ import VerificationReviewWrapper from './containers/VerificationReviewWrapper';
 import LoadFail from './components/LoadFail';
 import Loader from './components/Loader';
 import IdentityVerificationAlert from './components/IdentityVerificationAlert';
-import UnderMaintenance from './components/UnderMaintenance';
+// import UnderMaintenance from './components/UnderMaintenance';
 import DowntimeAlert from './components/DowntimeAlert';
 
 const IsUserLoggedIn = () => {
@@ -40,28 +40,29 @@ const IsUserLoggedIn = () => {
   const isError500 = useMemo(() => parseInt(serverError?.status, 10) === 500, [
     serverError,
   ]);
-
   const Routes = useMemo(
     () => (
-      <Switch>
-        <Route exact key="EnrollmentVerificationPage" path="/">
-          <EnrollmentVerificationPageWrapper />
-        </Route>
-        <Route
-          exact
-          key="BenefitsProfilePage"
-          path={BENEFITS_PROFILE_RELATIVE_URL}
-        >
-          <BenefitsProfileWrapper />
-        </Route>
-        <Route
-          exact
-          key="VerificationReview"
-          path={VERIFICATION_REVIEW_RELATIVE_URL}
-        >
-          <VerificationReviewWrapper />
-        </Route>
-      </Switch>
+      <>
+        <Switch>
+          <Route exact key="EnrollmentVerificationPage" path="/">
+            <EnrollmentVerificationPageWrapper />
+          </Route>
+          <Route
+            exact
+            key="BenefitsProfilePage"
+            path={BENEFITS_PROFILE_RELATIVE_URL}
+          >
+            <BenefitsProfileWrapper />
+          </Route>
+          <Route
+            exact
+            key="VerificationReview"
+            path={VERIFICATION_REVIEW_RELATIVE_URL}
+          >
+            <VerificationReviewWrapper />
+          </Route>
+        </Switch>
+      </>
     ),
     [],
   );
@@ -71,9 +72,9 @@ const IsUserLoggedIn = () => {
   if (toggleValue === undefined) {
     return <Loader />;
   }
-  if (mgibVerificationsMaintenance) {
-    return <UnderMaintenance />;
-  }
+  // if (mgibVerificationsMaintenance) {
+  //   return <UnderMaintenance />;
+  // }
   if (showVyeDowntimeAlert) {
     return <DowntimeAlert />;
   }
@@ -82,7 +83,19 @@ const IsUserLoggedIn = () => {
       serviceRequired={backendServices.USER_PROFILE}
       user={user}
     >
-      {isError500 ? <LoadFail /> : Routes}
+      {isError500 ? (
+        <LoadFail />
+      ) : (
+        <>
+          {mgibVerificationsMaintenance && (
+            <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
+              {' '}
+              <DowntimeAlert />
+            </div>
+          )}
+          {Routes}
+        </>
+      )}
     </RequiredLoginView>
   ) : (
     <div className="not-found">
