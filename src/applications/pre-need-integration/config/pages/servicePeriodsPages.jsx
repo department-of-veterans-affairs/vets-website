@@ -234,7 +234,6 @@ export function servicePeriodInformationPage(isVet, isPrep) {
         ),
         null,
         {
-          'ui:webComponentField': VaTextInputField,
           'ui:options': {
             labels: serviceLabels,
           },
@@ -259,14 +258,6 @@ export function servicePeriodInformationPage(isVet, isPrep) {
           ),
           'The service end date must be after the service start date.', // Range error message
         ),
-        // {
-        //   from: {
-        //     year: { 'ui:webComponentField': VaTextInputField, }
-        //   },
-        //   to: {
-        //     year: { 'ui:webComponentField': VaTextInputField, }
-        //   },
-        // }
       ),
       dischargeType: {
         'ui:title': handleTitle(
