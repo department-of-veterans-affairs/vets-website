@@ -187,9 +187,9 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
     let styleTags = [];
 
     originalTags.forEach(tag => {
-      if (tag.attributes.src?.match(/style/)) {
+      if (tag.attributes.src?.includes('style.entry.js')) {
         // Exclude style.entry.js, which gets included with the style chunk.
-      } else if (tag.attributes.src?.match(/polyfills/)) {
+      } else if (tag.attributes.src?.includes('polyfills.entry.js')) {
         // Force polyfills.entry.js to be first since vendor.entry.js gets
         // put first even with chunksSortMode: 'manual'. Also set nomodule
         // so IE polyfills don't load in newer browsers
@@ -221,16 +221,9 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
     template = {},
     widgetType,
     widgetTemplate,
-    useLocalStylesAndComponents,
+    _useLocalStylesAndComponents, // renamed to avoid unused-var lint error
   }) =>
     new HtmlPlugin({
-      chunks: [
-        'polyfills',
-        useLocalStylesAndComponents ? null : 'web-components',
-        'vendor',
-        'style',
-        entryName,
-      ],
       filename: path.join(buildPath, rootUrl, 'index.html'),
       inject: false,
       scriptLoading: 'defer',
@@ -452,7 +445,7 @@ module.exports = async (env = {}) => {
       // Use deterministic ids for longer-lived caching between builds.
       chunkIds: isOptimizedBuild ? 'deterministic' : 'named',
       moduleIds: isOptimizedBuild ? 'deterministic' : 'named',
-      runtimeChunk: isOptimizedBuild ? 'single' : undefined,
+      runtimeChunk: 'single',
       minimizer: [
         new TerserPlugin({
           terserOptions: {
@@ -466,7 +459,7 @@ module.exports = async (env = {}) => {
         }),
       ],
       splitChunks: {
-        chunks: 'all',
+        chunks: 'initial',
         minSize: 20000, // 20 KB, consolidate tiny chunks
         cacheGroups: {
           // this needs to be "vendors" to overwrite a default group

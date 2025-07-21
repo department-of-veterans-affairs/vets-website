@@ -153,10 +153,14 @@ class SearchDropdownComponent extends React.Component {
       displayA11yDescriptionFlag: undefined,
       fetchingSuggestions: true,
     };
+
+    // Track mount status to avoid setState on unmounted component
+    this._isMounted = false;
   }
 
   // when the component loads, fetch suggestions for our starting input value
   componentDidMount() {
+    this._isMounted = true;
     const { startingValue } = this.props;
 
     if (startingValue) {
@@ -198,6 +202,7 @@ class SearchDropdownComponent extends React.Component {
 
   // when the component unmounts, clear the timeout if we have one.
   componentWillUnmount() {
+    this._isMounted = false;
     clearTimeout(this.fetchSuggestionsTimeout);
     clearTimeout(this.updateA11yTimeout);
   }
@@ -247,7 +252,9 @@ class SearchDropdownComponent extends React.Component {
   fetchSuggestions = async inputValue => {
     this.setState({ fetchingSuggestions: true });
     const suggestions = await fetchTypeaheadSuggestions(inputValue);
-    this.setState({ suggestions, fetchingSuggestions: false });
+    if (this._isMounted) {
+      this.setState({ suggestions, fetchingSuggestions: false });
+    }
   };
 
   // handle blur logic
