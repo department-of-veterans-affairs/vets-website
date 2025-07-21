@@ -66,10 +66,14 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData =>
-        formData?.claimantType === 'VETERAN'
-          ? 'veteranFullName'
-          : 'claimantFullName',
+      fullNamePath: formData => {
+        if (formData?.claimantType === 'VETERAN') {
+          return formData?.isLoggedIn
+            ? 'veteranFullName'
+            : 'otherVeteranFullName';
+        }
+        return 'claimantFullName';
+      },
     },
   },
   title: 'Income and Asset Statement',

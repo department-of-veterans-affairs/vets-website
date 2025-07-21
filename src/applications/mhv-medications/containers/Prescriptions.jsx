@@ -43,7 +43,6 @@ import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import {
   selectAllergiesFlag,
   selectGroupingFlag,
-  selectRefillContentFlag,
   selectRefillProgressFlag,
   selectRemoveLandingPageFlag,
   selectIPEContentFlag,
@@ -85,7 +84,6 @@ const Prescriptions = () => {
 
   // Get feature flags
   const showGroupingContent = useSelector(selectGroupingFlag);
-  const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
@@ -693,8 +691,6 @@ const Prescriptions = () => {
   };
 
   const renderRefillCard = () => {
-    if (!showRefillContent) return null;
-
     return (
       <va-card background>
         <div className="vads-u-padding-x--1">
