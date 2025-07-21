@@ -66,7 +66,7 @@ export const uploadPage = {
               .pop()
               .toLowerCase();
             if (ext !== 'pdf' && !window.Cypress) {
-              errors.addError('Only PDF files are allowed');
+              errors.addError('Your file must be .pdf format');
             }
           }
         },
