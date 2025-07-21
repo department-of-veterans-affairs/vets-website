@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
@@ -40,7 +40,9 @@ function ViewDependentsListItem(props) {
   return (
     <div className="mng-dependents-list-item vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding--2">
       <h3 className="vads-u-font-family--serif vads-u-font-size--lg vads-u-margin-top--0 mng-dependents-name">
-        {fullName}
+        <span className="dd-privacy-hidden" data-dd-action-name="full name">
+          {fullName}
+        </span>
       </h3>
       <dl
         className={`vads-u-margin-bottom--${
@@ -57,35 +59,42 @@ function ViewDependentsListItem(props) {
         ) : null}
         <div>
           <dt>Relationship:&nbsp;</dt>
-          <dd>{relationship}</dd>
+          <dd className="dd-privacy-hidden" data-dd-action-name="relationship">
+            {relationship}
+          </dd>
         </div>
 
         {ssn ? (
           <div>
             <dt>SSN:&nbsp;</dt>
-            <dd>{maskID(ssn)}</dd>
+            <dd className="dd-privacy-hidden" data-dd-action-name="ssn">
+              {maskID(ssn)}
+            </dd>
           </div>
         ) : null}
 
         {dateOfBirth ? (
           <div>
             <dt>Date of birth:&nbsp;</dt>
-            <dd>{moment(dateOfBirth).format('MMMM D, YYYY')}</dd>
+            <dd
+              className="dd-privacy-hidden"
+              data-dd-action-name="date of birth"
+            >
+              {format(new Date(dateOfBirth), 'MMMM d, yyyy')}
+            </dd>
           </div>
         ) : null}
       </dl>
       {manageDependentsToggle && (
         <div className="vads-l-col--12">
           {!open && (
-            <button
-              type="button"
+            <va-button
               onClick={handleClick}
-              className="usa-button-secondary vads-u-background-color--white"
+              secondary
               disabled={openFormlett || submittedDependents.includes(stateKey)}
-              aria-label={`remove ${fullName} as a dependent`}
-            >
-              Remove this dependent
-            </button>
+              label={`remove ${fullName} as a dependent`}
+              text="Remove this dependent"
+            />
           )}
           {open && (
             <div className="vads-l-col--12">
