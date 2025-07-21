@@ -32,7 +32,7 @@ class MockReferralDetailResponse {
     referralNumber = 'VA0000005681',
     expirationDate = format(addMonths(new Date(), 3), 'yyyy-MM-dd'),
     referralDate = format(new Date(), 'yyyy-MM-dd'),
-    stationId = '552',
+    stationId = '659',
   } = {}) {
     return {
       data: {
