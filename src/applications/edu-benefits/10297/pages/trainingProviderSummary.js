@@ -16,15 +16,29 @@ const trainingProviderSummary = {
         <>
           <div data-testid="instructions">
             <p>
-              In the next few questions, you’ll be asked to provide information
-              about your training providers. You may add up to 4 training
+              A training provider is an organization or organization that offers
+              a short-term, high-tech training program. These programs usually
+              last between 6 and 28 weeks. They’re meant to help you build
+              skills that lead to a job in areas like coding, cybersecurity, or
+              IT.
+            </p>
+            <p>
+              You don’t have to list a training provider when you apply. If you
+              do, and that provider isn’t approved yet, VA may contac them to
+              see if they want to join the program.
+            </p>
+            <p>
+              If you would like to add a training provider, be prepared to
+              answer questions outlined below. You may add up to 4 training
               providers.
             </p>
-            <p>You’ll be asked to provide:</p>
+            <p>
+              <strong>You’ll be asked to provide:</strong>
+            </p>
             <ul>
               <li>
                 The name of the institution or organization that you wish to
-                provide your training
+                provide your training <strong>and</strong>
               </li>
               <li>The current mail address of your training provider</li>
             </ul>
@@ -44,7 +58,7 @@ const trainingProviderSummary = {
       hint: () =>
         'Select yes if you would like to add a training provider. You can add up to 4.',
       errorMessages: {
-        required: 'Select yes if you have another training provider to add.',
+        required: 'Select yes if you have a training provider to add.',
       },
     }),
   },
