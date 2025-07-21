@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const paymentRows = {
   bankAccountType: 'Account type',
@@ -12,11 +13,6 @@ const PaymentViewObjectField = (props = {}) => {
   if (!renderedProperties) {
     return null;
   }
-
-  // Wrap the edit button with va-button class
-  const defaultEditButtonWithClass = () => (
-    <span className="va-button">{defaultEditButton()}</span>
-  );
 
   // Save-in-progress banking info contained in 'view:originalBankAccount'
   // User entered (new) banking info in 'view:bankAccount'
@@ -37,11 +33,20 @@ const PaymentViewObjectField = (props = {}) => {
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {title}
         </h4>
-        {defaultEditButtonWithClass()}
+        {defaultEditButton()}
       </div>
       <dl className="review">{Object.keys(paymentRows).map(buildRow)}</dl>
     </>
   );
+};
+PaymentViewObjectField.propTypes = {
+  defaultEditButton: PropTypes.func,
+  formData: PropTypes.shape({
+    'view:bankAccount': PropTypes.object,
+    'view:originalBankAccount': PropTypes.object,
+  }),
+  renderedProperties: PropTypes.array,
+  title: PropTypes.node,
 };
 
 export default PaymentViewObjectField;
