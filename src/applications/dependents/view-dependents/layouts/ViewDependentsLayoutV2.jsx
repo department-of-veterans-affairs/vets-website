@@ -1,20 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 import ViewDependentsLists from './ViewDependentsListsV2';
-import ViewDependentsSidebar from '../components/ViewDependentsSidebar/ViewDependentsSidebar';
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeaderV2';
-import ViewDependentsSidebarBlock from '../components/ViewDependentsSidebar/ViewDependentsSidebarBlock';
-import {
-  firstSidebarBlock,
-  secondSidebarBlock,
-  thirdSidebarBlock,
-} from '../components/ViewDependentsSidebar/ViewDependentsSidebarBlockStates/ViewDependentSidebarBlockStates';
 import { isServerError, isClientError } from '../util';
-import { errorFragment, infoFragment } from './helpers';
+import { errorFragment, infoFragmentV2 } from './helpers';
 
 function ViewDependentsLayout(props) {
   let mainContent;
+  let hasDependents = false;
 
   if (props.loading) {
     mainContent = (
@@ -22,13 +17,15 @@ function ViewDependentsLayout(props) {
     );
   } else if (props.error && isServerError(props.error.code)) {
     mainContent = <va-alert status="error">{errorFragment}</va-alert>;
-  } else if (props.error && isClientError(props.error.code)) {
-    mainContent = <va-alert status="info">{infoFragment}</va-alert>;
   } else if (
-    props.onAwardDependents == null &&
-    props.notOnAwardDependents == null
+    (props.error && isClientError(props.error.code)) ||
+    (props.onAwardDependents == null && props.notOnAwardDependents == null)
   ) {
-    mainContent = <va-alert status="info">{infoFragment}</va-alert>;
+    mainContent = (
+      <va-alert status="info" slim>
+        {infoFragmentV2}
+      </va-alert>
+    );
   } else {
     mainContent = (
       <ViewDependentsLists
@@ -39,31 +36,26 @@ function ViewDependentsLayout(props) {
         dependencyVerificationToggle={props.dependencyVerificationToggle}
       />
     );
+    hasDependents = true;
   }
 
   const layout = (
-    <div className="vads-l-row">
-      <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-        <ViewDependentsHeader updateDiariesStatus={props.updateDiariesStatus} />
-        {mainContent}
-      </div>
-      <div className="vads-l-col--12 medium-screen:vads-l-col--4">
-        <ViewDependentsSidebar>
-          <ViewDependentsSidebarBlock
-            heading={firstSidebarBlock.heading}
-            content={firstSidebarBlock.content}
+    <>
+      <ViewDependentsHeader
+        updateDiariesStatus={props.updateDiariesStatus}
+        showAlert={hasDependents}
+      />
+      {mainContent}
+      {!hasDependents && (
+        <p>
+          <va-link-action
+            href={getAppUrl('686C-674-v2')}
+            text="Add or remove a dependent"
+            type="primary"
           />
-          <ViewDependentsSidebarBlock
-            heading={secondSidebarBlock.heading}
-            content={secondSidebarBlock.content}
-          />
-          <ViewDependentsSidebarBlock
-            heading={thirdSidebarBlock.heading}
-            content={thirdSidebarBlock.content}
-          />
-        </ViewDependentsSidebar>
-      </div>
-    </div>
+        </p>
+      )}
+    </>
   );
 
   return <div>{layout}</div>;
