@@ -78,7 +78,7 @@ const build21aPayload = data => {
     otherAddressCountry: data.otherAddress?.country || null,
 
     // Chapter 2 - Military Service
-    servedInMilitary: !!data.view?.isAVeteran,
+    servedInMilitary: !!data.militaryServiceExperiences?.length > 0,
 
     // Chapter 2 - Military Service: Branch and Dates
     militaryServices:
@@ -164,7 +164,7 @@ const build21aPayload = data => {
       })) || [],
 
     // Chapter 5 - Jurisdictions and Summary
-    // hasJurisdiction: !!data.view?.hasJurisdictions, // v5 field - not currently setting this field
+    // hasJurisdiction: !!data.jurisdictions?.length > 0, // v5 field - not currently setting this field
     jurisdictions:
       data.jurisdictions?.map(j => ({
         admittedName: j.jurisdiction,
@@ -178,7 +178,7 @@ const build21aPayload = data => {
     // jurisdictionDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 5 - Agencies and Courts Summary
-    admittedToPracticeAgency: !!data.view?.hasAgenciesOrCourts,
+    admittedToPracticeAgency: !!data.agenciesOrCourts?.length > 0,
     agencies:
       data.agenciesOrCourts?.map(a => ({
         admittedName: a.agencyOrCourt,
