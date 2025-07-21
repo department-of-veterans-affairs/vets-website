@@ -139,7 +139,7 @@ const ReplyDraftItem = props => {
         noTimeout();
       }
     },
-    [messageBody, draft, attachments.length, signOutMessage, noTimeout],
+    [messageBody, draft, attachments, signOutMessage, noTimeout],
   );
 
   useSessionExpiration(beforeUnloadHandler, noTimeout);
