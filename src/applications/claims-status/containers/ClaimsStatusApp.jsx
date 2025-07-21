@@ -92,6 +92,7 @@ function ClaimsStatusApp({
           appTitle="Claim Status"
           dependencies={[
             externalServices.evss,
+            externalServices.lighthouseBenefitsClaims,
             externalServices.global,
             externalServices.mvi,
             externalServices.vaProfile,

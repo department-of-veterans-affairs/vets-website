@@ -74,7 +74,6 @@ const responses = {
   'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
-    mhvMedicationsDisplayRefillContent: true,
     mhvAcceleratedDeliveryEnabled: true,
     mhvAcceleratedDeliveryAllergiesEnabled: true,
     mhvAcceleratedDeliveryVitalSignsEnabled: true,
@@ -281,6 +280,8 @@ const responses = {
       oncePerSession: true,
     });
   },
+
+  'POST /v0/datadog_action': {},
 };
 
 module.exports = delay(responses, 750);

@@ -1,6 +1,6 @@
-import moment from 'moment';
 import set from 'platform/utilities/data/set';
 
+import { isValid, isWithinInterval, parseISO } from 'date-fns';
 import {
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CLOSED,
@@ -116,18 +116,18 @@ export default function appointmentsReducer(state = initialState, action) {
       } = action;
       const past = appointments
         ?.filter(appt => {
-          const apptDateTime = moment(appt.start, 'YYYY-MM-DD');
+          const apptDateTime = new Date(appt.start);
           return (
-            apptDateTime.isValid() &&
-            apptDateTime.isBetween(startDate, endDate, undefined, '[]')
+            isValid(apptDateTime) &&
+            isWithinInterval(apptDateTime, { start: startDate, end: endDate })
           );
         })
         .concat(
           requests.filter(appt => {
-            const apptDateTime = moment(appt.created, 'YYYY-MM-DD');
+            const apptDateTime = parseISO(appt.created, 'yyyy-MM-dd');
             return (
-              apptDateTime.isValid() &&
-              apptDateTime.isBetween(startDate, endDate, undefined, '[]')
+              isValid(apptDateTime) &&
+              isWithinInterval(apptDateTime, { start: startDate, end: endDate })
             );
           }),
         );

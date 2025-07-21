@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import prefillTransformer from '../../prefill-transformer';
 
 describe('DV prefill transformer', () => {
-  const prefillData = (ssnLastFour = '') => ({
+  const prefillData = (ssnLastFour = '', ssn = '', vaFileNumber = '') => ({
     metadata: { test: 'Test Metadata' },
-    formData: { veteranInformation: { ssnLastFour } },
+    formData: { veteranInformation: { ssnLastFour, ssn, vaFileNumber } },
     pages: { testPage: 'Page 1' },
   });
 

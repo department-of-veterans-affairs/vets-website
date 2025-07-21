@@ -49,8 +49,8 @@ const POARequestCard = ({ poaRequest }) => {
           <span data-testid={`poa-request-card-${poaRequest.id}-state`}>
             {state}
           </span>
-          {', '}
           <span data-testid={`poa-request-card-${poaRequest.id}-zip`}>
+            {' '}
             {zipCode}
           </span>
         </p>

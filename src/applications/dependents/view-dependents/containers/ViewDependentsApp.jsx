@@ -12,6 +12,8 @@ import titleCase from 'platform/utilities/data/titleCase';
 
 import { fetchAllDependents as fetchAllDependentsAction } from '../actions/index';
 import ViewDependentsLayout from '../layouts/ViewDependentsLayout';
+import ViewDependentsLayoutV2 from '../layouts/ViewDependentsLayoutV2';
+
 import { PAGE_TITLE, TITLE_SUFFIX } from '../util';
 
 const ViewDependentsApp = ({
@@ -21,6 +23,7 @@ const ViewDependentsApp = ({
   onAwardDependents,
   notOnAwardDependents,
   manageDependentsToggle,
+  dependentsVerificationFormToggle,
   dependencyVerificationToggle,
   updateDiariesStatus,
   fetchAllDependents,
@@ -33,6 +36,27 @@ const ViewDependentsApp = ({
     [fetchAllDependents],
   );
 
+  const layout = dependentsVerificationFormToggle ? (
+    <ViewDependentsLayoutV2
+      loading={loading}
+      error={error}
+      onAwardDependents={onAwardDependents}
+      notOnAwardDependents={notOnAwardDependents}
+      manageDependentsToggle={manageDependentsToggle}
+      dependencyVerificationToggle={dependencyVerificationToggle}
+      updateDiariesStatus={updateDiariesStatus}
+    />
+  ) : (
+    <ViewDependentsLayout
+      loading={loading}
+      error={error}
+      onAwardDependents={onAwardDependents}
+      notOnAwardDependents={notOnAwardDependents}
+      manageDependentsToggle={manageDependentsToggle}
+      dependencyVerificationToggle={dependencyVerificationToggle}
+      updateDiariesStatus={updateDiariesStatus}
+    />
+  );
   return (
     <div className="vads-l-grid-container vads-u-padding--2">
       <DowntimeNotification
@@ -49,15 +73,7 @@ const ViewDependentsApp = ({
           serviceRequired={backendServices.USER_PROFILE}
           user={user}
         >
-          <ViewDependentsLayout
-            loading={loading}
-            error={error}
-            onAwardDependents={onAwardDependents}
-            notOnAwardDependents={notOnAwardDependents}
-            manageDependentsToggle={manageDependentsToggle}
-            dependencyVerificationToggle={dependencyVerificationToggle}
-            updateDiariesStatus={updateDiariesStatus}
-          />
+          {layout}
         </RequiredLoginView>
       </DowntimeNotification>
     </div>
@@ -70,6 +86,9 @@ const mapStateToProps = state => ({
   error: state.allDependents.error,
   manageDependentsToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.manageDependents
+  ],
+  dependentsVerificationFormToggle: toggleValues(state)[
+    FEATURE_FLAG_NAMES.vaDependentsVerification
   ],
   dependencyVerificationToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.dependencyVerification
@@ -91,10 +110,10 @@ export default connect(
 ViewDependentsApp.propTypes = {
   fetchAllDependents: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
-
-  dependencyVerificationToggle: PropTypes.bool,
   error: PropTypes.object,
+  user: PropTypes.object.isRequired,
+  dependencyVerificationToggle: PropTypes.bool,
+  dependentsVerificationFormToggle: PropTypes.bool,
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,
   updateDiariesStatus: PropTypes.bool,

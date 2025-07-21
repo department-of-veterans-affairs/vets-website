@@ -16,6 +16,7 @@ import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUpload
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { nameWording, privWrapper } from '../../shared/utilities';
 import { CHAMPVA_PHONE_NUMBER } from '../../shared/constants';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 export const claimIdentifyingNumberOptions = [
   'PDI number',
@@ -59,6 +60,13 @@ export const claimIdentifyingNumber = {
     pdiOrClaimNumber: selectUI({
       title: 'Is this a PDI or claim control number?',
     }),
+    identifyingNumber: {
+      ...textUI('PDI number or claim identification number'),
+    },
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(errors, null, formData, 'identifyingNumber'),
+    ],
     'view:adtlInfo': {
       'ui:description': (
         <div>
@@ -98,9 +106,11 @@ export const claimIdentifyingNumber = {
   },
   schema: {
     type: 'object',
+    required: ['pdiOrClaimNumber', 'identifyingNumber'],
     properties: {
       titleSchema,
       pdiOrClaimNumber: selectSchema(claimIdentifyingNumberOptions),
+      identifyingNumber: textSchema,
       'view:adtlInfo': {
         type: 'object',
         properties: {},
@@ -300,6 +310,7 @@ export const pharmacyClaimUploadDocs = {
     pharmacyUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
+      attachmentId: 'pharmacy invoice', // hard-set for LLM verification
     }),
   },
   schema: {

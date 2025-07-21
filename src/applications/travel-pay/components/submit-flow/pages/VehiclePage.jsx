@@ -60,6 +60,7 @@ const VehiclePage = ({
         onValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
       />
       <HelpTextOptions
+        dataTestId="vehicle-help-text"
         trigger="If you didn't travel in your own vehicle"
         headline="If you traveled by bus, train, taxi, or other authorized public transportation, you can’t file a claim in this tool right now."
       />
