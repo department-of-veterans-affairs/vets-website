@@ -87,7 +87,7 @@ const institutionAndDegreePage = {
       degreeReceived: yesNoSchema,
       major: textSchema,
     },
-    required: ['name', 'dateRange', 'degreeReceived'],
+    required: ['name', 'dateRange', 'degreeReceived', 'major'],
   },
 };
 
