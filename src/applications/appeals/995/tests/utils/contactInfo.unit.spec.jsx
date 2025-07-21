@@ -51,12 +51,12 @@ describe('getFormattedPhone', () => {
     });
 
     it('should return a formatted domestic phone number', () => {
-      expect(getFormattedPhone(getPhone())).to.eq('(800) 555-1212');
+      expect(getFormattedPhone(getPhone())).to.eq('800-555-1212');
     });
 
     it('should return a formatted domestic phone number with extension', () => {
       const phone = getPhone({ ext: '54321' });
-      expect(getFormattedPhone(phone)).to.eq('(800) 555-1212, ext. 54321');
+      expect(getFormattedPhone(phone)).to.eq('800-555-1212, ext. 54321');
     });
   });
 

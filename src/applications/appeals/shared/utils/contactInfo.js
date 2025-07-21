@@ -16,7 +16,7 @@ const getExtensionString = phone => {
 };
 
 const hashRegex = /#/g;
-const phonePattern = '(###) ###-####';
+const phonePattern = '###-###-####';
 
 export const getFormattedPhone = phone => {
   if (!phone || !phone.phoneNumber) {
@@ -33,7 +33,7 @@ export const getFormattedPhone = phone => {
     return `+${phone.countryCode} ${fullNumber}${extensionString}`;
   }
 
-  // Domestic format: (xxx) xxx-xxxx
+  // Domestic format: xxx-xxx-xxxx
   const fullString = getPhoneString(phone);
   if (fullString.length === 10) {
     let i = 0;
