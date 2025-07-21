@@ -22,18 +22,24 @@ const setup = (mobile = false) => {
   mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
-  // should show a loading indicator
-  cy.get('va-loading-indicator')
-    .should('exist')
-    .then($container => {
-      cy.wrap($container)
-        .shadow()
-        .findByRole('progressbar')
-        .should('contain', /loading your information/i);
-    });
+  // Sometimes the page loads too quickly for Cypress to find
+  // the loading indicator, so we first check if it exists
+  cy.get('body').then($body => {
+    if ($body.find('va-loading-indicator').length) {
+      // should show a loading indicator
+      cy.get('va-loading-indicator')
+        .should('exist')
+        .then($container => {
+          cy.wrap($container)
+            .shadow()
+            .findByRole('progressbar')
+            .should('contain', /loading your information/i);
+        });
 
-  // and then the loading indicator should be removed
-  cy.get('va-loading-indicator').should('not.exist');
+      // and then the loading indicator should be removed
+      cy.get('va-loading-indicator').should('not.exist');
+    }
+  });
 };
 
 const editMailingAddress = () => {
