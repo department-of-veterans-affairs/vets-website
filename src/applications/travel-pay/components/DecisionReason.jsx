@@ -7,8 +7,8 @@ const DecisionReason = ({ claimStatus, decisionLetterReason }) => {
   const formatDecisionReason = text => {
     if (!text) return '';
 
-    const cfrPattern = /Authority (\d+) CFR (\d+)\.(\d+)/;
-    const parts = text.split(/(Authority \d+ CFR \d+\.\d+)/g);
+    const cfrPattern = /(?:Authority )?(\d+) CFR (\d+)\.(\d+)/;
+    const parts = text.split(/((?:Authority )?\d+ CFR \d+\.\d+)/g);
 
     return parts
       .map((part, index) => {
