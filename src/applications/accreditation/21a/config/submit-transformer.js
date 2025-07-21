@@ -55,7 +55,7 @@ const build21aPayload = data => {
     homeEmail: data.email,
 
     // Chapter 1 - Home Address
-    homeAddressIsMilitary: !!data.homeAddress?.view?.militaryBaseDescription,
+    homeAddressIsMilitary: !!data.homeAddress?.isMilitary,
     homeAddressLine1: data.homeAddress?.street,
     homeAddressLine2: data.homeAddress?.street2 || null,
     homeAddressLine3: null, // v5 field - not currently setting this field
@@ -68,7 +68,7 @@ const build21aPayload = data => {
     primaryMailingAddress: data.primaryMailingAddress,
 
     // Chapter 1 - Other Addresses
-    otherAddressIsMilitary: !!data.otherAddress?.view?.militaryBaseDescription,
+    otherAddressIsMilitary: !!data.otherAddress?.isMilitary,
     otherAddressLine1: data.otherAddress?.street || null,
     otherAddressLine2: data.otherAddress?.street2 || null,
     otherAddressLine3: null, // v5 field - not currently setting this field
@@ -109,7 +109,7 @@ const build21aPayload = data => {
         positionTitle: e.positionTitle,
         supervisorName: e.supervisorName,
         supervisorEmail: null, // v5 field - not currently setting this field
-        addressIsMilitary: !!e.address?.view?.militaryBaseDescription,
+        addressIsMilitary: !!e.address?.isMilitary,
         addressLine1: e.address?.street || null,
         addressLine2: e.address?.street2 || null,
         addressLine3: null, // v5 field - not currently setting this field
@@ -152,7 +152,7 @@ const build21aPayload = data => {
         wasDegreeReceived: !!e.degreeReceived,
         major: e.major,
         degreeTypeId: DEGREE_TYPE_ENUM[e.degree],
-        addressIsMilitary: !!e.address?.view?.militaryBaseDescription,
+        addressIsMilitary: !!e.address?.isMilitary,
         addressLine1: e.address?.street || null,
         addressLine2: e.address?.street2 || null,
         addressLine3: null, // v5 field - not currently setting this field
@@ -317,7 +317,7 @@ const build21aPayload = data => {
         middleName: r.fullName?.middle || null,
         lastName: r.fullName?.last,
         suffix: r.fullName?.suffix || null,
-        addressIsMilitary: !!r.address?.view?.militaryBaseDescription,
+        addressIsMilitary: !!r.address?.isMilitary,
         addressLine1: r.address?.street || null,
         addressLine2: r.address?.street2 || null,
         addressLine3: null, // v5 field - not currently setting this field
