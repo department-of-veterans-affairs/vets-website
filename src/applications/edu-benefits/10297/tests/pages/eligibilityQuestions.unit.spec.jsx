@@ -11,7 +11,7 @@ describe('22-10297 Check eligibility page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.checkEligibilityChapter.pages.eligibilityQuestions;
+  } = formConfig.chapters.veteransInformationChapter.pages.eligibilityQuestions;
 
   it('renders the duty eligibility radio question', () => {
     const { container } = render(

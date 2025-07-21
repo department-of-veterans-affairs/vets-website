@@ -42,7 +42,7 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    checkEligibilityChapter: {
+    veteransInformationChapter: {
       title: 'Check eligibility',
       pages: {
         eligibilityQuestions: {
