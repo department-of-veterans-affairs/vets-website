@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import ViewDependentsList from '../../components/ViewDependentsList/ViewDependentsList';
+import ViewDependentsList from '../../components/ViewDependentsList/ViewDependentsListV2';
 import removeDependents from '../../manage-dependents/redux/reducers';
 
 describe('<ViewDependentsList />', () => {
@@ -46,7 +46,6 @@ describe('<ViewDependentsList />', () => {
         manageDependentsToggle
       />,
       {
-        reducers: removeDependents,
         store: {
           getState: () => ({
             removeDependents: {
@@ -57,9 +56,11 @@ describe('<ViewDependentsList />', () => {
           subscribe: () => {},
           dispatch: () => {},
         },
+        reducers: removeDependents,
       },
     );
 
+    expect($$('va-card', container).length).to.equal(2);
     expect($('h2', container).textContent).to.eq(
       'Dependents on your VA benefits',
     );
@@ -71,11 +72,13 @@ describe('<ViewDependentsList />', () => {
 
     expect($$('dd', container).map(el => el.textContent)).to.deep.equal([
       'Child',
-      '●●●–●●-5634ending with 5 6 3 4',
       'May 5, 2018',
+      '7 years old',
+      '●●●–●●-5634ending with 5 6 3 4',
       'Spouse',
-      '●●●–●●-5635ending with 5 6 3 5',
       'May 6, 1993',
+      '32 years old',
+      '●●●–●●-5635ending with 5 6 3 5',
     ]);
 
     expect(

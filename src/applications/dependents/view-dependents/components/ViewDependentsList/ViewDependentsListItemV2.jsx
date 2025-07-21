@@ -185,7 +185,7 @@ function ViewDependentsListItem(props) {
 
 const mapStateToProps = state => ({
   openFormlett: state?.removeDependents?.openFormlett,
-  submittedDependents: state?.removeDependents?.submittedDependents,
+  submittedDependents: state?.removeDependents?.submittedDependents || [],
 });
 
 export default connect(mapStateToProps)(ViewDependentsListItem);
