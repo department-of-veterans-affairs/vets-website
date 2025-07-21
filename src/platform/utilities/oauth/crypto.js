@@ -8,8 +8,22 @@ const decimal2hex = dec => `0${dec.toString(16)}`.substr(-2);
  */
 export function sha256(plain) {
   // Transforms string into a Uint8Array (utf8)
+  if (!plain || plain.length === 0) {
+    throw new Error('input must be defined');
+  }
+
   const data = new TextEncoder().encode(plain);
-  return window.crypto.subtle.digest('SHA-256', data);
+  try {
+    // eslint-disable-next-line import/no-unresolved
+    const { webcrypto } = require('node:crypto');
+    return webcrypto?.subtle?.digest('SHA-256', data);
+  } catch (err) {
+    if (typeof window !== 'undefined' && window?.crypto?.subtle) {
+      return window?.crypto?.subtle?.digest('SHA-256', data);
+    }
+
+    throw new Error('crypto.subtle not available');
+  }
 }
 
 /**
@@ -38,6 +52,18 @@ export function base64UrlEncode(data) {
  */
 export function generateRandomString(length = 28) {
   const arr = new Uint32Array(length);
-  window.crypto.getRandomValues(arr);
+
+  try {
+    // eslint-disable-next-line import/no-unresolved
+    const { webcrypto } = require('node:crypto');
+    webcrypto.getRandomValues(arr);
+  } catch (err) {
+    if (typeof window !== 'undefined' && window?.crypto) {
+      window?.crypto?.getRandomValues(arr);
+    } else {
+      throw new Error('crypto.getRandomValues not available in this env');
+    }
+  }
+
   return Array.from(arr, decimal2hex).join('');
 }
