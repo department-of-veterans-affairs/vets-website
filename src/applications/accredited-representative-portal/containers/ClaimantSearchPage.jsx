@@ -104,7 +104,7 @@ const SearchResults = ({ claimant, searchData }) => {
         data-testid="poa-requests-table-fetcher-poa-requests"
         className="claimant-search-showing-results"
       >
-        Showing result for <strong>“{searchData.first_name}“</strong>
+        Showing result for <strong>"{searchData.first_name}"</strong>
         {', '}
         <strong>"{searchData.last_name}"</strong>
         {', '}

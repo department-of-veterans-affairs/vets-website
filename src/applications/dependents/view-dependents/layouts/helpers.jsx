@@ -39,6 +39,12 @@ export const infoFragment = (
   </>
 );
 
+export const infoFragmentV2 = (
+  <>
+    <div>We don’t have any dependents on file for you.</div>
+  </>
+);
+
 export const breadcrumbLinks = [
   <a href="/" aria-label="Back to VA Home page" key="1">
     Home
