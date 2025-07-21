@@ -159,7 +159,8 @@ describe.skip('Toxic exposure date handling when reverting condition association
 
   const fillConditionsAndToxicExposure = () => {
     // II. Conditions > A. Add a new condition
-    cy.typeInIfDataExists('#root_newDisabilities_0_condition', 'asthma');
+    const idRoot = '#root_newDisabilities_0_condition';
+    cy.typeInIfDataExists(`${idRoot}`, 'asthma');
     cy.findByText(/continue/i, { selector: 'button' }).click();
 
     // II. Conditions > B. Follow up
@@ -195,15 +196,6 @@ describe.skip('Toxic exposure date handling when reverting condition association
     cy.get(
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_startDateYear"]',
     ).type('1992');
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).type('1992');
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).blur();
-    cy.get(
-      'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
-    ).clear();
     cy.get(
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
     ).type('1993');
