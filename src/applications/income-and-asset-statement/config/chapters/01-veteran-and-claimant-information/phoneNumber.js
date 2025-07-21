@@ -11,7 +11,7 @@ export default {
   uiSchema: {
     ...titleUI('Preferred phone number'),
     claimantPhone: phoneUI({
-      title: 'Current phone number(optional)',
+      title: 'Current phone number (optional)',
       hint: 'Enter a 10-digit phone number',
     }),
   },

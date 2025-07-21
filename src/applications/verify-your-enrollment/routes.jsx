@@ -18,6 +18,7 @@ import LoadFail from './components/LoadFail';
 import Loader from './components/Loader';
 import IdentityVerificationAlert from './components/IdentityVerificationAlert';
 import UnderMaintenance from './components/UnderMaintenance';
+import DowntimeAlert from './components/DowntimeAlert';
 
 const IsUserLoggedIn = () => {
   const user = useSelector(selectUser);
@@ -27,6 +28,9 @@ const IsUserLoggedIn = () => {
   const toggleValue = useToggleValue(TOGGLE_NAMES.toggleVyeApplication);
   const mgibVerificationsMaintenance = useToggleValue(
     TOGGLE_NAMES?.mgibVerificationsMaintenance,
+  );
+  const showVyeDowntimeAlert = useToggleValue(
+    TOGGLE_NAMES?.showVyeDowntimeAlert,
   );
 
   const serverError = response?.error?.errors
@@ -69,6 +73,9 @@ const IsUserLoggedIn = () => {
   }
   if (mgibVerificationsMaintenance) {
     return <UnderMaintenance />;
+  }
+  if (showVyeDowntimeAlert) {
+    return <DowntimeAlert />;
   }
   return toggleValue ? (
     <RequiredLoginView

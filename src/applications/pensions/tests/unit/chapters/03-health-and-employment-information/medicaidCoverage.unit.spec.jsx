@@ -1,5 +1,4 @@
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -17,15 +16,6 @@ describe('medicaid coverage pension page', () => {
     schema,
     uiSchema,
     expectedNumberOfFields,
-    pageTitle,
-  );
-
-  const expectedNumberOfErrors = 0;
-  testNumberOfErrorsOnSubmitForWebComponents(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfErrors,
     pageTitle,
   );
 

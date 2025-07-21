@@ -29,15 +29,6 @@ export function isEmergencyContactsEnabled(formData) {
 }
 
 /**
- * Helper that determines if next of kin is enabled
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the viewfield is empty
- */
-export function isNextOfKinEnabled(formData) {
-  return formData['view:isNextOfKinEnabled'];
-}
-
-/**
  * Helper that determines if the Veteran's home and mailing address are the same
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the viewfield is set to `false`

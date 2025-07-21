@@ -55,6 +55,9 @@ const formConfig = {
   prefillTransformer,
   verifyRequiredPrefill: true,
   formId: VA_FORM_IDS.FORM_21_0538,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     messages: {
       inProgress:

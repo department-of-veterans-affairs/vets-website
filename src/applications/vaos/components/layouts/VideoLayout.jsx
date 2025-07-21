@@ -103,9 +103,15 @@ export default function VideoLayout({ data: appointment }) {
           )}
       </When>
 
-      <What>{typeOfCareName}</What>
+      <What>
+        {typeOfCareName && <span data-dd-privacy="mask">{typeOfCareName}</span>}
+      </What>
 
-      <Who>{videoProviderName}</Who>
+      <Who>
+        {videoProviderName && (
+          <span data-dd-privacy="mask">{videoProviderName}</span>
+        )}
+      </Who>
 
       {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
         isCanceledAppointment) && (
@@ -120,7 +126,9 @@ export default function VideoLayout({ data: appointment }) {
             </>
           )}
           <br />
-          {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+          <span data-dd-privacy="mask">
+            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+          </span>
           <br />
           <ClinicOrFacilityPhone
             clinicPhone={clinicPhone}
@@ -175,7 +183,9 @@ export default function VideoLayout({ data: appointment }) {
               'Facility not available'
             )}
             <br />
-            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+            <span data-dd-privacy="mask">
+              {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+            </span>
             <br />
             <ClinicOrFacilityPhone
               clinicPhone={clinicPhone}

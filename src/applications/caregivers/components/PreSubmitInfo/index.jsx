@@ -95,7 +95,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
       <p id="hca-statements-declaration" className="vads-u-margin-bottom--5">
-        Please review information entered into this application. The{' '}
+        Review the information entered in this application. The{' '}
         {isRep ? 'representative' : 'Veteran'} and each family caregiver
         applicant must sign the appropriate section.
       </p>

@@ -78,7 +78,7 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 function editTitleWrapper(title) {
   // Array builder helper `withEditTitle` returns a function, which we
   // always want to call, so just do that:
-  return withEditTitle(title)(title);
+  return withEditTitle(title, false)(title);
 }
 
 export const applicantOptions = {
@@ -163,6 +163,8 @@ const applicantIdentificationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${applicantWording(formData)} identification`,
+      '',
+      false,
     ),
     applicantSSN: ssnUI(),
   },
@@ -574,6 +576,7 @@ const applicantMarriageDatesPage = {
       ({ formData }) =>
         `${applicantWording(formData)} date of marriage to the sponsor`,
       'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system.',
+      false,
     ),
     dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
   },
@@ -590,9 +593,12 @@ const applicantRemarriedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${applicantWording(formData)} marriage status`,
+      '',
+      false,
     ),
     applicantRemarried: {
       ...yesNoUI({
+        title: 'Has this applicant remarried?',
         updateUiSchema: formData => {
           return {
             'ui:title': `Has ${applicantWording(formData, false)} remarried?`,

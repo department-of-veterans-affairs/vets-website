@@ -31,7 +31,7 @@ const submitForm = (form, formConfig) => {
 
         // Log the successful submission event
         recordEvent({
-          event: `${trackingPrefix}-submit-success`,
+          event: `${trackingPrefix}-submission-success`,
           ...eventData,
         });
         return apiResponse;

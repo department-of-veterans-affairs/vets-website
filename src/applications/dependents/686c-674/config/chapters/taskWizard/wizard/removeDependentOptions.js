@@ -21,7 +21,6 @@ export const uiSchema = {
         reportChild18OrOlderIsNotAttendingSchool:
           removeDependentOptions.reportChild18OrOlderIsNotAttendingSchool,
       },
-      enableAnalytics: true,
       errorMessages: {
         required: 'Select at least one option',
       },
@@ -29,6 +28,7 @@ export const uiSchema = {
     'ui:options': {
       tile: true,
       labelHeaderLevel: '3',
+      enableAnalytics: true,
       updateSchema: (formData, schema) => {
         // Check if new option is selected
         // update view:selectable686Options with the selection

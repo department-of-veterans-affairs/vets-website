@@ -91,8 +91,8 @@ export const sponsorIdentificationSchema = {
 export const sponsorStatus = {
   uiSchema: {
     ...titleUI(
-      'Sponsor’s status',
-      'Now we’ll ask you questions about the death of the sponsor (if they have died). Fill this out to the best of your knowledge.',
+      "Sponsor's status",
+      "Now we'll ask you questions about the death of the sponsor (if they have died). Fill this out to the best of your knowledge.",
     ),
     sponsorIsDeceased: yesNoUI({
       title: 'Has the sponsor died?',

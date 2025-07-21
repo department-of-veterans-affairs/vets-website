@@ -629,7 +629,9 @@ export const mapStateToProps = (state, ownProps) => {
     uiSchema,
     formSchema,
     title,
-  } = getProfileInfoFieldAttributes(fieldName);
+  } = getProfileInfoFieldAttributes(fieldName, {
+    allowInternational: ownProps.allowInternationalPhones,
+  });
 
   const hasUnsavedEdits = state.vapService?.hasUnsavedEdits;
   return {

@@ -46,9 +46,8 @@ describe('TravelClaimDetails', () => {
   let oldLocation;
   beforeEach(() => {
     oldLocation = global.window.location;
-    global.window.location = {
-      replace: sinon.spy(),
-    };
+    global.window.location = {};
+    global.window.location.replace = sinon.spy();
   });
 
   afterEach(() => {

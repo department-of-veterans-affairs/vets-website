@@ -1,5 +1,5 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-import { focusByOrder } from 'platform/utilities/ui/focus';
+import { focusElement } from 'platform/utilities/ui';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { scrollTo } from 'platform/utilities/scroll';
 import {
@@ -59,7 +59,7 @@ export const getFileSize = num => {
 
 export const scrollAndFocusTarget = () => {
   scrollTo('topScrollElement');
-  focusByOrder(['va-segmented-progress-bar', 'h2']);
+  focusElement('h1');
 };
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"

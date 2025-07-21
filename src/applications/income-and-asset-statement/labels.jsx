@@ -54,7 +54,7 @@ export const ownedAssetTypeLabels = {
 
 export const generatedIncomeTypeLabels = {
   INTELLECTUAL_PROPERTY: 'Benefits from intellectual property',
-  MINERALS_LUMBER: 'Extraction of minerals/lumbar',
+  MINERALS_LUMBER: 'Extraction of minerals/lumber',
   USE_OF_LAND: 'Use of land',
   OTHER: 'Other',
 };

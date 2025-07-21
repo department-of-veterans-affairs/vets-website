@@ -1,31 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { SchemaForm } from 'platform/forms-system/exportsFile';
+import { scrollTo } from 'platform/utilities/scroll';
+import EditPageButtons from './EditPageButtons';
 
-import { isValidPhone } from 'platform/forms/validations';
-import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-
-/**
- * This component allows the user to edit their phone number.
- * Based on the value of the input (`phone`), the component updates the `phone`
- * field in the form data. Validation ensures the entered value is a valid U.S. phone number,
- * but the user may leave the field blank if they prefer. The user can choose to update the phone
- * number or cancel and return to the contact information page.
- */
-
-const EditPhonePage = ({ data, goToPath, setFormData }) => {
-  const { phone = '' } = data || {};
-  const [fieldData, setFieldData] = useState(phone);
-  const [error, setError] = useState(null);
-
-  const validatePhone = value => {
-    if (!value) return null;
-    if (!isValidPhone(value)) {
-      return 'Enter a valid 10-digit U.S. phone number';
-    }
-    return null;
-  };
-
+const EditPhonePage = ({
+  schema,
+  uiSchema,
+  data,
+  goToPath,
+  contentBeforeButtons,
+  contentAfterButtons,
+  setFormData,
+}) => {
   const returnPath = '/veteran-contact-information';
   const returnToPath = () => {
     goToPath(
@@ -36,21 +23,13 @@ const EditPhonePage = ({ data, goToPath, setFormData }) => {
   };
 
   const handlers = {
-    onInput: event => {
-      const { value } = event.target;
-      setFieldData(value);
-      setError(validatePhone(value));
-    },
-    onUpdate: e => {
-      e.preventDefault();
-      const validationError = validatePhone(fieldData);
-      setError(validationError);
-      if (validationError) return;
-
+    onInput: inputData => {
       setFormData({
         ...data,
-        phone: fieldData || '',
+        phone: inputData.phone,
       });
+    },
+    onUpdate: () => {
       returnToPath();
     },
     onCancel: () => {
@@ -58,45 +37,45 @@ const EditPhonePage = ({ data, goToPath, setFormData }) => {
     },
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      scrollTo('topScrollElement');
+    }, 250);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <>
-      <form onSubmit={handlers.onUpdate} noValidate>
-        <fieldset className="vads-u-margin-y--2">
-          <legend className="schemaform-block-title">
-            <Title title="Edit phone number" />
-          </legend>
-          <va-text-input
-            label="Phone number"
-            type="tel"
-            inputmode="tel"
-            id="root_phone"
-            name="root_phone"
-            hint="Enter a 10-digit phone number"
-            value={fieldData}
-            onInput={handlers.onInput}
-            error={error}
-          />
-
-          <VaButtonPair
-            class="vads-u-margin-top--2"
-            primaryLabel="Update phone number"
-            secondaryLabel="Cancel editing phone number"
-            onPrimaryClick={handlers.onUpdate}
-            onSecondaryClick={handlers.onCancel}
-            update
-          />
-        </fieldset>
-      </form>
+      <h3 className="vads-u-margin-bottom--4">Edit phone number</h3>
+      <SchemaForm
+        addNameAttribute
+        name="Contact Info Form"
+        title="Contact Info Form"
+        idSchema={{}}
+        schema={schema}
+        data={data}
+        uiSchema={uiSchema}
+        onChange={handlers.onInput}
+        onSubmit={handlers.onUpdate}
+      >
+        {contentBeforeButtons}
+        <EditPageButtons handlers={handlers} pageName="Phone number" />
+        {contentAfterButtons}
+      </SchemaForm>
     </>
   );
 };
 
 EditPhonePage.propTypes = {
-  data: PropTypes.shape({
-    phone: PropTypes.string,
-  }),
-  goToPath: PropTypes.func,
-  setFormData: PropTypes.func,
+  data: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  schema: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
 };
 
 export default EditPhonePage;

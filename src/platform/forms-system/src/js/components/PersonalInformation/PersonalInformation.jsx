@@ -86,6 +86,7 @@ export const PersonalInformation = ({
   contentBeforeButtons,
   contentAfterButtons,
   errorMessage,
+  formOptions = {},
 }) => {
   const finalConfig = { ...defaultConfig, ...config };
 
@@ -231,7 +232,11 @@ export const PersonalInformation = ({
       {footer || null}
 
       {contentBeforeButtons || null}
-      <NavButtons goBack={goBack} goForward={goForward} />
+      <NavButtons
+        goBack={goBack}
+        goForward={goForward}
+        useWebComponents={formOptions.useWebComponentForNavigation}
+      />
       {contentAfterButtons || null}
     </>
   );
@@ -279,6 +284,9 @@ PersonalInformation.propTypes = {
       ssnLastFour: PropTypes.string,
       vaFileLastFour: PropTypes.string,
     }),
+  }),
+  formOptions: PropTypes.shape({
+    useWebComponentForNavigation: PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

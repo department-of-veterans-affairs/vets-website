@@ -13,14 +13,12 @@ import {
   fullNameUI,
   selectSchema,
   selectUI,
+  internationalPhoneSchema,
+  internationalPhoneUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import CharacterReferencesIntro from '../../components/07-character-references-chapter/CharacterReferencesIntro';
 import { createName } from '../helpers/createName';
-import {
-  internationalPhoneSchema,
-  internationalPhoneUI,
-} from '../helpers/internationalPhonePatterns';
 import { characterReferencesRelationship } from '../../constants/options';
 import { getCardDescription } from '../helpers/getCardDescription';
 import { CHAPTER_TYPE } from '../../config/enums';
@@ -34,7 +32,7 @@ const arrayBuilderOptions = {
   isItemIncomplete: item =>
     !item?.fullName ||
     !item?.address ||
-    !item?.phone ||
+    !item?.phone.contact ||
     !item?.email ||
     !item?.relationship,
   minItems: 3, // TODO: [Fix arrayBuilder minItems validation](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/87155)
@@ -121,13 +119,13 @@ const contactInformationPage = {
           fallback: 'Reference',
         })} contact information`,
     ),
-    phone: internationalPhoneUI('Primary number'),
+    phone: internationalPhoneUI(),
     email: emailUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      phone: internationalPhoneSchema,
+      phone: internationalPhoneSchema(),
       email: emailSchema,
     },
     required: ['phone', 'email'],

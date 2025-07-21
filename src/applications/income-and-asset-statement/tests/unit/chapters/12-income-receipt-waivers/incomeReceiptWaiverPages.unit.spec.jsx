@@ -48,9 +48,38 @@ describe('income receipt waiver list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return "`recipientName`s income receipt waiver', () => {
-      const item = testData.data.incomeReceiptWaivers[0];
-      expect(options.text.getItemName(item)).to.equal(
+    const mockFormData = {
+      isLoggedIn: true,
+      veteranFullName: { first: 'John', last: 'Doe' },
+      otherVeteranFullName: { first: 'Alex', last: 'Smith' },
+    };
+    it('should return "John Doe’s income receipt waiver" if recipient is Veteran', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+        recipientName: { first: 'Jane', last: 'Smith' },
+      };
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+        'John Doe’s waived income',
+      );
+    });
+    it('should return "Alex Smith’s income receipt waiver" if recipient is Veteran and not logged in', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+        recipientName: { first: 'Jane', last: 'Smith' },
+      };
+      expect(
+        options.text.getItemName(item, 0, {
+          ...mockFormData,
+          isLoggedIn: false,
+        }),
+      ).to.equal('Alex Smith’s waived income');
+    });
+    it('should return "Jane Smith’s income receipt waiver" if recipient is not Veteran', () => {
+      const item = {
+        recipientRelationship: 'SPOUSE',
+        recipientName: { first: 'Jane', last: 'Smith' },
+      };
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
         'Jane Smith’s waived income',
       );
     });

@@ -80,9 +80,6 @@ export const IntroductionPage = props => {
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
         />
       )}
       <p />

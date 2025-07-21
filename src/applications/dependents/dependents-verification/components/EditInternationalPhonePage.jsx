@@ -1,26 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { SchemaForm } from 'platform/forms-system/exportsFile';
+import { scrollTo } from 'platform/utilities/scroll';
+import EditPageButtons from './EditPageButtons';
 
-import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-
-const EditInternationalPhonePage = props => {
-  const { formData = {}, goToPath, setFormData } = props;
-  const { internationalPhone = '' } = formData;
-
-  const [fieldData, setFieldData] = useState(internationalPhone);
-  const [error, setError] = useState(null);
-
-  const validateIntlPhone = value => {
-    if (!value?.trim()) {
-      return 'Enter a valid international phone number';
-    }
-    return null;
-  };
-
+const EditInternationalPhonePage = ({
+  schema,
+  uiSchema,
+  data,
+  goToPath,
+  contentBeforeButtons,
+  contentAfterButtons,
+  setFormData,
+}) => {
   const returnPath = '/veteran-contact-information';
   const returnToPath = () => {
     goToPath(
@@ -31,22 +23,13 @@ const EditInternationalPhonePage = props => {
   };
 
   const handlers = {
-    onInput: event => {
-      const { value } = event.target;
-      setFieldData(value);
-      setError(validateIntlPhone(value));
-    },
-    onUpdate: e => {
-      e.preventDefault();
-      const validationError = validateIntlPhone(fieldData);
-      setError(validationError);
-      if (validationError) return;
-
+    onInput: inputData => {
       setFormData({
-        ...formData,
-        internationalPhone: fieldData,
+        ...data,
+        internationalPhone: inputData.internationalPhone,
       });
-
+    },
+    onUpdate: () => {
       returnToPath();
     },
     onCancel: () => {
@@ -54,54 +37,50 @@ const EditInternationalPhonePage = props => {
     },
   };
 
-  return (
-    <form onSubmit={handlers.onUpdate} noValidate>
-      <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">
-          <Title title="Edit international phone number" />
-        </legend>
-        <va-text-input
-          label="International phone number"
-          id="root_internationalPhone"
-          name="root_internationalPhone"
-          value={fieldData}
-          onInput={handlers.onInput}
-          error={error}
-          hint="Enter a phone number including the country code (e.g., +44 20 1234 5678)"
-          required
-        />
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      scrollTo('topScrollElement');
+    }, 250);
 
-        <VaButtonPair
-          class="vads-u-margin-top--2"
-          primaryLabel="Update international phone number"
-          secondaryLabel="Cancel editing international phone number"
-          onPrimaryClick={handlers.onUpdate}
-          onSecondaryClick={handlers.onCancel}
-          update
+    return () => clearTimeout(timeout);
+  }, []);
+
+  return (
+    <>
+      <h3 className="vads-u-margin-bottom--4">
+        Edit international phone number
+      </h3>
+      <SchemaForm
+        addNameAttribute
+        name="Contact Info Form"
+        title="Contact Info Form"
+        idSchema={{}}
+        schema={schema}
+        data={data}
+        uiSchema={uiSchema}
+        onChange={handlers.onInput}
+        onSubmit={handlers.onUpdate}
+      >
+        {contentBeforeButtons}
+        <EditPageButtons
+          handlers={handlers}
+          pageName="International phone number"
         />
-      </fieldset>
-    </form>
+        {contentAfterButtons}
+      </SchemaForm>
+    </>
   );
 };
 
 EditInternationalPhonePage.propTypes = {
-  formData: PropTypes.shape({
-    internationalPhone: PropTypes.string,
-  }),
-  goToPath: PropTypes.func,
-  setFormData: PropTypes.func,
+  data: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  schema: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
 };
 
-const mapStateToProps = state => ({
-  formData: state.form?.data,
-});
-
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export { EditInternationalPhonePage };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withRouter(EditInternationalPhonePage));
+export default EditInternationalPhonePage;

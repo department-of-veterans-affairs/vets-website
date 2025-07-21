@@ -9,10 +9,23 @@ import {
   ADMITTANCE_TYPE_ENUM,
   // DOCUMENT_TYPE_ENUM,
   RELATIONSHIP_TO_APPLICANT_ENUM,
+  INSTITUTION_TYPE_ENUM,
 } from './enums';
+
+const today = new Date();
+const year = today.getFullYear();
+const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+const day = String(today.getDate()).padStart(2, '0');
+
+const todaysDate = `${year}-${month}-${day}`;
 
 const build21aPayload = data => {
   return {
+    // Unique Identifiers and fields needed by GCLAWS
+    icnNo: null,
+    uId: null,
+    applicationStatusId: 1,
+
     // Chapter 1 - Role
     accreditationTypeId: ACCREDITATION_TYPE_ENUM[data.role],
 
@@ -72,10 +85,13 @@ const build21aPayload = data => {
       data.militaryServiceExperiences?.map(m => ({
         serviceBranchId: SERVICE_BRANCH_ENUM[m.branch],
         serviceBranchExplanation: null, // v5 field - not currently setting this field
-        entryDate: m.dateRange?.from || null,
+        entryDate: `${m.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
         // Not using `currentlyServing` so if it exists we set `dischargeDate` to null
+        // adding a day here since GCLAWS requires it
         dischargeDate:
-          !!m.currentlyServing && m.dateRange?.to ? m.dateRange?.to : null,
+          !!m.currentlyServing && m.dateRange?.to
+            ? `${m.dateRange?.to}-01`
+            : null,
         dischargeTypeId: DISCHARGE_TYPE_ENUM[m.characterOfDischarge] || null,
         dischargeTypeExplanation: m.explanationOfDischarge || null,
       })) || [],
@@ -102,12 +118,17 @@ const build21aPayload = data => {
         addressPostalCode: e.address?.postalCode || null,
         addressCountry: e.address?.country || null,
         phoneTypeId: PHONE_TYPE_ENUM.WORK,
-        phoneNumber: e.phone,
+        phoneNumber: `${e.phone.callingCode}${e.phone.contact}`,
         phoneExtension: null,
-        startDate: e.dateRange?.from,
+        startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
         // Not using `currentlyEmployed` so if it exists we set `endDate` to null
+        // Adding a day here since GCLAWS requires it
+        // Bug on GCLAWS side currently requires an enddate so hard codeing to todaysDate
+        // one this is fixed we can set it back to null
         endDate:
-          !!e.currentlyEmployed && e.dateRange?.to ? e.dateRange?.to : null,
+          !!e.currentlyEmployed && e.dateRange?.to
+            ? `${e.dateRange?.to}-01`
+            : todaysDate,
       })) || [],
 
     // Chapter 3 - Employment Activities
@@ -126,8 +147,8 @@ const build21aPayload = data => {
     education:
       data.educationalInstitutions?.map(e => ({
         name: e.name,
-        startDate: e.dateRange?.from,
-        endDate: e.dateRange?.to || null,
+        startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
+        endDate: `${e.dateRange?.to}-01` || null, // adding a day here since GCLAWS requires it
         wasDegreeReceived: !!e.degreeReceived,
         major: e.major,
         degreeTypeId: DEGREE_TYPE_ENUM[e.degree],
@@ -139,15 +160,15 @@ const build21aPayload = data => {
         addressState: e.address?.state || null,
         addressPostalCode: e.address?.postalCode || null,
         addressCountry: e.address?.country || null,
-        institutionTypeId: null, // v5 field - not currently setting this field
+        institutionTypeId: INSTITUTION_TYPE_ENUM[e.institution], // v5 field - not currently setting this field
       })) || [],
 
     // Chapter 5 - Jurisdictions and Summary
     // hasJurisdiction: !!data.view?.hasJurisdictions, // v5 field - not currently setting this field
     jurisdictions:
       data.jurisdictions?.map(j => ({
-        name: j.jurisdiction, // will be renamed to admittedName
-        jurisdiction: j.otherJurisdiction || null, // will be renamed to admittedNotes
+        admittedName: j.jurisdiction,
+        admittedNote: j.otherJurisdiction || null,
         admittanceTypeId: ADMITTANCE_TYPE_ENUM.JURISDICTION,
         admissionDate: j.admissionDate,
         membershipRegistrationNumber: j.membershipOrRegistrationNumber,
@@ -160,8 +181,8 @@ const build21aPayload = data => {
     admittedToPracticeAgency: !!data.view?.hasAgenciesOrCourts,
     agencies:
       data.agenciesOrCourts?.map(a => ({
-        name: a.agencyOrCourt, // will be renamed to admittedName
-        jurisdiction: a.otherAgencyOrCourt || null, // will be renamed to admittedNotes
+        admittedName: a.agencyOrCourt,
+        admittedNote: a.otherAgencyOrCourt || null,
         admittanceTypeId: ADMITTANCE_TYPE_ENUM.AGENCY,
         admissionDate: a.admissionDate,
         membershipRegistrationNumber: a.membershipOrRegistrationNumber,
@@ -172,7 +193,7 @@ const build21aPayload = data => {
 
     // Chapter 6 - Conviction (13A and 13B)
     wasImprisoned: !!data.conviction,
-    imprisonedExplanation: !!data.hasConviction,
+    imprisonedExplanation: data.convictionDetailsExplanation,
     // docType: DOCUMENT_TYPE_ENUM.Imprisoned, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
     imprisonedUploadedAllDocuments: !!data.convictionDetailsCertification
       ?.certified,
@@ -304,7 +325,7 @@ const build21aPayload = data => {
         addressState: r.address?.state || null,
         addressPostalCode: r.address?.postalCode || null,
         addressCountry: r.address?.country || null,
-        phoneNumber: r.phone,
+        phoneNumber: `${r.phone.callingCode}${r.phone.contact}`,
         phoneExtension: null, // v5 field - not currently setting this field
         phoneTypeId: null, // v5 field - not currently setting this field
         email: r.email,
@@ -319,10 +340,6 @@ const build21aPayload = data => {
     // Chapter 9 - Review
     signature: data.statementOfTruthSignature || null,
     instructionAcknowledge: !!data.statementOfTruthCertified,
-
-    // Unique Identifiers
-    icnNo: null,
-    uId: null,
   };
 };
 

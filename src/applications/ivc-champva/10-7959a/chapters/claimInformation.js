@@ -242,6 +242,7 @@ export const medicalClaimUploadSchema = {
     medicalUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
+      attachmentId: 'medical invoice', // hard-set for LLM verification
     }),
   },
   schema: {
@@ -346,6 +347,7 @@ export const eobUploadSchema = isPrimary => {
       [keyName]: fileUploadUI({
         label: 'Upload explanation of benefits',
         attachmentName: true,
+        attachmentId: 'EOB', // hard-set for LLM verification
       }),
     },
     schema: {
@@ -441,6 +443,7 @@ export const pharmacyClaimUploadSchema = {
     pharmacyUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
+      attachmentId: 'pharmacy invoice', // hard-set for LLM verification
     }),
   },
   schema: {

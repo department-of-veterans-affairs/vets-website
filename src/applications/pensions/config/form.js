@@ -38,6 +38,9 @@ const formConfig = {
   defaultDefinitions,
   title: 'Apply for Veterans Pension benefits',
   subTitle: 'Application for Veterans Pension (VA Form 21P-527EZ)',
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your Veterans pension benefits is in progress.',

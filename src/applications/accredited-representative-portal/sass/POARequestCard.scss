@@ -148,6 +148,13 @@
         font-weight: 700;
         margin: 0 5px 0 0;
 
+        .poa-search & {
+          width: 100%;
+          @media (min-width: $small-desktop-screen) {
+            width: auto;
+          }
+        }
+
         span {
           font-weight: normal;
           display: block;

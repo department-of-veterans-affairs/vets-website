@@ -18,7 +18,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import EducationHistoryIntro from '../../components/04-education-history-chapter/EducationHistoryIntro';
-import { degreeOptions } from '../../constants/options';
+import { degreeOptions, institutionTypeOptions } from '../../constants/options';
 import { createDateRangeText } from '../helpers/createDateRangeText';
 import { createName } from '../helpers/createName';
 import {
@@ -74,6 +74,7 @@ const institutionAndDegreePage = {
       isCurrentChecked: (formData, index) =>
         formData?.educationalInstitutions?.[index]?.currentlyEnrolled,
     }),
+    institution: selectUI('Institution type'),
     degreeReceived: yesNoUI('Degree received?'),
     major: textUI('Major'),
   },
@@ -81,6 +82,7 @@ const institutionAndDegreePage = {
     type: 'object',
     properties: {
       name: textSchema,
+      institution: selectSchema(institutionTypeOptions),
       ...dateRangeWithCurrentCheckboxSchema('currentlyEnrolled'),
       degreeReceived: yesNoSchema,
       major: textSchema,

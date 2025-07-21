@@ -34,7 +34,7 @@ describe('Marriage count component', () => {
     );
 
     expect($$('va-text-input,input', container).length).to.equal(1);
-    expect($('button[type="submit"]', container)).to.exist;
+    expect($('va-button', container)).to.exist;
   });
   it('should not submit empty form', async () => {
     const goForwardSpy = sinon.spy();

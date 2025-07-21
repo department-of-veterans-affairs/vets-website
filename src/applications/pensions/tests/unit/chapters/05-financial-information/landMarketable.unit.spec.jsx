@@ -8,7 +8,6 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
   FakeProvider,
@@ -28,15 +27,6 @@ describe('Pension: Financial information, land marketable page', () => {
     schema,
     uiSchema,
     expectedNumberOfFields,
-    pageTitle,
-  );
-
-  const expectedNumberOfErrors = 0;
-  testNumberOfErrorsOnSubmitForWebComponents(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfErrors,
     pageTitle,
   );
 

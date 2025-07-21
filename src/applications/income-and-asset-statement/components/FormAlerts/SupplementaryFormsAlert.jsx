@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isReviewAndSubmitPage } from '../../helpers';
 
 const assetTypeAllowlist = ['BUSINESS', 'FARM'];
 
@@ -80,7 +81,7 @@ const getBodyText = (assets, assetTypes) => {
 };
 
 // SupplementaryFormsAlert component
-export default function SupplementaryFormsAlert({ formData }) {
+export default function SupplementaryFormsAlert({ formData, headingLevel }) {
   const assets = formData?.ownedAssets || [];
 
   const assetTypes = getAssetTypes(assets);
@@ -89,9 +90,11 @@ export default function SupplementaryFormsAlert({ formData }) {
   const headline = `Additional ${getJoiner(assets, ['form', 'forms'])} needed`;
   const bodyText = getBodyText(assets, assetTypes);
 
+  const Heading = headingLevel || (isReviewAndSubmitPage() ? 'h3' : 'h2');
+
   return (
     <va-alert status="info" visible>
-      <h2 slot="headline">{headline}</h2>
+      <Heading slot="headline">{headline}</Heading>
       <p>{bodyText}</p>
       {assetTypes.map(type => (
         <p key={type}>
@@ -112,4 +115,5 @@ SupplementaryFormsAlert.propTypes = {
   formData: PropTypes.shape({
     ownedAssets: PropTypes.array,
   }),
+  headingLevel: PropTypes.oneOf(['h2', 'h3']),
 };

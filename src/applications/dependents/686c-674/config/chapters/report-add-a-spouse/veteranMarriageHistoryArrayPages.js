@@ -162,7 +162,7 @@ export const vetFormerMarriageStartDatePage = {
       return 'Your former marriage';
     }),
     startDate: currentOrPastDateUI({
-      title: 'When did you get married? xxx',
+      title: 'When did you get married?',
       required: () => true,
     }),
   },

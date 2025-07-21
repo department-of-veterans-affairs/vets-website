@@ -34,12 +34,14 @@ const healthInsurancePolicyPages = arrayBuilderPages(options, pagebuilder => ({
     path: 'insurance-information/health-insurance',
     uiSchema: summaryPageSchemas.uiSchema,
     schema: summaryPageSchemas.schema,
+    depends: formData => formData['view:isInsuranceV2Enabled'],
   }),
   healthInsurancePolicyInformation: pagebuilder.itemPage({
     title: content['insurance-info--policy-page-title'],
     path: 'insurance-information/health-insurance/:index/policy-information',
     uiSchema: policyPageSchemas.uiSchema,
     schema: policyPageSchemas.schema,
+    depends: formData => formData['view:isInsuranceV2Enabled'],
   }),
 }));
 

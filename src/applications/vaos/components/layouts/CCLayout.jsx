@@ -80,13 +80,17 @@ export default function CCLayout({ data: appointment }) {
               </div>
             )}
         </When>
-        <What>{typeOfCareName}</What>
+        <What>
+          {typeOfCareName && (
+            <span data-dd-privacy="mask">{typeOfCareName}</span>
+          )}
+        </What>
         <Section heading="Provider">
-          <span>
+          <span data-dd-privacy="mask">
             {`${providerName || 'Provider information not available'}`}
           </span>
           <br />
-          <span>
+          <span data-dd-privacy="mask">
             {`${treatmentSpecialty || 'Treatment specialty not available'}`}
           </span>
           <br />

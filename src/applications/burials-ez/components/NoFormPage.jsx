@@ -17,7 +17,7 @@ const locationOfDeath = {
   stateVeteransHome: 'State Veterans home',
 };
 
-const formatCurrency = num => `$${num.toLocaleString()}`;
+const formatCurrency = num => `$${num?.toLocaleString() || ''}`;
 const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
 
 const formatAddress = address => {
