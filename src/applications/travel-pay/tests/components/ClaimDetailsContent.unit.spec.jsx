@@ -383,11 +383,19 @@ describe('ClaimDetailsContent', () => {
           'We denied your claim. You can review the decision letter for more information and how to appeal.',
         ),
       ).to.exist;
-      expect(
-        screen.getByText(
-          'Your claim was denied because of reasons. Authority 38 CFR 70.10',
-        ),
-      ).to.exist;
+
+      // Check that the text before CFR reference exists
+      expect(screen.container.textContent).to.include(
+        'Your claim was denied because of reasons.',
+      );
+
+      // Check that the CFR reference is converted to a link
+      const cfrLink = screen.container.querySelector(
+        'va-link[href="https://www.ecfr.gov/current/title-38/chapter-I/section-70.10"]',
+      );
+      expect(cfrLink).to.exist;
+      expect(cfrLink.getAttribute('text')).to.equal('Authority 38 CFR 70.10');
+      expect(cfrLink.getAttribute('external')).to.equal('true');
     });
 
     it('shows partial payment specific copy for status', () => {

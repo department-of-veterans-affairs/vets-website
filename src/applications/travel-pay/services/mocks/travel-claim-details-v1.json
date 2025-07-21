@@ -46,7 +46,7 @@
       "costSubmitted": 10.0
     }
   ],
-  "decisionLetterReason": "You are a Service Connected Veteran with a rating of less than 30%, with income above the established low-income threshold or not on file to determine if a low-income status exists, and your medical appointment was not coded as treating your service connected condition(s).  Authority 38 CFR 70.10 (a)(2),(5) The appointment(s) associated with your date of travel does not qualify for payment.  For payment, an appointment must be in relation to care or services that you are eligible for, must be authorized in advance for a non-VA care appointment; and it must be completed unless due to actions other than yourself. Authority 38 CFR 70.4 (1)-(2)",
+  "decisionLetterReason": "You are a Service Connected Veteran with a rating of less than 30%, with income above the established low-income threshold or not on file to determine if a low-income status exists, and your medical appointment was not coded as treating your service connected condition(s).  Authority 38 CFR 70.10 (a)(2),(5) The appointment(s) associated with your date of travel does not qualify for payment.  For payment, an appointment must be in relation to care or services that you are eligible for, must be authorized in advance for a non-VA care appointment; and it must be completed unless due to actions other than yourself. Authority 38 CFR 70.4 (1)-(2). Authority 38 CFR 70.4 and 70.30. 38 CFR 70.20 (d) and 70.30 (a) (2) - (3)",
   "documents": [
     {
       "documentId": "4f6f751b-87ff-ef11-9341-001dd809b68c",
