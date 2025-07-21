@@ -53,15 +53,21 @@ describe('getFormattedPhone', () => {
       ).to.eq('562-555-1234');
     });
 
-    it('should not return a partial domestic phone number without phone number', () => {
+    it('should not return a phone number without a phone number', () => {
       expect(getFormattedPhone(getPhone({ area: '123', number: '' }))).to.eq(
         '',
       );
     });
 
-    it('should not return a partial domestic phone number without area code', () => {
+    it('should not return a phone number without area code', () => {
       expect(
         getFormattedPhone(getPhone({ area: '', number: '2344123' })),
+      ).to.eq('');
+    });
+
+    it('should not return a phone number with a null area code', () => {
+      expect(
+        getFormattedPhone(getPhone({ area: null, number: '2344123' })),
       ).to.eq('');
     });
   });
