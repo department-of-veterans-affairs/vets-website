@@ -27,13 +27,17 @@ export const getFormattedPhone = phone => {
 
   if (phone.isInternational) {
     // International format: +xx xxxxxxx
-    const fullNumber = phone.areaCode
-      ? `${phone.areaCode}${phone.phoneNumber}`
-      : phone.phoneNumber;
+    // For international numbers, area code is optional
+    const fullNumber = `${phone?.areaCode || ''}${phone.phoneNumber}`;
     return `+${phone.countryCode} ${fullNumber}${extensionString}`;
   }
 
   // Domestic format: xxx-xxx-xxxx
+  // For domestic numbers, require area code
+  if (!phone?.areaCode || !phone?.phoneNumber) {
+    return '';
+  }
+
   const fullString = getPhoneString(phone);
   if (fullString.length === 10) {
     let i = 0;

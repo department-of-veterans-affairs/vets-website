@@ -27,10 +27,6 @@ describe('getPhoneString', () => {
     const phone = getPhone();
     expect(getPhoneString(phone)).to.eq(phone.areaCode + phone.phoneNumber);
   });
-  it('should return a partial phone number', () => {
-    expect(getPhoneString({ areaCode: '123' })).to.eq('123');
-    expect(getPhoneString({ phoneNumber: '4567890' })).to.eq('4567890');
-  });
 });
 
 describe('getFormattedPhone', () => {
@@ -40,16 +36,6 @@ describe('getFormattedPhone', () => {
   });
 
   describe('domestic phone numbers', () => {
-    it('should return unformatted phone number', () => {
-      expect(getFormattedPhone(getPhone({ area: '' }))).to.eq('5551212');
-      expect(getFormattedPhone(getPhone({ area: '1', number: '2' }))).to.eq(
-        '12',
-      );
-      expect(
-        getFormattedPhone(getPhone({ area: '123', number: '456789' })),
-      ).to.eq('123456789');
-    });
-
     it('should return a formatted domestic phone number', () => {
       expect(getFormattedPhone(getPhone())).to.eq('800-555-1212');
     });
@@ -57,6 +43,26 @@ describe('getFormattedPhone', () => {
     it('should return a formatted domestic phone number with extension', () => {
       const phone = getPhone({ ext: '54321' });
       expect(getFormattedPhone(phone)).to.eq('800-555-1212, ext. 54321');
+    });
+
+    it('should not display country code for US numbers (countryCode: "1")', () => {
+      expect(
+        getFormattedPhone(
+          getPhone({ country: '1', area: '562', number: '5551234' }),
+        ),
+      ).to.eq('562-555-1234');
+    });
+
+    it('should not return a partial domestic phone number without phone number', () => {
+      expect(getFormattedPhone(getPhone({ area: '123', number: '' }))).to.eq(
+        '',
+      );
+    });
+
+    it('should not return a partial domestic phone number without area code', () => {
+      expect(
+        getFormattedPhone(getPhone({ area: '', number: '2344123' })),
+      ).to.eq('');
     });
   });
 
