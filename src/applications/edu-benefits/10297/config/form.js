@@ -5,8 +5,11 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
+import {
+  nameAndDateOfBirth,
+  identificationInformation,
+  backgroundInformation,
+} from '../pages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -56,6 +59,17 @@ const formConfig = {
           title: 'Identification information',
           uiSchema: identificationInformation.uiSchema,
           schema: identificationInformation.schema,
+        },
+      },
+    },
+    backgroundInformationChapter: {
+      title: 'Background information',
+      pages: {
+        backgroundInformation: {
+          path: 'background-information',
+          title: 'Background information',
+          uiSchema: backgroundInformation.uiSchema,
+          schema: backgroundInformation.schema,
         },
       },
     },
