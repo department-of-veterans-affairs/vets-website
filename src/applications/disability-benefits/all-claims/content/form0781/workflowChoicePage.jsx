@@ -410,12 +410,7 @@ const WorkflowChoicePage = props => {
       }
     },
 
-    /**
-     * TODO: tech-debt(react-hooks/exhaustive-deps): Validate this rule exception is needed and why
-     * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110539
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data?.mentalHealthWorkflowChoice, shouldGoForward],
+    [data, goForward, selectedMentalHealthWorkflowChoice, shouldGoForward],
   );
 
   const missingSelectionErrorMessage =
