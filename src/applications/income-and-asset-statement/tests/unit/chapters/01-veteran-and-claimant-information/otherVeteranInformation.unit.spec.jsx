@@ -1,7 +1,7 @@
 import testData from '../../../e2e/fixtures/data/test-data.json';
 
 import formConfig from '../../../../config/form';
-import veteranInformation from '../../../../config/chapters/01-veteran-and-claimant-information/veteranInformation';
+import veteranInformation from '../../../../config/chapters/01-veteran-and-claimant-information/otherVeteranInformation';
 import {
   testComponentFieldsMarkedAsRequired,
   testNumberOfFieldsByType,
@@ -10,7 +10,7 @@ import {
 
 const { schema, uiSchema } = veteranInformation;
 
-describe('income and asset veteran information page', () => {
+describe('income and asset other veteran information page', () => {
   testNumberOfFieldsByType(
     formConfig,
     schema,
@@ -18,7 +18,7 @@ describe('income and asset veteran information page', () => {
     {
       'va-text-input': 5,
     },
-    'veteran information',
+    'other veteran information',
   );
   testComponentFieldsMarkedAsRequired(
     formConfig,
@@ -29,13 +29,13 @@ describe('income and asset veteran information page', () => {
       'va-text-input[label="Veteran’s last name"]',
       'va-text-input[label="Veteran’s Social Security number"]',
     ],
-    'veteran information',
+    'other veteran information',
   );
   testSubmitsWithoutErrors(
     formConfig,
     schema,
     uiSchema,
-    'veteran information',
+    'other veteran information',
     testData.data,
     { loggedIn: true },
   );
