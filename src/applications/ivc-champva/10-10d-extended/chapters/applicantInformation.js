@@ -28,6 +28,8 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import { CustomApplicantSSNPage } from '../../shared/components/CustomApplicantSSNPage';
+import { validateApplicantSsnIsUnique } from '../../shared/validations';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
@@ -167,6 +169,7 @@ const applicantIdentificationPage = {
       false,
     ),
     applicantSSN: ssnUI(),
+    'ui:validations': [validateApplicantSsnIsUnique],
   },
   schema: {
     type: 'object',
@@ -735,6 +738,8 @@ export const applicantPages = arrayBuilderPages(
     page14: pageBuilder.itemPage({
       path: 'applicant-identification/:index',
       title: 'Identification',
+      CustomPage: CustomApplicantSSNPage,
+      CustomPageReview: null,
       ...applicantIdentificationPage,
     }),
     page15a: pageBuilder.itemPage({
