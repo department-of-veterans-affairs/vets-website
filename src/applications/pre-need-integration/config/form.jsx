@@ -45,6 +45,8 @@ import {
   servicePeriodsPagesPreparerNonVeteran,
 } from './pages/servicePeriodsPages';
 
+import { nounPluralReplaceMePages } from './pages/nounPluralReplaceMe';
+
 import transformForSubmit from './transformForSubmit';
 import prefillTransformer from './prefill-transformer';
 
@@ -187,6 +189,10 @@ const formConfig = {
     ethnicity,
   },
   chapters: {
+    nounPluralReplaceMeChapter: {
+      title: 'Noun Plural',
+      pages: nounPluralReplaceMePages,
+    },
     preparerInformation: {
       title: 'Preparer information',
       pages: {
