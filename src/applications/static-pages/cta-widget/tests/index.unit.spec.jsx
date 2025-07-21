@@ -94,6 +94,7 @@ describe('<CallToActionWidget>', () => {
     expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
+
   it('should show loading state when loading feature toggles', () => {
     const tree = mount(
       <CallToActionWidget
@@ -115,6 +116,7 @@ describe('<CallToActionWidget>', () => {
     expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
+
   it('should show sign in state', () => {
     const { props, mockStore } = getData();
     const { container } = render(
@@ -951,7 +953,9 @@ describe('<CallToActionWidget>', () => {
 
       it('should redirect correctly when sendToMHV is called', () => {
         const oldLocation = window.location;
-        sendToMHV(true);
+        const sendtoMHVFunction = sendToMHV(true);
+        expect(sendtoMHVFunction).to.be.a('function');
+        sendtoMHVFunction();
         const location = window.location.href || window.location;
         expect(location).to.include(
           'https://int.eauth.va.gov/mhv-portal-web/eauth',

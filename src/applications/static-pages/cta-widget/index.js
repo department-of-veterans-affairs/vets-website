@@ -38,18 +38,17 @@ import { ACCOUNT_STATES, ACCOUNT_STATES_SET } from './constants';
 import { ctaWidgetsLookup, CTA_WIDGET_TYPES } from './ctaWidgets';
 
 const goToTool = (url, gaEvent) => {
-  if (!url) return false;
+  if (!url) return;
   // Optionally push Google-Analytics event.
   if (gaEvent) {
     recordEvent(gaEvent);
   }
   if (url.startsWith('/')) {
     window.location = url;
-    return false;
+    return;
   }
   const newWindow = window.open(url, 'cta-popup');
   if (newWindow) newWindow.focus();
-  return true;
 };
 
 const updateReturnUrl = (url, redirect) => {
@@ -61,17 +60,27 @@ const updateReturnUrl = (url, redirect) => {
   }
 };
 
-export const sendToMHV = authenticatedWithSSOe => {
+export const sendToMHV = authenticatedWithSSOe => () => {
   window.location = mhvUrl(authenticatedWithSSOe, 'home');
 };
 
-const signOut = authenticatedWithSSOe => {
+const signOut = authenticatedWithSSOe => () => {
   recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
   if (authenticatedWithSSOe) {
     IAMLogout();
   } else {
     window.location = logoutUrlSiS();
   }
+};
+
+const toggleModalWrapper = toggleModalFunc => ({
+  openLoginModal: () => toggleModalFunc(true),
+  openForcedLoginModal: () => toggleModalFunc(true, '', true),
+});
+
+const goToToolWrapper = (url, knownEvent) => {
+  if (knownEvent) return () => goToTool(url, knownEvent);
+  return unknownEvent => goToTool(url, unknownEvent);
 };
 
 export const CallToActionWidget = ({
@@ -132,12 +141,14 @@ export const CallToActionWidget = ({
     mhvAccount.accountLevel,
   );
   const isDirectDeposit = appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT;
-  const multifactorProfile = profile.verified && profile.multifactor;
+  const verifiedProfile = profile.verified;
+  const multifactorProfile = verifiedProfile && profile.multifactor;
   const isAccessible = (() => {
     if (isHealthTool) return hasRequiredMhvAccount;
     if (isDirectDeposit) return multifactorProfile;
-    return profile.verified;
+    return verifiedProfile;
   })();
+  const loadingToggled = featureToggles.loading;
 
   const [popup, setPopup] = useState(false);
   const mounted = useRef();
@@ -145,19 +156,20 @@ export const CallToActionWidget = ({
   useEffect(
     () => {
       if (!mounted.current) {
-        if (!featureToggles.loading && propsIsLoggedIn && isHealthTool) {
+        if (!loadingToggled && propsIsLoggedIn && isHealthTool) {
           propsFetchMHVAccount();
         }
         mounted.current = true;
       } else if (
         propsIsLoggedIn &&
-        !featureToggles.loading &&
+        !loadingToggled &&
         isAccessible &&
         redirect &&
         !popup &&
-        goToTool(url)
+        url
       ) {
-        setPopup(true);
+        goToTool(url);
+        if (!url.startsWith('/')) setPopup(true);
       }
     },
     [
@@ -175,11 +187,12 @@ export const CallToActionWidget = ({
       url,
       isHealthTool,
       isAccessible,
+      loadingToggled,
     ],
   );
 
   // Show spinner if loading.
-  if (profile.loading || mhvAccount.loading || featureToggles.loading) {
+  if (profile.loading || mhvAccount.loading || loadingToggled) {
     return (
       <va-loading-indicator
         setFocus={setFocus}
@@ -196,10 +209,11 @@ export const CallToActionWidget = ({
   // Decide which content (if any) to render
   const content = (() => {
     if (!propsIsLoggedIn) {
-      const openLoginModal = () => propsToggleLoginModal(true);
-      const openForcedLoginModal = () => propsToggleLoginModal(true, '', true);
+      const { openLoginModal, openForcedLoginModal } = toggleModalWrapper(
+        propsToggleLoginModal,
+      );
       updateReturnUrl(url, redirect);
-      if (appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
+      if (isDirectDeposit) {
         return (
           <DirectDepositUnAuthed
             primaryButtonHandler={openLoginModal}
@@ -222,28 +236,32 @@ export const CallToActionWidget = ({
       );
     }
 
+    const goToToolCallback = goToToolWrapper(url);
+
     if (isHealthTool) {
       if (mviErrorContent) return mviErrorContent;
 
       if (authenticatedWithSSOe) {
-        const verifiedProfile = !profile.verified && verifyAlert;
-        const deactivedMhvAccount = mhvAccountIdState === 'DEACTIVATED' && (
-          <DeactivatedMHVIds />
-        );
-        if (verifiedProfile)
-          recordEvent({
-            event: `${gaPrefix}-info-needs-identity-verification`,
-          });
-        else if (deactivedMhvAccount)
-          recordEvent({
-            event: `${gaPrefix}-error-has-deactivated-mhv-ids`,
-          });
+        const errorContent = (() => {
+          if (!verifiedProfile) {
+            recordEvent({
+              event: `${gaPrefix}-info-needs-identity-verification`,
+            });
+            return verifyAlert;
+          }
+          if (mhvAccountIdState === 'DEACTIVATED') {
+            recordEvent({
+              event: `${gaPrefix}-error-has-deactivated-mhv-ids`,
+            });
+            return <DeactivatedMHVIds />;
+          }
+          return null;
+        })();
         return (
-          verifiedProfile ||
-          deactivedMhvAccount || (
+          errorContent || (
             <OpenMyHealtheVet
               serviceDescription={serviceDescription}
-              primaryButtonHandler={gaEvent => goToTool(url, gaEvent)}
+              primaryButtonHandler={goToToolCallback}
               toolName={mhvToolName}
             />
           )
@@ -254,7 +272,7 @@ export const CallToActionWidget = ({
         return (
           <OpenMyHealtheVet
             serviceDescription={serviceDescription}
-            primaryButtonHandler={gaEvent => goToTool(url, gaEvent)}
+            primaryButtonHandler={goToToolCallback}
             toolName={mhvToolName}
           />
         );
@@ -300,15 +318,15 @@ export const CallToActionWidget = ({
         default: // Handle other content outside of block.
       }
 
+      const sendToMHVCallback = sendToMHV(authenticatedWithSSOe);
       // If account creation or upgrade isn't blocked by any of the errors we
       // handle, show either create or upgrade CTA based on MHV account level.
-
       if (!accountLevel) {
         return (
           <NoMHVAccount
             serviceDescription={serviceDescription}
-            primaryButtonHandler={() => sendToMHV(authenticatedWithSSOe)}
-            secondaryButtonHandler={() => signOut(authenticatedWithSSOe)}
+            primaryButtonHandler={sendToMHVCallback}
+            secondaryButtonHandler={signOut(authenticatedWithSSOe)}
           />
         );
       }
@@ -316,12 +334,12 @@ export const CallToActionWidget = ({
       return (
         <UpgradeAccount
           serviceDescription={serviceDescription}
-          primaryButtonHandler={() => sendToMHV(authenticatedWithSSOe)}
+          primaryButtonHandler={sendToMHVCallback}
         />
       );
     }
 
-    if (!profile.verified) {
+    if (!verifiedProfile) {
       recordEvent({
         event: `${gaPrefix}-info-needs-identity-verification`,
       });
@@ -335,18 +353,16 @@ export const CallToActionWidget = ({
       return <VAOnlineScheduling featureToggles={featureToggles} />;
     }
 
-    if (appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
+    if (isDirectDeposit) {
       if (!profile.multifactor) {
         return <MFA />;
       }
       return (
         <DirectDeposit
           serviceDescription={serviceDescription}
-          primaryButtonHandler={() =>
-            goToTool(url, {
-              event: 'nav-user-profile-cta',
-            })
-          }
+          primaryButtonHandler={goToToolWrapper(url, {
+            event: 'nav-user-profile-cta',
+          })}
         />
       );
     }
@@ -356,7 +372,7 @@ export const CallToActionWidget = ({
         <ChangeAddress
           featureToggles={featureToggles}
           serviceDescription={serviceDescription}
-          primaryButtonHandler={gaEvent => goToTool(url, gaEvent)}
+          primaryButtonHandler={goToToolCallback}
         />
       );
     }
@@ -370,7 +386,7 @@ export const CallToActionWidget = ({
   if (children) return children;
 
   // Derive anchor tag properties.
-  const isInternalLink = url.startsWith('/');
+  const isInternalLink = url?.startsWith('/');
   const target = isInternalLink ? '_self' : '_blank';
   const linkText = [
     serviceDescription[0].toUpperCase(),
