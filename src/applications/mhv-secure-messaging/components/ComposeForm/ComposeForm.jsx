@@ -768,7 +768,7 @@ const ComposeForm = props => {
       category,
       subject,
       messageBody,
-      attachments.length,
+      attachments,
       signOutMessage,
       noTimeout,
     ],
