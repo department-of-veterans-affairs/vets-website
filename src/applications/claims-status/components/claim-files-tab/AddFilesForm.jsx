@@ -17,7 +17,6 @@ import { DOC_TYPES } from '../../utils/helpers';
 import { FILE_TYPES, validateFiles } from '../../utils/validations';
 import mailMessage from '../MailMessage';
 import UploadStatus from '../UploadStatus';
-import DebugInfo from './DebugInfo';
 
 export const LABEL_TEXT = 'Upload additional evidence';
 export const HINT_TEXT =
@@ -217,7 +216,6 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
-  const [lastPayload, setLastPayload] = useState(null);
   const [canShowUploadModal, setCanShowUploadModal] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -299,9 +297,6 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
     // Create complete payload for submission
     const payload = createSubmissionPayload(updatedFiles, currentDocTypes);
 
-    // Store payload for debug display
-    setLastPayload(payload);
-
     // Create files array in the exact format the submit actions expect
     const formattedFiles = payload.map(item => ({
       file: item.file,
@@ -359,11 +354,6 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
         >
           {mailMessage}
         </va-additional-info>
-        <DebugInfo
-          files={files}
-          encrypted={encrypted}
-          lastPayload={lastPayload}
-        />
         <VaModal
           id="upload-status"
           onCloseEvent={() => setCanShowUploadModal(false)}
