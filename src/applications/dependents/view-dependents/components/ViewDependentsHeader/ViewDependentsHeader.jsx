@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
@@ -94,5 +95,9 @@ function ViewDependentsHeader(props) {
     </div>
   );
 }
+
+ViewDependentsHeader.propTypes = {
+  updateDiariesStatus: PropTypes.string,
+};
 
 export default ViewDependentsHeader;
