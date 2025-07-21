@@ -10,17 +10,27 @@ import {
 
 import { trainingProviderArrayOptions } from '../helpers';
 
+const TrainingProviderAdditionalInfo = () => {
+  return (
+    <va-additional-info
+      trigger="What is a training provider?"
+      class="vads-u-margin-top--3"
+    >
+      <p>
+        A training provider is an organization or organization that offers a
+        short-term, high-tech training program. These programs usually last
+        between 6 and 28 weeks. They’re meant to help you build skills that lead
+        to a job in areas like coding, cybersecurity, or IT.
+      </p>
+    </va-additional-info>
+  );
+};
+
 const trainingProviderDetails = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Training provider name and mail address',
       nounSingular: trainingProviderArrayOptions.nounSingular,
-      description: (
-        <p>
-          A training provider is an organization or institution that can provide
-          your training sessions for the program.
-        </p>
-      ),
     }),
     name: textUI({
       title: 'Name of training provider',
@@ -29,51 +39,25 @@ const trainingProviderDetails = {
         // pattern: 'You must provide a response',
       },
     }),
+    'view:trainingProviderInfo': {
+      'ui:field': TrainingProviderAdditionalInfo,
+    },
     address: addressNoMilitaryUI({
-      labels: {
-        street2: 'Apartment, or unit number',
-        state: 'label change',
-      },
-      omit: ['street3'],
       required: {
-        state: () => true,
+        // state: () => true,
       },
     }),
-    // first: textUI({
-    //   title: 'First name of individual',
-    //   errorMessages: {
-    //     required: 'You must provide a response',
-    //     pattern: 'You must provide a response',
-    //   },
-    // }),
-    // last: textUI({
-    //   title: 'Last name of individual',
-    //   errorMessages: {
-    //     required: 'You must provide a response',
-    //     pattern: 'You must provide a response',
-    //   },
-    // }),
-    // title: textUI({
-    //   title: 'Title of individual',
-    //   errorMessages: {
-    //     required: 'You must provide a response',
-    //     pattern: 'You must provide a response',
-    //   },
-    // }),
-    // individualAssociationType: radioUI({
-    //   title: 'How is this individual associated with your institution?',
-    //   errorMessages: { required: 'Please make a selection' },
-    //   labels: associationLabels,
-    // }),
   },
   schema: {
     type: 'object',
-    required: ['name'],
+    required: ['name', 'address'],
     properties: {
       name: textSchema,
-      address: addressNoMilitarySchema({
-        omit: ['street3'],
-      }),
+      'view:trainingProviderInfo': {
+        type: 'object',
+        properties: {},
+      },
+      address: addressNoMilitarySchema({}),
     },
   },
 };

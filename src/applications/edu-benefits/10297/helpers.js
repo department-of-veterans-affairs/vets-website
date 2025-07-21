@@ -88,23 +88,39 @@ export const ConfirmationGoBackLink = () => (
   </div>
 );
 
+export const getCardDescription = item => {
+  return item ? (
+    <>
+      <div className=" vads-u-margin-y--2">
+        <p>{item?.address?.street}</p>
+        <p>
+          {item?.address?.city}, {item?.address?.state}{' '}
+          {item?.address?.postalCode}
+        </p>
+      </div>
+    </>
+  ) : null;
+};
+
 export const trainingProviderArrayOptions = {
   arrayPath: 'trainingProvider',
   nounSingular: 'training provider',
   nounPlural: 'training providers',
   required: false,
+  isItemIncomplete: item => {
+    return (
+      !item?.name ||
+      !item?.address?.street ||
+      !item?.address?.city ||
+      !item?.address?.country ||
+      !item?.address?.postalCode
+    );
+  },
+  minItems: 1,
+  maxItems: 4,
   text: {
-    getItemName: item => `${item?.name}`.trim(),
-    cardDescription: item => (
-      <>
-        {item?.title}
-        {/* <div className=" vads-u-margin-y--2">
-          {item?.individualAssociationType === 'vaEmployee'
-            ? 'VA employee'
-            : 'SAA employee'}
-        </div> */}
-      </>
-    ),
+    getItemName: item => (item?.name ? `${item?.name}`.trim() : 'null'),
+    cardDescription: item => getCardDescription(item),
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
     summaryTitle: 'Review your training provider information',
