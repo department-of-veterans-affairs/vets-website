@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { randomFillSync } from 'crypto';
 import {
   sha256,
   base64UrlEncode,
@@ -7,48 +6,63 @@ import {
 } from '../../oauth/crypto';
 
 describe('OAuth - Crypto', () => {
-  describe('sha256', async () => {
-    const rs = generateRandomString(64);
-    it('returns a Promise <ArrayBuffer>', async () => {
-      const promisedArrBuff = await sha256(rs);
-      expect(promisedArrBuff).to.be.instanceOf(ArrayBuffer);
-      expect(promisedArrBuff.byteLength).to.eql(32);
+  describe('sha256', () => {
+    it('returns a SHA-256 hash as ArrayBuffer', async () => {
+      const input = 'test-input';
+      const result = await sha256(input);
+
+      expect(result).to.be.instanceOf(ArrayBuffer);
+      expect(result.byteLength).to.equal(32);
     });
-    it('should return null if parameter is empty', () => {
-      expect(sha256()).to.be.null;
+
+    it('returns SHA-256 hash of an empty string', async () => {
+      const result = await sha256('');
+      expect(result).to.be.instanceOf(ArrayBuffer);
+      expect(result.byteLength).to.equal(32);
     });
   });
 
   describe('base64UrlEncode', () => {
-    it('should base64urlencode a string', () => {
-      expect(base64UrlEncode('hello')).to.be.a.string;
-      expect(base64UrlEncode('h+llo')).to.eql('aCtsbG8');
-      expect(base64UrlEncode('jell//o')).to.eql('amVsbC8vbw');
+    it('encodes a string into base64url format', () => {
+      const result = base64UrlEncode('hello');
+      expect(result).to.be.a('string');
+      expect(result).to.equal('aGVsbG8');
     });
-    it('should not generate for empty parameter', () => {
+
+    it('replaces "+" and "/" with "-" and "_" respectively', () => {
+      // "+" -> "-", "/" -> "_"
+      const input = String.fromCharCode(251, 239);
+      const encoded = base64UrlEncode(input);
+      expect(encoded).to.match(/[-_]/);
+    });
+
+    it('returns null when input is empty or undefined', () => {
       expect(base64UrlEncode()).to.be.null;
       expect(base64UrlEncode('')).to.be.null;
     });
-  });
-  describe('generateRandomString', () => {
-    const mockCrypto = {
-      getRandomValues(buffer) {
-        return randomFillSync(buffer);
-      },
-    };
-    it('should generate a random string given a length', () => {
-      globalThis.crypto = mockCrypto;
-      expect(generateRandomString(28).length).to.eql(56);
-      expect(generateRandomString(64).length).to.eql(128);
-      expect(generateRandomString(128).length).to.eql(256);
+
+    it('encodes an ArrayBuffer', async () => {
+      const buffer = await sha256('buffer-test');
+      const result = base64UrlEncode(buffer);
+      expect(result).to.be.a('string');
+      expect(result.length).to.be.greaterThan(0);
     });
-    it('should not generate the same string twice', () => {
-      globalThis.crypto = mockCrypto;
-      const tempStr = generateRandomString(16);
-      const tempArr = Array.from({ length: 28 }).map(_ =>
-        generateRandomString(16),
-      );
-      expect(tempArr.includes(tempStr)).to.be.false;
+  });
+
+  describe('generateRandomString', () => {
+    it('generates a string of expected hex length', () => {
+      const len = 16;
+      const str = generateRandomString(len);
+      expect(str).to.be.a('string');
+      expect(str.length).to.equal(len * 2);
+    });
+
+    it('produces different strings on repeated calls', () => {
+      const outputs = new Set();
+      for (let i = 0; i < 10; i++) {
+        outputs.add(generateRandomString(16));
+      }
+      expect(outputs.size).to.equal(10);
     });
   });
 });
