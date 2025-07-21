@@ -18,9 +18,9 @@ export default {
       title: 'Which of these statements applies to you?',
       labels: {
         atLeast3Years:
-          'I am a Veteran who served at least 3 years (36 months) on active duty',
+          "I'm a Veteran who served at least 3 years (36 months) on active duty",
         byDischarge:
-          'I am a service member within 180 days of discharge who has or will have 3 years (36 months) by their discharge date',
+          "I'm a service member within 180 days of discharge who has or will have 3 years (36 months) by their discharge date",
         none: 'None of the above',
       },
       errorMessages: {

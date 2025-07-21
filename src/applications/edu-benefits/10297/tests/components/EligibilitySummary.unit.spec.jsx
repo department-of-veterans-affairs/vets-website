@@ -69,7 +69,7 @@ describe('<EligibilitySummary />', () => {
       'These statements do not apply to me',
     );
     expect(getByTestId('dob-requirement').innerHTML).to.contain(
-      'I am over the age of 62',
+      "I'm over the age of 62",
     );
     expect(getByTestId('discharge-requirement').innerHTML).to.contain(
       'I did not receive a discharge under conditions other than dishonorable',
@@ -106,7 +106,7 @@ describe('<EligibilitySummary />', () => {
       "I'm a service member within 180 days of discharge who has or will",
     );
     expect(getByTestId('dob-requirement').innerHTML).to.contain(
-      'I am under the age of 62',
+      "I'm under the age of 62",
     );
     expect(getByTestId('discharge-requirement').innerHTML).to.contain(
       'I received a discharge under conditions other than dishonorable',

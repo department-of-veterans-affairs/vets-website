@@ -47,9 +47,9 @@ const EligibilitySummary = ({ goBack, goForward }) => {
   );
 
   const dobText = isDobEligible ? (
-    <span>I am under the age of 62</span>
+    <span>I'm under the age of 62</span>
   ) : (
-    <span>I am over the age of 62</span>
+    <span>I'm over the age of 62</span>
   );
   const dischargeText = isDischargeEligible ? (
     <span>I received a discharge under conditions other than dishonorable</span>
