@@ -47,31 +47,7 @@ describe('educationalInstitutionsPages', () => {
       });
     });
   });
-  context('Show Summary Page', () => {
-    const { educationalInstitutionsSummary } = educationalInstitutionsPages;
-    it('renders the summary page with a yes/no question', () => {
-      const { container, findByText } = render(
-        <SchemaForm
-          name="educationalInstitutionsSummary"
-          title={educationalInstitutionsSummary.title}
-          schema={educationalInstitutionsSummary.schema}
-          uiSchema={educationalInstitutionsSummary.uiSchema}
-          data={{ formData }}
-          onChange={() => {}}
-          onSubmit={() => {}}
-        />,
-      );
-      findByText('Review your educational institutions');
-      findByText(formData.name);
-      findByText(createDateRangeText(formData, 'currentlyEnrolled'));
-      findByText('Do you have another educational institution to add?');
-      findByText('Include all education history since high school.');
-      expect($('va-radio-option', container).getAttribute('value')).to.eq('Y');
-      expect(
-        $('va-radio-option:nth-child(2)', container).getAttribute('value'),
-      ).to.eq('N');
-    });
-  });
+
   context('Show Institution and Degree Information Page', () => {
     const {
       educationalInstitutionInstitutionAndDegreePage,
@@ -126,6 +102,7 @@ describe('educationalInstitutionsPages', () => {
       expect($('va-date[label="End date"]', container)).to.not.exist;
     });
   });
+
   context('Institution Degree Information Page', () => {
     const {
       educationalInstitutionDegreeInformationPage,
@@ -177,6 +154,7 @@ describe('educationalInstitutionsPages', () => {
       );
     });
   });
+
   context('Institution Degree Address Page', () => {
     const { educationalInstitutionAddressPage } = educationalInstitutionsPages;
     it('renders the institution degree address page', () => {
@@ -254,6 +232,32 @@ describe('educationalInstitutionsPages', () => {
         ),
       ).to.exist;
       expect($('va-select', container)).to.not.exist;
+    });
+  });
+
+  context('Show Summary Page', () => {
+    const { educationalInstitutionsSummary } = educationalInstitutionsPages;
+    it('renders the summary page with a yes/no question', () => {
+      const { container, findByText } = render(
+        <SchemaForm
+          name="educationalInstitutionsSummary"
+          title={educationalInstitutionsSummary.title}
+          schema={educationalInstitutionsSummary.schema}
+          uiSchema={educationalInstitutionsSummary.uiSchema}
+          data={{ formData }}
+          onChange={() => {}}
+          onSubmit={() => {}}
+        />,
+      );
+      findByText('Review your educational institutions');
+      findByText(formData.name);
+      findByText(createDateRangeText(formData, 'currentlyEnrolled'));
+      findByText('Do you have another educational institution to add?');
+      findByText('Include all education history since high school.');
+      expect($('va-radio-option', container).getAttribute('value')).to.eq('Y');
+      expect(
+        $('va-radio-option:nth-child(2)', container).getAttribute('value'),
+      ).to.eq('N');
     });
   });
 });
