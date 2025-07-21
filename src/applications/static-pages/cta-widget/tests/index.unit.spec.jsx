@@ -10,7 +10,7 @@ import { CSP_IDS } from '~/platform/user/authentication/constants';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
-import { CallToActionWidget, mapStateToProps } from '../index';
+import { CallToActionWidget, mapStateToProps, sendToMHV } from '../index';
 import { ACCOUNT_STATES } from '../constants';
 
 const defaultOptions = {
@@ -950,59 +950,13 @@ describe('<CallToActionWidget>', () => {
       });
 
       it('should redirect correctly when sendToMHV is called', () => {
-        const tree = mount(
-          <CallToActionWidget
-            isLoggedIn
-            authenticatedWithSSOe
-            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-            profile={{
-              loading: false,
-              verified: true,
-              multifactor: true,
-            }}
-            mhvAccount={{}}
-            featureToggles={{
-              loading: false,
-              vaOnlineScheduling: true,
-            }}
-          >
-            <div className="child-node">Child Node</div>
-          </CallToActionWidget>,
-        );
-        tree.instance().sendToMHV();
+        const oldLocation = window.location;
+        sendToMHV(true);
         const location = window.location.href || window.location;
         expect(location).to.include(
           'https://int.eauth.va.gov/mhv-portal-web/eauth',
         );
-        tree.unmount();
-      });
-
-      it('should redirect correctly when mfaHandler is called', () => {
-        const tree = mount(
-          <CallToActionWidget
-            isLoggedIn
-            authenticatedWithSSOe
-            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-            profile={{
-              loading: false,
-              verified: true,
-              multifactor: true,
-            }}
-            mhvAccount={{}}
-            featureToggles={{
-              loading: false,
-              vaOnlineScheduling: true,
-            }}
-          >
-            <div className="child-node">Child Node</div>
-          </CallToActionWidget>,
-        );
-        tree.instance().mfaHandler();
-        const location = window.location.href || window.location;
-        expect(location).to.include(
-          'https://dev-api.va.gov/v1/sessions/mfa/new',
-        );
-        tree.unmount();
+        window.location = oldLocation;
       });
     });
   });

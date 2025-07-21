@@ -61,7 +61,7 @@ const updateReturnUrl = (url, redirect) => {
   }
 };
 
-const sendToMHV = authenticatedWithSSOe => {
+export const sendToMHV = authenticatedWithSSOe => {
   window.location = mhvUrl(authenticatedWithSSOe, 'home');
 };
 
@@ -104,8 +104,8 @@ export const CallToActionWidget = ({
   const redirect = toolDetails?.redirect;
   const isNonMHVSchedulingTool =
     featureToggles.vaOnlineScheduling &&
-    (ctaWidget?.id === CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS ||
-      ctaWidget?.id === CTA_WIDGET_TYPES.VIEW_APPOINTMENTS);
+    (appId === CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS ||
+      appId === CTA_WIDGET_TYPES.VIEW_APPOINTMENTS);
   const isHealthTool = !isNonMHVSchedulingTool && ctaWidget?.isHealthTool;
   const healthToolDescription = isHealthTool
     ? 'access more VA.gov tools and features'
@@ -128,13 +128,16 @@ export const CallToActionWidget = ({
     NOT_AUTHORIZED: verifyAlert,
     NOT_FOUND: <NotFound />,
   }[mviStatus];
-  const hasRequiredMhvAccount =
-    isHealthTool && ctaWidget?.hasRequiredMhvAccount(mhvAccount.accountLevel);
-  const isDirectDeposit =
-    ctaWidget?.id === CTA_WIDGET_TYPES.DIRECT_DEPOSIT &&
-    (profile.verified && profile.multifactor);
-  const isAccessible =
-    hasRequiredMhvAccount || isDirectDeposit || profile.verified;
+  const hasRequiredMhvAccount = ctaWidget?.hasRequiredMhvAccount(
+    mhvAccount.accountLevel,
+  );
+  const isDirectDeposit = appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT;
+  const multifactorProfile = profile.verified && profile.multifactor;
+  const isAccessible = (() => {
+    if (isHealthTool) return hasRequiredMhvAccount;
+    if (isDirectDeposit) return multifactorProfile;
+    return profile.verified;
+  })();
 
   const [popup, setPopup] = useState(false);
   const mounted = useRef();
@@ -322,7 +325,6 @@ export const CallToActionWidget = ({
       recordEvent({
         event: `${gaPrefix}-info-needs-identity-verification`,
       });
-
       return verifyAlert;
     }
 
