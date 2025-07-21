@@ -18,10 +18,13 @@ export default function transformForSubmit(formConfig, form) {
     {},
   );
 
-  const { fullName, dob, ...otherFields } = normalizedData;
+  const { fullName, dob, internationalPhone, ...otherFields } = normalizedData;
 
   const payload = {
     ...otherFields,
+    internationalPhone: `${internationalPhone.callingCode}${
+      internationalPhone.contact
+    }`,
     veteranInformation: {
       fullName,
       dob,
