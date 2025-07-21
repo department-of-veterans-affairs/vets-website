@@ -11,7 +11,7 @@ export default {
   uiSchema: {
     ...titleUI(
       'Contact details',
-      'Tell us how we can reach you if there’s a question about your request',
+      'Tell us how we can reach you if there’s a question about your request.',
     ),
     applicantPhone: phoneUI(),
     applicantEmail: emailUI(),
