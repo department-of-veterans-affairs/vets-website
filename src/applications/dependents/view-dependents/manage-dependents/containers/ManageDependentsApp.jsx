@@ -108,6 +108,7 @@ const ManageDependents = props => {
             </ErrorMessage>
           )}
           <va-button
+            submit="prevent"
             label="Submit VA Form 686c to remove this dependent"
             loading={
               dependentsState[stateKey].status === LOADING_STATUS.pending
