@@ -4,6 +4,13 @@ import VaTextInputField from '~/platform/forms-system/src/js/web-component-field
 
 import { PHONE_TYPE, USA } from '../../constants';
 
+// Returns null or a cleaned string to match backend expectations
+const normalizedPhoneValue = value => {
+  if (!value) return null;
+  // Convert to string and strip all non-numeric characters
+  return String(value).replace(/[^\d]/g, '');
+};
+
 export const phoneFormSchema = ({ allowInternational = false } = {}) => {
   const extensionField = {
     type: 'string',
@@ -64,20 +71,7 @@ export const phoneUiSchema = (
       inputPhoneNumber: {
         'ui:title': `${fieldName}`,
         'ui:webComponentField': VaTelephoneInputField,
-        'ui:errorMessages': {
-          required: 'Please enter a valid phone number',
-        },
-        'ui:hint': 'For international phone numbers, include the country code.',
-        'ui:options': {
-          header: fieldName,
-        },
-        'ui:validations': [
-          (errors, field) => {
-            if (!field?._isValid) {
-              errors.addError('Please enter a valid phone number');
-            }
-          },
-        ],
+        // We rely on VaTelephoneInput defaults for in-line validations and error messages
       },
       extension: {
         'ui:title': 'Extension (6 digits maximum)',
@@ -97,7 +91,7 @@ export const phoneUiSchema = (
       'ui:validations': [
         (errors, field) => {
           // checks that the phone number is at least 10 numerical digits
-          const strippedPhone = field?.replace(/[^0-9]/g, '');
+          const strippedPhone = normalizedPhoneValue(field);
           if (strippedPhone?.length !== 10) {
             errors.addError('Enter a 10 digit phone number');
           }
@@ -125,37 +119,26 @@ export const phoneUiSchema = (
 export const phoneConvertNextValueToCleanData = value => {
   const { id, extension = null, phoneType, inputPhoneNumber } = value;
 
-  // Legacy string input
-  if (typeof inputPhoneNumber === 'string') {
-    const cleanedPhone = inputPhoneNumber.replace(/[^\d]/g, '');
-    const areaCode = cleanedPhone.substring(0, 3);
-    const phoneNumber = cleanedPhone.substring(3);
-
-    return {
-      id,
-      phoneType,
-      inputPhoneNumber,
-      countryCode: '1',
-      areaCode,
-      phoneNumber,
-      extension,
-    };
-  }
-
-  // Using VaTelephoneInput where inputPhoneNumber is an object
   let areaCode = null;
   let phoneNumber = null;
-  let countryCode = '1';
+  let countryCode = USA.COUNTRY_CODE; // Default to US country code '1'
 
-  if (
+  if (typeof inputPhoneNumber === 'string') {
+    // Legacy string input
+    const cleanedPhone = normalizedPhoneValue(inputPhoneNumber);
+    areaCode = cleanedPhone.substring(0, 3);
+    phoneNumber = cleanedPhone.substring(3);
+  } else if (
     typeof inputPhoneNumber === 'object' &&
     inputPhoneNumber?.contact &&
     inputPhoneNumber?.callingCode
   ) {
-    const cleanedPhone = inputPhoneNumber.contact.replace(/[^\d]/g, '');
-    countryCode = inputPhoneNumber.callingCode;
+    // Using VaTelephoneInput where inputPhoneNumber is an object
+    const cleanedPhone = normalizedPhoneValue(inputPhoneNumber.contact);
+    countryCode = normalizedPhoneValue(inputPhoneNumber.callingCode);
 
-    if (countryCode === '1') {
+    // Don't set areaCode for international numbers
+    if (countryCode === USA.COUNTRY_CODE) {
       areaCode = cleanedPhone.substring(0, 3);
       phoneNumber = cleanedPhone.substring(3);
     } else {
@@ -170,7 +153,7 @@ export const phoneConvertNextValueToCleanData = value => {
     countryCode,
     areaCode,
     phoneNumber,
-    extension,
+    extension: normalizedPhoneValue(extension),
   };
 };
 
@@ -187,7 +170,7 @@ export const phoneConvertCleanDataToPayload = (data, fieldName) => {
       areaCode,
       countryCode,
       extension,
-      isInternational: countryCode !== USA.COUNTRY_CODE,
+      isInternational: countryCode ? countryCode !== USA.COUNTRY_CODE : false,
       phoneNumber,
       phoneType: PHONE_TYPE[fieldName],
     },
