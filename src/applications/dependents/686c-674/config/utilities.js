@@ -129,17 +129,21 @@ export {
   isClientError,
 };
 
-export function customTransformForSubmit(formConfig, form) {
+export function customTransformForSubmit(formConfig, form, formContext = {}) {
   for (const option of ALL_ARRAY_OPTIONS) {
     const items = form.data?.[option.arrayPath];
     if (Array.isArray(items)) {
       const hasIncomplete = items.some(option.isItemIncomplete);
       if (hasIncomplete) {
-        return {
-          error: `You have incomplete ${
-            option.nounPlural
-          }. Please complete all before submitting.`,
-        };
+        const msg = `You have incomplete entries in "${
+          option.nounPlural
+        }". Please complete them before submitting.`;
+        if (formContext.setSubmissionError) {
+          formContext.setSubmissionError(msg);
+        } else if (Array.isArray(form.errors)) {
+          form.errors.push(msg);
+        }
+        return null;
       }
     }
   }
