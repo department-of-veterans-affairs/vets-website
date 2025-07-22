@@ -239,6 +239,8 @@ const VaFileInputField = props => {
   };
 
   const _error = error || mappedProps.error;
+  const fileHasBeenAdded =
+    childrenProps.formData.name && childrenProps.formData.name !== 'uploading';
   return (
     <VaFileInput
       {...mappedProps}
@@ -252,7 +254,8 @@ const VaFileInputField = props => {
       passwordError={passwordError}
     >
       <div className="additional-input-container">
-        {mappedProps.additionalInput &&
+        {fileHasBeenAdded &&
+          mappedProps.additionalInput &&
           React.cloneElement(
             // clone element so we can attach listeners
             mappedProps.additionalInput(
