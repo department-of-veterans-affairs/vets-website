@@ -1,4 +1,4 @@
-# VA Online Scheduling
+# Appointments
 
 This is the front end source for the Appointments application. Veterans can schedule, request, and view appointments through this application.
 
@@ -7,7 +7,7 @@ It is a React/Redux application that makes heavy use of MomentJS. Tests are writ
 ## Quick start
 
 1. Clone vets-website locally and run `yarn install`
-2. Run `yarn watch`
+2. Run `yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=vaos`
 3. In a separate terminal run `yarn mock-api --responses src/applications/vaos/services/mocks/index.js`
 4. Open http://localhost:3001 and type `localStorage.setItem('hasSession', true)` into the dev console
 5. Open http://localhost:3001/my-health/appointments/

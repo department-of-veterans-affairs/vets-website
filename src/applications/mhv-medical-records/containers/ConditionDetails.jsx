@@ -29,6 +29,7 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   pageTitles,
+  statsdFrontEndActions,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -37,6 +38,7 @@ import { generateConditionContent } from '../util/pdfHelpers/conditions';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -55,6 +57,7 @@ const ConditionDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+  useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_DETAILS);
 
   useEffect(
     () => {

@@ -49,6 +49,7 @@ const Authorization = ({
   const [hasError, setHasError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [showLegaleseBanner, setShowLegaleseBanner] = useState(false);
+  const [modalOpenedBy, setModalOpenedBy] = useState(null);
 
   const lastUpdated = useSelector(
     state => state?.form?.loadedData?.metadata?.lastUpdated,
@@ -62,9 +63,52 @@ const Authorization = ({
     returnUrl &&
     returnUrl === '/supporting-evidence/private-medical-records-authorization';
 
-  const toggle4142PrivacyModal = () => {
+  const toggle4142PrivacyModal = buttonId => {
+    const wasVisible = modalVisible;
+    if (!wasVisible && buttonId) {
+      setModalOpenedBy(buttonId);
+    }
+
     setModalVisible(!modalVisible);
   };
+
+  // We unfortunately have to do some custom focus management here to make sure
+  // that when the privacy modal closes focus returns to the button that opened it
+  useEffect(
+    () => {
+      const modal = document.querySelector(
+        'va-modal[modal-title="Privacy Act Statement"]',
+      );
+
+      // We have to use a custom event listener here because the waitForRenderThenFocus
+      // utility method causes focus to briefly move to the entire body of the page before
+      // returning to the button, which isn't ideal for screen reader users
+      const handleModalClose = () => {
+        if (modalOpenedBy) {
+          // Direct focus on the internal button element, not the web component, immediately
+          const vaButton = document.getElementById(modalOpenedBy);
+          if (vaButton?.shadowRoot) {
+            const internalButton = vaButton.shadowRoot.querySelector('button');
+            if (internalButton) {
+              internalButton.focus();
+            }
+          }
+          setModalOpenedBy(null);
+        }
+      };
+
+      if (modal) {
+        modal.addEventListener('closeEvent', handleModalClose);
+      }
+
+      return () => {
+        if (modal) {
+          modal.removeEventListener('closeEvent', handleModalClose);
+        }
+      };
+    },
+    [modalOpenedBy],
+  );
 
   useEffect(
     () => {
@@ -143,12 +187,21 @@ const Authorization = ({
     }
   };
 
-  const privacyModalButton = (
+  const createPrivacyModalButton = buttonId => (
     <va-button
-      onClick={toggle4142PrivacyModal}
+      id={buttonId}
+      onClick={() => toggle4142PrivacyModal(buttonId)}
       secondary
       text="Review Privacy Act Statement"
     />
+  );
+
+  const privacyModalButton1 = createPrivacyModalButton(
+    'privacy-modal-button-1',
+  );
+
+  const privacyModalButton2 = createPrivacyModalButton(
+    'privacy-modal-button-2',
   );
 
   return (
@@ -350,7 +403,7 @@ const Authorization = ({
                 the Federal Privacy Act, 5 USC 552a, and VA may disclose this
                 information as authorized by law.
               </p>
-              {privacyModalButton}
+              {privacyModalButton1}
               <p>
                 I also understand that I may revoke this authorization in
                 writing, at any time except to the extent a source of
@@ -439,7 +492,7 @@ const Authorization = ({
                 this page, the information may be disclosed by VA without your
                 consent if authorized by Federal laws such as the Privacy Act.
               </p>
-              {privacyModalButton}
+              {privacyModalButton2}
               <p>
                 <strong>Expires</strong>: This authorization is good for 12
                 months from the date this form is submitted.

@@ -1,7 +1,6 @@
 import React from 'react';
-
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781NameTitle } from '../content/ptsdClassification';
 
 const incidentDescriptionInstructions = (
   <h3 className="vads-u-font-size--h5">Event description</h3>
@@ -10,9 +9,7 @@ const incidentDescriptionInstructions = (
 const { incidentDescription } = fullSchema.definitions.ptsdIncident.properties;
 
 export const uiSchema = index => ({
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781" />
-  ),
+  'ui:title': ptsd781NameTitle,
   'ui:description': incidentDescriptionInstructions,
   [`incident${index}`]: {
     incidentDescription: {

@@ -14,6 +14,7 @@ describe('Accelerated Cerner Facility Alert', () => {
     isAccelerating = false,
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
+    isAcceleratingVaccines = false,
   }) => ({
     // eslint-disable-next-line camelcase
     mhv_accelerated_delivery_enabled: isAccelerating,
@@ -21,6 +22,8 @@ describe('Accelerated Cerner Facility Alert', () => {
     mhv_accelerated_delivery_allergies_enabled: isAcceleratingAllergies,
     // eslint-disable-next-line camelcase
     mhv_accelerated_delivery_vital_signs_enabled: isAcceleratingVitals,
+    // eslint-disable-next-line camelcase
+    mhv_accelerated_delivery_vaccines_enabled: isAcceleratingVaccines,
   });
   const initialState = {
     drupalStaticData,
@@ -168,6 +171,23 @@ describe('Accelerated Cerner Facility Alert', () => {
       },
       { facilities: [] },
       CernerAlertContent.LABS_AND_TESTS,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+  });
+
+  it('hides correctly when isAcceleratingVaccines is true', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: true,
+          isAcceleratingVaccines: true,
+        }),
+        user: { profile: { facilities: [] } },
+      },
+      { facilities: [] },
+      CernerAlertContent.VACCINES,
     );
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;

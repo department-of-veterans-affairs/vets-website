@@ -1,11 +1,11 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { Provider } from 'react-redux';
 import ConfirmationScreenView from '../../../../components/ConfirmationPage/ConfirmationScreenView';
 import { normalizeFullName } from '../../../../utils/helpers/general';
 import content from '../../../../locales/en/content.json';
+import { renderProviderWrappedComponent } from '../../../helpers';
 
 describe('ezr <ConfirmationScreenView>', () => {
   const subject = (timestamp = undefined, additionalData = {}) => {
@@ -24,23 +24,18 @@ describe('ezr <ConfirmationScreenView>', () => {
       timestamp,
     };
     const mockStore = {
-      getState: () => ({
-        form: {
-          data: {
-            'view:veteranInformation': {
-              veteranFullName: { first: 'John', last: 'Smith' },
-            },
-            ...additionalData,
+      form: {
+        data: {
+          'view:veteranInformation': {
+            veteranFullName: { first: 'John', last: 'Smith' },
           },
+          ...additionalData,
         },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
+      },
     };
-    const { container } = render(
-      <Provider store={mockStore}>
-        <ConfirmationScreenView {...props} />
-      </Provider>,
+    const { container } = renderProviderWrappedComponent(
+      mockStore,
+      <ConfirmationScreenView {...props} />,
     );
     const selectors = () => ({
       subtitles: container.querySelectorAll('h2, h3'),
@@ -123,7 +118,11 @@ describe('ezr <ConfirmationScreenView>', () => {
 
   describe('when the print button is clicked', () => {
     it('should fire `window.print` function', () => {
-      const printSpy = sinon.spy(window, 'print');
+      const printSpy = sinon.spy();
+      Object.defineProperty(window, 'print', {
+        value: printSpy,
+        configurable: true,
+      });
       const { selectors } = subject();
       const { printBtn } = selectors();
       fireEvent.click(printBtn);

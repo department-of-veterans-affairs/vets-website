@@ -11,21 +11,6 @@ export const typeOfPhoneOptions = Object.freeze({
   WORK: 'Work',
 });
 
-export const employmentStatusOptions = Object.freeze({
-  EMPLOYED: 'Employed',
-  UNEMPLOYED: 'Unemployed',
-  SELF_EMPLOYED: 'Self-employed',
-  STUDENT: 'Student',
-  RETIRED: 'Retired',
-  OTHER: 'Other',
-});
-
-export const descriptionRequired = Object.freeze([
-  'UNEMPLOYED',
-  'SELF_EMPLOYED',
-  'OTHER',
-]);
-
 export const primaryMailingAddressOptions = Object.freeze({
   HOME: 'Home',
   WORK: 'Work',
@@ -43,30 +28,40 @@ export const branchOptions = Object.freeze([
   'Air Force',
   'Army',
   'Coast Guard',
-  'Marine Corps',
+  'Marines',
   'Navy',
   'NOAA',
+  'No Active Service',
+  'Public Health Service',
   'Space Force',
-  'USPHS',
+  'Other',
 ]);
 
 export const characterOfDischargeOptions = Object.freeze([
-  'Honorable',
-  'General',
-  'Other Than Honorable',
   'Bad Conduct',
   'Dishonorable',
-  'Other',
+  'Convenience of Govt',
+  'Entry Level',
+  'General',
+  'Honorable',
+  'Medical',
+  'Other Than Honorable',
 ]);
 
 export const explanationRequired = Object.freeze([
   'Other Than Honorable',
   'Bad Conduct',
   'Dishonorable',
-  'Other',
 ]);
 
 // Chapter 3
+
+export const employmentStatusOptions = Object.freeze({
+  EMPLOYED: 'Employed',
+  UNEMPLOYED: 'Unemployed',
+  SELF_EMPLOYED: 'Self-employed',
+  STUDENT: 'Student',
+});
 
 export const employmentActivitiesOptions = Object.freeze({
   BUSINESS: 'Business or service that advertises predominately to Veterans',
@@ -76,16 +71,40 @@ export const employmentActivitiesOptions = Object.freeze({
   MEDICAL: 'Medical services',
   SOCIAL_WORK: 'Social work',
   VOCATIONAL_REHABILITATION: 'Vocational rehabilitation',
-  NONE: 'None of these apply',
 });
+
+export const descriptionRequired = Object.freeze([
+  'UNEMPLOYED',
+  'SELF_EMPLOYED',
+]);
 
 // Chapter 4
 
+export const institutionTypeOptions = Object.freeze([
+  'High School',
+  'Community College',
+  'Under Graduate',
+  'Graduate',
+]);
+
 export const degreeOptions = Object.freeze([
-  'High school diploma or equivalent',
+  'GED',
+  'High school diploma',
   'Associate degree',
   "Bachelor's degree",
   "Master's degree",
   'Doctoral degree',
+]);
+
+// Chapter 7
+
+export const characterReferencesRelationship = Object.freeze([
+  'Classmate',
+  'Colleague',
+  'Customer/Client',
+  'Friend',
+  'Neighbor',
+  'Supervisor',
+  'Educator',
   'Other',
 ]);

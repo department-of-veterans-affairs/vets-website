@@ -16,6 +16,8 @@ export default function Pending(props) {
     ariaDescribedBy = null;
   }
   const hideBackButton = formConfig?.useTopBackLink || false;
+  const useWebComponents =
+    formConfig?.formOptions?.useWebComponentForNavigation;
 
   return (
     <>
@@ -29,14 +31,19 @@ export default function Pending(props) {
                 onButtonClick={onSubmit}
                 buttonText="Sending..."
                 disabled
+                loading
                 buttonClass="usa-button-disabled"
+                useWebComponents={useWebComponents}
               />
             </Column>
           </>
         ) : (
           <>
             <Column classNames="small-6 medium-5">
-              <Back onButtonClick={onBack} />
+              <Back
+                onButtonClick={onBack}
+                useWebComponents={useWebComponents}
+              />
             </Column>
             <Column classNames="small-6 medium-5">
               <ProgressButton
@@ -44,7 +51,9 @@ export default function Pending(props) {
                 onButtonClick={onSubmit}
                 buttonText="Sending..."
                 disabled
+                loading
                 buttonClass="usa-button-disabled"
+                useWebComponents={useWebComponents}
               />
             </Column>
             <Column classNames="small-1 medium-1 end">
