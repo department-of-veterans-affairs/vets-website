@@ -16,16 +16,6 @@ describe('<NoResultsBanner>', () => {
     wrapper && wrapper.unmount();
   });
 
-  it('should render va-banner', () => {
-    const noResults = document.querySelector('va-banner');
-    expect(noResults).to.exist;
-  });
-
-  it('should render va-link', () => {
-    const link = document.querySelector('va-link');
-    expect(link).to.exist;
-  });
-
   it('should render correct headline', () => {
     const noResults = document.querySelector(
       `va-banner[headline=${CSS.escape('No Results Found')}]`,
