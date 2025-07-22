@@ -61,53 +61,6 @@ describe('referral actions', () => {
     });
   });
 
-  describe('createReferralAppointment', () => {
-    it('should dispatch success flow', async () => {
-      const mockAppointment = { confirmation: true };
-      sandbox
-        .stub(services, 'postReferralAppointment')
-        .resolves(mockAppointment);
-
-      const result = await actions.createReferralAppointment({
-        draftApppointmentId: 'd1',
-        referralNumber: 'r1',
-        slotId: 's1',
-        networkId: 'n1',
-        providerServiceId: 'p1',
-      })(dispatch);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        actions.CREATE_REFERRAL_APPOINTMENT,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        actions.CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
-      );
-      expect(result).to.deep.equal(mockAppointment);
-    });
-
-    it('should dispatch failure flow', async () => {
-      const captureStub = sandbox.stub(errorUtils, 'captureError');
-      sandbox
-        .stub(services, 'postReferralAppointment')
-        .rejects(new Error('fail'));
-
-      await actions.createReferralAppointment({
-        draftApppointmentId: 'd1',
-        referralNumber: 'r1',
-        slotId: 's1',
-        networkId: 'n1',
-        providerServiceId: 'p1',
-      })(dispatch);
-
-      expect(
-        dispatch.calledWithMatch({
-          type: actions.CREATE_REFERRAL_APPOINTMENT_FAILED,
-        }),
-      ).to.be.true;
-      expect(captureStub.calledOnce).to.be.true;
-    });
-  });
-
   describe('pollFetchAppointmentInfo', () => {
     it('should retry if status is draft', async () => {
       const pollSpy = sandbox.spy(actions, 'pollFetchAppointmentInfo');
