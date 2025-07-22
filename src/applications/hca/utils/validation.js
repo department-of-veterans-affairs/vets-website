@@ -235,13 +235,16 @@ export const validateDependent = (formData = {}) => {
 
   if (dependentIncome) {
     const incomeFields = [grossIncome, netIncome, otherIncome];
-    const anyProvided = incomeFields.some(
-      val => val !== undefined && val !== '',
-    );
-    const allValid = incomeFields.every(
-      val => val === undefined || val === '' || isValidCurrency(val),
-    );
-    if (anyProvided && !allValid) return true;
+    const allFieldsHaveValues = incomeFields.every(val => {
+      if (val === undefined || val === '' || !isValidCurrency(val)) {
+        return false;
+      }
+      const numericValue = parseFloat(val.replace(/[$,]/g, ''));
+      // eslint-disable-next-line no-restricted-globals
+      return !isNaN(numericValue) && numericValue >= 0;
+    });
+
+    if (!allFieldsHaveValues) return true;
   }
 
   const needsEducationExpenses = canHaveEducationExpenses({

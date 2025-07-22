@@ -465,6 +465,38 @@ describe('hca `validateDependent` method', () => {
     expect(validateDependent(data)).to.be.true;
   });
 
+  it('should return `true` if `dependentIncome` is true but some income fields are undefined', () => {
+    const data = {
+      ...baseValidData,
+      'view:netIncome': { netIncome: undefined },
+    };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `dependentIncome` is true but some income fields are empty strings', () => {
+    const data = {
+      ...baseValidData,
+      'view:netIncome': { netIncome: '' },
+    };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `dependentIncome` is true and some income values are negative', () => {
+    const data = {
+      ...baseValidData,
+      'view:otherIncome': { otherIncome: '-200' },
+    };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `false` if `dependentIncome` is true and all income fields have valid values >= 0', () => {
+    const data = {
+      ...baseValidData,
+      'view:netIncome': { netIncome: '0' },
+    };
+    expect(validateDependent(data)).to.be.false;
+  });
+
   it('should NOT require education expenses if age < 18 or > 23', () => {
     householdHelpers.canHaveEducationExpenses.returns(false);
     const data = {
