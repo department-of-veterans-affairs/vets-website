@@ -217,8 +217,10 @@ export const validateDependent = (formData = {}) => {
     'view:otherIncome': { otherIncome } = {},
   } = formData;
 
-  const isValidCurrency = val =>
-    typeof val === 'string' && CURRENCY_PATTERN.test(val);
+  const isValidCurrency = val => {
+    if (val === undefined || val === '') return false;
+    return typeof val === 'string' && CURRENCY_PATTERN.test(val);
+  };
   const isValidSsn = val => typeof val === 'string' && SSN_PATTERN.test(val);
 
   if (!fullName?.firstName || !fullName?.lastName) return true;
@@ -236,9 +238,7 @@ export const validateDependent = (formData = {}) => {
   if (dependentIncome) {
     const incomeFields = [grossIncome, netIncome, otherIncome];
     const allFieldsHaveValues = incomeFields.every(val => {
-      if (val === undefined || val === '' || !isValidCurrency(val)) {
-        return false;
-      }
+      if (!isValidCurrency(val)) return false;
       const numericValue = parseFloat(val.replace(/[$,]/g, ''));
       // eslint-disable-next-line no-restricted-globals
       return !isNaN(numericValue) && numericValue >= 0;
@@ -252,9 +252,5 @@ export const validateDependent = (formData = {}) => {
     'view:grossIncome': { grossIncome },
   });
 
-  return (
-    needsEducationExpenses &&
-    (!dependentEducationExpenses ||
-      !isValidCurrency(dependentEducationExpenses))
-  );
+  return needsEducationExpenses && !isValidCurrency(dependentEducationExpenses);
 };
