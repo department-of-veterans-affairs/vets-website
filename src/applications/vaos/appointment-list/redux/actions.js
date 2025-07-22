@@ -36,7 +36,7 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
   STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
-import { getIsInCCPilot } from '../../referral-appointments/utils/pilot';
+import { getIsInPilotUserStations } from '../../referral-appointments/utils/pilot';
 import { fetchHealthcareServiceById } from '../../services/healthcare-service';
 import {
   captureError,
@@ -90,7 +90,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const patientFacilities = selectPatientFacilities(state);
 
-    const includeEPS = getIsInCCPilot(
+    const includeEPS = getIsInPilotUserStations(
       featureCCDirectScheduling,
       patientFacilities || [],
     );
@@ -240,7 +240,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const state = getState();
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const patientFacilities = selectPatientFacilities(state);
-    const includeEPS = getIsInCCPilot(
+    const includeEPS = getIsInPilotUserStations(
       featureCCDirectScheduling,
       patientFacilities || [],
     );
