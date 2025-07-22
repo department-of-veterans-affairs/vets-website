@@ -17,12 +17,12 @@ import {
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   formatCurrency,
-  formatFullNameNoSuffix,
   generateDeleteDescription,
   isDefined,
   isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  resolveRecipientFullName,
 } from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
 import SupplementaryFormsAlert from '../../../components/FormAlerts/SupplementaryFormsAlert';
@@ -40,14 +40,18 @@ export const options = {
     !isDefined(item.assetType), // include all required fields here
   text: {
     summaryDescription: SupplementaryFormsAlert,
-    getItemName: (item, index, formData) =>
-      isDefined(item?.recipientRelationship) &&
-      isDefined(item?.assetType) &&
-      `${
-        item?.recipientRelationship === 'VETERAN'
-          ? formatFullNameNoSuffix(formData?.veteranFullName)
-          : formatFullNameNoSuffix(item?.recipientName)
-      }’s income from a ${lowercase(ownedAssetTypeLabels[item.assetType])}`,
+    getItemName: (item, index, formData) => {
+      if (
+        !isDefined(item?.recipientRelationship) ||
+        !isDefined(item?.assetType)
+      ) {
+        return undefined;
+      }
+      const fullName = resolveRecipientFullName(item, formData);
+      return `${fullName}’s income from a ${lowercase(
+        ownedAssetTypeLabels[item.assetType],
+      )}`;
+    },
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) &&
       isDefined(item?.ownedPortionValue) && (

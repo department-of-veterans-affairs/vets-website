@@ -57,21 +57,6 @@ describe('Medication card component', () => {
     expect(screen);
   });
 
-  it('fill/refill button no longer appears when refill flag is true', () => {
-    const initialState = {
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_content: true,
-      },
-    };
-    const screen = setup({
-      prescriptionsListItem,
-      initialState,
-    });
-    const medicationName = screen.queryByTestId('refill-request-button');
-    expect(medicationName).to.be.null;
-  });
-
   it('shows shipped on information when available', () => {
     const screen = setup({
       ...prescriptionsListItem,

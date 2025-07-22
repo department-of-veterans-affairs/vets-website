@@ -17,7 +17,7 @@ import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatu
 import LoadFail from '../alerts/LoadFail';
 import Headline from '../ProfileSectionHeadline';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
-import { ProfileInfoCard } from '../ProfileInfoCard';
+import { ProfileInfoSection } from '../ProfileInfoSection';
 
 // Alert to show when a user does not appear to be a Veteran
 const NotAVeteranAlert = () => {
@@ -159,7 +159,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
 
   return (
     <>
-      <ProfileInfoCard
+      <ProfileInfoSection
         data={serviceHistory.map(item =>
           transformServiceHistoryEntryIntoTableRow(item),
         )}

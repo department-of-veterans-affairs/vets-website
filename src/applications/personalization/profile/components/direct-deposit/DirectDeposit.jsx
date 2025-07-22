@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useDirectDeposit, useDirectDepositEffects } from '@@profile/hooks';
 
 import Headline from '@@profile/components/ProfileSectionHeadline';
-import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
+import { ProfileInfoSection } from '@@profile/components/ProfileInfoSection';
 import LoadFail from '@@profile/components/alerts/LoadFail';
 
 import VerifyIdentity from '@@profile/components/direct-deposit/alerts/VerifyIdentity';
@@ -195,7 +195,7 @@ export const DirectDeposit = () => {
           appTitle="direct deposit information page"
           dependencies={[externalServices.LIGHTHOUSE_DIRECT_DEPOSIT]}
         >
-          <ProfileInfoCard
+          <ProfileInfoSection
             title="Bank account information"
             data={[{ value: cardDataValue }]}
             namedAnchor={cardHeadingId}
