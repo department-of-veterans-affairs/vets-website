@@ -9,7 +9,6 @@ import {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
-import { isPilotState } from '../../selectors';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -61,7 +60,11 @@ const ComposeForm = props => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { isComboBoxEnabled, largeAttachmentsEnabled } = useFeatureToggles();
+  const {
+    isComboBoxEnabled,
+    largeAttachmentsEnabled,
+    cernerPilotSmFeatureFlag,
+  } = useFeatureToggles();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
@@ -118,7 +121,6 @@ const ComposeForm = props => {
     draftAutoSaveTimeout,
   );
   const alertsList = useSelector(state => state.sm.alerts.alertList);
-  const isPilot = useSelector(isPilotState);
 
   const validMessageType = {
     SAVE: 'save',
@@ -279,7 +281,20 @@ const ComposeForm = props => {
           .catch(() => setSendMessageFlag(false), scrollToTop());
       }
     },
-    [sendMessageFlag, isSaving, scrollToTop],
+    [
+      sendMessageFlag,
+      isSaving,
+      category,
+      messageBody,
+      electronicSignature,
+      subject,
+      draft?.messageId,
+      selectedRecipientId,
+      attachments,
+      dispatch,
+      currentFolder?.folderId,
+      history,
+    ],
   );
 
   useEffect(
@@ -402,12 +417,12 @@ const ComposeForm = props => {
       subject,
       messageBody,
       category,
+      validMessageType.SEND,
       isSignatureRequired,
       electronicSignature,
       checkboxMarked,
-      setMessageInvalid,
-      comboBoxInputValue,
       isComboBoxEnabled,
+      comboBoxInputValue,
     ],
   );
 
@@ -507,24 +522,21 @@ const ComposeForm = props => {
     },
     [
       checkMessageValidity,
-      attachments,
-      isSignatureRequired,
-      electronicSignature,
-      debouncedRecipient,
-      debouncedCategory,
-      debouncedSubject,
-      debouncedMessageBody,
+      validMessageType.SAVE,
+      draft?.messageId,
       selectedRecipientId,
       category,
       subject,
       messageBody,
+      debouncedRecipient,
+      debouncedCategory,
+      debouncedSubject,
+      debouncedMessageBody,
+      attachments,
+      isSignatureRequired,
+      electronicSignature,
       fieldsString,
-      saveError,
-      draft,
       dispatch,
-      setUnsavedNavigationError,
-      setNavigationError,
-      setSavedDraft,
     ],
   );
 
@@ -552,7 +564,7 @@ const ComposeForm = props => {
         focusOnErrorField();
       }
     },
-    [checkMessageValidity, isSignatureRequired],
+    [checkMessageValidity, isSignatureRequired, validMessageType.SEND],
   );
 
   // Navigation error effect
@@ -751,13 +763,14 @@ const ComposeForm = props => {
       }
     },
     [
-      draft,
       selectedRecipientId,
+      draft,
       category,
       subject,
       messageBody,
       attachments,
-      timeoutId,
+      signOutMessage,
+      noTimeout,
     ],
   );
 
@@ -969,7 +982,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
-                    isPilot={isPilot}
+                    isPilot={cernerPilotSmFeatureFlag}
                   />
                 </section>
               ))}
@@ -1005,6 +1018,8 @@ const ComposeForm = props => {
 
 ComposeForm.propTypes = {
   draft: PropTypes.object,
+  headerRef: PropTypes.object,
+  pageTitle: PropTypes.string,
   recipients: PropTypes.object,
   signature: PropTypes.object,
 };
