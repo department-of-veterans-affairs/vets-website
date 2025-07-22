@@ -119,9 +119,9 @@ export default {
           },
           'ui:errorMessages': {
             enum:
-              'Please authorize the release so we can request your private medical records from your non-VA provider or hopsital.',
+              'Please authorize the release so we can request your private medical records from your non-VA provider or hospital.',
             required:
-              'Please authorize the release so we can request your private medical records from your non-VA provider or hopsital.',
+              'Please authorize the release so we can request your private medical records from your non-VA provider or hospital.',
           },
         },
       }
