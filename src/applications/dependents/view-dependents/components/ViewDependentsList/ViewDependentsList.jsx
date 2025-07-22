@@ -45,12 +45,11 @@ function ViewDependentsList(props) {
         {props.header}
       </h2>
       <p>{props.subHeader}</p>
-      <a
-        className="vads-u-display--block vads-u-margin-bottom--4"
+      <va-link
+        class="vads-u-display--block vads-u-margin-bottom--4"
         href={props.link}
-      >
-        {props.linkText}
-      </a>
+        text={props.linkText}
+      />
       {manageDependentsToggle &&
         props?.submittedDependents?.length > 0 && (
           <RemoveDependentSuccessMessage />

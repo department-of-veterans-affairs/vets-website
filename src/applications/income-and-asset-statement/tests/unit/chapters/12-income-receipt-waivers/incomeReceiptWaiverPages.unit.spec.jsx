@@ -15,7 +15,7 @@ import {
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -122,11 +122,13 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-radio': 1 },
       'annuity summary page',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Did you or your dependents waive or expect to waive any receipt of income in the next 12 months?"]',
+      ],
       'annuity summary page',
     );
     testSubmitsWithoutErrors(
@@ -154,11 +156,11 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-radio': 1 },
       'relationship',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-radio[label="Who has waived income to report?"]'],
       'relationship',
     );
     testSubmitsWithoutErrors(
@@ -193,11 +195,14 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-text-input': 3 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      2,
+      [
+        'va-text-input[label="Income recipient’s first name"]',
+        'va-text-input[label="Income recipient’s last name"]',
+      ],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -225,11 +230,11 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-text-input': 1 },
       'payer',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-text-input[label="Income payer name"]'],
       'payer',
     );
     testSubmitsWithoutErrors(
@@ -282,11 +287,11 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-radio': 1 },
       'payments',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-radio[label="Do you expect the payments to resume?"]'],
       'payments',
     );
     testSubmitsWithoutErrors(
@@ -314,11 +319,11 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-memorable-date': 1 },
       'date',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-memorable-date[label="When will the payments resume?"]'],
       'date',
     );
     testSubmitsWithoutErrors(

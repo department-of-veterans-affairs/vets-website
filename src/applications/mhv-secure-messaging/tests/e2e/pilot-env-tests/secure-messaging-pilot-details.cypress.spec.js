@@ -23,7 +23,7 @@ describe('Secure Messaging Pilot feature flag', () => {
 
     PilotEnvPage.loadThread();
 
-    PilotEnvPage.verifyUrl(Paths.UI_PILOT);
+    PilotEnvPage.verifyUrl(Paths.UI_MAIN);
 
     PilotEnvPage.verifyHeader(
       mockMultiThreadResponse.data[0].attributes.subject,

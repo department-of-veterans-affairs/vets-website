@@ -61,7 +61,7 @@ describe('Copy Address Modal', () => {
 
     const yesButton = await view.findByTestId('save-edit-button');
 
-    expect(yesButton).to.have.text('Yes');
+    expect(yesButton.getAttribute('text')).to.equal('Yes');
   });
 
   it('should render the prompt with different content when mailing address is missing', async () => {

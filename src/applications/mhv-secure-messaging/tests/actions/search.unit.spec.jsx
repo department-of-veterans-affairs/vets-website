@@ -2,7 +2,8 @@ import {
   mockApiRequest,
   mockFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import configureMockStore from 'redux-mock-store';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -20,7 +21,8 @@ import inbox from '../fixtures/folder-inbox-metadata.json';
 
 describe('search actions', () => {
   const middlewares = [thunk];
-  const mockStore = configureMockStore(middlewares);
+  const mockStore = (initialState = { featureToggles: {} }) =>
+    configureStore(middlewares)(initialState);
   const errorResponse = {
     errors: [
       {
@@ -59,10 +61,8 @@ describe('search actions', () => {
     const query = { category: 'covid', queryData: {} };
     const isPilot = true;
     const isPilotState = {
-      sm: {
-        app: {
-          isPilot,
-        },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: isPilot,
       },
     };
     const searchFolderAdvancedSpy = sinon.spy(apiCalls, 'searchFolderAdvanced');

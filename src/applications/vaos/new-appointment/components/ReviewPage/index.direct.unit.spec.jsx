@@ -117,7 +117,11 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   it('should show form information for review', async () => {
     store.dispatch(
       onCalendarChange([
-        formatInTimeZone(start, 'America/Denver', DATE_FORMATS.ISODateTime),
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
       ]),
     );
 
@@ -227,7 +231,11 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   it('should show error message on failure', async () => {
     store.dispatch(
       onCalendarChange([
-        formatInTimeZone(start, 'America/Denver', DATE_FORMATS.ISODateTime),
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
       ]),
     );
 

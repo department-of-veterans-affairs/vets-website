@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { parse, isValid, differenceInYears, format } from 'date-fns';
 
-import { scrollToTop } from 'platform/utilities/scroll';
+import { scrollTo } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ManageDependents from '../../manage-dependents/containers/ManageDependentsApp';
 import { maskID } from '../../../shared/utils';
 
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);
+  const openRef = useRef(null);
 
   const {
     manageDependentsToggle,
@@ -19,51 +21,83 @@ function ViewDependentsListItem(props) {
     relationship,
     ssn,
     dateOfBirth,
-    age,
-    removalDate,
+    upcomingRemoval,
     stateKey,
     openFormlett,
     submittedDependents,
   } = props;
 
+  useEffect(
+    () => {
+      if (openRef.current) {
+        scrollTo(openRef.current);
+        focusElement(openRef.current);
+      }
+    },
+    [open],
+  );
+
   const handleClick = () => {
     setOpen(prevState => !prevState);
     if (open) {
-      const focusEl = document?.querySelectorAll('.mng-dependents-name')?.[
-        stateKey
-      ];
-      focusElement(focusEl);
-      scrollToTop(focusEl);
+      setTimeout(() => {
+        const card = $$('va-card')?.[stateKey];
+        const button = $('va-button[text*="Remove"]', card);
+        focusElement('button', {}, button?.shadowRoot);
+        scrollTo(button);
+      });
     }
   };
 
   const fullName = `${firstName} ${lastName}`;
 
+  // Format the date of birth and calculate age
+  const dobObj = parse(dateOfBirth, 'MM/dd/yyyy', new Date());
+  const dobStr = isValid(dobObj) ? format(dobObj, 'MMMM d, yyyy') : '';
+  const removalDate = upcomingRemoval
+    ? parse(upcomingRemoval, 'MM/dd/yyyy', new Date())
+    : '';
+  const ageInYears = dobStr ? differenceInYears(new Date(), dobObj) : '';
+
   return (
     <div className="vads-u-margin-bottom--3">
       <va-card>
-        <h3 className="vads-u-margin-top--0">{fullName}</h3>
+        <h3 className="vads-u-margin-top--0">
+          <span className="dd-privacy-hidden" data-dd-action-name="full name">
+            {fullName}
+          </span>
+        </h3>
         <dl className="vads-u-margin-top--1 vads-u-margin-bottom--1">
           <div className="vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
             <dt>Relationship:&nbsp;</dt>
-            <dd>{relationship}</dd>
+            <dd
+              className="dd-privacy-hidden"
+              data-dd-action-name="relationship"
+            >
+              {relationship}
+            </dd>
           </div>
 
           {dateOfBirth && (
             <div className="vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
               <dt>Date of birth:&nbsp;</dt>
-              <dd>{moment(dateOfBirth).format('MMMM D, YYYY')}</dd>
+              <dd
+                className="dd-privacy-hidden"
+                data-dd-action-name="date of birth"
+              >
+                {format(new Date(dateOfBirth), 'MMMM d, yyyy')}
+              </dd>
             </div>
           )}
 
-          {age && (
+          {ageInYears && (
             <div className="vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
               <dt>Age:&nbsp;</dt>
               <dd
                 className="dd-privacy-mask"
                 data-dd-action-name="Dependent's age"
               >
-                {age} years old
+                {ageInYears} years old
               </dd>
             </div>
           )}
@@ -91,7 +125,7 @@ function ViewDependentsListItem(props) {
                     className="dd-privacy-mask"
                     data-dd-action-name="Dependent's removal date"
                   >
-                    {moment(removalDate).format('MMMM D, YYYY')}
+                    {format(new Date(removalDate), 'MMMM d, yyyy')}
                   </span>
                 </dd>
               </div>
@@ -125,23 +159,27 @@ function ViewDependentsListItem(props) {
         {manageDependentsToggle && (
           <div className="vads-l-col--12">
             {!open && (
-              <button
-                type="button"
+              <va-button
                 onClick={handleClick}
-                className="usa-button-secondary vads-u-background-color--white"
+                secondary
                 disabled={
-                  openFormlett || submittedDependents.includes(stateKey)
+                  openFormlett || submittedDependents.includes(stateKey) || null
                 }
-                aria-label={`remove ${fullName} as a dependent`}
-              >
-                Remove this dependent
-              </button>
+                label={`remove ${fullName} as a dependent`}
+                text="Remove this dependent"
+              />
             )}
 
             {open && (
               <div className="vads-l-col--12">
-                <p className="vads-u-font-size--h3">Equal to VA Form 21-686c</p>
-                <p>
+                <h4
+                  ref={openRef}
+                  className="vads-u-font-size--h3"
+                  aria-describedby="remove-dependent-instructions"
+                >
+                  Equal to VA Form 21-686c
+                </h4>
+                <p id="remove-dependent-instructions">
                   To remove this dependent from your VA benefits, please enter
                   the information below.
                 </p>
@@ -166,22 +204,22 @@ function ViewDependentsListItem(props) {
 
 const mapStateToProps = state => ({
   openFormlett: state?.removeDependents?.openFormlett,
-  submittedDependents: state?.removeDependents?.submittedDependents,
+  submittedDependents: state?.removeDependents?.submittedDependents || [],
 });
 
 export default connect(mapStateToProps)(ViewDependentsListItem);
 export { ViewDependentsListItem };
 
 ViewDependentsListItem.propTypes = {
+  age: PropTypes.number,
   dateOfBirth: PropTypes.string,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
-  age: PropTypes.number,
-  removalDate: PropTypes.string,
   manageDependentsToggle: PropTypes.bool,
   openFormlett: PropTypes.bool,
   relationship: PropTypes.string,
   ssn: PropTypes.string,
   stateKey: PropTypes.number,
   submittedDependents: PropTypes.array,
+  upcomingRemoval: PropTypes.string,
 };

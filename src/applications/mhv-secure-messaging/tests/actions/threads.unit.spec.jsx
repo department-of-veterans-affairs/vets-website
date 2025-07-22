@@ -2,7 +2,8 @@ import {
   mockApiRequest,
   mockFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import configureMockStore from 'redux-mock-store';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -19,7 +20,8 @@ import * as threadResponse from '../fixtures/message-thread-response.json';
 
 describe('threads actions', () => {
   const middlewares = [thunk];
-  const mockStore = configureMockStore(middlewares);
+  const mockStore = (initialState = { featureToggles: {} }) =>
+    configureStore(middlewares)(initialState);
 
   const noThreadsResponse = {
     errors: [
@@ -48,10 +50,8 @@ describe('threads actions', () => {
     const pageNumber = 1;
     const isPilot = true;
     const isPilotState = {
-      sm: {
-        app: {
-          isPilot,
-        },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: isPilot,
       },
     };
     const getThreadListSpy = sinon.spy(apiCalls, 'getThreadList');

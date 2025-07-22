@@ -1,12 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-
+import sinon from 'sinon';
 import {
   ConfirmationGoBackLink,
   ConfirmationPrintThisPage,
   ConfirmationSubmissionAlert,
   ConfirmationWhatsNextProcessList,
+  validateWithin180Days,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
@@ -33,13 +34,7 @@ describe('10297 Helpers', () => {
     });
 
     it('should render summary box with provided details', () => {
-      const data = {
-        fullName: {
-          first: 'John',
-          middle: 'Test',
-          last: 'Doe',
-        },
-      };
+      const data = { fullName: { first: 'John', middle: 'Test', last: 'Doe' } };
       const submitDate = new Date('07/11/2025');
       const { getByTestId } = render(
         <ConfirmationPrintThisPage data={data} submitDate={submitDate} />,
@@ -71,6 +66,63 @@ describe('10297 Helpers', () => {
         'text',
         'Go back to VA.gov',
       );
+    });
+  });
+
+  const fmt = d =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(
+      d.getDate(),
+    ).padStart(2, '0')}`;
+
+  const MS_IN_DAY = 86_400_000;
+  const addDays = (base, days) => new Date(base.getTime() + days * MS_IN_DAY);
+
+  describe('validateWithin180Days()', () => {
+    // freeze “today” so tests are deterministic
+    const TODAY = new Date('2025-01-01T12:00:00Z');
+    let clock;
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers({
+        now: TODAY.getTime(),
+        toFake: ['Date'],
+      });
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it('does nothing (passes) when given today’s date', () => {
+      const errors = { addError: sinon.spy() };
+      validateWithin180Days(errors, fmt(TODAY));
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('adds an error when given a past date', () => {
+      const errors = { addError: sinon.spy() };
+      validateWithin180Days(errors, fmt(addDays(TODAY, -1)));
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.match(/past/i);
+    });
+
+    it('adds an error when given a date more than 180 days in the future', () => {
+      const errors = { addError: sinon.spy() };
+      validateWithin180Days(errors, fmt(addDays(TODAY, 181)));
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.match(/180 days away/i);
+    });
+
+    it('does nothing (passes) for a date exactly 180 days in the future', () => {
+      const errors = { addError: sinon.spy() };
+      validateWithin180Days(errors, fmt(addDays(TODAY, 180)));
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('does nothing when no date string is provided', () => {
+      const errors = { addError: sinon.spy() };
+      validateWithin180Days(errors, undefined);
+      expect(errors.addError.called).to.be.false;
     });
   });
 });

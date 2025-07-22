@@ -1,4 +1,4 @@
-import '../../shared/definitions';
+import '../definitions';
 
 /**
  * Combine area code and phone number & extension in a string; Not using the
@@ -10,15 +10,43 @@ import '../../shared/definitions';
 export const getPhoneString = (phone = {}) =>
   `${phone?.areaCode || ''}${phone?.phoneNumber || ''}`;
 
+const getExtensionString = phone => {
+  const extension = phone.extension || phone.phoneNumberExt;
+  return extension ? `, ext. ${extension}` : '';
+};
+
 const hashRegex = /#/g;
-const phonePattern = '(###) ###-####';
+const phonePattern = '###-###-####';
+
 export const getFormattedPhone = phone => {
+  if (!phone || !phone.phoneNumber) {
+    return '';
+  }
+
+  const extensionString = getExtensionString(phone);
+
+  if (phone.isInternational) {
+    // International format: +xx xxxxxxx
+    // For international numbers, area code is optional
+    const fullNumber = `${phone?.areaCode || ''}${phone.phoneNumber}`;
+    return `+${phone.countryCode} ${fullNumber}${extensionString}`;
+  }
+
+  // Domestic format: xxx-xxx-xxxx
+  // For domestic numbers, require area code
+  if (!phone?.areaCode || !phone?.phoneNumber) {
+    return '';
+  }
+
   const fullString = getPhoneString(phone);
   if (fullString.length === 10) {
-    const ext = phone.extension ? `, ext. ${phone.extension}` : '';
     let i = 0;
-    // eslint-disable-next-line no-plusplus
-    return phonePattern.replace(hashRegex, () => fullString[i++] || '') + ext;
+
+    return (
+      // eslint-disable-next-line no-plusplus
+      phonePattern.replace(hashRegex, () => fullString[i++] || '') +
+      extensionString
+    );
   }
   return fullString;
 };

@@ -178,9 +178,9 @@ StatusAlert.propTypes = {
     created: PropTypes.string,
     avsPath: PropTypes.string,
     vaos: PropTypes.shape({
-      isCompAndPenAppointment: PropTypes.bool.isRequired,
-      isPastAppointment: PropTypes.bool.isRequired,
-      isPendingAppointment: PropTypes.bool.isRequired,
+      isCompAndPenAppointment: PropTypes.bool,
+      isPastAppointment: PropTypes.bool,
+      isPendingAppointment: PropTypes.bool,
     }),
   }),
   facility: PropTypes.shape({

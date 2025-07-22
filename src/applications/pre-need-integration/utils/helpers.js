@@ -781,10 +781,22 @@ export function transform(formConfig, form) {
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {
-  first: { 'ui:title': 'First name' },
-  middle: { 'ui:title': 'Middle name' },
-  last: { 'ui:title': 'Last name' },
-  maiden: { 'ui:title': 'Maiden name' },
+  first: {
+    'ui:title': 'First name',
+  },
+  middle: {
+    'ui:title': 'Middle name',
+  },
+  last: {
+    'ui:title': 'Last name',
+  },
+  suffix: {
+    'ui:webComponentField': VaSelectField,
+    'ui:options': { classNames: 'form-select-medium' },
+  },
+  maiden: {
+    'ui:title': 'Maiden name',
+  },
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
 
@@ -1381,9 +1393,11 @@ export function getCemeteries() {
 }
 
 export function MailingAddressStateTitle(props) {
-  const { elementPath } = props;
-  const data = useSelector(state => state.form.data || {});
+  const { elementPath, formData } = props;
+  const reduxFormData = useSelector(state => state.form.data || {});
+  const data = formData || reduxFormData;
   const country = get(elementPath, data);
+
   if (country === 'CAN') {
     return 'Province';
   }
