@@ -14,6 +14,12 @@ const ContactInfoOnFile = ({
   showEmailNotificationSettings,
 }) => {
   const { generateContactInfoLink } = useContactInfoDeepLink();
+  const countryCode = mobilePhoneNumber.isInternational
+    ? mobilePhoneNumber.countryCode
+    : null;
+  const contactNumber = mobilePhoneNumber.isInternational
+    ? mobilePhoneNumber.phoneNumber
+    : `${mobilePhoneNumber.areaCode}${mobilePhoneNumber.phoneNumber}`;
   return (
     <>
       <p className="vads-u-margin-bottom--0">
@@ -47,9 +53,8 @@ const ContactInfoOnFile = ({
           {mobilePhoneNumber && (
             <VaTelephone
               data-testid="mobile-phone-number-on-file"
-              contact={`${mobilePhoneNumber.areaCode}${
-                mobilePhoneNumber.phoneNumber
-              }`}
+              country-code={countryCode}
+              contact={contactNumber}
               notClickable
             />
           )}
@@ -79,6 +84,8 @@ ContactInfoOnFile.propTypes = {
   mobilePhoneNumber: PropTypes.shape({
     areaCode: PropTypes.string,
     phoneNumber: PropTypes.string,
+    countryCode: PropTypes.string,
+    isInternational: PropTypes.bool,
   }),
   showEmailNotificationSettings: PropTypes.bool,
 };
