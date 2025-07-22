@@ -5,6 +5,11 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+// Components
+import EligibilitySummary from '../components/EligibilitySummary';
+
+// Pages
+import eligibilityQuestions from '../pages/eligibilityQuestions';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 
@@ -37,6 +42,26 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
+    checkEligibilityChapter: {
+      title: 'Check eligibility',
+      pages: {
+        eligibilityQuestions: {
+          path: 'eligibility-questions',
+          title: 'Eligibility questions',
+          uiSchema: eligibilityQuestions.uiSchema,
+          schema: eligibilityQuestions.schema,
+        },
+        eligibilitySummary: {
+          path: 'eligibility-summary',
+          title: 'Eligibility summary',
+          CustomPage: EligibilitySummary,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          hideOnReview: true,
+        },
+      },
+    },
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
