@@ -3,7 +3,7 @@ import testData from '../../../e2e/fixtures/data/test-data.json';
 import formConfig from '../../../../config/form';
 import veteranInformation from '../../../../config/chapters/01-veteran-and-claimant-information/otherVeteranInformation';
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfFieldsByType,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -20,11 +20,15 @@ describe('income and asset other veteran information page', () => {
     },
     'other veteran information',
   );
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     schema,
     uiSchema,
-    3,
+    [
+      'va-text-input[label="Veteran’s first name"]',
+      'va-text-input[label="Veteran’s last name"]',
+      'va-text-input[label="Veteran’s Social Security number"]',
+    ],
     'other veteran information',
   );
   testSubmitsWithoutErrors(
