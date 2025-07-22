@@ -139,6 +139,10 @@ export const minimalHeaderFormConfigOptions = ({
     return ConditionalBreadcrumbs;
   };
 
+  TopContent.propTypes = {
+    currentLocation: PropTypes.object,
+  };
+
   return {
     v3SegmentedProgressBar: {
       useDiv: true,
