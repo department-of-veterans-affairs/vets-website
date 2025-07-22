@@ -73,10 +73,10 @@ const formConfig = {
           uiSchema: employmentStatus.uiSchema,
           schema: employmentStatus.schema,
           onNavForward: ({ formData, goPath }) => {
-            if (formData.isEmployed === 'N') {
-              goPath('/your-employment-focus');
+            if (formData.isEmployed === false) {
+              goPath('/your-employment-focus'); // update to page 5 path
             } else {
-              goPath();
+              goPath('your-employment-details');
             }
           },
         },
@@ -85,6 +85,13 @@ const formConfig = {
           title: 'Employment details',
           uiSchema: employmentDetails.uiSchema,
           schema: employmentDetails.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.isInTechnologyIndustry === false) {
+              goPath('/your-employment-focus'); // update to page 4 path
+            } else {
+              goPath('your-employment-focus');
+            }
+          },
         },
         employmentFocus: {
           path: 'your-employment-focus',

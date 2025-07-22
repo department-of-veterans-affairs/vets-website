@@ -14,7 +14,7 @@ const employmentFocusOptions = {
 };
 
 const uiSchema = {
-  ...titleUI('Your main are of focus'),
+  ...titleUI('Your main area of focus'),
   technologyAreaOfFocus: {
     focus: {
       ...radioUI({
