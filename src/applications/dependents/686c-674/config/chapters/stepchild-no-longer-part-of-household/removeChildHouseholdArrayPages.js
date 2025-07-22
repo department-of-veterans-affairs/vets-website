@@ -134,7 +134,10 @@ export const veteranSupportsChildPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       () => 'Your support of this stepchild',
     ),
-    supportingStepchild: yesNoUI('Are you still supporting this stepchild?'),
+    supportingStepchild: {
+      ...yesNoUI('Are you still supporting this stepchild?'),
+      'ui:required': () => true,
+    },
   },
   schema: {
     type: 'object',
