@@ -26,9 +26,8 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
     referral: {
-      selectedSlot: '0',
+      selectedSlot: '2024-09-09T16:00:00.000Z',
       draftAppointmentInfo,
-      draftAppointmentCreateStatus: FETCH_STATUS.succeeded,
       currentPage: 'reviewAndConfirm',
       appointmentCreateStatus: FETCH_STATUS.notStarted,
       pollingRequestStart: null,
@@ -221,7 +220,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     requestStub.throws({
       error: { status: 500, message: 'Failed to create appointment' },
     });
-    // .rejects(new Error('Failed to create appointment'));
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -234,9 +232,17 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     await screen.findByTestId('continue-button');
     expect(screen.getByTestId('continue-button')).to.exist;
     await userEvent.click(screen.getByTestId('continue-button'));
-    waitFor(() => {
-      sandbox.assert.calledOnce(requestStub);
-    });
-    expect(screen.findByTestId('create-error-alert')).to.exist;
+    // Wait for the postReferralAppointment call to complete
+    waitFor(() =>
+      expect(screen.getByTestId('continue-button')).to.have.attribute(
+        'loading',
+        'false',
+      ),
+    );
+    await screen.findByTestId('create-error-alert');
+    expect(screen.getByTestId('create-error-alert')).to.contain.text(
+      'We couldn’t schedule this appointment',
+    );
+    sandbox.assert.calledOnce(requestStub);
   });
 });
