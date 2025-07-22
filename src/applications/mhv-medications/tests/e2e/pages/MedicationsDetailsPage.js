@@ -117,6 +117,18 @@ class MedicationsDetailsPage {
       .click({ waitForAnimations: true });
   };
 
+  clickMedicationsListPageBreadcrumbsOnDetailsPage = (_interceptedPage = 1) => {
+    cy.get('[data-testid="rx-breadcrumb-link"]').should('be.visible');
+    cy.get('[data-testid="rx-breadcrumb-link"]')
+      .shadow()
+      .find('a')
+      .eq(0)
+      .click({
+        waitForAnimations: true,
+      });
+    // http://localhost:3001/my-health/medications?page=1  << previous
+  };
+
   clickMedicationsListPageTwoBreadcrumbsOnDetailsPage = () => {
     cy.get('[data-testid="rx-breadcrumb-link"]')
       .shadow()
