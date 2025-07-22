@@ -27,7 +27,7 @@ import {
 } from '../helpers/dateRangeWithCurrentCheckboxPattern';
 
 /** @type {ArrayBuilderOptions} */
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'educationalInstitutions',
   nounSingular: 'educational institution',
   nounPlural: 'educational institutions',

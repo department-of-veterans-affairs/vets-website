@@ -6,13 +6,14 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import educationalInstitutionsPages from '../../../../pages/04-education-history-chapter/educationalInstitutionsPages';
+import educationalInstitutionsPages, {
+  arrayBuilderOptions,
+} from '../../../../pages/04-education-history-chapter/educationalInstitutionsPages';
 import EducationHistoryIntro from '../../../../components/04-education-history-chapter/EducationHistoryIntro';
 import {
   institutionTypeOptions,
   degreeOptions,
 } from '../../../../constants/options';
-import { createDateRangeText } from '../../../../pages/helpers/createDateRangeText';
 
 describe('educationalInstitutionsPages', () => {
   const formData = {
@@ -237,27 +238,64 @@ describe('educationalInstitutionsPages', () => {
 
   context('Show Summary Page', () => {
     const { educationalInstitutionsSummary } = educationalInstitutionsPages;
-    it('renders the summary page with a yes/no question', () => {
-      const { container, findByText } = render(
+    it('renders the summary page with a yes/no question when the', () => {
+      const { container } = render(
         <SchemaForm
           name="educationalInstitutionsSummary"
           title={educationalInstitutionsSummary.title}
           schema={educationalInstitutionsSummary.schema}
           uiSchema={educationalInstitutionsSummary.uiSchema}
-          data={{ formData }}
+          data={{}}
           onChange={() => {}}
           onSubmit={() => {}}
         />,
       );
-      findByText('Review your educational institutions');
-      findByText(formData.name);
-      findByText(createDateRangeText(formData, 'currentlyEnrolled'));
-      findByText('Do you have another educational institution to add?');
-      findByText('Include all education history since high school.');
+
+      expect($('va-radio', container).getAttribute('label')).to.eq(
+        'Do you have a educational institution to add?',
+      );
       expect($('va-radio-option', container).getAttribute('value')).to.eq('Y');
       expect(
         $('va-radio-option:nth-child(2)', container).getAttribute('value'),
       ).to.eq('N');
+    });
+  });
+
+  context('arrayBuilderOptions', () => {
+    it('should have the correct arrayPath, nouns, and maxItems properties', () => {
+      expect(arrayBuilderOptions.arrayPath).to.equal('educationalInstitutions');
+      expect(arrayBuilderOptions.nounSingular).to.equal(
+        'educational institution',
+      );
+      expect(arrayBuilderOptions.nounPlural).to.equal(
+        'educational institutions',
+      );
+      expect(arrayBuilderOptions.required).to.be.true;
+    });
+
+    it('should return the correct card title from getItemName', () => {
+      const item = { name: 'Harry Potter' };
+      const { getByText } = render(arrayBuilderOptions.text.getItemName(item));
+      expect(getByText(item.name)).to.exist;
+    });
+
+    it('should return the correct card description with from and to dates', () => {
+      const item = { dateRange: { from: '2000-01', to: '2004-01' } };
+      const { getByText } = render(
+        arrayBuilderOptions.text.cardDescription(item, 'currentlyEnrolled'),
+      );
+      expect(getByText('January 2000 - January 2004')).to.exist;
+    });
+
+    it('should return the correct card description with from date and present', () => {
+      const item = {
+        dateRange: { from: '2000-01', to: '' },
+        currentlyEnrolled: true,
+      };
+      const { getByText } = render(
+        arrayBuilderOptions.text.cardDescription(item, 'currentlyEnrolled'),
+      );
+      expect(getByText('January 2000 - Present')).to.exist;
     });
   });
 });
