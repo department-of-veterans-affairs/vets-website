@@ -6,12 +6,12 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 // Relative imports.
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
-import { CallToActionWidget } from '../index';
+import { CallToActionWidget, mapStateToProps } from '../index';
+import { ACCOUNT_STATES } from '../constants';
 
 const defaultOptions = {
   profile: {
@@ -123,8 +123,11 @@ describe('<CallToActionWidget>', () => {
       </Provider>,
     );
 
-    const vaAlertSignIn = $('va-alert-sign-in', container);
-    const signInButton = $('va-button', container);
+    const vaAlertSignIn = container.querySelector(
+      'va-alert-sign-in',
+      container,
+    );
+    const signInButton = container.querySelector('va-button', container);
 
     expect(vaAlertSignIn).to.exist;
     expect(signInButton).to.exist;
@@ -146,8 +149,11 @@ describe('<CallToActionWidget>', () => {
         />
       </Provider>,
     );
-    const vaAlertSignIn = $('va-alert-sign-in', container);
-    const signInButton = $('va-button', container);
+    const vaAlertSignIn = container.querySelector(
+      'va-alert-sign-in',
+      container,
+    );
+    const signInButton = container.querySelector('va-button', container);
 
     expect(vaAlertSignIn).to.exist;
     expect(signInButton).to.exist;
@@ -182,8 +188,11 @@ describe('<CallToActionWidget>', () => {
         />
       </Provider>,
     );
-    const vaAlertSignIn = $('va-alert-sign-in', container);
-    const signInButton = $('va-button', container);
+    const vaAlertSignIn = container.querySelector(
+      'va-alert-sign-in',
+      container,
+    );
+    const signInButton = container.querySelector('va-button', container);
 
     expect(vaAlertSignIn).to.exist;
     expect(signInButton).to.exist;
@@ -208,11 +217,15 @@ describe('<CallToActionWidget>', () => {
       </Provider>,
     );
 
-    const vaAlertSignIn = $('va-alert-sign-in', container);
+    const vaAlertSignIn = container.querySelector(
+      'va-alert-sign-in',
+      container,
+    );
 
     expect(vaAlertSignIn).to.exist;
-    expect($('.idme-verify-button', container)).to.exist;
-    expect($('.logingov-verify-button', container)).to.not.exist;
+    expect(container.querySelector('.idme-verify-button', container)).to.exist;
+    expect(container.querySelector('.logingov-verify-button', container)).to.not
+      .exist;
     expect(vaAlertSignIn.getAttribute('variant')).to.eql('verifyIdMe');
   });
 
@@ -245,12 +258,94 @@ describe('<CallToActionWidget>', () => {
     );
     tree.unmount();
   });
+
+  it('should handle prop changes correctly', () => {
+    const { props, mockStore } = getData();
+    const { container, rerender } = render(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          featureToggles={{ loading: true }}
+          profile={{ loading: true }}
+          appId={CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL}
+        />
+      </Provider>,
+    );
+    expect(container.querySelector('va-loading-indicator', container)).to.exist;
+    rerender(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          featureToggles={{ loading: true }}
+          profile={{ loading: true }}
+          appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
+        />
+      </Provider>,
+    );
+    expect(container.querySelector('va-loading-indicator', container)).to.exist;
+    rerender(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          isLoggedIn
+          featureToggles={{ loading: false }}
+          appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
+        />
+      </Provider>,
+    );
+    expect(container.querySelector('va-loading-indicator', container)).to.not
+      .exist;
+    rerender(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          isLoggedIn
+          featureToggles={{ loading: false }}
+          profile={{ verified: true }}
+          appId={CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL}
+        />
+      </Provider>,
+    );
+    expect(container.querySelector('va-loading-indicator', container)).to.not
+      .exist;
+  });
+
+  it('should render MFA when the widget type is DIRECT_DEPOSIT and the profile is NOT multifactor', () => {
+    const { props, mockStore } = getData();
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          isLoggedIn
+          profile={{ loading: false, verified: true, multifactor: false }}
+          featureToggles={{ loading: false }}
+          appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
+        />
+      </Provider>,
+    );
+    expect(getByTestId('direct-deposit-mfa-message')).to.exist;
+  });
+
+  it('should render DirectDeposit when the widget type is DIRECT_DEPOSIT and the profile IS multifactor', () => {
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          isLoggedIn
+          profile={{ loading: false, verified: true, multifactor: true }}
+          featureToggles={{ loading: false }}
+          appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
+        />
+      </Provider>,
+    );
+    expect(container.querySelector('va-alert-sign-in', container)).to.exist;
+  });
+
   describe('online scheduling', () => {
-    it('should show mvi error', () => {
-      const fetchMHVAccount = sinon.spy();
+    it('should show HealthToolsDown when there is a server error', () => {
       const tree = mount(
         <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
           isLoggedIn
           appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
           profile={{
@@ -266,8 +361,74 @@ describe('<CallToActionWidget>', () => {
           }}
         />,
       );
-
       expect(tree.find('HealthToolsDown').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show NotFound when the mvi status is not found', () => {
+      const tree = mount(
+        <CallToActionWidget
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="NOT_FOUND"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: true,
+          }}
+        />,
+      );
+      expect(tree.find('NotFound').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show VaAlertSignIn when the mvi status is not authorized', () => {
+      const tree = mount(
+        <CallToActionWidget
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="NOT_AUTHORIZED"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: true,
+          }}
+        />,
+      );
+      expect(tree.find('VaAlertSignIn').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show SignInOtherAccount when the mvi status is not authorized and the CSP is MHV', () => {
+      const tree = mount(
+        <CallToActionWidget
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="NOT_AUTHORIZED"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: true,
+          }}
+          serviceName={CSP_IDS.MHV}
+        />,
+      );
+      expect(tree.find('SignInOtherAccount').exists()).to.be.true;
       tree.unmount();
     });
 
@@ -326,7 +487,8 @@ describe('<CallToActionWidget>', () => {
       expect(fetchMHVAccount.called).to.be.false;
       tree.unmount();
     });
-    it('should show mhv message if flag is off', () => {
+
+    it('should show NoMHVAccount if it is a health tool and the mvi status is ok', () => {
       const fetchMHVAccount = sinon.spy();
       const tree = mount(
         <CallToActionWidget
@@ -346,9 +508,328 @@ describe('<CallToActionWidget>', () => {
           }}
         />,
       );
-
-      expect(fetchMHVAccount.called).to.be.true;
+      expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('NoMHVAccount').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show VaAlertSignIn if it is a health tool and the mvi status is not authorized', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="NOT_AUTHORIZED"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('VaAlertSignIn').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show VaAlertSignIn if it is a health tool authenticated with ssoe', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          authenticatedWithSSOe
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: false,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('VaAlertSignIn').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show DeactivatedMHVIds if it is a health tool and the mhv account is deactivated', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          authenticatedWithSSOe
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mhvAccountIdState="DEACTIVATED"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('DeactivatedMHVIds').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show OpenMyHealtheVet if it is a health tool authenticated with ssoe', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          authenticatedWithSSOe
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('OpenMyHealtheVet').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show OpenMyHealtheVet if it is a health tool and the mhv account is premium', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{ accountLevel: 'Premium' }}
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('OpenMyHealtheVet').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show HealthToolsDown if it is a health tool and the mhv account has errors', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{ errors: 'some' }}
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('HealthToolsDown').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show UpgradeFailed if it is a health tool and the account upgrade failed', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{ accountState: ACCOUNT_STATES.UPGRADE_FAILED }}
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('UpgradeFailed').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show RegisterFailed if it is a health tool and registering the account failed', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{ accountState: ACCOUNT_STATES.REGISTER_FAILED }}
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('RegisterFailed').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show MultipleIds if it is a health tool and the account has multiple ids', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{ accountState: ACCOUNT_STATES.MULTIPLE_IDS }}
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('MultipleIds').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show DeactivatedMHVIds if it is a health tool and the account has deactivated MHV ids', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{ accountState: ACCOUNT_STATES.DEACTIVATED_MHV_IDS }}
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('DeactivatedMHVIds').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show NeedsSSNResolution if it is a health tool and the account needs SSN resolution', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{ accountState: ACCOUNT_STATES.NEEDS_SSN_RESOLUTION }}
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('NeedsSSNResolution').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show VaAlertSignIn if it is a health tool and the account needs verification', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{ accountState: ACCOUNT_STATES.NEEDS_VERIFICATION }}
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('VaAlertSignIn').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show UpgradeAccount if it is a health tool and has an account level', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{
+            accountState: ACCOUNT_STATES.NEEDS_TERMS_ACCEPTANCE,
+            accountLevel: 'Basic',
+          }}
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+      expect(fetchMHVAccount.calledOnce).to.be.true;
+      expect(tree.find('UpgradeAccount').exists()).to.be.true;
       tree.unmount();
     });
   });
@@ -413,6 +894,115 @@ describe('<CallToActionWidget>', () => {
       it('renders nothing when feature disabled', () => {
         const tree = setup();
         expect(tree.children()).to.be.empty;
+      });
+    });
+
+    describe('functionality', () => {
+      it('should show child nodes if provided', () => {
+        const tree = mount(
+          <CallToActionWidget
+            isLoggedIn
+            appId="test"
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: true,
+            }}
+          >
+            <div className="child-node">Child Node</div>
+          </CallToActionWidget>,
+        );
+        expect(tree.find('.child-node').exists()).to.be.true;
+        expect(tree.find('.child-node').text()).to.equal('Child Node');
+        tree.unmount();
+      });
+
+      it('should map state to props correctly', () => {
+        const state = {
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              loa: {
+                current: 3,
+              },
+              signIn: {
+                serviceName: CSP_IDS.ID_ME,
+              },
+              loading: false,
+              mhvAccount: {
+                loading: false,
+              },
+            },
+          },
+        };
+        const props = mapStateToProps(state);
+        expect(props.serviceName).to.equal(CSP_IDS.ID_ME);
+        expect(props.isLoggedIn).to.be.true;
+        expect(props.profile.loading).to.be.false;
+        expect(props.mhvAccount.loading).to.be.false;
+      });
+
+      it('should redirect correctly when sendToMHV is called', () => {
+        const tree = mount(
+          <CallToActionWidget
+            isLoggedIn
+            authenticatedWithSSOe
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: true,
+            }}
+          >
+            <div className="child-node">Child Node</div>
+          </CallToActionWidget>,
+        );
+        tree.instance().sendToMHV();
+        const location = window.location.href || window.location;
+        expect(location).to.include(
+          'https://int.eauth.va.gov/mhv-portal-web/eauth',
+        );
+        tree.unmount();
+      });
+
+      it('should redirect correctly when mfaHandler is called', () => {
+        const tree = mount(
+          <CallToActionWidget
+            isLoggedIn
+            authenticatedWithSSOe
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: true,
+            }}
+          >
+            <div className="child-node">Child Node</div>
+          </CallToActionWidget>,
+        );
+        tree.instance().mfaHandler();
+        const location = window.location.href || window.location;
+        expect(location).to.include(
+          'https://dev-api.va.gov/v1/sessions/mfa/new',
+        );
+        tree.unmount();
       });
     });
   });

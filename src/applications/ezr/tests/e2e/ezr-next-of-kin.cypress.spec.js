@@ -10,7 +10,7 @@ import {
   fillNameWithKeyboard,
   selectYesNoWebComponent,
 } from './helpers';
-import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
+import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
 import { advanceToNextOfKin } from './helpers/next-of-kin';
 
 const { data: testData } = maxTestData;
@@ -21,7 +21,7 @@ describe('EZR Next Of Kin flow', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
+    cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
       statusCode: 200,
       body: MOCK_ENROLLMENT_RESPONSE,
     }).as('mockEnrollmentStatus');
