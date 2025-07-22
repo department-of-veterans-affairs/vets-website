@@ -683,6 +683,7 @@ const formConfig = {
     burialBenefits: {
       title: 'Burial benefits',
       pages: {
+        // introPage
         burialBenefits: {
           path: 'burial-benefits',
           depends: formData =>
@@ -703,6 +704,7 @@ const formConfig = {
           uiSchema: burialBenefits.uiSchema('sponsor’s cemetery'),
           schema: burialBenefits.schema,
         },
+        // namePage
         currentlyBuriedPersons: {
           path: 'current-burial-benefits',
           depends: formData => buriedWSponsorsEligibility(formData),
@@ -710,6 +712,7 @@ const formConfig = {
           uiSchema: currentlyBuriedPersons.uiSchema,
           schema: currentlyBuriedPersons.schema,
         },
+        // cemeteryPage
         burialCemetery: {
           path: 'burial-cemetery',
           uiSchema: burialCemetery.uiSchema,
