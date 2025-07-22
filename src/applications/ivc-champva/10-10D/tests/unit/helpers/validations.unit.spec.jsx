@@ -1,16 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import {
-  fieldsMustMatchValidation,
-  noDash,
-  validateApplicantSsnIsUnique,
-  validateSponsorSsnIsUnique,
-} from '../../../helpers/validations';
+import { fieldsMustMatchValidation } from '../../../helpers/validations';
 import {
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
   validFieldCharsOnly,
   validObjectCharsOnly,
+  noDash,
+  validateApplicantSsnIsUnique,
+  validateSponsorSsnIsUnique,
 } from '../../../../shared/validations';
 
 const REVIEW_PATH =

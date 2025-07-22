@@ -1,7 +1,7 @@
 import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, capitalize } from 'lodash';
 import {
   addressUI,
   addressSchema,
@@ -28,6 +28,8 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import { CustomApplicantSSNPage } from '../../shared/components/CustomApplicantSSNPage';
+import { validateApplicantSsnIsUnique } from '../../shared/validations';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
@@ -58,6 +60,7 @@ import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDepend
 
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 
+import { validateMarriageAfterDob } from '../helpers/validations';
 /*
 // TODO: re-add this custom validation + the same for normal text fields
 import { applicantAddressCleanValidation } from '../../shared/validations';
@@ -115,10 +118,13 @@ export const applicantOptions = {
         </li>
         <li>
           <b>Relationship to sponsor:</b>{' '}
-          {item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
-          'other'
-            ? item?.applicantRelationshipToSponsor?.relationshipToVeteran
-            : item?.applicantRelationshipToSponsor?.otherRelationshipToVeteran}
+          {capitalize(
+            item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
+            'other'
+              ? item?.applicantRelationshipToSponsor?.relationshipToVeteran
+              : item?.applicantRelationshipToSponsor
+                  ?.otherRelationshipToVeteran,
+          )}
         </li>
       </ul>
     ),
@@ -167,6 +173,7 @@ const applicantIdentificationPage = {
       false,
     ),
     applicantSSN: ssnUI(),
+    'ui:validations': [validateApplicantSsnIsUnique],
   },
   schema: {
     type: 'object',
@@ -579,6 +586,7 @@ const applicantMarriageDatesPage = {
       false,
     ),
     dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
+    'ui:validations': [validateMarriageAfterDob],
   },
   schema: {
     type: 'object',
@@ -735,6 +743,8 @@ export const applicantPages = arrayBuilderPages(
     page14: pageBuilder.itemPage({
       path: 'applicant-identification/:index',
       title: 'Identification',
+      CustomPage: CustomApplicantSSNPage,
+      CustomPageReview: null,
       ...applicantIdentificationPage,
     }),
     page15a: pageBuilder.itemPage({

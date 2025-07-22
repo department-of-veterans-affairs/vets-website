@@ -4,6 +4,13 @@ import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
+/*
+The purpose of this component is to wrap the applicant SSN input page
+in list loops/array builders so that we have access to the sponsor SSN
+and any other applicant's SSNs at time of entry so we can verify that
+users aren't inputting the same SSN for multiple people.
+*/
+
 /** @type {CustomPageType} */
 export function CustomApplicantSSNPage(props) {
   const updateButton = (
@@ -35,7 +42,7 @@ export function CustomApplicantSSNPage(props) {
     'view:applicantSSNArray': [
       ...fullData?.applicants?.map(a => a?.applicantSSN),
     ],
-    'view:sponsorSSN': fullData?.ssn,
+    'view:sponsorSSN': fullData?.ssn ?? fullData?.sponsorSsn,
     'view:pagePerItemIndex': props.pagePerItemIndex,
   };
 
