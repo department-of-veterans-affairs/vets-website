@@ -356,14 +356,14 @@ function CalendarWidget({
                   <>
                     {index === 0 && (
                       <CalendarNavigation
-                        prevOnClick={() =>
+                        prevOnClick={() => {
                           setAlertTrigger();
-                          handlePrev(onPreviousMonth, dates, setDates)
-                        }
-                        nextOnClick={() =>
+                          handlePrev(onPreviousMonth, dates, setDates);
+                        }}
+                        nextOnClick={() => {
                           setAlertTrigger();
-                          handleNext(onNextMonth, dates, setDates)
-                        }
+                          handleNext(onNextMonth, dates, setDates);
+                        }}
                         date={date}
                         prevDisabled={prevDisabled}
                         nextDisabled={nextDisabled}
