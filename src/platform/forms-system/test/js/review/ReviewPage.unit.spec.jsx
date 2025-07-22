@@ -1,11 +1,9 @@
 import React from 'react';
-import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { cleanup } from '@testing-library/react';
 import { ReviewPage } from '../../../src/js/review/ReviewPage';
-import * as patterns from '../../../src/js/patterns/minimal-header';
 
 describe('Schemaform review: ReviewPage', () => {
   let minimalHeader;
@@ -80,22 +78,22 @@ describe('Schemaform review: ReviewPage', () => {
   });
 
   it('should render h1 header if minimal header is present', () => {
-    const stub = sinon.stub(patterns, 'isMinimalHeaderApp').returns(true);
+    minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    document.body.appendChild(minimalHeader);
 
     const treeWithMinimalHeader = shallow(
       <ReviewPage
         form={form}
         openChapters={{}}
-        route={{ formConfig, pageList, path: '/testing' }}
-        setEditMode={() => {}}
-        setPreSubmit={() => {}}
+        route={{ formConfig, pageList }}
+        setEditMode={f => f}
+        setPreSubmit={f => f}
         location={location}
       />,
     );
 
     expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
-
-    stub.restore();
     treeWithMinimalHeader.unmount();
   });
 
