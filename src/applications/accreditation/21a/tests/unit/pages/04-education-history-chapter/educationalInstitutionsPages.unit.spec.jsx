@@ -25,6 +25,7 @@ describe('educationalInstitutionsPages', () => {
     dateRange: { from: '2022-01', to: '2024-06' },
     currentlyEnrolled: false,
   };
+
   context('Show Intro page', () => {
     it('it renders the page pragraph and list items', () => {
       const { getByText, getAllByRole } = render(<EducationHistoryIntro />);
@@ -108,7 +109,7 @@ describe('educationalInstitutionsPages', () => {
     const {
       educationalInstitutionDegreeInformationPage,
     } = educationalInstitutionsPages;
-    it('renders the institution degree information page and question about not completing degree', () => {
+    it('renders the institution degree information page when degreeReceived=false', () => {
       const { container } = render(
         <DefinitionTester
           schema={educationalInstitutionDegreeInformationPage.schema}
@@ -130,13 +131,13 @@ describe('educationalInstitutionsPages', () => {
           pagePerItemIndex={0}
         />,
       );
-      expect($('va-textarea'), container).to.exist;
+
       expect($('va-textarea', container).getAttribute('label')).to.eq(
         'Explain why you did not complete this degree.',
       );
       expect($('va-select'), container).to.not.exist;
     });
-    it('renders the institution degree information page and asks for type of degree', () => {
+    it('renders the institution degree information page when degreeReceived=true', () => {
       const { container } = render(
         <DefinitionTester
           schema={educationalInstitutionDegreeInformationPage.schema}
@@ -149,7 +150,6 @@ describe('educationalInstitutionsPages', () => {
         />,
       );
       expect($('va-textarea'), container).to.not.exist;
-      expect($('va-select'), container).to.exist;
       expect($('va-select', container).getAttribute('label')).to.eq(
         'Type of degree',
       );
@@ -181,58 +181,6 @@ describe('educationalInstitutionsPages', () => {
       expect($('va-text-input[label="State, province, or region"]', container))
         .to.exist;
       expect($('va-text-input[label="Postal code"]', container)).to.exist;
-    });
-  });
-
-  context('Institution degree information page', () => {
-    const {
-      educationalInstitutionDegreeInformationPage,
-    } = educationalInstitutionsPages;
-    it('when degreeReceived=true', () => {
-      const { container } = render(
-        <DefinitionTester
-          schema={educationalInstitutionDegreeInformationPage.schema}
-          uiSchema={educationalInstitutionDegreeInformationPage.uiSchema}
-          data={{
-            educationalInstitutions: [formData],
-          }}
-          arrayPath="educationalInstitutions"
-          pagePerItemIndex={0}
-        />,
-      );
-      expect($('va-textarea', container)).to.not.exist;
-      expect($('va-select[label="Type of degree"]', container)).to.exist;
-    });
-
-    it('when degreeReceived=false', () => {
-      const { container } = render(
-        <DefinitionTester
-          schema={educationalInstitutionDegreeInformationPage.schema}
-          uiSchema={educationalInstitutionDegreeInformationPage.uiSchema}
-          data={{
-            educationalInstitutions: [
-              {
-                name: 'School Name',
-                major: 'Major',
-                institution: institutionTypeOptions[0],
-                degreeReceived: false,
-                degree: degreeOptions[0],
-                dateRange: { from: '2022-01', to: '2024-06' },
-                currentlyEnrolled: false,
-              },
-            ],
-          }}
-          arrayPath="educationalInstitutions"
-          pagePerItemIndex={0}
-        />,
-      );
-      expect(
-        $(
-          'va-textarea[label="Explain why you did not complete this degree."]',
-          container,
-        ),
-      ).to.exist;
-      expect($('va-select', container)).to.not.exist;
     });
   });
 
