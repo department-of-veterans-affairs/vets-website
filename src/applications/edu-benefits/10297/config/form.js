@@ -42,8 +42,8 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    veteransInformationChapter: {
-      title: 'Check eligibility',
+    identificationChapter: {
+      title: 'Veteran’s information',
       pages: {
         eligibilityQuestions: {
           path: 'eligibility-questions',
@@ -60,22 +60,12 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
           hideOnReview: true,
         },
-      },
-    },
-    personalInformationChapter: {
-      title: 'Your personal information',
-      pages: {
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
           title: 'Name and date of birth',
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
         },
-      },
-    },
-    identificationChapter: {
-      title: 'Veteran’s information',
-      pages: {
         identificationInformation: {
           path: 'identification-information',
           title: 'Identification information',
