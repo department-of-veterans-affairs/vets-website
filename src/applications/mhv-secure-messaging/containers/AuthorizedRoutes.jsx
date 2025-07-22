@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
-import pilotManifest from '../pilot/manifest.json';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 import Folders from './Folders';
@@ -39,9 +38,7 @@ const AuthorizedRoutes = () => {
   const { cernerPilotSmFeatureFlag } = featureToggles();
 
   if (location.pathname === `/`) {
-    const basePath = `${
-      cernerPilotSmFeatureFlag ? pilotManifest.rootUrl : manifest.rootUrl
-    }${Paths.INBOX}`;
+    const basePath = `${manifest.rootUrl}${Paths.INBOX}`;
     window.location.replace(basePath);
     return <></>;
   }

@@ -326,34 +326,6 @@ describe('App', () => {
     );
   });
 
-  it('redirects user with pilot environment access to /my-health/secure-messages-pilot/inbox', async () => {
-    const customState = {
-      ...initialState,
-      featureToggles: [],
-    };
-    customState.featureToggles[
-      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
-    ] = true;
-
-    if (!window.location) window.location = {};
-    window.location.replace = sinon.spy();
-    window.location.pathname = '/secure-messaging-pilot/';
-
-    const { queryByText } = renderWithStoreAndRouter(<App />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-
-    expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    await waitFor(() => {
-      expect(window.location.replace.callCount).to.be.greaterThan(0);
-      expect(window.location.replace.args[0][0]).to.equal(
-        '/my-health/secure-messages-pilot/inbox/',
-      );
-    });
-  });
-
   it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
     window.location.replace = sinon.spy();
     const customState = { ...initialState, featureToggles: [] };
