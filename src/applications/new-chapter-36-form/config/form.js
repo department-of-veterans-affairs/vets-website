@@ -23,11 +23,13 @@ const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_27_8832,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your personalized career planning and guidance application (27-8832) is in progress.',
-    //   expired: 'Your saved personalized career planning and guidance application (27-8832) has expired. If you want to apply for personalized career planning and guidance, please start a new application.',
-    //   saved: 'Your personalized career planning and guidance application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your Personalized Career Planning and Guidance Chapter 36 benefit application is in progress.',
+      expired:
+        'Your saved Personalized Career Planning and Guidance Chapter 36 benefit application has expired. If you want to apply for PCPG Chapter 36 benefits, start a new application.',
+      saved: 'Your PCPG Chapter 36 benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,

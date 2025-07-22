@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { format } from 'date-fns';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
 import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
@@ -239,11 +238,11 @@ export const DateAndTimeContent = props => {
               onChange={onChange}
               onNextMonth={null}
               onPreviousMonth={null}
-              minDate={format(new Date(), 'yyyy-MM-dd')}
-              maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
+              minDate={new Date()}
+              maxDate={latestAvailableSlot}
               required
               requiredMessage={error}
-              startMonth={format(new Date(), 'yyyy-MM')}
+              startMonth={new Date()}
               showValidation={error.length > 0}
               showWeekends
               overrideMaxDays

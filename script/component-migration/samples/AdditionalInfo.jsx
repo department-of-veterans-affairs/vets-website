@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 // eslint-disable-next-line deprecate/import
-import ProfileInfoCard from '../../../src/applications/personalization/profile/components/ProfileInfoCard';
+import ProfileInfoCard from '../../../src/applications/personalization/profile/components/ProfileInfoSection';
 
 export const Sample = () => (
   <va-additional-info

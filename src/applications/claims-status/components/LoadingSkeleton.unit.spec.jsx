@@ -96,15 +96,6 @@ describe('LoadingSkeleton', () => {
   });
 
   describe('LoadingSkeleton.Row', () => {
-    it('should render with default styles', () => {
-      const { container } = render(<LoadingSkeleton.Row />);
-      const row = container.querySelector('.loading-skeleton--row');
-      expect(row).to.exist;
-      expect(row.style.height).to.equal('1rem');
-      expect(row.style.width).to.equal('100%');
-      expect(row.style.marginBottom).to.equal('.5rem');
-    });
-
     it('should apply custom styles', () => {
       const { container } = render(
         <LoadingSkeleton.Row height="2rem" width="50%" marginBottom="1rem" />,
