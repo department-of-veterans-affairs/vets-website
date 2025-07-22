@@ -3,9 +3,9 @@ import { datadogRum } from '@datadog/browser-rum';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import recordEvent from '~/platform/monitoring/record-event';
 import WelcomeContainer from '../containers/WelcomeContainer';
+import { myVAHealthPortalLink } from '../utilities/data';
 
 const learnMoreLink = {
   text: 'Learn more about My HealtheVet on VA.gov',
@@ -17,11 +17,7 @@ const ledeContent = `Welcome. You can now manage your health care
   here on VA.gov. Here, you’ll find new, improved versions of your trusted
   health tools and more features.`;
 
-const HeaderLayout = ({
-  showWelcomeMessage = false,
-  isCerner = false,
-  ssoe = false,
-}) => (
+const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
   <>
     <div
       className={classnames(
@@ -65,12 +61,12 @@ const HeaderLayout = ({
                   event: 'nav-link-click',
                   action: 'click',
                   'link-label': 'Go to the My VA Health portal',
-                  'link-destination': mhvUrl(ssoe, 'home'),
+                  'link-destination': myVAHealthPortalLink,
                   'link-origin': window.location.href,
                 });
               }}
               data-testid="mhv-go-back-1"
-              href={mhvUrl(ssoe, 'home')}
+              href={myVAHealthPortalLink}
             >
               Go to the My VA Health portal
             </a>
@@ -111,7 +107,6 @@ HeaderLayout.propTypes = {
   isCerner: PropTypes.bool,
   showMhvGoBack: PropTypes.bool,
   showWelcomeMessage: PropTypes.bool,
-  ssoe: PropTypes.bool,
 };
 
 export default HeaderLayout;

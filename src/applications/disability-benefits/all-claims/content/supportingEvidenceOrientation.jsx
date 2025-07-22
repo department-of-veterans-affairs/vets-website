@@ -5,24 +5,31 @@ export const supportingEvidenceOrientation = ({ formData }) => {
   return (
     <div>
       <p>
-        On the next few screens, we’ll ask you where we can find evidence
-        (supporting documents like doctor’s reports, X-rays, and medical test
-        results) related to:
+        Next, we’ll ask you about evidence we’ll need to support these claims:
       </p>
       <ul>
-        {isClaimingIncrease(formData) && (
-          <li>Your rated service-connected conditions</li>
-        )}
         {isClaimingNew(formData) && (
-          <li>Your new service-connected conditions</li>
+          <li>New claims for conditions related to your military service</li>
+        )}
+        {isClaimingIncrease(formData) && (
+          <li>Rated service-connected conditions that have gotten worse</li>
         )}
       </ul>
+      <p>You can submit these types of evidence:</p>
+      <ul>
+        <li>
+          Records from treatment providers like doctor’s reports, X-rays, or
+          test results
+        </li>
+        <li>Official incident reports</li>
+        <li>
+          Lay or witness statements from family or service members (also called
+          buddy statements)
+        </li>
+      </ul>
       <p>
-        You don’t need to turn in any evidence that you submitted with an
-        earlier claim.{' '}
-        <strong>
-          You only need to submit new evidence that VA doesn’t already have.
-        </strong>
+        <strong>Note: </strong>
+        You only need to submit new evidence that we don’t already have.
       </p>
       <va-alert status="info">
         <h3>Notice of evidence needed</h3>
@@ -31,14 +38,14 @@ export const supportingEvidenceOrientation = ({ formData }) => {
           to support your disability claim.
         </p>
         <p>
-          You can review the evidence requirements on our evidence needed for
-          your disability claim page.
+          We refer to this notice of evidence requirements as the “section 5103
+          notice.”
         </p>
         <p>
           <va-link
             external
             href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/"
-            text="Review the evidence requirements"
+            text="Learn about what evidence you’ll need"
           />
         </p>
       </va-alert>
