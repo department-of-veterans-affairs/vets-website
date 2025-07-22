@@ -18,7 +18,7 @@ export default function transformForSubmit(formConfig, form) {
     {},
   );
 
-  const { fullName, dob, ...otherFields } = normalizedData;
+  const { fullName, dob, internationalPhone, ...otherFields } = normalizedData;
 
   const payload = {
     ...otherFields,
@@ -28,6 +28,12 @@ export default function transformForSubmit(formConfig, form) {
     },
   };
 
+  if (internationalPhone.contact) {
+    payload.internationalPhone = `${internationalPhone.callingCode}${
+      internationalPhone.contact
+    }`;
+  }
+  
   delete payload.checkBoxGroup;
 
   return JSON.stringify({
