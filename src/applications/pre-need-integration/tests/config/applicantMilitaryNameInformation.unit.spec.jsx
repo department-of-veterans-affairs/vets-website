@@ -40,12 +40,10 @@ describe('Pre-need applicant military name information', () => {
       />,
     );
 
-    fillData(form, '#root_application_veteran_serviceName_last', 'Smith');
-    // const lastInput = form.find('#root_application_veteran_serviceName_last');
-    // const lastInputShadow = lastInput
-    //   .instance()
-    //   .shadowRoot.querySelector('input');
-    // lastInputShadow.value = 'Smith';
+    // fillData(form, '#root_application_veteran_serviceName_last', 'Smith');
+    const lastInput = form.find('#root_application_veteran_serviceName_last');
+    const lastInputShadow = lastInput.shadowRoot.querySelector('input');
+    lastInputShadow.value = 'Smith';
     fillData(form, '#root_application_veteran_serviceName_first', 'Jane');
     form.find('form').simulate('submit');
 
