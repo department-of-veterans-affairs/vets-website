@@ -1,4 +1,3 @@
-import { merge } from 'lodash';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -239,25 +238,22 @@ export function servicePeriodInformationPage(isVet, isPrep) {
           },
         },
       ),
-      dateRange: merge(
-        {},
-        dateRangeUI(
-          handleTitle(
-            isVet,
-            isPrep,
-            'Service start date',
-            'Sponsor’s service start date',
-            'Applicant’s service start date',
-          ),
-          handleTitle(
-            isVet,
-            isPrep,
-            'Service end date',
-            'Sponsor’s service end date',
-            'Applicant’s service end date',
-          ),
-          'The service end date must be after the service start date.', // Range error message
+      dateRange: dateRangeUI(
+        handleTitle(
+          isVet,
+          isPrep,
+          'Service start date',
+          'Sponsor’s service start date',
+          'Applicant’s service start date',
         ),
+        handleTitle(
+          isVet,
+          isPrep,
+          'Service end date',
+          'Sponsor’s service end date',
+          'Applicant’s service end date',
+        ),
+        'The service end date must be after the service start date.', // Range error message
       ),
       dischargeType: {
         'ui:title': handleTitle(
