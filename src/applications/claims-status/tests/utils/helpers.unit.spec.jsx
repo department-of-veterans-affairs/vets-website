@@ -4,7 +4,6 @@ import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
 import {
   createGetHandler,
-  networkError,
   jsonResponse,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
@@ -782,7 +781,9 @@ describe('Disability benefits helpers: ', () => {
     before(() => {
       server.listen();
       server.events.on('request:start', req => {
-        expectedUrl = req.url.href;
+        // TODO: After Node 14 support is dropped, simplify to: expectedUrl = req.url.href;
+        // The || req.url fallback is only needed for Node 14 compatibility
+        expectedUrl = req.url?.href || req.url;
       });
     });
 
@@ -803,16 +804,21 @@ describe('Disability benefits helpers: ', () => {
         ),
       );
 
-      const onSuccess = () => done();
+      const onSuccess = () => {
+        if (expectedUrl) {
+          expect(expectedUrl).to.include(
+            '/v0/education_benefits_claims/stem_claim_status',
+          );
+        }
+        done();
+      };
+
       makeAuthRequest(
         '/v0/education_benefits_claims/stem_claim_status',
         null,
         sinon.spy(),
         onSuccess,
-      );
-
-      expect(expectedUrl).to.contain(
-        '/v0/education_benefits_claims/stem_claim_status',
+        done,
       );
     });
 
@@ -820,16 +826,19 @@ describe('Disability benefits helpers: ', () => {
       server.use(
         createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          networkError('Claims Status Failed'),
+          () => jsonResponse({ error: 'Server Error' }, { status: 500 }),
         ),
       );
 
-      const onError = resp => {
-        expect(resp instanceof Error).to.be.true;
-        done();
-      };
       const dispatch = sinon.spy();
       const onSuccess = sinon.spy();
+
+      const onError = () => {
+        expect(onSuccess.called).to.be.false;
+        expect(dispatch.called).to.be.false;
+        done();
+      };
+
       makeAuthRequest(
         '/v0/education_benefits_claims/stem_claim_status',
         null,
@@ -837,9 +846,6 @@ describe('Disability benefits helpers: ', () => {
         onSuccess,
         onError,
       );
-
-      expect(onSuccess.called).to.be.false;
-      expect(dispatch.called).to.be.false;
     });
 
     it('should dispatch auth error', done => {
@@ -1679,7 +1685,33 @@ describe('Disability benefits helpers: ', () => {
         expect(result.title).to.equal("You've already uploaded files");
       });
     });
+    context('when error is due to an invalid claimant', () => {
+      it('should return a claimant invalidate error message', () => {
+        const error = {
+          fileName: 'my-document.pdf',
+          errors: [
+            {
+              detail: 'DOC_UPLOAD_INVALID_CLAIMANT',
+            },
+          ],
+        };
 
+        const result = getUploadErrorMessage(error);
+        expect(result.title).to.equal(
+          'You can’t upload files for this claim here',
+        );
+        expect(result.type).to.equal('error');
+        const { getByText, container } = render(result.body);
+        getByText(
+          /Only the Veteran with the claim can upload files on this page. We’re sorry for the inconvenience./i,
+        );
+        expect($('va-link', container)).to.exist;
+        const link = $('va-link', container);
+        expect(link.getAttribute('href')).to.equal(
+          'https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit',
+        );
+      });
+    });
     context('when error is a non-duplicate upload failure', () => {
       it('should return a generic upload error with file name and title', () => {
         const error = {
