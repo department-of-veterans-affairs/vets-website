@@ -31,6 +31,8 @@ export default function transformForSubmit(formConfig, form) {
     },
   };
 
+  delete payload.checkBoxGroup;
+
   return JSON.stringify({
     veteranReadinessEmploymentClaim: {
       form: JSON.stringify(payload),
