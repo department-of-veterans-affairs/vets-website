@@ -1,4 +1,4 @@
-import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
+import fullSchema from 'vets-json-schema/dist/28-1900_V2-schema.json';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import PreSubmitInfo from 'applications/vre/28-1900/components/PreSubmitInfo';
