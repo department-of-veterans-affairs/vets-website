@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 
-import { scrollToTop } from 'platform/utilities/scroll';
+import { scrollTo } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ManageDependents from '../../manage-dependents/containers/ManageDependentsApp';
 import { maskID } from '../../../shared/utils';
 
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);
+  const openRef = useRef(null);
 
   const {
     manageDependentsToggle,
@@ -24,14 +26,25 @@ function ViewDependentsListItem(props) {
     submittedDependents,
   } = props;
 
+  useEffect(
+    () => {
+      if (openRef.current) {
+        scrollTo(openRef.current);
+        focusElement(openRef.current);
+      }
+    },
+    [open],
+  );
+
   const handleClick = () => {
     setOpen(prevState => !prevState);
     if (open) {
-      const focusEl = document?.querySelectorAll('.mng-dependents-name')?.[
-        stateKey
-      ];
-      focusElement(focusEl);
-      scrollToTop(focusEl);
+      setTimeout(() => {
+        const card = $$('va-card')?.[stateKey];
+        const button = $('va-button[text*="Remove"]', card);
+        focusElement('button', {}, button?.shadowRoot);
+        scrollTo(button);
+      });
     }
   };
 
@@ -91,14 +104,22 @@ function ViewDependentsListItem(props) {
             <va-button
               onClick={handleClick}
               secondary
-              disabled={openFormlett || submittedDependents.includes(stateKey)}
+              disabled={
+                openFormlett || submittedDependents.includes(stateKey) || null
+              }
               label={`remove ${fullName} as a dependent`}
               text="Remove this dependent"
             />
           )}
           {open && (
             <div className="vads-l-col--12">
-              <p className="vads-u-font-size--h3">Equal to VA Form 21-686c</p>
+              <h4
+                ref={openRef}
+                className="vads-u-font-size--h3"
+                aria-describedby="remove-dependent-instructions"
+              >
+                Equal to VA Form 21-686c
+              </h4>
               <p>
                 To remove this dependent from your VA benefits, please enter the
                 information below.

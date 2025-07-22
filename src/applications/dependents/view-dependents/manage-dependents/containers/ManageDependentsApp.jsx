@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
+
 import * as actions from '../redux/actions';
 import { SCHEMAS } from '../schemas';
 import {
@@ -86,6 +87,8 @@ const ManageDependents = props => {
     [dependentsState, stateKey],
   );
 
+  const fullName = `${userInfo.fullName?.firstName || ''} ${userInfo.fullName
+    ?.lastName || ''}`;
   const isLoading = schema
     ? dependentsState[stateKey].status === LOADING_STATUS.pending
     : false;
@@ -109,7 +112,7 @@ const ManageDependents = props => {
           )}
           <va-button
             submit="prevent"
-            label="Submit VA Form 686c to remove this dependent"
+            label={`Submit VA Form 686c to remove ${fullName} as a dependent`}
             loading={
               dependentsState[stateKey].status === LOADING_STATUS.pending
                 ? true
@@ -120,13 +123,13 @@ const ManageDependents = props => {
                 ? 'Removing dependent from award...'
                 : 'Remove dependent'
             }
-            disabled={isLoading}
+            disabled={isLoading || null}
           />
           <va-button
             onClick={handleFormClose}
             secondary
             text="Cancel"
-            label="Cancel removing dependent"
+            label={`Cancel removing ${fullName} as a dependent`}
           />
         </div>
       </SchemaForm>
