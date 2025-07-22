@@ -47,6 +47,10 @@ describe('Schemaform review: ReviewPage', () => {
     data: {},
   };
 
+  beforeEach(() => {
+    document.body.innerHTML = '';
+  });
+
   afterEach(() => {
     if (minimalHeader) {
       document.body.removeChild(minimalHeader);
