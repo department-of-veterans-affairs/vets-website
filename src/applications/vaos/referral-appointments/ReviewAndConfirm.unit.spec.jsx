@@ -234,7 +234,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     await screen.findByTestId('continue-button');
     expect(screen.getByTestId('continue-button')).to.exist;
     await userEvent.click(screen.getByTestId('continue-button'));
-    sandbox.assert.calledOnce(requestStub);
+    waitFor(() => {
+      sandbox.assert.calledOnce(requestStub);
+    });
     expect(screen.findByTestId('create-error-alert')).to.exist;
   });
 });
