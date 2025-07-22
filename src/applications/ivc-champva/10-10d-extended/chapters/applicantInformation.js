@@ -58,6 +58,7 @@ import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDepend
 
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 
+import { validateMarriageAfterDob } from '../helpers/validations';
 /*
 // TODO: re-add this custom validation + the same for normal text fields
 import { applicantAddressCleanValidation } from '../../shared/validations';
@@ -579,6 +580,7 @@ const applicantMarriageDatesPage = {
       false,
     ),
     dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
+    'ui:validations': [validateMarriageAfterDob],
   },
   schema: {
     type: 'object',
