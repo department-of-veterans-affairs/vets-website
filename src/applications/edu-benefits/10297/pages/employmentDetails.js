@@ -11,7 +11,7 @@ const uiSchema = {
       title: 'Do you currently work in the technology industry?',
       labels: {
         Y: 'Yes',
-        N: 'No',
+        N: 'No', // TODO: if no, skip to step 4d\
       },
     }),
   },

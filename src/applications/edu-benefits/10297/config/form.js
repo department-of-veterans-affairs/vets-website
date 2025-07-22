@@ -8,7 +8,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import {
   nameAndDateOfBirth,
   identificationInformation,
-  backgroundInformation,
+  employmentStatus,
+  employmentDetails,
+  employmentFocus,
 } from '../pages';
 
 /** @type {FormConfig} */
@@ -65,11 +67,30 @@ const formConfig = {
     backgroundInformationChapter: {
       title: 'Background information',
       pages: {
-        backgroundInformation: {
-          path: 'background-information',
-          title: 'Background information',
-          uiSchema: backgroundInformation.uiSchema,
-          schema: backgroundInformation.schema,
+        employmentStatus: {
+          path: 'your-employment',
+          title: 'Your employment',
+          uiSchema: employmentStatus.uiSchema,
+          schema: employmentStatus.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.isEmployed === 'N') {
+              goPath('/your-employment-focus');
+            } else {
+              goPath();
+            }
+          },
+        },
+        employmentDetails: {
+          path: 'your-employment-details',
+          title: 'Employment details',
+          uiSchema: employmentDetails.uiSchema,
+          schema: employmentDetails.schema,
+        },
+        employmentFocus: {
+          path: 'your-employment-focus',
+          title: 'Employment focus',
+          uiSchema: employmentFocus.uiSchema,
+          schema: employmentFocus.schema,
         },
       },
     },
