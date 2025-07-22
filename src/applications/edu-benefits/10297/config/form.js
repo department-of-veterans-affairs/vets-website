@@ -11,6 +11,8 @@ import {
   employmentStatus,
   employmentDetails,
   employmentFocus,
+  salaryDetails,
+  educationDetails,
 } from '../pages';
 
 /** @type {FormConfig} */
@@ -74,7 +76,7 @@ const formConfig = {
           schema: employmentStatus.schema,
           onNavForward: ({ formData, goPath }) => {
             if (formData.isEmployed === false) {
-              goPath('/your-employment-focus'); // update to page 5 path
+              goPath('/your-education');
             } else {
               goPath('your-employment-details');
             }
@@ -87,7 +89,7 @@ const formConfig = {
           schema: employmentDetails.schema,
           onNavForward: ({ formData, goPath }) => {
             if (formData.isInTechnologyIndustry === false) {
-              goPath('/your-employment-focus'); // update to page 4 path
+              goPath('/your-salary');
             } else {
               goPath('your-employment-focus');
             }
@@ -98,6 +100,18 @@ const formConfig = {
           title: 'Employment focus',
           uiSchema: employmentFocus.uiSchema,
           schema: employmentFocus.schema,
+        },
+        salaryDetails: {
+          path: 'your-salary',
+          title: 'Your current annual salary',
+          uiSchema: salaryDetails.uiSchema,
+          schema: salaryDetails.schema,
+        },
+        educationDetails: {
+          path: 'your-education',
+          title: 'Your education',
+          uiSchema: educationDetails.uiSchema,
+          schema: educationDetails.schema,
         },
       },
     },
