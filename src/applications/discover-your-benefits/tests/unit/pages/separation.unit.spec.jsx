@@ -41,7 +41,7 @@ describe('separation page', () => {
     expect(title).to.exist;
   });
 
-  it('should render the correct hint for seperation', () => {
+  it('should render the correct hint for separation', () => {
     const hint = document.querySelector(
       'va-radio[hint="If you served during multiple periods, please choose the answer that corresponds to your most recent separation."]',
     );
