@@ -4,7 +4,7 @@ import localStorage from 'platform/utilities/storage/localStorage';
 import { displayFileSize } from 'platform/utilities/ui/index';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 import { timeFromNow } from '../../../utilities/date';
-import { transformForSubmit } from './helpers';
+import { transformForSubmit, handleSessionRefresh } from './helpers';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
@@ -320,10 +320,11 @@ export function uploadFile(
     );
 
     const req = new XMLHttpRequest();
-
-    req.open('POST', uiOptions.fileUploadUrl);
+    req.url = uiOptions.fileUploadUrl;
+    req.open('POST', req.url);
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {
+        handleSessionRefresh(req, csrfTokenStored);
         const body = 'response' in req ? req.response : req.responseText;
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
