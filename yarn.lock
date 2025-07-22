@@ -2870,13 +2870,13 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/component-library@51.2.0":
-  version "51.2.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-51.2.0.tgz#0a7225665894815916d57ccf978b29278a920fb4"
-  integrity sha512-mTRPEe0f+Nha82qCydToL8YfAPw1l91UMsNBLkotV52NCNwdzEp9w191J+Jcd5cBW7RHBmboqA6kBbrBoD/C3g==
+"@department-of-veterans-affairs/component-library@51.3.0":
+  version "51.3.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-51.3.0.tgz#42f9bf894da753fb0d222303070a6178dcd0c408"
+  integrity sha512-gRdQAOJ8p52rDcCPCyT3tMc91BATyJIgyk+450GAda5qDQtV6GGDNwyT8HXD4C/gPIPXij0S5/jA5JLGK70bjA==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "19.2.0"
+    "@department-of-veterans-affairs/web-components" "19.3.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2970,10 +2970,10 @@
     classnames "^2.3.1"
     intersection-observer "^0.12.0"
 
-"@department-of-veterans-affairs/web-components@19.2.0":
-  version "19.2.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-19.2.0.tgz#217b75a802849ccd0d38d4362c0e7a5ae4405b88"
-  integrity sha512-mvwwoM50Mx2RUHeFfj25HsOBWCLxpaBhYKlGUAWjceS5ow4VcWHijWyoYa9nwsIUCcQAieA2rlosN+vwCJpxwQ==
+"@department-of-veterans-affairs/web-components@19.3.0":
+  version "19.3.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-19.3.0.tgz#4e56b70a3b86732aac193739978e1ccc215cabb7"
+  integrity sha512-C86m7A92Zi0SF7hcm/FBruMmiWolBUmKpDERIPEhUtpnT+Bp6dSksys9f7UIGKqNkgTqNbVdT4JiPn60mf+CMw==
   dependencies:
     "@stencil/core" "4.20.0"
     aria-hidden "^1.1.3"
@@ -22705,9 +22705,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#82f6fed76802255b901f3415ea3bb4bdfb6c0aac":
-  version "25.1.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#82f6fed76802255b901f3415ea3bb4bdfb6c0aac"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#359d8a8b1cb79145b0595e675353104e0f7cf390":
+  version "25.1.2"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#359d8a8b1cb79145b0595e675353104e0f7cf390"
   dependencies:
     minimist "^1.2.3"
 

@@ -109,17 +109,17 @@ export default function DetailsVA({ appointment, facilityData }) {
 DetailsVA.propTypes = {
   appointment: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    start: PropTypes.string.isRequired,
+    start: PropTypes.instanceOf(Date).isRequired,
     comment: PropTypes.string,
     status: PropTypes.string.isRequired,
     vaos: PropTypes.shape({
-      isPastAppointment: PropTypes.bool.isRequired,
-      isUpcomingAppointment: PropTypes.bool.isRequired,
-      isPendingAppointment: PropTypes.bool.isRequired,
-      isCompAndPenAppointment: PropTypes.bool.isRequired,
-      isCOVIDVaccine: PropTypes.bool.isRequired,
-      isPhoneAppointment: PropTypes.bool.isRequired,
-      isCancellable: PropTypes.bool.isRequired,
+      isPastAppointment: PropTypes.bool,
+      isUpcomingAppointment: PropTypes.bool,
+      isPendingAppointment: PropTypes.bool,
+      isCompAndPenAppointment: PropTypes.bool,
+      isCOVIDVaccine: PropTypes.bool,
+      isPhoneAppointment: PropTypes.bool,
+      isCancellable: PropTypes.bool,
     }),
     location: PropTypes.shape({
       vistaId: PropTypes.string.isRequired,
