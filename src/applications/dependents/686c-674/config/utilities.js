@@ -129,24 +129,45 @@ export {
   isClientError,
 };
 
+const arrayPaths = {
+  studentInformation: 'Your student(s)',
+  spouseMarriageHistory: "Your spouse's marriage history",
+  veteranMarriageHistory: 'Your marriage history',
+  childrenToAdd: "Your child's information",
+  childStoppedAttendingSchool: 'Your child who stopped attending school',
+  deaths: 'Your deceased dependent',
+  childMarriage: 'Your child who got married',
+  stepChildren: 'Your stepchild who no longer lives with you',
+};
+
 export function customTransformForSubmit(formConfig, form) {
-  const newForm = { ...form, formErrors: { ...form.formErrors } };
-  // console.log(newForm);
+  const incompleteSections = [];
 
   for (const option of ALL_ARRAY_OPTIONS) {
-    const items = newForm.data?.[option.arrayPath];
+    const items = form.data?.[option.arrayPath];
     if (Array.isArray(items)) {
       const hasIncomplete = items.some(option.isItemIncomplete);
       if (hasIncomplete) {
-        newForm.formErrors.arrayLoopIncomplete = `You have incomplete ${
-          option.nounPlural
-        }. Please complete all before submitting.`;
-        return false;
+        const section =
+          arrayPaths[option.arrayPath] || option.nounPlural || option.arrayPath;
+        incompleteSections.push(section);
       }
     }
   }
 
-  const payload = cloneDeep(newForm);
+  if (incompleteSections.length > 0) {
+    if (incompleteSections.length === 1) {
+      // eslint-disable-next-line no-param-reassign
+      form.formErrors.arrayLoopIncomplete = `We are missing information about ${incompleteSections[0].toLowerCase()}. Please finish adding all required information and try your submission again.`;
+    } else {
+      const sectionList = incompleteSections.map(s => `- ${s}`).join('\n');
+      // eslint-disable-next-line no-param-reassign
+      form.formErrors.arrayLoopIncomplete = `We are missing required information about:\n${sectionList}\nPlease finish adding all required information and try your submission again.`;
+    }
+    return false;
+  }
+
+  const payload = cloneDeep(form);
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     payload.data,
