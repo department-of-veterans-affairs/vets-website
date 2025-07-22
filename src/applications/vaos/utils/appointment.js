@@ -188,10 +188,9 @@ export function getAppointmentConflict(
           start: new Date(selectedSlot.start),
           end: new Date(selectedSlot.end),
         };
-        const appointmentStart = new Date(appointment.startUtc);
         const appointmentInterval = {
-          start: appointmentStart,
-          end: addMinutes(appointmentStart, appointment.minutesDuration),
+          start: appointment.start,
+          end: addMinutes(appointment.start, appointment.minutesDuration),
         };
         return (
           appointment.status !== APPOINTMENT_STATUS.cancelled &&
