@@ -408,6 +408,13 @@ export class ProfileInformationEditView extends Component {
                   <VAPServiceEditModalErrorMessage error={error} />
                 </div>
               )}
+              {fieldName === FIELD_NAMES.MOBILE_PHONE && (
+                <p>
+                  Enter a U.S. mobile phone number to receive text
+                  notifications. We can’t send text notifications to
+                  international numbers.
+                </p>
+              )}
               <ProfileInformationActionButtons
                 onCancel={onCancel}
                 title={title}
