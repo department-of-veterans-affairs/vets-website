@@ -20,13 +20,13 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  formatFullNameNoSuffix,
   generateDeleteDescription,
   isDefined,
   isRecipientInfoIncomplete,
   otherGeneratedIncomeTypeExplanationRequired,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  resolveRecipientFullName,
 } from '../../../helpers';
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
@@ -43,13 +43,13 @@ export const options = {
     !isDefined(item.fairMarketValue) ||
     !isDefined(item.incomeGenerationMethod), // include all required fields here
   text: {
-    getItemName: (item, index, formData) =>
-      isDefined(item?.recipientRelationship) &&
-      `${
-        item?.recipientRelationship === 'VETERAN'
-          ? formatFullNameNoSuffix(formData?.veteranFullName)
-          : formatFullNameNoSuffix(item?.recipientName)
-      }’s income`,
+    getItemName: (item, index, formData) => {
+      if (!isDefined(item?.recipientRelationship)) {
+        return undefined;
+      }
+      const fullName = resolveRecipientFullName(item, formData);
+      return `${fullName}’s income`;
+    },
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) &&
       isDefined(item?.fairMarketValue) && (
@@ -106,19 +106,16 @@ const summaryPage = {
           'Are you or your dependents receiving or expecting to receive any income and intellectual property royalties, mineral royalties, land use, or other royalties/properties?',
         hint: 'If yes, you’ll need to report at least one income',
         labels: {
-          Y: 'Yes, I have income from royalties and other properties to report',
-          N:
-            'No, I don’t have income from royalties and other properties to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
         title:
-          'Do you have any more income from royalties and other properties to report?',
+          'Do you have more income from royalties and other properties to report?',
         labels: {
-          Y:
-            'Yes, I have more income from royalties and other properties to report',
-          N:
-            'No, I don’t have any more income from royalties and other properties to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),
@@ -140,7 +137,7 @@ const royaltyRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'Who received the income?',
+      title: 'Who receives the income?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {

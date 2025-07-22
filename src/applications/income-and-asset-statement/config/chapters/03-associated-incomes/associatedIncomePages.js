@@ -18,7 +18,6 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  formatFullNameNoSuffix,
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
@@ -26,6 +25,7 @@ import {
   otherIncomeTypeExplanationRequired,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  resolveRecipientFullName,
 } from '../../../helpers';
 import { relationshipLabels, incomeTypeEarnedLabels } from '../../../labels';
 
@@ -42,14 +42,13 @@ export const options = {
     !isDefined(item.accountValue) ||
     !isDefined(item.payer), // include all required fields here
   text: {
-    getItemName: (item, index, formData) =>
-      isDefined(item?.recipientRelationship) &&
-      isDefined(item?.payer) &&
-      `${
-        item?.recipientRelationship === 'VETERAN'
-          ? formatFullNameNoSuffix(formData?.veteranFullName)
-          : formatFullNameNoSuffix(item?.recipientName)
-      }’s income from ${item.payer}`,
+    getItemName: (item, index, formData) => {
+      if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
+        return undefined;
+      }
+      const fullName = resolveRecipientFullName(item, formData);
+      return `${fullName}’s income from ${item.payer}`;
+    },
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
@@ -99,15 +98,15 @@ const summaryPage = {
           'Are you or your dependents receiving or expecting to receive any income in the next 12 months that is related to financial accounts?',
         hint: 'If yes, you’ll need to report at least one income',
         labels: {
-          Y: 'Yes, I have income to report',
-          N: 'No, I don’t have any income to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
-        title: 'Do you have any more recurring income to report?',
+        title: 'Do you have more recurring income to report?',
         labels: {
-          Y: 'Yes, I have more income to report',
-          N: 'No, I don’t have any more income to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),
@@ -129,7 +128,7 @@ const incomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'Who received the income?',
+      title: 'Who receives the income?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
