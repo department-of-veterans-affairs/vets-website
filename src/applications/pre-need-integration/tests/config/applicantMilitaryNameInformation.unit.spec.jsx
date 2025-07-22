@@ -40,16 +40,8 @@ describe('Pre-need applicant military name information', () => {
       />,
     );
 
-    fillData(
-      form,
-      'va-text-input#root_application_veteran_serviceName_last',
-      'Smith',
-    );
-    fillData(
-      form,
-      'va-text-input#root_application_veteran_serviceName_first',
-      'Jane',
-    );
+    fillData(form, '#root_application_veteran_serviceName_last', 'Smith');
+    fillData(form, '#root_application_veteran_serviceName_first', 'Jane');
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -68,21 +60,9 @@ describe('Pre-need applicant military name information', () => {
       />,
     );
 
-    fillData(
-      form,
-      'va-text-input#root_application_veteran_serviceName_last',
-      'Smith',
-    );
-    fillData(
-      form,
-      'va-text-input#root_application_veteran_serviceName_first',
-      'Jane',
-    );
-    fillData(
-      form,
-      'va-text-input#root_application_veteran_serviceName_middle',
-      'M',
-    );
+    fillData(form, '#root_application_veteran_serviceName_last', 'Smith');
+    fillData(form, '#root_application_veteran_serviceName_first', 'Jane');
+    fillData(form, '#root_application_veteran_serviceName_middle', 'M');
     fillData(form, 'select#root_application_veteran_serviceName_suffix', 'Jr.');
 
     form.find('form').simulate('submit');
