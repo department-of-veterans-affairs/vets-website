@@ -119,7 +119,7 @@ describe('<IntroductionPage/>', () => {
         .format('YYYY-MM-DD'),
     );
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
-    const sipIntro = wrapper.find('Connect(SaveInProgressIntro)');
+    const sipIntro = wrapper.find('Connect(withRouter(SaveInProgressIntro))');
     expect(sipIntro.length).to.equal(2);
     expect(sipIntro.first().props().startText).to.equal(START_TEXT.BDD);
     wrapper.unmount();
