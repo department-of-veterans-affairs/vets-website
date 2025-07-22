@@ -22,14 +22,13 @@ import NeedHelp from '../components/NeedHelp';
 import { dependents } from './chapters/dependents/dependents';
 import { DependentsInformation } from '../components/DependentsInformation';
 import { DependentsInformationReview } from '../components/DependentsInformationReview';
+import { submit } from '../util';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit,
   trackingPrefix: '0538-dependents-verification-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -56,6 +55,9 @@ const formConfig = {
   prefillTransformer,
   verifyRequiredPrefill: true,
   formId: VA_FORM_IDS.FORM_21_0538,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     messages: {
       inProgress:

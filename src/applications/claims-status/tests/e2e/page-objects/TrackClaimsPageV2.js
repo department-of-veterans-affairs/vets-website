@@ -307,7 +307,7 @@ class TrackClaimsPageV2 {
   }
 
   submitFilesForReview(isOldVersion = false) {
-    cy.intercept('POST', `/v0/evss_claims/189685/documents`, {
+    cy.intercept('POST', `/v0/benefits_claims/189685/benefits_documents`, {
       body: {},
     }).as('documents');
     cy.get('#file-upload')
@@ -342,19 +342,28 @@ class TrackClaimsPageV2 {
     }
 
     cy.wait('@documents');
-    cy.get('va-alert h2').should('contain', 'We have your evidence');
+    cy.get('va-alert h2').should('contain', 'We received your file upload');
   }
 
   submitFilesShowsError() {
-    cy.get('va-button#submit')
+    // Try to upload an empty file to trigger validation error
+    cy.get('#file-upload')
       .shadow()
-      .find('button')
-      .click()
+      .find('input')
+      .selectFile(
+        {
+          contents: Cypress.Buffer.alloc(0),
+          fileName: 'empty-file.txt',
+          mimeType: 'text/plain',
+          lastModified: Date.now(),
+        },
+        { force: true },
+      )
       .then(() => {
         cy.get('va-file-input')
           .shadow()
           .find('#error-message')
-          .should('contain', 'Please select a file first');
+          .should('contain', 'The file you selected is empty');
         cy.injectAxeThenAxeCheck();
       });
   }

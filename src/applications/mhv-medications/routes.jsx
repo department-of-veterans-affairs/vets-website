@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { authenticatedLoader } from '@department-of-veterans-affairs/platform-startup/exports';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 
 import manifest from './manifest.json';
@@ -99,7 +99,7 @@ const routes = [
   },
   {
     path: '*',
-    element: <PageNotFound />,
+    element: <MhvPageNotFound />,
   },
 ];
 

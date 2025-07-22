@@ -64,6 +64,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_8794: '22-8794',
   FORM_26_1880: '26-1880',
   FORM_26_4555: '26-4555',
+  FORM_27_8832: '27-8832',
   FORM_28_1900: '28-1900',
   FORM_28_1900_V2: '28-1900_V2',
   FORM_28_8832: '28-8832',
@@ -175,6 +176,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_1995]: `${tryGetAppUrl('1995-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_26_1880]: `${tryGetAppUrl('coe')}/`,
     [VA_FORM_IDS.FORM_26_4555]: `${tryGetAppUrl('4555-adapted-housing')}/`,
+    [VA_FORM_IDS.FORM_27_8832]: `${tryGetAppUrl('new-chapter-36-form')}/`,
     [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900-chapter-31')}/`,
     [VA_FORM_IDS.FORM_28_1900_V2]: `${tryGetAppUrl('new-28-1900-chapter-31')}/`,
     [VA_FORM_IDS.FORM_28_8832]: `${tryGetAppUrl(
@@ -186,7 +188,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION]: `${tryGetAppUrl(
       'welcome-va-setup-review-information',
     )}/`,
-    [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('DISPUTE-DEBT')}/`,
+    [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('dispute-debt')}/`,
     [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330M2')}/`,
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
@@ -634,6 +636,14 @@ export const MY_VA_SIP_FORMS = [
     title: 'specially adapted housing grant (26-4555)',
     description: 'specially adapted housing grant application (26-4555)',
     trackingPrefix: 'adapted-housing-4555-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_27_8832,
+    benefit: 'personalized career planning and guidance',
+    title: 'Personalized career planning and guidance (27-8832)',
+    description:
+      'personalized career planning and guidance application (27-8832)',
+    trackingPrefix: '27-8832-',
   },
   {
     id: VA_FORM_IDS.FORM_28_1900,
