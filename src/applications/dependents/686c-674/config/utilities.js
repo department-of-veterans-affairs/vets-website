@@ -135,7 +135,6 @@ export function customTransformForSubmit(formConfig, form) {
     if (Array.isArray(items)) {
       const hasIncomplete = items.some(option.isItemIncomplete);
       if (hasIncomplete) {
-        // Return a custom error instead of throwing!
         return {
           error: `You have incomplete ${
             option.nounPlural
