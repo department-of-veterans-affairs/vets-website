@@ -37,18 +37,22 @@ import Verify from './components/messages/Verify';
 import { ACCOUNT_STATES, ACCOUNT_STATES_SET } from './constants';
 import { ctaWidgetsLookup, CTA_WIDGET_TYPES } from './ctaWidgets';
 
-const goToTool = (url, gaEvent) => {
-  if (!url) return;
+export const goToTool = (url, gaEvent) => {
+  if (!url) return false;
   // Optionally push Google-Analytics event.
   if (gaEvent) {
     recordEvent(gaEvent);
   }
   if (url.startsWith('/')) {
     window.location = url;
-    return;
+    return false;
   }
   const newWindow = window.open(url, 'cta-popup');
-  if (newWindow) newWindow.focus();
+  if (newWindow) {
+    newWindow.focus();
+    return false;
+  }
+  return true;
 };
 
 const updateReturnUrl = (url, redirect) => {
@@ -64,7 +68,7 @@ export const sendToMHV = authenticatedWithSSOe => () => {
   window.location = mhvUrl(authenticatedWithSSOe, 'home');
 };
 
-const signOut = authenticatedWithSSOe => () => {
+export const signOut = authenticatedWithSSOe => () => {
   recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
   if (authenticatedWithSSOe) {
     IAMLogout();
@@ -73,14 +77,19 @@ const signOut = authenticatedWithSSOe => () => {
   }
 };
 
-const toggleModalWrapper = toggleModalFunc => ({
+export const toggleModalWrapper = toggleModalFunc => ({
   openLoginModal: () => toggleModalFunc(true),
   openForcedLoginModal: () => toggleModalFunc(true, '', true),
 });
 
-const goToToolWrapper = (url, knownEvent) => {
-  if (knownEvent) return () => goToTool(url, knownEvent);
-  return unknownEvent => goToTool(url, unknownEvent);
+export const goToToolWrapper = (url, knownEvent) => {
+  if (knownEvent)
+    return () => {
+      goToTool(url, knownEvent);
+    };
+  return unknownEvent => {
+    goToTool(url, unknownEvent);
+  };
 };
 
 export const CallToActionWidget = ({
@@ -166,10 +175,9 @@ export const CallToActionWidget = ({
         isAccessible &&
         redirect &&
         !popup &&
-        url
+        goToTool(url)
       ) {
-        goToTool(url);
-        if (!url.startsWith('/')) setPopup(true);
+        setPopup(true);
       }
     },
     [
