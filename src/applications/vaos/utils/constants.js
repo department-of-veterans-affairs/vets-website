@@ -490,3 +490,5 @@ export const DATE_FORMATS = {
 
 export const POST_DRAFT_REFERRAL_APPOINTMENT_CACHE =
   'postDraftReferralAppointmentCache';
+
+export const POST_REFERRAL_REQUEST_CACHE = 'postReferralAppointmentCache';
