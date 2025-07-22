@@ -249,5 +249,9 @@ export const validateDependent = (formData = {}) => {
     'view:grossIncome': { grossIncome },
   });
 
-  return needsEducationExpenses && !isValidCurrency(dependentEducationExpenses);
+  return (
+    needsEducationExpenses &&
+    (!dependentEducationExpenses ||
+      !isValidCurrency(dependentEducationExpenses))
+  );
 };
