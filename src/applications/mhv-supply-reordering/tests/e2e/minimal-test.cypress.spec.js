@@ -23,7 +23,7 @@ describe(`${appName} -- minimal test`, () => {
     cy.findByText(/^Start a new order$/).click();
 
     // choose supplies
-    // cy.injectAxeThenAxeCheck();
+    cy.injectAxeThenAxeCheck();
     cy.findByRole('navigation', { name: 'My HealtheVet' }).should('not.exist');
     cy.selectVaCheckbox('root_chosenSupplies_6584', true);
     cy.findByText(/^Continue$/).click();
