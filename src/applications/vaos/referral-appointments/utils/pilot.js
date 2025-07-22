@@ -1,11 +1,14 @@
 /**
- * Determines if a patient is in the Community Care (CC) pilot program.
+ * Determines if a patient is in the Community Care (CC) pilot program user station.
  *
  * @param {boolean} featureCCDirectScheduling - Flag indicating if the CC direct scheduling feature is enabled.
  * @param {Array<{ facilityId: string }>} patientFacilities - Array of patient facilities with their IDs.
- * @returns {boolean} - Returns true if the patient is in the CC pilot program, otherwise false.
+ * @returns {boolean} - Returns true if the patient is in the CC pilot program user station, otherwise false.
  */
-const getIsInCCPilot = (featureCCDirectScheduling, patientFacilities = []) => {
+const getIsInPilotUserStations = (
+  featureCCDirectScheduling,
+  patientFacilities = [],
+) => {
   const stagingStations = ['984', '983'];
   const prodStations = ['659', '657'];
   const pilotStations = [...stagingStations, ...prodStations];
@@ -39,4 +42,4 @@ const getIsInPilotReferralStation = referral => {
   return validStationIds.includes(referral.stationId);
 };
 
-export { getIsInCCPilot, getIsInPilotReferralStation };
+export { getIsInPilotUserStations, getIsInPilotReferralStation };
