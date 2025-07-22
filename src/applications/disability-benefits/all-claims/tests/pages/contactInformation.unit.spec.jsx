@@ -10,13 +10,13 @@ import { combineReducers, createStore } from 'redux';
 
 import {
   DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import {
   STATE_VALUES,
   MILITARY_STATE_VALUES,
 } from 'applications/disability-benefits/all-claims/constants';
 import { commonReducer } from 'platform/startup/store';
-import formConfig from '../../config/form.js';
+import formConfig from '../../config/form';
 import reducers from '../../reducers';
 
 // const NEXT_YEAR = moment()
