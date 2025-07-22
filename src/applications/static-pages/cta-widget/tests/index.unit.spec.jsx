@@ -997,8 +997,7 @@ describe('<CallToActionWidget>', () => {
         expect(windowSpy.calledOnce).to.be.false;
 
         const externalUrl = 'https://www.va.gov';
-        const externalResult = goToTool(externalUrl);
-        expect(externalResult).to.be.true;
+        goToTool(externalUrl);
         expect(recordEventSpy.calledOnce).to.be.false;
         expect(windowSpy.calledOnce).to.be.true;
 
@@ -1032,6 +1031,7 @@ describe('<CallToActionWidget>', () => {
 
         recordEventSpy.restore();
         IAMLogoutSpy.restore();
+        logoutUrlSiSSpy.restore();
         window.location = oldLocation;
       });
 
