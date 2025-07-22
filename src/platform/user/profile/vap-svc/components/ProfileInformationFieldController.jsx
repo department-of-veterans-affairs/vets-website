@@ -51,6 +51,7 @@ import AddressValidationView from '../containers/AddressValidationView';
 import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
 import ConfirmRemoveModal from './ContactInformationFieldInfo/ConfirmRemoveModal';
+import ConfirmIntlMobileSaveModal from './ContactInformationFieldInfo/ConfirmIntlMobileSaveModal';
 import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
 import ProfileInformationView from './ProfileInformationView';
@@ -78,6 +79,7 @@ class ProfileInformationFieldController extends React.Component {
     this.state = {
       showCannotEditModal: false,
       showConfirmCancelModal: false,
+      showConfirmIntlMobileSaveModal: false,
     };
   }
 
@@ -539,6 +541,14 @@ class ProfileInformationFieldController extends React.Component {
           isVisible={showRemoveModal}
           onHide={this.closeModal}
           error={error}
+        />
+
+        <ConfirmIntlMobileSaveModal
+          isVisible={this.state.showConfirmIntlMobileSaveModal}
+          // onConfirm={this.confirmMobileSave}
+          // onCancel={this.cancelMobileSave}
+          countryCode="44"
+          phoneNumber="2012345000"
         />
 
         {content}
