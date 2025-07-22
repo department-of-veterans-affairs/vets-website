@@ -48,7 +48,7 @@ describe('Schemaform review: ReviewPage', () => {
   };
 
   beforeEach(() => {
-    document.body.innerHTML = '';
+    minimalHeader = null;
   });
 
   afterEach(() => {
