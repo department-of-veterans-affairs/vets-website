@@ -113,7 +113,7 @@ export const Locators = {
   },
   BUTTONS: {
     SECURE_MESSAGING: '[data-testid="secure-messaging"]',
-    THREAD_EXPAND: '[data-testid="thread-expand-all"]',
+    THREAD_EXPAND: 'thread-expand-all',
     THREAD_EXPAND_MESSAGES:
       '[data-testid="thread-expand-all"] va-accordion-item',
     ADDITIONAL_FILTER: `.va-accordion__header`,
@@ -177,7 +177,7 @@ export const Locators = {
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
-    THREAD_EXPAND: '[data-testid="thread-expand-all"]',
+    THREAD_EXPAND: 'thread-expand-all',
     SEARCH_DROPDOWN: '#select-search-folder-dropdown',
     TEXT_INPUT: '[data-testid="search-keyword-text-input"]',
     PAGIN_LIST: '.usa-pagination__list li',
