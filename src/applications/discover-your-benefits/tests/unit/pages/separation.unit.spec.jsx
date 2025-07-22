@@ -34,7 +34,7 @@ describe('separation page', () => {
     wrapper && wrapper.unmount();
   });
 
-  it('should render the correct title for seperation', () => {
+  it('should render the correct title for separation', () => {
     const title = document.querySelector(
       'va-radio[label="How long ago did you separate or retire from service?"]',
     );
