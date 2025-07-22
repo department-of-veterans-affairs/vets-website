@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment/moment';
 import AuthenticatedShortFormAlert from '../FormAlerts/AuthenticatedShortFormAlert';
 import { formatDate, normalizeFullName } from '../../utils/helpers';
 import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
@@ -53,6 +54,7 @@ const AuthProfileInformation = ({ user }) => {
                 data-dd-action-name="Date of birth"
               >
                 {veteranDOB}
+                API valid? {moment(veteranDOB) > 1950}
               </span>
             </li>
           ) : null}

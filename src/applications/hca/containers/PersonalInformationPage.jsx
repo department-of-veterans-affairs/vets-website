@@ -46,6 +46,8 @@ const PersonalInformationPage = ({ location, route, router }) => {
       />
       <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
         <div className="vads-u-margin-y--2 form-panel">
+          {authUser ? authUser.veteranDateOfBirth : 'Auth N/A'}
+          {guestUser ? guestUser.veteranDateOfBirth : 'Guest N/A'}
           {formData['view:isLoggedIn'] ? (
             <AuthProfileInformation user={authUser} />
           ) : (
