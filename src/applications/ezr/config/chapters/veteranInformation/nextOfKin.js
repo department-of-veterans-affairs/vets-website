@@ -21,7 +21,7 @@ import { MAX_NEXT_OF_KINS } from '../../../utils/constants';
 const arrayBuilderOptions = {
   arrayPath: 'nextOfKins',
   nounSingular: 'next of kin',
-  nounPlural: 'next of kin',
+  nounPlural: 'next of kins',
   required: false,
   maxItems: MAX_NEXT_OF_KINS,
   hideMaxItemsAlert: true,

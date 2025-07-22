@@ -245,9 +245,13 @@ const getWebComponentImplementation = () => {
         title: 'Tell us where the patient received treatment',
         nounSingular: options.nounSingular,
       }),
-      [providerFacilityFields.providerFacilityName]: textUI(
-        'Name of private provider or hospital',
-      ),
+      [providerFacilityFields.providerFacilityName]: textUI({
+        title: 'Name of private provider or hospital',
+        errorMessages: {
+          required:
+            'Enter the name of the private provider or hospital where you received treatment',
+        },
+      }),
       [providerFacilityFields.providerFacilityAddress]: addressNoMilitaryUI({
         omit: ['street3'],
       }),
@@ -276,9 +280,14 @@ const getWebComponentImplementation = () => {
             formData[providerFacilityFields.providerFacilityName]
           }`,
       ),
-      [providerFacilityFields.conditionsTreated]: textareaUI(
-        'List the conditions the person received treatment for at this facility.',
-      ),
+      [providerFacilityFields.conditionsTreated]: textareaUI({
+        title:
+          'List the conditions the person received treatment for at this facility.',
+        errorMessages: {
+          required:
+            'You must enter at least one condition the person received treatment for at this facility',
+        },
+      }),
     },
     schema: {
       type: 'object',
@@ -299,8 +308,18 @@ const getWebComponentImplementation = () => {
           }`,
       ),
       [providerFacilityFields.treatmentDateRange]: currentOrPastDateRangeUI(
-        'First treatment date (you can estimate)',
-        'Last treatment date (you can estimate)',
+        {
+          title: 'First treatment date (you can estimate)',
+          errorMessages: {
+            required: 'Enter the date you first received treatment',
+          },
+        },
+        {
+          title: 'Last treatment date (you can estimate)',
+          errorMessages: {
+            required: 'Enter the date of your last treatment',
+          },
+        },
       ),
     },
     schema: {

@@ -9,27 +9,6 @@ import {
 
 const sectionTitle = classNames(['vads-u-margin--0']);
 
-const row = classNames([
-  'row',
-  'vads-u-border-color--gray-lighter',
-  'vads-u-color-gray-dark',
-  'vads-u-display--flex',
-  'vads-u-flex-direction--column',
-  'vads-u-padding-x--2',
-  'vads-u-padding-y--1p5',
-  'medium-screen:vads-u-padding--4',
-]);
-
-const firstRow = classNames([row, 'vads-u-border--1px']);
-
-const secondaryRow = classNames([
-  row,
-  'vads-u-border-top--0px',
-  'vads-u-border-left--1px',
-  'vads-u-border-right--1px',
-  'vads-u-border-bottom--1px',
-]);
-
 const rowTitle = classNames([
   'vads-u-font-size--h4',
   'vads-u-margin-top--0',
@@ -51,9 +30,6 @@ const rowValue = classNames(['vads-u-margin--0', 'vads-u-width--full']);
 
 export const classes = {
   sectionTitle,
-  firstRow,
-  secondaryRow,
-  row,
   rowTitle,
   rowTitleDescription,
   rowValue,
@@ -96,21 +72,31 @@ export const List = ({ data }) => {
           // eslint-disable-next-line jsx-a11y/no-redundant-roles
           <li
             key={index}
-            className={index === 0 ? classes.firstRow : classes.secondaryRow}
+            className="vads-u-margin--0 vads-u-max-width--none"
             role="listitem"
             id={rowData.id}
           >
-            {rowData.title && (
-              <dfn className={classes.rowTitle}>
-                {rowData.title}
-                {rowData.alertMessage && <>{rowData.alertMessage}</>}
-                {rowData.description && (
-                  <RowDescription description={rowData.description} />
-                )}
-              </dfn>
-            )}
-
-            <span className={classes.rowValue}>{rowData.value}</span>
+            <va-card
+              key={index}
+              id={rowData.id}
+              class={classNames({ 'vads-u-border-top--0': index > 0 })}
+            >
+              {rowData.title && (
+                <dfn
+                  className={classNames(
+                    classes.rowTitle,
+                    'vads-u-display--block',
+                  )}
+                >
+                  {rowData.title}
+                  {rowData.alertMessage && <>{rowData.alertMessage}</>}
+                  {rowData.description && (
+                    <RowDescription description={rowData.description} />
+                  )}
+                </dfn>
+              )}
+              <span className={classes.rowValue}>{rowData.value}</span>
+            </va-card>
           </li>
         ))}
       </ol>
@@ -127,10 +113,10 @@ const Sections = ({ data, level }) => {
     <>
       {data.map((rowData, index) => {
         return (
-          <div
+          <va-card
             key={index}
-            className={index === 0 ? classes.firstRow : classes.secondaryRow}
             id={rowData.id}
+            class={classNames({ 'vads-u-border-top--0': index > 0 })}
           >
             {rowData.title && (
               <>
@@ -150,7 +136,7 @@ const Sections = ({ data, level }) => {
             {rowData?.value && (
               <div className={classes.rowValue}>{rowData.value}</div>
             )}
-          </div>
+          </va-card>
         );
       })}
     </>
@@ -174,7 +160,7 @@ ListOrSections.propTypes = {
 // render a list of items, sections of items, or a single item
 // 'asList' as true, will render as an ordered list instead of series of sections (legacy behavior)
 // if single item is passed as data, it will be rendered as is (passing single node)
-export const ProfileInfoCard = ({
+export const ProfileInfoSection = ({
   className,
   title,
   namedAnchor,
@@ -185,7 +171,7 @@ export const ProfileInfoCard = ({
   const secondaryLevel = level + 1;
 
   return (
-    <section className={classNames(['profile-info-card', className])}>
+    <section className={classNames(['profile-info-section', className])}>
       <HeadingLevel
         level={level}
         namedAnchor={namedAnchor}
@@ -198,14 +184,14 @@ export const ProfileInfoCard = ({
         {Array.isArray(data) ? (
           <ListOrSections data={data} asList={asList} level={secondaryLevel} />
         ) : (
-          <div className={classes.firstRow}>{data}</div>
+          <va-card>{data}</va-card>
         )}
       </div>
     </section>
   );
 };
 
-ProfileInfoCard.propTypes = {
+ProfileInfoSection.propTypes = {
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.node])
     .isRequired,
   asList: PropTypes.bool,

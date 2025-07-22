@@ -91,11 +91,16 @@ describe('additional exposures details', () => {
         }
       });
 
-      it(`should submit without dates for ${itemId}`, () => {
+      /*
+       * TODO: We currently validate against partial dates on the frontend.
+       * Future consideration: allow Veterans to submit with completely blank dates.
+       * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
+       */
+      it(`should not submit without dates for ${itemId}`, () => {
         pageSubmitTest(
           schemas[`additional-exposure-${itemId}`],
           formData,
-          true,
+          false,
         );
       });
 
@@ -110,4 +115,120 @@ describe('additional exposures details', () => {
         pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
       });
     });
+
+  /*
+   * Edge case validations for toxic exposure dates.
+   * TODO: We currently validate against partial dates on the frontend.
+   * Future consideration: allow Veterans to submit with completely blank dates.
+   * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
+   */
+  describe('edge case validations', () => {
+    const itemId = 'asbestos'; // Using asbestos as the test case
+
+    it('should not submit with incomplete start date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-XX-15',
+          endDate: '2021-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit with incomplete start date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-05-XX',
+          endDate: '2021-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit with incomplete start date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: 'XXXX-05-15',
+          endDate: '2021-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit with incomplete end date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-05-15',
+          endDate: '2021-XX-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit with incomplete end date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-05-15',
+          endDate: '2021-06-XX',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit with incomplete end date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-05-15',
+          endDate: 'XXXX-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit when end date is before start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2021-05-15',
+          endDate: '2020-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit with only start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-05-15',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit with only end date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          endDate: '2021-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+  });
 });

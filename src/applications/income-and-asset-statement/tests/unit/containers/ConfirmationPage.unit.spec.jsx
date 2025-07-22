@@ -29,7 +29,9 @@ const getData = ({
         submission: {
           ...(hasResponse && {
             response: {
-              confirmationNumber,
+              attributes: {
+                confirmationNumber,
+              },
             },
             timestamp,
           }),
@@ -91,6 +93,18 @@ describe('Confirmation page', () => {
 
     getByText(/Jane/);
     getByText(/ClaimantLastName/);
+  });
+
+  it('should show the confirmation number if it is provided', () => {
+    const { mockStore } = getData();
+
+    const { queryByText } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage route={{ formConfig }} />
+      </Provider>,
+    );
+
+    expect(queryByText(/Your confirmation number is/i)).to.exist;
   });
 
   it('should not show the confirmation number if none is provided', () => {

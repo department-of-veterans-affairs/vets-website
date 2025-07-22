@@ -48,6 +48,10 @@ export default {
               Y: "The Veteran's",
               N: 'Someone else connected to the Veteran',
             },
+            errorMessages: {
+              required:
+                "Select whose medical records you're authorizing the release of.",
+            },
           }),
         },
       },

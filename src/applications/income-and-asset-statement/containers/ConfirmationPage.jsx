@@ -17,8 +17,8 @@ export const ConfirmationPage = props => {
   const { formConfig } = props.route;
   const { submission } = form;
   const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
-
+  const confirmationNumber =
+    submission.response?.attributes?.confirmationNumber;
   return (
     <ConfirmationView
       submitDate={submitDate}

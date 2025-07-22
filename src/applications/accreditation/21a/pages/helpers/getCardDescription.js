@@ -24,7 +24,7 @@ export const getCardDescription = (item, type) => {
     return (
       <>
         <p>
-          <b>Phone Number:</b> {item?.phone}
+          <b>Phone Number:</b> +{item?.phone.callingCode} {item?.phone.contact}
         </p>
         <p>
           <b>Email:</b> {item?.email}
