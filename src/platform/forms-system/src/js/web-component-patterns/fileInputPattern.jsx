@@ -60,7 +60,7 @@ export const filePresenceValidation = (
  *
  * Usage schema:
  * ```js
- * exampleFileInput: fileInputSchema,
+ * exampleFileInput: fileInputSchema(),
  * required: ['exampleFileInput']
  *
  * // or
