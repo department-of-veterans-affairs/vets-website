@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAppointmentCreateStatus, getSelectedSlot } from './redux/selectors';
-import { POST_DRAFT_REFERRAL_APPOINTMENT_CACHE } from '../utils/constants';
+import {
+  POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
+  POST_REFERRAL_REQUEST_CACHE,
+} from '../utils/constants';
 import { setFormCurrentPage, setSelectedSlot } from './redux/actions';
 import {
   usePostDraftReferralAppointmentMutation,
@@ -56,9 +59,14 @@ const ReviewAndConfirm = props => {
   );
   const [
     postReferralAppointment,
-    { data: appointmentInfo, isError, isLoading, isSuccess },
+    {
+      data: appointmentInfo,
+      isError: isAppointmentError,
+      isLoading: isAppointmentLoading,
+      isSuccess: isAppointmentSuccess,
+    },
   ] = usePostReferralAppointmentMutation({
-    fixedCacheKey: 'postReferralAppointmentCache',
+    fixedCacheKey: POST_REFERRAL_REQUEST_CACHE,
   });
   useEffect(
     () => {
@@ -133,11 +141,11 @@ const ReviewAndConfirm = props => {
   // or show error message if the appointment creation failed
   useEffect(
     () => {
-      if (isLoading) {
+      if (isAppointmentLoading) {
         setCreateLoading(true);
         setCreateFailed(false);
       }
-      if (isSuccess && draftAppointmentInfo?.id) {
+      if (isAppointmentSuccess && draftAppointmentInfo?.id) {
         setCreateLoading(false);
         routeToNextReferralPage(
           history,
@@ -145,15 +153,19 @@ const ReviewAndConfirm = props => {
           currentReferral.uuid,
           draftAppointmentInfo.id,
         );
-      } else if (isError && draftAppointmentInfo?.id && isDraftSuccess) {
+      } else if (
+        isAppointmentError &&
+        draftAppointmentInfo?.id &&
+        isDraftSuccess
+      ) {
         setCreateLoading(false);
         setCreateFailed(true);
       }
     },
     [
-      isSuccess,
-      isLoading,
-      isError,
+      isAppointmentSuccess,
+      isAppointmentLoading,
+      isAppointmentError,
       appointmentCreateStatus,
       appointmentInfo?.id,
       draftAppointmentInfo?.id,
@@ -185,7 +197,7 @@ const ReviewAndConfirm = props => {
     >
       <div>
         <hr className="vads-u-margin-y--2" />
-        {isSuccess && <p data-testid="success-text">success</p>}
+        {isAppointmentSuccess && <p data-testid="success-text">success</p>}
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
             <div className="vads-l-col">
