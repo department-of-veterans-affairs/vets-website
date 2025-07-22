@@ -5,7 +5,7 @@ import {
   getFormattedPhone,
   getPhoneString,
   hasHomeAndMobilePhone,
-} from '../utils/contactInfo';
+} from '../../shared/utils/contactInfo';
 import { PRIMARY_PHONE, errorMessages } from '../constants';
 import { content } from '../content/primaryPhone';
 import { data995 } from '../../shared/props';

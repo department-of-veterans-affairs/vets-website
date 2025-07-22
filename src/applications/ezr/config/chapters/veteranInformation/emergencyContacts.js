@@ -12,6 +12,7 @@ import {
   emergencyContactsAddressPage,
   emergencyContactsSummaryPage,
 } from '../../../definitions/emergencyContacts';
+import { MAX_EMERGENCY_CONTACTS } from '../../../utils/constants';
 
 /**
  * Declare attributes for array builder pattern
@@ -20,9 +21,9 @@ import {
 const arrayBuilderOptions = {
   arrayPath: 'emergencyContacts',
   nounSingular: 'emergency contact',
-  nounPlural: 'emergency contact',
+  nounPlural: 'emergency contacts',
   required: false,
-  maxItems: 1,
+  maxItems: MAX_EMERGENCY_CONTACTS,
   isItemIncomplete: item =>
     !item?.fullName?.first ||
     !item?.fullName?.last ||
