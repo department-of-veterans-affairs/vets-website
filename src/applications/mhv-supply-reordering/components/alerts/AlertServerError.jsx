@@ -2,8 +2,6 @@ import React from 'react';
 import DlcEmailLink from '../DlcEmailLink';
 import DlcTelephoneLink from '../DlcTelephoneLink';
 
-const toolDescription = 'the medical supply re-order form';
-
 const AlertServerError = () => (
   <va-alert
     status="error"
@@ -13,8 +11,8 @@ const AlertServerError = () => (
     <h3 slot="headline">This tool isn’t working right now</h3>
     <div className="mdot-server-error-alert">
       <p>
-        We’re sorry. There’s a problem with {toolDescription}. Refresh this page
-        or try again later.
+        We’re sorry. There’s a problem with the medical supply re-order form.
+        Refresh this page or try again later.
       </p>
       <p>
         For help ordering hearing aid or CPAP supplies, please call the DLC
