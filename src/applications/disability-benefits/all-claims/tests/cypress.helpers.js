@@ -368,24 +368,32 @@ export const pageHooks = (cy, testOptions) => ({
           cy.get(`input[value="NEW"]`).click();
 
           // Fill in the primary description
-          cy.get('textarea[name="root_primaryDescription"]')
+          cy.get('textarea[id="root_primaryDescription"]')
             .should('be.visible')
-            .clear()
-            .type(disability.primaryDescription);
-          cy.findByText(/continue/i, { selector: 'va-button' }).click();
+            .clear();
+          cy.get('textarea[id="root_primaryDescription"]').click();
+          cy.get('textarea[id="root_primaryDescription"]').type(
+            disability.primaryDescription,
+          );
+          cy.findByText(/continue/i, { selector: 'button' }).should(
+            'be.visible',
+          );
+          cy.findByText(/continue/i, { selector: 'button' }).click();
         } else if (disability.cause === 'SECONDARY') {
           // SECONDARY conditions should show secondary follow-up page
           cy.get(`input[value="SECONDARY"]`).click();
 
           // Select the disability that caused this one
-          cy.get('select[name="root_causedByDisability"]')
+          cy.get('select[id="root_view:secondaryFollowUp_causedByDisability"]')
             .should('be.visible')
             .select(disability['view:secondaryFollowUp'].causedByDisability);
 
           // .select(disability['view:secondaryFollowUp'].causedByDisability);
 
           // Fill in the description
-          cy.get('textarea[name="root_causedByDisabilityDescription"]')
+          cy.get(
+            'textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]',
+          )
             .should('be.visible')
             .clear()
             .type(
@@ -393,44 +401,46 @@ export const pageHooks = (cy, testOptions) => ({
                 .causedByDisabilityDescription,
             );
 
-          cy.findByText(/continue/i, { selector: 'va-button' }).click();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
         } else if (disability.cause === 'WORSENED') {
           // WORSENED conditions should show worsened follow-up page
           cy.get(`input[value="WORSENED"]`).click();
 
           // Fill in worsened description
-          cy.get('textarea[name="root_worsenedDescription"]')
+          cy.get('input[name="root_view:worsenedFollowUp_worsenedDescription"]')
             .should('be.visible')
             .clear()
             .type(disability['view:worsenedFollowUp'].worsenedDescription);
 
-          cy.get('textarea[name="root_worsenedEffects"]')
+          cy.get('textarea[id="root_view:worsenedFollowUp_worsenedEffects"]')
             .should('be.visible')
             .clear()
             .type(disability['view:worsenedFollowUp'].worsenedEffects);
 
-          cy.findByText(/continue/i, { selector: 'va-button' }).click();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
         } else if (disability.cause === 'VA') {
           // VA conditions should show VA mistreatment follow-up page
           cy.get(`input[value="VA"]`).click();
 
           // Fill in VA mistreatment details
-          cy.get('textarea[name="root_vaMistreatmentDescription"]')
+          cy.get(
+            'textarea[id="root_view:vaFollowUp_vaMistreatmentDescription"]',
+          )
             .should('be.visible')
             .clear()
             .type(disability['view:vaFollowUp'].vaMistreatmentDescription);
 
-          cy.get('input[name="root_vaMistreatmentLocation"]')
+          cy.get('input[id="root_view:vaFollowUp_vaMistreatmentLocation"]')
             .should('be.visible')
             .clear()
             .type(disability['view:vaFollowUp'].vaMistreatmentLocation);
 
-          cy.get('input[name="root_vaMistreatmentDate"]')
+          cy.get('input[id="root_view:vaFollowUp_vaMistreatmentDate"]')
             .should('be.visible')
             .clear()
             .type(disability['view:vaFollowUp'].vaMistreatmentDate);
 
-          cy.findByText(/continue/i, { selector: 'va-button' }).click();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
         }
 
         // Verify we've moved to the next page or completed the flow
@@ -444,7 +454,7 @@ export const pageHooks = (cy, testOptions) => ({
       });
 
       // Verify we've completed all follow-up pages and moved  to the next section
-      cy.url().should('include', 'supporting-evidence');
+      cy.url().should('include', 'toxic-exposure/conditions');
     });
   },
 
