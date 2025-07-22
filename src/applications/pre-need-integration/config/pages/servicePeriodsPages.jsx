@@ -6,6 +6,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -275,6 +276,7 @@ export function servicePeriodInformationPage(isVet, isPrep) {
         },
       },
       highestRank: autosuggest.uiSchema('Highest rank attained', null, {
+        'ui:webComponentField': VaTextInputField,
         'ui:options': {
           labels: rankLabels,
           hint:
