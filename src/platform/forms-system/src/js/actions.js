@@ -104,8 +104,10 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
   const csrfTokenStored = localStorage.getItem('csrfToken');
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
+    req.url = submitToUrl;
     req.open('POST', submitUrl);
     req.addEventListener('load', () => {
+      handleSessionRefresh(req, csrfTokenStored);
       if (req.status >= 200 && req.status < 300) {
         recordEvent({
           event: `${trackingPrefix}-submission-successful`,
