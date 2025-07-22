@@ -49,11 +49,28 @@ export const marriageEndDetails = {
         expandUnderCondition: 'other',
         expandedContentFocus: true,
         preserveHiddenData: true,
+        updateSchema: (formData, formSchema) => {
+          if (formSchema.properties.marriageEndDescription['ui:collapsed']) {
+            return {
+              ...formSchema,
+              required: ['marriageEndDate', 'marriageEndReason'],
+            };
+          }
+          return {
+            ...formSchema,
+            required: [
+              'marriageEndDate',
+              'marriageEndReason',
+              'marriageEndDescription',
+            ],
+          };
+        },
       },
     },
   },
   schema: {
     type: 'object',
+    required: ['marriageEndDate', 'marriageEndReason'],
     properties: {
       marriageEndDate: currentOrPastDateSchema,
       marriageEndReason: radioSchema([

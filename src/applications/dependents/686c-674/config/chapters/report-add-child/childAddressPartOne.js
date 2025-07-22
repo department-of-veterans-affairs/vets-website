@@ -15,6 +15,7 @@ export const childAddressPartOne = {
   },
   schema: {
     type: 'object',
+    required: ['address'],
     properties: {
       address: addressSchema(),
     },

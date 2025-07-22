@@ -119,6 +119,7 @@ export const householdChildInfoPage = {
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'ssn', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
@@ -133,13 +134,11 @@ export const veteranSupportsChildPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       () => 'Your support of this stepchild',
     ),
-    supportingStepchild: {
-      ...yesNoUI('Are you still supporting this stepchild?'),
-      'ui:required': () => true,
-    },
+    supportingStepchild: yesNoUI('Are you still supporting this stepchild?'),
   },
   schema: {
     type: 'object',
+    required: ['supportingStepchild'],
     properties: {
       supportingStepchild: yesNoSchema,
     },
@@ -206,6 +205,7 @@ export const childAddressPage = {
     properties: {
       address: addressSchema(),
     },
+    required: ['address'],
   },
 };
 
@@ -224,5 +224,6 @@ export const parentOrGuardianPage = {
     properties: {
       whoDoesTheStepchildLiveWith: fullNameNoSuffixSchema,
     },
+    required: ['whoDoesTheStepchildLiveWith'],
   },
 };

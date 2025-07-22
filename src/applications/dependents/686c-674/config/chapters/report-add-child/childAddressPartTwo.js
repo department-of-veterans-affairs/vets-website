@@ -13,6 +13,7 @@ export const childAddressPartTwo = {
   },
   schema: {
     type: 'object',
+    required: ['livingWith'],
     properties: {
       livingWith: fullNameNoSuffixSchema,
     },

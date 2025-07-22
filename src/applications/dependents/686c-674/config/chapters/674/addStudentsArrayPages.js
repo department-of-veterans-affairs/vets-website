@@ -148,6 +148,7 @@ export const studentInformationPage = {
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       birthDate: currentOrPastDateSchema,
@@ -170,6 +171,7 @@ export const studentIDInformationPage = {
   },
   schema: {
     type: 'object',
+    required: ['ssn', 'isParent'],
     properties: {
       ssn: ssnSchema,
       isParent: yesNoSchema,
@@ -214,6 +216,7 @@ export const studentAddressPage = {
   },
   schema: {
     type: 'object',
+    required: ['address'],
     properties: {
       address: addressSchema(),
     },
@@ -231,6 +234,7 @@ export const studentMaritalStatusPage = {
   },
   schema: {
     type: 'object',
+    required: ['wasMarried'],
     properties: {
       wasMarried: yesNoSchema,
     },
@@ -384,6 +388,7 @@ export const studentProgramInfoPage = {
   },
   schema: {
     type: 'object',
+    required: ['schoolInformation'],
     properties: {
       schoolInformation: {
         type: 'object',
@@ -416,6 +421,7 @@ export const studentAttendancePage = {
     properties: {
       schoolInformation: {
         type: 'object',
+        required: ['studentIsEnrolledFullTime'],
         properties: {
           studentIsEnrolledFullTime: yesNoSchema,
         },
@@ -533,6 +539,11 @@ export const studentTermDatesPage = {
         type: 'object',
         properties: {
           currentTermDates: {
+            required: [
+              'officialSchoolStartDate',
+              'expectedStudentStartDate',
+              'expectedGraduationDate',
+            ],
             type: 'object',
             properties: {
               officialSchoolStartDate: currentOrPastDateSchema,
@@ -564,6 +575,7 @@ export const previousTermQuestionPage = {
     properties: {
       schoolInformation: {
         type: 'object',
+        required: ['studentDidAttendSchoolLastTerm'],
         properties: {
           studentDidAttendSchoolLastTerm: yesNoSchema,
         },
@@ -637,6 +649,7 @@ export const claimsOrReceivesPensionPage = {
   },
   schema: {
     type: 'object',
+    required: ['claimsOrReceivesPension'],
     properties: {
       claimsOrReceivesPension: yesNoSchema,
     },
