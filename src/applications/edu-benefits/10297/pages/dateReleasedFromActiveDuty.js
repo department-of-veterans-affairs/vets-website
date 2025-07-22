@@ -11,7 +11,7 @@ const uiSchema = {
   ...titleUI('Date you will be released from active duty'),
   dateReleasedFromActiveDuty: {
     ...currentOrPastDateUI({
-      title: 'Please provide the date you will be released from active duty',
+      title: 'Please provide the date you will be released from active duty.',
       errorMessages: { required: 'Please enter a date' },
       hint: null,
     }),
