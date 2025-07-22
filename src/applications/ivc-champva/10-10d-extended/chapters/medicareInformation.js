@@ -733,9 +733,14 @@ export function getEligibleApplicantsWithoutMedicare(formData) {
 export const missingMedicarePage = {
   path: 'missing-medicare-applicants',
   title: 'Medicare status',
-  depends: formData => {
+  depends: (formData, index) => {
     const excluded = getEligibleApplicantsWithoutMedicare(formData);
-    return excluded && excluded.length > 0;
+    const curAppHash = formData?.medicare?.[index]?.medicareParticipant;
+    const curApp = formData?.applicants?.find(
+      a => toHashMemoized(a.applicantSSN) === curAppHash,
+    );
+    const age = getAgeInYears(curApp?.applicantDob);
+    return age >= 65 && excluded && excluded.length > 0;
   },
   // Something to do with array builder/topBackLink was causing us to
   // always attempt to navigate back inside the medicare array rather
