@@ -14,6 +14,26 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import { apiRequest } from 'platform/utilities/api';
 
+import { spouseMarriageHistoryOptions } from './chapters/report-add-a-spouse/spouseMarriageHistoryArrayPages';
+import { veteranMarriageHistoryOptions } from './chapters/report-add-a-spouse/veteranMarriageHistoryArrayPages';
+import { arrayBuilderOptions } from './chapters/report-add-child/config';
+import { removeChildStoppedAttendingSchoolOptions } from './chapters/report-child-stopped-attending-school/removeChildStoppedAttendingSchoolArrayPages';
+import { deceasedDependentOptions } from './chapters/report-dependent-death/deceasedDependentArrayPages';
+import { removeMarriedChildOptions } from './chapters/report-marriage-of-child/removeMarriedChildArrayPages';
+import { removeChildHouseholdOptions } from './chapters/stepchild-no-longer-part-of-household/removeChildHouseholdArrayPages';
+import { addStudentsOptions } from './chapters/674/addStudentsArrayPages';
+
+const ALL_ARRAY_OPTIONS = [
+  spouseMarriageHistoryOptions,
+  veteranMarriageHistoryOptions,
+  arrayBuilderOptions,
+  removeChildStoppedAttendingSchoolOptions,
+  deceasedDependentOptions,
+  removeMarriedChildOptions,
+  removeChildHouseholdOptions,
+  addStudentsOptions,
+];
+
 import { MARRIAGE_TYPES } from './constants';
 
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
@@ -110,9 +130,21 @@ export {
 };
 
 export function customTransformForSubmit(formConfig, form) {
+  for (const option of ALL_ARRAY_OPTIONS) {
+    const items = form.data?.[option.arrayPath];
+    if (Array.isArray(items)) {
+      const hasIncomplete = items.some(option.isItemIncomplete);
+      if (hasIncomplete) {
+        throw new Error(
+          `You have incomplete entries in "${
+            option.nounPlural
+          }". Please complete them before submitting.`,
+        );
+      }
+    }
+  }
+
   const payload = cloneDeep(form);
-  // manually delete view:confirmEmail, since in our case we actually want the other view fields
-  // delete payload.data.veteranContactInformation['view:confirmEmail'];
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     payload.data,
