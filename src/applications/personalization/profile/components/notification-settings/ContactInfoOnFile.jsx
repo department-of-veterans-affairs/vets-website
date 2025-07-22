@@ -14,6 +14,12 @@ const ContactInfoOnFile = ({
   showEmailNotificationSettings,
 }) => {
   const { generateContactInfoLink } = useContactInfoDeepLink();
+
+  const updateMobileNumberHref = generateContactInfoLink({
+    fieldName: FIELD_NAMES.MOBILE_PHONE,
+    returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
+  });
+
   return (
     <>
       <p className="vads-u-margin-bottom--0">
@@ -54,12 +60,7 @@ const ContactInfoOnFile = ({
             />
           )}
           <va-link
-            href={generateContactInfoLink({
-              fieldName: FIELD_NAMES.MOBILE_PHONE,
-              returnPath: encodeURIComponent(
-                PROFILE_PATHS.NOTIFICATION_SETTINGS,
-              ),
-            })}
+            href={updateMobileNumberHref}
             class="vads-u-display--block medium-screen:vads-u-display--inline medium-screen:vads-u-margin-left--1"
             aria-label="mobile number"
             text={
@@ -70,6 +71,34 @@ const ContactInfoOnFile = ({
           />
         </li>
       </ul>
+
+      {mobilePhoneNumber &&
+        mobilePhoneNumber.isInternational && (
+          <va-alert-expandable
+            status="info"
+            trigger="You won’t receive text notifications"
+            class="vads-u-margin-top--2"
+          >
+            <p className="vads-u-padding-bottom--2">
+              You have an international phone number, update to a US based
+              mobile phone number to have access to these text notifications
+              settings:
+            </p>
+            <ul className="vads-u-padding-bottom--2">
+              <li>Health appointment reminders</li>
+              <li>Prescription shipping notifications</li>
+              <li>Appeal status updates</li>
+              <li>Appeal hearing reminders</li>
+              <li>Disability and pension deposit notifications</li>
+            </ul>
+            <p>
+              <va-link
+                href={updateMobileNumberHref}
+                text="Update your mobile phone number"
+              />
+            </p>
+          </va-alert-expandable>
+        )}
     </>
   );
 };
