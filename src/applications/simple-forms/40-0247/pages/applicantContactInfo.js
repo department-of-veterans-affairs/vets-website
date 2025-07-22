@@ -1,10 +1,10 @@
 import {
+  titleUI,
   emailSchema,
   emailUI,
   phoneUI,
   phoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import environment from 'platform/utilities/environment';
 
 /** @type {PageSchema} */
