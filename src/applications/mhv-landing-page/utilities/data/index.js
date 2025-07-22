@@ -32,6 +32,11 @@ const resolveSHMDLink = environment.isProduction()
   ? 'https://veteran.apps.va.gov/smhdWeb'
   : 'https://veteran.apps-staging.va.gov/smhdWeb';
 
+// Oracle Health 'My VA Health' Portal
+const myVAHealthPortalLink = environment.isProduction()
+  ? 'https://patientportal.myhealth.va.gov/pages/home'
+  : 'https://staging-patientportal.myhealth.va.gov/pages/home';
+
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
@@ -268,6 +273,7 @@ const resolveLandingPageLinks = (
 export {
   countUnreadMessages,
   isLinkData,
+  myVAHealthPortalLink,
   resolveLandingPageLinks,
   resolveUnreadMessageAriaLabel,
 };
