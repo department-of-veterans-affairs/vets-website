@@ -61,6 +61,20 @@ const mockSipPut = {
   },
 };
 
+const dateOfBirth = dateFns.sub(new Date(), {
+  years: 18,
+  months: -4,
+  days: -3,
+});
+const upcomingRemoval = dateFns.add(new Date(), { months: 4, days: 3 });
+
+mockDependents.data.attributes.persons[1] = {
+  ...mockDependents.data.attributes.persons[1],
+  awardIndicator: 'Y',
+  dateOfBirth: dateFns.format(dateOfBirth, 'MM/dd/yyyy'),
+  upcomingRemoval: dateFns.format(upcomingRemoval, 'MM/dd/yyyy'),
+};
+
 /**
  * @returns mock user data with inProgressForms
  */
