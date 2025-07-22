@@ -171,6 +171,7 @@ const IntroductionPage = props => {
         </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
+        formConfig={formConfig}
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}
         downtime={route.formConfig.downtime}
