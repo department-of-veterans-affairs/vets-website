@@ -24,6 +24,18 @@ import {
 } from './constants';
 
 /**
+ * Ensures the input is a Date object, converting from string if needed
+ * @param {Date|string} value - Date object or date string
+ * @returns {Date} Date object
+ */
+function ensureDate(value) {
+  if (value instanceof Date) {
+    return value;
+  }
+  return new Date(value);
+}
+
+/**
  * Replaces a mock facility id with a real facility id in non production environments
  *
  * @param {string} facilityId
@@ -180,17 +192,22 @@ export function getAppointmentConflict(
       slot => slot.start === selectedDates[0],
     );
     if (selectedSlot) {
-      const key = format(new Date(selectedSlot.start), DATE_FORMATS.yearMonth);
+      const selectedSlotStart = ensureDate(selectedSlot.start);
+      const selectedSlotEnd = ensureDate(selectedSlot.end);
+      const key = format(selectedSlotStart, DATE_FORMATS.yearMonth);
       const appointments = upcomingAppointments[key];
       appointmentHasConflict = appointments?.some(appointment => {
         // Use UTC timestamps for conflict detection. This avoids timezone conversion issues.
         const slotInterval = {
-          start: new Date(selectedSlot.start),
-          end: new Date(selectedSlot.end),
+          start: selectedSlotStart,
+          end: selectedSlotEnd,
         };
         const appointmentInterval = {
-          start: appointment.start,
-          end: addMinutes(appointment.start, appointment.minutesDuration),
+          start: ensureDate(appointment.start),
+          end: addMinutes(
+            ensureDate(appointment.start),
+            appointment.minutesDuration,
+          ),
         };
         return (
           appointment.status !== APPOINTMENT_STATUS.cancelled &&

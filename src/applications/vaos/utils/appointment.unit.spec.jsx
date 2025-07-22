@@ -42,8 +42,9 @@ describe('VAOS appointment helpers', () => {
     const appointmentsByMonth = {
       '2024-12': [
         {
-          minutesDuration: 60,
+          start: '2024-12-06T17:00:00Z',
           startUtc: '2024-12-06T17:00:00Z',
+          minutesDuration: 60,
         },
       ],
     };
