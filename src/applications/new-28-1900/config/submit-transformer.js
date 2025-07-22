@@ -22,14 +22,17 @@ export default function transformForSubmit(formConfig, form) {
 
   const payload = {
     ...otherFields,
-    internationalPhone: `${internationalPhone.callingCode}${
-      internationalPhone.contact
-    }`,
     veteranInformation: {
       fullName,
       dob,
     },
   };
+
+  if (internationalPhone.contact) {
+    payload.internationalPhone = `${internationalPhone.callingCode}${
+      internationalPhone.contact
+    }`;
+  }
 
   delete payload.checkBoxGroup;
 
