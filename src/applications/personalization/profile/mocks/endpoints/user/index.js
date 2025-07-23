@@ -1667,6 +1667,21 @@ const loa3UserWithoutLighthouseServiceAvailable = set(
   ),
 );
 
+const loa3UserWithInternationalMobilePhoneNumber = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.vet360ContactInformation.mobilePhone',
+  {
+    ...cloneDeep(
+      baseUserResponses.loa3User72.data.attributes.vet360ContactInformation
+        .mobilePhone,
+    ),
+    areaCode: '20',
+    countryCode: '93',
+    isInternational: true,
+    phoneNumber: '1234567',
+  },
+);
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
@@ -1687,6 +1702,7 @@ const responses = {
   loa3UserWithNoMilitaryHistoryClaim,
   loa3UserWithoutMailingAddress,
   loa3UserWithoutLighthouseServiceAvailable,
+  loa3UserWithInternationalMobilePhoneNumber,
 };
 
 // handler that can be used to customize the user data returned
