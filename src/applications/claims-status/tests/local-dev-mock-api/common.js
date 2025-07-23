@@ -651,6 +651,27 @@ const responses = {
       ],
     },
   },
+  // Document upload endpoint - always returns success
+  'POST /v0/benefits_claims/:claimId/benefits_documents': (req, res) => {
+    // Simulate processing delay
+    setTimeout(() => {
+      // Always return success response
+      res.status(200).json({
+        data: {
+          id: `upload-${Date.now()}`,
+          type: 'document_upload',
+          attributes: {
+            status: 'SUCCESS',
+            uploadedAt: new Date().toISOString(),
+            documentId: `{${Math.random()
+              .toString(36)
+              .substring(2, 11)
+              .toUpperCase()}}`,
+          },
+        },
+      });
+    }, 500); // 500ms delay to simulate upload processing
+  },
 };
 
 // --- MAINTENANCE WINDOWS MOCKS FOR LOCAL TESTING ---
