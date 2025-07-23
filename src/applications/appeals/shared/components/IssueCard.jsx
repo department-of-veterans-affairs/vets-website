@@ -47,7 +47,7 @@ export const IssueCard = ({
     'widget-wrapper',
     isEditable ? 'additional-issue' : '',
     showCheckbox ? '' : 'checkbox-hidden',
-    showCheckbox ? 'vads-u-padding-top--3' : '',
+    'vads-u-padding-top--2',
     'vads-u-padding-right--3',
     'vads-u-margin-bottom--0',
     'vads-u-border-bottom--1px',
@@ -80,7 +80,7 @@ export const IssueCard = ({
 
   const editControls =
     showCheckbox && isEditable ? (
-      <div>
+      <div className="vads-u-margin-bottom--1">
         <BasicLink
           disable-analytics
           path="/add-issue"
@@ -115,7 +115,6 @@ export const IssueCard = ({
             label={issueName}
             name={elementId}
             onVaChange={handlers.onChange}
-            tile
           >
             <div slot="internal-description">
               <IssueCardContent id={`issue-${index}-description`} {...item} />
@@ -124,12 +123,12 @@ export const IssueCard = ({
           </VaCheckbox>
         ) : (
           <>
-            <div
-              className="dd-privacy-hidden"
+            <Header
+              className={titleClass}
               data-dd-action-name="rated issue name"
             >
               <strong>{issueName}</strong>
-            </div>
+            </Header>
             <IssueCardContent id={`issue-${index}-description`} {...item} />
             {editControls}
           </>
