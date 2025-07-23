@@ -36,7 +36,11 @@ export const DependentsInformation = ({
         setShowError(true);
         return;
       }
-      goForward(data);
+      if (data.hasDependentsStatusChanged === 'Y') {
+        goToPath('/exit-form', { force: true });
+      } else {
+        goForward(data);
+      }
     },
     goBack: () => {
       goToPath('/veteran-contact-information', { force: true });
@@ -152,7 +156,7 @@ export const DependentsInformation = ({
       {/* Values and labels are flipped as 21-0538 form asks a differently
        worded question, which allows pdf mapping to be more intuitive */}
       <VaRadio
-        label="Is your dependent information correct?"
+        label="Has the status of your dependents changed?"
         required
         onVaValueChange={handlers.onValueChange}
         label-header-level="3"
@@ -161,17 +165,17 @@ export const DependentsInformation = ({
       >
         <va-radio-option
           name="hasDependentsStatusChanged"
-          value="N"
+          value="Y"
           label={DEPENDENT_CHOICES.Y}
           tile
-          checked={data.hasDependentsStatusChanged === 'N'}
+          checked={data.hasDependentsStatusChanged === 'Y'}
         />
         <va-radio-option
           name="hasDependentsStatusChanged"
-          value="Y"
+          value="N"
           label={DEPENDENT_CHOICES.N}
           tile
-          checked={data.hasDependentsStatusChanged === 'Y'}
+          checked={data.hasDependentsStatusChanged === 'N'}
         />
       </VaRadio>
 
