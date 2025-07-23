@@ -239,11 +239,11 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
         });
 
       // Verify error message appears
-      getFileError(0)
+      getAboveFileInputError(0)
         .should('be.visible')
         .and(
           'contain',
-          'The file you selected is empty. Files uploaded must be larger than 0B.',
+          'The file you selected is empty. Files must be larger than 0B.',
         );
 
       cy.axeCheck();

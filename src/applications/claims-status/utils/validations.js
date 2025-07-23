@@ -12,8 +12,6 @@ const MAX_PDF_SIZE_MB = 99; // Note: UI hint says 150MB but code validates 99MB
 const MAX_PDF_SIZE_BYTES = MAX_PDF_SIZE_MB * 1024 ** 2;
 
 // Error messages
-const EMPTY_FILE_ERROR =
-  'The file you selected is empty. Files uploaded must be larger than 0B.';
 const FILE_SIZE_ERROR_PDF = `The file you selected is larger than the ${MAX_PDF_SIZE_MB}MB maximum file size and could not be added.`;
 const FILE_SIZE_ERROR_NON_PDF = `The file you selected is larger than the ${MAX_FILE_SIZE_MB}MB maximum file size and could not be added.`;
 
@@ -21,10 +19,6 @@ const FILE_SIZE_ERROR_NON_PDF = `The file you selected is larger than the ${MAX_
 const isPdf = file => file.name?.toLowerCase().endsWith('.pdf');
 
 const validateFileSize = file => {
-  if (!file?.size || file.size === 0) {
-    return EMPTY_FILE_ERROR;
-  }
-
   const maxSize = isPdf(file) ? MAX_PDF_SIZE_BYTES : MAX_FILE_SIZE_BYTES;
 
   if (file.size > maxSize) {
