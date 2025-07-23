@@ -106,12 +106,26 @@ const formConfig = {
           title: 'Your current annual salary',
           uiSchema: salaryDetails.uiSchema,
           schema: salaryDetails.schema,
+          onNavBack: ({ formData, goPath, goPreviousPath }) => {
+            if (formData.isInTechnologyIndustry === false) {
+              goPath('/your-employment-details');
+            } else {
+              goPreviousPath();
+            }
+          },
         },
         educationDetails: {
           path: 'your-education',
           title: 'Your education',
           uiSchema: educationDetails.uiSchema,
           schema: educationDetails.schema,
+          onNavBack: ({ formData, goPath, goPreviousPath }) => {
+            if (formData.isEmployed === false) {
+              goPath('/your-employment');
+            } else {
+              goPreviousPath();
+            }
+          },
         },
       },
     },
