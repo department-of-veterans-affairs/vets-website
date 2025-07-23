@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import { VaAlert } from '@department-of-veterans-affairs/web-components/react-bindings';
+
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+
 import { errorFragment } from '../../layouts/helpers';
 import { PAGE_TITLE } from '../../util';
 
@@ -30,13 +34,19 @@ function ViewDependentsHeader(props) {
 
   const [warningHidden, setWarningHidden] = useState(getIsWarningHidden());
 
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop();
+  }, []);
+
   function handleWarningClose() {
     setWarningHidden(true);
     localStorage.setItem(
       'viewDependentsWarningClosedAt',
       new Date().toISOString(),
     );
-    document.querySelector('.view-deps-header')?.focus();
+    scrollToTop();
+    focusElement('.view-deps-header');
   }
 
   let alertProps = null;
@@ -126,12 +136,10 @@ function ViewDependentsHeader(props) {
                   money.
                 </p>
                 <p>
-                  <a
+                  <va-link-action
+                    text="Verify your VA disability benefits dependents"
                     href={dependentsVerificationUrl}
-                    className="vads-c-action-link--green"
-                  >
-                    Verify your VA disability benefits dependents
-                  </a>
+                  />
                 </p>
               </>
             </VaAlert>
@@ -140,5 +148,10 @@ function ViewDependentsHeader(props) {
     </div>
   );
 }
+
+ViewDependentsHeader.propTypes = {
+  showAlert: PropTypes.bool,
+  updateDiariesStatus: PropTypes.string,
+};
 
 export default ViewDependentsHeader;

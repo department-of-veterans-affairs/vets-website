@@ -42,7 +42,7 @@ function getEditVaButton(numberName) {
 }
 
 // helper function that enters the `Edit phone number` view, enters a number,
-// and clicks the `Update` button.
+// and clicks the `Save` button.
 function editPhoneNumber(
   numberName,
   options = { areaCode: defaultAreaCode, phoneNumber: defaultPhoneNumber },
@@ -66,7 +66,11 @@ function editPhoneNumber(
   }
 
   // save
-  view.getByText('Save', { selector: 'button' }).click();
+  view.getByTestId('save-edit-button').click();
+
+  // manually submit the form since va-button sets submit="prevent"
+  const form = view.getByTestId('save-edit-button').closest('form');
+  fireEvent.submit(form);
 
   return { phoneNumberInput };
 }
@@ -239,7 +243,7 @@ describe('Editing', () => {
       phoneNumber: '45678',
     });
 
-    fireEvent.click(await view.findByText(/Save/i));
+    fireEvent.click(await view.findByTestId('save-edit-button'));
 
     const homePhoneInput = $('va-text-input[label^="Home phone"]');
     expect(homePhoneInput.error).to.contain('This field should be at least 10');
@@ -253,7 +257,7 @@ describe('Editing', () => {
       phoneNumber: '45678a',
     });
 
-    fireEvent.click(await view.findByText(/Save/i));
+    fireEvent.click(await view.findByTestId('save-edit-button'));
 
     const homePhoneInput = $('va-text-input[label^="Home phone"]');
     expect(homePhoneInput.error).to.eq('Enter a 10 digit phone number');

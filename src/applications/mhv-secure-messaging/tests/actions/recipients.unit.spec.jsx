@@ -1,4 +1,5 @@
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
@@ -10,22 +11,16 @@ import * as allRecipientsTriageTeamsResponse from '../e2e/fixtures/all-recipient
 
 describe('triageTeam actions', () => {
   const middlewares = [thunk];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    sm: {
-      app: undefined,
-    },
-  };
+  const mockStore = (initialState = { featureToggles: {} }) =>
+    configureStore(middlewares)(initialState);
   const isPilotState = {
-    sm: {
-      app: {
-        isPilot: true,
-      },
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
     },
   };
 
   it('should dispatch action on getAllTriageTeamRecipients', () => {
-    const store = mockStore(initialState);
+    const store = mockStore();
     mockApiRequest(allRecipientsTriageTeamsResponse);
     store.dispatch(getAllTriageTeamRecipients()).then(() => {
       const actions = store.getActions();
@@ -36,7 +31,7 @@ describe('triageTeam actions', () => {
     });
   });
   it('should dispatch action on getAllTriageTeamRecipients error', () => {
-    const store = mockStore(initialState);
+    const store = mockStore();
     mockApiRequest({}, false);
     store.dispatch(getAllTriageTeamRecipients()).catch(() => {
       const actions = store.getActions();
