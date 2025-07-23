@@ -5,7 +5,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-
 import {
   nameAndDateOfBirth,
   identificationInformation,
