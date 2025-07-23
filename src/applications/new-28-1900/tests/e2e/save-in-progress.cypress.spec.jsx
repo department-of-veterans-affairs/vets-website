@@ -9,7 +9,6 @@ import featureToggles from '../fixtures/mocks/featureToggles.json';
 import minimalFlow from '../fixtures/data/minimalFlow.json';
 import mockPrefill from '../fixtures/mocks/sip-get.json';
 import mockInProgress from '../fixtures/mocks/sip-put.json';
-import { normalizeFullName } from '../../utils';
 
 // This test ensures that the save-in-progress functionality of the 28-1900 form works as expected.
 const testConfig = createTestConfig(
@@ -27,15 +26,9 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': () => {
         cy.injectAxeThenAxeCheck();
-        cy.get('@testData').then(testData => {
-          cy.get('[data-testid="privacy-agreement-checkbox"]').then($el =>
-            cy.selectVaCheckbox($el, true),
-          );
-          cy.get('.signature-input').then($el => {
-            cy.fillVaTextInput($el, normalizeFullName(testData.fullName, true));
-          });
-          cy.get('.signature-checkbox').then($el =>
-            cy.selectVaCheckbox($el, true),
+        cy.get('@testData').then(data => {
+          cy.get('[id="checkbox"]').then($el =>
+            cy.selectVaCheckbox($el, data.privacyAgreementAccepted),
           );
         });
       },

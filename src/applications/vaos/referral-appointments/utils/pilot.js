@@ -1,3 +1,6 @@
+const stagingStations = ['984', '983'];
+const prodStations = ['659', '657'];
+
 /**
  * Determines if a patient is in the Community Care (CC) pilot program user station.
  *
@@ -9,8 +12,6 @@ const getIsInPilotUserStations = (
   featureCCDirectScheduling,
   patientFacilities = [],
 ) => {
-  const stagingStations = ['984', '983'];
-  const prodStations = ['659', '657'];
   const pilotStations = [...stagingStations, ...prodStations];
   // eslint-disable-next-line no-unused-vars
   const hasPilotStation = patientFacilities.some(station =>
@@ -22,6 +23,7 @@ const getIsInPilotUserStations = (
 
 const getIsInPilotReferralStation = referral => {
   const validStationIds = [
+    ...stagingStations,
     '659',
     '659BY',
     '659BZ',
