@@ -12,14 +12,12 @@ const uiSchema = {
       labels: {
         Y: 'Yes',
         N: 'No',
-        errorMessages: { required: 'You must provide a response' },
       },
     }),
   },
 };
 const schema = {
   type: 'object',
-  // required: ['isEmployed'],
   properties: {
     isEmployed: yesNoSchema,
   },

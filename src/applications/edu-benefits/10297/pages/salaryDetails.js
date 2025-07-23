@@ -14,7 +14,7 @@ const salaryRanges = {
 
 const uiSchema = {
   ...titleUI('Your current annual salary'),
-  salaryRange: {
+  currentSalary: {
     ...radioUI({
       title: 'What is your current annual salary?',
       labels: salaryRanges,
@@ -25,7 +25,7 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    salaryRange: radioSchema(Object.keys(salaryRanges)),
+    currentSalary: radioSchema(Object.keys(salaryRanges)),
   },
 };
 

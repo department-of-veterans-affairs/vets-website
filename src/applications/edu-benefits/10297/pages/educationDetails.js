@@ -25,7 +25,6 @@ const uiSchema = {
 
 const schema = {
   type: 'object',
-  required: ['highestLevelOfEducation'],
   properties: {
     highestLevelOfEducation: radioSchema(Object.keys(educationLevels)),
   },

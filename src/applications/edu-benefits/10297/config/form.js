@@ -70,58 +70,58 @@ const formConfig = {
       title: 'Background information',
       pages: {
         employmentStatus: {
-          path: 'your-employment',
+          path: 'employment-status',
           title: 'Your employment',
           uiSchema: employmentStatus.uiSchema,
           schema: employmentStatus.schema,
           onNavForward: ({ formData, goPath }) => {
             if (formData.isEmployed === false) {
-              goPath('/your-education');
+              goPath('/education-details');
             } else {
-              goPath('your-employment-details');
+              goPath('/employment-details');
             }
           },
         },
         employmentDetails: {
-          path: 'your-employment-details',
-          title: 'Employment details',
+          path: 'employment-details',
+          title: 'Your technology industry involvement',
           uiSchema: employmentDetails.uiSchema,
           schema: employmentDetails.schema,
           onNavForward: ({ formData, goPath }) => {
             if (formData.isInTechnologyIndustry === false) {
-              goPath('/your-salary');
+              goPath('/salary-details');
             } else {
-              goPath('your-employment-focus');
+              goPath('/employment-focus');
             }
           },
         },
         employmentFocus: {
-          path: 'your-employment-focus',
-          title: 'Employment focus',
+          path: 'employment-focus',
+          title: 'Your main area of focus',
           uiSchema: employmentFocus.uiSchema,
           schema: employmentFocus.schema,
         },
         salaryDetails: {
-          path: 'your-salary',
+          path: 'salary-details',
           title: 'Your current annual salary',
           uiSchema: salaryDetails.uiSchema,
           schema: salaryDetails.schema,
           onNavBack: ({ formData, goPath, goPreviousPath }) => {
             if (formData.isInTechnologyIndustry === false) {
-              goPath('/your-employment-details');
+              goPath('/employment-details');
             } else {
               goPreviousPath();
             }
           },
         },
         educationDetails: {
-          path: 'your-education',
+          path: 'education-details',
           title: 'Your education',
           uiSchema: educationDetails.uiSchema,
           schema: educationDetails.schema,
           onNavBack: ({ formData, goPath, goPreviousPath }) => {
             if (formData.isEmployed === false) {
-              goPath('/your-employment');
+              goPath('/employment-status');
             } else {
               goPreviousPath();
             }
