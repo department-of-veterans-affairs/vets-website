@@ -1675,10 +1675,10 @@ const loa3UserWithInternationalMobilePhoneNumber = set(
       baseUserResponses.loa3User72.data.attributes.vet360ContactInformation
         .mobilePhone,
     ),
-    areaCode: '20',
+    areaCode: null,
     countryCode: '93',
     isInternational: true,
-    phoneNumber: '1234567',
+    phoneNumber: '201234567', // international numbers include the area code
   },
 );
 

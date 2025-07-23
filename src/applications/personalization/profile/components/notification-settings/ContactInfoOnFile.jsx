@@ -58,9 +58,15 @@ const ContactInfoOnFile = ({
           {mobilePhoneNumber && (
             <VaTelephone
               data-testid="mobile-phone-number-on-file"
-              contact={`${mobilePhoneNumber.areaCode}${
-                mobilePhoneNumber.phoneNumber
-              }`}
+              // For international number areaCode is null
+              // and is instead part of phoneNumber
+              contact={
+                isInternationalMobile
+                  ? mobilePhoneNumber.phoneNumber
+                  : `${mobilePhoneNumber.areaCode}${
+                      mobilePhoneNumber.phoneNumber
+                    }`
+              }
               countryCode={
                 isInternationalMobile ? mobilePhoneNumber.countryCode : null
               }

@@ -36,10 +36,10 @@ describe('ContactInfoOnFile', () => {
 
   it('renders the international mobile phone info alert', async () => {
     const phone = {
-      areaCode: '20',
+      areaCode: null,
       countryCode: '93',
       isInternational: true,
-      phoneNumber: '1234567',
+      phoneNumber: '201234567',
     };
 
     const view = renderWithStoreAndRouter(
