@@ -5,12 +5,20 @@ import mockPrefillWithNonPrefillData from '../../../e2e/fixtures/mocks/mock-pref
 import { PreviousIncome } from '../../../../components/SupplementalFormContent/PreviousFinancialInfo';
 
 const mockStoreData = {
-  'view:isProvidersAndDependentsPrefillEnabled': true,
+  form: {
+    data: {
+      'view:isProvidersAndDependentsPrefillEnabled': true,
+    },
+  },
 };
 
 const mockStoreDataWithNonPrefill = {
-  ...mockStoreData,
-  nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
+  form: {
+    data: {
+      'view:isProvidersAndDependentsPrefillEnabled': true,
+      nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
+    },
+  },
 };
 
 describe('ezr <PreviousIncome>', () => {

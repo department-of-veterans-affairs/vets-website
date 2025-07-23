@@ -2,12 +2,12 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import * as Sentry from '@sentry/browser';
 import { format } from 'date-fns-tz';
-import moment from 'moment';
 
 import {
   addDays,
   addMinutes,
   areIntervalsOverlapping,
+  differenceInDays,
   endOfMonth,
   isAfter,
   isDate,
@@ -18,11 +18,10 @@ import {
 import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
-  selectFeatureFeSourceOfTruthTelehealth,
+  selectFeatureMentalHealthHistoryFiltering,
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
-  selectFeatureMentalHealthHistoryFiltering,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -263,6 +262,7 @@ export function getPatientRelationships() {
     const typeOfCare = getTypeOfCare(newAppointment.data);
     const typeOfCareId = typeOfCare;
     const facilityId = newAppointment.data.vaFacility;
+    const hasAvailabilityBefore = addDays(new Date(), 395);
 
     dispatch({
       type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
@@ -272,6 +272,7 @@ export function getPatientRelationships() {
       patientProviderRelationships = await fetchPatientRelationships(
         facilityId,
         typeOfCareId,
+        hasAvailabilityBefore,
       );
     } catch (error) {
       dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
@@ -316,9 +317,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
-      state,
-    );
 
     // Retrieves flipper state for mental health history filtering
     // Only used in NON-Cerner checks
@@ -341,7 +339,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
             location,
             typeOfCare,
             directSchedulingEnabled,
-            useFeSourceOfTruthTelehealth,
             isCerner: true,
           });
 
@@ -375,7 +372,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          useFeSourceOfTruthTelehealth,
           usePastVisitMHFilter,
         });
 
@@ -741,10 +737,9 @@ export function onCalendarChange(
           start: new Date(selectedSlot.start),
           end: new Date(selectedSlot.end),
         };
-        const appointmentStart = new Date(appointment.startUtc);
         const appointmentInterval = {
-          start: appointmentStart,
-          end: addMinutes(appointmentStart, appointment.minutesDuration),
+          start: appointment.start,
+          end: addMinutes(appointment.start, appointment.minutesDuration),
         };
 
         return (
@@ -840,9 +835,6 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
-      state,
-    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -868,7 +860,6 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
-          useFeSourceOfTruthTelehealth,
         });
 
         dispatch({
@@ -908,11 +899,11 @@ export function submitAppointmentOrRequest(history) {
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
-      const today = moment().format('YYYYMMDD');
+      const today = new Date();
       const daysFromPreference = ['null', 'null', 'null'];
 
       const diffDays = Object.values(data.selectedDates).map(item =>
-        moment(item, 'YYYYMMDD').diff(today, 'days'),
+        differenceInDays(new Date(item), today),
       );
 
       // takes daysFromPreference array then replace those values from diffDays array
@@ -956,7 +947,6 @@ export function submitAppointmentOrRequest(history) {
 
         const requestData = await createAppointment({
           appointment: requestBody,
-          useFeSourceOfTruthTelehealth,
         });
 
         dispatch({
