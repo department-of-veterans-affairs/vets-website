@@ -116,6 +116,10 @@ export default {
                 N: "No, my address is not the same as the Veteran's.",
               },
               required: () => true,
+              errorMessages: {
+                required:
+                  "Select yes if your mailing address is the same as the Veteran's",
+              },
             },
           ),
         },

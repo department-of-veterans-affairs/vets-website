@@ -26,10 +26,10 @@ describe('SM PILOT NEW MESSAGE', () => {
       'sentThreadsResponse',
     );
 
-    cy.visit(`${Paths.UI_PILOT}/new-message/select-health-care-system`);
+    cy.visit(`${Paths.UI_MAIN}/new-message/select-health-care-system`);
     GeneralFunctionsPage.verifyPageHeader(Data.HCS_SELECT);
 
-    cy.visit(`${Paths.UI_PILOT}/new-message/start-message`);
+    cy.visit(`${Paths.UI_MAIN}/new-message/start-message`);
     GeneralFunctionsPage.verifyPageHeader(Data.START_NEW_MSG);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
