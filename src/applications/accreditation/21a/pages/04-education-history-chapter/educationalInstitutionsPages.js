@@ -68,11 +68,12 @@ const institutionAndDegreePage = {
     name: textUI('Name of school'),
     ...dateRangeWithCurrentCheckboxUI({
       fromLabel: 'Start date',
-      toLabel: 'End date',
       currentLabel: 'I still go to school here.',
+      toLabel: 'End date',
       currentKey: 'currentlyEnrolled',
-      isCurrentChecked: (formData, index) =>
-        formData?.educationalInstitutions?.[index]?.currentlyEnrolled,
+      isCurrentChecked: (fullData, index) => {
+        return fullData?.educationalInstitutions?.[index]?.currentlyEnrolled;
+      },
     }),
     institution: selectUI('Institution type'),
     degreeReceived: yesNoUI('Degree received?'),
@@ -96,17 +97,17 @@ const degreeInformationPage = {
   uiSchema: {
     degree: selectUI({
       title: 'Type of degree',
-      hideIf: (formData, index) =>
-        !formData?.educationalInstitutions?.[index]?.degreeReceived,
-      required: (formData, index) =>
-        formData?.educationalInstitutions?.[index]?.degreeReceived,
+      hideIf: (formData, index, fullData) =>
+        !fullData?.educationalInstitutions?.[index]?.degreeReceived,
+      required: (formData, index, fullData) =>
+        fullData?.educationalInstitutions?.[index]?.degreeReceived,
     }),
     reasonForNotCompleting: textareaUI({
       title: 'Explain why you did not complete this degree.',
-      hideIf: (formData, index) =>
-        !formData?.educationalInstitutions?.[index]?.degreeReceived === false,
-      required: (formData, index) =>
-        formData?.educationalInstitutions?.[index]?.degreeReceived === false,
+      hideIf: (formData, index, fullData) =>
+        !fullData?.educationalInstitutions?.[index]?.degreeReceived === false,
+      required: (formData, index, fullData) =>
+        fullData?.educationalInstitutions?.[index]?.degreeReceived === false,
     }),
   },
   schema: {
