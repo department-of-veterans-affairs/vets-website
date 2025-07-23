@@ -306,92 +306,55 @@ const Alerts = ({ type, copay, error }) => {
     TOGGLE_NAMES.showCDPOneThingPerPage,
   );
 
-  if (showCDPOneThingPerPage) {
-    switch (type) {
-      case 'status':
-        return <Alert.StatusOTTP copay={copay} />;
-      case 'no-health-care':
-        recordEvent({
-          event: 'visible-alert-box',
-          'alert-box-type': 'warning',
-          'alert-box-heading': 'You’re not enrolled in VA health care',
-        });
-        return <Alert.NoHealthcare />;
-      case 'no-history':
-        recordEvent({
-          event: 'visible-alert-box',
-          'alert-box-type': 'info',
-          'alert-box-heading':
-            'You haven’t received a copay bill in the past 6 months',
-        });
-        return <Alert.NoHistory />;
-      case 'zero-balance':
-        recordEvent({
-          event: 'visible-alert-box',
-          'alert-box-type': 'info',
-          'alert-box-heading': 'You don’t need to make a payment at this time',
-        });
-        return <Alert.ZeroBalance copay={copay} />;
-      case 'past-due-balance':
-        recordEvent({
-          event: 'visible-alert-box',
-          'alert-box-type': 'info',
-          'alert-box-heading': 'Your balance may be overdue',
-        });
-        return <Alert.PastDueOTTP copay={copay} />;
-      default:
-        recordEvent({
-          event: 'visible-alert-box',
-          'alert-box-type': 'error',
-          'alert-box-heading':
-            'We can’t access your current copay balances right now',
-          'error-key': error?.status || '',
-        });
-        return <Alert.Error />;
-    }
-  } else {
-    switch (type) {
-      case 'status':
-        return <Alert.Status copay={copay} />;
-      case 'no-health-care':
-        recordEvent({
-          event: 'visible-alert-box',
-          'alert-box-type': 'warning',
-          'alert-box-heading': 'You’re not enrolled in VA health care',
-        });
-        return <Alert.NoHealthcare />;
-      case 'no-history':
-        recordEvent({
-          event: 'visible-alert-box',
-          'alert-box-type': 'info',
-          'alert-box-heading':
-            'You haven’t received a copay bill in the past 6 months',
-        });
-        return <Alert.NoHistory />;
-      case 'zero-balance':
-        recordEvent({
-          event: 'visible-alert-box',
-          'alert-box-type': 'info',
-          'alert-box-heading': 'You don’t need to make a payment at this time',
-        });
-        return <Alert.ZeroBalance copay={copay} />;
-      case 'past-due-balance':
-        recordEvent({
-          event: 'visible-alert-box',
-          'alert-box-type': 'info',
-          'alert-box-heading': 'Your balance may be overdue',
-        });
-        return <Alert.PastDue copay={copay} />;
-      default:
-        recordEvent({
-          event: 'visible-alert-box',
-          'alert-box-type': 'error',
-          'alert-box-heading':
-            'We can’t access your current copay balances right now',
-          'error-key': error?.status || '',
-        });
-        return <Alert.Error />;
-    }
+  switch (type) {
+    case 'status':
+      return showCDPOneThingPerPage ? (
+        <Alert.StatusOTTP copay={copay} />
+      ) : (
+        <Alert.Status copay={copay} />
+      );
+    case 'no-health-care':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'warning',
+        'alert-box-heading': 'You’re not enrolled in VA health care',
+      });
+      return <Alert.NoHealthcare />;
+    case 'no-history':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'info',
+        'alert-box-heading':
+          'You haven’t received a copay bill in the past 6 months',
+      });
+      return <Alert.NoHistory />;
+    case 'zero-balance':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'info',
+        'alert-box-heading': 'You don’t need to make a payment at this time',
+      });
+      return <Alert.ZeroBalance copay={copay} />;
+    case 'past-due-balance':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'info',
+        'alert-box-heading': 'Your balance may be overdue',
+      });
+      return showCDPOneThingPerPage ? (
+        <Alert.PastDueOTTP copay={copay} />
+      ) : (
+        <Alert.PastDue copay={copay} />
+      );
+    default:
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'error',
+        'alert-box-heading':
+          'We can’t access your current copay balances right now',
+        'error-key': error?.status || '',
+      });
+      return <Alert.Error />;
   }
 };
 

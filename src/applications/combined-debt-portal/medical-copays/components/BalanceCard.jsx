@@ -25,35 +25,29 @@ CurrentContent.propTypes = {
   id: PropTypes.string,
 };
 
-const PastDueContentOTTP = ({ id, date }) => (
-  <p className="vads-u-margin--0">
-    Pay your balance now or request help by{' '}
-    <strong data-testid={`due-date-${id}`}>{formatDate(date)}</strong>.
-  </p>
-);
-
-PastDueContentOTTP.propTypes = {
-  amount: PropTypes.number,
-  date: PropTypes.string,
-  id: PropTypes.string,
-};
-
-const PastDueContent = ({ id, date, amount }) => (
-  <p className="vads-u-margin--0">
-    Your balance on{' '}
-    <strong data-testid={`due-date-${id}`}>{formatDate(date)}</strong> was{' '}
-    {currency(amount)}. If you haven’t paid your balance in full or requested
-    financial help, contact the VA Health Resource Center at{' '}
-    <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
-    <va-telephone tty contact={CONTACTS[711]} />
-    ).
-  </p>
-);
+const PastDueContent = ({ id, date, amount, showOTTP }) =>
+  showOTTP ? (
+    <p className="vads-u-margin--0">
+      Pay your balance now or request help by{' '}
+      <strong data-testid={`due-date-${id}`}>{formatDate(date)}</strong>.
+    </p>
+  ) : (
+    <p className="vads-u-margin--0">
+      Your balance on{' '}
+      <strong data-testid={`due-date-${id}`}>{formatDate(date)}</strong> was{' '}
+      {currency(amount)}. If you haven’t paid your balance in full or requested
+      financial help, contact the VA Health Resource Center at{' '}
+      <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
+      <va-telephone tty contact={CONTACTS[711]} />
+      ).
+    </p>
+  );
 
 PastDueContent.propTypes = {
   amount: PropTypes.number,
   date: PropTypes.string,
   id: PropTypes.string,
+  showOTTP: PropTypes.bool,
 };
 
 const BalanceCard = ({ id, amount, facility, city, date }) => {
@@ -116,10 +110,14 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
           if (isCurrentBalance) {
             return <CurrentContent id={id} date={date} />;
           }
-          if (showCDPOneThingPerPage) {
-            return <PastDueContentOTTP id={id} date={date} />;
-          }
-          return <PastDueContent id={id} date={date} amount={amount} />;
+          return (
+            <PastDueContent
+              id={id}
+              date={date}
+              amount={amount}
+              showOTTP={showCDPOneThingPerPage}
+            />
+          );
         })()}
       </div>
       <Link
