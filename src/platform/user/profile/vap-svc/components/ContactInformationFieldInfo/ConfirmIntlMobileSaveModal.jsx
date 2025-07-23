@@ -1,31 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { closeConfirmIntlMobileSaveModal } from '@@vap-svc/actions';
 
 const ConfirmIntlMobileSaveModal = ({
-  isVisible,
-  onConfirm,
-  onCancel,
+  isOpen,
+  closeConfirmIntlMobileSaveModal: closeModal,
   countryCode,
   phoneNumber,
+  confirmFn,
 }) => {
   return (
     <VaModal
       data-testid="confirm-international-mobile-save-modal"
       modalTitle="We can’t send text notifications to international phone numbers"
-      onCloseEvent={onCancel}
+      onCloseEvent={() => closeModal()}
       primaryButtonText="Save the number you entered"
       onPrimaryButtonClick={() => {
-        onConfirm();
+        closeModal();
+        confirmFn();
       }}
       secondaryButtonText="Edit the number you entered"
-      onSecondaryButtonClick={() => {
-        onCancel();
-      }}
+      onSecondaryButtonClick={() => closeModal()}
       status="warning"
-      visible={isVisible}
+      visible={isOpen}
     >
-      <p />
       <p>
         <va-telephone contact={phoneNumber} country-code={countryCode} /> is an
         international phone number. If you save this number, you won’t receive
@@ -36,11 +36,21 @@ const ConfirmIntlMobileSaveModal = ({
 };
 
 ConfirmIntlMobileSaveModal.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  countryCode: PropTypes.string.isRequired,
-  phoneNumber: PropTypes.string.isRequired,
+  closeConfirmIntlMobileSaveModal: PropTypes.func.isRequired,
+  confirmFn: PropTypes.func,
+  countryCode: PropTypes.number,
+  isOpen: PropTypes.bool.isRequired,
+  phoneNumber: PropTypes.string,
 };
 
-export default ConfirmIntlMobileSaveModal;
+export const mapStateToProps = state =>
+  state.vapService.confirmIntlMobileSaveModal;
+
+const mapDispatchToProps = {
+  closeConfirmIntlMobileSaveModal,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmIntlMobileSaveModal);

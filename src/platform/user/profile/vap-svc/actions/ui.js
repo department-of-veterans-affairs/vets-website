@@ -46,3 +46,30 @@ export const updateSelectedAddress = (address, selectedAddressId) => ({
   selectedAddress: address,
   selectedAddressId,
 });
+
+export const OPEN_CONFIRM_INTL_MOBILE_SAVE_MODAL =
+  'OPEN_CONFIRM_INTL_MOBILE_SAVE_MODAL';
+export const CLOSE_CONFIRM_INTL_MOBILE_SAVE_MODAL =
+  'CLOSE_CONFIRM_INTL_MOBILE_SAVE_MODAL';
+
+/**
+ * Opens a confirmation modal for saving international mobile phone numbers.
+ *
+ * @param {number} countryCode - The international country code for the phone number
+ * @param {string} phoneNumber - The phone number
+ * @param {Function} confirmFn - Callback transaction function
+ */
+export const openConfirmIntlMobileSaveModal = (
+  countryCode,
+  phoneNumber,
+  confirmFn,
+) => ({
+  type: OPEN_CONFIRM_INTL_MOBILE_SAVE_MODAL,
+  countryCode,
+  phoneNumber,
+  confirmFn,
+});
+
+export const closeConfirmIntlMobileSaveModal = () => ({
+  type: CLOSE_CONFIRM_INTL_MOBILE_SAVE_MODAL,
+});
