@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import {
+  ConfirmationView,
+  ChapterSectionCollection,
+} from 'platform/forms-system/src/js/components/ConfirmationView';
+import formConfig from '../config/form';
 import NeedHelp from '../components/NeedHelp';
 
 export const ConfirmationPage = props => {
@@ -11,6 +15,19 @@ export const ConfirmationPage = props => {
   const submitDate = submission?.timestamp;
   // no confirmation number is returned from the API currently
   const confirmationNumber = submission?.response?.confirmationNumber || '';
+
+  // Dropping reason chapter to better match designs and avoid extra repeating noise
+  const trimmedConfig = {
+    ...formConfig,
+    chapters: {
+      personalInformationChapter: {
+        ...formConfig.chapters.personalInformationChapter,
+      },
+      debtSelectionChapter: {
+        ...formConfig.chapters.debtSelectionChapter,
+      },
+    },
+  };
 
   return (
     <ConfirmationView
@@ -25,7 +42,10 @@ export const ConfirmationPage = props => {
         actions={null}
       />
       {/* <ConfirmationView.SavePdfDownload /> */}
-      {/* <ConfirmationView.ChapterSectionCollection /> */}
+      <ChapterSectionCollection
+        formConfig={trimmedConfig}
+        header="Information you submitted on this dispute"
+      />
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
         item1Header="We’ll confirm when we receive your dispute request"
