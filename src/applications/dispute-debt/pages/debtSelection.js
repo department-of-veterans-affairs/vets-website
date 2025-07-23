@@ -1,4 +1,5 @@
 import React from 'react';
+import { reviewEntry } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
 import DebtSelection from '../components/DebtSelection';
 
 const debtSelection = {
@@ -22,6 +23,29 @@ const debtSelection = {
           }
         },
       ],
+    },
+    'ui:confirmationField': ({ formData }) => {
+      const { selectedDebts } = formData;
+
+      return selectedDebts.map(debt => (
+        <div key={debt.selectedDebtId}>
+          <h4>{debt.label}</h4>
+          {reviewEntry(
+            null,
+            `dispute-reason-${debt.selectedDebtId}`,
+            {},
+            'Dispute reason',
+            debt.disputeReason,
+          )}
+          {reviewEntry(
+            null,
+            `dispute-support-statement-${debt.selectedDebtId}`,
+            {},
+            'Dispute statement',
+            debt.supportStatement,
+          )}
+        </div>
+      ));
     },
   },
   schema: {
