@@ -861,7 +861,7 @@ export function convertUrlPathToPageConfigPath(urlPath, rootUrl = null) {
 
 /**
  * Wrap a XMLHttpRequest so that it mimics the url and headers.get properties
- * for compatability with platform utilities that use fetch
+ * of a Response object for compatability with platform utilities that use fetch
  *
  * @param {XMLHttpRequest} XHR request object
  * @returns {Object} wrapped XHR instance with methods / properties that mimic some of Response object's
