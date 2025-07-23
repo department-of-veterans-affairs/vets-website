@@ -85,6 +85,7 @@ const ContactInfoOnFile = ({
           status="info"
           trigger="You won’t receive text notifications"
           class="vads-u-margin-top--2"
+          data-testid="international-mobile-number-info-alert"
         >
           <p className="vads-u-padding-bottom--2">
             You have an international phone number, update to a US based mobile
