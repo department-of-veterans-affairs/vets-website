@@ -30,8 +30,8 @@ import {
   ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY,
   ADDRESS_VALIDATION_SET_VALIDATION_KEY,
   COPY_ADDRESS_MODAL,
-  OPEN_CONFIRM_INTL_MOBILE_SAVE_MODAL,
-  CLOSE_CONFIRM_INTL_MOBILE_SAVE_MODAL,
+  OPEN_INTL_MOBILE_CONFIRM_MODAL,
+  CLOSE_INTL_MOBILE_CONFIRM_MODAL,
 } from '../actions';
 
 const initialAddressValidationState = {
@@ -53,7 +53,7 @@ const initialAddressValidationState = {
   selectedAddressId: null,
 };
 
-const initialConfirmIntlMobileSaveModalState = {
+const initialIntlMobileConfirmModalState = {
   isOpen: false,
   countryCode: null,
   phoneNumber: null,
@@ -76,8 +76,8 @@ const initialState = {
     ...initialAddressValidationState,
   },
   copyAddressModal: null,
-  confirmIntlMobileSaveModal: {
-    ...initialConfirmIntlMobileSaveModalState,
+  intlMobileConfirmModal: {
+    ...initialIntlMobileConfirmModalState,
   },
 };
 
@@ -471,10 +471,10 @@ export default function vapService(state = initialState, action) {
         copyAddressModal: action?.value,
       };
 
-    case OPEN_CONFIRM_INTL_MOBILE_SAVE_MODAL:
+    case OPEN_INTL_MOBILE_CONFIRM_MODAL:
       return {
         ...state,
-        confirmIntlMobileSaveModal: {
+        intlMobileConfirmModal: {
           isOpen: true,
           countryCode: action.countryCode,
           phoneNumber: action.phoneNumber,
@@ -482,11 +482,11 @@ export default function vapService(state = initialState, action) {
         },
       };
 
-    case CLOSE_CONFIRM_INTL_MOBILE_SAVE_MODAL:
+    case CLOSE_INTL_MOBILE_CONFIRM_MODAL:
       return {
         ...state,
-        confirmIntlMobileSaveModal: {
-          ...initialConfirmIntlMobileSaveModalState,
+        intlMobileConfirmModal: {
+          ...initialIntlMobileConfirmModalState,
         },
       };
 

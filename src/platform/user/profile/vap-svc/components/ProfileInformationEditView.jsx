@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
-import ConfirmIntlMobileSaveModal from '@@vap-svc/components/ContactInformationFieldInfo/ConfirmIntlMobileSaveModal';
+import ConfirmIntlMobileSaveModal from '@@vap-svc/components/ContactInformationFieldInfo/IntlMobileConfirmModal';
 import { ContactInfoFormAppConfigContext } from './ContactInfoFormAppConfigContext';
 import {
   createTransaction,
@@ -16,7 +16,7 @@ import {
   openModal,
   updateFormFieldWithSchema,
   validateAddress,
-  openConfirmIntlMobileSaveModal,
+  openIntlMobileConfirmModal,
 } from '../actions';
 
 import {
@@ -242,15 +242,15 @@ export class ProfileInformationEditView extends Component {
       );
     };
 
-    // Check submission for the case of an international phone number
-    // And relay the transaction to the confirmation modal
-    // `countryCode == 1` is marked as international, so ignore that
+    // Show a confirmation modal before saving internation mobile numbers
+    // Relay the transaction to the confirmation modal
+    // `countryCode == 1` is marked as international, skip that case
     if (
       fieldName === 'mobilePhone' &&
       payload.isInternational &&
       payload.countryCode !== 1
     ) {
-      this.props.openConfirmIntlMobileSaveModal(
+      this.props.openIntlMobileConfirmModal(
         payload.countryCode,
         payload.phoneNumber,
         createTransactionFn,
@@ -485,7 +485,7 @@ ProfileInformationEditView.propTypes = {
   updateFormFieldWithSchema: PropTypes.func.isRequired,
   validateAddress: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  openConfirmIntlMobileSaveModal: PropTypes.func.isRequired,
+  openIntlMobileConfirmModal: PropTypes.func.isRequired,
   activeEditView: PropTypes.string,
   cancelButtonText: PropTypes.string,
   contactInfoFormAppConfig: PropTypes.object,
@@ -555,7 +555,7 @@ const mapDispatchToProps = {
   refreshTransaction,
   createPersonalInfoUpdate,
   updateMessagingSignature,
-  openConfirmIntlMobileSaveModal,
+  openIntlMobileConfirmModal,
 };
 
 export default connect(

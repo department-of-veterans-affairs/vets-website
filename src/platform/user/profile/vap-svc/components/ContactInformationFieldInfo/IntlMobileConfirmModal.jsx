@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { closeConfirmIntlMobileSaveModal } from '@@vap-svc/actions';
+import { closeIntlMobileConfirmModal } from '@@vap-svc/actions';
 
-const ConfirmIntlMobileSaveModal = ({
+const IntlMobileConfirmModal = ({
   isOpen,
-  closeConfirmIntlMobileSaveModal: closeModal,
+  closeIntlMobileConfirmModal: closeModal,
   countryCode,
   phoneNumber,
   confirmFn,
@@ -35,22 +35,21 @@ const ConfirmIntlMobileSaveModal = ({
   );
 };
 
-ConfirmIntlMobileSaveModal.propTypes = {
-  closeConfirmIntlMobileSaveModal: PropTypes.func.isRequired,
+IntlMobileConfirmModal.propTypes = {
+  closeIntlMobileConfirmModal: PropTypes.func.isRequired,
   confirmFn: PropTypes.func,
   countryCode: PropTypes.number,
   isOpen: PropTypes.bool.isRequired,
   phoneNumber: PropTypes.string,
 };
 
-export const mapStateToProps = state =>
-  state.vapService.confirmIntlMobileSaveModal;
+export const mapStateToProps = state => state.vapService.intlMobileConfirmModal;
 
 const mapDispatchToProps = {
-  closeConfirmIntlMobileSaveModal,
+  closeIntlMobileConfirmModal,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ConfirmIntlMobileSaveModal);
+)(IntlMobileConfirmModal);
