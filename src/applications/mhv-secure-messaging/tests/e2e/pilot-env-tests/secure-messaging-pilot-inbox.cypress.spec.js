@@ -35,7 +35,7 @@ describe('Secure Messaging Pilot feature flag', () => {
 
     PilotEnvPage.loadInboxMessages();
 
-    PilotEnvPage.verifyUrl(Paths.UI_PILOT);
+    PilotEnvPage.verifyUrl(Paths.UI_MAIN);
     PilotEnvPage.verifyThreadLength(mockMessages);
 
     cy.injectAxe();

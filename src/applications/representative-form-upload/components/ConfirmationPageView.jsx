@@ -69,12 +69,13 @@ export const ConfirmationPageView = ({
           </va-process-list-item>
         </va-process-list>
       </section>
-      <a
-        className="vads-c-action-link--green vads-u-margin-bottom--4"
+      <va-link-action
         href="/representative/submissions"
-      >
-        Review submissions history
-      </a>
+        label="Review submissions history"
+        class="vads-u-margin-bottom--4"
+        text="Review submissions history"
+        type="primary"
+      />
       {childContent || null}
     </div>
   );
