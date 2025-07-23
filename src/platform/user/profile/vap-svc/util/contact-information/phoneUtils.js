@@ -71,7 +71,13 @@ export const phoneUiSchema = (
       inputPhoneNumber: {
         'ui:title': `${fieldName}`,
         'ui:webComponentField': VaTelephoneInputField,
-        // We rely on VaTelephoneInput defaults for in-line validations and error messages
+        'ui:validations': [
+          (errors, field) => {
+            if (!field?._isValid) {
+              errors.addError('Please enter a valid phone number');
+            }
+          },
+        ],
       },
       extension: {
         'ui:title': 'Extension (6 digits maximum)',
