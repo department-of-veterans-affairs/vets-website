@@ -149,6 +149,12 @@
         "confirmationCode": "fa0c0f47-a42f-4bbc-88f3-873c5bea6ce7",
         "attachmentId": "L023"
       },
+       {
+        "name": "foo_protected.PDF",
+        "confirmationCode": "9f153a64-29f7-4b5b-9053-c788f45942cd",
+        "attachmentId": "L049",
+        "isEncrypted": true
+      },
       {
         "name": "lolwut.png",
         "confirmationCode": "552067b2-9c5d-4bd8-bcd8-bc621b51a145",

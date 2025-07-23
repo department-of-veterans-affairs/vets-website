@@ -110,10 +110,10 @@ export default connect(
 ViewDependentsApp.propTypes = {
   fetchAllDependents: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  error: PropTypes.object,
   user: PropTypes.object.isRequired,
   dependencyVerificationToggle: PropTypes.bool,
   dependentsVerificationFormToggle: PropTypes.bool,
+  error: PropTypes.object,
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,
   updateDiariesStatus: PropTypes.bool,

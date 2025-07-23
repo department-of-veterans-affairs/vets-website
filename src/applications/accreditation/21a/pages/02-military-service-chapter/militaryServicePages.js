@@ -26,7 +26,7 @@ const requireExplanation = characterOfDischarge =>
   explanationRequired.includes(characterOfDischarge);
 
 /** @type {ArrayBuilderOptions} */
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'militaryServiceExperiences',
   nounSingular: 'military service experience',
   nounPlural: 'military service experiences',
