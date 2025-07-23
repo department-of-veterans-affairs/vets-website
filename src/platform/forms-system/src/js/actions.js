@@ -325,8 +325,8 @@ export function uploadFile(
     req.url = uiOptions.fileUploadUrl;
     req.open('POST', req.url);
     req.addEventListener('load', () => {
+      handleSessionRefresh(req, csrfTokenStored);
       if (req.status >= 200 && req.status < 300) {
-        handleSessionRefresh(req, csrfTokenStored);
         const body = 'response' in req ? req.response : req.responseText;
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
