@@ -68,8 +68,8 @@ const institutionAndDegreePage = {
     name: textUI('Name of school'),
     ...dateRangeWithCurrentCheckboxUI({
       fromLabel: 'Start date',
-      currentLabel: 'I still go to school here.',
       toLabel: 'End date',
+      currentLabel: 'I still go to school here.',
       currentKey: 'currentlyEnrolled',
       isCurrentChecked: (fullData, index) => {
         return fullData?.educationalInstitutions?.[index]?.currentlyEnrolled;
