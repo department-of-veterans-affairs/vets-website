@@ -14,6 +14,7 @@ import {
 import { isCompletingForm0781 } from '../utils/form0781';
 import { standardTitle } from '../content/form0781';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';
+import { isUsingModern4142Flow } from '../utils';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
@@ -72,12 +73,14 @@ export const uiSchema = {
           updateSchema: makeSchemaForAllDisabilities,
           itemAriaLabel: data => data.treatmentCenterName,
           showFieldLabel: true,
+          hideIf: formData => !isUsingModern4142Flow(formData),
         },
         'ui:validations': [validateBooleanGroup],
         'ui:errorMessages': {
           atLeastOne: 'Please select at least one condition',
           required: 'Please select at least one condition',
         },
+        'ui:required': formData => isUsingModern4142Flow(formData),
       },
       'ui:validations': [validateDate],
       treatmentDateRange: dateRangeUI(
