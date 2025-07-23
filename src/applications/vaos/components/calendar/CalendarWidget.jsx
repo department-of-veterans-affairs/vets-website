@@ -386,13 +386,15 @@ function CalendarWidget({
                               }
 
                               if (
-                                date === currentlySelectedDate ||
-                                !value.some(selectedDate =>
-                                  isSameDay(
-                                    parseISO(date),
-                                    parseISO(selectedDate),
-                                  ),
-                                )
+                                exceededMaximumSelections &&
+                                (dateSelection === currentlySelectedDate ||
+                                  (value?.length > 0 &&
+                                    !value.some(selectedDate =>
+                                      isSameDay(
+                                        parseISO(dateSelection),
+                                        parseISO(selectedDate),
+                                      ),
+                                    )))
                               ) {
                                 setAlertTrigger();
                               }
