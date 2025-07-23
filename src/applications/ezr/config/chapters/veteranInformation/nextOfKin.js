@@ -5,6 +5,7 @@ import {
   getDeleteTitle,
   getDeleteYes,
   getDeleteDescription,
+  isItemIncomplete,
 } from '../../../utils/helpers/nextOfKinUtils';
 import content from '../../../locales/en/content.json';
 import {
@@ -13,6 +14,7 @@ import {
   nextOfKinSummaryPage,
 } from '../../../definitions/nextOfKin';
 import { MAX_NEXT_OF_KINS } from '../../../utils/constants';
+import NextOfKinsMaxAlert from '../../../components/FormAlerts/NextOfKinsMaxAlert';
 
 /**
  * Declare attributes for array builder pattern
@@ -24,12 +26,8 @@ const arrayBuilderOptions = {
   nounPlural: 'next of kins',
   required: false,
   maxItems: MAX_NEXT_OF_KINS,
-  hideMaxItemsAlert: true,
-  isItemIncomplete: item =>
-    !item?.fullName?.first ||
-    !item?.fullName?.last ||
-    !item?.primaryPhone ||
-    !item?.relationship,
+  hideMaxItemsAlert: false,
+  isItemIncomplete,
   text: {
     getItemName,
     cardDescription: getCardDescription,
@@ -49,6 +47,7 @@ const arrayBuilderOptions = {
     yesNoBlankReviewQuestion: () =>
       content['next-of-kin-summary-yes-no-blank-review-question'],
     reviewAddButtonText: () => content['next-of-kin-summary-add-button-text'],
+    alertMaxItems: NextOfKinsMaxAlert,
   },
 };
 

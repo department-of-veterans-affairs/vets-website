@@ -1,5 +1,6 @@
 import content from '../../locales/en/content.json';
 import { replaceStrValues } from './general';
+
 /**
  * Helper to get the item name for the next of kin (NoK).
  * @param {Object} item - The NoK item containing fullName.
@@ -50,4 +51,21 @@ export const getDeleteDescription = item => {
 
   // Fallback if data is missing
   return content['next-of-kin-delete-description-default'];
+};
+
+/**
+ * Helper to test if the item is in a completed stated.
+ * @param {Object} item - The NoK item.
+ * @returns {String} - Returns true if the item has all required fields present.
+ */
+export const isItemIncomplete = item => {
+  return (
+    !item?.fullName?.first ||
+    !item?.fullName?.last ||
+    !item?.primaryPhone ||
+    !item?.relationship ||
+    !item?.address?.street ||
+    !item?.address?.city ||
+    !item?.address?.country
+  );
 };

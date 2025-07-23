@@ -5,6 +5,7 @@ import {
   getDeleteTitle,
   getDeleteYes,
   getDeleteDescription,
+  isItemIncomplete,
 } from '../../../../utils/helpers/nextOfKinUtils';
 
 describe('Next of Kin Utils', () => {
@@ -83,6 +84,109 @@ describe('Next of Kin Utils', () => {
       expect(result).to.equal(
         'This will delete this contact and all the information from your list of next of kins.',
       );
+    });
+  });
+
+  describe('isItemIncomplete', () => {
+    it('should return true if fullName missing', () => {
+      const item = {
+        fullName: {},
+        primaryPhone: '0123456789',
+        relationship: 'BROTHER',
+        address: {
+          street: '1 Test Street',
+          city: 'Los Angeles',
+          country: 'USA',
+        },
+      };
+      let result = isItemIncomplete(item);
+      expect(result).to.be.true;
+
+      item.fullName.first = 'John';
+      result = isItemIncomplete(item);
+      expect(result).to.be.true;
+
+      item.fullName.first = null;
+      item.fullName.last = 'Doe';
+      result = isItemIncomplete(item);
+      expect(result).to.be.true;
+    });
+
+    it('should return true if primaryPhone missing', () => {
+      const item = {
+        fullName: {
+          first: 'John',
+          last: 'Doe',
+        },
+        primaryPhone: null,
+        relationship: 'BROTHER',
+        address: {
+          street: '1 Test Street',
+          city: 'Los Angeles',
+          country: 'USA',
+        },
+      };
+      const result = isItemIncomplete(item);
+      expect(result).to.be.true;
+    });
+
+    it('should return true if relationship missing', () => {
+      const item = {
+        fullName: {
+          first: 'John',
+          last: 'Doe',
+        },
+        primaryPhone: '0123456789',
+        relationship: null,
+        address: {
+          street: '1 Test Street',
+          city: 'Los Angeles',
+          country: 'USA',
+        },
+      };
+      const result = isItemIncomplete(item);
+      expect(result).to.be.true;
+    });
+
+    it('should return true if any part of the address is missing', () => {
+      const item = {
+        fullName: {
+          first: 'John',
+          last: 'Doe',
+        },
+        primaryPhone: '0123456789',
+        relationship: 'BROTHER',
+        address: {},
+      };
+
+      let result = isItemIncomplete(item);
+      expect(result).to.be.true;
+
+      item.address.street = '1 Test Street';
+      result = isItemIncomplete(item);
+      expect(result).to.be.true;
+
+      item.address.city = 'Los Angeles';
+      result = isItemIncomplete(item);
+      expect(result).to.be.true;
+    });
+
+    it('should return true if all of the required fields have data', () => {
+      const item = {
+        fullName: {
+          first: 'John',
+          last: 'Doe',
+        },
+        primaryPhone: '0123456789',
+        relationship: 'BROTHER',
+        address: {
+          street: '1 Test Street',
+          city: 'Testerton',
+          country: 'USA',
+        },
+      };
+      const result = isItemIncomplete(item);
+      expect(result).to.be.false;
     });
   });
 });

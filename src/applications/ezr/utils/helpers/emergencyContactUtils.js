@@ -51,3 +51,20 @@ export const getDeleteDescription = item => {
   // Fallback if data is missing
   return content['emergency-contact-delete-description-default'];
 };
+
+/**
+ * Helper to test if the item is in a completed stated.
+ * @param {Object} item - The Emergency Contact item.
+ * @returns {String} - Returns true if the item has all required fields present.
+ */
+export const isItemIncomplete = item => {
+  return (
+    !item?.fullName?.first ||
+    !item?.fullName?.last ||
+    !item?.primaryPhone ||
+    !item?.relationship ||
+    !item?.address?.street ||
+    !item?.address?.city ||
+    !item?.address?.country
+  );
+};
