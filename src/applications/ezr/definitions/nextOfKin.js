@@ -110,16 +110,16 @@ export const nextOfKinSummaryPage = (options = {}) => ({
         title: content['next-of-kin-add-contacts-label'],
         hint: content['next-of-kin-hint-text'],
         labels: {
-          Y: 'Yes, I want to add someone as my next of kin',
-          N: 'No, I don’t want to add anyone as my next of kin',
+          Y: content['next-of-kin-add-contacts-yes-label'],
+          N: content['next-of-kin-add-contacts-no-label'],
         },
       },
       {
         title: content['next-of-kin-add-another-contact-label'],
         hint: content['next-of-kin-hint-text'],
         labels: {
-          Y: 'Yes, I want to add another person as my next of kin',
-          N: 'No, I don’t want to add another person as my next of kin',
+          Y: content['next-of-kin-add-another-contact-yes-label'],
+          N: content['next-of-kin-add-another-contact-no-label'],
         },
       },
     ),
