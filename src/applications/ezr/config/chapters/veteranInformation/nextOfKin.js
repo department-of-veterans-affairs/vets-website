@@ -4,6 +4,7 @@ import {
   getCardDescription,
   getDeleteTitle,
   getDeleteYes,
+  getDeleteNo,
   getDeleteDescription,
   isItemIncomplete,
 } from '../../../utils/helpers/nextOfKinUtils';
@@ -33,6 +34,7 @@ const arrayBuilderOptions = {
     cardDescription: getCardDescription,
     deleteTitle: getDeleteTitle,
     deleteYes: getDeleteYes,
+    deleteNo: getDeleteNo,
     deleteDescription: getDeleteDescription,
     cancelAddDescription: () =>
       content['next-of-kin-cancel-add-description-text'],

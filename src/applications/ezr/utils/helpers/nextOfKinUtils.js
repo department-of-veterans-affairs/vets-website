@@ -33,6 +33,12 @@ export const getDeleteTitle = () => content['next-of-kin-delete-title'];
 export const getDeleteYes = () => content['next-of-kin-delete-yes'];
 
 /**
+ * Helper to generate the cancellation text for deleting the NoK.
+ * @returns {String} - Returns the delete cancellation text for the NoK.
+ */
+export const getDeleteNo = () => content['next-of-kin-delete-no'];
+
+/**
  * Helper to generate the delete description text.
  * @param {Object} item - The NoK item containing fullName.
  * @returns {String} - Returns the delete description, including the first and last name or a fallback if the names are missing.

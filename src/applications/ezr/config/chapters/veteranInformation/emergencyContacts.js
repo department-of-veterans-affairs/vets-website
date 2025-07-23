@@ -4,6 +4,7 @@ import {
   getCardDescription,
   getDeleteTitle,
   getDeleteYes,
+  getDeleteNo,
   getDeleteDescription,
   isItemIncomplete,
 } from '../../../utils/helpers/emergencyContactUtils';
@@ -33,6 +34,7 @@ const arrayBuilderOptions = {
     cardDescription: getCardDescription,
     deleteTitle: getDeleteTitle,
     deleteYes: getDeleteYes,
+    deleteNo: getDeleteNo,
     deleteDescription: getDeleteDescription,
     cancelAddDescription: () =>
       content['emergency-contact-cancel-add-description-text'],

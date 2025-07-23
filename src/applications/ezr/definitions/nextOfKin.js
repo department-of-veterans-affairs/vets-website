@@ -104,10 +104,25 @@ export const nextOfKinAddressPage = () => ({
  */
 export const nextOfKinSummaryPage = (options = {}) => ({
   uiSchema: {
-    'view:hasNextOfKin': arrayBuilderYesNoUI(options, {
-      title: content['next-of-kin-add-contacts-label'],
-      hint: content['next-of-kin-hint-text'],
-    }),
+    'view:hasNextOfKin': arrayBuilderYesNoUI(
+      options,
+      {
+        title: content['next-of-kin-add-contacts-label'],
+        hint: content['next-of-kin-hint-text'],
+        labels: {
+          Y: 'Yes, I want to add someone as my next of kin',
+          N: 'No, I don’t want to add anyone as my next of kin',
+        },
+      },
+      {
+        title: content['next-of-kin-add-another-contact-label'],
+        hint: content['next-of-kin-hint-text'],
+        labels: {
+          Y: 'Yes, I want to add another person as my next of kin',
+          N: 'No, I don’t want to add another person as my next of kin',
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',

@@ -32,6 +32,12 @@ export const getDeleteTitle = () => content['emergency-contact-delete-title'];
 export const getDeleteYes = () => content['emergency-contact-delete-yes'];
 
 /**
+ * Helper to generate the cancellation text for deleting the emergency contact.
+ * @returns {String} - Returns the delete cancellation text for the emergency contact.
+ */
+export const getDeleteNo = () => content['emergency-contact-delete-no'];
+
+/**
  * Helper to generate the delete description text.
  * @param {Object} item - The emergency contact item containing fullName.
  * @returns {String} - Returns the delete description, including the first and last name or a fallback if the names are missing.
