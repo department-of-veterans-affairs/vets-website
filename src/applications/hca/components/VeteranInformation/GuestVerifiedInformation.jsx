@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { formatDate, maskSSN, normalizeFullName } from '../../utils/helpers';
 
 const GuestVerifiedInformation = ({ user }) => {
@@ -47,7 +46,7 @@ const GuestVerifiedInformation = ({ user }) => {
               data-dd-action-name="Date of birth"
             >
               {veteranDOB}
-              GVI valid? {moment(veteranDOB) > 1950}
+              GVI valid? {new Date(veteranDOB).getFullYear() > 1950}
             </span>
           </li>
           <li>

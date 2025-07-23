@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { genderLabels } from 'platform/static-data/labels';
-import moment from 'moment/moment';
 import { srSubstitute, formatDate } from '../utils';
 import { editNote } from '../content/common';
 
@@ -36,7 +35,7 @@ function VeteranDetails({ profile }) {
           </p>
         )}
         <p>Date of birth: {dob ? formatDate(dob) : ''}</p>
-        <p>VeteranDetails valid? {moment(dob) > 1950}</p>
+        <p>VeteranDetails valid? {new Date(dob).getFullYear() > 1950}</p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
       {editNote('personal information')}
