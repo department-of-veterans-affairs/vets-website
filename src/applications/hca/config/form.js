@@ -484,6 +484,7 @@ const formConfig = {
         dependentsIntro: {
           path: 'household-information/your-dependents',
           title: 'Your dependents',
+          depends: includeHouseholdInformation,
           CustomPage: DependentsInformationPage,
           CustomPageReview: null,
           uiSchema: {},
