@@ -148,7 +148,7 @@ const build21aPayload = data => {
       data.educationalInstitutions?.map(e => ({
         name: e.name,
         startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
-        endDate: `${e.dateRange?.to}-01` || null, // adding a day here since GCLAWS requires it
+        endDate: e.dateRange?.to ? `${e.dateRange.to}-01` : null, // adding a day here since GCLAWS requires it
         wasDegreeReceived: !!e.degreeReceived,
         major: e.major,
         degreeTypeId: DEGREE_TYPE_ENUM[e.degree],
