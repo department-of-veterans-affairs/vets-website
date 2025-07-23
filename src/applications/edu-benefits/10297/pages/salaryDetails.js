@@ -16,7 +16,7 @@ const uiSchema = {
   ...titleUI('Your current annual salary'),
   currentSalary: {
     ...radioUI({
-      title: 'What is your current annual salary?',
+      title: "What's your current annual salary?",
       labels: salaryRanges,
     }),
   },
