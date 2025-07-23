@@ -2,6 +2,7 @@ import { addDays, startOfDay, addHours } from 'date-fns';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import { waitFor } from '@testing-library/react';
+import { mockToday } from '../../../tests/mocks/constants';
 
 const draftAppointmentUtil = require('../../utils/provider');
 
@@ -9,7 +10,7 @@ describe('VAOS provider utils', () => {
   afterEach(() => {
     MockDate.reset();
   });
-  const tomorrow = addDays(startOfDay(new Date()), 1);
+  const tomorrow = addDays(startOfDay(mockToday), 1);
   describe('createDraftAppointmentInfo', () => {
     const providerObjectTwoSlots = draftAppointmentUtil.createDraftAppointmentInfo(
       2,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
+import MockDate from 'mockdate';
 
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import ContactInfoPage from './ContactInfoPage';
@@ -11,8 +12,8 @@ import {
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 
 describe('VAOS Page: ContactInfoPage', () => {
-  beforeEach(() => {
-    sessionStorage.clear();
+  before(() => {
+    MockDate.set('2024-12-05T00:00:00Z');
   });
   it('should accept email, phone, and preferred time and continue', async () => {
     const store = createTestStore({
@@ -35,7 +36,7 @@ describe('VAOS Page: ContactInfoPage', () => {
     });
 
     let input = await screen.findByLabelText(/^Your phone number/);
-    fireEvent.change(input, { target: { value: '5555555555' } });
+    userEvent.type(input, '5555555555');
 
     input = screen.getByLabelText(/^Your email address/);
     userEvent.type(input, 'joe.blow@gmail.com');
