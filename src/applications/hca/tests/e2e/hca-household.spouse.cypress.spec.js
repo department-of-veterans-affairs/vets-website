@@ -35,6 +35,7 @@ describe('HCA-Household: Spousal disclosure', () => {
     cy.selectRadio('root_cohabitedLastYear', 'Y');
     cy.selectRadio('root_sameAddress', 'Y');
 
+    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
 
@@ -79,6 +80,7 @@ describe('HCA-Household: Spousal disclosure', () => {
       testData['view:spouseContactInformation'].spousePhone,
     );
 
+    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
 

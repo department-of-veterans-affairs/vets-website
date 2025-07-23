@@ -37,6 +37,7 @@ describe('HCA-Household: Full disclosure', () => {
     cy.selectRadio('root_cohabitedLastYear', 'Y');
     cy.selectRadio('root_sameAddress', 'Y');
 
+    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
 

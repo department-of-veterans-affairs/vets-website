@@ -100,6 +100,7 @@ import FinancialOnboarding from '../components/FormPages/FinancialOnboarding';
 import FinancialConfirmation from '../components/FormPages/FinancialConfirmation';
 import FinancialInformation from '../components/FormPages/FinancialInformation';
 import Dependents from './chapters/householdInformation/dependents';
+import DependentsInformationPage from '../components/FormPages/DependentsInformation';
 
 // chapter 5 Insurance Information
 import medicaid from './chapters/insuranceInformation/medicaid';
@@ -479,6 +480,14 @@ const formConfig = {
           depends: spouseAddressDoesNotMatchVeterans,
           uiSchema: SpouseContactInformation.uiSchema,
           schema: SpouseContactInformation.schema,
+        },
+        dependentsIntro: {
+          path: 'household-information/your-dependents',
+          title: 'Your dependents',
+          CustomPage: DependentsInformationPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
         ...Dependents,
         VeteranAnnualIncome: {

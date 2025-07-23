@@ -28,6 +28,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
+    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
 
@@ -60,6 +61,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
+    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
 
@@ -102,6 +104,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
+    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
 
@@ -137,6 +140,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
+    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
 
@@ -182,6 +186,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
+    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
 
@@ -217,6 +222,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
+    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
 
@@ -255,6 +261,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
+    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
 
@@ -293,6 +300,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
+    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
 
