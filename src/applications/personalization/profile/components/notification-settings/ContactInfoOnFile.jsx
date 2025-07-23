@@ -14,12 +14,17 @@ const ContactInfoOnFile = ({
   showEmailNotificationSettings,
 }) => {
   const { generateContactInfoLink } = useContactInfoDeepLink();
-  const countryCode = mobilePhoneNumber.isInternational
-    ? mobilePhoneNumber.countryCode
-    : null;
-  const contactNumber = mobilePhoneNumber.isInternational
-    ? mobilePhoneNumber.phoneNumber
-    : `${mobilePhoneNumber.areaCode}${mobilePhoneNumber.phoneNumber}`;
+
+  const updateMobileNumberHref = generateContactInfoLink({
+    fieldName: FIELD_NAMES.MOBILE_PHONE,
+    returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
+  });
+
+  const isInternationalMobile =
+    mobilePhoneNumber &&
+    mobilePhoneNumber.isInternational &&
+    parseInt(mobilePhoneNumber.countryCode, 10) !== 1;
+
   return (
     <>
       <p className="vads-u-margin-bottom--0">
@@ -53,18 +58,23 @@ const ContactInfoOnFile = ({
           {mobilePhoneNumber && (
             <VaTelephone
               data-testid="mobile-phone-number-on-file"
-              country-code={countryCode}
-              contact={contactNumber}
+              // For international number areaCode is null
+              // and is instead part of phoneNumber
+              contact={
+                isInternationalMobile
+                  ? mobilePhoneNumber.phoneNumber
+                  : `${mobilePhoneNumber.areaCode}${
+                      mobilePhoneNumber.phoneNumber
+                    }`
+              }
+              countryCode={
+                isInternationalMobile ? mobilePhoneNumber.countryCode : null
+              }
               notClickable
             />
           )}
           <va-link
-            href={generateContactInfoLink({
-              fieldName: FIELD_NAMES.MOBILE_PHONE,
-              returnPath: encodeURIComponent(
-                PROFILE_PATHS.NOTIFICATION_SETTINGS,
-              ),
-            })}
+            href={updateMobileNumberHref}
             class="vads-u-display--block medium-screen:vads-u-display--inline medium-screen:vads-u-margin-left--1"
             aria-label="mobile number"
             text={
@@ -75,6 +85,33 @@ const ContactInfoOnFile = ({
           />
         </li>
       </ul>
+
+      {isInternationalMobile && (
+        <va-alert-expandable
+          status="info"
+          trigger="You won’t receive text notifications"
+          class="vads-u-margin-top--2"
+          data-testid="international-mobile-number-info-alert"
+        >
+          <p className="vads-u-padding-bottom--2">
+            You have an international phone number, update to a US based mobile
+            phone number to have access to these text notifications settings:
+          </p>
+          <ul className="vads-u-padding-bottom--2">
+            <li>Health appointment reminders</li>
+            <li>Prescription shipping notifications</li>
+            <li>Appeal status updates</li>
+            <li>Appeal hearing reminders</li>
+            <li>Disability and pension deposit notifications</li>
+          </ul>
+          <p>
+            <va-link
+              href={updateMobileNumberHref}
+              text="Update your mobile phone number"
+            />
+          </p>
+        </va-alert-expandable>
+      )}
     </>
   );
 };
@@ -83,6 +120,8 @@ ContactInfoOnFile.propTypes = {
   emailAddress: PropTypes.string,
   mobilePhoneNumber: PropTypes.shape({
     areaCode: PropTypes.string,
+    countryCode: PropTypes.string,
+    isInternational: PropTypes.bool,
     phoneNumber: PropTypes.string,
     countryCode: PropTypes.string,
     isInternational: PropTypes.bool,
