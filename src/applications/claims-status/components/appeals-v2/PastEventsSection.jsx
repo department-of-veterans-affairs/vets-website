@@ -32,7 +32,7 @@ const PastEventsSection = ({ events, missingEvents }) => {
             key={`past-event-${index}`}
             className="vads-u-margin-bottom--2 vads-u-padding-bottom--1"
           >
-            <h4 className="vads-u-margin-y--0">{date}</h4>
+            <h3 className="vads-u-margin-y--0">{date}</h3>
             <p className="vads-u-margin-y--0">{title}</p>
             <p
               className="item-description vads-u-margin-top--0p5 vads-u-margin-bottom--1"
