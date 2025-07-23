@@ -72,16 +72,26 @@ const formConfig = {
   },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
+      { href: '/', label: 'Home' },
       {
-        href: '/ivc-champva',
-        label: 'Ivc champva',
+        href: `/family-and-caregiver-benefits`,
+        label: `Family and caregiver benefits`,
       },
       {
-        href: '/ivc-champva/10-10d-extended',
-        label: '10 10d extended',
+        href: `/family-and-caregiver-benefits/health-and-disability/`,
+        label: `Health and disability benefits for family and caregivers`,
+      },
+      {
+        href: `/family-and-caregiver-benefits/health-and-disability/champva`,
+        label: `CHAMPVA benefits`,
+      },
+      {
+        href: `#content`,
+        label: `Apply for CHAMPVA benefits`,
       },
     ],
+    homeVeteransAffairs: false,
+    wrapping: true,
   }),
   formId: VA_FORM_IDS.FORM_10_10D_EXTENDED,
   saveInProgress: {
