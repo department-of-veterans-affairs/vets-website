@@ -34,10 +34,8 @@ import {
   includeSpousalInformation,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
-  includeDependentInformation,
   collectMedicareInformation,
 } from '../utils/helpers';
-import { SHARED_PATHS } from '../utils/constants';
 import { FULL_SCHEMA } from '../utils/imports';
 import migrations from './migrations';
 import manifest from '../manifest.json';
@@ -95,16 +93,13 @@ import SpouseBasicInformation from './chapters/householdInformation/spouseBasicI
 import SpouseContactInformation from './chapters/householdInformation/spouseContactInformation';
 import SpouseAdditionalInformation from './chapters/householdInformation/spouseAdditionalInformation';
 import SpouseFinancialSupport from './chapters/householdInformation/spouseFinancialSupport';
-import DependentSummary from './chapters/householdInformation/dependentSummary';
 import SpouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
 import VeteranAnnualIncome from './chapters/householdInformation/veteranAnnualIncome';
 import DeductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 import FinancialOnboarding from '../components/FormPages/FinancialOnboarding';
 import FinancialConfirmation from '../components/FormPages/FinancialConfirmation';
 import FinancialInformation from '../components/FormPages/FinancialInformation';
-import DependentInformationPage from '../components/FormPages/DependentInformation';
-import DependentSummaryPage from '../components/FormPages/DependentSummary';
-import DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
+import Dependents from './chapters/householdInformation/dependents';
 
 // chapter 5 Insurance Information
 import medicaid from './chapters/insuranceInformation/medicaid';
@@ -114,9 +109,6 @@ import general from './chapters/insuranceInformation/general';
 import insurancePolicyPages from './chapters/insuranceInformation/insurancePolicies';
 import vaFacilityPage from './chapters/insuranceInformation/vaFacility';
 import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
-
-// declare shared paths for custom form page navigation
-const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 
 // declare schema definitions
 const { date } = FULL_SCHEMA.definitions;
@@ -488,24 +480,7 @@ const formConfig = {
           uiSchema: SpouseContactInformation.uiSchema,
           schema: SpouseContactInformation.schema,
         },
-        DependentSummary: {
-          path: DEPENDENT_PATHS.summary,
-          title: 'Dependents',
-          depends: includeHouseholdInformation,
-          CustomPage: DependentSummaryPage,
-          CustomPageReview: DependentsReviewPage,
-          uiSchema: DependentSummary.uiSchema,
-          schema: DependentSummary.schema,
-        },
-        DependentInformation: {
-          path: DEPENDENT_PATHS.info,
-          title: 'Dependent information',
-          depends: includeDependentInformation,
-          CustomPage: DependentInformationPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
+        ...Dependents,
         VeteranAnnualIncome: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',

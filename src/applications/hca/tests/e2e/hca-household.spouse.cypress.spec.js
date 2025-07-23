@@ -36,7 +36,7 @@ describe('HCA-Household: Spousal disclosure', () => {
     cy.selectRadio('root_sameAddress', 'Y');
 
     goToNextPage('/household-information/dependents');
-    cy.selectRadio('root_view:reportDependents', 'N');
+    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -80,7 +80,7 @@ describe('HCA-Household: Spousal disclosure', () => {
     );
 
     goToNextPage('/household-information/dependents');
-    cy.selectRadio('root_view:reportDependents', 'N');
+    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
