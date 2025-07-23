@@ -5,8 +5,6 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
   textUI,
   textSchema,
   titleUI,
@@ -17,7 +15,6 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema
 import set from 'platform/utilities/data/set';
 import { merge } from 'lodash';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
-import { description } from 'platform';
 import { useSelector } from 'react-redux';
 import fullNameUI from '../../definitions/fullName';
 
@@ -29,7 +26,7 @@ import {
   isVeteran,
   isAuthorizedAgent,
 } from '../../utils/helpers';
-import DeceasedPersons from '../../components/DeceasedPersons';
+// import DeceasedPersons from '../../components/DeceasedPersons';
 
 import * as autosuggestCustom from '../../definitions/autosuggest';
 
@@ -69,8 +66,8 @@ export const desiredCemeteryNoteTitleWrapper = (
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'nounPluralReplaceMe',
-  nounSingular: '[noun singular]',
-  nounPlural: '[noun plural]',
+  nounSingular: 'burial benefit',
+  nounPlural: 'burial benefits',
   required: true,
   isItemIncomplete: item => !item?.name, // include all required fields here
   maxItems: 5,
@@ -151,108 +148,107 @@ const summaryPage = {
 
 /** @returns {PageSchema} */
 const namePage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Name of deceased person(s)',
+      description: <CurrentlyBuriedDescription />,
+      nounSingular: options.nounSingular,
+    }),
+    firstName: textUI('Deceased person’s first name'),
+    lastName: textUI('Deceased person’s last name'),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      firstName: textSchema,
+      lastName: textSchema,
+    },
+    required: ['firstName', 'lastName'],
+  },
   //   uiSchema: {
-  //     ...arrayBuilderItemFirstPageTitleUI({
-  //       title: 'Name of deceased person(s)',
-  //       description: <CurrentlyBuriedDescription />,
-  //       nounSingular: options.nounSingular,
-  //     }),
-  //     firstName: textUI('Deceased person’s first name'),
-  //     lastName: textUI('Deceased person’s last name'),
+  //     application: {
+  //       currentlyBuriedPersons: {
+  //         'ui:options': {
+  //           viewField: EligibleBuriedView,
+  //           keepInPageOnReview: true,
+  //           showSave: true,
+  //           confirmRemove: true,
+  //           itemName: 'deceased person',
+  //         },
+  //         items: {
+  //           name: merge({}, fullNameUI),
+  //           cemeteryNumber: autosuggest.uiSchema(
+  //             'VA national cemetery where they’re buried',
+  //             getCemeteries,
+  //             {
+  //               'ui:options': {
+  //                 hideIf: () => true,
+  //               },
+  //             },
+  //           ),
+  //         },
+  //       },
+  //     },
   //   },
   //   schema: {
   //     type: 'object',
   //     properties: {
-  //       firstName: textSchema,
-  //       lastName: textSchema,
+  //       application: {
+  //         type: 'object',
+  //         properties: {
+  //           currentlyBuriedPersons: currentlyBuriedPersonsMinItem(),
+  //         },
+  //         currentlyBuriedPersons,
+  //       },
   //     },
-  //     required: ['firstName', 'lastName'],
   //   },
-  uiSchema: {
-    application: {
-      currentlyBuriedPersons: {
-        // 'ui:field': DeceasedPersons,
-        'ui:options': {
-          viewField: EligibleBuriedView,
-          keepInPageOnReview: true,
-          showSave: true,
-          confirmRemove: true,
-          itemName: 'deceased person',
-        },
-        items: {
-          name: merge({}, fullNameUI),
-          cemeteryNumber: autosuggest.uiSchema(
-            'VA national cemetery where they’re buried',
-            getCemeteries,
-            {
-              'ui:options': {
-                hideIf: () => true,
-              },
-            },
-          ),
-        },
-      },
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      application: {
-        type: 'object',
-        properties: {
-          currentlyBuriedPersons: currentlyBuriedPersonsMinItem(),
-        },
-        currentlyBuriedPersons,
-      },
-    },
-  },
 };
 
 /** @returns {PageSchema} */
-const cemeteryPage = {
-  uiSchema: {
-    application: {
-      claimant: {
-        desiredCemetery: autosuggestCustom.uiSchema(
-          desiredCemeteryTitleWrapper,
-          getCemeteries,
-          {
-            'ui:options': {
-              inputProps: {
-                'aria-describedby': 'burial-cemetary-note',
-              },
-            },
-          },
-        ),
-      },
-    },
-    'ui:options': {
-      itemName: 'preferred cemetery',
-    },
-  },
+// const cemeteryPage = {
+//   uiSchema: {
+//     application: {
+//       claimant: {
+//         desiredCemetery: autosuggestCustom.uiSchema(
+//           desiredCemeteryTitleWrapper,
+//           getCemeteries,
+//           {
+//             'ui:options': {
+//               inputProps: {
+//                 'aria-describedby': 'burial-cemetary-note',
+//               },
+//             },
+//           },
+//         ),
+//       },
+//     },
+//     'ui:options': {
+//       itemName: 'preferred cemetery',
+//     },
+//   },
 
-  schema: {
-    type: 'object',
-    properties: {
-      application: {
-        type: 'object',
-        required: ['hasCurrentlyBuried'],
-        properties: {
-          claimant: {
-            type: 'object',
-            properties: {
-              desiredCemetery: autosuggest.schema,
-              'view:desiredCemeteryNote': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-};
+//   schema: {
+//     type: 'object',
+//     properties: {
+//       application: {
+//         type: 'object',
+//         required: ['hasCurrentlyBuried'],
+//         properties: {
+//           claimant: {
+//             type: 'object',
+//             properties: {
+//               desiredCemetery: autosuggest.schema,
+//               'view:desiredCemeteryNote': {
+//                 type: 'object',
+//                 properties: {},
+//               },
+//             },
+//           },
+//         },
+//       },
+//     },
+//   },
+// };
 
 export const nounPluralReplaceMePages = arrayBuilderPages(
   options,
@@ -275,11 +271,11 @@ export const nounPluralReplaceMePages = arrayBuilderPages(
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,
     }),
-    nounSingularReplaceMeDatePage: pageBuilder.itemPage({
-      title: 'Date',
-      path: 'noun-plural-replace-me/:index/date',
-      uiSchema: cemeteryPage.uiSchema,
-      schema: cemeteryPage.schema,
-    }),
+    // nounSingularReplaceMeDatePage: pageBuilder.itemPage({
+    //   title: 'Date',
+    //   path: 'noun-plural-replace-me/:index/date',
+    //   uiSchema: cemeteryPage.uiSchema,
+    //   schema: cemeteryPage.schema,
+    // }),
   }),
 );
