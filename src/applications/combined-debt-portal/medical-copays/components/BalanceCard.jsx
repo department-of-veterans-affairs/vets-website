@@ -25,8 +25,8 @@ CurrentContent.propTypes = {
   id: PropTypes.string,
 };
 
-const PastDueContent = ({ id, date, amount, showOTTP }) =>
-  showOTTP ? (
+const PastDueContent = ({ id, date, amount, showOTPP }) =>
+  showOTPP ? (
     <p className="vads-u-margin--0">
       Pay your balance now or request help by{' '}
       <strong data-testid={`due-date-${id}`}>{formatDate(date)}</strong>.
@@ -47,7 +47,7 @@ PastDueContent.propTypes = {
   amount: PropTypes.number,
   date: PropTypes.string,
   id: PropTypes.string,
-  showOTTP: PropTypes.bool,
+  showOTPP: PropTypes.bool,
 };
 
 const BalanceCard = ({ id, amount, facility, city, date }) => {
@@ -105,20 +105,16 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
           srtext="Important"
           class="icon-color--warning vads-u-padding-right--1"
         />
-
-        {(() => {
-          if (isCurrentBalance) {
-            return <CurrentContent id={id} date={date} />;
-          }
-          return (
-            <PastDueContent
-              id={id}
-              date={date}
-              amount={amount}
-              showOTTP={showCDPOneThingPerPage}
-            />
-          );
-        })()}
+        {isCurrentBalance ? (
+          <CurrentContent id={id} date={date} />
+        ) : (
+          <PastDueContent
+            id={id}
+            date={date}
+            amount={amount}
+            showOTPP={showCDPOneThingPerPage}
+          />
+        )}
       </div>
       <Link
         className="vads-u-font-weight--bold"
