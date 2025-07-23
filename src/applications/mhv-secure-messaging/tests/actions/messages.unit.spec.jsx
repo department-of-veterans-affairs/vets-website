@@ -3,7 +3,8 @@ import {
   mockFetch,
   mockMultipleApiRequests,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import configureMockStore from 'redux-mock-store';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -22,7 +23,8 @@ import * as messageResponse from '../e2e/fixtures/message-response.json';
 
 describe('messages actions', () => {
   const middlewares = [thunk];
-  const mockStore = configureMockStore(middlewares);
+  const mockStore = (initialState = { featureToggles: {} }) =>
+    configureStore(middlewares)(initialState);
   const errorResponse = {
     errors: [
       {
@@ -68,10 +70,8 @@ describe('messages actions', () => {
     const messageId = '1234';
     const isPilot = true;
     const isPilotState = {
-      sm: {
-        app: {
-          isPilot,
-        },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: isPilot,
       },
     };
     const getThreadSpy = sinon.spy(apiCalls, 'getMessageThreadWithFullBody');
