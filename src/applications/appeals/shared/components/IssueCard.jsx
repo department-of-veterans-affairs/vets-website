@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { SELECTED } from '../constants';
 import '../definitions';
 import { IssueCardContent } from './IssueCardContent';
@@ -107,45 +108,32 @@ export const IssueCard = ({
     <li id={`issue-${index}`} name={`issue-${index}`} key={index}>
       <div className={wrapperClass}>
         {showCheckbox ? (
-          <div
-            className="widget-checkbox-wrap"
-            data-dd-action-name="Issue name"
+          <VaCheckbox
+            checked={itemIsSelected}
+            data-dd-action-name="Issue Name"
+            id={elementId}
+            label={issueName}
+            name={elementId}
+            onVaChange={handlers.onChange}
+            tile
           >
-            <input
-              type="checkbox"
-              id={elementId}
-              name={elementId}
-              checked={itemIsSelected}
-              onChange={handlers.onChange}
-              aria-describedby={`issue-${index}-description`}
-              aria-labelledby={`issue-${index}-title`}
-              data-dd-action-name="Issue Name"
-            />
-            <label
-              className="schemaform-label"
-              htmlFor={elementId}
-              data-dd-action-name="Contestable Issue Name"
+            <div slot="internal-description">
+              <IssueCardContent id={`issue-${index}-description`} {...item} />
+              {editControls}
+            </div>
+          </VaCheckbox>
+        ) : (
+          <>
+            <div
+              className="dd-privacy-hidden"
+              data-dd-action-name="rated issue name"
             >
-              {' '}
-            </label>
-          </div>
-        ) : null}
-        <div
-          className={`widget-content ${
-            editControls ? 'widget-editable vads-u-padding-bottom--2' : ''
-          }`}
-          data-index={index}
-        >
-          <Header
-            id={`issue-${index}-title`}
-            className={titleClass}
-            data-dd-action-name="contestable issue name"
-          >
-            {issueName}
-          </Header>
-          <IssueCardContent id={`issue-${index}-description`} {...item} />
-          {editControls}
-        </div>
+              <strong>{issueName}</strong>
+            </div>
+            <IssueCardContent id={`issue-${index}-description`} {...item} />
+            {editControls}
+          </>
+        )}
       </div>
     </li>
   );
