@@ -20,6 +20,11 @@ const ContactInfoOnFile = ({
     returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
   });
 
+  const isInternationalMobile =
+    mobilePhoneNumber &&
+    mobilePhoneNumber.isInternational &&
+    parseInt(mobilePhoneNumber.countryCode, 10) !== 1;
+
   return (
     <>
       <p className="vads-u-margin-bottom--0">
@@ -56,7 +61,9 @@ const ContactInfoOnFile = ({
               contact={`${mobilePhoneNumber.areaCode}${
                 mobilePhoneNumber.phoneNumber
               }`}
-              countryCode={mobilePhoneNumber.countryCode}
+              countryCode={
+                isInternationalMobile ? mobilePhoneNumber.countryCode : null
+              }
               notClickable
             />
           )}
@@ -73,33 +80,31 @@ const ContactInfoOnFile = ({
         </li>
       </ul>
 
-      {mobilePhoneNumber &&
-        mobilePhoneNumber.isInternational && (
-          <va-alert-expandable
-            status="info"
-            trigger="You won’t receive text notifications"
-            class="vads-u-margin-top--2"
-          >
-            <p className="vads-u-padding-bottom--2">
-              You have an international phone number, update to a US based
-              mobile phone number to have access to these text notifications
-              settings:
-            </p>
-            <ul className="vads-u-padding-bottom--2">
-              <li>Health appointment reminders</li>
-              <li>Prescription shipping notifications</li>
-              <li>Appeal status updates</li>
-              <li>Appeal hearing reminders</li>
-              <li>Disability and pension deposit notifications</li>
-            </ul>
-            <p>
-              <va-link
-                href={updateMobileNumberHref}
-                text="Update your mobile phone number"
-              />
-            </p>
-          </va-alert-expandable>
-        )}
+      {isInternationalMobile && (
+        <va-alert-expandable
+          status="info"
+          trigger="You won’t receive text notifications"
+          class="vads-u-margin-top--2"
+        >
+          <p className="vads-u-padding-bottom--2">
+            You have an international phone number, update to a US based mobile
+            phone number to have access to these text notifications settings:
+          </p>
+          <ul className="vads-u-padding-bottom--2">
+            <li>Health appointment reminders</li>
+            <li>Prescription shipping notifications</li>
+            <li>Appeal status updates</li>
+            <li>Appeal hearing reminders</li>
+            <li>Disability and pension deposit notifications</li>
+          </ul>
+          <p>
+            <va-link
+              href={updateMobileNumberHref}
+              text="Update your mobile phone number"
+            />
+          </p>
+        </va-alert-expandable>
+      )}
     </>
   );
 };
@@ -108,6 +113,8 @@ ContactInfoOnFile.propTypes = {
   emailAddress: PropTypes.string,
   mobilePhoneNumber: PropTypes.shape({
     areaCode: PropTypes.string,
+    countryCode: PropTypes.string,
+    isInternational: PropTypes.bool,
     phoneNumber: PropTypes.string,
   }),
   showEmailNotificationSettings: PropTypes.bool,
