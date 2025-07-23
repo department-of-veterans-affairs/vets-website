@@ -56,6 +56,7 @@ const ContactInfoOnFile = ({
               contact={`${mobilePhoneNumber.areaCode}${
                 mobilePhoneNumber.phoneNumber
               }`}
+              countryCode={mobilePhoneNumber.countryCode}
               notClickable
             />
           )}
