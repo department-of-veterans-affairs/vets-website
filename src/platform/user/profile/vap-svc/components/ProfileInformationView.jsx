@@ -63,7 +63,7 @@ const ProfileInformationView = props => {
       <div>
         <va-telephone
           data-testid="phoneNumber"
-          country-code={data.isInternational ? data.countryCode : ''}
+          country-code={data.isInternational ? data.countryCode : null}
           contact={number}
           extension={data.extension}
           not-clickable
