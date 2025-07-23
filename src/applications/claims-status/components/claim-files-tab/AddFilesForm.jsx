@@ -347,7 +347,11 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
             ))}
           </VaSelect>
         </VaFileInputMultiple>
-        <VaButton text={SUBMIT_TEXT} onClick={handleSubmit} />
+        <VaButton
+          class="vads-u-margin-top--3"
+          text={SUBMIT_TEXT}
+          onClick={handleSubmit}
+        />
         <va-additional-info
           class="vads-u-margin-y--3"
           trigger="Need to mail your documents?"
