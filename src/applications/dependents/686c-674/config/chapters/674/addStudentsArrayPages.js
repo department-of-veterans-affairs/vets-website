@@ -247,11 +247,26 @@ export const studentMarriageDatePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s marital status'),
     marriageDate: currentOrPastDateUI({
       title: 'Date of marriage',
+      required: () => true,
     }),
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema, index) => {
+        const itemData = formData?.studentInformation?.[index] || {};
+
+        if (itemData?.wasMarried !== true) {
+          itemData.marriageDate = undefined;
+          return schema;
+        }
+
+        return {
+          ...schema,
+          required: ['marriageDate'],
+        };
+      },
+    },
   },
   schema: {
     type: 'object',
-    required: ['marriageDate'],
     properties: {
       marriageDate: currentOrPastDateSchema,
     },
@@ -299,13 +314,12 @@ export const studentEducationBenefitsPage = {
     },
     'ui:options': {
       updateSchema: (formData, formSchema) => {
-        const requiredFields = ['tuitionIsPaidByGovAgency'];
         if (formData?.typeOfProgramOrBenefit?.other) {
-          requiredFields.push('otherProgramOrBenefit');
+          return formSchema;
         }
         return {
           ...formSchema,
-          required: requiredFields,
+          required: ['tuitionIsPaidByGovAgency', 'otherProgramOrBenefit'],
         };
       },
     },
@@ -348,16 +362,19 @@ export const studentEducationBenefitsStartDatePage = {
 
           if (typeOfProgramOrBenefit) {
             itemData.benefitPaymentDate = undefined;
+            return schema;
           }
 
-          return schema;
+          return {
+            ...schema,
+            required: ['benefitPaymentDate'],
+          };
         },
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['benefitPaymentDate'],
     properties: {
       benefitPaymentDate: currentOrPastDateSchema,
     },
@@ -600,9 +617,13 @@ export const previousTermDatesPage = {
               false
             ) {
               itemData.schoolInformation.lastTermSchoolInformation = undefined;
+              return schema;
             }
 
-            return schema;
+            return {
+              ...schema,
+              required: ['termBegin', 'dateTermEnded'],
+            };
           },
         },
         termBegin: {
@@ -621,7 +642,6 @@ export const previousTermDatesPage = {
         type: 'object',
         properties: {
           lastTermSchoolInformation: {
-            required: ['termBegin', 'dateTermEnded'],
             type: 'object',
             properties: {
               termBegin: currentOrPastDateSchema,
