@@ -103,6 +103,7 @@ export const vetFormerMarriagePersonalInfoPage = {
   },
   schema: {
     type: 'object',
+    required: ['fullName'],
     properties: {
       fullName: fullNameNoSuffixSchema,
     },
@@ -145,13 +146,13 @@ export const vetFormerMarriageEndReasonPage = {
   },
   schema: {
     type: 'object',
+    required: ['reasonMarriageEnded'],
     properties: {
       reasonMarriageEnded: radioSchema(marriageEnums),
       otherReasonMarriageEnded: {
         type: 'string',
       },
     },
-    required: ['reasonMarriageEnded'],
   },
 };
 
@@ -162,12 +163,13 @@ export const vetFormerMarriageStartDatePage = {
       return 'Your former marriage';
     }),
     startDate: currentOrPastDateUI({
-      title: 'When did you get married? xxx',
+      title: 'When did you get married?',
       required: () => true,
     }),
   },
   schema: {
     type: 'object',
+    required: ['startDate'],
     properties: {
       startDate: currentOrPastDateSchema,
     },
@@ -204,6 +206,7 @@ export const vetFormerMarriageEndDatePage = {
   },
   schema: {
     type: 'object',
+    required: ['endDate'],
     properties: {
       endDate: currentOrPastDateSchema,
     },
@@ -271,6 +274,7 @@ export const vetFormerMarriageStartLocationPage = {
   },
   schema: {
     type: 'object',
+    required: ['startLocation'],
     properties: {
       startLocation: customLocationSchema,
     },
@@ -341,6 +345,7 @@ export const vetFormerMarriageEndLocationPage = {
   },
   schema: {
     type: 'object',
+    required: ['endLocation'],
     properties: {
       endLocation: customLocationSchema,
     },

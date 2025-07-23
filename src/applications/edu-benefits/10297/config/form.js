@@ -9,9 +9,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 import { trainingProviderSummary } from '../pages/trainingProviderSummary';
-
 import { trainingProviderArrayOptions } from '../helpers';
 import { trainingProviderDetails } from '../pages/trainingProviderDetails';
+import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
+import activeDutyStatus from '../pages/activeDutyStatus';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -62,6 +63,18 @@ const formConfig = {
           uiSchema: identificationInformation.uiSchema,
           schema: identificationInformation.schema,
         },
+        dateReleasedFromActiveDuty: {
+          path: 'date-released-from-active-duty',
+          title: 'Date released from active duty',
+          uiSchema: dateReleasedFromActiveDuty.uiSchema,
+          schema: dateReleasedFromActiveDuty.schema,
+        },
+        activeDutyStatus: {
+          path: 'active-duty-status',
+          title: 'Active duty status',
+          uiSchema: activeDutyStatus.uiSchema,
+          schema: activeDutyStatus.schema,
+        },
       },
     },
     trainingProviderChapter: {
@@ -73,7 +86,6 @@ const formConfig = {
             path: 'training-provider',
             uiSchema: trainingProviderSummary.uiSchema,
             schema: trainingProviderSummary.schema,
-            // scrollAndFocusTarget,
           }),
           trainingProviderDetails: pageBuilder.itemPage({
             title: 'Training provider name and mail address',
@@ -82,12 +94,6 @@ const formConfig = {
             schema: trainingProviderDetails.schema,
           }),
         })),
-        // isProprietaryProfit: {
-        //   path: 'proprietary-profit',
-        //   title: "Confirm your institution's classification",
-        //   uiSchema: isProprietaryProfit.uiSchema,
-        //   schema: isProprietaryProfit.schema,
-        // },
       },
     },
   },

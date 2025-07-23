@@ -17,7 +17,6 @@ import {
   startDirectScheduleFlow,
 } from '../../redux/actions';
 import { selectTypeOfCarePage } from '../../redux/selectors';
-import { selectFeatureFeSourceOfTruthTelehealth } from '../../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
 import { TYPE_OF_CARE_IDS, TYPES_OF_CARE } from '../../../utils/constants';
@@ -30,9 +29,6 @@ const pageKey = 'typeOfCare';
 
 export default function TypeOfCarePage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
-  const useFeSourceOfTruthTelehealth = useSelector(state =>
-    selectFeatureFeSourceOfTruthTelehealth(state),
-  );
 
   const dispatch = useDispatch();
   const {
@@ -144,7 +140,7 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              getLongTermAppointmentHistoryV2(useFeSourceOfTruthTelehealth);
+              getLongTermAppointmentHistoryV2();
             }
 
             setData(newData);

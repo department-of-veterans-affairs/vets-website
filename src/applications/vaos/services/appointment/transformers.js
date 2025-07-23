@@ -1,11 +1,9 @@
-import { formatInTimeZone } from 'date-fns-tz';
 import { isEmpty } from 'lodash';
 import { getProviderName } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT_V2,
   TYPE_OF_VISIT,
-  VIDEO_TYPES,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
@@ -59,7 +57,7 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
+export function transformVAOSAppointment(appt) {
   const appointmentType = getAppointmentType(appt);
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
@@ -69,28 +67,15 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
   const isCCRequest = appointmentType === APPOINTMENT_TYPES.ccRequest;
   const providers = appt.practitioners;
   const start = new Date(appt.start);
-  const vvsKind = appt.telehealth?.vvsKind;
-  let isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
-  let isAtlas = !!appt.telehealth?.atlas;
-  let isVideoAtHome =
-    !isAtlas &&
-    (vvsKind === VIDEO_TYPES.mobile || vvsKind === VIDEO_TYPES.adhoc);
-  let isVideoAtVA =
-    vvsKind === VIDEO_TYPES.clinic || vvsKind === VIDEO_TYPES.storeForward;
+  const isAtlas = appt.modality === 'vaVideoCareAtAnAtlasLocation';
+  const isVideoAtHome = appt.modality === 'vaVideoCareAtHome';
+  const isVideoAtVA = appt.modality === 'vaVideoCareAtAVaLocation';
+  const isVideo = isAtlas || isVideoAtHome || isVideoAtVA;
   const isCompAndPen = appt.modality === 'claimExamAppointment';
   const isPhone = appt.modality === 'vaPhone';
   const isCovid = appt.modality === 'vaInPersonVaccine';
   const isInPersonVisit =
     isCompAndPen || isCovid || appt.modality === 'vaInPerson';
-  if (useFeSourceOfTruthTelehealth) {
-    isVideo =
-      appt.modality === 'vaVideoCareAtHome' ||
-      appt.modality === 'vaVideoCareAtAnAtlasLocation' ||
-      appt.modality === 'vaVideoCareAtAVaLocation';
-    isVideoAtHome = appt.modality === 'vaVideoCareAtHome';
-    isAtlas = appt.modality === 'vaVideoCareAtAnAtlasLocation';
-    isVideoAtVA = appt.modality === 'vaVideoCareAtAVaLocation';
-  }
 
   const isCancellable = appt.cancellable;
   const appointmentTZ = appt.location
@@ -129,19 +114,8 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
   if (isRequest) {
     const { requestedPeriods, created } = appt;
     const reqPeriods = requestedPeriods?.map(d => {
-      const endDate = d.end || d.start;
-
       return {
-        start: `${formatInTimeZone(
-          d.start,
-          appointmentTZ,
-          "yyyy-MM-dd'T'HH:mm:ssXXX",
-        )}`,
-        end: `${formatInTimeZone(
-          endDate,
-          appointmentTZ,
-          "yyyy-MM-dd'T'HH:mm:ssXXX",
-        )}`,
+        start: new Date(d.start),
       };
     });
 
@@ -271,8 +245,6 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
   };
 }
 
-export function transformVAOSAppointments(appts, useFeSourceOfTruthTelehealth) {
-  return appts.map(appt =>
-    transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth),
-  );
+export function transformVAOSAppointments(appts) {
+  return appts.map(appt => transformVAOSAppointment(appt));
 }
