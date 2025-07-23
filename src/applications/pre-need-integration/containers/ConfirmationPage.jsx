@@ -18,9 +18,9 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">
+        <h2 className="confirmation-page-title">
           You’ve submitted your application
-        </h3>
+        </h2>
         <p>
           You’ll receive a confirmation email shortly. We’ll let you know by
           mail or phone if we need more details.

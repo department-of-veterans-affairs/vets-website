@@ -28,7 +28,7 @@ function AddressConfirmation({ subHeader, userAddress }) {
         status="warning"
         visible
       >
-        <h2 slot="headline">Check the address you entered</h2>
+        <h3 slot="headline">Check the address you entered</h3>
         <React.Fragment key=".1">
           <p className="vads-u-margin-y--0">
             We can’t confirm the address you entered with the U.S. Postal
