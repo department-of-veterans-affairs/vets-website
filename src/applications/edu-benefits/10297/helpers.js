@@ -116,7 +116,6 @@ export const trainingProviderArrayOptions = {
       !item?.address?.postalCode
     );
   },
-  minItems: 1,
   maxItems: 4,
   text: {
     getItemName: item => (item?.name ? `${item?.name}`.trim() : 'null'),
