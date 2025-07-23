@@ -16,11 +16,14 @@ const renderPage = (formData = {}) =>
     />,
   );
 
-describe('Background Information Step 4 - Page 2', () => {
+describe('Background Information Step 4 - Page 2, Employment Details', () => {
   it('renders the technology industry question', () => {
-    const { getByText, container } = renderPage();
-    expect(getByText('Do you currently work in the technology industry?')).to
-      .exist;
+    const { container } = renderPage();
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio).to.exist;
+    expect(vaRadio.getAttribute('label')).to.equal(
+      'Do you currently work in the technology industry?',
+    );
     const radios = container.querySelectorAll(
       'va-radio, va-radio-option, input[type="radio"]',
     );
@@ -49,7 +52,7 @@ describe('Background Information Step 4 - Page 2', () => {
     const goPath = sinon.spy();
     onNavForward({ formData: { isInTechnologyIndustry: false }, goPath });
     expect(goPath.calledWith('/salary-details')).to.be.true;
-    goPath.resetHistory();
+    goPath.reset();
     onNavForward({ formData: { isInTechnologyIndustry: true }, goPath });
     expect(goPath.calledWith('/employment-focus')).to.be.true;
   });

@@ -15,12 +15,14 @@ const renderPage = (formData = {}) =>
     />,
   );
 
-describe('Background Information Step 4 - Page 3', () => {
+describe('Background Information Step 4 - Page 3, Employment Focus', () => {
   it('renders the technology area of focus question', () => {
-    const { getByText, container } = renderPage();
-    expect(
-      getByText('What’s your main area of focus in the technology industry? '),
-    ).to.exist;
+    const { container } = renderPage();
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio).to.exist;
+    expect(vaRadio.getAttribute('label')).to.equal(
+      'What’s your main area of focus in the technology industry? ',
+    );
     const radios = container.querySelectorAll(
       'va-radio, va-radio-option, input[type="radio"]',
     );

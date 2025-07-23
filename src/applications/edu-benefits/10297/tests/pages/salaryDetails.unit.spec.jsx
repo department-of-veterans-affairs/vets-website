@@ -16,10 +16,14 @@ const renderPage = (formData = {}) =>
     />,
   );
 
-describe('Background Information Step 4 - Page 4', () => {
+describe('Background Information Step 4 - Page 4, Salary Details', () => {
   it('renders the salary question', () => {
-    const { getByText, container } = renderPage();
-    expect(getByText('What is your current annual salary?')).to.exist;
+    const { container } = renderPage();
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio).to.exist;
+    expect(vaRadio.getAttribute('label')).to.equal(
+      'What is your current annual salary?',
+    );
     const radios = container.querySelectorAll(
       'va-radio, va-radio-option, input[type="radio"]',
     );
@@ -47,8 +51,8 @@ describe('Background Information Step 4 - Page 4', () => {
     });
     expect(goPath.calledWith('/employment-details')).to.be.true;
     expect(goPreviousPath.called).to.be.false;
-    goPath.resetHistory();
-    goPreviousPath.resetHistory();
+    goPath.reset();
+    goPreviousPath.reset();
     onNavBack({
       formData: { isInTechnologyIndustry: true },
       goPath,

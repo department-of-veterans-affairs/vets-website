@@ -16,10 +16,14 @@ const renderPage = (formData = {}) =>
     />,
   );
 
-describe('Background Information Step 4 - Page 1', () => {
+describe('Background Information Step 4 - Page 1, Employment Status', () => {
   it('renders the employment question', () => {
-    const { getByText, container } = renderPage();
-    expect(getByText('Are you currently employed?')).to.exist;
+    const { container } = renderPage();
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio).to.exist;
+    expect(vaRadio.getAttribute('label')).to.equal(
+      'Are you currently employed?',
+    );
     const radios = container.querySelectorAll(
       'va-radio, va-radio-option, input[type="radio"]',
     );
@@ -33,7 +37,7 @@ describe('Background Information Step 4 - Page 1', () => {
     const goPath = sinon.spy();
     onNavForward({ formData: { isEmployed: false }, goPath });
     expect(goPath.calledWith('/education-details')).to.be.true;
-    goPath.resetHistory();
+    goPath.reset();
     onNavForward({ formData: { isEmployed: true }, goPath });
     expect(goPath.calledWith('/employment-details')).to.be.true;
   });
