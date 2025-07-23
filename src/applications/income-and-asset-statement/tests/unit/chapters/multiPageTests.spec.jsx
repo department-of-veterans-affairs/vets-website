@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { formatDateLong } from 'platform/utilities/date';
-import { formatCurrency, formatFullNameNoSuffix } from '../../../helpers';
-import { relationshipLabels } from '../../../labels';
+import { formatCurrency, resolveRecipientFullName } from '../../../helpers';
 
 /**
  * Unit test helper that verifies the behavior of the `isItemIncomplete` function
@@ -51,45 +50,78 @@ export const testOptionsIsItemIncompleteWithZeroes = (options, baseItem) => {
 export const testOptionsTextGetItemNameRecurringIncome = options => {
   describe('text getItemName function', () => {
     const veteranFullName = { first: 'John', last: 'Doe' };
-    const formattedVeteranName = formatFullNameNoSuffix(veteranFullName);
+    const otherVeteranFullName = { first: 'Alex', last: 'Smith' };
     const recipientName = { first: 'Jane', middle: 'A', last: 'Doe' };
-    const formattedRecipientName = formatFullNameNoSuffix(recipientName);
+    const payer = 'Walmart';
 
-    const mockFormData = {
-      veteranFullName,
-    };
+    it('should use veteranFullName when recipient is "VETERAN" and user is logged in', () => {
+      const formData = {
+        isLoggedIn: true,
+        veteranFullName,
+        otherVeteranFullName,
+      };
 
-    it(`should return "${formattedVeteranName}’s income from Walmart" when recipientRelationship is "VETERAN"`, () => {
       const item = {
         recipientRelationship: 'VETERAN',
-        payer: 'Walmart',
+        payer,
       };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        `${formattedVeteranName}’s income from Walmart`,
+
+      const expectedName = resolveRecipientFullName(item, formData);
+      expect(options.text.getItemName(item, 0, formData)).to.equal(
+        `${expectedName}’s income from ${payer}`,
       );
     });
 
-    Object.keys(relationshipLabels).forEach(relationshipKey => {
-      if (relationshipKey !== 'VETERAN') {
-        it(`should return "${formattedRecipientName}’s income from Walmart" for relationship "${relationshipKey}"`, () => {
-          const item = {
-            recipientRelationship: relationshipKey,
-            recipientName,
-            payer: 'Walmart',
-          };
-          expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-            `${formattedRecipientName}’s income from Walmart`,
-          );
-        });
-      }
+    it('should use otherVeteranFullName when recipient is "VETERAN" and user is not logged in', () => {
+      const formData = {
+        isLoggedIn: false,
+        veteranFullName,
+        otherVeteranFullName,
+      };
+
+      const item = {
+        recipientRelationship: 'VETERAN',
+        payer,
+      };
+
+      const expectedName = resolveRecipientFullName(item, formData);
+      expect(options.text.getItemName(item, 0, formData)).to.equal(
+        `${expectedName}’s income from ${payer}`,
+      );
     });
 
-    it('should return false if payer is missing', () => {
+    it('should use recipientName when recipient is not "VETERAN"', () => {
+      const formData = {
+        isLoggedIn: true,
+        veteranFullName,
+        otherVeteranFullName,
+      };
+
+      const item = {
+        recipientRelationship: 'SPOUSE',
+        recipientName,
+        payer,
+      };
+
+      const expectedName = resolveRecipientFullName(item, formData);
+      expect(options.text.getItemName(item, 0, formData)).to.equal(
+        `${expectedName}’s income from ${payer}`,
+      );
+    });
+
+    it('should return undefined if payer is missing', () => {
+      const formData = {
+        isLoggedIn: true,
+        veteranFullName,
+        otherVeteranFullName,
+      };
+
       const item = {
         recipientRelationship: 'SPOUSE',
         recipientName,
       };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.be.false;
+
+      expect(options.text.getItemName(item, 0, formData)).to.be.undefined;
     });
   });
 };

@@ -64,17 +64,17 @@ const baseData = {
 };
 const getStore = data => createStore(() => data);
 // Helper function to check multiple buttons
-function expectButtons(container, expectedButtons) {
-  const buttons = container.querySelectorAll('button');
-  expect(buttons.length).to.equal(expectedButtons.length);
+function expectVaButtons(container, expectedButtons) {
+  const vaButtons = container.querySelectorAll('va-button');
+  expect(vaButtons.length).to.equal(expectedButtons.length);
   expectedButtons.forEach((expectedButton, index) => {
-    const button = buttons[index];
-    expect(button).to.have.text(expectedButton.text);
-    if (expectedButton.type) {
-      expect(button).to.have.attribute('type', expectedButton.type);
+    const vaButton = vaButtons[index];
+    expect(vaButton).to.have.attribute('text', expectedButton.text);
+    if (expectedButton.submit) {
+      expect(vaButton).to.have.attribute('submit', expectedButton.submit);
     }
     if (expectedButton.dataTestId) {
-      expect(button).to.have.attribute(
+      expect(vaButton).to.have.attribute(
         'data-testid',
         expectedButton.dataTestId,
       );
@@ -108,13 +108,13 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    expectButtons(container, [
+    expectVaButtons(container, [
       {
-        type: 'submit',
+        submit: 'prevent',
         text: 'Use address you entered',
         dataTestId: 'confirm-address-button',
       },
-      { text: 'Edit address', type: 'button' },
+      { text: 'Edit address' },
     ]);
   });
 
@@ -184,9 +184,9 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    expectButtons(container, [
-      { text: 'Edit address', type: 'button' },
-      { text: 'Edit address', type: 'button' },
+    expectVaButtons(container, [
+      { text: 'Edit address' },
+      { text: 'Edit address' },
     ]);
   });
 
@@ -212,7 +212,7 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    expectButtons(container, [{ text: 'Edit address', type: 'button' }]);
+    expectVaButtons(container, [{ text: 'Edit address' }]);
   });
 
   it('renders "Use suggested address" button when a suggested address is selected', () => {
@@ -258,13 +258,13 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    expectButtons(container, [
+    expectVaButtons(container, [
       {
-        type: 'submit',
+        submit: 'prevent',
         text: 'Use suggested address',
         dataTestId: 'confirm-address-button',
       },
-      { text: 'Edit address', type: 'button' },
+      { text: 'Edit address' },
     ]);
   });
 
@@ -344,13 +344,13 @@ describe('<AddressValidationView/>', () => {
         '1600 Pennsylvania Ave NW\nWashington, DC 20502',
       );
 
-      expectButtons(container, [
+      expectVaButtons(container, [
         {
-          type: 'submit',
+          submit: 'prevent',
           text: 'Use address you entered',
           dataTestId: 'confirm-address-button',
         },
-        { text: 'Edit address', type: 'button' },
+        { text: 'Edit address' },
       ]);
     });
 
@@ -452,9 +452,9 @@ describe('<AddressValidationView/>', () => {
       expect(alertMessage).to.exist;
 
       // Validate correct buttons are getting displayed
-      expectButtons(container, [
-        { text: 'Edit address', type: 'button' },
-        { text: 'Edit address', type: 'button' },
+      expectVaButtons(container, [
+        { text: 'Edit address' },
+        { text: 'Edit address' },
       ]);
     });
 
@@ -531,9 +531,9 @@ describe('<AddressValidationView/>', () => {
       expect(alertMessage).to.exist;
 
       // Validate correct buttons are getting displayed
-      expectButtons(container, [
-        { text: 'Use suggested address', type: 'submit' },
-        { text: 'Edit address', type: 'button' },
+      expectVaButtons(container, [
+        { text: 'Use suggested address', submit: 'prevent' },
+        { text: 'Edit address' },
       ]);
     });
   });
