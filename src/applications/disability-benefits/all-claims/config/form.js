@@ -24,7 +24,6 @@ import {
   claimingNew,
   DISABILITY_SHARED_CONFIG,
   getPageTitle,
-  hasCompletedAuthorization,
   hasGuardOrReservePeriod,
   hasNewPtsdDisability,
   hasOtherEvidence,
@@ -692,8 +691,7 @@ const formConfig = {
           path: 'supporting-evidence/private-medical-records-authorize-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&
-            isNotUploadingPrivateMedical(formData) &&
-            !hasCompletedAuthorization(false),
+            isNotUploadingPrivateMedical(formData),
           CustomPage: PrivateRecordsAuthorization,
           CustomPageReview: null,
           uiSchema: privateMedicalAuthorizeRelease.uiSchema,
@@ -704,8 +702,7 @@ const formConfig = {
           path: 'supporting-evidence/private-medical-records-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&
-            isNotUploadingPrivateMedical(formData) &&
-            hasCompletedAuthorization(false),
+            isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsRelease.uiSchema,
           schema: privateMedicalRecordsRelease.schema,
         },

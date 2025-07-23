@@ -3,16 +3,8 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  privateRecordsChoiceHelp,
-  // patientAcknowledgmentTitle,
-  // patientAcknowledgmentText,
-  // patientAcknowledgmentError,
-} from '../content/privateMedicalRecords';
+import { privateRecordsChoiceHelp } from '../content/privateMedicalRecords';
 import { standardTitle } from '../content/form0781';
-
-// const isNotUploadingPrivateRecords = data =>
-//   data?.['view:hasPrivateRecordsToUpload'] === false;
 
 export const uiSchema = {
   'ui:title': standardTitle('Private medical records'),
@@ -30,30 +22,6 @@ export const uiSchema = {
       'ui:description': privateRecordsChoiceHelp,
     },
   },
-  // 'view:patientAcknowledgement': {
-  //   'ui:title': patientAcknowledgmentTitle,
-  //   'ui:options': {
-  //     expandUnder: 'view:uploadPrivateRecordsQualifier',
-  //     expandUnderCondition: isNotUploadingPrivateRecords,
-  //     showFieldLabel: true,
-  //   },
-  //   'ui:validations': [
-  //     (errors, fieldData, formData) => {
-  //       const shouldValidate =
-  //         formData?.['view:uploadPrivateRecordsQualifier']?.[
-  //           'view:hasPrivateRecordsToUpload'
-  //         ] === false;
-
-  //       if (shouldValidate) {
-  //         return validateBooleanGroup(errors, fieldData, null, null, {
-  //           atLeastOne: patientAcknowledgmentError,
-  //         });
-  //       }
-
-  //       return errors;
-  //     },
-  //   ],
-  // },
 };
 
 export const schema = {

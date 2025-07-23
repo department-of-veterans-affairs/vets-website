@@ -9,10 +9,14 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui/focus';
 
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaCheckbox,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import AuthorizationAlert from './AuthorizationAlert';
+import { PrivacyActStatementContent } from './privacyActStatementContent';
 
 export const lastUpdatedIsBeforeCutoff = lastUpdated => {
   const formattedLastUpdated = formatInTimeZone(
@@ -124,8 +128,6 @@ const PrivateRecordsAuthorization = ({
 
   return (
     <>
-      {/* <Toggler toggleName={Toggler.TOGGLE_NAMES.decisionReviews4142Banner}>
-        <Toggler.Enabled> */}
       {hasError && (
         <AuthorizationAlert
           hasError={hasError}
@@ -184,7 +186,7 @@ const PrivateRecordsAuthorization = ({
         </va-accordion-item>
         <va-accordion-item
           header="2. Sources of records"
-          id="#section-two"
+          id="section-two"
           level="4"
           open
         >
@@ -275,7 +277,7 @@ const PrivateRecordsAuthorization = ({
       </va-accordion>
       <div className="hipaa-privacy-agreement vads-u-padding-x--3 vads-u-padding-top--3 vads-u-padding-bottom--2 vads-u-margin-top--3">
         <form onSubmit={handlers.onGoForward}>
-          <formset>
+          <va-card background>
             <h3 className="vads-u-margin-top--0" id="acknowledgement">
               Acknowledgement and HIPAA compliance
             </h3>
@@ -440,22 +442,27 @@ const PrivateRecordsAuthorization = ({
               You’ll have the option on the next page to limit your
               authorization to types of sources and/or types of information.
             </p>
-            <VaCheckbox
-              className="vads-u-font-weight--bold vads-u-margin-top--3"
-              id="privacy-agreement"
-              name="privacy-agreement"
-              label={AUTHORIZATION_LABEL}
-              required
-              enable-analytics
-            >
-              {/* https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4219
+            <div className="vads-u-margin--3">
+              <VaCheckbox
+                className="vads-u-font-weight--bold vads-u-margin-top--3"
+                id="privacy-agreement"
+                name="privacy-agreement"
+                error={hasError ? ' ' : ''}
+                label={AUTHORIZATION_LABEL}
+                checked={data.privacyAgreementAccepted}
+                onVaChange={handlers.onChange}
+                required
+                enable-analytics
+              >
+                {/* https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4219
             This empty slot is required for now due to a DST defect where a
             "description" slot is required in order for the analytics to work */}
-              <div slot="description" className="vads-u-display--none">
-                <p />
-              </div>
-            </VaCheckbox>
-          </formset>
+                <div slot="description" className="vads-u-display--none">
+                  <p />
+                </div>
+              </VaCheckbox>
+            </div>
+          </va-card>
         </form>
       </div>
       <div className="vads-u-margin-top--5">
@@ -463,8 +470,14 @@ const PrivateRecordsAuthorization = ({
         <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
         {contentAfterButtons}
       </div>
-      {/* </Toggler.Enabled>
-      </Toggler> */}
+      <VaModal
+        clickToClose
+        modalTitle="Privacy Act Statement"
+        onCloseEvent={toggle4142PrivacyModal}
+        visible={modalVisible}
+      >
+        <PrivacyActStatementContent noRespondentBurden />
+      </VaModal>
     </>
   );
 };

@@ -1,4 +1,4 @@
-export const uiSchema = { type: 'object', privateMedicalAuthorizeRelease: {} };
+export const uiSchema = { privacyAgreementAccepted: {} };
 
 export const schema = {
   type: 'object',
