@@ -8,9 +8,7 @@ import { waitFor } from '@testing-library/dom';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 
-import {
-  DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
   STATE_VALUES,
   MILITARY_STATE_VALUES,
