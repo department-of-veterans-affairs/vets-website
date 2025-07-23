@@ -471,6 +471,7 @@ export const pageHooks = (cy, testOptions) => ({
       // Verify we've completed all follow-up pages and moved to the next section
       cy.url().should('include', 'toxic-exposure/conditions');
     });
+  },
 
   'supporting-evidence/evidence-types': () => {
     cy.get('@testData').then(data => {
