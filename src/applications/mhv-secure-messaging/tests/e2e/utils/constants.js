@@ -5,7 +5,6 @@ export const AXE_CONTEXT = '.secure-messaging-container';
 export const Paths = {
   MHV_MAIN: '/my-health/',
   UI_MAIN: '/my-health/secure-messages',
-  UI_PILOT: '/my-health/secure-messages-pilot',
   SM_API_BASE: '/my_health/v1/messaging',
   SM_API_EXTENDED: '/my_health/v1/messaging/messages',
   INBOX: '/inbox/',
@@ -114,7 +113,7 @@ export const Locators = {
   },
   BUTTONS: {
     SECURE_MESSAGING: '[data-testid="secure-messaging"]',
-    THREAD_EXPAND: '[data-testid="thread-expand-all"]',
+    THREAD_EXPAND: 'thread-expand-all',
     THREAD_EXPAND_MESSAGES:
       '[data-testid="thread-expand-all"] va-accordion-item',
     ADDITIONAL_FILTER: `.va-accordion__header`,
@@ -178,7 +177,7 @@ export const Locators = {
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
-    THREAD_EXPAND: '[data-testid="thread-expand-all"]',
+    THREAD_EXPAND: 'thread-expand-all',
     SEARCH_DROPDOWN: '#select-search-folder-dropdown',
     TEXT_INPUT: '[data-testid="search-keyword-text-input"]',
     PAGIN_LIST: '.usa-pagination__list li',

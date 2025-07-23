@@ -21,7 +21,12 @@ import {
 
 const FULL_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
-describe('Toxic exposure date handling when reverting condition association', () => {
+/**
+ * TODO: Re-enable this test once partial date support is added back
+ * Currently, the frontend validation prevents partial dates from being submitted.
+ * @see https://github.com/orgs/department-of-veterans-affairs/projects/1683/views/9?filterQuery=partial&pane=issue&itemId=115699524&issue=department-of-veterans-affairs%7Cva.gov-team%7C112288
+ */
+describe.skip('Toxic exposure date handling when reverting condition association', () => {
   beforeEach(() => {
     window.sessionStorage.setItem(SHOW_8940_4192, 'true');
     window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
@@ -301,7 +306,9 @@ describe('Toxic exposure date handling when reverting condition association', ()
       'POST',
       '/v0/disability_compensation_form/submit_all_claim*',
     ).as('submitClaim');
-    cy.get('button#4-continueButton').click();
+    cy.findByText('Submit application', {
+      selector: 'button',
+    }).click();
   });
 
   it('submits a partial date for a toxic exposure location', () => {
