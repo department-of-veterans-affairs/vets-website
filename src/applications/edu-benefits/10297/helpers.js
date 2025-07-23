@@ -91,9 +91,9 @@ export const ConfirmationGoBackLink = () => (
 export const getCardDescription = item => {
   return item ? (
     <>
-      <div className=" vads-u-margin-y--2">
+      <div className=" vads-u-margin-y--2" data-testid="card-street">
         <p>{item?.address?.street}</p>
-        <p>
+        <p data-testid="card-address">
           {item?.address?.city}, {item?.address?.state}{' '}
           {item?.address?.postalCode}
         </p>
@@ -124,6 +124,6 @@ export const trainingProviderArrayOptions = {
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
     summaryTitle: 'Review your training provider information',
-    cancelAddButtonText: "Cancel adding this individual's information",
+    cancelAddButtonText: "Cancel adding this training provider's information",
   },
 };
