@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch } from 'react-router-dom';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -20,22 +19,19 @@ import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/a
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import ScrollToTop from '../components/shared/ScrollToTop';
-import manifest from '../manifest.json';
-import { Actions } from '../util/actionTypes';
-import { downtimeNotificationParams, Paths } from '../util/constants';
+import { downtimeNotificationParams } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import useTrackPreviousUrl from '../hooks/use-previous-url';
 import FetchRecipients from '../components/FetchRecipients';
 import LaunchMessagingAal from '../components/util/LaunchMessagingAal';
 
-const App = ({ isPilot }) => {
+const App = () => {
   useTrackPreviousUrl();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const {
     featureTogglesLoading,
     isDowntimeBypassEnabled,
-    cernerPilotSmFeatureFlag,
     mhvMockSessionFlag,
   } = featureToggles();
 
@@ -76,21 +72,12 @@ const App = ({ isPilot }) => {
     [dispatch, scheduledDownTimeIsReady],
   );
 
-  useEffect(
-    () => {
-      if (isPilot) {
-        dispatch({ type: Actions.App.IS_PILOT });
-      }
-    },
-    [isPilot, dispatch],
-  );
-
   const datadogRumConfig = {
     applicationId: '02c72297-5059-4ed8-8472-874276f4a9b2',
     clientToken: 'pub1325dfe255119729611410e2f47f4f99',
     site: 'ddog-gov.com',
     service: 'va.gov-mhv-secure-messaging',
-    sessionSampleRate: 100, // controls the percentage of overall sessions being tracked
+    sessionSampleRate: 50, // controls the percentage of overall sessions being tracked
     sessionReplaySampleRate: 50, // is applied after the overall sample rate, and controls the percentage of sessions tracked as Browser RUM & Session Replay
     trackInteractions: true,
     trackFrustrations: true,
@@ -121,15 +108,6 @@ const App = ({ isPilot }) => {
         </div>
       </>
     );
-  }
-
-  // Feature flag maintains whitelist for cerner integration pilot environment.
-  // If the user lands on /my-health/secure-messages-pilot and is not whitelisted,
-  // redirect to the SM main experience landing page
-  if (isPilot && !cernerPilotSmFeatureFlag) {
-    const url = `${manifest.rootUrl}${Paths.INBOX}`;
-    window.location.replace(url);
-    return <></>;
   }
 
   return (
@@ -178,10 +156,6 @@ const App = ({ isPilot }) => {
       </MhvServiceRequiredGuard>
     </RequiredLoginView>
   );
-};
-
-App.propTypes = {
-  isPilot: PropTypes.bool,
 };
 
 export default App;

@@ -6,6 +6,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import identificationInformation from '../pages/identificationInformation';
+import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -17,10 +19,6 @@ const formConfig = {
   trackingPrefix: 'edu-10297',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
-  },
   formId: VA_FORM_IDS.FORM_22_10297,
   saveInProgress: {
     // messages: {
@@ -48,6 +46,23 @@ const formConfig = {
           title: 'Name and date of birth',
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
+        },
+      },
+    },
+    identificationChapter: {
+      title: 'Veteran’s information',
+      pages: {
+        identificationInformation: {
+          path: 'identification-information',
+          title: 'Identification information',
+          uiSchema: identificationInformation.uiSchema,
+          schema: identificationInformation.schema,
+        },
+        dateReleasedFromActiveDuty: {
+          path: 'date-released-from-active-duty',
+          title: 'Date released from active duty',
+          uiSchema: dateReleasedFromActiveDuty.uiSchema,
+          schema: dateReleasedFromActiveDuty.schema,
         },
       },
     },

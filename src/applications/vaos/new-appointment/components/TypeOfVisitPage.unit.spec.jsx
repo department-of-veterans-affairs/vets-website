@@ -58,15 +58,11 @@ describe('VAOS Page: TypeOfVisitPage ', () => {
     });
     expect(await screen.findByText(/Continue/i)).to.exist;
 
+    // When the user continues
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(screen.history.push.called).to.not.be.true;
-
-    // Assertion currently disabled due to
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
-    // expect(await screen.findByRole('alert')).to.contain.text(
-    //   'Select an option',
-    // );
+    // The user should stay on the page
+    expect(screen.history.push.called).to.be.false;
   });
 
   it('should save type of visit choice on page change', async () => {

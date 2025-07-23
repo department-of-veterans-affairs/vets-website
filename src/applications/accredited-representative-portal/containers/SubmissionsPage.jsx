@@ -3,6 +3,7 @@ import {
   useLoaderData,
   useSearchParams,
   useNavigation,
+  redirect,
 } from 'react-router-dom';
 import {
   VaLoadingIndicator,
@@ -17,6 +18,7 @@ import {
   submissionsBC,
   SORT_DEFAULTS,
 } from '../utilities/submissions';
+import { SORT_BY, PENDING_SORT_DEFAULTS } from '../utilities/poaRequests';
 import { SEARCH_PARAMS } from '../utilities/constants';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
@@ -74,20 +76,20 @@ const SubmissionsPage = title => {
           <p className="submissions-subtext__copy vads-u-font-family--serif">
             Start here to submit VA forms for your claimants.
           </p>
-          <p className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
-            Form 21-686c
-          </p>
-          <h2 className="submissions__form-description vads-u-font-size--h4">
-            Application Request to Add and/or Remove Dependents
+          <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
+            Submit a new Form 21-686c
           </h2>
-          <p className="submissions__subtext submissions__subtext">
-            The form will be processed by VA Centralized Mail after you submit
-            it.
-            <va-link-action
-              href="/representative/representative-form-upload/21-686c"
-              text="Upload and submit VA Form 21-686c"
-            />
+          <p className="submissions__form-description vads-u-font-size--h4 vads-u-font-family--serif">
+            Application Request to Add and/or Remove Dependents
           </p>
+          <p className="submissions__subtext submissions__subtext">
+            Upload a completed Form 21-686c. VA Central Mail will process the
+            form after submission.
+          </p>
+          <va-link-action
+            href="/representative/representative-form-upload/21-686c"
+            text="Upload and submit VA Form 21-686c"
+          />
           <hr />
 
           <h2 className="submissions__search-header">Recent Submissions</h2>
@@ -143,18 +145,16 @@ const SubmissionsPage = title => {
 
 SubmissionsPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
-  let sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
-  let sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
-  let size = searchParams.get(SEARCH_PARAMS.SIZE);
-  let number = searchParams.get(SEARCH_PARAMS.NUMBER);
-  if (!['asc', 'desc'].includes(sort)) {
-    sort = SORT_DEFAULTS.SORT_ORDER;
-    sortBy = SORT_DEFAULTS.SORT_BY;
-    size = SORT_DEFAULTS.SIZE;
-    number = SORT_DEFAULTS.NUMBER;
-  }
-  if (size === '0') {
-    size = SORT_DEFAULTS.SIZE;
+  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
+  const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
+  const size = searchParams.get(SEARCH_PARAMS.SIZE);
+  const number = searchParams.get(SEARCH_PARAMS.NUMBER);
+  if (!Object.values(SORT_BY).includes(sortBy)) {
+    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
+    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
+    searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
+    throw redirect(`?${searchParams}`);
   }
 
   // Wait for the Promise-based Response object

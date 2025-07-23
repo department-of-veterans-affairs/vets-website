@@ -1,12 +1,11 @@
 import { isEmpty } from 'lodash';
-import moment from 'moment';
-import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
+import { getProviderName } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT_V2,
   TYPE_OF_VISIT,
-  VIDEO_TYPES,
 } from '../../utils/constants';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
 
 export function getAppointmentType(appt) {
@@ -58,7 +57,7 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
+export function transformVAOSAppointment(appt) {
   const appointmentType = getAppointmentType(appt);
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
@@ -67,32 +66,21 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
   const isUpcoming = appt.future;
   const isCCRequest = appointmentType === APPOINTMENT_TYPES.ccRequest;
   const providers = appt.practitioners;
-  const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
-  const vvsKind = appt.telehealth?.vvsKind;
-  let isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
-  let isAtlas = !!appt.telehealth?.atlas;
-  let isVideoAtHome =
-    !isAtlas &&
-    (vvsKind === VIDEO_TYPES.mobile || vvsKind === VIDEO_TYPES.adhoc);
-  let isVideoAtVA =
-    vvsKind === VIDEO_TYPES.clinic || vvsKind === VIDEO_TYPES.storeForward;
+  const start = new Date(appt.start);
+  const isAtlas = appt.modality === 'vaVideoCareAtAnAtlasLocation';
+  const isVideoAtHome = appt.modality === 'vaVideoCareAtHome';
+  const isVideoAtVA = appt.modality === 'vaVideoCareAtAVaLocation';
+  const isVideo = isAtlas || isVideoAtHome || isVideoAtVA;
   const isCompAndPen = appt.modality === 'claimExamAppointment';
   const isPhone = appt.modality === 'vaPhone';
   const isCovid = appt.modality === 'vaInPersonVaccine';
   const isInPersonVisit =
     isCompAndPen || isCovid || appt.modality === 'vaInPerson';
-  if (useFeSourceOfTruthTelehealth) {
-    isVideo =
-      appt.modality === 'vaVideoCareAtHome' ||
-      appt.modality === 'vaVideoCareAtAnAtlasLocation' ||
-      appt.modality === 'vaVideoCareAtAVaLocation';
-    isVideoAtHome = appt.modality === 'vaVideoCareAtHome';
-    isAtlas = appt.modality === 'vaVideoCareAtAnAtlasLocation';
-    isVideoAtVA = appt.modality === 'vaVideoCareAtAVaLocation';
-  }
 
   const isCancellable = appt.cancellable;
-  const appointmentTZ = appt.location?.attributes?.timezone?.timeZoneId;
+  const appointmentTZ = appt.location
+    ? appt.location?.attributes?.timezone?.timeZoneId
+    : getTimezoneByFacilityId(appt.locationId);
 
   let videoData = { isVideo };
   if (isVideo) {
@@ -125,17 +113,11 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
 
   if (isRequest) {
     const { requestedPeriods, created } = appt;
-    const reqPeriods = requestedPeriods?.map(d => ({
-      // by passing the format into the moment constructor, we are
-      // preventing the local time zone conversion from occuring
-      // which was causing incorrect dates to be displayed
-      start: `${moment(d.start, 'YYYY-MM-DDTHH:mm:ss').format(
-        'YYYY-MM-DDTHH:mm:ss',
-      )}.000`,
-      end: `${moment(d.end, 'YYYY-MM-DDTHH:mm:ss').format(
-        'YYYY-MM-DDTHH:mm:ss',
-      )}.999`,
-    }));
+    const reqPeriods = requestedPeriods?.map(d => {
+      return {
+        start: new Date(d.start),
+      };
+    });
 
     // hasReasonCode is only applicable to v0 appointments
     const hasReasonCode = appt.reasonCode?.coding?.length > 0;
@@ -156,14 +138,6 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
       reasonForAppointment,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
-      type: {
-        coding: [
-          {
-            code: appt.serviceType || null,
-            display: getTypeOfCareById(appt.serviceType)?.name,
-          },
-        ],
-      },
       contact: appt.contact,
       preferredDates: appt?.preferredDates || [],
       preferredModality: appt?.preferredModality,
@@ -194,9 +168,7 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     showScheduleLink: appt.showScheduleLink,
     avsPath: isPast ? appt.avsPath : null,
-    // NOTE: Timezone will be converted to the local timezone when using 'format()'.
-    // So use format without the timezone information.
-    start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
+    start: !isRequest ? start : null,
     startUtc: !isRequest ? appt.start : null,
     reasonForAppointment,
     patientComments,
@@ -273,8 +245,6 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth) {
   };
 }
 
-export function transformVAOSAppointments(appts, useFeSourceOfTruthTelehealth) {
-  return appts.map(appt =>
-    transformVAOSAppointment(appt, useFeSourceOfTruthTelehealth),
-  );
+export function transformVAOSAppointments(appts) {
+  return appts.map(appt => transformVAOSAppointment(appt));
 }

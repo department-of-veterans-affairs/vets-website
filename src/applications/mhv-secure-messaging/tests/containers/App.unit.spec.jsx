@@ -285,6 +285,7 @@ describe('App', () => {
   });
 
   it('redirects Basic users to /health-care/secure-messaging', async () => {
+    window.location.replace = sinon.spy();
     const customState = {
       featureToggles: {},
       user: {
@@ -308,6 +309,7 @@ describe('App', () => {
   });
 
   it('redirects user to /my-health/secure-messages/inbox', async () => {
+    window.location.replace = sinon.spy();
     const customState = { ...initialState, featureToggles: [] };
 
     await renderWithStoreAndRouter(<App />, {
@@ -324,40 +326,12 @@ describe('App', () => {
     );
   });
 
-  it('redirects user with pilot environment access to /my-health/secure-messages-pilot/inbox', async () => {
-    const customState = {
-      ...initialState,
-      featureToggles: [],
-      sm: {
-        ...initialState.sm,
-        app: { isPilot: true },
-      },
-    };
-
-    global.window.location = {
-      replace: sinon.spy(),
-      pathname: '/secure-messaging-pilot/',
-    };
-
-    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
-
-    const { queryByText } = renderWithStoreAndRouter(<App isPilot />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-
-    expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    await waitFor(() => {
-      expect(window.location.replace.args[0][0]).to.equal(
-        '/my-health/secure-messages-pilot/inbox/',
-      );
-    });
-  });
-
   it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
+    window.location.replace = sinon.spy();
     const customState = { ...initialState, featureToggles: [] };
-    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+    ] = true;
     const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
       initialState: customState,
       reducers: reducer,
@@ -365,13 +339,16 @@ describe('App', () => {
     });
 
     expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    expect(window.location.replace.calledOnce).to.be.false;
+    return waitFor(() => {
+      expect(window.location.replace.calledOnce).to.be.false;
+    });
   });
 
   it('should redirect to the SM info page if the user is not whitelisted or the feature flag is disabled', () => {
+    window.location.replace = sinon.spy();
     const customState = { ...initialState, featureToggles: [] };
     customState.featureToggles[
-      `${'mhv_secure_messaging_cerner_pilot'}`
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
     ] = false;
     const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
       initialState: customState,
@@ -380,7 +357,9 @@ describe('App', () => {
     });
 
     expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    expect(window.location.replace.called).to.be.true;
+    return waitFor(() => {
+      expect(window.location.replace.called).to.be.true;
+    });
   });
 
   it('displays Page Not Found component if bad url', async () => {

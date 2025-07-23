@@ -8,6 +8,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form.js';
 
 describe('526 All Claims Private medical records', () => {
@@ -28,7 +29,7 @@ describe('526 All Claims Private medical records', () => {
     expect($$('va-radio-option').length).to.equal(2);
   });
 
-  it('should error when user makes no selection', () => {
+  it('should error when user makes no selection', async () => {
     const onSubmit = sinon.spy();
     const { getByText } = render(
       <DefinitionTester
@@ -43,8 +44,10 @@ describe('526 All Claims Private medical records', () => {
 
     const submitButton = getByText('Submit');
     userEvent.click(submitButton);
-    expect(onSubmit.calledOnce).to.be.false;
-    expect($('va-radio').error).to.eq('You must provide a response');
+    await waitFor(() => {
+      expect(onSubmit.calledOnce).to.be.false;
+      expect($('va-radio').error).to.eq('You must provide a response');
+    });
   });
 
   it('should submit when user selects "yes" to upload', () => {

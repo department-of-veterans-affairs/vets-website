@@ -25,17 +25,20 @@ describe('YourVAHealthFacilityPage', () => {
   let store;
   let storeWithRealReducers;
   let props;
+  let sandbox;
   let apiRequestStub;
   let convertLocationStub;
   let convertToLatLngStub;
   let dispatchSpy;
 
   beforeEach(() => {
+    sandbox = sinon.createSandbox();
+
     props = {
       data: {},
-      setFormData: sinon.spy(),
-      goBack: sinon.spy(),
-      goForward: sinon.spy(),
+      setFormData: sandbox.spy(),
+      goBack: sandbox.spy(),
+      goForward: sandbox.spy(),
     };
 
     store = mockStore({
@@ -60,18 +63,15 @@ describe('YourVAHealthFacilityPage', () => {
     });
     storeWithRealReducers = createStore(reducers);
 
-    dispatchSpy = sinon.spy(storeWithRealReducers, 'dispatch');
-    apiRequestStub = sinon.stub(apiModule, 'apiRequest');
-    convertLocationStub = sinon.stub(mapboxModule, 'convertLocation');
-    convertToLatLngStub = sinon.stub(mapboxModule, 'convertToLatLng');
+    dispatchSpy = sandbox.spy(storeWithRealReducers, 'dispatch');
+    apiRequestStub = sandbox.stub(apiModule, 'apiRequest');
+    convertLocationStub = sandbox.stub(mapboxModule, 'convertLocation');
+    convertToLatLngStub = sandbox.stub(mapboxModule, 'convertToLatLng');
   });
 
   afterEach(() => {
     store.clearActions();
-    dispatchSpy.restore();
-    apiRequestStub.restore();
-    convertLocationStub.restore();
-    convertToLatLngStub.restore();
+    sandbox.restore();
   });
 
   const renderWithStore = (customState = {}) => {
@@ -193,7 +193,7 @@ describe('YourVAHealthFacilityPage', () => {
     apiRequestStub.resolves(mockHealthFacilityResponse);
     convertLocationStub.resolves(mockLocationResponse);
     convertToLatLngStub.resolves([0, 0]);
-    const geoLocateUserStub = sinon.stub(geoLocateUser, 'geoLocateUser');
+    const geoLocateUserStub = sandbox.stub(geoLocateUser, 'geoLocateUser');
     geoLocateUserStub.callsFake(async dispatch => {
       return dispatch({
         type: geoLocateUser.GEOCODE_COMPLETE,
@@ -219,15 +219,12 @@ describe('YourVAHealthFacilityPage', () => {
       );
       expect(option).to.exist;
     });
-    geoLocateUserStub.restore();
   });
 
   it('should return mock facilities if mockTestingFlagforAPI is enabled', async () => {
     convertLocationStub.resolves(mockLocationResponse);
     convertToLatLngStub.resolves([0, 0]);
-    const mockTestingFlagStub = sinon
-      .stub(constants, 'getMockTestingFlagforAPI')
-      .returns(true);
+    sandbox.stub(constants, 'getMockTestingFlagforAPI').returns(true);
 
     const { container, getByRole } = renderWithStoreRTL();
     const input = getByRole('searchbox');
@@ -250,7 +247,6 @@ describe('YourVAHealthFacilityPage', () => {
       );
       expect(option).to.exist;
     });
-    mockTestingFlagStub.restore();
   });
 
   it('should display validation error if no city or postal code provided', async () => {
@@ -295,7 +291,7 @@ describe('YourVAHealthFacilityPage', () => {
     apiRequestStub.resolves(mockHealthFacilityResponse);
     convertLocationStub.resolves(mockLocationResponse);
     convertToLatLngStub.resolves([0, 0]);
-    const focusElementSpy = sinon.spy(document, 'querySelector');
+    const focusElementSpy = sandbox.spy(document, 'querySelector');
 
     const { getByRole } = renderWithStoreRTL({
       searchLocationInput: '', // Empty search query
@@ -306,8 +302,6 @@ describe('YourVAHealthFacilityPage', () => {
     await waitFor(() => {
       expect(focusElementSpy.calledWith('#street-city-state-zip')).to.be.true;
     });
-
-    focusElementSpy.restore();
   });
 
   it('should proceed forward when facility is selected', async () => {
@@ -315,7 +309,7 @@ describe('YourVAHealthFacilityPage', () => {
     convertLocationStub.resolves(mockLocationResponse);
     convertToLatLngStub.resolves([0, 0]);
 
-    const goForwardSpy = sinon.spy();
+    const goForwardSpy = sandbox.spy();
     const { getByRole } = render(
       <Provider store={store}>
         <YourVAHealthFacilityPage

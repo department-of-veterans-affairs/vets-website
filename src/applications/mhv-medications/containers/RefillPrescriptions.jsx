@@ -6,7 +6,6 @@ import {
   VaCheckbox,
   VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import {
   updatePageTitle,
   usePrintTitle,
@@ -19,7 +18,6 @@ import {
 
 import { dateFormat } from '../util/helpers';
 import {
-  selectRefillContentFlag,
   selectRefillProgressFlag,
   selectRemoveLandingPageFlag,
 } from '../util/selectors';
@@ -94,7 +92,6 @@ const RefillPrescriptions = () => {
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
-  const showRefillContent = useSelector(selectRefillContentFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
@@ -192,9 +189,6 @@ const RefillPrescriptions = () => {
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
   const content = () => {
-    if (!showRefillContent) {
-      return <PageNotFound />;
-    }
     if (isLoading || isRefilling) {
       return (
         <div
