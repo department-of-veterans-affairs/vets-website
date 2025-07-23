@@ -33,7 +33,7 @@ export default function transformForSubmit(formConfig, form) {
       internationalPhone.contact
     }`;
   }
-  
+
   delete payload.checkBoxGroup;
 
   return JSON.stringify({
