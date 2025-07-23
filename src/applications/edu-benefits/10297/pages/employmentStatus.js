@@ -10,8 +10,8 @@ const uiSchema = {
     ...yesNoUI({
       title: 'Are you currently employed?',
       labels: {
-        Y: 'Yes', // TODO: If yes OR blank, go to next page
-        N: 'No', // TODO: If no, skip to page 5
+        Y: 'Yes',
+        N: 'No',
         errorMessages: { required: 'You must provide a response' },
       },
     }),

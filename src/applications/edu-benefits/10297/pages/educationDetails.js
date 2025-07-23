@@ -16,26 +16,18 @@ const educationLevels = {
 const uiSchema = {
   ...titleUI('Your education'),
   highestLevelOfEducation: {
-    focus: {
-      ...radioUI({
-        title: 'What’s your main area of focus in the technology industry? ',
-        labels: educationLevels,
-      }),
-    },
+    ...radioUI({
+      title: 'What’s the highest level of education you’ve completed?',
+      labels: educationLevels,
+    }),
   },
 };
+
 const schema = {
   type: 'object',
   required: ['highestLevelOfEducation'],
   properties: {
-    highestLevelOfEducation: {
-      type: 'object',
-      properties: {
-        focus: {
-          ...radioSchema(Object.keys(educationLevels)),
-        },
-      },
-    },
+    highestLevelOfEducation: radioSchema(Object.keys(educationLevels)),
   },
 };
 export { schema, uiSchema };

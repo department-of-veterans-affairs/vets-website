@@ -16,28 +16,19 @@ const employmentFocusOptions = {
 const uiSchema = {
   ...titleUI('Your main area of focus'),
   technologyAreaOfFocus: {
-    focus: {
-      ...radioUI({
-        title: 'What’s your main area of focus in the technology industry? ',
-        errorMessages: { required: 'You must provide a response' },
-        labels: employmentFocusOptions,
-      }),
-    },
+    ...radioUI({
+      title: 'What’s your main area of focus in the technology industry? ',
+      errorMessages: { required: 'You must provide a response' },
+      labels: employmentFocusOptions,
+    }),
   },
 };
+
 const schema = {
   type: 'object',
   required: ['technologyAreaOfFocus'],
   properties: {
-    technologyAreaOfFocus: {
-      type: 'object',
-      required: ['focus'],
-      properties: {
-        focus: {
-          ...radioSchema(Object.keys(employmentFocusOptions)),
-        },
-      },
-    },
+    technologyAreaOfFocus: radioSchema(Object.keys(employmentFocusOptions)),
   },
 };
 export { schema, uiSchema };
