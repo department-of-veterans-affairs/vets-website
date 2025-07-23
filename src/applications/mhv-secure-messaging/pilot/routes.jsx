@@ -5,7 +5,7 @@ import App from '../containers/App';
 const routes = (
   <Switch>
     <Route path="/" key="App">
-      <App isPilot />
+      <App />
     </Route>
   </Switch>
 );
