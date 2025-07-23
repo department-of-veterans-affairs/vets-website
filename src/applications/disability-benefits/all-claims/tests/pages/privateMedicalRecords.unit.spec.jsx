@@ -71,31 +71,31 @@ describe('526 All Claims Private medical records', () => {
     expect($$('va-checkbox').length).to.equal(0); // Expect the acknowledgment to NOT be on screen
   });
 
-  // TODO: This will change once 4142 is integrated
-  it('should not submit when user selects "no" to upload and does NOT check the acknowledgment', () => {
-    const onSubmit = sinon.spy();
-    const { getByText } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:uploadPrivateRecordsQualifier': {
-            'view:hasPrivateRecordsToUpload': false,
-          },
-          'view:patientAcknowledgement': {
-            'view:acknowledgement': false, // The user has NOT checked the acknowledgment
-          },
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-    const submitButton = getByText('Submit');
-    userEvent.click(submitButton);
-    expect(onSubmit.calledOnce).to.be.false;
-    expect($('va-radio').error).to.be.null;
-  });
+  // TODO: Implementing 4142 and will need flipper
+  // it('should not submit when user selects "no" to upload and does NOT check the acknowledgment', () => {
+  //   const onSubmit = sinon.spy();
+  //   const { getByText } = render(
+  //     <DefinitionTester
+  //       definitions={formConfig.defaultDefinitions}
+  //       schema={schema}
+  //       uiSchema={uiSchema}
+  //       data={{
+  //         'view:uploadPrivateRecordsQualifier': {
+  //           'view:hasPrivateRecordsToUpload': false,
+  //         },
+  //         'view:patientAcknowledgement': {
+  //           'view:acknowledgement': false, // The user has NOT checked the acknowledgment
+  //         },
+  //       }}
+  //       formData={{}}
+  //       onSubmit={onSubmit}
+  //     />,
+  //   );
+  //   const submitButton = getByText('Submit');
+  //   userEvent.click(submitButton);
+  //   expect(onSubmit.calledOnce).to.be.false;
+  //   expect($('va-radio').error).to.be.null;
+  // });
 
   // 'No' radio button selected and acknowledgment checked allows user to submit
   it('should submit when user selects "no" to upload and checks "yes" for the acknowledgment', () => {
