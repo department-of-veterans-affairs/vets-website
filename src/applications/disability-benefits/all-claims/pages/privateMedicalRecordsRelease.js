@@ -73,14 +73,14 @@ export const uiSchema = {
           updateSchema: makeSchemaForAllDisabilities,
           itemAriaLabel: data => data.treatmentCenterName,
           showFieldLabel: true,
-          hideIf: formData => !isUsingModern4142Flow(formData),
+          hideIf: !isUsingModern4142Flow(),
         },
         'ui:validations': [validateBooleanGroup],
         'ui:errorMessages': {
           atLeastOne: 'Please select at least one condition',
           required: 'Please select at least one condition',
         },
-        'ui:required': formData => isUsingModern4142Flow(formData),
+        'ui:required': isUsingModern4142Flow(),
       },
       'ui:validations': [validateDate],
       treatmentDateRange: dateRangeUI(

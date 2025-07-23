@@ -14,6 +14,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
@@ -102,6 +103,13 @@ export const Form526Entry = ({
     form =>
       form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),
   );
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+
+  const isUsingModern4142Flow = useToggleValue(
+    TOGGLE_NAMES.disability526Enable2024Form4142,
+  );
+
+  formConfig.syncModern4142Flow = isUsingModern4142Flow;
 
   const title = `${getPageTitle(isBDDForm)}${
     isIntroPage(location) ? ` ${PAGE_TITLE_SUFFIX}` : ''
