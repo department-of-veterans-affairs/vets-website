@@ -18,6 +18,10 @@ const testConfig = createTestConfig(
     dataSets: ['maximal-test'],
 
     setupPerTest: () => {
+      cy.window().then(win => {
+        win.localStorage.setItem('hasSession', 'true');
+      });
+
       cy.intercept('GET', '/v0/dependents_applications/show', mockDependents);
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
@@ -36,8 +40,16 @@ const testConfig = createTestConfig(
 
       cy.intercept('POST', '/dependents_verification/v0/claims', {
         statusCode: 200,
-        body: {},
+        body: {
+          data: {
+            attributes: {
+              formSubmissionId: '123fake-submission-id-567',
+              timestamp: '2023-11-01',
+            },
+          },
+        },
       });
+
       cy.login(user);
     },
 
@@ -67,16 +79,11 @@ const testConfig = createTestConfig(
 
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-text-input')
-            .shadow()
-            .find('input')
-            .type('John Doe');
-
+          // cy.get('va-text-input').shadow().find('input').type('John Doe');
           cy.get('va-checkbox')
             .shadow()
             .find('input[type="checkbox"]')
             .check({ force: true });
-
           cy.clickFormContinue();
           cy.injectAxeThenAxeCheck();
         });

@@ -1,5 +1,4 @@
 {
-  "data": {
     "veteranInformation": {
       "ssnLastFour": "5678"
     },
@@ -18,4 +17,3 @@
     "statementOfTruthSignature": "John Doe",
     "statementOfTruthCertified": true
   }
-}
