@@ -45,12 +45,14 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.clickStartForm();
+          cy.injectAxeThenAxeCheck();
         });
       },
 
       'veteran-information': ({ afterHook }) => {
         afterHook(() => {
           cy.clickFormContinue();
+          cy.injectAxeThenAxeCheck();
         });
       },
 
@@ -59,6 +61,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('va-radio-option[value="Y"]').click();
           cy.clickFormContinue();
+          cy.injectAxeThenAxeCheck();
         });
       },
 
@@ -75,6 +78,7 @@ const testConfig = createTestConfig(
             .check({ force: true });
 
           cy.clickFormContinue();
+          cy.injectAxeThenAxeCheck();
         });
       },
     },
