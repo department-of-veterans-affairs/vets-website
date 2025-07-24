@@ -639,14 +639,8 @@ const medicarePartDCarrierEffectiveDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${generateParticipantName(
-          formData,
-        )} Medicare Part D carrier and effective date`,
+        `${generateParticipantName(formData)} Medicare Part D effective date`,
     ),
-    medicarePartDCarrier: textUI({
-      title: 'Name of insurance carrier',
-      hint: 'Your insurance carrier is your insurance company.',
-    }),
     medicarePartDEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part D effective date',
       hint:
@@ -656,10 +650,9 @@ const medicarePartDCarrierEffectiveDatePage = {
   },
   schema: {
     type: 'object',
-    required: ['medicarePartDCarrier', 'medicarePartDEffectiveDate'],
+    required: ['medicarePartDEffectiveDate'],
     properties: {
       titleSchema,
-      medicarePartDCarrier: textSchema,
       medicarePartDEffectiveDate: currentOrPastDateSchema,
     },
   },
