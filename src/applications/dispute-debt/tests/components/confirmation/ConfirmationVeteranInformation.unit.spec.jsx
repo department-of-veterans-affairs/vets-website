@@ -52,7 +52,7 @@ describe('ConfirmationVeteranInformation', () => {
     getByText('Suffix');
     getByText('Jr');
     getByText('Date of birth');
-    getByText('1980-01-15');
+    getByText('January 15, 1980');
 
     // Check identification information
     getByText('Social Security number');
