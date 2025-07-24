@@ -72,8 +72,8 @@ const branchAndDateRangePage = {
       currentLabel:
         'I am currently serving in this military service experience.',
       currentKey: 'currentlyServing',
-      isCurrentChecked: (formData, index) =>
-        formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+      isCurrentChecked: (fullData, index) =>
+        fullData?.militaryServiceExperiences?.[index]?.currentlyServing,
     }),
   },
   schema: {

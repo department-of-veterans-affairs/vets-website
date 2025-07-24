@@ -184,8 +184,8 @@ const dateRangePage = {
       toLabel: 'Employment end date',
       currentLabel: 'I still work here.',
       currentKey: 'currentlyEmployed',
-      isCurrentChecked: (formData, index) =>
-        formData?.employers?.[index]?.currentlyEmployed,
+      isCurrentChecked: (fullData, index) =>
+        fullData?.employers?.[index]?.currentlyEmployed,
     }),
   },
   schema: {
