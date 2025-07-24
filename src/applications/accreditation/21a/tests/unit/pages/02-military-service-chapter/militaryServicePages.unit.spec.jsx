@@ -4,14 +4,16 @@ import { render, fireEvent } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import militaryServicePages from '../../../../pages/02-military-service-chapter/militaryServicePages';
+import militaryServicePages, {
+  arrayBuilderOptions,
+} from '../../../../pages/02-military-service-chapter/militaryServicePages';
 import MilitaryServiceIntro from '../../../../components/02-military-service-chapter/MilitaryServiceIntro';
 import { explanationRequired } from '../../../../constants/options';
 
 const pages = militaryServicePages;
 
 describe('Military Service Chapter Pages', () => {
-  describe('Intro page', () => {
+  context('Intro page', () => {
     it('renders the intro paragraph and all list items', () => {
       const { getByText, getAllByRole } = render(<MilitaryServiceIntro />);
       expect(
@@ -32,7 +34,7 @@ describe('Military Service Chapter Pages', () => {
     });
   });
 
-  describe('Summary page', () => {
+  context('Summary page', () => {
     it('renders the summary yes/no question', () => {
       const { container } = render(
         <SchemaForm
@@ -53,7 +55,7 @@ describe('Military Service Chapter Pages', () => {
     });
   });
 
-  describe('Branch and date range page', () => {
+  context('Branch and date range page', () => {
     it('renders branch select and date range fields', () => {
       const form = render(
         <DefinitionTester
@@ -148,7 +150,7 @@ describe('Military Service Chapter Pages', () => {
     });
   });
 
-  describe('Character of discharge page', () => {
+  context('Character of discharge page', () => {
     it('renders character of discharge select', () => {
       const form = render(
         <DefinitionTester
@@ -184,7 +186,7 @@ describe('Military Service Chapter Pages', () => {
     });
   });
 
-  describe('Explanation of discharge page', () => {
+  context('Explanation of discharge page', () => {
     it('renders explanation textarea', () => {
       const form = render(
         <DefinitionTester
@@ -214,6 +216,46 @@ describe('Military Service Chapter Pages', () => {
         'va-textarea[label="Explain the nature of your discharge."]',
       );
       expect(vaTextarea).to.exist;
+    });
+  });
+
+  context('arrayBuilderOptions', () => {
+    it('should have the correct arrayPath, nouns, and maxItems properties', () => {
+      expect(arrayBuilderOptions.arrayPath).to.equal(
+        'militaryServiceExperiences',
+      );
+      expect(arrayBuilderOptions.nounSingular).to.equal(
+        'military service experience',
+      );
+      expect(arrayBuilderOptions.nounPlural).to.equal(
+        'military service experiences',
+      );
+      expect(arrayBuilderOptions.required).to.be.false;
+    });
+
+    it('should return the correct card title from getItemName', () => {
+      const item = { branch: 'Air Force' };
+      const { getByText } = render(arrayBuilderOptions.text.getItemName(item));
+      expect(getByText(item.branch)).to.exist;
+    });
+
+    it('should return the correct card description with from and to dates', () => {
+      const item = { dateRange: { from: '2000-01', to: '2004-01' } };
+      const { getByText } = render(
+        arrayBuilderOptions.text.cardDescription(item, 'currentlyServing'),
+      );
+      expect(getByText('January 2000 - January 2004')).to.exist;
+    });
+
+    it('should return the correct card description with from date and present', () => {
+      const item = {
+        dateRange: { from: '2000-01', to: '' },
+        currentlyServing: true,
+      };
+      const { getByText } = render(
+        arrayBuilderOptions.text.cardDescription(item, 'currentlyServing'),
+      );
+      expect(getByText('January 2000 - Present')).to.exist;
     });
   });
 });
