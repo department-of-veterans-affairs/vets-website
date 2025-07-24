@@ -13,7 +13,8 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+// import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { countries } from 'platform/forms/address';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
