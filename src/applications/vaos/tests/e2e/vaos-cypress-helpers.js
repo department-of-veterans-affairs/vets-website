@@ -14,7 +14,10 @@ import featureFlags from '../../services/mocks/featureFlags';
  * @param {Object} [toggles={}] Feature flags to set/unset
  */
 export function mockFeatureToggles(
-  toggles = { vaOnlineSchedulingRecentLocationsFilter: false },
+  toggles = {
+    vaOnlineSchedulingRecentLocationsFilter: false,
+    vaOnlineSchedulingCCDirectScheduling: false,
+  },
 ) {
   cy.intercept(
     {

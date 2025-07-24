@@ -2,22 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
-
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
 
-import { benefitsDocumentsUseLighthouse } from '../../selectors';
-import { setFocus, setPageFocus } from '../../utils/page';
+import { setPageFocus, focusNotificationAlert } from '../../utils/page';
 import {
   addFile,
   removeFile,
   submitFiles,
-  // START lighthouse_migration
-  submitFilesLighthouse,
-  // END lighthouse_migration
   updateField,
   cancelUpload,
   getClaim as getClaimAction,
@@ -31,15 +25,6 @@ import {
   isClaimOpen,
 } from '../../utils/helpers';
 import withRouter from '../../utils/withRouter';
-
-const scrollToError = () => {
-  const options = getScrollOptions({ offset: -25 });
-
-  setTimeout(() => {
-    scrollTo('uploadError', options);
-    setFocus('.usa-alert-error');
-  });
-};
 
 const filesPath = `../files`;
 
@@ -57,9 +42,6 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.message && !prevProps.message) {
-      scrollToError();
-    }
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
     }
@@ -75,13 +57,8 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   onSubmitFiles(claimId) {
-    // START lighthouse_migration
-    if (this.props.documentsUseLighthouse) {
-      this.props.submitFilesLighthouse(claimId, null, this.props.files);
-    } else {
-      this.props.submitFiles(claimId, null, this.props.files);
-    }
-    // END lighthouse_migration
+    // Always use Lighthouse endpoint (no more feature flag checks)
+    this.props.submitFiles(claimId, null, this.props.files);
   }
 
   scrollToSection = () => {
@@ -114,16 +91,15 @@ class AdditionalEvidencePage extends React.Component {
       );
     } else {
       const { message, filesNeeded } = this.props;
-
       content = (
         <div className="additional-evidence-container">
           {message && (
             <>
-              <Element name="uploadError" />
               <Notification
                 title={message.title}
                 body={message.body}
                 type={message.type}
+                onSetFocus={focusNotificationAlert}
               />
             </>
           )}
@@ -200,9 +176,6 @@ function mapStateToProps(state) {
     message: claimsState.notifications.additionalEvidenceMessage,
     filesNeeded: getFilesNeeded(trackedItems),
     filesOptional: getFilesOptional(trackedItems),
-    // START lighthouse_migration
-    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
-    // END lighthouse_migration
   };
 }
 
@@ -213,7 +186,6 @@ const mapDispatchToProps = {
   updateField,
   cancelUpload,
   getClaim: getClaimAction,
-  submitFilesLighthouse,
   setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
@@ -224,9 +196,6 @@ AdditionalEvidencePage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
-  // START lighthouse_migration
-  documentsUseLighthouse: PropTypes.bool,
-  // END lighthouse_migration
   files: PropTypes.array,
   filesNeeded: PropTypes.array,
   filesOptional: PropTypes.array,
@@ -242,9 +211,6 @@ AdditionalEvidencePage.propTypes = {
   resetUploads: PropTypes.func,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
-  // START lighthouse_migration
-  submitFilesLighthouse: PropTypes.func,
-  // END lighthouse_migration
   updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
   uploadField: PropTypes.object,

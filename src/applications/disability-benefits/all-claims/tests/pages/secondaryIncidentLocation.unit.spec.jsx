@@ -3,12 +3,13 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { ERR_MSG_CSS_CLASS } from '../../constants';
-
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
+import { waitFor } from '@testing-library/dom';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
+
 import formConfig from '../../config/form';
 
 describe('PTSD Secondary Incident location', () => {
@@ -16,7 +17,7 @@ describe('PTSD Secondary Incident location', () => {
     formConfig.chapters.disabilities.pages.secondaryIncidentLocation0;
   const { schema, uiSchema } = page;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -29,7 +30,7 @@ describe('PTSD Secondary Incident location', () => {
     form.unmount();
   });
 
-  it('should fill in incident location', () => {
+  it('should fill in incident location', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -59,14 +60,16 @@ describe('PTSD Secondary Incident location', () => {
       'textarea#root_secondaryIncident0_incidentLocation_additionalDetails',
       'Detail text',
     );
-    form.find('form').simulate('submit');
+    await waitFor(() => {
+      form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 
-  it('should submit without validation errors', () => {
+  it('should submit without validation errors', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -77,10 +80,12 @@ describe('PTSD Secondary Incident location', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
+    await waitFor(() => {
+      form.find('form').simulate('submit');
 
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 });

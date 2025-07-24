@@ -30,27 +30,31 @@ export const infoFragment = (
       of 30%, you may be eligible for additional disability compensation for a
       spouse, child, and/or parent.
     </p>
-    <a
-      className="vads-u-font-size--base"
+    <va-link
+      class="vads-u-font-size--base"
       href="/disability/add-remove-dependent/"
-    >
-      Find out how to add a dependent to your disability claim
-    </a>
+      text="Find out how to add a dependent to your disability claim"
+    />
+  </>
+);
+
+export const infoFragmentV2 = (
+  <>
+    <div>We don’t have any dependents on file for you.</div>
   </>
 );
 
 export const breadcrumbLinks = [
-  <a href="/" aria-label="Back to VA Home page" key="1">
-    Home
-  </a>,
-  <a
+  <va-link href="/" label="Back to VA Home page" text="Home" key="1" />,
+  <va-link
     href="/view-change-dependents/"
-    aria-label="Back to the Add or remove dependents page"
+    label="Back to the Add or remove dependents page"
+    text="Add or remove dependents"
     key="3"
-  >
-    Add or remove dependents
-  </a>,
-  <a href="/view-change-dependents/view" key="4">
-    Your Dependents
-  </a>,
+  />,
+  <va-link
+    href="/view-change-dependents/view"
+    text="Your Dependents"
+    key="4"
+  />,
 ];

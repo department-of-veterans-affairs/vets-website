@@ -78,6 +78,7 @@ class ProfileInformationFieldController extends React.Component {
     this.state = {
       showCannotEditModal: false,
       showConfirmCancelModal: false,
+      shouldFocusCancelButton: false,
     };
   }
 
@@ -356,6 +357,11 @@ class ProfileInformationFieldController extends React.Component {
         this.props?.prefillPatternEnabled &&
         this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS,
       successCallback: this.props.successCallback,
+      // shouldFocusCancelButton and onCancelButtonFocused are used to set focus on the
+      // cancel button after the user returns to edit view from the confirm/cancel modal
+      shouldFocusCancelButton: this.state.shouldFocusCancelButton,
+      onCancelButtonFocused: () =>
+        this.setState({ shouldFocusCancelButton: false }),
     };
 
     // Add flag for email/phone fields to indicate they should use formOnlyUpdate
@@ -507,18 +513,26 @@ class ProfileInformationFieldController extends React.Component {
         data-testid={fieldName}
       >
         {CustomConfirmCancelModal ? (
-          <>
-            <CustomConfirmCancelModal
-              activeSection={activeSection}
-              isVisible={this.state.showConfirmCancelModal}
-              onHide={() => this.setState({ showConfirmCancelModal: false })}
-            />
-          </>
+          <CustomConfirmCancelModal
+            activeSection={activeSection}
+            isVisible={this.state.showConfirmCancelModal}
+            onHide={() =>
+              this.setState({
+                showConfirmCancelModal: false,
+                shouldFocusCancelButton: true,
+              })
+            }
+          />
         ) : (
           <ConfirmCancelModal
             activeSection={activeSection}
             closeModal={this.closeModal}
-            onHide={() => this.setState({ showConfirmCancelModal: false })}
+            onHide={() =>
+              this.setState({
+                showConfirmCancelModal: false,
+                shouldFocusCancelButton: true,
+              })
+            }
             isVisible={this.state.showConfirmCancelModal}
           />
         )}
@@ -595,6 +609,7 @@ ProfileInformationFieldController.propTypes = {
   refreshTransaction: PropTypes.func,
   refreshTransactionRequest: PropTypes.func,
   saveButtonText: PropTypes.string,
+  shouldFocusCancelButton: PropTypes.bool,
   showRemoveModal: PropTypes.bool,
   showUpdateSuccessAlert: PropTypes.bool,
   successCallback: PropTypes.func,
@@ -602,6 +617,7 @@ ProfileInformationFieldController.propTypes = {
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
+  onCancelButtonFocused: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -629,7 +645,9 @@ export const mapStateToProps = (state, ownProps) => {
     uiSchema,
     formSchema,
     title,
-  } = getProfileInfoFieldAttributes(fieldName);
+  } = getProfileInfoFieldAttributes(fieldName, {
+    allowInternational: ownProps.allowInternationalPhones,
+  });
 
   const hasUnsavedEdits = state.vapService?.hasUnsavedEdits;
   return {

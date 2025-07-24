@@ -15,10 +15,11 @@
   }
   &__form-name {
     font-weight: bold;
-    margin: 0 0 16px;
+    margin: 0;
   }
   &__form-description {
     margin: 8px 0;
+    font-weight: bold;
   }
   &-subtext__copy {
     font-size: 20px;
@@ -63,6 +64,10 @@
   &__awaiting {
     display: flex;
     padding: 0 !important;
+
+    .submissions__inline-status-icon.submissions__card-check {
+      color: $vads-color-base;
+    }
   }
 }
 .submission {
@@ -102,7 +107,7 @@
           align-items: center;
         }
 
-        @media (min-width: $medium-screen) {
+        @media (min-width: $small-screen) {
           flex-direction: row;
           align-items: center;
         }
@@ -110,7 +115,7 @@
         > span:last-child {
           margin-top: 4px;
           padding-left: 32px;
-          @media (min-width: $medium-screen) {
+          @media (min-width: $small-screen) {
             padding-left: 0;
           }
         }

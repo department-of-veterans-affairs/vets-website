@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { Provider } from 'react-redux';
@@ -12,12 +12,22 @@ import { updateFormData } from '../../pages/institutionDetails';
 const mockStore = configureStore([]);
 
 describe('VA Facility Code Page (yes/no)', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.institutionDetailsChapter.pages.institutionDetails;
 
-  function renderPage(data = {}, onSubmit = sinon.spy()) {
+  function renderPage(data = {}, onSubmit = sandbox.spy()) {
     const store = mockStore({ form: { data } });
     return render(
       <Provider store={store}>
@@ -44,12 +54,16 @@ describe('VA Facility Code Page (yes/no)', () => {
     expect(labels).to.deep.equal(['Yes', 'Not yet']);
   });
 
-  it('shows an error when no option is selected', () => {
+  it('shows an error when no option is selected', async () => {
     const { container, getByRole } = renderPage({
       institutionDetails: { hasVaFacilityCode: undefined },
     });
+
     fireEvent.click(getByRole('button', { name: /submit/i }));
-    expect($$('va-radio[error]', container).length).to.be.greaterThan(0);
+
+    await waitFor(() => {
+      expect($$('va-radio[error]', container).length).to.be.greaterThan(0);
+    });
   });
   it('returns the same object when the radio choice has NOT changed', () => {
     const oldData = {
