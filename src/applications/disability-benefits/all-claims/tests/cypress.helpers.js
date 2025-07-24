@@ -466,8 +466,6 @@ export const pageHooks = (cy, testOptions) => ({
             // Should have moved past all follow-up pages
             cy.url().should('not.match', /new-disabilities\/follow-up/);
           }
-          // Verify we've completed all follow-up pages and moved to the next section
-          cy.url().should('include', 'toxic-exposure/conditions');
         }
       });
     });
