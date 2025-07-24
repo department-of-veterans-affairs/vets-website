@@ -15,6 +15,7 @@ import {
   arrayBuilderContextObject,
   getArrayUrlSearchParams,
 } from './helpers';
+import ArrayBuilderButtonPair from './ArrayBuilderButtonPair';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
@@ -606,7 +607,15 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     // to pass to a consumer's CustomPage as well, e.g. NavButtons, rerouting feature
     const CustomPage = pageConfig.CustomPage
       ? props => (
-          <pageConfig.CustomPage {...props} arrayBuilder={itemPageProps} />
+          <pageConfig.CustomPage
+            {...props}
+            arrayBuilder={{
+              ...itemPageProps,
+              ArrayBuilderButtonPair: () => (
+                <ArrayBuilderButtonPair {...props} {...itemPageProps} />
+              ),
+            }}
+          />
         )
       : ArrayBuilderItemPage(itemPageProps);
 
