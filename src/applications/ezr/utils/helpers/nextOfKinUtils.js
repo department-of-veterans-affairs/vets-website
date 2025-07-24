@@ -60,7 +60,7 @@ export const getDeleteDescription = item => {
 };
 
 /**
- * Helper to test if the item is in a completed stated.
+ * Helper to test if the item is in a completed state.
  * @param {Object} item - The NoK item.
  * @returns {String} - Returns true if the item has all required fields present.
  */

@@ -27,7 +27,6 @@ const arrayBuilderOptions = {
   nounPlural: 'next of kins',
   required: false,
   maxItems: MAX_NEXT_OF_KINS,
-  hideMaxItemsAlert: false,
   isItemIncomplete,
   text: {
     getItemName,

@@ -27,7 +27,6 @@ const arrayBuilderOptions = {
   nounPlural: 'emergency contacts',
   required: false,
   maxItems: MAX_EMERGENCY_CONTACTS,
-  hideMaxItemsAlert: false,
   isItemIncomplete,
   text: {
     getItemName,
