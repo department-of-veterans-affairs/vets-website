@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import ConfirmationDisputeInformation from '../../../components/confirmation/ConfirmationDisputeInformation';
-import { DISPUTE_REASONS } from '../../../utils';
+import { DISPUTE_REASONS } from '../../../constants';
 
 const mockFormDataWithSingleDebt = {
   selectedDebts: [

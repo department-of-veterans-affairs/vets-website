@@ -2,11 +2,6 @@ import { addDays, parse, parseISO, isValid } from 'date-fns';
 import { formatDateLong } from 'platform/utilities/date';
 import { deductionCodes } from '../constants';
 
-export const DISPUTE_REASONS = {
-  EXISTENCE: `I don't think I owe this debt to VA`,
-  AMOUNT: `I don't think the amount is correct on this debt`,
-};
-
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)
  * @param {string, number, Date} date - date to format

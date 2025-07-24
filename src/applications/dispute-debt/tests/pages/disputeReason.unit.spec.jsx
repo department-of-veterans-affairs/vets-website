@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
 import disputeReason from '../../pages/disputeReason';
 import DebtTitle from '../../components/DebtTitle';
-import { DISPUTE_REASONS } from '../../utils';
+import { DISPUTE_REASONS } from '../../constants';
 
 describe('disputeReason page', () => {
   it('exports a valid page configuration', () => {
