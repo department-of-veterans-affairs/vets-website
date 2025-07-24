@@ -5,8 +5,16 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
+import {
+  nameAndDateOfBirth,
+  identificationInformation,
+  employmentStatus,
+  employmentDetails,
+  employmentFocus,
+  salaryDetails,
+  educationDetails,
+} from '../pages';
+
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
 
@@ -70,6 +78,69 @@ const formConfig = {
           title: 'Active duty status',
           uiSchema: activeDutyStatus.uiSchema,
           schema: activeDutyStatus.schema,
+        },
+      },
+    },
+    backgroundInformationChapter: {
+      title: 'Background information',
+      pages: {
+        employmentStatus: {
+          path: 'employment-status',
+          title: 'Your employment',
+          uiSchema: employmentStatus.uiSchema,
+          schema: employmentStatus.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.isEmployed === false) {
+              goPath('/education-details');
+            } else {
+              goPath('/employment-details');
+            }
+          },
+        },
+        employmentDetails: {
+          path: 'employment-details',
+          title: 'Your technology industry involvement',
+          uiSchema: employmentDetails.uiSchema,
+          schema: employmentDetails.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.isInTechnologyIndustry === false) {
+              goPath('/salary-details');
+            } else {
+              goPath('/employment-focus');
+            }
+          },
+        },
+        employmentFocus: {
+          path: 'employment-focus',
+          title: 'Your main area of focus',
+          uiSchema: employmentFocus.uiSchema,
+          schema: employmentFocus.schema,
+        },
+        salaryDetails: {
+          path: 'salary-details',
+          title: 'Your current annual salary',
+          uiSchema: salaryDetails.uiSchema,
+          schema: salaryDetails.schema,
+          onNavBack: ({ formData, goPath, goPreviousPath }) => {
+            if (formData.isInTechnologyIndustry === false) {
+              goPath('/employment-details');
+            } else {
+              goPreviousPath();
+            }
+          },
+        },
+        educationDetails: {
+          path: 'education-details',
+          title: 'Your education',
+          uiSchema: educationDetails.uiSchema,
+          schema: educationDetails.schema,
+          onNavBack: ({ formData, goPath, goPreviousPath }) => {
+            if (formData.isEmployed === false) {
+              goPath('/employment-status');
+            } else {
+              goPreviousPath();
+            }
+          },
         },
       },
     },
