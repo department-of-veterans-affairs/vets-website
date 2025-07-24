@@ -55,17 +55,13 @@ const ProfileWrapper = ({
     TOGGLE_NAMES.profileShowPaperlessDelivery,
   );
 
-  let routesForNav = getRoutesForNav();
+  let routesForNav = getRoutesForNav({
+    profileShowPaperlessDelivery: paperlessDeliveryToggle,
+  });
 
   if (!vetStatusCardToggle) {
     routesForNav = routesForNav.filter(
       route => route.name !== 'Veteran Status Card',
-    );
-  }
-
-  if (!paperlessDeliveryToggle) {
-    routesForNav = routesForNav.filter(
-      route => route.name !== 'Paperless delivery',
     );
   }
 

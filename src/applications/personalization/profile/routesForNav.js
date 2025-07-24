@@ -94,8 +94,18 @@ export const routesForNav = [
   },
 ];
 
-export const getRoutesForNav = () => {
+export const getRoutesForNav = (
+  { profileShowPaperlessDelivery = false } = {
+    profileShowPaperlessDelivery: false,
+  },
+) => {
   return routesForNav.reduce((acc, route) => {
+    if (
+      !profileShowPaperlessDelivery &&
+      route.name === PROFILE_PATH_NAMES.PAPERLESS_DELIVERY
+    ) {
+      return acc;
+    }
     acc.push(route);
     return acc;
   }, []);
