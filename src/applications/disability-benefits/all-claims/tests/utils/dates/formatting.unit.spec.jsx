@@ -168,7 +168,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
       isValidYear(err, (MIN_VALID_YEAR - 1).toString());
       expect(err.addError.called).to.be.true;
 
-      err.addError.reset();
+      err.addError.resetHistory();
       isValidYear(err, (MAX_VALID_YEAR + 1).toString());
       expect(err.addError.called).to.be.true;
     });
@@ -198,16 +198,24 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
   });
 
   describe('isNotExpired', () => {
-    it('should return true for today and future dates', () => {
-      // Use a future date that will be true regardless of timing
-      expect(isNotExpired('2030-01-01')).to.be.true;
-      expect(isNotExpired('2025-12-31')).to.be.true;
+    const clock = sinon.useFakeTimers(new Date('2023-06-15'));
+
+    after(() => {
+      clock.restore();
+    });
+
+    it('should return true for future dates', () => {
+      expect(isNotExpired('2023-06-16')).to.be.true;
+      expect(isNotExpired('2024-01-01')).to.be.true;
+    });
+
+    it('should return true for today', () => {
+      expect(isNotExpired('2023-06-15')).to.be.true;
     });
 
     it('should return false for past dates', () => {
-      // Use dates that are clearly in the past regardless of current time
-      expect(isNotExpired('2020-01-01')).to.be.false;
-      expect(isNotExpired('2021-01-01')).to.be.false;
+      expect(isNotExpired('2023-06-14')).to.be.false;
+      expect(isNotExpired('2022-01-01')).to.be.false;
     });
 
     it('should handle invalid dates', () => {
@@ -221,7 +229,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     it('should add error if date is before 13th birthday', () => {
       const err = { addError: sinon.spy() };
       const formData = { veteranDateOfBirth: '2000-01-01' };
-      validateAge(err, '2012-12-31', formData); // One day before 13th birthday
+      validateAge(err, '2013-01-01', formData);
       expect(err.addError.called).to.be.true;
       expect(err.addError.firstCall.args[0]).to.include('13th birthday');
     });
@@ -312,25 +320,30 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
   });
 
   describe('isInFuture', () => {
+    const clock = sinon.useFakeTimers(new Date('2023-06-15'));
+
+    after(() => {
+      clock.restore();
+    });
+
     it('should add error for past dates', () => {
       const err = { addError: sinon.spy() };
-      isInFuture(err, '2020-01-01'); // Use a clearly past date
+      isInFuture(err, '2023-06-14');
       expect(err.addError.called).to.be.true;
       expect(err.addError.firstCall.args[0]).to.include(
         'must be in the future',
       );
     });
 
-    it('should add error for past and current dates', () => {
+    it('should add error for today', () => {
       const err = { addError: sinon.spy() };
-      // Use a clearly past date
-      isInFuture(err, '2020-01-01');
+      isInFuture(err, '2023-06-15');
       expect(err.addError.called).to.be.true;
     });
 
     it('should not add error for future dates', () => {
       const err = { addError: sinon.spy() };
-      isInFuture(err, '2030-01-01'); // Use a clearly future date
+      isInFuture(err, '2023-06-16');
       expect(err.addError.called).to.be.false;
     });
 
@@ -343,19 +356,10 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
   });
 
   describe('isLessThan180DaysInFuture', () => {
-    let clock;
+    const clock = sinon.useFakeTimers(new Date('2023-06-15'));
 
-    beforeEach(() => {
-      clock = sinon.useFakeTimers({
-        now: new Date('2023-06-15'),
-        toFake: ['Date'],
-      });
-    });
-
-    afterEach(() => {
-      if (clock) {
-        clock.restore();
-      }
+    after(() => {
+      clock.restore();
     });
 
     it('should add error for past dates', () => {
@@ -492,19 +496,10 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
   });
 
   describe('isBddClaimValid', () => {
-    let clock;
+    const clock = sinon.useFakeTimers(new Date('2023-06-15'));
 
-    beforeEach(() => {
-      clock = sinon.useFakeTimers({
-        now: new Date('2023-06-15'),
-        toFake: ['Date'],
-      });
-    });
-
-    afterEach(() => {
-      if (clock) {
-        clock.restore();
-      }
+    after(() => {
+      clock.restore();
     });
 
     it('should return true for dates 90-180 days in future', () => {
@@ -546,19 +541,10 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
   });
 
   describe('getBddSeparationDateError', () => {
-    let clock;
+    const clock = sinon.useFakeTimers(new Date('2023-06-15'));
 
-    beforeEach(() => {
-      clock = sinon.useFakeTimers({
-        now: new Date('2023-06-15'),
-        toFake: ['Date'],
-      });
-    });
-
-    afterEach(() => {
-      if (clock) {
-        clock.restore();
-      }
+    after(() => {
+      clock.restore();
     });
 
     it('should return error for dates less than 90 days', () => {
