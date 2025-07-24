@@ -27,9 +27,13 @@ const IntlMobileConfirmModal = ({
       visible={isOpen}
     >
       <p>
-        <va-telephone contact={phoneNumber} country-code={countryCode} /> is an
-        international phone number. If you save this number, you won’t receive
-        text notifications
+        <va-telephone
+          contact={phoneNumber}
+          country-code={countryCode}
+          not-clickable
+        />{' '}
+        is an international phone number. If you save this number, you won’t
+        receive text notifications
       </p>
     </VaModal>
   );
