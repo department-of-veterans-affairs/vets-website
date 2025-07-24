@@ -32,7 +32,7 @@ function ensureDate(value) {
   if (value instanceof Date) {
     return value;
   }
-  return new Date(value);
+  return parseISO(value);
 }
 
 /**
@@ -172,31 +172,29 @@ export function getDriveTimeString(driveTimeInSeconds, driveTimeDistance) {
  * with any of their existing upcoming appointments. It uses UTC timestamps to
  * avoid timezone conversion issues and only checks conflicts for single selections.
  *
- * @param {Array<string>} selectedDates - Array of selected date strings in ISO format
+ * @param {string} selectedDate - date string in ISO format
  * @param {Object} upcomingAppointments - Object containing upcoming appointments organized by month key (YYYY-MM)
- * @param {number} maxSelections - Maximum number of selections allowed (conflict checking only applies when === 1)
  * @param {Array<Object>} availableSlots - Array of available appointment slots
  * @param {string} availableSlots[].start - ISO date string for slot start time
  * @param {string} availableSlots[].end - ISO date string for slot end time
  * @returns {boolean} True if there is a scheduling conflict, false otherwise
  */
 export function getAppointmentConflict(
-  selectedDates,
+  selectedDate,
   upcomingAppointments,
-  maxSelections,
   availableSlots,
 ) {
-  let appointmentHasConflict = false;
-  if (maxSelections === 1 && selectedDates?.length > 0 && availableSlots) {
+  let hasConflict = false;
+  if (selectedDate && availableSlots) {
     const selectedSlot = availableSlots?.find(
-      slot => slot.start === selectedDates[0],
+      slot => slot.start === selectedDate,
     );
     if (selectedSlot) {
       const selectedSlotStart = ensureDate(selectedSlot.start);
       const selectedSlotEnd = ensureDate(selectedSlot.end);
       const key = format(selectedSlotStart, DATE_FORMATS.yearMonth);
       const appointments = upcomingAppointments[key];
-      appointmentHasConflict = appointments?.some(appointment => {
+      hasConflict = appointments?.some(appointment => {
         // Use UTC timestamps for conflict detection. This avoids timezone conversion issues.
         const slotInterval = {
           start: selectedSlotStart,
@@ -216,5 +214,5 @@ export function getAppointmentConflict(
       });
     }
   }
-  return appointmentHasConflict;
+  return hasConflict;
 }

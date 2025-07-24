@@ -382,13 +382,12 @@ function CalendarWidget({
                                   onChange(value.concat(aDate));
                                 }
                               } else {
-                                const appointmentHasConflict = getAppointmentConflict(
-                                  [aDate],
+                                const hasConflict = getAppointmentConflict(
+                                  aDate,
                                   upcomingAppointments,
-                                  maxSelections,
                                   availableSlots,
                                 );
-                                onChange([aDate], appointmentHasConflict);
+                                onChange([aDate], hasConflict);
                               }
                             }}
                             hasError={hasError}

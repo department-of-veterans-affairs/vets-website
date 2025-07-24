@@ -713,14 +713,11 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
   };
 }
 
-export function onCalendarChange(
-  selectedDates,
-  appointmentHasConflict = false,
-) {
+export function onCalendarChange(selectedDates, hasConflict = false) {
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
     selectedDates,
-    isAppointmentSelectionError: appointmentHasConflict,
+    isAppointmentSelectionError: hasConflict,
   };
 }
 

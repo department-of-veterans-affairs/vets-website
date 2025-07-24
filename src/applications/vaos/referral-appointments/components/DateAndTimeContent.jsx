@@ -46,8 +46,8 @@ export const DateAndTimeContent = props => {
     ),
   );
   const onChange = useCallback(
-    (value, appointmentHasConflict = false) => {
-      if (appointmentHasConflict) {
+    (value, hasConflict = false) => {
+      if (hasConflict) {
         setError(
           'You already have an appointment at this time. Please select another day or time.',
         );
@@ -56,7 +56,7 @@ export const DateAndTimeContent = props => {
         draftAppointmentInfo.attributes.slots,
         value[0],
       );
-      if (!appointmentHasConflict && newSlot) {
+      if (!hasConflict && newSlot) {
         setError('');
         sessionStorage.setItem(selectedSlotKey, newSlot.start);
         dispatch(setSelectedSlot(newSlot.start));
@@ -76,13 +76,12 @@ export const DateAndTimeContent = props => {
           selectedSlot,
         );
         if (slot) {
-          const appointmentHasConflict = getAppointmentConflict(
-            [slot.start],
+          const hasConflict = getAppointmentConflict(
+            slot.start,
             appointmentsByMonth,
-            1,
             draftAppointmentInfo.attributes.slots,
           );
-          onChange([slot.start], appointmentHasConflict);
+          onChange(slot.start, hasConflict);
         }
       }
     },
@@ -103,13 +102,12 @@ export const DateAndTimeContent = props => {
       if (!savedSlot) {
         return;
       }
-      const appointmentHasConflict = getAppointmentConflict(
-        [savedSlot.start],
+      const hasConflict = getAppointmentConflict(
+        savedSlot.start,
         appointmentsByMonth,
-        1,
         draftAppointmentInfo.attributes.slots,
       );
-      onChange([savedSlot.start], appointmentHasConflict);
+      onChange(savedSlot.start, hasConflict);
     },
     [
       dispatch,

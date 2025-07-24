@@ -61,9 +61,8 @@ describe('VAOS appointment helpers', () => {
     it('returns false when there is no conflict', () => {
       expect(
         getAppointmentConflict(
-          ['2024-12-06T16:00:00Z'],
+          '2024-12-06T16:00:00Z',
           appointmentsByMonth,
-          1,
           availableSlots,
         ),
       ).to.be.false;
@@ -71,9 +70,8 @@ describe('VAOS appointment helpers', () => {
     it('returns true when there is a conflict', () => {
       expect(
         getAppointmentConflict(
-          ['2024-12-06T17:00:00Z'],
+          '2024-12-06T17:00:00Z',
           appointmentsByMonth,
-          1,
           availableSlots,
         ),
       ).to.be.true;

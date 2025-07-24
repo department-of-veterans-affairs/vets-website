@@ -25,13 +25,11 @@ describe('VAOS Component: DateAndTimeContent', () => {
     '2024-12': [
       {
         start: '2024-12-06T15:00:00-05:00',
-        startUtc: '2024-12-06T20:00:00Z',
         timezone: 'America/New_York',
         minutesDuration: 30,
       },
       {
         start: '2024-12-19T08:40:00-05:00',
-        startUtc: '2024-12-19T13:40:00Z',
         timezone: 'America/New_York',
         minutesDuration: 60,
       },
@@ -39,13 +37,11 @@ describe('VAOS Component: DateAndTimeContent', () => {
     '2025-01': [
       {
         start: '2025-01-02T12:00:00-05:00',
-        startUtc: '2025-01-02T17:00:00Z',
         timezone: 'America/New_York',
         minutesDuration: 60,
       },
       {
         start: '2025-01-19T08:40:00-05:00',
-        startUtc: '2025-01-19T13:40:00Z',
         timezone: 'America/New_York',
         minutesDuration: 60,
       },
