@@ -104,10 +104,25 @@ export const nextOfKinAddressPage = () => ({
  */
 export const nextOfKinSummaryPage = (options = {}) => ({
   uiSchema: {
-    'view:hasNextOfKin': arrayBuilderYesNoUI(options, {
-      title: content['next-of-kin-add-contacts-label'],
-      hint: content['next-of-kin-hint-text'],
-    }),
+    'view:hasNextOfKin': arrayBuilderYesNoUI(
+      options,
+      {
+        title: content['next-of-kin-add-contacts-label'],
+        hint: content['next-of-kin-hint-text'],
+        labels: {
+          Y: content['next-of-kin-add-contacts-yes-label'],
+          N: content['next-of-kin-add-contacts-no-label'],
+        },
+      },
+      {
+        title: content['next-of-kin-add-another-contact-label'],
+        hint: content['next-of-kin-hint-text'],
+        labels: {
+          Y: content['next-of-kin-add-another-contact-yes-label'],
+          N: content['next-of-kin-add-another-contact-no-label'],
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',
