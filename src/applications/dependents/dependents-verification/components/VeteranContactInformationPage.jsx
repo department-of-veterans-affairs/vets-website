@@ -195,15 +195,12 @@ const VeteranContactInformationPage = ({
       ) : null}
       <p>
         If you notice any errors, correct them now.{' '}
-        <strong>
-          Any updates you make will change the information on this application
-          only
-        </strong>
-        . If you need to update your address with VA, go to your profile to make
-        any changes.
+        <strong>Changes made here apply only to this application.</strong> If
+        you want to update your contact information in our system, go to your VA
+        profile.
       </p>
       <va-link
-        text="Update your contact information in your profile"
+        text="Update your contact information in your VA profile"
         external
         href="/profile/contact-information"
       />
