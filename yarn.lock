@@ -2860,7 +2860,7 @@
 
 "@department-of-veterans-affairs/component-library@51.3.0":
   version "51.3.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-51.3.0.tgz#42f9bf894da753fb0d222303070a6178dcd0c408"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-51.3.0.tgz#42f9bf894da753fb0d222303070a6178dcd0c408"
   integrity sha512-gRdQAOJ8p52rDcCPCyT3tMc91BATyJIgyk+450GAda5qDQtV6GGDNwyT8HXD4C/gPIPXij0S5/jA5JLGK70bjA==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
