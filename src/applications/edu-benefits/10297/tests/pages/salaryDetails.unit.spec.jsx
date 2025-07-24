@@ -22,7 +22,7 @@ describe('Background Information Step 4 - Page 4, Salary Details', () => {
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio).to.exist;
     expect(vaRadio.getAttribute('label')).to.equal(
-      'What is your current annual salary?',
+      "What's your current annual salary?",
     );
     const radios = container.querySelectorAll(
       'va-radio, va-radio-option, input[type="radio"]',
