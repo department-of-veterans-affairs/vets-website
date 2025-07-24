@@ -1,11 +1,13 @@
 import React from 'react';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 import { expect } from 'chai';
 import { PaperlessDelivery } from '../../../components/paperless-delivery/PaperlessDelivery';
 
 describe('PaperlessDelivery', () => {
+  let screen;
+
   beforeEach(() => {
-    render(<PaperlessDelivery />);
+    screen = render(<PaperlessDelivery />);
   });
 
   afterEach(() => {
