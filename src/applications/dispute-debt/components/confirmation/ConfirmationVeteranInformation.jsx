@@ -2,15 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { reviewEntry } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
-import { FORMAT_READABLE_DATE_FNS } from '../../constants';
+import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../../constants';
+import { parseDateToDateObj } from '../../utils';
 
 const ConfirmationVeteranInformation = ({ formData }) => {
   const { veteran } = formData;
   const { email, fullName, ssn, dateOfBirth } = veteran || {};
 
-  const formattedDateOfBirth = dateOfBirth
-    ? format(dateOfBirth, FORMAT_READABLE_DATE_FNS)
-    : dateOfBirth;
+  const dobDateObj = parseDateToDateObj(
+    dateOfBirth || null,
+    FORMAT_YMD_DATE_FNS,
+  );
 
   const {
     mobilePhone: { phoneNumber, countryCode, areaCode, extension },
@@ -70,13 +72,13 @@ const ConfirmationVeteranInformation = ({ formData }) => {
             'Suffix',
             fullName?.suffix,
           )}
-        {formattedDateOfBirth &&
+        {dobDateObj &&
           reviewEntry(
             null,
             `veteran-personal-information-dob`,
             {},
             'Date of birth',
-            formattedDateOfBirth,
+            format(dobDateObj, FORMAT_READABLE_DATE_FNS),
           )}
       </ul>
       <h4>Veteran’s identification information</h4>
