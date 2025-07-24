@@ -26,7 +26,11 @@ describe('Profile Breadcrumbs', () => {
       return;
     }
     it('render the active page name in the breadcrumbs', () => {
-      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles(undefined, true),
+      );
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
           features: [
