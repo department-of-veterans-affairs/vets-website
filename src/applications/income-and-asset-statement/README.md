@@ -15,9 +15,9 @@ VA Form 21P-0960 (Income and Asset Statement Form) is intended to be used to rep
 
 ### Base URLs
 
-[https://www.staging.va.gov/income-and-asset-statement-form-21p-0969](https://www.staging.va.gov/income-and-asset-statement-form-21p-0969)
+[https://www.staging.va.gov/supporting-forms-for-claims/income-and-asset-statement-form-21p-0969](https://www.staging.va.gov/supporting-forms-for-claims/income-and-asset-statement-form-21p-0969)
 
-[https://www.va.gov/income-and-asset-statement-form-21p-0969](https://www.va.gov/income-and-asset-statement-form-21p-0969)
+[https://www.va.gov/supporting-forms-for-claims/income-and-asset-statement-form-21p-0969](https://www.va.gov/supporting-forms-for-claims/income-and-asset-statement-form-21p-0969)
 
 ### Content
 
