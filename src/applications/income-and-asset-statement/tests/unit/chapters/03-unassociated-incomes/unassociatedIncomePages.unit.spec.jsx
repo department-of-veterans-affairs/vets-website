@@ -92,10 +92,10 @@ describe('unassociated income list and loop pages', () => {
 
   describe('income recipient page', () => {
     const schema =
-      unassociatedIncomePages.unassociatedIncomeRecipientPage.schema.properties
-        .unassociatedIncomes.items;
+      unassociatedIncomePages.unassociatedIncomeNonVeteranRecipientPage.schema
+        .properties.unassociatedIncomes.items;
     const uiSchema =
-      unassociatedIncomePages.unassociatedIncomeRecipientPage.uiSchema
+      unassociatedIncomePages.unassociatedIncomeNonVeteranRecipientPage.uiSchema
         .unassociatedIncomes.items;
 
     testNumberOfFieldsByType(
