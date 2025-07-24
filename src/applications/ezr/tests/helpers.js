@@ -61,24 +61,16 @@ export const expectStateInputToBeRequired = (
 };
 
 // Enhanced to support additional store configuration while maintaining backward compatibility.
-export const setMockStoreData = (data, extra = {}) => ({
+export const setMockStoreData = data => ({
   mockStore: {
-    getState: () => ({
-      form: { data, ...extra.form },
-      user: { ...extra.user },
-      ...extra,
-    }),
+    getState: () => data,
     subscribe: () => {},
     dispatch: () => {},
   },
 });
 
 // Enhanced to support additional store configuration while maintaining backward compatibility.
-export const renderProviderWrappedComponent = (
-  storeData,
-  component,
-  extra = {},
-) => {
-  const { mockStore } = setMockStoreData(storeData, extra);
+export const renderProviderWrappedComponent = (storeData, component) => {
+  const { mockStore } = setMockStoreData(storeData);
   return render(<Provider store={mockStore}>{component}</Provider>);
 };
