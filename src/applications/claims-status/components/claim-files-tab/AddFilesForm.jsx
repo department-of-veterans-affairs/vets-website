@@ -219,43 +219,26 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   const [canShowUploadModal, setCanShowUploadModal] = useState(false);
   const fileInputRef = useRef(null);
 
-  // Track document type changes with a more efficient approach
+  // Track document type changes and clear errors immediately
   useEffect(
     () => {
-      if (!fileInputRef.current || files.length === 0) return undefined;
+      // Poll for document type changes to clear errors immediately
+      const interval = setInterval(() => {
+        const currentDocTypes = extractDocumentTypesFromShadowDOM(fileInputRef);
 
-      // Use a more efficient polling approach with longer intervals
-      const checkForDocTypeChanges = () => {
-        try {
-          const currentDocTypes = extractDocumentTypesFromShadowDOM(
-            fileInputRef,
-          );
-
-          // Clear errors only when document types have valid values
-          currentDocTypes.forEach((docType, index) => {
-            if (docType && docType.trim() !== '') {
-              setErrors(prevErrors => {
-                if (prevErrors[index] === DOC_TYPE_ERROR) {
-                  const newErrors = [...prevErrors];
-                  newErrors[index] = null;
-                  return newErrors;
-                }
-                return prevErrors;
-              });
-            }
-          });
-        } catch (error) {
-          // Silently handle shadow DOM access errors
-        }
-      };
-
-      // Use longer interval to reduce performance impact
-      const interval = setInterval(checkForDocTypeChanges, 200);
+        setErrors(prevErrors =>
+          clearSpecificErrors(
+            prevErrors,
+            DOC_TYPE_ERROR,
+            index => currentDocTypes[index]?.trim() !== '',
+          ),
+        );
+      }, 150);
 
       return () => clearInterval(interval);
     },
-    [files.length],
-  ); // Only re-run when number of files changes
+    [files],
+  );
 
   const handleFileChange = async event => {
     const { state } = event.detail;
