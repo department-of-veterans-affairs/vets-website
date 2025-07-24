@@ -17,7 +17,10 @@ import {
 import { getMonthlyIncome } from '../../utils/calculateIncome';
 import { getMonthlyExpenses } from '../../utils/calculateExpenses';
 
-describe('efsr-fsr transform helper functions', () => {
+// These tests have been deprecated by the transform_and_submit endpoint
+//  We should remove them, but let's batch it with the cleanup of the transform
+
+describe.skip('efsr-fsr transform helper functions', () => {
   describe('efsr-monthYearFormatter helper', () => {
     it('should return formatted date MM/YYYY', () => {
       expect(monthYearFormatter('2004-10-XX')).to.equal('10/2004');
@@ -418,7 +421,7 @@ describe('efsr-fsr transform helper functions', () => {
   });
 });
 
-describe('efsr-fsr transform information', () => {
+describe.skip('efsr-fsr transform information', () => {
   describe('efsr-personalIdentification', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
