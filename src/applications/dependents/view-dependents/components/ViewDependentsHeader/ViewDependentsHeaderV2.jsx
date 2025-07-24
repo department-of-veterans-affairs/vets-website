@@ -19,10 +19,20 @@ const CALLSTATUS = {
   skip: 'skipped',
 };
 
+function getIsWarningHidden() {
+  const rawStoredDate = localStorage.getItem('viewDependentsWarningClosedAt');
+  if (!rawStoredDate) {
+    return false;
+  }
+
+  const dateClosed = new Date(rawStoredDate);
+  return !Number.isNaN(dateClosed.getTime());
+}
+
 function ViewDependentsHeader(props) {
   const { updateDiariesStatus, showAlert } = props;
 
-  const [warningHidden, setWarningHidden] = useState(false);
+  const [warningHidden, setWarningHidden] = useState(getIsWarningHidden());
 
   useEffect(() => {
     focusElement('h1');
@@ -31,6 +41,10 @@ function ViewDependentsHeader(props) {
 
   function handleWarningClose() {
     setWarningHidden(true);
+    localStorage.setItem(
+      'viewDependentsWarningClosedAt',
+      new Date().toISOString(),
+    );
     scrollToTop();
     focusElement('.view-deps-header');
   }
