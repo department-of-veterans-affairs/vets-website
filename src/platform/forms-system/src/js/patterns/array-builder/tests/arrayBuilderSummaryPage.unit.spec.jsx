@@ -108,6 +108,7 @@ describe('ArrayBuilderSummaryPage', () => {
   function setupArrayBuilderSummaryPage({
     urlParams = '',
     arrayData = [],
+    radioData,
     title = 'Review your employers',
     required = () => false,
     maxItems = 5,
@@ -122,6 +123,7 @@ describe('ArrayBuilderSummaryPage', () => {
   }) {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
+    const onContinue = sinon.spy();
     let getText = helpers.initGetText({
       getItemName: item => item?.name,
       nounPlural: 'employers',
@@ -133,6 +135,11 @@ describe('ArrayBuilderSummaryPage', () => {
     const data = {
       employers: arrayData,
     };
+    if (radioData) {
+      // Added separately so the removed item tests doesn't need to include
+      // radio data
+      data['view:hasOption'] = radioData;
+    }
     const { mockStore } = mockRedux({
       formData: data,
       setFormData,
@@ -200,6 +207,7 @@ describe('ArrayBuilderSummaryPage', () => {
           uiSchema={processedUiSchema}
           data={processedData}
           onChange={() => {}}
+          onContinue={onContinue}
           onSubmit={() => {}}
           onReviewPage={false}
           goToPath={goToPath}
@@ -223,6 +231,7 @@ describe('ArrayBuilderSummaryPage', () => {
             data={newData}
             setFormData={setFormData}
             onChange={() => {}}
+            onContinue={onContinue}
             onSubmit={() => {}}
             onReviewPage={false}
             goToPath={goToPath}
@@ -243,6 +252,7 @@ describe('ArrayBuilderSummaryPage', () => {
       container,
       getByText,
       rerenderWithNewData,
+      onContinue,
     };
   }
 
@@ -405,6 +415,57 @@ describe('ArrayBuilderSummaryPage', () => {
       'va-alert[name="employersReviewError"]',
     );
     expect($errorAlert).to.not.exist;
+  });
+
+  it('should show an error alert on the summary page and prevent navigation', async () => {
+    const { container, onContinue } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, {}],
+      radioData: 'N',
+      useWebComponent: true,
+    });
+    const $errorAlert = container.querySelector('va-alert');
+    expect($errorAlert).to.include.text(
+      'This employer is missing information.',
+    );
+
+    fireEvent.click(container.querySelector('va-button[continue]'));
+    await expect(onContinue.called).to.be.false;
+  });
+
+  it('should show an error alert on the summary page and prevent navigation even if schema is set as required', async () => {
+    const { container, onContinue } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, {}],
+      radioData: 'N',
+      urlParams: '',
+      schema: {
+        type: 'object',
+        properties: {
+          'view:hasOption': arrayBuilderYesNoSchema,
+        },
+      },
+      useWebComponent: true,
+    });
+    const $errorAlert = container.querySelector('va-alert');
+    expect($errorAlert).to.include.text(
+      'This employer is missing information.',
+    );
+
+    fireEvent.click(container.querySelector('va-button[continue]'));
+
+    await expect(onContinue.called).to.be.false;
+  });
+
+  it('should show an error alert on the summary page and prevent navigation even if schema is set as required', async () => {
+    const { container, onContinue } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
+      radioData: 'N',
+      urlParams: '',
+      useWebComponent: true,
+    });
+    expect(container.querySelector('va-alert')).to.not.exist;
+
+    fireEvent.click(container.querySelector('va-button[continue]'));
+    await expect(onContinue.called).to.be.true;
   });
 
   it('should display summaryTitleWithoutItems and summaryDescriptionWithoutItems text override when array is empty', () => {
