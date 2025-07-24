@@ -2,6 +2,7 @@ import React from 'react';
 import { merge } from 'lodash';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
@@ -36,6 +37,8 @@ export const uiSchema = {
         },
         suffix: {
           'ui:title': 'Applicant’s previous suffix',
+          'ui:webComponentField': VaSelectField,
+          'ui:options': { classNames: 'form-select-medium' },
         },
       }),
       'view:suffixSpacing': {

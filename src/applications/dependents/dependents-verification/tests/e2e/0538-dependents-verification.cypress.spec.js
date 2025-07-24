@@ -33,9 +33,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
-            .last()
-            .click({ force: true });
+          cy.clickStartForm();
         });
       },
 
@@ -51,7 +49,7 @@ const testConfig = createTestConfig(
             .find('input[type="checkbox"]')
             .check({ force: true });
 
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
     },
