@@ -2,21 +2,22 @@
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+.form-10297-introduction-page {
+  .additional-info-content {
+    width: 40% !important;
+  }
+}
 
-
+@media screen and (max-width: 768px) {
+  .form-10297-introduction-page {
+    .additional-info-content {
+      width: 100% !important;
+    }
+  }
+}
 .need-help-container {
   width: 642px;
   @media (max-width: $small-screen) {
     width: 100%;
   }
 }
-
-.additional-info-content{
-    width: 40% !important;
-}
-@media screen and (min-width: 768px) {
-  .additional-info-content {
-    width: 100% !important;
-  }
-}
-

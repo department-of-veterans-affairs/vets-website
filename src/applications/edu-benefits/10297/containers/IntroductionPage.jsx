@@ -66,7 +66,7 @@ const IntroductionPage = props => {
   );
 
   return (
-    <article className="schemaform-intro">
+    <article className="schemaform-intro form-10297-introduction-page">
       <FormTitle title="Apply for the High Technology Program" />
       <div>
         <p className="vads-u-margin-y--2">
