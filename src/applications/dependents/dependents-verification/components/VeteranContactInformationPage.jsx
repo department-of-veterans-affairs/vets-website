@@ -19,7 +19,13 @@ const VeteranContactInformationPage = ({
 }) => {
   const alertRef = useRef(null);
   const { profile } = useSelector(selectUser);
-  const { email, phone, address, internationalPhone } = data;
+  const {
+    email,
+    phone,
+    address,
+    internationalPhone,
+    electronicCorrespondence,
+  } = data;
 
   const { vapContactInfo } = profile || {};
   const {
@@ -165,6 +171,10 @@ const VeteranContactInformationPage = ({
     .join(' and ');
   const article = !email ? 'an' : 'a';
 
+  const agreementMessage = electronicCorrespondence
+    ? 'I agree to receive electronic correspondence from the VA about my claim'
+    : 'I do not agree to receive electronic correspondence from the VA about my claim';
+
   return (
     <>
       <h3 className="vads-u-margin-y--2">
@@ -277,7 +287,18 @@ const VeteranContactInformationPage = ({
                 className="dd-privacy-hidden"
                 data-dd-action-name="Veteran's email"
               >
-                {email}
+                <div
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="Veteran's email"
+                >
+                  {email}
+                </div>
+                <div
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="Electronic correspondence"
+                >
+                  {agreementMessage}
+                </div>
               </span>
             ) : (
               <>
@@ -367,6 +388,7 @@ const VeteranContactInformationPage = ({
         goBack={goBack}
         goForward={handlers.onSubmit}
         submitToContinue
+        useWebComponents
       />
       {contentAfterButtons}
     </>
@@ -396,6 +418,7 @@ VeteranContactInformationPage.propTypes = {
       country: PropTypes.string,
     }),
     internationalPhone: PropTypes.string,
+    electronicCorrespondence: PropTypes.bool,
   }),
 };
 
