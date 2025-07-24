@@ -6,23 +6,29 @@ const ConfirmationDisputeInformation = ({ formData }) => {
   const { selectedDebts } = formData;
 
   return selectedDebts.map(debt => (
-    <div key={debt.selectedDebtId}>
+    <li key={debt.selectedDebtId}>
       <h4>{debt.label}</h4>
-      {reviewEntry(
-        null,
-        `dispute-reason-${debt.selectedDebtId}`,
-        {},
-        'Dispute reason',
-        debt.disputeReason,
-      )}
-      {reviewEntry(
-        null,
-        `dispute-support-statement-${debt.selectedDebtId}`,
-        {},
-        'Dispute statement',
-        debt.supportStatement,
-      )}
-    </div>
+      <ul
+        className="vads-u-padding--0"
+        data-testid={`${debt.label}+list`}
+        style={{ listStyle: 'none' }}
+      >
+        {reviewEntry(
+          null,
+          `dispute-reason-${debt.selectedDebtId}`,
+          {},
+          'Dispute reason',
+          debt.disputeReason,
+        )}
+        {reviewEntry(
+          null,
+          `dispute-support-statement-${debt.selectedDebtId}`,
+          {},
+          'Dispute statement',
+          debt.supportStatement,
+        )}
+      </ul>
+    </li>
   ));
 };
 

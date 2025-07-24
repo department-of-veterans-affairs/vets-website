@@ -1,10 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { format } from 'date-fns';
 import { reviewEntry } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
+import { FORMAT_READABLE_DATE_FNS } from '../../constants';
 
 const ConfirmationVeteranInformation = ({ formData }) => {
   const { veteran } = formData;
   const { email, fullName, ssn, dateOfBirth } = veteran || {};
+
+  const formattedDateOfBirth = dateOfBirth
+    ? format(dateOfBirth, FORMAT_READABLE_DATE_FNS)
+    : dateOfBirth;
 
   const {
     mobilePhone: { phoneNumber, countryCode, areaCode, extension },
@@ -25,132 +31,156 @@ const ConfirmationVeteranInformation = ({ formData }) => {
   } = veteran;
 
   return (
-    <>
+    <li>
       <h4>Veteran’s personal information</h4>
-      {fullName?.first &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-name-first`,
-          {},
-          'First name',
-          fullName?.first,
-        )}
-      {fullName?.middle &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-name-middle`,
-          {},
-          'Middle name',
-          fullName?.middle,
-        )}
-      {fullName?.last &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-name-last`,
-          {},
-          'Last name',
-          fullName?.last,
-        )}
-      {fullName?.suffix &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-name-suffix`,
-          {},
-          'Suffix',
-          fullName?.suffix,
-        )}
-      {dateOfBirth &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-dob`,
-          {},
-          'Date of birth',
-          dateOfBirth,
-        )}
+      <ul
+        className="vads-u-padding--0"
+        data-testid="vet-personal-info"
+        style={{ listStyle: 'none' }}
+      >
+        {fullName?.first &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-name-first`,
+            {},
+            'First name',
+            fullName?.first,
+          )}
+        {fullName?.middle &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-name-middle`,
+            {},
+            'Middle name',
+            fullName?.middle,
+          )}
+        {fullName?.last &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-name-last`,
+            {},
+            'Last name',
+            fullName?.last,
+          )}
+        {fullName?.suffix &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-name-suffix`,
+            {},
+            'Suffix',
+            fullName?.suffix,
+          )}
+        {formattedDateOfBirth &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-dob`,
+            {},
+            'Date of birth',
+            formattedDateOfBirth,
+          )}
+      </ul>
       <h4>Veteran’s identification information</h4>
-      {ssn &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-ssn`,
-          {},
-          'Social Security number',
-          `●●●–●●–${ssn}`,
-        )}{' '}
+      <ul
+        className="vads-u-padding--0"
+        data-testid="vet-id"
+        style={{ listStyle: 'none' }}
+      >
+        {ssn &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-ssn`,
+            {},
+            'Social Security number',
+            `●●●–●●–${ssn}`,
+          )}
+      </ul>
       <h4>Veteran’s mailing address</h4>
-      {countryName &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-country`,
-          {},
-          'Country',
-          countryName,
-        )}
-      {addressLine1 &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-address-line-1`,
-          {},
-          'Street address',
-          addressLine1,
-        )}
-      {addressLine2 &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-address-line-1`,
-          {},
-          'Street address line 2',
-          addressLine2,
-        )}
-      {addressLine3 &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-address-line-1`,
-          {},
-          'Street address line 3',
-          addressLine3,
-        )}
-      {city &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-city`,
-          {},
-          'City',
-          city,
-        )}
-      {stateCode &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-state`,
-          {},
-          'State',
-          stateCode,
-        )}
-      {zipCode &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-zip`,
-          {},
-          'Postal code',
-          zipCode,
-        )}
+      <ul
+        className="vads-u-padding--0"
+        data-testid="vet-mailing"
+        style={{ listStyle: 'none' }}
+      >
+        {countryName &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-country`,
+            {},
+            'Country',
+            countryName,
+          )}
+        {addressLine1 &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-address-line-1`,
+            {},
+            'Street address',
+            addressLine1,
+          )}
+        {addressLine2 &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-address-line-1`,
+            {},
+            'Street address line 2',
+            addressLine2,
+          )}
+        {addressLine3 &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-address-line-1`,
+            {},
+            'Street address line 3',
+            addressLine3,
+          )}
+        {city &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-city`,
+            {},
+            'City',
+            city,
+          )}
+        {stateCode &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-state`,
+            {},
+            'State',
+            stateCode,
+          )}
+        {zipCode &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-zip`,
+            {},
+            'Postal code',
+            zipCode,
+          )}
+      </ul>
       <h4>Veteran’s contact information</h4>
-      {formattedPhoneNumber &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-phone`,
-          {},
-          'Phone number',
-          formattedPhoneNumber,
-        )}
-      {email &&
-        reviewEntry(
-          null,
-          `veteran-personal-information-email`,
-          {},
-          'Email address',
-          email,
-        )}
-    </>
+      <ul
+        className="vads-u-padding--0"
+        data-testid="vet-contact-list"
+        style={{ listStyle: 'none' }}
+      >
+        {formattedPhoneNumber &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-phone`,
+            {},
+            'Phone number',
+            formattedPhoneNumber,
+          )}
+        {email &&
+          reviewEntry(
+            null,
+            `veteran-personal-information-email`,
+            {},
+            'Email address',
+            email,
+          )}
+      </ul>
+    </li>
   );
 };
 
