@@ -183,6 +183,7 @@ const formConfig = {
   getHelp: GetFormHelp,
   errorText: ErrorText,
   showReviewErrors: true,
+  isUsingModern4142Flow: false, // set to true if using the modern 4142 flow
   reviewErrors,
   defaultDefinitions: {
     ...fullSchema.definitions,

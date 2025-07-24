@@ -103,13 +103,6 @@ export const Form526Entry = ({
     form =>
       form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),
   );
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-
-  const isUsingModern4142Flow = useToggleValue(
-    TOGGLE_NAMES.disability526Enable2024Form4142,
-  );
-
-  formConfig.syncModern4142Flow = isUsingModern4142Flow;
 
   const title = `${getPageTitle(isBDDForm)}${
     isIntroPage(location) ? ` ${PAGE_TITLE_SUFFIX}` : ''
@@ -159,6 +152,9 @@ export const Form526Entry = ({
     },
     [loggedIn],
   );
+
+  const { useFormFeatureToggleSync } = useFeatureToggle();
+  useFormFeatureToggleSync(['disability526Enable2024Form4142']);
 
   if (!loggedIn) {
     // clear service branches if not logged in

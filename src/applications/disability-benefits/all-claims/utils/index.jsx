@@ -858,3 +858,14 @@ export const formatFullName = (fullName = {}) => {
 export function isUsingModern4142Flow() {
   return formConfig?.syncModern4142Flow;
 }
+
+/**
+ * Checks if
+ * 1. The flag for the modern 4142 flow is enabled
+ *
+ * @param {object} formData
+ * @returns {boolean} true if disability526Enable2024Form4142 is present, false otherwise
+ */
+export function isCompletingModern4142(formData) {
+  return formData?.disability526Enable2024Form4142 === true;
+}
