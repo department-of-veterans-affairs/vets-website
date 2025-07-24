@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -79,7 +78,7 @@ describe('educationalInstitutionsPages', () => {
       );
       expect($('va-text-input[label="Major"]'), container).to.exist;
     });
-    it('hides end date when currentlyEnrolled is true', async () => {
+    it('hides end date when currentlyEnrolled is true', () => {
       const { container } = render(
         <DefinitionTester
           schema={educationalInstitutionInstitutionAndDegreePage.schema}
@@ -91,17 +90,20 @@ describe('educationalInstitutionsPages', () => {
           pagePerItemIndex={0}
         />,
       );
+      // education dates and checkbox should be visible
+      expect($('va-date[label="Start date"]', container)).to.exist;
       expect($('va-date[label="End date"]', container)).to.exist;
       const currentlyEnrolled = $('va-checkbox', container);
       expect(currentlyEnrolled).to.exist;
       expect(currentlyEnrolled.getAttribute('checked')).to.equal('false');
+
+      // check currently enrolled checkbox
       $('va-checkbox', container).__events.vaChange({
         target: { checked: true },
       });
-      expect($('va-checkbox', container).getAttribute('checked')).to.equal(
-        'true',
-      );
+      // end date is hidden and checkbox is checked
       expect($('va-date[label="End date"]', container)).to.not.exist;
+      expect(currentlyEnrolled.getAttribute('checked')).to.equal('true');
     });
   });
 

@@ -74,11 +74,11 @@ const institutionAndDegreePage = {
       isCurrentChecked: (formData, index, fullData) => {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we cant rely on fullData for testing
-        const currentlyEnrolled =
-          formData?.educationalInstitutions?.[index]?.currentlyEnrolled ??
-          fullData?.educationalInstitutions?.[index]?.currentlyEnrolled;
+        const institutions =
+          formData.educationalInstitutions ?? fullData.educationalInstitutions;
+        const institution = institutions?.[index];
 
-        return currentlyEnrolled === true;
+        return institution?.currentlyEnrolled === true;
       },
     }),
     institution: selectUI('Institution type'),
@@ -106,20 +106,20 @@ const degreeInformationPage = {
       hideIf: (formData, index, fullData) => {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we cant rely on fullData for testing
-        const degreeReceived =
-          formData?.educationalInstitutions?.[index]?.degreeReceived ??
-          fullData?.educationalInstitutions?.[index]?.degreeReceived;
+        const institutions =
+          formData.educationalInstitutions ?? fullData.educationalInstitutions;
+        const institution = institutions?.[index];
 
-        return degreeReceived === false;
+        return institution?.degreeReceived === false;
       },
       required: (formData, index, fullData) => {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we cant rely on fullData for testing
-        const degreeReceived =
-          formData?.educationalInstitutions?.[index]?.degreeReceived ??
-          fullData?.educationalInstitutions?.[index]?.degreeReceived;
+        const institutions =
+          formData.educationalInstitutions ?? fullData.educationalInstitutions;
+        const institution = institutions?.[index];
 
-        return degreeReceived === true;
+        return institution?.degreeReceived === true;
       },
     }),
     reasonForNotCompleting: textareaUI({
@@ -127,20 +127,20 @@ const degreeInformationPage = {
       hideIf: (formData, index, fullData) => {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we cant rely on fullData for testing
-        const degreeReceived =
-          formData?.educationalInstitutions?.[index]?.degreeReceived ??
-          fullData?.educationalInstitutions?.[index]?.degreeReceived;
+        const institutions =
+          formData.educationalInstitutions ?? fullData.educationalInstitutions;
+        const institution = institutions?.[index];
 
-        return degreeReceived === true;
+        return institution?.degreeReceived === true;
       },
       required: (formData, index, fullData) => {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we cant rely on fullData for testing
-        const degreeReceived =
-          formData?.educationalInstitutions?.[index]?.degreeReceived ??
-          fullData?.educationalInstitutions?.[index]?.degreeReceived;
+        const institutions =
+          formData.educationalInstitutions ?? fullData.educationalInstitutions;
+        const institution = institutions?.[index];
 
-        return degreeReceived === false;
+        return institution?.degreeReceived === false;
       },
     }),
   },
