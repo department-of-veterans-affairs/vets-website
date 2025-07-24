@@ -16,6 +16,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { SummaryDescription } from '../../../components/RecurringIncomeSummaryDescription';
 import {
   formatCurrency,
   formatPossessiveString,
@@ -47,6 +48,13 @@ export const options = {
     !isDefined(item?.grossMonthlyIncome) ||
     !isDefined(item?.payer), // include all required fields here
   text: {
+    summaryTitle: 'Review recurring income',
+    summaryTitleWithoutItems: showUpdatedContent()
+      ? 'Recurring income that’s not from an account or property'
+      : null,
+    summaryDescriptionWithoutItems: showUpdatedContent()
+      ? SummaryDescription
+      : null,
     getItemName: (item, index, formData) => {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
@@ -123,6 +131,34 @@ const summaryPage = {
       'view:isAddingUnassociatedIncomes': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingUnassociatedIncomes'],
+  },
+};
+
+/** @returns {PageSchema} */
+const updatedSummaryPage = {
+  uiSchema: {
+    'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title:
+          'Will you or your dependents receive any income in the next year from sources other than bank accounts or property?',
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner, unmarried children under 18, full-time students under 23, and children who have a permanent disability that began before age 18.',
+        labelHeaderLevel: '2',
+        labelHeaderLevelStyle: '4',
+        labels: {
+          Y: 'Yes, I have recurring income to report',
+          N: 'No, I don’t have recurring income to report',
+        },
+      },
+      {
+        title: 'Do you have more recurring income to report?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
+    ),
   },
 };
 
@@ -267,7 +303,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
     unassociatedIncomePagesSummary: pageBuilder.summaryPage({
       title: 'Recurring income',
       path: 'recurring-income-summary',
-      uiSchema: summaryPage.uiSchema,
+      uiSchema: showUpdatedContent()
+        ? updatedSummaryPage.uiSchema
+        : summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     unassociatedIncomeVeteranRecipientPage: pageBuilder.itemPage({
