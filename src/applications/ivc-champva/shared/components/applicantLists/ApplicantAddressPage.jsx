@@ -1,53 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons, {
-  FormNavButtonContinue,
-} from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { IvcCustomPageNavButtons } from '../IvcCustomPageNavButtons';
 import { applicantWording } from '../../utilities';
 
-export function ApplicantAddressCopyPage({
-  contentBeforeButtons,
-  contentAfterButtons,
-  customAddressKey, // optional override of `applicantAddress` so we can target arbitrary addresses in the form
-  data,
-  fullData,
-  setFormData,
-  goBack,
-  goForward,
-  pagePerItemIndex,
-  updatePage,
-  onReviewPage,
-  customTitle,
-  customDescription,
-  customSelectText,
-  positivePrefix,
-  negativePrefix,
-}) {
+export function ApplicantAddressCopyPage(props) {
+  const {
+    contentBeforeButtons,
+    contentAfterButtons,
+    customAddressKey, // optional override of `applicantAddress` so we can target arbitrary addresses in the form
+    data,
+    fullData,
+    setFormData,
+    goForward,
+    pagePerItemIndex,
+    updatePage,
+    onReviewPage,
+    customTitle,
+    customDescription,
+    customSelectText,
+    positivePrefix,
+    negativePrefix,
+  } = props;
   const addressKey = customAddressKey ?? 'applicantAddress';
   // Get the current applicant from list, OR if we don't have a list of
   // applicants, just treat the whole form data object as a single applicant
-  const currentApp =
+  let currentApp =
     pagePerItemIndex && data?.applicants
       ? data?.applicants?.[pagePerItemIndex]
       : data;
+
+  // If currentApp is undefined just set to an empty object to prevent
+  if (!currentApp) currentApp = {};
+
   const [selectValue, setSelectValue] = useState(currentApp?.sharesAddressWith);
   const [address, setAddress] = useState(
-    data[addressKey] ?? currentApp?.[addressKey],
+    data?.[addressKey] ?? currentApp?.[addressKey],
   );
   // const [radioError, setRadioError] = useState(undefined);
   const [selectError, setSelectError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
 
-  const useTopBackLink =
-    contentAfterButtons?.props?.formConfig?.useTopBackLink ?? false;
-  const navButtons = useTopBackLink ? (
-    <FormNavButtonContinue submitToContinue />
-  ) : (
-    <FormNavButtons goBack={goBack} submitToContinue />
-  );
+  const navButtons = IvcCustomPageNavButtons(props);
 
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
@@ -254,6 +250,7 @@ export function ApplicantAddressCopyPage({
 }
 
 ApplicantAddressCopyPage.propTypes = {
+  arrayBuilder: PropTypes.object,
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   customAddressKey: PropTypes.string,
@@ -263,7 +260,6 @@ ApplicantAddressCopyPage.propTypes = {
   data: PropTypes.object,
   fullData: PropTypes.object,
   genOp: PropTypes.func,
-  goBack: PropTypes.func,
   goForward: PropTypes.func,
   keyname: PropTypes.string,
   negativePrefix: PropTypes.string,
