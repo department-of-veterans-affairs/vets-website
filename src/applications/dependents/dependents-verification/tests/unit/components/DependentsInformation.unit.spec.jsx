@@ -81,7 +81,7 @@ describe('DependentsInformation', () => {
   it('shows error if no selection is made', () => {
     const { container } = renderPage({ data: {} });
 
-    fireEvent.click($('button[type="submit"]', container));
+    fireEvent.click($('va-button[continue]', container));
 
     expect($('va-radio', container).getAttribute('error')).to.eq(
       'Select an option',
@@ -97,7 +97,7 @@ describe('DependentsInformation', () => {
       goForward: goForwardSpy,
     });
 
-    fireEvent.click($('button[type="submit"]', container));
+    fireEvent.click($('va-button[continue]', container));
 
     expect(goToPathSpy.notCalled).to.be.true;
     expect(goForwardSpy.called).to.be.true;
@@ -112,7 +112,7 @@ describe('DependentsInformation', () => {
       goForward: goForwardSpy,
     });
 
-    fireEvent.click($('button[type="submit"]', container));
+    fireEvent.click($('va-button[continue]', container));
 
     expect(goToPathSpy.notCalled).to.be.true;
     expect(goForwardSpy.called).to.be.true;
@@ -122,7 +122,7 @@ describe('DependentsInformation', () => {
     const goToPathSpy = sinon.spy();
     const { container } = renderPage({ data: {}, goToPath: goToPathSpy });
 
-    fireEvent.click($('button.usa-button-secondary', container));
+    fireEvent.click($('va-button[secondary]', container));
 
     expect(goToPathSpy.calledWith('/veteran-contact-information')).to.be.true;
   });
