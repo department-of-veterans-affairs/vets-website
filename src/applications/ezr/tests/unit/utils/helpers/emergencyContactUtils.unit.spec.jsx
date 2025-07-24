@@ -8,6 +8,8 @@ import {
   isItemIncomplete,
 } from '../../../../utils/helpers/emergencyContactUtils';
 
+import content from '../../../../locales/en/content.json';
+
 describe('Emergency Contact Utils', () => {
   describe('getItemName', () => {
     it('should return full name when first and last name are provided', () => {
@@ -51,39 +53,21 @@ describe('Emergency Contact Utils', () => {
   describe('getDeleteTitle', () => {
     it('should return the delete title text', () => {
       const result = getDeleteTitle();
-      expect(result).to.equal('Delete this emergency contact?');
+      expect(result).to.equal(content['emergency-contact-delete-title']);
     });
   });
 
   describe('getDeleteYes', () => {
     it('should return the delete confirmation text', () => {
       const result = getDeleteYes();
-      expect(result).to.equal('Yes, delete this emergency contact');
+      expect(result).to.equal(content['emergency-contact-delete-yes']);
     });
   });
 
   describe('getDeleteDescription', () => {
     it('should return the full delete description when first and last name are provided', () => {
-      const item = { itemData: { fullName: { first: 'John', last: 'Doe' } } };
-      const result = getDeleteDescription(item);
-      expect(result).to.equal(
-        'This will delete John Doe and all the information from your list of emergency contacts.',
-      );
-    });
-
-    it('should return a fallback delete description when names are missing', () => {
-      const itemWithMissingNames = { itemData: { fullName: {} } };
-      const result = getDeleteDescription(itemWithMissingNames);
-      expect(result).to.equal(
-        'This will delete this contact and all the information from your list of emergency contacts.',
-      );
-    });
-
-    it('should return a fallback delete description if item is undefined', () => {
-      const result = getDeleteDescription(undefined);
-      expect(result).to.equal(
-        'This will delete this contact and all the information from your list of emergency contacts.',
-      );
+      const result = getDeleteDescription();
+      expect(result).to.equal(content['emergency-contact-delete-description']);
     });
   });
 

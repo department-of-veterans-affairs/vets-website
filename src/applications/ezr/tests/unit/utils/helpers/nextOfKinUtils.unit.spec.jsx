@@ -8,6 +8,8 @@ import {
   isItemIncomplete,
 } from '../../../../utils/helpers/nextOfKinUtils';
 
+import content from '../../../../locales/en/content.json';
+
 describe('Next of Kin Utils', () => {
   describe('getItemName', () => {
     it('should return full name when first and last name are provided', () => {
@@ -51,39 +53,21 @@ describe('Next of Kin Utils', () => {
   describe('getDeleteTitle', () => {
     it('should return the delete title text', () => {
       const result = getDeleteTitle();
-      expect(result).to.equal('Delete this next of kin?');
+      expect(result).to.equal('Remove this next of kin?');
     });
   });
 
   describe('getDeleteYes', () => {
     it('should return the delete confirmation text', () => {
       const result = getDeleteYes();
-      expect(result).to.equal('Yes, delete this next of kin');
+      expect(result).to.equal('Yes, remove');
     });
   });
 
   describe('getDeleteDescription', () => {
-    it('should return the full delete description when first and last name are provided', () => {
-      const item = { itemData: { fullName: { first: 'John', last: 'Doe' } } };
-      const result = getDeleteDescription(item);
-      expect(result).to.equal(
-        'This will delete John Doe and all the information from your list of next of kins.',
-      );
-    });
-
-    it('should return a fallback delete description when names are missing', () => {
-      const itemWithMissingNames = { itemData: { fullName: {} } };
-      const result = getDeleteDescription(itemWithMissingNames);
-      expect(result).to.equal(
-        'This will delete this contact and all the information from your list of next of kins.',
-      );
-    });
-
-    it('should return a fallback delete description if item is undefined', () => {
-      const result = getDeleteDescription(undefined);
-      expect(result).to.equal(
-        'This will delete this contact and all the information from your list of next of kins.',
-      );
+    it('should return the delete description text', () => {
+      const result = getDeleteDescription();
+      expect(result).to.equal(content['next-of-kin-delete-description']);
     });
   });
 

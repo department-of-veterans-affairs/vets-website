@@ -1,5 +1,4 @@
 import content from '../../locales/en/content.json';
-import { replaceStrValues } from './general';
 
 /**
  * Helper to get the item name for the next of kin (NoK).
@@ -40,27 +39,13 @@ export const getDeleteNo = () => content['next-of-kin-delete-no'];
 
 /**
  * Helper to generate the delete description text.
- * @param {Object} item - The NoK item containing fullName.
  * @returns {String} - Returns the delete description, including the first and last name or a fallback if the names are missing.
  */
-export const getDeleteDescription = item => {
-  const firstName = item?.itemData?.fullName?.first;
-  const lastName = item?.itemData?.fullName?.last;
-
-  if (firstName && lastName) {
-    const fullName = `${firstName} ${lastName}`;
-    return replaceStrValues(
-      content['next-of-kin-delete-description'],
-      fullName,
-    );
-  }
-
-  // Fallback if data is missing
-  return content['next-of-kin-delete-description-default'];
-};
+export const getDeleteDescription = () =>
+  content['next-of-kin-delete-description'];
 
 /**
- * Helper to test if the item is in a completed state.
+ * Helper to test if the item is in a completed stated.
  * @param {Object} item - The NoK item.
  * @returns {String} - Returns true if the item has all required fields present.
  */

@@ -1,5 +1,5 @@
 import content from '../../locales/en/content.json';
-import { replaceStrValues } from './general';
+
 /**
  * Helper to get the item name for the emergency contact.
  * @param {Object} item - The emergency contact item containing fullName.
@@ -39,24 +39,10 @@ export const getDeleteNo = () => content['emergency-contact-delete-no'];
 
 /**
  * Helper to generate the delete description text.
- * @param {Object} item - The emergency contact item containing fullName.
- * @returns {String} - Returns the delete description, including the first and last name or a fallback if the names are missing.
+ * @returns {String} - Returns the delete description text.
  */
-export const getDeleteDescription = item => {
-  const firstName = item?.itemData?.fullName?.first;
-  const lastName = item?.itemData?.fullName?.last;
-
-  if (firstName && lastName) {
-    const fullName = `${firstName} ${lastName}`;
-    return replaceStrValues(
-      content['emergency-contact-delete-description'],
-      fullName,
-    );
-  }
-
-  // Fallback if data is missing
-  return content['emergency-contact-delete-description-default'];
-};
+export const getDeleteDescription = () =>
+  content['emergency-contact-delete-description'];
 
 /**
  * Helper to test if the item is in a completed stated.
