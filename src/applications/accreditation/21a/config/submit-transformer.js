@@ -119,7 +119,7 @@ const build21aPayload = data => {
         addressCountry: e.address?.country || null,
         phoneTypeId: PHONE_TYPE_ENUM.WORK,
         phoneNumber: `${e.phone.callingCode}${e.phone.contact}`,
-        phoneExtension: null,
+        phoneExtension: e.extension,
         startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
         // Not using `currentlyEmployed` so if it exists we set `endDate` to null
         // Adding a day here since GCLAWS requires it
@@ -148,7 +148,7 @@ const build21aPayload = data => {
       data.educationalInstitutions?.map(e => ({
         name: e.name,
         startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
-        endDate: `${e.dateRange?.to}-01` || null, // adding a day here since GCLAWS requires it
+        endDate: e.dateRange?.to ? `${e.dateRange.to}-01` : null, // adding a day here since GCLAWS requires it
         wasDegreeReceived: !!e.degreeReceived,
         major: e.major,
         degreeTypeId: DEGREE_TYPE_ENUM[e.degree],
