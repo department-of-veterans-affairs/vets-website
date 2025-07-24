@@ -103,7 +103,6 @@ const FormStartControls = props => {
         )}
         {!resumeOnly && (
           <VaButton
-            class="vads-u-margin-top--1"
             onClick={toggleModal}
             text={startNewAppButtonText}
             secondary={!isExpired}
