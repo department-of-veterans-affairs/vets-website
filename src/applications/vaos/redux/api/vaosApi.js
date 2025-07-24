@@ -43,7 +43,7 @@ export const vaosApi = createApi({
       },
     }),
     postDraftReferralAppointment: builder.mutation({
-      async queryFn(referralNumber, referralConsultId) {
+      async queryFn({ referralNumber, referralConsultId }) {
         try {
           return await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
             method: 'POST',
