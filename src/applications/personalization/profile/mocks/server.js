@@ -108,6 +108,7 @@ const responses = {
             profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
             profileShowPrivacyPolicy: false,
+            profileShowPaperlessDelivery: false,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
