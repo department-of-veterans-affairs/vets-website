@@ -144,17 +144,15 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    let routes = getRoutes();
+    let routes = getRoutes({
+      profileShowPaperlessDelivery: this.props.shouldShowPaperlessDelivery,
+    });
 
     // feature toggled route
     if (!this.props.shouldShowAccreditedRepTab) {
       routes = routes.filter(
         item => item.name !== 'Accredited representative or VSO',
       );
-    }
-
-    if (!this.props.shouldShowPaperlessDelivery) {
-      routes = routes.filter(item => item.name !== 'Paperless delivery');
     }
 
     return (
