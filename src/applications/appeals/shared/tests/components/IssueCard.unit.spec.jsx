@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { render, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { IssueCard } from '../../components/IssueCard';
 import { getAdditionalIssue, getContestableIssue } from '../test-utils';
 
@@ -61,5 +62,22 @@ describe('<IssueCard>', () => {
 
     expect($$('va-checkbox', container).length).to.equal(0);
     expect($$('.edit-issue-link', container).length).to.equal(0);
+  });
+
+  // Skipping this test as it requires interaction with the shadow DOM now that the
+  // checkbox has been converted to a web component. This is not supported until we get
+  // the Node 22 release implemented. Ticket created to revisit https://github.com/department-of-veterans-affairs/va.gov-team/issues/115083
+  xit('should call onChange when the checkbox is toggled', () => {
+    const onChange = sinon.spy();
+    const props = getProps({ onChange });
+    const issue = getContestableIssue('01', true);
+    const { container } = render(<IssueCard {...props} item={issue} />);
+
+    const input = $('input', container);
+    // "Click" the option
+    fireEvent.click(input, { target: { checked: true } });
+    // Check that it changed
+    expect(onChange.callCount).to.equal(1);
+    expect(onChange.firstCall.args[1].target.checked).to.be.true;
   });
 });
