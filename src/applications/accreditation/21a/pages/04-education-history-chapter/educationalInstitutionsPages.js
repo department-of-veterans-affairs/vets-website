@@ -79,7 +79,6 @@ const institutionAndDegreePage = {
           fullData?.educationalInstitutions?.[index]?.currentlyEnrolled;
 
         return currentlyEnrolled === true;
-        // return fullData?.educationalInstitutions?.[index]?.currentlyEnrolled;
       },
     }),
     institution: selectUI('Institution type'),
@@ -104,17 +103,45 @@ const degreeInformationPage = {
   uiSchema: {
     degree: selectUI({
       title: 'Type of degree',
-      hideIf: (formData, index, fullData) =>
-        !fullData?.educationalInstitutions?.[index]?.degreeReceived,
-      required: (formData, index, fullData) =>
-        fullData?.educationalInstitutions?.[index]?.degreeReceived,
+      hideIf: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we cant rely on fullData for testing
+        const degreeReceived =
+          formData?.educationalInstitutions?.[index]?.degreeReceived ??
+          fullData?.educationalInstitutions?.[index]?.degreeReceived;
+
+        return degreeReceived === false;
+      },
+      required: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we cant rely on fullData for testing
+        const degreeReceived =
+          formData?.educationalInstitutions?.[index]?.degreeReceived ??
+          fullData?.educationalInstitutions?.[index]?.degreeReceived;
+
+        return degreeReceived === true;
+      },
     }),
     reasonForNotCompleting: textareaUI({
       title: 'Explain why you did not complete this degree.',
-      hideIf: (formData, index, fullData) =>
-        !fullData?.educationalInstitutions?.[index]?.degreeReceived === false,
-      required: (formData, index, fullData) =>
-        fullData?.educationalInstitutions?.[index]?.degreeReceived === false,
+      hideIf: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we cant rely on fullData for testing
+        const degreeReceived =
+          formData?.educationalInstitutions?.[index]?.degreeReceived ??
+          fullData?.educationalInstitutions?.[index]?.degreeReceived;
+
+        return degreeReceived === true;
+      },
+      required: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we cant rely on fullData for testing
+        const degreeReceived =
+          formData?.educationalInstitutions?.[index]?.degreeReceived ??
+          fullData?.educationalInstitutions?.[index]?.degreeReceived;
+
+        return degreeReceived === false;
+      },
     }),
   },
   schema: {
