@@ -4,6 +4,7 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 
 import {
   nameAndDateOfBirth,
@@ -46,6 +47,10 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+  },
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
