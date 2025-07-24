@@ -36,6 +36,7 @@ export const filePresenceValidation = (
  *   minFileSize: 1024,
  *   headerSize: '3',
  *   skipUpload: true, // set to true if your app does not yet have a backend for upload
+ *   disallowEncryptedPdfs: true, // set to true to prohibit upload of encrypted pdfs
  *   formNumber: '20-10206', // required for upload
  *   additionalInputRequired: true, // user must supply additional input
  *   additionalInput: (error, data) => {
@@ -97,6 +98,7 @@ export const filePresenceValidation = (
  * @param {string} options.fileUploadUrl - url to which file will be uploaded
  * @param {string} options.formNumber - the form's number
  * @param {boolean} options.skipUpload - skip attempt to upload in dev when there is no backend
+ * @param {boolean} options.disallowEncryptedPdfs - don't allow encrypted pdfs
  * @returns {UISchemaOptions}
  */
 export const fileInputUI = options => {
