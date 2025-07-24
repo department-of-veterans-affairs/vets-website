@@ -1,33 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 
 const form686Url = getAppUrl('686C-674');
 
-const NavButtons = () => {
-  return (
-    <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-      <div className="small-6 medium-5 columns">
-        <button
-          type="button"
-          className="usa-button usa-button-secondary"
-          onClick={() => window.history.back()}
-        >
-          <span aria-hidden="true">«</span>
-          &nbsp;Back
-        </button>
-      </div>
-      <div className="small-6 medium-5 end columns">
-        <a className="usa-button" href={form686Url}>
-          Go to add or remove dependents form&nbsp;
-          <span aria-hidden="true">»</span>
-        </a>
-      </div>
-    </div>
-  );
-};
+export const ExitForm = ({ router }) => {
+  useEffect(() => {
+    scrollAndFocus('h1');
+  }, []);
 
-export const ExitForm = () => {
+  const handlers = {
+    goBack: () => {
+      router.push('/dependents');
+    },
+    goTo686: () => {
+      router.push(form686Url);
+    },
+  };
+
   return (
     <>
       <h1>Update your dependents in a different form</h1>
@@ -53,15 +44,25 @@ export const ExitForm = () => {
         After you get your decision letter for the dependents you updated, come
         back here to verify all your dependents.
       </p>
-
-      <NavButtons />
+      <div className="vads-u-margin-y--2 vads-u-display--flex">
+        <va-button
+          back
+          class="vads-u-margin-right--1"
+          onClick={handlers.goBack}
+        />
+        <va-button
+          continue
+          class="exit-form"
+          onClick={handlers.goTo686}
+          text="Go to add or remove dependents form"
+        />
+      </div>
     </>
   );
 };
 
 ExitForm.propTypes = {
-  contentBeforeButtons: PropTypes.node.isRequired,
-  contentAfterButtons: PropTypes.node.isRequired,
-  goBack: PropTypes.func.isRequired,
-  goForward: PropTypes.func.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
