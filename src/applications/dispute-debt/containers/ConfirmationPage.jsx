@@ -6,15 +6,17 @@ import {
   ConfirmationView,
   ChapterSectionCollection,
 } from 'platform/forms-system/src/js/components/ConfirmationView';
-import formConfig from '../config/form';
 import NeedHelp from '../components/NeedHelp';
 
-export const ConfirmationPage = props => {
+export const ConfirmationPage = ({ route }) => {
+  const { formConfig } = route;
+
   const form = useSelector(state => state.form || {});
   const { submission } = form;
-  const submitDate = submission?.timestamp;
+  const { response, timestamp } = submission || {};
+
   // no confirmation number is returned from the API currently
-  const confirmationNumber = submission?.response?.confirmationNumber || '';
+  const { confirmationNumber = '' } = response || {};
 
   // Dropping reason chapter to better match designs and avoid extra repeating noise
   const trimmedConfig = {
@@ -32,9 +34,8 @@ export const ConfirmationPage = props => {
   return (
     <ConfirmationView
       confirmationNumber={confirmationNumber}
-      formConfig={props.route?.formConfig}
-      pdfUrl={submission.response?.pdfUrl}
-      submitDate={submitDate}
+      formConfig={formConfig}
+      submitDate={timestamp || ''}
     >
       <ConfirmationView.SubmissionAlert
         title="Your dispute submission is in progress"
