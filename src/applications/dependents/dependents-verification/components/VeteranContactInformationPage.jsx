@@ -388,6 +388,7 @@ const VeteranContactInformationPage = ({
         goBack={goBack}
         goForward={handlers.onSubmit}
         submitToContinue
+        useWebComponents
       />
       {contentAfterButtons}
     </>
