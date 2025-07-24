@@ -305,7 +305,9 @@ export const isWithinRange = (dates, range) => {
  * @returns {boolean} True if within any service period
  */
 export const isWithinServicePeriod = (date, servicePeriods = []) => {
-  if (!date || !servicePeriods.length) return false;
+  if (!date || !Array.isArray(servicePeriods) || !servicePeriods.length) {
+    return false;
+  }
 
   return servicePeriods.some(period => isWithinRange(date, period.dateRange));
 };
