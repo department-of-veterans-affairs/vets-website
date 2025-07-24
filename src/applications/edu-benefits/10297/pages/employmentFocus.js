@@ -18,7 +18,7 @@ const uiSchema = {
   technologyAreaOfFocus: {
     ...radioUI({
       title: 'What’s your main area of focus in the technology industry? ',
-      errorMessages: { required: 'You must provide a response' },
+      required: () => true,
       labels: employmentFocusOptions,
     }),
   },
@@ -26,7 +26,6 @@ const uiSchema = {
 
 const schema = {
   type: 'object',
-  required: ['technologyAreaOfFocus'],
   properties: {
     technologyAreaOfFocus: radioSchema(Object.keys(employmentFocusOptions)),
   },

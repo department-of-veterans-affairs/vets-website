@@ -13,12 +13,12 @@ const uiSchema = {
         Y: 'Yes',
         N: 'No',
       },
+      required: () => true,
     }),
   },
 };
 const schema = {
   type: 'object',
-  required: ['isInTechnologyIndustry'],
   properties: {
     isInTechnologyIndustry: yesNoSchema,
   },
