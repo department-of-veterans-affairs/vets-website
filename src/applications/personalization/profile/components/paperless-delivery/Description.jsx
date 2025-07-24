@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Description = () => {
   return (
-    <p className="vads-u-margin-bottom--0">
+    <p>
       When you sign up, you’ll start receiving fewer documents by mail. Instead,
       your forms will only be securely stored on VA.gov, where you can access
       them anytime. You’ll get an email at the address in your VA.gov profile
