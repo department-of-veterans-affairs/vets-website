@@ -71,8 +71,15 @@ const institutionAndDegreePage = {
       toLabel: 'End date',
       currentLabel: 'I still go to school here.',
       currentKey: 'currentlyEnrolled',
-      isCurrentChecked: (fullData, index) => {
-        return fullData?.educationalInstitutions?.[index]?.currentlyEnrolled;
+      isCurrentChecked: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we cant rely on fullData for testing
+        const currentlyEnrolled =
+          formData?.educationalInstitutions?.[index]?.currentlyEnrolled ??
+          fullData?.educationalInstitutions?.[index]?.currentlyEnrolled;
+
+        return currentlyEnrolled === true;
+        // return fullData?.educationalInstitutions?.[index]?.currentlyEnrolled;
       },
     }),
     institution: selectUI('Institution type'),

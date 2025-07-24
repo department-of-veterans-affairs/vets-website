@@ -30,15 +30,25 @@ export const dateRangeWithCurrentCheckboxUI = ({
     {
       title: toLabel,
       hint: 'For example: January 2000',
-      hideIf: (formData, index, fullData) => isCurrentChecked(fullData, index),
+      hideIf: (formData, index, fullData) =>
+        isCurrentChecked(formData, index, fullData),
       required: (formData, index, fullData) =>
-        !isCurrentChecked(fullData, index),
+        !isCurrentChecked(formData, index, fullData),
     },
   ),
+  to: {
+    'ui:title': 'End date',
+    'ui:widget': 'date',
+    'ui:options': {
+      hideIf: (formData, index, fullData) =>
+        isCurrentChecked(formData, index, fullData),
+    },
+  },
   'view:currentToLabel': {
     'ui:description': toLabel,
     'ui:options': {
-      hideIf: (formData, index, fullData) => !isCurrentChecked(fullData, index),
+      hideIf: (formData, index, fullData) =>
+        isCurrentChecked(formData, index, fullData),
     },
   },
   // TODO: At somepoint we should update this so that the checkbox is before the to date for accessibility.

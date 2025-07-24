@@ -79,7 +79,7 @@ describe('educationalInstitutionsPages', () => {
       );
       expect($('va-text-input[label="Major"]'), container).to.exist;
     });
-    it('hides end date when currentlyEnrolled is true', () => {
+    it('hides end date when currentlyEnrolled is true', async () => {
       const { container } = render(
         <DefinitionTester
           schema={educationalInstitutionInstitutionAndDegreePage.schema}
