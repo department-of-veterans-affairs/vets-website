@@ -10,7 +10,7 @@ const { schema, uiSchema } = formConfig.chapters.fileInput.pages.fileInput;
 
 const pageTitle = 'mock file input';
 
-const expectedNumberOfWebComponentFields = 2;
+const expectedNumberOfWebComponentFields = 1;
 testNumberOfWebComponentFields(
   formConfig,
   schema,

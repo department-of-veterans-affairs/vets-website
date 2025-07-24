@@ -1,4 +1,5 @@
-import { checkIsEncryptedPdf } from 'platform/forms-system/src/js/utilities/file';
+import checkTypeAndExtensionMatches from './checkTypeAndExtensionMatches';
+import checkIsEncryptedPdf from './checkIsEncryptedPdf';
 
 /**
  * Read in first 256 bytes of the selected file to perform various checks before
@@ -46,12 +47,17 @@ export default function readAndCheckFile(file, checks) {
 }
 
 /**
+ * Perform standard checks on any file uploaded
  * @param {File} file
- * @returns {boolean} whether the pdf is encrypted
+ * @returns {{checkIsEncryptedPdf?: boolean, checkTypeAndExtensionMatches: boolean}} Object with check results - whether the pdf is encrypted and if type and extension match
  */
-export async function standardPdfEncryptionCheck(file) {
-  const { checkIsEncryptedPdf: result } = await readAndCheckFile(file, {
-    checkIsEncryptedPdf,
-  });
-  return result;
+export async function standardFileChecks(file) {
+  const isPdf = file.type === 'application/pdf';
+
+  const checks = {
+    ...(isPdf ? { checkIsEncryptedPdf } : {}),
+    checkTypeAndExtensionMatches,
+  };
+
+  return readAndCheckFile(file, checks);
 }
