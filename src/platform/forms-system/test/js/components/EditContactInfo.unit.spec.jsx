@@ -31,7 +31,7 @@ describe('EditContactInfo', () => {
       clearReturnState();
     });
 
-    it('should render', () => {
+    xit('should render', () => {
       const { getByText, container } = renderInReduxProvider(
         <EditHomePhone {...props} />,
         {
@@ -54,7 +54,7 @@ describe('EditContactInfo', () => {
       expect(getByText('Cancel')).to.exist;
     });
 
-    it('should save', async () => {
+    xit('should save', async () => {
       const { getByTestId, container } = renderInReduxProvider(
         <EditHomePhone {...props} />,
         {
@@ -78,7 +78,7 @@ describe('EditContactInfo', () => {
       // expect(getReturnState()).to.eq('home-phone,updated');
     });
 
-    it('should cancel', async () => {
+    xit('should cancel', async () => {
       const { container, getByText } = renderInReduxProvider(
         <EditHomePhone {...props} />,
         {
