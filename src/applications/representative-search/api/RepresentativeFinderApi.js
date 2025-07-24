@@ -20,6 +20,7 @@ class RepresentativeFinderApi {
     sort,
     type,
     distance,
+    featureToggles = {},
   ) {
     const params = resolveParamsWithUrl({
       address,
@@ -33,10 +34,11 @@ class RepresentativeFinderApi {
       distance,
     });
 
+    const endpoints = endpointOptions;
     const endpoint =
-      type === 'veteran_service_officer'
-        ? endpointOptions.fetchVSOReps
-        : endpointOptions.fetchOtherReps;
+      type === 'representative'
+        ? endpoints.fetchVSOReps
+        : endpoints.fetchOtherReps;
 
     const { requestUrl, apiSettings } = getApi(endpoint);
     const startTime = new Date().getTime();

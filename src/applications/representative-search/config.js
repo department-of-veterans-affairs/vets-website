@@ -2,6 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import compact from 'lodash/compact';
 import { RepresentativeType } from './constants';
 import manifest from './manifest.json';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 /* eslint-disable camelcase */
 
@@ -23,11 +24,47 @@ export const searchAreaOptions = {
   'Show all': 'Show all',
 };
 
-export const endpointOptions = {
-  fetchVSOReps: `/services/veteran/v0/vso_accredited_representatives`,
-  fetchOtherReps: `/services/veteran/v0/other_accredited_representatives`,
-  flagReps: `/representation_management/v0/flag_accredited_representatives`,
+
+// export const endpointOptions = (featureToggles = {}) => {
+//   const findARepresentativeUseAccreditedModels = 
+//     featureToggles.findARepresentativeUseAccreditedModels;
+
+//   if (findARepresentativeUseAccreditedModels) {
+//     return {
+//       fetchVSOReps: '/services/veteran/v0/vso_accredited_representatives',
+//       fetchOtherReps: '/services/veteran/v0/other_accredited_representatives',
+//       flagReps: '/representation_management/v0/flag_accredited_representatives',
+//     };
+//   }
+//   return {
+//     fetchVSOReps: '/representation_management/v0/accredited_individuals',
+//     fetchOtherReps: '/representation_management/v0/accredited_individuals',
+//     flagReps: '/representation_management/v0/flag_accredited_representatives',
+//   };
+// };
+
+export const endpointOptions = () => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const findARepresentativeUseAccreditedModels = useToggleValue(
+    TOGGLE_NAMES.findARepresentativeUseAccreditedModels,
+  );
+  
+  if (findARepresentativeUseAccreditedModels) {
+    return {
+      fetchVSOReps: `/services/veteran/v0/vso_accredited_representatives`,
+      fetchOtherReps: `/services/veteran/v0/other_accredited_representatives`,
+      flagReps: `/representation_management/v0/flag_accredited_representatives`,
+    };
+  }
+  return {
+    fetchVSOReps: `/representation_management/v0/accredited_individuals`,
+    fetchOtherReps: `/representation_management/v0/accredited_individuals`,
+    flagReps: `/representation_management/v0/flag_accredited_representatives`,
+  };
 };
+
+
+
 
 /*
  * Toggle true for local development
@@ -65,7 +102,13 @@ export const formatReportBody = newReport => {
  *  * @param requestBody {String} optional
  * @returns {requestUrl, apiSettings}
  */
-export const getApi = (endpoint, method = 'GET', requestBody) => {
+export const getApi = (endpoint, method = 'GET', requestBody, featureToggles) => {
+  // If endpoint is a key like 'fetchVSOReps', resolve it
+  if (typeof endpoint === 'string' && !endpoint.startsWith('/')) {
+    const endpoints = endpointOptions(featureToggles);
+    endpoint = endpoints[endpoint];
+  }
+  
   const requestUrl = `${baseUrl}${endpoint}`;
 
   const csrfToken = localStorage.getItem('csrfToken');
@@ -132,3 +175,4 @@ export const representativeTypes = {
   [RepresentativeType.ATTORNEY]: 'attorney',
   [RepresentativeType.CLAIM_AGENTS]: 'claim_agents',
 };
+
