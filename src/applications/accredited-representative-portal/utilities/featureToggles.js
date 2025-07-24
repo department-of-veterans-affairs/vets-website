@@ -1,22 +1,7 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
-export const isCustomLoginEnabled = () => {
-  // Always enable in localhost for development/testing
-  if (environment.isLocalhost()) {
-    return true;
-  }
+export const IsCustomLoginEnabled = () => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
 
-  // Use properly initialized Redux store when available
-  try {
-    if (window.__REDUX_STATE__?.featureToggles) {
-      return !!window.__REDUX_STATE__.featureToggles[
-        FEATURE_FLAG_NAMES.accreditedRepresentativePortalCustomLogin
-      ];
-    }
-  } catch (e) {
-    return false;
-  }
-
-  return false;
+  return useToggleValue(TOGGLE_NAMES.accreditedRepresentativePortalCustomLogin);
 };

@@ -11,7 +11,7 @@ import {
   OAUTH_KEYS as SIS_QUERY_PARAM_KEYS,
 } from '~/platform/utilities/oauth/constants';
 
-import { isCustomLoginEnabled } from './featureToggles';
+import { IsCustomLoginEnabled } from './featureToggles';
 
 const PLATFORM_SIGN_IN_URL = '/sign-in';
 const ARP_SIGN_IN_URL = '/representative/sign-in';
@@ -19,8 +19,7 @@ const USIP_BASE_URL = environment.BASE_URL;
 
 export const getSignInUrl = ({ returnUrl } = {}) => {
   // Get feature toggle with safe fallback
-  const useNewLogin = isCustomLoginEnabled();
-
+  const useNewLogin = IsCustomLoginEnabled();
   const signInPath = useNewLogin ? ARP_SIGN_IN_URL : PLATFORM_SIGN_IN_URL;
   const url = new URL(signInPath, USIP_BASE_URL);
   url.searchParams.set(USIP_QUERY_PARAMS.application, USIP_APPLICATIONS.ARP);
