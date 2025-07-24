@@ -9,6 +9,7 @@ import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
+import { PaperlessDelivery } from './components/paperless-delivery/PaperlessDelivery';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -67,6 +68,13 @@ export const routesForNav = [
     component: NotificationSettings,
     name: PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS,
     path: PROFILE_PATHS.NOTIFICATION_SETTINGS,
+    requiresLOA3: true,
+    requiresMVI: true,
+  },
+  {
+    component: PaperlessDelivery,
+    name: PROFILE_PATH_NAMES.PAPERLESS_DELIVERY,
+    path: PROFILE_PATHS.PAPERLESS_DELIVERY,
     requiresLOA3: true,
     requiresMVI: true,
   },
