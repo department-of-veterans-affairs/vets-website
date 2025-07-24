@@ -76,7 +76,7 @@ describe('unassociated income list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-radio[label="Are you or your dependents receiving or expecting to receive any income in the next 12 months from sources not related to an account or your assets?"]',
+        'va-radio[label="Will you or your dependents receive any income in the next year from sources other than bank accounts or property?"]',
       ],
       'summary page',
     );

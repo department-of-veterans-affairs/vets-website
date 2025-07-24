@@ -16,6 +16,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { SummaryDescription } from '../../../components/RecurringIncomeSummaryDescription';
 import {
   formatCurrency,
   formatPossessiveString,
@@ -47,6 +48,10 @@ export const options = {
     !isDefined(item?.grossMonthlyIncome) ||
     !isDefined(item?.payer), // include all required fields here
   text: {
+    summaryTitle: 'Review recurring income',
+    summaryTitleWithoutItems:
+      'Recurring income that’s not from an account or property',
+    summaryDescriptionWithoutItems: SummaryDescription,
     getItemName: (item, index, formData) => {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
@@ -101,11 +106,14 @@ const summaryPage = {
       options,
       {
         title:
-          'Are you or your dependents receiving or expecting to receive any income in the next 12 months from sources not related to an account or your assets?',
-        hint: 'If yes, you’ll need to report at least one income',
+          'Will you or your dependents receive any income in the next year from sources other than bank accounts or property?',
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner, unmarried children under 18, full-time students under 23, and children who have a permanent disability that began before age 18.',
+        labelHeaderLevel: '2',
+        labelHeaderLevelStyle: '4',
         labels: {
-          Y: 'Yes',
-          N: 'No',
+          Y: 'Yes, I have recurring income to report',
+          N: 'No, I don’t have recurring income to report',
         },
       },
       {
