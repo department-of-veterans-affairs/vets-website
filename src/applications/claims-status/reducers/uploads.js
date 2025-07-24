@@ -1,5 +1,3 @@
-import set from 'platform/utilities/data/set';
-
 import {
   RESET_UPLOADS,
   SET_UPLOADING,
@@ -39,7 +37,10 @@ export default function claimDetailReducer(state = initialState, action) {
       };
     }
     case SET_PROGRESS: {
-      return set('progress', action.progress, state);
+      return {
+        ...state,
+        progress: action.progress,
+      };
     }
     case DONE_UPLOADING: {
       return {
