@@ -66,12 +66,49 @@ export function getActivePages(pages, data) {
   return pages.filter(page => isActivePage(page, data));
 }
 
+// Accomodate array builder:
+export function getPageProperties(page) {
+  const allProperties = [];
+  if (
+    typeof page.arrayPath === 'string' &&
+    page.arrayPath.length > 0 &&
+    page.schema.properties?.[page.arrayPath]?.items
+  ) {
+    const { properties } = page.schema.properties[page.arrayPath].items;
+    allProperties.push(
+      ...Object.keys(properties).map(
+        key => `${page.arrayPath}.${page.index}.${key}`,
+      ),
+    );
+  } else if (page.schema) {
+    allProperties.push(...Object.keys(page.schema.properties));
+  }
+  return allProperties;
+}
+
+export function deleteNestedProperty(obj, pathString) {
+  let current = obj;
+  const pathToDelete = pathString.split('.');
+  for (let i = 0; i < pathToDelete.length - 1; i++) {
+    if (
+      current[pathToDelete[i]] === undefined ||
+      typeof current[pathToDelete[i]] !== 'object'
+    ) {
+      return; // Exit if path is invalid
+    }
+    current = current[pathToDelete[i]];
+  }
+  // Ensure the parent object exists before attempting deletion
+  if (current && typeof current === 'object') {
+    delete current[pathToDelete[pathToDelete.length - 1]];
+  }
+}
+
 export function getActiveProperties(activePages) {
   const allProperties = [];
   activePages.forEach(page => {
-    if (page.schema) {
-      allProperties.push(...Object.keys(page.schema.properties));
-    }
+    // Accomodate array builder:
+    allProperties.push(...getPageProperties(page));
   });
   return uniq(allProperties);
 }
@@ -255,10 +292,10 @@ export function filterInactivePageData(inactivePages, activePages, form) {
 
   return inactivePages.reduce(
     (formData, page) =>
-      Object.keys(page.schema.properties).reduce((currentData, prop) => {
+      getPageProperties(page).reduce((currentData, prop) => {
         newData = currentData;
         if (!activeProperties.includes(prop)) {
-          delete newData[prop];
+          delete deleteNestedProperty(newData, prop);
         }
         return newData;
       }, formData),
