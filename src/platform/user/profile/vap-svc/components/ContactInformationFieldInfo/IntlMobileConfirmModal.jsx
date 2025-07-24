@@ -41,9 +41,9 @@ const IntlMobileConfirmModal = ({
 
 IntlMobileConfirmModal.propTypes = {
   closeIntlMobileConfirmModal: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
   confirmFn: PropTypes.func,
   countryCode: PropTypes.number,
-  isOpen: PropTypes.bool.isRequired,
   phoneNumber: PropTypes.string,
 };
 
