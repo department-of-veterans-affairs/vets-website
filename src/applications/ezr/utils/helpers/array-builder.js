@@ -1,13 +1,19 @@
 import omit from '~/platform/utilities/data/omit';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 /**
- * Configuration for ArrayBuilder sections with maxItems: 1
- * Maps ArrayBuilder sections to their flat field equivalents for V1/V2 compatibility
+ * @file Contains configuration and utilities for ArrayBuilder used in the EZR form.
+ */
+
+/**
+ * Configuration for ArrayBuilder sections (defined by arrayPath) that need flattened or wrapped for V1/V2 compatibility.
+ * Maps ArrayBuilder sections and their fields to be flattened or wrapped.
  */
 export const ARRAY_BUILDER_CONFIG = {
   spouseInformation: {
     arrayPath: 'spouseInformation',
-    enabled: () => true,
+    enabled: (featureToggles = {}) =>
+      !!featureToggles?.ezrSpouseConfirmationFlowEnabled,
     fields: [
       'spouseFullName',
       'spouseSocialSecurityNumber',
@@ -22,7 +28,8 @@ export const ARRAY_BUILDER_CONFIG = {
   },
   financialInformation: {
     arrayPath: 'financialInformation',
-    enabled: () => true,
+    enabled: (featureToggles = {}) =>
+      !!featureToggles?.ezrProvidersAndDependentsPrefillEnabled,
     fields: [
       'view:veteranGrossIncome',
       'view:veteranNetIncome',
@@ -39,24 +46,50 @@ export const ARRAY_BUILDER_CONFIG = {
 
 /**
  * Get enabled ArrayBuilder configurations
- * @returns {Object} Object containing only enabled configurations
+ * @param {Object} featureToggles - Feature toggle values from Redux state.
+ * @returns {Object} Object containing only enabled configurations.
  */
-export function getEnabledConfigs() {
+export function getEnabledConfigs(featureToggles = {}) {
   return Object.fromEntries(
     Object.entries(ARRAY_BUILDER_CONFIG).filter(([, config]) => {
-      return config.enabled;
+      return config.enabled(featureToggles);
     }),
   );
 }
 
 /**
  * Convert single-item arrays to flat structures.
- * Takes ArrayBuilder array data and unwraps the single item to flat structure for submissions.
+ *
+ * Takes ArrayBuilder array data and unwraps the array to flat structure for submissions.
+ *
+ * @example
+ * // V1 Structure (Expected by existing code)
+ * {
+ *   "spouseFullName": { "first": "Jane", "last": "Doe" },
+ *   "spouseSocialSecurityNumber": "123456789",
+ *   "spouseDateOfBirth": "1980-01-01",
+ *   "cohabitedLastYear": false
+ * }
+ *
+ * // V2 Structure (What ArrayBuilder creates)
+ * {
+ *   "spouseInformation": [
+ *     {
+ *       "spouseFullName": { "first": "Jane", "last": "Doe" },
+ *       "spouseSocialSecurityNumber": "123456789",
+ *       "spouseDateOfBirth": "1980-01-01",
+ *       "cohabitedLastYear": false
+ *     }
+ *  ]
+ * }
+ *
  * @param {Object} formData - The form data containing single-item arrays.
+ * @param {Object} state - Application state containing feature toggle values from Redux state.
  * @returns {Object} Form data with single-item arrays flattened to root level.
  */
-export function unwrapSingleItem(formData) {
-  const configs = getEnabledConfigs();
+export function unwrapSingleItem(formData, state = {}) {
+  const featureToggles = toggleValues(state);
+  const configs = getEnabledConfigs(featureToggles);
   let result = { ...formData };
   Object.values(configs).forEach(config => {
     const { arrayPath } = config;
@@ -91,16 +124,39 @@ export function unwrapSingleItem(formData) {
 
 /**
  * Convert flat structures to single-item arrays.
- * Takes V1 flat data and wraps it in ArrayBuilder single-item array structure for prefill.
+ *
+ * @example
+ * // V1 Structure (Used by existing code)
+ * {
+ *   "spouseFullName": { "first": "Jane", "last": "Doe" },
+ *   "spouseSocialSecurityNumber": "123456789",
+ *   "spouseDateOfBirth": "1980-01-01",
+ *   "cohabitedLastYear": false
+ * }
+ *
+ * // V2 Structure (What ArrayBuilder creates)
+ * {
+ *   "spouseInformation": [
+ *     {
+ *       "spouseFullName": { "first": "Jane", "last": "Doe" },
+ *       "spouseSocialSecurityNumber": "123456789",
+ *       "spouseDateOfBirth": "1980-01-01",
+ *       "cohabitedLastYear": false
+ *     }
+ *   ]
+ * }
+ *
  * @param {Object} formData - The form data with flat fields.
+ * @param {Object} state - Application state containing feature toggle values from Redux state.
  * @returns {Object} Form data with flat fields wrapped in single-item arrays.
  */
-export function wrapInSingleArray(formData) {
+export function wrapInSingleArray(formData, state) {
+  const featureToggles = toggleValues(state);
+  const configs = getEnabledConfigs(featureToggles);
   if (!formData || typeof formData !== 'object') {
     return formData;
   }
 
-  const configs = getEnabledConfigs();
   const result = { ...formData };
 
   Object.values(configs).forEach(config => {

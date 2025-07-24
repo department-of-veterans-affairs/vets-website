@@ -1,5 +1,8 @@
 {
   "formData": {
+    "view:addInsurancePolicy": false,
+    "view:skipInsuranceInfo": true,
+    "hasTeraResponse": false,
     "veteranFullName": {
       "first": "Eric",
       "middle": "Victor",
@@ -49,32 +52,7 @@
     "dateOfMarriage": "1995-02-22",
     "cohabitedLastYear": true,
     "view:hasSpouseInformationToAdd": false,
-    "spouseInformation": [
-      {
-        "spouseAddress": {
-          "view:militaryBaseDescription": {},
-          "country": "USA",
-          "street": "12345 Street St.",
-          "street2": "Apartment 999",
-          "street3": "Suite 2",
-          "city": "Hills of Beverly",
-          "state": "CA",
-          "postalCode": "90210"
-        },
-        "spousePhone": "9991122222",
-        "provideSupportLastYear": true,
-        "cohabitedLastYear": false,
-        "sameAddress": false,
-        "spouseFullName": {
-        "first": "Mary",
-        "middle": "",
-        "last": "Bishop"
-      },
-        "spouseSocialSecurityNumber": "666834638",
-        "spouseDateOfBirth": "1971-09-11",
-        "dateOfMarriage": "1995-02-22"
-      }
-    ],
+    "sameAddress": true,
     "nonPrefill": {
       "previousFinancialInfo": {
         "veteranFinancialInfo": {
@@ -93,6 +71,33 @@
           "incomeYear": "2023"
         }
       }
+    },
+    "view:deductibleMedicalExpenses": {
+      "deductibleMedicalExpenses": 234
+    },
+    "view:deductibleFuneralExpenses": {
+      "deductibleFuneralExpenses": 11
+    },
+    "view:deductibleEducationExpenses": {
+      "deductibleEducationExpenses": 0
+    },
+    "view:veteranGrossIncome": {
+      "veteranGrossIncome": 3242434
+    },
+    "view:veteranNetIncome": {
+      "veteranNetIncome": 23424
+    },
+    "view:veteranOtherIncome": {
+      "veteranOtherIncome": 23424
+    },
+    "view:spouseGrossIncome": {
+      "spouseGrossIncome": 23424
+    },
+    "view:spouseNetIncome": {
+      "spouseNetIncome": 23424
+    },
+    "view:spouseOtherIncome": {
+      "spouseOtherIncome": 23424
     }
   },
   "metadata": {

@@ -60,7 +60,7 @@ export const expectStateInputToBeRequired = (
   expect(state).to.have.attr('required', 'true');
 };
 
-// Enhanced to support additional store configuration while maintaining backward compatibility.
+// Provides a mock store with the given data.
 export const setMockStoreData = data => ({
   mockStore: {
     getState: () => data,
@@ -69,7 +69,7 @@ export const setMockStoreData = data => ({
   },
 });
 
-// Enhanced to support additional store configuration while maintaining backward compatibility.
+// This can be used for rendering components that need the redux store.
 export const renderProviderWrappedComponent = (storeData, component) => {
   const { mockStore } = setMockStoreData(storeData);
   return render(<Provider store={mockStore}>{component}</Provider>);

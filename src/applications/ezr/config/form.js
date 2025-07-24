@@ -51,7 +51,6 @@ import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert'
 import PreSubmitNotice from '../components/PreSubmitNotice';
 import GetFormHelp from '../components/GetFormHelp';
 import FormFooter from '../components/FormFooter';
-import migrations from './migrations';
 
 // chapter 1 - Veteran Information
 import VeteranProfileInformation from '../components/FormPages/VeteranProfileInformation';
@@ -169,7 +168,6 @@ const formConfig = {
     collapsibleNavLinks: true,
     disableWindowUnloadInCI: true,
   },
-  migrations: [...migrations],
   chapters: {
     veteranInformation: {
       title: 'Veteran information',

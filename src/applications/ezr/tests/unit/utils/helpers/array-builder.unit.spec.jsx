@@ -4,6 +4,13 @@ import {
   wrapInSingleArray,
 } from '../../../../utils/helpers/array-builder';
 
+const mockState = {
+  featureToggles: {
+    ezrSpouseConfirmationFlowEnabled: true,
+    ezrProvidersAndDependentsPrefillEnabled: true,
+  },
+};
+
 describe('Array Builder - unwrapSingleItem', () => {
   it('should convert spouse array structure to flat structure', () => {
     const formDataWithArray = {
@@ -22,16 +29,9 @@ describe('Array Builder - unwrapSingleItem', () => {
       spouseFullName: { first: 'Jane', last: 'Doe' },
       spouseSocialSecurityNumber: '123456789',
       cohabitedLastYear: false,
-      spouseInformation: [
-        {
-          spouseFullName: { first: 'Jane', last: 'Doe' },
-          spouseSocialSecurityNumber: '123456789',
-          cohabitedLastYear: false,
-        },
-      ],
     };
 
-    const result = unwrapSingleItem(formDataWithArray);
+    const result = unwrapSingleItem(formDataWithArray, mockState);
     expect(result).to.deep.equal(expectedFlatData);
   });
 
@@ -46,13 +46,12 @@ describe('Array Builder - unwrapSingleItem', () => {
       anotherField: 'anotherValue',
     };
 
-    const result = unwrapSingleItem(formData);
+    const result = unwrapSingleItem(formData, mockState);
     expect(result).to.deep.equal(formData);
   });
 
   it('should handle financial information with view fields (from EZR test)', () => {
     const ezrFormData = {
-      'view:isProvidersAndDependentsPrefillEnabled': true,
       financialInformation: [
         {
           'view:deductibleMedicalExpenses': {
@@ -87,7 +86,7 @@ describe('Array Builder - unwrapSingleItem', () => {
       veteranFullName: { first: 'Jane', last: 'Doe' },
     };
 
-    const result = unwrapSingleItem(ezrFormData);
+    const result = unwrapSingleItem(ezrFormData, mockState);
 
     // Should extract the actual values from nested view fields
     expect(result.deductibleMedicalExpenses).to.equal(234);
@@ -105,7 +104,6 @@ describe('Array Builder - unwrapSingleItem', () => {
       first: 'Jane',
       last: 'Doe',
     });
-    expect(result['view:isProvidersAndDependentsPrefillEnabled']).to.be.true;
   });
 
   it('should handle simple flat fields in financial array', () => {
@@ -119,7 +117,7 @@ describe('Array Builder - unwrapSingleItem', () => {
       ],
     };
 
-    const result = unwrapSingleItem(simpleFinancialData);
+    const result = unwrapSingleItem(simpleFinancialData, mockState);
 
     expect(result.veteranGrossIncome).to.equal(50000);
     expect(result.veteranNetIncome).to.equal(40000);
@@ -150,7 +148,7 @@ describe('Array Builder - wrapInSingleArray', () => {
       ],
     };
 
-    const result = wrapInSingleArray(formDataWithFlat);
+    const result = wrapInSingleArray(formDataWithFlat, mockState);
     expect(result).to.deep.equal(expectedArrayData);
   });
 
@@ -194,12 +192,12 @@ describe('Array Builder - wrapInSingleArray', () => {
       ],
     };
 
-    const result = wrapInSingleArray(formDataWithFlat);
+    const result = wrapInSingleArray(formDataWithFlat, mockState);
     expect(result).to.deep.equal(expectedArrayData);
   });
 
   it('should handle empty form data', () => {
-    const result = wrapInSingleArray({});
+    const result = wrapInSingleArray({}, {});
     expect(result).to.deep.equal({});
   });
 
@@ -209,7 +207,7 @@ describe('Array Builder - wrapInSingleArray', () => {
       anotherField: 'anotherValue',
     };
 
-    const result = wrapInSingleArray(formData);
+    const result = wrapInSingleArray(formData, mockState);
     expect(result).to.deep.equal(formData);
   });
 });
