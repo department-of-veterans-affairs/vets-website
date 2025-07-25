@@ -38,11 +38,10 @@ export const arrayBuilderOptions = {
   minItems: 3, // TODO: [Fix arrayBuilder minItems validation](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/87155)
   maxItems: 4,
   text: {
-    getItemName: item => {
-      return `${item?.fullName?.first} ${item?.fullName?.last}${
+    getItemName: item =>
+      `${item?.fullName?.first} ${item?.fullName?.last}${
         item?.fullName?.suffix ? `, ${item?.fullName?.suffix}` : ''
-      }`;
-    },
+      }`,
     cardDescription: item => getCardDescription(item, CHAPTER_TYPE.CHARACTER),
     summaryDescription:
       'You must add at least 3 and no more than 4 character references.',
