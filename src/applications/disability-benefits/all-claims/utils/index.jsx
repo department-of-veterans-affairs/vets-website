@@ -33,7 +33,6 @@ import {
   CHAR_LIMITS,
 } from '../constants';
 import { getBranches } from './serviceBranches';
-import formConfig from '../config/form';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -856,10 +855,6 @@ export const formatFullName = (fullName = {}) => {
 
   return res.trim();
 };
-
-export function isUsingModern4142Flow() {
-  return formConfig?.syncModern4142Flow;
-}
 
 /**
  * Checks if
