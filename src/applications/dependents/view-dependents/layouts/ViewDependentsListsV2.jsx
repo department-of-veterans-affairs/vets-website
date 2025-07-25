@@ -47,11 +47,11 @@ function ViewDependentsLists(props) {
 
       <ul>
         <li>
-          <strong>receive the full amount</strong> you’re eligible for,{' '}
+          <strong>You receive the full amount</strong> you’re eligible for,{' '}
           <strong>and</strong>
         </li>
         <li>
-          <strong>avoid overpayments</strong>, which you’d{' '}
+          <strong>You avoid overpayments</strong>, which you’d{' '}
           <strong>have to repay</strong>
         </li>
       </ul>
