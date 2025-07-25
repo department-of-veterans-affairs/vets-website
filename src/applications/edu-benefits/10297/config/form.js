@@ -6,7 +6,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  nameAndDateOfBirth,
+  phoneAndEmail,
   identificationInformation,
   employmentStatus,
   employmentDetails,
@@ -47,20 +47,15 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
-      pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
-      },
-    },
     identificationChapter: {
       title: 'Veteran’s information',
       pages: {
+        phoneAndEmail: {
+          path: 'phone-and-email',
+          title: 'Phone and email address',
+          uiSchema: phoneAndEmail.uiSchema,
+          schema: phoneAndEmail.schema,
+        },
         identificationInformation: {
           path: 'identification-information',
           title: 'Identification information',
