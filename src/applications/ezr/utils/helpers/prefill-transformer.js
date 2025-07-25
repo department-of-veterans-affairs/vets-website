@@ -91,7 +91,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = { ...newData, veteranHomeAddress };
   }
 
-  // Wrap necessary data in nested arrays for prefill. .
+  // Wrap necessary data in nested arrays for prefill.
   newData = wrapInSingleArray(newData, state);
 
   return {

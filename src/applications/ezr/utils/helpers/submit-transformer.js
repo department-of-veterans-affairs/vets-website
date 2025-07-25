@@ -38,7 +38,6 @@ const setContactTypesOnContacts = (
  */
 export function submitTransformer(formConfig, form) {
   const { data: formData, loadedData } = form;
-
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     formData,
@@ -50,10 +49,10 @@ export function submitTransformer(formConfig, form) {
     activePages,
     form,
   );
-  let withoutViewFields = filterViewFields(withoutInactivePages);
-
   // Flatten data for V2/confirmation flows using ArrayBuilder.
-  withoutViewFields = unwrapSingleItem(withoutViewFields);
+  const unwrappedData = unwrapSingleItem(withoutInactivePages);
+
+  let withoutViewFields = filterViewFields(unwrappedData);
 
   let gaClientId;
 
