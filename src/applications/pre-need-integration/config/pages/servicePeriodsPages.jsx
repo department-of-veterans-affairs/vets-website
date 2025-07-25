@@ -3,12 +3,12 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   titleUI,
+  currentOrPastDateRangeUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import { serviceLabels } from '../../utils/labels';
 import {
@@ -238,7 +238,7 @@ export function servicePeriodInformationPage(isVet, isPrep) {
           },
         },
       ),
-      dateRange: dateRangeUI(
+      dateRange: currentOrPastDateRangeUI(
         handleTitle(
           isVet,
           isPrep,
