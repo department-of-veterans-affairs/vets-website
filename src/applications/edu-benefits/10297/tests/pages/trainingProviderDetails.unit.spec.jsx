@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
-import { trainingProviderDetails } from '../../pages/trainingProviderDetails';
+import * as trainingProviderDetails from '../../pages/trainingProviderDetails';
 
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
