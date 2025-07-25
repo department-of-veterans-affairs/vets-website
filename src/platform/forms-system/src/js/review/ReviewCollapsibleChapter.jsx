@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { Element } from 'platform/utilities/scroll';
 
 import classNames from 'classnames';
@@ -24,6 +24,23 @@ import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
 import { getPageKey } from '../utilities/review';
+
+/**
+ * HOC to provide router props to ReviewCollapsibleChapter class component
+ * This maintains the existing router.push API while using hooks internally
+ */
+function withRouterV5(WrappedComponent) {
+  return function ComponentWithRouter(props) {
+    const history = useHistory();
+
+    const router = {
+      push: history.push,
+      replace: history.replace,
+    };
+
+    return <WrappedComponent {...props} router={router} />;
+  };
+}
 
 /*
  * Displays all the pages in a chapter on the review page
@@ -495,7 +512,7 @@ ReviewCollapsibleChapter.propTypes = {
   onBlur: PropTypes.func,
 };
 
-export default withRouter(
+export default withRouterV5(
   connect(
     mapStateToProps,
     mapDispatchToProps,

@@ -12,7 +12,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { focusElement, scrollTo } from 'platform/utilities/ui';
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import {
   arrayBuilderContextObject,
   createArrayBuilderItemEditPath,
@@ -23,10 +23,12 @@ import {
   ARRAY_BUILDER_EVENTS,
 } from './ArrayBuilderEvents';
 
-const EditLink = withRouter(({ to, srText, router }) => {
+const EditLink = ({ to, srText }) => {
+  const history = useHistory();
+
   function handleRouteChange(event) {
     event.preventDefault();
-    router.push(to);
+    history.push(to);
   }
 
   return (
@@ -39,7 +41,12 @@ const EditLink = withRouter(({ to, srText, router }) => {
       label={srText}
     />
   );
-});
+};
+
+EditLink.propTypes = {
+  srText: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+};
 
 const RemoveButton = ({ onClick, srText }) => (
   <va-button-icon
@@ -50,6 +57,11 @@ const RemoveButton = ({ onClick, srText }) => (
   />
 );
 
+RemoveButton.propTypes = {
+  srText: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
 const MissingInformationAlert = ({ children }) => (
   <div className="vads-u-margin-top--2">
     <va-alert status="error" uswds class="array-builder-missing-info-alert">
@@ -57,6 +69,10 @@ const MissingInformationAlert = ({ children }) => (
     </va-alert>
   </div>
 );
+
+MissingInformationAlert.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 const IncompleteLabel = () => (
   <div className="vads-u-margin-bottom--1">
@@ -181,6 +197,7 @@ const ArrayBuilderCards = ({
   );
 
   Card.propTypes = {
+    children: PropTypes.node.isRequired,
     index: PropTypes.number.isRequired,
   };
 

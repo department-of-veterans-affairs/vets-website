@@ -42,6 +42,7 @@ export function checkValidPagePath(pageList, data, pathname) {
 
 export function goBack({
   formData,
+  history,
   index,
   location,
   onNavBack,
@@ -50,25 +51,29 @@ export function goBack({
   setData,
 }) {
   const path = getPreviousPagePath(pageList, formData, location.pathname);
+  const navigateFunction = history || router;
 
   if (typeof onNavBack === 'function') {
+    const urlParams =
+      location.query ||
+      Object.fromEntries(new URLSearchParams(location.search));
     onNavBack({
       formData,
-      goPath: customPath => router.push(customPath),
-      goPreviousPath: urlParams => {
-        const urlParamsString = stringifyUrlParams(urlParams);
-        router.push(path + (urlParamsString || ''));
+      goPath: customPath => navigateFunction.push(customPath),
+      goPreviousPath: urlParamsString => {
+        const urlStringified = stringifyUrlParams(urlParamsString);
+        navigateFunction.push(path + (urlStringified || ''));
       },
       pageList,
       pathname: location.pathname,
       setFormData: setData,
-      urlParams: location.query,
+      urlParams,
       index,
     });
     return;
   }
 
-  router.push(path);
+  navigateFunction.push(path);
 }
 
 export function getRoute(routes, location) {

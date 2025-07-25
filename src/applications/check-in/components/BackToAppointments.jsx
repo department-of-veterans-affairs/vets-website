@@ -1,8 +1,6 @@
 import React, { useCallback } from 'react';
-import { Link, withRouter } from 'react-router';
+import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-import PropTypes from 'prop-types';
 
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -12,8 +10,9 @@ import { useFormRouting } from '../hooks/useFormRouting';
 
 import { URLS } from '../utils/navigation';
 
-const BackToAppointments = ({ router }) => {
-  const { jumpToPage } = useFormRouting(router);
+const BackToAppointments = () => {
+  const history = useHistory();
+  const { jumpToPage } = useFormRouting({ push: history.push });
   const { t } = useTranslation();
   const handleClick = useCallback(
     e => {
@@ -43,8 +42,6 @@ const BackToAppointments = ({ router }) => {
   );
 };
 
-BackToAppointments.propTypes = {
-  router: PropTypes.object,
-};
+BackToAppointments.propTypes = {};
 
-export default withRouter(BackToAppointments);
+export default BackToAppointments;
