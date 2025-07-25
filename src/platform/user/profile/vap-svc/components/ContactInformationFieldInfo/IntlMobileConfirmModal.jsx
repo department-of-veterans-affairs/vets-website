@@ -11,6 +11,8 @@ const IntlMobileConfirmModal = ({
   phoneNumber,
   confirmFn,
 }) => {
+  if (!isOpen) return null;
+
   return (
     <VaModal
       data-testid="confirm-international-mobile-save-modal"
