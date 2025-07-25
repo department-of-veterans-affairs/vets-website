@@ -16,7 +16,7 @@ import {
   clearReturnState,
 } from '../../../src/js/utilities/data/profile';
 
-xdescribe('EditContactInfo', () => {
+describe('EditContactInfo', () => {
   const content = getContent();
 
   // Only testing EditHomePhone - other pages use same BuildPage code
@@ -31,8 +31,8 @@ xdescribe('EditContactInfo', () => {
       clearReturnState();
     });
 
-    xit('should render', () => {
-      const { getByText, container } = renderInReduxProvider(
+    it('should render', () => {
+      const { getByText, getByTestId, container } = renderInReduxProvider(
         <EditHomePhone {...props} />,
         {
           initialState: { vapProfile },
@@ -54,7 +54,7 @@ xdescribe('EditContactInfo', () => {
       expect(getByTestId('cancel-edit-button')).to.exist;
     });
 
-    xit('should save', async () => {
+    it('should save', async () => {
       const { getByTestId, container } = renderInReduxProvider(
         <EditHomePhone {...props} />,
         {
@@ -81,8 +81,8 @@ xdescribe('EditContactInfo', () => {
       // expect(getReturnState()).to.eq('home-phone,updated');
     });
 
-    xit('should cancel', async () => {
-      const { container, getByText } = renderInReduxProvider(
+    it('should cancel', async () => {
+      const { container, getByTestId } = renderInReduxProvider(
         <EditHomePhone {...props} />,
         {
           initialState: { vapProfile },
