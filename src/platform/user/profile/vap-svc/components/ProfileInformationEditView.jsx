@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
-import ConfirmIntlMobileSaveModal from '@@vap-svc/components/ContactInformationFieldInfo/IntlMobileConfirmModal';
+import IntlMobileConfirmModal from '@@vap-svc/components/ContactInformationFieldInfo/IntlMobileConfirmModal';
 import { ContactInfoFormAppConfigContext } from './ContactInfoFormAppConfigContext';
 import {
   createTransaction,
@@ -358,6 +358,7 @@ export class ProfileInformationEditView extends Component {
         transactionRequest,
         cancelButtonText,
         saveButtonText,
+        intlMobileConfirmModalEnabled,
       },
       onClickUpdateHandler,
     } = this;
@@ -461,7 +462,7 @@ export class ProfileInformationEditView extends Component {
             </SchemaForm>
           </div>
         )}
-        <ConfirmIntlMobileSaveModal />
+        {intlMobileConfirmModalEnabled && <IntlMobileConfirmModal />}
       </>
     );
   }
@@ -498,6 +499,7 @@ ProfileInformationEditView.propTypes = {
     uiSchema: PropTypes.object,
   }),
   forceEditView: PropTypes.bool,
+  intlMobileConfirmModalEnabled: PropTypes.string,
   saveButtonText: PropTypes.string,
   shouldFocusCancelButton: PropTypes.bool,
   successCallback: PropTypes.func,
@@ -543,6 +545,8 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
+    intlMobileConfirmModalEnabled:
+      state.vapService.intlMobileConfirmModal.isOpen,
   };
 };
 
