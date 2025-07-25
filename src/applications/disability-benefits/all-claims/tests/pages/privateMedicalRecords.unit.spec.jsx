@@ -74,7 +74,7 @@ describe('526 All Claims Private medical records', () => {
     expect($$('va-checkbox').length).to.equal(0); // Expect the acknowledgment to NOT be on screen
   });
 
-  // TODO: This will change once 4142 is integrated
+  // TODO: Implementing 4142 and will need flipper
   it('should not submit when user selects "no" to upload and does NOT check the acknowledgment', () => {
     const onSubmit = sinon.spy();
     const { getByText } = render(
