@@ -12,8 +12,13 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 export const ARRAY_BUILDER_CONFIG = {
   spouseInformation: {
     arrayPath: 'spouseInformation',
-    enabled: (featureToggles = {}) =>
-      !!featureToggles?.ezrSpouseConfirmationFlowEnabled,
+    enabled: data => {
+      const confirmationFlowFeatureEnabled =
+        data?.ezrSpouseConfirmationFlowEnabled;
+      const confirmationFlowFormEnabled =
+        data?.['view:isSpouseConfirmationFlowEnabled'];
+      return confirmationFlowFeatureEnabled || confirmationFlowFormEnabled;
+    },
     fields: [
       'spouseFullName',
       'spouseSocialSecurityNumber',
@@ -28,8 +33,16 @@ export const ARRAY_BUILDER_CONFIG = {
   },
   financialInformation: {
     arrayPath: 'financialInformation',
-    enabled: (featureToggles = {}) =>
-      !!featureToggles?.ezrProvidersAndDependentsPrefillEnabled,
+    enabled: data => {
+      const providersAndDependentsPrefillFeatureEnabled =
+        data?.ezrProvidersAndDependentsPrefillEnabled;
+      const providersAndDependentsPrefillFormEnabled =
+        data?.['view:isProvidersAndDependentsPrefillEnabled'];
+      return (
+        providersAndDependentsPrefillFeatureEnabled ||
+        providersAndDependentsPrefillFormEnabled
+      );
+    },
     fields: [
       'view:veteranGrossIncome',
       'view:veteranNetIncome',
@@ -49,10 +62,10 @@ export const ARRAY_BUILDER_CONFIG = {
  * @param {Object} featureToggles - Feature toggle values from Redux state.
  * @returns {Object} Object containing only enabled configurations.
  */
-export function getEnabledConfigs(featureToggles = {}) {
+export function getEnabledConfigs(data = {}) {
   return Object.fromEntries(
     Object.entries(ARRAY_BUILDER_CONFIG).filter(([, config]) => {
-      return config.enabled(featureToggles);
+      return config.enabled(data);
     }),
   );
 }
@@ -84,12 +97,11 @@ export function getEnabledConfigs(featureToggles = {}) {
  * }
  *
  * @param {Object} formData - The form data containing single-item arrays.
- * @param {Object} state - Application state containing feature toggle values from Redux state.
  * @returns {Object} Form data with single-item arrays flattened to root level.
  */
 export function unwrapSingleItem(formData, state = {}) {
   const featureToggles = toggleValues(state);
-  const configs = getEnabledConfigs(featureToggles);
+  const configs = getEnabledConfigs({ ...formData, ...featureToggles });
   let result = { ...formData };
   Object.values(configs).forEach(config => {
     const { arrayPath } = config;
@@ -116,6 +128,7 @@ export function unwrapSingleItem(formData, state = {}) {
         result[fieldName] = fieldValue;
       });
     }
+
     // Remove the array from the result to avoid submitting it to the API.
     result = omit(arrayPath, result);
   });
@@ -152,7 +165,7 @@ export function unwrapSingleItem(formData, state = {}) {
  */
 export function wrapInSingleArray(formData, state) {
   const featureToggles = toggleValues(state);
-  const configs = getEnabledConfigs(featureToggles);
+  const configs = getEnabledConfigs({ ...formData, ...featureToggles });
   if (!formData || typeof formData !== 'object') {
     return formData;
   }
