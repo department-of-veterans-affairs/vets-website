@@ -127,6 +127,7 @@ import prefillTransformer from './prefill-transformer';
 import { chapter as addChild } from './chapters/report-add-child';
 import { spouseAdditionalEvidence } from './chapters/additional-information/spouseAdditionalEvidence';
 import { childAdditionalEvidence as finalChildAdditionalEvidence } from './chapters/additional-information/childAdditionalEvidence';
+import CustomSubmissionError from '../components/CustomSubmissionError';
 import { spouseEvidence, childEvidence } from './utilities';
 
 const emptyMigration = savedData => savedData;
@@ -137,6 +138,7 @@ export const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   submit: customSubmit686,
+  submissionError: CustomSubmissionError,
   trackingPrefix: 'disability-21-686c-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
