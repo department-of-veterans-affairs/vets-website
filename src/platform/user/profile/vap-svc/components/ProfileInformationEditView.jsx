@@ -545,8 +545,8 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
-    /** Optional chains since test contexts might not provide the objects */
     intlMobileConfirmModalEnabled:
+      // Optional chains since test contexts might not provide the objects
       state?.vapService?.intlMobileConfirmModal?.isOpen || false,
   };
 };
