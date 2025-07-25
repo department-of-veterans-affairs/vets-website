@@ -29,7 +29,6 @@ const responses = {
   },
   'GET /v0/feature_toggles': (_req, res) => {
     const toggles = featureToggles.generateFeatureToggles({
-      mhvMedicationsToVaGovRelease: true,
       mhvMedicationsDisplayDocumentationContent: true,
     });
 
