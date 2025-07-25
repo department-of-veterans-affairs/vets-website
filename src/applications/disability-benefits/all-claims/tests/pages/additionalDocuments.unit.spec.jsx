@@ -5,9 +5,7 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import moment from 'moment';
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
-import {
-  DefinitionTester, // selectCheckbox
-} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { createStore } from 'redux';
 import { render } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';

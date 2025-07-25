@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -13,6 +13,15 @@ import { explanationRequired } from '../../../../constants/options';
 const pages = militaryServicePages;
 
 describe('Military Service Chapter Pages', () => {
+  const formData = {
+    militaryServiceExperiences: [
+      {
+        branch: 'Army',
+        dateRange: { from: '2020-01-01', to: '2021-01-01' },
+        currentlyServing: false,
+      },
+    ],
+  };
   context('Intro page', () => {
     it('renders the intro paragraph and all list items', () => {
       const { getByText, getAllByRole } = render(<MilitaryServiceIntro />);
@@ -96,57 +105,27 @@ describe('Military Service Chapter Pages', () => {
         <DefinitionTester
           schema={pages.militaryServiceExperienceBranchDateRangePage.schema}
           uiSchema={pages.militaryServiceExperienceBranchDateRangePage.uiSchema}
-          data={{
-            militaryServiceExperiences: [
-              {
-                branch: 'Army',
-                dateRange: { from: '2020-01-01', to: '2021-01-01' },
-                currentlyServing: false,
-              },
-            ],
-          }}
+          data={formData}
           arrayPath="militaryServiceExperiences"
           pagePerItemIndex={0}
         />,
       );
-      // service end date should be visible
+      // service dates and checkbox  should be visible
       expect($('va-date[label="Service start date"]', container)).to.exist;
       expect($('va-date[label="Service end date"]', container)).to.exist;
-
-      // check currently serving checkbox
-
       const currentlyServingCheckbox = $('va-checkbox', container);
-      expect(currentlyServingCheckbox.getAttribute('label')).to.eq(
-        'I am currently serving in this military service experience.',
+      expect(currentlyServingCheckbox).to.exist;
+      expect(currentlyServingCheckbox.getAttribute('checked')).to.equal(
+        'false',
       );
-      currentlyServingCheckbox.checked = true;
-      fireEvent.change(currentlyServingCheckbox, { target: { checked: true } });
 
-      if ($('va-date[label="Service end date"]', container)) {
-        const { container: updatedContainer } = render(
-          <DefinitionTester
-            schema={pages.militaryServiceExperienceBranchDateRangePage.schema}
-            uiSchema={
-              pages.militaryServiceExperienceBranchDateRangePage.uiSchema
-            }
-            data={{
-              militaryServiceExperiences: [
-                {
-                  branch: 'Army',
-                  dateRange: { from: '2020-01-01', to: '' },
-                  currentlyServing: true,
-                },
-              ],
-            }}
-            arrayPath="militaryServiceExperiences"
-            pagePerItemIndex={0}
-          />,
-        );
-        expect($('va-date[label="Service end date"]', updatedContainer)).to.not
-          .exist;
-      } else {
-        expect($('va-date[label="Service end date"]', container)).to.not.exist;
-      }
+      // check currently enrolled checkbox
+      $('va-checkbox', container).__events.vaChange({
+        target: { checked: true },
+      });
+      // end date is hidden and checkbox is checked
+      expect($('va-date[label="Service end date"]', container)).to.not.exist;
+      expect(currentlyServingCheckbox.getAttribute('checked')).to.equal('true');
     });
   });
 
