@@ -42,7 +42,7 @@ describe('DependentsInformationReview', () => {
       'Date of birthAugust 1, 2008',
       'Age17 years old',
       'RelationshipChild',
-      'Is your dependent information correct?Yes, my dependent information is correct.',
+      'Has the status of your dependents changed?Yes, I need to update my dependents’ information.',
     ]);
     expect(
       $$('.dd-privacy-hidden[data-dd-action-name]', container),
@@ -56,7 +56,7 @@ describe('DependentsInformationReview', () => {
 
     expect(container.textContent).to.contain('No dependents found');
     expect($('.review-row', container).textContent).to.include(
-      'Is your dependent information correct?Yes',
+      'Has the status of your dependents changed?Yes',
     );
   });
 
