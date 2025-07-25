@@ -461,7 +461,7 @@ export class ProfileInformationEditView extends Component {
             </SchemaForm>
           </div>
         )}
-        {fieldName === 'mobilePhone' && <ConfirmIntlMobileSaveModal />}
+        <ConfirmIntlMobileSaveModal />
       </>
     );
   }
