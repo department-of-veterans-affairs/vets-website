@@ -1,4 +1,4 @@
-import omit from '~/platform/utilities/data/omit';
+import omit from 'platform/utilities/data/omit';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 /**
@@ -99,7 +99,7 @@ export function getEnabledConfigs(data = {}) {
  * @param {Object} formData - The form data containing single-item arrays.
  * @returns {Object} Form data with single-item arrays flattened to root level.
  */
-export function unwrapSingleItem(formData, state = {}) {
+export function unwrapSingleItem(formData, state = { featureToggles: {} }) {
   const featureToggles = toggleValues(state);
   const configs = getEnabledConfigs({ ...formData, ...featureToggles });
   let result = { ...formData };
@@ -163,7 +163,7 @@ export function unwrapSingleItem(formData, state = {}) {
  * @param {Object} state - Application state containing feature toggle values from Redux state.
  * @returns {Object} Form data with flat fields wrapped in single-item arrays.
  */
-export function wrapInSingleArray(formData, state) {
+export function wrapInSingleArray(formData, state = { featureToggles: {} }) {
   const featureToggles = toggleValues(state);
   const configs = getEnabledConfigs({ ...formData, ...featureToggles });
   if (!formData || typeof formData !== 'object') {
