@@ -1012,7 +1012,7 @@ export const medicarePages = arrayBuilderPages(
       title: 'Medicare Part D status',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
-        return planType === 'd';
+        return planType === 'ab' || planType === 'c';
       },
       ...medicarePartDStatusPage,
     }),
