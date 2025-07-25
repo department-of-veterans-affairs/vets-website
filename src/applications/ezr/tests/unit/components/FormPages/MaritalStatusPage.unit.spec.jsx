@@ -33,7 +33,7 @@ describe('ezr MaritalStatusPage', () => {
     },
   });
 
-  const defaultExtra = {
+  const defaultState = {
     form: { prefillStatus: '' },
     user: { login: { currentlyLoggedIn: false } },
     onReviewPage: false,
@@ -46,9 +46,8 @@ describe('ezr MaritalStatusPage', () => {
       expect(props.name).to.equal('maritalStatusInformation');
       expect(props.title).to.equal('Marital Status');
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       expect(container).to.exist;
     });
@@ -56,9 +55,8 @@ describe('ezr MaritalStatusPage', () => {
     it('should render the marital status dropdown field.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       const maritalStatusField = container.querySelector(
         '[name="root_view:maritalStatus_maritalStatus"]',
@@ -70,9 +68,8 @@ describe('ezr MaritalStatusPage', () => {
     it('should render navigation buttons.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       // Check for actual navigation buttons with their CSS classes and text
       const backButton = container.querySelector('.usa-button-secondary');
@@ -86,9 +83,8 @@ describe('ezr MaritalStatusPage', () => {
     it('should render continue button when no form data is present.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       expect(container).to.exist;
       const continueButton = container.querySelector('.usa-button-primary');
@@ -107,9 +103,8 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       expect(container).to.exist;
       // Verify the marital status field shows "married" as selected
@@ -129,9 +124,8 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       expect(container).to.exist;
       // Verify the marital status field shows "never married" as selected
@@ -149,9 +143,8 @@ describe('ezr MaritalStatusPage', () => {
     it('should render in review mode.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        { ...defaultExtra, onReviewPage: true },
       );
       expect(container).to.exist;
       // In review mode, the component should render without errors
@@ -163,9 +156,8 @@ describe('ezr MaritalStatusPage', () => {
     it('should pass correct props to SchemaForm.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       expect(container).to.exist;
       expect(props.schema).to.equal(maritalStatusConfig.schema);
@@ -191,9 +183,8 @@ describe('ezr MaritalStatusPage', () => {
     it('should render continue button when no form data is present.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       expect(container).to.exist;
       const continueButton = container.querySelector('.usa-button-primary');
@@ -210,9 +201,8 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       expect(container).to.exist;
       const continueButton = container.querySelector('.usa-button-primary');
@@ -230,9 +220,8 @@ describe('ezr MaritalStatusPage', () => {
     it('should call goBack when the back button is clicked.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       expect(container).to.exist;
       const backButton = container.querySelector('.usa-button-secondary');
@@ -249,9 +238,8 @@ describe('ezr MaritalStatusPage', () => {
     it('should fire the onChange spy when marital status field changes.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       // Simulate a change event on the marital status field.
       const maritalStatusField = container.querySelector(
@@ -278,9 +266,8 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       // Simulate changing to divorced status.
       const maritalStatusField = container.querySelector(
@@ -306,9 +293,8 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       // Trigger modal by changing to divorced status.
       const maritalStatusField = container.querySelector(
@@ -336,9 +322,8 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        {},
+        defaultState,
         <MaritalStatusPage {...props} />,
-        defaultExtra,
       );
       // Trigger modal by changing to divorced status.
       const maritalStatusField = container.querySelector(

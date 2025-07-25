@@ -8,8 +8,12 @@ describe('ezr <SpouseSummaryCardDescription>', () => {
     it('should still render the marital status', () => {
       const { container } = renderProviderWrappedComponent(
         {
-          'view:maritalStatus': {
-            maritalStatus: 'married',
+          form: {
+            data: {
+              'view:maritalStatus': {
+                maritalStatus: 'married',
+              },
+            },
           },
         },
         <SpouseSummaryCardDescription item={null} />,
@@ -25,8 +29,12 @@ describe('ezr <SpouseSummaryCardDescription>', () => {
     it('should render the marital status', () => {
       const { container } = renderProviderWrappedComponent(
         {
-          'view:maritalStatus': {
-            maritalStatus: 'married',
+          form: {
+            data: {
+              'view:maritalStatus': {
+                maritalStatus: 'married',
+              },
+            },
           },
         },
         <SpouseSummaryCardDescription item={{}} />,
@@ -41,8 +49,12 @@ describe('ezr <SpouseSummaryCardDescription>', () => {
     it('should render the marital status', () => {
       const { container } = renderProviderWrappedComponent(
         {
-          'view:maritalStatus': {
-            maritalStatus: 'separated',
+          form: {
+            data: {
+              'view:maritalStatus': {
+                maritalStatus: 'separated',
+              },
+            },
           },
         },
         <SpouseSummaryCardDescription item={{}} />,
@@ -57,8 +69,12 @@ describe('ezr <SpouseSummaryCardDescription>', () => {
     it('should render the marital status', () => {
       const { container } = renderProviderWrappedComponent(
         {
-          'view:maritalStatus': {
-            maritalStatus: 'divorced',
+          form: {
+            data: {
+              'view:maritalStatus': {
+                maritalStatus: 'divorced',
+              },
+            },
           },
         },
         <SpouseSummaryCardDescription item={{}} />,
