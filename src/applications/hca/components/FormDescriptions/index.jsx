@@ -7,41 +7,12 @@ export const BirthInfoDescription = (
   <>
     <va-additional-info
       trigger="Why we ask for this information"
-      class="vads-u-margin-bottom--3"
+      class="vads-u-margin-bottom--4"
     >
       We ask for place of birth as an identity marker for record keeping. This
       will not impact your health care eligibility.
     </va-additional-info>
   </>
-);
-
-export const BirthSexDescription = (
-  <va-additional-info
-    trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
-    uswds
-  >
-    <div>
-      <p className="vads-u-margin-top--0">
-        Population data shows that a person’s sex can affect things like their
-        health risks and the way their body responds to medications. Knowing
-        your sex assigned at birth, along with other factors, helps your health
-        care team use data to:
-      </p>
-
-      <ul>
-        <li>Interpret your lab results</li>
-        <li>Prescribe the right dose of medications</li>
-        <li>Recommend health prevention screenings</li>
-      </ul>
-
-      <p className="vads-u-margin-bottom--0">
-        We also collect this information to better understand our Veteran
-        community. This helps us make sure that we’re serving the needs of all
-        Veterans.
-      </p>
-    </div>
-  </va-additional-info>
 );
 
 export const ContactInfoDescription = (
@@ -59,31 +30,20 @@ export const ContactInfoDescription = (
   </>
 );
 
-export const DemographicInfoDescription = (
-  <legend className="schemaform-label vads-u-margin-bottom--4">
+export const DemographicInfoTitle = (
+  <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--source-sans-normalized vads-u-line-height--4 vads-u-display--block">
     What is your race, ethnicity, or origin? (Please check all that apply.)
-    <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+    <span className="vads-u-color--gray-medium vads-u-display--block">
       Information is gathered for statistical purposes only.
-    </div>
-  </legend>
+    </span>
+  </span>
 );
 
 /** CHAPTER 2: VA Benefits */
-export const CompensationInfoDescription = (
-  <p className="vads-u-margin-bottom-4">
-    VA disability compensation (pay) provides monthly payments to Veterans with
-    service-connected disabilities. You may get this benefit if you got sick or
-    injured, or had a condition that got worse, because of your active-duty
-    service. We assign a disability rating based on the severity of your
-    disability.
-  </p>
-);
-
-export const CompensationTypeDescription = (
+export const DisabilityRatingDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
-    uswds
+    class="vads-u-margin-bottom--4"
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -114,19 +74,10 @@ export const CompensationTypeDescription = (
   </va-additional-info>
 );
 
-export const PensionInfoDescription = (
-  <p className="vads-u-margin-bottom-4">
-    Our Veterans Pension program provides monthly payments to certain wartime
-    Veterans. To get a Veterans Pension, you must meet certain age or disability
-    requirements and have income and net worth certain limits.
-  </p>
-);
-
-export const PensionTypeDescription = (
+export const PensionDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
-    uswds
+    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -162,22 +113,10 @@ export const ServiceDateRangeDescription = (
 );
 
 /** CHAPTER 4: Household Information */
-export const DeductibleExpensesDescription = () => (
-  <legend className="schemaform-block-title">
-    Deductible expenses from {LAST_YEAR}
-    <span className="sr-only">.</span>
-    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-y--2">
-      These deductible expenses will lower the amount of money we count as your
-      income.
-    </div>
-  </legend>
-);
-
 export const DependentDescription = () => (
   <va-additional-info
     trigger="Who we consider a dependent"
     class="vads-u-margin-top--2 vads-u-margin-bottom--3"
-    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -223,7 +162,6 @@ export const DependentSupportDescription = (
   <va-additional-info
     trigger="What we consider financial support for a dependent"
     class="vads-u-margin-top--2 vads-u-margin-bottom--3"
-    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -246,7 +184,6 @@ export const EducationalExpensesDescription = (
   <va-additional-info
     trigger="What we consider college or vocational expenses"
     class="vads-u-margin-y--1"
-    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -276,8 +213,7 @@ export const GrossIncomeDescription = (
 
     <va-additional-info
       trigger="What we consider gross annual income"
-      class="vads-u-margin-y--1"
-      uswds
+      class="vads-u-margin-top--1 vads-u-margin-bottom--4"
     >
       <div>
         <p className="vads-u-font-weight--bold vads-u-margin-top--0">
@@ -327,25 +263,20 @@ export const IncomeDescription = (
 export const MaritalStatusDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
-    uswds
+    class="vads-u-margin-bottom--4"
   >
-    <div>
-      <p className="vads-u-margin-top--0">
-        We want to make sure we understand your household’s financial
-        information to better determine what health care benefits you can get.
-        If you’re married, we also need to understand your spouse’s financial
-        information.
-      </p>
-    </div>
+    <p>
+      We want to make sure we understand your household’s financial information
+      to better determine what health care benefits you can get. If you’re
+      married, we also need to understand your spouse’s financial information.
+    </p>
   </va-additional-info>
 );
 
 export const MedicalExpensesDescription = (
   <va-additional-info
     trigger="What we consider non-reimbursable medical expenses"
-    class="vads-u-margin-y--1"
-    uswds
+    class="vads-u-margin-top--1 vads-u-margin-bottom--4"
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -377,7 +308,6 @@ export const OtherIncomeDescription = (
     <va-additional-info
       trigger="What we consider other annual income"
       class="vads-u-margin-y--1"
-      uswds
     >
       <div>
         <p className="vads-u-font-weight--bold vads-u-margin-top--0">
@@ -395,33 +325,10 @@ export const OtherIncomeDescription = (
   </>
 );
 
-export const SpouseBasicInformationDescription = (
-  <>
-    Spouse’s personal information
-    <span className="sr-only">.</span>
-    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-y--2">
-      Fill this out to the best of your knowledge. The more accurate your
-      responses, the faster we can process your application.
-    </div>
-  </>
-);
-
-export const SpouseAdditionalInformationTitle = (
-  <>
-    Spouse’s additional information
-    <span className="sr-only">.</span>
-    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2">
-      Fill this out to the best of your knowledge. The more accurate your
-      responses, the faster we can process your application.
-    </div>
-  </>
-);
-
 export const SpouseAdditionalInformationDescription = () => (
   <va-additional-info
     trigger="Why we ask for this information"
     class="vads-u-margin-top--1 vads-u-margin-bottom--4"
-    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -435,8 +342,7 @@ export const SpouseAdditionalInformationDescription = () => (
 export const SpouseFinancialSupportDescription = (
   <va-additional-info
     trigger="What we consider financial support for a spouse"
-    class="vads-u-margin-y--2"
-    uswds
+    class="vads-u-margin-bottom--4"
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -498,11 +404,11 @@ export const GroupCodeDescription = (
 
 export const MedicaidDescription = (
   <>
-    <p className="vads-u-margin-top--0">
+    <p>
       Medicaid is a federal health insurance program for adults and families
       with low income levels and people with disabilities.
     </p>
-    <p className="vads-u-margin-bottom--4">
+    <p>
       <strong>Note:</strong> Some states use different names for their Medicaid
       programs.
     </p>
@@ -511,15 +417,14 @@ export const MedicaidDescription = (
 
 export const MedicareClaimNumberDescription = (
   <>
-    <div className="vads-u-color--gray-medium">
+    <div className="vads-u-margin-top--2 vads-u-color--gray-medium">
       You’ll find this number on the front of your Medicare card. Enter all 11
       numbers and letters.
     </div>
 
     <va-additional-info
       trigger="Why we ask for this information"
-      class="vads-u-margin-top--3 vads-u-margin-bottom--4"
-      uswds
+      class="vads-u-margin-top--2 vads-u-margin-bottom--4"
     >
       <div>
         <p className="vads-u-margin-top--0">
@@ -549,19 +454,10 @@ export const MedicareClaimNumberDescription = (
 );
 
 export const MedicareEffectiveDateDescription = (
-  <div className="vads-u-margin-bottom--3 vads-u-color--gray-medium">
+  <div className="vads-u-margin-top--2 vads-u-margin-bottom--4 vads-u-color--gray-medium">
     You’ll find this date under “coverage starts” on the front of your Medicare
     card.
   </div>
-);
-
-export const MedicarePartADescription = (
-  <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-    Medicare is a federal health insurance program providing coverage for people
-    who are 65 years or older or who meet special criteria. Part A insurance
-    covers hospital care, skilled nursing and nursing home care, hospice, and
-    home health services.
-  </p>
 );
 
 export const PolicyNumberDescription = (

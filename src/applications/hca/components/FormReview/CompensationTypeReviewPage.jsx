@@ -4,9 +4,9 @@ import { Link } from 'react-router';
 import content from '../../locales/en/content.json';
 
 const labels = {
-  highDisability: content['compensation-type-review--high-disability-label'],
-  lowDisability: content['compensation-type-review--low-disability-label'],
-  default: content['compensation-type-review--default-label'],
+  highDisability: content['benefits--disability-rating-high-label'],
+  lowDisability: content['benefits--disability-rating-low-label'],
+  default: content['form--default-no-label'],
 };
 
 const CompensationTypeReviewPage = ({ data }) => {
@@ -20,12 +20,12 @@ const CompensationTypeReviewPage = ({ data }) => {
       <form className="rjsf" noValidate="">
         <div className="form-review-panel-page-header-row">
           <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-            {content['compensation-type-review--page-header']}
+            {content['benefits--disability-rating-title']}
           </h4>
         </div>
         <dl className="review">
           <div className="review-row">
-            <dt>{content['compensation-type-review--question-title']}</dt>
+            <dt>{content['benefits--disability-rating-label']}</dt>
             <dd
               className="dd-privacy-hidden"
               data-dd-action-name="VA disability compensation"
@@ -35,11 +35,11 @@ const CompensationTypeReviewPage = ({ data }) => {
           </div>
         </dl>
         <p className="vads-u-margin-top--1p5">
-          {content['compensation-type-review--disclaimer']}
+          {content['benefits--disability-rating-review-disclaimer']}
         </p>
         <p className="vads-u-margin-bottom--0p5">
           <Link to="/va-benefits/basic-information" data-testid="hca-nav-link">
-            {content['compensation-type-review--back-button-text']}
+            {content['benefits--disability-rating-review-back-button-text']}
           </Link>
         </p>
       </form>

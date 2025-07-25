@@ -1,37 +1,38 @@
 import merge from 'lodash/merge';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 import { FULL_SCHEMA } from '../../../utils/imports';
+import content from '../../../locales/en/content.json';
 
 const { spouseAddress: address, spousePhone } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Spouse\u2019s address and phone number',
+    ...titleUI(content['household-info--spouse-contact-info-title']),
     spouseAddress: merge({}, addressUI(null, true), {
       street: {
-        'ui:title': 'Street address',
+        'ui:title': content['contact-info--street-address-label'],
         'ui:errorMessages': {
-          pattern:
-            'Please provide a valid street. Must be at least 1 character.',
+          pattern: content['validation-error--street-address'],
         },
       },
       city: {
         'ui:errorMessages': {
-          pattern: 'Please provide a valid city. Must be at least 1 character.',
+          pattern: content['validation-error--city-address'],
         },
       },
       state: {
-        'ui:title': 'State/Province/Region',
+        'ui:title': content['contact-info--state-label'],
         'ui:errorMessages': {
-          required: 'Please enter a state/province/region',
+          required: content['validation-error--state-address'],
         },
       },
     }),
-    spousePhone: phoneUI('Phone number'),
+    spousePhone: phoneUI(content['contact-info--phone-label']),
   },
   schema: {
     type: 'object',

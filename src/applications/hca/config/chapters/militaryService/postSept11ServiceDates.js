@@ -1,32 +1,40 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  titleUI,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import { ServiceDateRangeDescription } from '../../../components/FormDescriptions';
 import DateRangeDescription from '../../../components/FormDescriptions/DateRangeDescription';
 import { validateGulfWarDates } from '../../../utils/validation';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import { emptyObjectSchema } from '../../../definitions';
+import content from '../../../locales/en/content.json';
 
 const { gulfWarStartDate, gulfWarEndDate } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
-      'Post-9/11 service dates',
-      'Enter any date range you served in a Gulf War location on or after September 11, 2001. You don\u2019t need to have exact dates.',
+      content['service-info--post911-dates-title'],
+      content['service-info--post911-dates-description'],
     ),
     'view:gulfWarServiceDates': {
       gulfWarStartDate: {
-        ...currentOrPastMonthYearUI('Service start date'),
-        'ui:description': ServiceDateRangeDescription,
+        ...currentOrPastMonthYearUI(
+          content['service-info--service-start-date-label'],
+        ),
+        ...descriptionUI(ServiceDateRangeDescription),
       },
       gulfWarEndDate: {
-        ...currentOrPastMonthYearUI('Service end date'),
-        'ui:description': ServiceDateRangeDescription,
+        ...currentOrPastMonthYearUI(
+          content['service-info--service-end-date-label'],
+        ),
+        ...descriptionUI(ServiceDateRangeDescription),
       },
       'ui:validations': [validateGulfWarDates],
     },
     'view:dateRange': {
-      'ui:description': DateRangeDescription,
+      ...descriptionUI(DateRangeDescription),
     },
   },
   schema: {
