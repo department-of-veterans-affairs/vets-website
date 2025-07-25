@@ -1,5 +1,10 @@
 import { expect } from 'chai';
-import { isTab, setFocus, setPageFocus } from '../../utils/page';
+import {
+  isTab,
+  setFocus,
+  setPageFocus,
+  focusNotificationAlert,
+} from '../../utils/page';
 
 describe('Page utils:', () => {
   describe('isTab', () => {
@@ -30,6 +35,51 @@ describe('Page utils:', () => {
       expect(document.activeElement.classList.contains('testing')).to.be.true;
       expect(div.tabIndex).to.equal(-1);
       document.body.removeChild(div);
+    });
+  });
+
+  describe('focusNotificationAlert', () => {
+    let alertElement;
+
+    beforeEach(() => {
+      alertElement = document.createElement('div');
+      alertElement.className = 'claims-alert';
+      document.body.appendChild(alertElement);
+    });
+
+    afterEach(() => {
+      document.body.removeChild(alertElement);
+    });
+
+    it('should focus immediately if element is present and focusable', () => {
+      focusNotificationAlert();
+
+      expect(document.activeElement).to.equal(alertElement);
+      expect(alertElement.getAttribute('tabindex')).to.equal('-1');
+    });
+
+    it('should retry focus if focus does not succeed initially', done => {
+      const originalFocus = alertElement.focus;
+
+      let calledOnce = false;
+
+      alertElement.focus = () => {
+        if (!calledOnce) {
+          calledOnce = true;
+        } else {
+          alertElement.focus = originalFocus;
+          alertElement.focus();
+        }
+      };
+
+      focusNotificationAlert();
+
+      setTimeout(() => {
+        setTimeout(() => {
+          expect(document.activeElement).to.equal(alertElement);
+          done();
+        }, 160);
+      }, 0);
     });
   });
 });

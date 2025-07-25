@@ -8,6 +8,8 @@ import useBotOutgoingActivityEventListener from '../../hooks/useBotOutgoingActiv
 describe('useBotOutgoingActivityEventListener', () => {
   let sandbox;
   let clock;
+  let reloadStub;
+  let originalLocation;
   const now = new Date();
   const originalWindow = global.window;
 
@@ -17,9 +19,32 @@ describe('useBotOutgoingActivityEventListener', () => {
       now,
       toFake: ['Date'],
     });
+
+    // Set up window.location.reload stub by replacing the entire location object
+    // This approach works with both jsdom and happy-dom
+    reloadStub = sandbox.stub();
+    originalLocation = window.location;
+
+    const locationMock = {
+      ...window.location,
+      reload: reloadStub,
+    };
+
+    Object.defineProperty(window, 'location', {
+      value: locationMock,
+      writable: true,
+      configurable: true,
+    });
   });
 
   afterEach(() => {
+    // Restore the original location object
+    Object.defineProperty(window, 'location', {
+      value: originalLocation,
+      writable: true,
+      configurable: true,
+    });
+
     sandbox.restore();
     clock.restore();
     global.window = originalWindow;
@@ -45,10 +70,6 @@ describe('useBotOutgoingActivityEventListener', () => {
     sandbox
       .stub(React, 'useState')
       .returns([lastMessageTime, setLastMessageTimeStub]);
-    const reloadStub = sandbox.stub();
-    global.window.location = {
-      reload: reloadStub,
-    };
 
     renderHook(() => useBotOutgoingActivityEventListener(chatBotLoadTime));
     await act(async () => {
@@ -66,10 +87,6 @@ describe('useBotOutgoingActivityEventListener', () => {
     sandbox
       .stub(React, 'useState')
       .returns([lastMessageTime, setLastMessageTimeStub]);
-    const reloadStub = sandbox.stub();
-    global.window.location = {
-      reload: reloadStub,
-    };
 
     renderHook(() => useBotOutgoingActivityEventListener(chatBotLoadTime));
     await act(async () => {
@@ -87,10 +104,6 @@ describe('useBotOutgoingActivityEventListener', () => {
     sandbox
       .stub(React, 'useState')
       .returns([lastMessageTime, setLastMessageTimeStub]);
-    const reloadStub = sandbox.stub();
-    global.window.location = {
-      reload: reloadStub,
-    };
 
     renderHook(() => useBotOutgoingActivityEventListener(chatBotLoadTime));
     await act(async () => {
@@ -108,10 +121,6 @@ describe('useBotOutgoingActivityEventListener', () => {
     sandbox
       .stub(React, 'useState')
       .returns([lastMessageTime, setLastMessageTimeStub]);
-    const reloadStub = sandbox.stub();
-    global.window.location = {
-      reload: reloadStub,
-    };
 
     renderHook(() => useBotOutgoingActivityEventListener(chatBotLoadTime));
     await act(async () => {

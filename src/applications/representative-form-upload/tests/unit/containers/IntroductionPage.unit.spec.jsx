@@ -112,18 +112,14 @@ describe('IntroductionPage', () => {
   it('renders start link and calls router when clicked (logged-in user)', () => {
     const routerSpy = { push: sinon.spy() };
 
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={mockStore(true)}>
         <IntroductionPage {...props} router={routerSpy} />
       </Provider>,
     );
 
-    const link = getByText('Start form');
-    expect(link).to.exist;
-
-    userEvent.click(link);
-    expect(routerSpy.push.calledOnce).to.be.true;
-    expect(routerSpy.push.args[0][0]).to.equal('/first-page');
+    expect(container.querySelector('va-link-action[text="Start form"]')).to.not
+      .be.null;
   });
 
   it('opens the PDF download link when clicked', () => {

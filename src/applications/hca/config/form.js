@@ -276,7 +276,7 @@ const formConfig = {
           path: 'va-benefits/benefits-package',
           title: 'VA benefits package',
           depends: includeRegOnlyGuestQuestions,
-          CustomPageReview: () => null,
+          CustomPageReview: null,
           uiSchema: benefitsPackage.uiSchema,
           schema: benefitsPackage.schema,
         },
@@ -573,14 +573,7 @@ const formConfig = {
           uiSchema: general.uiSchema,
           schema: general.schema,
         },
-        healthInsurancePolicySummary: {
-          ...insurancePolicyPages.healthInsurancePolicySummary,
-          depends: formData => formData['view:isInsuranceV2Enabled'],
-        },
-        healthInsurancePolicyInformation: {
-          ...insurancePolicyPages.healthInsurancePolicyInformation,
-          depends: formData => formData['view:isInsuranceV2Enabled'],
-        },
+        ...insurancePolicyPages,
         vaFacility: {
           path: 'insurance-information/va-facility',
           title: 'VA Facility',
