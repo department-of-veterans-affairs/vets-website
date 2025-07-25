@@ -140,12 +140,16 @@ export const Hub = () => {
         )}
 
         <HubCard
-          heading={PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}
-          content="Text and email notifications you get from VA"
+          heading="Communication settings"
+          content="Text and email notifications you get from VA and paperless delivery options"
         >
           <ProfileLink
             text="Manage notification settings"
             href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
+          />
+          <ProfileLink
+            text="Manage paperless delivery settings"
+            href={PROFILE_PATHS.PAPERLESS_DELIVERY}
           />
         </HubCard>
 
