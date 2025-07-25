@@ -91,6 +91,11 @@ export const medicareOptions = {
         <li>
           <b>Type:</b> {MEDICARE_TYPE_LABELS[(item?.medicarePlanType)]}
         </li>
+        <li>
+          {item?.hasMedicarePartD
+            ? 'Medicare Part D (prescription drug coverage)'
+            : null}
+        </li>
       </ul>
     ),
   },
@@ -1007,7 +1012,7 @@ export const medicarePages = arrayBuilderPages(
       title: 'Medicare Part D status',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
-        return planType === 'ab' || planType === 'c';
+        return planType === 'd';
       },
       ...medicarePartDStatusPage,
     }),
