@@ -3,10 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import {
-  DefinitionTester,
-  // fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need applicant non veteran applicant details', () => {
@@ -24,7 +21,8 @@ describe('Pre-need applicant non veteran applicant details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('va-text-input').length).to.equal(5);
+    expect(form.find('input').length).to.equal(1);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
@@ -42,7 +40,28 @@ describe('Pre-need applicant non veteran applicant details', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a first name"]')
+        .length,
+    ).to.equal(2);
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a middle name"]')
+        .length,
+    ).to.equal(0);
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a last name"]')
+        .length,
+    ).to.equal(2);
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a maiden name"]')
+        .length,
+    ).to.equal(0);
+    expect(
+      form.find(
+        '.rjsf-web-component-field[error="Please enter a Social Security number"]',
+      ).length,
+    ).to.equal(2);
+    expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

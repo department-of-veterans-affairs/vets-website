@@ -8,6 +8,7 @@ import {
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
+import { fillDataDirectly } from './helpers';
 
 describe('Pre-need Integration Preparer military name information', () => {
   const {
@@ -40,8 +41,16 @@ describe('Pre-need Integration Preparer military name information', () => {
       />,
     );
 
-    fillData(form, '#root_application_veteran_serviceName_last', 'Smith');
-    fillData(form, '#root_application_veteran_serviceName_first', 'Jane');
+    fillDataDirectly(
+      form,
+      '#root_application_veteran_serviceName_last',
+      'Smith',
+    );
+    fillDataDirectly(
+      form,
+      '#root_application_veteran_serviceName_first',
+      'Jane',
+    );
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -60,9 +69,17 @@ describe('Pre-need Integration Preparer military name information', () => {
       />,
     );
 
-    fillData(form, '#root_application_veteran_serviceName_last', 'Smith');
-    fillData(form, '#root_application_veteran_serviceName_first', 'Jane');
-    fillData(form, '#root_application_veteran_serviceName_middle', 'M');
+    fillDataDirectly(
+      form,
+      '#root_application_veteran_serviceName_last',
+      'Smith',
+    );
+    fillDataDirectly(
+      form,
+      '#root_application_veteran_serviceName_first',
+      'Jane',
+    );
+    fillDataDirectly(form, '#root_application_veteran_serviceName_middle', 'M');
     fillData(form, 'select#root_application_veteran_serviceName_suffix', 'Jr.');
 
     form.find('form').simulate('submit');
