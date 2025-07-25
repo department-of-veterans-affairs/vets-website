@@ -33,7 +33,7 @@ function ViewDependentsList(props) {
     mainContent = (
       <p className="vads-u-background-color--gray-lightest vads-u-padding--2p5">
         {props?.isAward
-          ? `There are no dependents associated with your VA benefits`
+          ? 'You have no dependents on your VA benefits.'
           : `We have no record of dependents who are not on your VA benefits.`}
       </p>
     );
