@@ -79,7 +79,10 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (isDraftUninitialized) {
-        postDraftReferralAppointment(currentReferral.referralNumber);
+        postDraftReferralAppointment({
+          referralNumber: currentReferral.referralNumber,
+          referralConsultId: currentReferral.referralConsultId,
+        });
       } else if (isDraftSuccess) {
         setLoading(false);
       } else if (isDraftError) {
@@ -88,7 +91,7 @@ const ReviewAndConfirm = props => {
       }
     },
     [
-      currentReferral.referralNumber,
+      currentReferral,
       dispatch,
       isDraftError,
       isDraftSuccess,
