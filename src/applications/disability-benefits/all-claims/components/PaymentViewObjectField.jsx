@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const paymentRows = {
   bankAccountType: 'Account type',
@@ -37,6 +38,15 @@ const PaymentViewObjectField = (props = {}) => {
       <dl className="review">{Object.keys(paymentRows).map(buildRow)}</dl>
     </>
   );
+};
+PaymentViewObjectField.propTypes = {
+  defaultEditButton: PropTypes.func,
+  formData: PropTypes.shape({
+    'view:bankAccount': PropTypes.object,
+    'view:originalBankAccount': PropTypes.object,
+  }),
+  renderedProperties: PropTypes.array,
+  title: PropTypes.node,
 };
 
 export default PaymentViewObjectField;

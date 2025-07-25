@@ -58,24 +58,26 @@ const ViewDependentsApp = ({
     />
   );
   return (
-    <div className="vads-l-grid-container vads-u-padding--2">
-      <DowntimeNotification
-        appTitle="view dependents tool"
-        dependencies={[
-          externalServices.bgs,
-          externalServices.global,
-          externalServices.mvi,
-          externalServices.vaProfile,
-          externalServices.vbms,
-        ]}
-      >
-        <RequiredLoginView
-          serviceRequired={backendServices.USER_PROFILE}
-          user={user}
+    <div className="row">
+      <div className="usa-width-two-thirds medium-8 columns print-full-width">
+        <DowntimeNotification
+          appTitle="view dependents tool"
+          dependencies={[
+            externalServices.bgs,
+            externalServices.global,
+            externalServices.mvi,
+            externalServices.vaProfile,
+            externalServices.vbms,
+          ]}
         >
-          {layout}
-        </RequiredLoginView>
-      </DowntimeNotification>
+          <RequiredLoginView
+            serviceRequired={backendServices.USER_PROFILE}
+            user={user}
+          >
+            {layout}
+          </RequiredLoginView>
+        </DowntimeNotification>
+      </div>
     </div>
   );
 };
@@ -110,10 +112,10 @@ export default connect(
 ViewDependentsApp.propTypes = {
   fetchAllDependents: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  error: PropTypes.object,
   user: PropTypes.object.isRequired,
   dependencyVerificationToggle: PropTypes.bool,
   dependentsVerificationFormToggle: PropTypes.bool,
+  error: PropTypes.object,
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,
   updateDiariesStatus: PropTypes.bool,

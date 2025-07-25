@@ -2,6 +2,7 @@ import {
   mockApiRequest,
   mockFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
@@ -24,17 +25,11 @@ import * as apiCalls from '../../api/SmApi';
 
 describe('folders actions', () => {
   const middlewares = [thunk];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    sm: {
-      app: undefined,
-    },
-  };
+  const mockStore = (initialState = { featureToggles: {} }) =>
+    configureStore(middlewares)(initialState);
   const isPilotState = {
-    sm: {
-      app: {
-        isPilot: true,
-      },
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
     },
   };
 
@@ -71,7 +66,7 @@ describe('folders actions', () => {
 
   it('should dispatch response on getFolders action', async () => {
     mockApiRequest(foldersListResponse);
-    const store = mockStore(initialState);
+    const store = mockStore();
     await store.dispatch(getFolders()).then(() => {
       expect(store.getActions()).to.deep.include({
         type: Actions.Folder.GET_LIST,

@@ -38,12 +38,6 @@ export const marriageEndDetails = {
       'ui:errorMessages': {
         required: 'Provide details on how the marriage ended.',
       },
-      'ui:required': (formData, index) => {
-        const addMode =
-          formData?.childrenToAdd?.[index]?.marriageEndReason === 'other';
-        const editMode = formData?.marriageEndReason === 'other';
-        return addMode || editMode;
-      },
       'ui:options': {
         expandUnder: 'marriageEndReason',
         expandUnderCondition: 'other',
@@ -51,9 +45,28 @@ export const marriageEndDetails = {
         preserveHiddenData: true,
       },
     },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.marriageEndDescription['ui:collapsed']) {
+          return {
+            ...formSchema,
+            required: ['marriageEndDate', 'marriageEndReason'],
+          };
+        }
+        return {
+          ...formSchema,
+          required: [
+            'marriageEndDate',
+            'marriageEndReason',
+            'marriageEndDescription',
+          ],
+        };
+      },
+    },
   },
   schema: {
     type: 'object',
+    required: ['marriageEndDate', 'marriageEndReason'],
     properties: {
       marriageEndDate: currentOrPastDateSchema,
       marriageEndReason: radioSchema([

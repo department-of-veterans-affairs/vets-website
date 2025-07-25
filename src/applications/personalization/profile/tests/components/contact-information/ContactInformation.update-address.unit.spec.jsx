@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import { waitForElementToBeRemoved } from '@testing-library/react';
+import { fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'platform/testing/unit/msw-adapter';
 
@@ -47,7 +47,7 @@ function updateAddress(addressName) {
   const cityInput = $('va-text-input[label="City"]', container);
   const stateDropdown = $('va-select[label="State"]', container);
   const zipCodeInput = $('va-text-input[label="Zip code"]', container);
-  const submitButton = view.getByText(/save/i, { selector: 'button' });
+  const submitButton = view.getByTestId('save-edit-button');
 
   // input the address info (can't type into web components using RTL)
   countryDropdown.__events.vaSelect({ target: { value: 'USA' } });
@@ -57,6 +57,10 @@ function updateAddress(addressName) {
   zipCodeInput.value = '94105';
 
   userEvent.click(submitButton);
+
+  // manually submit the form since va-button sets submit="prevent"
+  const form = submitButton.closest('form');
+  fireEvent.submit(form);
 
   return { cityInput };
 }
