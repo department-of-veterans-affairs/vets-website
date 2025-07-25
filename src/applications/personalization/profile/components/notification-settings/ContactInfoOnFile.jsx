@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { FIELD_NAMES } from '@@vap-svc/constants';
+import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { useContactInfoDeepLink } from '../../hooks';
@@ -23,7 +23,7 @@ const ContactInfoOnFile = ({
   const isInternationalMobile =
     mobilePhoneNumber &&
     mobilePhoneNumber.isInternational &&
-    parseInt(mobilePhoneNumber.countryCode, 10) !== 1;
+    String(mobilePhoneNumber.countryCode) !== USA.COUNTRY_CODE;
 
   return (
     <>

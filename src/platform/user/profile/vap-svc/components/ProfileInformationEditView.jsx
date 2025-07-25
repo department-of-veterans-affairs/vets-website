@@ -248,7 +248,7 @@ export class ProfileInformationEditView extends Component {
     if (
       fieldName === 'mobilePhone' &&
       payload.isInternational &&
-      payload.countryCode !== 1
+      String(payload.countryCode) !== USA.COUNTRY_CODE
     ) {
       this.props.openIntlMobileConfirmModal(
         payload.countryCode,
