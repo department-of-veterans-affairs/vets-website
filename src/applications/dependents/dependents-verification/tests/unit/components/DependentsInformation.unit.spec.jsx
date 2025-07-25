@@ -106,12 +106,11 @@ describe('DependentsInformation', () => {
     });
   });
 
-
   it('navigates forward when "Yes" is selected', async () => {
     const goToPathSpy = sinon.spy();
     const goForwardSpy = sinon.spy();
     const { container } = renderPage({
-      data: { hasDependentsStatusChanged: 'Y' },
+      data: { hasDependentsStatusChanged: 'N' },
       goToPath: goToPathSpy,
       goForward: goForwardSpy,
     });

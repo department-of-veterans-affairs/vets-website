@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { waitFor } from '@testing-library/react'; // <-- Add this import
+import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 
 import formConfig from '../../../config/form';
