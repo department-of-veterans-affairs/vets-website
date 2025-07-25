@@ -135,7 +135,7 @@ export const Edit = () => {
         ),
       );
     }
-  });
+  }, []);
 
   useEffect(
     () => {

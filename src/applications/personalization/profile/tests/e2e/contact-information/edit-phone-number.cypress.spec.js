@@ -5,7 +5,7 @@ import {
   mockGETEndpoints,
 } from '@@profile/tests/e2e/helpers';
 
-const setup = (mobile = false) => {
+const setup = ({ mobile = false } = {}) => {
   if (mobile) {
     cy.viewportPreset('va-top-mobile-1');
   }
@@ -21,6 +21,8 @@ const setup = (mobile = false) => {
     'v0/ppiu/payment_information',
   ]);
 
+  // This test only covers the flag on scenario using the va-telephone-input web component
+  // Legacy scenarios (flag off) are covered in ContactInformation.edit-telephone.unit.spec.jsx
   mockFeatureToggles(() => ({
     data: {
       type: 'feature_toggles',
@@ -95,11 +97,9 @@ const setup = (mobile = false) => {
   });
 };
 
-const editPhoneNumber = (label = 'Edit Home phone number') => {
-  cy.get(`va-button[label="${label}"]`).click({ force: true });
-};
-
-const fillPhoneNumber = ({ country = null, phone, extension }) => {
+const editPhoneInputFields = ({ country = null, phoneNumber } = {}) => {
+  // Update country picker
+  // Country defaults to US, so only clear/fill if it's provided
   if (country) {
     cy.get('va-telephone-input')
       .should('exist')
@@ -107,70 +107,117 @@ const fillPhoneNumber = ({ country = null, phone, extension }) => {
       .find('va-combo-box')
       .shadow()
       .find('input')
-      .clear()
+      .clear();
+    cy.get('va-telephone-input')
+      .should('exist')
+      .shadow()
+      .find('va-combo-box')
+      .shadow()
+      .find('input')
       .type(country, { force: true });
   }
 
+  // Edit phone number input
   cy.get('va-telephone-input')
     .shadow()
     .find('va-text-input')
     .shadow()
     .find('input')
-    .clear()
-    .then($input => {
-      if (phone) {
-        cy.wrap($input).type(phone, { force: true });
-      }
-    });
-
-  // Always clear the extension field, then type if extension is provided
-  cy.get('va-text-input[label="Extension (6 digits maximum)"]')
-    .shadow()
-    .find('input')
-    .clear()
-    .then($input => {
-      if (extension) {
-        cy.wrap($input).type(extension, { force: true });
-      }
-    });
+    .clear();
+  if (phoneNumber) {
+    cy.get('va-telephone-input')
+      .shadow()
+      .find('va-text-input')
+      .shadow()
+      .find('input')
+      .type(phoneNumber, { force: true });
+  }
 };
 
-const savePhoneNumber = () => {
+const editPhoneNumber = (
+  numberName,
+  { country, phoneNumber, extension } = {},
+) => {
+  cy.get(`va-button[label="Edit ${numberName}"]`).click({ force: true });
+
+  editPhoneInputFields({ country, phoneNumber });
+
+  // Always clear the extension field if present (home and work numbers only)
+  if (numberName !== 'Mobile phone number') {
+    cy.get('va-text-input[label="Extension (6 digits maximum)"]')
+      .shadow()
+      .find('input')
+      .clear();
+    if (extension) {
+      cy.get('va-text-input[label="Extension (6 digits maximum)"]')
+        .shadow()
+        .find('input')
+        .type(extension, { force: true });
+    }
+  }
+
   cy.findByTestId('save-edit-button')
     .shadow()
     .find('button')
     .click({ force: true });
 };
 
-const assertSuccess = () => {
-  cy.contains('Update saved.').should('exist');
-};
-
 describe('The contact information phone number editing', () => {
   it('should allow editing a domestic phone number', () => {
-    setup(false);
-    editPhoneNumber('Edit Home phone number');
-    fillPhoneNumber({ phone: '555-123-4567', extension: '321' });
-    savePhoneNumber();
-    assertSuccess();
+    setup();
+    editPhoneNumber('Home phone number', {
+      phoneNumber: '555-123-4567',
+      extension: '321',
+    });
+    cy.contains('Update saved.').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
   it('should allow editing an international phone number', () => {
-    setup(true);
-    editPhoneNumber('Edit Home phone number');
-    fillPhoneNumber({ country: 'United Kingdom', phone: '20 7946 0958' });
-    savePhoneNumber();
-    assertSuccess();
+    setup();
+    editPhoneNumber('Mobile phone number', {
+      country: 'United Kingdom',
+      phoneNumber: '20 7946 0958',
+    });
+    cy.contains('Update saved.').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
   it('should allow editing an international phone number on mobile', () => {
-    setup(true);
-    editPhoneNumber('Edit Home phone number');
-    fillPhoneNumber({ country: 'France', phone: '01 23 45 67 89' });
-    savePhoneNumber();
-    assertSuccess();
+    setup({ mobile: true });
+    editPhoneNumber('Work phone number', {
+      country: 'France',
+      phoneNumber: '01 23 45 67 89',
+    });
+    cy.contains('Update saved.').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('should prevent saving an invalid phone number', () => {
+    setup();
+    editPhoneNumber('Home phone number', {
+      phoneNumber: '555 123 4567 8',
+    });
+    cy.get('va-telephone-input').should(
+      'have.attr',
+      'error',
+      'Please enter a valid phone number',
+    );
+    cy.contains('Update saved.').should('not.exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('should prevent saving when the phone number field is empty', () => {
+    setup();
+    editPhoneNumber('Home phone number', {
+      // No phone number
+    });
+    cy.get('va-telephone-input').should(
+      'have.attr',
+      'error',
+      'Please enter a valid phone number',
+    );
+    cy.contains('Update saved.').should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
 });
