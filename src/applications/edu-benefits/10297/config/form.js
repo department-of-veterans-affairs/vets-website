@@ -6,10 +6,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-// import identificationInformation from '../pages/identificationInformation';
-// import { trainingProviderSummary } from '../pages/trainingProviderSummary';
-// import { trainingProviderDetails } from '../pages/trainingProviderDetails';
 import {
   nameAndDateOfBirth,
   identificationInformation,

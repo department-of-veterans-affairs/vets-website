@@ -8,7 +8,6 @@ import {
 
 import { trainingProviderArrayOptions } from '../helpers';
 
-// const trainingProviderSummary = {
 const uiSchema = {
   'view:introduction': {
     ...titleUI('Tell us about your training provider'),
@@ -71,6 +70,5 @@ const schema = {
   },
   required: ['view:summary'],
 };
-// };
 
 export { schema, uiSchema };

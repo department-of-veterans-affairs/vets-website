@@ -8,7 +8,6 @@ import {
 
 import { trainingProviderArrayOptions } from '../helpers';
 
-// const trainingProviderDetails = {
 const uiSchema = {
   ...arrayBuilderItemFirstPageTitleUI({
     title: 'Training provider name and mail address',
@@ -31,6 +30,5 @@ const schema = {
     address: addressNoMilitarySchema({}),
   },
 };
-// };
 
 export { schema, uiSchema };
