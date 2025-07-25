@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
@@ -99,10 +100,16 @@ export const Edit = () => {
     [fieldData, fieldInfo],
   );
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const internationalPhonesToggleValue = useToggleValue(
+    TOGGLE_NAMES.profileInternationalPhoneNumbers,
+  );
+
   useEffect(() => {
     if (fieldInfo?.fieldName && !hasVAPServiceError) {
       const { uiSchema, formSchema } = getProfileInfoFieldAttributes(
         fieldInfo.fieldName,
+        { allowInternationalPhones: internationalPhonesToggleValue },
       );
 
       const initialFormData = getInitialFormValues({
@@ -216,6 +223,7 @@ export const Edit = () => {
                 successCallback={handlers.success}
                 cancelCallback={handlers.cancel}
                 CustomConfirmCancelModal={EditConfirmCancelModal}
+                allowInternationalPhones
               />
             </InitializeVAPServiceIDContainer>
           </div>
