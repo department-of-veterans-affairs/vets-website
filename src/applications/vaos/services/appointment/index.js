@@ -6,7 +6,6 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { isAfter, isBefore, parseISO, startOfDay, subYears } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
-import moment from 'moment-timezone';
 import { getProviderName } from '../../utils/appointment';
 import {
   APPOINTMENT_STATUS,
@@ -18,9 +17,7 @@ import { resetDataLayer } from '../../utils/events';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneAbbrFromApi,
-  getTimezoneByFacilityId,
   getTimezoneNameFromAbbr,
-  getUserTimezone,
   getUserTimezoneAbbr,
   stripDST,
 } from '../../utils/timezone';
@@ -643,9 +640,6 @@ export function getAppointmentTimezone(appointment) {
     const abbreviation = getTimezoneAbbrByFacilityId(locationId);
 
     return {
-      identifier: moment.tz
-        .zone(getTimezoneByFacilityId(locationId))
-        ?.abbr(appointment?.start),
       abbreviation,
       description: getTimezoneNameFromAbbr(abbreviation),
     };
@@ -654,7 +648,6 @@ export function getAppointmentTimezone(appointment) {
   // Everything else will use the local timezone
   const abbreviation = stripDST(getUserTimezoneAbbr());
   return {
-    identifier: getUserTimezone(),
     abbreviation,
     description: getTimezoneNameFromAbbr(abbreviation),
   };
