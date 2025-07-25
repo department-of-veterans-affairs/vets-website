@@ -104,10 +104,10 @@ export default function createDirectDepositPage() {
         'ui:description': (
           <>
             <p>
-              Note: Any bank account information you enter here will apply to
-              your other Veteran benefits, including compensation, pension, and
-              Benefits for Certain Children with Disabilities (Chapter 18)
-              payments.
+              <strong>Note:</strong> Any bank account information you enter here
+              will apply to your other Veteran benefits, including compensation,
+              pension, and Benefits for Certain Children with Disabilities
+              (Chapter 18) payments.
             </p>
             <p>
               Information entered here won’t change your existing accounts for
