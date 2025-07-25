@@ -8,12 +8,20 @@ import { renderProviderWrappedComponent } from '../../../helpers';
 import mockPrefillWithNonPrefillData from '../../../e2e/fixtures/mocks/mock-prefill-with-non-prefill-data.json';
 
 const mockStoreData = {
-  'view:isProvidersAndDependentsPrefillEnabled': true,
+  form: {
+    data: {
+      'view:isProvidersAndDependentsPrefillEnabled': true,
+    },
+  },
 };
 
 const mockStoreDataWithNonPrefill = {
-  ...mockStoreData,
-  nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
+  form: {
+    data: {
+      'view:isProvidersAndDependentsPrefillEnabled': true,
+      nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
+    },
+  },
 };
 
 const expectNonPrefillContentToRender = (container, content) => {

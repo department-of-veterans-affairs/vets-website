@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaTextInput,
@@ -15,6 +15,7 @@ import {
   SEARCH_BC_LABEL,
   findClaimantBC,
   requestsContainStatus,
+  addStyleToShadowDomOnPages,
 } from '../utilities/poaRequests';
 import POARequestCard from '../components/POARequestCard';
 
@@ -103,7 +104,7 @@ const SearchResults = ({ claimant, searchData }) => {
         data-testid="poa-requests-table-fetcher-poa-requests"
         className="claimant-search-showing-results"
       >
-        Showing result for <strong>“{searchData.first_name}“</strong>
+        Showing result for <strong>"{searchData.first_name}"</strong>
         {', '}
         <strong>"{searchData.last_name}"</strong>
         {', '}
@@ -134,7 +135,7 @@ const SearchResults = ({ claimant, searchData }) => {
         <span>
           <strong>POA Status: </strong>
           <span>
-            <va-icon size={3} icon="warning" className="yellow-warning" />
+            <va-icon size={3} icon="warning" class="yellow-warning" />
           </span>{' '}
           You do not have POA for this claimant.
         </span>
@@ -194,6 +195,15 @@ const ClaimantSearchPage = () => {
   const [searchPerformed, setSearchPerformed] = useState(false);
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
+  useEffect(() => {
+    // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
+    // (can't be overridden by passing 'hint' to uiOptions):
+    addStyleToShadowDomOnPages(
+      [''],
+      ['va-date'],
+      'va-select::part(label) {margin-bottom:8px}',
+    );
+  });
 
   const allFieldsPresent = () =>
     searchData.first_name &&

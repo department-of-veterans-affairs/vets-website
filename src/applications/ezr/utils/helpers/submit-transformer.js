@@ -10,6 +10,26 @@ import set from 'platform/utilities/data/set';
 import { getInactivePages } from 'platform/forms/helpers';
 import { includeHouseholdInformationWithV2Prefill } from './form-config';
 
+const setContactTypesOnContacts = (
+  formData,
+  withoutViewFields,
+  contactType,
+  primaryLabel,
+  secondaryLabel,
+) => {
+  if (
+    formData['view:isEmergencyContactsEnabled'] &&
+    formData[contactType]?.length === 2
+  ) {
+    const contacts = withoutViewFields[contactType].map((item, index) => ({
+      ...item,
+      contactType: index === 1 ? secondaryLabel : primaryLabel,
+    }));
+    return set(contactType, contacts, withoutViewFields);
+  }
+  return withoutViewFields;
+};
+
 /**
  * Maps & format form data to ensure submission matches schema needs
  * @param {Object} formConfig - the form data object
@@ -97,6 +117,22 @@ export function submitTransformer(formConfig, form) {
   } else {
     withoutViewFields = set('dependents', [], withoutViewFields);
   }
+
+  withoutViewFields = setContactTypesOnContacts(
+    formData,
+    withoutViewFields,
+    'emergencyContacts',
+    'Emergency Contact',
+    'Other emergency contact',
+  );
+
+  withoutViewFields = setContactTypesOnContacts(
+    formData,
+    withoutViewFields,
+    'nextOfKins',
+    'Primary Next of Kin',
+    'Other Next of Kin',
+  );
 
   // add the financial information
   if (financialInformation) {
