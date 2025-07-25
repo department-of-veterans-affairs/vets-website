@@ -116,7 +116,7 @@ describe('10297 Helpers', () => {
         'Review your training provider information',
       );
       expect(trainingProviderArrayOptions.text.cancelAddButtonText).to.equal(
-        "Cancel adding this training provider's information",
+        'Cancel adding this training provider',
       );
     });
   });

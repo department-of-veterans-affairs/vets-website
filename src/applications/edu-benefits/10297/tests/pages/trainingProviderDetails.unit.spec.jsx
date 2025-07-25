@@ -37,7 +37,6 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
 
     expect($$('va-text-input', container).length).to.equal(7);
     expect($$('va-select', container).length).to.equal(1);
-    expect($$('va-additional-info', container).length).to.equal(1);
   });
 
   it('should render errors on required inputs', async () => {

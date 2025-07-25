@@ -94,8 +94,15 @@ export const getCardDescription = item => {
       <div className=" vads-u-margin-y--2" data-testid="card-street">
         <p>{item?.address?.street}</p>
         <p data-testid="card-address">
-          {item?.address?.city}, {item?.address?.state}{' '}
-          {item?.address?.postalCode}
+          {`${item?.address?.city}${
+            item?.address?.state || item?.address?.postalCode !== 'NA'
+              ? ','
+              : ''
+          }`}
+          {item?.address?.state ? ` ${item?.address?.state}` : ''}
+          {item?.address?.postalCode !== 'NA'
+            ? ` ${item?.address?.postalCode}`
+            : ''}
         </p>
       </div>
     </>
@@ -123,7 +130,7 @@ export const trainingProviderArrayOptions = {
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
     summaryTitle: 'Review your training provider information',
-    cancelAddButtonText: "Cancel adding this training provider's information",
+    cancelAddButtonText: 'Cancel adding this training provider',
   },
 };
 
