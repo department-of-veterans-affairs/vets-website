@@ -90,7 +90,9 @@ const MarriageCount = props => {
     },
   };
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const navButtons = (
+    <FormNavButtons goBack={goBack} useWebComponents submitToContinue />
+  );
   const updateButton = (
     <ProgressButton
       submitButton

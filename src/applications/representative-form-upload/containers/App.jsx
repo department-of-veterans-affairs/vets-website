@@ -32,6 +32,7 @@ const App = ({ children }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
 
   useEffect(() => {
+    document.title = 'Submit VA Form 21-686c  | Veterans Affairs';
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(

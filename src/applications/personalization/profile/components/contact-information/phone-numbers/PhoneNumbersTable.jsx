@@ -6,7 +6,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
-import { ProfileInfoCard } from '../../ProfileInfoCard';
+import { ProfileInfoSection } from '../../ProfileInfoSection';
 
 const PhoneNumbersTable = ({ className }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -48,7 +48,7 @@ const PhoneNumbersTable = ({ className }) => {
   ];
 
   return (
-    <ProfileInfoCard
+    <ProfileInfoSection
       title="Phone numbers"
       level={2}
       namedAnchor="phone-numbers"

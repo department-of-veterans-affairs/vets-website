@@ -3,13 +3,12 @@ import {
   addressUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import EditMailingAddress from '../../../components/EditMailingAddress';
+import EditMailingAddressPage from '../../../components/EditMailingAddressPage';
 
 export default {
   title: 'Edit mailing address',
   path: 'veteran-contact-information/mailing-address',
-  // depends: () => false,
-  CustomPage: EditMailingAddress,
+  CustomPage: EditMailingAddressPage,
   CustomPageReview: null,
   uiSchema: {
     address: {
@@ -22,7 +21,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      // 'view:pageTitle': blankSchema,
       address: addressSchema(),
     },
   },

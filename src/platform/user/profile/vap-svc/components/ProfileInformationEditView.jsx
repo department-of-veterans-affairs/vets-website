@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
@@ -68,6 +67,15 @@ export class ProfileInformationEditView extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    // Check if the cancel button should be focused before focusing
+    // on the first form element
+    if (
+      this.props.shouldFocusCancelButton &&
+      !prevProps.shouldFocusCancelButton
+    ) {
+      this.focusOnCancelButton();
+    }
+
     if (!prevProps.field && !!this.props.field) {
       this.focusOnFirstFormElement();
     }
@@ -278,8 +286,7 @@ export class ProfileInformationEditView extends Component {
 
     if (this.editForm) {
       setTimeout(() => {
-        // Temporary workaround to set focus on the country picker if we're using
-        // the va-telephone-input component
+        // Set focus on the country picker if we're using the va-telephone-input component
         const vaTel = this.editForm?.querySelector?.('va-telephone-input');
         const vaComboBox = vaTel?.shadowRoot?.querySelector?.('va-combo-box');
         const countrySelect = vaComboBox?.shadowRoot?.querySelector?.('input');
@@ -296,6 +303,24 @@ export class ProfileInformationEditView extends Component {
         }
       }, 100);
     }
+  }
+
+  // We manually set focus on the cancel button when the confirm cancel modal is closed
+  // Since va-button is a web component, we need to wait for the shadow DOM to render
+  // before we can focus the native button inside it
+  focusOnCancelButton() {
+    setTimeout(() => {
+      const cancelButton = this.editForm?.querySelector(
+        'va-button[data-testid="cancel-edit-button"]',
+      );
+      if (cancelButton && cancelButton.shadowRoot) {
+        const shadowButton = cancelButton.shadowRoot.querySelector('button');
+        if (shadowButton) shadowButton.focus();
+      }
+      if (this.props.onCancelButtonFocused) {
+        this.props.onCancelButtonFocused();
+      }
+    }, 100);
   }
 
   render() {
@@ -390,26 +415,24 @@ export class ProfileInformationEditView extends Component {
                 isLoading={isLoading}
               >
                 <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
-                  <LoadingButton
+                  <va-button
                     data-action="save-edit"
                     data-testid="save-edit-button"
-                    isLoading={isLoading}
-                    loadingText="Saving changes"
-                    type="submit"
+                    loading={isLoading}
+                    submit="prevent"
                     onClick={onClickUpdateHandler}
-                  >
-                    {saveButtonText || 'Save'}
-                  </LoadingButton>
+                    text={isLoading ? '' : saveButtonText || 'Save'}
+                    class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                  />
 
                   {!isLoading && (
-                    <button
+                    <va-button
                       data-testid="cancel-edit-button"
-                      type="button"
-                      className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
                       onClick={onCancel}
-                    >
-                      {cancelButtonText || 'Cancel'}
-                    </button>
+                      text={cancelButtonText || 'Cancel'}
+                      class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                      secondary
+                    />
                   )}
                 </div>
               </ProfileInformationActionButtons>
@@ -452,11 +475,13 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
+  shouldFocusCancelButton: PropTypes.bool,
   successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
+  onCancelButtonFocused: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {

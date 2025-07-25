@@ -240,7 +240,6 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
-  useFeSourceOfTruthTelehealth = false,
   usePastVisitMHFilter = false,
   isCerner = false,
 }) {
@@ -274,9 +273,9 @@ export async function fetchFlowEligibilityAndClinics({
       directTypeOfCareSettings.patientHistoryRequired === true;
 
     if (isDirectAppointmentHistoryRequired) {
-      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
-        useFeSourceOfTruthTelehealth,
-      ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
+      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
+        createErrorHandler('direct-no-matching-past-clinics-error'),
+      );
     }
   }
 
