@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -13,7 +14,11 @@ import {
   employmentFocus,
   salaryDetails,
   educationDetails,
+  trainingProviderSummary,
+  trainingProviderDetails,
 } from '../pages';
+
+import { trainingProviderArrayOptions } from '../helpers';
 
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
@@ -81,6 +86,25 @@ const formConfig = {
           schema: activeDutyStatus.schema,
         },
         directDeposit: createDirectDepositPage(),
+      },
+    },
+    trainingProviderChapter: {
+      title: 'Training provider details',
+      pages: {
+        ...arrayBuilderPages(trainingProviderArrayOptions, pageBuilder => ({
+          trainingProviderSummary: pageBuilder.summaryPage({
+            title: 'Tell us about your training provider',
+            path: 'training-provider',
+            uiSchema: trainingProviderSummary.uiSchema,
+            schema: trainingProviderSummary.schema,
+          }),
+          trainingProviderDetails: pageBuilder.itemPage({
+            title: 'Training provider name and mail address',
+            path: 'training-provider/:index/details',
+            uiSchema: trainingProviderDetails.uiSchema,
+            schema: trainingProviderDetails.schema,
+          }),
+        })),
       },
     },
     backgroundInformationChapter: {
