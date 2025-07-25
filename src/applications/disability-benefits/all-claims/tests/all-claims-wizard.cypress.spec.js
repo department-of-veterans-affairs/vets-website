@@ -154,7 +154,11 @@ describe('526 wizard', () => {
       'have.text',
       h1Text + h1Addition,
     );
-    cy.focused().should('have.text', h1Text + h1Addition);
+    cy.focused();
+    cy.get('h1[data-testid="form-title"]').should(
+      'have.text',
+      h1Text + h1Addition,
+    );
     cy.checkStorage(WIZARD_STATUS, 'complete');
     cy.location('pathname').should(
       'eq',
