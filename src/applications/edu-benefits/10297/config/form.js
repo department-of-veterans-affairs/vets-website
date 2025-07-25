@@ -17,6 +17,7 @@ import {
 
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
+import createDirectDepositPage from '../pages/DirectDeposit';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -79,6 +80,7 @@ const formConfig = {
           uiSchema: activeDutyStatus.uiSchema,
           schema: activeDutyStatus.schema,
         },
+        directDeposit: createDirectDepositPage(),
       },
     },
     backgroundInformationChapter: {
