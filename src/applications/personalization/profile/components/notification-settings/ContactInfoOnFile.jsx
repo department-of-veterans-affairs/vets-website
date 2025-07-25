@@ -123,8 +123,6 @@ ContactInfoOnFile.propTypes = {
     countryCode: PropTypes.string,
     isInternational: PropTypes.bool,
     phoneNumber: PropTypes.string,
-    countryCode: PropTypes.string,
-    isInternational: PropTypes.bool,
   }),
   showEmailNotificationSettings: PropTypes.bool,
 };
