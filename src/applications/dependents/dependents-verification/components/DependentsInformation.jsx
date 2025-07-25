@@ -181,6 +181,7 @@ export const DependentsInformation = ({
         goBack={handlers.goBack}
         goForward={handlers.onSubmit}
         submitToContinue
+        useWebComponents
       />
       {contentAfterButtons}
     </>

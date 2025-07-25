@@ -1,5 +1,5 @@
 import content from '../../locales/en/content.json';
-import { replaceStrValues } from './general';
+
 /**
  * Helper to get the item name for the emergency contact.
  * @param {Object} item - The emergency contact item containing fullName.
@@ -32,22 +32,31 @@ export const getDeleteTitle = () => content['emergency-contact-delete-title'];
 export const getDeleteYes = () => content['emergency-contact-delete-yes'];
 
 /**
- * Helper to generate the delete description text.
- * @param {Object} item - The emergency contact item containing fullName.
- * @returns {String} - Returns the delete description, including the first and last name or a fallback if the names are missing.
+ * Helper to generate the cancellation text for deleting the emergency contact.
+ * @returns {String} - Returns the delete cancellation text for the emergency contact.
  */
-export const getDeleteDescription = item => {
-  const firstName = item?.itemData?.fullName?.first;
-  const lastName = item?.itemData?.fullName?.last;
+export const getDeleteNo = () => content['emergency-contact-delete-no'];
 
-  if (firstName && lastName) {
-    const fullName = `${firstName} ${lastName}`;
-    return replaceStrValues(
-      content['emergency-contact-delete-description'],
-      fullName,
-    );
-  }
+/**
+ * Helper to generate the delete description text.
+ * @returns {String} - Returns the delete description text.
+ */
+export const getDeleteDescription = () =>
+  content['emergency-contact-delete-description'];
 
-  // Fallback if data is missing
-  return content['emergency-contact-delete-description-default'];
+/**
+ * Helper to test if the item is in a completed stated.
+ * @param {Object} item - The Emergency Contact item.
+ * @returns {String} - Returns true if the item has all required fields present.
+ */
+export const isItemIncomplete = item => {
+  return (
+    !item?.fullName?.first ||
+    !item?.fullName?.last ||
+    !item?.primaryPhone ||
+    !item?.relationship ||
+    !item?.address?.street ||
+    !item?.address?.city ||
+    !item?.address?.country
+  );
 };
