@@ -1,0 +1,42 @@
+{
+  "chosenBenefit": "dea",
+  "highSchoolDiploma": "yes",
+  "graduationDate": "2020-06-01",
+
+  "email": "test@example.com",
+  "confirmEmail": "test@example.com",
+
+  "contactMethod": "Email",
+  "notificationMethod": "No, just send me email notifications",
+
+  "felonyOrWarrant": "no",
+
+  "relationshipToMember": "child",
+  "fullName": {
+    "first": "John",
+    "middle": "A",
+    "last": "Doe"
+  },
+  "dateOfBirth": "2000-01-01",
+  "ssn": "123123123",
+
+  "mailingAddressInput": {
+    "livesOnMilitaryBase": false,
+    "address": {
+      "country": "USA",
+      "street": "123 Main St",
+      "street2": "",
+      "city": "Springfield",
+      "state": "VA",
+      "postalCode": "12345"
+    }
+  },
+
+  "view:directDeposit": {
+    "bankAccount": {
+      "accountType": "Checking",
+      "routingNumber": "021000021",
+      "accountNumber": "123456789"
+    }
+  }
+} 
