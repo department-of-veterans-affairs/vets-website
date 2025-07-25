@@ -15,6 +15,10 @@ describe('VAOS Page: ContactInfoPage', () => {
   before(() => {
     MockDate.set('2024-12-05T00:00:00Z');
   });
+  after(() => {
+    MockDate.reset();
+  });
+
   it('should accept email, phone, and preferred time and continue', async () => {
     const store = createTestStore({
       user: {
