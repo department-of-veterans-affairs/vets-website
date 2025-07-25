@@ -51,8 +51,13 @@ const ProfileWrapper = ({
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const vetStatusCardToggle = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
+  const paperlessDeliveryToggle = useToggleValue(
+    TOGGLE_NAMES.profileShowPaperlessDelivery,
+  );
 
-  let routesForNav = getRoutesForNav();
+  let routesForNav = getRoutesForNav({
+    profileShowPaperlessDelivery: paperlessDeliveryToggle,
+  });
 
   if (!vetStatusCardToggle) {
     routesForNav = routesForNav.filter(

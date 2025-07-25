@@ -144,7 +144,9 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    let routes = getRoutes();
+    let routes = getRoutes({
+      profileShowPaperlessDelivery: this.props.shouldShowPaperlessDelivery,
+    });
 
     // feature toggled route
     if (!this.props.shouldShowAccreditedRepTab) {
@@ -250,6 +252,7 @@ Profile.propTypes = {
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
+  shouldShowPaperlessDelivery: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
@@ -276,6 +279,8 @@ const mapStateToProps = state => {
   const isLOA3 = isLOA3Selector(state);
   const shouldShowAccreditedRepTab =
     profileToggles?.representativeStatusEnableV2Features;
+  const shouldShowPaperlessDelivery =
+    profileToggles?.profileShowPaperlessDelivery;
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
@@ -332,6 +337,7 @@ const mapStateToProps = state => {
     isLOA3,
     shouldFetchDirectDeposit,
     shouldShowAccreditedRepTab,
+    shouldShowPaperlessDelivery,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
