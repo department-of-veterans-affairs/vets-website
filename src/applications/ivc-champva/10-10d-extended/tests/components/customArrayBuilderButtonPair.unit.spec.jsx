@@ -62,14 +62,13 @@ describe('CustomArrayBuilderButtonPair', () => {
       'localhost:3001/ivc-champva/10-10d-extended/applicant-name-dob/0',
       '?edit=true',
     );
-    const goFwdSpy = sinon.spy();
     const component = (
       <CustomArrayBuilderButtonPair
         contentBeforeButtons={<></>}
         contentAfterButtons={<></>}
         setFormData={() => {}}
         goBack={() => {}}
-        onContinue={goFwdSpy}
+        onContinue={() => {}}
         updatePage={() => {}}
         arrayPath="applicants"
         summaryRoute="/summaryRoute"
