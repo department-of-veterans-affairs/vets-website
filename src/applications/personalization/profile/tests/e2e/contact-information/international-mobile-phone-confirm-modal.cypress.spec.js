@@ -1,7 +1,24 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 import user36 from '@@profile/tests/fixtures/users/user-36.json';
-import user36IntlMobile from '@@profile/tests/fixtures/users/user-36-international-mobile-phone.json';
+import set from 'lodash/set';
+import cloneDeep from 'lodash/cloneDeep';
 import { mockFeatureToggles, mockGETEndpoints } from '../helpers';
+
+/**
+ * Expected changes to user payload after the transactions completes.
+ * No particular reason for user36, just seen in other contact info tests.
+ */
+const user36IntlMobile = set(
+  cloneDeep(user36),
+  'data.attributes.vet360ContactInformation.mobilePhone',
+  {
+    ...cloneDeep(user36.data.attributes.vet360ContactInformation.mobilePhone),
+    areaCode: null,
+    countryCode: '93',
+    isInternational: true,
+    phoneNumber: '201234567',
+  },
+);
 
 describe('International mobile phone number confirm modal', () => {
   it('user sees the confirmation modal and confirms the update', () => {
@@ -107,7 +124,11 @@ describe('International mobile phone number confirm modal', () => {
     cy.findByTestId('save-edit-button').click();
 
     // Proceed through the confirmation modal
+
     cy.findByTestId('confirm-international-mobile-save-modal').should('exist');
+
+    cy.injectAxeThenAxeCheck();
+
     cy.contains('button', 'Save the number you entered').click();
 
     // Update was good
