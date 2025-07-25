@@ -44,13 +44,7 @@ function ViewDependentsList(props) {
 
   return (
     <>
-      <h2
-        className={
-          props.isAward ? 'vads-u-margin-top--1p5 view-deps-header' : null
-        }
-      >
-        {props.header}
-      </h2>
+      <h2 className="view-deps-header">{props.header}</h2>
       <p>{props.subHeader}</p>
       {manageDependentsToggle &&
         props?.submittedDependents?.length > 0 && (

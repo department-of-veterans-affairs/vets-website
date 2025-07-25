@@ -1,5 +1,6 @@
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { waitFor } from '@testing-library/react'; // <-- Add this import
 import { expect } from 'chai';
 
 import formConfig from '../../../config/form';
@@ -23,7 +24,7 @@ describe('Gateway', () => {
     dependents,
   });
 
-  it('should render `VerifyAlert` if user is not-verified', () => {
+  it('should render `VerifyAlert` if user is not-verified', async () => {
     const { container } = renderInReduxProvider(
       <Gateway
         top
@@ -34,10 +35,12 @@ describe('Gateway', () => {
       },
     );
 
-    expect(container.querySelector('va-alert-sign-in')).to.not.be.null;
+    await waitFor(() => {
+      expect(container.querySelector('va-alert-sign-in')).to.not.be.null;
+    });
   });
 
-  it('should not render `VerifyAlert` when top prop is false', () => {
+  it('should not render `VerifyAlert` when top prop is false', async () => {
     const { container } = renderInReduxProvider(
       <Gateway route={{ formConfig, pageList: [{ path: '/introduction' }] }} />,
       {
@@ -45,10 +48,12 @@ describe('Gateway', () => {
       },
     );
 
-    expect(container.querySelector('va-alert-sign-in')).to.be.null;
+    await waitFor(() => {
+      expect(container.querySelector('va-alert-sign-in')).to.be.null;
+    });
   });
 
-  it('should render the `va-loading-indicator` if not authenticated', () => {
+  it('should render the `va-loading-indicator` if not authenticated', async () => {
     const { container } = renderInReduxProvider(
       <Gateway
         top
@@ -59,6 +64,8 @@ describe('Gateway', () => {
       },
     );
 
-    expect(container.querySelector('va-loading-indicator')).to.not.be.null;
+    await waitFor(() => {
+      expect(container.querySelector('va-loading-indicator')).to.not.be.null;
+    });
   });
 });
