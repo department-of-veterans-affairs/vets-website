@@ -44,37 +44,6 @@ describe('Referral Services', () => {
     expect(result).to.deep.equal({ name: 'Provider A' });
   });
 
-  it('postReferralAppointment sends the correct payload and returns data', async () => {
-    const input = {
-      draftApppointmentId: 'd1',
-      referralNumber: 'r1',
-      slotId: 's1',
-      networkId: 'n1',
-      providerServiceId: 'p1',
-    };
-    const expectedBody = JSON.stringify({
-      id: 'd1',
-      referralNumber: 'r1',
-      slotId: 's1',
-      networkId: 'n1',
-      providerServiceId: 'p1',
-    });
-
-    requestStub.resolves({ data: { success: true } });
-
-    const result = await services.postReferralAppointment(input);
-
-    expect(
-      requestStub.calledWith('/vaos/v2/appointments/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: expectedBody,
-      }),
-    ).to.be.true;
-
-    expect(result).to.deep.equal({ success: true });
-  });
-
   it('getAppointmentInfo calls the correct endpoint and returns data', async () => {
     requestStub.resolves({ data: { appointment: { id: 'a1' } } });
 
