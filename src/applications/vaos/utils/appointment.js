@@ -5,35 +5,14 @@
  */
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import {
-  addDays,
-  differenceInDays,
-  parseISO,
-  addMinutes,
-  areIntervalsOverlapping,
-  format,
-} from 'date-fns';
+import { addDays, differenceInDays, parseISO } from 'date-fns';
 import {
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_CARE,
   SERVICE_CATEGORY,
-  DATE_FORMATS,
-  APPOINTMENT_STATUS,
 } from './constants';
-
-/**
- * Ensures the input is a Date object, converting from string if needed
- * @param {Date|string} value - Date object or date string
- * @returns {Date} Date object
- */
-function ensureDate(value) {
-  if (value instanceof Date) {
-    return value;
-  }
-  return parseISO(value);
-}
 
 /**
  * Replaces a mock facility id with a real facility id in non production environments
@@ -163,56 +142,4 @@ export function getDriveTimeString(driveTimeInSeconds, driveTimeDistance) {
   }
 
   return driveTimeString;
-}
-
-/**
- * Checks if a selected appointment time conflicts with existing appointments
- *
- * This function determines whether the user's selected appointment slot overlaps
- * with any of their existing upcoming appointments. It uses UTC timestamps to
- * avoid timezone conversion issues and only checks conflicts for single selections.
- *
- * @param {string} selectedDate - date string in ISO format
- * @param {Object} upcomingAppointments - Object containing upcoming appointments organized by month key (YYYY-MM)
- * @param {Array<Object>} availableSlots - Array of available appointment slots
- * @param {string} availableSlots[].start - ISO date string for slot start time
- * @param {string} availableSlots[].end - ISO date string for slot end time
- * @returns {boolean} True if there is a scheduling conflict, false otherwise
- */
-export function getAppointmentConflict(
-  selectedDate,
-  upcomingAppointments,
-  availableSlots,
-) {
-  let hasConflict = false;
-  if (selectedDate && availableSlots) {
-    const selectedSlot = availableSlots?.find(
-      slot => slot.start === selectedDate,
-    );
-    if (selectedSlot) {
-      const selectedSlotStart = ensureDate(selectedSlot.start);
-      const selectedSlotEnd = ensureDate(selectedSlot.end);
-      const key = format(selectedSlotStart, DATE_FORMATS.yearMonth);
-      const appointments = upcomingAppointments[key];
-      hasConflict = appointments?.some(appointment => {
-        // Use UTC timestamps for conflict detection. This avoids timezone conversion issues.
-        const slotInterval = {
-          start: selectedSlotStart,
-          end: selectedSlotEnd,
-        };
-        const appointmentInterval = {
-          start: ensureDate(appointment.start),
-          end: addMinutes(
-            ensureDate(appointment.start),
-            appointment.minutesDuration,
-          ),
-        };
-        return (
-          appointment.status !== APPOINTMENT_STATUS.cancelled &&
-          areIntervalsOverlapping(slotInterval, appointmentInterval)
-        );
-      });
-    }
-  }
-  return hasConflict;
 }

@@ -8,10 +8,7 @@ import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
 import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
 import { getSlotByDate } from '../utils/provider';
-import {
-  getDriveTimeString,
-  getAppointmentConflict,
-} from '../../utils/appointment';
+import { getDriveTimeString } from '../../utils/appointment';
 import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
@@ -32,7 +29,6 @@ export const DateAndTimeContent = props => {
   const selectedSlot = useSelector(state => getSelectedSlot(state));
   const currentPage = useSelector(selectCurrentPage);
   const [error, setError] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
   const facilityTimeZone = getTimezoneByFacilityId(
     currentReferral.referringFacility.code,
   );
@@ -59,39 +55,14 @@ export const DateAndTimeContent = props => {
       if (!hasConflict && newSlot) {
         setError('');
         sessionStorage.setItem(selectedSlotKey, newSlot.start);
-        dispatch(setSelectedSlot(newSlot.start));
       }
-      // Even if there is a conflict, we still want to set the selected date to show the selection and conflict
       if (newSlot) {
-        setSelectedDate(newSlot.start);
+        dispatch(setSelectedSlot(newSlot.start));
       }
     },
     [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
   );
-  useEffect(
-    () => {
-      if (selectedSlot) {
-        const slot = getSlotByDate(
-          draftAppointmentInfo.attributes.slots,
-          selectedSlot,
-        );
-        if (slot) {
-          const hasConflict = getAppointmentConflict(
-            slot.start,
-            appointmentsByMonth,
-            draftAppointmentInfo.attributes.slots,
-          );
-          onChange(slot.start, hasConflict);
-        }
-      }
-    },
-    [
-      draftAppointmentInfo.attributes.slots,
-      selectedSlot,
-      appointmentsByMonth,
-      onChange,
-    ],
-  );
+
   useEffect(
     () => {
       const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
@@ -102,12 +73,7 @@ export const DateAndTimeContent = props => {
       if (!savedSlot) {
         return;
       }
-      const hasConflict = getAppointmentConflict(
-        savedSlot.start,
-        appointmentsByMonth,
-        draftAppointmentInfo.attributes.slots,
-      );
-      onChange(savedSlot.start, hasConflict);
+      onChange(savedSlot.start);
     },
     [
       dispatch,
@@ -225,7 +191,7 @@ export const DateAndTimeContent = props => {
             <CalendarWidget
               maxSelections={1}
               availableSlots={draftAppointmentInfo.attributes.slots}
-              value={[selectedDate]}
+              value={[selectedSlot || '']}
               id="dateTime"
               timezone={facilityTimeZone}
               additionalOptions={{
