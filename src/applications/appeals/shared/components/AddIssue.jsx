@@ -225,7 +225,7 @@ const AddIssue = ({
           />
           <va-button
             id="submit"
-            class="vads-u-width--auto"
+            class="vads-u-width--auto mobile:vads-u-margin-left--1 mobile-lg:vads-u-margin-left--0"
             onClick={handlers.onUpdate}
             text={content.button[addOrEdit]}
           />
