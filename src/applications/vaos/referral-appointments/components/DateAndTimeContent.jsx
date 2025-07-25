@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
-import { setSelectedSlot } from '../redux/actions';
+import { setSelectedSlotStartTime } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
-import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
+import {
+  selectCurrentPage,
+  getSelectedSlotStartTime,
+} from '../redux/selectors';
 import { getSlotByDate } from '../utils/provider';
 import { getDriveTimeString } from '../../utils/appointment';
 import {
@@ -26,7 +29,7 @@ export const DateAndTimeContent = props => {
   // Add a counter state to trigger focusing
   const [focusTrigger, setFocusTrigger] = useState(0);
 
-  const selectedSlot = useSelector(state => getSelectedSlot(state));
+  const selectedSlotStartTime = useSelector(getSelectedSlotStartTime);
   const currentPage = useSelector(selectCurrentPage);
   const [error, setError] = useState('');
   const facilityTimeZone = getTimezoneByFacilityId(
@@ -57,7 +60,7 @@ export const DateAndTimeContent = props => {
         sessionStorage.setItem(selectedSlotKey, newSlot.start);
       }
       if (newSlot) {
-        dispatch(setSelectedSlot(newSlot.start));
+        dispatch(setSelectedSlotStartTime(newSlot.start));
       }
     },
     [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
@@ -92,7 +95,7 @@ export const DateAndTimeContent = props => {
       setFocusTrigger(prev => prev + 1);
       return;
     }
-    if (!selectedSlot) {
+    if (!selectedSlotStartTime) {
       setError(
         'Please choose your preferred date and time for your appointment',
       );
@@ -191,7 +194,7 @@ export const DateAndTimeContent = props => {
             <CalendarWidget
               maxSelections={1}
               availableSlots={draftAppointmentInfo.attributes.slots}
-              value={[selectedSlot || '']}
+              value={[selectedSlotStartTime || '']}
               id="dateTime"
               timezone={facilityTimeZone}
               additionalOptions={{

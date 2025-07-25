@@ -3,7 +3,10 @@ import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAppointmentCreateStatus, getSelectedSlot } from './redux/selectors';
+import {
+  getAppointmentCreateStatus,
+  getSelectedSlotStartTime,
+} from './redux/selectors';
 import {
   FETCH_STATUS,
   POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
@@ -11,7 +14,7 @@ import {
 import {
   createReferralAppointment,
   setFormCurrentPage,
-  setSelectedSlot,
+  setSelectedSlotStartTime,
 } from './redux/actions';
 import { usePostDraftReferralAppointmentMutation } from '../redux/api/vaosApi';
 import ReferralLayout from './components/ReferralLayout';
@@ -31,7 +34,7 @@ const ReviewAndConfirm = props => {
   const { attributes: currentReferral } = props.currentReferral;
   const dispatch = useDispatch();
   const history = useHistory();
-  const selectedSlot = useSelector(state => getSelectedSlot(state));
+  const selectedSlotStartTime = useSelector(getSelectedSlotStartTime);
   const [
     postDraftReferralAppointment,
     {
@@ -52,7 +55,7 @@ const ReviewAndConfirm = props => {
   const [createLoading, setCreateLoading] = useState(false);
   const slotDetails = getSlotByDate(
     draftAppointmentInfo?.attributes?.slots,
-    selectedSlot,
+    selectedSlotStartTime,
   );
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.uuid),
@@ -66,11 +69,11 @@ const ReviewAndConfirm = props => {
   );
   useEffect(
     () => {
-      if (!selectedSlot && !savedSelectedSlot) {
+      if (!selectedSlotStartTime && !savedSelectedSlot) {
         routeToCCPage(history, 'scheduleReferral', currentReferral.uuid);
       }
     },
-    [currentReferral.uuid, history, savedSelectedSlot, selectedSlot],
+    [currentReferral.uuid, history, savedSelectedSlot, selectedSlotStartTime],
   );
 
   useEffect(
@@ -96,7 +99,7 @@ const ReviewAndConfirm = props => {
 
   useEffect(
     () => {
-      if (!selectedSlot && savedSelectedSlot && isDraftSuccess) {
+      if (!selectedSlotStartTime && savedSelectedSlot && isDraftSuccess) {
         const savedSlot = getSlotByDate(
           draftAppointmentInfo?.attributes?.slots,
           savedSelectedSlot,
@@ -104,7 +107,7 @@ const ReviewAndConfirm = props => {
         if (!savedSlot) {
           routeToCCPage(history, 'scheduleReferral');
         } else {
-          dispatch(setSelectedSlot(savedSlot.start));
+          dispatch(setSelectedSlotStartTime(savedSlot.start));
         }
       }
     },
@@ -113,7 +116,7 @@ const ReviewAndConfirm = props => {
       savedSelectedSlot,
       draftAppointmentInfo,
       history,
-      selectedSlot,
+      selectedSlotStartTime,
       isDraftSuccess,
     ],
   );

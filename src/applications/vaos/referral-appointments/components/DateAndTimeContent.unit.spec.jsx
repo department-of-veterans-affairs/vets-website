@@ -100,7 +100,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
       },
       referral: {
         currentPage: 'scheduleAppointment',
-        selectedSlot: selectedSlotValue,
+        selectedSlotStartTime: selectedSlotValue,
       },
     };
 
