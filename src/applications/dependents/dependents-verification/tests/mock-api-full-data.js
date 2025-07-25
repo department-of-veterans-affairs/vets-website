@@ -52,7 +52,7 @@ const mockSipPut = {
       updatedAt: '2021-06-03T00:00:00.000Z',
       metadata: {
         version: 1,
-        returnUrl: '/review-and-submit',
+        returnUrl,
         savedAt: 1593500000000,
         lastUpdated: 1593500000000,
         expiresAt: 99999999999,
@@ -121,8 +121,11 @@ const responses = {
     data: {
       features: [
         { name: 'va_dependents_verification', value: true },
+        { name: 'vaDependentsVerification', value: true },
         { name: 'dependents_management', value: true },
+        { name: 'dependentsManagement', value: true },
         { name: 'dependency_verification', value: true },
+        { name: 'dependencyVerification', value: true },
       ],
     },
   },

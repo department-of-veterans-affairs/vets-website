@@ -180,7 +180,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       'We could not prefill this form with your email address.',
     );
 
-    const continueBtn = $('button[type="submit"]', container);
+    const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
     fireEvent.click(continueBtn);
 
@@ -207,7 +207,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       'We could not prefill this form with your mailing address.',
     );
 
-    const continueBtn = $('button[type="submit"]', container);
+    const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
     fireEvent.click(continueBtn);
 
@@ -234,7 +234,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       'We could not prefill this form with your email and mailing address.',
     );
 
-    const continueBtn = $('button[type="submit"]', container);
+    const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
     fireEvent.click(continueBtn);
 
@@ -256,9 +256,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       goToPath,
     });
 
-    const continueBtn = Array.from(container.querySelectorAll('button')).find(
-      btn => (btn.textContent || '').match(/Continue/i),
-    );
+    const continueBtn = container.querySelector('va-button[continue]');
     expect(continueBtn).to.not.be.null;
     fireEvent.click(continueBtn);
     expect(container.textContent).to.include('mailing address is required');
@@ -271,9 +269,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       data: defaultData,
       goToPath,
     });
-    const continueBtn = Array.from(container.querySelectorAll('button')).find(
-      btn => (btn.textContent || '').match(/Continue/i),
-    );
+    const continueBtn = container.querySelector('va-button[continue]');
     expect(continueBtn).to.not.be.null;
     fireEvent.click(continueBtn);
     expect(goToPath.calledWith('/dependents', { force: true })).to.be.true;

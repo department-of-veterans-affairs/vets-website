@@ -172,8 +172,8 @@ const VeteranContactInformationPage = ({
   const article = !email ? 'an' : 'a';
 
   const agreementMessage = electronicCorrespondence
-    ? 'I agree to receive electronic correspondence from the VA about my claim'
-    : 'I do not agree to receive electronic correspondence from the VA about my claim';
+    ? 'I agree to receive electronic correspondence from the VA about my claim at this email address'
+    : 'I do not agree to receive electronic correspondence from the VA about my claim at this email address';
 
   return (
     <>
@@ -388,6 +388,7 @@ const VeteranContactInformationPage = ({
         goBack={goBack}
         goForward={handlers.onSubmit}
         submitToContinue
+        useWebComponents
       />
       {contentAfterButtons}
     </>
