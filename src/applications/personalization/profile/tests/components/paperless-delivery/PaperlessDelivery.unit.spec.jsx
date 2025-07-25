@@ -1,61 +1,59 @@
 import React from 'react';
-import { cleanup, render, waitFor } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 import { expect } from 'chai';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { PaperlessDelivery } from '../../../components/paperless-delivery/PaperlessDelivery';
 import { renderWithProfileReducersAndRouter } from '../../unit-test-helpers';
 
 describe('PaperlessDelivery', () => {
-  let screen;
-
-  beforeEach(() => {
-    screen = render(<PaperlessDelivery />);
-  });
-
   afterEach(() => {
     cleanup();
   });
 
   it('should render the heading', () => {
-    const heading = screen.getByRole('heading', { level: 1 });
+    const { getByRole } = render(<PaperlessDelivery />);
+    const heading = getByRole('heading', { level: 1 });
     expect(heading).to.exist;
     expect(heading).to.have.text('Paperless delivery');
   });
 
   it('should render the description', () => {
+    const { getByText } = render(<PaperlessDelivery />);
     expect(
-      screen.getByText(
+      getByText(
         /When you sign up, you’ll start receiving fewer documents by mail/,
       ),
     );
   });
 
   it('should render the note', () => {
-    expect(screen.getByText(/enroll in additional paperless delivery options/));
+    const { getByText } = render(<PaperlessDelivery />);
+    expect(getByText(/enroll in additional paperless delivery options/));
   });
 
-  it('should render missing email alert when user has no email', async () => {
-    const view = renderWithProfileReducersAndRouter(<PaperlessDelivery />, {
-      initialState: {
-        featureToggles: {
-          loading: false,
-          [featureFlagNames.profileShowPaperlessDelivery]: true,
-        },
-        user: {
-          profile: {
-            vapContactInfo: {
-              email: {
-                emailAddress: '',
+  it('should render alert when user has no email', async () => {
+    const { queryByText } = renderWithProfileReducersAndRouter(
+      <PaperlessDelivery />,
+      {
+        initialState: {
+          featureToggles: {
+            loading: false,
+            [featureFlagNames.profileShowPaperlessDelivery]: true,
+          },
+          user: {
+            profile: {
+              vapContactInfo: {
+                email: {
+                  emailAddress: '',
+                },
               },
             },
           },
         },
+        path: '/profile/paperless-delivery',
       },
-      path: '/profile/paperless-delivery',
-    });
-
-    await waitFor(
-      () => expect(view.findByTestId('missing-email-info-alert')).to.exist,
     );
+
+    expect(queryByText(/Add your email to get delivery updates/)).to.exist;
   });
 });
