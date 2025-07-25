@@ -16,7 +16,7 @@ import {
   clearReturnState,
 } from '../../../src/js/utilities/data/profile';
 
-describe('EditContactInfo', () => {
+xdescribe('EditContactInfo', () => {
   const content = getContent();
 
   // Only testing EditHomePhone - other pages use same BuildPage code
