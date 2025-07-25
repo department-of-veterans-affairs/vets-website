@@ -36,7 +36,7 @@ function ViewDependentsList(props) {
     mainContent = (
       <va-alert status="info" slim>
         {props?.isAward
-          ? `There are no dependents associated with your VA benefits`
+          ? 'You have no dependents on your VA benefits.'
           : `We have no record of dependents who are not on your VA benefits.`}
       </va-alert>
     );

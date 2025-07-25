@@ -18,7 +18,7 @@ export const VeteranInformation = ({ formData }) => {
   return (
     <>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h3>We’ve prefilled some information for you</h3>
+        <h2>We’ve prefilled some information for you</h2>
         <p>
           Since you’re signed in, we’ve prefilled part of your application based
           on your profile details. You can also save your application in
