@@ -26,7 +26,7 @@ export const FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED =
 export const FETCH_REFERRAL_APPOINTMENT_INFO_FAILED =
   'FETCH_REFERRAL_APPOINTMENT_INFO_FAILED';
 export const FETCH_REFERRAL = 'FETCH_REFERRAL';
-export const SET_SELECTED_SLOT = 'SET_SELECTED_SLOT';
+export const SET_SELECTED_SLOT_START_TIME = 'SET_SELECTED_SLOT_START_TIME';
 export const SET_INIT_REFERRAL_FLOW = 'SET_INIT_REFERRAL_FLOW';
 
 export function setFormCurrentPage(currentPage) {
@@ -138,10 +138,10 @@ export function fetchAppointmentInfo(appointmentId) {
   };
 }
 
-export function setSelectedSlot(slot) {
+export function setSelectedSlotStartTime(slotStartTime) {
   return {
-    type: SET_SELECTED_SLOT,
-    payload: slot,
+    type: SET_SELECTED_SLOT_START_TIME,
+    payload: slotStartTime,
   };
 }
 

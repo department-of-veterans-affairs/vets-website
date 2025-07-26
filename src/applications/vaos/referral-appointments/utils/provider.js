@@ -1,6 +1,5 @@
 /* eslint-disable no-plusplus */
 const dateFns = require('date-fns');
-const dateFnsTz = require('date-fns-tz');
 
 const createDefaultDraftAppointment = () => ({
   id: 'EEKoGzEf',
@@ -125,61 +124,7 @@ const getSlotByDate = (slots, dateTime) => {
   return slots.find(slot => slot.start === dateTime);
 };
 
-/**
- * Returns if a selected date is in conflict with an existing appointment
- *
- * @param {String} selectedDate Date of selected appointment
- * @param {Object} appointmentsByMonth Existing appointments object
- * @param {String} facilityTimeZone Timezone string of facility
- * @returns {Boolean} Is there a conflict
- */
-const hasConflict = (selectedDate, appointmentsByMonth, facilityTimeZone) => {
-  let conflict = false;
-  const selectedMonth = dateFns.format(new Date(selectedDate), 'yyyy-MM');
-  if (!(selectedMonth in appointmentsByMonth)) {
-    return conflict;
-  }
-  const selectedDay = dateFns.format(new Date(selectedDate), 'dd');
-  const monthOfApts = appointmentsByMonth[selectedMonth];
-  const daysWithApts = monthOfApts.map(apt => {
-    return dateFns.format(new Date(apt.start), 'dd');
-  });
-  if (!daysWithApts.includes(selectedDay)) {
-    return conflict;
-  }
-  const unavailableTimes = monthOfApts.map(upcomingAppointment => {
-    return {
-      start: dateFnsTz.zonedTimeToUtc(
-        new Date(upcomingAppointment.start),
-        upcomingAppointment.timezone,
-      ),
-      end: dateFnsTz.zonedTimeToUtc(
-        dateFns.addMinutes(
-          new Date(upcomingAppointment.start),
-          upcomingAppointment.minutesDuration,
-        ),
-        upcomingAppointment.timezone,
-      ),
-    };
-  });
-  unavailableTimes.forEach(range => {
-    if (
-      dateFns.isWithinInterval(
-        dateFnsTz.zonedTimeToUtc(new Date(selectedDate), facilityTimeZone),
-        {
-          start: range.start,
-          end: range.end,
-        },
-      )
-    ) {
-      conflict = true;
-    }
-  });
-  return conflict;
-};
-
 module.exports = {
   createDraftAppointmentInfo,
   getSlotByDate,
-  hasConflict,
 };

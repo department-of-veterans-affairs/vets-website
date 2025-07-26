@@ -24,7 +24,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
     referral: {
-      selectedSlot: '0',
+      selectedSlotStartTime: '0',
       currentPage: 'reviewAndConfirm',
       appointmentCreateStatus: FETCH_STATUS.notStarted,
       pollingRequestStart: null,
@@ -73,7 +73,12 @@ describe('VAOS Component: ReviewAndConfirm', () => {
 
     const noSelectState = {
       ...initialFullState,
-      ...{ referral: { ...initialFullState.referral, selectedSlot: '' } },
+      ...{
+        referral: {
+          ...initialFullState.referral,
+          selectedSlotStartTime: '',
+        },
+      },
     };
 
     const screen = renderWithStoreAndRouter(
@@ -100,7 +105,12 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     sessionStorage.removeItem(selectedSlotKey);
     const noSelectState = {
       ...initialFullState,
-      ...{ referral: { ...initialFullState.referral, selectedSlot: '' } },
+      ...{
+        referral: {
+          ...initialFullState.referral,
+          selectedSlotStartTime: '',
+        },
+      },
     };
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
