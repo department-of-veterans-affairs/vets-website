@@ -9,7 +9,7 @@ describe('hca Post 9/11 Service config', () => {
     title: pageTitle,
     schema,
     uiSchema,
-  } = formConfig.chapters.militaryService.pages.gulfWarService;
+  } = formConfig.chapters.militaryService.pages.postSept11Service;
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 2;

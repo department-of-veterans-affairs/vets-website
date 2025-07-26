@@ -24,13 +24,13 @@ export default {
       },
       city: {
         'ui:errorMessages': {
-          pattern: content['validation-error--city-address'],
+          pattern: content['validation-error--city'],
         },
       },
       state: {
         'ui:title': content['contact-info--state-label'],
         'ui:errorMessages': {
-          required: content['validation-error--state-address'],
+          required: content['validation-error--state'],
         },
       },
     }),

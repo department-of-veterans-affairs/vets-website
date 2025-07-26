@@ -20,8 +20,8 @@ export default {
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
-          lowDisability: content['benefits--disability-rating-high-label'],
-          highDisability: content['benefits--disability-rating-low-label'],
+          lowDisability: content['benefits--disability-rating-low-label'],
+          highDisability: content['benefits--disability-rating-high-label'],
           none: content['form--default-no-label'],
         },
       },
