@@ -2,6 +2,7 @@ import React from 'react';
 import FormNavButtons, {
   FormNavButtonContinue,
 } from 'platform/forms-system/src/js/components/FormNavButtons';
+import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder';
 import CustomArrayBuilderButtonPair from './CustomArrayBuilderButtonPair';
 
 /**
@@ -12,6 +13,10 @@ import CustomArrayBuilderButtonPair from './CustomArrayBuilderButtonPair';
  */
 export function CustomPageNavButtons(props) {
   const { contentAfterButtons, arrayBuilder, goBack } = props;
+
+  const searchParams = getArrayUrlSearchParams();
+  const isEdit = !!searchParams.get('edit');
+  const isAdd = !!searchParams.get('add');
 
   const useTopBackLink =
     contentAfterButtons?.props?.formConfig?.useTopBackLink ?? false;
@@ -25,11 +30,12 @@ export function CustomPageNavButtons(props) {
   3. no useTopBackLink: standard Continue/Back buttons
   */
   if (useTopBackLink) {
-    navButtons = arrayBuilder ? (
-      <CustomArrayBuilderButtonPair {...props} {...arrayBuilder} />
-    ) : (
-      <FormNavButtonContinue submitToContinue />
-    );
+    navButtons =
+      arrayBuilder && (isEdit || isAdd) ? (
+        <CustomArrayBuilderButtonPair {...props} {...arrayBuilder} />
+      ) : (
+        <FormNavButtonContinue submitToContinue />
+      );
   } else {
     navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   }

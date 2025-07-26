@@ -9,7 +9,7 @@ import {
   checkboxGroupUI,
   arrayBuilderItemSubsequentPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { toHash, nameWording } from '../../shared/utilities';
 
 // This is the original schema that will be dynamically overrulled as soon
@@ -95,6 +95,10 @@ export function selectHealthcareParticipantsOnGoForward(props) {
 /** @type {CustomPageType} */
 export function SelectHealthcareParticipantsPage(props) {
   const sch = dynamicSchema(props?.fullData, props?.data);
+  const navButtons = CustomPageNavButtons({
+    ...props,
+    onContinue: () => selectHealthcareParticipantsOnGoForward(props),
+  });
 
   return (
     <SchemaForm
@@ -113,11 +117,7 @@ export function SelectHealthcareParticipantsPage(props) {
       <>
         {/* contentBeforeButtons = save-in-progress links */}
         {props.contentBeforeButtons}
-        <FormNavButtons
-          goBack={props.goBack}
-          goForward={() => selectHealthcareParticipantsOnGoForward(props)}
-          submitToContinue
-        />
+        {navButtons}
         {props.contentAfterButtons}
       </>
     </SchemaForm>
