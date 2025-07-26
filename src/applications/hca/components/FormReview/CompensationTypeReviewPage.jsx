@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import content from '../../locales/en/content.json';
 
-const labels = {
+export const TEXT_LABELS = {
   highDisability: content['benefits--disability-rating-high-label'],
   lowDisability: content['benefits--disability-rating-low-label'],
   default: content['form--default-no-label'],
@@ -11,7 +11,7 @@ const labels = {
 
 const CompensationTypeReviewPage = ({ data }) => {
   const compensationType = useMemo(
-    () => labels[data.vaCompensationType] || labels.default,
+    () => TEXT_LABELS[data.vaCompensationType] || TEXT_LABELS.default,
     [data.vaCompensationType],
   );
 

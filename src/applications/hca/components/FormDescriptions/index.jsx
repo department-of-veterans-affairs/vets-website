@@ -107,9 +107,9 @@ export const PensionDescription = (
 
 /** CHAPTER 3: Military Service */
 export const ServiceDateRangeDescription = (
-  <div className="vads-u-color--gray-medium">
+  <span className="vads-u-display--block vads-u-margin-bottom--2 vads-u-color--gray-medium">
     If you don’t know the exact date, enter your best guess
-  </div>
+  </span>
 );
 
 /** CHAPTER 4: Household Information */

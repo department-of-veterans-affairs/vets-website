@@ -20,16 +20,16 @@ export default {
     ),
     'view:gulfWarServiceDates': {
       gulfWarStartDate: {
+        ...descriptionUI(ServiceDateRangeDescription),
         ...currentOrPastMonthYearUI(
           content['service-info--service-start-date-label'],
         ),
-        ...descriptionUI(ServiceDateRangeDescription),
       },
       gulfWarEndDate: {
+        ...descriptionUI(ServiceDateRangeDescription),
         ...currentOrPastMonthYearUI(
           content['service-info--service-end-date-label'],
         ),
-        ...descriptionUI(ServiceDateRangeDescription),
       },
       'ui:validations': [validateGulfWarDates],
     },

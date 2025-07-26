@@ -20,12 +20,16 @@ export default {
     ),
     'view:toxicExposureDates': {
       toxicExposureStartDate: {
-        ...currentOrPastMonthYearUI('Exposure start date'),
         ...descriptionUI(ServiceDateRangeDescription),
+        ...currentOrPastMonthYearUI(
+          content['service-info--exposure-start-date-label'],
+        ),
       },
       toxicExposureEndDate: {
-        ...currentOrPastMonthYearUI('Exposure end date'),
         ...descriptionUI(ServiceDateRangeDescription),
+        ...currentOrPastMonthYearUI(
+          content['service-info--exposure-end-date-label'],
+        ),
       },
       'ui:validations': [validateExposureDates],
     },
