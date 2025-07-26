@@ -38,6 +38,29 @@ export default function DefaultPage({
     }
     return 'Request for evidence outside VA';
   };
+  const getFirstPartyDisplayName = () => {
+    if (evidenceDictionary[item.displayName]?.isSensitive) {
+      return `Request for evidence`;
+    }
+    return item.friendlyName || 'Request for evidence';
+  };
+  const getFirstParyRequestText = () => {
+    if (
+      item.friendlyName &&
+      evidenceDictionary[item.displayName]?.isSensitive
+    ) {
+      return `Respond by ${dateFormatter(
+        item.suspenseDate,
+      )} for: ${getDisplayFriendlyName(item)}`;
+    }
+    if (item.friendlyName) {
+      return `Respond by ${dateFormatter(item.suspenseDate)}`;
+    }
+    return `Respond by ${dateFormatter(item.suspenseDate)} for: ${
+      item.displayName
+    }`;
+  };
+
   const getRequestText = () => {
     if (evidenceDictionary[item.displayName]?.isDBQ) {
       return `We made a request on ${dateFormatter(item.requestedDate)} for: ${
@@ -61,13 +84,9 @@ export default function DefaultPage({
           <h1 className="claims-header">
             {item.status === 'NEEDED_FROM_YOU' ? (
               <>
-                {item.friendlyName || 'Request for evidence'}
+                {getFirstPartyDisplayName()}
                 <span className="vads-u-font-family--sans vads-u-margin-bottom--1 vads-u-margin-top--1">
-                  {item.friendlyName
-                    ? `Respond by ${dateFormatter(item.suspenseDate)}`
-                    : `Respond by ${dateFormatter(item.suspenseDate)} for: ${
-                        item.displayName
-                      }`}
+                  {getFirstParyRequestText()}
                 </span>
               </>
             ) : (

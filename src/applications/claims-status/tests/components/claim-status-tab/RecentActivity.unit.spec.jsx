@@ -1448,9 +1448,9 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
       getByText(
-        `We made a request outside the VA: “Third party friendly name.”`,
+        `We made a request outside the VA: “third party friendly name.”`,
       );
-      getByText(/you don’t have to do anything/i);
+      getByText(/you don’t need to do anything/i);
       getByText(
         `We asked someone outside VA for documents related to your claim.`,
       );
@@ -1461,7 +1461,7 @@ describe('<RecentActivity>', () => {
           <RecentActivity claim={openClaimStep3WithDBQItem} />
         </Provider>,
       );
-      getByText(`We made a request: “DBQ friendly name.”`);
+      getByText(`We made a request: “dBQ friendly name.”`);
     });
     it('should render friendly display name, updated activity message and activity description with NEEDED_FROM_OTHERS record with activity description', () => {
       const { getByText, queryByText } = renderWithRouter(
@@ -1474,9 +1474,9 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
       getByText(
-        `We made a request outside the VA: “Third party friendly name.”`,
+        `We made a request outside the VA: “third party friendly name.”`,
       );
-      expect(queryByText(/you don’t have to do anything/i)).to.be.null;
+      expect(queryByText(/you don’t need to do anything/i)).to.be.null;
       expect(
         queryByText(
           `We asked someone outside VA for documents related to your claim.`,
