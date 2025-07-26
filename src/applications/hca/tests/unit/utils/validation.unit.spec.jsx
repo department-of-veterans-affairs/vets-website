@@ -379,7 +379,7 @@ describe('hca `validateDateOfBirth` method', () => {
 
 describe('hca `validateDependent` method', () => {
   const baseValidData = {
-    fullName: { firstName: 'John', lastName: 'Doe' },
+    fullName: { first: 'John', last: 'Doe' },
     dependentRelation: 'child',
     socialSecurityNumber: '211111111',
     dateOfBirth: '2005-01-01',
@@ -387,9 +387,9 @@ describe('hca `validateDependent` method', () => {
     disabledBefore18: false,
     cohabitedLastYear: false,
     'view:dependentIncome': true,
-    'view:grossIncome': { grossIncome: '1000' },
-    'view:netIncome': { netIncome: '500' },
-    'view:otherIncome': { otherIncome: '200' },
+    'view:grossIncome': { grossIncome: '1,000' },
+    'view:netIncome': { netIncome: '$500' },
+    'view:otherIncome': { otherIncome: 200 },
     dependentEducationExpenses: '300.00',
   };
 
