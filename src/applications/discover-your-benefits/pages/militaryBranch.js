@@ -11,7 +11,7 @@ import {
 
 const allBranches = Object.keys(militaryBranchTypes);
 const allBranchComponentKeys = Object.values(militaryBranchComponentTypes);
-const branchesWithComponents = allBranches.filter(
+export const branchesWithComponents = allBranches.filter(
   branchKey => branchKey !== militaryBranchTypes.SPACE_FORCE,
 );
 
@@ -30,7 +30,7 @@ const branchComponentUrlNames = {
   SPACE_FORCE: 'space-force',
 };
 
-const branchComponentPageNames = {
+export const branchComponentPageNames = {
   AIR_FORCE: 'airForce',
   ARMY: 'army',
   COAST_GUARD: 'coastGuard',

@@ -7,7 +7,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
-// import { militaryBranchComponentTypes } from '../constants/benefits';
+import { militaryBranchComponentTypes } from '../constants/benefits';
 
 import manifest from '../manifest.json';
 
@@ -20,6 +20,7 @@ import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
 import activeDuty from '../pages/activeDuty';
 import militaryBranch, {
+  branchComponentPageNames,
   getBranchComponentPages,
 } from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
@@ -112,20 +113,21 @@ export const formConfig = {
           title: 'Active Duty',
           uiSchema: activeDuty.uiSchema,
           schema: activeDuty.schema,
-          // depends: formData => {
-          //   return (
-          //     !environment.isProduction() &&
-          //     Object.values(formData.branchComponents).some(
-          //       branchComponent =>
-          //         branchComponent[
-          //           militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
-          //         ] === true ||
-          //         branchComponent[
-          //           militaryBranchComponentTypes.RESERVE_SERVICE
-          //         ] === true,
-          //     )
-          //   );
-          // },
+          depends: formData => {
+            return (
+              !environment.isProduction() &&
+              Object.values(branchComponentPageNames).some(pageName => {
+                return (
+                  formData[pageName]?.[
+                    militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
+                  ] ||
+                  formData[pageName]?.[
+                    militaryBranchComponentTypes.RESERVE_SERVICE
+                  ]
+                );
+              })
+            );
+          },
         },
         titleTenTimeServed: {
           path: 'service/title-ten',
