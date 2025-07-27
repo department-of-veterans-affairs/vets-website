@@ -2,7 +2,6 @@ import {
   checkboxGroupSchema,
   checkboxGroupUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   militaryBranchTypes,
   militaryBranchTypeLabels,
@@ -65,7 +64,7 @@ const branchComponentsUIProps = branchKey => {
   });
 };
 
-const getBranchComponentPage = branchKey => {
+const getBranchComponentPage = (branchKey, environementCheck) => {
   return {
     path: `service/${branchComponentUrlNames[branchKey]}`,
     title: 'Which Component did you serve in the Army?',
@@ -83,16 +82,16 @@ const getBranchComponentPage = branchKey => {
       },
     },
     depends: formData =>
-      formData.militaryBranch?.[branchKey] && !environment.isProduction(),
+      formData.militaryBranch?.[branchKey] && environementCheck,
   };
 };
 
-export const getBranchComponentPages = () => {
+export const getBranchComponentPages = environementCheck => {
   const branchComponentPages = {};
   branchesWithComponents.forEach(branchKey => {
     branchComponentPages[
       branchComponentPageNames[branchKey]
-    ] = getBranchComponentPage(branchKey);
+    ] = getBranchComponentPage(branchKey, environementCheck);
   });
   return branchComponentPages;
 };
