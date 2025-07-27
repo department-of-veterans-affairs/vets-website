@@ -2,6 +2,7 @@ import {
   checkboxGroupSchema,
   checkboxGroupUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   militaryBranchTypes,
   militaryBranchTypeLabels,
@@ -21,42 +22,80 @@ const branchesWithoutNationalGuard = [
   militaryBranchTypes.NAVY,
 ];
 
-const branchComponentsSchemaProps = branchesWithComponents.reduce(
-  (acc, branchKey) => {
-    if (branchesWithoutNationalGuard.includes(branchKey)) {
-      // National Guard is not a component for these branches
-      acc[branchKey] = checkboxGroupSchema(
-        allBranchComponentKeys.filter(
-          key => key !== militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE,
-        ),
-      );
-    } else {
-      // National Guard is a component for these branches
-      acc[branchKey] = checkboxGroupSchema(allBranchComponentKeys);
-    }
-    return acc;
-  },
-  {},
-);
+const branchComponentUrlNames = {
+  AIR_FORCE: 'air-force',
+  ARMY: 'army',
+  COAST_GUARD: 'coast-guard',
+  MARINE_CORPS: 'marine-corps',
+  NAVY: 'navy',
+  SPACE_FORCE: 'space-force',
+};
 
-const branchComponentsUIProps = branchesWithComponents.reduce(
-  (acc, branchKey) => {
-    acc[branchKey] = checkboxGroupUI({
-      enableAnalytics: true,
-      title: `Which component of the ${
-        militaryBranchTypeLabels[branchKey]
-      } did you serve in?`,
-      hint: 'Select all that apply.',
-      labels: militaryBranchComponentTypeLabels,
-      required: () => false,
-      hideIf: formData => {
-        return !formData.militaryBranch?.[branchKey];
+const branchComponentPageNames = {
+  AIR_FORCE: 'airForce',
+  ARMY: 'army',
+  COAST_GUARD: 'coastGuard',
+  MARINE_CORPS: 'marineCorps',
+  NAVY: 'navy',
+  SPACE_FORCE: 'spaceForce',
+};
+
+const branchComponentsSchemaProps = branchKey => {
+  if (branchesWithoutNationalGuard.includes(branchKey)) {
+    // National Guard is not a component for these branches
+    return checkboxGroupSchema(
+      allBranchComponentKeys.filter(
+        key => key !== militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE,
+      ),
+    );
+  }
+  // National Guard is a component for these branches
+  return checkboxGroupSchema(allBranchComponentKeys);
+};
+
+const branchComponentsUIProps = branchKey => {
+  return checkboxGroupUI({
+    enableAnalytics: true,
+    title: `Which component of the ${
+      militaryBranchTypeLabels[branchKey]
+    } did you serve in?`,
+    hint: 'Select all that apply.',
+    labels: militaryBranchComponentTypeLabels,
+    required: () => false,
+  });
+};
+
+const getBranchComponentPage = branchKey => {
+  return {
+    path: `service/${branchComponentUrlNames[branchKey]}`,
+    title: 'Which Component did you serve in the Army?',
+    uiSchema: {
+      [branchComponentPageNames[branchKey]]: {
+        ...branchComponentsUIProps(branchKey),
       },
-    });
-    return acc;
-  },
-  {},
-);
+    },
+    schema: {
+      type: 'object',
+      properties: {
+        [branchComponentPageNames[branchKey]]: branchComponentsSchemaProps(
+          branchKey,
+        ),
+      },
+    },
+    depends: formData =>
+      formData.militaryBranch?.[branchKey] && !environment.isProduction(),
+  };
+};
+
+export const getBranchComponentPages = () => {
+  const branchComponentPages = {};
+  branchesWithComponents.forEach(branchKey => {
+    branchComponentPages[
+      branchComponentPageNames[branchKey]
+    ] = getBranchComponentPage(branchKey);
+  });
+  return branchComponentPages;
+};
 
 /** @type {PageSchema} */
 export default {
@@ -68,19 +107,11 @@ export default {
       required: () => false,
       labels: militaryBranchTypeLabels,
     }),
-    branchComponents: {
-      ...branchComponentsUIProps,
-    },
   },
-
   schema: {
     type: 'object',
     properties: {
       militaryBranch: checkboxGroupSchema(allBranches),
-      branchComponents: {
-        type: 'object',
-        properties: branchComponentsSchemaProps,
-      },
     },
   },
 };
