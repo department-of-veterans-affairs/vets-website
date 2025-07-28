@@ -68,12 +68,11 @@ describe('Representative Form Upload', () => {
       );
     });
 
-    it('sets sessionStorage flag when "Start form" is clicked', () => {
+    it('sets sessionStorage flag when "Start form upload and submission" is clicked', () => {
       cy.visit('/representative/representative-form-upload/21-686c');
 
-      cy.get('a[href="#start"]')
-        .contains('Start form')
-        .click();
+      cy.get('a[href="#start"]').contains('Start form upload and submission');
+      cy.clickStartForm();
 
       cy.window().then(win => {
         const flag = win.sessionStorage.getItem('formIncompleteARP');
@@ -91,9 +90,8 @@ describe('Representative Form Upload', () => {
       cy.injectAxe();
       cy.axeCheck();
 
-      cy.get('a[href="#start"]')
-        .contains('Start form')
-        .click();
+      cy.get('a[href="#start"]').contains('Start form upload and submission');
+      cy.clickStartForm();
 
       cy.location('pathname').should(
         'eq',
@@ -101,7 +99,7 @@ describe('Representative Form Upload', () => {
       );
 
       cy.findByLabelText(/^The claimant is the Veteran$/).click();
-      cy.findByRole('button', { name: /^Continue$/ }).click();
+      cy.clickFormContinue();
       cy.location('pathname').should(
         'eq',
         '/representative/representative-form-upload/21-686c/veteran-information',
@@ -118,7 +116,7 @@ describe('Representative Form Upload', () => {
       cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
       cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
       cy.axeCheck();
-      cy.findByRole('button', { name: /^Continue$/ }).click();
+      cy.clickFormContinue();
       cy.axeCheck();
 
       cy.location('pathname').should(
@@ -134,7 +132,7 @@ describe('Representative Form Upload', () => {
       cy.wait(1000);
       cy.axeCheck();
 
-      cy.findByRole('button', { name: /^Continue$/ }).click();
+      cy.clickFormContinue();
       cy.location('pathname').should(
         'eq',
         '/representative/representative-form-upload/21-686c/review-and-submit',
@@ -160,7 +158,7 @@ describe('Representative Form Upload', () => {
       );
 
       cy.get('a[href="#start"]')
-        .contains('Start form')
+        .contains('Start form upload and submission')
         .click();
 
       cy.location('pathname').should(
@@ -169,7 +167,7 @@ describe('Representative Form Upload', () => {
       );
 
       cy.findByLabelText(/^The claimant is the Veteran$/).click();
-      cy.findByRole('button', { name: /^Continue$/ }).click();
+      cy.clickFormContinue();
       cy.axeCheck();
 
       cy.location('pathname').should(
@@ -232,7 +230,7 @@ describe('Representative Form Upload', () => {
       );
 
       cy.get('a[href="#start"]')
-        .contains('Start form')
+        .contains('Start form upload and submission')
         .click();
 
       cy.location('pathname').should(
