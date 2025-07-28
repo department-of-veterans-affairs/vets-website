@@ -101,7 +101,7 @@ describe('10297 Helpers', () => {
         'Training Provider Example',
       );
       expect(trainingProviderArrayOptions.text.getItemName(emptyItem)).to.equal(
-        'null',
+        'training provider',
       );
     });
 
