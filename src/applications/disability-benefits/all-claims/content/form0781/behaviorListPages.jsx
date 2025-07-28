@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import {
   ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
   BEHAVIOR_LIST_SECTION_SUBTITLES,

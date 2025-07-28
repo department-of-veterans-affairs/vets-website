@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import {
   ADDITIONAL_EXPOSURES,
   GULF_WAR_1990_LOCATIONS,

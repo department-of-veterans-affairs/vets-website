@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
 import { selectProfile } from '~/platform/user/selectors';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';

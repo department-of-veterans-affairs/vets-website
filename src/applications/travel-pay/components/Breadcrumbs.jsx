@@ -1,6 +1,5 @@
 import React from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
 
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';

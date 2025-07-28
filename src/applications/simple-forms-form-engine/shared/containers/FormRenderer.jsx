@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Router, useRouterHistory } from 'react-router';
+import { Router } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import { createHistory } from 'history';
+import { createBrowserHistory } from 'history';
 import PropTypes from 'prop-types';
 import Error from './Error';
 import { getRoutesFromFormConfig } from '../routes';
@@ -19,7 +19,7 @@ const FormRenderer = ({ formId, rootUrl, trackingPrefix, breadcrumbs }) => {
   const formConfig = useSelector(state => state.formLoad?.formConfig);
   const formLoadingError = useSelector(state => state.formLoad?.error);
   const isFormLoading = useSelector(state => state.formLoad?.isLoading);
-  const history = useRouterHistory(createHistory)({
+  const history = createBrowserHistory({
     basename: rootUrl,
   });
 

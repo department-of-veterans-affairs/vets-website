@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Switch } from 'react-router-dom';
+import { Navigate, Switch } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import asyncLoader from '@department-of-veterans-affairs/platform-utilities/asyncLoader';
 import VAOSApp from './components/VAOSApp';
@@ -65,7 +65,7 @@ export default function createRoutesWithStore(store) {
             path={communityCarePaths}
             component={ReferralAppointments}
           />
-          <Redirect
+          <Navigate
             from="/new-covid-19-vaccine-booking"
             to="/new-appointment"
           />

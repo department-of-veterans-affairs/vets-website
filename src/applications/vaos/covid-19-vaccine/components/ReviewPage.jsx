@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory, Navigate } from 'react-router-dom';
 import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { FETCH_STATUS } from '../../utils/constants';
@@ -56,7 +56,7 @@ export default function ReviewPage() {
   );
 
   if (!vaFacility) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
   return (

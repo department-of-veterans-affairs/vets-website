@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom-v5-compat';
 import { InnerNavigationPaths, Paths } from '../util/constants';
 
 const InnerNavigation = () => {

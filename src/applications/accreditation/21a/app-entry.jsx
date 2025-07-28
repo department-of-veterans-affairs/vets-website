@@ -2,8 +2,8 @@ import '@department-of-veterans-affairs/platform-polyfills';
 
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router, useRouterHistory } from 'react-router';
-import { createHistory } from 'history';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
 import startReactApp from '@department-of-veterans-affairs/platform-startup/react';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
@@ -20,7 +20,7 @@ const store = createReduxStore(rootReducer);
 connectFeatureToggle(store.dispatch);
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
-const history = useRouterHistory(createHistory)({
+const history = createBrowserHistory({
   basename: manifest.rootUrl,
 });
 

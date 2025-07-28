@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 import { subMonths, format } from 'date-fns';
 import {
@@ -16,7 +16,7 @@ import { sendDataDogAction } from '../../util/helpers';
 import useFocusOutline from '../../hooks/useFocusOutline';
 
 const DownloadDateRange = () => {
-  const history = useHistory();
+  const history = useNavigate();
 
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
 

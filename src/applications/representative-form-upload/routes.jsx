@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Navigate } from 'react-router-dom';
 
 import { createRoutes } from 'platform/forms-system/src/js/routing/createRoutes';
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
@@ -26,7 +26,7 @@ const routes = (
         <Route key={lowerCaseFormId} path={`/${lowerCaseFormId}`}>
           <Route
             index
-            render={() => <Redirect to={`/${lowerCaseFormId}/introduction`} />}
+            render={() => <Navigate to={`/${lowerCaseFormId}/introduction`} />}
           />
           <Route
             path="*"

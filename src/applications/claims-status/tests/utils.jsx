@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
 // When using react-router hooks, the component that uses the
 // hooks has to be wrapped in a <Router> component. This is a

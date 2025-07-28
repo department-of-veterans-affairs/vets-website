@@ -1,7 +1,8 @@
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useState } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
-import { Prompt } from 'react-router-dom';
+// eslint-disable-next-line camelcase
+import { unstable_usePrompt } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { ErrorMessages } from '../../util/constants';
 
@@ -95,7 +96,7 @@ export const RouteLeavingGuard = ({
 
   return (
     <>
-      <Prompt when={when} message={handleBlockedNavigation} />
+      <unstable_usePrompt when={when} message={handleBlockedNavigation} />
       <VaModal
         modalTitle={title}
         onCloseEvent={() => {

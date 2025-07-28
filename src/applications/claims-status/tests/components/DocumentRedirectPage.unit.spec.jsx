@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import DocumentRedirectPage from '../../containers/DocumentRedirectPage';
 import * as DocumentRequestPage from '../../containers/DocumentRequestPage';
 

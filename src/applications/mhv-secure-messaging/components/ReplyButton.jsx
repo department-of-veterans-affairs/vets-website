@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom-v5-compat';
 import { Paths } from '../util/constants';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 
 const ReplyButton = props => {
-  const history = useHistory();
+  const history = useNavigate();
   const { customFoldersRedesignEnabled } = useFeatureToggles();
   const messageId = useSelector(
     state => state.sm.threadDetails.messages[0]?.messageId,

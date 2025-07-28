@@ -1,13 +1,13 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom-v5-compat';
 import App from '../containers/App';
 
 const routes = (
-  <Switch>
+  <Routes>
     <Route path="/" key="App">
       <App isPilot />
     </Route>
-  </Switch>
+  </Routes>
 );
 
 export default routes;

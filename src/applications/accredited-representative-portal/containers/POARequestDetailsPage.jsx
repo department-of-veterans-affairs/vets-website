@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useLoaderData, Form, redirect, useNavigation } from 'react-router-dom';
+import {
+  useLoaderData,
+  Form,
+  redirect,
+  useNavigation,
+} from 'react-router-dom-v5-compat';
 import {
   VaRadio,
   VaRadioOption,

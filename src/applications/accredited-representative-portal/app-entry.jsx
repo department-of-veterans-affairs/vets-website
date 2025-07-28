@@ -2,7 +2,10 @@ import '@department-of-veterans-affairs/platform-polyfills';
 
 import React from 'react';
 import { Provider } from 'react-redux';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom-v5-compat';
 
 import startReactApp from '@department-of-veterans-affairs/platform-startup/react';
 

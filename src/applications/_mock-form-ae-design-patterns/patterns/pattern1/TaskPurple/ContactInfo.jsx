@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { Element, scrollTo, scrollAndFocus } from 'platform/utilities/scroll';

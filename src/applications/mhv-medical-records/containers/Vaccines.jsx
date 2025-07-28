@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useLocation,
-  useHistory,
-} from 'react-router-dom/cjs/react-router-dom.min';
+import { useLocation, useNavigate, Link } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
@@ -91,7 +87,7 @@ const Vaccines = props => {
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const location = useLocation();
-  const history = useHistory();
+  const history = useNavigate();
   const paramPage = getParamValue(location.search, 'page');
 
   const { isAcceleratingVaccines } = useAcceleratedData();

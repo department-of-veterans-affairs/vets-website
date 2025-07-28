@@ -6,7 +6,7 @@ import { scrollTo } from 'platform/utilities/scroll';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import {
   aboutMyselfRelationshipFamilyMemberPages,
   aboutMyselfRelationshipVeteranPages,

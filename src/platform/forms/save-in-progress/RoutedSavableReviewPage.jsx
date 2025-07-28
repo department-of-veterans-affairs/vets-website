@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 import { Element } from 'platform/utilities/scroll';
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';

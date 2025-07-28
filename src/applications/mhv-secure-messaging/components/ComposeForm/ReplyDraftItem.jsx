@@ -6,7 +6,7 @@ import React, {
   useRef,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -55,7 +55,7 @@ const ReplyDraftItem = props => {
     setIsSending,
   } = props;
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useNavigate();
   const textareaRef = useRef(null);
   const composeFormActionButtonsRef = useRef(null);
 

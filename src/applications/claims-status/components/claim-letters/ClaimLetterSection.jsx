@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom-v5-compat';
+import { Link } from 'react-router-dom';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 export default function ClaimLetterSection() {

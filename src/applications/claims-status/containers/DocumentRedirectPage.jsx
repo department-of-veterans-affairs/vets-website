@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Navigate } from 'react-router-dom-v5-compat';
+import { Redirect } from 'react-router-dom';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import withRouter from '../utils/withRouter';
 import DocumentRequestPage from './DocumentRequestPage';
@@ -42,7 +42,7 @@ const DocumentRedirectPage = ({ trackedItem, trackedItemId }) => {
     );
 
   return cstFriendlyEvidenceRequests ? (
-    <Navigate to={redirectPath} replace />
+    <Redirect to={redirectPath} replace />
   ) : (
     <DocumentRequestPage />
   );

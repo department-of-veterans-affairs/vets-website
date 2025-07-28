@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams, useHistory } from 'react-router-dom';
+import {
+  useLocation,
+  useParams,
+  useNavigate,
+} from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import PropTypes from 'prop-types';
@@ -27,7 +31,7 @@ const ThreadDetails = props => {
   const { testing } = props;
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useHistory();
+  const history = useNavigate();
 
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const recipients = useSelector(state => state.sm.recipients);

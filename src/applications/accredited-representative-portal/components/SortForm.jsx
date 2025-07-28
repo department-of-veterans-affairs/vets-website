@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, useNavigate, useSearchParams } from 'react-router-dom';
+import { Form, useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { SEARCH_PARAMS } from '../utilities/poaRequests';
 

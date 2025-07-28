@@ -2,7 +2,7 @@ import React from 'react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
 import IndexLink from '../../components/IndexLink';
 

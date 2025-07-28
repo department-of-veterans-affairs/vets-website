@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { find, get, startCase } from 'lodash';
 import * as Sentry from '@sentry/browser';
-import { Link } from 'react-router-dom-v5-compat';
+import { Link } from 'react-router-dom';
 
 import { Toggler } from '~/platform/utilities/feature-toggles';
 

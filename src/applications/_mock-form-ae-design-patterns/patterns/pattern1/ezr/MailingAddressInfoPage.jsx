@@ -1,6 +1,6 @@
 import React from 'react';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { selectVAPMailingAddress } from 'platform/user/selectors';
 import { useSelector } from 'react-redux';
 import { BorderedInfoSection } from '../../../shared/components/BorderedInfoSection';

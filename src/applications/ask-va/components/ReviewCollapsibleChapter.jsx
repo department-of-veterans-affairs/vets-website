@@ -6,7 +6,7 @@ import uniqueId from 'lodash/uniqueId';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';

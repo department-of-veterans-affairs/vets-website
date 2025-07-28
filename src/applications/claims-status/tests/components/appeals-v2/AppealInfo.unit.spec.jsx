@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { merge } from 'lodash';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
-import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { createStore } from 'redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom-v5-compat';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   clearLabsAndTestDetails,
@@ -25,7 +25,7 @@ import { useTrackAction } from '../hooks/useTrackAction';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useNavigate();
 
   const labAndTestDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,

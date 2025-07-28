@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route } from 'react-router';
+import { Router, Route } from 'react-router-dom';
 
 import Confirmation from './containers/Confirmation';
 import ViewAppeal from './containers/ViewAppeal';

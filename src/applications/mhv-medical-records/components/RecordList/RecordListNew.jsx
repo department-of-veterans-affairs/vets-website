@@ -2,10 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  useHistory,
-  useLocation,
-} from 'react-router-dom/cjs/react-router-dom.min';
+import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
 import RecordListItem from './RecordListItem';
 import { getParamValue, sendDataDogAction } from '../../util/helpers';
 
@@ -18,7 +15,7 @@ const RecordListNew = ({
     pagination: { currentPage, perPage, totalPages, totalEntries },
   },
 }) => {
-  const history = useHistory();
+  const history = useNavigate();
   const location = useLocation();
   const paramPage = getParamValue(location.search, 'page') || currentPage;
 

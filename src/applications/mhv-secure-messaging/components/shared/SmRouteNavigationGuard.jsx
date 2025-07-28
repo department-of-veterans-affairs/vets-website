@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Prompt } from 'react-router-dom';
+// eslint-disable-next-line camelcase
+import { unstable_usePrompt } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { resetUserSession } from '../../util/helpers';
@@ -102,7 +103,7 @@ const SmRouteNavigationGuard = ({
 
   return (
     <>
-      <Prompt when={when} message={handleBlockedNavigation} />
+      <unstable_usePrompt when={when} message={handleBlockedNavigation} />
       <VaModal
         modalTitle={modalTitle}
         modalText={modalText}
