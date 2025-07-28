@@ -26,7 +26,7 @@ describe('Pre-need sponsor military name information', () => {
     );
 
     expect(form.find('va-text-input').length).to.equal(3);
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('va-select').length).to.equal(1);
     form.unmount();
   });
 
@@ -80,7 +80,14 @@ describe('Pre-need sponsor military name information', () => {
       'Jane',
     );
     fillDataDirectly(form, '#root_application_veteran_serviceName_middle', 'M');
-    fillData(form, 'select#root_application_veteran_serviceName_suffix', 'Jr.');
+    // Set value directly on the va-select web component and dispatch change event
+    const suffixSelect = form
+      .getDOMNode()
+      .querySelector('#root_application_veteran_serviceName_suffix');
+    if (suffixSelect) {
+      suffixSelect.value = 'Jr.';
+      suffixSelect.dispatchEvent(new Event('change', { bubbles: true }));
+    }
 
     form.find('form').simulate('submit');
 

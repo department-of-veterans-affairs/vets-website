@@ -18,7 +18,10 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { sponsorAddressCleanValidation } from '../../shared/validations';
+import {
+  sponsorAddressCleanValidation,
+  validateSponsorSsnIsUnique,
+} from '../../shared/validations';
 
 export const sponsorIntroSchema = {
   uiSchema: {
@@ -77,6 +80,7 @@ export const sponsorIdentificationSchema = {
         identification information`;
     }),
     sponsorSsn: ssnUI(),
+    'ui:validations': [validateSponsorSsnIsUnique],
   },
   schema: {
     type: 'object',

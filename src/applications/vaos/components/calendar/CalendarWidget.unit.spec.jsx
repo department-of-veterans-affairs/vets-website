@@ -9,8 +9,10 @@ import {
   startOfMonth,
 } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
+import MockDate from 'mockdate';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAppointmentConflict } from './utils';
 import { onCalendarChange } from '../../new-appointment/redux/actions';
 import {
   createTestStore,
@@ -28,35 +30,31 @@ describe('VAOS Component: CalendarWidget', () => {
     const slot2 = addMinutes(nowUTC, 120);
     const availableSlots = [
       {
-        start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
+        start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeLocal),
         end: formatInTimeZone(
           addMinutes(nowUTC, 60),
           'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
+          DATE_FORMATS.ISODateTimeLocal,
         ),
       },
       {
-        start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeUTC),
+        start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeLocal),
         end: formatInTimeZone(
           addMinutes(slot2, 60),
           'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
+          DATE_FORMATS.ISODateTimeLocal,
         ),
       },
     ];
-    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
+    const startMonth = nowUTC;
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
     // Grouped by YYYY-MM
     const upcomingAppointments = {
-      [startMonth]: [
+      [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          startUtc: formatInTimeZone(
-            offset,
-            timezone,
-            DATE_FORMATS.ISODateTimeLocal,
-          ),
+          start: offset,
           minutesDuration: 60,
         },
       ],
@@ -83,16 +81,8 @@ describe('VAOS Component: CalendarWidget', () => {
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));
           }}
-          minDate={formatInTimeZone(
-            nowUTC,
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
-          maxDate={formatInTimeZone(
-            addYears(nowUTC, 1),
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
+          minDate={nowUTC}
+          maxDate={addYears(nowUTC, 1)}
           renderIndicator={_ => undefined}
           required
           requiredMessage="Please choose your preferred date and time for your appointment"
@@ -158,19 +148,15 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
     ];
-    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
+    const startMonth = nowUTC;
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
     // Grouped by YYYY-MM
     const upcomingAppointments = {
-      [startMonth]: [
+      [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          startUtc: formatInTimeZone(
-            offset,
-            timezone,
-            DATE_FORMATS.ISODateTimeLocal,
-          ),
+          start: offset,
           minutesDuration: 60,
           status: 'cancelled',
         },
@@ -198,16 +184,8 @@ describe('VAOS Component: CalendarWidget', () => {
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));
           }}
-          minDate={formatInTimeZone(
-            nowUTC,
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
-          maxDate={formatInTimeZone(
-            addYears(nowUTC, 1),
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
+          minDate={nowUTC}
+          maxDate={addYears(nowUTC, 1)}
           renderIndicator={_ => undefined}
           required
           requiredMessage="Please choose your preferred date and time for your appointment"
@@ -270,19 +248,15 @@ describe('VAOS Component: CalendarWidget', () => {
         ),
       },
     ];
-    const startMonth = formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.yearMonth);
+    const startMonth = nowUTC;
     const submitted = false;
     // Offset by 30 minutes to simulate an overlapping appointment
     const offset = addMinutes(nowUTC, 30);
     // Grouped by YYYY-MM
     const upcomingAppointments = {
-      [startMonth]: [
+      [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          startUtc: formatInTimeZone(
-            offset,
-            timezone,
-            DATE_FORMATS.ISODateTimeLocal,
-          ),
+          start: offset,
           minutesDuration: 60,
         },
       ],
@@ -308,16 +282,8 @@ describe('VAOS Component: CalendarWidget', () => {
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));
           }}
-          minDate={formatInTimeZone(
-            nowUTC,
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
-          maxDate={formatInTimeZone(
-            addYears(nowUTC, 1),
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
+          minDate={nowUTC}
+          maxDate={addYears(nowUTC, 1)}
           renderIndicator={_ => undefined}
           required
           requiredMessage="Please choose your preferred date and time for your appointment"
@@ -396,13 +362,9 @@ describe('VAOS Component: CalendarWidget', () => {
     const offset = addMinutes(nowUTC, 30);
     // Grouped by YYYY-MM
     const upcomingAppointments = {
-      [startMonth]: [
+      [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          startUtc: formatInTimeZone(
-            offset,
-            timezone,
-            DATE_FORMATS.ISODateTimeLocal,
-          ),
+          start: offset,
           minutesDuration: 60,
         },
       ],
@@ -430,16 +392,8 @@ describe('VAOS Component: CalendarWidget', () => {
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));
           }}
-          minDate={formatInTimeZone(
-            nowUTC,
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
-          maxDate={formatInTimeZone(
-            addYears(nowUTC, 1),
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
+          minDate={nowUTC}
+          maxDate={addYears(nowUTC, 1)}
           renderIndicator={_ => undefined}
           required
           requiredMessage="Please choose your preferred date and time for your appointment"
@@ -497,13 +451,9 @@ describe('VAOS Component: CalendarWidget', () => {
     const offset = addMinutes(nowUTC, 30);
     // Grouped by YYYY-MM
     const upcomingAppointments = {
-      [startMonth]: [
+      [formatInTimeZone(startMonth, 'UTC', DATE_FORMATS.yearMonth)]: [
         {
-          startUtc: formatInTimeZone(
-            offset,
-            timezone,
-            DATE_FORMATS.ISODateTimeLocal,
-          ),
+          start: offset,
           minutesDuration: 60,
         },
       ],
@@ -531,16 +481,8 @@ describe('VAOS Component: CalendarWidget', () => {
           onChange={(...args) => {
             return dispatch(onCalendarChange(...args));
           }}
-          minDate={formatInTimeZone(
-            nowUTC,
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
-          maxDate={formatInTimeZone(
-            addYears(nowUTC, 1),
-            timezone,
-            DATE_FORMATS.yearMonthDay,
-          )}
+          minDate={nowUTC}
+          maxDate={addYears(nowUTC, 1)}
           renderIndicator={_ => undefined}
           required
           requiredMessage="Please choose your preferred date and time for your appointment"
@@ -568,3 +510,51 @@ describe('VAOS Component: CalendarWidget', () => {
     );
   });
 });
+
+describe('CalendarUtils: getAppointmentConflict', () => {
+  before(() => {
+    MockDate.set('2024-12-05T00:00:00Z');
+  });
+  after(() => {
+    MockDate.reset();
+  });
+  const appointmentsByMonth = {
+    '2024-12': [
+      {
+        start: '2024-12-06T17:00:00Z',
+        startUtc: '2024-12-06T17:00:00Z',
+        minutesDuration: 60,
+      },
+    ],
+  };
+  const availableSlots = [
+    {
+      start: '2024-12-06T16:00:00Z',
+      end: '2024-12-06T17:00:00Z',
+    },
+    {
+      start: '2024-12-06T17:00:00Z',
+      end: '2024-12-06T18:00:00Z',
+    },
+  ];
+  it('returns false when there is no conflict', () => {
+    expect(
+      getAppointmentConflict(
+        '2024-12-06T16:00:00Z',
+        appointmentsByMonth,
+        availableSlots,
+      ),
+    ).to.be.false;
+  });
+  it('returns true when there is a conflict', () => {
+    expect(
+      getAppointmentConflict(
+        '2024-12-06T17:00:00Z',
+        appointmentsByMonth,
+        availableSlots,
+      ),
+    ).to.be.true;
+  });
+});
+
+// TODO add test for appointment conflict

@@ -1,80 +1,192 @@
 import React from 'react';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-dom/test-utils';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import {
-  getFormDOM,
-  DefinitionTester,
-} from 'platform/testing/unit/schemaform-utils.jsx';
 import configureMockStore from 'redux-mock-store';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 const mockStore = configureMockStore();
 
-const payload = {
-  claimant: {
-    hasCurrentlyBuried: '1',
-  },
-};
-
-const store = mockStore({
-  form: {
-    data: payload,
-  },
-});
-
-describe('Pre-need preparer info', () => {
+describe('Pre-need preparer contact details', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.preparerInformation.pages.preparerContactDetails;
 
-  it('should render contact details', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <div>
-        <Provider store={store}>
-          <DefinitionTester
-            schema={schema}
-            data={{}}
-            definitions={formConfig.defaultDefinitions}
-            uiSchema={uiSchema}
-          />
-        </Provider>
-      </div>,
-    );
+  let store;
 
-    const formDOM = getFormDOM(form);
-    formDOM.fillData(
-      '#root_application_applicant_view\\:applicantInfo_mailingAddress_country',
-      'USA',
-    );
-
-    expect($$('va-text-input', formDOM).length).to.equal(6);
-    expect($$('select', formDOM).length).to.equal(2);
+  beforeEach(() => {
+    store = mockStore({
+      form: {
+        data: {},
+      },
+    });
   });
 
-  it('should render contact details', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <div>
-        <Provider store={store}>
-          <DefinitionTester
-            schema={schema}
-            data={{}}
-            definitions={formConfig.defaultDefinitions}
-            uiSchema={uiSchema}
-          />
-        </Provider>
-      </div>,
+  it('should render basic form fields', () => {
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{}}
+        />
+      </Provider>,
     );
 
-    const formDOM = getFormDOM(form);
-    formDOM.fillData(
-      '#root_application_applicant_view\\:applicantInfo_mailingAddress_country',
-      'MEX',
+    // Check for va-select components (country and potentially state)
+    expect(form.find('va-select').length).to.be.at.least(1);
+    form.unmount();
+  });
+
+  it('should show state field when country is USA', () => {
+    const storeWithUSA = mockStore({
+      form: {
+        data: {
+          application: {
+            applicant: {
+              'view:applicantInfo': {
+                mailingAddress: {
+                  country: 'USA',
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const form = mount(
+      <Provider store={storeWithUSA}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            application: {
+              applicant: {
+                'view:applicantInfo': {
+                  mailingAddress: {
+                    country: 'USA',
+                  },
+                },
+              },
+            },
+          }}
+        />
+      </Provider>,
+    );
+
+    // Should have country and state selects for USA
+    expect(form.find('va-select').length).to.equal(2);
+    form.unmount();
+  });
+
+  it('should show state field with Province title when country is CAN', () => {
+    const storeWithCAN = mockStore({
+      form: {
+        data: {
+          application: {
+            applicant: {
+              'view:applicantInfo': {
+                mailingAddress: {
+                  country: 'CAN',
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const form = mount(
+      <Provider store={storeWithCAN}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            application: {
+              applicant: {
+                'view:applicantInfo': {
+                  mailingAddress: {
+                    country: 'CAN',
+                  },
+                },
+              },
+            },
+          }}
+        />
+      </Provider>,
     );
 
     expect($$('va-text-input', formDOM).length).to.equal(6);
-    expect($$('select', formDOM).length).to.equal(1);
+    // Should have country and state selects for CAN
+    // State field should be labeled as "Province"
+    expect(form.find('va-select').length).to.equal(2);
+    form.unmount();
+  });
+
+  it('should hide state field when country is not USA', () => {
+    const storeWithOtherCountry = mockStore({
+      form: {
+        data: {
+          application: {
+            applicant: {
+              'view:applicantInfo': {
+                mailingAddress: {
+                  country: 'MEX',
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const form = mount(
+      <Provider store={storeWithOtherCountry}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            application: {
+              applicant: {
+                'view:applicantInfo': {
+                  mailingAddress: {
+                    country: 'MEX',
+                  },
+                },
+              },
+            },
+          }}
+        />
+      </Provider>,
+    );
+
+    // Should only have country select for non-USA countries
+    expect(form.find('va-select').length).to.equal(1);
+    form.unmount();
+  });
+
+  it('should render contact info fields', () => {
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{}}
+        />
+      </Provider>,
+    );
+
+    // Check for address text inputs (street, street2, city, postal, phone, email)
+    expect($$('va-text-input', formDOM).length).to.equal(6);
+    form.unmount();
   });
 });

@@ -3,7 +3,7 @@ import {
   hasHomeAndMobilePhone,
   hasHomePhone,
   hasMobilePhone,
-} from '../contactInfo';
+} from '../../../shared/utils/contactInfo';
 
 import { MAX_LENGTH } from '../../../shared/constants';
 import '../../../shared/definitions';

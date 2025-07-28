@@ -787,6 +787,10 @@ export const fullMaidenNameUI = merge({}, fullNameUI, {
     'ui:webComponentField': VaTextInputField,
   },
   last: { 'ui:title': 'Last name', 'ui:webComponentField': VaTextInputField },
+  suffix: {
+    'ui:webComponentField': VaSelectField,
+    'ui:options': { classNames: 'form-select-medium' },
+  },
   maiden: {
     'ui:title': 'Maiden name',
     'ui:webComponentField': VaTextInputField,
@@ -1389,9 +1393,11 @@ export function getCemeteries() {
 }
 
 export function MailingAddressStateTitle(props) {
-  const { elementPath } = props;
-  const data = useSelector(state => state.form.data || {});
+  const { elementPath, formData } = props;
+  const reduxFormData = useSelector(state => state.form.data || {});
+  const data = formData || reduxFormData;
   const country = get(elementPath, data);
+
   if (country === 'CAN') {
     return 'Province';
   }

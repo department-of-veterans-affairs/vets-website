@@ -87,3 +87,20 @@ export const ConfirmationGoBackLink = () => (
     <va-link-action href="/" text="Go back to VA.gov" type="primary" />
   </div>
 );
+
+const MS_IN_DAY = 86_400_000;
+const MAX_FUTURE_DAYS = 180;
+
+export const validateWithin180Days = (errors, dateString) => {
+  if (!dateString) return;
+  const picked = new Date(`${dateString}T00:00:00`);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (picked < today) errors.addError('Date can’t be in the past.');
+
+  if (picked - today > MAX_FUTURE_DAYS * MS_IN_DAY)
+    errors.addError(
+      'This date is more than 180 days away. You must be within 180 days of discharge to be eligible for the program.',
+    );
+};

@@ -23,7 +23,8 @@ describe('Pre-need applicant non veteran applicant details', () => {
 
     expect(form.find('va-text-input').length).to.equal(5);
     expect(form.find('input').length).to.equal(1);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('va-select').length).to.equal(1);
+    expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
 

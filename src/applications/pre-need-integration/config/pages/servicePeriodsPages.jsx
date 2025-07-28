@@ -10,6 +10,7 @@ import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import { serviceLabels } from '../../utils/labels';
 import {
   isVeteran,
@@ -263,6 +264,7 @@ export function servicePeriodInformationPage(isVet, isPrep) {
           'Sponsor’s discharge character of service',
           'Applicant’s discharge character of service',
         ),
+        'ui:webComponentField': VaSelectField,
         'ui:options': {
           labels: {
             1: 'Honorable',
@@ -273,6 +275,7 @@ export function servicePeriodInformationPage(isVet, isPrep) {
             6: 'Dishonorable',
             7: 'Other',
           },
+          classNames: 'selectNonImposter',
         },
       },
       highestRank: autosuggest.uiSchema('Highest rank attained', null, {
@@ -285,6 +288,7 @@ export function servicePeriodInformationPage(isVet, isPrep) {
       }),
       nationalGuardState: {
         'ui:title': 'State (for National Guard Service only)',
+        'ui:webComponentField': VaSelectField,
         'ui:options': {
           hideIf: (formData, index) => {
             if (
@@ -297,6 +301,7 @@ export function servicePeriodInformationPage(isVet, isPrep) {
             }
             return !['AG', 'NG'].includes(formData?.serviceBranch);
           },
+          classNames: 'selectNonImposter',
         },
       },
     },

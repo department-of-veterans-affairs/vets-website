@@ -36,7 +36,7 @@ function ViewDependentsList(props) {
     mainContent = (
       <va-alert status="info" slim>
         {props?.isAward
-          ? `There are no dependents associated with your VA benefits`
+          ? 'You have no dependents on your VA benefits.'
           : `We have no record of dependents who are not on your VA benefits.`}
       </va-alert>
     );
@@ -44,13 +44,7 @@ function ViewDependentsList(props) {
 
   return (
     <>
-      <h2
-        className={
-          props.isAward ? 'vads-u-margin-top--1p5 view-deps-header' : null
-        }
-      >
-        {props.header}
-      </h2>
+      <h2 className="view-deps-header">{props.header}</h2>
       <p>{props.subHeader}</p>
       {manageDependentsToggle &&
         props?.submittedDependents?.length > 0 && (
