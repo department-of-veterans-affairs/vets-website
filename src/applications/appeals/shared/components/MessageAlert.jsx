@@ -36,7 +36,7 @@ export const MessageAlert = ({
 
   return (
     <div ref={wrapAlert}>
-      <va-alert status="error" class={classes} uswds>
+      <va-alert status="error" class={classes}>
         <Header slot="headline" className="eligible-issues-error">
           {title}
         </Header>
