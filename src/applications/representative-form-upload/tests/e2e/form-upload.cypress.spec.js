@@ -68,6 +68,19 @@ describe('Representative Form Upload', () => {
       );
     });
 
+    it('sets sessionStorage flag when "Start form" is clicked', () => {
+      cy.visit('/representative/representative-form-upload/21-686c');
+
+      cy.get('a[href="#start"]')
+        .contains('Start form')
+        .click();
+
+      cy.window().then(win => {
+        const flag = win.sessionStorage.getItem('formIncompleteARP');
+        expect(flag).to.equal('true');
+      });
+    });
+
     it('allows veteran claimant submission', () => {
       cy.visit('/representative/representative-form-upload/21-686c');
       cy.location('pathname').should(
