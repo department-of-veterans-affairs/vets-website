@@ -3,6 +3,7 @@ import {
   setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { addDays, format, subDays } from 'date-fns';
 import React from 'react';
@@ -38,6 +39,12 @@ const initialState = {
 describe('VAOS vaccine flow: NewBookingSection', () => {
   beforeEach(() => {
     mockFetch();
+  });
+  before(() => {
+    MockDate.set('2024-12-05T00:00:00Z');
+  });
+  after(() => {
+    MockDate.reset();
   });
 
   it('should not redirect the user to the Contact Facility page when facilities are available', async () => {
