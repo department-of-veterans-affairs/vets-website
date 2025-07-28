@@ -19,21 +19,21 @@ const HomePage = ({ router, setIntroPageViewed }) => {
 
   return (
     <>
-      <h1>{H1}</h1>
-      <h2 className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--h3">
+      <h1 className="vads-u-margin-bottom--1">{H1}</h1>
+      <h2 className="vads-u-margin-y--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--h3">
         Learn about what Decision Review option may be right for you.
       </h2>
-      <p>
+      <p className="vads-u-margin-top--3">
         If you received a decision letter from VA and disagree with the
         disability compensation decision, you can choose from 3 decision review
         options:
       </p>
       <ul>
-        <li>Supplemental Claim</li>
-        <li>Higher-Level Review</li>
+        <li className="vads-u-margin-bottom--1p5">Supplemental Claim</li>
+        <li className="vads-u-margin-bottom--1p5">Higher-Level Review</li>
         <li>Board Appeal</li>
       </ul>
-      <p>
+      <p className="vads-u-margin-bottom--3">
         You can choose any option that’s right for you. If you don’t get the
         result you hoped for, you may be able to try another eligible option.
       </p>
@@ -42,7 +42,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
         onClick={startTool}
         text="Start the tool"
       />
-      <hr />
+      <hr className="vads-u-margin-y--4" />
       <h3>Haven’t received a decision yet?</h3>
       <p>
         This tool is for reviewing VA decisions that have already been made. If
