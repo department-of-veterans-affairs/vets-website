@@ -6,8 +6,9 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  identificationInformation,
   applicantFullname,
+  phoneAndEmail,
+  identificationInformation,
   employmentStatus,
   employmentDetails,
   employmentFocus,
@@ -53,9 +54,15 @@ const formConfig = {
       pages: {
         applicantFullName: {
           path: 'applicant-fullname',
-          title: 'Provide your full name',
+          title: 'Enter your full name',
           uiSchema: applicantFullname.uiSchema,
           schema: applicantFullname.schema,
+        },
+        phoneAndEmail: {
+          path: 'phone-and-email',
+          title: 'Phone and email address',
+          uiSchema: phoneAndEmail.uiSchema,
+          schema: phoneAndEmail.schema,
         },
         identificationInformation: {
           path: 'identification-information',
