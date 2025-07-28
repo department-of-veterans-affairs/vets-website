@@ -97,7 +97,7 @@ const formConfig = {
             schema: trainingProviderSummary.schema,
           }),
           trainingProviderDetails: pageBuilder.itemPage({
-            title: 'Training provider name and mail address',
+            title: 'Training provider name and mailing address',
             path: 'training-provider/:index/details',
             uiSchema: trainingProviderDetails.uiSchema,
             schema: trainingProviderDetails.schema,
