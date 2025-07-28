@@ -348,7 +348,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     beforeEach(() => {
       clock = sinon.useFakeTimers({
         now: new Date('2023-06-15'),
-        toFake: ['Date'],
+        toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'],
       });
     });
 
@@ -497,7 +497,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     beforeEach(() => {
       clock = sinon.useFakeTimers({
         now: new Date('2023-06-15'),
-        toFake: ['Date'],
+        toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'],
       });
     });
 
@@ -551,7 +551,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     beforeEach(() => {
       clock = sinon.useFakeTimers({
         now: new Date('2023-06-15'),
-        toFake: ['Date'],
+        toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'],
       });
     });
 
