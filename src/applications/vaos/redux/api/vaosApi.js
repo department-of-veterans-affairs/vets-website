@@ -43,15 +43,19 @@ export const vaosApi = createApi({
       },
     }),
     postDraftReferralAppointment: builder.mutation({
-      async queryFn(referralNumber) {
+      async queryFn({ referralNumber, referralConsultId }) {
         try {
           return await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            // eslint-disable-next-line camelcase
-            body: JSON.stringify({ referral_id: referralNumber }),
+            body: JSON.stringify({
+              // eslint-disable-next-line camelcase
+              referral_number: referralNumber,
+              // eslint-disable-next-line camelcase
+              referral_consult_id: referralConsultId,
+            }),
           });
         } catch (error) {
           captureError(error, false, 'post draft referral appointment');
