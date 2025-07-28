@@ -154,11 +154,10 @@ describe('526 wizard', () => {
       'have.text',
       h1Text + h1Addition,
     );
-    cy.focused();
-    cy.get('h1[data-testid="form-title"]').should(
-      'have.text',
-      h1Text + h1Addition,
-    );
+    // verify that the h1 title changes, receives focus for accessibility
+    cy.get('h1[data-testid="form-title"]')
+      .should('have.text', h1Text + h1Addition)
+      .and('have.focus');
     cy.checkStorage(WIZARD_STATUS, 'complete');
     cy.location('pathname').should(
       'eq',
