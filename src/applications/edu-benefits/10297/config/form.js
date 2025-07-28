@@ -6,6 +6,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
+  applicantFullname,
   phoneAndEmail,
   identificationInformation,
   employmentStatus,
@@ -17,6 +18,7 @@ import {
 
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
+import createDirectDepositPage from '../pages/DirectDeposit';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -50,6 +52,12 @@ const formConfig = {
     identificationChapter: {
       title: 'Veteran’s information',
       pages: {
+        applicantFullName: {
+          path: 'applicant-fullname',
+          title: 'Enter your full name',
+          uiSchema: applicantFullname.uiSchema,
+          schema: applicantFullname.schema,
+        },
         phoneAndEmail: {
           path: 'phone-and-email',
           title: 'Phone and email address',
@@ -74,6 +82,7 @@ const formConfig = {
           uiSchema: activeDutyStatus.uiSchema,
           schema: activeDutyStatus.schema,
         },
+        directDeposit: createDirectDepositPage(),
       },
     },
     backgroundInformationChapter: {
