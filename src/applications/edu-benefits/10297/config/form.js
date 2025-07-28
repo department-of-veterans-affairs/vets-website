@@ -6,8 +6,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  nameAndDateOfBirth,
   identificationInformation,
+  applicantFullname,
   employmentStatus,
   employmentDetails,
   employmentFocus,
@@ -48,20 +48,15 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
-      pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
-      },
-    },
     identificationChapter: {
       title: 'Veteran’s information',
       pages: {
+        applicantFullName: {
+          path: 'applicant-fullname',
+          title: 'Provide your full name',
+          uiSchema: applicantFullname.uiSchema,
+          schema: applicantFullname.schema,
+        },
         identificationInformation: {
           path: 'identification-information',
           title: 'Identification information',
