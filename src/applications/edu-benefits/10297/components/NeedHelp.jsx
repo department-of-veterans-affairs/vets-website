@@ -8,7 +8,7 @@ const NeedHelp = () => {
           <p>
             If you need help with your application or have questions about
             enrollment or eligibility, submit a request with{' '}
-            <va-link external text="Ask VA" href="https://ask.va.gov/" />
+            <va-link external text="Ask VA" href="https://ask.va.gov/" />.
           </p>
         </div>
       </va-need-help>
