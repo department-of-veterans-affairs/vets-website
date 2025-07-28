@@ -7,7 +7,8 @@ import {
 } from '~/platform/utilities/ui';
 import { $ } from '~/platform/forms-system/src/js/utilities/ui';
 
-import { deductionCodes, DISPUTE_REASONS } from '../constants';
+import { deductionCodes } from '../constants';
+
 export const focusFirstError = (_index, root) => {
   const error = $('[error], .usa-input-error', root);
   if (error) {
