@@ -2,6 +2,7 @@ import {
   radioUI,
   radioSchema,
   titleUI,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const educationLevels = {
@@ -17,9 +18,21 @@ const uiSchema = {
   ...titleUI('Your education'),
   highestLevelOfEducation: {
     ...radioUI({
-      title: 'What’s the highest level of education you’ve completed?',
+      title: "What's the highest level of education you've completed?",
       labels: educationLevels,
     }),
+  },
+  other: {
+    ...textUI({
+      title: "Enter the highest level of education you've completed.",
+    }),
+    'ui:options': {
+      expandUnder: 'highestLevelOfEducation',
+      expandUnderCondition: 'NA',
+      expandedContentFocus: true,
+      preserveHiddenData: true,
+      classNames: 'vads-u-margin-top--neg1',
+    },
   },
 };
 
@@ -27,6 +40,11 @@ const schema = {
   type: 'object',
   properties: {
     highestLevelOfEducation: radioSchema(Object.keys(educationLevels)),
+    other: {
+      type: 'string',
+      pattern: '^(?!\\s*$).+',
+    },
   },
 };
+
 export { schema, uiSchema };

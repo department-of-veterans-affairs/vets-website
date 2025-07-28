@@ -2,6 +2,7 @@ import {
   radioUI,
   radioSchema,
   titleUI,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const employmentFocusOptions = {
@@ -22,12 +23,28 @@ const uiSchema = {
       labels: employmentFocusOptions,
     }),
   },
+  other: {
+    ...textUI({
+      title: 'Enter your area of focus in the technology industry.',
+    }),
+    'ui:options': {
+      expandUnder: 'technologyAreaOfFocus',
+      expandUnderCondition: 'somethingElse',
+      expandedContentFocus: true,
+      preserveHiddenData: true,
+      classNames: 'vads-u-margin-top--neg1',
+    },
+  },
 };
 
 const schema = {
   type: 'object',
   properties: {
     technologyAreaOfFocus: radioSchema(Object.keys(employmentFocusOptions)),
+    other: {
+      type: 'string',
+      pattern: '^(?!\\s*$).+',
+    },
   },
 };
 export { schema, uiSchema };
