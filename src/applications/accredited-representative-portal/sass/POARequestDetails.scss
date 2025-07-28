@@ -160,8 +160,10 @@
     margin: 0;
 
     .poa-request__card-field--label & {
-      margin-left: 5px;
       font-weight: normal;
+      @media (min-width: $small-screen) {
+        margin-left: 5px;
+      }
     }
 
     .poa-request-details__list & {
