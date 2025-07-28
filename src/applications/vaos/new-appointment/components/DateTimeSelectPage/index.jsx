@@ -257,7 +257,6 @@ export default function DateTimeSelectPage() {
               // eslint-disable-next-line react/jsx-wrap-multilines
               <va-loading-indicator
                 data-testid="loadingIndicator"
-                set-focus
                 message="Finding appointment availability..."
               />
             }
