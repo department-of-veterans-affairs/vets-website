@@ -28,6 +28,7 @@ const uiSchema = {
       title: 'Enter your area of focus in the technology industry.',
     }),
     'ui:options': {
+      hideIf: formData => formData.technologyAreaOfFocus !== 'somethingElse',
       expandUnder: 'technologyAreaOfFocus',
       expandUnderCondition: 'somethingElse',
       expandedContentFocus: true,

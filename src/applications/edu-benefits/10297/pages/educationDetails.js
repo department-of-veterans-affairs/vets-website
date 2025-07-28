@@ -27,6 +27,7 @@ const uiSchema = {
       title: 'Enter the highest level of education you’ve completed.',
     }),
     'ui:options': {
+      hideIf: formData => formData.highestLevelOfEducation !== 'NA',
       expandUnder: 'highestLevelOfEducation',
       expandUnderCondition: 'NA',
       expandedContentFocus: true,
