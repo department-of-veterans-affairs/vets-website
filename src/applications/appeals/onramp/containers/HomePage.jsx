@@ -43,14 +43,14 @@ const HomePage = ({ router, setIntroPageViewed }) => {
         text="Start the tool"
       />
       <hr className="vads-u-margin-y--4" />
-      <h3>Haven’t received a decision yet?</h3>
+      <h3 className="vads-u-margin-top--3">Haven’t received a decision yet?</h3>
       <p>
         This tool is for reviewing VA decisions that have already been made. If
         you’re still waiting on a decision, you’ll need to wait until you
         receive your decision letter before you can request a review.
       </p>
       <va-link href="/track-claims" text="Check your claim status" />
-      <h3>Haven’t filed a claim yet?</h3>
+      <h3 className="vads-u-margin-top--3">Haven’t filed a claim yet?</h3>
       <p>
         To use this tool, you need to have already filed a claim and received a
         decision. If you haven’t filed a claim yet, you’ll need to do that
@@ -60,7 +60,9 @@ const HomePage = ({ router, setIntroPageViewed }) => {
         href="/disability/how-to-file-claim"
         text="How to file a disability claim"
       />
-      <h3>Responding to a Statement of the Case (SOC)?</h3>
+      <h3 className="vads-u-margin-top--3">
+        Responding to a Statement of the Case (SOC)?
+      </h3>
       <p>
         If you received a Statement of the Case (SOC) or Supplemental Statement
         of the Case (SSOC) from VA, your appeal may still be in the legacy
@@ -89,7 +91,9 @@ const HomePage = ({ router, setIntroPageViewed }) => {
         href="/decision-reviews/legacy-appeals"
         text="Learn more about Legacy Appeals System"
       />
-      <h3>Looking for decision review options for other VA benefits?</h3>
+      <h3 className="vads-u-margin-top--3">
+        Looking for decision review options for other VA benefits?
+      </h3>
       <p>
         If you need to request a decision review for a different VA benefit, you
         can find information about your options here:
