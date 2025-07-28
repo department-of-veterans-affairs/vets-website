@@ -67,7 +67,7 @@ const branchComponentsUIProps = branchKey => {
 const getBranchComponentPage = (branchKey, environementCheck) => {
   return {
     path: `service/${branchComponentUrlNames[branchKey]}`,
-    title: 'Which Component did you serve in the Army?',
+    title: `${militaryBranchTypeLabels[branchKey]}`,
     uiSchema: {
       [branchComponentPageNames[branchKey]]: {
         ...branchComponentsUIProps(branchKey),
