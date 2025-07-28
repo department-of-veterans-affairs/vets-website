@@ -70,10 +70,10 @@ export const marriageEndDetails = {
     properties: {
       marriageEndDate: currentOrPastDateSchema,
       marriageEndReason: radioSchema([
-        'death',
-        'divorce',
-        'annulment',
-        'other',
+        'Death',
+        'Divorce',
+        'Annulment',
+        'Other',
       ]),
       marriageEndDescription: {
         type: 'string',
