@@ -125,7 +125,8 @@ export const trainingProviderArrayOptions = {
   },
   maxItems: 4,
   text: {
-    getItemName: item => (item?.name ? `${item?.name}`.trim() : 'null'),
+    getItemName: item =>
+      item?.name ? `${item?.name}`.trim() : 'training provider',
     cardDescription: item => getCardDescription(item),
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
