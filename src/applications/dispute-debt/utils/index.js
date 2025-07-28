@@ -14,7 +14,6 @@ export const DISPUTE_REASONS = {
   AMOUNT: `I don't think the amount is correct on this debt`,
 };
 
-
 export const focusFirstError = (_index, root) => {
   const error = $('[error], .usa-input-error', root);
   if (error) {
