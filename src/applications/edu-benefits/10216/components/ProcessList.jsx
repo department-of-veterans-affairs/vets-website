@@ -25,7 +25,7 @@ const ProcessList = ({ isAccredited, id }) => {
                       environment.API_URL
                     }/v0/education_benefits_claims/download_pdf/${id}`}
                     fileName="Name"
-                    text="Download VA Form 22-10216"
+                    text="Download completed VA Form 22-10216"
                   />
                 </span>
                 <span className="vads-u-display--inline-block">
@@ -71,7 +71,7 @@ const ProcessList = ({ isAccredited, id }) => {
                       environment.API_URL
                     }/v0/education_benefits_claims/download_pdf/${id}`}
                     // fileName={''}
-                    text="Download VA Form 22-10216"
+                    text="Download completed VA Form 22-10216"
                   />
                 </span>
               </p>

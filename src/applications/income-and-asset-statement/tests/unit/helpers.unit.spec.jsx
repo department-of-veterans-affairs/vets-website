@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
   formatFullNameNoSuffix,
+  formatPossessiveString,
   isDefined,
   isReviewAndSubmitPage,
   resolveRecipientFullName,
@@ -157,5 +158,37 @@ describe('resolveRecipientFullName', () => {
     const formData = { isLoggedIn: true };
 
     expect(resolveRecipientFullName(item, formData)).to.equal('');
+  });
+});
+
+describe('formatPossessiveString', () => {
+  it("should append ’s to strings not ending in 's'", () => {
+    expect(formatPossessiveString('Johnson')).to.equal('Johnson’s');
+    expect(formatPossessiveString('Emma')).to.equal('Emma’s');
+    expect(formatPossessiveString('Emma Lee')).to.equal('Emma Lee’s');
+  });
+
+  it("should append just ’ to strings ending in 's'", () => {
+    expect(formatPossessiveString('Williams')).to.equal('Williams’');
+    expect(formatPossessiveString('Ross')).to.equal('Ross’');
+    expect(formatPossessiveString('Business')).to.equal('Business’');
+    expect(formatPossessiveString('Ed Harris')).to.equal('Ed Harris’');
+  });
+
+  it('should return empty string for null, undefined, or non-string input', () => {
+    expect(formatPossessiveString(null)).to.equal('');
+    expect(formatPossessiveString(undefined)).to.equal('');
+    expect(formatPossessiveString(123)).to.equal('');
+    expect(formatPossessiveString({})).to.equal('');
+  });
+
+  it('should handle empty string input', () => {
+    expect(formatPossessiveString('')).to.equal('');
+  });
+
+  it("should use typographic apostrophe (’) not straight quote (')", () => {
+    const result = formatPossessiveString('Jones');
+    expect(result).to.include('’');
+    expect(result).to.not.include("'");
   });
 });

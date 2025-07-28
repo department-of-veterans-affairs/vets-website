@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
-
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
 
-import { setFocus, setPageFocus } from '../../utils/page';
+import { setPageFocus, focusNotificationAlert } from '../../utils/page';
 import {
   addFile,
   removeFile,
@@ -28,15 +26,6 @@ import {
 } from '../../utils/helpers';
 import withRouter from '../../utils/withRouter';
 
-const scrollToError = () => {
-  const options = getScrollOptions({ offset: -25 });
-
-  setTimeout(() => {
-    scrollTo('uploadError', options);
-    setFocus('.usa-alert-error');
-  });
-};
-
 const filesPath = `../files`;
 
 class AdditionalEvidencePage extends React.Component {
@@ -53,9 +42,6 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.message && !prevProps.message) {
-      scrollToError();
-    }
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
     }
@@ -105,16 +91,15 @@ class AdditionalEvidencePage extends React.Component {
       );
     } else {
       const { message, filesNeeded } = this.props;
-
       content = (
         <div className="additional-evidence-container">
           {message && (
             <>
-              <Element name="uploadError" />
               <Notification
                 title={message.title}
                 body={message.body}
                 type={message.type}
+                onSetFocus={focusNotificationAlert}
               />
             </>
           )}

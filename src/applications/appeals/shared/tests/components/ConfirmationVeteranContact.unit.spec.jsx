@@ -46,4 +46,47 @@ describe('ConfirmationVeteranContact', () => {
       '123 Main StNew York, NY 30012',
     ]);
   });
+
+  it('should render international phone numbers with country code', () => {
+    const testVeteran = {
+      ...veteran(),
+      phone: {
+        countryCode: '44',
+        areaCode: '20',
+        phoneNumber: '12345678',
+        isInternational: true,
+      },
+    };
+
+    const { container } = render(
+      <ConfirmationVeteranContact veteran={testVeteran} />,
+    );
+
+    const telephoneElement = container.querySelector('va-telephone');
+    expect(telephoneElement).to.exist;
+    expect(telephoneElement.getAttribute('country-code')).to.equal('44');
+    expect(telephoneElement.getAttribute('not-clickable')).to.equal('true');
+  });
+
+  it('should not render country-code attribute for domestic numbers', () => {
+    const testVeteran = {
+      ...veteran(),
+      phone: {
+        countryCode: '1',
+        areaCode: '555',
+        phoneNumber: '8001111',
+        extension: '123',
+        isInternational: false,
+      },
+    };
+
+    const { container } = render(
+      <ConfirmationVeteranContact veteran={testVeteran} />,
+    );
+
+    const telephoneElement = container.querySelector('va-telephone');
+    expect(telephoneElement).to.exist;
+    expect(telephoneElement.getAttribute('country-code')).to.be.null;
+    expect(telephoneElement.getAttribute('extension')).to.equal('123');
+  });
 });

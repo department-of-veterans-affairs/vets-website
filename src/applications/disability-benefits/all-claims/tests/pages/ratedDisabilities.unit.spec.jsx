@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { waitFor } from '@testing-library/dom';
-import formConfig from '../../config/form.js';
-import initialData from '../initialData.js';
-import { NULL_CONDITION_STRING } from '../../constants.js';
+import formConfig from '../../config/form';
+import initialData from '../initialData';
+import { NULL_CONDITION_STRING } from '../../constants';
 
 describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
   const {

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import NoMHVAccount from '../components/messages/NoMHVAccount';
+import NoMHVAccount from '../../../components/messages/NoMHVAccount';
 
 describe('<NoMHVAccount/>', () => {
   it('reports to GA via recordEvent on render', async () => {

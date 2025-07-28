@@ -33,6 +33,7 @@
       "last": "Veteran",
       "suffix": "Sr."
     },
-    "dob": "2000-01-01"
+    "dob": "2000-01-01",
+    "privacyAgreementAccepted": true
   }
 }

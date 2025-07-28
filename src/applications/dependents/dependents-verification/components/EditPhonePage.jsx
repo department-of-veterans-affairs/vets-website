@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollTo } from 'platform/utilities/scroll';
@@ -22,6 +22,8 @@ const EditPhonePage = ({
     );
   };
 
+  const originalPhone = useRef(data.phone);
+
   const handlers = {
     onInput: inputData => {
       setFormData({
@@ -33,6 +35,10 @@ const EditPhonePage = ({
       returnToPath();
     },
     onCancel: () => {
+      setFormData({
+        ...data,
+        phone: originalPhone.current,
+      });
       returnToPath();
     },
   };

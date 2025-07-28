@@ -11,6 +11,7 @@
       "last": "Veteran"
     },
     "dob": "2000-01-01",
+    "privacyAgreementAccepted": true,
     "yearsOfEducation": "12"
   }
 }

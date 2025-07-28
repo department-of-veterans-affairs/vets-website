@@ -11,7 +11,7 @@ import {
   thirdSidebarBlock,
 } from '../components/ViewDependentsSidebar/ViewDependentsSidebarBlockStates/ViewDependentSidebarBlockStates';
 import { isServerError, isClientError } from '../util';
-import { errorFragment, infoFragment } from './helpers';
+import { errorFragment, noDependentsAlert } from './helpers';
 
 function ViewDependentsLayout(props) {
   let mainContent;
@@ -23,12 +23,12 @@ function ViewDependentsLayout(props) {
   } else if (props.error && isServerError(props.error.code)) {
     mainContent = <va-alert status="error">{errorFragment}</va-alert>;
   } else if (props.error && isClientError(props.error.code)) {
-    mainContent = <va-alert status="info">{infoFragment}</va-alert>;
+    mainContent = noDependentsAlert;
   } else if (
     props.onAwardDependents == null &&
     props.notOnAwardDependents == null
   ) {
-    mainContent = <va-alert status="info">{infoFragment}</va-alert>;
+    mainContent = noDependentsAlert;
   } else {
     mainContent = (
       <ViewDependentsLists

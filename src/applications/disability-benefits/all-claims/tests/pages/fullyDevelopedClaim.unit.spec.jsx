@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 const yesLabel = 'Yes, I have uploaded all my supporting documents.';

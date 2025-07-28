@@ -19,10 +19,20 @@ const CALLSTATUS = {
   skip: 'skipped',
 };
 
+function getIsWarningHidden() {
+  const rawStoredDate = localStorage.getItem('viewDependentsWarningClosedAt');
+  if (!rawStoredDate) {
+    return false;
+  }
+
+  const dateClosed = new Date(rawStoredDate);
+  return !Number.isNaN(dateClosed.getTime());
+}
+
 function ViewDependentsHeader(props) {
   const { updateDiariesStatus, showAlert } = props;
 
-  const [warningHidden, setWarningHidden] = useState(false);
+  const [warningHidden, setWarningHidden] = useState(getIsWarningHidden());
 
   useEffect(() => {
     focusElement('h1');
@@ -31,6 +41,10 @@ function ViewDependentsHeader(props) {
 
   function handleWarningClose() {
     setWarningHidden(true);
+    localStorage.setItem(
+      'viewDependentsWarningClosedAt',
+      new Date().toISOString(),
+    );
     scrollToTop();
     focusElement('.view-deps-header');
   }
@@ -108,8 +122,8 @@ function ViewDependentsHeader(props) {
             >
               <>
                 <h2 className="vads-u-font-size--h3" slot="headline">
-                  Avoid disability overpayments by keeping your dependents up to
-                  date
+                  Avoid disability benefits overpayments by keeping your
+                  dependents up to date
                 </h2>
                 <p className="vads-u-font-size--base">
                   Report any changes to your dependents to make sure you receive

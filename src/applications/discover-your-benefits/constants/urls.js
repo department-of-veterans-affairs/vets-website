@@ -40,5 +40,5 @@ export const URLS = Object.freeze({
     'https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/',
   DCU_LEARN: 'https://www.va.gov/discharge-upgrade-instructions/',
   SVB_LEARN:
-    'https://discover.va.gov/external-resources/?_resource_type=state-veterans-affairs-office/',
+    'https://discover.va.gov/external-resources/?_resource_type=state-veterans-affairs-office',
 });

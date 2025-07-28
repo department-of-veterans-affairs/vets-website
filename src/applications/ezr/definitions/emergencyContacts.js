@@ -104,10 +104,25 @@ export const emergencyContactsAddressPage = () => ({
  */
 export const emergencyContactsSummaryPage = (options = {}) => ({
   uiSchema: {
-    'view:hasEmergencyContacts': arrayBuilderYesNoUI(options, {
-      title: content['emergency-contact-add-contacts-label'],
-      hint: content['emergency-contact-hint-text'],
-    }),
+    'view:hasEmergencyContacts': arrayBuilderYesNoUI(
+      options,
+      {
+        title: content['emergency-contact-add-contacts-label'],
+        hint: content['emergency-contact-hint-text'],
+        labels: {
+          Y: content.yes,
+          N: content.no,
+        },
+      },
+      {
+        title: content['emergency-contact-add-another-contact-label'],
+        hint: content['emergency-contact-hint-text'],
+        labels: {
+          Y: content.yes,
+          N: content.no,
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',

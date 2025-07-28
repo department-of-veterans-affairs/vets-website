@@ -20,6 +20,7 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
+  formatPossessiveString,
   generateDeleteDescription,
   isDefined,
   isRecipientInfoIncomplete,
@@ -48,7 +49,8 @@ export const options = {
         return undefined;
       }
       const fullName = resolveRecipientFullName(item, formData);
-      return `${fullName}’s income`;
+      const possessiveName = formatPossessiveString(fullName);
+      return `${possessiveName} income`;
     },
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) &&

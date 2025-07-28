@@ -6,12 +6,23 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 // Relative imports.
-import { CSP_IDS } from '~/platform/user/authentication/constants';
+import * as recordEvent from '~/platform/monitoring/record-event';
+import * as authUtils from '~/platform/user/authentication/utilities';
+import * as oauthUtils from '~/platform/utilities/oauth/utilities';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import sessionStorage from '~/platform/utilities/storage/sessionStorage';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
-import { CallToActionWidget, mapStateToProps } from '../index';
 import { ACCOUNT_STATES } from '../constants';
+import {
+  CallToActionWidget,
+  goToTool,
+  mapStateToProps,
+  sendToMHV,
+  signOut,
+  toggleModalWrapper,
+  goToToolWrapper,
+} from '../index';
 
 const defaultOptions = {
   profile: {
@@ -94,6 +105,7 @@ describe('<CallToActionWidget>', () => {
     expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
+
   it('should show loading state when loading feature toggles', () => {
     const tree = mount(
       <CallToActionWidget
@@ -115,6 +127,7 @@ describe('<CallToActionWidget>', () => {
     expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
+
   it('should show sign in state', () => {
     const { props, mockStore } = getData();
     const { container } = render(
@@ -950,59 +963,131 @@ describe('<CallToActionWidget>', () => {
       });
 
       it('should redirect correctly when sendToMHV is called', () => {
-        const tree = mount(
-          <CallToActionWidget
-            isLoggedIn
-            authenticatedWithSSOe
-            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-            profile={{
-              loading: false,
-              verified: true,
-              multifactor: true,
-            }}
-            mhvAccount={{}}
-            featureToggles={{
-              loading: false,
-              vaOnlineScheduling: true,
-            }}
-          >
-            <div className="child-node">Child Node</div>
-          </CallToActionWidget>,
-        );
-        tree.instance().sendToMHV();
+        const oldLocation = window.location;
+        const sendtoMHVFunction = sendToMHV(true);
+        expect(sendtoMHVFunction).to.be.a('function');
+        sendtoMHVFunction();
         const location = window.location.href || window.location;
         expect(location).to.include(
           'https://int.eauth.va.gov/mhv-portal-web/eauth',
         );
-        tree.unmount();
+        window.location = oldLocation;
       });
 
-      it('should redirect correctly when mfaHandler is called', () => {
-        const tree = mount(
-          <CallToActionWidget
-            isLoggedIn
-            authenticatedWithSSOe
-            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-            profile={{
-              loading: false,
-              verified: true,
-              multifactor: true,
-            }}
-            mhvAccount={{}}
-            featureToggles={{
-              loading: false,
-              vaOnlineScheduling: true,
-            }}
-          >
-            <div className="child-node">Child Node</div>
-          </CallToActionWidget>,
-        );
-        tree.instance().mfaHandler();
+      it('should open tools correctly using goToTool', () => {
+        const oldLocation = window.location;
+        const windowSpy = sinon.spy(window, 'open');
+        const recordEventSpy = sinon.spy(recordEvent, 'default');
+
+        const url = '/some-tool';
+        const gaEvent = { event: 'test-event' };
+        const result = goToTool(url, gaEvent);
+        expect(result).to.be.false;
+        expect(recordEventSpy.calledOnce).to.be.true;
+        expect(windowSpy.calledOnce).to.be.false;
         const location = window.location.href || window.location;
-        expect(location).to.include(
-          'https://dev-api.va.gov/v1/sessions/mfa/new',
+        expect(location).to.include(url);
+
+        recordEventSpy.reset();
+
+        const blankUrl = '';
+        const blankResult = goToTool(blankUrl);
+        expect(blankResult).to.be.false;
+        expect(recordEventSpy.calledOnce).to.be.false;
+        expect(windowSpy.calledOnce).to.be.false;
+
+        const externalUrl = 'https://www.va.gov';
+        goToTool(externalUrl);
+        expect(recordEventSpy.calledOnce).to.be.false;
+        expect(windowSpy.calledOnce).to.be.true;
+
+        recordEventSpy.restore();
+        windowSpy.restore();
+        window.location = oldLocation;
+      });
+
+      it('should sign out correctly when signOut is called', () => {
+        const oldLocation = window.location;
+
+        const recordEventSpy = sinon.spy(recordEvent, 'default');
+        const IAMLogoutSpy = sinon.spy(authUtils, 'logout');
+        const logoutUrlSiSSpy = sinon.spy(oauthUtils, 'logoutUrlSiS');
+        const innerFunc = signOut(true);
+        innerFunc();
+        expect(recordEventSpy.calledTwice).to.be.true;
+        expect(IAMLogoutSpy.calledOnce).to.be.true;
+
+        IAMLogoutSpy.reset();
+        recordEventSpy.reset();
+
+        const otherInnerFunc = signOut(false);
+        expect(otherInnerFunc).to.be.a('function');
+        otherInnerFunc();
+        expect(recordEventSpy.calledOnce).to.be.true;
+        expect(IAMLogoutSpy.calledOnce).to.be.false;
+        expect(logoutUrlSiSSpy.calledOnce).to.be.true;
+        const location = window.location.href || window.location;
+        expect(location).to.include(logoutUrlSiSSpy.returnValues[0]);
+
+        recordEventSpy.restore();
+        IAMLogoutSpy.restore();
+        logoutUrlSiSSpy.restore();
+        window.location = oldLocation;
+      });
+
+      it('should toggle the login modal correctly when openLoginModal and openForcedLoginModal are called', () => {
+        const toggleStub = sinon.stub();
+        const { openLoginModal, openForcedLoginModal } = toggleModalWrapper(
+          toggleStub,
         );
-        tree.unmount();
+
+        expect(openLoginModal).to.be.a('function');
+        expect(openForcedLoginModal).to.be.a('function');
+
+        openLoginModal();
+        expect(toggleStub.calledWith(true)).to.be.true;
+
+        openForcedLoginModal();
+        expect(toggleStub.calledWith(true, '', true));
+      });
+
+      it('should wrap the goToTool function correctly when goToToolWrapper is called', () => {
+        const oldLocation = window.location;
+        const windowSpy = sinon.spy(window, 'open');
+        const recordEventSpy = sinon.spy(recordEvent, 'default');
+
+        const url = '/some-tool';
+        const gaEvent = { event: 'test-event' };
+        const toolFunc = goToToolWrapper(url, gaEvent);
+        expect(toolFunc).to.be.a('function');
+        const result = toolFunc();
+        expect(result).to.be.undefined;
+        expect(recordEventSpy.calledOnce).to.be.true;
+        expect(windowSpy.calledOnce).to.be.false;
+        const location = window.location.href || window.location;
+        expect(location).to.include(url);
+
+        recordEventSpy.reset();
+
+        const blankUrl = '';
+        const blankToolFunc = goToToolWrapper(blankUrl);
+        expect(blankToolFunc).to.be.a('function');
+        const blankResult = blankToolFunc();
+        expect(blankResult).to.be.undefined;
+        expect(recordEventSpy.calledOnce).to.be.false;
+        expect(windowSpy.calledOnce).to.be.false;
+
+        const externalUrl = 'https://www.va.gov';
+        const externalToolFunc = goToToolWrapper(externalUrl);
+        expect(externalToolFunc).to.be.a('function');
+        const externalResult = externalToolFunc();
+        expect(externalResult).to.be.undefined;
+        expect(recordEventSpy.calledOnce).to.be.false;
+        expect(windowSpy.calledOnce).to.be.true;
+
+        recordEventSpy.restore();
+        windowSpy.restore();
+        window.location = oldLocation;
       });
     });
   });

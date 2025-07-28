@@ -1,17 +1,28 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import militaryServicePages from '../../../../pages/02-military-service-chapter/militaryServicePages';
+import militaryServicePages, {
+  arrayBuilderOptions,
+} from '../../../../pages/02-military-service-chapter/militaryServicePages';
 import MilitaryServiceIntro from '../../../../components/02-military-service-chapter/MilitaryServiceIntro';
 import { explanationRequired } from '../../../../constants/options';
 
 const pages = militaryServicePages;
 
 describe('Military Service Chapter Pages', () => {
-  describe('Intro page', () => {
+  const formData = {
+    militaryServiceExperiences: [
+      {
+        branch: 'Army',
+        dateRange: { from: '2020-01-01', to: '2021-01-01' },
+        currentlyServing: false,
+      },
+    ],
+  };
+  context('Intro page', () => {
     it('renders the intro paragraph and all list items', () => {
       const { getByText, getAllByRole } = render(<MilitaryServiceIntro />);
       expect(
@@ -32,7 +43,7 @@ describe('Military Service Chapter Pages', () => {
     });
   });
 
-  describe('Summary page', () => {
+  context('Summary page', () => {
     it('renders the summary yes/no question', () => {
       const { container } = render(
         <SchemaForm
@@ -53,7 +64,7 @@ describe('Military Service Chapter Pages', () => {
     });
   });
 
-  describe('Branch and date range page', () => {
+  context('Branch and date range page', () => {
     it('renders branch select and date range fields', () => {
       const form = render(
         <DefinitionTester
@@ -94,61 +105,31 @@ describe('Military Service Chapter Pages', () => {
         <DefinitionTester
           schema={pages.militaryServiceExperienceBranchDateRangePage.schema}
           uiSchema={pages.militaryServiceExperienceBranchDateRangePage.uiSchema}
-          data={{
-            militaryServiceExperiences: [
-              {
-                branch: 'Army',
-                dateRange: { from: '2020-01-01', to: '2021-01-01' },
-                currentlyServing: false,
-              },
-            ],
-          }}
+          data={formData}
           arrayPath="militaryServiceExperiences"
           pagePerItemIndex={0}
         />,
       );
-      // service end date should be visible
+      // service dates and checkbox  should be visible
       expect($('va-date[label="Service start date"]', container)).to.exist;
       expect($('va-date[label="Service end date"]', container)).to.exist;
-
-      // check currently serving checkbox
-
       const currentlyServingCheckbox = $('va-checkbox', container);
-      expect(currentlyServingCheckbox.getAttribute('label')).to.eq(
-        'I am currently serving in this military service experience.',
+      expect(currentlyServingCheckbox).to.exist;
+      expect(currentlyServingCheckbox.getAttribute('checked')).to.equal(
+        'false',
       );
-      currentlyServingCheckbox.checked = true;
-      fireEvent.change(currentlyServingCheckbox, { target: { checked: true } });
 
-      if ($('va-date[label="Service end date"]', container)) {
-        const { container: updatedContainer } = render(
-          <DefinitionTester
-            schema={pages.militaryServiceExperienceBranchDateRangePage.schema}
-            uiSchema={
-              pages.militaryServiceExperienceBranchDateRangePage.uiSchema
-            }
-            data={{
-              militaryServiceExperiences: [
-                {
-                  branch: 'Army',
-                  dateRange: { from: '2020-01-01', to: '' },
-                  currentlyServing: true,
-                },
-              ],
-            }}
-            arrayPath="militaryServiceExperiences"
-            pagePerItemIndex={0}
-          />,
-        );
-        expect($('va-date[label="Service end date"]', updatedContainer)).to.not
-          .exist;
-      } else {
-        expect($('va-date[label="Service end date"]', container)).to.not.exist;
-      }
+      // check currently enrolled checkbox
+      $('va-checkbox', container).__events.vaChange({
+        target: { checked: true },
+      });
+      // end date is hidden and checkbox is checked
+      expect($('va-date[label="Service end date"]', container)).to.not.exist;
+      expect(currentlyServingCheckbox.getAttribute('checked')).to.equal('true');
     });
   });
 
-  describe('Character of discharge page', () => {
+  context('Character of discharge page', () => {
     it('renders character of discharge select', () => {
       const form = render(
         <DefinitionTester
@@ -184,7 +165,7 @@ describe('Military Service Chapter Pages', () => {
     });
   });
 
-  describe('Explanation of discharge page', () => {
+  context('Explanation of discharge page', () => {
     it('renders explanation textarea', () => {
       const form = render(
         <DefinitionTester
@@ -214,6 +195,46 @@ describe('Military Service Chapter Pages', () => {
         'va-textarea[label="Explain the nature of your discharge."]',
       );
       expect(vaTextarea).to.exist;
+    });
+  });
+
+  context('arrayBuilderOptions', () => {
+    it('should have the correct arrayPath, nouns, and maxItems properties', () => {
+      expect(arrayBuilderOptions.arrayPath).to.equal(
+        'militaryServiceExperiences',
+      );
+      expect(arrayBuilderOptions.nounSingular).to.equal(
+        'military service experience',
+      );
+      expect(arrayBuilderOptions.nounPlural).to.equal(
+        'military service experiences',
+      );
+      expect(arrayBuilderOptions.required).to.be.false;
+    });
+
+    it('should return the correct card title from getItemName', () => {
+      const item = { branch: 'Air Force' };
+      const { getByText } = render(arrayBuilderOptions.text.getItemName(item));
+      expect(getByText(item.branch)).to.exist;
+    });
+
+    it('should return the correct card description with from and to dates', () => {
+      const item = { dateRange: { from: '2000-01', to: '2004-01' } };
+      const { getByText } = render(
+        arrayBuilderOptions.text.cardDescription(item, 'currentlyServing'),
+      );
+      expect(getByText('January 2000 - January 2004')).to.exist;
+    });
+
+    it('should return the correct card description with from date and present', () => {
+      const item = {
+        dateRange: { from: '2000-01', to: '' },
+        currentlyServing: true,
+      };
+      const { getByText } = render(
+        arrayBuilderOptions.text.cardDescription(item, 'currentlyServing'),
+      );
+      expect(getByText('January 2000 - Present')).to.exist;
     });
   });
 });

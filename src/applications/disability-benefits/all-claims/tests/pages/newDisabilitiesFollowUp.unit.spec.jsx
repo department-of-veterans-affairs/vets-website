@@ -5,7 +5,7 @@ import {
   DefinitionTester,
   selectRadio,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';

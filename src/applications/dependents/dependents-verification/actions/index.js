@@ -38,5 +38,4 @@ export const fetchDependents = () => async dispatch => {
       },
     });
   }
-  dispatch({ type: DEPENDENTS_FETCH_FAILED, data: {} });
 };

@@ -47,11 +47,11 @@ function ViewDependentsLists(props) {
 
       <ul>
         <li>
-          <strong>receive the full amount</strong> you’re eligible for,{' '}
+          <strong>You receive the full amount</strong> you’re eligible for,{' '}
           <strong>and</strong>
         </li>
         <li>
-          <strong>avoid overpayments</strong>, which you’d{' '}
+          <strong>You avoid overpayments</strong>, which you’d{' '}
           <strong>have to repay</strong>
         </li>
       </ul>
@@ -113,21 +113,25 @@ function ViewDependentsLists(props) {
         </div>
       </va-additional-info>
 
-      <p>
-        <va-link-action
-          href={getAppUrl('0538-dependents-verification')}
-          text="Start your disability benefits dependents verification"
-          type="primary"
-        />
-      </p>
+      {props.hasDependents && (
+        <>
+          <p>
+            <va-link-action
+              href={getAppUrl('0538-dependents-verification')}
+              text="Start your disability benefits dependents verification"
+              type="primary"
+            />
+          </p>
 
-      <p>
-        Prefer paper?{' '}
-        <va-link
-          href="https://www.va.gov/find-forms/about-form-21-0538/"
-          text="Download VA Form 21-0538 (PDF)"
-        />
-      </p>
+          <p>
+            Prefer paper?{' '}
+            <va-link
+              href="https://www.va.gov/find-forms/about-form-21-0538/"
+              text="Download VA Form 21-0538 (PDF)"
+            />
+          </p>
+        </>
+      )}
     </div>
   );
 }

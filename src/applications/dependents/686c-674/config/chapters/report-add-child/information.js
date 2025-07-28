@@ -22,6 +22,7 @@ export const information = {
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       birthDate: currentOrPastDateSchema,

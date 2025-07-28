@@ -1,5 +1,5 @@
 import content from '../../locales/en/content.json';
-import { replaceStrValues } from './general';
+
 /**
  * Helper to get the item name for the next of kin (NoK).
  * @param {Object} item - The NoK item containing fullName.
@@ -32,22 +32,31 @@ export const getDeleteTitle = () => content['next-of-kin-delete-title'];
 export const getDeleteYes = () => content['next-of-kin-delete-yes'];
 
 /**
+ * Helper to generate the cancellation text for deleting the NoK.
+ * @returns {String} - Returns the delete cancellation text for the NoK.
+ */
+export const getDeleteNo = () => content['next-of-kin-delete-no'];
+
+/**
  * Helper to generate the delete description text.
- * @param {Object} item - The NoK item containing fullName.
  * @returns {String} - Returns the delete description, including the first and last name or a fallback if the names are missing.
  */
-export const getDeleteDescription = item => {
-  const firstName = item?.itemData?.fullName?.first;
-  const lastName = item?.itemData?.fullName?.last;
+export const getDeleteDescription = () =>
+  content['next-of-kin-delete-description'];
 
-  if (firstName && lastName) {
-    const fullName = `${firstName} ${lastName}`;
-    return replaceStrValues(
-      content['next-of-kin-delete-description'],
-      fullName,
-    );
-  }
-
-  // Fallback if data is missing
-  return content['next-of-kin-delete-description-default'];
+/**
+ * Helper to test if the item is in a completed stated.
+ * @param {Object} item - The NoK item.
+ * @returns {String} - Returns true if the item has all required fields present.
+ */
+export const isItemIncomplete = item => {
+  return (
+    !item?.fullName?.first ||
+    !item?.fullName?.last ||
+    !item?.primaryPhone ||
+    !item?.relationship ||
+    !item?.address?.street ||
+    !item?.address?.city ||
+    !item?.address?.country
+  );
 };

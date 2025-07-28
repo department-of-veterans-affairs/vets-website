@@ -6,10 +6,10 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import { waitFor } from '@testing-library/dom';
-import formConfig from '../../config/form.js';
-import initialData from '../initialData.js';
+import formConfig from '../../config/form';
+import initialData from '../initialData';
 
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 

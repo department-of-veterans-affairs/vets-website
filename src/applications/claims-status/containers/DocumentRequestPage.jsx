@@ -1,10 +1,9 @@
 import React from 'react';
-import { merge } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
-import { Element, scrollTo, scrollToTop } from 'platform/utilities/scroll';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -29,14 +28,9 @@ import {
   setPageTitle,
   getLabel,
 } from '../utils/helpers';
-import { setUpPage, setPageFocus } from '../utils/page';
+import { setUpPage, setPageFocus, focusNotificationAlert } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
-
-const scrollToError = () => {
-  const options = merge({}, window.VetsGov.scroll, { offset: -25 });
-  scrollTo('uploadError', options);
-};
 
 const filesPath = '../files';
 const statusPath = '../status';
@@ -65,10 +59,6 @@ class DocumentRequestPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.message && !prevProps.message) {
-      document.querySelector('.claims-alert').focus();
-      scrollToError();
-    }
     if (!this.props.loading && prevProps.loading) {
       setPageFocus('h1');
       setPageTitle(this.props.trackedItem, this.props.friendlyEvidenceRequests);
@@ -171,11 +161,11 @@ class DocumentRequestPage extends React.Component {
               <>
                 {message && (
                   <div>
-                    <Element name="uploadError" />
                     <Notification
                       title={message.title}
                       body={message.body}
                       type={message.type}
+                      onSetFocus={focusNotificationAlert}
                     />
                   </div>
                 )}

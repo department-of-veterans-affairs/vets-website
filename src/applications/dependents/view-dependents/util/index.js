@@ -21,7 +21,7 @@ export function splitPersons(persons) {
   const allDependents = {};
 
   persons.forEach(person => {
-    if (person.awardIndicator === 'N') {
+    if (person?.awardIndicator === 'N') {
       dependentsNotOnAward.push(person);
     } else {
       dependentsOnAward.push(person);

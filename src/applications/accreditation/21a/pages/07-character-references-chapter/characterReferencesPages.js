@@ -24,7 +24,7 @@ import { getCardDescription } from '../helpers/getCardDescription';
 import { CHAPTER_TYPE } from '../../config/enums';
 
 /** @type {ArrayBuilderOptions} */
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'characterReferences',
   nounSingular: 'character reference',
   nounPlural: 'character references',
@@ -88,6 +88,8 @@ const addressPage = {
           suffix: formData?.fullName?.suffix,
           fallback: 'Reference',
         })} address`,
+      null,
+      false,
     ),
     address: addressUI({
       labels: {
@@ -118,6 +120,8 @@ const contactInformationPage = {
           suffix: formData?.fullName?.suffix,
           fallback: 'Reference',
         })} contact information`,
+      null,
+      false,
     ),
     phone: internationalPhoneUI(),
     email: emailUI(),

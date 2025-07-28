@@ -56,7 +56,7 @@ const SubmissionError = () => {
         If you need to establish representation, ask the claimant to appoint you
         as their representative using online{' '}
         <a href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/">
-          VA Form 21-22.
+          VA Form 21-22
         </a>
         . If you’re sure that representation is already established, try
         submitting the form again later.

@@ -639,14 +639,8 @@ const medicarePartDCarrierEffectiveDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${generateParticipantName(
-          formData,
-        )} Medicare Part D carrier and effective date`,
+        `${generateParticipantName(formData)} Medicare Part D effective date`,
     ),
-    medicarePartDCarrier: textUI({
-      title: 'Name of insurance carrier',
-      hint: 'Your insurance carrier is your insurance company.',
-    }),
     medicarePartDEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part D effective date',
       hint:
@@ -656,10 +650,9 @@ const medicarePartDCarrierEffectiveDatePage = {
   },
   schema: {
     type: 'object',
-    required: ['medicarePartDCarrier', 'medicarePartDEffectiveDate'],
+    required: ['medicarePartDEffectiveDate'],
     properties: {
       titleSchema,
-      medicarePartDCarrier: textSchema,
       medicarePartDEffectiveDate: currentOrPastDateSchema,
     },
   },
@@ -733,9 +726,14 @@ export function getEligibleApplicantsWithoutMedicare(formData) {
 export const missingMedicarePage = {
   path: 'missing-medicare-applicants',
   title: 'Medicare status',
-  depends: formData => {
+  depends: (formData, index) => {
     const excluded = getEligibleApplicantsWithoutMedicare(formData);
-    return excluded && excluded.length > 0;
+    const curAppHash = formData?.medicare?.[index]?.medicareParticipant;
+    const curApp = formData?.applicants?.find(
+      a => toHashMemoized(a.applicantSSN) === curAppHash,
+    );
+    const age = getAgeInYears(curApp?.applicantDob);
+    return age >= 65 && excluded && excluded.length > 0;
   },
   // Something to do with array builder/topBackLink was causing us to
   // always attempt to navigate back inside the medicare array rather

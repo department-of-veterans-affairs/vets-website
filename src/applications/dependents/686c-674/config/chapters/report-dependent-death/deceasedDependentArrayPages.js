@@ -151,6 +151,7 @@ export const deceasedDependentPersonalInfoPage = {
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'ssn', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
@@ -175,6 +176,7 @@ export const deceasedDependentTypePage = {
   },
   schema: {
     type: 'object',
+    required: ['dependentType'],
     properties: {
       dependentType: radioSchema(relationshipEnums),
     },
@@ -230,6 +232,7 @@ export const deceasedDependentDateOfDeathPage = {
   },
   schema: {
     type: 'object',
+    required: ['dependentDeathDate'],
     properties: {
       dependentDeathDate: dateOfDeathSchema,
     },
@@ -294,6 +297,7 @@ export const deceasedDependentLocationOfDeathPage = {
   },
   schema: {
     type: 'object',
+    required: ['dependentDeathLocation'],
     properties: {
       dependentDeathLocation: customLocationSchema,
     },
