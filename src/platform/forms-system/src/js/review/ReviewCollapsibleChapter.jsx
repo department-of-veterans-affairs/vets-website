@@ -213,6 +213,7 @@ class ReviewCollapsibleChapter extends React.Component {
     const ariaText =
       typeof labelTitle === 'function' ? labelTitle(pageData) : labelTitle;
     const ariaLabel = `Update ${ariaText || 'page'}`;
+    const formOptions = this.props.formOptions || {};
 
     const visibleFields =
       pageSchema &&
@@ -269,7 +270,7 @@ class ReviewCollapsibleChapter extends React.Component {
           }
           uploadFile={this.props.uploadFile}
           reviewMode={!editing}
-          formContext={formContext}
+          formContext={{ ...formContext, formOptions }}
           editModeOnReviewPage={page.editModeOnReviewPage}
         >
           {!editing ? (
@@ -288,6 +289,9 @@ class ReviewCollapsibleChapter extends React.Component {
               buttonText="Update page"
               buttonClass="usa-button-primary"
               ariaLabel={ariaLabel}
+              useWebComponents={
+                this.props.formOptions?.useWebComponentForNavigation
+              }
             />
           )}
         </SchemaForm>
@@ -299,7 +303,7 @@ class ReviewCollapsibleChapter extends React.Component {
               arrayData={get(arrayField.path, form.data)}
               formData={form.data}
               appStateData={page.appStateData}
-              formContext={formContext}
+              formContext={{ ...formContext, formOptions }}
               pageConfig={page}
               onBlur={this.props.onBlur}
               schema={arrayField.schema}
@@ -482,6 +486,9 @@ ReviewCollapsibleChapter.propTypes = {
   setData: PropTypes.func.isRequired,
   setFormErrors: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
+  formOptions: PropTypes.shape({
+    useWebComponentForNavigation: PropTypes.bool,
+  }),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
