@@ -294,6 +294,8 @@
   color: var(--vads-color-warning-dark);
 }
 hr.claimant-search {
+  border-color: var(--vads-color-base-light);
+  border-bottom: 0px;
   margin: 16px 0;
 }
 h2.claimant-name {
