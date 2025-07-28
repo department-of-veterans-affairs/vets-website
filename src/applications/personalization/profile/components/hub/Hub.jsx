@@ -21,6 +21,9 @@ export const Hub = () => {
   );
 
   const showVeteranStatus = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
+  const showPaperlessDelivery = useToggleValue(
+    TOGGLE_NAMES.profileShowPaperlessDelivery,
+  );
 
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
@@ -139,19 +142,31 @@ export const Hub = () => {
           </HubCard>
         )}
 
-        <HubCard
-          heading="Communication settings"
-          content="Text and email notifications you get from VA and paperless delivery options"
-        >
-          <ProfileLink
-            text="Manage notification settings"
-            href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
-          />
-          <ProfileLink
-            text="Manage paperless delivery settings"
-            href={PROFILE_PATHS.PAPERLESS_DELIVERY}
-          />
-        </HubCard>
+        {showPaperlessDelivery ? (
+          <HubCard
+            heading="Communication settings"
+            content="Preferred ways to get VA communications and documents"
+          >
+            <ProfileLink
+              text="Manage email and text notification settings"
+              href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
+            />
+            <ProfileLink
+              text="Update paperless delivery settings"
+              href={PROFILE_PATHS.PAPERLESS_DELIVERY}
+            />
+          </HubCard>
+        ) : (
+          <HubCard
+            heading={PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}
+            content="Text and email notifications you get from VA"
+          >
+            <ProfileLink
+              text="Manage notification settings"
+              href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
+            />
+          </HubCard>
+        )}
 
         <HubCard
           heading={PROFILE_PATH_NAMES.ACCOUNT_SECURITY}
