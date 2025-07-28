@@ -4,6 +4,7 @@ import {
   anyType,
   blankType,
 } from '../constants/benefits';
+import { branchComponentPageNames } from '../pages/militaryBranch';
 
 export const FETCH_RESULTS_STARTED = 'FETCH_RESULTS_STARTED';
 export const FETCH_RESULTS_SUCCESS = 'FETCH_RESULTS_SUCCESS';
@@ -22,8 +23,8 @@ const fetchResultsFailure = error => ({
 });
 
 export const checkBranchComponentResponse = (formData, mappingValue) => {
-  return Object.values(formData.branchComponents).some(
-    branchComponent => branchComponent[mappingValue] === true,
+  return Object.values(branchComponentPageNames).some(
+    pageName => formData[pageName]?.[mappingValue] === true,
   );
 };
 
@@ -47,8 +48,11 @@ export const checkSingleResponse = (benefit, formData, mappingType) => {
   for (let i = 0; i < benefit.mappings[mappingType].length; i++) {
     const mappingValue = benefit.mappings[mappingType][i];
     const formResponse = formData[mappingType];
-    if (mappingType === mappingTypes.BRANCH_COMPONENT) {
-      return checkBranchComponentResponse(formData, mappingValue);
+    if (
+      mappingType === mappingTypes.BRANCH_COMPONENT &&
+      checkBranchComponentResponse(formData, mappingValue)
+    ) {
+      return true;
     }
     if (
       (formResponse &&
