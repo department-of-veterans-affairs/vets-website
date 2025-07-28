@@ -42,7 +42,7 @@ describe('Background Information Step 4 - Page 5, Education Details', () => {
     const formData = {
       highestLevelOfEducation: 'HS',
     };
-    const result = educationDetails.uiSchema.other['ui:options'].hideIf(
+    const result = educationDetails.uiSchema.otherLevel['ui:options'].hideIf(
       formData,
     );
     expect(result).to.be.true;
@@ -52,7 +52,7 @@ describe('Background Information Step 4 - Page 5, Education Details', () => {
     const formData = {
       highestLevelOfEducation: 'NA',
     };
-    const result = educationDetails.uiSchema.other['ui:options'].hideIf(
+    const result = educationDetails.uiSchema.otherLevel['ui:options'].hideIf(
       formData,
     );
     expect(result).to.be.false;

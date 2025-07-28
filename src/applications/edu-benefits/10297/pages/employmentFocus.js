@@ -23,7 +23,7 @@ const uiSchema = {
       labels: employmentFocusOptions,
     }),
   },
-  other: {
+  otherFocus: {
     ...textUI({
       title: 'Enter your area of focus in the technology industry.',
     }),
@@ -42,7 +42,7 @@ const schema = {
   type: 'object',
   properties: {
     technologyAreaOfFocus: radioSchema(Object.keys(employmentFocusOptions)),
-    other: {
+    otherFocus: {
       type: 'string',
       pattern: '^(?!\\s*$).+',
     },

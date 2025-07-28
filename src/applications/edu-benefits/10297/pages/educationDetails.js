@@ -22,7 +22,7 @@ const uiSchema = {
       labels: educationLevels,
     }),
   },
-  other: {
+  otherLevel: {
     ...textUI({
       title: 'Enter the highest level of education you’ve completed.',
     }),
@@ -41,7 +41,7 @@ const schema = {
   type: 'object',
   properties: {
     highestLevelOfEducation: radioSchema(Object.keys(educationLevels)),
-    other: {
+    otherLevel: {
       type: 'string',
       pattern: '^(?!\\s*$).+',
     },

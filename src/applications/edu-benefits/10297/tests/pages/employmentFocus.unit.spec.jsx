@@ -48,7 +48,7 @@ describe('Background Information Step 4 - Page 3, Employment Focus', () => {
     const formData = {
       technologyAreaOfFocus: 'computerProgramming',
     };
-    const result = employmentFocus.uiSchema.other['ui:options'].hideIf(
+    const result = employmentFocus.uiSchema.otherFocus['ui:options'].hideIf(
       formData,
     );
     expect(result).to.be.true;
@@ -58,7 +58,7 @@ describe('Background Information Step 4 - Page 3, Employment Focus', () => {
     const formData = {
       technologyAreaOfFocus: 'somethingElse',
     };
-    const result = employmentFocus.uiSchema.other['ui:options'].hideIf(
+    const result = employmentFocus.uiSchema.otherFocus['ui:options'].hideIf(
       formData,
     );
     expect(result).to.be.false;
