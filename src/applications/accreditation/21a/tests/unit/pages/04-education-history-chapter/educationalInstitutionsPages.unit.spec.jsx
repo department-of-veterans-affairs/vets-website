@@ -188,7 +188,7 @@ describe('educationalInstitutionsPages', () => {
 
   context('Show Summary Page', () => {
     const { educationalInstitutionsSummary } = educationalInstitutionsPages;
-    it('renders the summary page with a yes/no question when the', () => {
+    it('renders the summary page with a yes/no question', () => {
       const { container } = render(
         <SchemaForm
           name="educationalInstitutionsSummary"

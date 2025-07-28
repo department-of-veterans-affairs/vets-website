@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { DependentsInformationReview } from '../../../components/DependentsInformationReview';
-
 import { defaultData } from './dependent-data';
 
 function renderPage({ data = defaultData, goToPath = () => {} } = {}) {
@@ -64,8 +63,9 @@ describe('DependentsInformationReview', () => {
     const goToPathSpy = sinon.spy();
     const { container } = renderPage({ data: null, goToPath: goToPathSpy });
 
-    await fireEvent.click($('va-button[text="Edit"]', container));
-
-    expect(goToPathSpy.calledWith('/dependents')).to.be.true;
+    await waitFor(() => {
+      fireEvent.click($('va-button[text="Edit"]', container));
+      expect(goToPathSpy.calledWith('/dependents')).to.be.true;
+    });
   });
 });
