@@ -40,7 +40,7 @@ export const marriageEndDetails = {
       },
       'ui:options': {
         expandUnder: 'marriageEndReason',
-        expandUnderCondition: 'other',
+        expandUnderCondition: 'Other',
         expandedContentFocus: true,
         preserveHiddenData: true,
       },
