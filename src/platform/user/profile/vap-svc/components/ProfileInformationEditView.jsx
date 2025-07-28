@@ -519,7 +519,7 @@ ProfileInformationEditView.propTypes = {
     uiSchema: PropTypes.object,
   }),
   forceEditView: PropTypes.bool,
-  intlMobileConfirmModalEnabled: PropTypes.string,
+  intlMobileConfirmModalEnabled: PropTypes.bool,
   saveButtonText: PropTypes.string,
   shouldFocusCancelButton: PropTypes.bool,
   successCallback: PropTypes.func,

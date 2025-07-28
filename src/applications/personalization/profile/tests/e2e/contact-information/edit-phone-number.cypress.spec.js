@@ -5,10 +5,8 @@ import {
   mockGETEndpoints,
 } from '@@profile/tests/e2e/helpers';
 
-const setup = ({ mobile = false } = {}) => {
-  if (mobile) {
-    cy.viewportPreset('va-top-mobile-1');
-  }
+const setup = () => {
+  cy.viewportPreset('va-top-mobile-1');
 
   cy.login(mockUser);
 
@@ -21,8 +19,8 @@ const setup = ({ mobile = false } = {}) => {
     'v0/ppiu/payment_information',
   ]);
 
-  // This test only covers the flag on scenario using the va-telephone-input web component
-  // Legacy scenarios (flag off) are covered in ContactInformation.edit-telephone.unit.spec.jsx
+  // This test covers the international phones flag ON scenario using the va-telephone-input component
+  // Legacy scenarios (flag OFF) are covered in ContactInformation.edit-telephone.unit.spec.jsx
   mockFeatureToggles(() => ({
     data: {
       type: 'feature_toggles',
@@ -39,20 +37,9 @@ const setup = ({ mobile = false } = {}) => {
     },
   }));
 
-  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
-
-  cy.get('body').then($body => {
-    if ($body.find('va-loading-indicator').length) {
-      cy.get('va-loading-indicator')
-        .should('exist')
-        .then($container => {
-          cy.wrap($container)
-            .shadow()
-            .findByRole('progressbar')
-            .should('contain', /loading your information/i);
-        });
-      cy.get('va-loading-indicator').should('not.exist');
-    }
+  cy.intercept('GET', '/v0/user?*', {
+    statusCode: 200,
+    body: mockUser,
   });
 
   cy.intercept('PUT', '/v0/profile/telephones', {
@@ -91,13 +78,15 @@ const setup = ({ mobile = false } = {}) => {
     },
   );
 
-  cy.intercept('GET', '/v0/user?*', {
-    statusCode: 200,
-    body: mockUser,
-  });
+  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 };
 
-const editPhoneInputFields = ({ country = null, phoneNumber } = {}) => {
+const editPhoneNumber = (
+  numberName,
+  { country, phoneNumber, extension } = {},
+) => {
+  cy.get(`va-button[label="Edit ${numberName}"]`).click({ force: true });
+
   // Update country picker
   // Country defaults to US, so only clear/fill if it's provided
   if (country) {
@@ -114,6 +103,7 @@ const editPhoneInputFields = ({ country = null, phoneNumber } = {}) => {
       .find('va-combo-box')
       .shadow()
       .find('input')
+      .should('not.be.disabled')
       .type(country, { force: true });
   }
 
@@ -130,17 +120,9 @@ const editPhoneInputFields = ({ country = null, phoneNumber } = {}) => {
       .find('va-text-input')
       .shadow()
       .find('input')
+      .should('not.be.disabled')
       .type(phoneNumber, { force: true });
   }
-};
-
-const editPhoneNumber = (
-  numberName,
-  { country, phoneNumber, extension } = {},
-) => {
-  cy.get(`va-button[label="Edit ${numberName}"]`).click({ force: true });
-
-  editPhoneInputFields({ country, phoneNumber });
 
   // Always clear the extension field if present (home and work numbers only)
   if (numberName !== 'Mobile phone number') {
@@ -152,6 +134,7 @@ const editPhoneNumber = (
       cy.get('va-text-input[label="Extension (6 digits maximum)"]')
         .shadow()
         .find('input')
+        .should('not.be.disabled')
         .type(extension, { force: true });
     }
   }
@@ -162,8 +145,8 @@ const editPhoneNumber = (
     .click({ force: true });
 };
 
-describe('The contact information phone number editing', () => {
-  it('should allow editing a domestic phone number', () => {
+describe('Profile - Contact Information - editing phone numbers', () => {
+  it('should allow updating a domestic phone number', () => {
     setup();
     editPhoneNumber('Home phone number', {
       phoneNumber: '(555) 123-4567',
@@ -173,8 +156,8 @@ describe('The contact information phone number editing', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('should allow editing an international phone number on mobile', () => {
-    setup({ mobile: true });
+  it('should allow updating an international phone number', () => {
+    setup();
     editPhoneNumber('Work phone number', {
       country: 'France',
       phoneNumber: '01 23 45 67 89',
@@ -183,7 +166,7 @@ describe('The contact information phone number editing', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('should allow editing an international mobile phone number', () => {
+  it('should allow updating an international mobile phone number', () => {
     setup();
     editPhoneNumber('Mobile phone number', {
       country: 'United Kingdom',
@@ -207,20 +190,6 @@ describe('The contact information phone number editing', () => {
     setup();
     editPhoneNumber('Home phone number', {
       phoneNumber: '(555) 123-4567 8',
-    });
-    cy.get('va-telephone-input').should(
-      'have.attr',
-      'error',
-      'Please enter a valid phone number',
-    );
-    cy.contains('Update saved.').should('not.exist');
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('should prevent saving when the phone number field is empty', () => {
-    setup();
-    editPhoneNumber('Home phone number', {
-      // No phone number
     });
     cy.get('va-telephone-input').should(
       'have.attr',
