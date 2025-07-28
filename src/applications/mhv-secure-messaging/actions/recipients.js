@@ -1,6 +1,5 @@
 import { Actions } from '../util/actionTypes';
 import { getAllRecipients, updatePreferredRecipients } from '../api/SmApi';
-import { getIsPilotFromState } from '.';
 import { addAlert } from './alerts';
 import {
   ALERT_TYPE_ERROR,
@@ -25,10 +24,9 @@ const isSignatureRequired = recipients => {
   });
 };
 
-export const getAllTriageTeamRecipients = () => async (dispatch, getState) => {
-  const isPilot = getIsPilotFromState(getState);
+export const getAllTriageTeamRecipients = () => async dispatch => {
   try {
-    const response = await getAllRecipients(isPilot);
+    const response = await getAllRecipients();
     const updatedResponse = {
       ...response,
       data: isSignatureRequired(response.data),
