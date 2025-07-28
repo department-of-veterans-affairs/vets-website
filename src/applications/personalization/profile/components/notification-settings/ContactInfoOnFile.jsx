@@ -53,7 +53,11 @@ const ContactInfoOnFile = ({
         ) : null}
 
         <li className="vads-u-margin-y--0p5">
-          <strong>Mobile phone: </strong>
+          <strong>
+            {isInternationalMobile
+              ? 'International mobile phone: '
+              : 'Mobile phone: '}
+          </strong>
           {mobilePhoneNumber && (
             <va-telephone
               data-testid="mobile-phone-number-on-file"
