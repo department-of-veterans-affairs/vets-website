@@ -12,7 +12,7 @@ import CustomArrayBuilderButtonPair from './CustomArrayBuilderButtonPair';
  * @returns JSX
  */
 export function CustomPageNavButtons(props) {
-  const { contentAfterButtons, arrayBuilder, goBack } = props;
+  const { contentAfterButtons, arrayBuilder, goBack, onContinue } = props;
 
   const searchParams = getArrayUrlSearchParams();
   const isEdit = !!searchParams.get('edit');
@@ -25,19 +25,22 @@ export function CustomPageNavButtons(props) {
 
   /*
   Three possible button configs:
-  1. useTopbackLink: show top back link + a wide Continue button (this aligns with minimal header styling)
-  2. useTopbackLink && arrayBuilder: show top back link + custom array builder continue/cancel buttons
+  1. arrayBuilder (with or without topBackLink): custom array builder continue/cancel buttons
+  2. useTopbackLink: show top back link + a wide Continue button (this aligns with minimal header styling)
   3. no useTopBackLink: standard Continue/Back buttons
   */
-  if (useTopBackLink) {
-    navButtons =
-      arrayBuilder && (isEdit || isAdd) ? (
-        <CustomArrayBuilderButtonPair {...props} {...arrayBuilder} />
-      ) : (
-        <FormNavButtonContinue submitToContinue />
-      );
+  if (arrayBuilder && (isEdit || isAdd)) {
+    navButtons = <CustomArrayBuilderButtonPair {...props} {...arrayBuilder} />;
   } else {
-    navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+    navButtons = useTopBackLink ? (
+      <FormNavButtonContinue
+        submitToContinue
+        goBack={goBack}
+        goForward={onContinue}
+      />
+    ) : (
+      <FormNavButtons goBack={goBack} submitToContinue />
+    );
   }
 
   return navButtons;
