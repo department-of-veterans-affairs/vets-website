@@ -23,21 +23,30 @@ export const searchAreaOptions = {
   'Show all': 'Show all',
 };
 
-export const endpointOptions = {
-  fetchVSOReps: `/services/veteran/v0/vso_accredited_representatives`,
-  fetchOtherReps: `/services/veteran/v0/other_accredited_representatives`,
-  flagReps: `/representation_management/v0/flag_accredited_representatives`,
-};
-
-/*
- * Toggle true for local development
- */
 export const useStagingDataLocally = true;
 
 const baseUrl =
   useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
     ? `https://staging-api.va.gov`
     : `${environment.API_URL}`;
+
+const isLocalOrStaging =
+  (useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001') ||
+  baseUrl.includes('staging-api.va.gov');
+
+export const endpointOptions = {
+  fetchVSOReps: isLocalOrStaging
+    ? `/representation_management/v0/accredited_individuals`
+    : `/services/veteran/v0/vso_accredited_representatives`,
+  fetchOtherReps: isLocalOrStaging
+    ? `/representation_management/v0/accredited_individuals`
+    : `/services/veteran/v0/other_accredited_representatives`,
+  flagReps: `/representation_management/v0/flag_accredited_representatives`,
+};
+
+/*
+ * Toggle true for local development
+ */
 
 export const formatReportBody = newReport => {
   const reportRequestBody = {
