@@ -44,6 +44,7 @@ import {
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
+  isCompletingModern4142,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -686,12 +687,14 @@ const formConfig = {
           uiSchema: privateMedicalRecordsAttachments.uiSchema,
           schema: privateMedicalRecordsAttachments.schema,
         },
+        // 2024 authorization
         privateMedicalAuthorizeRelease: {
           title: 'Private medical records',
           path: 'supporting-evidence/private-medical-records-authorize-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&
-            isNotUploadingPrivateMedical(formData),
+            isNotUploadingPrivateMedical(formData) &&
+            isCompletingModern4142(formData),
           CustomPage: PrivateRecordsAuthorization,
           CustomPageReview: null,
           uiSchema: privateMedicalAuthorizeRelease.uiSchema,
