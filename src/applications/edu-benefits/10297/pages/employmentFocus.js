@@ -11,7 +11,7 @@ const employmentFocusOptions = {
   mediaApplication: 'Media application',
   dataProcessing: 'Data processing',
   informationSciences: 'Information sciences',
-  somethingElse: 'Something else not listed here',
+  somethingElse: 'Something else',
 };
 
 const uiSchema = {
