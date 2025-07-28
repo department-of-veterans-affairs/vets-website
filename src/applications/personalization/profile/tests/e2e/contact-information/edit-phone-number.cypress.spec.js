@@ -166,18 +166,8 @@ describe('The contact information phone number editing', () => {
   it('should allow editing a domestic phone number', () => {
     setup();
     editPhoneNumber('Home phone number', {
-      phoneNumber: '555-123-4567',
+      phoneNumber: '(555) 123-4567',
       extension: '321',
-    });
-    cy.contains('Update saved.').should('exist');
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('should allow editing an international phone number', () => {
-    setup();
-    editPhoneNumber('Mobile phone number', {
-      country: 'United Kingdom',
-      phoneNumber: '20 7946 0958',
     });
     cy.contains('Update saved.').should('exist');
     cy.injectAxeThenAxeCheck();
@@ -193,10 +183,30 @@ describe('The contact information phone number editing', () => {
     cy.injectAxeThenAxeCheck();
   });
 
+  it('should allow editing an international mobile phone number', () => {
+    setup();
+    editPhoneNumber('Mobile phone number', {
+      country: 'United Kingdom',
+      phoneNumber: '20 7946 0958',
+    });
+
+    // We can't send texts to international numbers, so we display a warning
+    // message in a confirm/cancel modal and click to confirm
+    cy.get('va-modal')
+      .should('exist')
+      .shadow()
+      .find('va-button')
+      .first()
+      .click();
+
+    cy.contains('Update saved.').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
   it('should prevent saving an invalid phone number', () => {
     setup();
     editPhoneNumber('Home phone number', {
-      phoneNumber: '555 123 4567 8',
+      phoneNumber: '(555) 123-4567 8',
     });
     cy.get('va-telephone-input').should(
       'have.attr',
