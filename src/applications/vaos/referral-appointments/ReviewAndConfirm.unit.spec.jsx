@@ -27,7 +27,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     },
     referral: {
       selectedSlot: '2024-09-09T16:00:00.000Z',
-      draftAppointmentInfo,
       currentPage: 'reviewAndConfirm',
       appointmentCreateStatus: FETCH_STATUS.notStarted,
       pollingRequestStart: null,
