@@ -1,4 +1,5 @@
-import nameAndDateOfBirth from './nameAndDateOfBirth';
+import * as applicantFullname from './applicantFullname';
+import * as phoneAndEmail from './phoneAndEmail';
 import identificationInformation from './identificationInformation';
 import * as employmentStatus from './employmentStatus';
 import * as employmentDetails from './employmentDetails';
@@ -7,7 +8,8 @@ import * as salaryDetails from './salaryDetails';
 import * as educationDetails from './educationDetails';
 
 export {
-  nameAndDateOfBirth,
+  applicantFullname,
+  phoneAndEmail,
   identificationInformation,
   employmentStatus,
   employmentDetails,
