@@ -17,6 +17,7 @@ import currentEmploymentPg from '../pages/currentEmployment';
 import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
 import nonCitizenIdInfoPg from '../pages/nonCitizenIdentificationInfo';
 import addressPg from '../pages/address';
+import editMailingAddressPg from '../pages/editMailingAddress';
 import bananastandPg from '../pages/bananastand';
 import phoneEmailPg from '../pages/phoneEmail';
 import recordSelectionsPg from '../pages/recordSelections';
@@ -183,6 +184,13 @@ const formConfig = {
           uiSchema: addressPg.uiSchema,
           schema: addressPg.schema,
           pageClass: 'address',
+        },
+        editMailingAddressPage: {
+          path: 'edit-mailing-address',
+          title: 'Edit mailing address',
+          uiSchema: editMailingAddressPg.uiSchema,
+          schema: editMailingAddressPg.schema,
+          pageClass: 'edit-mailing-address',
         },
         phoneEmailPage: {
           path: 'phone-email',
