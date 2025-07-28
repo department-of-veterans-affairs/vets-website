@@ -9,7 +9,7 @@ const baseUrl =
 
 const isLocalOrStaging =
   (useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001') ||
-  baseUrl.includes('staging-api.va.gov');
+  new URL(baseUrl).host === 'staging-api.va.gov';
 
 export const REPRESENTATIVES_API = isLocalOrStaging
   ? '/representation_management/v0/accredited_entities_for_appoint' // Accreditation API data endpoint

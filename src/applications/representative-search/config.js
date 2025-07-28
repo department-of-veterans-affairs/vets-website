@@ -32,7 +32,7 @@ const baseUrl =
 
 const isLocalOrStaging =
   (useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001') ||
-  baseUrl.includes('staging-api.va.gov');
+  new URL(baseUrl).host === 'staging-api.va.gov';
 
 export const endpointOptions = {
   fetchVSOReps: isLocalOrStaging
