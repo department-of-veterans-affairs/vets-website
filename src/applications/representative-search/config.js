@@ -34,14 +34,26 @@ const isLocalOrStaging =
   (useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001') ||
   new URL(baseUrl).host === 'staging-api.va.gov';
 
-export const endpointOptions = {
-  fetchVSOReps: isLocalOrStaging
-    ? `/representation_management/v0/accredited_individuals` // Accreditation API data endpoint
-    : `/services/veteran/v0/vso_accredited_representatives`,
-  fetchOtherReps: isLocalOrStaging
-    ? `/representation_management/v0/accredited_individuals` // Accreditation API data endpoint
-    : `/services/veteran/v0/other_accredited_representatives`,
-  flagReps: `/representation_management/v0/flag_accredited_representatives`,
+export const endpointOptions = () => {
+  // When we were testing with isCypressTest, this value needs to be set to the legacy endpoint.
+  // At the time of writing the Accreditation API had no data for VSO Representatives.
+  const isCypressTest = typeof Cypress !== 'undefined';
+  if (isCypressTest)
+    return {
+      fetchVSOReps: `/services/veteran/v0/vso_accredited_representatives`, // Legacy endpoint
+      fetchOtherReps: `/services/veteran/v0/other_accredited_representatives`, // Legacy endpoint
+      flagReps: `/representation_management/v0/flag_accredited_representatives`,
+    };
+
+  return {
+    fetchVSOReps: isLocalOrStaging
+      ? `/representation_management/v0/accredited_individuals` // Accreditation API data endpoint
+      : `/services/veteran/v0/vso_accredited_representatives`,
+    fetchOtherReps: isLocalOrStaging
+      ? `/representation_management/v0/accredited_individuals` // Accreditation API data endpoint
+      : `/services/veteran/v0/other_accredited_representatives`,
+    flagReps: `/representation_management/v0/flag_accredited_representatives`,
+  };
 };
 
 /*
