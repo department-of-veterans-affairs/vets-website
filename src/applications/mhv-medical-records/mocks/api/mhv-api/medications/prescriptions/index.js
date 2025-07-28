@@ -1,5 +1,5 @@
 const { differenceInDays, formatISO, sub } = require('date-fns');
-const prescriptionsList = require('../../../../../../mhv-medications/tests/fixtures/prescriptionsList.json');
+const prescriptionsList = require('./prescriptionsList.json');
 
 function mockPrescription(n = 0, attrs = {}) {
   // Generate some refillable, some not
