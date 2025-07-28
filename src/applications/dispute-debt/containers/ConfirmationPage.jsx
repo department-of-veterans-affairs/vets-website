@@ -87,9 +87,9 @@ export const ConfirmationPage = () => {
       <h2>What to expect next</h2>
       <p>You don’t need to do anything else at this time</p>
       <p>
-        After we receive your dispute form, we’ll review your dispute. You will
+        After we receive your dispute form, we’ll review your dispute. You’ll
         receive an email and a letter in the mail confirming receipt and letting
-        you know whether you need to continue paying.Then we’ll mail you a
+        you know whether you need to continue paying. Then we’ll mail you a
         letter with our decision. If you have questions about your dispute, call
         us at <va-telephone contact={CONTACTS.DMC} /> (
         <va-telephone contact={CONTACTS['711']} tty />
