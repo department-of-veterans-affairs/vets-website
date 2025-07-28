@@ -18,13 +18,13 @@ const uiSchema = {
   ...titleUI('Your education'),
   highestLevelOfEducation: {
     ...radioUI({
-      title: "What's the highest level of education you've completed?",
+      title: 'What’s the highest level of education you’ve completed?',
       labels: educationLevels,
     }),
   },
   other: {
     ...textUI({
-      title: "Enter the highest level of education you've completed.",
+      title: 'Enter the highest level of education you’ve completed.',
     }),
     'ui:options': {
       expandUnder: 'highestLevelOfEducation',

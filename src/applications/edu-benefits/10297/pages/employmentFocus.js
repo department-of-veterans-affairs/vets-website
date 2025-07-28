@@ -18,7 +18,7 @@ const uiSchema = {
   ...titleUI('Your main area of focus'),
   technologyAreaOfFocus: {
     ...radioUI({
-      title: 'What’s your main area of focus in the technology industry? ',
+      title: 'What’s your main area of focus in the technology industry?',
       required: () => true,
       labels: employmentFocusOptions,
     }),

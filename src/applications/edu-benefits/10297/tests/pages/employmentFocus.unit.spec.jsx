@@ -21,7 +21,7 @@ describe('Background Information Step 4 - Page 3, Employment Focus', () => {
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio).to.exist;
     expect(vaRadio.getAttribute('label')).to.equal(
-      'What’s your main area of focus in the technology industry? ',
+      'What’s your main area of focus in the technology industry?',
     );
     const radios = container.querySelectorAll(
       'va-radio, va-radio-option, input[type="radio"]',
