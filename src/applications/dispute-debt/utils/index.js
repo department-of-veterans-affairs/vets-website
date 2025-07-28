@@ -7,13 +7,7 @@ import {
 } from '~/platform/utilities/ui';
 import { $ } from '~/platform/forms-system/src/js/utilities/ui';
 
-import { deductionCodes } from '../constants';
-
-export const DISPUTE_REASONS = {
-  EXISTENCE: `I don't think I owe this debt to VA`,
-  AMOUNT: `I don't think the amount is correct on this debt`,
-};
-
+import { deductionCodes, DISPUTE_REASONS } from '../constants';
 export const focusFirstError = (_index, root) => {
   const error = $('[error], .usa-input-error', root);
   if (error) {

@@ -121,7 +121,7 @@ const ConfirmationVeteranInformation = ({ formData }) => {
         {addressLine2 &&
           reviewEntry(
             null,
-            `veteran-personal-information-address-line-1`,
+            `veteran-personal-information-address-line-2`,
             {},
             'Street address line 2',
             addressLine2,
@@ -129,7 +129,7 @@ const ConfirmationVeteranInformation = ({ formData }) => {
         {addressLine3 &&
           reviewEntry(
             null,
-            `veteran-personal-information-address-line-1`,
+            `veteran-personal-information-address-line-3`,
             {},
             'Street address line 3',
             addressLine3,
