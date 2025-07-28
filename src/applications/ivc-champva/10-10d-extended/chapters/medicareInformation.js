@@ -90,6 +90,9 @@ export const medicareOptions = {
       <ul className="no-bullets">
         <li>
           <b>Type:</b> {MEDICARE_TYPE_LABELS[(item?.medicarePlanType)]}
+          {item?.hasMedicarePartD
+            ? ', Medicare Part D (prescription drug coverage)'
+            : null}
         </li>
       </ul>
     ),
