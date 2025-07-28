@@ -4,33 +4,19 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { connect } from 'react-redux';
+// import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import {
-  isLOA1,
-  isLOA3,
   isLoggedIn,
   isProfileLoading,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-import {
-  // VaAlertSignIn,
-  VaButton,
-  // VaSearchInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import OmbInfo from '../components/OmbInfo';
 import ProcessList from '../components/ProcessList';
 import TechnologyProgramAccordion from '../components/TechnologyProgramAccordion';
 
 const IntroductionPage = props => {
-  const {
-    route,
-    toggleLoginModal,
-    loggedIn,
-    showLoadingIndicator,
-    isUserLOA1,
-    isUserLOA3,
-    isLoggedOut,
-    signInServiceName,
-  } = props;
+  const { toggleLoginModal, loggedIn, showLoadingIndicator } = props;
   useEffect(() => {
     const h1 = document.querySelector('h1');
     scrollAndFocus(h1);
@@ -74,7 +60,7 @@ const IntroductionPage = props => {
           program (VA Form 22-10297)
         </p>
       </div>
-      <p>
+      <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-color--base vads-u-font-weight--normal">
         Use this form to apply for the High Technology Program, which covers
         short-term, high-tech training like coding bootcamps and IT courses not
         typically covered by the GI Bill. If approved, VA will pay your tuition,
@@ -104,13 +90,6 @@ const IntroductionPage = props => {
             <SignInButton />
           </span>
         </va-alert-sign-in>
-        {/* <SaveInProgressIntro
-          prefillEnabled={route.formConfig.prefillEnabled}
-          messages={route.formConfig.savedFormMessages}
-          formConfig={route.formConfig}
-          pageList={route.pageList}
-          startText="Start your application"
-        /> */}
       </div>
       <OmbInfo />
       <TechnologyProgramAccordion />
@@ -133,16 +112,11 @@ IntroductionPage.propTypes = {
   }).isRequired,
 };
 function mapStateToProps(state) {
-  const isLoggedOut = !isProfileLoading(state) && !isLoggedIn(state);
   return {
     formData: state.form?.data || {},
     loggedIn: isLoggedIn(state),
     profile: selectProfile(state),
     showLoadingIndicator: isProfileLoading(state),
-    isLoggedOut,
-    isUserLOA1: !isLoggedOut && isLOA1(state),
-    isUserLOA3: !isLoggedOut && isLOA3(state),
-    signInServiceName: selectProfile(state).signIn?.serviceName,
   };
 }
 

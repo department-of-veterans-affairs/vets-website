@@ -3,6 +3,7 @@
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 .form-10297-introduction-page {
+  padding-bottom: 0 !important;
   .additional-info-content {
     width: 40% !important;
   }
@@ -19,5 +20,6 @@
   width: 642px;
   @media (max-width: $small-screen) {
     width: 100%;
+     padding-inline: 8px !important;
   }
 }
