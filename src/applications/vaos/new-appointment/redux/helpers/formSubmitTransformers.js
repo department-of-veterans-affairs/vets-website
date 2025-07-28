@@ -50,7 +50,7 @@ export function transformFormToVAOSCCRequest(state) {
       city: residentialAddress.city,
       state: residentialAddress.stateCode,
     };
-  } else if (parentFacility && parentFacility.address) {
+  } else if (parentFacility?.address) {
     preferredLocation = {
       city: parentFacility.address.city,
       state: parentFacility.address.state,
