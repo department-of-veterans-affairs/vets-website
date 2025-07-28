@@ -22,7 +22,7 @@ const uiSchema = {
           </p>
           <p>
             You don’t have to list a training provider when you apply. If you
-            do, and that provider isn’t approved yet, VA may contac them to see
+            do, and that provider isn’t approved yet, VA may contact them to see
             if they want to join the program.
           </p>
           <p>
@@ -37,7 +37,7 @@ const uiSchema = {
               The name of the institution or organization that you wish to
               provide your training <strong>and</strong>
             </li>
-            <li>The current mail address of your training provider</li>
+            <li>The current mailing address of your training provider</li>
           </ul>
         </div>
       </>
