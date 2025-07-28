@@ -6,7 +6,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  nameAndDateOfBirth,
+  applicantFullname,
+  phoneAndEmail,
   identificationInformation,
   employmentStatus,
   employmentDetails,
@@ -17,6 +18,7 @@ import {
 
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
+import createDirectDepositPage from '../pages/DirectDeposit';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -47,20 +49,21 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
-      pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
-      },
-    },
     identificationChapter: {
       title: 'Veteran’s information',
       pages: {
+        applicantFullName: {
+          path: 'applicant-fullname',
+          title: 'Enter your full name',
+          uiSchema: applicantFullname.uiSchema,
+          schema: applicantFullname.schema,
+        },
+        phoneAndEmail: {
+          path: 'phone-and-email',
+          title: 'Phone and email address',
+          uiSchema: phoneAndEmail.uiSchema,
+          schema: phoneAndEmail.schema,
+        },
         identificationInformation: {
           path: 'identification-information',
           title: 'Identification information',
@@ -79,6 +82,7 @@ const formConfig = {
           uiSchema: activeDutyStatus.uiSchema,
           schema: activeDutyStatus.schema,
         },
+        directDeposit: createDirectDepositPage(),
       },
     },
     backgroundInformationChapter: {
