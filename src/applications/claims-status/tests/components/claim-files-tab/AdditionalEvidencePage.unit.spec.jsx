@@ -28,6 +28,25 @@ const fileFormProps = {
 
 describe('<AdditionalEvidencePage>', () => {
   const getStore = createStore(() => ({}));
+  let originalSetInterval;
+  let intervalIds = [];
+
+  beforeEach(() => {
+    // Mock setInterval to prevent hanging tests
+    originalSetInterval = global.setInterval;
+    global.setInterval = (fn, delay) => {
+      const id = originalSetInterval(() => {}, delay); // Create a dummy interval
+      intervalIds.push(id);
+      return id;
+    };
+  });
+
+  afterEach(() => {
+    // Clear all intervals and restore original
+    intervalIds.forEach(id => clearInterval(id));
+    intervalIds = [];
+    global.setInterval = originalSetInterval;
+  });
 
   context('when claim is open', () => {
     const claim = {
@@ -178,17 +197,23 @@ describe('<AdditionalEvidencePage>', () => {
       const mainDiv = document.createElement('div');
       mainDiv.classList.add('va-nav-breadcrumbs');
       document.body.appendChild(mainDiv);
-      ReactTestUtils.renderIntoDocument(
-        <Provider store={uploadStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            resetUploads={resetUploads}
-          />
-        </Provider>,
-      );
 
-      expect(resetUploads.called).to.be.true;
+      try {
+        ReactTestUtils.renderIntoDocument(
+          <Provider store={uploadStore}>
+            <AdditionalEvidencePage
+              {...fileFormProps}
+              claim={claim}
+              resetUploads={resetUploads}
+            />
+          </Provider>,
+        );
+
+        expect(resetUploads.called).to.be.true;
+      } finally {
+        // Clean up DOM element
+        document.body.removeChild(mainDiv);
+      }
     });
 
     it('should set details and go to files page if complete', () => {
