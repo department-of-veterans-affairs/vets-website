@@ -18,7 +18,7 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  formatFullNameNoSuffix,
+  formatPossessiveString,
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
@@ -26,6 +26,7 @@ import {
   otherIncomeTypeExplanationRequired,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  resolveRecipientFullName,
 } from '../../../helpers';
 import { relationshipLabels, incomeTypeEarnedLabels } from '../../../labels';
 
@@ -42,14 +43,14 @@ export const options = {
     !isDefined(item.accountValue) ||
     !isDefined(item.payer), // include all required fields here
   text: {
-    getItemName: (item, index, formData) =>
-      isDefined(item?.recipientRelationship) &&
-      isDefined(item?.payer) &&
-      `${
-        item?.recipientRelationship === 'VETERAN'
-          ? formatFullNameNoSuffix(formData?.veteranFullName)
-          : formatFullNameNoSuffix(item?.recipientName)
-      }’s income from ${item.payer}`,
+    getItemName: (item, index, formData) => {
+      if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
+        return undefined;
+      }
+      const fullName = resolveRecipientFullName(item, formData);
+      const possessiveName = formatPossessiveString(fullName);
+      return `${possessiveName} income from ${item.payer}`;
+    },
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
