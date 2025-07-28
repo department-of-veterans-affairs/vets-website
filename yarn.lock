@@ -2858,6 +2858,18 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
+"@department-of-veterans-affairs/component-library@43.0.2":
+  version "43.0.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-43.0.2.tgz#5dc260fc3da4c541da810bbea0d28a7151f25016"
+  integrity sha512-v8uM7Xw9ud9pwCvFS73a1Mf/6eskUNVpcCQhC35/INzrReX2aqD/TN2IFBr3WfH7aFkJA7CyAwy1YNGiJpHyxQ==
+  dependencies:
+    "@department-of-veterans-affairs/react-components" "28.1.0"
+    "@department-of-veterans-affairs/web-components" "11.2.9"
+    i18next "^21.6.14"
+    i18next-browser-languagedetector "^6.1.4"
+    react-focus-on "^3.5.1"
+    react-transition-group "^1.0.0"
+
 "@department-of-veterans-affairs/component-library@51.4.0":
   version "51.4.0"
   resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-51.4.0.tgz#b444bf7f75e3b66b7932e1ea0d332990f281ec5f"
@@ -2877,6 +2889,15 @@
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.9.0"
+    rimraf "^5.0.5"
+
+"@department-of-veterans-affairs/css-library@^0.8.1":
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.8.8.tgz#f86fa4f126148c5d187831618446c520a639fdd6"
+  integrity sha512-9XjIppvFrmACoD/m1BssWkA/eXTRhszSxWnPFNSb38cYaVs35HcTEAF2vbPdeipkT5KKUC4Ns6MDxMZMqLv2hg==
+  dependencies:
+    "@divriots/style-dictionary-to-figma" "^0.4.0"
+    "@uswds/uswds" "^3.8.1"
     rimraf "^5.0.5"
 
 "@department-of-veterans-affairs/eslint-plugin@^1.18.2":
@@ -2935,6 +2956,19 @@
   integrity sha512-FpMWFknWkRZ5uSv4Qr5cfZ3Ad1uTuYAZkt/FxZbY1IP5/I3p6IrOJ8NTgoS69lUoHsrZ4vZ774d/Obo2OseRLg==
   dependencies:
     minimist "^1.2.6"
+
+"@department-of-veterans-affairs/web-components@11.2.9":
+  version "11.2.9"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-11.2.9.tgz#10f4ec73f5d177c1864a116386334748c2e39bcb"
+  integrity sha512-Kl7zCoxuheC/EYdM0D3N2X4cC7Kjd1eq6ZaX525BAiRJlxKhIpqhZzJfbXkQw0SrX8voLrA0Ab74KFcZjgRV3A==
+  dependencies:
+    "@department-of-veterans-affairs/css-library" "^0.8.1"
+    "@stencil/core" "^2.19.2"
+    aria-hidden "^1.1.3"
+    body-scroll-lock "^4.0.0-beta.0"
+    chromatic "^11.0.4"
+    classnames "^2.3.1"
+    intersection-observer "^0.12.0"
 
 "@department-of-veterans-affairs/web-components@19.4.0":
   version "19.4.0"
@@ -3322,6 +3356,18 @@
   integrity sha512-TfRP53RqunNe2HBobVBJ0VLhK1HbfvBYeTC1ahnN64PWvyYyGebmMiPkuwvD9fpw2ZbkoPb8Q7mwy0aR8Z9rvw==
   dependencies:
     lodash "^4.17.21"
+
+"@lit-labs/ssr-dom-shim@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@lit-labs/ssr-dom-shim/-/ssr-dom-shim-1.4.0.tgz#55eb80ab5ef6e188f7e541c1e2bea1ef582413b8"
+  integrity sha512-ficsEARKnmmW5njugNYKipTm4SFnbik7CXtoencDZzmzo/dQ+2Q0bgkzJuoJP20Aj0F+izzJjOqsnkd6F/o1bw==
+
+"@lit/reactive-element@^2.1.0":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@lit/reactive-element/-/reactive-element-2.1.1.tgz#0662ac4a43d4898974aef9a6c5cd47b9e331919a"
+  integrity sha512-N+dm5PAYdQ8e6UlywyyrgI2t++wFGXfHx+dSJ1oBrg6FAxUj40jId++EaRm80MKX5JnlH1sBsyZ5h0bcZKemCg==
+  dependencies:
+    "@lit-labs/ssr-dom-shim" "^1.4.0"
 
 "@mapbox/fusspot@^0.4.0":
   version "0.4.0"
@@ -4362,6 +4408,11 @@
   resolved "https://registry.npmjs.org/@stencil/core/-/core-4.20.0.tgz#221f2b36ab999891560449b02d6915862c435f49"
   integrity sha512-WPrTHFngvN081RY+dJPneKQLwnOFD60OMCOQGmmSHfCW0f4ujPMzzhwWU1gcSwXPWXz5O+8cBiiCaxAbJU7kAg==
 
+"@stencil/core@^2.19.2":
+  version "2.22.3"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.22.3.tgz#83987e20bba855c450f6d6780e3a20192603f13f"
+  integrity sha512-kmVA0M/HojwsfkeHsifvHVIYe4l5tin7J5+DLgtl8h6WWfiMClND5K3ifCXXI2ETDNKiEk21p6jql3Fx9o2rng==
+
 "@stylelint/postcss-css-in-js@^0.37.2":
   version "0.37.2"
   resolved "https://registry.yarnpkg.com/@stylelint/postcss-css-in-js/-/postcss-css-in-js-0.37.2.tgz#7e5a84ad181f4234a2480803422a47b8749af3d2"
@@ -5065,6 +5116,11 @@
   resolved "https://registry.yarnpkg.com/@types/triple-beam/-/triple-beam-1.3.2.tgz#38ecb64f01aa0d02b7c8f4222d7c38af6316fef8"
   integrity sha512-txGIh+0eDFzKGC25zORnswy+br1Ha7hj5cMVwKIU7+s0U2AxxJru/jZSMU6OC9MJWP6+pc/hc6ZjyZShpsyY2g==
 
+"@types/trusted-types@^2.0.2":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-2.0.7.tgz#baccb07a970b91707df3a3e8ba6896c57ead2d11"
+  integrity sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==
+
 "@types/unist@*", "@types/unist@^2.0.0", "@types/unist@^2.0.2":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.3.tgz#9c088679876f374eb5983f150d4787aa6fb32d7e"
@@ -5112,6 +5168,16 @@
   integrity sha512-A1b8SU4D10uoPjwb0lnHmmu8wZhR9d+9o2PKBQT2jU5YPTKsxac6M2qGAdY7VcL+dHHhARVUDmeg0rOrcd9EjA==
   dependencies:
     "@types/node" "*"
+
+"@uswds/uswds@^3.8.1":
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/@uswds/uswds/-/uswds-3.13.0.tgz#bab0017fb22083d16e7c09a9083a7ed539359801"
+  integrity sha512-8P494gmXv/0sm09ExSdj8wAMjGLnM7UMRY/XgsMIRKnWfDXG+TyuCOKIuD4lqs+gLvSmi1nTQKyd0c0/A7VWJQ==
+  dependencies:
+    lit "^3.2.1"
+    receptor "1.0.0"
+  optionalDependencies:
+    sass-embedded-linux-x64 "^1.89.0"
 
 "@uswds/uswds@^3.9.0":
   version "3.9.0"
@@ -14814,6 +14880,31 @@ listr2@^3.8.3:
     through "^2.3.8"
     wrap-ansi "^7.0.0"
 
+lit-element@^4.2.0:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-4.2.1.tgz#0a3782f36eaa545862fe07f84abcb14b2903a042"
+  integrity sha512-WGAWRGzirAgyphK2urmYOV72tlvnxw7YfyLDgQ+OZnM9vQQBQnumQ7jUJe6unEzwGU3ahFOjuz1iz1jjrpCPuw==
+  dependencies:
+    "@lit-labs/ssr-dom-shim" "^1.4.0"
+    "@lit/reactive-element" "^2.1.0"
+    lit-html "^3.3.0"
+
+lit-html@^3.3.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-3.3.1.tgz#f0a7e4b9ea0a1d034eb28a4bf2d1b0a0096253e3"
+  integrity sha512-S9hbyDu/vs1qNrithiNyeyv64c9yqiW9l+DBgI18fL+MTvOtWoFR0FWiyq1TxaYef5wNlpEmzlXoBlZEO+WjoA==
+  dependencies:
+    "@types/trusted-types" "^2.0.2"
+
+lit@^3.2.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-3.3.1.tgz#9dc79be626bc9a3b824de98b107dd662cabdeda6"
+  integrity sha512-Ksr/8L3PTapbdXJCk+EJVB78jDodUMaP54gD24W186zGRARvwrsPfS60wae/SSCTCNZVPd1chXqio1qHQmu4NA==
+  dependencies:
+    "@lit/reactive-element" "^2.1.0"
+    lit-element "^4.2.0"
+    lit-html "^3.3.0"
+
 load-yaml-file@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/load-yaml-file/-/load-yaml-file-0.2.0.tgz#af854edaf2bea89346c07549122753c07372f64d"
@@ -19835,6 +19926,11 @@ safe-stable-stringify@^2.3.1:
 samsam@1.x, samsam@^1.1.3:
   version "1.2.1"
   resolved "https://registry.npmjs.org/samsam/-/samsam-1.2.1.tgz"
+
+sass-embedded-linux-x64@^1.89.0:
+  version "1.89.2"
+  resolved "https://registry.yarnpkg.com/sass-embedded-linux-x64/-/sass-embedded-linux-x64-1.89.2.tgz#9a58127a312e7c011e3a20470ff5707b9aa78536"
+  integrity sha512-Ax7dKvzncyQzIl4r7012KCMBvJzOz4uwSNoyoM5IV6y5I1f5hEwI25+U4WfuTqdkv42taCMgpjZbh9ERr6JVMQ==
 
 sass-graph@2.2.5:
   version "2.2.5"
