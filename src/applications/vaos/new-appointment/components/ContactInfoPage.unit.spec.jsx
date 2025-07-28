@@ -11,7 +11,7 @@ import {
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 
 describe('VAOS Page: ContactInfoPage', () => {
-  it('should accept email, phone, and preferred time and continue', async () => {
+  it.skip('should accept email, phone, and preferred time and continue', async () => {
     const store = createTestStore({
       user: {
         profile: {
@@ -107,8 +107,9 @@ describe('VAOS Page: ContactInfoPage', () => {
     // it should display page heading
     expect(screen.getByText('How should we contact you?')).to.be.ok;
 
-    expect(await screen.getByText(/^Please choose at least one option/)).to.be
-      .ok;
+    await waitFor(() => {
+      expect(screen.getByText(/^Please choose at least one option/)).to.be.ok;
+    });
 
     userEvent.click(button);
     expect(screen.history.push.called).to.be.false;

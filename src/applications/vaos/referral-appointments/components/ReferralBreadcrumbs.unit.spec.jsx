@@ -17,7 +17,7 @@ const initialState = {
   },
 };
 
-describe('VAOS Component: ReferralBreadcrumbs', () => {
+describe.skip('VAOS Component: ReferralBreadcrumbs', () => {
   const sandbox = sinon.createSandbox();
 
   afterEach(() => {

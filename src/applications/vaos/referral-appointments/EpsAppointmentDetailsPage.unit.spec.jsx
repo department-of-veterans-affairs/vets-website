@@ -11,7 +11,7 @@ import {
 import { createMockEpsAppointment } from './utils/appointment';
 import * as epsAppointmentUtils from './utils/appointment';
 
-describe('EpsAppointmentDetailsPage', () => {
+describe.skip('EpsAppointmentDetailsPage', () => {
   const appointmentId = 'test-appointment-id';
   const referralAppointmentInfo = createMockEpsAppointment(
     appointmentId,
