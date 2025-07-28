@@ -15,7 +15,7 @@ const uiSchema = {
       <>
         <div data-testid="instructions">
           <p>
-            A training provider is an organization or organization that offers a
+            A training provider is a school or organization that offers a
             short-term, high-tech training program. These programs usually last
             between 6 and 28 weeks. They’re meant to help you build skills that
             lead to a job in areas like coding, cybersecurity, or IT.
