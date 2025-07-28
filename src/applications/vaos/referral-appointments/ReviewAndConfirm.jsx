@@ -7,11 +7,11 @@ import {
   getAppointmentCreateStatus,
   getSelectedSlotStartTime,
 } from './redux/selectors';
-import { setFormCurrentPage, setSelectedSlotStartTime } from './redux/actions';
 import {
   POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
   POST_REFERRAL_REQUEST_CACHE,
 } from '../utils/constants';
+import { setFormCurrentPage, setSelectedSlotStartTime } from './redux/actions';
 import {
   usePostDraftReferralAppointmentMutation,
   usePostReferralAppointmentMutation,
@@ -34,7 +34,7 @@ const ReviewAndConfirm = props => {
   const { attributes: currentReferral } = props.currentReferral;
   const dispatch = useDispatch();
   const history = useHistory();
-  const selectedSlotStartTime = useSelector(getSelectedSlotStartTime);
+  const selectedSlot = useSelector(state => getSelectedSlotStartTime(state));
   const [
     postDraftReferralAppointment,
     {
@@ -55,7 +55,7 @@ const ReviewAndConfirm = props => {
   const [createLoading, setCreateLoading] = useState(false);
   const slotDetails = getSlotByDate(
     draftAppointmentInfo?.attributes?.slots,
-    selectedSlotStartTime,
+    selectedSlot,
   );
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.uuid),
@@ -79,20 +79,17 @@ const ReviewAndConfirm = props => {
   );
   useEffect(
     () => {
-      if (!selectedSlotStartTime && !savedSelectedSlot) {
+      if (!selectedSlot && !savedSelectedSlot) {
         routeToCCPage(history, 'scheduleReferral', currentReferral.uuid);
       }
     },
-    [currentReferral.uuid, history, savedSelectedSlot, selectedSlotStartTime],
+    [currentReferral.uuid, history, savedSelectedSlot, selectedSlot],
   );
 
   useEffect(
     () => {
       if (isDraftUninitialized) {
-        postDraftReferralAppointment({
-          referralNumber: currentReferral.referralNumber,
-          referralConsultId: currentReferral.referralConsultId,
-        });
+        postDraftReferralAppointment(currentReferral.referralNumber);
       } else if (isDraftSuccess) {
         setLoading(false);
       } else if (isDraftError) {
@@ -101,7 +98,7 @@ const ReviewAndConfirm = props => {
       }
     },
     [
-      currentReferral,
+      currentReferral.referralNumber,
       dispatch,
       isDraftError,
       isDraftSuccess,
@@ -112,7 +109,7 @@ const ReviewAndConfirm = props => {
 
   useEffect(
     () => {
-      if (!selectedSlotStartTime && savedSelectedSlot && isDraftSuccess) {
+      if (!selectedSlot && savedSelectedSlot && isDraftSuccess) {
         const savedSlot = getSlotByDate(
           draftAppointmentInfo?.attributes?.slots,
           savedSelectedSlot,
@@ -129,7 +126,7 @@ const ReviewAndConfirm = props => {
       savedSelectedSlot,
       draftAppointmentInfo,
       history,
-      selectedSlotStartTime,
+      selectedSlot,
       isDraftSuccess,
     ],
   );
