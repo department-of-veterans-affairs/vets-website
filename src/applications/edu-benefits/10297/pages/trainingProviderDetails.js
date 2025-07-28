@@ -10,7 +10,7 @@ import { trainingProviderArrayOptions } from '../helpers';
 
 const uiSchema = {
   ...arrayBuilderItemFirstPageTitleUI({
-    title: 'Training provider name and mail address',
+    title: 'Training provider name and mailing address',
     nounSingular: trainingProviderArrayOptions.nounSingular,
   }),
   name: textUI({
