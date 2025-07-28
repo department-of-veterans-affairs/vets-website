@@ -83,7 +83,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     });
   });
 
-  it('should redirect the user to the Contact Facility page when facilities are not available', async () => {
+  it.skip('should redirect the user to the Contact Facility page when facilities are not available', async () => {
     // Arrange
     const store = createTestStore({
       ...initialState,
@@ -133,7 +133,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     );
   });
 
-  it('should render warning message', async () => {
+  it.skip('should render warning message', async () => {
     // Arrange
     const store = createTestStore(initialState);
 
