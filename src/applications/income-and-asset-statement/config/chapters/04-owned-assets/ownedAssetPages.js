@@ -17,6 +17,7 @@ import {
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   formatCurrency,
+  formatPossessiveString,
   generateDeleteDescription,
   isDefined,
   isRecipientInfoIncomplete,
@@ -48,7 +49,8 @@ export const options = {
         return undefined;
       }
       const fullName = resolveRecipientFullName(item, formData);
-      return `${fullName}’s income from a ${lowercase(
+      const possessiveName = formatPossessiveString(fullName);
+      return `${possessiveName} income from a ${lowercase(
         ownedAssetTypeLabels[item.assetType],
       )}`;
     },

@@ -1,4 +1,5 @@
 import React from 'react';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
@@ -9,13 +10,13 @@ import InterstitialPage from '../../containers/InterstitialPage';
 import { getByBrokenText } from '../../util/testUtils';
 
 describe('Interstitial page header', () => {
-  const initialState = (isPilot = false) => ({
-    sm: {
-      app: {
-        isPilot,
+  const initialState = (isPilot = false) => {
+    return {
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: isPilot,
       },
-    },
-  });
+    };
+  };
 
   const setup = ({
     customState = initialState(),
