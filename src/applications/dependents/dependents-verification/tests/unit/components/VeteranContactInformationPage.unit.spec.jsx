@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -112,7 +112,6 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     const { container } = renderPage({
       profile: defaultProfile({ isInternationalHome: true }),
     });
-
     expect(container.querySelector('va-card')).to.not.be.null;
   });
 
@@ -120,7 +119,6 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     const { container } = renderPage({
       profile: defaultProfile({ isInternationalMobile: true }),
     });
-
     expect(container.querySelector('va-card')).to.not.be.null;
   });
 
@@ -158,7 +156,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     expect($$('va-alert', container)).to.have.lengthOf(0);
   });
 
-  it('shows prefill & error alert on submit if email is missing', () => {
+  it('shows prefill & error alert on submit if email is missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       data: {
@@ -180,18 +178,19 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       'We could not prefill this form with your email address.',
     );
 
-    const continueBtn = $('button[type="submit"]', container);
+    const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
-    fireEvent.click(continueBtn);
 
-    expect(container.textContent).to.include(
-      'Your email address is required before you continue.',
-    );
-
-    expect(goToPath.called).to.be.false;
+    await waitFor(() => {
+      fireEvent.click(continueBtn);
+      expect(container.textContent).to.include(
+        'Your email address is required before you continue.',
+      );
+      expect(goToPath.called).to.be.false;
+    });
   });
 
-  it('shows prefill & error alert on submit if mailing address is missing', () => {
+  it('shows prefill & error alert on submit if mailing address is missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       data: {
@@ -207,18 +206,19 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       'We could not prefill this form with your mailing address.',
     );
 
-    const continueBtn = $('button[type="submit"]', container);
+    const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
-    fireEvent.click(continueBtn);
 
-    expect(container.textContent).to.include(
-      'Your mailing address is required before you continue.',
-    );
-
-    expect(goToPath.called).to.be.false;
+    await waitFor(() => {
+      fireEvent.click(continueBtn);
+      expect(container.textContent).to.include(
+        'Your mailing address is required before you continue.',
+      );
+      expect(goToPath.called).to.be.false;
+    });
   });
 
-  it('shows prefill & error alert on submit if email & mailing address are missing', () => {
+  it('shows prefill & error alert on submit if email & mailing address are missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       data: {
@@ -234,18 +234,19 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       'We could not prefill this form with your email and mailing address.',
     );
 
-    const continueBtn = $('button[type="submit"]', container);
+    const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
-    fireEvent.click(continueBtn);
 
-    expect(container.textContent).to.include(
-      'Your email and mailing address are required before you continue.',
-    );
-
-    expect(goToPath.called).to.be.false;
+    await waitFor(() => {
+      fireEvent.click(continueBtn);
+      expect(container.textContent).to.include(
+        'Your email and mailing address are required before you continue.',
+      );
+      expect(goToPath.called).to.be.false;
+    });
   });
 
-  it('shows error alert on submit if address is missing', () => {
+  it('shows error alert on submit if address is missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       data: {
@@ -256,30 +257,32 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       goToPath,
     });
 
-    const continueBtn = Array.from(container.querySelectorAll('button')).find(
-      btn => (btn.textContent || '').match(/Continue/i),
-    );
+    const continueBtn = container.querySelector('va-button[continue]');
     expect(continueBtn).to.not.be.null;
-    fireEvent.click(continueBtn);
-    expect(container.textContent).to.include('mailing address is required');
-    expect(goToPath.called).to.be.false;
+
+    await waitFor(() => {
+      fireEvent.click(continueBtn);
+      expect(container.textContent).to.include('mailing address is required');
+      expect(goToPath.called).to.be.false;
+    });
   });
 
-  it('navigates to dependents page when all info is provided and Continue is clicked', () => {
+  it('navigates to dependents page when all info is provided and Continue is clicked', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       data: defaultData,
       goToPath,
     });
-    const continueBtn = Array.from(container.querySelectorAll('button')).find(
-      btn => (btn.textContent || '').match(/Continue/i),
-    );
+    const continueBtn = container.querySelector('va-button[continue]');
     expect(continueBtn).to.not.be.null;
-    fireEvent.click(continueBtn);
-    expect(goToPath.calledWith('/dependents', { force: true })).to.be.true;
+
+    await waitFor(() => {
+      fireEvent.click(continueBtn);
+      expect(goToPath.calledWith('/dependents', { force: true })).to.be.true;
+    });
   });
 
-  it('calls goToPath with correct args when edit/add is clicked', () => {
+  it('calls goToPath with correct args when edit/add is clicked', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       goToPath,
@@ -292,8 +295,11 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
         (link.textContent || '').match(/Edit|Add/i),
     );
     expect(editAddLink).to.not.be.null;
-    fireEvent.click(editAddLink);
-    expect(goToPath.called).to.be.true;
+
+    await waitFor(() => {
+      fireEvent.click(editAddLink);
+      expect(goToPath.called).to.be.true;
+    });
   });
 
   it('shows prefill warning alert if profile is missing info', () => {

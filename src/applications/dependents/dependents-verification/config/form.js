@@ -23,6 +23,7 @@ import { dependents } from './chapters/dependents/dependents';
 import { DependentsInformation } from '../components/DependentsInformation';
 import { DependentsInformationReview } from '../components/DependentsInformationReview';
 import { submit } from '../util';
+import { ExitForm } from '../components/ExitForm';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -76,6 +77,14 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  additionalRoutes: [
+    {
+      path: 'exit-form',
+      component: ExitForm,
+      pageKey: 'exitForm',
+      depends: () => false,
+    },
+  ],
   chapters: {
     veteranInformation: {
       title: 'Review your personal information',
@@ -111,11 +120,11 @@ const formConfig = {
     },
 
     dependents: {
-      title: 'Dependents on your VA benefits',
+      title: 'Review your dependents',
       pages: {
         dependents: {
           path: 'dependents',
-          title: 'Dependents on your VA benefits',
+          // title: 'Dependents on your VA benefits',
           CustomPage: DependentsInformation,
           CustomPageReview: DependentsInformationReview,
           uiSchema: dependents.uiSchema,

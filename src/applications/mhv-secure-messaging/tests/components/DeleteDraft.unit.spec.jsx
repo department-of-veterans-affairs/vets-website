@@ -85,23 +85,18 @@ describe('Delete Draft component', () => {
       },
     );
     fireEvent.click(screen.getByTestId('delete-draft-button'));
-    expect(screen.getByTestId('delete-draft-modal')).to.be.visible;
-    expect(
-      screen.findByText(Prompts.Draft.DELETE_DRAFT_CONFIRM, {
-        exact: true,
-      }),
-    );
-    expect(
-      screen.findByText(Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE, {
-        exact: true,
-      }),
-    );
-    expect(screen.findByText('Delete draft', { exact: true }));
-    expect(screen.findByText('Cancel', { exact: true }));
-    expect(screen.getByTestId('delete-draft-modal')).to.have.attribute(
-      'visible',
-      'true',
-    );
+    // expect(screen.getByTestId('delete-draft-modal')).to.be.visible;
+    await waitFor(() => {
+      const deleteDraftModal = screen.getByTestId('delete-draft-modal');
+      expect(deleteDraftModal).to.have.attribute('visible', 'true');
+      expect(deleteDraftModal).to.have.attribute(
+        'modal-title',
+        Prompts.Draft.DELETE_DRAFT_CONFIRM,
+      );
+      screen.getByText(Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE);
+      screen.getByText('Delete draft');
+      screen.getByTestId('cancel-delete-draft');
+    });
   });
 
   it('renders saved /new-message draft without errors', async () => {

@@ -306,7 +306,9 @@ describe.skip('Toxic exposure date handling when reverting condition association
       'POST',
       '/v0/disability_compensation_form/submit_all_claim*',
     ).as('submitClaim');
-    cy.get('button#4-continueButton').click();
+    cy.findByText('Submit application', {
+      selector: 'button',
+    }).click();
   });
 
   it('submits a partial date for a toxic exposure location', () => {
