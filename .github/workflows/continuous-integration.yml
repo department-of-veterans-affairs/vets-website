@@ -1934,7 +1934,8 @@ jobs:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
     needs: [build, set-deploy-environments]
-    if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
+    # if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
+    if: always()
     steps:
       - name: Dispatch Event to Next Workflow
         run: |
