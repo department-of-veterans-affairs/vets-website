@@ -8,6 +8,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import definitions from 'vets-json-schema/dist/definitions.json';
 import { schema, uiSchema } from '../../definitions/address';
+import { fillDataDirectly } from '../config/helpers';
 
 const { address } = definitions;
 const addressSchema = {
@@ -22,7 +23,7 @@ describe('Pre-need definition address', () => {
     const uis = uiSchema();
     const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    const inputs = form.find('input');
+    const inputs = form.find('va-text-input');
     const selects = form.find('select');
     expect(inputs.length).to.equal(4);
     expect(selects.length).to.equal(2);
@@ -93,7 +94,7 @@ describe('Pre-need definition address', () => {
     const uis = uiSchema();
     const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    fillData(form, 'input#root_street', '123 street');
+    fillDataDirectly(form, '#root_street', '123 street');
 
     expect(form.find('input#root_street').props().value).to.equal('123 street');
     form.unmount();

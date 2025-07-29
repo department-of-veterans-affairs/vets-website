@@ -6,6 +6,7 @@ import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import definitions from 'vets-json-schema/dist/definitions.json';
+import { fillDataDirectly } from '../config/helpers';
 import uiSchema from '../../components/Phone';
 
 describe('Preneed Schemaform definition phone', () => {
@@ -17,7 +18,7 @@ describe('Preneed Schemaform definition phone', () => {
 
     const formDOM = findDOMNode(form);
 
-    const input = formDOM.querySelector('input');
+    const input = formDOM.querySelector('va-text-input');
     const phoneClasses = phoneUiSchema['ui:options'].widgetClassNames.split(
       ' ',
     );
@@ -45,11 +46,12 @@ describe('Preneed Schemaform definition phone', () => {
     );
 
     const formDOM = findDOMNode(form);
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input'), {
-      target: {
-        value: '1asdf',
-      },
-    });
+    // ReactTestUtils.Simulate.change(formDOM.querySelector('va-text-input'), {
+    //   target: {
+    //     value: '1asdf',
+    //   },
+    // });
+    fillDataDirectly(formDOM, 'va-text-input', '1asdf');
     ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
       preventDefault: f => f,
     });
