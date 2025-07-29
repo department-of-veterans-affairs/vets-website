@@ -8,10 +8,9 @@ import { validateTrainingProviderStartDate } from '../helpers';
 
 const uiSchema = {
   ...titleUI('Do you have a start date for the program you wish to enroll in?'),
-  'ui:description': `You can leave this blank if you haven't chosen a program yet.`,
   trainingStartDate: {
     ...currentOrPastDateUI({
-      title: 'Training provider start date',
+      title: `You can leave this blank if you haven't chosen a program yet.`,
       errorMessages: { pattern: 'Please enter a valid date' },
       hint: null,
     }),

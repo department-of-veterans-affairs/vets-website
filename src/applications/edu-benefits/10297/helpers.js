@@ -158,5 +158,7 @@ export const validateTrainingProviderStartDate = (errors, dateString) => {
   const startDate = new Date('2025-01-02T00:00:00');
 
   if (picked < startDate)
-    errors.addError('Date can’t be before program start date.');
+    errors.addError(
+      'Training must start on or after 1/2/2025 to qualify for VET TEC 2.0',
+    );
 };

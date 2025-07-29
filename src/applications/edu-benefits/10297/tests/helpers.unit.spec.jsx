@@ -211,7 +211,9 @@ describe('10297 Helpers', () => {
       const errors = { addError: sinon.spy() };
       validateTrainingProviderStartDate(errors, '2025-01-01');
       expect(errors.addError.calledOnce).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.match(/before/i);
+      expect(errors.addError.firstCall.args[0]).to.match(
+        /Training must start/i,
+      );
     });
 
     it('does nothing when no date string is provided', () => {
