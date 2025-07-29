@@ -1,0 +1,9 @@
+{
+  "event_type": "cd-production-deploy",
+  "client_payload": {
+    "github_sha": "075755b294",
+    "github_ref": "refs/heads/cd-test-with-routing",
+    "entry_app": "mock-sip-form",
+    "slack_channel": "C06JM7UUHE3"
+  }
+} 

@@ -199,9 +199,7 @@
     },
     {
       "rootFolder": "mock-sip-form",
-      "slackGroup": "<@U022GNYPJ1L>",
-      "slackChannel": "C06JM7UUHE3"
-    },
+      "slackGroup": "<@U022GNYPJ1L>"    },
     {
       "rootFolder": "my-education-benefits",
       "slackGroup": "<@U022GNYPJ1L>"
