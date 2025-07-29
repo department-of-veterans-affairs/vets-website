@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import { waitFor } from '@testing-library/dom';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 

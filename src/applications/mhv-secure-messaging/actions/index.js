@@ -22,8 +22,3 @@ export const THREAD_RETRIEVE_SUCCEEDED = 'THREAD_RETRIEVE_SUCCEEDED';
 export const THREAD_RETRIEVE_FAILED = 'THREAD_RETRIEVE_FAILED';
 
 export const LOADING_COMPLETE = 'LOADING_COMPLETE';
-
-export const getIsPilotFromState = getState => {
-  const state = getState();
-  return state.sm?.app?.isPilot ?? false;
-};
