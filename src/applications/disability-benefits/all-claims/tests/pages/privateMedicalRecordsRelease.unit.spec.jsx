@@ -225,12 +225,57 @@ describe('Disability benefits 4142 provider medical records facility information
           'view:selectableEvidenceTypes': {
             'view:hasPrivateMedicalRecords': true,
           },
+          disability526Enable2024Form4142: true,
         }}
       />,
     );
-
     expect(form.find('va-checkbox').length).to.equal(4);
     expect(form.find('select').length).to.equal(6);
+    form.unmount();
+  });
+});
+
+describe('updated 4142 provider medical records release', () => {
+  it('should render the treated disability checkboxes section when disability526Enable2024Form4142 is true', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:uploadPrivateRecordsQualifier': {
+            'view:hasPrivateRecordsToUpload': false,
+          },
+          ...claimType,
+          ratedDisabilities,
+          disability526Enable2024Form4142: true, // Simulating the condition
+        }}
+        formData={{}}
+      />,
+    );
+    // 1 for the limited consent checkbox, 3 for the treated disabilities
+    expect(form.find('va-checkbox').length).to.equal(4);
+    form.unmount();
+  });
+  it('should not render the treated disability checkboxes section when disability526Enable2024Form4142 is false', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:uploadPrivateRecordsQualifier': {
+            'view:hasPrivateRecordsToUpload': false,
+          },
+          ...claimType,
+          ratedDisabilities,
+          disability526Enable2024Form4142: false, // Simulating the condition
+        }}
+        formData={{}}
+      />,
+    );
+    // 1 for the limited consent checkbox, 0 for the treated disabilities
+    expect(form.find('va-checkbox').length).to.equal(1);
     form.unmount();
   });
 });
