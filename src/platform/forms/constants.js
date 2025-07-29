@@ -193,7 +193,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10D-EXTENDED')}/`,
-    [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl('21-0538')}/`,
+    [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl(
+      '0538-dependents-verification',
+    )}/`,
     [VA_FORM_IDS.FORM_22_10297]: `${tryGetAppUrl('22-10297')}/`,
   };
 };
@@ -723,9 +725,9 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_21_0538,
-    benefit: 'dependent-benefits',
-    title: '21-0538 Dependents verification',
-    description: 'dependent-benefits',
+    benefit: 'verifying your dependents for disability benefits',
+    title: 'verifying your dependents for disability benefits (21-0538)',
+    description: 'verifying your dependents for disability benefits (21-0538)',
     trackingPrefix: '0538-dependents-verification-',
   },
   {

@@ -5,7 +5,7 @@ import {
   getFormattedPhone,
   getPhoneString,
   hasHomeAndMobilePhone,
-} from '../utils/contactInfo';
+} from '../../shared/utils/contactInfo';
 import { PRIMARY_PHONE, errorMessages } from '../constants';
 import { content } from '../content/primaryPhone';
 import { data995 } from '../../shared/props';
@@ -33,7 +33,6 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
           onClick={editPage}
           label={content.editLabel}
           text={content.edit}
-          uswds
         />
       </div>
       <dl className="review">

@@ -50,6 +50,10 @@ function editEmailAddress() {
   // save
   view.getByTestId('save-edit-button').click();
 
+  // manually submit the form since va-button sets submit="prevent"
+  const form = view.getByTestId('save-edit-button').closest('form');
+  fireEvent.submit(form);
+
   return { emailAddressInput };
 }
 

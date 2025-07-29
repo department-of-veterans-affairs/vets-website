@@ -22,6 +22,7 @@
       "view:militaryBaseDescription": {}
     },
     "dob": "2000-01-01",
+    "privacyAgreementAccepted": true,
     "fullName": {
       "first": "John",
       "last": "Veteran"
