@@ -42,7 +42,7 @@ export const endpointOptions = () => {
     return {
       fetchVSOReps: `/services/veteran/v0/vso_accredited_representatives`, // Legacy endpoint
       fetchOtherReps: `/services/veteran/v0/other_accredited_representatives`, // Legacy endpoint
-      flagReps: `/representation_management/v0/flag_accredited_representatives`,
+      flagReps: `/representation_management/v0/flag_accredited_representatives`, // Legacy endpoint
     };
 
   return {
