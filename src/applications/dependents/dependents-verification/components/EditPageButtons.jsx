@@ -9,7 +9,6 @@ export default function EditPageButtons(props) {
           text="Update"
           message-aria-describedby={`Update ${props.pageName.toLowerCase()}`}
           submit="prevent"
-          full-width
         />
       </div>
       <div className="small-6 medium-5 end columns">
@@ -19,7 +18,6 @@ export default function EditPageButtons(props) {
           onClick={props.handlers.onCancel}
           secondary
           submit="prevent"
-          full-width
         />
       </div>
     </div>

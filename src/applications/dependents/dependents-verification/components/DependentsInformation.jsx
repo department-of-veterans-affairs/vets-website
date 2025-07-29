@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -36,7 +35,11 @@ export const DependentsInformation = ({
         setShowError(true);
         return;
       }
-      goForward(data);
+      if (data.hasDependentsStatusChanged === 'Y') {
+        goToPath('/exit-form', { force: true });
+      } else {
+        goForward(data);
+      }
     },
     goBack: () => {
       goToPath('/veteran-contact-information', { force: true });
@@ -45,7 +48,29 @@ export const DependentsInformation = ({
 
   return (
     <>
-      <h3>Dependents on your VA benefits</h3>
+      <h3>Dependents on your disability benefits</h3>
+      <h4>Check if your current dependents still qualify</h4>
+      <p>
+        These life changes may affect your dependents’ status and their
+        eligibility:
+      </p>
+      <ul>
+        <li>
+          You got divorced or became widowed, <strong>or</strong>
+        </li>
+        <li>
+          Your child passed away, <strong>or</strong>
+        </li>
+        <li>
+          Your child over age 18 left full-time school, <strong>or</strong>
+        </li>
+        <li>Your child (either a minor or a student) got married</li>
+      </ul>
+      <p>
+        Not reporting changes could lead to a benefit overpayment. You’d have to
+        repay that money.
+      </p>
+
       {dependents.length > 0 ? (
         dependents.map((dependent = {}, index) => {
           return (
@@ -132,27 +157,28 @@ export const DependentsInformation = ({
       ) : (
         <strong>No dependents found</strong>
       )}
-      <p>
-        <strong>Note:</strong> To protect your personal information, we don’t
-        allow online changes to your dependents’ names, dates of birth, or
-        Social Security numbers. If you need to change this information, call us
-        at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-        <va-telephone tty contact="711" />
-        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
-        <dfn>
-          <abbr title="Eastern Time">ET</abbr>
-        </dfn>
-        .
-      </p>
-      <va-link
-        href="/resources/how-to-change-your-dependents-name/"
-        external
-        text="Find more detailed instructions for how to change your dependents’ name"
-      />
-      {/* Values and labels are flipped as 21-0538 form asks a differently
-       worded question, which allows pdf mapping to be more intuitive */}
+      <h4>Check if someone is missing on your VA benefits</h4>
+      <p>You may be able to add a dependent if these changes occurred:</p>
+      <ul>
+        <li>
+          You got married, <strong>or</strong>
+        </li>
+        <li>
+          You gave birth or adopted a child, <strong>or</strong>
+        </li>
+        <li>
+          Your child became seriously disabled before turning 18,{' '}
+          <strong>or</strong>
+        </li>
+        <li>
+          Your child over age 18 is enrolled in school full-time,{' '}
+          <strong>or</strong>
+        </li>
+        <li>You became the caregiver for a parent</li>
+      </ul>
+
       <VaRadio
-        label="Is your dependent information correct?"
+        label="Has the status of your dependents changed?"
         required
         onVaValueChange={handlers.onValueChange}
         label-header-level="3"
@@ -161,17 +187,17 @@ export const DependentsInformation = ({
       >
         <va-radio-option
           name="hasDependentsStatusChanged"
-          value="N"
+          value="Y"
           label={DEPENDENT_CHOICES.Y}
           tile
-          checked={data.hasDependentsStatusChanged === 'N'}
+          checked={data.hasDependentsStatusChanged === 'Y'}
         />
         <va-radio-option
           name="hasDependentsStatusChanged"
-          value="Y"
+          value="N"
           label={DEPENDENT_CHOICES.N}
           tile
-          checked={data.hasDependentsStatusChanged === 'Y'}
+          checked={data.hasDependentsStatusChanged === 'N'}
         />
       </VaRadio>
 

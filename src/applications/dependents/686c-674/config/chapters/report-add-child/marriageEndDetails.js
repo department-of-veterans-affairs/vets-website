@@ -25,10 +25,10 @@ export const marriageEndDetails = {
       ...radioUI({
         title: 'How did the marriage end?',
         labels: {
-          death: 'Their former spouse died',
-          divorce: 'They divorced',
-          annulment: 'They got an annulment',
-          other: 'Some other way',
+          Death: 'Their former spouse died',
+          Divorce: 'They divorced',
+          Annulment: 'They got an annulment',
+          Other: 'Some other way',
         },
       }),
     },
@@ -40,7 +40,7 @@ export const marriageEndDetails = {
       },
       'ui:options': {
         expandUnder: 'marriageEndReason',
-        expandUnderCondition: 'other',
+        expandUnderCondition: 'Other',
         expandedContentFocus: true,
         preserveHiddenData: true,
       },
@@ -70,10 +70,10 @@ export const marriageEndDetails = {
     properties: {
       marriageEndDate: currentOrPastDateSchema,
       marriageEndReason: radioSchema([
-        'death',
-        'divorce',
-        'annulment',
-        'other',
+        'Death',
+        'Divorce',
+        'Annulment',
+        'Other',
       ]),
       marriageEndDescription: {
         type: 'string',

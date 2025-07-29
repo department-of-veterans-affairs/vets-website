@@ -138,4 +138,27 @@ describe('IntroductionPage', () => {
     expect(openSpy.calledOnce).to.be.true;
     openSpy.restore();
   });
+
+  it('sets sessionStorage flag when start form link is clicked', () => {
+    const routerSpy = { push: sinon.spy() };
+    const setItemSpy = sinon.spy(Storage.prototype, 'setItem');
+
+    const { container } = render(
+      <Provider store={mockStore(true)}>
+        <IntroductionPage {...props} router={routerSpy} />
+      </Provider>,
+    );
+
+    const link = container.querySelector('va-link-action');
+    expect(link).to.exist;
+
+    link.dispatchEvent(
+      new MouseEvent('click', { bubbles: true, cancelable: true }),
+    );
+
+    expect(setItemSpy.calledWith('formIncompleteARP', 'true')).to.be.true;
+    expect(routerSpy.push.calledOnce).to.be.true;
+
+    setItemSpy.restore();
+  });
 });

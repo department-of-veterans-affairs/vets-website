@@ -1,3 +1,5 @@
+import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
+import titleCase from 'platform/utilities/data/titleCase';
 import {
   individualsInvolved,
   individualsInvolvedFollowUp,
@@ -30,8 +32,6 @@ import {
   wantsHelpWithPrivateRecordsSecondary,
   wantsHelpRequestingStatementsSecondary,
 } from '../../utils';
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
-import titleCase from 'platform/utilities/data/titleCase';
 
 const REVIEW_TITLE_TOKEN = '[index]';
 
