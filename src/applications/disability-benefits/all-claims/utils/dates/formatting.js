@@ -27,19 +27,6 @@ export const MIN_VALID_YEAR = 1900;
 export const MAX_VALID_YEAR = 2100;
 
 /**
- * Helper function to validate if a year string is within the valid range
- * @param {string|number} yearString - Year to validate
- * @returns {boolean} True if year is valid
- */
-const isValidYearInRange = yearString => {
-  if (!yearString) return false;
-  const year = parseInt(yearString, 10);
-  return (
-    !Number.isNaN(year) && year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR
-  );
-};
-
-/**
  * Internal utility to safely parse dates with moment
  * @private
  */
@@ -137,7 +124,8 @@ export const isValidFullDate = dateString => {
   if (dateString !== date.format(DATE_TEMPLATE)) return false;
 
   // Check year is within reasonable range
-  return isValidYearInRange(date.year());
+  const year = date.year();
+  return year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR;
 };
 
 /**
@@ -148,9 +136,7 @@ export const isValidFullDate = dateString => {
  */
 export const isValidYear = (err, fieldData) => {
   if (!platformIsValidYear(fieldData)) {
-    err.addError(
-      `Please enter a valid year between ${MIN_VALID_YEAR} and ${MAX_VALID_YEAR}`,
-    );
+    err.addError('Please enter a valid year');
   }
 };
 
@@ -165,12 +151,17 @@ export const isValidPartialDate = dateString => {
 
   // Check if it's just a year
   if (/^\d{4}$/.test(dateString)) {
-    return platformIsValidYear(dateString);
+    const year = parseInt(dateString, 10);
+    return (
+      !Number.isNaN(year) && year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR
+    );
   }
 
   // Check if it's year-month
   const date = moment(dateString, PARTIAL_DATE_FORMAT, true);
-  return date.isValid();
+  if (!date.isValid()) return false;
+  const year = date.year();
+  return year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR;
 };
 
 /**

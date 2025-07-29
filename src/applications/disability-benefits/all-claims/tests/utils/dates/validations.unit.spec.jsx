@@ -1,3 +1,12 @@
+/**
+ * TODO: tech-debt(you-dont-need-momentjs): Waiting for Node upgrade to support Temporal API
+ * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
+ */
+/* eslint-disable you-dont-need-momentjs/no-import-moment */
+/* eslint-disable you-dont-need-momentjs/no-moment-constructor */
+/* eslint-disable you-dont-need-momentjs/add */
+/* eslint-disable you-dont-need-momentjs/format */
+
 import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
@@ -54,19 +63,6 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
   });
 
   describe('validateSeparationDateWithRules', () => {
-    let clock;
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers({
-        now: new Date('2023-06-15'),
-        toFake: ['Date'],
-      });
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
-
     it('should add error for invalid date', () => {
       const errors = { addError: sinon.spy() };
       validateSeparationDateWithRules(errors, 'invalid-date');

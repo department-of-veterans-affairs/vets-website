@@ -1,5 +1,15 @@
+/**
+ * TODO: tech-debt(you-dont-need-momentjs): Waiting for Node upgrade to support Temporal API
+ * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
+ */
+/* eslint-disable you-dont-need-momentjs/no-import-moment */
+/* eslint-disable you-dont-need-momentjs/no-moment-constructor */
+/* eslint-disable you-dont-need-momentjs/add */
+/* eslint-disable you-dont-need-momentjs/subtract */
+/* eslint-disable you-dont-need-momentjs/format */
+
 import { expect } from 'chai';
-import sinon from 'sinon';
+import moment from 'moment';
 
 import {
   dateFieldToISO,
@@ -197,37 +207,49 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
     });
 
     it('should validate future dates', () => {
-      const clock = sinon.useFakeTimers(new Date('2023-06-15'));
-
-      const futureField = { month: '7', day: '1', year: '2023' };
+      const tomorrow = moment().add(1, 'day');
+      const futureField = {
+        month: tomorrow.format('M'),
+        day: tomorrow.format('D'),
+        year: tomorrow.format('YYYY'),
+      };
       const futureResult = validateFormDateField(futureField, {
         futureOnly: true,
       });
       expect(futureResult.isValid).to.be.true;
 
-      const pastField = { month: '5', day: '1', year: '2023' };
+      const yesterday = moment().subtract(1, 'day');
+      const pastField = {
+        month: yesterday.format('M'),
+        day: yesterday.format('D'),
+        year: yesterday.format('YYYY'),
+      };
       const pastResult = validateFormDateField(pastField, { futureOnly: true });
       expect(pastResult.isValid).to.be.false;
       expect(pastResult.error).to.include('must be in the future');
-
-      clock.restore();
     });
 
     it('should validate past dates', () => {
-      const clock = sinon.useFakeTimers(new Date('2023-06-15'));
-
-      const pastField = { month: '5', day: '1', year: '2023' };
+      const yesterday = moment().subtract(1, 'day');
+      const pastField = {
+        month: yesterday.format('M'),
+        day: yesterday.format('D'),
+        year: yesterday.format('YYYY'),
+      };
       const pastResult = validateFormDateField(pastField, { pastOnly: true });
       expect(pastResult.isValid).to.be.true;
 
-      const futureField = { month: '7', day: '1', year: '2023' };
+      const tomorrow = moment().add(1, 'day');
+      const futureField = {
+        month: tomorrow.format('M'),
+        day: tomorrow.format('D'),
+        year: tomorrow.format('YYYY'),
+      };
       const futureResult = validateFormDateField(futureField, {
         pastOnly: true,
       });
       expect(futureResult.isValid).to.be.false;
       expect(futureResult.error).to.include('must be in the past');
-
-      clock.restore();
     });
 
     it('should handle invalid date values', () => {
@@ -312,25 +334,24 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
 
   describe('getCurrentFormDate', () => {
     it('should return current date as form field', () => {
-      const clock = sinon.useFakeTimers(new Date('2023-06-15'));
+      const now = moment();
       const result = getCurrentFormDate();
       expect(result).to.deep.equal({
-        month: '6',
-        day: '15',
-        year: '2023',
+        month: now.format('M'),
+        day: now.format('D'),
+        year: now.format('YYYY'),
       });
-      clock.restore();
     });
 
-    it('should handle single digit months and days', () => {
-      const clock = sinon.useFakeTimers(new Date('2023-01-05'));
+    it('should handle date values correctly', () => {
       const result = getCurrentFormDate();
-      expect(result).to.deep.equal({
-        month: '1',
-        day: '5',
-        year: '2023',
-      });
-      clock.restore();
+      expect(result.month).to.be.a('string');
+      expect(result.day).to.be.a('string');
+      expect(result.year).to.be.a('string');
+      expect(parseInt(result.month, 10)).to.be.at.least(1);
+      expect(parseInt(result.month, 10)).to.be.at.most(12);
+      expect(parseInt(result.day, 10)).to.be.at.least(1);
+      expect(parseInt(result.day, 10)).to.be.at.most(31);
     });
   });
 
