@@ -239,20 +239,26 @@ export function servicePeriodInformationPage(isVet, isPrep) {
         },
       ),
       dateRange: currentOrPastDateRangeUI(
-        handleTitle(
-          isVet,
-          isPrep,
-          'Service start date',
-          'Sponsor’s service start date',
-          'Applicant’s service start date',
-        ),
-        handleTitle(
-          isVet,
-          isPrep,
-          'Service end date',
-          'Sponsor’s service end date',
-          'Applicant’s service end date',
-        ),
+        {
+          title: handleTitle(
+            isVet,
+            isPrep,
+            'Service start date',
+            'Sponsor’s service start date',
+            'Applicant’s service start date',
+          ),
+          required: () => false,
+        },
+        {
+          title: handleTitle(
+            isVet,
+            isPrep,
+            'Service end date',
+            'Sponsor’s service end date',
+            'Applicant’s service end date',
+          ),
+          required: () => false,
+        },
         'The service end date must be after the service start date.', // Range error message
       ),
       dischargeType: {
