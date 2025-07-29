@@ -6,11 +6,11 @@
 - `Q_1_1_CLAIM_DECISION` is the first question in the flow. The answer to this question controls the display of every other question after it. It has empty display conditions (`{}`) because it always shows first.
 - All examples below are for demonstration only and may not represent accurate display conditions for the Decision Reviews Onramp Tool.
 
-## Basic Display Conditions - Questions
+## Simple Display Conditions - Questions
 
 ```
 Q_1_1A_SUBMITTED_526: {
-  Q_1_1_CLAIM_DECISION: [NO],
+  Q_1_1_CLAIM_DECISION: NO,
 }
 ```
 
@@ -20,21 +20,36 @@ for `Q_1_1_CLAIM_DECISION`.
 More Notes:
 - `Q_1_1A_SUBMITTED_526` is a `SHORT_NAME` representing a question.
 - All questions within `Q_1_1A_SUBMITTED_526`'s object control display of `Q_1_1A_SUBMITTED_526`.
+- For brevity, the display conditions only care about the `value` of the radio response, not the full text.
 
-Here's a more complex example:
+For example, say a question's responses are:
+
+"Yes - VA decided this condition is service-connected"
+"No - VA denied service connection for this condition"
+
+Behind the scenes, we'll track simply "Yes" or "No" as the answer to this question depending on what the
+user selected rather than the full answer text.
+
+## Complex Display Conditions - Questions
 
 ```
 Q_2_H_2B_JUDGE_HEARING: {
-  Q_1_1_CLAIM_DECISION: [YES],
-  Q_1_2_CLAIM_DECISION: [YES],
-  Q_1_3_CLAIM_CONTESTED: [NO],
-  Q_2_0_CLAIM_TYPE: [HLR],
-  Q_2_H_1_EXISTING_BOARD_APPEAL: [NO],
-  Q_2_H_2_NEW_EVIDENCE: [NO],
+  Q_1_1_CLAIM_DECISION: YES,
+  Q_1_2_CLAIM_DECISION: YES,
+  Q_1_3_CLAIM_CONTESTED: NO,
+  Q_2_0_CLAIM_TYPE: HLR,
+  Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+  Q_2_H_2_NEW_EVIDENCE: NO,
 }
 ```
 
 The above means that `Q_2_H_2B_JUDGE_HEARING` will display if every question inside its object
-has a response, and it matches the response in the array. All of the conditions listed must be true.
-For example, `Q_1_1_CLAIM_DECISION` must be answered "Yes," `Q_1_2_CLAIM_DECISION` must be answered "Yes,"
-`Q_1_3_CLAIM_CONTESTED` must be answered "No," and so on.
+has a response, and that response matches the required response. All of the conditions listed must be true.
+To be explicit, all of the below conditions must be true
+
+1. `Q_1_1_CLAIM_DECISION` is answered "Yes"
+2. `Q_1_2_CLAIM_DECISION` is answered "Yes"
+3. `Q_1_3_CLAIM_CONTESTED` is answered "No"
+4. `Q_2_0_CLAIM_TYPE` is answered "HLR"
+5. `Q_2_H_1_EXISTING_BOARD_APPEAL` is answered "No"
+6. `Q_2_H_2_NEW_EVIDENCE` is answered "No"
