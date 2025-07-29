@@ -80,6 +80,7 @@ const IntroductionPage = props => {
       <div className="vads-u-margin-y--2 mobile-lg:vads-u-margin-y--3">
         {!loggedIn ? (
           <va-alert-sign-in
+            data-testid="sign-in-alert"
             disable-analytics
             heading-level={3}
             no-sign-in-link={null}
@@ -101,21 +102,6 @@ const IntroductionPage = props => {
           />
         )}
       </div>
-
-      {/* <div className="vads-u-margin-y--2 mobile-lg:vads-u-margin-y--3">
-        <va-alert-sign-in
-          disable-analytics
-          heading-level={3}
-          no-sign-in-link={null}
-          time-limit={null}
-          variant="signInRequired"
-          visible
-        >
-          <span slot="SignInButton">
-            <SignInButton />
-          </span>
-        </va-alert-sign-in>
-      </div> */}
       <OmbInfo />
       <TechnologyProgramAccordion />
     </article>
@@ -123,10 +109,10 @@ const IntroductionPage = props => {
 };
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
-  // setFormData: setData,
 });
 
 IntroductionPage.propTypes = {
+  loggedIn: PropTypes.bool,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
@@ -134,7 +120,9 @@ IntroductionPage.propTypes = {
       downtime: PropTypes.object,
     }),
     pageList: PropTypes.array,
-  }).isRequired,
+  }),
+  showLoadingIndicator: PropTypes.bool,
+  toggleLoginModal: PropTypes.func,
 };
 function mapStateToProps(state) {
   return {

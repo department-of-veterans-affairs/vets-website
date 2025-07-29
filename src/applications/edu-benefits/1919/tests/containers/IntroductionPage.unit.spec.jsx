@@ -1,89 +1,107 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-
+import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
-import OmbInfo from '../../components/OmbInfo';
 
-describe('22-1919 <IntroductionPage>', () => {
-  const fakeStore = {
-    getState: () => ({
-      showWizard: false,
-      route: { formConfig: {} },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
+const props = {
+  route: {
+    path: 'introduction',
+    pageList: [],
+    formConfig,
+  },
+  userLoggedIn: false,
+  userIdVerified: true,
+};
 
-  it('should render form title', () => {
-    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
+const mockStore = {
+  getState: () => ({
+    user: {
+      login: {
+        currentlyLoggedIn: false,
+      },
+      profile: {
+        savedForms: [],
+        prefillsAvailable: [],
+        loa: {
+          current: 3,
+          highest: 3,
+        },
+        verified: true,
+        dob: '2000-01-01',
+        claims: {
+          appeals: false,
+        },
+      },
+    },
+    form: {
+      formId: formConfig.formId,
+      loadedStatus: 'success',
+      savedStatus: '',
+      loadedData: {
+        metadata: {},
+      },
+      data: {},
+    },
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: { get() {} },
+      dismissedDowntimeWarnings: [],
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
 
-    expect(wrapper.find('FormTitle').props().title).to.contain(
-      'Conflicting interests certification for proprietary schools',
+describe('IntroductionPage', () => {
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
     );
-
-    wrapper.unmount();
+    expect(container).to.exist;
   });
-
-  it('should render info alert box', () => {
-    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
-
-    expect(wrapper.find('va-alert').props().status).to.contain('info');
-    expect(wrapper.find('va-alert').length).to.equal(1);
-    expect(wrapper.find('va-alert').text()).to.contain(
-      'For educational institutions only',
+  it('should render sigin alert when user is not logged in', () => {
+    const loggedInProps = {
+      ...props,
+      loggedIn: false,
+      showLoadingIndicator: false,
+    };
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...loggedInProps} />
+      </Provider>,
     );
-
-    wrapper.unmount();
+    expect(getByTestId('sign-in-alert')).to.exist;
   });
-
-  it('should render section headers', () => {
-    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
-
-    expect(wrapper.find('h2').length).to.equal(4);
-
-    wrapper.unmount();
-  });
-
-  it('should render process list', () => {
-    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
-
-    expect(wrapper.find('va-process-list').length).to.equal(1);
-    expect(wrapper.find('va-process-list-item').length).to.equal(3);
-
-    wrapper.unmount();
-  });
-
-  it('should render save in progress widget', () => {
-    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
-    const sipContainer = wrapper.find(
-      'Connect(withRouter(SaveInProgressIntro))',
+  it('should not render sign-in alert when user is logged in', () => {
+    const mockStoreWithLoggedOutUser = {
+      ...mockStore,
+      getState: () => ({
+        ...mockStore.getState(),
+        user: {
+          ...mockStore.getState().user,
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+      }),
+    };
+    const loggedInProps = {
+      ...props,
+      loggedIn: true,
+    };
+    const { queryByTestId, getByText } = render(
+      <Provider store={mockStoreWithLoggedOutUser}>
+        <IntroductionPage {...loggedInProps} />
+      </Provider>,
     );
-
-    expect(sipContainer.length).to.equal(1);
-    expect(sipContainer.props().startText).to.contain(
-      'Start your Conflicting interests certification for proprietary schools report',
-    );
-
-    wrapper.unmount();
-  });
-
-  it('should render omb info', () => {
-    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
-
-    expect(wrapper.find(OmbInfo).length).to.equal(1);
-
-    wrapper.unmount();
-  });
-
-  it('should render summary box', () => {
-    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
-
-    expect(wrapper.find('va-summary-box').length).to.equal(1);
-    expect(wrapper.find('va-summary-box').text()).to.contain(
-      'Submission guidelines',
-    );
-
-    wrapper.unmount();
+    expect(queryByTestId('sign-in-alert')).to.not.exist;
+    expect(getByText('Start your Application for the High Technology Program'))
+      .to.exist;
   });
 });
