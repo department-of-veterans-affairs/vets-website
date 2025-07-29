@@ -1,6 +1,9 @@
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import {
+  environment,
+  cernerEnvPrefixes,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 import { HEALTH_TOOL_HEADINGS, HEALTH_TOOL_LINKS } from '../../constants';
 
@@ -31,6 +34,11 @@ const resolveUnreadMessageAriaLabel = unreadMessageCount => {
 const resolveSHMDLink = environment.isProduction()
   ? 'https://veteran.apps.va.gov/smhdWeb'
   : 'https://veteran.apps-staging.va.gov/smhdWeb';
+
+// Oracle Health 'My VA Health' Portal
+const myVAHealthPortalLink = `https://${
+  cernerEnvPrefixes[environment.BUILDTYPE]
+}patientportal.myhealth.va.gov/pages/home`;
 
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
@@ -268,6 +276,7 @@ const resolveLandingPageLinks = (
 export {
   countUnreadMessages,
   isLinkData,
+  myVAHealthPortalLink,
   resolveLandingPageLinks,
   resolveUnreadMessageAriaLabel,
 };

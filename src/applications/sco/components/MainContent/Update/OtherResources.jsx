@@ -229,7 +229,7 @@ const OtherResources = () => {
         </va-accordion-item>
       </va-accordion>
       <MainContentSubSection
-        id="understanding-veteran-educatio"
+        id="understanding-veteran-education"
         header="Understanding Veteran education benefits"
       >
         <LiSpanAndVaLinkAndPTag

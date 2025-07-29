@@ -1,4 +1,5 @@
 {
+  "accreditedRepresentativePortalCustomLogin": "accredited_representative_portal_custom_login",
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
   "accreditedRepresentativePortalSearch": "accredited_representative_portal_search",
@@ -225,6 +226,7 @@
   "profileShowMhvNotificationSettingsEmailRxShipment": "profile_show_mhv_notification_settings_email_rx_shipment",
   "profileShowMhvNotificationSettingsMedicalImages": "profile_show_mhv_notification_settings_medical_images",
   "profileShowNewHealthCareCopayBillNotificationSetting": "profile_show_new_health_care_copay_bill_notification_setting",
+  "profileShowPaperlessDelivery": "profile_show_paperless_delivery",
   "profileShowPrivacyPolicy": "profile_show_privacy_policy",
   "profileShowPronounsAndSexualOrientation": "profile_show_pronouns_and_sexual_orientation",
   "profileShowQuickSubmitNotificationSetting": "profile_show_quick_submit_notification_setting",
@@ -313,7 +315,6 @@
   "vaOnlineSchedulingRecentLocationsFilter": "va_online_scheduling_recent_locations_filter",
   "vaOnlineSchedulingRequests": "va_online_scheduling_requests",
   "vaOnlineSchedulingRemovePodiatry": "vaos_online_scheduling_remove_podiatry",
-  "vaOnlineSchedulingFeSourceOfTruthTelehealth": "va_online_scheduling_fe_source_of_truth_telehealth",
   "vaOnlineSchedulingMentalHealthHistoryFiltering": "va_online_scheduling_mental_health_history_filtering",
   "vetStatusStage1": "vet_status_stage_1",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",

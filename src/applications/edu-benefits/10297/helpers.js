@@ -130,3 +130,67 @@ export const getEligibilityStatus = formData => {
     isFullyEligible,
   };
 };
+
+export const getCardDescription = item => {
+  return item ? (
+    <>
+      <div className=" vads-u-margin-y--2" data-testid="card-street">
+        <p>{item?.address?.street}</p>
+        <p data-testid="card-address">
+          {`${item?.address?.city}${
+            item?.address?.state || item?.address?.postalCode !== 'NA'
+              ? ','
+              : ''
+          }`}
+          {item?.address?.state ? ` ${item?.address?.state}` : ''}
+          {item?.address?.postalCode !== 'NA'
+            ? ` ${item?.address?.postalCode}`
+            : ''}
+        </p>
+      </div>
+    </>
+  ) : null;
+};
+
+export const trainingProviderArrayOptions = {
+  arrayPath: 'trainingProvider',
+  nounSingular: 'training provider',
+  nounPlural: 'training providers',
+  required: false,
+  isItemIncomplete: item => {
+    return (
+      !item?.name ||
+      !item?.address?.street ||
+      !item?.address?.city ||
+      !item?.address?.country ||
+      !item?.address?.postalCode
+    );
+  },
+  maxItems: 4,
+  text: {
+    getItemName: item =>
+      item?.name ? `${item?.name}`.trim() : 'training provider',
+    cardDescription: item => getCardDescription(item),
+    cancelAddYes: 'Yes, cancel',
+    cancelAddNo: 'No, continue adding information',
+    summaryTitle: 'Review your training provider information',
+    cancelAddButtonText: 'Cancel adding this training provider',
+  },
+};
+
+const MS_IN_DAY = 86_400_000;
+const MAX_FUTURE_DAYS = 180;
+
+export const validateWithin180Days = (errors, dateString) => {
+  if (!dateString) return;
+  const picked = new Date(`${dateString}T00:00:00`);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (picked < today) errors.addError('Date can’t be in the past.');
+
+  if (picked - today > MAX_FUTURE_DAYS * MS_IN_DAY)
+    errors.addError(
+      'This date is more than 180 days away. You must be within 180 days of discharge to be eligible for the program.',
+    );
+};
