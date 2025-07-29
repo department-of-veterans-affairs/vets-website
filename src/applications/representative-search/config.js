@@ -22,17 +22,17 @@ export const searchAreaOptions = {
   '200': '200 miles',
   'Show all': 'Show all',
 };
+const appUrl = new URL(environment.BASE_URL);
+const apiUrl = new URL(environment.API_URL);
 
-export const useStagingDataLocally = true;
+const LOCAL_HOST = 'localhost:3001';
+const STAGING_HOST = 'staging-api.va.gov';
 
-const baseUrl =
-  useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
-    ? `https://staging-api.va.gov`
-    : `${environment.API_URL}`;
+const isLocal = appUrl.host === LOCAL_HOST;
+const isStaging = apiUrl.host === STAGING_HOST;
 
-const isLocalOrStaging =
-  (useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001') ||
-  new URL(baseUrl).host === 'staging-api.va.gov';
+const baseUrl = isLocal ? `https://${STAGING_HOST}` : apiUrl.origin; // We use .origin here to have no trailing slash
+const isLocalOrStaging = isLocal || isStaging;
 
 export const endpointOptions = () => {
   // When we were testing with isCypressTest, this value needs to be set to the legacy endpoint.

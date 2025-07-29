@@ -1,9 +1,9 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-const baseUrl = new URL(environment.API_URL);
-const appUrl = new URL(environment.BASE_URL);
+const apiUrl = new URL(environment.API_URL);
+const baseUrl = new URL(environment.BASE_URL);
 const ALLOWED_HOSTS = ['localhost:3001', 'staging-api.va.gov'];
-const isLocalOrStaging = [appUrl.host, baseUrl.host].some(host =>
+const isLocalOrStaging = [baseUrl.host, apiUrl.host].some(host =>
   ALLOWED_HOSTS.includes(host),
 );
 
