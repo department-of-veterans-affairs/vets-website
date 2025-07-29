@@ -28,44 +28,60 @@ function stubWindowLocation(url, pathname, search) {
   };
 }
 
+/**
+ * Renders CustomPageNavButtons with the provided setup config.
+ * @param {Object} props Props to pass to CustomPageNavButtons
+ * @param {Object} storeData Data to include in the mockStore
+ * @param {String} url URL of page where component would be rendered, including any search params
+ * @returns Object containing the rendered component (in `container`), and a restoreLocation func to reset current window location
+ */
+function setupComponent(
+  props,
+  storeData,
+  url = 'http://localhost:3001/form/somepath',
+) {
+  const { pathname } = new URL(url);
+  const { search } = new URL(url);
+  const restoreLocation = stubWindowLocation(url, pathname, search);
+
+  const store = mockStore({
+    form: {
+      data: storeData || {},
+    },
+  });
+
+  const result = render(
+    <Provider store={store}>
+      <CustomPageNavButtons {...props} />
+    </Provider>,
+  );
+
+  return { ...result, restoreLocation };
+}
+
 describe('CustomPageNavButtons', () => {
   const arrayBuilderProps = {
     arrayPath: 'applicants',
     summaryRoute: '/summaryRoute',
     introRoute: '/introRoute',
     reviewRoute: '/review-and-submit',
-    getText: () => {
-      'Save and continue';
-    },
+    getText: () => {},
     required: () => false,
   };
 
   describe('when in an array builder edit page', () => {
     it('should have va button with submit set to prevent', () => {
-      const restoreLocation = stubWindowLocation(
-        'http://localhost:3001/form/applicants/0?edit=true',
-        '/form/applicants/0?edit=true',
-        '?edit=true',
-      );
       const props = {
         contentAfterButtons: <></>,
         goBack: () => {},
         onContinue: () => {},
         arrayBuilder: arrayBuilderProps,
       };
-      const minimalStore = mockStore({
-        form: {
-          data: {
-            applicants: [{ firstName: 'test first' }],
-          },
-        },
-      });
-      const { container } = render(
-        <Provider store={minimalStore}>
-          <CustomPageNavButtons {...props} />
-        </Provider>,
+      const { container, restoreLocation } = setupComponent(
+        props,
+        { applicants: [{ firstName: 'test first' }] },
+        'http://localhost:3001/form/applicants/0?edit=true',
       );
-
       // We expect a cancel and continue button to exists
       expect($('va-button[data-action="cancel"]', container)).to.exist;
       // continue button has a submit="prevent" property in this configuration
@@ -76,11 +92,6 @@ describe('CustomPageNavButtons', () => {
 
   describe('when in an array builder add page', () => {
     it('should have va button to cancel', () => {
-      const restoreLocation = stubWindowLocation(
-        'http://localhost:3001/form/applicants/0?add=true',
-        '/form/applicants/0?add=true',
-        '?add=true',
-      );
       const props = {
         contentAfterButtons: <></>,
         goBack: () => {},
@@ -88,21 +99,13 @@ describe('CustomPageNavButtons', () => {
         arrayBuilder: arrayBuilderProps,
         formConfig: { useTopBackLink: true },
       };
-      const minimalStore = mockStore({
-        form: {
-          data: {
-            applicants: [{ firstName: 'test first' }],
-          },
-        },
-      });
-      const { container } = render(
-        <Provider store={minimalStore}>
-          <CustomPageNavButtons {...props} />,
-        </Provider>,
+      const { container, restoreLocation } = setupComponent(
+        props,
+        { applicants: [{ firstName: 'test first' }] },
+        'http://localhost:3001/form/applicants/0?add=true',
       );
-
       // We expect a cancel and continue button to exists
-      expect($('va-button', container)['data-action']).to.eq('cancel');
+      expect($('va-button[data-action="cancel"]', container)).to.exist;
       expect($('button.usa-button-primary', container)).to.have.text(
         'Continue',
       );
@@ -112,26 +115,12 @@ describe('CustomPageNavButtons', () => {
 
   describe('when in a non-array custom page', () => {
     it('should have back/continue buttons', () => {
-      const restoreLocation = stubWindowLocation(
-        'http://localhost:3001/form/somepath',
-        '/form/somepath',
-      );
       const props = {
         contentAfterButtons: <></>,
         goBack: () => {},
         onContinue: () => {},
       };
-      const minimalStore = mockStore({
-        form: {
-          data: {},
-        },
-      });
-      const { container } = render(
-        <Provider store={minimalStore}>
-          <CustomPageNavButtons {...props} />,
-        </Provider>,
-      );
-
+      const { container, restoreLocation } = setupComponent(props, {});
       expect($('button.usa-button-secondary', container)).to.have.text('Back');
       expect($('button.usa-button-primary', container)).to.have.text(
         'Continue',
