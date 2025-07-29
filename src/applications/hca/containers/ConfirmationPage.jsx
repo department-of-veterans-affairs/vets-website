@@ -7,19 +7,26 @@ import ConfirmationFAQ from '../components/ConfirmationPage/ConfirmationFAQ';
 import { normalizeFullName } from '../utils/helpers';
 
 const ConfirmationPage = () => {
-  const { timestamp, veteranName } = useSelector(state => {
-    const { userFullName } = selectProfile(state);
-    const { veteranFullName } = state.form.data['view:veteranInformation'];
-    const nameToDisplay = isLoggedIn(state) ? userFullName : veteranFullName;
-    return {
-      timestamp: state.form.submission?.response?.timestamp,
-      veteranName: normalizeFullName(nameToDisplay, true),
-    };
-  });
+  const { timestamp, veteranName, user, mhvAccountState } = useSelector(
+    state => {
+      const { userFullName } = selectProfile(state);
+      const { veteranFullName } = state.form.data['view:veteranInformation'];
+      const nameToDisplay = isLoggedIn(state) ? userFullName : veteranFullName;
+      return {
+        timestamp: state.form.submission?.response?.timestamp,
+        veteranName: normalizeFullName(nameToDisplay, true),
+        user: state.user.user,
+        mhvAccountState: state.user.user?.profile.mhvAccountState,
+      };
+    },
+  );
 
   return (
     <div className="hca-confirmation-page vads-u-margin-bottom--2p5">
       <section className="hca-confirmation--screen no-print">
+        <p>user??? {user}</p>
+        <p>MHV??? {mhvAccountState}</p>
+
         <ConfirmationScreenView name={veteranName} timestamp={timestamp} />
       </section>
 
