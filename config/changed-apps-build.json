@@ -285,7 +285,8 @@
     },
     {
       "rootFolder": "third-party-app-directory",
-      "slackGroup": "<@U022GNYPJ1L>"
+      "slackGroup": "<@U022GNYPJ1L>",
+      "slackChannel": "C06JM7UUHE3"
     },
     {
       "rootFolder": "survivor-dependent-education-benefit",
