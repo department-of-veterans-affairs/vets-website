@@ -111,7 +111,6 @@ const responses = {
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
-            vetStatusStage1: true,
             vreCutoverNotice: true,
           }),
         ),
