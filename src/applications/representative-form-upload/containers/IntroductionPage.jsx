@@ -28,6 +28,7 @@ const IntroductionPage = ({ route, router }) => {
   const startBtn = useMemo(
     () => {
       const startForm = () => {
+        sessionStorage.setItem('formIncompleteARP', 'true');
         recordEvent({ event: `${formNumber}-start-form` });
         return router.push(route.pageList[1].path);
       };

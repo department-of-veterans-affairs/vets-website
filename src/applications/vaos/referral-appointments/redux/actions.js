@@ -1,20 +1,11 @@
 import { formatISO, differenceInMilliseconds } from 'date-fns';
 
 import { captureError } from '../../utils/error';
-import {
-  postReferralAppointment,
-  getProviderById,
-  getAppointmentInfo,
-} from '../../services/referral';
+import { getProviderById, getAppointmentInfo } from '../../services/referral';
 // import { filterReferrals } from '../utils/referrals';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
 
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
-export const CREATE_REFERRAL_APPOINTMENT = 'CREATE_REFERRAL_APPOINTMENT';
-export const CREATE_REFERRAL_APPOINTMENT_SUCCEEDED =
-  'CREATE_REFERRAL_APPOINTMENT_SUCCEEDED';
-export const CREATE_REFERRAL_APPOINTMENT_FAILED =
-  'CREATE_REFERRAL_APPOINTMENT_FAILED';
 export const FETCH_PROVIDER_DETAILS = 'FETCH_PROVIDER_DETAILS';
 export const FETCH_PROVIDER_DETAILS_SUCCEEDED =
   'FETCH_PROVIDER_DETAILS_SUCCEEDED';
@@ -26,7 +17,7 @@ export const FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED =
 export const FETCH_REFERRAL_APPOINTMENT_INFO_FAILED =
   'FETCH_REFERRAL_APPOINTMENT_INFO_FAILED';
 export const FETCH_REFERRAL = 'FETCH_REFERRAL';
-export const SET_SELECTED_SLOT = 'SET_SELECTED_SLOT';
+export const SET_SELECTED_SLOT_START_TIME = 'SET_SELECTED_SLOT_START_TIME';
 export const SET_INIT_REFERRAL_FLOW = 'SET_INIT_REFERRAL_FLOW';
 
 export function setFormCurrentPage(currentPage) {
@@ -138,10 +129,10 @@ export function fetchAppointmentInfo(appointmentId) {
   };
 }
 
-export function setSelectedSlot(slot) {
+export function setSelectedSlotStartTime(slotStartTime) {
   return {
-    type: SET_SELECTED_SLOT,
-    payload: slot,
+    type: SET_SELECTED_SLOT_START_TIME,
+    payload: slotStartTime,
   };
 }
 
@@ -154,40 +145,5 @@ export function setInitReferralFlow() {
 export function startNewAppointmentFlow() {
   return {
     type: STARTED_NEW_APPOINTMENT_FLOW,
-  };
-}
-
-export function createReferralAppointment({
-  draftApppointmentId,
-  referralNumber,
-  slotId,
-  networkId,
-  providerServiceId,
-}) {
-  return async dispatch => {
-    try {
-      dispatch({
-        type: CREATE_REFERRAL_APPOINTMENT,
-      });
-
-      const appointmentInfo = await postReferralAppointment({
-        draftApppointmentId,
-        referralNumber,
-        slotId,
-        networkId,
-        providerServiceId,
-      });
-
-      dispatch({
-        type: CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
-      });
-
-      return appointmentInfo;
-    } catch (error) {
-      dispatch({
-        type: CREATE_REFERRAL_APPOINTMENT_FAILED,
-      });
-      return captureError(error);
-    }
   };
 }

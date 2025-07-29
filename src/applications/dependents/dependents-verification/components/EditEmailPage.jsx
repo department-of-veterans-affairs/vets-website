@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollTo } from 'platform/utilities/scroll';
@@ -22,6 +22,11 @@ const EditEmailPage = ({
     );
   };
 
+  const originalEmail = useRef(data.email);
+  const originalElectronicCorrespondence = useRef(
+    data.electronicCorrespondence,
+  );
+
   const handlers = {
     onInput: inputData => {
       setFormData({
@@ -33,6 +38,11 @@ const EditEmailPage = ({
       returnToPath();
     },
     onCancel: () => {
+      setFormData({
+        ...data,
+        email: originalEmail.current,
+        electronicCorrespondence: originalElectronicCorrespondence.current,
+      });
       returnToPath();
     },
   };
