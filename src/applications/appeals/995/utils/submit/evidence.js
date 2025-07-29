@@ -40,11 +40,15 @@ export const getTreatmentDate = (type, showNewFormContent, location) => {
   if (showNewFormContent && noDate) {
     return '';
   }
+
+  const validTreatmentDate =
+    treatmentDate.length === 4 || treatmentDate.length === 7;
+
   const date =
-    showNewFormContent && treatmentDate.length === 7
+    showNewFormContent && validTreatmentDate
       ? `${treatmentDate}-01`
       : evidenceDates[type] || '';
-  return fixDateFormat(date);
+  return fixDateFormat(date, treatmentDate.length === 4);
 };
 
 export const hasDuplicateLocation = (
