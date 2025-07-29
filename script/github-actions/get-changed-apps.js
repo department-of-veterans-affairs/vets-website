@@ -94,7 +94,10 @@ const getChangedAppsString = (
           if (app.rootUrl) appStrings.push(app.rootUrl);
         } else throw new Error('Invalid output type specified.');
       });
-    } else return '';
+    } else {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
   }
 
   return [...new Set(appStrings)].join(delimiter);
@@ -129,7 +132,10 @@ const isContinuousDeploymentEnabled = (filePaths, config) => {
       // Apps in the config are opted in to continuous deployment by default.
       // `continuousDeployment` must be `false` to disable.
       if (continuousDeployment === false) return false;
-    } else return false;
+    } else {
+      // Non-app path; ignore this path and continue checking others
+      continue;
+    }
   }
 
   return true;
