@@ -48,11 +48,12 @@ export const endpointOptions = () => {
   return {
     fetchVSOReps: isLocalOrStaging
       ? `/representation_management/v0/accredited_individuals` // Accreditation API data endpoint
-      : `/services/veteran/v0/vso_accredited_representatives`,
+      : `/services/veteran/v0/vso_accredited_representatives`, // Legacy endpoint
+
     fetchOtherReps: isLocalOrStaging
       ? `/representation_management/v0/accredited_individuals` // Accreditation API data endpoint
-      : `/services/veteran/v0/other_accredited_representatives`,
-    flagReps: `/representation_management/v0/flag_accredited_representatives`,
+      : `/services/veteran/v0/other_accredited_representatives`, // Legacy endpoint
+    flagReps: `/representation_management/v0/flag_accredited_representatives`, // Legacy endpoint
   };
 };
 

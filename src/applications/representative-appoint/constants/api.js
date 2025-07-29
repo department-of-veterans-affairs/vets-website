@@ -1,15 +1,11 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-export const useStagingDataLocally = true;
+const baseUrl = environment.API_URL;
 
-const baseUrl =
-  useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
-    ? `https://staging-api.va.gov`
-    : `${environment.API_URL}`;
-
+// We only use the Accreditation API in local or staging environments.
 const isLocalOrStaging =
-  (useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001') ||
-  new URL(baseUrl).host === 'staging-api.va.gov';
+  environment.BASE_URL === 'http://localhost:3001' ||
+  baseUrl.includes('staging-api.va.gov');
 
 export const REPRESENTATIVES_API = () => {
   // When we were testing with isCypressTest, this value needs to be set to the legacy endpoint.
@@ -19,7 +15,7 @@ export const REPRESENTATIVES_API = () => {
 
   if (isLocalOrStaging)
     return '/representation_management/v0/accredited_entities_for_appoint'; // Accreditation API data endpoint
-  return '/representation_management/v0/original_entities';
+  return '/representation_management/v0/original_entities'; // Legacy endpoint
 };
 
 export const NEXT_STEPS_EMAIL_API =
