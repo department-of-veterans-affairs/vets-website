@@ -8,6 +8,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   applicantFullname,
+  mailingAddress,
   phoneAndEmail,
   identificationInformation,
   employmentStatus,
@@ -62,6 +63,12 @@ const formConfig = {
           title: 'Enter your full name',
           uiSchema: applicantFullname.uiSchema,
           schema: applicantFullname.schema,
+        },
+        mailingAddress: {
+          path: 'mailing-address',
+          title: 'Mailing address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
         },
         phoneAndEmail: {
           path: 'phone-and-email',
