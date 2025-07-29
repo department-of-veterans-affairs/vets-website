@@ -1,11 +1,11 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-const baseUrl = environment.API_URL;
-
-// We only use the Accreditation API in local or staging environments.
-const isLocalOrStaging =
-  environment.BASE_URL === 'http://localhost:3001' ||
-  new URL(baseUrl).host === 'staging-api.va.gov';
+const baseUrl = new URL(environment.API_URL);
+const appUrl = new URL(environment.BASE_URL);
+const ALLOWED_HOSTS = ['localhost:3001', 'staging-api.va.gov'];
+const isLocalOrStaging = [appUrl.host, baseUrl.host].some(host =>
+  ALLOWED_HOSTS.includes(host),
+);
 
 export const REPRESENTATIVES_API = () => {
   // When we were testing with isCypressTest, this value needs to be set to the legacy endpoint.
