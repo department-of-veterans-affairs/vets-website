@@ -333,6 +333,10 @@
     {
       "rootFolder": "yellow-ribbon",
       "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "cd-playground",
+      "slackChannel": "C045LCF8WU8"
     }
   ]
 }
