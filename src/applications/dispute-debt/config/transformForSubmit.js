@@ -39,7 +39,7 @@ const transformForSubmit = (formConfig, form) => {
     },
   };
 
-  // Extract metadata for API submission
+  // Extract metadata for submission tracking
   const metadata = {
     disputes: data.selectedDebts.map(debt => ({
       /* eslint-disable camelcase */
