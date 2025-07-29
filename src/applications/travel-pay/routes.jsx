@@ -7,6 +7,7 @@ import TravelClaimDetails from './components/TravelClaimDetails';
 import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPage';
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import App from './containers/App';
+import TestDocumentUploadPage from './containers/pages/TestDocumentUploadPage';
 
 const routes = (
   <Routes>
@@ -19,6 +20,11 @@ const routes = (
         element={<TravelPayStatusApp />}
       />
       <Route exact path="/help" element={<ClaimStatusExplainerPage />} />
+      <Route
+        exact
+        path="/test-document-upload"
+        element={<TestDocumentUploadPage />}
+      />
       <Route
         exact
         path="/file-new-claim"
