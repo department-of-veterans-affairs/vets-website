@@ -553,24 +553,28 @@ export default class ArrayField extends React.Component {
           {/* Only show the 'Add another ..' button when another item can be added. This approach helps
            improve accessibility by removing unnecessary elements from the DOM when they are not relevant
            or interactable. */}
-          {showAddAnotherButton && useWebComponents ? (
-            <VaButton
-              secondary
-              class="va-growable-add-btn"
-              onClick={this.handleAdd}
-              text={`Add another ${uiItemName}`}
-            />
-          ) : (
-            <button
-              type="button"
-              className={classNames(
-                'usa-button-secondary',
-                'va-growable-add-btn',
+          {showAddAnotherButton && (
+            <>
+              {useWebComponents ? (
+                <VaButton
+                  secondary
+                  class="va-growable-add-btn"
+                  onClick={this.handleAdd}
+                  text={`Add another ${uiItemName}`}
+                />
+              ) : (
+                <button
+                  type="button"
+                  className={classNames(
+                    'usa-button-secondary',
+                    'va-growable-add-btn',
+                  )}
+                  onClick={this.handleAdd}
+                >
+                  Add another {uiItemName}
+                </button>
               )}
-              onClick={this.handleAdd}
-            >
-              Add another {uiItemName}
-            </button>
+            </>
           )}
           {/* Show an alert when no more items can be added */}
           {!showAddAnotherButton && (
