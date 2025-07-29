@@ -103,7 +103,7 @@ export function pad(num, size) {
  * @returns {number} A number of the first day of the month
  */
 export function getFirstDayOfMonth(date) {
-  return Number(format(startOfMonth(date), 'd'));
+  return Number(format(startOfMonth(date), 'i'));
 }
 
 /**

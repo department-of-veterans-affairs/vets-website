@@ -1,19 +1,25 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  identificationInformation,
   applicantFullname,
+  phoneAndEmail,
+  identificationInformation,
   employmentStatus,
   employmentDetails,
   employmentFocus,
   salaryDetails,
   educationDetails,
+  trainingProviderSummary,
+  trainingProviderDetails,
 } from '../pages';
+
+import { trainingProviderArrayOptions } from '../helpers';
 
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
@@ -53,9 +59,15 @@ const formConfig = {
       pages: {
         applicantFullName: {
           path: 'applicant-fullname',
-          title: 'Provide your full name',
+          title: 'Enter your full name',
           uiSchema: applicantFullname.uiSchema,
           schema: applicantFullname.schema,
+        },
+        phoneAndEmail: {
+          path: 'phone-and-email',
+          title: 'Phone and email address',
+          uiSchema: phoneAndEmail.uiSchema,
+          schema: phoneAndEmail.schema,
         },
         identificationInformation: {
           path: 'identification-information',
@@ -76,6 +88,25 @@ const formConfig = {
           schema: activeDutyStatus.schema,
         },
         directDeposit: createDirectDepositPage(),
+      },
+    },
+    trainingProviderChapter: {
+      title: 'Training provider details',
+      pages: {
+        ...arrayBuilderPages(trainingProviderArrayOptions, pageBuilder => ({
+          trainingProviderSummary: pageBuilder.summaryPage({
+            title: 'Tell us about your training provider',
+            path: 'training-provider',
+            uiSchema: trainingProviderSummary.uiSchema,
+            schema: trainingProviderSummary.schema,
+          }),
+          trainingProviderDetails: pageBuilder.itemPage({
+            title: 'Training provider name and mailing address',
+            path: 'training-provider/:index/details',
+            uiSchema: trainingProviderDetails.uiSchema,
+            schema: trainingProviderDetails.schema,
+          }),
+        })),
       },
     },
     backgroundInformationChapter: {
