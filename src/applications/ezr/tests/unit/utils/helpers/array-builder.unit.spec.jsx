@@ -50,6 +50,27 @@ describe('Array Builder - unwrapSingleItem', () => {
     expect(result).to.deep.equal(formData);
   });
 
+  it('should handle empty arrays for configured array paths', () => {
+    const formDataWithEmptyArrays = {
+      otherField: 'preserved',
+      spouseInformation: [],
+      financialInformation: [],
+      someNormalField: 'value',
+    };
+
+    const expectedResult = {
+      otherField: 'preserved',
+      someNormalField: 'value',
+    };
+
+    const result = unwrapSingleItem(formDataWithEmptyArrays, mockState);
+    expect(result).to.deep.equal(expectedResult);
+
+    // Explicitly verify the empty arrays are removed.
+    expect(result).to.not.have.property('spouseInformation');
+    expect(result).to.not.have.property('financialInformation');
+  });
+
   it('should handle financial information with view fields (from EZR test)', () => {
     const ezrFormData = {
       financialInformation: [
