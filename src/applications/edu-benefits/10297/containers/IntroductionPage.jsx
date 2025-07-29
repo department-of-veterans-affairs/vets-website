@@ -4,7 +4,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { connect } from 'react-redux';
-// import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import {
   isLoggedIn,
   isProfileLoading,
@@ -16,7 +16,7 @@ import ProcessList from '../components/ProcessList';
 import TechnologyProgramAccordion from '../components/TechnologyProgramAccordion';
 
 const IntroductionPage = props => {
-  const { toggleLoginModal, loggedIn, showLoadingIndicator } = props;
+  const { route, toggleLoginModal, loggedIn, showLoadingIndicator } = props;
   useEffect(() => {
     const h1 = document.querySelector('h1');
     scrollAndFocus(h1);
@@ -78,6 +78,31 @@ const IntroductionPage = props => {
         </p>
       </va-additional-info>
       <div className="vads-u-margin-y--2 mobile-lg:vads-u-margin-y--3">
+        {!loggedIn ? (
+          <va-alert-sign-in
+            disable-analytics
+            heading-level={3}
+            no-sign-in-link={null}
+            time-limit={null}
+            variant="signInRequired"
+            visible
+          >
+            <span slot="SignInButton">
+              <SignInButton />
+            </span>
+          </va-alert-sign-in>
+        ) : (
+          <SaveInProgressIntro
+            prefillEnabled={route.formConfig.prefillEnabled}
+            messages={route.formConfig.savedFormMessages}
+            formConfig={route.formConfig}
+            pageList={route.pageList}
+            startText="Start your Application for the High Technology Program"
+          />
+        )}
+      </div>
+
+      {/* <div className="vads-u-margin-y--2 mobile-lg:vads-u-margin-y--3">
         <va-alert-sign-in
           disable-analytics
           heading-level={3}
@@ -90,7 +115,7 @@ const IntroductionPage = props => {
             <SignInButton />
           </span>
         </va-alert-sign-in>
-      </div>
+      </div> */}
       <OmbInfo />
       <TechnologyProgramAccordion />
     </article>
