@@ -8,6 +8,7 @@ import * as salaryDetails from './salaryDetails';
 import * as educationDetails from './educationDetails';
 import * as trainingProviderSummary from './trainingProviderSummary';
 import * as trainingProviderDetails from './trainingProviderDetails';
+import * as trainingProviderStartDate from './trainingProviderStartDate';
 
 export {
   applicantFullname,
@@ -20,4 +21,5 @@ export {
   educationDetails,
   trainingProviderSummary,
   trainingProviderDetails,
+  trainingProviderStartDate,
 };

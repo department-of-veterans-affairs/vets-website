@@ -151,3 +151,12 @@ export const validateWithin180Days = (errors, dateString) => {
       'This date is more than 180 days away. You must be within 180 days of discharge to be eligible for the program.',
     );
 };
+
+export const validateTrainingProviderStartDate = (errors, dateString) => {
+  if (!dateString) return;
+  const picked = new Date(`${dateString}T00:00:00`);
+  const startDate = new Date('2025-01-02T00:00:00');
+
+  if (picked < startDate)
+    errors.addError('Date can’t be before program start date.');
+};
