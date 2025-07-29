@@ -724,7 +724,7 @@ describe('Schemaform validations', () => {
       const form = {
         data: {
           privacyAgreementAccepted: true,
-          testArray: ['test', 3],
+          testArray: ['test', 'test2', 'anotherTest'],
         },
         pages: {
           testPage: {
@@ -740,7 +740,12 @@ describe('Schemaform validations', () => {
               },
             },
             uiSchema: {},
-            itemFilter: (item, index) => index < 1,
+            itemFilter: (item, index) => {
+              expect(index).to.be.a('number');
+              expect(index).to.be.at.least(0);
+              expect(index).to.be.lessThan(form.data.testArray.length);
+              return index < 2;
+            },
             showPagePerItem: true,
             arrayPath: 'testArray',
           },
@@ -756,7 +761,7 @@ describe('Schemaform validations', () => {
       const result = isValidForm(form, pageList, true);
 
       expect(result.isValid).to.be.true;
-      expect(result.formData.testArray).to.deep.equal(['test']);
+      expect(result.formData.testArray).to.deep.equal(['test', 'test2']);
       // schema is _not_ modified since it isn't an array
       expect(
         form.pages.testPage.schema.properties.testArray.items,
