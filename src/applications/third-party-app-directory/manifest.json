@@ -1,7 +1,0 @@
-{
-  "appName": "Third Party App Directory",
-  "entryFile": "./third-party-apps-entry.js",
-  "entryName": "third-party-app-directory",
-  "rootUrl": "/third-party-app-directory",
-  "productId": "third-party-app-directory"
-} 
