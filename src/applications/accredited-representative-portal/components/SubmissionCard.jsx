@@ -16,6 +16,7 @@ const formatStatus = submission => {
           {` Received ${formatDateParsedZoneLong(submission.vbmsReceivedDate)}`}
         </span>
       );
+    case 'awaiting_receipt_warning':
     case 'processing_error':
       return (
         <>
@@ -26,20 +27,6 @@ const formatStatus = submission => {
               size="3"
             />
             {' Processing error'}
-          </span>
-          <span>Resubmit or contact 800-827-1000 for assistance</span>
-        </>
-      );
-    case 'awaiting_receipt_warning':
-      return (
-        <>
-          <span>
-            <va-icon
-              icon="warning"
-              class="submissions__inline-status-icon submissions__card-error"
-              size="3"
-            />
-            {' Manual processing required'}
           </span>
           <span>Contact 800-827-1000 for assistance</span>
         </>
