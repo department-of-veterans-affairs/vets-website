@@ -93,13 +93,16 @@ const IntroductionPage = props => {
             </span>
           </va-alert-sign-in>
         ) : (
-          <SaveInProgressIntro
-            prefillEnabled={route.formConfig.prefillEnabled}
-            messages={route.formConfig.savedFormMessages}
-            formConfig={route.formConfig}
-            pageList={route.pageList}
-            startText="Start your Application for the High Technology Program"
-          />
+          <>
+            <h2 className="vads-u-margin-top--1p5">Start the form</h2>
+            <SaveInProgressIntro
+              prefillEnabled={route.formConfig.prefillEnabled}
+              messages={route.formConfig.savedFormMessages}
+              formConfig={route.formConfig}
+              pageList={route.pageList}
+              startText="Start your Application for the High Technology Program"
+            />
+          </>
         )}
       </div>
       <OmbInfo />
