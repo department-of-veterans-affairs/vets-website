@@ -129,6 +129,8 @@ StatementTable.propTypes = {
     pHTotCredits: PropTypes.number,
     pSStatementDateOutput: PropTypes.string,
     pSStatementVal: PropTypes.string,
+    statementEndDate: PropTypes.string,
+    statementStartDate: PropTypes.string,
   }),
 };
 
