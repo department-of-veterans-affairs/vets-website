@@ -189,13 +189,15 @@ describe('Profile - Contact Information - editing phone numbers', () => {
   it('should prevent saving an invalid phone number', () => {
     setup();
     editPhoneNumber('Home phone number', {
-      phoneNumber: '(555) 123-4567 8',
+      phoneNumber: '(555) 123-4567 8', // Invalid US number
     });
+
     cy.get('va-telephone-input').should(
       'have.attr',
       'error',
-      'Please enter a valid phone number',
+      'Enter a United States of America phone number in a valid format, for example, (xxx) xxx-xxxx',
     );
+
     cy.contains('Update saved.').should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
