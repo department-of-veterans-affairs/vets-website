@@ -8,6 +8,13 @@
 /* eslint-disable you-dont-need-momentjs/add */
 import moment from 'moment';
 
+// Import platform utilities to replace overlapping functionality
+import {
+  formatDateLong as platformFormatDateLong,
+  formatDateShort as platformFormatDateShort,
+} from 'platform/utilities/date';
+import { isValidYear as platformIsValidYear } from 'platform/forms-system/src/js/utilities/validations';
+
 // Constants
 export const DATE_FORMAT = 'LL'; // e.g., "January 1, 2021"
 export const DATE_FORMAT_SHORT = 'MM/DD/YYYY';
@@ -47,7 +54,8 @@ const safeMoment = (date, format) => {
 };
 
 /**
- * Format a date string into a display format
+ * Format a date string into a display format with custom format
+ * For standard formats, use formatDateShort() or formatDateLong()
  * @param {string} date - Date string to format
  * @param {string} format - Optional format string (defaults to DATE_FORMAT)
  * @returns {string} Formatted date or 'Unknown' if invalid
@@ -88,17 +96,31 @@ export const formatMonthYearDate = (rawDate = '') => {
 
 /**
  * Format date in short format (MM/DD/YYYY)
+ * Uses platform utility
  * @param {string} date - Date to format
  * @returns {string} Formatted date
  */
-export const formatDateShort = date => formatDate(date, DATE_FORMAT_SHORT);
+export const formatDateShort = date => {
+  try {
+    return platformFormatDateShort(date);
+  } catch (error) {
+    return 'Unknown';
+  }
+};
 
 /**
  * Format date in long format (MMMM D, YYYY)
+ * Uses platform utility
  * @param {string} date - Date to format
  * @returns {string} Formatted date
  */
-export const formatDateLong = date => formatDate(date, DATE_FORMAT_LONG);
+export const formatDateLong = date => {
+  try {
+    return platformFormatDateLong(date);
+  } catch (error) {
+    return 'Unknown';
+  }
+};
 
 /**
  * Check if a date string is valid in YYYY-MM-DD format
@@ -120,13 +142,12 @@ export const isValidFullDate = dateString => {
 
 /**
  * Validate a year value
+ * Uses platform utility but adds custom error message
  * @param {any} err - Error object (for form validation)
  * @param {string|number} fieldData - Year value to validate
  */
 export const isValidYear = (err, fieldData) => {
-  const yearPattern = /^\d{4}$/;
-
-  if (!yearPattern.test(fieldData) || !isValidYearInRange(fieldData)) {
+  if (!platformIsValidYear(fieldData)) {
     err.addError(
       `Please enter a valid year between ${MIN_VALID_YEAR} and ${MAX_VALID_YEAR}`,
     );
@@ -135,6 +156,7 @@ export const isValidYear = (err, fieldData) => {
 
 /**
  * Validate partial date (year or year-month)
+ * Enhanced version of platform utility to handle our specific formats
  * @param {string} dateString - Partial date string
  * @returns {boolean} True if valid
  */
@@ -143,23 +165,12 @@ export const isValidPartialDate = dateString => {
 
   // Check if it's just a year
   if (/^\d{4}$/.test(dateString)) {
-    return isValidYearInRange(dateString);
+    return platformIsValidYear(dateString);
   }
 
   // Check if it's year-month
   const date = moment(dateString, PARTIAL_DATE_FORMAT, true);
   return date.isValid();
-};
-
-/**
- * Check if a date has not expired (is today or in the future)
- * @param {string} expirationDate - Date to check
- * @returns {boolean} True if not expired
- */
-export const isNotExpired = (expirationDate = '') => {
-  if (!expirationDate) return false;
-  const expDate = safeMoment(expirationDate);
-  return expDate ? moment().isSameOrBefore(expDate, 'day') : false;
 };
 
 /**
@@ -235,24 +246,6 @@ export const validateServicePeriod = (errors, fieldData) => {
 };
 
 /**
- * Check if date is in the future
- * @param {any} err - Error object
- * @param {string} fieldData - Date to check
- */
-export const isInFuture = (err, fieldData) => {
-  const fieldDate = safeMoment(fieldData);
-
-  if (!fieldDate) {
-    err.addError('Please provide a valid date');
-    return;
-  }
-
-  if (fieldDate.isSameOrBefore(moment(), 'day')) {
-    err.addError('Start date must be in the future');
-  }
-};
-
-/**
  * Validate date is less than 180 days in the future
  * @param {any} errors - Errors object
  * @param {string} fieldData - Date to check
@@ -312,21 +305,6 @@ export const isWithinServicePeriod = (date, servicePeriods = []) => {
   if (!date || !servicePeriods || !servicePeriods.length) return false;
 
   return servicePeriods.some(period => isWithinRange(date, period.dateRange));
-};
-
-/**
- * Get difference in days between two dates
- * @param {string} date1 - First date
- * @param {string} date2 - Second date
- * @returns {number|null} Difference in days or null if invalid
- */
-export const getDiffInDays = (date1, date2) => {
-  const firstDate = safeMoment(date1);
-  const secondDate = safeMoment(date2);
-
-  if (!firstDate || !secondDate) return null;
-
-  return Math.abs(firstDate.diff(secondDate, 'days'));
 };
 
 /**

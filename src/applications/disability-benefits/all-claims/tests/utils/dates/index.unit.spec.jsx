@@ -12,15 +12,12 @@ describe('Disability benefits 526EZ -- Date utilities index module', () => {
     expect(dateUtils.isValidFullDate).to.be.a('function');
     expect(dateUtils.isValidYear).to.be.a('function');
     expect(dateUtils.isValidPartialDate).to.be.a('function');
-    expect(dateUtils.isNotExpired).to.be.a('function');
     expect(dateUtils.validateAge).to.be.a('function');
     expect(dateUtils.validateSeparationDate).to.be.a('function');
     expect(dateUtils.validateServicePeriod).to.be.a('function');
-    expect(dateUtils.isInFuture).to.be.a('function');
     expect(dateUtils.isLessThan180DaysInFuture).to.be.a('function');
     expect(dateUtils.isWithinRange).to.be.a('function');
     expect(dateUtils.isWithinServicePeriod).to.be.a('function');
-    expect(dateUtils.getDiffInDays).to.be.a('function');
     expect(dateUtils.parseDate).to.be.a('function');
     expect(dateUtils.parseDateWithTemplate).to.be.a('function');
     expect(dateUtils.isBddClaimValid).to.be.a('function');
@@ -41,9 +38,6 @@ describe('Disability benefits 526EZ -- Date utilities index module', () => {
   });
 
   it('should export all validation functions', () => {
-    expect(dateUtils.validateDateRange).to.be.a('function');
-    expect(dateUtils.validateFutureDate).to.be.a('function');
-    expect(dateUtils.validatePastDate).to.be.a('function');
     expect(dateUtils.validateDateNotBeforeReference).to.be.a('function');
     expect(dateUtils.validateSeparationDateWithRules).to.be.a('function');
     expect(dateUtils.validateTitle10ActivationDate).to.be.a('function');

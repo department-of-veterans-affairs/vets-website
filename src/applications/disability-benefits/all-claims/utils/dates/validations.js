@@ -15,168 +15,12 @@ import moment from 'moment';
  */
 const safeMoment = date => {
   if (!date) return null;
+  // Check if the date string contains only non-date characters to avoid moment warnings
+  if (typeof date === 'string' && !/\d/.test(date)) {
+    return null;
+  }
   const momentDate = moment(date);
   return momentDate.isValid() ? momentDate : null;
-};
-
-/**
- * Check if both dates are missing when required
- * @private
- */
-const checkRequiredDates = (from, to, required, customMessage) => {
-  return required && (!from || !to)
-    ? customMessage || 'Please provide both start and end dates'
-    : null;
-};
-
-/**
- * Validate date values and check if they are valid moment objects
- * @private
- */
-const validateDateValues = (from, to) => {
-  const startDate = safeMoment(from);
-  const endDate = safeMoment(to);
-
-  if ((from && !startDate) || (to && !endDate)) {
-    return { error: 'Please provide valid dates' };
-  }
-
-  return { startDate, endDate };
-};
-
-/**
- * Check date range logic (order and day differences)
- * @private
- */
-const checkDateRangeLogic = (startDate, endDate, maxDays, minDays, errors) => {
-  if (!startDate || !endDate) return;
-
-  if (endDate.isBefore(startDate)) {
-    errors.addError('End date must be after start date');
-    return;
-  }
-
-  const daysDiff = endDate.diff(startDate, 'days');
-
-  if (maxDays !== null && daysDiff > maxDays) {
-    errors.addError(`Date range cannot exceed ${maxDays} days`);
-  }
-
-  if (minDays !== null && daysDiff < minDays) {
-    errors.addError(`Date range must be at least ${minDays} days`);
-  }
-};
-
-/**
- * Validate a date range
- * @param {Object} errors - Errors object
- * @param {Object} dateRange - Object with from and to dates
- * @param {Object} options - Optional validation options
- */
-export const validateDateRange = (errors, dateRange, options = {}) => {
-  const { from, to } = dateRange || {};
-  const {
-    required = true,
-    maxDays = null,
-    minDays = null,
-    customMessage = null,
-  } = options;
-
-  // Check required dates
-  const requiredError = checkRequiredDates(from, to, required, customMessage);
-  if (requiredError) {
-    errors.addError(requiredError);
-    return;
-  }
-
-  // Both empty and not required - valid case
-  if (!from && !to) return;
-
-  // Validate date values
-  const dateValidation = validateDateValues(from, to);
-  if (dateValidation.error) {
-    errors.addError(dateValidation.error);
-    return;
-  }
-
-  // Check date range logic
-  checkDateRangeLogic(
-    dateValidation.startDate,
-    dateValidation.endDate,
-    maxDays,
-    minDays,
-    errors,
-  );
-};
-
-/**
- * Validate that a date is in the future
- * @param {Object} errors - Errors object
- * @param {string} date - Date to validate
- * @param {Object} options - Optional validation options
- */
-export const validateFutureDate = (errors, date, options = {}) => {
-  const {
-    inclusive = false,
-    customMessage = null,
-    maxDaysInFuture = null,
-  } = options;
-
-  const dateToCheck = safeMoment(date);
-  if (!dateToCheck) {
-    errors.addError('Please provide a valid date');
-    return;
-  }
-
-  const today = moment().startOf('day');
-  const comparison = inclusive ? 'isBefore' : 'isSameOrBefore';
-
-  if (dateToCheck[comparison](today)) {
-    errors.addError(customMessage || 'Date must be in the future');
-    return;
-  }
-
-  if (maxDaysInFuture !== null) {
-    const maxDate = moment()
-      .add(maxDaysInFuture, 'days')
-      .startOf('day');
-    if (dateToCheck.isAfter(maxDate)) {
-      errors.addError(`Date must be within ${maxDaysInFuture} days from today`);
-    }
-  }
-};
-
-/**
- * Validate that a date is in the past
- * @param {Object} errors - Errors object
- * @param {string} date - Date to validate
- * @param {Object} options - Optional validation options
- */
-export const validatePastDate = (errors, date, options = {}) => {
-  const { inclusive = true, customMessage = null, minDate = null } = options;
-
-  const dateToCheck = safeMoment(date);
-  if (!dateToCheck) {
-    errors.addError('Please provide a valid date');
-    return;
-  }
-
-  const today = moment().startOf('day');
-  const comparison = inclusive ? 'isAfter' : 'isSameOrAfter';
-
-  if (dateToCheck[comparison](today)) {
-    errors.addError(customMessage || 'Date must be in the past');
-    return;
-  }
-
-  if (minDate) {
-    const minDateMoment = safeMoment(minDate);
-    if (minDateMoment && dateToCheck.isBefore(minDateMoment)) {
-      errors.addError(
-        `Date must be on or after ${minDateMoment.format('MM/DD/YYYY')}`,
-      );
-    }
-  }
 };
 
 /**
@@ -243,7 +87,6 @@ export const validateSeparationDateWithRules = (
   const in90Days = moment().add(90, 'days');
   const in180Days = moment().add(180, 'days');
 
-  // BDD validation rules
   if (isBDD) {
     if (separationDate.isAfter(in180Days)) {
       errors.addError(

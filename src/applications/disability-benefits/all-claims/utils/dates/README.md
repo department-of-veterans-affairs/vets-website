@@ -15,15 +15,33 @@ dates/
 └── README.md            # This file
 ```
 
+## When to Use This Module vs Platform Utilities
+
+### Use Platform Utilities When
+
+- You need basic date formatting (use `platform/utilities/date`)
+- You need standard date validation (use `platform/forms-system/src/js/utilities/validations`)
+- You're working outside the disability-benefits context
+- You need date UI components (use `platform/forms-system/src/js/web-component-patterns/datePatterns`)
+
+### Use This Module When
+
+- You're working within the disability-benefits/all-claims application
+- You need BDD-specific validation (90-180 days)
+- You need to validate separation dates or service periods
+- You need to handle partial dates (YYYY-XX-XX, XXXX-MM-XX formats)
+- You need disability-benefits specific age validation (13th birthday)
+- You need to validate treatment dates against service dates
+
 ## Usage
 
 Import only what you need from the main index:
 
 ```javascript
-import { 
-  formatDate, 
-  isValidFullDate, 
-  validateSeparationDate 
+import {
+  formatDate,
+  isValidFullDate,
+  validateSeparationDate,
 } from 'applications/disability-benefits/all-claims/utils/dates';
 ```
 
@@ -40,20 +58,15 @@ import {
 ### Core Validation Functions
 
 - `isValidFullDate(dateString)` - Validate YYYY-MM-DD format
-- `isValidYear(err, fieldData)` - Validate year value
+- `isValidYear(err, fieldData)` - Validate year value (uses platform utility)
 - `isValidPartialDate(dateString)` - Validate partial dates
-- `isNotExpired(expirationDate)` - Check if date hasn't expired
-- `validateAge(err, fieldData, formData)` - Validate age requirements
+- `validateAge(err, fieldData, formData)` - Validate age requirements (13th birthday)
 - `validateSeparationDate(err, fieldData, formData)` - Validate separation dates
 - `validateServicePeriod(errors, fieldData)` - Validate service periods
-- `isInFuture(err, fieldData)` - Check if date is in the future
 - `isLessThan180DaysInFuture(errors, fieldData)` - Validate date is less than 180 days in future
 
 ### Advanced Validation Functions
 
-- `validateDateRange(errors, dateRange, options)` - Validate a date range
-- `validateFutureDate(errors, date, options)` - Validate date is in the future
-- `validatePastDate(errors, date, options)` - Validate date is in the past
 - `validateDateNotBeforeReference(errors, date, referenceDate, options)` - Validate date is not before reference
 - `validateSeparationDateWithRules(errors, dateString, options)` - Validate separation date with BDD/reserves rules
 - `validateTitle10ActivationDate(errors, activationDate, servicePeriods, reservesList)` - Validate Title 10 activation
@@ -70,7 +83,6 @@ import {
 
 - `isWithinRange(dates, range)` - Check if date(s) are within a range
 - `isWithinServicePeriod(date, servicePeriods)` - Check if date is within service periods
-- `getDiffInDays(date1, date2)` - Get difference in days between dates
 - `findEarliestServiceDate(servicePeriods)` - Find earliest service date
 - `isTreatmentBeforeService(treatmentDate, earliestServiceDate, fieldData)` - Check treatment vs service date
 
@@ -150,9 +162,31 @@ const isValid = parseDate(date) !== null;
 
 ## Technical Notes
 
+### Platform Integration
+
+This module uses platform utilities where possible to avoid duplication:
+
+#### Functions Using Platform Utilities
+
+- `formatDateShort()` - Delegates to `platform/utilities/date/formatDateShort`
+- `formatDateLong()` - Delegates to `platform/utilities/date/formatDateLong`
+- `isValidYear()` - Uses `platform/forms-system/src/js/utilities/validations/isValidYear`
+- `isValidPartialDate()` - Enhanced version of platform utility
+
+#### Disability-Benefits Specific Functions
+
+The following functions provide disability-benefits specific functionality not available in platform utilities:
+
+- **BDD-Specific**: `isBddClaimValid()`, `getBddSeparationDateError()`
+- **Service-Specific**: `validateSeparationDate()`, `findEarliestServiceDate()`, `isTreatmentBeforeService()`
+- **Partial Date Formats**: `isMonthOnly()`, `isYearOnly()`, `isYearMonth()`
+- **Age Validation**: `validateAge()` (13th birthday check)
+- **Custom Validations**: `isLessThan180DaysInFuture()`, `validateServicePeriod()`
+
 ### MomentJS Usage
 
-- All MomentJS usage is centralized in this module
+- MomentJS usage is still required for disability-benefits specific date operations
+- Platform utilities use date-fns, but we maintain moment for backward compatibility
 - MomentJS warnings are expected and should not be fixed for now
 - We will migrate away from moment in future work
 - ESLint warnings are disabled with the following format:
@@ -168,6 +202,7 @@ const isValid = parseDate(date) !== null;
 ### Module Design Principles
 
 - The module is designed to make future refactoring easier
+- Uses platform utilities to avoid duplication
 - Internal utilities (like `safeMoment`) are not exported via index
 - All public API functions are exported through index
 - Product-specific logic is isolated in product-specific
@@ -175,7 +210,7 @@ const isValid = parseDate(date) !== null;
 
 ### Internal Helper Functions
 
-The following internal helper functions are used to reduce cognitive complexity and improve maintainability:
+Internal helper functions reduce cognitive complexity and improve maintainability:
 
 #### validations
 

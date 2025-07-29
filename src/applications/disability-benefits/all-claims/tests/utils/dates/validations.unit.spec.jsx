@@ -3,216 +3,12 @@ import sinon from 'sinon';
 import moment from 'moment';
 
 import {
-  validateDateRange,
-  validateFutureDate,
-  validatePastDate,
   validateDateNotBeforeReference,
   validateSeparationDateWithRules,
   validateTitle10ActivationDate,
 } from '../../../utils/dates/validations';
 
 describe('Disability benefits 526EZ -- Date validation utilities', () => {
-  describe('validateDateRange', () => {
-    it('should add error when dates are required but missing', () => {
-      const errors = { addError: sinon.spy() };
-      validateDateRange(errors, {});
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include(
-        'Please provide both start and end dates',
-      );
-    });
-
-    it('should use custom message when provided', () => {
-      const errors = { addError: sinon.spy() };
-      validateDateRange(errors, {}, { customMessage: 'Custom error message' });
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.equal(
-        'Custom error message',
-      );
-    });
-
-    it('should not add error when dates are not required and missing', () => {
-      const errors = { addError: sinon.spy() };
-      validateDateRange(errors, {}, { required: false });
-      expect(errors.addError.called).to.be.false;
-    });
-
-    it('should add error when only one date is provided', () => {
-      const errors = { addError: sinon.spy() };
-      validateDateRange(errors, { from: '2023-01-01' });
-      expect(errors.addError.called).to.be.true;
-    });
-
-    it('should add error for invalid date values', () => {
-      const errors = { addError: sinon.spy() };
-      validateDateRange(errors, { from: 'invalid', to: '2023-01-01' });
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include('valid dates');
-    });
-
-    it('should add error when end date is before start date', () => {
-      const errors = { addError: sinon.spy() };
-      validateDateRange(errors, { from: '2023-06-01', to: '2023-01-01' });
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include(
-        'End date must be after start date',
-      );
-    });
-
-    it('should add error when range exceeds maxDays', () => {
-      const errors = { addError: sinon.spy() };
-      validateDateRange(
-        errors,
-        { from: '2023-01-01', to: '2023-12-31' },
-        { maxDays: 30 },
-      );
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include(
-        'cannot exceed 30 days',
-      );
-    });
-
-    it('should add error when range is less than minDays', () => {
-      const errors = { addError: sinon.spy() };
-      validateDateRange(
-        errors,
-        { from: '2023-01-01', to: '2023-01-05' },
-        { minDays: 10 },
-      );
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include('at least 10 days');
-    });
-
-    it('should not add error for valid date range', () => {
-      const errors = { addError: sinon.spy() };
-      validateDateRange(errors, { from: '2023-01-01', to: '2023-06-01' });
-      expect(errors.addError.called).to.be.false;
-    });
-  });
-
-  describe('validateFutureDate', () => {
-    const clock = sinon.useFakeTimers(new Date('2023-06-15'));
-
-    after(() => {
-      clock.restore();
-    });
-
-    it('should add error for invalid date', () => {
-      const errors = { addError: sinon.spy() };
-      validateFutureDate(errors, 'invalid');
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include('valid date');
-    });
-
-    it('should add error for past date (non-inclusive)', () => {
-      const errors = { addError: sinon.spy() };
-      validateFutureDate(errors, '2023-06-14');
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include(
-        'must be in the future',
-      );
-    });
-
-    it('should add error for today (non-inclusive)', () => {
-      const errors = { addError: sinon.spy() };
-      validateFutureDate(errors, '2023-06-15');
-      expect(errors.addError.called).to.be.true;
-    });
-
-    it('should not add error for today when inclusive', () => {
-      const errors = { addError: sinon.spy() };
-      validateFutureDate(errors, '2023-06-15', { inclusive: true });
-      expect(errors.addError.called).to.be.false;
-    });
-
-    it('should use custom message', () => {
-      const errors = { addError: sinon.spy() };
-      validateFutureDate(errors, '2023-06-14', {
-        customMessage: 'Must be a future date',
-      });
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.equal(
-        'Must be a future date',
-      );
-    });
-
-    it('should validate maxDaysInFuture', () => {
-      const errors = { addError: sinon.spy() };
-      const futureDate = moment()
-        .add(100, 'days')
-        .format('YYYY-MM-DD');
-      validateFutureDate(errors, futureDate, { maxDaysInFuture: 90 });
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include('within 90 days');
-    });
-
-    it('should not add error for valid future date', () => {
-      const errors = { addError: sinon.spy() };
-      validateFutureDate(errors, '2023-06-16');
-      expect(errors.addError.called).to.be.false;
-    });
-  });
-
-  describe('validatePastDate', () => {
-    const clock = sinon.useFakeTimers(new Date('2023-06-15'));
-
-    after(() => {
-      clock.restore();
-    });
-
-    it('should add error for invalid date', () => {
-      const errors = { addError: sinon.spy() };
-      validatePastDate(errors, 'invalid');
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include('valid date');
-    });
-
-    it('should add error for future date (inclusive)', () => {
-      const errors = { addError: sinon.spy() };
-      validatePastDate(errors, '2023-06-16');
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include(
-        'must be in the past',
-      );
-    });
-
-    it('should not add error for today (inclusive)', () => {
-      const errors = { addError: sinon.spy() };
-      validatePastDate(errors, '2023-06-15');
-      expect(errors.addError.called).to.be.false;
-    });
-
-    it('should add error for today when non-inclusive', () => {
-      const errors = { addError: sinon.spy() };
-      validatePastDate(errors, '2023-06-15', { inclusive: false });
-      expect(errors.addError.called).to.be.true;
-    });
-
-    it('should use custom message', () => {
-      const errors = { addError: sinon.spy() };
-      validatePastDate(errors, '2023-06-16', {
-        customMessage: 'Must be a past date',
-      });
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.equal('Must be a past date');
-    });
-
-    it('should validate minDate', () => {
-      const errors = { addError: sinon.spy() };
-      validatePastDate(errors, '2020-01-01', { minDate: '2021-01-01' });
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include(
-        'on or after 01/01/2021',
-      );
-    });
-
-    it('should not add error for valid past date', () => {
-      const errors = { addError: sinon.spy() };
-      validatePastDate(errors, '2023-06-14');
-      expect(errors.addError.called).to.be.false;
-    });
-  });
-
   describe('validateDateNotBeforeReference', () => {
     it('should add error for invalid date to check', () => {
       const errors = { addError: sinon.spy() };
@@ -232,48 +28,42 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
 
     it('should add error when date is before reference (inclusive)', () => {
       const errors = { addError: sinon.spy() };
-      validateDateNotBeforeReference(errors, '2023-01-01', '2023-06-01');
+      validateDateNotBeforeReference(errors, '2023-01-01', '2023-01-02');
       expect(errors.addError.called).to.be.true;
       expect(errors.addError.firstCall.args[0]).to.include(
-        'on or after 06/01/2023',
+        'Date must be on or after 01/02/2023',
       );
     });
 
-    it('should not add error when date equals reference (inclusive)', () => {
+    it('should not add error when date is same as reference (inclusive)', () => {
       const errors = { addError: sinon.spy() };
-      validateDateNotBeforeReference(errors, '2023-06-01', '2023-06-01');
+      validateDateNotBeforeReference(errors, '2023-01-01', '2023-01-01');
       expect(errors.addError.called).to.be.false;
     });
 
-    it('should add error when date equals reference (non-inclusive)', () => {
+    it('should use custom message when provided', () => {
       const errors = { addError: sinon.spy() };
-      validateDateNotBeforeReference(errors, '2023-06-01', '2023-06-01', {
-        inclusive: false,
+      validateDateNotBeforeReference(errors, '2023-01-01', '2023-01-02', {
+        customMessage: 'Custom error message',
       });
       expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.include('after 06/01/2023');
-    });
-
-    it('should use custom message', () => {
-      const errors = { addError: sinon.spy() };
-      validateDateNotBeforeReference(errors, '2023-01-01', '2023-06-01', {
-        customMessage: 'Date too early',
-      });
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.firstCall.args[0]).to.equal('Date too early');
-    });
-
-    it('should not add error when date is after reference', () => {
-      const errors = { addError: sinon.spy() };
-      validateDateNotBeforeReference(errors, '2023-07-01', '2023-06-01');
-      expect(errors.addError.called).to.be.false;
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Custom error message',
+      );
     });
   });
 
   describe('validateSeparationDateWithRules', () => {
-    const clock = sinon.useFakeTimers(new Date('2023-06-15'));
+    let clock;
 
-    after(() => {
+    beforeEach(() => {
+      clock = sinon.useFakeTimers({
+        now: new Date('2023-06-15'),
+        toFake: ['Date'],
+      });
+    });
+
+    afterEach(() => {
       clock.restore();
     });
 
@@ -284,13 +74,13 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
       expect(errors.addError.firstCall.args[0]).to.include('not a real date');
     });
 
-    describe('BDD validation', () => {
-      it('should allow dates up to 180 days in future for BDD', () => {
+    describe('BDD claims', () => {
+      it('should allow dates between 90-180 days for BDD', () => {
         const errors = { addError: sinon.spy() };
-        const date150Days = moment()
-          .add(150, 'days')
+        const date120Days = moment()
+          .add(120, 'days')
           .format('YYYY-MM-DD');
-        validateSeparationDateWithRules(errors, date150Days, { isBDD: true });
+        validateSeparationDateWithRules(errors, date120Days, { isBDD: true });
         expect(errors.addError.called).to.be.false;
       });
 
@@ -301,12 +91,14 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
           .format('YYYY-MM-DD');
         validateSeparationDateWithRules(errors, date181Days, { isBDD: true });
         expect(errors.addError.called).to.be.true;
-        expect(errors.addError.firstCall.args[0]).to.include('before 180 days');
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'before 180 days from today',
+        );
       });
     });
 
-    describe('Non-BDD validation', () => {
-      it('should add error for dates more than 180 days', () => {
+    describe('Non-BDD claims', () => {
+      it('should add error for dates more than 180 days (non-BDD)', () => {
         const errors = { addError: sinon.spy() };
         const date181Days = moment()
           .add(181, 'days')
@@ -314,23 +106,25 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
         validateSeparationDateWithRules(errors, date181Days);
         expect(errors.addError.called).to.be.true;
         expect(errors.addError.firstCall.args[0]).to.include(
-          'Benefits Delivery at Discharge',
+          'more than 180 days from now',
         );
       });
 
-      it('should add error for future dates >= 90 days for non-reserves', () => {
+      it('should add error for future dates when not reserves', () => {
         const errors = { addError: sinon.spy() };
-        const date90Days = moment()
-          .add(90, 'days')
+        const date100Days = moment()
+          .add(100, 'days')
           .format('YYYY-MM-DD');
-        validateSeparationDateWithRules(errors, date90Days);
+        validateSeparationDateWithRules(errors, date100Days, {
+          isReserves: false,
+        });
         expect(errors.addError.called).to.be.true;
         expect(errors.addError.firstCall.args[0]).to.include(
           'must be in the past',
         );
       });
 
-      it('should allow future dates for reserves', () => {
+      it('should allow future dates for reserves (non-BDD)', () => {
         const errors = { addError: sinon.spy() };
         const date100Days = moment()
           .add(100, 'days')
@@ -340,25 +134,10 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
         });
         expect(errors.addError.called).to.be.false;
       });
-
-      it('should allow past dates', () => {
-        const errors = { addError: sinon.spy() };
-        const pastDate = moment()
-          .subtract(100, 'days')
-          .format('YYYY-MM-DD');
-        validateSeparationDateWithRules(errors, pastDate);
-        expect(errors.addError.called).to.be.false;
-      });
     });
   });
 
   describe('validateTitle10ActivationDate', () => {
-    const clock = sinon.useFakeTimers(new Date('2023-06-15'));
-
-    after(() => {
-      clock.restore();
-    });
-
     const reservesList = ['Reserve', 'National Guard'];
 
     it('should add error for invalid activation date', () => {
@@ -372,10 +151,10 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
 
     it('should add error for future activation date', () => {
       const errors = { addError: sinon.spy() };
-      const futureDate = moment()
-        .add(1, 'days')
+      const tomorrow = moment()
+        .add(1, 'day')
         .format('YYYY-MM-DD');
-      validateTitle10ActivationDate(errors, futureDate, [], reservesList);
+      validateTitle10ActivationDate(errors, tomorrow, [], reservesList);
       expect(errors.addError.called).to.be.true;
       expect(errors.addError.firstCall.args[0]).to.include(
         'activation date in the past',

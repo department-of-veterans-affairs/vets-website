@@ -21,15 +21,12 @@ import {
   isValidFullDate,
   isValidYear,
   isValidPartialDate,
-  isNotExpired,
   validateAge,
   validateSeparationDate,
   validateServicePeriod,
-  isInFuture,
   isLessThan180DaysInFuture,
   isWithinRange,
   isWithinServicePeriod,
-  getDiffInDays,
   parseDate,
   parseDateWithTemplate,
   isBddClaimValid,
@@ -207,41 +204,6 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     });
   });
 
-  describe('isNotExpired', () => {
-    it('should return true for future dates', () => {
-      const tomorrow = moment()
-        .add(1, 'day')
-        .format('YYYY-MM-DD');
-      const nextYear = moment()
-        .add(1, 'year')
-        .format('YYYY-MM-DD');
-      expect(isNotExpired(tomorrow)).to.be.true;
-      expect(isNotExpired(nextYear)).to.be.true;
-    });
-
-    it('should return true for today', () => {
-      const today = moment().format('YYYY-MM-DD');
-      expect(isNotExpired(today)).to.be.true;
-    });
-
-    it('should return false for past dates', () => {
-      const yesterday = moment()
-        .subtract(1, 'day')
-        .format('YYYY-MM-DD');
-      const lastYear = moment()
-        .subtract(1, 'year')
-        .format('YYYY-MM-DD');
-      expect(isNotExpired(yesterday)).to.be.false;
-      expect(isNotExpired(lastYear)).to.be.false;
-    });
-
-    it('should handle invalid dates', () => {
-      expect(isNotExpired('')).to.be.false;
-      expect(isNotExpired(null)).to.be.false;
-      expect(isNotExpired('invalid')).to.be.false;
-    });
-  });
-
   describe('validateAge', () => {
     it('should add error if date is before 13th birthday', () => {
       const err = { addError: sinon.spy() };
@@ -333,43 +295,6 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
         to: '2023-06-01',
       });
       expect(errors.addError.called).to.be.false;
-    });
-  });
-
-  describe('isInFuture', () => {
-    it('should add error for past dates', () => {
-      const err = { addError: sinon.spy() };
-      const yesterday = moment()
-        .subtract(1, 'day')
-        .format('YYYY-MM-DD');
-      isInFuture(err, yesterday);
-      expect(err.addError.called).to.be.true;
-      expect(err.addError.firstCall.args[0]).to.include(
-        'must be in the future',
-      );
-    });
-
-    it('should add error for today', () => {
-      const err = { addError: sinon.spy() };
-      const today = moment().format('YYYY-MM-DD');
-      isInFuture(err, today);
-      expect(err.addError.called).to.be.true;
-    });
-
-    it('should not add error for future dates', () => {
-      const err = { addError: sinon.spy() };
-      const tomorrow = moment()
-        .add(1, 'day')
-        .format('YYYY-MM-DD');
-      isInFuture(err, tomorrow);
-      expect(err.addError.called).to.be.false;
-    });
-
-    it('should add error for invalid dates', () => {
-      const err = { addError: sinon.spy() };
-      isInFuture(err, 'invalid');
-      expect(err.addError.called).to.be.true;
-      expect(err.addError.firstCall.args[0]).to.include('valid date');
     });
   });
 
@@ -472,20 +397,6 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
       expect(isWithinServicePeriod(null, servicePeriods)).to.be.false;
       expect(isWithinServicePeriod('2023-06-15', [])).to.be.false;
       expect(isWithinServicePeriod('2023-06-15', null)).to.be.false;
-    });
-  });
-
-  describe('getDiffInDays', () => {
-    it('should calculate difference in days', () => {
-      expect(getDiffInDays('2023-01-01', '2023-01-10')).to.equal(9);
-      expect(getDiffInDays('2023-01-10', '2023-01-01')).to.equal(9);
-      expect(getDiffInDays('2023-01-01', '2023-01-01')).to.equal(0);
-    });
-
-    it('should handle invalid dates', () => {
-      expect(getDiffInDays(null, '2023-01-01')).to.be.null;
-      expect(getDiffInDays('2023-01-01', null)).to.be.null;
-      expect(getDiffInDays('invalid', '2023-01-01')).to.be.null;
     });
   });
 

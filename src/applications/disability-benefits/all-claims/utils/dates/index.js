@@ -18,16 +18,13 @@ export {
   isValidFullDate,
   isValidYear,
   isValidPartialDate,
-  isNotExpired,
   validateAge,
   validateSeparationDate,
   validateServicePeriod,
   // Comparison functions
-  isInFuture,
   isLessThan180DaysInFuture,
   isWithinRange,
   isWithinServicePeriod,
-  getDiffInDays,
   // Parsing functions
   parseDate,
   parseDateWithTemplate,
@@ -57,9 +54,6 @@ export {
 } from './comparisons';
 
 export {
-  validateDateRange,
-  validateFutureDate,
-  validatePastDate,
   validateDateNotBeforeReference,
   validateSeparationDateWithRules,
   validateTitle10ActivationDate,
