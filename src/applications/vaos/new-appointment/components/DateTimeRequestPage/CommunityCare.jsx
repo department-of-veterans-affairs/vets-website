@@ -103,7 +103,7 @@ export default function CCRequest() {
         maxSelectionsError="You can only choose up to 3 dates for your appointment"
         onChange={(...args) => dispatch(onCalendarChange(...args))}
         minDate={minDate}
-        maxDate={addDays(new Date(), 120, 'days')}
+        maxDate={addDays(new Date(), 120)}
         value={selectedDates}
         id="optionTime"
         renderIndicator={props => <SelectedIndicator {...props} />}

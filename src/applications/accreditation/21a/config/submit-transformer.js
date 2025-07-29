@@ -12,13 +12,6 @@ import {
   INSTITUTION_TYPE_ENUM,
 } from './enums';
 
-const today = new Date();
-const year = today.getFullYear();
-const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-const day = String(today.getDate()).padStart(2, '0');
-
-const todaysDate = `${year}-${month}-${day}`;
-
 const build21aPayload = data => {
   return {
     // Unique Identifiers and fields needed by GCLAWS
@@ -119,16 +112,13 @@ const build21aPayload = data => {
         addressCountry: e.address?.country || null,
         phoneTypeId: PHONE_TYPE_ENUM.WORK,
         phoneNumber: `${e.phone.callingCode}${e.phone.contact}`,
-        phoneExtension: null,
+        phoneExtension: e.extension,
         startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
         // Not using `currentlyEmployed` so if it exists we set `endDate` to null
-        // Adding a day here since GCLAWS requires it
-        // Bug on GCLAWS side currently requires an enddate so hard codeing to todaysDate
-        // one this is fixed we can set it back to null
         endDate:
           !!e.currentlyEmployed && e.dateRange?.to
             ? `${e.dateRange?.to}-01`
-            : todaysDate,
+            : null,
       })) || [],
 
     // Chapter 3 - Employment Activities
@@ -148,7 +138,7 @@ const build21aPayload = data => {
       data.educationalInstitutions?.map(e => ({
         name: e.name,
         startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
-        endDate: `${e.dateRange?.to}-01` || null, // adding a day here since GCLAWS requires it
+        endDate: e.dateRange?.to ? `${e.dateRange.to}-01` : null, // adding a day here since GCLAWS requires it
         wasDegreeReceived: !!e.degreeReceived,
         major: e.major,
         degreeTypeId: DEGREE_TYPE_ENUM[e.degree],
