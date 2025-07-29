@@ -1,1 +1,5 @@
-{ "entryName": "cd-playground", "rootUrl": "/cd-playground", "entryFile": "./index.jsx" }
+{ 
+    "entryName": "cd-playground", 
+    "rootUrl": "/cd-playground", 
+    "entryFile": "./index.jsx" 
+}
