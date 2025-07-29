@@ -340,45 +340,31 @@ class ArrayField extends React.Component {
                             )}
                           </div>
                           <div className="small-6 right columns">
-                            {showReviewButton && useWebComponents ? (
-                              <va-button
-                                secondary
-                                class="edit-btn float-right"
-                                onClick={() => this.handleEdit(index, false)}
-                                aria-label={`Review ${itemName}`}
-                                text="Review"
-                              />
-                            ) : (
-                              <button
-                                type="button"
-                                className="edit-btn float-right"
-                                aria-label={`Review ${itemName}`}
-                                onClick={() => this.handleEdit(index, false)}
-                              >
-                                Review
-                              </button>
-                            )}
-                            {useWebComponents ? (
-                              <va-button
-                                secondary
-                                class="float-right"
-                                aria-label={`Remove ${itemName}`}
-                                text="Remove"
-                                onClick={() =>
-                                  this.handleRemove(index, fieldName)
-                                }
-                              />
-                            ) : (
-                              <button
-                                type="button"
-                                className="usa-button-secondary float-right"
-                                aria-label={`Remove ${itemName}`}
-                                onClick={() =>
-                                  this.handleRemove(index, fieldName)
-                                }
-                              >
-                                Remove
-                              </button>
+                            {showReviewButton && (
+                              <>
+                                {useWebComponents ? (
+                                  <va-button
+                                    secondary
+                                    class="float-right"
+                                    aria-label={`Remove ${itemName}`}
+                                    text="Remove"
+                                    onClick={() =>
+                                      this.handleRemove(index, fieldName)
+                                    }
+                                  />
+                                ) : (
+                                  <button
+                                    type="button"
+                                    className="usa-button-secondary float-right"
+                                    aria-label={`Remove ${itemName}`}
+                                    onClick={() =>
+                                      this.handleRemove(index, fieldName)
+                                    }
+                                  >
+                                    Remove
+                                  </button>
+                                )}
+                              </>
                             )}
                           </div>
                         </div>
