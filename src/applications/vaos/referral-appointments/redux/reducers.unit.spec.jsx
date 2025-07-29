@@ -1,11 +1,7 @@
 import { expect } from 'chai';
 import reducer from './reducers';
-import { FETCH_STATUS } from '../../utils/constants';
 import {
   SET_FORM_CURRENT_PAGE,
-  CREATE_REFERRAL_APPOINTMENT,
-  CREATE_REFERRAL_APPOINTMENT_FAILED,
-  CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
   FETCH_REFERRAL_APPOINTMENT_INFO,
   FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
   FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
@@ -20,25 +16,6 @@ describe('ccAppointmentReducer', () => {
       payload: 'review',
     });
     expect(state.currentPage).to.equal('review');
-  });
-
-  it('should handle CREATE_REFERRAL_APPOINTMENT', () => {
-    const state = reducer(undefined, { type: CREATE_REFERRAL_APPOINTMENT });
-    expect(state.appointmentCreateStatus).to.equal(FETCH_STATUS.loading);
-  });
-
-  it('should handle CREATE_REFERRAL_APPOINTMENT_SUCCEEDED', () => {
-    const state = reducer(undefined, {
-      type: CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
-    });
-    expect(state.appointmentCreateStatus).to.equal(FETCH_STATUS.succeeded);
-  });
-
-  it('should handle CREATE_REFERRAL_APPOINTMENT_FAILED', () => {
-    const state = reducer(undefined, {
-      type: CREATE_REFERRAL_APPOINTMENT_FAILED,
-    });
-    expect(state.appointmentCreateStatus).to.equal(FETCH_STATUS.failed);
   });
 
   it('should handle FETCH_REFERRAL_APPOINTMENT_INFO', () => {
