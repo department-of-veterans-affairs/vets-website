@@ -53,6 +53,7 @@ export default function ClaimDetailsContent({
       <div
         key={`claim-attachment-dl-${filename}`}
         className="vads-u-margin-top--1"
+        data-testid="user-submitted-documents"
       >
         <DocumentDownload
           text={text}

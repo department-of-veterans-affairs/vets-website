@@ -27,7 +27,7 @@ const ACCREDITATION_TYPE_ID = {
 };
 // ACCREDITATION_TYPE - Frontend Options to GCLAWS Mapping
 export const ACCREDITATION_TYPE_ENUM = {
-  AGENT: ACCREDITATION_TYPE_ID.Agent,
+  CLAIMS_AGENT: ACCREDITATION_TYPE_ID.Agent,
   ATTORNEY: ACCREDITATION_TYPE_ID.Attorney,
 };
 // PHONE_TYPE - GCLAWS Mapping
@@ -116,6 +116,20 @@ export const EMPLOYMENT_STATUS_ENUM = Object.freeze({
 });
 
 // Chapter 4
+// INSTITUTION_TYPE - GCLAWS Mapping
+const INSTITUTION_TYPE_ID = {
+  HIGH_SCHOOL: 1,
+  COMMUNITY_COLLEGE: 2,
+  UNDER_GRADUATE: 3,
+  GRADUATE: 4,
+};
+// INSTITUTION_TYPE - Frontend Options to GCLAWS Mapping
+export const INSTITUTION_TYPE_ENUM = {
+  'High School': INSTITUTION_TYPE_ID.HIGH_SCHOOL,
+  'Community College': INSTITUTION_TYPE_ID.COMMUNITY_COLLEGE,
+  'Under Graduate': INSTITUTION_TYPE_ID.UNDER_GRADUATE,
+  Graduate: INSTITUTION_TYPE_ID.GRADUATE,
+};
 // DEGREE_TYPE - GCLAWS Mapping
 const DEGREE_TYPE_ID = {
   GED: 1,
@@ -128,11 +142,11 @@ const DEGREE_TYPE_ID = {
 // DEGREE_TYPE - Frontend Options to GCLAWS Mapping
 export const DEGREE_TYPE_ENUM = {
   GED: DEGREE_TYPE_ID.GED,
-  'HS Diploma': DEGREE_TYPE_ID.HS,
-  Associates: DEGREE_TYPE_ID.ASSOCIATES,
-  Bachelors: DEGREE_TYPE_ID.BACHELORS,
-  Masters: DEGREE_TYPE_ID.MASTERS,
-  Doctorate: DEGREE_TYPE_ID.DOCTORATE,
+  'High school diploma': DEGREE_TYPE_ID.HS,
+  'Associate degree': DEGREE_TYPE_ID.ASSOCIATES,
+  "Bachelor's degree": DEGREE_TYPE_ID.BACHELORS,
+  "Master's degree": DEGREE_TYPE_ID.MASTERS,
+  'Doctoral degree': DEGREE_TYPE_ID.DOCTORATE,
 };
 
 // Chapter 5
@@ -217,11 +231,4 @@ export const ADDRESS_TYPE_ID = {
   employment: 3,
   institution: 4,
   characterReference: 5,
-};
-
-export const INSTITUTION_TYPE_ID = {
-  'High School': 1,
-  'Community College': 2,
-  'Under Graduate': 3,
-  Graduate: 4,
 };
