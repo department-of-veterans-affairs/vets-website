@@ -35,21 +35,16 @@ const optionalEventPages = {
       goNextState();
 
       if (nextState === 'START') {
-        // First time - click to add an event
+        cy.get('va-card').should('have.length', 0);
         cy.get('button.usa-button')
           .contains('Add an event')
           .click();
       } else if (nextState === 'FINISH') {
-        // Second time - just continue without checking for specific elements
         cy.get('button.usa-button')
           .contains('Add an event')
           .should('exist');
 
-        // Log what we find for debugging
-        cy.get('body').then($body => {
-          const cardCount = $body.find('va-card').length;
-          cy.log(`Found ${cardCount} va-card elements`);
-        });
+        cy.get('va-card').should('have.length', 1);
 
         cy.findByText(/continue/i, { selector: 'button' }).click();
       } else {
