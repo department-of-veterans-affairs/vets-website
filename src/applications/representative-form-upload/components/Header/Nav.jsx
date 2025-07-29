@@ -58,7 +58,7 @@ export const Nav = () => {
               <Toggler.Enabled>
                 <a
                   className="nav__btn desktop"
-                  href="/representative/poa-search"
+                  href="/representative/claimant-search"
                   data-testid="desktop-search-link"
                 >
                   <va-icon

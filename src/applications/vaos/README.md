@@ -1,4 +1,4 @@
-# VA Online Scheduling
+# Appointments
 
 This is the front end source for the Appointments application. Veterans can schedule, request, and view appointments through this application.
 
@@ -42,7 +42,7 @@ npx nodemon --exec "yarn jsdoc -c src/applications/vaos/jsdoc.json" --watch src/
 
 ## Organization
 
-The application has three major sections
+The application has four major sections
 
 - /appointment-list
   - The code for the appointment list and detail pages

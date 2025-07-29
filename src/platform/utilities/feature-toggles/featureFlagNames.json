@@ -1,4 +1,5 @@
 {
+  "accreditedRepresentativePortalCustomLogin": "accredited_representative_portal_custom_login",
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
   "accreditedRepresentativePortalSearch": "accredited_representative_portal_search",
@@ -314,7 +315,6 @@
   "vaOnlineSchedulingRecentLocationsFilter": "va_online_scheduling_recent_locations_filter",
   "vaOnlineSchedulingRequests": "va_online_scheduling_requests",
   "vaOnlineSchedulingRemovePodiatry": "vaos_online_scheduling_remove_podiatry",
-  "vaOnlineSchedulingFeSourceOfTruthTelehealth": "va_online_scheduling_fe_source_of_truth_telehealth",
   "vaOnlineSchedulingMentalHealthHistoryFiltering": "va_online_scheduling_mental_health_history_filtering",
   "vetStatusStage1": "vet_status_stage_1",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
@@ -345,6 +345,6 @@
   "myVaAuthExpRedesignEnabled": "my_va_auth_exp_redesign_enabled",
   "accreditedRepresentativePortalSelfServiceAuth": "accredited_representative_portal_self_service_auth",
   "accreditedRepresentativePortalForm": "accredited_representative_portal_form",
-  "isDgibCallOnly": "is_dgib_call_only"
-
+  "isDgibCallOnly": "is_dgib_call_only",
+  "showVyeDowntimeAlert": "show_vye_downtime_alert"
 }
