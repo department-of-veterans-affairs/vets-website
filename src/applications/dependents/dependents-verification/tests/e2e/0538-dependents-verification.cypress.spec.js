@@ -69,7 +69,7 @@ const testConfig = createTestConfig(
       },
 
       // eslint-disable-next-line prettier/prettier
-      'dependents': ({ afterHook }) => {
+      dependents: ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="Y"]').click();
           cy.clickFormContinue();
@@ -89,8 +89,6 @@ const testConfig = createTestConfig(
         });
       },
     },
-
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
