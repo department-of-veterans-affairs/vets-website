@@ -34,7 +34,7 @@ export default function CurrencyField(fieldProps) {
     // highlight like there's an error, but no error message will show.
     // Returning null will show the error message
     if (value === '' || typeof value === 'undefined') {
-      props.onChange();
+      props.onChange(schemaType === 'number' ? null : '');
       // Needs to look like a currency
     } else if (!CURRENCY_REGEXP.test(value)) {
       props.onChange(value);
@@ -61,8 +61,10 @@ export default function CurrencyField(fieldProps) {
       const roundedString = roundedValue.toFixed(2);
       setDisplayVal(roundedString);
       props.onChange(schemaType === 'number' ? roundedValue : roundedString);
+      // console.log({ roundedString, roundedValue });
     } else {
-      props.onChange(value);
+      // console.log({ value });
+      props.onChange(schemaType === 'number' && value === '' ? null : value);
     }
   };
 
@@ -71,6 +73,8 @@ export default function CurrencyField(fieldProps) {
       typeof props.value === 'number' ? props.value.toFixed(2) : props.value,
     );
   };
+
+  // console.log({ props });
 
   // Not using currency property because inside the web component, it switches
   // inputmode to numeric and adds a invalid number error message, but the error
