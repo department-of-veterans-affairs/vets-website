@@ -20,13 +20,14 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  formatFullNameNoSuffix,
+  formatPossessiveString,
   generateDeleteDescription,
   isDefined,
   isRecipientInfoIncomplete,
   otherGeneratedIncomeTypeExplanationRequired,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  resolveRecipientFullName,
 } from '../../../helpers';
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
@@ -43,13 +44,14 @@ export const options = {
     !isDefined(item.fairMarketValue) ||
     !isDefined(item.incomeGenerationMethod), // include all required fields here
   text: {
-    getItemName: (item, index, formData) =>
-      isDefined(item?.recipientRelationship) &&
-      `${
-        item?.recipientRelationship === 'VETERAN'
-          ? formatFullNameNoSuffix(formData?.veteranFullName)
-          : formatFullNameNoSuffix(item?.recipientName)
-      }’s income`,
+    getItemName: (item, index, formData) => {
+      if (!isDefined(item?.recipientRelationship)) {
+        return undefined;
+      }
+      const fullName = resolveRecipientFullName(item, formData);
+      const possessiveName = formatPossessiveString(fullName);
+      return `${possessiveName} income`;
+    },
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) &&
       isDefined(item?.fairMarketValue) && (

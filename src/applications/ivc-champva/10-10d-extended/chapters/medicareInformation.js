@@ -42,12 +42,27 @@ const MEDICARE_TYPE_LABELS = {
   b: 'Medicare Part B only (medical coverage)',
 };
 
-const medicareYesNoHint =
-  'If any applicants have Medicare, you’re required to report it to process your application for CHAMPVA benefits. ';
-
 // Memoizing the `toHash` helper func since it'll be getting called
 // a lot in the `depends` checks.
 const toHashMemoized = memoize(str => toHash(str));
+
+/**
+ * Options for the yes/no text on summary page:
+ */
+const yesNoOptions = {
+  title: 'Do you have any Medicare to report for one or more applicants?',
+  labelHeaderLevel: '5',
+  labelHeaderLevelStyle: '5',
+  hint:
+    'If any applicants have Medicare, it is required to report it to process your application for CHAMPVA benefits.',
+};
+const yesNoOptionsMore = {
+  title: 'Do you have any other applicants with Medicare to report?',
+  labelHeaderLevel: '5',
+  labelHeaderLevelStyle: '5',
+  hint:
+    'If any applicants have Medicare, it is required to report it to process your application for CHAMPVA benefits.',
+};
 
 // Get the name of the applicant selected on the Medicare participant page
 export function generateParticipantName(item) {
@@ -75,6 +90,9 @@ export const medicareOptions = {
       <ul className="no-bullets">
         <li>
           <b>Type:</b> {MEDICARE_TYPE_LABELS[(item?.medicarePlanType)]}
+          {item?.hasMedicarePartD
+            ? ', Medicare Part D (prescription drug coverage)'
+            : null}
         </li>
       </ul>
     ),
@@ -86,15 +104,8 @@ const medicareSummaryPage = {
     ...titleUI('Report Medicare'),
     'view:hasMedicare': arrayBuilderYesNoUI(
       medicareOptions,
-      {
-        title:
-          'Do you have any Medicare to report for one or more applicants? ',
-        hint: medicareYesNoHint,
-      },
-      {
-        title: 'Do you have another plan to report for one or more applicants?',
-        hint: medicareYesNoHint,
-      },
+      yesNoOptions,
+      yesNoOptionsMore,
     ),
   },
   schema: {
@@ -631,14 +642,8 @@ const medicarePartDCarrierEffectiveDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${generateParticipantName(
-          formData,
-        )} Medicare Part D carrier and effective date`,
+        `${generateParticipantName(formData)} Medicare Part D effective date`,
     ),
-    medicarePartDCarrier: textUI({
-      title: 'Name of insurance carrier',
-      hint: 'Your insurance carrier is your insurance company.',
-    }),
     medicarePartDEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part D effective date',
       hint:
@@ -648,10 +653,9 @@ const medicarePartDCarrierEffectiveDatePage = {
   },
   schema: {
     type: 'object',
-    required: ['medicarePartDCarrier', 'medicarePartDEffectiveDate'],
+    required: ['medicarePartDEffectiveDate'],
     properties: {
       titleSchema,
-      medicarePartDCarrier: textSchema,
       medicarePartDEffectiveDate: currentOrPastDateSchema,
     },
   },
@@ -725,9 +729,14 @@ export function getEligibleApplicantsWithoutMedicare(formData) {
 export const missingMedicarePage = {
   path: 'missing-medicare-applicants',
   title: 'Medicare status',
-  depends: formData => {
+  depends: (formData, index) => {
     const excluded = getEligibleApplicantsWithoutMedicare(formData);
-    return excluded && excluded.length > 0;
+    const curAppHash = formData?.medicare?.[index]?.medicareParticipant;
+    const curApp = formData?.applicants?.find(
+      a => toHashMemoized(a.applicantSSN) === curAppHash,
+    );
+    const age = getAgeInYears(curApp?.applicantDob);
+    return age >= 65 && excluded && excluded.length > 0;
   },
   // Something to do with array builder/topBackLink was causing us to
   // always attempt to navigate back inside the medicare array rather
