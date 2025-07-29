@@ -59,13 +59,17 @@ export const ARRAY_BUILDER_CONFIG = {
 
 /**
  * Get enabled ArrayBuilder configurations
- * @param {Object} featureToggles - Feature toggle values from Redux state.
+ * @param {Object} data - Form data object.
+ * @param {Object} state - Application state containing feature toggle values from Redux state.
  * @returns {Object} Object containing only enabled configurations.
  */
-export function getEnabledConfigs(data = {}) {
+export function getEnabledConfigs(data = {}, state = { featureToggles: {} }) {
+  const featureToggles = toggleValues(state);
+  const mergedData = { ...data, ...featureToggles };
+
   return Object.fromEntries(
     Object.entries(ARRAY_BUILDER_CONFIG).filter(([, config]) => {
-      return config.enabled(data);
+      return config.enabled(mergedData);
     }),
   );
 }
@@ -100,8 +104,7 @@ export function getEnabledConfigs(data = {}) {
  * @returns {Object} Form data with single-item arrays flattened to root level.
  */
 export function unwrapSingleItem(formData, state = { featureToggles: {} }) {
-  const featureToggles = toggleValues(state);
-  const configs = getEnabledConfigs({ ...formData, ...featureToggles });
+  const configs = getEnabledConfigs(formData, state);
   let result = { ...formData };
   Object.values(configs).forEach(config => {
     const { arrayPath } = config;
@@ -164,8 +167,7 @@ export function unwrapSingleItem(formData, state = { featureToggles: {} }) {
  * @returns {Object} Form data with flat fields wrapped in single-item arrays.
  */
 export function wrapInSingleArray(formData, state = { featureToggles: {} }) {
-  const featureToggles = toggleValues(state);
-  const configs = getEnabledConfigs({ ...formData, ...featureToggles });
+  const configs = getEnabledConfigs(formData, state);
   if (!formData || typeof formData !== 'object') {
     return formData;
   }
