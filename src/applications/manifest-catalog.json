@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 134,
+  "totalApplications": 133,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -104,12 +104,6 @@
       "appName": "10-10CG",
       "entryName": "1010cg-application-caregiver-assistance",
       "rootUrl": "/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers/apply-form-10-10cg"
-    },
-    {
-      "directoryPath": "src/applications/cd-playground",
-      "appName": "N/A",
-      "entryName": "cd-playground",
-      "rootUrl": "/cd-playground"
     },
     {
       "directoryPath": "src/applications/check-in/day-of",
