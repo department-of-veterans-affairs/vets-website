@@ -39,6 +39,20 @@ const transformForSubmit = (formConfig, form) => {
     },
   };
 
+  // Extract metadata for API submission
+  const metadata = {
+    disputes: data.selectedDebts.map(debt => ({
+      /* eslint-disable camelcase */
+      composite_debt_id: debt.compositeDebtId,
+      deduction_code: debt.deductionCode,
+      original_ar: debt.originalAr,
+      current_ar: debt.currentAr,
+      benefit_type: debt.benefitType,
+      dispute_reason: debt.disputeReason,
+      /* eslint-enable camelcase */
+    })),
+  };
+
   // Keeping both education and comp & pen debts in the final object to
   //  make generating separate PDFs easier
   return {
@@ -48,6 +62,7 @@ const transformForSubmit = (formConfig, form) => {
     compAndPen: compAndPenDebts.length
       ? { ...pdfData, selectedDebts: compAndPenDebts }
       : null,
+    metadata,
   };
 };
 
