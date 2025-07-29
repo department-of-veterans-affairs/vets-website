@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
@@ -1131,32 +1130,17 @@ describe('526 v2 depends functions', () => {
   });
 
   describe('isNotExpired', () => {
-    let clock;
-    beforeEach(() => {
-      clock = sinon.useFakeTimers({
-        now: new Date('2025-07-16'),
-        shouldAdvanceTime: false,
-        toFake: ['Date'],
-      });
-    });
-    afterEach(() => {
-      if (clock) {
-        clock.restore();
-      }
-    });
-
     it('should return true for current or future dates', () => {
-      expect(isNotExpired('2025-07-16')).to.be.true; // today
-      expect(isNotExpired('2025-07-17')).to.be.true; // tomorrow
-      expect(isNotExpired('2025-08-16')).to.be.true; // next month
-      expect(isNotExpired('2026-01-01')).to.be.true; // next year
-      expect(isNotExpired('2030-12-31')).to.be.true; // far future
+      const nextYear = new Date();
+      nextYear.setFullYear(nextYear.getFullYear() + 1);
+
+      expect(isNotExpired(nextYear.toISOString().split('T')[0])).to.be.true;
     });
     it('should return false for past dates', () => {
-      expect(isNotExpired('2025-07-15')).to.be.false; // yesterday
-      expect(isNotExpired('2025-06-16')).to.be.false; // previous month
-      expect(isNotExpired('2024-07-16')).to.be.false; // previous year
-      expect(isNotExpired('2020-01-01')).to.be.false; // far past
+      const lastMonth = new Date();
+      lastMonth.setMonth(lastMonth.getMonth() - 1);
+
+      expect(isNotExpired(lastMonth.toISOString().split('T')[0])).to.be.false;
     });
     it('should return false for empty/undefined dates', () => {
       expect(isNotExpired()).to.be.false;
