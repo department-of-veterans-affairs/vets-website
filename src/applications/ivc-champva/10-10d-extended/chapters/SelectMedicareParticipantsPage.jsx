@@ -1,7 +1,6 @@
 /* eslint-disable react/sort-prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import {
   arrayBuilderItemSubsequentPageTitleUI,
@@ -9,6 +8,7 @@ import {
   radioUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { nameWording, toHash } from '../../shared/utilities';
 
 // similar to `toSpliced`, but simpler and actually works in testing framework
@@ -137,6 +137,12 @@ export function selectMedicareParticipantOnGoForward(props) {
 
 /** @type {CustomPageType} */
 export function SelectMedicareParticipantPage(props) {
+  const navButtons = CustomPageNavButtons({
+    ...props,
+    onContinue: () => {
+      return selectMedicareParticipantOnGoForward(props);
+    },
+  });
   return (
     <SchemaForm
       name={props.name}
@@ -157,11 +163,7 @@ export function SelectMedicareParticipantPage(props) {
     >
       <>
         {props.contentBeforeButtons}
-        <FormNavButtons
-          goBack={props.goBack}
-          goForward={() => selectMedicareParticipantOnGoForward(props)}
-          submitToContinue
-        />
+        {navButtons}
         {props.contentAfterButtons}
       </>
     </SchemaForm>

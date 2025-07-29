@@ -1,5 +1,5 @@
 /* eslint-disable react/sort-prop-types */
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -41,6 +41,22 @@ export default function CustomArrayBuilderButtonPair(props) {
 
   const NavButtons = props.NavButtons || FormNavButtons;
 
+  // This ref allows us to listen for the "Continue" VaButton's onclick, which
+  // lets us run consistent onclick logic (e.g., the same props.onContinue that
+  // the normal NavButtons component uses)
+  const contBtn = useRef(null);
+
+  // Attach click listener (works for enter key and spacebar as well) to
+  // the VaButton used to continue on edit pages.
+  useEffect(() => {
+    const handleContClick = _e => {
+      props.onContinue(props);
+    };
+    if (contBtn.current) {
+      contBtn.current.addEventListener('click', handleContClick);
+    }
+  }, []);
+
   return (
     <>
       {isAdd && (
@@ -81,6 +97,7 @@ export default function CustomArrayBuilderButtonPair(props) {
           </div>
           <div>
             <VaButton
+              ref={contBtn} // Allows us to call `props.onContinue`
               continue
               submit="prevent"
               text={getText('editSaveButtonText')}
