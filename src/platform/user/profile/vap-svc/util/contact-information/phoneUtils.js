@@ -1,6 +1,9 @@
 import pickBy from 'lodash/pickBy';
-import VaTelephoneInputField from '~/platform/forms-system/src/js/web-component-fields/VaTelephoneInputField';
 import VaTextInputField from '~/platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '~/platform/forms-system/src/js/web-component-patterns/internationalPhonePattern';
 
 import { PHONE_TYPE, USA } from '../../constants';
 
@@ -19,6 +22,7 @@ export const phoneFormSchema = ({ allowInternational = false } = {}) => {
   };
 
   if (allowInternational) {
+    const baseSchema = internationalPhoneSchema({ required: true });
     return {
       type: 'object',
       properties: {
@@ -27,14 +31,7 @@ export const phoneFormSchema = ({ allowInternational = false } = {}) => {
           properties: {},
         },
         inputPhoneNumber: {
-          type: 'object',
-          properties: {
-            callingCode: { type: 'number', title: 'Calling code' },
-            countryCode: { type: 'string', title: 'Country code' },
-            contact: { type: 'string', title: 'Contact' },
-            _isValid: { type: 'boolean', title: 'Is valid' },
-          },
-          required: ['contact', 'callingCode', 'countryCode'],
+          ...baseSchema,
         },
         extension: extensionField,
       },
@@ -67,18 +64,11 @@ export const phoneUiSchema = (
   { allowInternational = false } = {},
 ) => {
   if (allowInternational) {
+    const baseUI = internationalPhoneUI(fieldName);
+    delete baseUI['ui:reviewField'];
+    delete baseUI['ui:confirmationField'];
     return {
-      inputPhoneNumber: {
-        'ui:title': `${fieldName}`,
-        'ui:webComponentField': VaTelephoneInputField,
-        'ui:validations': [
-          (errors, field) => {
-            if (!field?._isValid) {
-              errors.addError('Please enter a valid phone number');
-            }
-          },
-        ],
-      },
+      inputPhoneNumber: baseUI,
       extension: {
         'ui:title': 'Extension (6 digits maximum)',
         'ui:webComponentField': VaTextInputField,
