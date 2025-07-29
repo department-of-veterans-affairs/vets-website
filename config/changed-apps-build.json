@@ -199,7 +199,9 @@
     },
     {
       "rootFolder": "mock-sip-form",
-      "slackGroup": "<@U022GNYPJ1L>"    },
+      "slackGroup": "<@U022GNYPJ1L>",
+      "slackChannel": "C06JM7UUHE3"
+        },
     {
       "rootFolder": "my-education-benefits",
       "slackGroup": "<@U022GNYPJ1L>"
@@ -283,8 +285,7 @@
     },
     {
       "rootFolder": "third-party-app-directory",
-      "slackGroup": "<@U022GNYPJ1L>",
-      "slackChannel": "C06JM7UUHE3"
+      "slackGroup": "<@U022GNYPJ1L>"
     },
     {
       "rootFolder": "survivor-dependent-education-benefit",
