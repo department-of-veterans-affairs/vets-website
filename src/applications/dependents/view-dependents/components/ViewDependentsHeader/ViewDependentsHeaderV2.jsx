@@ -122,8 +122,8 @@ function ViewDependentsHeader(props) {
             >
               <>
                 <h2 className="vads-u-font-size--h3" slot="headline">
-                  Avoid disability overpayments by keeping your dependents up to
-                  date
+                  Avoid disability benefits overpayments by keeping your
+                  dependents up to date
                 </h2>
                 <p className="vads-u-font-size--base">
                   Report any changes to your dependents to make sure you receive

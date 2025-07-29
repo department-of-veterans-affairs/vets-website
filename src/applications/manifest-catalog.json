@@ -1,7 +1,9 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
+test/slack-channel-routing
   "totalApplications": 133,
+
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -44,6 +46,12 @@
       "appName": "Request for Higher-Level Review",
       "entryName": "0996-higher-level-review",
       "rootUrl": "/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996"
+    },
+    {
+      "directoryPath": "src/applications/appeals/onramp",
+      "appName": "Decision Reviews Onramp Tool",
+      "entryName": "onramp",
+      "rootUrl": "/decision-reviews/onramp-to-dr"
     },
     {
       "directoryPath": "src/applications/appeals/testing/download",
