@@ -38,6 +38,10 @@ const isValidYearInRange = yearString => {
  */
 const safeMoment = (date, format) => {
   if (!date) return null;
+  if (typeof date === 'string' && !/\d/.test(date)) {
+    return null;
+  }
+
   const momentDate = format ? moment(date, format, true) : moment(date);
   return momentDate.isValid() ? momentDate : null;
 };
@@ -305,7 +309,7 @@ export const isWithinRange = (dates, range) => {
  * @returns {boolean} True if within any service period
  */
 export const isWithinServicePeriod = (date, servicePeriods = []) => {
-  if (!date || !servicePeriods.length) return false;
+  if (!date || !servicePeriods || !servicePeriods.length) return false;
 
   return servicePeriods.some(period => isWithinRange(date, period.dateRange));
 };
