@@ -5,6 +5,7 @@ import { isEmpty } from 'lodash';
 
 import { useLocation } from 'react-router-dom';
 import NameTag from '~/applications/personalization/components/NameTag';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 
 import ProfileSubNav from './ProfileSubNav';
