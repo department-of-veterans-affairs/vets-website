@@ -5,7 +5,7 @@ const baseUrl = environment.API_URL;
 // We only use the Accreditation API in local or staging environments.
 const isLocalOrStaging =
   environment.BASE_URL === 'http://localhost:3001' ||
-  baseUrl.includes('staging-api.va.gov');
+  new URL(baseUrl).host === 'staging-api.va.gov';
 
 export const REPRESENTATIVES_API = () => {
   // When we were testing with isCypressTest, this value needs to be set to the legacy endpoint.
