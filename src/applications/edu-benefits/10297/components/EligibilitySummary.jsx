@@ -33,7 +33,7 @@ const EligibilitySummary = ({ goBack, goForward }) => {
       </span>
       <ul className="vads-u-margin-y--0 duty-ul">
         <li className="vads-u-margin-y--0">
-          A Veteran who served at least 3 years (36 months) on active duty;
+          A Veteran who served at least 3 years (36 months) on active duty,
           <p className="vads-u-margin-y--0">
             <strong>or</strong>
           </p>
