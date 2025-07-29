@@ -46,6 +46,12 @@
       "rootUrl": "/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996"
     },
     {
+      "directoryPath": "src/applications/appeals/onramp",
+      "appName": "Decision Reviews Onramp Tool",
+      "entryName": "onramp",
+      "rootUrl": "/decision-reviews/onramp-to-dr"
+    },
+    {
       "directoryPath": "src/applications/appeals/testing/download",
       "appName": "Submitted Appeals view &amp; download",
       "entryName": "download",

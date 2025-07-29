@@ -35,8 +35,8 @@ class RepresentativeFinderApi {
 
     const endpoint =
       type === 'veteran_service_officer'
-        ? endpointOptions.fetchVSOReps
-        : endpointOptions.fetchOtherReps;
+        ? endpointOptions().fetchVSOReps
+        : endpointOptions().fetchOtherReps;
 
     const { requestUrl, apiSettings } = getApi(endpoint);
     const startTime = new Date().getTime();
@@ -66,7 +66,7 @@ class RepresentativeFinderApi {
     const startTime = new Date().getTime();
 
     const { requestUrl, apiSettings } = getApi(
-      endpointOptions.flagReps,
+      endpointOptions().flagReps,
       'POST',
       newReport,
     );

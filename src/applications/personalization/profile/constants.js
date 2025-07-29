@@ -8,6 +8,7 @@ export const PROFILE_TOGGLES = {
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
+  profileShowPaperlessDelivery: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -50,6 +51,7 @@ export const PROFILE_PATHS = Object.freeze({
   ACCOUNT_SECURITY: '/profile/account-security',
   CONTACTS: '/profile/contacts',
   EDIT: '/profile/edit',
+  PAPERLESS_DELIVERY: '/profile/paperless-delivery',
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
@@ -65,6 +67,7 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   ACCOUNT_SECURITY: 'Account security',
   CONTACTS: 'Personal health care contacts',
   EDIT: 'Edit your information',
+  PAPERLESS_DELIVERY: 'Paperless delivery',
 });
 
 export const PROFILE_PATHS_WITH_NAMES = Object.entries(PROFILE_PATHS).map(
