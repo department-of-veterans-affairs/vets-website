@@ -56,7 +56,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     identificationChapter: {
-      title: 'Veteran’s information',
+      title: 'Your information',
       pages: {
         applicantFullName: {
           path: 'applicant-fullname',
