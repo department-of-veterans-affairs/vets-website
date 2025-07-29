@@ -736,12 +736,6 @@
       "rootUrl": "/terms-of-use"
     },
     {
-      "directoryPath": "src/applications/third-party-app-directory",
-      "appName": "Third Party App Directory",
-      "entryName": "third-party-app-directory",
-      "rootUrl": "/third-party-app-directory"
-    },
-    {
       "directoryPath": "src/applications/toe",
       "appName": "Apply to use transferred education benefits",
       "entryName": "toe",
