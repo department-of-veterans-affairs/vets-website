@@ -283,7 +283,11 @@ const valuePage = {
     fairMarketValue: currencyUI(
       'What was the fair market value when transferred?',
     ),
-    saleValue: currencyUI('What was the sale price?'),
+    saleValue: currencyUI({
+      title: 'What was the sale price?',
+      min: null,
+      max: null,
+    }),
     capitalGainValue: currencyUI('What was the gain?'),
   },
   schema: {
