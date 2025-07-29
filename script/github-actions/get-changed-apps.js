@@ -134,6 +134,7 @@ const isContinuousDeploymentEnabled = (filePaths, config) => {
       if (continuousDeployment === false) return false;
     } else {
       // Non-app path; ignore this path and continue checking others
+      // eslint-disable-next-line no-continue
       continue;
     }
   }
