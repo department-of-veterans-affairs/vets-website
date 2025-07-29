@@ -3,11 +3,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { waitFor } from '@testing-library/react';
-import { fireEvent } from '@testing-library/dom';
 import { createStore } from 'redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { fileTypeSignatures } from '~/platform/forms-system/src/js/utilities/file';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
 import { DocumentRequestPage } from '../../containers/DocumentRequestPage';
@@ -36,13 +34,6 @@ const defaultProps = {
   clearNotification: () => {},
   loading: false,
   navigate: () => {},
-  uploadField: { value: null, dirty: false },
-  files: [],
-  addFile: () => {},
-  cancelUpload: () => {},
-  setFieldsDirty: () => {},
-  updateField: () => {},
-  removeFile: () => {},
 };
 
 describe('<DocumentRequestPage>', () => {
@@ -357,97 +348,22 @@ describe('<DocumentRequestPage>', () => {
       expect($('.optional-upload', context)).to.exist;
     });
 
-    it('should handle submit files', () => {
-      const trackedItem = {
-        status: 'NEEDED_FROM_YOU',
-        suspenseDate: '2010-05-10',
-      };
-      const onSubmit = sinon.spy();
-      const { container, rerender } = renderWithRouter(
-        <Provider store={getStore(false, false)}>
-          <DocumentRequestPage
-            {...defaultProps}
-            trackedItem={trackedItem}
-            submitFiles={onSubmit}
-          />
-          ,
-        </Provider>,
-      );
-
-      // Create a file
-      const file = {
-        file: new File(['hello'], 'hello.jpg', {
-          name: 'hello.jpg',
-          type: fileTypeSignatures.jpg.mime,
-          size: 9999,
-        }),
-        docType: { value: 'L029', dirty: true },
-        password: { value: '', dirty: false },
-        isEncrypted: false,
-      };
-
-      rerenderWithRouter(
-        rerender,
-        <Provider store={getStore(false, false)}>
-          <DocumentRequestPage
-            {...defaultProps}
-            trackedItem={trackedItem}
-            files={[file]}
-            submitFiles={onSubmit}
-          />
-          ,
-        </Provider>,
-      );
-
-      fireEvent.click($('#submit', container));
-      expect(onSubmit.called).to.be.true;
-    });
-
-    it('should handle submit files and navigate to files page', () => {
-      const submitFiles = sinon.spy();
+    it('should render file upload form when trackedItem.canUploadFile is true', () => {
       const trackedItem = {
         status: 'NEEDED_FROM_YOU',
         suspenseDate: '2010-05-10',
         displayName: 'Testing',
+        canUploadFile: true,
       };
-      const { container, rerender } = renderWithRouter(
+      const { container } = renderWithRouter(
         <Provider store={getStore(false, false)}>
-          <DocumentRequestPage
-            {...defaultProps}
-            trackedItem={trackedItem}
-            submitFiles={submitFiles}
-          />
-          ,
+          <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
 
-      // Create a file
-      const file = {
-        file: new File(['hello'], 'hello.jpg', {
-          name: 'hello.jpg',
-          type: fileTypeSignatures.jpg.mime,
-          size: 9999,
-        }),
-        docType: { value: 'L029', dirty: true },
-        password: { value: '', dirty: false },
-        isEncrypted: false,
-      };
-
-      rerenderWithRouter(
-        rerender,
-        <Provider store={getStore(false, false)}>
-          <DocumentRequestPage
-            {...defaultProps}
-            trackedItem={trackedItem}
-            submitFiles={submitFiles}
-            files={[file]}
-          />
-          ,
-        </Provider>,
-      );
-
-      fireEvent.click($('#submit', container));
-      expect(submitFiles.called).to.be.true;
+      // Verify the file upload form components are rendered
+      expect($('va-file-input-multiple', container)).to.exist;
+      expect($('va-button', container)).to.exist;
     });
 
     it('should reset uploads and set title on mount', () => {

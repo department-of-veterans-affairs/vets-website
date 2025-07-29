@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { FIELD_NAMES } from '@@vap-svc/constants';
-import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 
 import { useContactInfoDeepLink } from '../../hooks';
 import { PROFILE_PATHS } from '../../constants';
@@ -23,7 +22,7 @@ const ContactInfoOnFile = ({
   const isInternationalMobile =
     mobilePhoneNumber &&
     mobilePhoneNumber.isInternational &&
-    parseInt(mobilePhoneNumber.countryCode, 10) !== 1;
+    String(mobilePhoneNumber.countryCode) !== USA.COUNTRY_CODE;
 
   return (
     <>
@@ -56,7 +55,7 @@ const ContactInfoOnFile = ({
         <li className="vads-u-margin-y--0p5">
           <strong>Mobile phone: </strong>
           {mobilePhoneNumber && (
-            <VaTelephone
+            <va-telephone
               data-testid="mobile-phone-number-on-file"
               // For international number areaCode is null
               // and is instead part of phoneNumber
@@ -67,10 +66,10 @@ const ContactInfoOnFile = ({
                       mobilePhoneNumber.phoneNumber
                     }`
               }
-              countryCode={
+              country-code={
                 isInternationalMobile ? mobilePhoneNumber.countryCode : null
               }
-              notClickable
+              not-clickable
             />
           )}
           <va-link

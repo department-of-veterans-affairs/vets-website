@@ -336,7 +336,6 @@ const EvidenceVaRecords = ({
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
           autocomplete="section-facility name"
-          uswds
         />
 
         <EvidenceIssueAndDates

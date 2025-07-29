@@ -48,7 +48,14 @@ const ProfileWrapper = ({
 }) => {
   const location = useLocation();
 
-  const routesForNav = getRoutesForNav();
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const paperlessDeliveryToggle = useToggleValue(
+    TOGGLE_NAMES.profileShowPaperlessDelivery,
+  );
+
+  const routesForNav = getRoutesForNav({
+    profileShowPaperlessDelivery: paperlessDeliveryToggle,
+  });
 
   const layout = useMemo(
     () => {
