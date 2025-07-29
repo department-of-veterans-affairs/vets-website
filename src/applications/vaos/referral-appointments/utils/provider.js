@@ -81,7 +81,6 @@ const createDraftAppointmentInfo = (
 ) => {
   const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
   const draftApppointmentInfo = createDefaultDraftAppointment();
-
   if (referralNumber === 'draft-no-slots-error') {
     return draftApppointmentInfo;
   }
