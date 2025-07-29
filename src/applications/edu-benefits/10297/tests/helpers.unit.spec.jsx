@@ -10,6 +10,7 @@ import {
   trainingProviderArrayOptions,
   getCardDescription,
   validateWithin180Days,
+  validateTrainingProviderStartDate,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
@@ -195,6 +196,27 @@ describe('10297 Helpers', () => {
     it('does nothing when no date string is provided', () => {
       const errors = { addError: sinon.spy() };
       validateWithin180Days(errors, undefined);
+      expect(errors.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateTrainingProviderStartDate()', () => {
+    it('does nothing (passes) when given a date after the program start date', () => {
+      const errors = { addError: sinon.spy() };
+      validateTrainingProviderStartDate(errors, '2025-01-03');
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('adds an error when given a date before the program start date', () => {
+      const errors = { addError: sinon.spy() };
+      validateTrainingProviderStartDate(errors, '2025-01-01');
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.match(/before/i);
+    });
+
+    it('does nothing when no date string is provided', () => {
+      const errors = { addError: sinon.spy() };
+      validateTrainingProviderStartDate(errors, undefined);
       expect(errors.addError.called).to.be.false;
     });
   });
