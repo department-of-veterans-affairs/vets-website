@@ -11,7 +11,7 @@ import {
 
 const allBranches = Object.keys(militaryBranchTypes);
 const allBranchComponentKeys = Object.values(militaryBranchComponentTypes);
-export const branchesWithComponents = allBranches.filter(
+const branchesWithComponents = allBranches.filter(
   branchKey => branchKey !== militaryBranchTypes.SPACE_FORCE,
 );
 
@@ -28,15 +28,6 @@ const branchComponentUrlNames = {
   MARINE_CORPS: 'marine-corps',
   NAVY: 'navy',
   SPACE_FORCE: 'space-force',
-};
-
-export const branchComponentPageNames = {
-  AIR_FORCE: 'airForce',
-  ARMY: 'army',
-  COAST_GUARD: 'coastGuard',
-  MARINE_CORPS: 'marineCorps',
-  NAVY: 'navy',
-  SPACE_FORCE: 'spaceForce',
 };
 
 const branchComponentsSchemaProps = branchKey => {
@@ -69,16 +60,14 @@ const getBranchComponentPage = (branchKey, environementCheck) => {
     path: `service/${branchComponentUrlNames[branchKey]}`,
     title: `${militaryBranchTypeLabels[branchKey]}`,
     uiSchema: {
-      [branchComponentPageNames[branchKey]]: {
+      [branchKey]: {
         ...branchComponentsUIProps(branchKey),
       },
     },
     schema: {
       type: 'object',
       properties: {
-        [branchComponentPageNames[branchKey]]: branchComponentsSchemaProps(
-          branchKey,
-        ),
+        [branchKey]: branchComponentsSchemaProps(branchKey),
       },
     },
     depends: formData =>
@@ -89,9 +78,10 @@ const getBranchComponentPage = (branchKey, environementCheck) => {
 export const getBranchComponentPages = environementCheck => {
   const branchComponentPages = {};
   branchesWithComponents.forEach(branchKey => {
-    branchComponentPages[
-      branchComponentPageNames[branchKey]
-    ] = getBranchComponentPage(branchKey, environementCheck);
+    branchComponentPages[branchKey] = getBranchComponentPage(
+      branchKey,
+      environementCheck,
+    );
   });
   return branchComponentPages;
 };

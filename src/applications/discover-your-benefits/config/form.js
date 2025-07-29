@@ -7,7 +7,10 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
-import { militaryBranchComponentTypes } from '../constants/benefits';
+import {
+  militaryBranchComponentTypes,
+  militaryBranchTypes,
+} from '../constants/benefits';
 
 import manifest from '../manifest.json';
 
@@ -20,7 +23,6 @@ import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
 import activeDuty from '../pages/activeDuty';
 import militaryBranch, {
-  branchComponentPageNames,
   getBranchComponentPages,
 } from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
@@ -116,7 +118,7 @@ export const formConfig = {
           depends: formData => {
             return (
               !environment.isProduction() &&
-              Object.values(branchComponentPageNames).some(pageName => {
+              Object.values(militaryBranchTypes).some(pageName => {
                 return (
                   formData[pageName]?.[
                     militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE

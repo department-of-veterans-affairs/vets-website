@@ -3,8 +3,8 @@ import {
   mappingTypes,
   anyType,
   blankType,
+  militaryBranchTypes,
 } from '../constants/benefits';
-import { branchComponentPageNames } from '../pages/militaryBranch';
 
 export const FETCH_RESULTS_STARTED = 'FETCH_RESULTS_STARTED';
 export const FETCH_RESULTS_SUCCESS = 'FETCH_RESULTS_SUCCESS';
@@ -23,7 +23,7 @@ const fetchResultsFailure = error => ({
 });
 
 export const checkBranchComponentResponse = (formData, mappingValue) => {
-  return Object.values(branchComponentPageNames).some(
+  return Object.values(militaryBranchTypes).some(
     pageName => formData[pageName]?.[mappingValue] === true,
   );
 };
