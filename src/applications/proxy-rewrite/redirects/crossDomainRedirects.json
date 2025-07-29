@@ -2115,5 +2115,65 @@
   "src": "/ROINDIANAPOLIS",
   "dest": "/indianapolis-va-regional-benefit-office/",
   "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/seattle",
+  "dest": "/seattle-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/roseattle",
+  "dest": "/seattle-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/sanjuan",
+  "dest": "/san-juan-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rosanjuan",
+  "dest": "/san-juan-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/louisville",
+  "dest": "/louisville-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rolouisville",
+  "dest": "/louisville-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/fargo",
+  "dest": "/fargo-va-regional-benefit-office-at-north-fargo-va-clinic/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rofargo",
+  "dest": "/fargo-va-regional-benefit-office-at-north-fargo-va-clinic/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/souixfalls",
+  "dest": "sioux-falls-va-regional-benefit-office-at-royal-c-johnson-veterans-memorial-hospital/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rosouixfalls",
+  "dest": "sioux-falls-va-regional-benefit-office-at-royal-c-johnson-veterans-memorial-hospital/",
+  "catchAll": true
 }
 ]
