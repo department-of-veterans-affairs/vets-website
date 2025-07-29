@@ -32,7 +32,7 @@ describe('PaperlessDelivery', () => {
   });
 
   it('should render alert when user has no email', async () => {
-    const { queryByText } = renderWithProfileReducersAndRouter(
+    const { getByText } = renderWithProfileReducersAndRouter(
       <PaperlessDelivery />,
       {
         initialState: {
@@ -54,6 +54,6 @@ describe('PaperlessDelivery', () => {
       },
     );
 
-    expect(queryByText(/Add your email to get delivery updates/)).to.exist;
+    expect(getByText(/Add your email to get delivery updates/));
   });
 });

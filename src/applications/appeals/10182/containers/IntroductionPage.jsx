@@ -57,7 +57,7 @@ const IntroductionPage = props => {
       <h2 className="vads-u-margin-top--2">
         Follow these steps to request a Board Appeal
       </h2>
-      <va-process-list uswds>
+      <va-process-list>
         <va-process-list-item header="Check to be sure you can request a Board Appeal">
           {filingDeadlineContent}
           <p>You can request a Board Appeal for these claim decisions:</p>
@@ -88,7 +88,7 @@ const IntroductionPage = props => {
             We’ll take you through each step of the process. It should take
             about 30 minutes.
           </p>
-          <va-additional-info trigger="What happens after you apply" uswds>
+          <va-additional-info trigger="What happens after you apply">
             <div>
               <p className="vads-u-margin-top--0">
                 After you submit your request for a Board Appeal, you’ll get a
