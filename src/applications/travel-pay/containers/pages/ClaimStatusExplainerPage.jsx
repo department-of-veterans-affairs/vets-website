@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Navigate } from 'react-router-dom-v5-compat';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { focusElement } from 'platform/utilities/ui';
 import { Element, scrollTo } from 'platform/utilities/scroll';
@@ -22,6 +23,9 @@ const ClaimStatusExplainerPage = () => {
 
   const toggleIsLoading = useToggleLoadingValue();
   const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
+  const claimsMgmtToggle = useToggleValue(
+    TOGGLE_NAMES.travelPayClaimsManagement,
+  );
 
   if (toggleIsLoading) {
     return (
@@ -36,8 +40,13 @@ const ClaimStatusExplainerPage = () => {
   }
 
   if (!appEnabled) {
-    window.location.replace('/');
-    return null;
+    return <Navigate replace to="/" />;
+  }
+
+  // TODO: Once claimsMgmtToggle is on permanently, this page can be
+  // removed along wth its route definition
+  if (claimsMgmtToggle) {
+    return <Navigate replace to="/claims/" />;
   }
 
   return (
