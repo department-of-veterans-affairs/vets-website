@@ -262,6 +262,35 @@ export class ConfirmationPage extends React.Component {
     focusElement('#filter-text');
   }
 
+  titeParagraph = () => {
+    return (
+      <>
+        {window.history.length > 2 ? (
+          <>
+            <p>
+              Based on your answers, we've suggested some benefits for you to
+              explore. If you need to, you can&nbsp;
+              <va-link
+                data-testid="back-link"
+                href="#"
+                onClick={this.handleBackClick}
+                text="go back and review your entries"
+              />
+              . Remember to check your eligibility before you apply.
+            </p>
+          </>
+        ) : (
+          <>
+            <p>
+              Based on your answers, we've suggested some benefits for you to
+              explore. Remember to check your eligibility before you apply.
+            </p>
+          </>
+        )}
+      </>
+    );
+  };
+
   render() {
     return (
       <div>
@@ -284,13 +313,7 @@ export class ConfirmationPage extends React.Component {
                 </p>
               </>
             ) : (
-              <>
-                <p>
-                  Based on your answers, we’ve suggested some benefits for you
-                  to explore. Remember to check your eligibility before you
-                  apply.
-                </p>
-              </>
+              this.titeParagraph()
             )}
           </div>
         </article>
@@ -431,20 +454,6 @@ export class ConfirmationPage extends React.Component {
               {this.state.filterText && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}
-              {!this.props.location.query.allBenefits &&
-                window.history.length > 2 && (
-                  <>
-                    <p>
-                      <va-link
-                        data-testid="back-link"
-                        href="#"
-                        onClick={this.handleBackClick}
-                        text="Go back and review your entries"
-                      />
-                    </p>
-                  </>
-                )}
-
               <Benfits
                 results={this.props.results}
                 benefits={this.state.benefits}
