@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -14,6 +14,8 @@ export default function App({ location, children }) {
   const externalServicesLoading = useSelector(
     state => state?.externalServiceStatus?.loading,
   );
+  const [isValidatingUrl, setIsValidatingUrl] = useState(true);
+
   const hasSession = JSON.parse(localStorage.getItem('hasSession'));
 
   const isIntroPage = location?.pathname?.endsWith('/introduction');
@@ -48,6 +50,8 @@ export default function App({ location, children }) {
   useEffect(() => {
     if (!isIntroPage) {
       window.location.replace(`${manifest.rootUrl}/introduction`);
+    } else {
+      setIsValidatingUrl(false);
     }
   }, []);
 
@@ -55,9 +59,7 @@ export default function App({ location, children }) {
 
   if (!featureToggle) {
     content = <NoFormPage />;
-  } else if (externalServicesLoading) {
-    content = <va-loading-indicator message="Loading your information..." />;
-  } else if (!hasSession && !isIntroPage) {
+  } else if (externalServicesLoading || !hasSession || isValidatingUrl) {
     content = <va-loading-indicator message="Loading your information..." />;
   } else {
     content = (
