@@ -25,13 +25,15 @@ export function NewAddressSection({ success }) {
         <VAPServicePendingTransactionCategory
           categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
         >
-          <h2>Mailing Address</h2>
+          <h2>Mailing address</h2>
           <p>
             This mailing address will be listed on your benefit letters and
             documentation. You can edit this address.
-            <br />
+          </p>
+          <p>
             If you edit the address here, it will also update the address in
             your VA.gov profile and across several VA benefits and services.{' '}
+            <br />
             <a
               href="https://www.va.gov/change-address/"
               target="_blank"
