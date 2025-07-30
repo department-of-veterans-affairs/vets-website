@@ -55,61 +55,63 @@ describe('Dispute Debt PDF template', () => {
 
   describe('Validation function', () => {
     let validData;
+    let validate;
 
     beforeEach(() => {
       validData = require('./fixture.json');
+      validate = template.validate;
     });
 
-    it('should pass validation with complete valid data', async () => {
-      await expect(template.generate(validData)).to.not.be.rejected;
+    it('should pass validation with complete valid data', () => {
+      expect(() => validate(validData)).to.not.throw();
     });
 
-    it('should throw MissingFieldsException when top-level data fields are missing', async () => {
+    it('should throw MissingFieldsException when top-level data fields are missing', () => {
       const invalidData = {};
 
-      await expect(template.generate(invalidData)).to.be.rejectedWith(
+      expect(() => validate(invalidData)).to.throw(
         MissingFieldsException,
         'The following fields are required: data.selectedDebts, data.submissionDetails, data.veteran',
       );
     });
 
-    it('should throw MissingFieldsException when selectedDebts is missing', async () => {
+    it('should throw MissingFieldsException when selectedDebts is missing', () => {
       const invalidData = {
         ...validData,
         selectedDebts: undefined,
       };
 
-      await expect(template.generate(invalidData)).to.be.rejectedWith(
+      expect(() => validate(invalidData)).to.throw(
         MissingFieldsException,
         'data.selectedDebts',
       );
     });
 
-    it('should throw MissingFieldsException when selectedDebts is empty array', async () => {
+    it('should throw MissingFieldsException when selectedDebts is empty array', () => {
       const invalidData = {
         ...validData,
         selectedDebts: [],
       };
 
-      await expect(template.generate(invalidData)).to.be.rejectedWith(
+      expect(() => validate(invalidData)).to.throw(
         MissingFieldsException,
         'selectedDebts (must be a non-empty array)',
       );
     });
 
-    it('should throw MissingFieldsException when submissionDetails.submissionDateTime is missing', async () => {
+    it('should throw MissingFieldsException when submissionDetails.submissionDateTime is missing', () => {
       const invalidData = {
         ...validData,
         submissionDetails: {},
       };
 
-      await expect(template.generate(invalidData)).to.be.rejectedWith(
+      expect(() => validate(invalidData)).to.throw(
         MissingFieldsException,
         'submissionDetails.submissionDateTime',
       );
     });
 
-    it('should throw MissingFieldsException when veteran required fields are missing', async () => {
+    it('should throw MissingFieldsException when veteran required fields are missing', () => {
       const invalidData = {
         ...validData,
         veteran: {
@@ -119,13 +121,13 @@ describe('Dispute Debt PDF template', () => {
         },
       };
 
-      await expect(template.generate(invalidData)).to.be.rejectedWith(
+      expect(() => validate(invalidData)).to.throw(
         MissingFieldsException,
         /veteran\.dob.*veteran\.ssnLastFour.*veteran\.email/,
       );
     });
 
-    it('should throw MissingFieldsException when veteranFullName fields are missing', async () => {
+    it('should throw MissingFieldsException when veteranFullName fields are missing', () => {
       const invalidData = {
         ...validData,
         veteran: {
@@ -137,13 +139,13 @@ describe('Dispute Debt PDF template', () => {
         },
       };
 
-      await expect(template.generate(invalidData)).to.be.rejectedWith(
+      expect(() => validate(invalidData)).to.throw(
         MissingFieldsException,
         /veteran\.veteranFullName\.first.*veteran\.veteranFullName\.last/,
       );
     });
 
-    it('should throw MissingFieldsException when mailingAddress fields are missing', async () => {
+    it('should throw MissingFieldsException when mailingAddress fields are missing', () => {
       const invalidData = {
         ...validData,
         veteran: {
@@ -155,13 +157,13 @@ describe('Dispute Debt PDF template', () => {
         },
       };
 
-      await expect(template.generate(invalidData)).to.be.rejectedWith(
+      expect(() => validate(invalidData)).to.throw(
         MissingFieldsException,
         /veteran\.mailingAddress\.addressLine1.*veteran\.mailingAddress\.city.*veteran\.mailingAddress\.countryName.*veteran\.mailingAddress\.zipCode.*veteran\.mailingAddress\.stateCode/,
       );
     });
 
-    it('should throw MissingFieldsException when mobilePhone fields are missing', async () => {
+    it('should throw MissingFieldsException when mobilePhone fields are missing', () => {
       const invalidData = {
         ...validData,
         veteran: {
@@ -172,13 +174,13 @@ describe('Dispute Debt PDF template', () => {
         },
       };
 
-      await expect(template.generate(invalidData)).to.be.rejectedWith(
+      expect(() => validate(invalidData)).to.throw(
         MissingFieldsException,
         /veteran\.mobilePhone\.phoneNumber.*veteran\.mobilePhone\.countryCode.*veteran\.mobilePhone\.areaCode/,
       );
     });
 
-    it('should throw MissingFieldsException when debt fields are missing', async () => {
+    it('should throw MissingFieldsException when debt fields are missing', () => {
       const invalidData = {
         ...validData,
         selectedDebts: [
@@ -193,13 +195,13 @@ describe('Dispute Debt PDF template', () => {
         ],
       };
 
-      await expect(template.generate(invalidData)).to.be.rejectedWith(
+      expect(() => validate(invalidData)).to.throw(
         MissingFieldsException,
         /selectedDebts\[0\]\.label.*selectedDebts\[0\]\.disputeReason.*selectedDebts\[0\]\.supportStatement/,
       );
     });
 
-    it('should handle multiple missing fields correctly', async () => {
+    it('should handle multiple missing fields correctly', () => {
       const invalidData = {
         selectedDebts: [
           {
@@ -215,16 +217,51 @@ describe('Dispute Debt PDF template', () => {
       };
 
       try {
-        await template.generate(invalidData);
+        validate(invalidData);
         expect.fail('Should have thrown MissingFieldsException');
       } catch (error) {
         expect(error).to.be.instanceOf(MissingFieldsException);
+        // Check that field paths are properly constructed
         expect(error.message).to.include(
           'submissionDetails.submissionDateTime',
         );
         expect(error.message).to.include('veteran.dob');
+        expect(error.message).to.include('veteran.veteranFullName');
+        expect(error.message).to.include('veteran.mailingAddress');
+        expect(error.message).to.include('veteran.mobilePhone');
         expect(error.message).to.include('selectedDebts[0].label');
       }
+    });
+
+    it('should handle multiple debts validation correctly', () => {
+      const invalidData = {
+        ...validData,
+        selectedDebts: [
+          {
+            label: 'Valid debt 1',
+            disputeReason: 'Valid reason 1',
+            supportStatement: 'Valid statement 1',
+          },
+          {
+            // missing all required fields
+            deductionCode: '41',
+          },
+          {
+            label: 'Valid debt 3',
+            // missing disputeReason and supportStatement
+          },
+        ],
+      };
+
+      expect(() => validate(invalidData)).to.throw(
+        MissingFieldsException,
+        /selectedDebts\[1\]\.label.*selectedDebts\[1\]\.disputeReason.*selectedDebts\[1\]\.supportStatement.*selectedDebts\[2\]\.disputeReason.*selectedDebts\[2\]\.supportStatement/,
+      );
+    });
+
+    it('should validate exports are available', () => {
+      expect(template.generate).to.be.a('function');
+      expect(template.validate).to.be.a('function');
     });
   });
 
