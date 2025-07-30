@@ -71,10 +71,13 @@ export default function CCRequest() {
     [focusTrigger],
   );
 
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+    },
+    [pageTitle],
+  );
 
   const { selectedDates } = data;
 

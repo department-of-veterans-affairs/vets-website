@@ -6,17 +6,12 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {
-  addDays,
   addMonths,
-  endOfMonth,
   format,
-  getDaysInMonth,
-  isAfter,
   isSameDay,
   parseISO,
   startOfDay,
   startOfMonth,
-  subMonths,
 } from 'date-fns';
 import { CalendarContext } from './CalendarContext';
 import CalendarNavigation from './CalendarNavigation';
@@ -271,6 +266,7 @@ function CalendarWidget({
 
 CalendarWidget.propTypes = {
   id: PropTypes.string.isRequired,
+  alertTrigger: PropTypes.number,
   appointmentSelectionErrorMsg: PropTypes.string,
   availableSlots: PropTypes.arrayOf(
     PropTypes.shape({
@@ -292,6 +288,7 @@ CalendarWidget.propTypes = {
   renderSelectedLabel: PropTypes.func,
   required: PropTypes.bool,
   requiredMessage: PropTypes.string,
+  setAlertTrigger: PropTypes.func,
   showValidation: PropTypes.bool,
   showWeekends: PropTypes.bool,
   startMonth: PropTypes.instanceOf(Date),

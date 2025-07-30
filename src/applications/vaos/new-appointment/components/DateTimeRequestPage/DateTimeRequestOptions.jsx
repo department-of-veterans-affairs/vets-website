@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import { parseISO, format } from 'date-fns';
 
 /*
@@ -110,3 +111,13 @@ export default function DateTimeRequestOptions({
     </div>
   );
 }
+
+DateTimeRequestOptions.propTypes = {
+  id: PropTypes.string.isRequired,
+  currentlySelectedDate: PropTypes.string,
+  hasError: PropTypes.bool,
+  rowSize: PropTypes.number,
+  selectedCellIndex: PropTypes.number,
+  selectedDates: PropTypes.array,
+  onChange: PropTypes.func,
+};
