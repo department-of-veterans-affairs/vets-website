@@ -12,12 +12,16 @@ export const SET_CLAIMS_UNAVAILABLE = 'SET_CLAIMS_UNAVAILABLE';
 
 // File uploads
 export const RESET_UPLOADS = 'RESET_UPLOADS';
+export const ADD_FILE = 'ADD_FILE';
+export const REMOVE_FILE = 'REMOVE_FILE';
 export const SET_UPLOADING = 'SET_UPLOADING';
 export const SET_UPLOADER = 'SET_UPLOADER';
 export const DONE_UPLOADING = 'DONE_UPLOADING';
 export const SET_PROGRESS = 'SET_PROGRESS';
 export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
 export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
+export const UPDATE_FIELD = 'UPDATE_FIELD';
+export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
 export const SET_UNAUTHORIZED = 'SET_UNAUTHORIZED';
 
 // Notifications

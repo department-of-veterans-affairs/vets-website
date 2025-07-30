@@ -109,6 +109,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
             onPageSelect={e => onPageChange(e.detail.page)}
             page={currentPage}
             pages={totalPages.current}
+            maxPageListLength={ITEMS_PER_PAGE}
           />
         )}
       </>

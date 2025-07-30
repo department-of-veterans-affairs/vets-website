@@ -28,8 +28,15 @@ const fiveMonthsFromNowSuspenseDate = format(fiveMonthsFromNow, 'yyyy-MM-dd');
 
 describe('<DefaultPage>', () => {
   const defaultProps = {
+    field: { value: '', dirty: false },
+    files: [],
+    onAddFile: () => {},
     onCancel: () => {},
+    onDirtyFields: () => {},
+    onFieldChange: () => {},
+    onRemoveFile: () => {},
     onSubmit: () => {},
+    backUrl: '',
     progress: 0,
     uploading: false,
   };
@@ -43,7 +50,7 @@ describe('<DefaultPage>', () => {
     }));
 
   context('when cstFriendlyEvidenceRequests is true', () => {
-    it('should render updated UI', () => {
+    it('should redner updated UI', () => {
       const item = {
         closedDate: null,
         canUploadFile: true,
@@ -81,10 +88,10 @@ describe('<DefaultPage>', () => {
       expect($('.optional-upload', container)).to.not.exist;
       getByText(scrubDescription(item.description));
       expect($('va-additional-info', container)).to.exist;
-      expect($('va-file-input-multiple', container)).to.exist;
+      expect($('va-file-input', container)).to.exist;
     });
 
-    it('should render update 21-4142 information', () => {
+    it('should redner update 21-4142 information', () => {
       const item = {
         closedDate: null,
         description: '21-4142 text',
@@ -118,7 +125,7 @@ describe('<DefaultPage>', () => {
       expect($('va-link', container)).to.exist;
       expect($('.optional-upload', container)).to.not.exist;
       expect($('va-additional-info', container)).to.exist;
-      expect($('va-file-input-multiple', container)).to.exist;
+      expect($('va-file-input', container)).to.exist;
     });
     it('should render updated default UI  when status is NEEDED_FROM_OTHERS', () => {
       const item = {
@@ -158,7 +165,7 @@ describe('<DefaultPage>', () => {
       getByText(scrubDescription(item.description));
       getByText('What we’re notifying you about');
       expect($('va-additional-info', container)).to.exist;
-      expect($('va-file-input-multiple', container)).to.exist;
+      expect($('va-file-input', container)).to.exist;
     });
     it('should render updated RV1 reserve records content', () => {
       const item = {
@@ -272,6 +279,33 @@ describe('<DefaultPage>', () => {
         'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
       );
     });
+    it('should display pass due explanation text when suspense date is in the future', () => {
+      const item = {
+        closedDate: null,
+        description: 'Buddy statement text',
+        displayName: 'Submit buddy statement(s)',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: fiveMonthsFromNowSuspenseDate,
+        uploadsAllowed: true,
+        canUploadFile: true,
+        documents: [],
+        date: '2024-03-07',
+      };
+      const { getByText, container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      expect($('#default-page', container)).to.exist;
+      expect($('.add-files-form', container)).to.exist;
+      getByText(
+        'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
+      );
+    });
   });
 
   it('should render component when status is NEEDED_FROM_YOU', () => {
@@ -311,7 +345,7 @@ describe('<DefaultPage>', () => {
     getByText('Submit buddy statement(s)');
     getByText(scrubDescription(item.description));
     expect($('va-additional-info', container)).to.exist;
-    expect($('va-file-input-multiple', container)).to.exist;
+    expect($('va-file-input', container)).to.exist;
   });
 
   it('should render component when status is NEEDED_FROM_OTHERS', () => {
@@ -344,6 +378,6 @@ describe('<DefaultPage>', () => {
     getByText('Submit buddy statement(s)');
     getByText(scrubDescription(item.description));
     expect($('va-additional-info', container)).to.exist;
-    expect($('va-file-input-multiple', container)).to.exist;
+    expect($('va-file-input', container)).to.exist;
   });
 });

@@ -3,34 +3,83 @@ import { expect } from 'chai';
 import uploads from '../../reducers/uploads';
 import {
   RESET_UPLOADS,
+  ADD_FILE,
+  REMOVE_FILE,
   SET_UPLOADING,
   SET_UPLOADER,
   SET_PROGRESS,
   DONE_UPLOADING,
   SET_UPLOAD_ERROR,
+  UPDATE_FIELD,
   CANCEL_UPLOAD,
+  SET_FIELDS_DIRTY,
 } from '../../actions/types';
 
 describe('Uploads reducer', () => {
   it('should reset uploads state', () => {
     const state = uploads(
       {
-        uploading: true,
-        progress: 0.5,
-        uploadComplete: true,
-        uploadError: true,
-        uploader: { id: 'test' },
+        things: null,
       },
       {
         type: RESET_UPLOADS,
       },
     );
 
-    expect(state.uploading).to.be.false;
-    expect(state.progress).to.equal(0);
-    expect(state.uploadComplete).to.be.false;
-    expect(state.uploadError).to.be.false;
-    expect(state.uploader).to.be.null;
+    expect(state.things).to.be.undefined;
+    expect(state.files).to.be.empty;
+  });
+
+  it('should add a file', () => {
+    const state = uploads(
+      {
+        files: [],
+      },
+      {
+        type: ADD_FILE,
+        files: [{ name: 'test' }],
+      },
+    );
+
+    expect(state.files.length).to.equal(1);
+    const file = state.files[0];
+    expect(file.file.name).to.equal('test');
+    expect(file.password.value).to.equal('');
+    expect(file.isEncrypted).to.be.undefined;
+  });
+
+  it('should add a file that needs a password', () => {
+    const state = uploads(
+      {
+        files: [],
+      },
+      {
+        type: ADD_FILE,
+        files: [{ name: 'test' }],
+        isEncrypted: true,
+      },
+    );
+
+    expect(state.files.length).to.equal(1);
+    const file = state.files[0];
+    expect(file.file.name).to.equal('test');
+    expect(file.password.value).to.equal('');
+    expect(file.isEncrypted).to.be.true;
+  });
+
+  it('remove a file', () => {
+    const state = uploads(
+      {
+        files: [{ name: 'test1' }, { name: 'test2' }],
+      },
+      {
+        type: REMOVE_FILE,
+        index: 1,
+      },
+    );
+
+    expect(state.files).not.to.be.empty;
+    expect(state.files[0].name).to.equal('test1');
   });
 
   it('set state as uploading', () => {
@@ -101,6 +150,22 @@ describe('Uploads reducer', () => {
     expect(state.uploader).to.be.null;
   });
 
+  it('update form field', () => {
+    const state = uploads(
+      {},
+      {
+        type: UPDATE_FIELD,
+        path: 'uploadField',
+        field: {
+          value: 'test',
+          dirty: true,
+        },
+      },
+    );
+
+    expect(state.uploadField.value).to.equal('test');
+  });
+
   it('cancel upload', () => {
     const state = uploads(
       {},
@@ -113,10 +178,19 @@ describe('Uploads reducer', () => {
     expect(state.uploader).to.be.null;
   });
 
-  it('should return unchanged state for unknown action', () => {
-    const initialState = { progress: 0.25, uploading: true };
-    const state = uploads(initialState, { type: 'UNKNOWN_ACTION' });
+  it('dirty fields', () => {
+    const state = uploads(
+      {
+        uploadField: {
+          value: 'test',
+          dirty: false,
+        },
+      },
+      {
+        type: SET_FIELDS_DIRTY,
+      },
+    );
 
-    expect(state).to.equal(initialState);
+    expect(state.uploadField.dirty).to.be.true;
   });
 });

@@ -17,6 +17,7 @@ import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
 import { canUseMocks } from '../constants';
 import {
+  ADD_FILE,
   BACKEND_SERVICE_ERROR,
   CANCEL_UPLOAD,
   CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
@@ -34,12 +35,14 @@ import {
   FETCH_STEM_CLAIMS_SUCCESS,
   GET_CLAIM_DETAIL,
   RECORD_NOT_FOUND_ERROR,
+  REMOVE_FILE,
   RESET_UPLOADS,
   SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
   SET_DECISION_REQUEST_ERROR,
   SET_DECISION_REQUESTED,
+  SET_FIELDS_DIRTY,
   SET_LAST_PAGE,
   SET_NOTIFICATION,
   SET_PROGRESS,
@@ -48,6 +51,7 @@ import {
   SET_UPLOADER,
   SET_UPLOADING,
   SUBMIT_DECISION_REQUEST,
+  UPDATE_FIELD,
   USER_FORBIDDEN_ERROR,
   VALIDATION_ERROR,
 } from './types';
@@ -268,6 +272,21 @@ export function resetUploads() {
   };
 }
 
+export function addFile(files, { isEncrypted = false } = {}) {
+  return {
+    type: ADD_FILE,
+    files,
+    isEncrypted,
+  };
+}
+
+export function removeFile(index) {
+  return {
+    type: REMOVE_FILE,
+    index,
+  };
+}
+
 function calcProgress(totalFiles, totalSize, filesComplete, bytesComplete) {
   const ratio = 0.8;
 
@@ -481,6 +500,14 @@ export function getStemClaims() {
   };
 }
 
+export function updateField(path, field) {
+  return {
+    type: UPDATE_FIELD,
+    path,
+    field,
+  };
+}
+
 export function cancelUpload() {
   return (dispatch, getState) => {
     const { uploader } = getState().disability.status.uploads;
@@ -495,6 +522,12 @@ export function cancelUpload() {
     dispatch({
       type: CANCEL_UPLOAD,
     });
+  };
+}
+
+export function setFieldsDirty() {
+  return {
+    type: SET_FIELDS_DIRTY,
   };
 }
 

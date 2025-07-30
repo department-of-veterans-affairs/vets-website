@@ -61,11 +61,8 @@ describe('Appeals page test', () => {
     cy.get('h2').should('contain', 'Issues');
 
     // first accordion auto-expanded
-    cy.get('va-accordion-item[open]:not([open="false"])').should('be.visible');
-    cy.get('va-accordion-item[open]:not([open="false"]) li').should(
-      'have.length',
-      3,
-    );
+    cy.get('va-accordion-item[open="true"]').should('be.visible');
+    cy.get('va-accordion-item[open="true"] li').should('have.length', 3);
     cy.injectAxeThenAxeCheck();
 
     // expand second accordion
@@ -74,11 +71,8 @@ describe('Appeals page test', () => {
       .then(accordion => {
         cy.wrap(accordion.find('button')).click({ force: true });
       });
-    cy.get('va-accordion-item[open]:not([open="false"])').should('be.visible');
-    cy.get('va-accordion-item[open]:not([open="false"]) li').should(
-      'have.length',
-      4,
-    );
+    cy.get('va-accordion-item[open="true"]').should('be.visible');
+    cy.get('va-accordion-item[open="true"] li').should('have.length', 4);
     cy.axeCheck();
   });
 

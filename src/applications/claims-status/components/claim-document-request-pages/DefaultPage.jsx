@@ -12,9 +12,16 @@ import DueDate from '../DueDate';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function DefaultPage({
+  field,
+  files,
   item,
+  onAddFile,
   onCancel,
+  onDirtyFields,
+  onFieldChange,
+  onRemoveFile,
   onSubmit,
+  backUrl,
   progress,
   uploading,
 }) {
@@ -191,10 +198,17 @@ export default function DefaultPage({
             )}
           {item.canUploadFile && (
             <AddFilesForm
+              field={field}
               progress={progress}
               uploading={uploading}
+              files={files}
+              backUrl={backUrl}
+              onSubmit={onSubmit}
+              onAddFile={onAddFile}
+              onRemoveFile={onRemoveFile}
+              onFieldChange={onFieldChange}
               onCancel={onCancel}
-              onSubmit={files => onSubmit(files)}
+              onDirtyFields={onDirtyFields}
             />
           )}
         </div>
@@ -215,10 +229,17 @@ export default function DefaultPage({
           ) : null}
           <p>{scrubDescription(item.description)}</p>
           <AddFilesForm
+            field={field}
             progress={progress}
             uploading={uploading}
+            files={files}
+            backUrl={backUrl}
+            onSubmit={onSubmit}
+            onAddFile={onAddFile}
+            onRemoveFile={onRemoveFile}
+            onFieldChange={onFieldChange}
             onCancel={onCancel}
-            onSubmit={files => onSubmit(files)}
+            onDirtyFields={onDirtyFields}
           />
         </div>
       </Toggler.Disabled>
@@ -227,9 +248,16 @@ export default function DefaultPage({
 }
 
 DefaultPage.propTypes = {
+  field: PropTypes.object.isRequired,
+  files: PropTypes.array.isRequired,
   item: PropTypes.object.isRequired,
+  onAddFile: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  onDirtyFields: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func.isRequired,
+  onRemoveFile: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  backUrl: PropTypes.string,
   progress: PropTypes.number,
   uploading: PropTypes.bool,
 };

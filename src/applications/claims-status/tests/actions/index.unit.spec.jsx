@@ -10,6 +10,7 @@ import {
 import * as constants from '../../constants';
 
 import {
+  addFile,
   cancelUpload,
   clearAdditionalEvidenceNotification,
   clearClaim,
@@ -18,14 +19,18 @@ import {
   getClaim,
   getClaimLetters,
   getStemClaims,
+  removeFile,
   resetUploads,
   setAdditionalEvidenceNotification,
+  setFieldsDirty,
   setLastPage,
   setNotification,
+  updateField,
   submit5103,
 } from '../../actions';
 
 import {
+  ADD_FILE,
   CANCEL_UPLOAD,
   CLEAR_CLAIM_DETAIL,
   CLEAR_NOTIFICATION,
@@ -33,13 +38,16 @@ import {
   GET_CLAIM_DETAIL,
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
+  REMOVE_FILE,
   RESET_UPLOADS,
   SET_DECISION_REQUEST_ERROR,
   SET_DECISION_REQUESTED,
+  SET_FIELDS_DIRTY,
   SET_LAST_PAGE,
   SET_NOTIFICATION,
   SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
   SUBMIT_DECISION_REQUEST,
+  UPDATE_FIELD,
   FETCH_CLAIMS_PENDING,
   FETCH_CLAIMS_ERROR,
   FETCH_STEM_CLAIMS_ERROR,
@@ -347,6 +355,38 @@ describe('Actions', () => {
       });
     });
   });
+  describe('addFile', () => {
+    it('should return the correct action object', () => {
+      const action = addFile('Testing');
+
+      expect(action).to.eql({
+        type: ADD_FILE,
+        files: 'Testing',
+        isEncrypted: false,
+      });
+    });
+  });
+  describe('addFile with encrypted flag', () => {
+    it('should return the correct action object', () => {
+      const action = addFile('Testing', { isEncrypted: true });
+
+      expect(action).to.eql({
+        type: ADD_FILE,
+        files: 'Testing',
+        isEncrypted: true,
+      });
+    });
+  });
+  describe('removeFile', () => {
+    it('should return the correct action object', () => {
+      const action = removeFile(1);
+
+      expect(action).to.eql({
+        type: REMOVE_FILE,
+        index: 1,
+      });
+    });
+  });
   describe('clearNotification', () => {
     it('should return the correct action object', () => {
       const action = clearNotification();
@@ -362,6 +402,26 @@ describe('Actions', () => {
 
       expect(action).to.eql({
         type: CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
+      });
+    });
+  });
+  describe('updateField', () => {
+    it('should return the correct action object', () => {
+      const action = updateField('path', 'field');
+
+      expect(action).to.eql({
+        type: UPDATE_FIELD,
+        path: 'path',
+        field: 'field',
+      });
+    });
+  });
+  describe('setFieldsDirty', () => {
+    it('should return the correct action object', () => {
+      const action = setFieldsDirty();
+
+      expect(action).to.eql({
+        type: SET_FIELDS_DIRTY,
       });
     });
   });
