@@ -250,9 +250,9 @@ export const profileAddressSchema = {
 /**
  * @typedef phoneObject
  * @type {Object}
- * @property {String} countryCode - country code (1 digit, usually)
- * @property {String} areaCode - area code (3 digits)
- * @property {String} phoneNumber - phone number (7 digits)
+ * @property {String} countryCode - country code (1-3 digits)
+ * @property {String} areaCode - area code (3 digits for domestic, null for international)
+ * @property {String} phoneNumber - phone number (7 digits for domestic, up to 14 for international)
  * @property {String} phoneNumberExt - extension
  * @returns
  */
@@ -274,6 +274,9 @@ export const renderTelephone = (phoneObject = {}) => {
   return phoneString ? (
     <va-telephone
       contact={phoneString}
+      country-code={
+        phoneObject?.isInternational ? phoneObject?.countryCode : null
+      }
       extension={phoneObject?.extension}
       not-clickable
     />
