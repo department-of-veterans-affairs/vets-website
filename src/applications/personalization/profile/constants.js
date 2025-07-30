@@ -142,6 +142,7 @@ export const NOTIFICATION_GROUPS = Object.freeze({
   YOUR_HEALTH_CARE: 'group3',
   PAYMENTS: 'group4',
   QUICK_SUBMIT: 'group5',
+  PAPERLESS_DELIVERY: 'group6',
 });
 
 export const NOTIFICATION_ITEM_IDS = Object.freeze({
