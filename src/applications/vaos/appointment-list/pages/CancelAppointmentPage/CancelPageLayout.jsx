@@ -113,11 +113,11 @@ export default function CancelPageLayout() {
               </>
             )}
           {!!facility && (
-            <>
+            <span data-dd-privacy="mask">
               {facility.name}
               <br />
               <Address address={facility?.address} />
-            </>
+            </span>
           )}
           {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
           <br />
