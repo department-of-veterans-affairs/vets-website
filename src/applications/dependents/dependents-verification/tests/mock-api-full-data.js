@@ -12,7 +12,7 @@ const mockMaxData = require('./e2e/fixtures/data/maximal-test.json');
 const mockDependents = require('../../shared/tests/fixtures/mocks/mock-dependents.json');
 const mockVaFileNumber = require('../../686c-674/tests/e2e/fixtures/va-file-number.json');
 
-const returnUrl = '/review-and-submit';
+const returnUrl = '/dependents';
 
 const submission = {
   data: {
@@ -34,7 +34,7 @@ const submission = {
 };
 
 const mockSipGet = {
-  formData: mockMaxData.data,
+  formData: mockMaxData,
   metadata: {
     version: 1,
     prefill: true,

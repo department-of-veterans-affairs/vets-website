@@ -20,11 +20,7 @@ export const UploadDescription = () => {
         from your device. But you may need to scan your document first, then
         save each file as a PDF before you can upload it.
       </p>
-      <va-additional-info
-        trigger="Document upload instructions"
-        disable-border
-        uswds
-      >
+      <va-additional-info trigger="Document upload instructions" disable-border>
         <div>
           <p className="vads-u-margin-top--0">You can do this one of 2 ways:</p>
           <p>

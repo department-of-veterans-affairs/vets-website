@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -7,17 +8,23 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 
 import {
-  nameAndDateOfBirth,
+  applicantFullname,
+  phoneAndEmail,
   identificationInformation,
   employmentStatus,
   employmentDetails,
   employmentFocus,
   salaryDetails,
   educationDetails,
+  trainingProviderSummary,
+  trainingProviderDetails,
 } from '../pages';
+
+import { trainingProviderArrayOptions } from '../helpers';
 
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
+import createDirectDepositPage from '../pages/DirectDeposit';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -52,20 +59,21 @@ const formConfig = {
     required: true,
   },
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
-      pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
-      },
-    },
     identificationChapter: {
       title: 'Veteran’s information',
       pages: {
+        applicantFullName: {
+          path: 'applicant-fullname',
+          title: 'Enter your full name',
+          uiSchema: applicantFullname.uiSchema,
+          schema: applicantFullname.schema,
+        },
+        phoneAndEmail: {
+          path: 'phone-and-email',
+          title: 'Phone and email address',
+          uiSchema: phoneAndEmail.uiSchema,
+          schema: phoneAndEmail.schema,
+        },
         identificationInformation: {
           path: 'identification-information',
           title: 'Identification information',
@@ -84,6 +92,26 @@ const formConfig = {
           uiSchema: activeDutyStatus.uiSchema,
           schema: activeDutyStatus.schema,
         },
+        directDeposit: createDirectDepositPage(),
+      },
+    },
+    trainingProviderChapter: {
+      title: 'Training provider details',
+      pages: {
+        ...arrayBuilderPages(trainingProviderArrayOptions, pageBuilder => ({
+          trainingProviderSummary: pageBuilder.summaryPage({
+            title: 'Tell us about your training provider',
+            path: 'training-provider',
+            uiSchema: trainingProviderSummary.uiSchema,
+            schema: trainingProviderSummary.schema,
+          }),
+          trainingProviderDetails: pageBuilder.itemPage({
+            title: 'Training provider name and mailing address',
+            path: 'training-provider/:index/details',
+            uiSchema: trainingProviderDetails.uiSchema,
+            schema: trainingProviderDetails.schema,
+          }),
+        })),
       },
     },
     backgroundInformationChapter: {

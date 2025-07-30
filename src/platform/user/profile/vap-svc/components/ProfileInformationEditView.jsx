@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
+import IntlMobileConfirmModal from '@@vap-svc/components/ContactInformationFieldInfo/IntlMobileConfirmModal';
 import { ContactInfoFormAppConfigContext } from './ContactInfoFormAppConfigContext';
 import {
   createTransaction,
@@ -15,6 +17,7 @@ import {
   openModal,
   updateFormFieldWithSchema,
   validateAddress,
+  openIntlMobileConfirmModal,
 } from '../actions';
 
 import {
@@ -230,13 +233,33 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
-    this.props.createTransaction(
-      apiRoute,
-      method,
-      fieldName,
-      payload,
-      analyticsSectionName,
-    );
+    const createTransactionFn = () => {
+      this.props.createTransaction(
+        apiRoute,
+        method,
+        fieldName,
+        payload,
+        analyticsSectionName,
+      );
+    };
+
+    // Show a confirmation modal before saving internation mobile numbers
+    // Relay the transaction to the confirmation modal
+    // `countryCode == 1` is marked as international, skip that case
+    if (
+      fieldName === 'mobilePhone' &&
+      payload.isInternational &&
+      String(payload.countryCode) !== USA.COUNTRY_CODE
+    ) {
+      this.props.openIntlMobileConfirmModal(
+        payload.countryCode,
+        payload.phoneNumber,
+        createTransactionFn,
+      );
+      return;
+    }
+
+    createTransactionFn();
   };
 
   onInput = (value, schema, uiSchema) => {
@@ -336,6 +359,7 @@ export class ProfileInformationEditView extends Component {
         transactionRequest,
         cancelButtonText,
         saveButtonText,
+        intlMobileConfirmModalEnabled,
       },
       onClickUpdateHandler,
     } = this;
@@ -408,6 +432,24 @@ export class ProfileInformationEditView extends Component {
                   <VAPServiceEditModalErrorMessage error={error} />
                 </div>
               )}
+              {fieldName === FIELD_NAMES.MOBILE_PHONE &&
+                this.props.allowInternationalPhones && (
+                  <Toggler.Hoc
+                    toggleName={
+                      Toggler.TOGGLE_NAMES.profileInternationalPhoneNumbers
+                    }
+                  >
+                    {toggleValue =>
+                      toggleValue ? (
+                        <p>
+                          Enter a U.S. mobile phone number to receive text
+                          notifications. We can’t send text notifications to
+                          international numbers.
+                        </p>
+                      ) : null
+                    }
+                  </Toggler.Hoc>
+                )}
               <ProfileInformationActionButtons
                 onCancel={onCancel}
                 title={title}
@@ -439,6 +481,7 @@ export class ProfileInformationEditView extends Component {
             </SchemaForm>
           </div>
         )}
+        {intlMobileConfirmModalEnabled && <IntlMobileConfirmModal />}
       </>
     );
   }
@@ -452,6 +495,7 @@ ProfileInformationEditView.propTypes = {
   convertCleanDataToPayload: PropTypes.func.isRequired,
   createPersonalInfoUpdate: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
+  openIntlMobileConfirmModal: PropTypes.func.isRequired,
   fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
   getInitialFormValues: PropTypes.func.isRequired,
@@ -463,6 +507,7 @@ ProfileInformationEditView.propTypes = {
   validateAddress: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   activeEditView: PropTypes.string,
+  allowInternationalPhones: PropTypes.bool,
   cancelButtonText: PropTypes.string,
   contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
@@ -474,6 +519,7 @@ ProfileInformationEditView.propTypes = {
     uiSchema: PropTypes.object,
   }),
   forceEditView: PropTypes.bool,
+  intlMobileConfirmModalEnabled: PropTypes.bool,
   saveButtonText: PropTypes.string,
   shouldFocusCancelButton: PropTypes.bool,
   successCallback: PropTypes.func,
@@ -519,6 +565,9 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
+    intlMobileConfirmModalEnabled:
+      // Optional chains since test contexts might not provide the objects
+      state?.vapService?.intlMobileConfirmModal?.isOpen || false,
   };
 };
 
@@ -531,6 +580,7 @@ const mapDispatchToProps = {
   refreshTransaction,
   createPersonalInfoUpdate,
   updateMessagingSignature,
+  openIntlMobileConfirmModal,
 };
 
 export default connect(

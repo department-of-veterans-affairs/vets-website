@@ -220,17 +220,6 @@ describe('createBreadcrumbs', () => {
     expect(breadcrumbs).to.deep.equal([]);
   });
 
-  it('should return breadcrumbs for the ABOUT path', () => {
-    const breadcrumbs = createBreadcrumbs(
-      locationMock(medicationsUrls.subdirectories.ABOUT),
-      1,
-    );
-    expect(breadcrumbs).to.deep.equal([
-      ...defaultBreadcrumbs,
-      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
-    ]);
-  });
-
   it('should return breadcrumbs for the BASE path', () => {
     const breadcrumbs = createBreadcrumbs(
       locationMock(medicationsUrls.subdirectories.BASE),
@@ -238,7 +227,6 @@ describe('createBreadcrumbs', () => {
     );
     expect(breadcrumbs).to.deep.equal([
       ...defaultBreadcrumbs,
-      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
       {
         href: `${medicationsUrls.MEDICATIONS_URL}?page=2`,
         label: 'Medications',
@@ -250,11 +238,9 @@ describe('createBreadcrumbs', () => {
     const breadcrumbs = createBreadcrumbs(
       locationMock(medicationsUrls.subdirectories.BASE),
       null,
-      undefined,
     );
     expect(breadcrumbs).to.deep.equal([
       ...defaultBreadcrumbs,
-      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
       {
         href: `${medicationsUrls.MEDICATIONS_URL}?page=1`,
         label: 'Medications',
@@ -269,7 +255,7 @@ describe('createBreadcrumbs', () => {
     );
     expect(breadcrumbs).to.deep.equal([
       ...defaultBreadcrumbs,
-      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+      { href: medicationsUrls.MEDICATIONS_URL, label: 'Medications' },
       {
         href: medicationsUrls.MEDICATIONS_REFILL,
         label: 'Refill prescriptions',
