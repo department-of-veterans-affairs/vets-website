@@ -167,6 +167,18 @@ describe('ezr MaritalStatusPage', () => {
 
   // NavButtons is mocked, so we only check rendering, not button clicks.
   context('when the Continue button is clicked', () => {
+    it('should render continue button when no form data is present.', () => {
+      const { props } = getData();
+      const { container } = renderProviderWrappedComponent(
+        defaultState,
+        <MaritalStatusPage {...props} />,
+      );
+      expect(container).to.exist;
+      const continueButton = container.querySelector('.usa-button-primary');
+      expect(continueButton).to.exist;
+      expect(continueButton.textContent).to.include('Continue');
+    });
+
     it('should not call goForward when the continue button is clicked.', () => {
       const { props } = getData({
         data: {
