@@ -167,5 +167,44 @@ const responses = {
     });
     return res.end(Buffer.from(docx, 'binary'));
   },
+
+  // Document upload (multipart/form-data)
+  'POST /travel_pay/v0/claims/:claimId/documents/form-data': (req, res) => {
+    const { claimId } = req.params;
+    // eslint-disable-next-line no-console
+    console.log('claimId --- ', claimId);
+
+    // Mock successful upload response based on API spec
+    return res.status(200).json({
+      data: {
+        documentId: '550e8400-e29b-41d4-a716-446655440000', // Mock UUID
+        fileName: req.body?.fileName || 'uploaded-document.pdf',
+        contentType: req.body?.contentType || 'application/pdf',
+        length: req.body?.length || 1024,
+        uploadedAt: new Date().toISOString(),
+      },
+    });
+  },
+
+  // Document delete
+  'DELETE /travel_pay/v0/claims/:claimId/documents/:documentId': (req, res) => {
+    const { claimId, documentId } = req.params;
+    // eslint-disable-next-line no-console
+    console.log(
+      'Deleting document --- claimId:',
+      claimId,
+      'documentId:',
+      documentId,
+    );
+
+    // Mock successful delete response
+    return res.status(200).json({
+      data: {
+        documentId,
+        deleted: true,
+        deletedAt: new Date().toISOString(),
+      },
+    });
+  },
 };
 module.exports = delay(responses, 1000);
