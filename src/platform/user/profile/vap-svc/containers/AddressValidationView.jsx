@@ -393,10 +393,13 @@ class AddressValidationView extends React.Component {
             status={addressValidationError ? 'error' : 'warning'}
             visible
             uswds
+            slim={addressValidationMessage?.slim}
           >
-            <h4 id="address-validation-alert-heading" slot="headline">
-              {addressValidationMessage.headline}
-            </h4>
+            {addressValidationMessage.headline && (
+              <h4 id="address-validation-alert-heading" slot="headline">
+                {addressValidationMessage.headline}
+              </h4>
+            )}
             <addressValidationMessage.ModalText
               editFunction={this.onEditClick}
             />
