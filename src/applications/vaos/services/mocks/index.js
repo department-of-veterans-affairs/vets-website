@@ -10,6 +10,9 @@ const {
   isWithinInterval,
   differenceInMinutes,
 } = require('date-fns');
+const {
+  getMockConfirmedAppointments,
+} = require('./utils/confirmedAppointments');
 const ccProviders = require('./v2/cc_providers.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
@@ -23,8 +26,10 @@ const vamcEhr = require('./v2/vamc_ehr.json');
 // To locally test appointment details null state behavior, comment out
 // the inclusion of confirmed.json and uncomment the inclusion of
 // confirmed_null_states.json
-const confirmedV2 = require('./v2/confirmed.json');
+// const confirmedV2 = require('./v2/confirmed.json');
 // const confirmedV2 = require('./v2/confirmed_null_states.json');
+
+const confirmedAppointmentsv3 = getMockConfirmedAppointments();
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of requests.json and uncomment the inclusion of
@@ -159,7 +164,7 @@ const responses = {
   'PUT /vaos/v2/appointments/:id': (req, res) => {
     // TODO: also check through confirmed mocks, when those exist
     const appointments = requestsV2.data
-      .concat(confirmedV2.data)
+      .concat(confirmedAppointmentsv3.data)
       .concat(mockAppts);
 
     const appt = appointments.find(item => item.id === req.params.id);
@@ -187,7 +192,11 @@ const responses = {
   },
   'GET /vaos/v2/appointments': (req, res) => {
     // merge arrays together
-    const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
+
+    const appointments = confirmedAppointmentsv3.data.concat(
+      requestsV2.data,
+      mockAppts,
+    );
     for (const appointment of appointments) {
       if (
         appointment.attributes.start &&
@@ -262,7 +271,9 @@ const responses = {
 
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
-      data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
+      data: requestsV2.data
+        .concat(confirmedAppointmentsv3.data)
+        .concat(mockAppts),
     };
     const appointment = appointments.data.find(
       appt => appt.id === req.params.id,

@@ -560,6 +560,10 @@ describe('CalendarUtils: getAppointmentConflict', () => {
       start: '2024-12-06T17:00:00Z',
       end: '2024-12-06T18:00:00Z',
     },
+    {
+      start: '2024-12-06T16:30:00Z',
+      end: '2024-12-06T17:30:00Z',
+    },
   ];
   it('returns false when there is no conflict', () => {
     expect(
@@ -574,6 +578,15 @@ describe('CalendarUtils: getAppointmentConflict', () => {
     expect(
       getAppointmentConflict(
         '2024-12-06T17:00:00Z',
+        appointmentsByMonth,
+        availableSlots,
+      ),
+    ).to.be.true;
+  });
+  it('returns true when there is a conflict with overlapping appointment', () => {
+    expect(
+      getAppointmentConflict(
+        '2024-12-06T16:30:00Z',
         appointmentsByMonth,
         availableSlots,
       ),
