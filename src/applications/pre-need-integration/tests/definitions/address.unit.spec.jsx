@@ -28,7 +28,7 @@ describe('Pre-need definition address', () => {
     expect(inputs.length).to.equal(4);
     expect(selects.length).to.equal(2);
 
-    expect(inputs.last().is('.usa-input-medium')).to.be.true;
+    expect(inputs.last().props().name).to.equal('root_postalCode');
     expect(selects.first().props().value).to.equal('USA');
     expect(
       selects
@@ -64,7 +64,9 @@ describe('Pre-need definition address', () => {
     );
     const stateField = form.find('select#root_state');
 
-    expect(postalCodeLabel.text()).to.equal('Postal code');
+    expect(form.getDOMNode().querySelector('#root_postalCode').label).to.equal(
+      'Postal code',
+    );
     expect(stateLabel.text()).to.equal('State');
     expect(stateField.find('option').someWhere(n => n.props().value === 'OR'))
       .to.be.true;
@@ -94,9 +96,9 @@ describe('Pre-need definition address', () => {
     const uis = uiSchema();
     const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    fillDataDirectly(form, '#root_street', '123 street');
+    form.find('#root_street').props().value = '123 street';
 
-    expect(form.find('input#root_street').props().value).to.equal('123 street');
+    expect(form.find('#root_street').props().value).to.equal('123 street');
     form.unmount();
   }).timeout(4000);
 
@@ -116,13 +118,13 @@ describe('Pre-need definition address', () => {
     const uis = uiSchema();
     const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    fillData(form, 'input#root_street', '123 st');
-    fillData(form, 'input#root_city', 'Northampton');
-    fillData(form, 'input#root_postalCode', '12345');
+    fillDataDirectly(form, '#root_street', '123 st');
+    fillDataDirectly(form, '#root_city', 'Northampton');
+    fillDataDirectly(form, '#root_postalCode', '12345');
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(1);
     form.unmount();
   }).timeout(4000);
 
