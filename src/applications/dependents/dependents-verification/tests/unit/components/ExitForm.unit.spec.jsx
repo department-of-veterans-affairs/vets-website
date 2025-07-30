@@ -23,21 +23,21 @@ describe('ExitForm', () => {
     );
   });
 
-  it('should push url to router when back button is clicked', () => {
+  it('should push url to router when back button is clicked', async () => {
     const router = { push: sinon.spy() };
     const { container } = render(<ExitForm router={router} />);
 
     fireEvent.click($('va-button[back]', container));
-    expect(router.push.calledWith('/dependents')).to.be.true;
+    await expect(router.push.calledWith('/dependents')).to.be.true;
   });
 
-  it('should call redirect to 686c-674 when Go to button is clicked', () => {
+  it('should call redirect to 686c-674 when Go to button is clicked', async () => {
     const { container } = render(<ExitForm />);
     const assignSpy = sinon.spy();
     global.window = window;
     global.window.location = { assign: assignSpy };
 
     fireEvent.click($('va-button[continue]', container));
-    expect(assignSpy.calledWith(form686Url)).to.be.true;
+    await expect(assignSpy.calledWith(form686Url)).to.be.true;
   });
 });
