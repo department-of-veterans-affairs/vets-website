@@ -22,7 +22,12 @@ describe('Profile - Hub page, Keyboard navigation', () => {
   it('should allow tabbing through all links on the page, in order', () => {
     cy.login(mockUser);
 
-    mockProfileLOA3(generateFeatureToggles({ vetStatusStage1: true }));
+    mockProfileLOA3(
+      generateFeatureToggles({
+        vetStatusStage1: true,
+        profileShowPaperlessDelivery: true,
+      }),
+    );
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
