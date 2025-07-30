@@ -12,16 +12,17 @@ import './sass/POARequestDetails.scss';
 import './sass/POARequestSearchDetails.scss';
 import './sass/Header.scss';
 import './sass/GetHelp.scss';
+import './sass/SubmissionsPage.scss';
 
 import routes from './routes';
-import createReduxStore from './utilities/store';
+import store from './utilities/store';
 
 const router = createBrowserRouter(routes, {
   basename: '/representative',
 });
 
 startReactApp(
-  <Provider store={createReduxStore()}>
+  <Provider store={store}>
     <RouterProvider router={router} />
   </Provider>,
 );

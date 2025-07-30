@@ -53,6 +53,16 @@ export const getValidationMessageKey = ({
         MISSING_UNIT_NUMBER,
     ).length > 0;
 
+  if (isNoValidationKeyAlertEnabled) {
+    if (!validationKey && confirmedSuggestions.length) {
+      return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_OVERRIDE;
+    }
+
+    if (!validationKey && !confirmedSuggestions.length) {
+      return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
+    }
+  }
+
   if (addressValidationError) {
     return ADDRESS_VALIDATION_TYPES.VALIDATION_ERROR;
   }
@@ -63,22 +73,6 @@ export const getValidationMessageKey = ({
 
   if (singleSuggestion && containsMissingUnitNumber) {
     return ADDRESS_VALIDATION_TYPES.MISSING_UNIT_OVERRIDE;
-  }
-
-  if (
-    !confirmedSuggestions.length &&
-    !validationKey &&
-    isNoValidationKeyAlertEnabled
-  ) {
-    return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
-  }
-
-  if (
-    confirmedSuggestions.length &&
-    !validationKey &&
-    isNoValidationKeyAlertEnabled
-  ) {
-    return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_OVERRIDE;
   }
 
   if (

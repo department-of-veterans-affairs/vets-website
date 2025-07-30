@@ -1,9 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
-import * as scroll from 'platform/utilities/ui/scroll';
+import { render } from '@testing-library/react';
+import {
+  createGetHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
+import * as scrollUtils from 'platform/utilities/scroll/scroll';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as page from '../../utils/page';
 
 import {
@@ -34,6 +39,7 @@ import {
   claimAvailable,
   getClaimPhaseTypeHeaderText,
   getPhaseItemText,
+  getUploadErrorMessage,
   getClaimPhaseTypeDescription,
   isAutomated5103Notice,
   setDocumentRequestPageTitle,
@@ -43,6 +49,7 @@ import {
   sentenceCase,
   generateClaimTitle,
   isStandard5103Notice,
+  getShowEightPhases,
 } from '../../utils/helpers';
 
 import {
@@ -631,6 +638,54 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
+  describe('getShowEightPhases', () => {
+    context('when claimTypeCode is a disability compensation claim', () => {
+      context('when claimTypeCode is null', () => {
+        it('should return false', () => {
+          expect(getShowEightPhases(null, true)).to.be.false;
+        });
+      });
+      // Submit Buddy Statement
+      context(
+        'when claimTypeCode is eBenefits 526EZ-Supplemental (020)',
+        () => {
+          const claimTypeCode = '020SUPP';
+          it('should return true', () => {
+            expect(getShowEightPhases(claimTypeCode, true)).to.be.true;
+          });
+        },
+      );
+      // 5103 Notice
+      context('when claimTypeCode is IDES Initial Live Comp <8 Issues', () => {
+        const claimTypeCode = '110LCMP7IDES';
+        it('should return true', () => {
+          expect(getShowEightPhases(claimTypeCode, true)).to.be.true;
+        });
+      });
+    });
+
+    context('when claimTypeCode is not a disability compensation claim', () => {
+      context('when claimTypeCode is a claim for dependency', () => {
+        const claimTypeCode = '400PREDSCHRG';
+        it('should return false', () => {
+          expect(getShowEightPhases(claimTypeCode, true)).to.be.false;
+        });
+      });
+    });
+    context('when claimTypeCode is Pension', () => {
+      const claimTypeCode = '190ORGDPNPMC';
+      it('should return true', () => {
+        expect(getShowEightPhases(claimTypeCode, true)).to.be.true;
+      });
+    });
+    context('when claimTypeCode is not Pension', () => {
+      const claimTypeCode = '130RD';
+      it('should return false', () => {
+        expect(getShowEightPhases(claimTypeCode, true)).to.be.false;
+      });
+    });
+  });
+
   describe('isClaimOpen', () => {
     context('when status is COMPLETE', () => {
       const status = 'COMPLETE';
@@ -726,7 +781,9 @@ describe('Disability benefits helpers: ', () => {
     before(() => {
       server.listen();
       server.events.on('request:start', req => {
-        expectedUrl = req.url.href;
+        // TODO: After Node 14 support is dropped, simplify to: expectedUrl = req.url.href;
+        // The || req.url fallback is only needed for Node 14 compatibility
+        expectedUrl = req.url?.href || req.url;
       });
     });
 
@@ -739,41 +796,49 @@ describe('Disability benefits helpers: ', () => {
 
     it('should make an apiRequest request', done => {
       server.use(
-        rest.get(
+        createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json({}));
+          () => {
+            return jsonResponse({}, { status: 200 });
           },
         ),
       );
 
-      const onSuccess = () => done();
+      const onSuccess = () => {
+        if (expectedUrl) {
+          expect(expectedUrl).to.include(
+            '/v0/education_benefits_claims/stem_claim_status',
+          );
+        }
+        done();
+      };
+
       makeAuthRequest(
         '/v0/education_benefits_claims/stem_claim_status',
         null,
         sinon.spy(),
         onSuccess,
-      );
-
-      expect(expectedUrl).to.contain(
-        '/v0/education_benefits_claims/stem_claim_status',
+        done,
       );
     });
 
     it('should reject promise when there is an error', done => {
       server.use(
-        rest.get(
+        createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          (req, res) => res.networkError('Claims Status Failed'),
+          () => jsonResponse({ error: 'Server Error' }, { status: 500 }),
         ),
       );
 
-      const onError = resp => {
-        expect(resp instanceof Error).to.be.true;
-        done();
-      };
       const dispatch = sinon.spy();
       const onSuccess = sinon.spy();
+
+      const onError = () => {
+        expect(onSuccess.called).to.be.false;
+        expect(dispatch.called).to.be.false;
+        done();
+      };
+
       makeAuthRequest(
         '/v0/education_benefits_claims/stem_claim_status',
         null,
@@ -781,16 +846,13 @@ describe('Disability benefits helpers: ', () => {
         onSuccess,
         onError,
       );
-
-      expect(onSuccess.called).to.be.false;
-      expect(dispatch.called).to.be.false;
     });
 
     it('should dispatch auth error', done => {
       server.use(
-        rest.get(
+        createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          (req, res, ctx) => res(ctx.status(401), ctx.json({ status: 401 })),
+          () => jsonResponse({ status: 401 }, { status: 401 }),
         ),
       );
       const onError = sinon.spy();
@@ -1284,7 +1346,7 @@ describe('Disability benefits helpers: ', () => {
     });
     context('when last page was not a tab and loading is true', () => {
       it('should run scrollToTop', () => {
-        const scrollToTop = sinon.spy(scroll, 'scrollToTop');
+        const scrollToTop = sinon.spy(scrollUtils, 'scrollToTop');
         setPageFocus('/test', true);
 
         expect(scrollToTop.called).to.be.true;
@@ -1292,7 +1354,7 @@ describe('Disability benefits helpers: ', () => {
     });
     context('when last page was a tab', () => {
       it('should run scrollAndFocus', () => {
-        const scrollAndFocus = sinon.spy(scroll, 'scrollAndFocus');
+        const scrollAndFocus = sinon.spy(scrollUtils, 'scrollAndFocus');
         setPageFocus('/status', false);
 
         expect(scrollAndFocus.called).to.be.true;
@@ -1472,6 +1534,18 @@ describe('Disability benefits helpers: ', () => {
     const addOrRemoveDependentClaim = {
       attributes: { claimTypeCode: '130DPNDCYAUT', claimDate },
     };
+    const pensionClaim = {
+      attributes: { claimTypeCode: '150AIA' },
+    };
+    const survivorsPensionClaim = {
+      attributes: { claimTypeCode: '190ORGDPNPMC' },
+    };
+    const DICClaim = {
+      attributes: { claimTypeCode: '290DICEDPMC' },
+    };
+    const venteransPensionClaim = {
+      attributes: { claimTypeCode: '180ORGPENPMC' },
+    };
     context('when generating a card title', () => {
       it('should generate a default title', () => {
         expect(generateClaimTitle()).to.equal(
@@ -1488,22 +1562,40 @@ describe('Disability benefits helpers: ', () => {
           'Request to add or remove a dependent',
         );
       });
+      it('should generate a different title for pension claim', () => {
+        expect(generateClaimTitle(pensionClaim)).to.equal('Claim for pension');
+      });
+      it('should generate a different title for Survivors Pension claim', () => {
+        expect(generateClaimTitle(survivorsPensionClaim)).to.equal(
+          'Claim for Survivors Pension',
+        );
+      });
+      it('should generate a different title for DIC pension claim', () => {
+        expect(generateClaimTitle(DICClaim)).to.equal(
+          'Claim for Dependency and Indemnity Compensation',
+        );
+      });
+      it('should generate a different title for Veterans Pension claim', () => {
+        expect(generateClaimTitle(venteransPensionClaim)).to.equal(
+          'Claim for Veterans Pension',
+        );
+      });
     });
     context('when generating a detail page heading', () => {
       it('should generate a default title', () => {
         expect(generateClaimTitle({}, 'detail')).to.equal(
-          'Your disability compensation claim',
+          'Claim for disability compensation',
         );
       });
       it('should generate a title based on the claim type', () => {
         expect(generateClaimTitle(compensationClaim, 'detail')).to.equal(
-          'Your compensation claim',
+          'Claim for compensation',
         );
       });
       it('should generate a different title for requests to add or remove a dependent', () => {
         expect(
           generateClaimTitle(addOrRemoveDependentClaim, 'detail'),
-        ).to.equal('Your request to add or remove a dependent');
+        ).to.equal('Request to add or remove a dependent');
       });
     });
     context('when generating a breadcrumb title', () => {
@@ -1550,6 +1642,101 @@ describe('Disability benefits helpers: ', () => {
         ).to.equal(
           'Files for August 21, 2024 Request to Add or Remove a Dependent',
         );
+      });
+    });
+  });
+  describe('getUploadErrorMessage', () => {
+    context('when error is due to a duplicate upload', () => {
+      it('should return a specific duplicate error message with file name', () => {
+        const claimId = '14568432';
+        const error = {
+          fileName: 'my-document.pdf',
+          errors: [
+            {
+              detail: 'DOC_UPLOAD_DUPLICATE',
+            },
+          ],
+        };
+
+        const result = getUploadErrorMessage(error, claimId);
+        expect(result.title).to.equal(
+          "You've already uploaded my-document.pdf",
+        );
+        expect(result.type).to.equal('error');
+        const { getByText, container } = render(result.body);
+        getByText(/It can take up to 2 days for the file to show up in/i);
+        expect($('va-link', container)).to.exist;
+        const link = $('va-link', container);
+        expect(link.getAttribute('href')).to.equal(
+          `/track-claims/your-claims/${claimId}/files`,
+        );
+      });
+
+      it('should use a generic name if fileName is missing', () => {
+        const error = {
+          errors: [
+            {
+              detail: 'DOC_UPLOAD_DUPLICATE',
+            },
+          ],
+        };
+
+        const result = getUploadErrorMessage(error);
+        expect(result.title).to.equal("You've already uploaded files");
+      });
+    });
+    context('when error is due to an invalid claimant', () => {
+      it('should return a claimant invalidate error message', () => {
+        const error = {
+          fileName: 'my-document.pdf',
+          errors: [
+            {
+              detail: 'DOC_UPLOAD_INVALID_CLAIMANT',
+            },
+          ],
+        };
+
+        const result = getUploadErrorMessage(error);
+        expect(result.title).to.equal(
+          'You can’t upload files for this claim here',
+        );
+        expect(result.type).to.equal('error');
+        const { getByText, container } = render(result.body);
+        getByText(
+          /Only the Veteran with the claim can upload files on this page. We’re sorry for the inconvenience./i,
+        );
+        expect($('va-link', container)).to.exist;
+        const link = $('va-link', container);
+        expect(link.getAttribute('href')).to.equal(
+          'https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit',
+        );
+      });
+    });
+    context('when error is a non-duplicate upload failure', () => {
+      it('should return a generic upload error with file name and title', () => {
+        const error = {
+          fileName: 'my-document.pdf',
+          errors: [
+            {
+              title: 'Unprocessable Entity',
+              detail: 'Some other error',
+            },
+          ],
+        };
+
+        const result = getUploadErrorMessage(error);
+        expect(result.title).to.equal('Error uploading my-document.pdf');
+        expect(result.body).to.equal('Unprocessable Entity');
+        expect(result.type).to.equal('error');
+      });
+
+      it('should handle completely empty error objects gracefully', () => {
+        const result = getUploadErrorMessage({});
+        expect(result.title).to.equal('Error uploading files');
+        expect(result.body).to.equal(
+          'There was an error uploading your files. Please try again',
+        );
+        expect(result.type).to.equal('error');
       });
     });
   });

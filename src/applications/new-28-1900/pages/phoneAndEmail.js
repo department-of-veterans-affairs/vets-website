@@ -5,25 +5,27 @@ import {
   internationalPhoneUI,
   phoneSchema,
   phoneUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CONTACT_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    title: 'Contact information',
-    phone: phoneUI('Phone number'),
+    ...titleUI(CONTACT_INFORMATION_CHAPTER_CONSTANTS.phoneAndEmailPageTitle),
+    mainPhone: phoneUI('Phone number'),
     cellPhone: phoneUI('Cell phone number'),
     internationalPhone: internationalPhoneUI('International phone number'),
-    emailAddress: emailToSendNotificationsUI('Email address'),
+    email: emailToSendNotificationsUI('Email address'),
   },
   schema: {
     type: 'object',
     properties: {
-      phone: phoneSchema,
+      mainPhone: phoneSchema,
       cellPhone: phoneSchema,
-      internationalPhone: internationalPhoneSchema,
-      emailAddress: emailToSendNotificationsSchema,
+      internationalPhone: internationalPhoneSchema(),
+      email: emailToSendNotificationsSchema,
     },
-    required: ['emailAddress'],
+    required: ['email'],
   },
 };

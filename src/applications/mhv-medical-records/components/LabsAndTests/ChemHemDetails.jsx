@@ -11,6 +11,10 @@ import {
   txtLine,
   txtLineDotted,
   usePrintTitle,
+  makePdf,
+  getNameDateAndTime,
+  formatNameFirstLast,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import ItemList from '../shared/ItemList';
@@ -18,14 +22,7 @@ import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
-import {
-  makePdf,
-  processList,
-  generateTextFile,
-  getNameDateAndTime,
-  formatNameFirstLast,
-  formatUserDob,
-} from '../../util/helpers';
+import { processList, generateTextFile } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
@@ -71,7 +68,13 @@ const ChemHemDetails = props => {
       ...generateChemHemContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Chem/Hem details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Chem/Hem details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateChemHemTxt = async () => {
@@ -85,7 +88,7 @@ ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
 ${txtLine}\n\n
 Type of test: ${record.type} \n
-Sample tested: ${record.sampleTested} \n
+Site or sample tested: ${record.sampleTested} \n
 Ordered by: ${record.orderedBy} \n
 Location: ${record.collectingLocation} \n
 Lab comments: ${processList(record.comments)} \n

@@ -20,7 +20,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
   const referral = createReferralById(
     '2024-12-05',
     'add2f0f4-a1ea-4dea-a504-a54ab57c68',
-  );
+  ).attributes;
   const appointmentsByMonth = {
     '2024-12': [
       {
@@ -88,67 +88,47 @@ describe('VAOS Component: DateAndTimeContent', () => {
       ),
     ).to.exist;
   });
-  it('should show error if conflicting appointment', async () => {
+  it('should select date if value in session storage', async () => {
+    const selectedSlotValue = '2024-12-06T15:00:00-05:00';
     const selectedSlotKey = getReferralSlotKey(referral.uuid);
-    sessionStorage.setItem(
-      selectedSlotKey,
-      '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov0',
-    );
-    const initialStateWithSelect = {
+    sessionStorage.setItem(selectedSlotKey, selectedSlotValue);
+
+    // Create state with matching selectedSlot value
+    const stateWithSelectedSlot = {
       featureToggles: {
         vaOnlineSchedulingCCDirectScheduling: true,
       },
       referral: {
-        selectedSlot:
-          '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov0',
         currentPage: 'scheduleAppointment',
+        selectedSlotStartTime: selectedSlotValue,
       },
     };
-    const draftAppointmentInfo = createDraftAppointmentInfo(1);
-    draftAppointmentInfo.slots.slots[0].start = '2024-12-06T15:00:00-05:00';
+
+    const draftAppointmentInfo = createDraftAppointmentInfo(2);
+
+    // Ensure the draftAppointmentInfo has a slot matching the selectedSlotValue
+    draftAppointmentInfo.attributes.slots[0].start = selectedSlotValue;
+
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
         draftAppointmentInfo={draftAppointmentInfo}
-        appointmentsByMonth={appointmentsByMonth}
+        appointmentsByMonth={{}} // Empty to avoid conflicts
       />,
       {
-        initialStateWithSelect,
-      },
-    );
-    const continueButton = await screen.findByRole('button', {
-      name: /Continue/i,
-    });
-    fireEvent.click(continueButton);
-    expect(
-      await screen.getByText(
-        'You already have an appointment at this time. Please select another day or time.',
-      ),
-    ).to.exist;
-  });
-  it('should select date if value in session storage', async () => {
-    const selectedSlotKey = getReferralSlotKey(referral.uuid);
-    sessionStorage.setItem(
-      selectedSlotKey,
-      '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov1',
-    );
-    const screen = renderWithStoreAndRouter(
-      <DateAndTimeContent
-        currentReferral={referral}
-        draftAppointmentInfo={createDraftAppointmentInfo(2)}
-        appointmentsByMonth={appointmentsByMonth}
-      />,
-      {
-        initialState,
+        initialState: stateWithSelectedSlot,
         path: '/schedule-referral/date-time',
       },
     );
+
     const continueButton = await screen.findByRole('button', {
       name: /Continue/i,
     });
+
     fireEvent.click(continueButton);
+
     // Routes to next page if selection exists
-    expect(screen.history.push.called).to.be.true;
+    expect(await screen.history.push.called).to.be.true;
   });
   it('should show error if no slots available', async () => {
     const screen = renderWithStoreAndRouter(

@@ -15,6 +15,7 @@ export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
 export const SET_FORM_ERRORS = 'SET_FORM_ERRORS';
+export const SET_ITF = 'SET_ITF';
 
 export function closeReviewChapter(closedChapter, pageKeys = []) {
   return {
@@ -90,6 +91,14 @@ export function setFormErrors(errors) {
   };
 }
 
+// Intent to File data
+export function setItf(data) {
+  return {
+    type: SET_ITF,
+    data,
+  };
+}
+
 export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -105,7 +114,7 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
         // got this from the fetch polyfill, keeping it to be safe
         const responseBody =
           'response' in req ? req.response : req.responseText;
-        const results = JSON.parse(responseBody);
+        const results = JSON.parse(responseBody || '{}');
         resolve(results);
       } else {
         let error;
@@ -238,8 +247,16 @@ export function uploadFile(
       const changePayload = {
         name: file.name,
         errorMessage: fileTooBigErrorMessage,
-        ...(fileTooBigErrorAlert && { alert: fileTooBigErrorAlert }),
       };
+      if (file.size) {
+        changePayload.size = file.size;
+      }
+      if (file.lastModified) {
+        changePayload.lastModified = file.lastModified;
+      }
+      if (fileTooBigErrorAlert) {
+        changePayload.alert = fileTooBigErrorAlert;
+      }
       onChange(changePayload);
       onError();
       return null;
@@ -316,7 +333,8 @@ export function uploadFile(
         let errorMessage = req.statusText;
         try {
           // detail contains a better error message
-          errorMessage = JSON.parse(req?.response)?.errors?.[0]?.detail;
+          errorMessage =
+            JSON.parse(req?.response)?.errors?.[0]?.detail ?? errorMessage;
         } catch (error) {
           // intentionally empty
         }

@@ -36,7 +36,7 @@ describe('Service Periods', () => {
     const formDOM = getFormDOM(form);
 
     expect($$('va-memorable-date', formDOM).length).to.equal(2);
-    expect($$('va-text-input', formDOM).length).to.equal(5);
+    expect($$('va-text-input', formDOM).length).to.equal(4);
   });
 
   it('should render service periods', () => {
@@ -78,7 +78,7 @@ describe('Service Periods', () => {
     const formDOM = getFormDOM(form);
 
     expect($$('va-memorable-date', formDOM).length).to.equal(2);
-    expect($$('va-text-input', formDOM).length).to.equal(5);
+    expect($$('va-text-input', formDOM).length).to.equal(4);
   });
 
   it('should render dateRangeUI', () => {

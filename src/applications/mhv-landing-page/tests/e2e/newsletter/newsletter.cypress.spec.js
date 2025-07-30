@@ -25,13 +25,28 @@ describe(`${appName} -- MHV Newsletter Signup`, () => {
     });
   });
 
-  describe('unregistered user', () => {
+  describe('unregistered "dslogon" user', () => {
     it('does not render', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
-      LandingPage.visit({ registered: false });
+      LandingPage.visit({
+        registered: false,
+        verified: false,
+        serviceName: 'dslogon',
+      });
       cy.findByRole('heading', {
         name: /Subscribe to the My HealtheVet newsletter/,
       }).should('not.exist');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('unregistered user with verified login (non-patient page)', () => {
+    it('renders', () => {
+      ApiInitializer.initializeFeatureToggle.withAllFeatures();
+      LandingPage.visitNonPatientPage();
+      cy.findByRole('heading', {
+        name: /Subscribe to the My HealtheVet newsletter/,
+      }).should.exist;
       cy.injectAxeThenAxeCheck();
     });
   });

@@ -5,8 +5,8 @@ import uniq from 'lodash/uniq';
 import {
   waitForRenderThenFocus,
   focusElement,
-  scrollTo,
-} from 'platform/utilities/ui';
+} from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 
 import {
   getChaptersLengthDisplay,
@@ -75,7 +75,10 @@ export default function FormNav(props) {
     }
   }
 
-  if (isLoggedIn && index === 0) {
+  const pageIndex = eligiblePageList.findIndex(p => p === page);
+  // Only display the helper text if the user is logged in and on the first page of the first chapter
+  // skip introduction page at index 0
+  if (isLoggedIn && index === 0 && pageIndex === 1) {
     inProgressMessage = (
       <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
         We&rsquo;ll save your application on every change.{' '}
@@ -107,22 +110,43 @@ export default function FormNav(props) {
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/12323
   useEffect(
     () => {
+      // Get the currently focused element
+      const { activeElement } = document;
+
+      // Check if the active element is a va-select or inside a va-select
+      const isVaSelect =
+        activeElement?.tagName === 'VA-SELECT' ||
+        activeElement?.closest('va-select') ||
+        activeElement?.classList.contains('rjsf-web-component-field');
+
+      // Prevent focus change and scrolling when interacting with the accordion header or va-select
+      if (activeElement?.closest('.accordion-header') || isVaSelect) {
+        return;
+      }
+
+      // Update the index based on the current chapter
       if (current > index + 1) {
         setIndex(index + 1);
       } else if (current === index) {
         setIndex(index - 1);
       }
 
-      // Focus on review & submit header
+      // Handle focus logic for the review & submit page
       if (
-        page.chapterKey === 'review' ||
-        window.location.pathname.endsWith('review-and-submit')
+        (page.chapterKey === 'review' ||
+          window.location.pathname.endsWith('review-and-submit')) &&
+        !activeElement?.closest('.accordion-header') &&
+        !isVaSelect
       ) {
-        scrollTo('topScrollElement');
+        // Ensure scrollTo is only called when necessary
+        if (!hideFormNavProgress && !isMinimalHeaderApp()) {
+          scrollTo('topScrollElement');
+        }
+
         if (hideFormNavProgress || isMinimalHeaderApp()) {
           focusElement('h1');
         } else {
-          // Focus on review & submit page h2 in stepper
+          // Ensure focusAfterRender is only called when appropriate
           focusAfterRender(
             'va-segmented-progress-bar',
             document,

@@ -10,6 +10,7 @@ import {
   SET_SUBMITTED,
   SET_VIEWED_PAGES,
   SET_FORM_ERRORS,
+  SET_ITF,
 } from '../actions';
 
 import { recalculateSchemaAndData } from './helpers';
@@ -93,5 +94,10 @@ export default {
     // See platform/forms-system/src/js/utilities/data/reduceErrors.js for
     // data structure
     formErrors: data,
+  }),
+  // Intent to File data
+  [SET_ITF]: (state, { data = {} }) => ({
+    ...state,
+    itf: data,
   }),
 };

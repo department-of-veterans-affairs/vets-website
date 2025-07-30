@@ -37,3 +37,12 @@ fieldset.schemaform-field-template.schemaform-first-field {
 .bottom-border {
   border-bottom: 1px solid var(--vads-color-base-lighter);
 }
+.custom-classname{
+  display: block !important;
+}
+.need-help-container{
+  width: 642px;
+  @media (max-width: $small-screen){
+    width: 100%;
+  }
+}

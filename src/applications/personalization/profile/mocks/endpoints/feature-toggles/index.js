@@ -7,8 +7,6 @@ const profileToggles = {
   profileShowPronounsAndSexualOrientation: false,
   representativeStatusEnableV2Features: true,
   profileHideDirectDeposit: false,
-  profileShowPaymentsNotificationSetting: false,
-  profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
   profileShowNewHealthCareCopayBillNotificationSetting: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
@@ -19,6 +17,7 @@ const profileToggles = {
   profileShowMhvNotificationSettingsEmailRxShipment: false,
   profileShowMhvNotificationSettingsMedicalImages: false,
   profileShowNoValidationKeyAddressAlert: false,
+  profileShowPaperlessDelivery: true,
 };
 
 const makeAllTogglesTrue = toggles => {

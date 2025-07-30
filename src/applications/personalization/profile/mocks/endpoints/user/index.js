@@ -75,7 +75,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -299,7 +298,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -512,7 +510,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -724,7 +721,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -936,7 +932,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -1144,7 +1139,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [],
           vaPatient: false,
           mhvAccountState: 'NONE',
@@ -1339,7 +1333,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -1554,7 +1547,6 @@ const mockErrorResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -1675,6 +1667,21 @@ const loa3UserWithoutLighthouseServiceAvailable = set(
   ),
 );
 
+const loa3UserWithInternationalMobilePhoneNumber = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.vet360ContactInformation.mobilePhone',
+  {
+    ...cloneDeep(
+      baseUserResponses.loa3User72.data.attributes.vet360ContactInformation
+        .mobilePhone,
+    ),
+    areaCode: null,
+    countryCode: '93',
+    isInternational: true,
+    phoneNumber: '201234567', // international numbers include the area code
+  },
+);
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
@@ -1695,6 +1702,7 @@ const responses = {
   loa3UserWithNoMilitaryHistoryClaim,
   loa3UserWithoutMailingAddress,
   loa3UserWithoutLighthouseServiceAvailable,
+  loa3UserWithInternationalMobilePhoneNumber,
 };
 
 // handler that can be used to customize the user data returned

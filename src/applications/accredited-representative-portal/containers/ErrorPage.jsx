@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorHeader from '../components/ErrorHeader';
+import ErrorHeader from '../components/Error/ErrorHeader';
 import Footer from '../components/Footer';
 
 const ErrorPage = ({ children }) => {

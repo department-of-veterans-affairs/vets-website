@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  State of property
+  - action: select
+    target: PROPERTY_STATE
+    value: California
+  - action: click
+    target: call-to-action

@@ -130,3 +130,12 @@ export const APP_URLS = {
   verify: getAppUrl('verify'),
   facilities: getAppUrl('facilities'),
 };
+
+export const MAX_NEXT_OF_KINS = 2;
+export const MAX_EMERGENCY_CONTACTS = 2;
+
+export const API_ENDPOINTS = {
+  csrfCheck: '/maintenance_windows',
+  downloadPdf: '/form1010_ezrs/download_pdf',
+  enrollmentStatus: '/health_care_applications/enrollment_status',
+};

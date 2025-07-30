@@ -419,6 +419,7 @@ export const OFFICIAL_REPORT_TYPES_SUBTITLES = Object.freeze({
   military: 'Military incident reports',
   other: 'Other reporting options',
   none: 'No reports to include',
+  unlisted: 'Other official report type not listed here:',
 });
 
 export const MILITARY_REPORT_TYPES = Object.freeze({
@@ -437,6 +438,21 @@ export const OTHER_REPORT_TYPES = Object.freeze({
 export const NO_REPORT_TYPE = Object.freeze({
   none: 'I don’t have official reports to include.',
 });
+
+export const OFFICIAL_REPORT_TYPES_HINTS = Object.freeze({
+  military: 'Select any military incident reports filed for this event.',
+  other: 'Select any other types of reports filed for this event.',
+  none:
+    'Select this option if you didn’t have any reports filed, don’t know about any official reports, or prefer not to include them.',
+});
+
+export const POLICE_REPORT_LOCATION_FIELDS = [
+  'agency',
+  'city',
+  'state',
+  'township',
+  'country',
+];
 
 export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
   reassignment: 'workBehaviors',
@@ -458,7 +474,7 @@ export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
 export const ALL_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
   ...LISTED_BEHAVIOR_TYPES_WITH_SECTION,
   unlisted: 'otherBehaviors',
-  'view:noBehaviorChanges': 'view:noneCheckbox',
+  noChange: 'noBehavioralChange',
 });
 
 export const MH_0781_URL_PREFIX = 'mental-health-form-0781';

@@ -17,17 +17,12 @@ const { defaultDefinitions } = formConfig;
 
 // run test to ensure the document upload alert does not render by default
 describe(`${pageTitle} page`, () => {
-  const getData = () => ({
-    mockStore: {
-      getState: () => ({
-        featureToggles: {},
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    },
-  });
+  const mockStore = {
+    getState: () => ({ featureToggles: {} }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
   const subject = () => {
-    const { mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
         <DefinitionTester
@@ -48,28 +43,20 @@ describe(`${pageTitle} page`, () => {
     return { selectors };
   };
 
-  it('should render the correct number of fields', async () => {
+  it('should render the correct elements before upload', () => {
     const { selectors } = subject();
-    const expectedNumberOfFields = 1;
-    await waitFor(() => {
-      expect(selectors().inputs).to.have.lengthOf(expectedNumberOfFields);
-    });
-  });
-
-  it('should not render document upload warning by default', async () => {
-    const { selectors } = subject();
-    await waitFor(() => {
-      expect(selectors().vaAlert).to.not.exist;
-    });
+    const { inputs, vaAlert } = selectors();
+    expect(inputs).to.have.lengthOf(1);
+    expect(vaAlert).to.not.exist;
   });
 
   it('should render the correct number of errors on submit', async () => {
     const { selectors } = subject();
-    const expectedNumberOfErrors = 1;
+    const { submitBtn } = selectors();
+    fireEvent.click(submitBtn);
     await waitFor(() => {
-      const { submitBtn, errors } = selectors();
-      fireEvent.click(submitBtn);
-      expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      const { errors } = selectors();
+      expect(errors).to.have.lengthOf(1);
     });
   });
 });

@@ -1,24 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { formatInTimeZone } from 'date-fns-tz';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
-import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
+import AppointmentColumn from '../../../components/AppointmentColumn';
 import AppointmentRow from '../../../components/AppointmentRow';
 import {
   selectAppointmentLocality,
+  selectApptDateAriaText,
+  selectApptDetailAriaText,
   selectIsCanceled,
-  selectModalityText,
+  selectIsCommunityCare,
   selectModalityIcon,
+  selectModalityText,
   selectStartDate,
   selectTimeZoneAbbr,
-  selectApptDetailAriaText,
-  selectApptDateAriaText,
-  selectTypeOfCareAriaText,
-  selectModalityAriaText,
-  selectIsCommunityCare,
 } from '../../redux/selectors';
-import AppointmentColumn from '../../../components/AppointmentColumn';
 
 export default function AppointmentColumnLayout({
   data,
@@ -29,23 +26,15 @@ export default function AppointmentColumnLayout({
   const appointmentLocality = useSelector(() =>
     selectAppointmentLocality(data),
   );
-  const useFeSourceOfTruth = useSelector(state =>
-    selectFeatureFeSourceOfTruth(state),
-  );
   const isCanceled = useSelector(() => selectIsCanceled(data));
   const isCommunityCare = useSelector(() => selectIsCommunityCare(data));
   const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
-  const startDate = useSelector(() =>
-    selectStartDate(data, useFeSourceOfTruth),
-  );
-  const parsedDate = moment.parseZone(startDate);
+  const startDate = useSelector(() => selectStartDate(data));
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
   const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
   const dateAriaLabel = useSelector(() => selectApptDateAriaText(data));
-  const typeOfCareAriaLabel = useSelector(() => selectTypeOfCareAriaText(data));
-  const modalityAriaLabel = useSelector(() => selectModalityAriaText(data));
 
   return (
     <>
@@ -86,7 +75,9 @@ export default function AppointmentColumnLayout({
                 { 'vads-u-display--none': !first },
               )}
             >
-              <span aria-hidden="false">{parsedDate.format('D')}</span>
+              <span aria-hidden="false" data-dd-privacy="mask">
+                {formatInTimeZone(startDate, data.timezone, 'd')}
+              </span>
             </h3>
           </AppointmentColumn>
           <AppointmentColumn
@@ -106,8 +97,9 @@ export default function AppointmentColumnLayout({
               className={classNames({ 'vads-u-display--none': !first })}
               aria-hidden="true"
               data-testid="day"
+              data-dd-privacy="mask"
             >
-              {parsedDate.format('ddd')}
+              {formatInTimeZone(startDate, data.timezone, 'EEE')}
             </span>
           </AppointmentColumn>
         </AppointmentRow>
@@ -140,9 +132,11 @@ export default function AppointmentColumnLayout({
             canceled={isCanceled}
             style={{ minWidth: '100px', maxWidth: '100px' }}
           >
-            <span aria-hidden="true">
-              {`${parsedDate.format('h:mm')} ${parsedDate.format(
-                'a',
+            <span aria-hidden="true" data-dd-privacy="mask">
+              {`${formatInTimeZone(
+                startDate,
+                data.timezone,
+                'h:mm aaaa',
               )} ${timezoneAbbr}`}{' '}
             </span>
           </AppointmentColumn>
@@ -159,13 +153,13 @@ export default function AppointmentColumnLayout({
                 size="2"
                 className="vads-u-font-weight--bold vaos-appts__display--table"
                 canceled={isCanceled}
-                aria-label={typeOfCareAriaLabel}
               >
                 <span
                   className={classNames(
                     'vaos-appts__display--table-cell',
                     'vaos-appts__text--truncate',
                   )}
+                  data-dd-privacy="mask"
                 >
                   {appointmentLocality}
                 </span>
@@ -176,7 +170,6 @@ export default function AppointmentColumnLayout({
                 size="3"
                 className="vaos-appts__display--table"
                 canceled={isCanceled}
-                aria-label={modalityAriaLabel}
               >
                 <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
                   {!isCommunityCare && (

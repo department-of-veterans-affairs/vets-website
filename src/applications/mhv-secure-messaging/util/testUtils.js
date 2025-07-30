@@ -35,6 +35,17 @@ export const selectVaSelect = (container, value, selector = 'va-select') => {
   $(selector, container).__events.vaSelect(changeEvent);
 };
 
+export const comboBoxVaSelect = (
+  container,
+  value,
+  selector = 'va-combo-box',
+) => {
+  const changeEvent = new CustomEvent('vaSelect', {
+    detail: { value },
+  });
+  $(selector, container).__events.vaSelect(changeEvent);
+};
+
 export const selectVaDate = (container, value, selector = 'va-date') => {
   const vaDate = $(selector, container);
   vaDate.value = value;

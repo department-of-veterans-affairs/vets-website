@@ -4,6 +4,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import cookie from 'cookie';
 import { debounce } from 'lodash';
+import MY_VA_LINK from 'platform/site-wide/mega-menu/constants/MY_VA_LINK';
+import MY_HEALTH_LINK from 'platform/site-wide/mega-menu/constants/MY_HEALTH_LINK';
 import bucketsContent from 'site/constants/buckets-content';
 import environments from 'site/constants/environments';
 import environment from 'platform/utilities/environment';
@@ -61,10 +63,33 @@ function createMutationObserverCallback() {
   };
 }
 
-function renderHeader(megaMenuData, headerContainer) {
+function renderHeader(megaMenuData = [], headerContainer) {
+  // HARDCODED: Since feature toggles aren't available in this context,
+  // we're using a hardcoded value. Set to true or false based on desired behavior.
+  const showMhvHeaderLinks = true;
+
+  // Create modified versions of the links with the injected header URLs
+  const myVaLinkForHeader = {
+    ...MY_VA_LINK,
+    href: MY_VA_LINK?.hrefInjectedHeader,
+  };
+
+  const myHealthLinkForHeader = {
+    ...MY_HEALTH_LINK,
+    href: MY_HEALTH_LINK?.hrefInjectedHeader,
+  };
+
+  // Ensure megaMenuData is an array before spreading
+  const safeMenuData = Array.isArray(megaMenuData) ? megaMenuData : [];
+
+  // Add the links if enabled
+  const updatedMegaMenuData = showMhvHeaderLinks
+    ? [...safeMenuData, myVaLinkForHeader, myHealthLinkForHeader]
+    : safeMenuData;
+
   startReactApp(
     <Provider store={store}>
-      <Header megaMenuData={megaMenuData} />
+      <Header megaMenuData={updatedMegaMenuData} />
     </Provider>,
     headerContainer,
   );

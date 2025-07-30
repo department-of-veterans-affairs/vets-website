@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import StepComponent from './StepComponent';
 import { orientationSteps } from './utils';

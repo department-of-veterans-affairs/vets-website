@@ -1,10 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { login } from 'platform/user/authentication/utilities';
+import { AUTHN_SETTINGS } from 'platform/user/authentication/constants';
 
 export default function MhvTemporaryAccess() {
+  const [manageAcctUrl, setAcctUrl] = useState();
   useEffect(() => {
     document.title = 'Access the My HealtheVet sign-in option';
-  });
+
+    async function createHref() {
+      const url = await login({
+        policy: 'mhv',
+        queryParams: { operation: 'mhv_exception' },
+        isLink: true,
+      });
+      setAcctUrl(url);
+    }
+    createHref();
+  }, []);
   return (
     <section className="container row login vads-u-padding--3">
       <div className="columns small-12 vads-u-padding--0">
@@ -34,9 +46,32 @@ export default function MhvTemporaryAccess() {
           data-testid="accessMhvBtn"
         />
       </div>
-      <div className="vads-u-margin-y--6">
-        <h2>Having trouble signing in?</h2>
-        <p>Contact the administrator who gave you access to this page.</p>
+      <div className="columns small-12 vads-u-padding--0">
+        <h2>Manage your account</h2>
+        <h3 className="vads-u-margin-top--0">
+          Account information and password
+        </h3>
+        <p className="vads-u-measure--4 vads-u-margin-bottom--0">
+          Sign in here and navigate to <strong>Account Information</strong> to
+          view your My HealtheVet account activity or change your password.
+        </p>
+        <va-link-action
+          text="Manage your account"
+          type="secondary"
+          href={manageAcctUrl}
+          onClick={() => {
+            sessionStorage.setItem(
+              AUTHN_SETTINGS.RETURN_URL,
+              'https://eauth.va.gov/mhv-portal-web/eauth?deeplinking=account-information',
+            );
+          }}
+          data-testid="updateMhvBtn"
+        />
+        <h2>Help and support</h2>
+        <p>
+          For all other questions, contact the administrator who gave you access
+          to this page.
+        </p>
       </div>
     </section>
   );

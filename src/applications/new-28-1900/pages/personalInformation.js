@@ -5,21 +5,21 @@ import {
   fullNameUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { YOUR_INFORMATION_PAGES_CONSTANTS } from '../constants';
+import { YOUR_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI(YOUR_INFORMATION_PAGES_CONSTANTS.personalInformationPageTitle),
-    veteranFullName: fullNameUI(),
-    veteranDateOfBirth: dateOfBirthUI(),
+    ...titleUI(YOUR_INFORMATION_CHAPTER_CONSTANTS.personalInformationPageTitle),
+    fullName: fullNameUI(),
+    dob: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      veteranFullName: fullNameSchema,
-      veteranDateOfBirth: dateOfBirthSchema,
+      fullName: fullNameSchema,
+      dob: dateOfBirthSchema,
     },
-    required: ['veteranFullName', 'veteranDateOfBirth'],
+    required: ['fullName', 'dob'],
   },
 };

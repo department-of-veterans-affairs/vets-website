@@ -19,6 +19,7 @@ import AppealInfo from './containers/AppealInfo';
 import ClaimsStatusApp from './containers/ClaimsStatusApp';
 import OverviewPage from './containers/OverviewPage';
 import Standard5103NoticePage from './containers/Standard5103NoticePage';
+import DocumentRedirectPage from './containers/DocumentRedirectPage';
 
 const { cst5103UpdateEnabled } = Toggler.TOGGLE_NAMES;
 
@@ -54,6 +55,14 @@ const routes = (
         <Route path="claim-estimate" element={<ClaimEstimationPage />} />
         <Route
           path="document-request/:trackedItemId"
+          element={<DocumentRedirectPage />}
+        />
+        <Route
+          path="needed-from-you/:trackedItemId"
+          element={<DocumentRequestPage />}
+        />
+        <Route
+          path="needed-from-others/:trackedItemId"
           element={<DocumentRequestPage />}
         />
         <Route path="files" element={<FilesPage />} />

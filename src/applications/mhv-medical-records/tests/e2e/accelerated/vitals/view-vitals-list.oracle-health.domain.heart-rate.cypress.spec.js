@@ -19,9 +19,6 @@ describe('Medical Records View Heart Rate', () => {
   it('Visits View Vital List', () => {
     site.loadPage();
 
-    // check for MY Va Health links
-    Vitals.checkLandingPageLinks();
-
     Vitals.goToVitalPage();
 
     // switch to march 2024

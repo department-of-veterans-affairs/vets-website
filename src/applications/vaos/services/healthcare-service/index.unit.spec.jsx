@@ -5,6 +5,7 @@ import {
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 
+import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 import { getAvailableHealthcareServices } from '.';
 import mockClinics from '../mocks/v2/clinics.json';
 
@@ -18,7 +19,7 @@ describe('VAOS Services: Healthcare ', () => {
     it('should make successful request', async () => {
       await getAvailableHealthcareServices({
         facilityId: '983',
-        typeOfCare: { id: '123' },
+        typeOfCare: { id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID },
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
@@ -29,7 +30,7 @@ describe('VAOS Services: Healthcare ', () => {
     it('should sort by serviceName', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
-        typeOfCare: { id: '123' },
+        typeOfCare: { id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID },
       });
 
       expect(data[0].serviceName).to.equal('CHY PC CASSIDY');
@@ -41,7 +42,7 @@ describe('VAOS Services: Healthcare ', () => {
     it('should set an id', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
-        typeOfCare: { id: '123' },
+        typeOfCare: { id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID },
       });
 
       expect(data[0].id).to.equal('983_455');
@@ -50,7 +51,7 @@ describe('VAOS Services: Healthcare ', () => {
     it('should set stationId to the id of the VA facility where the clinic is located', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
-        typeOfCare: { id: '123' },
+        typeOfCare: { id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID },
       });
 
       expect(data[0].stationId).to.equal('983');
@@ -59,7 +60,7 @@ describe('VAOS Services: Healthcare ', () => {
     it('should set stationName to the name of the VA facility where the clinic is located', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
-        typeOfCare: { id: '123' },
+        typeOfCare: { id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID },
       });
 
       expect(data[0].stationName).to.equal('CHYSHR-Cheyenne VA Medical Center');
@@ -68,7 +69,7 @@ describe('VAOS Services: Healthcare ', () => {
     it('should set service name to clinic name', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
-        typeOfCare: { id: '123' },
+        typeOfCare: { id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID },
       });
 
       expect(data[1].serviceName).to.equal('CHY PC VAR2');
@@ -77,7 +78,7 @@ describe('VAOS Services: Healthcare ', () => {
     it('should set service name to friendly name when present', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
-        typeOfCare: { id: '123' },
+        typeOfCare: { id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID },
       });
 
       expect(data[0].serviceName).to.equal('CHY PC CASSIDY');
@@ -92,7 +93,7 @@ describe('VAOS Services: Healthcare ', () => {
       try {
         await getAvailableHealthcareServices({
           facilityId: '983',
-          typeOfCare: { id: '123' },
+          typeOfCare: { id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID },
         });
       } catch (e) {
         error = e;

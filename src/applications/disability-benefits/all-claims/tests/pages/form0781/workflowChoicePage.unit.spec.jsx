@@ -7,11 +7,11 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import WorkflowChoicePage, {
-  form0781WorkflowChoices,
   modalTitleUpload,
   modalTitleOnline,
   modalTitleSkip,
 } from '../../../content/form0781/workflowChoicePage';
+import { form0781WorkflowChoices } from '../../../content/form0781/workflowChoices';
 
 describe('WorkflowChoicePage', () => {
   const page = ({
@@ -34,7 +34,7 @@ describe('WorkflowChoicePage', () => {
 
   it('renders all 3 workflow options', () => {
     const data = {
-      'view:mentalHealthWorkflowChoice': null,
+      mentalHealthWorkflowChoice: null,
     };
     const { container } = render(page(data));
     expect($$('va-radio-option', container).length).to.eq(3);
@@ -54,7 +54,8 @@ describe('WorkflowChoicePage', () => {
   it('advances with valid selection and no mental health data', () => {
     const goForwardSpy = sinon.spy();
     const data = {
-      'view:mentalHealthWorkflowChoice':
+      mentalHealthWorkflowChoice: form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+      'view:selectedMentalHealthWorkflowChoice':
         form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
     };
 
@@ -67,8 +68,11 @@ describe('WorkflowChoicePage', () => {
   it('opens modal when mental health data is present and choice changes', () => {
     const goForwardSpy = sinon.spy();
     const data = {
-      'view:mentalHealthWorkflowChoice':
+      'view:selectedMentalHealthWorkflowChoice':
         form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      mentalHealthWorkflowChoice: form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      'view:previousMentalHealthWorkflowChoice':
+        form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
       treatmentReceivedVaProvider: {
         vaPaid: true,
       },
@@ -89,7 +93,7 @@ describe('WorkflowChoicePage', () => {
     const data = {
       'view:previousMentalHealthWorkflowChoice':
         form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-      'view:mentalHealthWorkflowChoice':
+      'view:selectedMentalHealthWorkflowChoice':
         form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
       treatmentReceivedVaProvider: { vaPaid: true },
       supportingEvidenceReports: { police: true },
@@ -119,8 +123,7 @@ describe('WorkflowChoicePage', () => {
     const goForwardSpy = sinon.spy();
     const setFormDataSpy = sinon.spy();
     const data = {
-      'view:mentalHealthWorkflowChoice':
-        form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      mentalHealthWorkflowChoice: form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
       treatmentReceivedVaProvider: { vaPaid: true },
     };
 
@@ -148,8 +151,7 @@ describe('WorkflowChoicePage', () => {
     const data = {
       'view:previousMentalHealthWorkflowChoice':
         form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-      'view:mentalHealthWorkflowChoice':
-        form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      mentalHealthWorkflowChoice: form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
       treatmentReceivedVaProvider: { vaPaid: true },
       supportingEvidenceReports: { police: true },
     };
@@ -176,8 +178,7 @@ describe('WorkflowChoicePage', () => {
     const data = {
       'view:previousMentalHealthWorkflowChoice':
         form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-      'view:mentalHealthWorkflowChoice':
-        form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      mentalHealthWorkflowChoice: form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
       treatmentReceivedVaProvider: { vaPaid: true },
       supportingEvidenceReports: { police: true },
     };
@@ -207,8 +208,7 @@ describe('WorkflowChoicePage', () => {
     const data = {
       'view:previousMentalHealthWorkflowChoice':
         form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-      'view:mentalHealthWorkflowChoice':
-        form0781WorkflowChoices.SUBMIT_PAPER_FORM,
+      mentalHealthWorkflowChoice: form0781WorkflowChoices.SUBMIT_PAPER_FORM,
       treatmentReceivedVaProvider: { vaPaid: true },
     };
 
@@ -233,8 +233,7 @@ describe('WorkflowChoicePage', () => {
     const data = {
       'view:previousMentalHealthWorkflowChoice':
         form0781WorkflowChoices.SUBMIT_PAPER_FORM,
-      'view:mentalHealthWorkflowChoice':
-        form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+      mentalHealthWorkflowChoice: form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
       treatmentReceivedVaProvider: { vaPaid: true },
     };
 
@@ -259,8 +258,7 @@ describe('WorkflowChoicePage', () => {
     const data = {
       'view:previousMentalHealthWorkflowChoice':
         form0781WorkflowChoices.SUBMIT_PAPER_FORM,
-      'view:mentalHealthWorkflowChoice':
-        form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      mentalHealthWorkflowChoice: form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
       treatmentReceivedVaProvider: { vaPaid: true },
     };
 

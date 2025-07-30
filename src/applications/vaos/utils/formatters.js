@@ -38,12 +38,6 @@ export function lowerCase(str = '') {
     .join(' ');
 }
 
-export function joinWithAnd(items) {
-  const start = items.slice(0, items.length - 1);
-
-  return `${start.join(', ')} and ${items[items.length - 1]}`;
-}
-
 export function aOrAn(noun) {
   if (['a', 'e', 'i', 'o', 'u'].includes(noun[0].toLowerCase())) {
     return 'an';

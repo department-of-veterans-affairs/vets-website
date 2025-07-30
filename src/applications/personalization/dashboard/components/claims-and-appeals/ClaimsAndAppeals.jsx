@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   selectProfile,
@@ -19,6 +22,7 @@ import { API_NAMES } from '../../../common/constants';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import useHighlightedClaimOrAppeal from './hooks/useHighlightedClaimOrAppeal';
 import HighlightedClaimAppeal from './HighlightedClaimAppeal';
+import DisabilityRatingCard from './DisabilityRatingCard';
 
 const NoClaimsOrAppealsText = () => {
   return (
@@ -26,14 +30,50 @@ const NoClaimsOrAppealsText = () => {
       className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
       data-testid="no-outstanding-claims-or-appeals-text"
     >
-      You have no claims or appeals to show.
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          You have no claims or appeals to show.
+        </Toggler.Disabled>
+        <Toggler.Enabled>
+          You don’t have any open claims or appeals.
+        </Toggler.Enabled>
+      </Toggler>
     </p>
   );
 };
 
 const ClaimsAndAppealsError = () => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
 
+  const useRedesignContent = useToggleValue(
+    TOGGLE_NAMES.myVaAuthExpRedesignEnabled,
+  );
+
+  const content = useRedesignContent ? (
+    <h3
+      slot="headline"
+      className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans vads-u-line-height--6 vads-u-margin-bottom--0"
+      data-testId="benefit-application-error-redesign"
+    >
+      We can’t show your claims or appeals information right now. Refresh this
+      page or try again later.
+    </h3>
+  ) : (
+    <>
+      <h3
+        slot="headline"
+        className="vads-u-margin-top--0"
+        data-testId="benefit-application-error-original"
+      >
+        We can’t access your claims or appeals information
+      </h3>
+      <p className="vads-u-margin-bottom--0">
+        We’re sorry. Something went wrong on our end. If you have any claims and
+        appeals, you won’t be able to access your claims and appeals information
+        right now. Please refresh or try again later.
+      </p>
+    </>
+  );
   // status will be 'warning' if toggle is on
   const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
     ? 'warning'
@@ -44,23 +84,18 @@ const ClaimsAndAppealsError = () => {
       data-testid="dashboard-section-claims-and-appeals-error"
       className="vads-u-margin-bottom--2p5"
     >
-      <va-alert status={status}>
-        <h2 slot="headline">
-          We can’t access your claims or appeals information
-        </h2>
-        <div>
-          <p>
-            We’re sorry. Something went wrong on our end. If you have any claims
-            and appeals, you won’t be able to access your claims and appeals
-            information right now. Please refresh or try again later.
-          </p>
-        </div>
-      </va-alert>
+      <va-alert status={status}>{content}</va-alert>
     </div>
   );
 };
 
 const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const showAccreditedRepresentative = useToggleValue(
+    TOGGLE_NAMES.representativeStatusEnableV2Features,
+  );
+
   return (
     <>
       <IconCTALink
@@ -79,7 +114,7 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
       {!isLOA1 && (
         <IconCTALink
           text="Manage all claims and appeals"
-          href="/claim-or-appeal-status/"
+          href="/track-claims/your-claims/"
           icon="assignment"
           onClick={() => {
             recordEvent({
@@ -90,6 +125,22 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
           }}
         />
       )}
+      {showAccreditedRepresentative &&
+        !isLOA1 && (
+          <IconCTALink
+            text="Get help from your accredited representative or VSO"
+            href="/profile/accredited-representative/"
+            icon="account_circle"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header':
+                  'Get help from your accredited representative or VSO',
+                'links-list-section-header': 'Claims and appeals',
+              });
+            }}
+          />
+        )}
     </>
   );
 };
@@ -161,10 +212,17 @@ const ClaimsAndAppeals = ({
                   claimOrAppeal={highlightedClaimOrAppeal}
                 />
               ) : (
-                <>
-                  {!isLOA1 && <NoClaimsOrAppealsText />}
-                  <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
-                </>
+                <Toggler
+                  toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+                >
+                  <Toggler.Disabled>
+                    {!isLOA1 && <NoClaimsOrAppealsText />}
+                    <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
+                  </Toggler.Disabled>
+                  <Toggler.Enabled>
+                    <NoClaimsOrAppealsText />
+                  </Toggler.Enabled>
+                </Toggler>
               )}
             </>
           )}
@@ -173,10 +231,31 @@ const ClaimsAndAppeals = ({
           !hasAPIError &&
           !isLOA1 && (
             <DashboardWidgetWrapper>
-              <PopularActionsForClaimsAndAppeals />
+              <Toggler
+                toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+              >
+                <Toggler.Disabled>
+                  <PopularActionsForClaimsAndAppeals />
+                </Toggler.Disabled>
+              </Toggler>
             </DashboardWidgetWrapper>
           )}
       </div>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Enabled>
+          <p className="vads-u-margin-top--0">
+            <va-link
+              href="/track-claims/your-claims"
+              text="Check claims and appeals"
+            />
+          </p>
+          {!isLOA1 && (
+            <DashboardWidgetWrapper>
+              <DisabilityRatingCard />
+            </DashboardWidgetWrapper>
+          )}
+        </Toggler.Enabled>
+      </Toggler>
     </div>
   );
 };

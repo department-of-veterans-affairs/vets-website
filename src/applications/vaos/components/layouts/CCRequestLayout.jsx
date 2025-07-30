@@ -59,7 +59,7 @@ export default function CCRequestLayout({ data: appointment }) {
   );
 
   return (
-    <PageLayout isDetailPage showNeedHelp>
+    <PageLayout showNeedHelp>
       <DetailPageLayout
         heading={heading}
         data={appointment}
@@ -73,7 +73,9 @@ export default function CCRequestLayout({ data: appointment }) {
           </ul>
         </Section>
         <Section heading="Type of care">
-          {typeOfCareName || 'Type of care not noted'}
+          <span data-dd-privacy="mask">
+            {typeOfCareName || 'Type of care not noted'}
+          </span>
         </Section>
         <Section heading="Scheduling facility">
           {APPOINTMENT_STATUS.cancelled !== status && (
@@ -84,12 +86,14 @@ export default function CCRequestLayout({ data: appointment }) {
               <br />
             </span>
           )}
-          {facilityName}
+          <span data-dd-privacy="mask">{facilityName}</span>
         </Section>
         <Section heading="Preferred community care provider">
-          <span>{`${providerName || 'Provider name not available'}`}</span>
+          <span data-dd-privacy="mask">
+            {`${providerName || 'Provider name not available'}`}
+          </span>
           <br />
-          <span>
+          <span data-dd-privacy="mask">
             {`${treatmentSpecialty || 'Treatment specialty not available'}`}
           </span>
           <br />

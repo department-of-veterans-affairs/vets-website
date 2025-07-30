@@ -10,7 +10,6 @@ import {
   drafts,
   customFolder,
 } from '../fixtures/folder-inbox-response.json';
-import messageResponse from '../fixtures/message-response.json';
 import folderList from '../fixtures/folder-response.json';
 import {
   DefaultFolders,
@@ -29,9 +28,13 @@ import {
 } from '../fixtures/cerner-facility-mock-data.json';
 
 describe('Folder Thread List View container', () => {
+  const expectTitleToEqual = expected => {
+    expect(global.document.title.replace(/\s+/g, ' ')).to.equal(
+      expected.replace(/\s+/g, ' '),
+    );
+  };
   const initialState = {
     sm: {
-      messageDetails: { message: messageResponse },
       folders: { folder: inbox, folderList },
       facilities: {
         cernerFacilities,
@@ -64,12 +67,12 @@ describe('Folder Thread List View container', () => {
     });
 
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Inbox ${PageTitles.PAGE_TITLE_TAG}`,
-      );
+      expectTitleToEqual(`Messages: Inbox${PageTitles.DEFAULT_PAGE_TITLE_TAG}`);
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(DefaultFolders.INBOX.header);
+      expect(folderName).to.have.text(
+        `Messages: ${DefaultFolders.INBOX.header}`,
+      );
     });
     expect(screen.queryByText('Start a new message')).to.exist;
     const startANewMessageLink = screen.getByTestId('compose-message-link');
@@ -81,7 +84,6 @@ describe('Folder Thread List View container', () => {
   it(`verifies page title tag for 'Sent' FolderThreadListView page`, async () => {
     const initialStateSent = {
       sm: {
-        messageDetails: { message: messageResponse },
         folders: { folder: sent, folderList },
       },
     };
@@ -89,12 +91,12 @@ describe('Folder Thread List View container', () => {
     const screen = setup(initialStateSent, Paths.SENT);
 
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Sent ${PageTitles.PAGE_TITLE_TAG}`,
-      );
+      expectTitleToEqual(`Messages: Sent${PageTitles.DEFAULT_PAGE_TITLE_TAG}`);
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(DefaultFolders.SENT.header);
+      expect(folderName).to.have.text(
+        `Messages: ${DefaultFolders.SENT.header}`,
+      );
     });
     expect(screen.queryByText('Start a new message')).to.exist;
   });
@@ -102,7 +104,6 @@ describe('Folder Thread List View container', () => {
   it(`verifies page title tag for 'Drafts' FolderThreadListView page`, async () => {
     const initialStateDrafts = {
       sm: {
-        messageDetails: { message: messageResponse },
         folders: { folder: drafts, folderList },
       },
     };
@@ -110,12 +111,14 @@ describe('Folder Thread List View container', () => {
     const screen = setup(initialStateDrafts, Paths.DRAFTS);
 
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Drafts ${PageTitles.PAGE_TITLE_TAG}`,
+      expectTitleToEqual(
+        `Messages: Drafts${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
       );
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(DefaultFolders.DRAFTS.header);
+      expect(folderName).to.have.text(
+        `Messages: ${DefaultFolders.DRAFTS.header}`,
+      );
 
       expect(screen.queryByText('Start a new message')).to.not.exist;
     });
@@ -124,7 +127,6 @@ describe('Folder Thread List View container', () => {
   it(`verifies page title tag for 'Trash' FolderThreadListView page`, async () => {
     const initialStateTrash = {
       sm: {
-        messageDetails: { message: messageResponse },
         folders: {
           folder: {
             folderId: -3,
@@ -140,13 +142,13 @@ describe('Folder Thread List View container', () => {
     const screen = setup(initialStateTrash, Paths.DELETED);
 
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Trash ${PageTitles.PAGE_TITLE_TAG}`,
-      );
+      expectTitleToEqual(`Messages: Trash${PageTitles.DEFAULT_PAGE_TITLE_TAG}`);
     });
     const folderName = screen.getByRole('heading', { level: 1 });
     expect(folderName).to.exist;
-    expect(folderName).to.have.text(DefaultFolders.DELETED.header);
+    expect(folderName).to.have.text(
+      `Messages: ${DefaultFolders.DELETED.header}`,
+    );
 
     const folderDescription = screen.getByTestId('folder-description');
     expect(folderDescription).to.exist;
@@ -170,7 +172,7 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
-      const ariaLabel = document.querySelector('h1');
+      const ariaLabel = document.querySelector('span');
       expect(alert)
         .to.have.attribute('status')
         .to.equal('error');
@@ -221,20 +223,17 @@ describe('Folder Thread List View container', () => {
         state = initialStateCustomFolder,
         path = `/folders/${customFolder.folderId}/`,
       ) => {
-        return renderWithStoreAndRouter(
-          <FolderThreadListView testing removeLandingPageFF />,
-          {
-            initialState: state,
-            reducers: reducer,
-            path,
-          },
-        );
+        return renderWithStoreAndRouter(<FolderThreadListView testing />, {
+          initialState: state,
+          reducers: reducer,
+          path,
+        });
       };
 
       const screen = await customSetup();
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(customFolder.name);
+      expect(folderName).to.have.text(`Messages: ${customFolder.name}`);
       const folderDescription = screen.getByTestId('folder-description');
       expect(folderDescription).to.exist;
       expect(folderDescription).to.have.text(DefaultFolders.CUSTOM_FOLDER.desc);
@@ -251,8 +250,8 @@ describe('Folder Thread List View container', () => {
       expect(folderNotEmptyModal).to.have.attribute('visible', 'true');
       expect(folderNotEmptyModal).to.have.attribute('status', 'warning');
 
-      expect(global.document.title).to.equal(
-        `${customFolder.name} ${PageTitles.PAGE_TITLE_TAG}`,
+      expectTitleToEqual(
+        `Messages: More folders${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
       );
       expect(screen.getByText(Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_BODY))
         .to.exist;

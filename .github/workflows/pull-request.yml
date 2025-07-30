@@ -112,8 +112,8 @@ jobs:
           check_title: 'App Isolation Annotations'
           input_json: './isolation-annotations.json'
       
-  annotate-skipped-e2e-tests:
-    name: Find and Annotate Skipped e2e Tests
+  annotate-e2e-tests:
+    name: Annotate e2e Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -157,6 +157,25 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           check_title: 'Skipped e2e Annotations'
           input_json: './skipped-e2e-annotations.json'
+
+      - name: Check for apps in changed files that have e2e tests with dynamically generated dates and times
+        run: node script/github-actions/annotate-flaky-dates-and-times-in-tests.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+          
+      - name: Create e2e annotations file  
+        if: ${{ env.FLAKY_DATES_TIMES_ANNOTATIONS_JSON != '[]' }}
+        run: |
+          echo "$FLAKY_DATES_TIMES_ANNOTATIONS_JSON" > flaky-dates-times-annotations.json
+          cat flaky-dates-times-annotations.json
+        
+      - name: Annotate files that contain dynamic date and time generation
+        if: ${{ env.FLAKY_DATES_TIMES_ANNOTATIONS_JSON != '[]' }}
+        uses: ./.github/workflows/annotations
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'Flaky e2e Annotations'
+          input_json: './flaky-dates-times-annotations.json'
 
   eslint-disable-check:
     name: ESLint Disable Check

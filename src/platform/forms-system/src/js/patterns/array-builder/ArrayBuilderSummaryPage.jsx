@@ -2,7 +2,8 @@
 /* eslint-disable react/sort-prop-types */
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { focusElement, scrollAndFocus } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import get from '~/platform/utilities/data/get';
@@ -14,9 +15,12 @@ import ArrayBuilderCards from './ArrayBuilderCards';
 import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
 import ArrayBuilderSummaryNoSchemaFormPage from './ArrayBuilderSummaryNoSchemaFormPage';
 import {
+  arrayBuilderContextObject,
   createArrayBuilderItemAddPath,
   getUpdatedItemFromPath,
   isDeepEmpty,
+  slugifyText,
+  validateIncompleteItems,
 } from './helpers';
 
 const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
@@ -25,7 +29,7 @@ const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
       onCloseEvent={onDismiss}
       slim
       closeable
-      name={`${nounSingular}_${index}`}
+      name={`${slugifyText(nounSingular)}_${index}`}
       status="success"
       closeBtnAriaLabel="Close notification"
       uswds
@@ -84,7 +88,7 @@ const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
 /**
  * @param {{
  *   arrayPath: string,
- *   getFirstItemPagePath: (formData, index) => string,
+ *   getFirstItemPagePath: (formData, index, context) => string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText
  *   hasItemsKey: string,
  *   hideMaxItemsAlert: boolean,
@@ -92,6 +96,7 @@ const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
  *   isItemIncomplete: function,
  *   isReviewPage: boolean,
  *   maxItems: number,
+ *   missingInformationKey: string,
  *   nounPlural: string,
  *   nounSingular: string,
  *   required: (formData) => boolean,
@@ -112,6 +117,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     isItemIncomplete,
     isReviewPage,
     maxItems,
+    missingInformationKey,
     nounPlural,
     nounSingular,
     required,
@@ -288,7 +294,14 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     function addAnotherItemButtonClick() {
       const index = arrayData ? arrayData.length : 0;
       const path = createArrayBuilderItemAddPath({
-        path: getFirstItemPagePath(props.data, index),
+        path: getFirstItemPagePath(
+          props.data,
+          index,
+          arrayBuilderContextObject({
+            add: true,
+            review: isReviewPage,
+          }),
+        ),
         index,
         isReview: isReviewPage,
         removedAllWarn: !arrayData?.length && required(props.data),
@@ -338,10 +351,13 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       });
     }
 
-    function onRemoveAllItems() {
+    function onRemoveAllItems(newFormData) {
       if (required(props.data)) {
         const path = createArrayBuilderItemAddPath({
-          path: getFirstItemPagePath(props.data, 0),
+          path: getFirstItemPagePath(newFormData, 0, {
+            add: true,
+            review: isReviewPage,
+          }),
           index: 0,
           isReview: isReviewPage,
           removedAllWarn: true,
@@ -492,7 +508,45 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     }
 
-    const newUiSchema = { ...uiSchema };
+    // About missing information validation/focus event:
+    // 1. Why invisible field? Because we don't want to display an
+    //    extra field or error.
+    // 2. Why not redux? Validation errors aren't stored in redux, they
+    //    are calculated on the fly on page submission, so the easiest
+    //    way to get the error and block going to the next page is to
+    //    hook into ui:validations
+    // 3. Where does the error show up? if ui:validation fails, it fires
+    //    an ArrayBuilderEvent that the ArrayBuilderCards listen to,
+    //    which then scrolls/focuses to the respective error card.
+    const missingInformation = {
+      uiSchema: {
+        'ui:title': ' ',
+        'ui:options': {
+          showFieldLabel: 'no-wrap',
+        },
+        'ui:validations': [
+          (errors, _, formData) => {
+            validateIncompleteItems({
+              arrayData: get(arrayPath, formData),
+              isItemIncomplete,
+              nounSingular,
+              errors,
+              arrayPath,
+            });
+          },
+        ],
+      },
+      schema: {
+        type: 'object',
+        properties: {},
+        'ui:hidden': true,
+      },
+    };
+
+    const newUiSchema = {
+      [missingInformationKey]: missingInformation.uiSchema,
+      ...uiSchema,
+    };
     let newSchema = schema;
     let titleTextType;
     let descriptionTextType;
@@ -531,21 +585,31 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     const hideAdd = maxItems && arrayData?.length >= maxItems;
 
-    if (
-      schema?.properties?.[hasItemsKey] &&
-      Boolean(newSchema.properties[hasItemsKey]['ui:hidden']) !==
+    if (schema?.properties?.[hasItemsKey]) {
+      if (
+        Boolean(newSchema.properties[hasItemsKey]['ui:hidden']) !==
         Boolean(hideAdd)
-    ) {
-      newSchema = {
-        ...schema,
-        properties: {
-          ...schema.properties,
-          [hasItemsKey]: {
-            ...schema.properties[hasItemsKey],
-            'ui:hidden': hideAdd,
+      ) {
+        newSchema = {
+          ...schema,
+          properties: {
+            [missingInformationKey]: missingInformation.schema,
+            ...schema.properties,
+            [hasItemsKey]: {
+              ...schema.properties[hasItemsKey],
+              'ui:hidden': hideAdd,
+            },
           },
-        },
-      };
+        };
+      } else {
+        newSchema = {
+          ...schema,
+          properties: {
+            [missingInformationKey]: missingInformation.schema,
+            ...schema.properties,
+          },
+        };
+      }
     }
 
     if (useLinkInsteadOfYesNo || useButtonInsteadOfYesNo) {
@@ -558,6 +622,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           customPageProps={props}
           arrayBuilderOptions={arrayBuilderOptions}
           addAnotherItemButtonClick={addAnotherItemButtonClick}
+          isItemIncomplete={isItemIncomplete}
           NavButtons={NavButtons}
         />
       );
@@ -585,6 +650,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
             goBack={props.goBack}
             goForward={props.onContinue}
             submitToContinue
+            useWebComponents={props.formOptions?.useWebComponentForNavigation}
           />
           {props.contentAfterButtons}
         </>
@@ -601,6 +667,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     contentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
     formContext: PropTypes.object,
+    formOptions: PropTypes.object,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
     onChange: PropTypes.func,

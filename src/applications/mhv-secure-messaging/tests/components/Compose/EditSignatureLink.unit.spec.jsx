@@ -28,7 +28,6 @@ describe('EditSignatureLink component', () => {
 
   it('should render', () => {
     const testState = { ...customState, featureToggles: { loading: false } };
-    testState.featureToggles.mhv_secure_messaging_signature_settings = true;
     const { getByText } = setup(testState);
     const link = getByText('Edit signature for all messages');
     expect(link).to.exist;
@@ -39,23 +38,8 @@ describe('EditSignatureLink component', () => {
     expect(link.getAttribute('data-dd-action-name')).to.equal('Edit Signature');
   });
 
-  it('should not render when feature flag is not enabled', () => {
-    const testState = { ...customState, featureToggles: { loading: false } };
-    testState.featureToggles.mhv_secure_messaging_signature_settings = false;
-    const { queryByText } = setup(testState);
-    expect(queryByText('Edit signature for all messages')).to.not.exist;
-  });
-
-  it('should not render when feature flag is loading', () => {
-    const testState = { ...customState, featureToggles: { loading: true } };
-    testState.featureToggles.mhv_secure_messaging_signature_settings = true;
-    const { queryByText } = setup(testState);
-    expect(queryByText('Edit signature for all messages')).to.not.exist;
-  });
-
   it('should not render when includeSignature is false', () => {
     const testState = { ...customState, featureToggles: { loading: false } };
-    testState.featureToggles.mhv_secure_messaging_signature_settings = true;
     testState.sm.preferences.signature.includeSignature = false;
     const { queryByText } = setup(testState);
     expect(queryByText('Edit signature for all messages')).to.not.exist;
@@ -63,7 +47,6 @@ describe('EditSignatureLink component', () => {
 
   it('should not render when includeSignature is undefined', () => {
     const testState = { ...customState, featureToggles: { loading: false } };
-    testState.featureToggles.mhv_secure_messaging_signature_settings = true;
     testState.sm.preferences.signature.includeSignature = undefined;
     const { queryByText } = setup(testState);
     expect(queryByText('Edit signature for all messages')).to.not.exist;

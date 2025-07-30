@@ -1,14 +1,15 @@
 import {
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CONTACT_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 
 export default {
   uiSchema: {
-    movingYesNo: yesNoUI({
-      title: 'Moving',
-      description: 'Are you moving in the next 30 days?',
-      labelHeaderLevel: '3',
+    ...titleUI(CONTACT_INFORMATION_CHAPTER_CONSTANTS.movingYesNoPageTitle),
+    isMoving: yesNoUI({
+      title: 'Are you moving in the next 30 days?',
       errorMessages: {
         required: 'Select yes or no',
       },
@@ -17,8 +18,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      movingYesNo: yesNoSchema,
+      isMoving: yesNoSchema,
     },
-    required: ['movingYesNo'],
+    required: ['isMoving'],
   },
 };

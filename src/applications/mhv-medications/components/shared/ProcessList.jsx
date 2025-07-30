@@ -15,7 +15,6 @@ const ProcessList = ({ stepGuideProps }) => {
   } = stepGuideProps;
 
   const {
-    dispensedDate,
     prescriptionName,
     refillDate,
     refillSubmitDate,
@@ -25,6 +24,10 @@ const ProcessList = ({ stepGuideProps }) => {
   const trackingInfo = trackingList?.length > 0 ? trackingList[0] : {};
   const { trackingNumber, carrier, completeDateTime } = trackingInfo;
   const carrierConfig = trackingConfig[carrier?.toLowerCase()];
+  const mostRecentDispensedDate =
+    prescription?.rxRfRecords && prescription?.rxRfRecords?.length > 0
+      ? prescription?.rxRfRecords[0]?.dispensedDate
+      : prescription?.dispensedDate;
 
   const getCompletedDateOrDefaultMessage = date => {
     return dateFormat(
@@ -104,7 +107,7 @@ const ProcessList = ({ stepGuideProps }) => {
                   status-text="Step 2: Completed"
                 >
                   <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
-                    {getCompletedDateOrDefaultMessage(dispensedDate)}
+                    {getCompletedDateOrDefaultMessage(mostRecentDispensedDate)}
                   </p>
                 </va-process-list-item>
                 <va-process-list-item
@@ -136,7 +139,7 @@ const ProcessList = ({ stepGuideProps }) => {
                       </section>
 
                       <section>
-                        <p className="vads-u-font-size--base vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-margin-right--0p5">
+                        <p className="vads-u-font-size--source-sans-normalized vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-margin-right--0p5">
                           <strong>Prescriptions in this package:</strong>
                         </p>
                         <ul className="vads-u-margin--0">
@@ -275,7 +278,7 @@ const ProcessList = ({ stepGuideProps }) => {
                   status-text="Step 2: Completed"
                 >
                   <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
-                    {getCompletedDateOrDefaultMessage(dispensedDate)}
+                    {getCompletedDateOrDefaultMessage(mostRecentDispensedDate)}
                   </p>
                 </va-process-list-item>
                 <va-process-list-item

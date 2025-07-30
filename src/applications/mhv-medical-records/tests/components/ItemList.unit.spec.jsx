@@ -22,7 +22,7 @@ describe('Record list item component', () => {
   it('should display the empty message if the list is empty', () => {
     const screen = render(<ItemList list={[]} />);
 
-    const emptyMessageElement = screen.getByText('None noted', {
+    const emptyMessageElement = screen.getByText('None recorded', {
       exact: true,
       selector: 'p',
     });

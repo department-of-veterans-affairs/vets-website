@@ -30,9 +30,9 @@ describe('VAOS Component: ReferralTaskCard', () => {
 
   const uuid = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
   const referralData = createReferralById('2024-09-06', uuid);
-  referralData.expirationDate = '2025-03-04';
+  referralData.attributes.expirationDate = '2025-03-04';
   const expectedDateFormated = format(
-    new Date(referralData.expirationDate),
+    new Date(referralData.attributes.expirationDate),
     'PP',
   );
 
@@ -68,8 +68,12 @@ describe('VAOS Component: ReferralTaskCard', () => {
     const store = createTestStore();
     const referral = {
       ...referralData,
-      expirationDate: '2024-09-08',
+      attributes: {
+        ...referralData.attributes,
+        expirationDate: '2024-09-08',
+      },
     };
+
     const screen = renderWithStoreAndRouter(
       <ReferralTaskCard data={referral} />,
       { store },

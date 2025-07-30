@@ -78,8 +78,22 @@ describe('<NameTag>', () => {
       });
       view.getByText(/your disability rating:/i);
       view.getByRole('link', {
-        name: /View your 70% service connected disability rating/i,
+        name: /70 percent service connected disability rating/i,
         text: /70% service connected/i,
+        href: /disability\/view-disability-rating\/rating/i,
+      });
+    });
+  });
+  context('when `totalDisabilityRating` is zero', () => {
+    it('should render the disability rating', () => {
+      const initialState = getInitialState();
+      const view = render(<NameTag totalDisabilityRating={0} />, {
+        initialState,
+      });
+      view.getByText(/your disability rating:/i);
+      view.getByRole('link', {
+        name: /0 percent service connected disability rating/i,
+        text: /0% service connected/i,
         href: /disability\/view-disability-rating\/rating/i,
       });
     });
@@ -95,7 +109,7 @@ describe('<NameTag>', () => {
         expect(view.queryByText(/your disability rating:/i)).to.not.exist;
         expect(
           view.queryByRole('link', {
-            name: /view your disability rating/i,
+            name: /review your disability rating/i,
             href: /disability\/view-disability-rating\/rating/i,
           }),
         ).to.not.exist;
@@ -108,16 +122,13 @@ describe('<NameTag>', () => {
       it('should render a fallback link', () => {
         const initialState = getInitialState();
         const view = render(
-          <NameTag
-            totalDisabilityRating={null}
-            totalDisabilityRatingServerError
-          />,
+          <NameTag totalDisabilityRating={null} totalDisabilityRatingError />,
           { initialState },
         );
         expect(view.queryByText(/your disability rating:/i)).to.not.exist;
         view.getByRole('link', {
-          name: /view your disability rating/i,
-          text: /view disability rating/i,
+          name: /review your disability rating/i,
+          text: /review disability rating/i,
           href: /disability\/view-disability-rating\/rating/i,
         });
       });

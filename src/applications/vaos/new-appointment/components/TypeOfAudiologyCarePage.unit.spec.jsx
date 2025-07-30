@@ -11,6 +11,7 @@ import {
   renderWithStoreAndRouter,
   setTypeOfCare,
 } from '../../tests/mocks/setup';
+import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 
 import TypeOfAudiologyCarePage from './TypeOfAudiologyCarePage';
 
@@ -53,25 +54,27 @@ describe('VAOS Page: TypeOfAudiologyCarePage', () => {
     expect(radioOptions[0]).to.have.attribute('label', 'Routine hearing exam');
     expect(radioOptions[1]).to.have.attribute('label', 'Hearing aid support');
 
+    // When the user continues
     fireEvent.click(screen.getByText(/Continue/));
-    // Then there should be a validation error
-    // Assertion currently disabled due to
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
-    // expect(await screen.findByText('You must provide a response')).to.exist;
-    expect(screen.history.push.called).to.not.be.true;
+
+    // The user should stay on the page
+    expect(screen.history.push.called).to.be.false;
 
     const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'CCAUDRTNE' }, // Routine hearing exam
+      detail: { value: TYPE_OF_CARE_IDS.AUDIOLOGY_ROUTINE_ID }, // Routine hearing exam
     });
     radioSelector.__events.vaValueChange(changeEvent);
     await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', 'CCAUDRTNE');
+      expect(radioSelector).to.have.attribute(
+        'value',
+        TYPE_OF_CARE_IDS.AUDIOLOGY_ROUTINE_ID,
+      );
     });
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/request-date',
+        'community-request/',
       ),
     );
   });
@@ -86,11 +89,14 @@ describe('VAOS Page: TypeOfAudiologyCarePage', () => {
 
     const radioSelector = screen.container.querySelector('va-radio');
     const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'CCAUDHEAR' }, // Hearing aid support
+      detail: { value: TYPE_OF_CARE_IDS.AUDIOLOGY_HEARING_ID }, // Hearing aid support
     });
     radioSelector.__events.vaValueChange(changeEvent);
     await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', 'CCAUDHEAR');
+      expect(radioSelector).to.have.attribute(
+        'value',
+        TYPE_OF_CARE_IDS.AUDIOLOGY_HEARING_ID,
+      );
     });
 
     await cleanup();
@@ -103,7 +109,10 @@ describe('VAOS Page: TypeOfAudiologyCarePage', () => {
     );
 
     await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', 'CCAUDHEAR');
+      expect(radioSelector).to.have.attribute(
+        'value',
+        TYPE_OF_CARE_IDS.AUDIOLOGY_HEARING_ID,
+      );
     });
   });
 });

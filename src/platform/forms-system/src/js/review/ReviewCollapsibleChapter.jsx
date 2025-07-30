@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Element } from 'platform/utilities/scroll';
+import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import classNames from 'classnames';
 import get from '../../../../utilities/data/get';
@@ -207,10 +208,12 @@ class ReviewCollapsibleChapter extends React.Component {
       // Remove bottom margin when the div content is empty
       'vads-u-margin-bottom--0': !pageSchema && arrayFields.length === 0,
     });
+
     const title = page.reviewTitle || page.title || '';
-    const ariaLabel = `Update ${(typeof title === 'function'
-      ? title(pageData)
-      : title) || 'page'}`;
+    const labelTitle = pageUiSchema['ui:options']?.itemAriaLabel || title;
+    const ariaText =
+      typeof labelTitle === 'function' ? labelTitle(pageData) : labelTitle;
+    const ariaLabel = `Update ${ariaText || 'page'}`;
 
     const visibleFields =
       pageSchema &&
@@ -453,7 +456,11 @@ class ReviewCollapsibleChapter extends React.Component {
           bordered
           uswds
         >
-          <h3 slot="headline">{chapterTitle}</h3>
+          {isMinimalHeaderApp() ? (
+            <h2 slot="headline">{chapterTitle}</h2>
+          ) : (
+            <h3 slot="headline">{chapterTitle}</h3>
+          )}
           {this.props.hasUnviewedPages && (
             <va-icon slot="icon" icon="error" class="vads-u-color--secondary" />
           )}

@@ -32,15 +32,12 @@ export default function GenericError(props) {
 
   if (process.env.NODE_ENV !== 'production') {
     submitButton = (
-      <Column classNames="small-6 usa-width-one-half medium-6">
-        <button
-          type="button"
-          className="usa-button-secondary"
-          onClick={onSubmit}
-        >
-          Submit again
-        </button>
-      </Column>
+      <va-button
+        secondary
+        class="vads-u-margin--0"
+        onClick={onSubmit}
+        text="Submit again"
+      />
     );
   }
 
@@ -52,14 +49,15 @@ export default function GenericError(props) {
         </Column>
       </Row>
       <PreSubmitSection formConfig={formConfig} />
-      <Row classNames="form-progress-buttons schemaform-back-buttons vads-u-margin-y--2">
-        <Column classNames="small-6 usa-width-one-half medium-6">
-          <a href="/" className="vads-c-action-link--green">
-            Go Back to VA.gov
-          </a>
-        </Column>
+      <div className="vads-u-display--flex vads-u-margin-y--4">
+        <va-link-action
+          type="primary"
+          href="/"
+          class="vads-u-margin-right--2"
+          text="Go Back to VA.gov"
+        />
         {submitButton}
-      </Row>
+      </div>
     </>
   );
 }

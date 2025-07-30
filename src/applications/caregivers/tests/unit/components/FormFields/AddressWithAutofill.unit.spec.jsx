@@ -1,29 +1,36 @@
 import { omit } from 'lodash';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { inputVaTextInput } from 'platform/testing/unit/helpers';
 import { FULL_SCHEMA } from '../../../../utils/imports';
 import { addressWithAutofillSchema } from '../../../../definitions/sharedSchema';
 import AddressWithAutofill from '../../../../components/FormFields/AddressWithAutofill';
 import content from '../../../../locales/en/content.json';
 
-const { address } = FULL_SCHEMA.definitions;
+// declare error message content
+const ERROR_MSG_POSTAL_REQUIRED =
+  content['validation-address--postalCode-required'];
+const ERROR_MSG_POSTAL_PATTERN =
+  content['validation-address--postalCode-pattern'];
+const ERROR_MSG_REQUIRED = content['validation-default-required'];
 
 const errorSchemas = {
   empty: { __errors: [] },
-  required: { __errors: [content['validation-default-required']] },
+  required: { __errors: [ERROR_MSG_REQUIRED] },
 };
 
 const postalCode = { valid: '46220', invalid: '462205678' };
 
 describe('CG <AddressWithAutofill>', () => {
+  let onChangeSpy;
+
   const subject = ({
     autofill = false,
     reviewMode = false,
-    onChange = f => f,
+    onChange = onChangeSpy,
   } = {}) => {
     const props = {
       formContext: { reviewMode, submitted: undefined },
@@ -55,7 +62,7 @@ describe('CG <AddressWithAutofill>', () => {
         street2: { $id: 'root_caregiverAddress_street2' },
         'view:autofill': { $id: 'root_caregiverAddress_autofill' },
       },
-      schema: addressWithAutofillSchema(address),
+      schema: addressWithAutofillSchema(FULL_SCHEMA.definitions.address),
       name: 'caregiverAddress',
       onChange,
     };
@@ -92,10 +99,13 @@ describe('CG <AddressWithAutofill>', () => {
     });
     return { container, selectors, formData: props.formData };
   };
-  let onChangeSpy;
 
   beforeEach(() => {
     onChangeSpy = sinon.spy();
+  });
+
+  afterEach(() => {
+    sinon.restore();
   });
 
   it('should render the form fields when not in review mode', () => {
@@ -113,22 +123,18 @@ describe('CG <AddressWithAutofill>', () => {
     expect(reviewRows).to.have.length;
   });
 
-  it('should call the `onChange` method with the correct form data when the user clicks the autofill checkbox', async () => {
+  it('should call the `onChange` method with the correct form data when the user clicks the autofill checkbox', () => {
     const { selectors, formData } = subject({
       autofill: true,
       onChange: onChangeSpy,
     });
     const { vaCheckbox } = selectors();
-    await waitFor(() => {
-      const expectedOutput = omit(formData, 'county');
-      vaCheckbox.__events.vaChange({ target: { checked: true } });
-      expect(onChangeSpy.calledWith(expectedOutput)).to.be.true;
-    });
-    await waitFor(() => {
-      const expectedOutput = { 'view:autofill': false };
-      vaCheckbox.__events.vaChange({ target: { checked: false } });
-      expect(onChangeSpy.calledWith(expectedOutput)).to.be.true;
-    });
+
+    vaCheckbox.__events.vaChange({ target: { checked: true } });
+    sinon.assert.calledWithExactly(onChangeSpy, omit(formData, 'county'));
+
+    vaCheckbox.__events.vaChange({ target: { checked: false } });
+    sinon.assert.calledWithExactly(onChangeSpy, { 'view:autofill': false });
   });
 
   it('should reset the `view:autofill` datapoint when a change is made to the an autofilled address', () => {
@@ -136,89 +142,79 @@ describe('CG <AddressWithAutofill>', () => {
       autofill: true,
       onChange: onChangeSpy,
     });
-    const expectedOutput = {
+    inputVaTextInput(container, postalCode.valid, selectors().vaTextInput);
+    sinon.assert.calledWithExactly(onChangeSpy, {
       ...formData,
       postalCode: postalCode.valid,
       'view:autofill': false,
-    };
-    inputVaTextInput(container, postalCode.valid, selectors().vaTextInput);
-    expect(onChangeSpy.calledWith(expectedOutput)).to.be.true;
+    });
   });
 
-  it('should call the `onChange` method with the correct form data when a change is made', async () => {
+  it('should call the `onChange` method with the correct form data when a change is made', () => {
     const { container, selectors, formData } = subject({
       onChange: onChangeSpy,
     });
     const { vaTextInput } = selectors();
-    await waitFor(() => {
-      const expectedOutput = { ...formData, postalCode: postalCode.valid };
-      inputVaTextInput(container, postalCode.valid, vaTextInput);
-      expect(onChangeSpy.calledWith(expectedOutput)).to.be.true;
+
+    inputVaTextInput(container, postalCode.valid, vaTextInput);
+    sinon.assert.calledWithExactly(onChangeSpy, {
+      ...formData,
+      postalCode: postalCode.valid,
     });
-    await waitFor(() => {
-      fireEvent.blur(vaTextInput);
-      expect(vaTextInput).to.not.have.attr('error');
-    });
+
+    fireEvent.blur(vaTextInput);
+    expect(vaTextInput).to.not.have.attr('error');
   });
 
-  it('should call all `onChange` methods to update the form data in case of autocomplete', async () => {
+  it('should call all `onChange` methods to update the form data in case of autocomplete', () => {
     const { container, selectors, formData } = subject({
       onChange: onChangeSpy,
     });
     const { streetInput, vaTextInput } = selectors();
-    await waitFor(() => {
-      const blurEvent = new CustomEvent('blur');
-      const expectedOutput = {
-        ...formData,
-        postalCode: postalCode.valid,
-        street: '123 Fake St.',
-      };
-      streetInput.value = expectedOutput.street;
-      inputVaTextInput(container, postalCode.valid, vaTextInput);
+    const expectedOutput = {
+      ...formData,
+      postalCode: postalCode.valid,
+      street: '123 Fake St.',
+    };
+    streetInput.value = expectedOutput.street;
+    inputVaTextInput(container, postalCode.valid, vaTextInput);
 
-      vaTextInput.dispatchEvent(blurEvent);
-      expect(onChangeSpy.calledWith(expectedOutput)).to.be.true;
+    vaTextInput.dispatchEvent(new CustomEvent('blur'));
+    sinon.assert.calledWithExactly(onChangeSpy, expectedOutput);
 
-      fireEvent.blur(vaTextInput);
-      expect(vaTextInput).to.not.have.attr('error');
-    });
+    fireEvent.blur(vaTextInput);
+    expect(vaTextInput).to.not.have.attr('error');
   });
 
-  it('should render error when `blur` event is fired with invalid data', async () => {
+  it('should render error when `blur` event is fired with invalid data', () => {
     const { container, selectors, formData } = subject({
       onChange: onChangeSpy,
     });
     const { vaTextInput } = selectors();
-    await waitFor(() => {
-      const expectedOutput = { ...formData, postalCode: '' };
-      inputVaTextInput(container, '', vaTextInput);
-      expect(onChangeSpy.calledWith(expectedOutput)).to.be.true;
+
+    inputVaTextInput(container, '', vaTextInput);
+    sinon.assert.calledWithExactly(onChangeSpy, {
+      ...formData,
+      postalCode: '',
     });
-    await waitFor(() => {
-      fireEvent.blur(vaTextInput);
-      expect(vaTextInput).to.have.attr(
-        'error',
-        content['validation-address--postalCode-required'],
-      );
-    });
+
+    fireEvent.blur(vaTextInput);
+    expect(vaTextInput).to.have.attr('error', ERROR_MSG_POSTAL_REQUIRED);
   });
 
-  it('should render error when form data is invalid with a pattern mismatch', async () => {
+  it('should render error when form data is invalid with a pattern mismatch', () => {
     const { container, selectors, formData } = subject({
       onChange: onChangeSpy,
     });
     const { vaTextInput } = selectors();
-    await waitFor(() => {
-      const expectedOutput = { ...formData, postalCode: postalCode.invalid };
-      inputVaTextInput(container, postalCode.invalid, vaTextInput);
-      expect(onChangeSpy.calledWith(expectedOutput)).to.be.true;
+
+    inputVaTextInput(container, postalCode.invalid, vaTextInput);
+    sinon.assert.calledWithExactly(onChangeSpy, {
+      ...formData,
+      postalCode: postalCode.invalid,
     });
-    await waitFor(() => {
-      fireEvent.blur(vaTextInput);
-      expect(vaTextInput).to.have.attr(
-        'error',
-        content['validation-address--postalCode-pattern'],
-      );
-    });
+
+    fireEvent.blur(vaTextInput);
+    expect(vaTextInput).to.have.attr('error', ERROR_MSG_POSTAL_PATTERN);
   });
 });

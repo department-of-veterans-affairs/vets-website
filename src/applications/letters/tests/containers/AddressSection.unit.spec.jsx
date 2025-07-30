@@ -7,6 +7,8 @@ import sinon from 'sinon';
 
 import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import { AddressSection } from '../../containers/AddressSection';
 import * as VAProfileWrapper from '../../containers/VAProfileWrapper';
 
@@ -30,6 +32,13 @@ const emptyAddress = {
   stateCode: '',
   type: ADDRESS_TYPES_ALTERNATE.domestic,
 };
+const getStore = (lettersPageNewDesign = true) =>
+  createStore(() => ({
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      letters_page_new_design: lettersPageNewDesign,
+    },
+  }));
 
 describe('<AddressSection>', () => {
   let stub;
@@ -60,9 +69,11 @@ describe('<AddressSection>', () => {
 
   it('should render an empty address warning on the view screen and disable the View letters button', () => {
     const { container, getByText } = render(
-      <MemoryRouter initialEntries={[`/confirm-address`]}>
-        <AddressSection address={emptyAddress} />
-      </MemoryRouter>,
+      <Provider store={getStore()}>
+        <MemoryRouter initialEntries={[`/confirm-address`]}>
+          <AddressSection address={emptyAddress} />
+        </MemoryRouter>
+      </Provider>,
     );
 
     expect(getByText('We don’t have a valid address on file for you').exist);

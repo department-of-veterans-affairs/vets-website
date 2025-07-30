@@ -17,10 +17,10 @@ describe('Medical Records View Labs And Tests', () => {
     MicrobiologyDetailsPage.verifyLabDate(
       moment(record.effectiveDateTime).format('MMMM D, YYYY'),
     );
-    MicrobiologyDetailsPage.verifySampleTested('None noted');
+    MicrobiologyDetailsPage.verifySampleTested('None recorded');
     MicrobiologyDetailsPage.verifySampleFrom(record.contained[1].type.text);
-    MicrobiologyDetailsPage.verifyOrderedBy('None noted'); // DOE, JANE A
-    MicrobiologyDetailsPage.verifyCollectingLocation('None noted');
+    MicrobiologyDetailsPage.verifyOrderedBy('None recorded'); // DOE, JANE A
+    MicrobiologyDetailsPage.verifyCollectingLocation('None recorded');
     // '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428'
     MicrobiologyDetailsPage.verifyDateCompleted(
       moment(record.effectiveDateTime).format('MMMM D, YYYY'),

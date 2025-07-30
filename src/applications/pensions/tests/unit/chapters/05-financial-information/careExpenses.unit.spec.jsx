@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import {
   testNumberOfWebComponentFields,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
   testSubmitsWithoutErrors,
@@ -19,7 +19,7 @@ const { schema, uiSchema } = careExpenses;
 
 describe('Unreimbursed care expenses pension page', () => {
   const pageTitle = 'Care expenses';
-  const expectedNumberOfFields = 2;
+  const expectedNumberOfFields = 0;
   testNumberOfFields(
     formConfig,
     schema,
@@ -28,7 +28,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
+  const expectedNumberOfErrors = 0;
   testNumberOfErrorsOnSubmit(
     formConfig,
     schema,
@@ -37,7 +37,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfWebComponentFields = 8;
+  const expectedNumberOfWebComponentFields = 10;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -46,12 +46,18 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrorsForWebComponents = 5;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     schema,
     uiSchema,
-    expectedNumberOfErrorsForWebComponents,
+    [
+      `va-radio[label="Who receives care?"]`,
+      `va-text-input[label="What’s the name of the care provider?"]`,
+      `va-radio[label="Choose the type of care:"]`,
+      `va-memorable-date[label="Care start date"]`,
+      `va-radio[label="How often are the payments?"]`,
+      `va-text-input[label="How much is each payment?"]`,
+    ],
     pageTitle,
   );
 
@@ -62,11 +68,10 @@ describe('Unreimbursed care expenses pension page', () => {
     schema,
     uiSchema,
     {
-      'va-text-input': 2,
+      'va-text-input': 4,
       'va-memorable-date': 2,
       'va-checkbox': 1,
       'va-radio': 3,
-      input: 2,
     },
     pageTitle,
   );

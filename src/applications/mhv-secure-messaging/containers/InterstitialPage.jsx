@@ -1,10 +1,15 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
+import { Paths } from '../util/constants';
+import featureToggles from '../hooks/useFeatureToggles';
 
 const InterstitialPage = props => {
   const { acknowledge, type } = props;
+  const history = useHistory();
+  const { cernerPilotSmFeatureFlag } = featureToggles();
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
@@ -24,6 +29,17 @@ const InterstitialPage = props => {
     [type],
   );
 
+  const handleContinueButton = useCallback(
+    () => {
+      if (cernerPilotSmFeatureFlag && type !== 'reply') {
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`);
+      } else {
+        acknowledge();
+      }
+    },
+    [history, acknowledge, cernerPilotSmFeatureFlag, type],
+  );
+
   return (
     <div className="interstitial-page">
       <h1 className="vads-u-margin-bottom--2">
@@ -39,7 +55,7 @@ const InterstitialPage = props => {
         <button
           className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
           data-testid="continue-button"
-          onClick={acknowledge}
+          onClick={handleContinueButton}
           data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
         >
           {continueButtonText}

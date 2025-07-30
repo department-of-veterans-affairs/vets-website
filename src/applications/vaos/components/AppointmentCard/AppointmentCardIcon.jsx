@@ -4,8 +4,8 @@ import {
   isVAPhoneAppointment,
   isClinicVideoAppointment,
   isAtlasVideoAppointment,
-  isVideoHome,
-  isInPersonVAAppointment,
+  isVideoAtHome,
+  isInPersonVisit,
 } from '../../services/appointment';
 
 const appointmentIcon = appointment => {
@@ -26,7 +26,7 @@ const appointmentIcon = appointment => {
   }
 
   if (
-    (isInPersonVAAppointment(appointment) && !isPendingAppointment) ||
+    (isInPersonVisit(appointment) && !isPendingAppointment) ||
     isCOVIDVaccine ||
     isCompAndPenAppointment ||
     isClinicVideoAppointment(appointment) ||
@@ -35,7 +35,7 @@ const appointmentIcon = appointment => {
     return 'location_city';
   }
 
-  if (isVideoHome(appointment)) {
+  if (isVideoAtHome(appointment)) {
     return 'videocam';
   }
   return 'calendar_today';

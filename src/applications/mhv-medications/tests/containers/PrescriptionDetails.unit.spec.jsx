@@ -1,215 +1,199 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import {
-  mockApiRequest,
-  mockFetch,
-  resetFetch,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+import { Route, Routes } from 'react-router-dom-v5-compat';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import * as prescriptionsApiModule from '../../api/prescriptionsApi';
+import {
+  stubAllergiesApi,
+  stubPrescriptionsApiCache,
+  stubPrescriptionIdApi,
+  stubUsePrefetch,
+} from '../testing-utils';
+import singlePrescription from '../fixtures/prescriptionsListItem.json';
+import { allergiesApi } from '../../api/allergiesApi';
+import { prescriptionsApi } from '../../api/prescriptionsApi';
 import reducer from '../../reducers';
 import PrescriptionDetails from '../../containers/PrescriptionDetails';
 import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
 import nonVaRxResponse from '../fixtures/nonVaPrescription.json';
 import { dateFormat } from '../../util/helpers';
 
-const allergyErrorState = {
-  initialState: {
-    rx: {
-      prescriptions: {
-        prescriptionDetails: rxDetailsResponse.data.attributes,
-      },
-      allergies: { error: true },
-    },
-  },
-  reducers: reducer,
-  path: '/',
-};
+let sandbox;
 
 describe('Prescription details container', () => {
-  const initialState = {
-    rx: {
-      prescriptions: {
-        prescriptionDetails: rxDetailsResponse.data.attributes,
-        apiError: false,
+  const setup = (state = {}) => {
+    return renderWithStoreAndRouterV6(
+      <Routes>
+        <Route
+          path="/prescriptions/:prescriptionId"
+          element={<PrescriptionDetails />}
+        />
+      </Routes>,
+      {
+        initialState: state,
+        reducers: reducer,
+        initialEntries: ['/prescriptions/1234567891'],
+        additionalMiddlewares: [
+          allergiesApi.middleware,
+          prescriptionsApi.middleware,
+        ],
       },
-    },
-  };
-
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<PrescriptionDetails />, {
-      initialState: state,
-      reducers: reducer,
-      path: '/1234567891',
-    });
+    );
   };
 
   beforeEach(() => {
-    mockFetch();
+    sandbox = sinon.createSandbox();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox });
+    stubPrescriptionIdApi({ sandbox });
+    stubUsePrefetch({ sandbox });
   });
 
   afterEach(() => {
-    resetFetch();
+    sandbox.restore();
   });
 
-  it('renders without errors', () => {
+  it('renders without errors', async () => {
     const screen = setup({
-      ...initialState,
       user: {
         profile: {
           userFullName: { first: 'test', last: 'last', suffix: 'jr' },
           dob: 'January, 01, 2000',
         },
       },
-      rx: {
-        prescriptions: {
-          prescriptionDetails: {
-            rxRfRecords: [
-              {
-                cmopNdcNumber: '00093314705',
-              },
-            ],
-          },
-        },
-      },
     });
-    expect(screen);
+    await waitFor(() => {
+      expect(screen);
+      expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
+        singlePrescription.prescriptionName,
+      );
+    });
   });
 
   it('should display loading message when loading specific rx', async () => {
-    const screen = setup({
-      prescriptions: {
-        prescriptionDetails: undefined,
-      },
-    });
-    waitFor(() => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    stubPrescriptionIdApi({ sandbox, isLoading: true });
+    const screen = setup();
+    await waitFor(() => {
       expect(screen.getByTestId('loading-indicator')).to.exist;
-      expect(screen.getByText('Loading your medication record...')).to.exist;
+      expect(screen.getByTestId('loading-indicator')).to.have.attribute(
+        'message',
+        'Loading your medication record...',
+      );
     });
   });
 
-  it('should show the allergy error alert when downloading txt', () => {
-    resetFetch();
-    const mockData = [nonVaRxResponse];
-    mockApiRequest(mockData);
-    const screen = renderWithStoreAndRouter(
-      <PrescriptionDetails />,
-      allergyErrorState,
-    );
-    const pdfButton = screen.getByTestId('download-txt-button');
-    fireEvent.click(pdfButton);
+  it('should show the allergy error alert when downloading txt', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox, error: true });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    stubPrescriptionIdApi({ sandbox });
+    const screen = setup();
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('download-txt-button'));
+    });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });
   });
 
-  it('should show the allergy error alert when printing', () => {
-    resetFetch();
-    const mockData = [nonVaRxResponse];
-    mockApiRequest(mockData);
-    const screen = renderWithStoreAndRouter(
-      <PrescriptionDetails />,
-      allergyErrorState,
-    );
-    const pdfButton = screen.getByTestId('download-print-button');
-    fireEvent.click(pdfButton);
+  it('should show the allergy error alert when printing', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox, error: true });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    stubPrescriptionIdApi({ sandbox });
+    const screen = setup();
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('download-print-button'));
+    });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t print your records right now')).to
         .exist;
     });
   });
 
-  it('displays the prescription name and filled by date', () => {
+  it('displays the prescription name and filled by date', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({
+      sandbox,
+      data: false,
+    });
+    stubPrescriptionIdApi({ sandbox, data: rxDetailsResponse.data.attributes });
     const screen = setup();
-
     const rxName = screen.findByText(
       rxDetailsResponse.data.attributes.prescriptionName,
     );
-    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
-      `Last filled on ${dateFormat(
-        rxDetailsResponse.data.attributes.dispensedDate,
-        'MMMM D, YYYY',
-      )}`,
-    );
-    expect(rxName).to.exist;
+    await waitFor(() => {
+      expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+        `Last filled on ${dateFormat(
+          rxDetailsResponse.data.attributes.dispensedDate,
+          'MMMM D, YYYY',
+        )}`,
+      );
+      expect(rxName).to.exist;
+    });
   });
 
-  it('still shows medication details if rx data is received from api instead of redux', () => {
-    resetFetch();
-    const mockData = [nonVaRxResponse];
-    mockApiRequest(mockData);
-    const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
-      initialState: {
-        rx: {
-          prescriptions: {
-            prescriptionDetails: null,
-          },
-        },
-      },
-      reducers: reducer,
-      path: '/medication/21142496',
-    });
+  it('still shows medication details if rx data is received from query cache instead of api call', () => {
+    const prescriptionApiStub = sandbox.stub(
+      prescriptionsApiModule,
+      'useGetPrescriptionByIdQuery',
+    );
+    const screen = setup();
+
     const rxName = screen.findByText(
       nonVaRxResponse.data.attributes.orderableItem,
     );
-
     expect(rxName).to.exist;
-  });
-  it('displays "Not filled yet" when there is no dispense date', () => {
-    const stateWdispensedDate = {
-      ...initialState,
-      rx: {
-        prescriptions: {
-          prescriptionDetails: {
-            ...rxDetailsResponse.data.attributes,
-            dispensedDate: null,
-            sortedDispensedDate: null,
-          },
-        },
-      },
-    };
-    const screen = setup(stateWdispensedDate);
-    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
-      'Not filled yet',
-    );
+    expect(prescriptionApiStub.notCalled).to.be.true;
   });
 
-  it('displays "Documented on" instead of "filled by" date, when med is non VA', () => {
-    const nonVaRxState = {
-      rx: {
-        prescriptions: {
-          prescriptionDetails: nonVaRxResponse.data.attributes,
-        },
-      },
-    };
-    const screen = setup(nonVaRxState);
+  it('displays "Not filled yet" when there is no dispense date', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    const data = JSON.parse(JSON.stringify(singlePrescription));
+    data.dispensedDate = null;
+    data.sortedDispensedDate = null;
+    stubPrescriptionIdApi({ sandbox, data });
+    const screen = setup();
+    await waitFor(() => {
+      expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+        'Not filled yet',
+      );
+    });
+  });
 
-    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
-      `Documented on ${dateFormat(
-        nonVaRxResponse.data.attributes.orderedDate,
-        'MMMM D, YYYY',
-      )}`,
-    );
+  it('displays "Documented on" instead of "filled by" date, when med is non VA', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    stubPrescriptionIdApi({ sandbox, data: nonVaRxResponse.data.attributes });
+    const screen = setup();
+    await waitFor(() => {
+      expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+        `Documented on ${dateFormat(
+          nonVaRxResponse.data.attributes.orderedDate,
+          'MMMM D, YYYY',
+        )}`,
+      );
+    });
   });
 
   it('name should use orderableItem for non va prescription if no prescriptionName is available', () => {
-    const mockData = [nonVaRxResponse];
-    resetFetch();
-    mockApiRequest(mockData);
-    const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
-      initialState: {
-        rx: {
-          prescriptions: {
-            prescriptionDetails: nonVaRxResponse.data.attributes,
-          },
-        },
-      },
-      reducers: reducer,
-      path: '/21142496',
-    });
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    stubPrescriptionIdApi({ sandbox, data: nonVaRxResponse.data.attributes });
+    const screen = setup();
     const rxName = screen.findByText(
       nonVaRxResponse.data.attributes.orderableItem,
     );
@@ -217,43 +201,28 @@ describe('Prescription details container', () => {
     expect(rxName).to.exist;
   });
 
-  it('name should use prescriptionName for non va prescription if available', () => {
-    const mockData = [nonVaRxResponse];
+  it('name should use prescriptionName for non va prescription if available', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    const data = JSON.parse(JSON.stringify(nonVaRxResponse.data.attributes));
     const testPrescriptionName = 'Test Name for Non-VA prescription';
-    mockData.prescriptionName = testPrescriptionName;
-    resetFetch();
-    mockApiRequest(mockData);
-    const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
-      initialState: {
-        rx: {
-          prescriptions: {
-            prescriptionDetails: nonVaRxResponse.data.attributes,
-          },
-        },
-      },
-      reducers: reducer,
-      path: '/21142496',
-    });
-    const rxName = screen.findByText(
-      nonVaRxResponse.data.attributes.prescriptionName,
-    );
+    data.prescriptionName = testPrescriptionName;
+    stubPrescriptionIdApi({ sandbox, data });
 
-    expect(rxName).to.exist;
+    const screen = setup();
+    await waitFor(() => {
+      const rxName = screen.findByText(testPrescriptionName);
+      expect(rxName).to.exist;
+    });
   });
 
   it('Shows error message for apiError', async () => {
-    const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
-      initialState: {
-        rx: {
-          prescriptions: {
-            prescriptionDetails: undefined,
-            apiError: true,
-          },
-        },
-      },
-      reducers: reducer,
-      path: '/21142496',
-    });
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    stubPrescriptionIdApi({ sandbox, error: true });
+    const screen = setup();
     await waitFor(() => {
       const errorMessageH2 = screen.getByTestId('no-medications-list');
       expect(errorMessageH2).to.exist;
@@ -263,19 +232,50 @@ describe('Prescription details container', () => {
     });
   });
 
-  it('should display alert if prescription has a prescriptionSource of PD', () => {
-    const stateWPrescriptionSource = {
-      ...initialState,
-      rx: {
-        prescriptions: {
-          prescriptionDetails: {
-            ...rxDetailsResponse.data.attributes,
-            prescriptionSource: 'PD',
-          },
-        },
-      },
-    };
-    const screen = setup(stateWPrescriptionSource);
-    expect(screen.getByTestId('pending-med-alert')).to.exist;
+  it('should display alert if prescription has a prescriptionSource of PD', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox });
+    const data = JSON.parse(JSON.stringify(singlePrescription));
+    data.prescriptionSource = 'PD';
+    stubPrescriptionIdApi({ sandbox, data });
+    const screen = setup();
+    await waitFor(() => {
+      expect(screen.getByTestId('pending-med-alert')).to.exist;
+    });
+  });
+
+  it('should prefetch the prescription documentation when there is an NDC number', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: null, error: true });
+    const data = JSON.parse(JSON.stringify(singlePrescription));
+    data.rxRfRecords = [{ cmopNdcNumber: '00093314705' }];
+    stubPrescriptionIdApi({ sandbox, data });
+    const prefetchStub = stubUsePrefetch({ sandbox });
+    const screen = setup();
+    await waitFor(() => {
+      expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
+        singlePrescription.prescriptionName,
+      );
+      expect(prefetchStub.called).to.be.true;
+    });
+  });
+
+  it('should not prefetch the prescription documentation when there is not an NDC number', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: null, error: true });
+    const data = JSON.parse(JSON.stringify(singlePrescription));
+    data.rxRfRecords = [{ cmopNdcNumber: null }];
+    stubPrescriptionIdApi({ sandbox, data });
+    const prefetchStub = stubUsePrefetch({ sandbox });
+    const screen = setup();
+    await waitFor(() => {
+      expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
+        singlePrescription.prescriptionName,
+      );
+      expect(prefetchStub.called).to.be.false;
+    });
   });
 });

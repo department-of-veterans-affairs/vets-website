@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
+import IntlMobileConfirmModal from '@@vap-svc/components/ContactInformationFieldInfo/IntlMobileConfirmModal';
+import { ContactInfoFormAppConfigContext } from './ContactInfoFormAppConfigContext';
 import {
   createTransaction,
   refreshTransaction,
@@ -15,6 +16,7 @@ import {
   openModal,
   updateFormFieldWithSchema,
   validateAddress,
+  openIntlMobileConfirmModal,
 } from '../actions';
 
 import {
@@ -67,13 +69,36 @@ export class ProfileInformationEditView extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    // Check if the cancel button should be focused before focusing
+    // on the first form element
+    if (
+      this.props.shouldFocusCancelButton &&
+      !prevProps.shouldFocusCancelButton
+    ) {
+      this.focusOnCancelButton();
+    }
+
     if (!prevProps.field && !!this.props.field) {
       this.focusOnFirstFormElement();
     }
 
+    const isAddressValidationError =
+      this.props.transactionRequest?.error?.errors?.some(
+        e => e.code === 'VET360_AV_ERROR',
+      ) || false;
+
+    // If we get an address validation error, open the validation modal
     if (
-      this.props.transactionRequest?.error ||
-      isFailedTransaction(this.props.transaction)
+      isAddressValidationError &&
+      !prevProps.transactionRequest?.error // Only trigger on new error
+    ) {
+      this.props.openModal(ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION);
+    }
+
+    if (
+      !isAddressValidationError &&
+      (this.props.transactionRequest?.error ||
+        isFailedTransaction(this.props.transaction))
     ) {
       focusElement('button[aria-label="Close notification"]');
     }
@@ -86,7 +111,7 @@ export class ProfileInformationEditView extends Component {
     ) {
       this.interval = window.setInterval(
         this.refreshTransaction,
-        window.VetsGov.pollTimeout || 1000,
+        window.VetsGov.pollTimeout || 2000,
       );
     }
     // if the transaction is no longer pending, stop refreshing it
@@ -207,13 +232,33 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
-    this.props.createTransaction(
-      apiRoute,
-      method,
-      fieldName,
-      payload,
-      analyticsSectionName,
-    );
+    const createTransactionFn = () => {
+      this.props.createTransaction(
+        apiRoute,
+        method,
+        fieldName,
+        payload,
+        analyticsSectionName,
+      );
+    };
+
+    // Show a confirmation modal before saving internation mobile numbers
+    // Relay the transaction to the confirmation modal
+    // `countryCode == 1` is marked as international, skip that case
+    if (
+      fieldName === 'mobilePhone' &&
+      payload.isInternational &&
+      String(payload.countryCode) !== USA.COUNTRY_CODE
+    ) {
+      this.props.openIntlMobileConfirmModal(
+        payload.countryCode,
+        payload.phoneNumber,
+        createTransactionFn,
+      );
+      return;
+    }
+
+    createTransactionFn();
   };
 
   onInput = (value, schema, uiSchema) => {
@@ -237,6 +282,8 @@ export class ProfileInformationEditView extends Component {
   };
 
   onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
+    // Validate before updating
+
     this.props.updateFormFieldWithSchema(
       this.props.fieldName,
       value,
@@ -261,13 +308,41 @@ export class ProfileInformationEditView extends Component {
 
     if (this.editForm) {
       setTimeout(() => {
-        const focusableElement = getFocusableElements(this.editForm)?.[0];
+        // Set focus on the country picker if we're using the va-telephone-input component
+        const vaTel = this.editForm?.querySelector?.('va-telephone-input');
+        const vaComboBox = vaTel?.shadowRoot?.querySelector?.('va-combo-box');
+        const countrySelect = vaComboBox?.shadowRoot?.querySelector?.('input');
 
-        if (focusableElement) {
-          focusElement(focusableElement);
+        if (vaTel && countrySelect) {
+          countrySelect.focus();
+        } else {
+          // If no va-telephone-input, focus the first focusable element in the form
+          const focusableElement = getFocusableElements(this.editForm)?.[0];
+
+          if (focusableElement) {
+            focusElement(focusableElement);
+          }
         }
       }, 100);
     }
+  }
+
+  // We manually set focus on the cancel button when the confirm cancel modal is closed
+  // Since va-button is a web component, we need to wait for the shadow DOM to render
+  // before we can focus the native button inside it
+  focusOnCancelButton() {
+    setTimeout(() => {
+      const cancelButton = this.editForm?.querySelector(
+        'va-button[data-testid="cancel-edit-button"]',
+      );
+      if (cancelButton && cancelButton.shadowRoot) {
+        const shadowButton = cancelButton.shadowRoot.querySelector('button');
+        if (shadowButton) shadowButton.focus();
+      }
+      if (this.props.onCancelButtonFocused) {
+        this.props.onCancelButtonFocused();
+      }
+    }, 100);
   }
 
   render() {
@@ -283,6 +358,7 @@ export class ProfileInformationEditView extends Component {
         transactionRequest,
         cancelButtonText,
         saveButtonText,
+        intlMobileConfirmModalEnabled,
       },
       onClickUpdateHandler,
     } = this;
@@ -294,6 +370,29 @@ export class ProfileInformationEditView extends Component {
       (isFailedTransaction(transaction) ? {} : null);
 
     const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
+
+    const formData =
+      this.context?.formFieldData?.formOnlyUpdate === true
+        ? (() => {
+            // Merge objects but also handle inputPhoneNumber explicitly
+            const merged = {
+              ...field.value,
+              ...this.context.formFieldData,
+            };
+            // For phone fields, ensure inputPhoneNumber is updated to match the new number
+            if (
+              [FIELD_NAMES.HOME_PHONE, FIELD_NAMES.MOBILE_PHONE].includes(
+                fieldName,
+              ) &&
+              this.context.formFieldData?.phoneNumber
+            ) {
+              merged.inputPhoneNumber =
+                this.context.formFieldData.areaCode +
+                this.context.formFieldData.phoneNumber;
+            }
+            return merged;
+          })()
+        : field?.value;
 
     return (
       <>
@@ -316,7 +415,7 @@ export class ProfileInformationEditView extends Component {
               name="Contact Info Form"
               title="Contact Info Form"
               schema={field.formSchema}
-              data={field.value}
+              data={formData}
               uiSchema={field.uiSchema}
               onChange={event =>
                 this.onInput(event, field.formSchema, field.uiSchema)
@@ -339,32 +438,31 @@ export class ProfileInformationEditView extends Component {
                 isLoading={isLoading}
               >
                 <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
-                  <LoadingButton
+                  <va-button
                     data-action="save-edit"
                     data-testid="save-edit-button"
-                    isLoading={isLoading}
-                    loadingText="Saving changes"
-                    type="submit"
+                    loading={isLoading}
+                    submit="prevent"
                     onClick={onClickUpdateHandler}
-                  >
-                    {saveButtonText || 'Save'}
-                  </LoadingButton>
+                    text={isLoading ? '' : saveButtonText || 'Save'}
+                    class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                  />
 
                   {!isLoading && (
-                    <button
+                    <va-button
                       data-testid="cancel-edit-button"
-                      type="button"
-                      className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
                       onClick={onCancel}
-                    >
-                      {cancelButtonText || 'Cancel'}
-                    </button>
+                      text={cancelButtonText || 'Cancel'}
+                      class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                      secondary
+                    />
                   )}
                 </div>
               </ProfileInformationActionButtons>
             </SchemaForm>
           </div>
         )}
+        {intlMobileConfirmModalEnabled && <IntlMobileConfirmModal />}
       </>
     );
   }
@@ -378,6 +476,7 @@ ProfileInformationEditView.propTypes = {
   convertCleanDataToPayload: PropTypes.func.isRequired,
   createPersonalInfoUpdate: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
+  openIntlMobileConfirmModal: PropTypes.func.isRequired,
   fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
   getInitialFormValues: PropTypes.func.isRequired,
@@ -390,6 +489,7 @@ ProfileInformationEditView.propTypes = {
   onCancel: PropTypes.func.isRequired,
   activeEditView: PropTypes.string,
   cancelButtonText: PropTypes.string,
+  contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
   editViewData: PropTypes.object,
   field: PropTypes.shape({
@@ -399,11 +499,15 @@ ProfileInformationEditView.propTypes = {
     uiSchema: PropTypes.object,
   }),
   forceEditView: PropTypes.bool,
+  intlMobileConfirmModalEnabled: PropTypes.string,
   saveButtonText: PropTypes.string,
+  shouldFocusCancelButton: PropTypes.bool,
+  successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
+  onCancelButtonFocused: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -441,6 +545,9 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
+    intlMobileConfirmModalEnabled:
+      // Optional chains since test contexts might not provide the objects
+      state?.vapService?.intlMobileConfirmModal?.isOpen || false,
   };
 };
 
@@ -453,9 +560,12 @@ const mapDispatchToProps = {
   refreshTransaction,
   createPersonalInfoUpdate,
   updateMessagingSignature,
+  openIntlMobileConfirmModal,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ProfileInformationEditView);
+
+ProfileInformationEditView.contextType = ContactInfoFormAppConfigContext;

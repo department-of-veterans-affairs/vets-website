@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import {
   VaAlert,
@@ -15,7 +15,7 @@ import {
   officeAddress,
   officeFaxNum,
 } from '../config/constants';
-import { applicantWording } from '../../shared/utilities';
+import { applicantWording, privWrapper } from '../../shared/utilities';
 import { prefixFileNames } from '../components/MissingFileConsentPage';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 import { ConfirmationPagePropTypes } from '../../shared/constants';
@@ -109,22 +109,22 @@ export function ConfirmationPage(props) {
       {OverviewComp}
 
       <div className="inset">
-        <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
+        <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
           Your submission information
-        </h3>
+        </h2>
         {(data.statementOfTruthSignature || data.signature) && (
           <>
             <span className="veterans-full-name">
               <strong>Applicant’s name</strong>
               <br />
-              {applicantWording(form.data, false, false, false)}
+              {privWrapper(applicantWording(form.data, false, false, false))}
             </span>
             <br />
             <br />
             <span className="signer-name">
               <strong>Who submitted this form</strong>
               <br />
-              {data.statementOfTruthSignature || data.signature}
+              {privWrapper(data.statementOfTruthSignature || data.signature)}
             </span>
           </>
         )}

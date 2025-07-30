@@ -1,0 +1,109 @@
+{
+  "data": [
+    {
+      "id": "001",
+      "type": "representative",
+      "attributes": {
+        "firstName": "Bobby",
+        "lastName": "Clark",
+        "fullName": "Bobby Clark",
+        "addressLine1": "Franklin County Service officer",
+        "addressLine2": "8389 Dinah Shore Blvd",
+        "addressLine3": null,
+        "addressType": "Domestic",
+        "city": "Winchester",
+        "countryName": "United States",
+        "countryCodeIso3": "USA",
+        "province": "Tennessee",
+        "stateCode": "TN",
+        "zipCode": "37398",
+        "email": "csowin@franklincotn.us",
+        "phone": "931-967-9322",
+        "individualType": "veteran_service_officer",
+        "accreditedOrganizations": {
+          "data": [
+            {
+              "id": "074",
+              "type": "organization",
+              "attributes": {
+                "name": "American Legion",
+                "addressLine1": "1608 K St NW",
+                "city": "Washington",
+                "stateCode": "DC",
+                "zipCode": "20006",
+                "phone": "202-861-2700",
+                "poaCode": "074"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "002",
+      "type": "organization",
+      "attributes": {
+        "canAcceptDigitalPoaRequests": false,
+        "name": "Department of Veterans Services",
+        "addressLine1": "110 9th Ave S Rm C-166",
+        "addressLine2": null,
+        "addressLine3": null,
+        "addressType": "Domestic",
+        "city": "Nashville",
+        "countryName": null,
+        "countryCodeIso3": null,
+        "province": null,
+        "internationalPostalCode": null,
+        "stateCode": "TN",
+        "zipCode": "37433",
+        "zipSuffix": "3817",
+        "phone": "462-675-9493",
+        "lat": null,
+        "long": null,
+        "poaCode": "020"
+      }
+    },
+    {
+      "id": "003",
+      "type": "representative",
+      "attributes": {
+        "firstName": "John",
+        "lastName": "Adams",
+        "fullName": "John Adams",
+        "addressLine1": "2342 Main St",
+        "addressLine2": null,
+        "addressLine3": null,
+        "addressType": "Domestic",
+        "city": "Anytown",
+        "countryName": "United States",
+        "countryCodeIso3": "USA",
+        "province": "Connecticut",
+        "internationalPostalCode": null,
+        "stateCode": "CT",
+        "zipCode": "54837",
+        "zipSuffix": "2319",
+        "email": "attorney@law.com",
+        "phone": "585-878-0710ext.321",
+        "individualType": "attorney",
+        "accreditedOrganizations": {
+          "data": []
+        }
+      }
+    }
+  ],
+  "links": {
+    "self": "https://staging-api.va.gov/services/veteran/v0/vso_accredited_representatives?address=78734&lat=30.343191&long=-97.96861&page=1&per_page=10&sort=distance_asc&type=officer",
+    "first": "https://staging-api.va.gov/services/veteran/v0/vso_accredited_representatives?address=78734&lat=30.343191&long=-97.96861&page=1&per_page=10&sort=distance_asc&type=officer",
+    "prev": null,
+    "next": null,
+    "last": "https://staging-api.va.gov/services/veteran/v0/vso_accredited_representatives?address=78734&lat=30.343191&long=-97.96861&page=1&per_page=10&sort=distance_asc&type=officer"
+  },
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "perPage": 10,
+      "totalPages": 1,
+      "totalEntries": 2
+    }
+  }
+}

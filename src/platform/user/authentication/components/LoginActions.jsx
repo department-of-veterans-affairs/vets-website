@@ -1,23 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { dslogonButtonDisabled } from 'platform/user/selectors';
 import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
 
+const renderRetiredNotice = (id, label) => (
+  <div>
+    <h3 id={id} className="vads-u-margin-top--3">
+      {label}
+      <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+        This option is no longer available
+      </span>
+    </h3>
+    <va-link
+      text="Learn how to access your benefits and set up your new account"
+      href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
+    />
+  </div>
+);
+
 export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
-  const mhvButtonDeprecated = useSelector(
-    state => state?.featureToggles?.mhvCredentialButtonDisabled,
-  );
   const [useOAuth, setOAuth] = useState();
-  const { OAuth, clientId, codeChallenge } = getQueryParams();
+  const { OAuth, clientId, codeChallenge, state } = getQueryParams();
+
   const {
     OAuthEnabled,
     allowedSignInProviders,
-    legacySignInProviders: { mhv, dslogon },
+    legacySignInProviders: { dslogon },
   } =
     externalApplicationsConfig[externalApplication] ??
     externalApplicationsConfig.default;
+
+  const dslogonIsDisabled = useSelector(dslogonButtonDisabled);
+  const dslogonEnabled = dslogon && !dslogonIsDisabled;
+  const dslogonRetired = dslogon && dslogonIsDisabled;
+
+  const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
 
   useEffect(
     () => {
@@ -26,69 +46,28 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
     [OAuth, OAuthEnabled],
   );
 
-  const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
-  const isValid = mhv || dslogon;
-  const mhvButtonShouldDisplay = mhvButtonDeprecated;
-
   return (
     <div className="row">
       <div className="columns print-full-width sign-in-wrapper">
         {reduceAllowedProviders(allowedSignInProviders).map(csp => (
           <LoginButton
-            csp={csp}
             key={csp}
+            csp={csp}
             useOAuth={useOAuth}
             actionLocation={actionLocation}
-            queryParams={{ clientId, codeChallenge }}
+            queryParams={{ clientId, codeChallenge, state }}
           />
         ))}
+
         <a href="https://www.va.gov/resources/creating-an-account-for-vagov">
           Learn about creating a Login.gov or ID.me account
         </a>
-        {isValid && (
-          <div>
+
+        {(dslogonEnabled || dslogonRetired) && (
+          <>
             <h2>Other sign-in options</h2>
-            {!mhvButtonShouldDisplay && (
-              <>
-                <h3 id="mhvH3">
-                  My HealtheVet sign-in option
-                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    Available through March 4, 2025
-                  </span>
-                </h3>
-                <p>
-                  You’ll still be able to use the <strong>My HealtheVet</strong>{' '}
-                  website after this date. You’ll just need to start signing in
-                  with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
-                  account.
-                </p>
-                <LoginButton
-                  csp="mhv"
-                  useOAuth={useOAuth}
-                  ariaDescribedBy="mhvH3"
-                  actionLocation={actionLocation}
-                />
-                <va-link
-                  text="Learn how to access your benefits and set up your new account"
-                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-                />
-              </>
-            )}
-            {mhvButtonDeprecated && (
-              <div>
-                <h3 id="mhvH3" className="vads-u-margin-top--3">
-                  My HealtheVet sign-in option
-                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    This option is no longer available
-                  </span>
-                </h3>
-                <va-link
-                  text="Learn how to access your benefits and set up your new account"
-                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-                />
-              </div>
-            )}
-            {dslogon && (
+
+            {dslogonEnabled && (
               <>
                 <h3
                   id="dslogonH3"
@@ -96,9 +75,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 >
                   DS Logon sign-in option
                   <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    {mhvButtonDeprecated
-                      ? 'We’ll remove this option after September 30, 2025'
-                      : 'Available through September 30, 2025'}
+                    We’ll remove this option after September 30, 2025
                   </span>
                 </h3>
                 <p>
@@ -113,7 +90,10 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 />
               </>
             )}
-          </div>
+
+            {dslogonRetired &&
+              renderRetiredNotice('dslogonH3', 'DS Logon sign-in option')}
+          </>
         )}
       </div>
     </div>
@@ -121,6 +101,6 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 }
 
 LoginActions.propTypes = {
-  externalApplication: PropTypes.object,
+  externalApplication: PropTypes.string,
   isUnifiedSignIn: PropTypes.bool,
 };

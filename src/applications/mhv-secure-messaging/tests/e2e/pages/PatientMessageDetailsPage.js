@@ -1,6 +1,6 @@
 import threadResponse from '../fixtures/thread-response-new-api.json';
 import inboxMessages from '../fixtures/threads-response.json';
-import { dateFormat } from '../../../util/helpers';
+import GeneralFunctionsPage from './GeneralFunctionsPage';
 import { Locators, Paths } from '../utils/constants';
 import PatientInterstitialPage from './PatientInterstitialPage';
 
@@ -47,8 +47,8 @@ class PatientMessageDetailsPage {
   };
 
   expandAllThreadMessages = () => {
-    cy.get(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
-    cy.get(Locators.ALERTS.THREAD_EXPAND)
+    cy.findByTestId(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
+    cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
       .shadow()
       .find('button')
       .click({ force: true });
@@ -188,11 +188,11 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageFrom = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="from"]')
+    cy.get(Locators.FROM)
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data[messageIndex].attributes.senderName} `,
+        `From: ${messageDetails.data[messageIndex].attributes.senderName}`,
       );
   };
 
@@ -218,10 +218,9 @@ class PatientMessageDetailsPage {
     cy.get(Locators.MSG_DATE)
       .eq(messageIndex)
       .should(
-        'have.text',
-        `Date: ${dateFormat(
+        'include.text',
+        `Date: ${GeneralFunctionsPage.formatToReadableDate(
           messageDetails.data[messageIndex].attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
         )}`,
       );
   };
@@ -242,7 +241,7 @@ class PatientMessageDetailsPage {
   };
 
   replyToMessageTo = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="draft-reply-to"')
+    cy.get(Locators.REPLY_TO)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -254,35 +253,34 @@ class PatientMessageDetailsPage {
 
   replyToMessageSenderName = (messageDetails, messageIndex = 0) => {
     cy.log('testing message from sender');
-    cy.get('[data-testid="from"]')
+    cy.get(Locators.FROM)
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} `,
+        `From: ${messageDetails.data.attributes.senderName}`,
       );
   };
 
   replyToMessageRecipientName = (messageDetails, messageIndex = 0) => {
     cy.log('testing message to recipient');
-    cy.get('[data-testid="to"]')
+    cy.get(Locators.TO)
       .eq(messageIndex)
       .should('contain', `To: ${messageDetails.data.attributes.recipientName}`);
   };
 
   replyToMessageDate = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
+    cy.get(Locators.MSG_DATE)
       .eq(messageIndex)
       .should(
-        'have.text',
-        `Date: ${dateFormat(
+        'include.text',
+        `Date: ${GeneralFunctionsPage.formatToReadableDate(
           messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
         )}`,
       );
   };
 
   replyToMessageId = messageDetails => {
-    cy.get('[data-testid="message-id"]').should(
+    cy.get(Locators.MSG_ID).should(
       'contain',
       `Message ID: ${messageDetails.data.attributes.messageId}`,
     );
@@ -371,7 +369,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyAccordionStatus = value => {
-    cy.get(Locators.BUTTONS.THREAD_EXPAND)
+    cy.findByTestId(Locators.BUTTONS.THREAD_EXPAND)
       .find(`va-accordion-item`)
       .each(el => {
         cy.wrap(el)

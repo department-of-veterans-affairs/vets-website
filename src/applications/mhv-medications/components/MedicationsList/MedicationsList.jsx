@@ -3,23 +3,22 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { datadogRum } from '@datadog/browser-rum';
 import MedicationsListCard from './MedicationsListCard';
 import {
   ALL_MEDICATIONS_FILTER_KEY,
-  SESSION_SELECTED_FILTER_OPTION,
   filterOptions,
   rxListSortingOptions,
 } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
-import { selectFilterFlag, selectGroupingFlag } from '../../util/selectors';
+import { selectGroupingFlag } from '../../util/selectors';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const MedicationsList = props => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const {
     isFullList,
     rxList,
@@ -35,7 +34,6 @@ const MedicationsList = props => {
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
-  const showFilterContent = useSelector(selectFilterFlag);
   const showGroupingFlag = useSelector(selectGroupingFlag);
 
   const perPage = showGroupingFlag ? 10 : 20;
@@ -45,10 +43,10 @@ const MedicationsList = props => {
 
   const onPageChange = page => {
     datadogRum.addAction(dataDogActionNames.medicationsListPage.PAGINATION);
-    document.getElementById('showingRx').scrollIntoView();
-    // replace terniary with true once loading spinner is added for the filter list fetch
-    updateLoadingStatus(!showFilterContent, 'Loading your medications...');
-    history.push(`/?page=${page}`);
+    navigate(`/?page=${page}`, {
+      replace: true,
+    });
+    updateLoadingStatus(null, 'Loading your medications...');
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
@@ -59,26 +57,22 @@ const MedicationsList = props => {
     perPage,
   );
 
-  const selectedFilterOption =
-    filterOptions[
-      sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
-        ALL_MEDICATIONS_FILTER_KEY
-    ]?.showingContentDisplayName;
+  const selectedFilterOption = useSelector(
+    state => state.rx.preferences.filterOption,
+  );
+  const selectedFilterDisplay =
+    filterOptions[selectedFilterOption]?.showingContentDisplayName;
 
   const filterAndSortContent = () => {
+    const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
     return (
       <>
-        {/* TODO: clean after the filter toggle is gone */}
-        {showFilterContent &&
-          !isFullList &&
-          selectedFilterOption?.length > 0 && (
-            <strong>{selectedFilterOption} medications</strong>
+        {!isFullList &&
+          !allMedsSelected && (
+            <strong>{selectedFilterDisplay} medications</strong>
           )}
-        {/* TODO: clean after the filter toggle is gone */}
         {`${
-          showFilterContent && !isFullList && selectedFilterOption?.length > 0
-            ? ''
-            : ' medications'
+          !isFullList && !allMedsSelected ? '' : ' medications'
         }, ${sortOptionLowercase}`}
       </>
     );
@@ -86,10 +80,6 @@ const MedicationsList = props => {
 
   return (
     <>
-      {/* clean after filter flag is removed */}
-      {!showFilterContent && (
-        <h2 className="sr-only no-print">List of Medications</h2>
-      )}
       <p
         className="rx-page-total-info vads-u-font-family--sans"
         data-testid="page-total-info"
@@ -98,11 +88,11 @@ const MedicationsList = props => {
         <span className="no-print">
           {`Showing ${displayNums[0]} - ${
             displayNums[1]
-          } of ${totalMedications}`}
+          } of ${totalMedications} `}
           {filterAndSortContent()}
         </span>
         <span className="print-only">
-          {`Showing ${totalMedications}`}
+          {`Showing ${totalMedications} `}
           {filterAndSortContent()}
         </span>
       </p>

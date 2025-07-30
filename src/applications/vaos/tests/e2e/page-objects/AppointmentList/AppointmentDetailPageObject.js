@@ -1,7 +1,8 @@
-import moment from 'moment';
+import { addMinutes } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { getICSTokens } from '../../../../utils/calendar';
+import { DATE_FORMATS, VIDEO_TYPES } from '../../../../utils/constants';
 import PageObject from '../PageObject';
-import { VIDEO_TYPES } from '../../../../utils/constants';
 
 function assertDescription(type, tokens) {
   // Description text longer than 74 characters should start on newline beginning
@@ -32,11 +33,9 @@ function assertDescription(type, tokens) {
     expect(description[1]).to.equal('\tme.');
     expect(description[2]).to.equal('\t\\n\\nVA Video Connect at home\\n');
     expect(description[3]).to.equal(
-      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+      '\t\\nSign in to https://va.gov/my-health/appointments/ to get details about t',
     );
-    expect(description[4]).to.equal(
-      '\tintments to get details about this appointment\\n',
-    );
+    expect(description[4]).to.equal('\this appointment\\n');
   } else if (type === VIDEO_TYPES.clinic) {
     expect(description[0]).to.equal(
       'You need to join this video meeting from:',
@@ -77,7 +76,7 @@ function assertSummary(type, tokens) {
   }
 }
 
-export class AppointmentDetailPageObject extends PageObject {
+class AppointmentDetailPageObject extends PageObject {
   assertAddToCalendar() {
     this.assertShadow({
       element: '[data-testid="add-to-calendar-button"]',
@@ -108,20 +107,17 @@ export class AppointmentDetailPageObject extends PageObject {
 
       // And the start time should match the appointment
       expect(tokens.get('DTSTAMP')).to.equal(
-        `${moment(startDate)
-          .utc()
-          .format('YYYYMMDDTHHmmss[Z]')}`,
+        formatInTimeZone(startDate, 'UTC', DATE_FORMATS.iCalDateTimeUTC),
       );
       expect(tokens.get('DTSTART')).to.equal(
-        `${moment(startDate)
-          .utc()
-          .format('YYYYMMDDTHHmmss[Z]')}`,
+        formatInTimeZone(startDate, 'UTC', DATE_FORMATS.iCalDateTimeUTC),
       );
       expect(tokens.get('DTEND')).to.equal(
-        `${moment(startDate)
-          .add(60, 'minutes') // Default duration
-          .utc()
-          .format('YYYYMMDDTHHmmss[Z]')}`,
+        formatInTimeZone(
+          addMinutes(startDate, 60),
+          'UTC',
+          DATE_FORMATS.iCalDateTimeUTC,
+        ),
       );
       expect(tokens.get('END')).includes('VEVENT');
       expect(tokens.get('END')).includes('VCALENDAR');

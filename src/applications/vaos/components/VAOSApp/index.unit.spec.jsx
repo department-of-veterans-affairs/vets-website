@@ -1,24 +1,21 @@
-import React from 'react';
-import { expect } from 'chai';
-import { waitFor } from '@testing-library/dom';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { waitFor } from '@testing-library/dom';
+import { expect } from 'chai';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import React from 'react';
 
+import { addDays, addMinutes, subDays } from 'date-fns';
 import backendServices from 'platform/user/profile/constants/backendServices';
-import moment from 'moment';
+import VAOSApp from '.';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import VAOSApp from '.';
 
 const initialState = {
   featureToggles: {
     vaOnlineScheduling: true,
-    vaOnlineSchedulingPast: true,
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
   },
   user: {
     login: {
@@ -85,8 +82,8 @@ describe('VAOS App: VAOSApp', () => {
             attributes: {
               externalService: 'vaos',
               description: 'My description',
-              startTime: moment.utc().subtract('1', 'days'),
-              endTime: moment.utc().add('1', 'days'),
+              startTime: subDays(new Date(), '1')?.toISOString(),
+              endTime: addDays(new Date(), '1')?.toISOString(),
             },
           },
         ],
@@ -111,8 +108,8 @@ describe('VAOS App: VAOSApp', () => {
             attributes: {
               externalService: 'vaos',
               description: 'My description',
-              startTime: moment.utc().add('30', 'minutes'),
-              endTime: moment.utc().add('1', 'days'),
+              startTime: addMinutes(new Date(), '30')?.toISOString(),
+              endTime: addDays(new Date(), '1')?.toISOString(),
             },
           },
         ],

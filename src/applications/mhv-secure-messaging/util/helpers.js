@@ -150,21 +150,14 @@ export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-
 
 export const decodeHtmlEntities = str => {
   const parser = new DOMParser();
-  const decodedStr = str
-    .replace(/&quot;/g, '"') // Replace &quot; with "
-    .replace(/&#x22;/g, '"') // Replace &#x22; with "
-    .replace(/&lt;/g, '<') // Replace &lt; with <
-    .replace(/&gt;/g, '>') // Replace &gt; with >
-    .replace(/&amp;/g, '&'); // Replace &amp; with &
-
-  const sanitizedStr = DOMPurify.sanitize(decodedStr);
-
-  return parser.parseFromString(sanitizedStr, 'text/html').documentElement
-    .innerText;
+  const sanitizedStr = DOMPurify.sanitize(str);
+  return (
+    parser.parseFromString(sanitizedStr, 'text/html').body.textContent || ''
+  );
 };
 
 /**
- * Comparing a timestampt to current date and time, if older than days return true
+ * Comparing a timestamp to current date and time, if older than days return true
  * @param {*} timestamp
  * @param {*} days
  * @returns {Boolean} true if timestamp is older than days
@@ -206,7 +199,7 @@ export const handleHeader = folder => {
   };
 };
 
-export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
+export const getPageTitle = ({ folderName, pathname }) => {
   const systemFolderHeaders = [
     Folders.INBOX.header,
     Folders.SENT.header,
@@ -217,26 +210,16 @@ export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
   const isSystemFolder = systemFolderHeaders.includes(folderName);
 
   if (folderName) {
-    const titleTag = removeLandingPageFF
-      ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
-      : PageTitles.PAGE_TITLE_TAG;
-    return `${
-      removeLandingPageFF
-        ? `Messages: ${
-            folderName && isSystemFolder ? folderName : 'More folders'
-          } ${titleTag}`
-        : `${folderName} ${titleTag}`
-    }`;
+    const titleTag = PageTitles.DEFAULT_PAGE_TITLE_TAG;
+    return `${`Messages: ${
+      folderName && isSystemFolder ? folderName : 'More folders'
+    } ${titleTag}`}`;
   }
 
-  const folderTitleTag = removeLandingPageFF
-    ? PageTitles.NEW_MY_FOLDERS_PAGE_TITLE_TAG
-    : PageTitles.MY_FOLDERS_PAGE_TITLE_TAG;
-  const conversationTitleTag = removeLandingPageFF
-    ? PageTitles.NEW_CONVERSATION_TITLE_TAG
-    : PageTitles.CONVERSATION_TITLE_TAG;
+  const folderTitleTag = PageTitles.MY_FOLDERS_PAGE_TITLE_TAG;
+  const conversationTitleTag = PageTitles.CONVERSATION_TITLE_TAG;
 
-  return `${removeLandingPageFF ? `Messages: ` : ''} ${
+  return `Messages: ${
     pathname === Paths.FOLDERS ? folderTitleTag : conversationTitleTag
   }`;
 };
@@ -431,15 +414,18 @@ export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };
 
+import {
+  scrollToElement,
+  scrollToTop as scrollToTopUtil,
+} from 'platform/utilities/scroll';
+
 export const scrollTo = (element, behavior = 'smooth') => {
   if (element) {
-    element.scrollIntoView({ behavior });
+    scrollToElement(element, { behavior });
   }
 };
 
-export const scrollToTop = () => {
-  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-};
+export const scrollToTop = () => scrollToTopUtil();
 
 export const scrollIfFocusedAndNotInView = (offset = 0) => {
   const element = document.activeElement; // Get the currently focused element
@@ -456,13 +442,8 @@ export const scrollIfFocusedAndNotInView = (offset = 0) => {
       rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 
     if (!inViewport) {
-      // Calculate the position to scroll to, with an offset from the top
-      const scrollY = window.scrollY + rect.top - offset;
-
-      // Scroll to the element with the offset
-      window.scrollTo({
-        top: scrollY,
-        behavior: 'smooth', // Optional smooth scroll
+      scrollToElement(element, {
+        offset: offset * -1,
       });
     }
   }

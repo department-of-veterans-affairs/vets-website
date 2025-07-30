@@ -7,6 +7,7 @@ import { traumaticEventsPages } from '../../pages/form0781/traumaticEventsPages'
 import * as consentPage from '../../pages/form0781/consentPage';
 import * as additionalInformationPage from '../../pages/form0781/additionalInformationPage';
 import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
+import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
 import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
 import BehaviorListPage from '../../components/BehaviorListPage';
 import * as behaviorDescriptions from '../../pages/form0781/behaviorDescriptions';
@@ -44,7 +45,8 @@ import { supportingEvidencePageTitle } from '../../content/form0781/supportingEv
 import { consentPageTitle } from '../../content/form0781/consentPage';
 import { additionalInformationPageTitle } from '../../content/form0781/additionalInformationPage';
 import BehaviorIntroCombatPage from '../../components/BehaviorIntroCombatPage';
-
+import TraumaticEventTypesPage from '../../components/TraumaticEventTypesPage';
+import { treatmentReceivedTitle } from '../../content/form0781/treatmentReceivedPage';
 /**
  * Configuration for our modern 0781 paper sync (2024/2025)
  *
@@ -85,6 +87,7 @@ export const form0781PagesConfig = {
     title: eventTypesPageTitle,
     path: 'mental-health-form-0781/events-type',
     depends: formData => isCompletingForm0781(formData),
+    CustomPage: TraumaticEventTypesPage,
     uiSchema: eventTypes.uiSchema,
     schema: eventTypes.schema,
   },
@@ -103,11 +106,8 @@ export const form0781PagesConfig = {
     depends: formData => showBehaviorIntroCombatPage(formData),
     CustomPage: BehaviorIntroCombatPage,
     CustomPageReview: null,
-    schema: {
-      type: 'object',
-      properties: {},
-    },
-    uiSchema: {},
+    schema: behaviorIntroCombatPage.schema,
+    uiSchema: behaviorIntroCombatPage.uiSchema,
   },
   behaviorListPage: {
     title: behaviorListPageTitle,
@@ -141,8 +141,9 @@ export const form0781PagesConfig = {
     schema: supportingEvidencePage.schema,
   },
   treatmentReceivedPage: {
+    title: treatmentReceivedTitle,
     path: 'mental-health-form-0781/treatment-received',
-    depends: formData => showBehaviorSummaryPage(formData),
+    depends: formData => isCompletingForm0781(formData),
     uiSchema: treatmentReceivedPage.uiSchema,
     schema: treatmentReceivedPage.schema,
   },

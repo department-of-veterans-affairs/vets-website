@@ -60,7 +60,7 @@ class IntroductionPage extends React.Component {
               <Link to="/ssn-pattern">Ssn pattern</Link>
             </li>
             <li>
-              <Link to="/checkbox-and-text-input">Checkbox and text input</Link>
+              <Link to="/checkbox">Checkbox</Link>
             </li>
             <li>
               <Link to="/checkbox-group">Checkbox group</Link>
@@ -81,6 +81,12 @@ class IntroductionPage extends React.Component {
             </li>
             <li>
               <Link to="/date">Date</Link>
+            </li>
+            <li>
+              <Link to="/international-phone">International phone</Link>
+            </li>
+            <li>
+              <Link to="/file-input">File input</Link>
             </li>
             <li>
               <Link to="/dynamic-fields">Dynamic fields</Link>

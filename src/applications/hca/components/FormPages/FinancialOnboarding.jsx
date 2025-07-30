@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import EnhancedEligibilityDescription from '../FormDescriptions/EnhancedEligibilityDescription';
-import { LAST_YEAR } from '../../utils/constants';
+import { LAST_YEAR } from '../../utils/helpers';
 
 const HouseholdFinancialOnboarding = props => {
   const {

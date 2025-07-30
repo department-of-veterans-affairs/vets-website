@@ -28,7 +28,7 @@ export const focusableWebComponentList = [
   'va-button',
   // 'va-checkbox-group',
   'va-checkbox',
-  // 'va-file-input',
+  'va-file-input',
   // 'va-memorable-date',
   'va-number-input',
   // 'va-privacy-agreement',

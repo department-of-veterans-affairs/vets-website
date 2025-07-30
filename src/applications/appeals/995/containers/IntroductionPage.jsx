@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { Toggler } from 'platform/utilities/feature-toggles';
 
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
@@ -45,7 +45,7 @@ const IntroductionPage = props => {
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Follow these steps to get started
       </h2>
-      <va-process-list uswds>
+      <va-process-list>
         <va-process-list-item header="Check your eligibility">
           <p>
             You can file a Supplemental Claim if you meet at least 1 of these
@@ -59,13 +59,15 @@ const IntroductionPage = props => {
             <li>
               You have a condition that we now consider presumptive (such as
               under the{' '}
-              <a href="/resources/the-pact-act-and-your-va-benefits/">
-                PACT Act
-              </a>
+              <va-link
+                disable-analytics
+                href="/resources/the-pact-act-and-your-va-benefits/"
+                text="PACT Act"
+              />
               )
             </li>
           </ul>
-          <va-additional-info trigger="What’s a presumptive condition?" uswds>
+          <va-additional-info trigger="What’s a presumptive condition?">
             <div>
               <p className="vads-u-margin-top--0">
                 For some conditions, we automatically assume (or “presume”) that
@@ -78,9 +80,11 @@ const IntroductionPage = props => {
                 the service requirements for the presumption.
               </p>
               <p className="vads-u-margin-bottom--0">
-                <a href="/resources/the-pact-act-and-your-va-benefits/">
-                  Learn more about the PACT act
-                </a>
+                <va-link
+                  disable-analytics
+                  href="/resources/the-pact-act-and-your-va-benefits/"
+                  text="Learn more about the PACT Act"
+                />
               </p>
             </div>
           </va-additional-info>
@@ -93,21 +97,29 @@ const IntroductionPage = props => {
             have a fiduciary claim or a contested claim.
           </p>
           <p>
-            <a href="/decision-reviews/fiduciary-claims">
-              Learn more about fiduciary claims
-            </a>
+            <va-link
+              disable-analytics
+              href="/decision-reviews/fiduciary-claims"
+              text="Learn more about fiduciary claims"
+            />
           </p>
           <p>
-            <a href="/decision-reviews/contested-claims">
-              Learn more about contested claims
-            </a>
+            <va-link
+              disable-analytics
+              href="/decision-reviews/contested-claims"
+              text="Learn more about contested claims"
+            />
           </p>
           <p>
             If you don’t think this is the right form for you, you can go back
             to answer the questions again.
           </p>
           <p>
-            <a href={`${formConfig.rootUrl}/start`}>Go back to the questions</a>
+            <va-link
+              disable-analytics
+              href={`${formConfig.rootUrl}/start`}
+              text="Go back to the questions"
+            />
           </p>
         </va-process-list-item>
         <va-process-list-item header="Gather your information">
@@ -133,7 +145,7 @@ const IntroductionPage = props => {
             </li>
             <li>The dates you were treated at that non-VA medical facility.</li>
           </ul>
-          <va-additional-info trigger="Types of Evidence" uswds>
+          <va-additional-info trigger="Types of Evidence">
             <div>
               <p className="vads-u-margin-top--0">
                 VA medical records and hospital records that relate to your
@@ -157,7 +169,7 @@ const IntroductionPage = props => {
             We’ll take you through each step of the process. It should take
             about 15 minutes.
           </p>
-          <va-additional-info trigger="What happens after I apply?" uswds>
+          <va-additional-info trigger="What happens after I apply?">
             You don’t need to do anything while you’re waiting unless we contact
             you to ask for more information. If we schedule exams for you, be
             sure not to miss them.

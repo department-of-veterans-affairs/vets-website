@@ -6,12 +6,9 @@ import { useSelector } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
 
 import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import {
-  formatFullName,
-  obfuscateAccountNumber,
-  scrollToTop,
-} from '../helpers';
+import { formatFullName, obfuscateAccountNumber } from '../helpers';
 
 const centralTz = 'America/Chicago';
 
@@ -159,10 +156,10 @@ const ConfirmationPage = ({ route }) => {
           <section>
             <h2>Direct deposit account information</h2>
             <va-alert>
-              <h4 slot="headline" className="vads-u-font-size--h4">
+              <h3 slot="headline" className="vads-u-font-size--h4">
                 If we approve your application for pension benefits, we’ll use
                 the account you provided for all your VA benefit payments
-              </h4>
+              </h3>
               <p>
                 That means we’ll update your direct deposit information for all
                 your VA benefit payments. We’ll deposit any payments you may

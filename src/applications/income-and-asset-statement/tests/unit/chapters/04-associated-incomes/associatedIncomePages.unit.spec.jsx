@@ -2,7 +2,7 @@ import formConfig from '../../../../config/form';
 import {
   associatedIncomePages,
   options,
-} from '../../../../config/chapters/04-associated-incomes/associatedIncomePages';
+} from '../../../../config/chapters/03-associated-incomes/associatedIncomePages';
 import { incomeTypeEarnedLabels } from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';
@@ -11,12 +11,12 @@ import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json
 import {
   testOptionsIsItemIncomplete,
   testOptionsIsItemIncompleteWithZeroes,
-  testOptionsTextGetItemName,
+  testOptionsTextGetItemNameRecurringIncome,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -35,14 +35,16 @@ describe('associated income list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    testOptionsTextGetItemName(options);
+    testOptionsTextGetItemNameRecurringIncome(options);
   });
 
   describe('text cardDescription function', () => {
     /* eslint-disable no-unused-vars */
     const {
-      accountValue,
       recipientRelationship,
+      recipientName,
+      accountValue,
+      payer,
       ...baseItem
     } = testData.data.associatedIncomes[0];
     /* eslint-enable no-unused-vars */
@@ -53,8 +55,10 @@ describe('associated income list and loop pages', () => {
   describe('text cardDescription function with zero values', () => {
     /* eslint-disable no-unused-vars */
     const {
-      accountValue,
       recipientRelationship,
+      recipientName,
+      accountValue,
+      payer,
       ...baseItem
     } = testDataZeroes.data.associatedIncomes[0];
     /* eslint-enable no-unused-vars */
@@ -70,11 +74,13 @@ describe('associated income list and loop pages', () => {
       { 'va-radio': 1 },
       'summary page',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Are you or your dependents receiving or expecting to receive any income in the next 12 months that is related to financial accounts?"]',
+      ],
       'summary page',
     );
     testSubmitsWithoutErrors(
@@ -102,11 +108,11 @@ describe('associated income list and loop pages', () => {
       { 'va-radio': 1 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-radio[name="root_recipientRelationship"]'],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -138,14 +144,17 @@ describe('associated income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 1 },
+      { 'va-text-input': 3 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-text-input[label="Income recipient’s first name"]',
+        'va-text-input[label="Income recipient’s last name"]',
+      ],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -153,9 +162,7 @@ describe('associated income list and loop pages', () => {
       schema,
       uiSchema,
       'recipient',
-      {
-        recipientName: 'Jane Doe',
-      },
+      testData.data.associatedIncomes[0],
       { loggedIn: true },
     );
   });
@@ -172,14 +179,19 @@ describe('associated income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-radio': 1, 'va-text-input': 1, input: 2 },
+      { 'va-radio': 1, 'va-text-input': 3 },
       'income type',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      2,
+      [
+        'va-radio[label="What is the type of income earned?"]',
+        'va-text-input[label="Gross monthly income"]',
+        'va-text-input[label="Value of account"]',
+        'va-text-input[label="Income payer name"]',
+      ],
       'income type',
     );
     testSubmitsWithoutErrors(

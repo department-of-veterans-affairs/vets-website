@@ -51,13 +51,11 @@ import { PROFILE_PATHS } from '../constants';
 import ProfileWrapper from './ProfileWrapper';
 import { canAccess } from '../../common/selectors';
 import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/directDeposit';
-import { fetchPowerOfAttorney as fetchPowerOfAttorneyAction } from '../actions/powerOfAttorney';
 
 class Profile extends Component {
   componentDidMount() {
     const {
       fetchDirectDeposit,
-      fetchPowerOfAttorney,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
@@ -65,7 +63,6 @@ class Profile extends Component {
       isLOA3,
       isInMVI,
       shouldFetchDirectDeposit,
-      shouldShowAccreditedRepTab,
       shouldFetchTotalDisabilityRating,
       connectDrupalSourceOfTruthCerner,
       togglesLoaded,
@@ -75,9 +72,6 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
-      if (shouldShowAccreditedRepTab) {
-        fetchPowerOfAttorney();
-      }
     }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
@@ -92,14 +86,12 @@ class Profile extends Component {
   componentDidUpdate(prevProps) {
     const {
       fetchDirectDeposit,
-      fetchPowerOfAttorney,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchTotalDisabilityRating,
       isLOA3,
       shouldFetchDirectDeposit,
-      shouldShowAccreditedRepTab,
       shouldFetchTotalDisabilityRating,
       isInMVI,
       togglesLoaded,
@@ -108,9 +100,6 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
-      if (shouldShowAccreditedRepTab) {
-        fetchPowerOfAttorney();
-      }
     }
 
     if (
@@ -155,8 +144,11 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    let routes = getRoutes();
+    let routes = getRoutes({
+      profileShowPaperlessDelivery: this.props.shouldShowPaperlessDelivery,
+    });
 
+    // feature toggled route
     if (!this.props.shouldShowAccreditedRepTab) {
       routes = routes.filter(
         item => item.name !== 'Accredited representative or VSO',
@@ -249,7 +241,6 @@ Profile.propTypes = {
   fetchDirectDeposit: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
-  fetchPowerOfAttorney: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
   initializeDowntimeWarnings: PropTypes.func.isRequired,
@@ -259,8 +250,9 @@ Profile.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   profileToggles: PropTypes.object.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
-  shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
+  shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
+  shouldShowPaperlessDelivery: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
@@ -287,6 +279,8 @@ const mapStateToProps = state => {
   const isLOA3 = isLOA3Selector(state);
   const shouldShowAccreditedRepTab =
     profileToggles?.representativeStatusEnableV2Features;
+  const shouldShowPaperlessDelivery =
+    profileToggles?.profileShowPaperlessDelivery;
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
@@ -343,6 +337,7 @@ const mapStateToProps = state => {
     isLOA3,
     shouldFetchDirectDeposit,
     shouldShowAccreditedRepTab,
+    shouldShowPaperlessDelivery,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
@@ -356,7 +351,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
-  fetchPowerOfAttorney: fetchPowerOfAttorneyAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchDirectDeposit: fetchDirectDepositAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,

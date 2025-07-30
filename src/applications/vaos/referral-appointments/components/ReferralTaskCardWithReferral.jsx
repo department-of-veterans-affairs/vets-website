@@ -5,10 +5,10 @@ import ReferralTaskCard from './ReferralTaskCard';
 import { useGetReferralByIdQuery } from '../../redux/api/vaosApi';
 
 const isExpired = referral => {
-  if (!referral?.expirationDate) {
-    return false;
+  if (!referral?.attributes?.expirationDate) {
+    return true;
   }
-  const { expirationDate } = referral;
+  const { expirationDate } = referral.attributes;
   const now = new Date();
   const expiration = new Date(expirationDate);
   return isAfter(now, expiration);
@@ -23,7 +23,11 @@ export default function ReferralTaskCardWithReferral() {
     skip: !id,
   });
 
-  if (id && isLoading) {
+  if (!id) {
+    return null;
+  }
+
+  if (isLoading) {
     return (
       <va-loading-indicator
         data-testid="loading-indicator"
@@ -33,7 +37,7 @@ export default function ReferralTaskCardWithReferral() {
     );
   }
 
-  if (id && error) {
+  if (error) {
     return (
       <va-alert
         data-testid="referral-error"

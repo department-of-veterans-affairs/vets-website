@@ -1,52 +1,51 @@
 {
-    "name": "@department-of-veterans-affairs/platform-utilities",
-    "version": "1.0.0",
-    "exports": {
-        ".": "./exportsFile.js",
-        "./environment": "./environment/index.js",
-        "./stagingDomains": "./environment/stagingDomains.js",
-        "./feature-toggles": "./feature-toggles/index.js",
-        "./feature-toggles/helpers": "./feature-toggles/helpers.js",
-        "./flipper-client": "./feature-toggles/flipper-client.js",
-        "./featureFlagNames": "./feature-toggles/featureFlagNames.js",
-        "./medical-centers": "./medical-centers/medical-centers.js",
-        "./sso/constants": "./sso/constants.js",
-        "./sso": "./sso/index.js",
-        "./keepAliveSSO": "./sso/keepAliveSSO.js",
-        "./loginAttempted": "./sso/loginAttempted.js",
-        "./mockKeepAliveSSO": "./sso/mockKeepAliveSSO.js",
-        "./oauth": "./oauth/utilities.js",
-        "./localStorage": "./storage/localStorage.js",
-        "./asyncLoader": "./ui/asyncLoader.jsx",
-        "./DelayedRender": "./ui/DelayedRender.jsx",
-        "./ui": "./ui/index.js",
-        "./scrollTo": "./ui/scrollTo.js",
-        "./scrollToTop": "./ui/scrollToTop.js"
-    },
-    "scripts": {
-        "demo": "for (( c=5; c>0; c-- ))\ndo echo $c\n done \n echo It’s alive!!!\n echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES.",
-        "local": "node demo-script/local-demo.js"
-    },
-    "peerDependencies": {
-        "@department-of-veterans-affairs/component-library": "*",
-        "@sentry/browser": "*",
-        "chai": "*",
-        "date-fns": "*",
-        "fast-levenshtein": "*",
-        "js-cookie": "*",
-        "local-storage-fallback": "*",
-        "lodash": "*",
-        "moment": "*",
-        "react": "*",
-        "react-dom": "*",
-        "react-is": "*",
-        "react-scroll": "*",
-        "sinon": "*",
-        "url-search-params-polyfill": "*"
-    },
-    "license": "MIT",
-    "private": true,
-    "dependencies": {
-        "fetch-retry": "^5.0.3"
-    }
+  "name": "@department-of-veterans-affairs/platform-utilities",
+  "version": "1.0.0",
+  "exports": {
+    ".": "./exportsFile.js",
+    "./asyncLoader": "./ui/asyncLoader.jsx",
+    "./DelayedRender": "./ui/DelayedRender.jsx",
+    "./environment": "./environment/index.js",
+    "./feature-toggles": "./feature-toggles/index.jsx",
+    "./feature-toggles/helpers": "./feature-toggles/helpers.js",
+    "./featureFlagNames": "./feature-toggles/featureFlagNames.js",
+    "./flipper-client": "./feature-toggles/flipper-client.js",
+    "./keepAliveSSO": "./sso/keepAliveSSO.js",
+    "./localStorage": "./storage/localStorage.js",
+    "./loginAttempted": "./sso/loginAttempted.js",
+    "./medical-centers": "./medical-centers/medical-centers.js",
+    "./mockKeepAliveSSO": "./sso/mockKeepAliveSSO.js",
+    "./oauth": "./oauth/utilities.js",
+    "./scrollTo": "./scroll/scroll.js",
+    "./scrollToTop": "./scroll/scroll.js",
+    "./sso": "./sso/index.js",
+    "./sso/constants": "./sso/constants.js",
+    "./stagingDomains": "./environment/stagingDomains.js",
+    "./ui": "./ui/index.js"
+  },
+  "scripts": {
+    "demo": "for (( c=5; c>0; c-- ))\ndo echo $c\n done \n echo It’s alive!!!\n echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES.",
+    "local": "node demo-script/local-demo.js"
+  },
+  "peerDependencies": {
+    "@department-of-veterans-affairs/component-library": "*",
+    "@sentry/browser": "*",
+    "chai": "*",
+    "date-fns": "*",
+    "fast-levenshtein": "*",
+    "js-cookie": "*",
+    "local-storage-fallback": "*",
+    "lodash": "*",
+    "moment": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*",
+    "sinon": "*",
+    "url-search-params-polyfill": "*"
+  },
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "fetch-retry": "^5.0.3"
+  }
 }

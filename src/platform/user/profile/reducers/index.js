@@ -12,6 +12,7 @@ import {
   REMOVING_SAVED_FORM_SUCCESS,
   PROFILE_ERROR,
   FETCH_MESSAGING_SIGNATURE,
+  UPDATE_MHV_STATE_VALUE,
 } from '../actions';
 
 const initialState = {
@@ -95,6 +96,9 @@ function profileInformation(state = initialState, action) {
     // We are no longer creating or upgrading MHV accounts
     case FETCH_MHV_ACCOUNT_SUCCESS:
       return updateMhvAccountState(state, action.data.attributes);
+
+    case UPDATE_MHV_STATE_VALUE:
+      return set('mhvAccountState', action.accountState, state);
 
     case REMOVING_SAVED_FORM_SUCCESS: {
       const forms = state.savedForms.filter(el => el.form !== action.formId);

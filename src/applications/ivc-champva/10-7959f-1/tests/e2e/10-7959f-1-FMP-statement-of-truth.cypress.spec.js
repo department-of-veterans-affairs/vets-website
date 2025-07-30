@@ -6,7 +6,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import {
-  fillAddressWebComponentPattern,
   verifyAllDataWasSubmitted,
   getAllPages,
 } from '../../../shared/tests/helpers';
@@ -47,7 +46,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'veteranAddress',
               data.veteranAddress,
             );
@@ -60,7 +59,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'physicalAddress',
               data.physicalAddress,
             );

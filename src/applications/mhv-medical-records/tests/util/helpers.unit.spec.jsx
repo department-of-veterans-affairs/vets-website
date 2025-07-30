@@ -1,30 +1,37 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
+  parseISO,
+  startOfDay,
+  endOfDay,
+  subYears,
+  addMonths,
+  formatISO,
+} from 'date-fns';
+import {
   concatObservationInterpretations,
   dateFormat,
-  dateFormatWithoutTime,
   dateFormatWithoutTimezone,
   dispatchDetails,
   extractContainedByRecourceType,
   extractContainedResource,
   formatDate,
-  formatNameFirstLast,
+  formatDateInLocalTimezone,
   formatNameFirstToLast,
   getActiveLinksStyle,
+  getAppointmentsDateRange,
   getLastUpdatedText,
+  getMonthFromSelectedDate,
   getObservationValueWithUnits,
   getReactions,
   getStatusExtractPhase,
+  handleDataDogAction,
   nameFormat,
   processList,
-  getMonthFromSelectedDate,
-  formatDateInLocalTimezone,
-  handleDataDogAction,
   removeTrailingSlash,
+  formatDateAndTimeWithGenericZone,
 } from '../../util/helpers';
-
-import { refreshPhases } from '../../util/constants';
+import { refreshPhases, VALID_REFRESH_DURATION } from '../../util/constants';
 
 describe('Name formatter', () => {
   it('formats a name with a first, middle, last, and suffix', () => {
@@ -47,23 +54,41 @@ describe('Date formatter', () => {
   });
 });
 
-describe('Date formatter with no timezone', () => {
-  it('removes the time from a dateTime', () => {
-    const dateTime = 'October 27, 2023, 10:00 a.m.';
-    const formattedDate = dateFormatWithoutTime(dateTime);
-    expect(formattedDate).to.eq('October 27, 2023');
+describe('dateFormatWithoutTimezone', () => {
+  const testFormat = (isoString, expected) => {
+    expect(dateFormatWithoutTimezone(isoString)).to.equal(expected);
+  };
+
+  it('should format a valid FHIR date string by stripping the time zone', () => {
+    testFormat('2018', '2018'); // Year only
+    testFormat('1973-06', 'June 1973'); // Year + month
+    testFormat('2000-08-09', 'August 9, 2000'); // Full date
+    testFormat('1990-06-30T23:59:60Z', 'June 30, 1990, 11:59 p.m.'); // Leap second
+    testFormat('2020-01-02T03:04:05Z', 'January 2, 2020, 3:04 a.m.'); // Zulu time
+    testFormat('2019-07-19T16:20:30.123Z', 'July 19, 2019, 4:20 p.m.'); // Fractional seconds
+    testFormat('2021-05-18T10:30:00+02:00', 'May 18, 2021, 10:30 a.m.'); // Positive offset
+    testFormat('2017-08-02T09:50:57-04:00', 'August 2, 2017, 9:50 a.m.'); // Negative offset
+    testFormat('2017-01-01T00:00:00.000Z', 'January 1, 2017, 12:00 a.m.'); // Millisecond precision
+    testFormat('2022-11-15T08:00:00+00:00', 'November 15, 2022, 8:00 a.m.'); // Zero offset required
+    testFormat('2020-12-31T23:59:59+05:30', 'December 31, 2020, 11:59 p.m.'); // Non-hour offset
   });
 
-  it('formats a date in the original time without a timezone', () => {
-    const timeStamp = '2023-09-29T11:04:31.316-04:00';
-    const formattedDate = dateFormatWithoutTimezone(timeStamp);
-    expect(formattedDate).to.eq('September 29, 2023, 11:04 a.m.');
+  it('should return null for invalid input', () => {
+    testFormat('', null); // empty string
+    testFormat('foo', null); // garbage
+    testFormat(12345, null); // non-string input
+    testFormat(undefined, null); // missing
+    testFormat('2021-13', null); // bad month in YYYY-MM
+    testFormat('2021-02-29', null); // non-leap Feb-29
+    testFormat('2021-00-01', null); // zero month
   });
 
-  it('formats an epoch date in the original time without a timezone', () => {
-    const timeStamp = 1605300748000;
-    const formattedDate = dateFormatWithoutTimezone(timeStamp);
-    expect(formattedDate).to.eq('November 13, 2020, 8:52 p.m.');
+  it('should handle different date formats', () => {
+    const isoString = '2021-05-18T10:30:00+02:00';
+    const customFormat = 'yyyy-MM-dd';
+    const expectedFormat = '2021-05-18';
+    const result = dateFormatWithoutTimezone(isoString, customFormat);
+    expect(result).to.equal(expectedFormat);
   });
 });
 
@@ -100,7 +125,7 @@ describe('processList', () => {
   it('returns EMPTY_FIELD value if there are no items in the list', () => {
     const list = [];
     const result = processList(list);
-    expect(result).to.eq('None noted');
+    expect(result).to.eq('None recorded');
   });
 });
 
@@ -397,19 +422,20 @@ describe('formats', () => {
 });
 
 describe('getStatusExtractPhase', () => {
-  const minutesBefore = (date, minutes) => {
-    return new Date(date.getTime() - minutes * 60 * 1000);
-  };
-
+  const minutesBefore = (date, minutes) =>
+    new Date(date.getTime() - minutes * 60000);
   const now = new Date();
 
-  it('returns STALE', () => {
+  it('returns STALE when lastCompleted is older than VALID_REFRESH_DURATION', () => {
     const phrStatus = [
       {
         extract: 'VPR',
-        lastRequested: minutesBefore(now, 80),
-        lastCompleted: minutesBefore(now, 70),
-        lastSuccessfulCompleted: minutesBefore(now, 70),
+        lastRequested: minutesBefore(now, VALID_REFRESH_DURATION / 60000 + 10),
+        lastCompleted: minutesBefore(now, VALID_REFRESH_DURATION / 60000 + 10),
+        lastSuccessfulCompleted: minutesBefore(
+          now,
+          VALID_REFRESH_DURATION / 60000 + 10,
+        ),
       },
     ];
     expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
@@ -417,7 +443,7 @@ describe('getStatusExtractPhase', () => {
     );
   });
 
-  it('returns IN_PROGRESS', () => {
+  it('returns IN_PROGRESS when lastCompleted < lastRequested', () => {
     const phrStatus = [
       {
         extract: 'VPR',
@@ -431,7 +457,7 @@ describe('getStatusExtractPhase', () => {
     );
   });
 
-  it('returns FAILED', () => {
+  it('returns FAILED when lastCompleted ≠ lastSuccessfulCompleted', () => {
     const phrStatus = [
       {
         extract: 'VPR',
@@ -445,7 +471,7 @@ describe('getStatusExtractPhase', () => {
     );
   });
 
-  it('returns CURRENT', () => {
+  it('returns CURRENT when lastCompleted === lastSuccessfulCompleted and within duration', () => {
     const phrStatus = [
       {
         extract: 'VPR',
@@ -456,6 +482,31 @@ describe('getStatusExtractPhase', () => {
     ];
     expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
       refreshPhases.CURRENT,
+    );
+  });
+
+  it('returns null if inputs are invalid', () => {
+    expect(getStatusExtractPhase(null, [], 'VPR')).to.be.null;
+    expect(getStatusExtractPhase(now, null, 'VPR')).to.be.null;
+    expect(getStatusExtractPhase(now, [], '')).to.be.null;
+  });
+
+  it('handles hasExplicitLoadError branch when upToDate, loadStatus, and errorMessage are set', () => {
+    // Use dates recent enough so that STALE check does not trigger
+    const recent = minutesBefore(now, 1);
+    const phrStatus = [
+      {
+        extract: 'VPR',
+        upToDate: true,
+        loadStatus: 'ERROR',
+        errorMessage: 'Something went wrong',
+        lastRequested: recent,
+        lastCompleted: recent,
+        lastSuccessfulCompleted: recent,
+      },
+    ];
+    expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
+      refreshPhases.FAILED,
     );
   });
 });
@@ -605,38 +656,6 @@ describe('formatNameFirstToLast', () => {
   });
 });
 
-describe('formatNameFirstLast', () => {
-  const user1 = {
-    userFullName: {
-      first: 'Joe',
-      last: 'Schmo',
-    },
-  };
-
-  const user2 = {
-    userFullName: {
-      first: 'Joe',
-      last: 'Schmo',
-      middle: 'R',
-      suffix: 'Jr',
-    },
-  };
-
-  it('returns a name formatted with the first name before to the last name', () => {
-    const lastFirstName = 'Joe Schmo';
-    const updatedName = formatNameFirstLast(user1.userFullName);
-
-    expect(updatedName).to.eq(lastFirstName);
-  });
-
-  it('returns a name formatted with the first name and middle initial and suffix', () => {
-    const firstMiddleLastSuffixName = 'Joe R Schmo, Jr';
-    const updatedName = formatNameFirstLast(user2.userFullName);
-
-    expect(updatedName).to.eq(firstMiddleLastSuffixName);
-  });
-});
-
 describe('getMonthFromSelectedDate', () => {
   it('should return the formatted date', () => {
     const date = '2024-01';
@@ -701,11 +720,48 @@ describe('handleDataDogAction', () => {
 });
 
 describe('formatDateInLocalTimezone', () => {
+  let originalTZ;
+
+  // Ensure these tests run in a predictable time zone
+  before(() => {
+    originalTZ = process.env.TZ;
+    process.env.TZ = 'UTC';
+  });
+
+  // Restore the original time zone value
+  after(() => {
+    if (originalTZ === undefined) {
+      delete process.env.TZ;
+    } else {
+      process.env.TZ = originalTZ;
+    }
+  });
+
   it('should format a valid ISO8601 date string to the local timezone', () => {
     const dateString = '2023-01-05T14:48:00.000-05:00';
     const formattedDate = formatDateInLocalTimezone(dateString);
     const expectedDate = 'January 5, 2023 7:48 p.m. UTC';
     expect(formattedDate).to.equal(expectedDate);
+  });
+
+  it('should format a date when providing a UNIX timestamp as a number', () => {
+    const timestamp = 1672941680000; // Jan 5, 2023, 19:48 UTC
+    const formattedDate = formatDateInLocalTimezone(timestamp);
+    const expectedDate = 'January 5, 2023 6:01 p.m. UTC';
+    expect(formattedDate).to.equal(expectedDate);
+  });
+
+  it('should hide time zone when hideTimeZone is true', () => {
+    const dateString = '2023-01-05T14:48:00.000-05:00';
+    const formattedDate = formatDateInLocalTimezone(dateString, true);
+    const expectedDate = 'January 5, 2023 7:48 p.m.';
+    expect(formattedDate).to.equal(expectedDate);
+  });
+
+  it('should show time zone by default', () => {
+    const dateString = '2023-01-05T14:48:00.000-05:00';
+    const formattedDate = formatDateInLocalTimezone(dateString);
+    expect(formattedDate).to.include('UTC');
   });
 
   it('should handle an invalid date string gracefully', () => {
@@ -751,5 +807,200 @@ describe('removeTrailingSlash', () => {
     const string = null;
     const result = removeTrailingSlash(string);
     expect(result).to.equal(string);
+  });
+});
+
+describe('getAppointmentsDateRange', () => {
+  let clock;
+  // Freeze "now" at Jan 1, 2022 local time
+  const fakeNow = new Date(2022, 0, 1, 0, 0, 0);
+  const earliestFormatted = formatISO(startOfDay(subYears(fakeNow, 2)));
+  const latestFormatted = formatISO(endOfDay(addMonths(fakeNow, 13)));
+
+  beforeEach(() => {
+    clock = sinon.useFakeTimers({
+      now: fakeNow.getTime(),
+      toFake: ['Date'],
+    });
+  });
+
+  afterEach(() => {
+    clock.restore();
+  });
+
+  function assertDateComponents(
+    isoString,
+    year,
+    month,
+    day,
+    hours,
+    minutes,
+    seconds,
+  ) {
+    const d = parseISO(isoString);
+    expect(d.getFullYear()).to.equal(year);
+    expect(d.getMonth()).to.equal(month);
+    expect(d.getDate()).to.equal(day);
+    expect(d.getHours()).to.equal(hours);
+    expect(d.getMinutes()).to.equal(minutes);
+    expect(d.getSeconds()).to.equal(seconds);
+  }
+
+  it('returns the full allowed window when both inputs are null', () => {
+    const { startDate, endDate } = getAppointmentsDateRange(null, null);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('defaults `from` to earliest when only fromDate is null', () => {
+    const to = '2021-06-15';
+    const { startDate, endDate } = getAppointmentsDateRange(null, to);
+
+    const providedTo = endOfDay(parseISO(to));
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(formatISO(providedTo));
+  });
+
+  it('defaults `to` to latest when only toDate is null', () => {
+    const from = '2021-06-15';
+    const { startDate, endDate } = getAppointmentsDateRange(from, null);
+
+    const providedFrom = startOfDay(parseISO(from));
+
+    expect(startDate).to.equal(formatISO(providedFrom));
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('returns the exact provided range when both dates are within bounds', () => {
+    const from = '2021-06-01';
+    const to = '2021-12-31';
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    expect(startDate).to.equal(formatISO(startOfDay(parseISO(from))));
+    expect(endDate).to.equal(formatISO(endOfDay(parseISO(to))));
+  });
+
+  it('clamps out-of-bounds dates to [earliest, latest]', () => {
+    const from = '2018-01-01'; // too early
+    const to = '2025-01-01'; // too late
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('resets to full window if fromDate > latestAllowed and toDate in range', () => {
+    const from = '2024-01-01'; // after fakeNow + 13m (2023-02-01)
+    const to = '2022-05-01'; // within bounds
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('resets to full window if toDate < earliestAllowed and fromDate in range', () => {
+    const from = '2021-05-01'; // within bounds
+    const to = '2019-01-01'; // before fakeNow - 2y (2020-01-01)
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('returns a single‐day window [latest, latest] when fromDate > latestAllowed & toDate is null', () => {
+    const from = '2024-01-01'; // after fakeNow + 13m
+    const { startDate, endDate } = getAppointmentsDateRange(from, null);
+
+    expect(startDate).to.equal(latestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('returns a single‐day window [earliest, earliest] when toDate < earliestAllowed & fromDate is null', () => {
+    const to = '2019-01-01'; // before fakeNow - 2y
+    const { startDate, endDate } = getAppointmentsDateRange(null, to);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(earliestFormatted);
+  });
+
+  it('resets to full window when provided fromDate > toDate but both are within bounds', () => {
+    const from = '2022-06-01';
+    const to = '2021-06-01';
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('handles the one‐day case when fromDate === toDate within bounds', () => {
+    const date = '2021-07-15';
+    const { startDate, endDate } = getAppointmentsDateRange(date, date);
+
+    expect(startDate).to.equal(formatISO(startOfDay(parseISO(date))));
+    expect(endDate).to.equal(formatISO(endOfDay(parseISO(date))));
+  });
+
+  it('uses the correct start and end dates', () => {
+    const from = '2021-06-01';
+    const to = '2022-06-01';
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    assertDateComponents(startDate, 2021, 5, 1, 0, 0, 0); // 2021-06-01T00:00:00 local time
+    assertDateComponents(endDate, 2022, 5, 1, 23, 59, 59); // 2022-06-01T23:59:59 local time
+  });
+
+  it('uses the correct start and end dates for maximum window', () => {
+    const from = '2018-01-01';
+    const to = '2025-01-01';
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    assertDateComponents(startDate, 2020, 0, 1, 0, 0, 0); // 2020-01-01T00:00:00 local time
+    assertDateComponents(endDate, 2023, 1, 1, 23, 59, 59); // 2023-02-01T23:59:59 local time
+  });
+});
+
+describe('formatDateAndTimeWithGenericZone', () => {
+  let tzStub;
+
+  before(() => {
+    // Force user timezone to UTC for deterministic output
+    tzStub = sinon
+      .stub(Intl.DateTimeFormat.prototype, 'resolvedOptions')
+      .returns({ timeZone: 'UTC' });
+  });
+
+  after(() => {
+    tzStub.restore();
+  });
+
+  it('returns full date, time with “a.m.”/“p.m.” and generic zone for UTC', () => {
+    const date = parseISO('2025-02-17T14:30:00Z');
+    const { date: fullDate, time, timeZone } = formatDateAndTimeWithGenericZone(
+      date,
+    );
+
+    expect(fullDate).to.equal('February 17, 2025');
+    expect(time).to.equal('2:30 p.m.');
+    expect(timeZone).to.equal('UTC');
+  });
+
+  it('formats midnight correctly as “12:00 a.m.”', () => {
+    const date = parseISO('2025-02-17T00:00:00Z');
+    const { time } = formatDateAndTimeWithGenericZone(date);
+
+    expect(time).to.equal('12:00 a.m.');
+  });
+
+  it('strips “ST”/“DT” for other zones (e.g. PST→PT)', () => {
+    // change stub to a DST-aware zone
+    tzStub.returns({ timeZone: 'America/Los_Angeles' });
+    // 2025-07-01T15:45:00Z is 08:45 a.m. PDT → “8:45 a.m. PT”
+    const date = parseISO('2025-07-01T15:45:00Z');
+    const { time, timeZone } = formatDateAndTimeWithGenericZone(date);
+
+    expect(time).to.equal('8:45 a.m.');
+    expect(timeZone).to.equal('PT');
   });
 });

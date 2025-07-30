@@ -3,7 +3,9 @@ import formConfig from '../../../../config/form';
 import {
   trustPages,
   options,
-} from '../../../../config/chapters/08-trusts/trustPages';
+} from '../../../../config/chapters/07-trusts/trustPages';
+import { trustTypeLabels } from '../../../../labels';
+
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
 
@@ -14,7 +16,7 @@ import {
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -51,15 +53,18 @@ describe('trust list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return text', () => {
-      expect(options.text.getItemName()).to.equal('Trust');
+    it('should return "Trust established on `establishedDate`', () => {
+      const item = testData.data.trusts[0];
+      expect(options.text.getItemName(item)).to.equal(
+        'Trust established on March 15, 2020',
+      );
     });
   });
 
   describe('text cardDescription function', () => {
     /* eslint-disable no-unused-vars */
     const {
-      trustType,
+      establishedDate,
       addedFundsAfterEstablishment,
       addedFundsDate,
       addedFundsAmount,
@@ -72,13 +77,13 @@ describe('trust list and loop pages', () => {
       ...baseItem
     } = testData.data.trusts[0];
     /* eslint-enable no-unused-vars */
-    testOptionsTextCardDescription(options, baseItem);
+    testOptionsTextCardDescription(options, baseItem, trustTypeLabels);
   });
 
   describe('text cardDescription function with zero values', () => {
     /* eslint-disable no-unused-vars */
     const {
-      trustType,
+      establishedDate,
       addedFundsAfterEstablishment,
       addedFundsDate,
       addedFundsAmount,
@@ -91,7 +96,7 @@ describe('trust list and loop pages', () => {
       ...baseItem
     } = testDataZeroes.data.trusts[0];
     /* eslint-enable no-unused-vars */
-    testOptionsTextCardDescription(options, baseItem);
+    testOptionsTextCardDescription(options, baseItem, trustTypeLabels);
   });
 
   describe('summary page', () => {
@@ -103,11 +108,13 @@ describe('trust list and loop pages', () => {
       { 'va-radio': 1 },
       'trust summary page',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Have you or your dependents established a trust or do you or your dependents have access to a trust?"]',
+      ],
       'trust summary page',
     );
     testSubmitsWithoutErrors(
@@ -131,15 +138,18 @@ describe('trust list and loop pages', () => {
       uiSchema,
       {
         'va-memorable-date': 1,
-        input: 1,
+        'va-text-input': 1,
       },
       'information',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-memorable-date[label="When was the trust established?"]',
+        'va-text-input[label="What was the market value of all assets within the trust at the time of establishment?"]',
+      ],
       'information',
     );
     testSubmitsWithoutErrors(
@@ -163,11 +173,11 @@ describe('trust list and loop pages', () => {
       { 'va-radio': 1 },
       'type',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-radio[label="What is the type of trust established?"]'],
       'type',
     );
     testSubmitsWithoutErrors(
@@ -191,11 +201,11 @@ describe('trust list and loop pages', () => {
       { 'va-radio': 1 },
       'income',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-radio[label="Are you receiving income from the trust?"]'],
       'income',
     );
     testSubmitsWithoutErrors(
@@ -229,11 +239,13 @@ describe('trust list and loop pages', () => {
       { 'va-radio': 1 },
       'expense',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Is the trust being used to pay for or to reimburse someone else for your medical expenses?"]',
+      ],
       'expense',
     );
     testSubmitsWithoutErrors(
@@ -267,11 +279,13 @@ describe('trust list and loop pages', () => {
       { 'va-radio': 1 },
       'child',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Was the trust established for a child of the Veteran who was incapable of self-support prior to reaching age 18?"]',
+      ],
       'child',
     );
     testSubmitsWithoutErrors(
@@ -295,11 +309,13 @@ describe('trust list and loop pages', () => {
       { 'va-radio': 1 },
       'control',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Do you have any additional authority or control of the trust?"]',
+      ],
       'control',
     );
     testSubmitsWithoutErrors(
@@ -324,11 +340,13 @@ describe('trust list and loop pages', () => {
       { 'va-radio': 1 },
       'funds',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Have you added funds to the trust after it was established?"]',
+      ],
       'funds',
     );
     testSubmitsWithoutErrors(
@@ -350,14 +368,17 @@ describe('trust list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-memorable-date': 1, input: 1 },
+      { 'va-memorable-date': 1, 'va-text-input': 1 },
       'added funds',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-memorable-date[label="When did you add funds?"]',
+        'va-text-input[label="How much did you add?"]',
+      ],
       'added funds',
     );
     testSubmitsWithoutErrors(

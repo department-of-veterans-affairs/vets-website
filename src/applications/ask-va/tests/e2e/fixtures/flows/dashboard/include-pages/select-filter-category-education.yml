@@ -1,0 +1,4 @@
+steps:
+  - action: select
+    target: category
+    value: Education benefits and work study

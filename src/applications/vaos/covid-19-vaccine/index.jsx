@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Switch,
@@ -9,14 +9,12 @@ import {
 } from 'react-router-dom';
 import covid19VaccineReducer from './redux/reducer';
 import { selectIsNewAppointmentStarted } from '../new-appointment/redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import FormLayout from './components/FormLayout';
 import PlanAheadPage from './components/PlanAheadPage';
 import VAFacilityPage from './components/VAFacilityPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
 import ReviewPage from './components/ReviewPage';
-import ConfirmationPageV2 from './components/ConfirmationPageV2';
 import SecondDosePage from './components/SecondDosePage';
 import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
@@ -41,10 +39,7 @@ export function NewBookingSection() {
   const canUseVaccineFlow = useSelector(selectCanUseVaccineFlow);
   const facilitySettingsStatus = useSelector(selectFacilitySettingsStatus);
   const isNewAppointmentStarted = useSelector(selectIsNewAppointmentStarted);
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-  const [crumb, setCrumb] = useState('New COVID-19 vaccine appointment');
+  const pageTitle = 'New COVID-19 vaccine appointment';
 
   useEffect(
     () => {
@@ -92,7 +87,7 @@ export function NewBookingSection() {
     facilitySettingsStatus === FETCH_STATUS.notStarted
   ) {
     return (
-      <FormLayout pageTitle={crumb}>
+      <FormLayout pageTitle={pageTitle}>
         <va-loading-indicator
           set-focus
           message="Checking for online appointment availability"
@@ -112,82 +107,34 @@ export function NewBookingSection() {
   }
 
   return (
-    <FormLayout pageTitle={crumb}>
+    <FormLayout pageTitle={pageTitle}>
       <Switch>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/doses-received`
-              : `${match.url}/confirm-doses-received`
-          }
-        >
-          <ReceivedDoseScreenerPage
-            changeCrumb={newTitle => setCrumb(newTitle)}
-          />
+        <Route path={`${match.url}/doses-received`}>
+          <ReceivedDoseScreenerPage />
         </Route>
         <Route path={`${match.url}/contact-facility`}>
-          <ContactFacilitiesPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          <ContactFacilitiesPage />
         </Route>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/location`
-              : `${match.url}/choose-facility`
-          }
-        >
-          <VAFacilityPage changeCrumb={newTitle => setCrumb(newTitle)} />
+        <Route path={`${match.url}/location`}>
+          <VAFacilityPage />
         </Route>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/clinic`
-              : `${match.url}/choose-clinic`
-          }
-        >
-          <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
+        <Route path={`${match.url}/clinic`}>
+          <ClinicChoicePage />
         </Route>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/date-time`
-              : `${match.url}/select-date`
-          }
-        >
-          <SelectDate1Page changeCrumb={newTitle => setCrumb(newTitle)} />
+        <Route path={`${match.url}/date-time`}>
+          <SelectDate1Page />
         </Route>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/second-dose`
-              : `${match.url}/second-dose-info`
-          }
-        >
-          <SecondDosePage changeCrumb={newTitle => setCrumb(newTitle)} />
+        <Route path={`${match.url}/second-dose`}>
+          <SecondDosePage />
         </Route>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/contact-information`
-              : `${match.url}/contact-info`
-          }
-        >
-          <ContactInfoPage changeCrumb={newTitle => setCrumb(newTitle)} />
+        <Route path={`${match.url}/contact-information`}>
+          <ContactInfoPage />
         </Route>
         <Route path={`${match.url}/review`}>
-          <ReviewPage changeCrumb={newTitle => setCrumb(newTitle)} />
-        </Route>
-        <Route
-          exact
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.path}/:id`
-              : `${match.url}/confirmation`
-          }
-        >
-          <ConfirmationPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
+          <ReviewPage />
         </Route>
         <Route path={`${match.url}`}>
-          <PlanAheadPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          <PlanAheadPage />
         </Route>
       </Switch>
     </FormLayout>

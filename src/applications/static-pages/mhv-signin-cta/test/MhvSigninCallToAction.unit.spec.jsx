@@ -84,7 +84,7 @@ describe('MHV Signin CTA', () => {
       return widgetContent;
     };
 
-    it('unanthenticated user', async () => {
+    it('unauthenticated user', async () => {
       const { queryByTestId, queryByRole, getByText } = render(
         <Provider store={mockStore()}>
           <MhvSigninCallToAction

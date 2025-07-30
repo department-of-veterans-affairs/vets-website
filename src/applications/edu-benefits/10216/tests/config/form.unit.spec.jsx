@@ -18,7 +18,7 @@ describe('22-10216 Form Config', () => {
   it('should have a required properties', () => {
     expect(formConfig.rootUrl).to.contain(manifest.rootUrl);
     expect(formConfig.title).to.contain(
-      'Request exemption from the 85/15 Rule reporting requirements',
+      'Request exemption from the 85/15 rule reporting requirements',
     );
     expect(formConfig).to.have.property('chapters');
   });

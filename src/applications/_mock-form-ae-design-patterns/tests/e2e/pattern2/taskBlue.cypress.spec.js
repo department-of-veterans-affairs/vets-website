@@ -184,3 +184,124 @@ describe('Prefill pattern - Blue Task', () => {
     cy.url().should('contain', 'mock-form-ae-design-patterns/');
   });
 });
+
+describe('Prefill pattern - Blue Task Failure Scenario', () => {
+  it.skip('shows error alert when profile update fails but form data is saved', () => {
+    cy.login(mockUsers.loa3User);
+
+    cy.intercept('GET', '/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS', {
+      statusCode: 200,
+      body: mockPrefills.prefill,
+    }).as('mockSip');
+
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      generateFeatureToggles({
+        aedpPrefill: true,
+      }),
+    );
+
+    cy.intercept(
+      'GET',
+      '/v0/user?now=*',
+      mockUsers.loa3UserWithUpdatedMailingAddress,
+    );
+
+    cy.intercept('/v0/profile/address_validation', {
+      statusCode: 200,
+      body: {
+        addresses: [
+          {
+            address: {
+              addressLine1: '345 Mailing Address St.',
+              addressType: 'DOMESTIC',
+              city: 'Fulton',
+              countryCodeIso3: 'USA',
+              stateCode: 'NY',
+              zipCode: '97063',
+              addressPou: 'CORRESPONDENCE',
+            },
+            addressMetaData: {
+              confidenceScore: 88,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'MISSING_ZIP',
+              residentialDeliveryIndicator: 'RESIDENTIAL',
+            },
+          },
+        ],
+        validationKey: -1565212962,
+      },
+    }).as('addressValidation');
+
+    cy.intercept('PUT', '/v0/profile/addresses*', {
+      statusCode: 500,
+      body: {
+        error: 'Internal Server Error',
+        exception: {},
+        status: 500,
+      },
+    }).as('profileUpdate');
+
+    cy.intercept('PUT', '/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS', {
+      statusCode: 200,
+      body: { data: { attributes: { metadata: {} } } },
+    }).as('formSave');
+
+    cy.visit(`${manifest.rootUrl}/2`);
+
+    cy.injectAxeThenAxeCheck();
+
+    cy.findByRole('button', { name: /blue/i }).click();
+
+    cy.url().should('contain', '/introduction?loggedIn=true');
+
+    cy.injectAxeThenAxeCheck();
+
+    cy.findByText('Request a Board Appeal').should('exist');
+
+    cy.findAllByRole('link', {
+      name: /Start the Board Appeal request/i,
+    })
+      .first()
+      .click();
+
+    cy.wait('@mockSip');
+
+    cy.url().should('contain', '/personal-information');
+
+    cy.findByRole('button', { name: /continue/i }).click();
+
+    cy.url().should('contain', '/veteran-information');
+
+    cy.get('va-link[label="Edit mailing address"]').should('be.visible');
+
+    cy.get('va-link[label="Edit mailing address"]').click();
+
+    cy.url().should('contain', '/edit-mailing-address');
+
+    cy.get('va-text-input[name="root_addressLine1"]')
+      .shadow()
+      .find('input')
+      .as('addressInput');
+
+    cy.get('@addressInput').clear();
+    cy.get('@addressInput').type('345 Mailing Address St.');
+
+    cy.findByLabelText('Yes, also update my profile').check();
+
+    cy.findByTestId('save-edit-button').click();
+
+    cy.wait('@addressValidation');
+
+    cy.findByTestId('confirm-address-button').click();
+
+    // Check to go back to veteran-information page, show the error alert, and check that the address is still updated
+    cy.url().should('include', '/veteran-information');
+    cy.get('#form-only-update-alert').should('be.visible');
+    cy.get('div[data-dd-action-name="street"]').should(
+      'have.text',
+      '345 Mailing Address St.',
+    );
+  });
+});

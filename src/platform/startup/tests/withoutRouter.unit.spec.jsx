@@ -50,6 +50,7 @@ describe('startApp', () => {
         reducer: mockReducer,
         analyticsEvents: mockAnalyticsEvents,
         preloadScheduledDowntimes: mockPreloadScheduledDowntimes,
+        additionalMiddlewares: [],
       }),
     ).to.be.true;
 
@@ -61,5 +62,40 @@ describe('startApp', () => {
         </Provider>,
       ),
     ).to.be.true;
+  });
+
+  it('should pass additional middlewares to setUpCommonFunctionality', () => {
+    const mockStore = {};
+    setUpCommonFunctionalityStub.returns(mockStore);
+
+    // Create mock middlewares
+    const mockMiddlewareOne = () => next => action =>
+      next({ ...action, modified: true });
+    const mockMiddlewareTwo = () => next => action => next(action);
+    const mockAdditionalMiddlewares = [mockMiddlewareOne, mockMiddlewareTwo];
+
+    const mockRouter = {};
+    const mockRouterProvider = <RouterProvider router={mockRouter} />;
+
+    startApp({
+      router: mockRouterProvider,
+      reducer: {},
+      additionalMiddlewares: mockAdditionalMiddlewares,
+    });
+
+    // Verify the middlewares were passed correctly
+    expect(setUpCommonFunctionalityStub.calledOnce).to.be.true;
+    expect(
+      setUpCommonFunctionalityStub.calledWith(
+        sinon.match({
+          additionalMiddlewares: mockAdditionalMiddlewares,
+        }),
+      ),
+    ).to.be.true;
+
+    // Verify that the middlewares array is exactly the same instance that was passed
+    const actualMiddlewares =
+      setUpCommonFunctionalityStub.firstCall.args[0].additionalMiddlewares;
+    expect(actualMiddlewares).to.equal(mockAdditionalMiddlewares);
   });
 });

@@ -1,30 +1,36 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
 import {
   TITLE,
   SUBTITLE,
-  YOUR_INFORMATION_PAGES_CONSTANTS,
+  YOUR_INFORMATION_CHAPTER_CONSTANTS,
+  CONTACT_INFORMATION_CHAPTER_CONSTANTS,
 } from '../constants';
+
 import manifest from '../manifest.json';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import educationPage from '../pages/education';
 import getHelp from '../components/GetFormHelp';
-import mainMailingAddressPage from '../pages/mainMailingAddress';
+import preSubmitInfo from '../components/PreSubmitInfo';
+
+import educationPage from '../pages/education';
 import movingYesNoPage from '../pages/movingYesNo';
-import newMailingAddressPage from '../pages/newMailingAddress';
+import newAddressPage from '../pages/newAddress';
 import personalInformationPage from '../pages/personalInformation';
 import phoneAndEmailPage from '../pages/phoneAndEmail';
+import veteranAddressPage from '../pages/veteranAddress';
+
+import transformForSubmit from './submit-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // TODO: Figure out actual API and structure, create submit function, create any transformers, vets-json schema
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit,
+  submitUrl: `${environment.API_URL}/v0/veteran_readiness_employment_claims`,
   trackingPrefix: 'new-careers-employment-28-1900-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -34,39 +40,41 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  formId: VA_FORM_IDS.FORM_28_1900,
-  // TODO: Set up save in progress/prefill
+  formId: VA_FORM_IDS.FORM_28_1900_V2,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your VR&amp;E Chapter 31 benefits application application (28-1900) is in progress.',
-    //   expired: 'Your saved VR&amp;E Chapter 31 benefits application application (28-1900) has expired. If you want to apply for VR&amp;E Chapter 31 benefits application, please start a new application.',
-    //   saved: 'Your VR&amp;E Chapter 31 benefits application application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your VR&E Chapter 31 benefits application (28-1900) is in progress.',
+      expired:
+        'Your saved VR&E Chapter 31 benefits application (28-1900) has expired. If you want to apply for Chapter 31 benefits, start a new application.',
+      saved: 'Your Chapter 31 benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound:
-      'Please start over to apply for VR&amp;E Chapter 31 benefits application.',
+    notFound: 'Start over to apply for Veteran Readiness and Employment.',
     noAuth:
-      'Please sign in again to continue your application for VR&amp;E Chapter 31 benefits application.',
+      'Sign in again to continue your application for Vocational Readiness and Employment.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  preSubmitInfo,
   chapters: {
     yourInformationChapter: {
       title: 'Your information',
       pages: {
         personalInformationPage: {
-          path: 'personal-information', // Do we know what we want this to be?
-          title: YOUR_INFORMATION_PAGES_CONSTANTS.personalInformationPageTitle,
+          path: 'personal-information',
+          title:
+            YOUR_INFORMATION_CHAPTER_CONSTANTS.personalInformationPageTitle,
           uiSchema: personalInformationPage.uiSchema,
           schema: personalInformationPage.schema,
         },
         educationPage: {
-          path: 'education', // Do we know what we want this to be?
-          title: YOUR_INFORMATION_PAGES_CONSTANTS.educationPageTitle,
+          path: 'education',
+          title: YOUR_INFORMATION_CHAPTER_CONSTANTS.educationPageTitle,
           uiSchema: educationPage.uiSchema,
           schema: educationPage.schema,
         },
@@ -75,27 +83,28 @@ const formConfig = {
     contactInformationChapter: {
       title: 'Contact information',
       pages: {
-        mainMailingAddressPage: {
-          path: 'main-mailing-address',
-          title: 'Mailing address',
-          uiSchema: mainMailingAddressPage.uiSchema,
-          schema: mainMailingAddressPage.schema,
+        veteranAddressPage: {
+          path: 'veteran-address',
+          title: CONTACT_INFORMATION_CHAPTER_CONSTANTS.veteranAddressPageTitle,
+          uiSchema: veteranAddressPage.uiSchema,
+          schema: veteranAddressPage.schema,
         },
         movingYesNoPage: {
           path: 'moving-yes-no',
-          title: 'Moving',
+          title: CONTACT_INFORMATION_CHAPTER_CONSTANTS.movingYesNoPageTitle,
           uiSchema: movingYesNoPage.uiSchema,
           schema: movingYesNoPage.schema,
         },
-        newMailingAddressPage: {
-          path: 'new-mailing-address',
-          title: 'New mailing address',
-          uiSchema: newMailingAddressPage.uiSchema,
-          schema: newMailingAddressPage.schema,
+        newAddressPage: {
+          depends: formData => formData.isMoving,
+          path: 'new-address',
+          title: CONTACT_INFORMATION_CHAPTER_CONSTANTS.newAddressPageTitle,
+          uiSchema: newAddressPage.uiSchema,
+          schema: newAddressPage.schema,
         },
         phoneAndEmailPage: {
           path: 'phone-and-email',
-          title: 'Contact information',
+          title: CONTACT_INFORMATION_CHAPTER_CONSTANTS.phoneAndEmailPageTitle,
           uiSchema: phoneAndEmailPage.uiSchema,
           schema: phoneAndEmailPage.schema,
         },

@@ -8,7 +8,7 @@ import { getReadableDate } from '../utils/dates';
 import { getSelected, getIssueName, getIssueDate } from '../utils/issues';
 import { disagreeWith } from '../utils/areaOfDisagreement';
 
-import { chapterHeaderClass } from './ConfirmationCommon';
+import { chapterHeaderClass } from './ConfirmationSummary';
 
 const ConfirmationIssues = ({
   data,

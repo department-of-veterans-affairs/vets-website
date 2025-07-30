@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
+  currencyUI,
+  currencySchema,
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   radioUI,
@@ -15,7 +16,6 @@ import {
   VaTextInputField,
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
 import {
@@ -30,9 +30,7 @@ import { showMultiplePageResponse } from '../../../helpers';
 const {
   childName,
   provider,
-  ratePerHour,
   noCareEndDate,
-  paymentAmount,
 } = fullSchemaPensions.definitions.careExpenses.items.properties;
 
 // eslint-disable-next-line no-unused-vars
@@ -98,16 +96,8 @@ export default {
           title: 'Choose the type of care:',
           labels: careTypeLabels,
         }),
-        ratePerHour: merge(
-          {},
-          currencyUI(
-            'If this is an in-home provider, what is the rate per hour?',
-          ),
-          {
-            'ui:options': {
-              classNames: 'schemaform-currency-input-v3',
-            },
-          },
+        ratePerHour: currencyUI(
+          'If this is an in-home provider, what is the rate per hour?',
         ),
         hoursPerWeek: numberUI({
           title: 'How many hours per week does the care provider work?',
@@ -128,11 +118,7 @@ export default {
           title: 'How often are the payments?',
           labels: careFrequencyLabelsWithoutOneTime,
         }),
-        paymentAmount: merge({}, currencyUI('How much is each payment?'), {
-          'ui:options': {
-            classNames: 'schemaform-currency-input-v3',
-          },
-        }),
+        paymentAmount: currencyUI('How much is each payment?'),
       },
     },
   },
@@ -156,7 +142,7 @@ export default {
             childName,
             provider,
             careType: radioSchema(Object.keys(careTypeLabels)),
-            ratePerHour,
+            ratePerHour: currencySchema,
             hoursPerWeek: numberSchema,
             careDateRange: {
               ...currentOrPastDateRangeSchema,
@@ -166,7 +152,7 @@ export default {
             paymentFrequency: radioSchema(
               Object.keys(careFrequencyLabelsWithoutOneTime),
             ),
-            paymentAmount,
+            paymentAmount: currencySchema,
           },
         },
       },

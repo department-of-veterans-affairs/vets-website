@@ -1,15 +1,20 @@
 {
   "data": {
     "attributes": {
+      "session": {
+        "authBroker": "sis",
+        "ssoe": false,
+        "transactionid": null
+      },
       "profile": {
         "sign_in": {
           "service_name": "idme"
         },
-        "email": "john.doe@example.com",
+        "email": "john.preparer@example.com",
         "loa": { "current": 3 },
         "first_name": "John",
         "middle_name": "",
-        "last_name": "Doe",
+        "last_name": "Preparer",
         "gender": "M",
         "birth_date": "1985-01-01",
         "verified": true
@@ -20,7 +25,7 @@
         "served_in_military": true
       },
       "in_progress_forms": [],
-      "prefills_available": [],
+      "prefills_available": ["28-1900"],
       "services": [
         "facilities",
         "hca",
@@ -35,7 +40,7 @@
       "va_profile": {
         "status": "OK",
         "birth_date": "19850101",
-        "family_name": "Doe",
+        "family_name": "Preparer",
         "gender": "M",
         "given_names": ["John", ""],
         "active_status": "active",

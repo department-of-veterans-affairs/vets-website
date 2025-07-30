@@ -2,21 +2,20 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import ResBurdenPrivacyPolicy from '../components/ResBurdenPrivacyAct';
 
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
-    focusElement('.schemaform-title > h1');
-    scrollToTop();
+    const h1 = document.querySelector('h1');
+    scrollAndFocus(h1);
   }, []);
 
   return (
     <article className="schemaform-intro">
-      <FormTitle title="Request exemption from the 85/15 Rule reporting requirements" />
+      <FormTitle title="Request exemption from the 85/15 rule reporting requirements" />
       <p className="vads-u-margin-y--2">
-        35% exemption request from 85/15 Rule reporting requirement (VA Form
+        35% exemption request from 85/15 rule reporting requirement (VA Form
         22-10216)
       </p>
       <va-alert status="info" visible>
@@ -60,8 +59,8 @@ const IntroductionPage = ({ route }) => {
           <strong>Note for nonaccredited schools:</strong> This 35% exemption
           applies to the submission of routine 85/15 Ratio reports to VA. Your
           Educational & Training Institution must maintain compliance with the
-          provisions of the 85/15 Rule for all programs approved to receive GI
-          Bill Benefits and must provide 85/15 calculations for any term or
+          provisions of the 85/15 rule for all programs approved to receive GI
+          Bill benefits and must provide 85/15 calculations for any term or
           other enrollment period requested by a VA employee or State Approval
           Agency representative.
         </li>
@@ -134,7 +133,7 @@ const IntroductionPage = ({ route }) => {
         <va-accordion-item header="VA Education Service help" id="first">
           <p>
             If you need help calculating your facility’s potential eligibility
-            for the 35% exemption, or have questions concerning the 85/15 Rule,
+            for the 35% exemption, or have questions concerning the 85/15 rule,
             contact the{' '}
             <va-link
               text="Education Liaison Representative"
@@ -148,8 +147,8 @@ const IntroductionPage = ({ route }) => {
             <ul>
               <li>
                 Provide the full name of your institution as listed on the Web
-                Enabled Approval Management System (WEAMS) report (VA Form
-                22-1998).
+                Enabled Approval Management System (WEAMS) report (WEAMS 1998
+                Report).
               </li>
               <li>Provide your institution’s VA assigned facility code.</li>
             </ul>

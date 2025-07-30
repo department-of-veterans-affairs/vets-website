@@ -17,30 +17,40 @@ describe('VAOS Component: PendingReferralCard', () => {
   const referral = createReferralById(
     '2025-01-01',
     'add2f0f4-a1ea-4dea-a504-a54ab57c68',
-  );
+  ).attributes;
 
   const handleClick = sinon.spy();
 
   let screen = null;
 
-  beforeEach(() => {
+  it('should render ListItem component', () => {
     screen = render(
       <PendingReferralCard referral={referral} handleClick={handleClick} />,
     );
-  });
-
-  it('should render ListItem component', () => {
     expect(screen.getByTestId('appointment-list-item')).to.exist;
   });
 
   it('should display the correct type of care name', () => {
+    screen = render(
+      <PendingReferralCard referral={referral} handleClick={handleClick} />,
+    );
     expect(screen.getByTestId('typeOfCare')).to.exist;
   });
   it('should display the correct number of appointments and expiration date', () => {
+    screen = render(
+      <PendingReferralCard referral={referral} handleClick={handleClick} />,
+    );
     expect(
       screen.getByText(
         'We’ve approved your community care referral. You must schedule all appointments for this referral by July 1, 2025.',
       ),
     ).to.exist;
+  });
+  it('should render basic list item with alert component', () => {
+    referral.stationId = '12345';
+    screen = render(
+      <PendingReferralCard referral={referral} handleClick={handleClick} />,
+    );
+    expect(screen.getByTestId('referral-not-available-alert')).to.exist;
   });
 });

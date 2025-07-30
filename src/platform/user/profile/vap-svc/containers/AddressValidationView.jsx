@@ -15,15 +15,13 @@ import {
 } from 'platform/user/profile/vap-svc/selectors';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import { formatAddress } from 'platform/forms/address/helpers';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
-import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { setData } from 'platform/forms-system/exportsFile';
 import { ContactInfoFormAppConfigContext } from '../components/ContactInfoFormAppConfigContext';
 import * as VAP_SERVICE from '../constants';
 import {
+  clearAddressValidationKey,
   closeModal,
   createTransaction,
   openModal,
@@ -77,10 +75,38 @@ class AddressValidationView extends React.Component {
   }
 
   onChangeSelectedAddress = (address, selectedAddressId) => {
-    this.props.updateSelectedAddress(address, selectedAddressId);
+    let selectedAddress = {};
+    if (selectedAddressId !== 'userEntered') {
+      // if the user selected a suggested address, grab that address from the confirmedSuggestions prop
+      const { confirmedSuggestions } = this.props;
+      selectedAddress = confirmedSuggestions[parseInt(selectedAddressId, 10)];
+    } else {
+      selectedAddress = address;
+    }
+    this.props.updateSelectedAddress(selectedAddress, selectedAddressId);
   };
 
-  onSubmit = event => {
+  requiresNewValidationKey = payload => {
+    const { addressMetaData, validationKey } = payload;
+    if (validationKey) {
+      // if there is a validationKey, assume the validationKey is already updated
+      return false;
+    }
+    if (
+      (addressMetaData?.addressType?.toUpperCase() === 'DOMESTIC' ||
+        addressMetaData?.addressType?.toUpperCase() === 'MILITARY' ||
+        addressMetaData?.addressType?.toUpperCase() === 'OVERSEAS MILITARY') &&
+      addressMetaData?.confidenceScore < 80
+    ) {
+      return true;
+    }
+    return (
+      addressMetaData?.addressType?.toUpperCase() === 'INTERNATIONAL' &&
+      addressMetaData?.confidenceScore < 70
+    );
+  };
+
+  onSubmit = async event => {
     event.preventDefault();
     const {
       validationKey,
@@ -142,7 +168,16 @@ class AddressValidationView extends React.Component {
     }
 
     if (suggestedAddressSelected) {
-      this.props.updateValidationKeyAndSave(
+      // if the user selected a suggested address, we need to remove the validationKey
+      // so that the API doesn't throw an error
+      delete payload.validationKey;
+      this.props.clearAddressValidationKey();
+    }
+    if (this.requiresNewValidationKey(payload)) {
+      // if the suggested address selected, there will be no validationKey so if the
+      // address has a low confidence rating we need to fetch a new validationKey for
+      // the update request
+      await this.props.updateValidationKeyAndSave(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
@@ -150,7 +185,7 @@ class AddressValidationView extends React.Component {
         analyticsSectionName,
       );
     } else {
-      this.props.createTransaction(
+      await this.props.createTransaction(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
@@ -207,33 +242,23 @@ class AddressValidationView extends React.Component {
       (!confirmedSuggestions.length && !validationKey)
     ) {
       return (
-        <Toggler.Hoc
-          toggleName={TOGGLE_NAMES.profileShowNoValidationKeyAddressAlert}
-        >
-          {toggleValue =>
-            !toggleValue ? (
-              <button
-                onClick={this.onEditClick}
-                type="submit"
-                className="vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
-              >
-                Edit Address
-              </button>
-            ) : null
-          }
-        </Toggler.Hoc>
+        <va-button
+          data-testid="edit-address-button"
+          onClick={this.onEditClick}
+          text="Edit address"
+          class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+        />
       );
     }
 
     return (
-      <LoadingButton
-        isLoading={isLoading}
-        type="submit"
+      <va-button
         data-testid="confirm-address-button"
-        aria-label={isLoading ? 'Loading' : buttonText}
-      >
-        {buttonText}
-      </LoadingButton>
+        loading={isLoading}
+        submit="prevent"
+        text={isLoading ? '' : buttonText}
+        class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+      />
     );
   };
 
@@ -377,7 +402,7 @@ class AddressValidationView extends React.Component {
         </div>
         <form onSubmit={this.onSubmit}>
           {this.renderAddressOption(addressFromUser)}
-          {shouldShowSuggestions && this.renderAddressOption('', 'suggested')}
+          {shouldShowSuggestions && this.renderAddressOption({}, 'suggested')}
           {error && (
             <div className="vads-u-margin-bottom--1" role="alert">
               <VAPServiceEditModalErrorMessage error={error} />
@@ -388,13 +413,13 @@ class AddressValidationView extends React.Component {
             {this.renderPrimaryButton()}
             {!addressValidationError &&
               !isLoading && (
-                <button
-                  type="button"
-                  className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+                <va-button
+                  data-testid="edit-address-button"
                   onClick={this.onEditClick}
-                >
-                  Edit address
-                </button>
+                  text="Edit address"
+                  class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                  secondary
+                />
               )}
           </div>
         </form>
@@ -451,6 +476,7 @@ const mapDispatchToProps = {
   updateValidationKeyAndSave,
   createTransaction,
   resetAddressValidation: resetAddressValidationAction,
+  clearAddressValidationKey,
   setDataAction: setData,
 };
 
@@ -458,9 +484,11 @@ AddressValidationView.propTypes = {
   addressFromUser: PropTypes.object.isRequired,
   addressValidationError: PropTypes.bool.isRequired,
   addressValidationType: PropTypes.string.isRequired,
+  clearAddressValidationKey: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
+  resetAddressValidation: PropTypes.func.isRequired,
   setDataAction: PropTypes.func.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
@@ -473,7 +501,7 @@ AddressValidationView.propTypes = {
       city: PropTypes.string.isRequired,
       countryName: PropTypes.string.isRequired,
       countryCodeIso3: PropTypes.string.isRequired,
-      countyCode: PropTypes.string.isRequired,
+      countyCode: PropTypes.string,
       countyName: PropTypes.string.isRequired,
       stateCode: PropTypes.string.isRequired,
       zipCode: PropTypes.string.isRequired,

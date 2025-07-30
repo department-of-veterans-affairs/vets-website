@@ -1,6 +1,7 @@
 {
   "description": "Third party signer, beneficiary has foreign address, OHI, medical claim, work related, auto related",
   "data": {
+    "claimStatus": "new",
     "view:hasPolicies": true,
     "primaryEob": [
       {
@@ -34,14 +35,14 @@
     "applicantNewAddress": "yes",
     "applicantMemberNumber": "123123123",
     "applicantName": {
-      "first": "Beneficiary",
+      "first": "Jim",
       "middle": "Middle",
       "last": "Lastname",
       "suffix": "II"
     },
     "applicantDOB": "2022-05-14",
     "sponsorName": {
-      "first": "Sponsor",
+      "first": "John",
       "middle": "Middle",
       "last": "Jones",
       "suffix": "Sr."
@@ -59,7 +60,7 @@
       "postalCode": "12312"
     },
     "certifierName": {
-      "first": "Certifier",
+      "first": "Jerry",
       "middle": "Middle",
       "last": "Jones",
       "suffix": "Jr."

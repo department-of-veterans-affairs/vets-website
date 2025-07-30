@@ -4,32 +4,30 @@ import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
-import { API_ENDPOINTS, DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
+import { API_ENDPOINTS } from '../utils/constants';
 import { submitTransformer } from '../config/submit-transformer';
 import { ensureValidCSRFToken } from '../utils/actions/ensureValidCSRFToken';
 import content from '../locales/en/content.json';
 
 const ApplicationDownloadLink = ({ formConfig }) => {
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   // define local use variables
   const form = useSelector(state => state.form);
-  const formData = useMemo(() => submitTransformer(formConfig, form), [
+  const formData = useMemo(() => submitTransformer(formConfig, form, true), [
     formConfig,
     form,
   ]);
 
-  const { veteranFullName: name } = form.data['view:veteranInformation'];
-
-  // fetch a custom error message based on status code
-  const errorMessage = useMemo(
+  // Default name to Applicant Submission if view:veteranInformation is empty for some reason
+  const name = useMemo(
     () => {
-      if (!errors.length) return null;
-      const code = errors[0].status[0];
-      return DOWNLOAD_ERRORS_BY_CODE[code] || DOWNLOAD_ERRORS_BY_CODE.generic;
+      const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
+        form.data?.['view:veteranInformation'] ?? {};
+      return veteranFullName;
     },
-    [errors],
+    [form.data],
   );
 
   const handlePdfDownload = useCallback(
@@ -52,7 +50,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     async event => {
       event.preventDefault();
       setLoading(true);
-      setErrors([]);
+      setErrorMessage(null);
 
       try {
         await ensureValidCSRFToken('fetchPdf');
@@ -61,11 +59,17 @@ const ApplicationDownloadLink = ({ formConfig }) => {
           body: formData,
           headers: { 'Content-Type': 'application/json' },
         });
+
+        if (!response.ok) {
+          throw new Error();
+        }
+
         const blob = await response.blob();
+        // Generate pdf from blob
         handlePdfDownload(blob);
         recordEvent({ event: 'hca-pdf-download--success' });
-      } catch (error) {
-        setErrors(error.errors || []);
+      } catch {
+        setErrorMessage(content['alert-download-message--generic']);
         recordEvent({ event: 'hca-pdf-download--failure' });
       } finally {
         setLoading(false);
@@ -92,26 +96,21 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     );
   }
 
-  // render error alert if file cannot download
-  if (errorMessage) {
-    return (
-      <div className="hca-download-error">
-        <va-alert status="error">
-          <h4 slot="headline">{content['alert-heading--generic']}</h4>
-          {errorMessage}
-        </va-alert>
-      </div>
-    );
-  }
-
   return (
-    <va-link
-      text={content['button-download']}
-      onClick={fetchPdf}
-      filetype="PDF"
-      href="#"
-      download
-    />
+    <>
+      {errorMessage && (
+        <div className="hca-download-error vads-u-margin-y--1">
+          <va-alert status="error">{errorMessage}</va-alert>
+        </div>
+      )}
+      <va-link
+        text={content['button-download']}
+        onClick={fetchPdf}
+        filetype="PDF"
+        href="#"
+        download
+      />
+    </>
   );
 };
 

@@ -1,18 +1,24 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import { format, isValid, parseISO } from 'date-fns';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { scrollAndFocus, scrollToTop } from 'platform/utilities/ui';
+import { scrollAndFocus, scrollToTop } from 'platform/utilities/scroll';
 import titleCase from 'platform/utilities/data/titleCase';
 import { setUpPage, isTab } from './page';
+import { evidenceDictionary } from './evidenceDictionary';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
   DATE_FORMATS,
   disabilityCompensationClaimTypeCodes,
+  pensionClaimTypeCodes,
   addOrRemoveDependentClaimTypeCodes,
   standard5103Item,
+  survivorsPensionClaimTypeCodes,
+  DICClaimTypeCodes,
+  veteransPensionClaimTypeCodes,
 } from '../constants';
 
 // Adding !! so that we convert this to a boolean
@@ -130,6 +136,19 @@ export function getClaimStatusDescription(status) {
 
 export function isDisabilityCompensationClaim(claimTypeCode) {
   return disabilityCompensationClaimTypeCodes.includes(claimTypeCode);
+}
+export function isPensionClaim(claimTypeCode) {
+  return pensionClaimTypeCodes.includes(claimTypeCode);
+}
+// When feature flag cstClaimPhases is enabled and claim type code is for a disability
+// compensation claim we show 8 phases instead of 5 with updated description, link text
+// and statuses, we are also showing 8 phases for pension claim
+export function getShowEightPhases(claimTypeCode, cstClaimPhasesEnabled) {
+  return (
+    cstClaimPhasesEnabled &&
+    (isDisabilityCompensationClaim(claimTypeCode) ||
+      isPensionClaim(claimTypeCode))
+  );
 }
 
 export function isClaimOpen(status, closeDate) {
@@ -1165,11 +1184,32 @@ export const generateClaimTitle = (claim, placement, tab) => {
   const baseClaimTitle = isRequestToAddOrRemoveDependent
     ? addOrRemoveDependentClaimTitle
     : `${claimType} claim`;
+  const renderTitle = () => {
+    if (isRequestToAddOrRemoveDependent) {
+      return sentenceCase(addOrRemoveDependentClaimTitle);
+    }
+
+    if (isPensionClaim(claim?.attributes?.claimTypeCode)) {
+      const { claimTypeCode } = claim.attributes;
+      if (survivorsPensionClaimTypeCodes.includes(claimTypeCode)) {
+        return 'Claim for Survivors Pension';
+      }
+      if (DICClaimTypeCodes.includes(claimTypeCode)) {
+        return 'Claim for Dependency and Indemnity Compensation';
+      }
+      if (veteransPensionClaimTypeCodes.includes(claimTypeCode)) {
+        return 'Claim for Veterans Pension';
+      }
+      return 'Claim for pension';
+    }
+    return `Claim for ${claimType}`;
+  };
+
   // This switch may not scale well; it might be better to create a map of the strings instead.
   // For examples of output given different parameters, see the unit tests.
   switch (placement) {
     case 'detail':
-      return `Your ${baseClaimTitle}`;
+      return renderTitle();
     case 'breadcrumb':
       if (claimAvailable(claim)) {
         return `${tabPrefix} your ${baseClaimTitle}`;
@@ -1184,10 +1224,47 @@ export const generateClaimTitle = (claim, placement, tab) => {
       // Default message if claim fails to load.
       return `${tabPrefix} Your Claim`;
     default:
-      return isRequestToAddOrRemoveDependent
-        ? sentenceCase(addOrRemoveDependentClaimTitle)
-        : `Claim for ${claimType}`;
+      return renderTitle();
   }
+};
+
+export const getDisplayFriendlyName = item => {
+  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
+    let updatedFriendlyName = item.friendlyName;
+    updatedFriendlyName =
+      updatedFriendlyName.charAt(0).toLowerCase() +
+      updatedFriendlyName.slice(1);
+    return updatedFriendlyName;
+  }
+  return item.friendlyName;
+};
+
+export const getLabel = (toggleValue, trackedItem) => {
+  if (isAutomated5103Notice(trackedItem?.displayName)) {
+    return trackedItem?.displayName;
+  }
+  if (toggleValue) {
+    if (
+      trackedItem?.friendlyName &&
+      trackedItem?.status === 'NEEDED_FROM_YOU'
+    ) {
+      return trackedItem.friendlyName;
+    }
+    if (
+      !trackedItem?.friendlyName &&
+      trackedItem?.status === 'NEEDED_FROM_YOU'
+    ) {
+      return 'Request for evidence';
+    }
+    if (trackedItem?.displayName.toLowerCase().includes('dbq')) {
+      return 'Request for an exam';
+    }
+    if (trackedItem?.friendlyName) {
+      return `Your ${getDisplayFriendlyName(trackedItem)}`;
+    }
+    return 'Request for evidence outside VA';
+  }
+  return trackedItem?.displayName;
 };
 
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
@@ -1202,6 +1279,17 @@ export function setDocumentRequestPageTitle(displayName) {
 export function setTabDocumentTitle(claim, tabName) {
   setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
+
+export const setPageTitle = (trackedItem, toggleValue) => {
+  if (trackedItem) {
+    const pageTitle = setDocumentRequestPageTitle(
+      getLabel(toggleValue, trackedItem),
+    );
+    setDocumentTitle(pageTitle);
+  } else {
+    setDocumentTitle('Document Request');
+  }
+};
 
 // Used to set the page focus on the CST Tabs
 export function setPageFocus(lastPage, loading) {
@@ -1238,4 +1326,80 @@ export const getTrackedItemDateFromStatus = item => {
     default:
       return item.requestedDate;
   }
+};
+
+export const renderDefaultThirdPartyMessage = displayName => {
+  return displayName.toLowerCase().includes('dbq') ? (
+    <>
+      We’ve requested an exam related to your claim. The examiner’s office will
+      contact you to schedule this appointment.
+      <br />
+    </>
+  ) : (
+    <>
+      <strong>You don’t have to do anything.</strong> We asked someone outside
+      VA for documents related to your claim.
+      <br />
+    </>
+  );
+};
+
+export const renderOverrideThirdPartyMessage = item => {
+  if (item.displayName.toLowerCase().includes('dbq')) {
+    return item.shortDescription || item.activityDescription;
+  }
+  if (item.shortDescription) {
+    return (
+      <>
+        <strong>You don’t have to do anything.</strong> {item.shortDescription}
+      </>
+    );
+  }
+  return item.activityDescription;
+};
+
+export const getUploadErrorMessage = (error, claimId) => {
+  if (error?.errors?.[0]?.detail === 'DOC_UPLOAD_DUPLICATE') {
+    return {
+      title: `You've already uploaded ${error?.fileName || 'files'}`,
+      body: (
+        <>
+          It can take up to 2 days for the file to show up in{' '}
+          <va-link
+            text="your list of documents filed"
+            href={`/track-claims/your-claims/${claimId}/files`}
+          />
+          . Try checking back later before uploading again.
+        </>
+      ),
+      type: 'error',
+    };
+  }
+  if (error?.errors?.[0]?.detail === 'DOC_UPLOAD_INVALID_CLAIMANT') {
+    return {
+      title: `You can’t upload files for this claim here`,
+      body: (
+        <>
+          <>
+            Only the Veteran with the claim can upload files on this page. We’re
+            sorry for the inconvenience.
+            <br />
+            <va-link
+              active
+              text="Upload files with QuickSubmit"
+              href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit"
+            />
+          </>
+        </>
+      ),
+      type: 'error',
+    };
+  }
+  return {
+    title: `Error uploading ${error?.fileName || 'files'}`,
+    body:
+      error?.errors?.[0]?.title ||
+      'There was an error uploading your files. Please try again',
+    type: 'error',
+  };
 };

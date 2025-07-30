@@ -5,24 +5,41 @@
  * Cards with "Edit" and "DELETE"
  */
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import { focusElement } from 'platform/utilities/ui';
-import { createArrayBuilderItemEditPath } from './helpers';
+import { focusElement, scrollTo } from 'platform/utilities/ui';
+import { withRouter } from 'react-router';
+import {
+  arrayBuilderContextObject,
+  createArrayBuilderItemEditPath,
+  slugifyText,
+} from './helpers';
+import {
+  useArrayBuilderEvent,
+  ARRAY_BUILDER_EVENTS,
+} from './ArrayBuilderEvents';
 
-const EditLink = ({ to, srText }) => (
-  <Link to={to} data-action="edit" aria-label={srText}>
-    <span className="vads-u-display--flex vads-u-align-items--center vads-u-font-size--md">
-      Edit
-      <va-icon size={3} icon="chevron_right" aria-hidden="true" />
-    </span>
-  </Link>
-);
+const EditLink = withRouter(({ to, srText, router }) => {
+  function handleRouteChange(event) {
+    event.preventDefault();
+    router.push(to);
+  }
+
+  return (
+    <va-link
+      active
+      href={to}
+      text="Edit"
+      onClick={handleRouteChange}
+      data-action="edit"
+      label={srText}
+    />
+  );
+});
 
 const RemoveButton = ({ onClick, srText }) => (
   <va-button-icon
@@ -35,7 +52,7 @@ const RemoveButton = ({ onClick, srText }) => (
 
 const MissingInformationAlert = ({ children }) => (
   <div className="vads-u-margin-top--2">
-    <va-alert status="error" uswds>
+    <va-alert status="error" uswds class="array-builder-missing-info-alert">
       {children}
     </va-alert>
   </div>
@@ -50,7 +67,7 @@ const IncompleteLabel = () => (
 /**
  * @param {{
  *   arrayPath: string,
- *   getEditItemPathUrl: (formData: any, index: number) => string,
+ *   getEditItemPathUrl: (formData: any, index: number, context) => string,
  *   formData: any,
  *   isIncomplete: (itemData: any) => boolean,
  *   nounSingular: string,
@@ -81,6 +98,7 @@ const ArrayBuilderCards = ({
   const arrayData = get(arrayPath, formData);
   const currentItem = arrayData?.[currentIndex];
   const isMounted = useRef(true);
+  const nounSingularSlug = slugifyText(nounSingular);
 
   useEffect(() => {
     isMounted.current = true;
@@ -88,6 +106,17 @@ const ArrayBuilderCards = ({
       isMounted.current = false;
     };
   }, []);
+
+  useArrayBuilderEvent(
+    ARRAY_BUILDER_EVENTS.INCOMPLETE_ITEM_ERROR,
+    ({ index, arrayPath: incompleteArrayPath }) => {
+      if (incompleteArrayPath === arrayPath) {
+        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
+        scrollTo(card);
+        focusElement(`${card} .array-builder-missing-info-alert`);
+      }
+    },
+  );
 
   if (!arrayData?.length) {
     return null;
@@ -110,7 +139,9 @@ const ArrayBuilderCards = ({
         focusElement(
           'button',
           null,
-          `va-card[name="${nounSingular}_${lastIndex}"] [data-action="remove"]`,
+          `va-card[name="${slugifyText(
+            nounSingular,
+          )}_${lastIndex}"] [data-action="remove"]`,
         );
       });
     }
@@ -124,6 +155,9 @@ const ArrayBuilderCards = ({
       (_, index) => index !== currentIndex,
     );
     const newData = set(arrayPath, arrayWithRemovedItem, formData);
+    if (!required(newData) && !arrayWithRemovedItem?.length) {
+      delete newData[arrayPath];
+    }
     setFormData(newData);
     hideRemoveConfirmationModal({
       focusRemoveButton: false,
@@ -134,13 +168,13 @@ const ArrayBuilderCards = ({
     // change of URL
     forceRerender(newData);
     if (arrayWithRemovedItem.length === 0) {
-      onRemoveAll();
+      onRemoveAll(newData);
     }
   }
 
   const Card = ({ index, children }) => (
     <div className="vads-u-margin-top--2">
-      <va-card uswds name={`${nounSingular}_${index}`}>
+      <va-card uswds name={`${nounSingularSlug}_${index}`}>
         {children}
       </va-card>
     </div>
@@ -180,7 +214,8 @@ const ArrayBuilderCards = ({
                     <div>
                       {isIncomplete(itemData) && <IncompleteLabel />}
                       <CardTitle
-                        className={`vads-u-margin-top--0${cardHeadingStyling}`}
+                        className={`vads-u-margin-top--0${cardHeadingStyling} dd-privacy-mask`}
+                        data-dd-action-name="Card title"
                       >
                         {itemName}
                       </CardTitle>
@@ -199,7 +234,14 @@ const ArrayBuilderCards = ({
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
                         to={createArrayBuilderItemEditPath({
-                          path: getEditItemPathUrl(formData, index),
+                          path: getEditItemPathUrl(
+                            formData,
+                            index,
+                            arrayBuilderContextObject({
+                              edit: true,
+                              review: isReview,
+                            }),
+                          ),
                           index,
                           isReview,
                         })}

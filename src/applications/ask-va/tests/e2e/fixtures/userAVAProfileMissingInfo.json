@@ -1,0 +1,39 @@
+{
+    "formData": {
+        "personalInformation": {
+            "first": "Safari",
+            "middle": null,
+            "last": "Mhvtp",
+            "suffix": "Jr.",
+            "preferredName": "Safari",
+            "socialSecurityNumber": "796104437",
+            "dateOfBirth": ""
+        },
+        "contactInformation": {
+            "email": "testAVAPROFILE@gmail.com",
+            "phone": "3145222211",
+            "workPhone": "3145222255",
+            "businessPhone": "2023334499",
+            "address": {
+                "street": "8814 Covey Rise Ct",
+                "city": "Charlotte",
+                "state": "NC",
+                "country": "USA",
+                "postalCode": "28225"
+            }
+        },
+        "avaProfile": {
+            "schoolInfo": {
+                "schoolFacilityCode": "119D9143",
+                "schoolName": "TEXAS STATE UNIVERSITY"
+            },
+            "businessPhone": "2023334442",
+            "businessEmail": "testAVAPROFILE_BUSINESS@test.com"
+        }
+    },
+    "metadata": {
+        "version": 0,
+        "prefill": true,
+        "returnUrl": "/your-personal-information"
+    }
+}

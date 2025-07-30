@@ -656,6 +656,27 @@ describe('assignGetItemName', () => {
     );
   });
 
+  it('should pass index and fullData to getItemName', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      text: {
+        getItemName: sinon.spy(),
+      },
+    };
+
+    const getItemName = assignGetItemName(options);
+    const fullData = [{ name: 'test1' }, { name: 'test2' }];
+    getItemName(fullData[1], 1, fullData);
+    expect(options.text.getItemName.args[0]).to.deep.equal([
+      fullData[1],
+      1,
+      fullData,
+    ]);
+  });
+
   it('should gracefully return null if we get an exception on getItemName', () => {
     const options = {
       arrayPath: 'employers',

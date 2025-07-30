@@ -7,10 +7,7 @@ import AppointmentFlexGrid from '../../../components/AppointmentFlexGrid';
 import AppointmentListItem from './AppointmentListItem';
 import AppointmentRow from '../../../components/AppointmentRow';
 
-export default function UpcomingAppointmentLayout({
-  featureBreadcrumbUrlUpdate,
-  hashTable,
-}) {
+export default function UpcomingAppointmentLayout({ hashTable }) {
   const keys = Object.keys(hashTable);
 
   return keys.map((key, i) => {
@@ -33,7 +30,6 @@ export default function UpcomingAppointmentLayout({
             {hashTable[key].map((appt, j) => {
               const isFirstInDay = j === 0;
               const link = getLink({
-                featureBreadcrumbUrlUpdate,
                 appointment: appt,
               });
               const idClickable = `id-${appt.id.replace('.', '\\.')}`;
@@ -86,7 +82,6 @@ export default function UpcomingAppointmentLayout({
       const idClickable = `id-${appt.id.replace('.', '\\.')}`;
 
       const link = getLink({
-        featureBreadcrumbUrlUpdate,
         appointment: appt,
       });
 
@@ -129,6 +124,5 @@ export default function UpcomingAppointmentLayout({
 }
 
 UpcomingAppointmentLayout.propTypes = {
-  featureBreadcrumbUrlUpdate: PropTypes.bool,
   hashTable: PropTypes.object,
 };

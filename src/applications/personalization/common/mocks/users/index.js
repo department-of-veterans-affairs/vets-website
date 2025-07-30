@@ -60,7 +60,6 @@ const simpleUser = {
         familyName: 'Jenkins',
         gender: 'M',
         givenNames: ['Mitchell', 'G'],
-        isCernerPatient: false,
         facilities: [],
         vaPatient: true,
         mhvAccountState: 'NONE',
@@ -331,7 +330,6 @@ const loa1SimpleUser = {
         familyName: 'Jenkins',
         gender: 'M',
         givenNames: ['Mitchell', 'G'],
-        isCernerPatient: false,
         facilities: [
           {
             facilityId: '989',
@@ -547,7 +545,6 @@ const cernerUser = {
         familyName: 'Jones',
         gender: 'M',
         givenNames: ['Travis', 'Null'],
-        isCernerPatient: true,
         facilities: [
           { facilityId: '757', isCerner: true },
           { facilityId: '534', isCerner: false },

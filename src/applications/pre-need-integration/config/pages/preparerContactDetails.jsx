@@ -1,5 +1,7 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { merge } from 'lodash';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 import get from 'platform/utilities/data/get';
@@ -15,20 +17,40 @@ import {
   MailingAddressStateTitle,
   PreparerPhoneNumberDescription,
 } from '../../utils/helpers';
-import { ContactDetailsTitle } from '../../components/PreparerHelpers';
+import {
+  ContactDetailsTitle,
+  MailingAddressTitle,
+} from '../../components/PreparerHelpers';
 
 const { applicant } = fullSchemaPreNeed.properties.application.properties;
 
-const preparerMailingAddressStateTitleWrapper = (
-  <MailingAddressStateTitle elementPath="application.applicant.view:applicantInfo.mailingAddress.country" />
-);
+export function DynamicStateSelectFieldPreparer(props) {
+  const formData = useSelector(state => state.form.data || {});
+
+  const dynamicLabel = MailingAddressStateTitle({
+    elementPath:
+      'application.applicant.view:applicantInfo.mailingAddress.country',
+    formData,
+  });
+
+  const modifiedProps = {
+    ...props,
+    label: dynamicLabel,
+  };
+
+  return <VaSelectField {...modifiedProps} />;
+}
 
 export const uiSchema = {
   application: {
     applicant: {
       'view:applicantInfo': {
-        mailingAddress: merge({}, address.uiSchema('Your mailing address'), {
+        mailingAddress: merge({}, address.uiSchema(MailingAddressTitle), {
           country: {
+            'ui:webComponentField': VaSelectField,
+            'ui:options': {
+              classNames: 'selectNonImposter',
+            },
             'ui:required': isAuthorizedAgent,
             'ui:errorMessages': {
               required: 'Select Country',
@@ -51,10 +73,11 @@ export const uiSchema = {
             },
           },
           state: {
-            'ui:title': preparerMailingAddressStateTitleWrapper,
+            'ui:webComponentField': DynamicStateSelectFieldPreparer,
             'ui:required': isAuthorizedAgent,
             'ui:options': {
               hideIf: formData => !preparerAddressHasState(formData),
+              classNames: 'selectNonImposter',
             },
             'ui:errorMessages': {
               enum: 'Select a state or territory',
@@ -114,6 +137,9 @@ export const uiSchema = {
         },
       },
     },
+  },
+  'ui:options': {
+    itemName: 'Your Contact Details',
   },
 };
 export const schema = {

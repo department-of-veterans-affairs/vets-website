@@ -3,12 +3,12 @@ export const PROFILE_TOGGLES = {
   profileShowPronounsAndSexualOrientation: false,
   representativeStatusEnableV2Features: false,
   profileHideDirectDeposit: false,
-  profileShowPaymentsNotificationSetting: false,
   profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
+  profileShowPaperlessDelivery: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -45,11 +45,13 @@ export const PROFILE_PATHS = Object.freeze({
   PERSONAL_INFORMATION: '/profile/personal-information',
   CONTACT_INFORMATION: '/profile/contact-information',
   MILITARY_INFORMATION: '/profile/military-information',
+  VETERAN_STATUS_CARD: '/profile/veteran-status-card',
   NOTIFICATION_SETTINGS: '/profile/notifications',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
   ACCOUNT_SECURITY: '/profile/account-security',
   CONTACTS: '/profile/contacts',
   EDIT: '/profile/edit',
+  PAPERLESS_DELIVERY: '/profile/paperless-delivery',
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
@@ -59,11 +61,13 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   PERSONAL_INFORMATION: 'Personal information',
   CONTACT_INFORMATION: 'Contact information',
   MILITARY_INFORMATION: 'Military information',
+  VETERAN_STATUS_CARD: 'Veteran Status Card',
   NOTIFICATION_SETTINGS: 'Notification settings',
   CONNECTED_APPLICATIONS: 'Connected apps',
   ACCOUNT_SECURITY: 'Account security',
   CONTACTS: 'Personal health care contacts',
   EDIT: 'Edit your information',
+  PAPERLESS_DELIVERY: 'Paperless delivery',
 });
 
 export const PROFILE_PATHS_WITH_NAMES = Object.entries(PROFILE_PATHS).map(

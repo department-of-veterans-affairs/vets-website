@@ -17,7 +17,11 @@ describe(appName, () => {
       it(`unregistered patient on ${size} screen`, () => {
         cy.viewportPreset(size);
 
-        LandingPage.visit({ registered: false });
+        LandingPage.visit({
+          registered: false,
+          verified: false,
+          serviceName: 'dslogon',
+        });
         cy.injectAxeThenAxeCheck();
 
         // Test that the no health data message is present
@@ -46,8 +50,7 @@ describe(appName, () => {
         cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
 
         // Test for the conditional heading for VA health benefits
-        cy.findByRole('heading', { name: /My VA health benefits/i }).should
-          .exist;
+        cy.findByRole('heading', { name: /VA health benefits/i }).should.exist;
 
         // Test that the no health data message is NOT present
         cy.findByRole('heading', { name: headline }).should('not.exist');

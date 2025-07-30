@@ -11,23 +11,22 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  formatNameFirstLast,
+  getNameDateAndTime,
+  makePdf,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import {
-  formatNameFirstLast,
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  formatUserDob,
-} from '../util/helpers';
+import { generateTextFile } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   pageTitles,
+  statsdFrontEndActions,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -38,6 +37,7 @@ import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -57,6 +57,7 @@ const AllergyDetails = props => {
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+  useTrackAction(statsdFrontEndActions.ALLERGIES_DETAILS);
 
   const allergyData = useMemo(
     () => {
@@ -115,7 +116,13 @@ const AllergyDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, details: generateAllergyItem(allergyData) };
     const pdfName = `VA-allergies-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Allergy details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Allergy details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateAllergyTextContent = () => {

@@ -16,6 +16,8 @@ export const Paths = {
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
   CONTACT_LIST: '/contact-list/',
+  SELECT_HEALTH_CARE_SYSTEM: 'select-health-care-system',
+  START_MESSAGE: 'start-message',
 };
 
 export const DefaultFolders = {
@@ -51,6 +53,7 @@ export const ErrorMessages = {
   },
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
+    VALID_RECIPIENT_REQUIRED: 'Please select a valid recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
     CHECKBOX_REQUIRED: 'You must certify by checking the box.',
     SUBJECT_REQUIRED: 'Subject cannot be blank.',
@@ -94,12 +97,15 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {
       FILE_EMPTY: 'Your file is empty. Try attaching a different file.',
-      INVALID_FILE_TYPE: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+      INVALID_FILE_TYPE: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS, XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+      INVALID_FILE_TYPE_EXTENDED: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS, XLSX, BMP, TIFF, PPT, PPSX, ODT, MP4, MOV, WMV, MPG.`,
       FILE_DUPLICATE: 'You have already attached this file.',
       FILE_TOO_LARGE:
         'Your file is too large. Try attaching a file smaller than 6MB.',
       TOTAL_MAX_FILE_SIZE_EXCEEDED:
         'Your files are too large. The total size of all files must be smaller than 10MB.',
+      TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE:
+        'Your files are too large. The total size of all files must be smaller than 25MB.',
     },
   },
   SearchForm: {
@@ -148,8 +154,15 @@ export const Alerts = {
   Message: {
     BLOCKED_MESSAGE_ERROR:
       'You are blocked from sending messages to this recipient.',
-    CANNOT_REPLY_BODY:
-      "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
+    CANNOT_REPLY_BODY: {
+      MAIN: 'The last message in this conversation is more than 45 days old.',
+      VISTA:
+        "If you want to continue this conversation, you'll need to start a new message.",
+      OH:
+        'If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.',
+      OH_CONTACT:
+        'Or you can send a message to other care teams in your contact list.',
+    },
     CANNOT_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
     GET_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     DELETE_MESSAGE_SUCCESS:
@@ -236,11 +249,6 @@ export const Prompts = {
       'If you remove an attachment, you will have to attach it again.',
   },
   Compose: {
-    EDIT_PREFERENCES_TITLE: 'Edit your message preferences',
-    EDIT_PREFERENCES_CONTENT:
-      'You can edit your contact list or signature settings on the My HealtheVet website. Then refresh this page to review your updated list.',
-    EDIT_PREFERENCES_LINK: `Edit your message preferences on the My HealtheVet website 
-    (opens in a new tab)`,
     SIGNATURE_REQUIRED:
       'Messages to this team require a signature. We added a signature box to this page.',
     SIGNATURE_NOT_REQUIRED:
@@ -344,10 +352,45 @@ export const acceptedFileTypes = {
   pjp: 'image/pjp',
 };
 
+export const acceptedFileTypesExtended = {
+  doc: 'application/msword',
+  docx:
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  gif: 'image/gif',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  pdf: 'application/pdf',
+  png: 'image/png',
+  rtf: 'application/rtf', // corrected from 'text/rtf' to 'application/rtf' for wider compatibility
+  txt: 'text/plain',
+  xls: 'application/vnd.ms-excel',
+  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  bmp: 'image/bmp',
+  tiff: 'image/tiff',
+  tif: 'image/tiff', // common alias
+  ppt: 'application/vnd.ms-powerpoint',
+  pptx:
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  pps: 'application/vnd.ms-powerpoint',
+  ppsx:
+    'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+  odt: 'application/vnd.oasis.opendocument.text',
+  mp4: 'video/mp4',
+  m4v: 'video/x-m4v',
+  mov: 'video/quicktime',
+  wmv: 'video/x-ms-wmv',
+  mpg: 'video/mpeg',
+  jfif: 'image/jfif',
+  pjpeg: 'image/pjpeg',
+  pjp: 'image/pjp',
+};
+
 export const Attachments = {
   MAX_FILE_COUNT: 4,
+  MAX_FILE_COUNT_LARGE: 10,
   MAX_FILE_SIZE: 6000000,
   TOTAL_MAX_FILE_SIZE: 10000000,
+  TOTAL_MAX_FILE_SIZE_LARGE: 26214400, // 25 MB
 };
 
 export const ElectronicSignatureBox = {
@@ -420,21 +463,12 @@ export const BreadcrumbViews = {
   MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-padding-y--0p5',
 };
 
-// When RemoveLandingPage (removeLandingPageFF / mhvSecureMessagingRemoveLandingPage) work is complete, replace the following constants with the NEW_ versions
 export const PageTitles = {
-  /// /////////////////////////
-  DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
-  PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
-  CONVERSATION_TITLE_TAG:
-    'Conversation - MHV Secure Messaging | Veterans Affairs',
+  DEFAULT_PAGE_TITLE_TAG: ' | Veterans Affairs',
+  MY_FOLDERS_PAGE_TITLE_TAG: 'More folders | Veterans Affairs',
+  CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
-  MY_FOLDERS_PAGE_TITLE_TAG:
-    'More folders - MHV Secure Messaging | Veterans Affairs',
-  /// //////////////////////////
-  NEW_MESSAGE_PAGE_TITLE_TAG: ' | Veterans Affairs',
-  NEW_MY_FOLDERS_PAGE_TITLE_TAG: ' More folders | Veterans Affairs',
-  NEW_CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
 };
 
 export const Recipients = {

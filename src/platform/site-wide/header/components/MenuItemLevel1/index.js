@@ -38,7 +38,7 @@ export const MenuItemLevel1 = ({
   };
 
   return (
-    <li className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
+    <li className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--1 vads-u-width--full vads-u-font-weight--bold">
       {/* Raw title */}
       {!item?.menuSections &&
         !item?.href && (

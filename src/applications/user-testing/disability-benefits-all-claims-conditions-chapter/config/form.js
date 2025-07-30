@@ -1,14 +1,14 @@
+import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import { SUBTITLE, TITLE } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import manifest from '../manifest.json';
-import demo from '../pages/demo';
 import ratedOrNewNextPagePages from '../pages/ratedOrNewNextPage';
 import conditionTypeRadioPages from '../pages/conditionTypeRadio';
+import ratedOrNewNextPageSecondaryEnhancedPages from '../pages/ratedOrNewNextPageSecondaryEnhanced';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -51,9 +51,9 @@ const formConfig = {
     conditionsChapter: {
       title: 'Conditions',
       pages: {
-        demo,
         ...ratedOrNewNextPagePages,
         ...conditionTypeRadioPages,
+        ...ratedOrNewNextPageSecondaryEnhancedPages,
       },
     },
   },

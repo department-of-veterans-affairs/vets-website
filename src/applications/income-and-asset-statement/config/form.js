@@ -1,24 +1,27 @@
 // import fullSchema from 'vets-json-schema/dist/21P-0969-schema.json';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
+import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
+import prefillTransformer from './prefill-transformer';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { submit } from './submit';
-import veteranInformation from './chapters/01-veteran-information';
-import claimantInformation from './chapters/02-claimant-information';
-import unassociatedIncomes from './chapters/03-unassociated-incomes';
-import associatedIncomes from './chapters/04-associated-incomes';
-import ownedAssets from './chapters/05-owned-assets';
-import royaltiesAndOtherProperties from './chapters/06-royalties-and-other-properties';
-import assetTransfers from './chapters/07-asset-transfers';
-import trusts from './chapters/08-trusts';
-import annuities from './chapters/09-annuities';
-import unreportedAssets from './chapters/10-unreported-assets';
-import discontinuedIncomes from './chapters/11-discontinued-incomes';
-import incomeReceiptWaivers from './chapters/12-income-receipt-waivers';
+import veteranAndClaimantInformation from './chapters/01-veteran-and-claimant-information';
+import unassociatedIncomes from './chapters/02-unassociated-incomes';
+import associatedIncomes from './chapters/03-associated-incomes';
+import ownedAssets from './chapters/04-owned-assets';
+import royaltiesAndOtherProperties from './chapters/05-royalties-and-other-properties';
+import assetTransfers from './chapters/06-asset-transfers';
+import trusts from './chapters/07-trusts';
+import annuities from './chapters/08-annuities';
+import unreportedAssets from './chapters/09-unreported-assets';
+import discontinuedIncomes from './chapters/10-discontinued-incomes';
+import incomeReceiptWaivers from './chapters/11-income-receipt-waivers';
+import supportingDocuments from './chapters/12-supporting-documents';
 
 // const { } = fullSchema.properties;
 
@@ -35,6 +38,9 @@ const formConfig = {
   confirmation: ConfirmationPage,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   formId: VA_FORM_IDS.FORM_21P_0969,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your benefits application (21P-0969) is in progress.',
@@ -43,32 +49,38 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: false,
+  prefillEnabled: true,
+  prefillTransformer,
   dev: {
     disableWindowUnloadInCI: true,
   },
+  ...minimalHeaderFormConfigOptions(),
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
     statementOfTruth: {
       body:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData =>
-        formData['view:applicantIsVeteran']
-          ? 'veteranFullName'
-          : 'claimantFullName',
+      fullNamePath: formData => {
+        if (formData?.claimantType === 'VETERAN') {
+          return formData?.isLoggedIn
+            ? 'veteranFullName'
+            : 'otherVeteranFullName';
+        }
+        return 'claimantFullName';
+      },
     },
   },
-  title: 'Income and Asset Statement Form',
+  title: 'Pension or DIC Income and Asset Statement',
   subTitle: 'VA Form 21P-0969',
   defaultDefinitions: {},
   chapters: {
-    veteranInformation,
-    claimantInformation,
+    veteranAndClaimantInformation,
     unassociatedIncomes,
     associatedIncomes,
     ownedAssets,
@@ -79,6 +91,7 @@ const formConfig = {
     unreportedAssets,
     discontinuedIncomes,
     incomeReceiptWaivers,
+    supportingDocuments,
   },
 };
 

@@ -138,25 +138,18 @@ describe('RecipientsSelect', () => {
   });
 
   it('displays the CantFindYourTeam component', () => {
-    const { getByText } = setup({});
-    const cantFindYourTeam = document.querySelector(
-      'va-additional-info[trigger="If you can\'t find your team"]',
+    const { getByText, container } = setup({});
+    const cantFindYourTeam = container.querySelector(`va-additional-info`);
+    expect(cantFindYourTeam).to.have.attribute(
+      'trigger',
+      "If you can't find your team",
     );
-    expect(cantFindYourTeam).to.exist;
+    const showMoreTeamsLink = getByText('Show more teams in your contact list');
 
-    const editPreferencesLink = getByText(
-      'Edit your message preferences on the previous version of secure messaging (opens in new tab)',
-    );
-    expect(editPreferencesLink).to.exist;
-    expect(editPreferencesLink)
+    expect(showMoreTeamsLink).to.exist;
+    expect(showMoreTeamsLink)
       .to.have.attribute('href')
-      .to.contain(`mhv-portal-web/eauth?deeplinking=preferences`);
-
-    const contactFacilityLink = getByText('Find your VA health facility');
-    expect(contactFacilityLink).to.exist;
-    expect(contactFacilityLink)
-      .to.have.attribute('href')
-      .to.contain('/find-locations/');
+      .to.contain(Constants.Paths.CONTACT_LIST);
   });
 
   it('displays the correct number of optgroups', async () => {

@@ -11,13 +11,18 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording } from '../../shared/utilities';
+import {
+  nameWording,
+  privWrapper,
+  PrivWrappedReview,
+} from '../../shared/utilities';
 import {
   fileUploadUi as fileUploadUI,
   singleFileSchema,
 } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 const effectiveDateHint =
   'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."';
@@ -26,9 +31,10 @@ export const blankSchema = { type: 'object', properties: {} };
 
 export const applicantHasMedicareSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
+    ...titleUI(({ formData }) =>
+      privWrapper(
         `${nameWording(formData, undefined, undefined, true)} Medicare status`,
+      ),
     ),
     applicantMedicareStatus: {
       ...yesNoUI({
@@ -42,11 +48,16 @@ export const applicantHasMedicareSchema = {
               false,
               true,
             )} have Medicare information to provide or update at this time?`,
-            'ui:options': { hint: ADDITIONAL_FILES_HINT },
+            'ui:options': {
+              classNames: ['dd-privacy-hidden'],
+              hint: ADDITIONAL_FILES_HINT,
+            },
           };
         },
       }),
     },
+    'ui:options': { itemAriaLabel: () => 'Medicare status' },
+    'ui:objectViewField': props => PrivWrappedReview(props),
   },
   schema: {
     type: 'object',
@@ -59,14 +70,15 @@ export const applicantHasMedicareSchema = {
 
 export const applicantMedicareClassSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
+    ...titleUI(({ formData }) =>
+      privWrapper(
         `${nameWording(
           formData,
           undefined,
           undefined,
           true,
         )} Medicare coverage`,
+      ),
     ),
     applicantMedicareClass: {
       ...radioUI({
@@ -82,6 +94,7 @@ export const applicantMedicareClassSchema = {
               formData.certifierRole === 'applicant' ? 'are' : 'is'
             } ${nameWording(formData, false, false, true)} enrolled in?`,
             'ui:options': {
+              classNames: ['dd-privacy-hidden'],
               hint:
                 'You can find this information on the front of your Medicare card.',
             },
@@ -89,6 +102,8 @@ export const applicantMedicareClassSchema = {
         },
       }),
     },
+    'ui:options': { itemAriaLabel: () => 'Medicare coverage' },
+    'ui:objectViewField': props => PrivWrappedReview(props),
   },
   schema: {
     type: 'object',
@@ -101,14 +116,15 @@ export const applicantMedicareClassSchema = {
 
 export const applicantMedicarePharmacySchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
+    ...titleUI(({ formData }) =>
+      privWrapper(
         `${nameWording(
           formData,
           undefined,
           undefined,
           true,
         )} Medicare pharmacy benefits`,
+      ),
     ),
     applicantMedicarePharmacyBenefits: {
       ...yesNoUI({
@@ -128,6 +144,11 @@ export const applicantMedicarePharmacySchema = {
         },
       }),
     },
+    'ui:options': {
+      itemAriaLabel: () => 'Medicare pharmacy benefits',
+      classNames: ['dd-privacy-hidden'],
+    },
+    'ui:objectViewField': props => PrivWrappedReview(props),
   },
   schema: {
     type: 'object',
@@ -140,14 +161,15 @@ export const applicantMedicarePharmacySchema = {
 
 export const applicantMedicarePartACarrierSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
+    ...titleUI(({ formData }) =>
+      privWrapper(
         `${nameWording(
           formData,
           undefined,
           undefined,
           true,
         )} Medicare Part A carrier`,
+      ),
     ),
     applicantMedicarePartACarrier: textUI({
       title: 'Name of insurance carrier',
@@ -158,6 +180,15 @@ export const applicantMedicarePartACarrierSchema = {
       title: 'Medicare Part A effective date',
       hint: effectiveDateHint,
     }),
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'applicantMedicarePartACarrier',
+        ),
+    ],
   },
   schema: {
     type: 'object',
@@ -175,14 +206,15 @@ export const applicantMedicarePartACarrierSchema = {
 
 export const applicantMedicarePartBCarrierSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
+    ...titleUI(({ formData }) =>
+      privWrapper(
         `${nameWording(
           formData,
           undefined,
           undefined,
           true,
         )} Medicare Part B carrier`,
+      ),
     ),
     applicantMedicarePartBCarrier: textUI({
       title: 'Name of insurance carrier',
@@ -193,6 +225,15 @@ export const applicantMedicarePartBCarrierSchema = {
       title: 'Medicare Part B effective date',
       hint: effectiveDateHint,
     }),
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'applicantMedicarePartBCarrier',
+        ),
+    ],
   },
   schema: {
     type: 'object',
@@ -216,8 +257,9 @@ export const applicantMedicareABUploadSchema = {
         const appName = nameWording(formData, undefined, false, true);
         return (
           <>
-            You’ll need to submit a copy of the front and back of {appName}{' '}
-            Medicare card for hospital and medical coverage.
+            You’ll need to submit a copy of the front and back of{' '}
+            {privWrapper(appName)} Medicare card for hospital and medical
+            coverage.
             <br />
             <br />
             Upload a copy of one of these documents:
@@ -255,14 +297,15 @@ export const applicantMedicareABUploadSchema = {
 
 export const applicantHasMedicareDSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
+    ...titleUI(({ formData }) =>
+      privWrapper(
         `${nameWording(
           formData,
           undefined,
           undefined,
           true,
         )} Medicare Part D status`,
+      ),
     ),
     applicantMedicareStatusD: {
       ...yesNoUI({
@@ -276,11 +319,16 @@ export const applicantHasMedicareDSchema = {
               false,
               true,
             )} have Medicare Part D information to provide or update at this time?`,
-            'ui:options': { hint: ADDITIONAL_FILES_HINT },
+            'ui:options': {
+              classNames: ['dd-privacy-hidden'],
+              hint: ADDITIONAL_FILES_HINT,
+            },
           };
         },
       }),
     },
+    'ui:options': { itemAriaLabel: () => 'Medicare part D status' },
+    'ui:objectViewField': props => PrivWrappedReview(props),
   },
   schema: {
     type: 'object',
@@ -293,8 +341,8 @@ export const applicantHasMedicareDSchema = {
 
 export const applicantMedicarePartDCarrierSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) => `${nameWording(formData)} Medicare Part D carrier`,
+    ...titleUI(({ formData }) =>
+      privWrapper(`${nameWording(formData)} Medicare Part D carrier`),
     ),
     applicantMedicarePartDCarrier: textUI({
       title: 'Name of insurance carrier',
@@ -304,6 +352,15 @@ export const applicantMedicarePartDCarrierSchema = {
       title: 'Medicare Part D effective date',
       hint: effectiveDateHint,
     }),
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'applicantMedicarePartDCarrier',
+        ),
+    ],
   },
   schema: {
     type: 'object',
@@ -325,8 +382,8 @@ export const applicantMedicareDUploadSchema = {
       const appName = nameWording(formData, undefined, false, true);
       return (
         <>
-          You’ll need to submit a copy of the front and back of {appName}{' '}
-          Medicare Part D card.
+          You’ll need to submit a copy of the front and back of{' '}
+          {privWrapper(appName)} Medicare Part D card.
           <br />
           <br />
           If you don’t have a copy to upload now, you can send it by mail or

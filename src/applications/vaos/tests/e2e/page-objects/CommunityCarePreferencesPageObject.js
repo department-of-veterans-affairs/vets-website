@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class CommunityCarePreferencesPageObject extends PageObject {
+class CommunityCarePreferencesPageObject extends PageObject {
   assertHomeAddress({ exist = true } = {}) {
     cy.findByTestId('providersSelect')
       .as('providersSelect')

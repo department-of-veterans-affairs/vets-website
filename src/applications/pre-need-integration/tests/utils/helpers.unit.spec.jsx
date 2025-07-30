@@ -238,9 +238,6 @@ describe('Preneed helpers', () => {
       );
 
       expect(wrapper.find('.sponsorDetailsSubHeader')).to.have.lengthOf(1);
-      expect(wrapper.find('h3.vads-u-font-size--h5').text()).to.equal(
-        'Sponsor details',
-      );
       wrapper.unmount();
     });
   });

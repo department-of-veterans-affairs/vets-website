@@ -94,7 +94,7 @@ const Payments = ({
               <va-table-row key={`payments-${index}`}>
                 {fields.map(field => (
                   <span key={`${field.value}-${index}`}>
-                    {row[field.value]}
+                    {row[field.value] || ''}
                   </span>
                 ))}
               </va-table-row>
@@ -121,7 +121,6 @@ const Payments = ({
 
 Payments.propTypes = {
   tableVersion: PropTypes.oneOf(['received', 'returned']).isRequired,
-  alertMessage: PropTypes.element,
   data: PropTypes.array,
   fields: PropTypes.array,
   textContent: PropTypes.element,

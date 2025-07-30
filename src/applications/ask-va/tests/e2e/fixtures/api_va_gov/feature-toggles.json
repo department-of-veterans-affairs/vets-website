@@ -49,6 +49,14 @@
             {
                 "name": "ask_va_introduction_page_feature",
                 "value": false
+            },
+            {
+                "name": "askVaAlertLinkToOldPortal",
+                "value": false
+            },
+            {
+                "name": "ask_va_alert_link_to_old_portal",
+                "value": false
             }
        ]
     }

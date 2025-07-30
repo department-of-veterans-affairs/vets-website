@@ -24,6 +24,17 @@ const NationalExamDetails = () => {
     [examId, dispatch],
   );
 
+  useEffect(
+    () => {
+      if (examDetails?.name) {
+        document.title = `${formatNationalExamName(
+          examDetails.name,
+        )}: GI Bill® Comparison Tool | Veterans Affairs`;
+      }
+    },
+    [examDetails],
+  );
+
   useEffect(() => {
     function handleResize() {
       const isNowMobile = window.innerWidth < 481;
@@ -90,7 +101,7 @@ const NationalExamDetails = () => {
       const test = validTests[0];
       return (
         <div className="exam-single-test usa-width-two-thirds">
-          <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">Test Info</h2>
+          <h2 className="vads-u-margin-y--0">Test Info</h2>
           <p className="vads-u-margin-bottom--0">Showing 1 of 1 test</p>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul className="remove-bullets" role="list">
@@ -118,11 +129,15 @@ const NationalExamDetails = () => {
     if (totalTests > 1) {
       return (
         <div className="exams-table">
-          <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">Test Info</h2>
+          <h2 className="vads-u-margin-y--0">Test Info</h2>
           <p className="vads-u-margin-bottom--0">
             Showing 1 - {totalTests} of {totalTests} tests
           </p>
-          <va-table full-width table-type={isMobile ? 'bordered' : undefined}>
+          <va-table
+            table-title="Test fee description and reimbursement details"
+            full-width
+            table-type={isMobile ? 'bordered' : undefined}
+          >
             <va-table-row slot="headers">
               <span className="table-header">Fee description</span>
               <span className="table-header" style={{ whiteSpace: 'nowrap' }}>
@@ -159,7 +174,7 @@ const NationalExamDetails = () => {
         <h1 className="vads-u-margin-bottom--3">
           {formatNationalExamName(name)}
         </h1>
-        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2 vads-u-margin-top--0">
+        <h2 className="vads-u-margin-bottom--2 vads-u-margin-top--0">
           Admin Info
         </h2>
         <div className="provider-info-container vads-u-margin-top--0p5 vads-u-margin-bottom--3">

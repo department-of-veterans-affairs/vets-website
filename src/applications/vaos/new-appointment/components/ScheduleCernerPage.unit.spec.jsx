@@ -6,6 +6,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 import ScheduleCernerPage from './ScheduleCernerPage';
 import { Facility } from '../../tests/mocks/unit-test-helpers';
 
@@ -13,7 +14,7 @@ describe('VAOS Page: ScheduleCernerPage', () => {
   const initialState = {
     newAppointment: {
       data: {
-        typeOfCareId: '323',
+        typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
         vaFacility: '983',
       },
       facilities: {

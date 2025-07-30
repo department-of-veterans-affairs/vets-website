@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Sentry from '@sentry/browser';
+import moment from 'moment';
 import { capitalize, isPlainObject } from 'lodash';
 import { isAfter, parse } from 'date-fns';
 import { VA_FORM_IDS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
@@ -34,7 +34,6 @@ export const isSIPEnabledForm = savedForm => {
   const foundForm = MY_VA_SIP_FORMS.find(form => form.id === formNumber);
 
   if (!foundForm?.title || !getFormLink(formNumber)) {
-    Sentry.captureMessage('vets_sip_list_item_missing_info');
     return false;
   }
 
@@ -86,7 +85,7 @@ export function sipFormSorter(formA, formB) {
 }
 
 export const formatFormTitle = (title = '') =>
-  capitalize(title).replace(/\bva\b/, 'VA');
+  capitalize(title).replace(/\bva\b/gi, 'VA');
 
 export const recordDashboardClick = (
   product,
@@ -104,6 +103,8 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
   children,
 ) => {
   if (downtime.status === 'down') {
+    const startTime = moment(downtime.startTime);
+    const endTime = moment(downtime.endTime);
     return (
       <div>
         <h2>{sectionTitle}</h2>
@@ -114,8 +115,8 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
           <div>
             We’re making some updates to our {appName.toLowerCase()} tool. We’re
             sorry it’s not working right now and hope to be finished by{' '}
-            {downtime.startTime.format('MMMM Do')},{' '}
-            {downtime.endTime.format('LT')}. Please check back soon.
+            {startTime.format('MMMM Do')}, {endTime.format('LT')}. Please check
+            back soon.
           </div>
         </va-alert>
       </div>

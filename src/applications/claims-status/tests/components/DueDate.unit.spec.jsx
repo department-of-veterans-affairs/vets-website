@@ -13,6 +13,8 @@ import {
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { buildDateFormatter } from '../../utils/helpers';
 import { renderWithRouter } from '../utils';
 
@@ -62,7 +64,13 @@ const createTestDate = ({ dateFn, amount }) => {
     isPastDue: isBefore(parseISO(dateString), new Date()),
   };
 };
-
+const getStore = (cstFriendlyEvidenceRequests = true) =>
+  createStore(() => ({
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      cst_friendly_evidence_requests: cstFriendlyEvidenceRequests,
+    },
+  }));
 /**
  * Helper function to render the DueDate component and perform common assertions
  * @param {TestDateResult} testDate - The test date object created by createTestDate
@@ -71,7 +79,9 @@ const createTestDate = ({ dateFn, amount }) => {
  */
 const renderAndAssertDueDate = (testDate, expectedClass) => {
   const { container, getByText } = renderWithRouter(
-    <DueDate date={testDate.dateString} />,
+    <Provider store={getStore(false)}>
+      <DueDate date={testDate.dateString} />
+    </Provider>,
   );
 
   const expectedText = testDate.isPastDue

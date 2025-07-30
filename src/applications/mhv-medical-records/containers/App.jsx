@@ -8,6 +8,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import {
   renderMHVDowntime,
   useDatadogRum,
+  setDatadogRumUser,
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
@@ -23,7 +24,10 @@ import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
 import { HeaderSectionProvider } from '../context/HeaderSectionContext';
 
-import { flagsLoadedAndMhvEnabled } from '../util/selectors';
+import {
+  flagsLoadedAndMhvEnabled,
+  selectBypassDowntime,
+} from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
@@ -33,6 +37,8 @@ const App = ({ children }) => {
     flagsLoadedAndMhvEnabled,
     state => state.featureToggles,
   );
+
+  const bypassDowntime = useSelector(selectBypassDowntime);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -96,7 +102,7 @@ const App = ({ children }) => {
     clientToken: 'pubf11b8d8bfe126a01d84e01c177a90ad3',
     site: 'ddog-gov.com',
     service: 'va.gov-mhv-medical-records',
-    sessionSampleRate: 100, // controls the percentage of overall sessions being tracked
+    sessionSampleRate: 50, // controls the percentage of overall sessions being tracked.
     sessionReplaySampleRate: 50, // is applied after the overall sample rate, and controls the percentage of sessions tracked as Browser RUM & Session Replay
     trackInteractions: true,
     trackFrustrations: true,
@@ -110,6 +116,14 @@ const App = ({ children }) => {
     },
   };
   useDatadogRum(datadogRumConfig);
+
+  // Add unique user tracking
+  useEffect(
+    () => {
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
+    },
+    [user],
+  );
 
   if (featureTogglesLoading || user.profile.loading) {
     return (
@@ -138,7 +152,7 @@ const App = ({ children }) => {
             ref={measuredRef}
             className="vads-l-grid-container vads-u-padding-left--2"
           >
-            {mhvMrDown === externalServiceStatus.down ? (
+            {mhvMrDown === externalServiceStatus.down && !bypassDowntime ? (
               <>
                 {atLandingPage && <MrBreadcrumbs />}
                 <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>

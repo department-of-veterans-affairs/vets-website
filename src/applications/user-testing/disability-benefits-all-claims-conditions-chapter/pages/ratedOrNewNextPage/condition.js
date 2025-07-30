@@ -21,21 +21,28 @@ const createRatedDisabilitySchema = fullData =>
 const conditionPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Type of condition',
+      title: 'Add a condition',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     ratedDisability: radioUI({
-      title:
-        'Select if you’d like to add a new condition or select which of your service-connected disabilities have gotten worse.',
+      title: 'What condition would you like to add?',
       hint:
-        'Choose one, you will return to this screen if you need to add more.',
-      updateUiSchema: (_formData, fullData) => ({
-        'ui:options': {
-          descriptions: createRatedDisabilityDescriptions(fullData),
-        },
-      }),
-      updateSchema: (_formData, _schema, _uiSchema, _index, _path, fullData) =>
-        radioSchema(Object.keys(createRatedDisabilitySchema(fullData))),
+        "Choose one. You'll return to this screen later if you need to add more.",
+
+      updateSchema: (_formData, _schema, uiSchema, _index, _path, fullData) => {
+        const options = Object.keys(createRatedDisabilitySchema(fullData));
+        const descriptions = createRatedDisabilityDescriptions(fullData);
+
+        // Inject descriptions directly into uiSchema at schema update time
+        // Temporary eslint fix to address the form system’s dynamic schema injection pattern
+        // eslint-disable-next-line no-param-reassign
+        uiSchema['ui:options'] = {
+          ...(uiSchema['ui:options'] || {}),
+          descriptions,
+        };
+
+        return radioSchema(options);
+      },
     }),
   },
   schema: {

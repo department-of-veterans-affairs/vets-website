@@ -3,16 +3,13 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/e
 import { DefaultFolders, threadSortingOptions } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
-const REQUIRES_OH_MESSAGES_PARAM = 'requires_oh_messages=1';
 
 /**
  * Gets the folder list for the current user.
  * @returns
  */
-export const getFolderList = isPilot => {
-  const path = `${apiBasePath}/messaging/folders?page=1&per_page=999&useCache=false${
-    isPilot ? `&${REQUIRES_OH_MESSAGES_PARAM}` : ''
-  }`;
+export const getFolderList = () => {
+  const path = `${apiBasePath}/messaging/folders?page=1&per_page=999&useCache=false`;
   return apiRequest(path, {
     headers: {
       'Content-Type': 'application/json',
@@ -25,11 +22,9 @@ export const getFolderList = isPilot => {
  * @param {Long} folderId
  * @returns
  */
-export const getFolder = ({ folderId, isPilot }) => {
+export const getFolder = ({ folderId }) => {
   return apiRequest(
-    `${apiBasePath}/messaging/folders/${folderId}?useCache=false${
-      isPilot ? `&${REQUIRES_OH_MESSAGES_PARAM}` : ''
-    }`,
+    `${apiBasePath}/messaging/folders/${folderId}?useCache=false`,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -245,11 +240,9 @@ export const deleteMessage = messageId => {
  * @param {Long} messageId
  * @returns
  */
-export const getMessageThreadWithFullBody = ({ messageId, isPilot }) => {
+export const getMessageThreadWithFullBody = ({ messageId }) => {
   return apiRequest(
-    `${apiBasePath}/messaging/messages/${messageId}/thread?full_body=true${
-      isPilot ? `&${REQUIRES_OH_MESSAGES_PARAM}` : ''
-    }`,
+    `${apiBasePath}/messaging/messages/${messageId}/thread?full_body=true`,
     {
       method: 'GET',
       headers: {
@@ -270,15 +263,12 @@ export const getThreadList = async params => {
     pageSize = 10,
     pageNumber = 1,
     threadSort = threadSortingOptions.SENT_DATE_DESCENDING.value,
-    isPilot,
   } = params;
   const { sortField, sortOrder } = threadSortingOptions[threadSort];
   const { sessionExpiration, sessionExpirationSSO } = localStorage;
 
   const response = await apiRequest(
-    `${apiBasePath}/messaging/folders/${folderId}/threads?pageSize=${pageSize}&pageNumber=${pageNumber}&sortField=${sortField}&sortOrder=${sortOrder}${
-      isPilot ? `&${REQUIRES_OH_MESSAGES_PARAM}` : ''
-    }`,
+    `${apiBasePath}/messaging/folders/${folderId}/threads?pageSize=${pageSize}&pageNumber=${pageNumber}&sortField=${sortField}&sortOrder=${sortOrder}`,
     {
       method: 'GET',
       headers: {
@@ -350,17 +340,12 @@ export const getTriageTeamList = () => {
  * Get a list of all recipients in triage teams.
  * @returns
  */
-export const getAllRecipients = isPilot => {
-  return apiRequest(
-    `${apiBasePath}/messaging/allrecipients?useCache=false${
-      isPilot ? '&requires_oh=1' : ''
-    }`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+export const getAllRecipients = () => {
+  return apiRequest(`${apiBasePath}/messaging/allrecipients?useCache=false`, {
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+  });
 };
 
 /**
@@ -383,20 +368,15 @@ export const updatePreferredRecipients = updatedTriageTeams => {
  * @param {Object} query
  * @returns
  */
-export const searchFolderAdvanced = (folderId, query, isPilot) => {
-  return apiRequest(
-    `${apiBasePath}/messaging/folders/${folderId}/search${
-      isPilot ? `?${REQUIRES_OH_MESSAGES_PARAM}` : ''
-    }`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(query),
+export const searchFolderAdvanced = (folderId, query) => {
+  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
-  );
+    body: JSON.stringify(query),
+  });
 };
 
 /**
@@ -409,5 +389,44 @@ export const getSignature = () => {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
+  });
+};
+
+export const submitLaunchMyVaHealthAal = () => {
+  return apiRequest(`${apiBasePath}/aal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      aal: {
+        activityType: 'Messaging',
+        action: 'Launch My VA Health',
+        performerType: 'Self',
+        status: '1',
+      },
+      product: 'sm',
+    }),
+  });
+};
+
+export const submitLaunchMessagingAal = () => {
+  return apiRequest(`${apiBasePath}/aal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      aal: {
+        activityType: 'Messages',
+        action: 'Launch Messages',
+        performerType: 'Self',
+        status: '1',
+      },
+      product: 'sm',
+      oncePerSession: true,
+    }),
   });
 };

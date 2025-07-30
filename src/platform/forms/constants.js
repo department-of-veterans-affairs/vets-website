@@ -64,7 +64,9 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_8794: '22-8794',
   FORM_26_1880: '26-1880',
   FORM_26_4555: '26-4555',
+  FORM_27_8832: '27-8832',
   FORM_28_1900: '28-1900',
+  FORM_28_1900_V2: '28-1900_V2',
   FORM_28_8832: '28-8832',
   FORM_40_0247: '40-0247',
   FORM_40_10007: '40-10007',
@@ -87,6 +89,21 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION:
     'WELCOME_VA_SETUP_REVIEW_INFORMATION',
   FORM_XX_123: 'XX-123',
+  FORM_10_10D_EXTENDED: '10-10D-EXTENDED',
+  FORM_21_0538: '21-0538',
+  FORM_21_2680_UPLOAD: '21-2680-UPLOAD',
+  FORM_21_674B_UPLOAD: '21-674b-UPLOAD',
+  FORM_21_8951_2_UPLOAD: '21-8951-2-UPLOAD',
+  FORM_21_0788_UPLOAD: '21-0788-UPLOAD',
+  FORM_21_4193_UPLOAD: '21-4193-UPLOAD',
+  FORM_21P_4718A_UPLOAD: '21P-4718a-UPLOAD',
+  FORM_21_4140_UPLOAD: '21-4140-UPLOAD',
+  FORM_21P_4706C_UPLOAD: '21P-4706c-UPLOAD',
+  FORM_21_8960_UPLOAD: '21-8960-UPLOAD',
+  FORM_21_0304_UPLOAD: '21-0304-UPLOAD',
+  FORM_21_651_UPLOAD: '21-651-UPLOAD',
+  FORM_21P_4185_UPLOAD: '21P-4185-UPLOAD',
+  FORM_22_10297: '22-10297',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -159,22 +176,27 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_1995]: `${tryGetAppUrl('1995-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_26_1880]: `${tryGetAppUrl('coe')}/`,
     [VA_FORM_IDS.FORM_26_4555]: `${tryGetAppUrl('4555-adapted-housing')}/`,
+    [VA_FORM_IDS.FORM_27_8832]: `${tryGetAppUrl('new-chapter-36-form')}/`,
     [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900-chapter-31')}/`,
+    [VA_FORM_IDS.FORM_28_1900_V2]: `${tryGetAppUrl('new-28-1900-chapter-31')}/`,
     [VA_FORM_IDS.FORM_28_8832]: `${tryGetAppUrl(
       '25-8832-planning-and-career-guidance',
     )}/`,
     [VA_FORM_IDS.FORM_40_0247]: `${tryGetAppUrl('0247-pmc')}/`,
     [VA_FORM_IDS.FORM_40_10007]: `${tryGetAppUrl('pre-need')}/`,
     [VA_FORM_IDS.FORM_5655]: `${tryGetAppUrl('request-debt-help-form-5655')}/`,
-    [VA_FORM_IDS.FORM_VA_2346A]: `${tryGetAppUrl('order-form-2346')}/`,
     [VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION]: `${tryGetAppUrl(
       'welcome-va-setup-review-information',
     )}/`,
-    [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('DISPUTE-DEBT')}/`,
+    [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('dispute-debt')}/`,
     [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330M2')}/`,
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
-    // [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900')}/`,
+    [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10D-EXTENDED')}/`,
+    [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl(
+      '0538-dependents-verification',
+    )}/`,
+    [VA_FORM_IDS.FORM_22_10297]: `${tryGetAppUrl('22-10297')}/`,
   };
 };
 
@@ -299,10 +321,94 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_21_0779_UPLOAD,
-    benefit: `form 21-0779 upload`,
-    title: `form 21-0779 upload`,
+    benefit: 'form 21-0779 upload',
+    title: 'form 21-0779 upload',
     description: 'uploaded file for form 21-0779',
     trackingPrefix: 'form-21-0779-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_4185_UPLOAD,
+    benefit: 'form 21P-4185 upload',
+    title: 'form 21P-4185 upload',
+    description: 'uploaded file for form 21P-4185',
+    trackingPrefix: 'form-21P-4185-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_651_UPLOAD,
+    benefit: 'form 21-651 upload',
+    title: 'form 21-651 upload',
+    description: 'uploaded file for form 21-651',
+    trackingPrefix: 'form-21-651-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0304_UPLOAD,
+    benefit: 'form 21-0304 upload',
+    title: 'form 21-0304 upload',
+    description: 'uploaded file for form 21-0304',
+    trackingPrefix: 'form-21-0304-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_8960_UPLOAD,
+    benefit: 'form 21-8960 upload',
+    title: 'form 21-8960 upload',
+    description: 'uploaded file for form 21-8960',
+    trackingPrefix: 'form-21-8960-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_4706c_UPLOAD,
+    benefit: 'form 21P-4706c upload',
+    title: 'form 21P-4706c upload',
+    description: 'uploaded file for form 21P-4706c',
+    trackingPrefix: 'form-21P-4706c-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_4140_UPLOAD,
+    benefit: 'form 21-4140 upload',
+    title: 'form 21-4140 upload',
+    description: 'uploaded file for form 21-4140',
+    trackingPrefix: 'form-21-4140-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_4718a_UPLOAD,
+    benefit: 'form 21P-4718a upload',
+    title: 'form 21P-4718a upload',
+    description: 'uploaded file for form 21P-4718a',
+    trackingPrefix: 'form-21p-4718a-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_4193_UPLOAD,
+    benefit: 'form 21-4193 upload',
+    title: 'form 21-4193 upload',
+    description: 'uploaded file for form 21-4193',
+    trackingPrefix: 'form-21-4193-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0788_UPLOAD,
+    benefit: 'form 21-0788 upload',
+    title: 'form 21-0788 upload',
+    description: 'uploaded file for form 21-0788',
+    trackingPrefix: 'form-21-0788-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_8951_2_UPLOAD,
+    benefit: 'form 21-8951-2 upload',
+    title: 'form 21-8951-2 upload',
+    description: 'uploaded file for form 21-8951-2',
+    trackingPrefix: 'form-21-8951-2-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_674b_UPLOAD,
+    benefit: 'form 21-674b upload',
+    title: 'form 21-674b upload',
+    description: 'uploaded file for form 21-674b',
+    trackingPrefix: 'form-21-674b-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_2680_UPLOAD,
+    benefit: 'form 21-2680 upload',
+    title: 'form 21-2680 upload',
+    description: 'uploaded file for form 21-2680',
+    trackingPrefix: 'form-21-2680-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_0845,
@@ -534,12 +640,28 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'adapted-housing-4555-',
   },
   {
+    id: VA_FORM_IDS.FORM_27_8832,
+    benefit: 'personalized career planning and guidance',
+    title: 'Personalized career planning and guidance (27-8832)',
+    description:
+      'personalized career planning and guidance application (27-8832)',
+    trackingPrefix: '27-8832-',
+  },
+  {
     id: VA_FORM_IDS.FORM_28_1900,
     benefit: 'Veteran Readiness and Employment Benefits',
     title: 'Veteran Readiness and Employment Benefits (28-1900)',
     description:
       'Veteran Readiness and Employment Benefits application (28-1900)',
     trackingPrefix: '28-1900-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_28_1900_V2,
+    benefit: 'Veteran Readiness and Employment Benefits',
+    title: 'Veteran Readiness and Employment Benefits (28-1900)',
+    description:
+      'Veteran Readiness and Employment Benefits application (28-1900)',
+    trackingPrefix: 'new-careers-employment-28-1900-',
   },
   {
     id: VA_FORM_IDS.FORM_28_8832,
@@ -594,13 +716,27 @@ export const MY_VA_SIP_FORMS = [
       '35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)',
     trackingPrefix: 'edu-10216-',
   },
-  // {
-  //   id: VA_FORM_IDS.FORM_28_1900,
-  //   benefit: 'VR&E Chapter 31 benefits application',
-  //   title: '28-1900 Veteran Readiness',
-  //   description: 'VR&E Chapter 31 benefits application',
-  //   trackingPrefix: 'new-careers-employment-28-1900-',
-  // },
+  {
+    id: VA_FORM_IDS.FORM_10_10D_EXTENDED,
+    benefit: 'CHAMPVA application (includes 10-7959c)',
+    title: '10-10d Extended',
+    description: 'CHAMPVA application (includes 10-7959c)',
+    trackingPrefix: '10-10d-extended-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0538,
+    benefit: 'verifying your dependents for disability benefits',
+    title: 'verifying your dependents for disability benefits (21-0538)',
+    description: 'verifying your dependents for disability benefits (21-0538)',
+    trackingPrefix: '0538-dependents-verification-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10297,
+    benefit: 'education benefits',
+    title: '10297',
+    description: 'education benefits',
+    trackingPrefix: 'edu-10297',
+  },
 ];
 
 export const FORM_BENEFITS = MY_VA_SIP_FORMS.reduce((acc, form) => {

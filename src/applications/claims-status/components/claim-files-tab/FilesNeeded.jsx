@@ -7,10 +7,10 @@ import {
   truncateDescription,
   isAutomated5103Notice,
   buildDateFormatter,
+  getDisplayFriendlyName,
 } from '../../utils/helpers';
 import { standard5103Item } from '../../constants';
 import DueDate from '../DueDate';
-import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function FilesNeeded({ item, previousPage = null }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -30,30 +30,28 @@ export default function FilesNeeded({ item, previousPage = null }) {
   ];
 
   const getItemDisplayName = () => {
-    let { displayName } = item;
-
     if (isAutomated5103Notice(item.displayName) && cst5103UpdateEnabled) {
-      displayName = standard5103Item.displayName;
+      return standard5103Item.displayName;
+    }
+    if (cstFriendlyEvidenceRequests) {
+      if (item.friendlyName) {
+        return `Provide ${getDisplayFriendlyName(item)}`;
+      }
+      return 'Request for evidence';
     }
 
-    if (cstFriendlyEvidenceRequests && item.friendlyName) {
-      let updatedFriendlyName = item.friendlyName;
-      if (!evidenceDictionary[item.displayName].isProperNoun) {
-        updatedFriendlyName =
-          updatedFriendlyName.charAt(0).toLowerCase() +
-          updatedFriendlyName.slice(1);
-      }
-      displayName = `Provide ${updatedFriendlyName}`;
-    }
-    return displayName;
+    return item.displayName;
   };
 
   const getItemDescription = () => {
     const itemWithNewDescription = itemsWithNewDescriptions.find(
       i => i.type === item.displayName,
     );
-    if (cstFriendlyEvidenceRequests && item.friendlyDescription) {
-      return item.friendlyDescription;
+    if (
+      cstFriendlyEvidenceRequests &&
+      (item.shortDescription || item.activityDescription)
+    ) {
+      return item.shortDescription || item.activityDescription;
     }
     return itemWithNewDescription !== undefined
       ? itemWithNewDescription.description
@@ -71,17 +69,23 @@ export default function FilesNeeded({ item, previousPage = null }) {
       </h4>
       {!isAutomated5103Notice(item.displayName) &&
         !cstFriendlyEvidenceRequests && <DueDate date={item.suspenseDate} />}
-      {cstFriendlyEvidenceRequests && (
-        <p className="vads-u-font-size--h3">Respond by {formattedDueDate}</p>
-      )}
+      {cstFriendlyEvidenceRequests && <p>Respond by {formattedDueDate}</p>}
 
       <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
         <Link
-          aria-label={`Details for ${item.displayName}`}
-          title={`Details for ${item.displayName}`}
+          aria-label={
+            cstFriendlyEvidenceRequests
+              ? `About this request for ${item.friendlyName ||
+                  item.displayName}`
+              : `Details for ${item.displayName}`
+          }
           className="vads-c-action-link--blue"
-          to={`../document-request/${item.id}`}
+          to={
+            cstFriendlyEvidenceRequests
+              ? `../needed-from-you/${item.id}`
+              : `../document-request/${item.id}`
+          }
           onClick={() => {
             if (previousPage !== null) {
               sessionStorage.setItem('previousPage', previousPage);

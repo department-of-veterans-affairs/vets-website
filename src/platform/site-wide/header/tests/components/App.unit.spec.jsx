@@ -3,9 +3,27 @@ import { expect } from 'chai';
 import { cleanup, render, waitFor, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
+import * as reactRedux from 'react-redux';
+import PropTypes from 'prop-types';
 import { App } from '../../components/App';
 import * as MobileHeader from '../../components/Header';
 import * as helpers from '../../helpers';
+
+// Mock the components directly
+const MockMobileHeader = props => {
+  // Only run validation when the component is actually rendered
+  if (props.megaMenuData) {
+    expect(props.megaMenuData).to.exist;
+    expect(props.showMegaMenu).to.be.a('boolean');
+    expect(props.showNavLogin).to.be.a('boolean');
+  }
+  return <div>Mobile header</div>;
+};
+MockMobileHeader.propTypes = {
+  megaMenuData: PropTypes.array,
+  showMegaMenu: PropTypes.bool,
+  showNavLogin: PropTypes.bool,
+};
 
 const mockStore = {
   getState: () => ({}),
@@ -14,18 +32,37 @@ const mockStore = {
   router: { push: () => {} },
 };
 
-const MockMobileHeader = () => <div>Mobile header</div>;
-
 describe('Header <App>', () => {
   let sandbox;
   let showDesktopHeader;
   let hideDesktopHeader;
   let toggleMinimalHeader;
   let staticDom;
+  let useDispatchStub;
+  let useSelectorStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(MobileHeader, 'default').callsFake(MockMobileHeader);
+
+    // Replace the Header component with our mock
+    MobileHeader.Header = MockMobileHeader;
+
+    // Mock Redux hooks
+    useDispatchStub = sandbox.stub(reactRedux, 'useDispatch');
+    useDispatchStub.returns(() => {});
+
+    useSelectorStub = sandbox.stub(reactRedux, 'useSelector');
+    useSelectorStub.callsFake(selector => {
+      const selectorStr = selector.toString();
+      if (selectorStr.includes('navigation')) {
+        return '/';
+      }
+      if (selectorStr.includes('toggleValues')) {
+        return { mhvHeaderLinks: false };
+      }
+      return null;
+    });
+
     showDesktopHeader = sandbox.spy(helpers, 'showDesktopHeader');
     hideDesktopHeader = sandbox.spy(helpers, 'hideDesktopHeader');
     toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
@@ -67,7 +104,13 @@ describe('Header <App>', () => {
 
     const renderProps = render(
       <Provider store={mockStore}>
-        <App show={show} showMinimalHeader={showMinimalHeader} />
+        <App
+          show={show}
+          showMinimalHeader={showMinimalHeader}
+          megaMenuData={[]}
+          showMegaMenu={false}
+          showNavLogin={false}
+        />
       </Provider>,
       { container: header },
     );

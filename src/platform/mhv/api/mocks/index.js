@@ -26,12 +26,14 @@ const messages = require('./secure-messaging/messages');
 const session = require('./medical-records/session');
 const status = require('./medical-records/status');
 const labsAndTests = require('./medical-records/labs-and-tests');
+const acceleratedLabsAndTests = require('./medical-records/labs-and-tests/accelerated');
 const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
 const healthConditions = require('./medical-records/health-conditions');
 const allergies = require('./medical-records/allergies');
 const acceleratedAllergies = require('./medical-records/allergies/full-example');
 const vaccines = require('./medical-records/vaccines');
+const acceleratedVaccines = require('./medical-records/vaccines/accelerated');
 const vitals = require('./medical-records/vitals');
 const downloads = require('./medical-records/downloads');
 
@@ -52,10 +54,13 @@ const seiHealthInsurance = require('./medical-records/self-entered/seiHealthInsu
 const seiLabs = require('./medical-records/self-entered/seiLabs');
 const seiMedicalEvents = require('./medical-records/self-entered/seiMedicalEvents');
 const seiMedications = require('./medical-records/self-entered/seiMedications');
+const seiEmergencyContacts = require('./medical-records/self-entered/seiEmergencyContacts');
 const seiMilitaryHealthHistory = require('./medical-records/self-entered/seiMilitaryHealthHistory');
 const seiTreatmentFacilities = require('./medical-records/self-entered/seiTreatmentFacilities');
 const seiVaccines = require('./medical-records/self-entered/seiVaccines');
 const seiVitals = require('./medical-records/self-entered/seiVitals');
+const seiAllDomains = require('./medical-records/self-entered/allDomains');
+
 const imaging = require('./medical-records/mhv-radiology/imaging');
 const imagingStatus = require('./medical-records/mhv-radiology/imaging-status');
 const imagingRequest = require('./medical-records/mhv-radiology/imaging-request');
@@ -66,13 +71,14 @@ const {
 
 const responses = {
   ...commonResponses,
-  'GET /v0/user': user.defaultUser,
+  'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
-    mhvMedicationsDisplayRefillContent: true,
     mhvAcceleratedDeliveryEnabled: true,
     mhvAcceleratedDeliveryAllergiesEnabled: true,
     mhvAcceleratedDeliveryVitalSignsEnabled: true,
+    mhvAcceleratedDeliveryVaccinesEnabled: true,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
   }),
 
   // VAMC facility data that apps query for on startup
@@ -136,7 +142,17 @@ const responses = {
   'PATCH /my_health/v1/messaging/threads/:id/move': threads.moveThread,
   'POST /my_health/v1/messaging/folders/:index/search': messages.searchMessages,
   'POST /my_health/v1/messaging/preferences/recipients': { status: 200 },
-
+  'GET /my_health/v1/messaging/preferences/signature': {
+    data: {
+      id: '',
+      type: 'message_signature',
+      attributes: {
+        signatureName: null,
+        signatureTitle: null,
+        includeSignature: false,
+      },
+    },
+  },
   // medical records
   'GET /my_health/v1/medical_records/session/status':
     session.phrRefreshInProgressNoNewRecords,
@@ -146,6 +162,8 @@ const responses = {
   'GET /my_health/v1/medical_records/status': status.error,
   'GET /my_health/v1/medical_records/labs_and_tests': labsAndTests.all,
   'GET /my_health/v1/medical_records/labs_and_tests/:id': labsAndTests.single,
+  'GET /my_health/v2/medical_records/labs_and_tests':
+    acceleratedLabsAndTests.staging,
   'GET /my_health/v1/medical_records/radiology': mhvRadiology.empty,
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
@@ -169,7 +187,10 @@ const responses = {
     return allergies.single(req, res);
   },
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
+  'GET /my_health/v2/medical_records/immunizations': acceleratedVaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
+  'GET /my_health/v2/medical_records/immunizations/:id':
+    acceleratedVaccines.single,
   'GET /my_health/v1/medical_records/ccd/generate': downloads.generateCCD,
   'GET /my_health/v1/medical_records/ccd/download': downloads.downloadCCD,
   'GET /my_health/v1/medical_records/vitals': (req, res) => {
@@ -199,10 +220,12 @@ const responses = {
   'GET /my_health/v1/medical_records/self_entered/test_entries': seiLabs,
   'GET /my_health/v1/medical_records/self_entered/medical_events': seiMedicalEvents,
   'GET /my_health/v1/medical_records/self_entered/medications': seiMedications,
+  'GET /my_health/v1/medical_records/self_entered/emergency_contacts': seiEmergencyContacts,
   'GET /my_health/v1/medical_records/self_entered/military_history': seiMilitaryHealthHistory,
   'GET /my_health/v1/medical_records/self_entered/treatment_facilities': seiTreatmentFacilities,
   'GET /my_health/v1/medical_records/self_entered/vaccines': seiVaccines,
   'GET /my_health/v1/medical_records/self_entered/vitals': seiVitals,
+  'GET /my_health/v1/medical_records/self_entered': seiAllDomains,
 
   'GET /my_health/v1/medical_records/imaging': imaging,
   'GET /my_health/v1/medical_records/imaging/status': imagingStatus,
@@ -243,6 +266,22 @@ const responses = {
   'GET /my_health/v1/tooltips': (_req, res) => {
     return res.json(getMockTooltips());
   },
+
+  'POST /my_health/v1/aal': (_req, res) => {
+    return res.json({
+      aal: {
+        activityType: 'Medical Records Activity',
+        action: 'View',
+        performerType: 'Self',
+        detailValue: null,
+        status: 1,
+      },
+      product: 'mr',
+      oncePerSession: true,
+    });
+  },
+
+  'POST /v0/datadog_action': {},
 };
 
 module.exports = delay(responses, 750);

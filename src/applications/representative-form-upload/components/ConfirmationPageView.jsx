@@ -1,16 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
 
 export const ConfirmationPageView = ({
   submitDate,
   confirmationNumber,
-  formNumber,
   childContent = null,
 }) => {
   const alertRef = useRef(null);
+
+  const formattedSubmitDate =
+    submitDate && typeof submitDate === 'object'
+      ? format(submitDate, 'MMMM d, yyyy')
+      : null;
 
   useEffect(
     () => {
@@ -33,47 +37,45 @@ export const ConfirmationPageView = ({
         />
       </div>
       <va-alert uswds status="success" ref={alertRef}>
-        {submitDate && (
-          <h2>
-            {' '}
-            Form Submission started on {format(submitDate, 'MMMM d, yyyy')}
-          </h2>
-        )}
-        <p>Your submission is in progress.</p>
-        <p>Your confirmation number is {confirmationNumber}.</p>
+        {submitDate && <h2>You’ve submitted the form</h2>}
+        {formattedSubmitDate ? (
+          <p>
+            You submitted the form and supporting evidence on{' '}
+            <strong>{formattedSubmitDate}</strong>
+          </p>
+        ) : null}
+        <p>
+          Your confirmation number is: <strong>{confirmationNumber}</strong>
+        </p>
+        <p>
+          <strong>Note:</strong> Print this page or copy the confirmation number
+          for your records.
+        </p>
       </va-alert>
-      <div className="inset">
-        <section>
-          <h2>What to expect</h2>
-          <va-process-list>
-            <va-process-list-item header="Now, We’ll confirm that we’ve received your form">
-              <p>
-                When we receive your form, we’ll send you an email to the email
-                address provided
-              </p>
-            </va-process-list-item>
-            <va-process-list-item pending header="Next, we’ll review your form">
-              <p>
-                If we need more information after reviewing your form, we’ll
-                contact you via email.
-              </p>
-            </va-process-list-item>
-          </va-process-list>
-        </section>
-        <a
-          className="vads-c-action-link--green vads-u-margin-bottom--4"
-          href={`/representative/representative-form-upload/${formNumber}/introduction`}
-        >
-          Start a new VA Form {formNumber} submission
-        </a>
-        <br />
-        <a
-          className="vads-c-action-link--green vads-u-margin-bottom--4"
-          href="/representative/poa-requests"
-        >
-          Go to POA requests
-        </a>
-      </div>
+      <section>
+        <h2>What to expect</h2>
+        <va-process-list>
+          <va-process-list-item header="Now, we'll process your form">
+            <p>
+              The submission is in progress and is being processed through
+              Central Mail before reaching VBMS.
+            </p>
+          </va-process-list-item>
+          <va-process-list-item header="Next, we'll review the files">
+            <p>
+              If we need more information after reviewing the form and
+              supporting evidence, we’ll contact you by email.
+            </p>
+          </va-process-list-item>
+        </va-process-list>
+      </section>
+      <va-link-action
+        href="/representative/submissions"
+        label="Review submissions history"
+        class="vads-u-margin-bottom--4"
+        text="Review submissions history"
+        type="primary"
+      />
       {childContent || null}
     </div>
   );

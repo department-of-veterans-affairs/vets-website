@@ -4,9 +4,10 @@ import { CONDITION_TYPE_RADIO as demo } from '../../constants';
 import { introAndSummaryPages, remainingSharedPages } from '../shared';
 import {
   arrayBuilderOptions,
-  hasRatedDisabilitiesAndIsRatedDisability,
-  hasRatedDisabilitiesOrIsRatedDisability,
+  hasRatedDisabilities,
   isActiveDemo,
+  isEditFromContext,
+  isRatedDisability,
 } from '../shared/utils';
 import ratedDisabilityPage from './ratedDisability';
 import conditionTypePage from './conditionType';
@@ -16,20 +17,23 @@ const conditionTypeRadioPages = arrayBuilderPages(
   (pageBuilder, helpers) => ({
     ...introAndSummaryPages(demo, pageBuilder),
     [`${demo.name}conditionType`]: pageBuilder.itemPage({
-      title: 'Select condition type',
+      title: 'Type of condition',
       path: `conditions-${demo.label}/:index/condition-type`,
-      depends: (formData, index) =>
+      depends: (formData, index, context) =>
         isActiveDemo(formData, demo.name) &&
-        hasRatedDisabilitiesOrIsRatedDisability(formData, index),
+        !isEditFromContext(context) &&
+        hasRatedDisabilities(formData, index),
       uiSchema: conditionTypePage.uiSchema,
       schema: conditionTypePage.schema,
     }),
     [`${demo.name}RatedDisability`]: pageBuilder.itemPage({
-      title: 'Select which existing disability has worsened.',
+      title: 'Service-connected disabilities',
       path: `conditions-${demo.label}/:index/rated-disability`,
-      depends: (formData, index) =>
+      depends: (formData, index, context) =>
         isActiveDemo(formData, demo.name) &&
-        hasRatedDisabilitiesAndIsRatedDisability(formData, index),
+        !isEditFromContext(context) &&
+        hasRatedDisabilities(formData) &&
+        isRatedDisability(formData, index),
       uiSchema: ratedDisabilityPage.uiSchema,
       schema: ratedDisabilityPage.schema,
     }),

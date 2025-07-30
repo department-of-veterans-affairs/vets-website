@@ -1,15 +1,18 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { waitFor } from '@testing-library/dom';
 import VaPrescription from '../../../components/PrescriptionDetails/VaPrescription';
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import { dateFormat } from '../../../util/helpers';
+import * as rxApiExports from '../../../api/rxApi';
 
 describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
   const newRx = { ...prescription, phoneNumber: '1234567891' };
   const setup = (rx = newRx, ffEnabled = true) => {
-    return renderWithStoreAndRouter(<VaPrescription {...rx} />, {
+    return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
       initialState: {
         featureToggles: {
           // eslint-disable-next-line camelcase
@@ -19,9 +22,24 @@ describe('vaPrescription details container', () => {
         },
       },
       reducers: {},
-      path: '/prescriptions/1234567891',
+      initialEntries: ['/prescriptions/1234567891'],
     });
   };
+
+  let sandbox;
+  let landMedicationDetailsAalStub;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    landMedicationDetailsAalStub = sandbox.stub(
+      rxApiExports,
+      'landMedicationDetailsAal',
+    );
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   it('renders without errors', () => {
     const screen = setup();
@@ -178,18 +196,56 @@ describe('vaPrescription details container', () => {
     expect(docLink).to.not.exist;
   });
 
-  it('displays "You haven’t filled this prescription yet" if there is no refill history', () => {
+  it('does not display refill history if there is one record with dispensedDate undefined', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
-      rxRfRecords: [],
       dispensedDate: undefined,
+      rxRfRecords: [
+        { ...prescription.rxRfRecords[0], dispensedDate: undefined },
+      ],
     };
     const screen = setup(rxWithNoRefillHistory);
-    const haventFilledRxNotification = screen.getByText(
-      'You haven’t filled this prescription yet.',
-    );
+    const refillSubHeader = screen.queryByText('Refill history');
 
-    expect(haventFilledRxNotification).to.exist;
+    expect(refillSubHeader).to.not.exist;
+  });
+
+  it('displays refill history if there is one record with dispensedDate not undefined', () => {
+    const rxWithNoRefillHistory = {
+      ...prescription,
+      dispensedDate: undefined,
+      rxRfRecords: [{ ...prescription.rxRfRecords[0] }],
+    };
+    const screen = setup(rxWithNoRefillHistory);
+    const refillSubHeader = screen.queryByText('Refill history');
+
+    expect(refillSubHeader).to.exist;
+  });
+
+  it('does not display refill history if there is no records', () => {
+    const rxWithNoRefillHistory = {
+      ...prescription,
+      dispensedDate: undefined,
+      rxRfRecords: [],
+    };
+    const screen = setup(rxWithNoRefillHistory);
+    const refillSubHeader = screen.queryByText('Refill history');
+
+    expect(refillSubHeader).to.not.exist;
+  });
+
+  it('displays refill history if there are 2 records', () => {
+    const rxWithNoRefillHistory = {
+      ...prescription,
+      dispensedDate: undefined,
+      rxRfRecords: [
+        { ...prescription.rxRfRecords[0], ...prescription.rxRfRecords[0] },
+      ],
+    };
+    const screen = setup(rxWithNoRefillHistory);
+    const refillSubHeader = screen.queryByText('Refill history');
+
+    expect(refillSubHeader).to.exist;
   });
 
   it('displays pending med content if prescription source is PD and dispStatus is NewOrder', () => {
@@ -228,7 +284,7 @@ describe('vaPrescription details container', () => {
 
   it('displays partial refill content if prescription source is pf and partial flag is on', () => {
     const setupWithPartialFill = (rx = newRx, ffEnabled = true) => {
-      return renderWithStoreAndRouter(<VaPrescription {...rx} />, {
+      return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
         initialState: {
           featureToggles: {
             // eslint-disable-next-line camelcase
@@ -240,7 +296,7 @@ describe('vaPrescription details container', () => {
           },
         },
         reducers: {},
-        path: '/prescriptions/1234567891',
+        initialEntries: ['/prescriptions/1234567891'],
       });
     };
     const screen = setupWithPartialFill({
@@ -250,5 +306,15 @@ describe('vaPrescription details container', () => {
     const accordionHeading = screen.getByText('Partial fill');
 
     expect(accordionHeading).to.exist;
+  });
+
+  it('calls AAL on load', async () => {
+    const screen = setup();
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    await waitFor(() => {
+      expect(landMedicationDetailsAalStub.calledOnce).to.be.true;
+      expect(landMedicationDetailsAalStub.calledWith(newRx)).to.be.true;
+    });
   });
 });

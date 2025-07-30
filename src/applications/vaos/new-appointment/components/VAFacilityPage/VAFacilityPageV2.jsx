@@ -51,7 +51,6 @@ export default function VAFacilityPageV2() {
   const {
     address,
     canScheduleAtChosenFacility,
-    cernerSiteIds,
     childFacilitiesStatus,
     data,
     eligibility,
@@ -68,7 +67,6 @@ export default function VAFacilityPageV2() {
     sortMethod,
     typeOfCare,
     fetchRecentLocationStatus,
-    recentLocations,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
 
   const sortOptions = useMemo(
@@ -76,15 +74,15 @@ export default function VAFacilityPageV2() {
       const options = [
         {
           value: 'distanceFromResidentialAddress',
-          label: 'By your home address',
+          label: 'Closest to your home',
         },
         {
           value: 'distanceFromCurrentLocation',
-          label: 'By your current location',
+          label: 'Closest to your current location',
         },
         { value: 'alphabetical', label: 'Alphabetically' },
       ];
-      if (featureRecentLocationsFilter && recentLocations?.length) {
+      if (featureRecentLocationsFilter) {
         options.push({
           value: 'recentLocations',
           label: 'By recent locations',
@@ -92,14 +90,14 @@ export default function VAFacilityPageV2() {
       }
       return options;
     },
-    [featureRecentLocationsFilter, recentLocations],
+    [featureRecentLocationsFilter],
   );
 
   const uiSchema = {
     vaFacility: {
-      'ui:title': `Select a VA facility where you’re registered that offers ${lowerCase(
+      'ui:title': `These facilities you're registered at offer ${lowerCase(
         typeOfCare?.name,
-      )} appointments.`,
+      )}.`,
       'ui:widget': FacilitiesRadioWidget,
     },
   };
@@ -153,7 +151,12 @@ export default function VAFacilityPageV2() {
   );
 
   const pageHeader = (
-    <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+    <h1 className="vaos__dynamic-font-size--h2">
+      {pageTitle}
+      <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+        (*Required)
+      </span>
+    </h1>
   );
 
   if (hasDataFetchingError) {
@@ -163,10 +166,11 @@ export default function VAFacilityPageV2() {
         <InfoAlert
           status="error"
           level={2}
-          headline="You can't schedule an appointment online right now"
+          headline="We can’t schedule your appointment right now"
         >
           <p>
-            We're sorry. There's a problem with our system. Try again later.
+            We’re sorry. There’s a problem with our system. Refresh this page to
+            start over or try again later.
           </p>
           <p>
             If you need to schedule now, call your VA facility.
@@ -252,12 +256,7 @@ export default function VAFacilityPageV2() {
           sortMethod={sortMethod}
           typeOfCareName={typeOfCare.name}
         />
-        <FacilitiesNotShown
-          facilities={facilities}
-          sortMethod={sortMethod}
-          typeOfCareId={typeOfCare?.id}
-          cernerSiteIds={cernerSiteIds}
-        />
+        <FacilitiesNotShown />
         <FormButtons
           onBack={() =>
             dispatch(routeToPreviousAppointmentPage(history, pageKey))
@@ -300,19 +299,14 @@ export default function VAFacilityPageV2() {
                 dispatch(updateFacilitySortMethod(value, uiSchema)).then(
                   recordEvent({
                     event: `${GA_PREFIX}-updated-locations-sort--${
-                      sortOptions.find(option => option.value === value).label
+                      sortOptions.find(option => option.value === value)?.label
                     }`,
                   }),
                 ),
             }}
             data={data}
           >
-            <FacilitiesNotShown
-              facilities={facilities}
-              sortMethod={sortMethod}
-              typeOfCareId={typeOfCare?.id}
-              cernerSiteIds={cernerSiteIds}
-            />
+            <FacilitiesNotShown />
             <FormButtons
               continueLabel=""
               pageChangeInProgress={pageChangeInProgress}

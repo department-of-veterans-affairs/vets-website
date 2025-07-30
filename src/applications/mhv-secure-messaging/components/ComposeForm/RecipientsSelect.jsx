@@ -37,6 +37,7 @@ import React, {
 import { useSelector } from 'react-redux';
 import {
   VaAlert,
+  VaComboBox,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
@@ -46,6 +47,7 @@ import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/sour
 import { sortRecipients } from '../../util/helpers';
 import { Prompts } from '../../util/constants';
 import CantFindYourTeam from './CantFindYourTeam';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const RecipientsSelect = ({
   recipientsList,
@@ -55,10 +57,13 @@ const RecipientsSelect = ({
   isSignatureRequired,
   setCheckboxMarked,
   setElectronicSignature,
+  setComboBoxInputValue,
 }) => {
   const alertRef = useRef(null);
   const isSignatureRequiredRef = useRef();
   isSignatureRequiredRef.current = isSignatureRequired;
+
+  const { isComboBoxEnabled, featureTogglesLoading } = useFeatureToggles();
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState(null);
@@ -137,6 +142,10 @@ const RecipientsSelect = ({
     ],
   );
 
+  const handleInput = e => {
+    setComboBoxInputValue(e.target.shadowRoot.querySelector('input').value);
+  };
+
   const handleRecipientSelect = useCallback(
     e => {
       const { value } = e.detail;
@@ -213,22 +222,40 @@ const RecipientsSelect = ({
 
   return (
     <>
-      <VaSelect
-        enable-analytics
-        id="recipient-dropdown"
-        label="To"
-        name="to"
-        value={defaultValue !== undefined ? defaultValue : ''}
-        onVaSelect={handleRecipientSelect}
-        class="composeSelect"
-        data-testid="compose-recipient-select"
-        error={error}
-        data-dd-privacy="mask"
-        data-dd-action-name="Compose Recipient Dropdown List"
-      >
-        <CantFindYourTeam />
-        {optionsValues}
-      </VaSelect>
+      {!featureTogglesLoading && isComboBoxEnabled ? (
+        <VaComboBox
+          required
+          label="Select a care team to send your message to"
+          name="to"
+          value={defaultValue !== undefined ? defaultValue : ''}
+          onVaSelect={handleRecipientSelect}
+          data-testid="compose-recipient-combobox"
+          error={error}
+          data-dd-privacy="mask"
+          data-dd-action-name="Compose Recipient Combobox List"
+          onInput={handleInput}
+        >
+          <CantFindYourTeam />
+          {optionsValues}
+        </VaComboBox>
+      ) : (
+        <VaSelect
+          enable-analytics
+          id="recipient-dropdown"
+          label="To"
+          name="to"
+          value={defaultValue !== undefined ? defaultValue : ''}
+          onVaSelect={handleRecipientSelect}
+          class="composeSelect"
+          data-testid="compose-recipient-select"
+          error={error}
+          data-dd-privacy="mask"
+          data-dd-action-name="Compose Recipient Dropdown List"
+        >
+          <CantFindYourTeam />
+          {optionsValues}
+        </VaSelect>
+      )}
 
       {alertDisplayed && (
         <VaAlert
@@ -261,6 +288,7 @@ RecipientsSelect.propTypes = {
   error: PropTypes.string,
   isSignatureRequired: PropTypes.bool,
   setCheckboxMarked: PropTypes.func,
+  setComboBoxInputValue: PropTypes.func,
   setElectronicSignature: PropTypes.func,
 };
 

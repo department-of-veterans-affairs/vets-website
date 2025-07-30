@@ -1,5 +1,4 @@
-import { scrollAndFocus } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollAndFocus, scrollToTop } from 'platform/utilities/scroll';
 
 export function setFocus(selector) {
   const el =
@@ -10,7 +9,7 @@ export function setFocus(selector) {
   }
 }
 
-export function setPageFocus(selector = 'va-breadcrumbs') {
+export function setPageFocus(selector = 'h1') {
   const el = document.querySelector(selector);
   if (el) {
     scrollAndFocus(el);
@@ -19,7 +18,7 @@ export function setPageFocus(selector = 'va-breadcrumbs') {
   }
 }
 
-export function setUpPage(scroll = true, focusSelector = 'va-breadcrumbs') {
+export function setUpPage(scroll = true, focusSelector = 'h1') {
   if (!scroll) {
     scrollToTop();
   }
@@ -35,3 +34,17 @@ export function isTab(url) {
       url.endsWith('overview'))
   );
 }
+
+export const focusNotificationAlert = () => {
+  const alert = document.querySelector('.claims-alert');
+  if (alert) {
+    setFocus(alert);
+    setTimeout(() => {
+      if (document.activeElement !== alert) {
+        setTimeout(() => {
+          setFocus(alert);
+        }, 150);
+      }
+    }, 0);
+  }
+};

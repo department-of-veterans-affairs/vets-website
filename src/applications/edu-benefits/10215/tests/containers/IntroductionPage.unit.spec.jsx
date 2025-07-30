@@ -19,7 +19,7 @@ describe('22-10215 <IntroductionPage>', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
 
     expect(wrapper.find('FormTitle').props().title).to.contain(
-      'Report 85/15 Rule enrollment ratios',
+      'Report 85/15 rule enrollment ratios',
     );
 
     wrapper.unmount();
@@ -66,15 +66,17 @@ describe('22-10215 <IntroductionPage>', () => {
   it('should render due dates table', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
 
-    expect(wrapper.find('va-table').length).to.equal(1);
-    expect(wrapper.find('va-table-row').length).to.equal(5);
+    expect(wrapper.find('va-table').length).to.equal(2);
+    expect(wrapper.find('va-table-row').length).to.equal(7);
 
     wrapper.unmount();
   });
 
   it('should render save in progress widget', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
-    const sipContainer = wrapper.find('Connect(SaveInProgressIntro)');
+    const sipContainer = wrapper.find(
+      'Connect(withRouter(SaveInProgressIntro))',
+    );
 
     expect(sipContainer.length).to.equal(1);
     expect(sipContainer.props().startText).to.contain(

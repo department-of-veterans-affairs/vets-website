@@ -27,7 +27,8 @@ export function useRepresentativeStatus() {
 
           setRepresentative({
             id: poaData.id,
-            poaType: poaData.attributes.type,
+            poaType:
+              poaData.attributes.individualType || poaData.attributes.type,
             ...poaData.attributes,
             concatAddress,
             contact,

@@ -1,9 +1,11 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { edipiNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
-import edipiNotFound from '../util/edipiNotFound';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
+
+const API_BASE_PATH_V2 = `${environment.API_URL}/my_health/v2`;
 
 const headers = {
   'Content-Type': 'application/json',
@@ -12,6 +14,42 @@ const headers = {
 const textHeaders = {
   'Content-Type': 'text/plain',
 };
+
+/**
+ * Send an Account Activity Log entry to the backend.
+ *
+ * @param {Object}   params
+ * @param {string}   params.activityType    e.g. "Allergy"
+ * @param {string}   params.action          e.g. "View"
+ * @param {string}   params.performerType   e.g. "Self"
+ * @param {string?}  params.detailValue     e.g. "..." or null
+ * @param {number}   params.status          e.g. 1
+ * @param {boolean}  [params.oncePerSession=false]  whether to dedupe per session
+ */
+export function postCreateAAL({
+  activityType,
+  action,
+  performerType,
+  detailValue = null,
+  status,
+  oncePerSession = false,
+}) {
+  return apiRequest(`${apiBasePath}/aal`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      aal: {
+        activityType,
+        action,
+        performerType,
+        detailValue,
+        status,
+      },
+      product: 'mr',
+      oncePerSession,
+    }),
+  });
+}
 
 export const createSession = () => {
   return apiRequest(`${apiBasePath}/medical_records/session`, {
@@ -30,6 +68,19 @@ export const getLabsAndTests = async () => {
   return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
     headers,
   });
+};
+export const getAcceleratedLabsAndTests = async ({
+  startDate,
+  endDate,
+} = {}) => {
+  const startDateParam = `start_date=${startDate}`;
+  const endDateParam = `&end_date=${endDate}`;
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/labs_and_tests?${startDateParam}${endDateParam}`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getLabOrTest = id => {
@@ -167,8 +218,18 @@ export const getAcceleratedAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = async () => {
-  return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
+export const getVaccineList = async (page, useCache = true) => {
+  const params = new URLSearchParams();
+  // Send pagination params if page is defined and != 0
+  if (page) {
+    params.append('page', page);
+    params.append('per_page', '10');
+  }
+  if (!useCache) {
+    params.append('use_cache', 'false');
+  }
+  const queryString = params.toString() ? `?${params.toString()}` : '';
+  return apiRequest(`${apiBasePath}/medical_records/vaccines${queryString}`, {
     headers,
   });
 };
@@ -180,6 +241,18 @@ export const getVaccineList = async () => {
  */
 export const getVaccine = id => {
   return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
+    headers,
+  });
+};
+
+export const getAcceleratedImmunizations = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/immunizations`, {
+    headers,
+  });
+};
+
+export const getAcceleratedImmunization = id => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/immunizations/${id}`, {
     headers,
   });
 };
@@ -256,9 +329,10 @@ export const getDemographicInfo = async () => {
  */
 export const getMilitaryService = async () => {
   try {
-    return await apiRequest(`${apiBasePath}/medical_records/military_service`, {
-      textHeaders,
-    });
+    return await apiRequest(
+      `${apiBasePath}/medical_records/military_service?bb=true`,
+      { textHeaders },
+    );
   } catch (error) {
     // Handle special case of missing EDIPI
     if (error?.error === 'No EDIPI found for the current user') {
@@ -290,4 +364,15 @@ export const downloadCCD = timestamp => {
       'Content-Type': 'application/xml',
     },
   );
+};
+
+/**
+ * Send Datadog actions to the backend to be recorded in StatsD metrics
+ */
+export const postRecordDatadogAction = async (metric, tags = []) => {
+  return apiRequest(`${environment.API_URL}/v0/datadog_action`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ metric: `mr.${metric}`, tags }),
+  });
 };

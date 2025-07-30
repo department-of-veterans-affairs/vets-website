@@ -40,7 +40,6 @@ import {
 } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
-import EditPreferences from './EditPreferences';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ViewOnlyDraftSection from './ViewOnlyDraftSection';
 import { RadioCategories } from '../../util/inputContants';
@@ -49,6 +48,7 @@ import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
 import { useSessionExpiration } from '../../hooks/use-session-expiration';
 import EditSignatureLink from './EditSignatureLink';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const ComposeForm = props => {
   const { pageTitle, headerRef, draft, recipients, signature } = props;
@@ -59,6 +59,12 @@ const ComposeForm = props => {
   } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const {
+    isComboBoxEnabled,
+    largeAttachmentsEnabled,
+    cernerPilotSmFeatureFlag,
+  } = useFeatureToggles();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
@@ -101,6 +107,7 @@ const ComposeForm = props => {
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
+  const [comboBoxInputValue, setComboBoxInputValue] = useState('');
 
   const { isSaving } = useSelector(state => state.sm.threadDetails);
   const categories = useSelector(state => state.sm.categories?.categories);
@@ -114,6 +121,11 @@ const ComposeForm = props => {
     draftAutoSaveTimeout,
   );
   const alertsList = useSelector(state => state.sm.alerts.alertList);
+
+  const validMessageType = {
+    SAVE: 'save',
+    SEND: 'send',
+  };
 
   const attachmentScanError = useMemo(
     () =>
@@ -269,7 +281,20 @@ const ComposeForm = props => {
           .catch(() => setSendMessageFlag(false), scrollToTop());
       }
     },
-    [sendMessageFlag, isSaving, scrollToTop],
+    [
+      sendMessageFlag,
+      isSaving,
+      category,
+      messageBody,
+      electronicSignature,
+      subject,
+      draft?.messageId,
+      selectedRecipientId,
+      attachments,
+      dispatch,
+      currentFolder?.folderId,
+      history,
+    ],
   );
 
   useEffect(
@@ -332,7 +357,7 @@ const ComposeForm = props => {
   if (draft && !formPopulated) populateForm();
 
   const checkMessageValidity = useCallback(
-    () => {
+    checkValidType => {
       let messageValid = true;
       let signatureValid = true;
       let checkboxValid = true;
@@ -342,7 +367,17 @@ const ComposeForm = props => {
         selectedRecipientId === '' ||
         !selectedRecipientId
       ) {
-        setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+        if (isComboBoxEnabled) {
+          if (comboBoxInputValue === '') {
+            setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+          } else {
+            setRecipientError(
+              ErrorMessages.ComposeForm.VALID_RECIPIENT_REQUIRED,
+            );
+          }
+        } else {
+          setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+        }
         messageValid = false;
       }
       if (!subject || subject === '') {
@@ -357,11 +392,19 @@ const ComposeForm = props => {
         setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
         messageValid = false;
       }
-      if (isSignatureRequired && !electronicSignature) {
+      if (
+        checkValidType === validMessageType.SEND &&
+        isSignatureRequired &&
+        !electronicSignature
+      ) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
         signatureValid = false;
       }
-      if (isSignatureRequired && !checkboxMarked) {
+      if (
+        checkValidType === validMessageType.SEND &&
+        isSignatureRequired &&
+        !checkboxMarked
+      ) {
         setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
         checkboxValid = false;
       }
@@ -374,10 +417,12 @@ const ComposeForm = props => {
       subject,
       messageBody,
       category,
+      validMessageType.SEND,
       isSignatureRequired,
       electronicSignature,
       checkboxMarked,
-      setMessageInvalid,
+      isComboBoxEnabled,
+      comboBoxInputValue,
     ],
   );
 
@@ -387,20 +432,9 @@ const ComposeForm = props => {
         messageValid,
         signatureValid,
         checkboxValid,
-      } = checkMessageValidity();
-      const validSignatureNotRequired = messageValid && !isSignatureRequired;
+      } = checkMessageValidity(validMessageType.SAVE);
 
       if (type === 'manual') {
-        setSavedDraft(true);
-
-        if (validSignatureNotRequired) {
-          setNavigationError(null);
-          setLastFocusableElement(e?.target);
-        } else focusOnErrorField();
-        setUnsavedNavigationError(
-          ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-        );
-
         const getErrorType = () => {
           const hasAttachments = attachments.length > 0;
           const hasValidSignature =
@@ -410,39 +444,58 @@ const ComposeForm = props => {
               signatureValid &&
               checkboxValid &&
               isSignatureRequired) ||
-            (!isSignatureRequired && messageValid && validSignatureNotRequired);
+            (!isSignatureRequired && messageValid);
 
-          let errorType = null;
           if (hasAttachments && hasValidSignature && verifyAllFieldsAreValid) {
-            errorType =
-              ErrorMessages.ComposeForm
-                .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
-          } else if (hasAttachments && verifyAllFieldsAreValid) {
-            errorType =
-              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
-          } else if (!validSignatureNotRequired && verifyAllFieldsAreValid) {
-            errorType =
-              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
+            return ErrorMessages.ComposeForm
+              .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
           }
 
-          if (errorType) {
-            setSaveError(errorType);
-            if (
-              errorType.title !==
-              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE.title
-            ) {
-              setNavigationError({
-                ...errorType,
-                confirmButtonText: 'Continue editing',
-                cancelButtonText: 'Delete draft',
-              });
-            }
+          if (hasAttachments && verifyAllFieldsAreValid) {
+            return ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
           }
+
+          if (verifyAllFieldsAreValid && hasValidSignature) {
+            return ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
+          }
+
+          return null;
         };
-        getErrorType();
+
+        const errorType = getErrorType();
+
+        setSaveError(errorType);
+        setSavedDraft(true);
+
+        if (errorType) {
+          if (
+            errorType.title !==
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE.title
+          ) {
+            setNavigationError({
+              ...errorType,
+              confirmButtonText: 'Continue editing',
+              cancelButtonText: 'Delete draft',
+            });
+          }
+          if (!messageValid) {
+            focusOnErrorField();
+          }
+          return;
+        }
+
+        setNavigationError(null);
+        setLastFocusableElement(e?.target);
       }
 
-      const draftId = draft && draft.messageId;
+      const draftId = draft?.messageId;
+      const formData = {
+        recipientId: selectedRecipientId,
+        category,
+        subject,
+        body: messageBody,
+      };
+
       const newFieldsString = JSON.stringify({
         rec: parseInt(debouncedRecipient || selectedRecipientId, 10),
         cat: debouncedCategory || category,
@@ -450,46 +503,39 @@ const ComposeForm = props => {
         bod: debouncedMessageBody || messageBody,
       });
 
-      if (type === 'auto' && newFieldsString === fieldsString) {
+      if (type === 'auto') {
+        if (!messageValid || newFieldsString === fieldsString) {
+          return;
+        }
+        setFieldsString(newFieldsString);
+        setSavedDraft(false);
+        setSaveError(null);
+        dispatch(saveDraft(formData, type, draftId));
         return;
       }
-      setFieldsString(newFieldsString);
 
-      const formData = {
-        recipientId: selectedRecipientId,
-        category,
-        subject,
-        body: messageBody,
-      };
-      if (
-        (messageValid && !isSignatureRequired) ||
-        (isSignatureRequired &&
-          messageValid &&
-          saveError !== null &&
-          savedDraft)
-      ) {
+      if (messageValid) {
+        setSavedDraft(false);
+        setSaveError(null);
         dispatch(saveDraft(formData, type, draftId));
-        setSavedDraft(true);
       }
     },
     [
       checkMessageValidity,
-      isSignatureRequired,
-      savedDraft,
-      saveError,
-      draft,
-      debouncedRecipient,
+      validMessageType.SAVE,
+      draft?.messageId,
       selectedRecipientId,
-      debouncedCategory,
       category,
-      debouncedSubject,
       subject,
-      debouncedMessageBody,
       messageBody,
-      fieldsString,
-      setUnsavedNavigationError,
-      attachments.length,
+      debouncedRecipient,
+      debouncedCategory,
+      debouncedSubject,
+      debouncedMessageBody,
+      attachments,
+      isSignatureRequired,
       electronicSignature,
+      fieldsString,
       dispatch,
     ],
   );
@@ -500,7 +546,7 @@ const ComposeForm = props => {
         messageValid,
         signatureValid,
         checkboxValid,
-      } = checkMessageValidity();
+      } = checkMessageValidity(validMessageType.SEND);
 
       // TODO add GA event
       await setMessageInvalid(false);
@@ -518,7 +564,7 @@ const ComposeForm = props => {
         focusOnErrorField();
       }
     },
-    [checkMessageValidity, isSignatureRequired],
+    [checkMessageValidity, isSignatureRequired, validMessageType.SEND],
   );
 
   // Navigation error effect
@@ -717,13 +763,14 @@ const ComposeForm = props => {
       }
     },
     [
-      draft,
       selectedRecipientId,
+      draft,
       category,
       subject,
       messageBody,
       attachments,
-      timeoutId,
+      signOutMessage,
+      noTimeout,
     ],
   );
 
@@ -732,7 +779,11 @@ const ComposeForm = props => {
   if (sendMessageFlag === true) {
     return (
       <va-loading-indicator
-        message="Sending message..."
+        message={
+          largeAttachmentsEnabled
+            ? 'Do not refresh the page. Sending message...'
+            : 'Sending message...'
+        }
         setFocus
         data-testid="sending-indicator"
       />
@@ -806,11 +857,11 @@ const ComposeForm = props => {
           {!noAssociations &&
             !allTriageGroupsBlocked && (
               <div
-                className="
-                  vads-u-border-top--1px
-                  vads-u-padding-top--3
-                  vads-u-margin-top--3
-                  vads-u-margin-bottom--neg2"
+                className={`vads-u-border-top--1px vads-u-padding-top--3 vads-u-margin-top--3 ${
+                  recipientError
+                    ? 'vads-u-margin-bottom--2'
+                    : 'vads-u-margin-bottom--neg2'
+                }`}
               >
                 <BlockedTriageGroupAlert
                   alertStyle={BlockedTriageAlertStyles.ALERT}
@@ -830,6 +881,7 @@ const ComposeForm = props => {
                 isSignatureRequired={isSignatureRequired}
                 setCheckboxMarked={setCheckboxMarked}
                 setElectronicSignature={setElectronicSignature}
+                setComboBoxInputValue={setComboBoxInputValue}
               />
             )}
           <div className="compose-form-div">
@@ -930,6 +982,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
+                    isPilot={cernerPilotSmFeatureFlag}
                   />
                 </section>
               ))}
@@ -957,7 +1010,6 @@ const ComposeForm = props => {
             setUnsavedNavigationError={setUnsavedNavigationError}
             savedComposeDraft={!!draft}
           />
-          <EditPreferences />
         </div>
       </form>
     </>
@@ -966,6 +1018,8 @@ const ComposeForm = props => {
 
 ComposeForm.propTypes = {
   draft: PropTypes.object,
+  headerRef: PropTypes.object,
+  pageTitle: PropTypes.string,
   recipients: PropTypes.object,
   signature: PropTypes.object,
 };

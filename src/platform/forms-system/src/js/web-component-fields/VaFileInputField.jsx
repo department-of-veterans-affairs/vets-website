@@ -142,7 +142,7 @@ const VaFileInputField = props => {
   return (
     <VaFileInput
       {...mappedProps}
-      error={error}
+      error={error || mappedProps.error}
       uploadedFile={mappedProps.uploadedFile}
       onVaChange={handleVaChange}
     >

@@ -35,7 +35,7 @@ const initialState = {
 
 export const extractLocation = allergy => {
   if (isArrayAndHasItems(allergy?.recorder?.extension)) {
-    const ref = allergy.recorder.extension[0].valueReference?.reference;
+    const ref = allergy.recorder.extension[0]?.valueReference?.reference;
     // Use the reference inside "recorder" to get the value from "contained".
     const org = extractContainedResource(allergy, ref);
     if (org?.name) {
@@ -75,7 +75,8 @@ export const convertAllergy = allergy => {
     location: extractLocation(allergy),
     observedOrReported: extractObservedReported(allergy),
     notes:
-      (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || EMPTY_FIELD,
+      (isArrayAndHasItems(allergy.note) && allergy.note[0]?.text) ||
+      EMPTY_FIELD,
     provider: allergy.recorder?.display || EMPTY_FIELD,
   };
 };

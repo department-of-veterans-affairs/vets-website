@@ -5,7 +5,7 @@ import { expect } from 'chai';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfErrorsOnSubmit,
   testNumberOfWebComponentFields,
   testNumberOfFields,
@@ -21,7 +21,7 @@ const { schema, uiSchema } = incomeSources;
 describe('Pension: Financial information, income sources page', () => {
   const pageTitle = 'Gross monthly income';
   describe('should not require type of income additional field', () => {
-    const expectedNumberOfWebComponentFields = 3;
+    const expectedNumberOfWebComponentFields = 4;
     const data = { incomeSources: [{}] };
     testNumberOfWebComponentFields(
       formConfig,
@@ -32,7 +32,7 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfFields = 1;
+    const expectedNumberOfFields = 0;
     testNumberOfFields(
       formConfig,
       schema,
@@ -42,7 +42,7 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfErrors = 1;
+    const expectedNumberOfErrors = 0;
     testNumberOfErrorsOnSubmit(
       formConfig,
       schema,
@@ -52,18 +52,22 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfWebComponentErrors = 3;
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      expectedNumberOfWebComponentErrors,
+      [
+        `va-radio[label="What type of income?"]`,
+        `va-radio[label="Who receives this income?"]`,
+        `va-text-input[label="Who pays this income?"]`,
+        `va-text-input[label="What’s the monthly amount of income?"]`,
+      ],
       pageTitle,
       data,
     );
   });
   describe('should include a type of income additional field', async () => {
-    const expectedNumberOfWebComponentFields = 4;
+    const expectedNumberOfWebComponentFields = 5;
     const data = {
       incomeSources: [
         {
@@ -80,7 +84,7 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfFields = 1;
+    const expectedNumberOfFields = 0;
     testNumberOfFields(
       formConfig,
       schema,
@@ -91,7 +95,7 @@ describe('Pension: Financial information, income sources page', () => {
     );
   });
   describe('with multiple sources', () => {
-    const expectedNumberOfWebComponentFields = 3;
+    const expectedNumberOfWebComponentFields = 4;
     const data = {
       incomeSources: [
         {
@@ -112,7 +116,7 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfFields = 1;
+    const expectedNumberOfFields = 0;
     testNumberOfFields(
       formConfig,
       schema,
@@ -121,8 +125,7 @@ describe('Pension: Financial information, income sources page', () => {
       pageTitle,
       data,
     );
-
-    const expectedNumberOfErrors = 1;
+    const expectedNumberOfErrors = 0;
     testNumberOfErrorsOnSubmit(
       formConfig,
       schema,
@@ -132,12 +135,16 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfWebComponentErrors = 3;
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      expectedNumberOfWebComponentErrors,
+      [
+        `va-radio[label="What type of income?"]`,
+        `va-radio[label="Who receives this income?"]`,
+        `va-text-input[label="Who pays this income?"]`,
+        `va-text-input[label="What’s the monthly amount of income?"]`,
+      ],
       pageTitle,
       data,
     );
@@ -151,8 +158,7 @@ describe('Pension: Financial information, income sources page', () => {
     uiSchema,
     {
       'va-radio': 2,
-      'va-text-input': 1,
-      input: 1,
+      'va-text-input': 2,
     },
     pageTitle,
   );

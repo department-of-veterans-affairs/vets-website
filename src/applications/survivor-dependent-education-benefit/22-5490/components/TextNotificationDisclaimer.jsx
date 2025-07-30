@@ -23,7 +23,7 @@ function TextNotificationsDisclaimer() {
       </p>
       <p>
         <a
-          href="https://va.gov/privacy-policy/"
+          href="https://www.va.gov/privacy-policy/"
           rel="noopener noreferrer"
           target="_blank"
         >

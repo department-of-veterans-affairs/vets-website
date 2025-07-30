@@ -1,0 +1,55 @@
+flow:
+  title: Veteran Readiness and Employment Financial Issues (Unauth)
+  runOnCI: false # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: start-your-question-unauth
+
+    - action: include
+      target: page
+      value: select-category-veteran-readiness-and-employment
+
+    - action: include
+      target: page
+      value: select-topic-financial-issues
+
+    - action: include
+      target: page
+      value: who-is-your-question-about-general-question
+
+    - action: include
+      target: page
+      value: tell-us-about-yourself-general
+
+    - action: include
+      target: page
+      value: have-you-applied-for-VRE-benefits-yes
+
+    - action: include
+      target: page
+      value: your-counselor-name
+
+    - action: include
+      target: page
+      value: your-contact-information-radio-buttons-us-mail-no-prefill
+
+    - action: include
+      target: page
+      value: your-location-of-residence
+
+    - action: include
+      target: page
+      value: check-your-mailing-address
+
+    - action: include
+      target: page
+      value: your-question
+
+    - action: include
+      target: page
+      value: editing-answers
+
+    - action: include
+      target: page
+      value: your-confirmation-number

@@ -29,6 +29,13 @@ class PatientComposePage {
       });
   };
 
+  sendMessageWithoutVerification = (mockResponse = mockDraftMessage) => {
+    cy.intercept('POST', Paths.SM_API_EXTENDED, mockResponse).as('message');
+    cy.get(Locators.BUTTONS.SEND)
+      .contains('Send')
+      .click({ force: true });
+  };
+
   sendMessageByKeyboard = () => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
     cy.get(Locators.FIELDS.MESSAGE_BODY).click();
@@ -58,6 +65,7 @@ class PatientComposePage {
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.focused().should('contain.text', Data.SECURE_MSG_SENT_SUCCESSFULLY);
   };
 
@@ -66,6 +74,11 @@ class PatientComposePage {
       .shadow()
       .find('select')
       .select(index, { force: true });
+  };
+
+  selectComboBoxRecipient = text => {
+    cy.get(`#options`).clear();
+    cy.get(`#options`).type(text);
   };
 
   selectCategory = (category = 'OTHER') => {
@@ -118,6 +131,7 @@ class PatientComposePage {
 
   verifyFocusOnErrorMessage = () => {
     const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT', `BUTTON`];
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
     return cy.focused().then(el => {
       const tagName = el.prop('tagName');
       expect(tagName).to.be.oneOf(allowedTags);
@@ -169,7 +183,6 @@ class PatientComposePage {
     cy.get(Locators.FIELDS.MESSAGE_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SAVE_DRAFT);
     cy.realPress('Enter');
-    cy.wait('@draft_message');
   };
 
   clickSaveDraftBtn = () => {
@@ -202,8 +215,8 @@ class PatientComposePage {
       });
   };
 
-  saveNewDraft = (category, subject) => {
-    cy.intercept('POST', `${Paths.SM_API_BASE}/message_drafts`, newDraft).as(
+  saveNewDraft = (category, subject, response = newDraft) => {
+    cy.intercept('POST', `${Paths.SM_API_BASE}/message_drafts`, response).as(
       'new_draft',
     );
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
@@ -214,16 +227,6 @@ class PatientComposePage {
         expect(message.category).to.eq(category);
         expect(message.subject).to.eq(subject);
       });
-  };
-
-  verifyAttachmentErrorMessage = errormessage => {
-    cy.get(Locators.ALERTS.ERROR_MESSAGE)
-      .should('have.text', errormessage)
-      .should('be.visible');
-
-    cy.get(`.attachments-section`)
-      .find(`.file-input`)
-      .should(`have.css`, `border-left-width`, `4px`);
   };
 
   closeAlertModal = () => {
@@ -323,7 +326,10 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
-      .select(recipient, { force: true })
+      .select(recipient, { force: true });
+    cy.get(Locators.ALERTS.REPT_SELECT)
+      .shadow()
+      .find('select')
       .should('contain', mockRecipients.data[0].attributes.name);
   };
 
@@ -370,6 +376,12 @@ class PatientComposePage {
       .contains('Confirm')
       .should('be.visible')
       .click({ force: true });
+  };
+
+  openAttachmentInfo = () => {
+    cy.get(`.attachments-section`)
+      .find(`.additional-info-title`)
+      .click();
   };
 
   verifyDeleteDraftSuccessfulMessageText = () => {
@@ -447,17 +459,10 @@ class PatientComposePage {
       .should(`have.attr`, `aria-expanded`, value);
   };
 
-  verifyRecipientsDropdownLinks = () => {
-    // verify `find-locations` link
+  verifyAdditionalInfoDropdownLinks = () => {
     cy.get(Locators.DROPDOWN.ADD_INFO)
-      .find(`a[href*="preferences"]`)
+      .find(`a[href*="contact-list"]`)
       .should(`be.visible`);
-
-    // verify `preferences` link
-    cy.get(Locators.DROPDOWN.ADD_INFO)
-      .find(`a[href*="locations"]`)
-      .should(`be.visible`)
-      .and('not.have.attr', `target`, `_blank`);
   };
 
   openRecipientsDropdown = () => {
@@ -523,6 +528,40 @@ class PatientComposePage {
     cy.contains(recipientName)
       .parent()
       .should('have.attr', 'label', facilityName);
+  };
+
+  verifyRecipientsDropdownList = text => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS_COMBO)
+      .find('li')
+      .each(el => {
+        cy.wrap(el).should(`contain.text`, text);
+      });
+  };
+
+  verifyRecipientSelected = value => {
+    cy.get(Locators.COMBO_BOX)
+      .invoke('attr', 'data-default-value')
+      .should('eq', value);
+  };
+
+  verifyRecipientsFieldAlert = text => {
+    cy.get(Locators.ALERTS.COMBO_BOX).should(`have.text`, text);
+    cy.get(Locators.COMBO_BOX)
+      .find(`#options`)
+      .should('be.focused');
+  };
+
+  deleteUnsavedDraft = () => {
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).click();
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click();
+  };
+
+  interceptSentFolder = () => {
+    cy.intercept(
+      'GET',
+      `my_health/v1/messaging/folders/-1/threads*`,
+      mockThreadResponse,
+    ).as('sentFolder');
   };
 }
 

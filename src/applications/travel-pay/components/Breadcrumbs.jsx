@@ -1,13 +1,20 @@
 import React from 'react';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom-v5-compat';
+
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 const uuidRegex = /[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}/;
 
 export default function Breadcrumbs() {
   const { pathname } = useLocation();
   const history = useHistory();
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const smocEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPaySubmitMileageExpense,
+  );
 
   const isDetailsPage = new RegExp(
     /\/claims\//.source + uuidRegex.source,
@@ -15,12 +22,7 @@ export default function Breadcrumbs() {
   ).test(pathname);
   const isStatusExplainer = pathname.includes('/help');
 
-  const { apptId, id: claimId } = useParams();
-
-  const isSubmitWrapper = new RegExp(
-    /\/file-new-claim\//.source + apptId,
-    'i',
-  ).test(pathname);
+  const { id: claimId } = useParams();
 
   const breadcrumbList = [
     {
@@ -35,7 +37,9 @@ export default function Breadcrumbs() {
     },
     {
       href: '/claims/',
-      label: 'Check your travel reimbursement claim status',
+      label: smocEnabled
+        ? 'Travel reimbursement claims'
+        : 'Check your travel reimbursement claim status',
       isRouterLink: true,
     },
   ];
@@ -61,16 +65,7 @@ export default function Breadcrumbs() {
     history.push(href);
   };
 
-  return isSubmitWrapper ? (
-    <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
-      <va-link
-        data-testid="submit-back-link"
-        back
-        href={`/my-health/appointments/past/${apptId}`}
-        text="Back to your appointment"
-      />
-    </div>
-  ) : (
+  return (
     <VaBreadcrumbs
       breadcrumbList={breadcrumbList}
       className="vads-u-padding-0"

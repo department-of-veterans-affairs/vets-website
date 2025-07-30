@@ -1,9 +1,10 @@
-import { parseISO } from 'date-fns';
+import { parseISO, format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
-  dateFormatWithoutTimezone,
   formatDate,
+  dateFormatWithoutTimezone,
+  formatDateInLocalTimezone,
   extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -87,7 +88,7 @@ export const convertChemHemObservation = record => {
       } = getObservationValueWithUnits(result);
       finalObservationValue = `${observationValue} ${observationUnit}`;
       standardRange = isArrayAndHasItems(result.referenceRange)
-        ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
+        ? `${result.referenceRange[0]?.text} ${observationUnit}`.trim()
         : null;
     }
     if (result.valueString) {
@@ -135,6 +136,18 @@ export const extractSpecimen = record => {
 
 export const extractOrderedTest = (record, id) => {
   const serviceReq = extractContainedResource(record, id);
+
+  // First try to find a display value in the coding array
+  if (isArrayAndHasItems(serviceReq?.code?.coding)) {
+    const codingWithDisplay = serviceReq.code.coding.find(
+      item => item.display && item.display.trim() !== '',
+    );
+    if (codingWithDisplay?.display) {
+      return codingWithDisplay.display;
+    }
+  }
+
+  // Fall back to code.text if no display found
   return serviceReq?.code?.text || null;
 };
 
@@ -196,7 +209,7 @@ export const extractOrderedBy = record => {
     record.performer,
   );
   if (isArrayAndHasItems(performingLab?.name)) {
-    return performingLab.name[0].text || null;
+    return performingLab.name[0]?.text || null;
   }
   return null;
 };
@@ -236,12 +249,36 @@ export const convertMicrobiologyRecord = record => {
  * @param {Object} record - A FHIR DiagnosticReport pathology object
  * @returns the appropriate frontend object for display
  */
-const convertPathologyRecord = record => {
+export const convertPathologyRecord = record => {
+  const { code } = record.code.coding?.[0];
+
+  // Define mapping for new LOINC codes to names
+  const loincCodeMapping = {
+    [loincCodes.PATHOLOGY]: 'Pathology',
+    [loincCodes.SURGICAL_PATHOLOGY]: 'Surgical Pathology',
+    [loincCodes.ELECTRON_MICROSCOPY]: 'Electron Microscopy',
+    [loincCodes.CYTOPATHOLOGY]: 'Cytology',
+  };
+
+  // Determine pathology type based on LOINC code
+  let pathologyType;
+
+  if (code === loincCodes.PATHOLOGY) {
+    pathologyType = record.code.text;
+  } else if (
+    code === loincCodes.SURGICAL_PATHOLOGY ||
+    code === loincCodes.ELECTRON_MICROSCOPY ||
+    code === loincCodes.CYTOPATHOLOGY
+  ) {
+    pathologyType = loincCodeMapping[code];
+  } else {
+    pathologyType = 'Pathology'; // fallback
+  }
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   return {
     id: record.id,
-    name: record.code?.text,
+    name: pathologyType,
     type: labTypes.PATHOLOGY,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
@@ -259,25 +296,6 @@ const convertPathologyRecord = record => {
       EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
     labComments: record.labComments || EMPTY_FIELD,
-  };
-};
-
-/**
- * @param {Object} record - A FHIR DocumentReference EKG object
- * @returns the appropriate frontend object for display
- */
-const convertEkgRecord = record => {
-  return {
-    id: record.id,
-    name: 'Electrocardiogram (EKG)',
-    type: labTypes.EKG,
-    category: '',
-    orderedBy: 'DOE, JANE A',
-    requestedBy: 'John J. Lydon',
-    signedBy: 'Beth M. Smith',
-    date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
-    facility: 'Washington DC VAMC',
-    sortDate: record.date,
   };
 };
 
@@ -335,7 +353,7 @@ export const convertMhvRadiologyRecord = record => {
     clinicalHistory: record?.clinicalHistory?.trim() || EMPTY_FIELD,
     imagingLocation: record.performingLocation,
     date: record.eventDate
-      ? dateFormatWithoutTimezone(record.eventDate)
+      ? formatDateInLocalTimezone(record.eventDate, true)
       : EMPTY_FIELD,
     sortDate: record.eventDate,
     imagingProvider: imagingProvider || EMPTY_FIELD,
@@ -354,7 +372,7 @@ export const convertCvixRadiologyRecord = record => {
     clinicalHistory: parsedReport['Clinical History'] || EMPTY_FIELD,
     imagingLocation: record.facilityInfo?.name || EMPTY_FIELD,
     date: record.performedDatePrecise
-      ? dateFormatWithoutTimezone(record.performedDatePrecise)
+      ? formatDateInLocalTimezone(record.performedDatePrecise, true)
       : EMPTY_FIELD,
     sortDate: record.performedDatePrecise
       ? `${new Date(record.performedDatePrecise).toISOString().split('.')[0]}Z`
@@ -421,29 +439,27 @@ export const mergeRadiologyLists = (
  */
 const getRecordType = record => {
   if (record.resourceType === fhirResourceTypes.DIAGNOSTIC_REPORT) {
+    const coding = record.code?.coding;
+    const loincMap = {
+      [loincCodes.MICROBIOLOGY]: labTypes.MICROBIOLOGY,
+      [loincCodes.PATHOLOGY]: labTypes.PATHOLOGY,
+      [loincCodes.SURGICAL_PATHOLOGY]: labTypes.PATHOLOGY,
+      [loincCodes.ELECTRON_MICROSCOPY]: labTypes.PATHOLOGY,
+      [loincCodes.CYTOPATHOLOGY]: labTypes.PATHOLOGY,
+    };
+
+    // Check if the code text is 'CH'
     if (record.code?.text === 'CH') return labTypes.CHEM_HEM;
-    if (
-      record.code?.coding?.some(
-        coding => coding.code === loincCodes.MICROBIOLOGY,
-      )
-    ) {
-      return labTypes.MICROBIOLOGY;
-    }
-    if (
-      record.code?.coding?.some(coding => coding.code === loincCodes.PATHOLOGY)
-    ) {
-      return labTypes.PATHOLOGY;
+
+    // Check if coding matches any LOINC code using Object.entries()
+    for (const [code, type] of Object.entries(loincMap)) {
+      if (coding?.some(c => c.code === code)) {
+        return type;
+      }
     }
   }
   if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {
-    if (record.type?.coding?.some(coding => coding.code === loincCodes.EKG)) {
-      return labTypes.EKG;
-    }
-    if (
-      record.type?.coding?.some(coding => coding.code === loincCodes.RADIOLOGY)
-    ) {
-      return labTypes.OTHER;
-    }
+    return labTypes.OTHER;
   }
   if (Object.prototype.hasOwnProperty.call(record, 'radiologist')) {
     return labTypes.RADIOLOGY;
@@ -462,7 +478,6 @@ const labsAndTestsConverterMap = {
   [labTypes.CHEM_HEM]: convertChemHemRecord,
   [labTypes.MICROBIOLOGY]: convertMicrobiologyRecord,
   [labTypes.PATHOLOGY]: convertPathologyRecord,
-  [labTypes.EKG]: convertEkgRecord,
   [labTypes.RADIOLOGY]: convertMhvRadiologyRecord,
   [labTypes.CVIX_RADIOLOGY]: convertCvixRadiologyRecord,
 };
@@ -477,6 +492,43 @@ export const convertLabsAndTestsRecord = record => {
   return convertRecord
     ? convertRecord(record)
     : { ...record, type: labTypes.OTHER };
+};
+
+export function formatDateTime(datetimeString) {
+  const dateTime = new Date(datetimeString);
+  if (Number.isNaN(dateTime.getTime())) {
+    return { formattedDate: '', formattedTime: '' };
+  }
+  const formattedDate = format(dateTime, 'MMMM d, yyyy');
+  const formattedTime = format(dateTime, 'h:mm a');
+
+  return { formattedDate, formattedTime };
+}
+
+export const convertUnifiedLabsAndTestRecord = record => {
+  const { formattedDate, formattedTime } = formatDateTime(
+    record.attributes.dateCompleted,
+  );
+  const date = formattedDate ? `${formattedDate}, ${formattedTime}` : '';
+  return {
+    id: record.id,
+    date,
+    name: record.attributes.display,
+    location: record.attributes.location,
+    observations: record.attributes.observations,
+    orderedBy: record.attributes.orderedBy,
+    sampleTested: record.attributes.sampleTested,
+    bodySite: record.attributes.bodySite,
+    testCode: record.attributes.testCode,
+    type: record.attributes.testCode,
+    comments: record.attributes.comments,
+    result: record.attributes.encodedData
+      ? decodeBase64Report(record.attributes.encodedData)
+      : null,
+    base: {
+      ...record,
+    },
+  };
 };
 
 function sortByDate(array) {
@@ -514,10 +566,35 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         labsAndTestsDetails: convertLabsAndTestsRecord(action.response),
       };
     }
+    case Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST: {
+      return {
+        ...state,
+        labsAndTestsDetails: action.response.data.id
+          ? convertUnifiedLabsAndTestRecord(action.response.data)
+          : { ...action.response.data },
+      };
+    }
     case Actions.LabsAndTests.GET_FROM_LIST: {
       return {
         ...state,
         labsAndTestsDetails: action.response,
+      };
+    }
+    case Actions.LabsAndTests.GET_UNIFIED_LIST: {
+      const data = action.labsAndTestsResponse;
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        labsAndTestsList: data
+          .map(record => convertUnifiedLabsAndTestRecord(record))
+          .sort((a, b) => {
+            if (!a.base?.attributes?.dateCompleted) return 1; // Push nulls to the end
+            if (!b.base?.attributes?.dateCompleted) return -1; // Keep non-nulls at the front
+            const dateA = parseISO(a.base.attributes.dateCompleted);
+            const dateB = parseISO(b.base.attributes.dateCompleted);
+            return dateB - dateA;
+          }),
       };
     }
     case Actions.LabsAndTests.GET_LIST: {

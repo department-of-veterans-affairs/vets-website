@@ -2,9 +2,10 @@ import React from 'react';
 // import moment from 'moment';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { fromUnixTime } from 'date-fns';
 import { format } from 'date-fns-tz';
+import sinon from 'sinon';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -318,8 +319,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('va-alert h3').text()).to.equal(
-      "We've prefilled some of your information",
+    // Default heading level is 2
+    expect(tree.find('va-alert h2').text()).to.equal(
+      'We’ve prefilled some of your information',
     );
 
     const alertText = tree.find('va-alert').text();
@@ -691,6 +693,92 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       'Custom message displayed to non-signed-in users',
     );
     expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.exist;
+    // expect($('a.schemaform-start-button', container)).to.exist;
+  });
+
+  it('should display an unauth start imposter link', () => {
+    const user = {
+      profile: {
+        savedForms: [],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const { container } = render(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        prefillEnabled
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        startMessageOnly
+        unauthStartText="Custom message displayed to non-signed-in users"
+        formConfig={formConfig}
+      />,
+    );
+    expect($('va-button', container).outerHTML).to.contain(
+      'Custom message displayed to non-signed-in users',
+    );
+    expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.not
+      .exist;
+    expect($('a.schemaform-start-button', container)).to.exist;
+  });
+
+  it('should display an unauth start va-link', () => {
+    const pushSpy = sinon.spy();
+    const router = {
+      push: pushSpy,
+    };
+    const user = {
+      profile: {
+        savedForms: [],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const { container } = render(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        prefillEnabled
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        startMessageOnly
+        unauthStartText="Custom message displayed to non-signed-in users"
+        formConfig={{
+          ...formConfig,
+          formOptions: { useWebComponentForNavigation: true },
+        }}
+        router={router}
+      />,
+    );
+    expect($('va-button', container).outerHTML).to.contain(
+      'Custom message displayed to non-signed-in users',
+    );
+    expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.not
+      .exist;
+    const unauthStart = $('va-link.schemaform-start-button', container);
+    expect(unauthStart).to.exist;
+    fireEvent.click(unauthStart);
+    expect(pushSpy.called).to.be.true;
   });
 
   it('should not render an inProgress message', () => {

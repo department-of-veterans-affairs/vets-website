@@ -11,6 +11,7 @@ import {
   renderWithStoreAndRouter,
   setTypeOfCare,
 } from '../../tests/mocks/setup';
+import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 
 import TypeOfSleepCarePage from './TypeOfSleepCarePage';
 
@@ -30,7 +31,7 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /sleep/i);
-    expect(nextPage).to.equal('/new-appointment/choose-sleep-care');
+    expect(nextPage).to.equal('sleep-care');
 
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfSleepCarePage} />,
@@ -65,18 +66,16 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
     // Assertion currently disabled due to
     // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
     // expect(await screen.findByText('You must provide a response')).to.exist;
-    expect(screen.history.push.called).to.not.be.true;
+    expect(screen.history.push.called).to.be.false;
 
     const changeEvent = new CustomEvent('selected', {
-      detail: { value: '349' }, // CPAP
+      detail: { value: TYPE_OF_CARE_IDS.CPAP_ID },
     });
     radioSelector.__events.vaValueChange(changeEvent);
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('location'),
     );
   });
 
@@ -90,7 +89,7 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
 
     const radioSelector = screen.container.querySelector('va-radio');
     const changeEvent = new CustomEvent('selected', {
-      detail: { value: '143' }, // Sleep medicine
+      detail: { value: TYPE_OF_CARE_IDS.HOME_SLEEP_TESTING_ID },
     });
     radioSelector.__events.vaValueChange(changeEvent);
     await cleanup();
@@ -103,7 +102,10 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
     );
 
     await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', '143');
+      expect(radioSelector).to.have.attribute(
+        'value',
+        TYPE_OF_CARE_IDS.HOME_SLEEP_TESTING_ID,
+      );
     });
   });
 });

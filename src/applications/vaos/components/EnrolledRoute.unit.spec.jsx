@@ -3,21 +3,20 @@ import { Switch } from 'react-router-dom';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import sinon from 'sinon';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
   createTestStore,
   renderWithStoreAndRouter,
-} from '../tests/mocks/setup.js';
-import EnrolledRoute from './EnrolledRoute.jsx';
+} from '../tests/mocks/setup';
+import EnrolledRoute from './EnrolledRoute';
 
 const initialState = {
   featureToggles: {
     vaOnlineScheduling: true,
-    vaOnlineSchedulingPast: true,
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
+    loading: false,
   },
   user: {
     login: {
@@ -28,16 +27,31 @@ const initialState = {
       verified: true,
       services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
       facilities: [{ facilityId: '983', isCerner: false }],
+      loa: { current: 3 },
     },
   },
 };
 
 describe('VAOS Component: EnrolledRoute', () => {
-  beforeEach(() => {
+  let replaceStub;
+
+  before(() => {
     mockFetch();
   });
 
-  it('should render route when logged in', async () => {
+  beforeEach(() => {
+    replaceStub = sinon.stub();
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { replace: replaceStub, origin: 'http://localhost' },
+    });
+  });
+
+  afterEach(() => {
+    window.location = { replace: () => {}, origin: 'http://localhost' };
+  });
+
+  it('renders route content when logged in and registered', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(
       <>
@@ -45,23 +59,15 @@ describe('VAOS Component: EnrolledRoute', () => {
           <EnrolledRoute component={() => <div>Child content</div>} />
         </Switch>
       </>,
-      {
-        store,
-      },
+      { store },
     );
-
     expect(await screen.findByText('Child content')).to.exist;
   });
 
-  it('should not render route content when not logged in', async () => {
+  it('shows loading indicator when not logged in', async () => {
     const myInitialState = {
       ...initialState,
-      user: {
-        ...initialState.user,
-        login: {
-          currentlyLoggedIn: false,
-        },
-      },
+      user: { ...initialState.user, login: { currentlyLoggedIn: false } },
     };
     const store = createTestStore(myInitialState);
     const screen = renderWithStoreAndRouter(
@@ -70,11 +76,8 @@ describe('VAOS Component: EnrolledRoute', () => {
           <EnrolledRoute component={() => <div>Child content</div>} />
         </Switch>
       </>,
-      {
-        store,
-      },
+      { store },
     );
-
     const loadingIndicatorSelector = screen.container.querySelector(
       'va-loading-indicator',
     );
@@ -87,7 +90,7 @@ describe('VAOS Component: EnrolledRoute', () => {
     });
   });
 
-  it('should render can’t find any VA medical facility registrations message', async () => {
+  it('redirects to /my-health when user has no facilities', async () => {
     const myInitialState = {
       ...initialState,
       user: {
@@ -95,6 +98,7 @@ describe('VAOS Component: EnrolledRoute', () => {
         profile: {
           ...initialState.user.profile,
           facilities: [],
+          loa: { current: 3 },
         },
       },
     };
@@ -105,18 +109,38 @@ describe('VAOS Component: EnrolledRoute', () => {
           <EnrolledRoute component={() => <div>Child content</div>} />
         </Switch>
       </>,
-      {
-        store,
-      },
+      { store },
     );
-
-    await waitFor(() => {
-      expect(
-        screen.getByText(
-          /We’re sorry. We can’t find any VA medical facility registrations for you/,
-        ),
-      ).to.be.ok;
-    });
     expect(screen.queryByText('Child content')).not.to.exist;
+    await waitFor(() => {
+      expect(replaceStub.calledWith('http://localhost/my-health')).to.be.true;
+    });
+  });
+
+  it('redirects to /my-health when user is not LOA3', async () => {
+    const myInitialState = {
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          facilities: [{ facilityId: '983', isCerner: false }],
+          loa: { current: 2 },
+        },
+      },
+    };
+    const store = createTestStore(myInitialState);
+    const screen = renderWithStoreAndRouter(
+      <>
+        <Switch>
+          <EnrolledRoute component={() => <div>Child content</div>} />
+        </Switch>
+      </>,
+      { store },
+    );
+    expect(screen.queryByText('Child content')).not.to.exist;
+    await waitFor(() => {
+      expect(replaceStub.calledWith('http://localhost/my-health')).to.be.true;
+    });
   });
 });

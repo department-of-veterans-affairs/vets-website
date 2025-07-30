@@ -36,7 +36,7 @@ class ClaimStatusPage extends React.Component {
     const { claim, lastPage, loading } = this.props;
 
     if (!loading && prevProps.loading && !isTab(lastPage)) {
-      setUpPage(false);
+      setUpPage(false, 'h1');
     }
     // Set the document title when loading completes.
     //   If loading was successful it will display a title specific to the claim.

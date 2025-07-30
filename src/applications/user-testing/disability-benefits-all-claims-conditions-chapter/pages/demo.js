@@ -4,12 +4,19 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import capitalize from 'lodash/capitalize';
 
-import { CONDITION_TYPE_RADIO, RATED_OR_NEW_NEXT_PAGE } from '../constants';
+import { DEMO_OPTIONS } from '../constants';
 
-const demoOptions = {
-  [RATED_OR_NEW_NEXT_PAGE.name]: capitalize(RATED_OR_NEW_NEXT_PAGE.label),
-  [CONDITION_TYPE_RADIO.name]: capitalize(CONDITION_TYPE_RADIO.label),
-};
+const demoOptions = DEMO_OPTIONS.reduce((acc, demo) => {
+  acc[demo.name] = capitalize(demo.label);
+
+  return acc;
+}, {});
+
+const demoDescriptions = DEMO_OPTIONS.reduce((acc, demo) => {
+  acc[demo.name] = demo.description;
+
+  return acc;
+}, {});
 
 /** @type {PageSchema} */
 export default {
@@ -18,22 +25,10 @@ export default {
   initialData: {
     ratedDisabilities: [
       {
-        name: 'Allergies due to Hearing Loss',
-        ratedDisabilityId: '1072414',
+        name: 'Tinnitus',
+        ratedDisabilityId: '111111',
         ratingDecisionId: '0',
-        diagnosticCode: 5260,
-        decisionCode: 'SVCCONNCTED',
-        decisionText: 'Service Connected',
-        ratingPercentage: 10,
-        maximumRatingPercentage: 30,
-        disabilityActionType: 'NONE',
-        'view:selected': true,
-      },
-      {
-        name: 'Hearing Loss',
-        ratedDisabilityId: '1128271',
-        ratingDecisionId: '0',
-        diagnosticCode: 6100,
+        diagnosticCode: 6260,
         decisionCode: 'SVCCONNCTED',
         decisionText: 'Service Connected',
         ratingPercentage: 100,
@@ -42,13 +37,25 @@ export default {
         'view:selected': true,
       },
       {
-        name: 'Sarcoma Soft-Tissue',
-        ratedDisabilityId: '1124345',
+        name: 'Sciatica',
+        ratedDisabilityId: '222222',
         ratingDecisionId: '0',
-        diagnosticCode: 8540,
+        diagnosticCode: 8998,
         decisionCode: 'SVCCONNCTED',
         decisionText: 'Service Connected',
-        ratingPercentage: 0,
+        ratingPercentage: 20,
+        maximumRatingPercentage: 100,
+        disabilityActionType: 'NONE',
+        'view:selected': true,
+      },
+      {
+        name: 'Hypertension',
+        ratedDisabilityId: '333333',
+        ratingDecisionId: '0',
+        diagnosticCode: 7101,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 10,
         maximumRatingPercentage: 100,
         disabilityActionType: 'NONE',
       },
@@ -58,6 +65,7 @@ export default {
     demo: radioUI({
       title: 'Choose a demo',
       labels: demoOptions,
+      descriptions: demoDescriptions,
     }),
   },
   schema: {

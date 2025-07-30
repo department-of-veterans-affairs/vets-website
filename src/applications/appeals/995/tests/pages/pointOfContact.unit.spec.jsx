@@ -7,7 +7,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   phoneSchema,
-  internationalPhoneSchema,
+  internationalPhoneDeprecatedSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import formConfig from '../../config/form';
@@ -161,7 +161,7 @@ describe('Supplemental Claims point of contact page', () => {
       'ui:errorMessages': baseUiSchemaErrors.international,
     });
     expect(options.updateSchema(_, _, _, 0, '', data)).to.deep.equal(
-      internationalPhoneSchema,
+      internationalPhoneDeprecatedSchema,
     );
   });
 

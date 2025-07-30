@@ -1,19 +1,19 @@
-import React from 'react';
-import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
-import { format, addBusinessDays } from 'date-fns';
-import moment from 'moment';
+import { expect } from 'chai';
+import { addBusinessDays, format } from 'date-fns';
+import React from 'react';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
+import { MockAppointment } from '../tests/fixtures/MockAppointment';
+import { Facility } from '../tests/mocks/unit-test-helpers';
 import StatusAlert from './StatusAlert';
-import { Facility, MockAppointment } from '../tests/mocks/unit-test-helpers';
 
 const facilityData = new Facility();
 
 describe('VAOS Component: StatusAlert', () => {
   const initialState = {};
   it('Should display confirmation of VA appointment alert message', () => {
-    const mockAppointment = new MockAppointment({ start: moment() });
+    const mockAppointment = new MockAppointment();
     mockAppointment.setKind('clinic');
     mockAppointment.setStatus('booked');
 
@@ -39,7 +39,7 @@ describe('VAOS Component: StatusAlert', () => {
   });
   it('Should display creation date on VA request alert', () => {
     const today = new Date();
-    const mockAppointment = new MockAppointment({ start: moment() });
+    const mockAppointment = new MockAppointment();
     mockAppointment.setKind('cc');
     mockAppointment.setStatus('proposed');
     mockAppointment.setCreated(today);
@@ -65,7 +65,7 @@ describe('VAOS Component: StatusAlert', () => {
     const PAST_DUE = -Math.abs(4);
     // created date is 4 business days ago from today
     const createdDate = addBusinessDays(new Date(today), PAST_DUE);
-    const mockAppointment = new MockAppointment({ start: moment() });
+    const mockAppointment = new MockAppointment();
     mockAppointment.setKind('clinic');
     mockAppointment.setStatus('proposed');
     mockAppointment.setCreated(createdDate);
@@ -85,7 +85,7 @@ describe('VAOS Component: StatusAlert', () => {
   });
 
   it('Should record google analytics when schedule link is clicked ', () => {
-    const mockAppointment = new MockAppointment({ start: moment() });
+    const mockAppointment = new MockAppointment();
     mockAppointment.setKind('clinic');
     mockAppointment.setStatus('booked');
 
@@ -102,23 +102,139 @@ describe('VAOS Component: StatusAlert', () => {
       event: 'vaos-schedule-appointment-button-clicked',
     });
   });
-  it('Should display cancellation alert message', () => {
-    const mockAppointment = new MockAppointment({ start: moment() });
-    mockAppointment.setKind('clinic');
-    mockAppointment.setStatus('cancelled');
-    mockAppointment.setCancelationReason('pat');
 
-    const screen = renderWithStoreAndRouter(
-      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
-      {
-        initialState,
-        path: `/${mockAppointment.id}`,
-      },
-    );
-    expect(screen.baseElement).to.contain('.usa-alert-error');
-    expect(screen.baseElement).to.contain.text('You canceled this appointment');
+  describe('Cancellation alert', () => {
+    it('Should display for canceled VA appointments', () => {
+      const mockAppointment = new MockAppointment();
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('pat');
 
-    expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
-    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text(
+        'You canceled this appointment',
+      );
+      expect(screen.baseElement).to.contain.text(
+        'If you still want this appointment, call your VA health facility to schedule.',
+      );
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
+    });
+
+    it('Should display schedule link for canceled VA appointments when showScheduleLink=true', () => {
+      const mockAppointment = new MockAppointment();
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('pat');
+      mockAppointment.setShowScheduleLink(true);
+
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text(
+        'You canceled this appointment',
+      );
+      expect(screen.baseElement).to.contain.text(
+        'If you still want this appointment, call your VA health facility to schedule.',
+      );
+      expect(
+        screen.container.querySelector(
+          'va-link[text="Schedule a new appointment"]',
+        ),
+      ).to.be.ok;
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+    });
+
+    it('Should display for canceled CC appointments', () => {
+      const mockAppointment = new MockAppointment();
+      mockAppointment.setType('COMMUNITY_CARE_APPOINTMENT');
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('pat');
+
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text(
+        'You canceled this appointment',
+      );
+      expect(screen.baseElement).to.contain.text(
+        'If you still want this appointment, call your community care provider to schedule.',
+      );
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
+    });
+
+    it('Should display for canceled C&P appointments', () => {
+      const mockAppointment = new MockAppointment();
+      mockAppointment.setIsCompAndPenAppointment(true);
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('pat');
+
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text(
+        'You canceled this appointment',
+      );
+      expect(screen.baseElement).to.contain.text(
+        'If you still want this appointment, call your VA health facility’s compensation and pension office to schedule.',
+      );
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
+    });
+
+    it('Should display for canceled appointment requests', () => {
+      const mockAppointment = new MockAppointment();
+      mockAppointment.setIsPendingAppointment(true);
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('pat');
+      mockAppointment.showScheduleLink = true;
+
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text('You canceled this request');
+      expect(screen.baseElement).to.contain.text(
+        'If you still want this appointment, call your VA health facility or submit another request online.',
+      );
+      expect(
+        screen.container.querySelector(
+          'va-link[text="Request a new appointment"]',
+        ),
+      ).to.be.ok;
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+    });
   });
 });

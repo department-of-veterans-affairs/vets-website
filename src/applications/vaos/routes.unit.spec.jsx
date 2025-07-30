@@ -30,7 +30,13 @@ describe('VAOS Routes', () => {
   let VAOSAppStub;
 
   before(() => {
-    EnrolledRouteSpy = sandbox.spy(EnrolledRoute, 'default');
+    EnrolledRouteSpy = sandbox
+      .stub(EnrolledRoute, 'default')
+      .callsFake(({ component: RouteComponent, ...props }) => (
+        <div>
+          <RouteComponent {...props} />
+        </div>
+      ));
 
     // Mock the real pages since they are tested seperately.
     AppointmentListStub = sandbox
@@ -177,8 +183,7 @@ describe('VAOS <handleLoadError>', () => {
     // Save original location object...
     orig = { ...window.location };
 
-    // Delete location object and redefine it
-    delete window.location;
+    // redefine window.location object
     window.location = {
       pathname: '/',
       replace: Sinon.stub().callsFake(path => {

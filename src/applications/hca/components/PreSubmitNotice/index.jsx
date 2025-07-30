@@ -1,12 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { REACT_BINDINGS } from '../../utils/imports';
+import { VaCheckbox } from '../../utils/imports';
 import content from '../../locales/en/content.json';
 import NoticeAgreement from './NoticeAgreement';
-
-// expose React binding for web components
-const { VaCheckbox } = REACT_BINDINGS;
 
 const PreSubmitNotice = ({ preSubmitInfo, showError, onSectionComplete }) => {
   const formSubmitted = !!useSelector(state => state.form.submission.status);

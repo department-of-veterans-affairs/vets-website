@@ -1,0 +1,27 @@
+steps:
+  - action: exists
+    target: header
+    value:  Your mailing address
+
+  - action: select
+    target: COUNTRY
+    value:  USA
+
+  - action: typeTextInput
+    target: STREET_ADDRESS
+    value:  1700 Clairmont Rd
+
+  - action: typeTextInput
+    target: CITY
+    value:  Decatur
+
+  - action: select
+    target: STATE
+    value:  GA
+
+  - action: typeTextInput
+    target: POSTAL_CODE
+    value:  30033
+
+  - action: click
+    target: call-to-action

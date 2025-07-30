@@ -22,14 +22,14 @@ import {
 import {
   getConfirmedAppointmentDetailsInfo,
   selectIsCanceled,
-  selectIsInPerson,
   selectIsPhone,
 } from '../../redux/selectors';
+import { isInPersonVisit } from '../../../services/appointment';
 
 function getHeading(appointment) {
   const isCanceled = selectIsCanceled(appointment);
 
-  if (selectIsInPerson(appointment)) {
+  if (isInPersonVisit(appointment)) {
     if (isCanceled) return 'Canceled in-person appointment';
     return 'In-person appointment';
   }
@@ -70,9 +70,12 @@ export default function CancelPageLayout() {
     <>
       <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">{heading}</h2>
       <When level={3}>
-        <AppointmentDate date={startDate} />
+        <AppointmentDate date={startDate} timezone={appointment?.timezone} />
         <br />
-        <AppointmentTime appointment={appointment} />
+        <AppointmentTime
+          appointment={appointment}
+          timezone={appointment.timezone}
+        />
         <br />
       </When>
       <What level={3}>{typeOfCareName}</What>

@@ -252,7 +252,11 @@ export default class AutosuggestField extends React.Component {
 
     return (
       <>
-        {hint && <div className="usa-hint">{hint}</div>}
+        {hint && (
+          <span id={`${id}-hint`} className="usa-hint">
+            {hint}
+          </span>
+        )}
         <Downshift
           onChange={this.handleChange}
           onInputValueChange={this.handleInputValueChange}
@@ -280,6 +284,7 @@ export default class AutosuggestField extends React.Component {
                   id,
                   name: id,
                   className: 'autosuggest-input',
+                  'aria-describedby': hint ? `${id}-hint` : undefined, // Associate hint text
                   onBlur: isOpen ? undefined : this.handleBlur,
                   onKeyDown: this.handleKeyDown,
                   ...inputProps,

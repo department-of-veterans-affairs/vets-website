@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -7,12 +7,13 @@ import { focusElement } from 'platform/utilities/ui';
 import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
 import { replaceStrValues } from '../../utils/helpers';
-import { VaSearchInput } from '../../utils/imports';
 import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
+import SelectedFacilityInfoAlert from '../FormAlerts/SelectedFacilityInfoAlert';
+import VaSearchInputAdapter from './VaSearchInputAdapter';
 
 // declare page paths for review mode
-const REVIEW_PATHS = {
+export const REVIEW_PATHS = {
   reviewAndSubmit: '/review-and-submit',
   confirmFacility: '/veteran-information/va-medical-center/confirm?review=true',
 };
@@ -32,6 +33,7 @@ const FacilitySearch = props => {
     pagination: { currentPage: 0, totalEntries: 0 },
     coordinates: { lat: '', long: '' },
   });
+  const vaSearchInputRef = useRef(null);
   const radius = 500;
   const resultsPerPage = 5;
   const hasFacilities = localState.facilities.length > 0;
@@ -43,9 +45,11 @@ const FacilitySearch = props => {
     [],
   );
 
+  const plannedClinic = formData?.['view:plannedClinic'];
+  const [showFacilityInfoAlert, setShowFacilityInfoAlert] = useState(true);
+
   const goToReviewPath = useCallback(
     () => {
-      const plannedClinic = formData?.['view:plannedClinic'];
       const hasSupportServices =
         plannedClinic?.veteranSelected?.id ===
         plannedClinic?.caregiverSupport?.id;
@@ -55,7 +59,7 @@ const FacilitySearch = props => {
           : REVIEW_PATHS.confirmFacility,
       );
     },
-    [formData, goToPath],
+    [plannedClinic?.veteranSelected, plannedClinic?.caregiverSupport, goToPath],
   );
 
   const onGoBack = useCallback(
@@ -66,8 +70,7 @@ const FacilitySearch = props => {
 
   const onGoForward = useCallback(
     () => {
-      const caregiverSupportFacilityId =
-        formData?.['view:plannedClinic']?.caregiverSupport?.id;
+      const caregiverSupportFacilityId = plannedClinic?.caregiverSupport?.id;
 
       // ensure no errors are present before navigating, to include:
       // lack of search query & lack of selected record after search
@@ -95,7 +98,15 @@ const FacilitySearch = props => {
       // proceed with navigating forward based on review mode
       return isReviewMode ? goToReviewPath() : goForward(formData);
     },
-    [formData, goForward, goToReviewPath, hasFacilities, isReviewMode, query],
+    [
+      formData,
+      goForward,
+      goToReviewPath,
+      hasFacilities,
+      isReviewMode,
+      query,
+      plannedClinic?.caregiverSupport,
+    ],
   );
 
   const handleChange = useCallback(e => setQuery(e.target.value), []);
@@ -210,7 +221,10 @@ const FacilitySearch = props => {
       );
       if (loadedParent) {
         if (hasSupportServices(loadedParent)) return loadedParent;
-
+        window.DD_LOGS?.logger.warn(
+          'DATA ERROR: Selected facility has no valid parent with Caregiver services',
+          { facilityId: loadedParent.id },
+        );
         return setLocalState(prev => ({
           ...prev,
           listError: content['error--facilities-parent-facility'],
@@ -232,6 +246,10 @@ const FacilitySearch = props => {
 
       // check if both the selected and the parent facilities do not offer support services
       if (!hasSupportServices(fetchedParent)) {
+        window.DD_LOGS?.logger.warn(
+          'DATA ERROR: Selected facility has no valid parent with Caregiver services',
+          { facilityId: fetchedParent.id },
+        );
         return setLocalState(prev => ({
           ...prev,
           listError: content['error--facilities-parent-facility'],
@@ -271,7 +289,7 @@ const FacilitySearch = props => {
       query: submittedQuery,
       error: localState.listError,
       facilities: localState.facilities,
-      value: formData?.['view:plannedClinic']?.veteranSelected?.id,
+      value: plannedClinic?.veteranSelected?.id,
       onChange: async facilityId => {
         setLocalState(prev => ({
           ...prev,
@@ -282,6 +300,7 @@ const FacilitySearch = props => {
           f => f.id === facilityId,
         );
         const parentFacility = await fetchParentFacility(selectedFacility);
+        setShowFacilityInfoAlert(false);
         dispatch(
           setData({
             ...formData,
@@ -301,6 +320,7 @@ const FacilitySearch = props => {
       localState.listError,
       props,
       submittedQuery,
+      plannedClinic?.veteranSelected,
     ],
   );
 
@@ -365,8 +385,18 @@ const FacilitySearch = props => {
     [localState.searchError],
   );
 
+  const shouldDisplayFacilityAlert = useMemo(
+    () => {
+      return plannedClinic?.veteranSelected && showFacilityInfoAlert;
+    },
+    [plannedClinic?.veteranSelected, showFacilityInfoAlert],
+  );
+
   return (
     <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
+      {shouldDisplayFacilityAlert && (
+        <SelectedFacilityInfoAlert facility={plannedClinic?.veteranSelected} />
+      )}
       <div className="vads-u-margin-y--2 form-panel">
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
           {content['vet-med-center-search-description']}
@@ -398,7 +428,8 @@ const FacilitySearch = props => {
               </span>
             </p>
             {localState.searchError && searchError}
-            <VaSearchInput
+            <VaSearchInputAdapter
+              ref={vaSearchInputRef}
               label={`${content['form-facilities-search-label']} ${
                 content['validation-required-label']
               }`}

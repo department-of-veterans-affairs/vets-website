@@ -1,10 +1,11 @@
 import React from 'react';
-import merge from 'lodash/merge';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   numberUI,
@@ -15,7 +16,6 @@ import {
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaCheckboxField } from 'platform/forms-system/src/js/web-component-fields';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   careTypeLabels,
@@ -152,14 +152,8 @@ const careExpenseTypePage = {
       title: 'Choose the type of care:',
       labels: careTypeLabels,
     }),
-    ratePerHour: merge(
-      {},
-      currencyUI('If this is an in-home provider, what is the rate per hour?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
+    ratePerHour: currencyUI(
+      'If this is an in-home provider, what is the rate per hour?',
     ),
     hoursPerWeek: numberUI({
       title: 'How many hours per week does the care provider work?',
@@ -172,9 +166,7 @@ const careExpenseTypePage = {
     type: 'object',
     properties: {
       careType: radioSchema(Object.keys(careTypeLabels)),
-      ratePerHour: {
-        type: 'number',
-      },
+      ratePerHour: currencySchema,
       hoursPerWeek: numberSchema,
     },
     required: ['careType'],
@@ -220,11 +212,7 @@ const careExpensePaymentPage = {
       title: 'How often are the payments?',
       labels: careFrequencyLabelsWithoutOneTime,
     }),
-    paymentAmount: merge({}, currencyUI('How much is each payment?'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    paymentAmount: currencyUI('How much is each payment?'),
   },
   schema: {
     type: 'object',
@@ -232,9 +220,7 @@ const careExpensePaymentPage = {
       paymentFrequency: radioSchema(
         Object.keys(careFrequencyLabelsWithoutOneTime),
       ),
-      paymentAmount: {
-        type: 'number',
-      },
+      paymentAmount: currencySchema,
     },
     required: ['paymentFrequency', 'paymentAmount'],
   },

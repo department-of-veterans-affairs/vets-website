@@ -18,8 +18,8 @@ describe('VAOS Component: ProviderAddress', () => {
     );
     expect(screen.getByTestId('address-block')).to.exist;
     expect(screen.getByTestId('phone')).to.exist;
-    expect(screen.queryByTestId('Address2')).to.not.exist;
-    expect(screen.queryByTestId('Address3')).to.not.exist;
+    expect(screen.queryByTestId('street2')).to.not.exist;
+    expect(screen.queryByTestId('street3')).to.not.exist;
   });
   it('renders the address with Address 1 and 2', () => {
     const addressWithStreets = {
@@ -30,8 +30,8 @@ describe('VAOS Component: ProviderAddress', () => {
       <ProviderAddress address={addressWithStreets} phone="555-555-5555" />,
     );
     expect(screen.getByTestId('address-block')).to.exist;
-    expect(screen.queryByTestId('Address2')).to.exist;
-    expect(screen.queryByTestId('Address3')).to.exist;
+    expect(screen.queryByTestId('street2')).to.exist;
+    expect(screen.queryByTestId('street3')).to.exist;
   });
   it('show directions if showDirections is true and name is provider', () => {
     const screen = render(
@@ -53,5 +53,22 @@ describe('VAOS Component: ProviderAddress', () => {
       />,
     );
     expect(screen.queryByTestId('directions-link-wrapper')).to.not.exist;
+  });
+  it('renders a single line address if address is a string', () => {
+    const screen = render(
+      <ProviderAddress
+        address="123 Main St, Springfield, IL 62704"
+        phone="555-555-5555"
+      />,
+    );
+    expect(screen.getByTestId('address-block')).to.exist;
+    expect(screen.queryByTestId('Address2')).to.not.exist;
+    expect(screen.queryByTestId('Address3')).to.not.exist;
+  });
+  it('does not render phone block if no phone number is present', () => {
+    const screen = render(
+      <ProviderAddress address="123 Main St, Springfield, IL 62704" />,
+    );
+    expect(screen.queryByTestId('provider-phone')).to.not.exist;
   });
 });
