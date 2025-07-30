@@ -401,7 +401,7 @@ const responses = {
   },
   'GET /vaos/v2/referrals': (req, res) => {
     return res.json({
-      data: referralUtils.createReferrals(4, null, null, true),
+      data: referralUtils.createReferrals(4, null, null, true, true),
     });
   },
   'GET /vaos/v2/referrals/:referralId': (req, res) => {

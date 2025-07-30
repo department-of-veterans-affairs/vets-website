@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
-import moment from 'moment';
+import { isAfter, isBefore, isValid, parseISO, startOfDay } from 'date-fns';
 import CalendarCell from './CalendarCell';
 
 function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
@@ -11,7 +12,7 @@ function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
   if (
     (Array.isArray(availableSlots) &&
       !availableSlots.some(slot => slot?.start?.startsWith(date))) ||
-    moment(date).isBefore(moment().format('YYYY-MM-DD'))
+    isBefore(startOfDay(parseISO(date)), startOfDay(new Date()))
   ) {
     disabled = true;
   }
@@ -19,8 +20,8 @@ function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
   // If minDate provided, disable dates before minDate
   if (
     minDate &&
-    moment(minDate).isValid() &&
-    moment(date).isBefore(moment(minDate))
+    isValid(minDate) &&
+    isBefore(startOfDay(parseISO(date)), startOfDay(minDate))
   ) {
     disabled = true;
   }
@@ -28,8 +29,8 @@ function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
   // If maxDate provided, disable dates after maxDate
   if (
     maxDate &&
-    moment(maxDate).isValid() &&
-    moment(date).isAfter(moment(maxDate))
+    isValid(maxDate) &&
+    isAfter(startOfDay(parseISO(date)), startOfDay(maxDate))
   ) {
     disabled = true;
   }
@@ -96,3 +97,29 @@ export default function CalendarRow({
     </div>
   );
 }
+
+CalendarRow.propTypes = {
+  cells: PropTypes.arrayOf(PropTypes.string).isRequired,
+  handleSelectDate: PropTypes.func.isRequired,
+  handleSelectOption: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  rowNumber: PropTypes.number.isRequired,
+  availableSlots: PropTypes.arrayOf(
+    PropTypes.shape({
+      start: PropTypes.string,
+      end: PropTypes.string,
+    }),
+  ),
+  currentlySelectedDate: PropTypes.string,
+  disabled: PropTypes.bool,
+  hasError: PropTypes.bool,
+  maxDate: PropTypes.instanceOf(Date),
+  maxSelections: PropTypes.number,
+  minDate: PropTypes.instanceOf(Date),
+  renderIndicator: PropTypes.func,
+  renderOptions: PropTypes.func,
+  renderSelectedLabel: PropTypes.func,
+  selectedDates: PropTypes.arrayOf(PropTypes.string),
+  showWeekends: PropTypes.bool,
+  timezone: PropTypes.string,
+};

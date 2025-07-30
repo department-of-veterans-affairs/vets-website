@@ -6,7 +6,7 @@ import {
   AlertNoRecordForUser,
   AlertNoSuppliesForReorder,
   AlertReorderAccessExpired,
-  AlertSomethingWentWrong,
+  AlertServerError,
 } from '../components/alerts';
 
 import {
@@ -15,7 +15,7 @@ import {
   showAlertNoRecordForUser,
   showAlertNoSuppliesForReorder,
   showAlertReorderAccessExpired,
-  showAlertSomethingWentWrong,
+  showAlertServerError,
 } from '../selectors';
 
 const Alerts = () => {
@@ -24,7 +24,7 @@ const Alerts = () => {
   const renderAlertNoRecordForUser = useSelector(showAlertNoRecordForUser);
   const renderAlertNoSuppliesForReorder = useSelector(showAlertNoSuppliesForReorder); // prettier-ignore
   const renderAlertReorderAccessExpired = useSelector(showAlertReorderAccessExpired); // prettier-ignore
-  const renderAlertSomethingWentWrong = useSelector(showAlertSomethingWentWrong); // prettier-ignore
+  const renderAlertServerError = useSelector(showAlertServerError);
 
   if (renderAlertDeceased) {
     return <AlertDeceased />;
@@ -38,8 +38,8 @@ const Alerts = () => {
     return <AlertReorderAccessExpired />;
   }
 
-  if (renderAlertSomethingWentWrong) {
-    return <AlertSomethingWentWrong />;
+  if (renderAlertServerError) {
+    return <AlertServerError />;
   }
 
   if (renderAlertNoSuppliesForReorder) {

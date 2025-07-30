@@ -39,6 +39,7 @@ export const disabilityPartTwo = {
   },
   schema: {
     type: 'object',
+    required: ['doesChildHavePermanentDisability'],
     properties: {
       doesChildHavePermanentDisability: yesNoSchema,
       'view:disabilityInfo': {

@@ -4,8 +4,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvBypassDowntimeNotification = false,
 
     // medications
-    mhvMedicationsToVaGovRelease = true,
-    mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
@@ -14,7 +12,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
-    mhvMedicationsRemoveLandingPage = true,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -83,14 +80,6 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvLandingPagePersonalization,
         },
         {
-          name: 'mhv_medications_to_va_gov_release',
-          value: mhvMedicationsToVaGovRelease,
-        },
-        {
-          name: 'mhv_medications_display_refill_content',
-          value: mhvMedicationsDisplayRefillContent,
-        },
-        {
           name: 'mhv_medications_display_documentation_content',
           value: mhvMedicationsDisplayDocumentationContent,
         },
@@ -109,10 +98,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_refill_progress',
           value: mhvMedicationsDisplayRefillProgress,
-        },
-        {
-          name: 'mhv_medications_remove_landing_page',
-          value: mhvMedicationsRemoveLandingPage,
         },
         {
           name: 'mhv_medications_show_ipe_content',

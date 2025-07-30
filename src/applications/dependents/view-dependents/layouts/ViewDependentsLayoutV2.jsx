@@ -5,7 +5,7 @@ import { getAppUrl } from 'platform/utilities/registry-helpers';
 import ViewDependentsLists from './ViewDependentsListsV2';
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeaderV2';
 import { isServerError, isClientError } from '../util';
-import { errorFragment, infoFragmentV2 } from './helpers';
+import { errorFragment, noDependentsAlertV2 } from './helpers';
 
 function ViewDependentsLayout(props) {
   let mainContent;
@@ -21,22 +21,20 @@ function ViewDependentsLayout(props) {
     (props.error && isClientError(props.error.code)) ||
     (props.onAwardDependents == null && props.notOnAwardDependents == null)
   ) {
-    mainContent = (
-      <va-alert status="info" slim>
-        {infoFragmentV2}
-      </va-alert>
-    );
+    mainContent = noDependentsAlertV2;
   } else {
+    // Don't show the alert if there are no on award dependents
+    hasDependents = props.onAwardDependents?.length > 0;
     mainContent = (
       <ViewDependentsLists
         manageDependentsToggle={props.manageDependentsToggle}
         loading={props.loading}
+        hasDependents={hasDependents}
         onAwardDependents={props.onAwardDependents}
         notOnAwardDependents={props.notOnAwardDependents}
         dependencyVerificationToggle={props.dependencyVerificationToggle}
       />
     );
-    hasDependents = true;
   }
 
   const layout = (
@@ -62,14 +60,14 @@ function ViewDependentsLayout(props) {
 }
 
 ViewDependentsLayout.propTypes = {
+  dependencyVerificationToggle: PropTypes.bool,
+  dependentsToggle: PropTypes.bool,
   error: PropTypes.object,
-  notOnAwardDependents: PropTypes.array,
-  onAwardDependents: PropTypes.array,
   loading: PropTypes.bool,
-  dependentsToggle: PropTypes.func,
-  dependencyVerificationToggle: PropTypes.func,
-  manageDependentsToggle: PropTypes.func,
+  manageDependentsToggle: PropTypes.bool,
+  notOnAwardDependents: PropTypes.array,
   updateDiariesStatus: PropTypes.func,
+  onAwardDependents: PropTypes.array,
 };
 
 export default ViewDependentsLayout;

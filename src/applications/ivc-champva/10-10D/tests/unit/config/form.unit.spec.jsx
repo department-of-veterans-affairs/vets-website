@@ -17,7 +17,7 @@ import { ApplicantAddressCopyPage } from '../../../../shared/components/applican
 import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
 
 import mockData from '../../e2e/fixtures/data/test-data.json';
-import { CustomApplicantSSNPage } from '../../../pages/CustomApplicantSSNPage';
+import { CustomApplicantSSNPage } from '../../../../shared/components/CustomApplicantSSNPage';
 
 const applicants = [
   {
