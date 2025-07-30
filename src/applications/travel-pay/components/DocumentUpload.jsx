@@ -6,7 +6,7 @@ import {
   VaProgressBar,
   VaFileInputMultiple,
   VaAlert,
-  VaButton,
+  // VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
@@ -271,7 +271,7 @@ const DocumentUpload = () => {
       )}
 
       {/* Display uploaded files */}
-      {uploadedFiles.length > 0 && (
+      {/* uploadedFiles.length > 0 && (
         <div className="vads-u-margin-bottom--3">
           <h3>Uploaded documents</h3>
           {uploadedFiles.map(file => (
@@ -295,7 +295,7 @@ const DocumentUpload = () => {
             </div>
           ))}
         </div>
-      )}
+      ) */}
 
       <VaFileInputMultiple
         accept={acceptedFileTypes.map(type => `.${type}`).join(',')}
