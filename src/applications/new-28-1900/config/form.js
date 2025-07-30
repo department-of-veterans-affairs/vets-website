@@ -35,7 +35,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Your Information;Contact Information;Review',
+  stepLabels: 'Your information;Contact information;Review',
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
