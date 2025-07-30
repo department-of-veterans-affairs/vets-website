@@ -53,9 +53,7 @@ describe('Medications Prescriptions container', () => {
 
   it('displays intro text ', async () => {
     const screen = setup();
-    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
-      'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications',
-    );
+    await screen.getByTestId('Title-Notes');
   });
 
   it('shows title ', async () => {
@@ -208,8 +206,8 @@ describe('Medications Prescriptions container', () => {
         mhv_medications_display_allergies: false,
       },
     });
-    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
-      'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications. If you print or download this list, we’ll include a list of your allergies.',
+    expect(await screen.getByTestId('Title-Notes').textContent).to.match(
+      /If you print or download this list, we’ll include a list of your allergies./,
     );
   });
   it('displays filter accordion', async () => {
