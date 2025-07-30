@@ -107,14 +107,35 @@ const DocumentUpload = () => {
       return;
     }
 
-    // Handle file addition
-    if (action !== 'FILE_ADDED' || !file) {
+    // Handle file addition or update
+    if ((action !== 'FILE_ADDED' && action !== 'FILE_UPDATED') || !file) {
       // eslint-disable-next-line no-console
-      console.error('No file found or action is not FILE_ADDED');
+      console.error('No file found or action is not FILE_ADDED/FILE_UPDATED');
       return;
     }
 
     setUploadInProgress(true);
+
+    // For FILE_UPDATED action, we need to find the file that was replaced
+    // The 'state' array contains the current files in the input component
+    let existingFile = null;
+
+    if (action === 'FILE_UPDATED') {
+      // When a file is updated, we need to find which uploaded file should be replaced
+      // We'll look for an uploaded file that's no longer in the current state
+      const currentFileNames = state.map(stateFile => stateFile.name);
+      existingFile = uploadedFiles.find(
+        uploadedFileItem => !currentFileNames.includes(uploadedFileItem.name),
+      );
+
+      // eslint-disable-next-line no-console
+      console.log('FILE_UPDATED - existing file to replace:', existingFile);
+    } else {
+      // For FILE_ADDED, check if a file with the same name already exists
+      existingFile = uploadedFiles.find(
+        uploadedFileItem => uploadedFileItem.name === file.name,
+      );
+    }
 
     // Custom upload functionality that doesn't depend on forms-system Redux
     const fileUploadUrl = `${
@@ -161,10 +182,41 @@ const DocumentUpload = () => {
     // Upload using apiRequest
     const performUpload = async () => {
       try {
+        setProgress(0);
+
+        // If replacing an existing file, delete it first
+        if (existingFile) {
+          // eslint-disable-next-line no-console
+          console.log('Replacing existing file:', existingFile.name);
+          setProgress(25);
+
+          const deleteUrl = `${
+            environment.API_URL
+          }/travel_pay/v0/claims/12345/documents/${existingFile.documentId}`;
+
+          await apiRequest(deleteUrl, {
+            method: 'DELETE',
+          });
+
+          // Remove the existing file from the uploaded files list
+          setUploadedFiles(prev =>
+            prev.filter(
+              uploadedFileItem =>
+                uploadedFileItem.documentId !== existingFile.documentId,
+            ),
+          );
+
+          setProgress(50);
+        } else {
+          setProgress(25);
+        }
+
         const response = await apiRequest(fileUploadUrl, {
           method: 'POST',
           body: formData,
         });
+
+        setProgress(75);
 
         // Parse successful response
         const uploadedFile = {
@@ -183,7 +235,13 @@ const DocumentUpload = () => {
         // eslint-disable-next-line no-console
         console.log('File uploaded:', uploadedFile);
         setUploadError(''); // Clear error on success
-        setUploadInProgress(false);
+        setProgress(100);
+
+        // Brief delay to show completion before clearing
+        setTimeout(() => {
+          setUploadInProgress(false);
+          setProgress(0);
+        }, 500);
       } catch (error) {
         let errorMessage = 'Upload failed. Please try again.';
 
@@ -195,6 +253,7 @@ const DocumentUpload = () => {
 
         setUploadError(errorMessage);
         setUploadInProgress(false);
+        setProgress(0);
       }
     };
 
