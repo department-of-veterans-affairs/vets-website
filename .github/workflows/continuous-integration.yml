@@ -1935,6 +1935,24 @@ jobs:
     needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
+      - name: Get Slack channel
+        id: get-slack-channel
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'slack_channel'
+
+      - name: Determine Slack channel
+        id: determine-channel
+        shell: bash
+        run: |
+          entries="${{ needs.build.outputs.entry_names }}"
+          channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
+          if [[ "$entries" == *","* ]]; then
+            echo "channel=" >> $GITHUB_OUTPUT
+          else
+            echo "channel=$channel" >> $GITHUB_OUTPUT
+          fi
+
       - name: Dispatch Event to Next Workflow
         run: |
           curl -X POST \
@@ -1944,7 +1962,8 @@ jobs:
           -d "$(jq -n --arg sha "${{ github.sha }}" \
           --arg ref "${{ github.ref }}" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry}}')"
+          --arg channel "${{ steps.determine-channel.outputs.channel }}" \
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $channel}}')"
                          
   notify-failure:
     name: Notify Failure
