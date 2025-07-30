@@ -10,7 +10,7 @@ import mockDraftMessages from './fixtures/draftsResponse/drafts-messages-respons
 describe('SM DRAFT FOLDER VERIFICATION', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(mockDraftMessages);
     FolderLoadPage.loadFolders();
     FolderLoadPage.loadDraftMessages();
   });
@@ -18,7 +18,7 @@ describe('SM DRAFT FOLDER VERIFICATION', () => {
   it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    GeneralFunctionsPage.verifyPageHeader(`Drafts`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Drafts`);
     PatientMessagesSentPage.verifyResponseBodyLength();
   });
 
@@ -68,7 +68,7 @@ describe('TG PLAIN NAMES', () => {
   );
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(updatedThreadResponse);
     FolderLoadPage.loadFolders();
     FolderLoadPage.loadDraftMessages(updatedThreadResponse);
   });

@@ -6,7 +6,7 @@ import {
 import React, { useRef, useEffect, useState } from 'react';
 
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError, scrollAndFocus } from 'platform/utilities/ui';
+import { scrollToFirstError, scrollAndFocus } from 'platform/utilities/scroll';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import PropTypes from 'prop-types';
 import {
@@ -55,10 +55,7 @@ const BehaviorIntroCombatPage = ({
   onReviewPage,
   updatePage,
 }) => {
-  const [optIn, setOptIn] = useState(
-    data?.['view:answerCombatBehaviorQuestions'],
-    null,
-  );
+  const [optIn, setOptIn] = useState(data?.answerCombatBehaviorQuestions, null);
 
   const [hasValidationError, setHasValidationError] = useState(null);
   const [showDeleteAnswersModal, setShowDeleteAnswersModal] = useState(false);
@@ -93,7 +90,7 @@ const BehaviorIntroCombatPage = ({
   );
 
   const missingSelection = (error, _fieldData, formData) => {
-    if (!formData?.['view:answerCombatBehaviorQuestions']) {
+    if (!formData?.answerCombatBehaviorQuestions) {
       error.addError?.(missingSelectionErrorMessage);
     }
   };
@@ -124,7 +121,7 @@ const BehaviorIntroCombatPage = ({
         setOptIn(value);
         const formData = {
           ...data,
-          'view:answerCombatBehaviorQuestions': value,
+          answerCombatBehaviorQuestions: value,
         };
         setFormData(formData);
         // setFormData lags a little, so check updated data
@@ -246,11 +243,13 @@ const BehaviorIntroCombatPage = ({
         {/* Mental Health dropdown is not displayed when content is rendered on the Review and Submit page */}
         <>{!onReviewPage && mentalHealthSupportAlert()}</>
         {onReviewPage && (
-          <va-button
-            onClick={handlers.onUpdatePage}
-            label="Update behavior questions choice"
-            text="Update page"
-          />
+          <button
+            className="usa-button-primary"
+            type="button"
+            onClick={event => handlers.onUpdatePage(event)}
+          >
+            Update page
+          </button>
         )}
 
         {!onReviewPage && (

@@ -1,0 +1,14 @@
+steps:
+  - action: exists
+    target: header
+    value:  School state or residency state
+  - action: click
+    target: call-to-action-secondary
+    value:  Back
+  - action: click
+    target: call-to-action
+  - action: click
+    target: call-to-action
+  - action: exists
+    target: errorInput
+    value: Please select school state or residency state

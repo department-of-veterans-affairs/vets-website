@@ -1,6 +1,6 @@
 // @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
-import { AUDIOLOGY_ID } from '../../../../utils/constants';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
@@ -35,8 +35,9 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 
-const typeOfCareId = getTypeOfCareById(AUDIOLOGY_ID).idV2;
-const { cceType } = getTypeOfCareById(AUDIOLOGY_ID);
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
+);
 
 describe('VAOS community care flow - Audiology', () => {
   beforeEach(() => {
@@ -104,8 +105,7 @@ describe('VAOS community care flow - Audiology', () => {
         id: 'mock1',
         localStartTime: new Date(),
         status: 'proposed',
-        serviceType: 'audiology',
-      });
+      }).setTypeOfCare('audiology');
       mockAppointmentGetApi({
         response,
       });
@@ -151,6 +151,7 @@ describe('VAOS community care flow - Audiology', () => {
             .clickNextButton();
 
           AudiologyPageObject.assertUrl()
+            .assertAudiologyValidationErrors()
             .selectTypeOfCare(/Routine hearing exam/i)
             .clickNextButton();
 

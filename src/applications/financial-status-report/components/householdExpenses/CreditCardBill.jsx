@@ -133,7 +133,6 @@ const CreditCardBill = props => {
   };
 
   const handlers = {
-    onSubmit: event => event.preventDefault(),
     onCancel: event => {
       event.preventDefault();
       if (creditCardBills.length === 0) {
@@ -168,7 +167,6 @@ const CreditCardBill = props => {
             {
               label: `${addCancelButtonsText} credit card bill`,
               onClick: handlers.onUpdate,
-              isSubmitting: 'prevent',
             },
           ]}
         />
@@ -189,7 +187,6 @@ const CreditCardBill = props => {
             {
               label: 'Continue',
               onClick: updateFormData,
-              isSubmitting: 'prevent',
             },
           ]}
         />
@@ -198,7 +195,7 @@ const CreditCardBill = props => {
   };
 
   return (
-    <form onSubmit={updateFormData}>
+    <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0">
@@ -259,12 +256,9 @@ const CreditCardBill = props => {
           width="md"
           class="vads-u-margin-bottom--4"
         />
-
-        <p>
-          {creditCardBills.length > 0
-            ? renderAddCancelButtons()
-            : renderContinueBackButtons()}
-        </p>
+        {creditCardBills.length > 0
+          ? renderAddCancelButtons()
+          : renderContinueBackButtons()}
       </fieldset>
     </form>
   );

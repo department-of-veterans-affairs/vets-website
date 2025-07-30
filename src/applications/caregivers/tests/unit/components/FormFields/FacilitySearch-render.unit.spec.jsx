@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import FacilitySearch from '../../../../components/FormFields/FacilitySearch';
@@ -13,18 +12,17 @@ const ERROR_MSG_SUBMIT =
   content['validation-facilities--submit-search-required'];
 
 describe('CG <FacilitySearch>', () => {
-  const props = {
-    data: {},
-    goBack: f => f,
-    goForward: f => f,
-    goToPath: f => f,
-  };
   const mockStore = {
     getState: () => {},
     subscribe: () => {},
     dispatch: () => {},
   };
-  const subject = () => {
+  let goBack;
+  let goForward;
+  let goToPath;
+
+  const subject = ({ data = {} } = {}) => {
+    const props = { data, goBack, goForward, goToPath };
     const { container, getByText, queryByText, queryByRole } = render(
       <Provider store={mockStore}>
         <FacilitySearch {...props} />
@@ -32,7 +30,7 @@ describe('CG <FacilitySearch>', () => {
     );
     const selectors = () => ({
       backBtn: getByText('Back'),
-      continueBtn: getByText('Continue'),
+      continueBtn: queryByRole('button', { name: /Continue/i }),
       loadMoreBtn: container.vaButtonGetByText(
         content['form-facilities-load-more-button'],
       ),
@@ -40,6 +38,7 @@ describe('CG <FacilitySearch>', () => {
       searchInputError: queryByRole('alert'),
       vaRadio: container.querySelector('va-radio'),
       vaSearchInput: container.querySelector('va-search-input'),
+      selectedFacilityAlert: queryByText('Your current selection'),
     });
     return { container, selectors, getByText, queryByText };
   };
@@ -47,11 +46,18 @@ describe('CG <FacilitySearch>', () => {
 
   it('should render correct element(s) when the page renders', () => {
     const { selectors, queryByText } = subject();
-    const { ariaLiveStatus, loadMoreBtn, vaRadio, vaSearchInput } = selectors();
+    const {
+      ariaLiveStatus,
+      loadMoreBtn,
+      vaRadio,
+      vaSearchInput,
+      selectedFacilityAlert,
+    } = selectors();
     expect(vaSearchInput).to.exist;
     expect(vaRadio).to.not.exist;
     expect(loadMoreBtn).to.not.exist;
     expect(ariaLiveStatus).to.not.exist;
+    expect(selectedFacilityAlert).to.not.exist;
     expect(queryByText(content['form-facilities-search-label'])).to.exist;
     expect(queryByText(content['validation-required-label'])).to.exist;
   });
@@ -62,7 +68,7 @@ describe('CG <FacilitySearch>', () => {
     const parentElClass = 'caregiver-facilities-search-input-error';
 
     // try to continue without any search interactions
-    userEvent.click(continueBtn);
+    fireEvent.click(continueBtn);
     await waitFor(() => {
       const { searchInputError } = selectors();
       expect(searchInputError.textContent).to.eq(`Error${ERROR_MSG_SEARCH}`);
@@ -71,11 +77,25 @@ describe('CG <FacilitySearch>', () => {
 
     // try to contiue after inputting a value into the search input
     inputVaSearchInput({ container, query, submit: false });
-    userEvent.click(continueBtn);
+    fireEvent.click(continueBtn);
     await waitFor(() => {
       const { searchInputError } = selectors();
       expect(searchInputError.textContent).to.eq(`Error${ERROR_MSG_SUBMIT}`);
       expect(searchInputError.parentElement).to.have.class(parentElClass);
+    });
+  });
+
+  context('when planned clinic has previously been selected', () => {
+    it('should render the selected facility alert', () => {
+      const { selectors } = subject({
+        data: {
+          'view:plannedClinic': {
+            veteranSelected: { id: 'my id', name: 'my name' },
+          },
+        },
+      });
+      const { selectedFacilityAlert } = selectors();
+      expect(selectedFacilityAlert).to.exist;
     });
   });
 });

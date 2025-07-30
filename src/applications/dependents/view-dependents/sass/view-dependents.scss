@@ -1,0 +1,30 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "../../../../platform/forms/sass/m-schemaform";
+
+// override the white-space: no-wrap in user-nav.scss because it makes the button overflow out of the container
+.additional-info-button {
+  white-space: normal !important;
+}
+
+// override platform error message styles
+.usa-alert {
+  padding: 0.9375rem 1.25rem 0.75rem 0.875rem;
+}
+.schemaform-warning-header {
+  display: none;
+}
+.usa-alert-body {
+  p:nth-child(2) {
+    display: none;
+  }
+}
+
+.mng-dependents-list-item {
+  dt, dd {
+    display: inline-block;
+  }
+}
+
+.view-deps-header {
+  margin-top: 2.8125rem !important;
+}

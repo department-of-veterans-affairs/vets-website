@@ -1,10 +1,3 @@
-const featureToggles = {
-  data: {
-    type: 'feature_toggles',
-    features: [{ name: 'show_digital_form_1095b', value: false }],
-  },
-};
-
 const form = {
   availableForms: [
     {
@@ -19,7 +12,6 @@ const formUnavailable = {
 };
 
 module.exports = {
-  featureToggles,
   form,
   formUnavailable,
 };

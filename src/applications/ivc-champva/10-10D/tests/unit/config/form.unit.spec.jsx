@@ -1,5 +1,7 @@
-import { expect } from 'chai';
 import React from 'react';
+import { expect } from 'chai';
+import { render, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
 import FileFieldWrapped from '../../../components/FileUploadWrapper';
 import {
   testNumberOfWebComponentFields,
@@ -15,6 +17,7 @@ import { ApplicantAddressCopyPage } from '../../../../shared/components/applican
 import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
 
 import mockData from '../../e2e/fixtures/data/test-data.json';
+import { CustomApplicantSSNPage } from '../../../../shared/components/CustomApplicantSSNPage';
 
 const applicants = [
   {
@@ -69,9 +72,9 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page7.schema,
   formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
-  2,
-  'Sponsor - SSN (with VA File Number)',
-  { ssn: { vaFileNumber: '123123123' } },
+  1,
+  'Sponsor - SSN',
+  { ssn: '123123123' },
 );
 
 testNumberOfWebComponentFields(
@@ -108,15 +111,6 @@ testNumberOfWebComponentFields(
   0,
   'Applicant - Start screen',
   { applicants: [...mockData.data.applicants, []] },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.page14.schema,
-  formConfig.chapters.applicantInformation.pages.page14.uiSchema,
-  1,
-  'Applicant - SSN',
-  { applicants },
 );
 
 testNumberOfWebComponentFields(
@@ -355,5 +349,85 @@ describe('FileFieldWrapped', () => {
   it('should be called', () => {
     const ffw = FileFieldWrapped({});
     expect(ffw).to.not.be.undefined;
+  });
+});
+
+describe('CustomApplicantSSNPage', () => {
+  // Mock minimal schema and uiSchema
+  const mockSchema = {
+    type: 'object',
+    properties: {
+      applicantSSN: {
+        type: 'string',
+      },
+    },
+  };
+
+  const mockUiSchema = {
+    applicantSSN: {
+      'ui:title': 'Social Security Number',
+    },
+  };
+
+  it('renders in normal flow mode', () => {
+    const onChangeSpy = sinon.spy();
+    const goBackSpy = sinon.spy();
+
+    const { getByText, queryByText } = render(
+      <CustomApplicantSSNPage
+        name="applicantSSN"
+        schema={mockSchema}
+        uiSchema={mockUiSchema}
+        data={{
+          applicants: [
+            {
+              applicantSSN: '123456789',
+            },
+          ],
+          ssn: '987654321',
+        }}
+        onChange={onChangeSpy}
+        goBack={goBackSpy}
+        pagePerItemIndex={0}
+        onReviewPage={false}
+        contentBeforeButtons={<div>Before</div>}
+        contentAfterButtons={<div>After</div>}
+      />,
+    );
+
+    // Verify form renders properly
+    expect(getByText('Social Security Number')).to.exist;
+    expect(queryByText('Update page')).to.not.exist;
+  });
+
+  it('renders in review mode with update button', () => {
+    const updatePageSpy = sinon.spy();
+
+    const { getByText, queryByText } = render(
+      <CustomApplicantSSNPage
+        name="applicantSSN"
+        schema={mockSchema}
+        uiSchema={mockUiSchema}
+        data={{
+          applicants: [
+            {
+              applicantSSN: '123456789',
+            },
+          ],
+          ssn: '987654321',
+        }}
+        updatePage={updatePageSpy}
+        pagePerItemIndex={0}
+        onReviewPage
+      />,
+    );
+
+    // Verify update button renders in review mode
+    expect(getByText('Update page')).to.exist;
+    expect(queryByText('Continue')).to.not.exist;
+
+    // Test update button click
+    fireEvent.click(getByText('Update page'));
+    expect(updatePageSpy.calledOnce).to.be.true;
   });
 });

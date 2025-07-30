@@ -11,8 +11,8 @@ const ReferralList = ({ referrals, referralsError }) => {
         status="error"
         headline="We’re sorry. We’ve run into a problem"
       >
-        We’re sorry. We can’t retrieve your community care referrals at this
-        time. Please try again later.
+        We’re having trouble getting your community care referrals. Please try
+        again later.
       </InfoAlert>
     );
   }
@@ -34,7 +34,7 @@ const ReferralList = ({ referrals, referralsError }) => {
   }
   return (
     <ul
-      className="vads-u-padding-left--0 vads-u-margin-top--0"
+      className="usa-unstyled-list vaos-appts__list"
       data-testid="referral-list"
     >
       {referrals.map((referral, index) => {

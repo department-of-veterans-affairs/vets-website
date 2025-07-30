@@ -71,7 +71,7 @@ export const fetchFacilities = async ({
 
     return {
       type: 'SEARCH_FAILED',
-      errorMessage: 'There was an error fetching the health care facilities.',
+      errorMessage: content['error--facilities--generic'],
     };
   }
 };

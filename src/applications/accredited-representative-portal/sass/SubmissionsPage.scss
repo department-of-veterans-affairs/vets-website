@@ -1,0 +1,128 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+.submissions {
+  -webkit-font-smoothing: antialiased;
+  hr {
+    margin: 32px 0;
+  }
+  &__search-header {
+    margin: 24px 0 0;
+  }
+
+  [visible="false"] {
+    ~ h1 {
+      margin: 0;
+    }
+  }
+  &__form-name {
+    font-weight: bold;
+    margin: 0;
+  }
+  &__form-description {
+    margin: 8px 0;
+    font-weight: bold;
+  }
+  &-subtext__copy {
+    font-size: 20px;
+    margin: 0 0 32px;
+    line-height: 34px;
+
+    &--secondary {
+      margin: 0;
+      font-size: 20px;
+      line-height: 34px;
+    }
+  }
+  &__subtext {
+    margin: 8px 0;
+  }
+  &__list {
+    li {
+      margin-bottom: 16px;
+      max-width: 627px;
+      width: 100%;
+    }
+  }
+  &__card-name {
+    margin-top: 0px;
+  }
+  &__inline-status-icon {
+    margin-left: 4px;
+
+    &.submissions__card-check {
+      color: var(--vads-color-success-dark);
+      margin-right: 4px;
+    }
+
+    &.submissions__card-error {
+      color: var(--vads-color-warning-dark);
+    }
+  }
+  &__list {
+    list-style-type: none;
+    padding-left: 0px;
+  }
+  &__awaiting {
+    display: flex;
+    padding: 0 !important;
+
+    .submissions__inline-status-icon.submissions__card-check {
+      color: $vads-color-base;
+    }
+  }
+}
+.submission {
+  &__card {
+    &-date {
+      font-size: 17px;
+      line-height: 25.4px;
+    }
+    &-date,
+    &-name {
+      margin: 0 0 4px;
+    }
+
+    &-form-name {
+      margin: 0 0 12px;
+    }
+    &-status {
+      margin: 0;
+      font-size: 17px;
+      line-height: 25.4px;
+      &--row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 4px;
+        flex-direction: column;
+        align-items: baseline;
+
+        &.awaiting_receipt,
+        &.received {
+          flex-wrap: nowrap;
+          flex-direction: row;
+          align-items: center;
+        }
+
+        &:has(.submission__awaiting) {
+          flex-direction: row;
+          align-items: center;
+        }
+
+        @media (min-width: $small-screen) {
+          flex-direction: row;
+          align-items: center;
+        }
+
+        > span:last-child {
+          margin-top: 4px;
+          padding-left: 32px;
+          @media (min-width: $small-screen) {
+            padding-left: 0;
+          }
+        }
+      }
+    }
+    &-attribute-text {
+      font-weight: bold;
+    }
+  }
+}

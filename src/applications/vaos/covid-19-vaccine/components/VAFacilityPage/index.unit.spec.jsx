@@ -9,23 +9,24 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import VAFacilityPage from '.';
+import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
-  createMockClinic,
-  createMockFacility,
-} from '../../../tests/mocks/data';
-import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
-import {
+  mockClinicsApi,
   mockEligibilityFetches,
   mockFacilitiesApi,
   mockGetCurrentPosition,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
 } from '../../../tests/mocks/mockApis';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import { TYPE_OF_CARE_ID } from '../../utils';
 
 const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
 
@@ -35,17 +36,14 @@ const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
 // );
 
 const facilities = facilityIds.map((id, index) =>
-  createMockFacility({
-    id: id.replace('vha_', ''),
+  new MockFacilityResponse({
+    id,
     name: `Fake facility name ${index + 1}`,
-    lat: Math.random() * 90,
-    long: Math.random() * 180,
-    address: {
-      line: [`Fake street ${index + 1}`],
-      city: `Fake city ${index + 1}`,
-      state: `Fake state ${index + 1}`,
-      postalCode: `Fake zip ${index + 1}`,
-    },
+  }).setAddress({
+    line: [`Fake street ${index + 1}`],
+    city: `Fake city ${index + 1}`,
+    state: `Fake state ${index + 1}`,
+    postalCode: `Fake zip ${index + 1}`,
   }),
 );
 
@@ -74,15 +72,20 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     beforeEach(() => mockFetch());
 
     it('should display list of facilities with show more button', async () => {
-      const configs = facilities.map(facility =>
-        getSchedulingConfigurationMock({
-          id: facility.id,
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: true,
-        }),
+      const response = facilities.map(
+        facility =>
+          new MockSchedulingConfigurationResponse({
+            facilityId: facility.id,
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: true,
+              }),
+            ],
+          }),
       );
 
-      mockSchedulingConfigurations(configs);
+      mockSchedulingConfigurationsApi({ response });
       mockFacilitiesApi({
         children: true,
         ids: facilityIds,
@@ -151,15 +154,20 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     });
 
     it('should sort by distance from current location if user clicks "use current location"', async () => {
-      const configs = facilities.map(facility =>
-        getSchedulingConfigurationMock({
-          id: facility.id,
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: true,
-        }),
+      const response = facilities.map(
+        facility =>
+          new MockSchedulingConfigurationResponse({
+            facilityId: facility.id,
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: true,
+              }),
+            ],
+          }),
       );
 
-      mockSchedulingConfigurations(configs);
+      mockSchedulingConfigurationsApi({ response });
       mockFacilitiesApi({
         children: true,
         ids: facilityIds,
@@ -242,21 +250,26 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
 
       mockEligibilityFetches({
         facilityId: '983',
-        typeOfCareId: TYPE_OF_CARE_ID,
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       });
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
         response: facilities,
       });
-      const configs = facilityIds.map(id =>
-        getSchedulingConfigurationMock({
-          id,
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: true,
-        }),
+      const response = facilityIds.map(
+        id =>
+          new MockSchedulingConfigurationResponse({
+            facilityId: id,
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: true,
+              }),
+            ],
+          }),
       );
-      mockSchedulingConfigurations(configs);
+      mockSchedulingConfigurationsApi({ response });
     });
 
     it('should show residential address and sort by distance if we have coordinates', async () => {
@@ -335,15 +348,20 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
           },
         },
       };
-      const configs = facilities.slice(0, 5).map(facility =>
-        getSchedulingConfigurationMock({
-          id: facility.id,
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: true,
-        }),
+      const response = facilities.slice(0, 5).map(
+        facility =>
+          new MockSchedulingConfigurationResponse({
+            facilityId: facility.id,
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: true,
+              }),
+            ],
+          }),
       );
 
-      mockSchedulingConfigurations(configs);
+      mockSchedulingConfigurationsApi({ response });
       mockFacilitiesApi({
         children: true,
         ids: facilityIds.slice(0, 5),
@@ -434,11 +452,11 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       },
     };
 
-    const facility983 = createMockFacility({
+    const facility983 = new MockFacilityResponse({
       id: '983',
       name: 'Facility 983',
     });
-    const facility984 = createMockFacility({
+    const facility984 = new MockFacilityResponse({
       id: '984',
       name: 'Facility 984',
     });
@@ -446,18 +464,28 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     beforeEach(() => {
       mockFetch();
 
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: true,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: true,
+              }),
+            ],
+          }),
+        ],
+      });
     });
 
     it('should display error messaging if user denied location permissions', async () => {
@@ -528,18 +556,28 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
         children: true,
         response: [facility983, facility984],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: false,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: false,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: false,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: false,
+              }),
+            ],
+          }),
+        ],
+      });
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -555,6 +593,11 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     it('should display an error message when eligibility calls fail', async () => {
       const store = createTestStore(initialState);
 
+      mockClinicsApi({
+        locationId: '983',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+        responseCode: 404,
+      });
       mockFacilitiesApi({
         children: true,
         response: [facility983, facility984],
@@ -573,6 +616,12 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     it('should display an error message when facilities call fails', async () => {
       const store = createTestStore(initialState);
 
+      mockFacilitiesApi({
+        children: true,
+        response: [facility983, facility984],
+        responseCode: 500,
+      });
+
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
@@ -586,28 +635,34 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
         children: true,
         response: [facility983, facility984],
       });
-      const clinic = createMockClinic({
-        id: '1',
-        stationId: '983',
-        name: '',
-      });
+      const clinic = new MockClinicResponse({ id: '1' });
       mockEligibilityFetches({
         facilityId: '983',
-        typeOfCareId: TYPE_OF_CARE_ID,
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         clinics: [clinic, clinic],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: false,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: false,
+              }),
+            ],
+          }),
+        ],
+      });
 
       const store = createTestStore(initialState);
 
@@ -625,9 +680,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
 
       fireEvent.click(await screen.findByText(/Continue/));
       await waitFor(() =>
-        expect(screen.history.push.firstCall.args[0]).to.equal(
-          '/new-covid-19-vaccine-appointment/choose-clinic',
-        ),
+        expect(screen.history.push.firstCall.args[0]).to.equal('clinic'),
       );
     });
 
@@ -638,21 +691,31 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       });
       mockEligibilityFetches({
         facilityId: '983',
-        typeOfCareId: TYPE_OF_CARE_ID,
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         clinics: [],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: false,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: false,
+              }),
+            ],
+          }),
+        ],
+      });
 
       const store = createTestStore(initialState);
 
@@ -680,18 +743,33 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
         children: true,
         response: [facility983, facility984],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: false,
-        }),
-      ]);
+      mockClinicsApi({
+        locationId: '983',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+        responseCode: 500,
+      });
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: false,
+              }),
+            ],
+          }),
+        ],
+      });
 
       const store = createTestStore(initialState);
 
@@ -707,23 +785,40 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
         children: true,
         response: [facility983, facility984],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          directEnabled: true,
-        }),
-      ]);
+      mockClinicsApi({
+        locationId: '983',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+        responseCode: 500,
+      });
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                directEnabled: true,
+              }),
+            ],
+          }),
+        ],
+      });
 
       setFetchJSONFailure(
         global.fetch.withArgs(
           `${environment.API_URL}
-        /vaos/v2/locations/983/clinics?clinical_service=covid`,
+        /vaos/v2/locations/983/clinics?clinical_service=${
+          TYPE_OF_CARE_IDS.COVID_VACCINE_ID
+        }`,
         ),
         {
           errors: [],

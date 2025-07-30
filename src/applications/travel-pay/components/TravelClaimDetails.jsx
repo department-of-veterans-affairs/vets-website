@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { scrollTo } from 'platform/utilities/ui/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
-import { Element } from 'platform/utilities/scroll';
+import { Element, scrollTo } from 'platform/utilities/scroll';
 
 import { HelpTextManage } from './HelpText';
 import Breadcrumbs from './Breadcrumbs';
 import ClaimDetailsContent from './ClaimDetailsContent';
 import { getClaimDetails } from '../redux/actions';
 import { REIMBURSEMENT_URL } from '../constants';
+import DowntimeWindowAlert from '../containers/DownTimeWindowAlert';
 
 export default function TravelClaimDetails() {
   const { id } = useParams();
@@ -79,6 +79,8 @@ export default function TravelClaimDetails() {
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <Breadcrumbs />
         {error && <h1>There was an error loading the claim details.</h1>}
+        <DowntimeWindowAlert appTitle="Travel Pay" />
+
         {data[id] && <ClaimDetailsContent {...data[id]} />}
         <hr />
 

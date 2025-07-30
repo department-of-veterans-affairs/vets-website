@@ -16,14 +16,7 @@ import RequestedAppointmentsPage from '../pages/RequestedAppointmentsPage/Reques
 describe('VAOS Backend Service Alert', () => {
   const now = startOfDay(new Date());
   const yesterday = subDays(now, 1);
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingVAOSServiceCCAppointments: true,
-      vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      // eslint-disable-next-line camelcase
-      show_new_schedule_view_appointments_page: true,
-    },
-  };
+  const initialState = {};
 
   beforeEach(() => {
     mockFetch();
@@ -45,7 +38,7 @@ describe('VAOS Backend Service Alert', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120),
-      end: now,
+      end: addDays(now, 1),
       response: [appointment],
       statuses: ['proposed', 'cancelled'],
     });
@@ -109,41 +102,7 @@ describe('VAOS Backend Service Alert', () => {
       .exist;
   });
 
-  it('should display BackendAppointmentServiceAlert if there is a failure returned on the past appointments list, useFeSourceOfTruthVA=false', async () => {
-    // Arrange
-    const start = subMonths(now, 3);
-    const end = addMinutes(now.setMinutes(0), 30);
-    const appointment = new MockAppointmentResponse({
-      localStartTime: yesterday,
-      status: APPOINTMENT_STATUS.booked,
-    }).setLocation(new MockFacilityResponse());
-
-    mockAppointmentsApi({
-      backendServiceFailures: true,
-      end,
-      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
-      response: [appointment],
-      start,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-    });
-
-    // Act
-    const screen = renderWithStoreAndRouter(<PastAppointmentsPage />, {
-      initialState,
-    });
-
-    // Assert
-    await waitFor(() => {
-      expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    });
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('backend-appointment-service-alert')).to
-        .exist;
-    });
-  });
-
-  it('should not display BackendAppointmentServiceAlert if there is no failure returned on the past appointments list, useFeSourceOfTruthVA=true', async () => {
+  it('should not display BackendAppointmentServiceAlert if there is no failure returned on the past appointments list', async () => {
     // Arrange
     const start = subMonths(now, 3);
     const end = addMinutes(now.setMinutes(0), 30);
@@ -214,6 +173,7 @@ describe('VAOS Backend Service Alert', () => {
     const appointment = new MockAppointmentResponse({
       localStartTime: yesterday,
       status: APPOINTMENT_STATUS.proposed,
+      pending: true,
     }).setLocation(new MockFacilityResponse());
 
     mockAppointmentsApi({
@@ -225,15 +185,10 @@ describe('VAOS Backend Service Alert', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: {
-        ...initialState,
-        featureToggles: {
-          ...initialState.featureToggles,
-          vaOnlineSchedulingVAOSServiceRequests: true,
-        },
-      },
-    });
+    const screen = renderWithStoreAndRouter(
+      <RequestedAppointmentsPage />,
+      initialState,
+    );
 
     // Assert
     await waitFor(() => {
@@ -251,6 +206,7 @@ describe('VAOS Backend Service Alert', () => {
     const appointment = new MockAppointmentResponse({
       localStartTime: yesterday,
       status: APPOINTMENT_STATUS.proposed,
+      pending: true,
     }).setLocation(new MockFacilityResponse());
 
     mockAppointmentsApi({
@@ -262,15 +218,10 @@ describe('VAOS Backend Service Alert', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: {
-        ...initialState,
-        featureToggles: {
-          ...initialState.featureToggles,
-          vaOnlineSchedulingVAOSServiceRequests: true,
-        },
-      },
-    });
+    const screen = renderWithStoreAndRouter(
+      <RequestedAppointmentsPage />,
+      initialState,
+    );
 
     // Assert
     await waitFor(() => {

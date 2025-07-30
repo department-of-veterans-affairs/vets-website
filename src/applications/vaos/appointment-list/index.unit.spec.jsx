@@ -184,32 +184,6 @@ describe('VAOS Page: Appointment list routes', () => {
     });
   });
 
-  describe('When route is /va/:id', () => {
-    const initialState = {};
-
-    beforeEach(() => {
-      ConfirmedAppointmentDetailsPageStub.resetHistory();
-    });
-
-    it('should render page', async () => {
-      // Arrange
-      const path = '/va/1';
-
-      // Act
-      const screen = renderWithStoreAndRouter(<AppointmentList />, {
-        initialState,
-        path,
-      });
-      await screen.findByText('Mock Page');
-
-      // Assert
-      expect(
-        ConfirmedAppointmentDetailsPageStub.firstCall?.args[0].location
-          .pathname,
-      ).to.equal(path);
-    });
-  });
-
   describe('When route is /unknown/path', () => {
     const initialState = {};
 

@@ -3,24 +3,21 @@ import { within } from '@testing-library/dom';
 import { expect } from 'chai';
 import {
   addMinutes,
-  endOfMonth,
   format,
   startOfDay,
-  startOfMonth,
   subDays,
   subMonths,
   subYears,
 } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import MockDate from 'mockdate';
-import moment from 'moment';
 import React from 'react';
-import PastAppointmentsList, { getPastAppointmentDateRangeOptions } from '.';
+import PastAppointmentsList from '.';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
-import { createMockAppointment } from '../../../tests/mocks/data';
-import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import {
+  mockAppointmentsApi,
   mockFacilitiesApi,
-  mockVAOSAppointmentsFetch,
 } from '../../../tests/mocks/mockApis';
 import {
   getTestDate,
@@ -31,14 +28,11 @@ import { APPOINTMENT_STATUS } from '../../../utils/constants';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingPast: true,
-    vaOnlineSchedulingVAOSServiceVAAppointments: true,
-    vaOnlineSchedulingVAOSServiceCCAppointments: true,
   },
 };
 const now = startOfDay(new Date(), 'day');
-const start = format(subMonths(now, 3), 'yyyy-MM-dd');
-const end = format(addMinutes(new Date(now).setMinutes(0), 30), 'yyyy-MM-dd');
+const start = subMonths(now, 3);
+const end = addMinutes(new Date(now).setMinutes(0), 30);
 
 describe('VAOS Page: PastAppointmentsList api', () => {
   beforeEach(() => {
@@ -52,45 +46,70 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   });
 
   it('should show select date range dropdown', async () => {
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const { findByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
-    expect(await findByText(/Past 3 months/i)).to.exist;
+    await screen.findByText(/We didn’t find any results in this date range/i);
+
+    expect(
+      await screen.container.querySelector('va-select[name="date-dropdown"]'),
+    ).to.exist;
+  });
+
+  it('should not show date range dropdown when loading indicator is present', async () => {
+    mockAppointmentsApi({
+      start,
+      end,
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
+      initialState: {
+        ...initialState,
+        appointments: {
+          pastStatus: 'loading',
+        },
+      },
+    });
+
+    expect(screen.container.querySelector('va-loading-indicator')).to.exist;
+
+    expect(screen.container.querySelector('va-select[name="date-dropdown"]'))
+      .not.to.exist;
   });
 
   it('should update range on dropdown change', async () => {
     // Arrange
-    const pastDate = subMonths(new Date(), 3);
-    const endDate = addMinutes(new Date(now).setMinutes(0), 30);
+    const pastDate = subMonths(new Date(), 4);
     const response = new MockAppointmentResponse({
       localStartTime: pastDate,
-      serviceType: null,
-    });
+    }).setTypeOfCare(null);
 
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(subMonths(startOfMonth(now), 5), 'yyyy-MM-dd'),
-      end: format(endOfMonth(subMonths(endDate, 3)), 'yyyy-MM-dd'),
-      requests: [response],
+    mockAppointmentsApi({
+      start: subMonths(now, 6),
+      end: now,
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [response],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
     // Act
@@ -98,7 +117,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       initialState,
     });
 
-    await screen.findByText(/You don’t have any past appointments/i);
+    await screen.findByText(/We didn’t find any results in this date range/i);
 
     const dropdown = await screen.findByTestId('vaosSelect');
     dropdown.__events.vaSelect({
@@ -113,20 +132,19 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   it('should show information without facility name', async () => {
     // Arrange
     const pastDate = subDays(new Date(), 3);
-    const appointment = new MockAppointmentResponse({
+    const response = new MockAppointmentResponse({
       past: true,
       localStartTime: pastDate,
-      serviceType: null,
-      status: APPOINTMENT_STATUS.booked,
-    }).setLocationId('983GC');
+    })
+      .setLocationId('983GC')
+      .setTypeOfCare(null);
 
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [appointment],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [response],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
     // Act
@@ -136,13 +154,27 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     // Assert
     await screen.findAllByLabelText(
-      new RegExp(format(pastDate, 'EEEE, MMMM d'), 'i'),
+      new RegExp(
+        formatInTimeZone(
+          response.attributes.start,
+          'America/Denver',
+          'EEEE, MMMM d',
+        ),
+        'i',
+      ),
     );
 
     const firstCard = screen.getAllByRole('listitem')[0];
 
     const timeHeader = within(firstCard).getAllByText(
-      new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
+      new RegExp(
+        `^${formatInTimeZone(
+          response.attributes.start,
+          'America/Denver',
+          'h:mm',
+        )}`,
+        'i',
+      ),
     )[0];
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -152,69 +184,19 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     expect(timeHeader).to.contain.text('MT');
   });
 
-  it('should show information with facility name, useFeSourceOfTruthVA=false', async () => {
+  it('should show information with facility name', async () => {
     // Arrange
     const pastDate = subDays(new Date(), 3);
-    const data = {
-      id: '1234',
-      currentStatus: 'CHECKED OUT',
-      kind: 'clinic',
-      clinic: 'fake',
-      localStartTime: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
-      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
-      locationId: '983GC',
-      status: 'fulfilled',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          vastParent: '983',
-          type: 'va_facilities',
-          name: 'Cheyenne VA Medical Center',
-          classification: 'VA Medical Center (VAMC)',
-          timezone: {
-            timeZoneId: 'America/Denver',
-          },
-          lat: 39.744507,
-          long: -104.830956,
-          website: 'https://www.denver.va.gov/locations/directions.asp',
-          phone: {
-            main: '307-778-7550',
-            fax: '307-778-7381',
-            pharmacy: '866-420-6337',
-            afterHours: '307-778-7550',
-            patientAdvocate: '307-778-7550 x7517',
-            mentalHealthClinic: '307-778-7349',
-            enrollmentCoordinator: '307-778-7550 x7579',
-          },
-          physicalAddress: {
-            type: 'physical',
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-          mobile: false,
-          healthService: [],
-          operatingStatus: {
-            code: 'NORMAL',
-          },
-        },
-      },
-    };
-    const appointment = createMockAppointment({
-      ...data,
-    });
+    const response = new MockAppointmentResponse({
+      localStartTime: pastDate,
+    }).setLocation(new MockFacilityResponse());
 
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [appointment],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [response],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
     // Act
@@ -224,106 +206,28 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     // Assert
     await screen.findAllByLabelText(
-      new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
-    );
-
-    const firstCard = screen.getAllByRole('listitem')[0];
-
-    expect(
-      within(firstCard).getByText(
-        new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
+      new RegExp(
+        formatInTimeZone(
+          response.attributes.start,
+          'America/Denver',
+          'eeee, MMMM d',
+        ),
+        'i',
       ),
-    ).to.exist;
-    // TODO: Skipping until api call is made to get facility data on page load.
-    // Currently, facility data is only retrieved when viewing appointment details
-    // await waitFor(() => {
-    //   expect(within(firstCard).getByText(/Cheyenne VA Medical Center/i)).to
-    //     .exist;
-    // });
-    // expect(screen.baseElement).not.to.contain.text('VA appointment');
-  });
-
-  it('should show information with facility name, useFeSourceOfTruthVA=true', async () => {
-    // Arrange
-    const pastDate = subDays(new Date(), 3);
-    const data = {
-      id: '1234',
-      currentStatus: 'CHECKED OUT',
-      kind: 'clinic',
-      type: 'VA',
-      clinic: 'fake',
-      localStartTime: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
-      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
-      locationId: '983GC',
-      status: 'fulfilled',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          vastParent: '983',
-          type: 'va_facilities',
-          name: 'Cheyenne VA Medical Center',
-          classification: 'VA Medical Center (VAMC)',
-          timezone: {
-            timeZoneId: 'America/Denver',
-          },
-          lat: 39.744507,
-          long: -104.830956,
-          website: 'https://www.denver.va.gov/locations/directions.asp',
-          phone: {
-            main: '307-778-7550',
-            fax: '307-778-7381',
-            pharmacy: '866-420-6337',
-            afterHours: '307-778-7550',
-            patientAdvocate: '307-778-7550 x7517',
-            mentalHealthClinic: '307-778-7349',
-            enrollmentCoordinator: '307-778-7550 x7579',
-          },
-          physicalAddress: {
-            type: 'physical',
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-          mobile: false,
-          healthService: [],
-          operatingStatus: {
-            code: 'NORMAL',
-          },
-        },
-      },
-    };
-    const appointment = createMockAppointment({
-      ...data,
-    });
-
-    mockVAOSAppointmentsFetch({
-      start,
-      end,
-      requests: [appointment],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
-    });
-
-    // Act
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
-
-    // Assert
-    await screen.findAllByLabelText(
-      new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
     );
 
     const firstCard = screen.getAllByRole('listitem')[0];
 
     expect(
       within(firstCard).getByText(
-        new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
+        new RegExp(
+          `^${formatInTimeZone(
+            response.attributes.start,
+            'America/Denver',
+            'h:mm',
+          )}`,
+          'i',
+        ),
       ),
     ).to.exist;
     // TODO: Skipping until api call is made to get facility data on page load.
@@ -338,26 +242,13 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   it('should not display when over 2 years away', () => {
     // Arrange
     const pastDate = subYears(new Date(), 2);
-    const data = {
-      id: '1234',
-      currentStatus: 'FUTURE',
-      kind: 'clinic',
-      clinic: 'fake',
-      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
-      locationId: '983GC',
-      status: 'booked',
-    };
-    const appointment = createMockAppointment({
-      ...data,
-    });
 
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [appointment],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [new MockAppointmentResponse({ localStartTime: pastDate })],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
     // Act
@@ -366,43 +257,24 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     // Assert
-    return expect(screen.findByText(/You don’t have any past appointments/i)).to
+    return expect(screen.findByText(/We didn’t find any results/i)).to
       .eventually.be.ok;
   });
 
   it('should show expected video information', async () => {
     // Arrange
     const pastDate = subDays(new Date(), 3);
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1';
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: null,
-      facilityId: '983',
-      kind: 'telehealth',
-      type: 'VA',
-      locationId: '983',
-      localStartTime: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
-      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
-      status: 'booked',
-      extention: {
-        patientHasMobileGfe: false,
-      },
-      telehealth: {
-        atlas: null,
-        url:
-          'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#',
-        vvsKind: 'ADHOC',
-      },
-    };
-
-    mockVAOSAppointmentsFetch({
+    const responses = MockAppointmentResponse.createGfeResponses({
+      localStartTime: pastDate,
+      past: true,
+    });
+    responses[0].setLocation(new MockFacilityResponse());
+    mockAppointmentsApi({
       start,
       end,
-      requests: [appointment],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: responses,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
     // Act
@@ -412,7 +284,14 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     // Assert
     await screen.findAllByLabelText(
-      new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
+      new RegExp(
+        formatInTimeZone(
+          responses[0].attributes.start,
+          'America/Denver',
+          'eeee, MMMM d',
+        ),
+        'i',
+      ),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -422,61 +301,48 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     expect(
       within(firstCard).getAllByLabelText(
-        new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
+        new RegExp(
+          formatInTimeZone(
+            responses[0].attributes.start,
+            'America/Denver',
+            'eeee, MMMM d',
+          ),
+          'i',
+        ),
       ),
     ).to.exist;
-
     expect(
       within(firstCard).getByText(
-        new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
+        new RegExp(
+          `^${formatInTimeZone(
+            responses[0].attributes.start,
+            'America/Denver',
+            'h:mm',
+          )}`,
+          'i',
+        ),
       ),
     ).to.exist;
 
     expect(within(firstCard).getByText(/MT/i)).to.exist;
-    expect(within(firstCard).getAllByLabelText(/Video appointment/i)).to.exist;
+    expect(within(firstCard).getByText(/Video/i)).to.exist;
   });
 
   it('should display past appointments using V2 api call', async () => {
     // Arrange
     const yesterday = subDays(new Date(), 1);
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'clinic',
-      type: 'VA',
-      modality: 'vaInPerson',
-      minutesDuration: 30,
-      status: 'booked',
-      localStartTime: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
-      start: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss"),
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-    };
-    mockVAOSAppointmentsFetch({
+    const facility = new MockFacilityResponse();
+    const response = new MockAppointmentResponse({
+      localStartTime: yesterday,
+    });
+    response.setLocation(facility);
+
+    mockAppointmentsApi({
       start,
       end,
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-      avs: true,
-      fetchClaimStatus: true,
+      response: [response],
     });
 
     // Act
@@ -486,7 +352,14 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     // Assert
     await screen.findAllByLabelText(
-      new RegExp(format(yesterday, 'eeee, MMMM d'), 'i'),
+      new RegExp(
+        formatInTimeZone(
+          response.attributes.start,
+          'America/Denver',
+          'eeee, MMMM d',
+        ),
+        'i',
+      ),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -495,108 +368,45 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     expect(screen.baseElement).to.contain.text('Details');
   });
 
-  it('should display past cancel appt, vaOnlineSchedulingDisplayPastCancelledAppointments = true', async () => {
+  it('should display past cancel appt', async () => {
     // Arrange
     const yesterday = subDays(new Date(), 1);
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'clinic',
-      type: 'VA',
-      modality: 'vaInPerson',
-      minutesDuration: 30,
-      status: 'cancelled',
-      localStartTime: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
-      start: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss"),
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-    };
-    mockVAOSAppointmentsFetch({
+    const facility = new MockFacilityResponse();
+    const response = new MockAppointmentResponse({
+      localStartTime: yesterday,
+      past: true,
+      status: APPOINTMENT_STATUS.cancelled,
+    });
+    response.setLocation(facility);
+
+    mockAppointmentsApi({
       start,
       end,
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-      avs: true,
-      fetchClaimStatus: true,
+      response: [response],
     });
-
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingDisplayPastCancelledAppointments: true,
-      },
-    };
 
     // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState: myInitialState,
+      initialState,
     });
 
     // Assert
     await screen.findAllByLabelText(
-      new RegExp(format(yesterday, 'eeee, MMMM d'), 'i'),
+      new RegExp(
+        formatInTimeZone(
+          response.attributes.start,
+          'America/Denver',
+          'eeee, MMMM d',
+        ),
+        'i',
+      ),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
 
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('Details');
-  });
-
-  describe('getPastAppointmentDateRangeOptions', () => {
-    const ranges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
-
-    it('should return 6 correct date ranges for dropdown', () => {
-      expect(ranges.length).to.equal(6);
-
-      expect(ranges[0].value).to.equal(0);
-      expect(ranges[0].label).to.equal('Past 3 months');
-      expect(ranges[0].startDate).to.include('2019-11-02');
-      expect(ranges[0].endDate).to.include('2020-02-02');
-
-      expect(ranges[1].value).to.equal(1);
-      expect(ranges[1].label).to.equal('Sept. 2019 – Nov. 2019');
-      expect(ranges[1].startDate).to.include('2019-09-01');
-      expect(ranges[1].endDate).to.include('2019-11-30');
-
-      expect(ranges[2].value).to.equal(2);
-      expect(ranges[2].label).to.equal('June 2019 – Aug. 2019');
-      expect(ranges[2].startDate).to.include('2019-06-01');
-      expect(ranges[2].endDate).to.include('2019-08-31');
-
-      expect(ranges[3].value).to.equal(3);
-      expect(ranges[3].label).to.equal('March 2019 – May 2019');
-      expect(ranges[3].startDate).to.include('2019-03-01');
-      expect(ranges[3].endDate).to.include('2019-05-31');
-
-      expect(ranges[4].value).to.equal(4);
-      expect(ranges[4].label).to.equal('All of 2020');
-      expect(ranges[4].startDate).to.include('2020-01-01');
-      expect(ranges[4].endDate).to.include('2020-02-02');
-
-      expect(ranges[5].value).to.equal(5);
-      expect(ranges[5].label).to.equal('All of 2019');
-      expect(ranges[5].startDate).to.include('2019-01-01');
-      expect(ranges[5].endDate).to.include('2019-12-31');
-    });
   });
 });

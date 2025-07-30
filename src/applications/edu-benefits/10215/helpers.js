@@ -1,4 +1,5 @@
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 
 export const isCurrentOrPastDate = date => {
   const dateObj = new Date(date);
@@ -65,7 +66,7 @@ export const isWithinThirtyDaysLogic = (termStartDate, dateOfCalculations) => {
 export const getFTECalcs = program => {
   const supported = Number(program?.fte?.supported) || 0;
   const nonSupported = Number(program?.fte?.nonSupported) || 0;
-  const total = supported + nonSupported;
+  const total = parseFloat((supported + nonSupported).toFixed(2));
   const supportedFTEPercent =
     Number.isNaN(total) || supported === 0 || total === 0
       ? null
@@ -78,7 +79,7 @@ export const getFTECalcs = program => {
   };
 };
 
-export const childContent = (downloadLink, goBack) => (
+export const childContent = (pdfUrl, trackingPrefix, goBack) => (
   <div data-testid="download-link">
     <va-alert close-btn-aria-label="Close notification" status="into" visible>
       <h2 slot="headline">Complete all submission steps</h2>
@@ -93,11 +94,30 @@ export const childContent = (downloadLink, goBack) => (
     </h2>
     <va-process-list uswds>
       <va-process-list-item>
-        <div itemProp="itemListElement">
-          <p>{downloadLink}</p>
+        <div
+          itemProp="itemListElement"
+          className="confirmation-save-pdf-download-section screen-only custom-classname"
+        >
+          <h2>Download and save your form</h2>
+          <p>
+            Make sure that your completed form is saved as a PDF on your device.{' '}
+            <span className="vads-u-display--inline-block">
+              <va-link
+                download
+                filetype="PDF"
+                href={pdfUrl}
+                onClick={() =>
+                  recordEvent({
+                    event: `${trackingPrefix}confirmation-pdf-download`,
+                  })
+                }
+                text="Download completed VA Form 22-10215"
+              />
+            </span>
+          </p>
         </div>
       </va-process-list-item>
-      <va-process-list-item header="Upload the form to the Education File Upload Portal">
+      <va-process-list-item header="Upload your PDF to the Education File Upload Portal">
         <div itemProp="itemListElement">
           <p>
             Visit the&nbsp;
@@ -138,9 +158,14 @@ export const childContent = (downloadLink, goBack) => (
       What are my next steps?
     </h2>
     <p>
-      After you submit your 85/15 Rule enrollment ratios, we will review them
+      After you submit your 85/15 rule enrollment ratios, we will review them
       within 7-10 business days. Once we review your submission, we will email
       you with our determinations, and any next steps.
     </p>
   </div>
 );
+export const decimalSchema = {
+  type: 'string',
+  // zero or more digits, optionally “.” plus one or two digits
+  pattern: '^\\d*(?:\\.\\d{1,2})?$',
+};

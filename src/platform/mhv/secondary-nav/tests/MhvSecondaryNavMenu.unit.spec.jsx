@@ -45,7 +45,6 @@ const noneActiveItems = [
  * @param {String} pathname the pathname of the URL
  */
 const setWindowUrl = pathname => {
-  delete window.location;
   window.location = new URL(`https://www.va.gov${pathname}`);
 };
 
@@ -130,7 +129,6 @@ describe('MHV Secondary Navigation Menu Component', () => {
     });
 
     it('when window location pathname is not set', () => {
-      delete window.location;
       expect(getOneLink(medNavItem).className).to.not.include(
         activeClassString,
       );

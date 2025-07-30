@@ -92,7 +92,6 @@
     .usa-input-error,
     .input-row {
       padding-top: 0px;
-      padding-bottom: 5px;
       margin-top: 0px;
     }
   }
@@ -449,7 +448,7 @@
 }
 
 .name-search-cards-padding {
-  @media (min-width: $small-screen +1) {
+  @media (min-width: ($small-screen + 1)) {
     padding-right: 0%;
   }
 }
@@ -472,7 +471,7 @@
 }
 .search-by-name-btn::part(button) {
   border-radius: 0;
-  padding-block: 13.5px;
+  padding-block: 11.5px;
   border-radius: 0 5px 5px 0;
   margin-right: 0;
   @media screen and (max-width: $small-screen) {

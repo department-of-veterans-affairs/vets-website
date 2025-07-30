@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import UserNav from './UserNav';
-import { SIGN_IN_URL } from '../../constants/index';
+import { SIGN_IN_URL } from '../../constants';
 import { selectUserProfile } from '../../selectors/user';
 
 function SignInButton() {
@@ -58,7 +58,7 @@ export const Nav = () => {
               <Toggler.Enabled>
                 <a
                   className="nav__btn desktop"
-                  to="/poa-search"
+                  href="/representative/claimant-search"
                   data-testid="desktop-search-link"
                 >
                   <va-icon
@@ -66,17 +66,32 @@ export const Nav = () => {
                     size={2}
                     className="people-search-icon"
                   />
-                  Search People
+                  Find Claimant
                 </a>
               </Toggler.Enabled>
             </Toggler>
             <a
               className="nav__btn desktop"
-              to="/poa-requests"
+              href="/representative/poa-requests"
               data-testid="desktop-poa-link"
             >
-              Power of Attorney Requests
+              Representation Requests
             </a>
+            <Toggler
+              toggleName={
+                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
+              }
+            >
+              <Toggler.Enabled>
+                <a
+                  className="nav__btn desktop"
+                  href="/representative/submissions"
+                  data-testid="desktop-submissions-link"
+                >
+                  Submissions
+                </a>
+              </Toggler.Enabled>
+            </Toggler>
             <a
               to="/get-help"
               className="nav__btn desktop vads-u-display--none"

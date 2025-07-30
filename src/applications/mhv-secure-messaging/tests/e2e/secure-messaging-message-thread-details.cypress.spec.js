@@ -15,6 +15,7 @@ describe('SM THREAD SINGLE MESSAGE DETAILED VIEW', () => {
 
     PatientMessageDetailsPage.verifyExpandedMessageFrom(threadResponse);
     PatientMessageDetailsPage.verifyExpandedMessageId(threadResponse);
+
     PatientMessageDetailsPage.verifyExpandedMessageDate(threadResponse);
     PatientMessageDetailsPage.verifyMessageAttachment(threadResponse);
 

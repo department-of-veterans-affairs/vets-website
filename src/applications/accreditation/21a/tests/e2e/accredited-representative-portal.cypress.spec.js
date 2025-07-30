@@ -43,6 +43,7 @@ describe('Accredited Representative Portal', () => {
     beforeEach(() => {
       setUpInterceptsAndVisit({
         isAppEnabled: true,
+        isForm21Enabled: true,
       });
     });
 

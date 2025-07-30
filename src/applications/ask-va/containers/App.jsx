@@ -18,6 +18,8 @@ export default function App({ location, children }) {
   // manually set cookie to true to force new VA.gov experience
   const isCanaryEnabledViaCookie =
     cookie.get('askVaCanaryReleaseOverride') === 'true';
+  // manually set cookie to true to force new VA.gov experience
+  const isAppEnabledViaCookie = cookie.get('askVaEnableAppOverride') === 'true';
 
   const toggleName = TOGGLE_NAMES.askVaCanaryRelease;
   const toggleOldPortalAlert = TOGGLE_NAMES.askVaAlertLinkToOldPortal;
@@ -25,7 +27,7 @@ export default function App({ location, children }) {
   const isOldPortalAlertEnabled = useToggleValue(toggleOldPortalAlert);
   const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
   const showAlertAndHideForm =
-    !isLoadingFeatureFlags && isOldPortalAlertEnabled;
+    !isLoadingFeatureFlags && isOldPortalAlertEnabled && !isAppEnabledViaCookie;
   const performRedirect =
     !isLoadingFeatureFlags && !(isCanaryEnabled || isCanaryEnabledViaCookie);
 

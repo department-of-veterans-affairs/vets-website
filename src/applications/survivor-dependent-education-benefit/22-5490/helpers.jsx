@@ -97,7 +97,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const stateUser = state.user;
   const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
   const profile = stateUser?.profile;
-  const sponsors = state.data?.formData?.attributes?.sponsors;
+
+  const sponsors = state.data?.formData?.attributes?.toeSponsors;
+  const serviceData = state.data?.formData?.attributes?.serviceData;
+
   let firstName;
   let middleName;
   let lastName;
@@ -148,9 +151,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const newData = {
     ...formData,
     sponsors,
+    serviceData,
     formId: state.data?.formData?.data?.id,
     claimantId: claimant.claimantId,
-    relationShipToMember: formData?.relationShipToMember,
+    relationshipToMember: formData?.relationshipToMember,
     claimantFullName: {
       first: firstName,
       middle: middleName,
@@ -159,6 +163,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     relativeSsn: formData?.relativeSocialSecurityNumber || formData?.ssn,
     highSchoolDiploma: formData?.highSchoolDiploma,
     graduationDate: formData?.graduationDate,
+    claimantDateOfBirth: profile?.dob || claimant?.dateOfBirth,
     marriageStatus: formData?.marriageStatus,
     marriageDate: formData?.marriageDate,
     remarriageStatus: formData?.remarriageStatus,
@@ -181,7 +186,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
         street2: address?.addressLine2 || undefined,
         city: address?.city,
         state: address?.stateCode || address?.province,
-        postalCode: address?.zipcode || address?.internationalPostalCode,
+        postalCode:
+          address?.zipcode ||
+          address?.postalCode ||
+          address?.internationalPostalCode,
         country: getSchemaCountryCode(
           address?.countryCodeIso3 || address?.countryCode,
         ),

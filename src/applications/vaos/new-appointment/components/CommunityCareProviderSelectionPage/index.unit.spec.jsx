@@ -15,14 +15,16 @@ import {
 } from '../../../tests/mocks/setup';
 
 import CommunityCareProviderSelectionPage from '.';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
 import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
-import { createMockFacility } from '../../../tests/mocks/data';
-import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
-  mockCCProviderFetch,
+  mockCCProviderApi,
   mockFacilitiesApi,
   mockGetCurrentPosition,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
 } from '../../../tests/mocks/mockApis';
 import { calculateBoundingBox } from '../../../utils/address';
@@ -50,6 +52,13 @@ const initialState = {
 };
 
 describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
+  const facility = new MockFacilityResponse({
+    id: '983',
+    name: 'Facility that is enabled',
+  })
+    .setLatitude(39.1362562)
+    .setLongitude(-83.1804804);
+
   beforeEach(() => {
     mockFetch();
     mockV2CommunityCareEligibility({
@@ -57,41 +66,35 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       supportedSites: ['983', '983GJ'],
       careType: 'PrimaryCare',
     });
-    mockCCProviderFetch(
-      initialState.user.profile.vapContactInfo.residentialAddress,
-      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
-      calculateBoundingBox(
+    mockCCProviderApi({
+      address: initialState.user.profile.vapContactInfo.residentialAddress,
+      specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      bbox: calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
         60,
       ),
-      CC_PROVIDERS_DATA,
-    );
+      response: CC_PROVIDERS_DATA,
+    });
     mockFacilitiesApi({
       children: true,
       ids: ['983'],
+      response: [facility],
+    });
+    mockSchedulingConfigurationsApi({
+      isCCEnabled: true,
       response: [
-        createMockFacility({
-          id: '983',
-          address: {
-            line: [],
-            city: 'Belgrade',
-          },
-          lat: 39.1362562,
-          long: -83.1804804,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
-    mockSchedulingConfigurations(
-      [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-      ],
-      true,
-    );
   });
   it('should display closest city question when user has multiple supported sites', async () => {
     const store = createTestStore(initialState);
@@ -297,16 +300,16 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     };
 
     mockGetCurrentPosition(facilityPosition);
-    mockCCProviderFetch(
-      facilityPosition,
-      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
-      calculateBoundingBox(
+    mockCCProviderApi({
+      address: facilityPosition,
+      specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      bbox: calculateBoundingBox(
         facilityPosition.latitude,
         facilityPosition.longitude,
         60,
       ),
-      CC_PROVIDERS_DATA,
-    );
+      response: CC_PROVIDERS_DATA,
+    });
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
@@ -359,17 +362,17 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
-    mockCCProviderFetch(
-      initialState.user.profile.vapContactInfo.residentialAddress,
-      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
-      calculateBoundingBox(
+    mockCCProviderApi({
+      address: initialState.user.profile.vapContactInfo.residentialAddress,
+      specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      bbox: calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
         60,
       ),
-      CC_PROVIDERS_DATA,
-      true,
-    );
+      response: CC_PROVIDERS_DATA,
+      responseCode: 500,
+    });
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
       {
@@ -399,16 +402,16 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
-    mockCCProviderFetch(
-      initialState.user.profile.vapContactInfo.residentialAddress,
-      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
-      calculateBoundingBox(
+    mockCCProviderApi({
+      address: initialState.user.profile.vapContactInfo.residentialAddress,
+      specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      bbox: calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
         60,
       ),
-      [],
-    );
+      response: [],
+    });
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
       {
@@ -442,17 +445,16 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     mockGetCurrentPosition({ fail: true });
 
-    mockCCProviderFetch(
-      initialState.user.profile.vapContactInfo.residentialAddress,
-      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
-      calculateBoundingBox(
+    mockCCProviderApi({
+      address: initialState.user.profile.vapContactInfo.residentialAddress,
+      specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      bbox: calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
         60,
       ),
-      CC_PROVIDERS_DATA,
-      // true,
-    );
+      response: CC_PROVIDERS_DATA,
+    });
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
@@ -499,16 +501,16 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
   it('should sort provider addresses by distance from home address in ascending order', async () => {
     const store = createTestStore(initialState);
 
-    mockCCProviderFetch(
-      initialState.user.profile.vapContactInfo.residentialAddress,
-      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
-      calculateBoundingBox(
+    mockCCProviderApi({
+      address: initialState.user.profile.vapContactInfo.residentialAddress,
+      specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      bbox: calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
         60,
       ),
-      CC_PROVIDERS_DATA,
-    );
+      response: CC_PROVIDERS_DATA,
+    });
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
@@ -555,16 +557,16 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     mockGetCurrentPosition(currentPosition);
 
-    mockCCProviderFetch(
-      currentPosition,
-      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
-      calculateBoundingBox(
+    mockCCProviderApi({
+      address: currentPosition,
+      specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      bbox: calculateBoundingBox(
         currentPosition.latitude,
         currentPosition.longitude,
         60,
       ),
-      CC_PROVIDERS_DATA,
-    );
+      response: CC_PROVIDERS_DATA,
+    });
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
@@ -616,16 +618,16 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
   it('should reset provider selected when type of care changes', async () => {
     const store = createTestStore(initialState);
 
-    mockCCProviderFetch(
-      initialState.user.profile.vapContactInfo.residentialAddress,
-      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
-      calculateBoundingBox(
+    mockCCProviderApi({
+      address: initialState.user.profile.vapContactInfo.residentialAddress,
+      specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      bbox: calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
         60,
       ),
-      CC_PROVIDERS_DATA,
-    );
+      response: CC_PROVIDERS_DATA,
+    });
     mockV2CommunityCareEligibility({
       parentSites: ['983', '983GJ', '983GC'],
       supportedSites: ['983', '983GJ'],
@@ -661,16 +663,22 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     // remove the page and change the type of care
     await cleanup();
 
-    mockCCProviderFetch(
-      initialState.user.profile.vapContactInfo.residentialAddress,
-      ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X', '213ES0103X'],
-      calculateBoundingBox(
+    mockCCProviderApi({
+      address: initialState.user.profile.vapContactInfo.residentialAddress,
+      specialties: [
+        '213E00000X',
+        '213EG0000X',
+        '213EP1101X',
+        '213ES0131X',
+        '213ES0103X',
+      ],
+      bbox: calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
         60,
       ),
-      CC_PROVIDERS_DATA,
-    );
+      response: CC_PROVIDERS_DATA,
+    });
     await setTypeOfCare(store, /podiatry/i);
 
     screen = renderWithStoreAndRouter(<CommunityCareProviderSelectionPage />, {
@@ -692,16 +700,16 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     mockGetCurrentPosition({ fail: true });
 
-    mockCCProviderFetch(
-      initialState.user.profile.vapContactInfo.residentialAddress,
-      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
-      calculateBoundingBox(
+    mockCCProviderApi({
+      address: initialState.user.profile.vapContactInfo.residentialAddress,
+      specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      bbox: calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
         60,
       ),
-      CC_PROVIDERS_DATA,
-    );
+      response: CC_PROVIDERS_DATA,
+    });
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
@@ -750,18 +758,18 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     };
 
     mockGetCurrentPosition(currentPosition);
-    mockCCProviderFetch(
-      currentPosition,
-      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
-      calculateBoundingBox(
+    mockCCProviderApi({
+      address: currentPosition,
+      specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      bbox: calculateBoundingBox(
         currentPosition.latitude,
         currentPosition.longitude,
         60,
       ),
       // Only return one provider to distinguish from initial request
       // by residential address
-      CC_PROVIDERS_DATA.slice(0, 1),
-    );
+      response: CC_PROVIDERS_DATA.slice(0, 1),
+    });
 
     userEvent.click(
       screen.getByText(/Retry searching based on current location/i),

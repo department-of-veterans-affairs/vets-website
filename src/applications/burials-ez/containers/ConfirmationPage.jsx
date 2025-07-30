@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
@@ -234,9 +234,11 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         Form 21-4138). Mail this form to the address listed on this page.
       </p>
       <p>
-        <a href="/find-forms/about-form-21-4138/" target="_blank">
-          Get VA Form 21-4138 to download (opens in new tab)
-        </a>
+        <va-link
+          href="/find-forms/about-form-21-4138/"
+          text="Get VA Form 21-4138 to download"
+          external
+        />
       </p>
       <p>
         <strong>
@@ -247,13 +249,10 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
       </p>
       <p>You can authorize the release of their medical records online.</p>
       <p>
-        <a
+        <va-link-action
           href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/"
-          target="_blank"
-          className="vads-c-action-link--green"
-        >
-          Authorize the release of non-VA medical records (opens in new tab)
-        </a>
+          text="Authorize the release of non-VA medical records"
+        />
       </p>
       <p>
         Or, you can fill out both of these forms and mail them to the address
@@ -264,17 +263,21 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
           Authorization to Disclose Information to the Department of Veterans
           Affairs (VA Form 21-4142)
           <br />
-          <a href="/find-forms/about-form-21-4142/" target="_blank">
-            Get VA Form 21-4142 to download (opens in new tab)
-          </a>
+          <va-link
+            href="/find-forms/about-form-21-4142/"
+            text="Get VA Form 21-4142 to download"
+            external
+          />
         </li>
         <li>
           General Release for Medical Provider Information to the Department of
           Veterans Affairs (VA Form 21-4142a)
           <br />
-          <a href="/find-forms/about-form-21-4142a/" target="_blank">
-            Get VA Form 21-4142a to download (opens in new tab)
-          </a>
+          <va-link
+            href="/find-forms/about-form-21-4142a/"
+            text="Get VA Form 21-4142a to download"
+            external
+          />
         </li>
       </ul>
     </>
@@ -361,25 +364,22 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
             <strong>Note:</strong> It may take 7 to 10 days after you apply for
             the status of your claim to show online.
           </p>
-          <a
+          <va-link-action
             href="/claim-or-appeal-status/"
-            rel="noopener noreferrer"
-            target="_blank"
-            className="vads-c-action-link--green vads-u-margin-bottom--4"
-          >
-            Check the status of your claim (opens in new tab)
-          </a>
+            text="Check the status of your claim"
+            class="vads-u-margin-bottom--4"
+          />
           <br />
-          <a className="vads-c-action-link--blue" href="https://www.va.gov/">
-            Go back to VA.gov
-          </a>
+          <va-link-action
+            href="https://www.va.gov/"
+            text="Go back to VA.gov"
+            type="secondary"
+          />
         </>
       )}
       {!isLoggedIn && (
         <>
-          <a className="vads-c-action-link--green" href="https://www.va.gov/">
-            Go back to VA.gov
-          </a>
+          <va-link-action href="https://www.va.gov/" text="Go back to VA.gov" />
         </>
       )}
 

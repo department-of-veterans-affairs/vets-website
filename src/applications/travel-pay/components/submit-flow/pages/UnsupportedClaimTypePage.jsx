@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
+import { HelpTextModalities } from '../../HelpText';
 import {
   recordSmocButtonClick,
   recordSmocPageview,
@@ -35,10 +36,6 @@ const UnsupportedClaimTypePage = ({
     <div>
       <h1 tabIndex="-1">{title}</h1>
       <HelpTextModalities />
-      <h2 className="vads-u-font-size--h4">
-        How can I get help with my claim?
-      </h2>
-      <HelpTextGeneral />
       <br />
       <va-button
         disable-analytics

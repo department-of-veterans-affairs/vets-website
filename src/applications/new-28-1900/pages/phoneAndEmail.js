@@ -13,19 +13,19 @@ import { CONTACT_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 export default {
   uiSchema: {
     ...titleUI(CONTACT_INFORMATION_CHAPTER_CONSTANTS.phoneAndEmailPageTitle),
-    phone: phoneUI('Phone number'),
+    mainPhone: phoneUI('Phone number'),
     cellPhone: phoneUI('Cell phone number'),
     internationalPhone: internationalPhoneUI('International phone number'),
-    emailAddress: emailToSendNotificationsUI('Email address'),
+    email: emailToSendNotificationsUI('Email address'),
   },
   schema: {
     type: 'object',
     properties: {
-      phone: phoneSchema,
+      mainPhone: phoneSchema,
       cellPhone: phoneSchema,
-      internationalPhone: internationalPhoneSchema,
-      emailAddress: emailToSendNotificationsSchema,
+      internationalPhone: internationalPhoneSchema(),
+      email: emailToSendNotificationsSchema,
     },
-    required: ['emailAddress'],
+    required: ['email'],
   },
 };

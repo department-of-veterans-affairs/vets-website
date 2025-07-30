@@ -9,7 +9,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
-import { nameWording } from '../../shared/utilities';
+import { nameWording, privWrapper } from '../../shared/utilities';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { blankSchema } from './sponsorInformation';
 
@@ -19,8 +19,36 @@ function FileFieldWrapped(props) {
   return FileFieldCustom({ ...props, requiredFiles: [] });
 }
 
+const additionalMedicalClaimInfo = () => {
+  return (
+    <va-additional-info
+      trigger="More information about the codes that should be included"
+      class="vads-u-margin-bottom--4"
+    >
+      <ul>
+        <li>
+          <b>DX codes</b>, or diagnosis codes, are used to identify a specific
+          diagnosis. They are typically a letter followed by a series of 3-7
+          numbers, usually including a decimal point (example: A12.345)
+        </li>
+        <li>
+          <b>CPT codes</b> are used to identify a medical service or procedure.
+          They are usually a 5-digit code (example: 12345)
+        </li>
+        <li>
+          <b>HCPCS codes</b> are used to identify products, supplies, and
+          services. They are usually one alphabet letter followed by 4 digits
+          (example: A1234)
+        </li>
+      </ul>
+    </va-additional-info>
+  );
+};
+
 const additionalNotesClaims = formData => {
-  const nameCap = nameWording(formData, false, true, true) || 'You';
+  const nameCap = privWrapper(
+    nameWording(formData, false, true, true) || 'You',
+  );
   const namePosessive =
     formData?.certifierRole === 'applicant' ? 'your' : 'their';
   const name = formData?.certifierRole === 'applicant' ? 'you' : 'they';
@@ -72,6 +100,7 @@ export const claimWorkSchema = {
       updateUiSchema: formData => {
         return {
           'ui:options': {
+            classNames: ['dd-privacy-hidden'],
             hint: `Depending on your answer, we may contact ${nameWording(
               formData,
               true,
@@ -103,6 +132,7 @@ export const claimAutoSchema = {
       updateUiSchema: formData => {
         return {
           'ui:options': {
+            classNames: ['dd-privacy-hidden'],
             hint: `Depending on your answer, we may contact ${nameWording(
               formData,
               true,
@@ -130,37 +160,72 @@ export const medicalClaimUploadSchema = {
   uiSchema: {
     ...titleUI('Upload supporting documents', ({ formData }) => (
       <>
-        You’ll need to submit a copy of an itemized billing statement for this
-        claim.
-        <br />
+        <va-alert status="warning">
+          <p className="vads-u-margin-y--0">
+            You’ll need to submit a copy of an <b>itemized billing statement</b>
+            , often called a superbill, for this claim. Ask{' '}
+            {privWrapper(nameWording(formData, true, false, true))} provider for
+            an itemized bill as the patient copy is often missing critical
+            information required by CHAMPVA to process claims.
+          </p>
+        </va-alert>
         <p>
-          <b>Documentation must include all of this information:</b>
+          <b>
+            The statement must include all of this information to process your
+            claim:
+          </b>
         </p>
         <ul>
           <li>
-            {nameWording(formData, true, true, true)} full name, date of birth,
-            and Social Security Number.
+            <b>{privWrapper(nameWording(formData, true, true, true))}:</b>
+            <ul style={{ listStyleType: 'disc' }}>
+              <li>Full name</li>
+              <li>Date of birth</li>
+            </ul>
           </li>
           <li>
-            {nameWording(formData, true, true, true)} provider’s full name,
-            medical title, office address, billing address, and tax
-            identification number.
+            <b>
+              {privWrapper(nameWording(formData, true, true, true))} provider’s:
+            </b>
+            <ul style={{ listStyleType: 'disc' }}>
+              <li>Full name</li>
+              <li>Medical title</li>
+              <li>Address where services were rendered</li>
+              <li>10-digit National Provider Identifier (NPI)</li>
+              <li>
+                9-digit tax identification number (TIN or Tax ID; example
+                12-1234567)
+              </li>
+            </ul>
           </li>
           <li>
-            A list of diagnosis and procedure codes for the care. This includes
-            DX, CPT, or HCPS codes.
+            <b>A list of charges</b> for{' '}
+            {privWrapper(nameWording(formData, true, false, true))} care
           </li>
           <li>
-            A list of charges for {nameWording(formData, true, false, true)}{' '}
-            care, and the dates when {nameWording(formData, false, false, true)}{' '}
-            got the care.
+            <b>The date of service</b> when{' '}
+            {privWrapper(nameWording(formData, false, false, true))} got the
+            care
+          </li>
+          <li>
+            <b>Diagnosis (DX) codes</b> for the care
+          </li>
+          <li>
+            <b>A list of procedure codes</b> for the care:
+            <ul style={{ listStyleType: 'disc' }}>
+              <li>Current Procedural Terminology (CPT) codes or</li>
+              <li>Healthcare Common Procedure Coding System (HCPCS) codes</li>
+            </ul>
           </li>
         </ul>
+        {additionalMedicalClaimInfo()}
         <p>
           <b>Note:</b>
-          &nbsp; You may need to ask your provider for a statement that has all
-          of the information listed here. The statement must include all of this
-          information in order for us to process this claim.
+          &nbsp; CHAMPVA will not be able to process your claim if your
+          statement does not include all of the listed information. You may need
+          to ask your provider for a statement that has all of the information
+          listed here.
+          {/* <va-link text="Learn more about itemized bills" href="#TODO" /> */}
           <br />
           <br />
           You can also submit any other documents you think may be relevant to
@@ -177,6 +242,7 @@ export const medicalClaimUploadSchema = {
     medicalUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
+      attachmentId: 'medical invoice', // hard-set for LLM verification
     }),
   },
   schema: {
@@ -211,9 +277,11 @@ export const eobUploadSchema = isPrimary => {
       ...titleUI(
         ({ formData }) => {
           // If `isPrimary`, show first health insurance co. name. Else, show 2nd.
-          return `Upload explanation of benefits from ${
-            formData?.policies?.[isPrimary ? 0 : 1]?.name
-          }`;
+          return privWrapper(
+            `Upload explanation of benefits for this claim from ${
+              formData?.policies?.[isPrimary ? 0 : 1]?.name
+            }`,
+          );
         },
         ({ formData }) => {
           const name = nameWording(formData, true, false, true);
@@ -221,8 +289,10 @@ export const eobUploadSchema = isPrimary => {
           return (
             <>
               You’ll need to submit a copy of the explanation of benefits from{' '}
-              {name} insurance provider. This document lists what {yourOrTheir}{' '}
-              other health insurance already paid for {yourOrTheir} care.
+              {privWrapper(name)} insurance provider. This is not the same as
+              the summary of benefits for the health insurance policy. The
+              explanation of benefits lists what {yourOrTheir} other health
+              insurance already paid for this specific claim.
               <br />
               <p>
                 <b>
@@ -231,17 +301,34 @@ export const eobUploadSchema = isPrimary => {
                 </b>
               </p>
               <ul>
-                <li>Date of service that matches the date of care.</li>
-                <li>The health care provider’s name.</li>
-                <li>What the insurance provider paid for and the amount.</li>
-                <li>NPI codes. This is usually a 10-digit number.</li>
-                <li>CPT codes. This is usually a 5-digit code.</li>
+                <li>
+                  <b>Date of service</b> that matches the date of care.
+                </li>
+                <li>
+                  <b>The health care provider’s:</b>
+                  <ul style={{ listStyleType: 'disc' }}>
+                    <li>Name.</li>
+                    <li>
+                      10-digit NPI (National Provider Identifier) code if not
+                      shown on itemized billing statement.
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <b>The services</b> the insurance provider paid for. This may
+                  be a 5-digit CPT (Current Procedural Terminology) or HCPCS
+                  (Healthcare Common Procedure Coding System) code or a
+                  description of the service or medical procedure.
+                </li>
+                <li>
+                  <b>The amount paid</b> by the insurance provider.
+                </li>
               </ul>
               <p>
                 <b>Note:</b>
                 &nbsp; An explanation of benefits is usually sent by mail or
-                email. Contact {name} insurance provider if you have more
-                questions about where to find this document.
+                email. Contact {privWrapper(name)} insurance provider if you
+                have more questions about where to find this document.
                 <br />
                 <br />
                 You can also submit any other documents you think may be
@@ -260,6 +347,7 @@ export const eobUploadSchema = isPrimary => {
       [keyName]: fileUploadUI({
         label: 'Upload explanation of benefits',
         attachmentName: true,
+        attachmentId: 'EOB', // hard-set for LLM verification
       }),
     },
     schema: {
@@ -300,15 +388,39 @@ export const pharmacyClaimUploadSchema = {
           <b>Here’s what the document must include:</b>
         </p>
         <ul>
-          <li>Name, address, and phone number of the pharmacy.</li>
-          <li>Name, dosage, strength, and quantity of the medication.</li>
-          <li>Cost of the medication and the copay amount.</li>
           <li>
-            National Drug Code (NDC) for each medication. This is an 11-digit
-            number that’s different from the Rx number.
+            <b>The pharmacy’s:</b>
+            <ul style={{ listStyleType: 'disc' }}>
+              <li>Name</li>
+              <li>Address</li>
+              <li>Phone number</li>
+            </ul>
           </li>
-          <li>Date the pharmacy filled the prescription.</li>
-          <li>Name of the provider who wrote the prescription.</li>
+          <li>
+            <b>The medication’s:</b>
+            <ul style={{ listStyleType: 'disc' }}>
+              <li>Name</li>
+              <li>Dosage</li>
+              <li>Strength</li>
+              <li>Quantity</li>
+            </ul>
+          </li>
+          <li>
+            <b>Cost</b> of the medication.
+          </li>
+          <li>
+            <b>Copay amount.</b>
+          </li>
+          <li>
+            <b>National Drug Code (NDC)</b> for each medication. This is an
+            11-digit number that’s different from the Rx number.
+          </li>
+          <li>
+            <b>Date</b> the pharmacy filled the prescription.
+          </li>
+          <li>
+            <b>Name of the provider</b> who wrote the prescription.
+          </li>
         </ul>
         <p>
           <b>Note:</b>
@@ -331,6 +443,7 @@ export const pharmacyClaimUploadSchema = {
     pharmacyUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
+      attachmentId: 'pharmacy invoice', // hard-set for LLM verification
     }),
   },
   schema: {

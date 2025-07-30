@@ -1,32 +1,47 @@
-// import { render } from '@testing-library/react';
-// import { Provider } from 'react-redux';
-// import { expect } from 'chai';
-// import configureStore from 'redux-mock-store';
-// import React from 'react';
-// import thunk from 'redux-thunk';
-// import { IntroductionPage } from '../../../containers/IntroductionPage';
+import React from 'react';
+import { expect } from 'chai';
+import { shallow } from 'enzyme';
 
-// const defaultProps = {
-//   featureTogglesLoaded: true,
-//   route: '/education/apply-for-gi-bill-form-22-1990/introduction',
-// };
+import HowToApplyPost911GiBill from '../../../components/HowToApplyPost911GiBill';
+import IntroductionProcessList from '../../../components/IntroductionProcessList';
+import IntroductionLogin from '../../../components/IntroductionLogin';
+import LoadingIndicator from '../../../components/LoadingIndicator';
+import { IntroductionPage } from '../../../containers/IntroductionPage';
 
-// describe.skip('Introduction Page', () => {
-//   const middleware = [thunk];
-//   const mockStore = configureStore(middleware);
-//   const store = mockStore(defaultProps);
+describe('IntroductionPage', () => {
+  const baseProps = {
+    featureTogglesLoaded: true,
+    route: {
+      formConfig: {
+        prefillEnabled: true,
+        savedFormMessages: {
+          notFound: '',
+          noAuth: '',
+          expired: '',
+          saved: '',
+          success: '',
+        },
+      },
+      pageList: [{ path: 'introduction' }],
+    },
+  };
 
-//   it('should render visitor state', () => {
-//     const tree = render(
-//       <Provider store={store}>
-//         <IntroductionPage />
-//       </Provider>,
-//     );
+  it('renders headings and child components', () => {
+    const wrapper = shallow(<IntroductionPage {...baseProps} />);
+    expect(wrapper.find('h1')).to.have.lengthOf(1);
+    expect(wrapper.find('h2')).to.have.lengthOf.at.least(1);
 
-//     expect(tree.container.querySelector('.schemaform-intro p')).text(
-//       'Equal to VA Form 22-1990 (Application for VA Education Benefits)',
-//     );
-//     // expect(tree.container.querySelector('.schemaform-intro p')).to.exist;
-//     tree.unmount();
-//   });
-// });
+    expect(wrapper.find(HowToApplyPost911GiBill)).to.have.lengthOf(1);
+    expect(wrapper.find(IntroductionProcessList)).to.have.lengthOf(1);
+    expect(wrapper.find(IntroductionLogin)).to.have.lengthOf(1);
+    wrapper.unmount();
+  });
+
+  it('shows <LoadingIndicator> when featureTogglesLoaded is false', () => {
+    const wrapper = shallow(
+      <IntroductionPage {...baseProps} featureTogglesLoaded={false} />,
+    );
+    expect(wrapper.find(LoadingIndicator)).to.have.lengthOf(1);
+    wrapper.unmount();
+  });
+});

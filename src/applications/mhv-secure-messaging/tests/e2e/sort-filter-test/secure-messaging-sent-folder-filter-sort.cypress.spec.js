@@ -3,21 +3,26 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageSentPage from '../pages/PatientMessageSentPage';
 import PatientFilterPage from '../pages/PatientFilterPage';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
-import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM SENT FOLDER FILTER-SORT CHECKS', () => {
+  const filterData = 'test';
+  const filteredResponse = PatientFilterPage.filterMockResponse(
+    mockSentMessages,
+    filterData,
+  );
+
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(mockSentMessages);
     PatientMessageSentPage.loadMessages();
   });
 
   it('verify filter works correctly', () => {
-    PatientFilterPage.inputFilterData('test');
-    PatientFilterPage.clickApplyFilterButton(sentSearchResponse);
-    PatientFilterPage.verifyFilterResults('test', sentSearchResponse);
+    PatientFilterPage.inputFilterData(filterData);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
+    PatientFilterPage.verifyFilterResults(filterData, filteredResponse);
     cy.get(`.unread-icon`).should(`not.exist`);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
@@ -25,7 +30,7 @@ describe('SM SENT FOLDER FILTER-SORT CHECKS', () => {
 
   it('verify clear filter btn works correctly', () => {
     PatientFilterPage.inputFilterData('any');
-    PatientFilterPage.clickApplyFilterButton(sentSearchResponse);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
     PatientFilterPage.clickClearFilterButton();
     PatientFilterPage.verifyFilterFieldCleared();
 
@@ -38,6 +43,20 @@ describe('SM SENT FOLDER FILTER-SORT CHECKS', () => {
     );
 
     PatientFilterPage.verifySorting(sortedResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify filter with no matches', () => {
+    const noMatchResponse = PatientFilterPage.filterMockResponse(
+      mockSentMessages,
+      'no match',
+    );
+
+    PatientFilterPage.inputFilterData('no match');
+    PatientFilterPage.clickApplyFilterButton(noMatchResponse);
+
+    PatientFilterPage.verifyNoMatchFilterFocusAndText();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

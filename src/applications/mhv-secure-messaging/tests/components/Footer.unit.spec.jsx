@@ -2,7 +2,6 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import reducer from '../../reducers';
 import folders from '../fixtures/folder-inbox-response.json';
 import folderList from '../fixtures/folder-response.json';
@@ -17,9 +16,7 @@ describe('SM Footer component', () => {
   beforeEach(() => {
     store = mockStore({
       sm: { folders: { folder: { folderId: 0 } } },
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage]: true,
-      },
+      featureToggles: {},
     });
   });
 
@@ -61,29 +58,10 @@ describe('SM Footer component', () => {
     expect(screen.getByText(smFooter.FIND_FACILITY)).to.exist;
   });
 
-  it('should not render the footer when the feature flag is off', () => {
-    store = mockStore({
-      sm: { folders: { folder: { folderId: 0 } } },
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage]: false,
-      },
-    });
-
-    const screen = renderWithStoreAndRouter(<Footer />, {
-      initialState,
-      reducers: reducer,
-      path: Paths.INBOX,
-      store,
-    });
-    expect(screen.queryByTestId('inbox-footer')).not.to.exist;
-  });
-
   it('should not render the footer when NOT on the INBOX page', () => {
     store = mockStore({
       sm: { folders: { folder: { folderId: -1 } } },
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage]: true,
-      },
+      featureToggles: {},
     });
 
     const screen = renderWithStoreAndRouter(<Footer />, {

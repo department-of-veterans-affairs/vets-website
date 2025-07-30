@@ -15,6 +15,10 @@ describe('VAOS referral generator', () => {
       const referrals = referralUtil.createReferrals(2);
       expect(referrals.length).to.equal(2);
     });
+    it('Creates referrals with extra error referrals when specified', () => {
+      const referrals = referralUtil.createReferrals(2, null, null, true);
+      expect(referrals.length).to.equal(7);
+    });
     it('Creates each referral on day later', () => {
       const referrals = referralUtil.createReferrals(2, '2025-10-11');
       expect(referrals[0].attributes.expirationDate).to.equal('2026-04-11');
@@ -35,14 +39,25 @@ describe('VAOS referral generator', () => {
       null,
       'non-physical-therapy',
     );
+    const missingCategoryReferral = referralUtil.createReferralById(
+      '2024-10-30',
+      'uid2',
+      '111',
+      null,
+      null,
+    );
 
-    referrals = [nonPhysicalTherapyReferral, ...referrals];
+    referrals = [
+      nonPhysicalTherapyReferral,
+      missingCategoryReferral,
+      ...referrals,
+    ];
 
     it('Filters out non-physical therapy referrals', () => {
       const filteredReferrals = referralUtil.filterReferrals(referrals);
       expect(filteredReferrals.length).to.equal(1);
       expect(filteredReferrals[0].attributes.categoryOfCare).to.equal(
-        'Physical Therapy',
+        'OPTOMETRY',
       );
     });
   });
@@ -51,7 +66,7 @@ describe('VAOS referral generator', () => {
       const referral = referralUtil.createReferralById('2024-10-30', '111')
         .attributes;
       expect(
-        referralUtil.getAddressString(referral.referringFacilityInfo.address),
+        referralUtil.getAddressString(referral.referringFacility.address),
       ).to.equal('222 Richmond Avenue, BATAVIA, 14020');
     });
   });

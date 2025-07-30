@@ -64,7 +64,7 @@
  * @property {string} clinicId The VistA clinic id for the appointment. Only applies to in person VA appointments
  * - Mapped from vaAppointment.clinicId
  * @property {string} clinicName The VistA clinic name for the appointment. Only applies to in person VA appointments
- * - Mapped from vaAppointment.clinicFriendlyName, with fallback to vaAppointment.vdsAppointments[0].clinic.name
+ * - Mapped from vaAppointment.serviceName
  */
 
 /**
@@ -189,7 +189,7 @@
  * @property {string} actor.reference Mapped to HealthcareService/${appointment.facilityId}_${appointment.clinicId}
  *
  * Clinics are uniquely identified by a combination of the VistA site/instance id and the clinic id
- * @property {string} actor.display Clinic name, mapped from appointment.clinicFriendlyName or appointment.vdsAppointments[0].clinic.name
+ * @property {string} actor.display Clinic name, mapped from appointment.serviceName
  */
 
 /**

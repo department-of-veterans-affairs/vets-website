@@ -1,15 +1,15 @@
 {
-  "claimId": "73611905-71bf-46ed-b1ec-e790593b8565",
+  "claimId": "7519378a-e9ef-4a84-8673-591776c8f06b",
   "claimNumber": "TC0000000000001",
   "claimName": "Claim created for NOLLE BARAKAT",
   "claimantFirstName": "Nolle",
   "claimantMiddleName": "Polite",
   "claimantLastName": "Barakat",
-  "claimStatus": "Approved for payment",
+  "claimStatus": "Denied",
   "appointmentDate": "2024-01-01T16:45:34.465Z",
   "facilityName": "Cheyenne VA Medical Center",
-  "totalCostRequested": 20.0,
-  "reimbursementAmount": 14.52,
+  "totalCostRequested": 20.05,
+  "reimbursementAmount": 14.05,
   "createdOn": "2025-03-12T20:27:14.088Z",
   "modifiedOn": "2025-03-12T20:27:14.088Z",
   "appointment": {
@@ -22,7 +22,7 @@
     "serviceConnectedDisability": 30,
     "appointmentStatus": "Complete",
     "externalAppointmentId": "12345",
-    "associatedClaimId": "73611905-71bf-46ed-b1ec-e790593b8565",
+    "associatedClaimId": "7519378a-e9ef-4a84-8673-591776c8f06b",
     "associatedClaimNumber": "TC0000000000001",
     "isCompleted": true
   },
@@ -44,6 +44,38 @@
       "description": "mileage-expense",
       "costRequested": 10.0,
       "costSubmitted": 10.0
+    }
+  ],
+  "documents": [
+    {
+      "documentId": "4f6f751b-87ff-ef11-9341-001dd809b68c",
+      "filename": "Rejection Letter.docx",
+      "mimetype": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "createdon": "2025-03-12T21:15:27Z"
+    },
+    {
+      "documentId": "a5137021-87ff-ef11-9341-001dd809b68c",
+      "filename": "VA Form 10-0998 Your Rights to Appeal Our Decision.pdf",
+      "mimetype": "application/pdf",
+      "createdon": "2025-03-12T21:15:33Z"
+    },
+    {
+      "documentId": "cc832f7d-2217-48fb-a11c-5c3212dd0f8a",
+      "filename": "screenshot.jpg",
+      "mimetype": "image/jpeg",
+      "createdon": "2025-03-24T14:02:52.893Z"
+    },
+    {
+      "documentId": "12fcfecc-5132-4c16-8a9a-7af07b714cd4",
+      "filename": "screenshot-2.jpg",
+      "mimetype": "image/jpeg",
+      "createdon": "2025-03-24T14:04:00.893Z"
+    },
+    {
+      "documentId": "887ead10-d849-428c-b83b-50a054fd968b",
+      "filename": "note.txt",
+      "mimetype": "",
+      "createdon": "2025-03-24T14:06:52.893Z"
     }
   ]
 }

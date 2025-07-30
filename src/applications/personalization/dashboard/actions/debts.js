@@ -11,16 +11,6 @@ export const COPAYS_FETCH_SUCCESS = 'COPAYS_FETCH_SUCCESS';
 export const COPAYS_FETCH_FAILURE = 'COPAYS_FETCH_FAILURE';
 export const COPAYS_FETCH_INITIATED = 'COPAYS_FETCH_INITIATED';
 
-export const deductionCodes = Object.freeze({
-  '30': 'Disability compensation and pension debt',
-  '41': 'Chapter 34 education debt',
-  '44': 'Chapter 35 education debt',
-  '71': 'Post-9/11 GI Bill debt for books and supplies',
-  '72': 'Post-9/11 GI Bill debt for housing',
-  '74': 'Post-9/11 GI Bill debt for tuition',
-  '75': 'Post-9/11 GI Bill debt for tuition (school liable)',
-});
-
 export const fetchDebts = (debtsCount = false) => async dispatch => {
   dispatch({ type: DEBTS_FETCH_INITIATED });
   const getDebts = () => {
@@ -40,6 +30,7 @@ export const fetchDebts = (debtsCount = false) => async dispatch => {
 
   try {
     const response = await getDebts();
+
     const { errors } = response;
 
     if (errors) {
@@ -69,16 +60,11 @@ export const fetchDebts = (debtsCount = false) => async dispatch => {
     }
 
     const { debts } = response;
-    const approvedDeductionCodes = Object.keys(deductionCodes);
-    // filter approved deductionCodes &&
-    // remove debts that have a current amount owed of 0
-    const filteredResponse = debts
-      .filter(
-        debt =>
-          approvedDeductionCodes.includes(debt.deductionCode) &&
-          debt.currentAr > 0,
-      )
-      .map((debt, index) => ({ ...debt, id: index }));
+    const filteredResponse = debts.map((debt, index) => ({
+      ...debt,
+      id: index,
+    }));
+
     recordEvent({
       event: `api_call`,
       'api-name': 'GET debts',
@@ -95,11 +81,10 @@ export const fetchDebts = (debtsCount = false) => async dispatch => {
       'api-name': 'GET debts',
       'api-status': 'failed',
     });
-    dispatch({
+    return dispatch({
       type: DEBTS_FETCH_FAILURE,
       errors: [error],
     });
-    throw new Error(error);
   }
 };
 
@@ -156,10 +141,9 @@ export const fetchCopays = () => async dispatch => {
       'api-name': 'GET copays',
       'api-status': 'failed',
     });
-    dispatch({
+    return dispatch({
       type: COPAYS_FETCH_FAILURE,
       errors: [error],
     });
-    throw new Error(error);
   }
 };

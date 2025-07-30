@@ -1,13 +1,14 @@
-import React from 'react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
-import moment from 'moment-timezone';
+import React from 'react';
+
+import { format } from 'date-fns';
 import {
-  getTestDate,
   createTestStore,
+  getTestDate,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-
+import { DATE_FORMATS } from '../utils/constants';
 import VideoLink from './VideoLink';
 
 beforeEach(() => {
@@ -22,7 +23,7 @@ describe('VAOS Component: VideoLink', () => {
   const initialState = {
     appointments: {
       facilityData: {
-        '983': {
+        983: {
           address: {
             line: ['2360 East Pershing Boulevard'],
             city: 'Cheyenne',
@@ -41,77 +42,17 @@ describe('VAOS Component: VideoLink', () => {
     },
   };
 
-  it('does not render join appointment link when more than 30 minutes before start time', () => {
-    const now = moment();
-    const store = createTestStore(initialState);
-    const appointment = {
-      location: {
-        clinicPhone: '500-500-5000',
-        clinicPhoneExtension: '1234',
-      },
-      start: moment.tz(now, 'America/New_York').subtract(600, 'minutes'),
-      videoData: {
-        url: 'test.com',
-      },
-      vaos: {
-        isVideo: true,
-      },
-    };
-    const screen = renderWithStoreAndRouter(
-      <VideoLink appointment={appointment} />,
-      {
-        store,
-      },
-    );
-    expect(screen.queryByText('Join appointment')).not.to.exist;
-    expect(
-      screen.queryByText(
-        /We'll add the link to join this appointment 30 minutes before your appointment time/i,
-      ),
-    ).to.exist;
-  });
-
-  it('does not render join appointment link when beyond 4 hours after start time', () => {
-    const now = moment();
-    const store = createTestStore(initialState);
-    const appointment = {
-      location: {
-        vistaId: '983',
-        locationId: '983',
-      },
-      start: moment.tz(now, 'America/New_York').add(600, 'minutes'),
-      videoData: {
-        url: 'test.com',
-      },
-      vaos: {
-        isVideo: true,
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(
-      <VideoLink appointment={appointment} />,
-      {
-        store,
-      },
-    );
-    expect(screen.queryByText('Join appointment')).not.to.exist;
-    expect(
-      screen.queryByText(
-        /We'll add the link to join this appointment 30 minutes before your appointment time/i,
-      ),
-    ).to.exist;
-  });
-
   it('render alert message when it is within timeframe but url is missing ', () => {
-    const now = moment();
     const store = createTestStore(initialState);
     const appointment = {
       location: {
         clinicPhone: '500-500-5000',
         clinicPhoneExtension: '1234',
       },
-      start: moment.tz(now, 'America/New_York').subtract(30, 'minutes'),
-      videoData: {},
+      start: format(new Date(), DATE_FORMATS.ISODateTime),
+      videoData: {
+        displayLink: true,
+      },
       vaos: {
         isVideo: true,
       },
@@ -127,7 +68,7 @@ describe('VAOS Component: VideoLink', () => {
     expect(
       screen.queryByRole('heading', {
         level: 3,
-        name: /We're sorry, we couldn't load the link to join your appointment/,
+        name: /We.re sorry, we couldn.t load the link to join your appointment/,
       }),
     ).to.exist;
     expect(
@@ -137,14 +78,13 @@ describe('VAOS Component: VideoLink', () => {
     ).to.exist;
   });
 
-  it('renders join appointment link 30 minutes prior to start time', () => {
-    const now = moment();
+  it('renders join appointment link when displayLink=true', () => {
     const store = createTestStore(initialState);
     const appointment = {
       location: {},
-      start: moment.tz(now, 'America/Los_Angeles').subtract(30, 'minutes'),
       videoData: {
         url: 'test.com',
+        displayLink: true,
       },
       vaos: {},
     };
@@ -157,17 +97,16 @@ describe('VAOS Component: VideoLink', () => {
     expect(screen.queryByText('Join appointment')).to.exist;
   });
 
-  it('renders join appointment link within 4 hours after start time', () => {
-    const now = moment();
+  it('does not render join appointment link when displayLink=false', () => {
     const store = createTestStore(initialState);
     const appointment = {
       location: {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment.tz(now, 'America/Los_Angeles').add(90, 'minutes'),
       videoData: {
         url: 'test.com',
+        displayLink: false,
       },
       vaos: {},
     };
@@ -177,6 +116,11 @@ describe('VAOS Component: VideoLink', () => {
         store,
       },
     );
-    expect(screen.queryByText('Join appointment')).to.exist;
+    expect(screen.queryByText('Join appointment')).not.to.exist;
+    expect(
+      screen.queryByText(
+        /We.ll add the link to join this appointment on this page 30 minutes before your appointment time/i,
+      ),
+    ).to.exist;
   });
 });

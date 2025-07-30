@@ -1,6 +1,28 @@
 /* eslint-disable no-plusplus */
+
+/**
+ * Mock facility response.
+ *
+ * @export
+ * @class MockFacilityResponse
+ */
 export default class MockFacilityResponse {
-  constructor({ id = '983', name = 'Cheyenne VA Medical Center' } = {}) {
+  /**
+   * Creates an instance of MockFacilityResponse.
+   *
+   * @param {Object} props - Properties used to determine what type of mock facility to create.
+   * @param {string} [props.id=983] - Facility id. Default = 983.
+   * @param {string} [props.name] - Name of the facility. Default = Cheyenne VA Medical Center
+   *
+   * @export
+   * @class MockFacilityResponse
+   */
+  constructor({
+    id = '983',
+    isParent = false,
+    name = 'Cheyenne VA Medical Center',
+    timezone = 'America/Denver',
+  } = {}) {
     this.id = id;
     this.type = 'facility';
     this.attributes = {
@@ -11,9 +33,6 @@ export default class MockFacilityResponse {
       phone: {
         main: '307-778-7550',
       },
-      // phone: {
-      //   main: '1234567890',
-      // },
       physicalAddress: {
         type: 'physical',
         line: ['2360 East Pershing Boulevard', null, 'Suite 10'],
@@ -21,25 +40,49 @@ export default class MockFacilityResponse {
         state: 'WY',
         postalCode: '82001-5356',
       },
-      vistaSite: id,
-      vastParent: id,
+      timezone: {
+        timeZoneId: timezone,
+      },
+      vistaSite: id.substring(0, 3),
+      vastParent: isParent ? id : id.substring(0, 3),
     };
   }
 
   /**
    * Method to generate multiple responses.
    *
-   * NOTE: When using this method, the facility name will be generated as 'Facility <id>'.
+   * NOTE: When using this method, the facility name will be generated as 'Facility :facilityId'.
    *
    * @static
    * @param {Object} arguments
-   * @param {Array.<String>} [arguments.facilityIds=[]] - Array of facility ids.
-   * @returns Array of MockFacility.
-   * @memberof MockFacility
+   * @param {Array<String>} [arguments.facilityIds=[]] - Array of facility ids.
+   *
+   * @returns {Array<MockFacilityResponse>} Array of MockFacilityResponse.
+   * @memberof MockFacilityResponse
    */
   static createResponses({ facilityIds = [] } = {}) {
     return facilityIds.map(id => {
       return new MockFacilityResponse({ id, name: `Facility ${id}` });
     });
+  }
+
+  setAddress(value) {
+    this.attributes.physicalAddress = value;
+    return this;
+  }
+
+  setLatitude(value) {
+    this.attributes.lat = value;
+    return this;
+  }
+
+  setLongitude(value) {
+    this.attributes.long = value;
+    return this;
+  }
+
+  setPhoneNumber(value) {
+    this.attributes.phone.main = value;
+    return this;
   }
 }

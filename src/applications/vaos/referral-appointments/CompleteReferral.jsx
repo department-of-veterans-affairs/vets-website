@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-
+import { titleCase } from '../utils/formatters';
+import { stripDST } from '../utils/timezone';
 import ReferralLayout from './components/ReferralLayout';
+import ProviderAddress from './components/ProviderAddress';
+import { routeToNextReferralPage } from './flow';
 import {
   pollFetchAppointmentInfo,
   setFormCurrentPage,
@@ -15,6 +20,7 @@ import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
 import {
   getAppointmentCreateStatus,
   getReferralAppointmentInfo,
+  selectCurrentPage,
 } from './redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 
@@ -27,11 +33,14 @@ function handleScheduleClick(dispatch) {
   };
 }
 
-export default function CompleteReferral() {
+export const CompleteReferral = props => {
+  const { attributes: currentReferral } = props.currentReferral;
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const [, appointmentId] = pathname.split('/schedule-referral/complete/');
+  const history = useHistory();
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
+  const currentPage = useSelector(selectCurrentPage);
+  const [, appointmentId] = pathname.split('/schedule-referral/complete/');
   const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
   const {
     appointmentInfoError,
@@ -39,6 +48,14 @@ export default function CompleteReferral() {
     appointmentInfoLoading,
     referralAppointmentInfo,
   } = useSelector(getReferralAppointmentInfo);
+
+  function goToDetailsView(e) {
+    e.preventDefault();
+    recordEvent({
+      event: `${GA_PREFIX}-view-eps-appointment-details-button-clicked`,
+    });
+    routeToNextReferralPage(history, currentPage, null, appointmentId);
+  }
 
   useEffect(
     () => {
@@ -79,8 +96,8 @@ export default function CompleteReferral() {
         hasEyebrow
         heading={
           appointmentInfoTimeout
-            ? "We're having trouble scheduling this appointment"
-            : "We can't schedule this appointment online"
+            ? 'We’re having trouble scheduling this appointment'
+            : 'We can’t schedule this appointment online'
         }
       >
         <va-alert
@@ -89,8 +106,12 @@ export default function CompleteReferral() {
         >
           <p className="vads-u-margin-y--0">
             {appointmentInfoTimeout
-              ? "Try refreshing this page. If it still doesn't work, call us at [Phone number]. We’re here [day] through [day], [time] to [time]."
-              : 'We’re sorry. Call us at [Phone number]. We’re here [day] through [day], [time] to [time].'}
+              ? `Try refreshing this page. If it still doesn’t work, please call us at ${
+                  currentReferral.referringFacility.phone
+                } during normal business hours to schedule.`
+              : `We’re sorry. Please call us at ${
+                  currentReferral.referringFacility.phone
+                } during normal business hours to schedule.`}
           </p>
         </va-alert>
       </ReferralLayout>
@@ -105,14 +126,20 @@ export default function CompleteReferral() {
 
   const referralLoaded = !!referralAppointmentInfo?.attributes?.id;
 
-  const { attributes, provider } = referralAppointmentInfo;
+  const { attributes } = referralAppointmentInfo;
 
   const appointmentDate = format(
     new Date(attributes.start),
     'EEEE, MMMM do, yyyy',
   );
-  const appointmentTime = format(new Date(attributes.start), 'h:mm aaaa');
 
+  const appointmentTime = stripDST(
+    formatInTimeZone(
+      new Date(attributes.start),
+      attributes.provider.location.timezone,
+      'h:mm aaaa zzz',
+    ),
+  );
   return (
     <ReferralLayout
       hasEyebrow
@@ -138,44 +165,68 @@ export default function CompleteReferral() {
               className="vads-u-margin-bottom--0 vads-u-font-family--serif"
               data-testid="appointment-date"
             >
-              {appointmentDate}
+              <span data-dd-privacy="mask">{appointmentDate}</span>
             </p>
             <h2
               className="vads-u-margin-top--0 vads-u-margin-bottom-1"
               data-testid="appointment-time"
             >
-              {appointmentTime}
+              <span data-dd-privacy="mask">{appointmentTime}</span>
             </h2>
-            <strong data-testid="appointment-type">
-              {attributes.typeOfCare} with {provider.name}
+            <strong data-dd-privacy="mask" data-testid="appointment-type">
+              {titleCase(currentReferral.categoryOfCare)} with{' '}
+              {`${currentReferral.provider.name ||
+                'Provider name not available'}`}
             </strong>
             <p
-              className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--0"
+              className="vads-u-margin-bottom--0"
               data-testid="appointment-modality"
             >
-              <span className="vads-u-margin-right--1">
-                <va-icon
-                  icon="location_city"
-                  aria-hidden="true"
-                  data-testid="appointment-icon"
-                  size={3}
-                />
-              </span>
-              {attributes.modality} at {provider.location.name}
+              Community Care
             </p>
-            <p
-              className="vads-u-margin-left--4 vads-u-margin-top--0p5"
-              data-testid="appointment-clinic"
-            >
-              Clinic: {provider.organization?.name}
-            </p>
+            <ProviderAddress
+              address={attributes.provider.location.address}
+              showDirections
+              directionsName={attributes.provider.location.name}
+              phone={currentReferral.provider.phone}
+            />
             <p>
               <va-link
-                href={`/appointments/${attributes.id}`}
+                href={`${root.url}/${attributes.id}?eps=true`}
                 data-testid="cc-details-link"
                 text="Details"
+                onClick={e => goToDetailsView(e)}
               />
             </p>
+          </div>
+          <div className="vads-u-margin-top--2">
+            <va-alert
+              status="info"
+              data-testid="survey-info-block"
+              className="vads-u-padding--2"
+            >
+              <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
+                Please consider taking our pilot feedback surveys
+              </h3>
+              <p className="vads-u-margin-top--0">
+                First, follow the link below to the sign-up survey with our
+                recruitment partner.
+              </p>
+              <p>
+                Next, wait to be contacted by our recruitment partner, who will
+                provide the feedback survey.
+              </p>
+              <p className="vads-u-margin-y--1">
+                Our recruiting partner will provide compensation.
+              </p>
+              <p className="vads-u-margin-bottom--0">
+                <va-link
+                  href="https://forms.gle/7Lh5H2fab7Qv3DbA9"
+                  text="Start the sign-up survey"
+                  data-testid="survey-link"
+                />
+              </p>
+            </va-alert>
           </div>
           <div className="vads-u-margin-top--6">
             <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
@@ -212,4 +263,10 @@ export default function CompleteReferral() {
       )}
     </ReferralLayout>
   );
-}
+};
+
+CompleteReferral.propTypes = {
+  currentReferral: PropTypes.object.isRequired,
+};
+
+export default CompleteReferral;

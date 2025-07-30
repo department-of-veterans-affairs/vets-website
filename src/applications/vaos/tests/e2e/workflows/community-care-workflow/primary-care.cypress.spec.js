@@ -1,6 +1,9 @@
 // @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
-import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
 import MockProviderResponse from '../../../fixtures/MockProviderResponse';
@@ -29,8 +32,9 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 
-const { cceType } = getTypeOfCareById(PRIMARY_CARE);
-const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.PRIMARY_CARE,
+);
 
 describe('VAOS community care flow - Primary care', () => {
   beforeEach(() => {
@@ -40,7 +44,6 @@ describe('VAOS community care flow - Primary care', () => {
       id: 'mock1',
       localStartTime: new Date(),
       status: APPOINTMENT_STATUS.proposed,
-      serviceType: 'primaryCare',
     });
     mockAppointmentGetApi({
       response,
@@ -84,6 +87,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
+          .assertTypeOfFacilityValidationErrors()
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
@@ -216,6 +220,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         ClosestCityStatePageObject.assertUrl()
+          .assertClosestCityStateValidationErrors()
           .assertHeading({ name: /What.s the nearest city to you/i })
           .selectFacility({ label: /City 983/i })
           .clickNextButton();

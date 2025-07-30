@@ -55,17 +55,18 @@ export const MAX_UTILITY_NAME_LENGTH = 32;
 export const utilityBillOptions = [
   'Electricity',
   'Gas',
-  'Water',
+  'Water/Sewer',
   'Trash',
-  'Sewer',
-  'Coal',
+  'Internet',
+  'Phone',
+  'Cable/TV Subscription',
 ];
 
 export const MAX_OTHER_LIVING_NAME_LENGTH = 32;
 export const otherLivingExpensesOptions = [
   'Clothing',
   'Entertainment',
-  'Family and child care',
+  'Family support and child care',
   'Food',
   'Health expenses',
   'Household maintenance',
@@ -76,7 +77,7 @@ export const otherLivingExpensesOptions = [
 export const otherLivingExpensesList = [
   `Clothing`,
   `Entertainment`,
-  `Family and child care`,
+  `Family support and child care`,
   `Food`,
   `Health expenses`,
   `Homeowner's Association (HOA) fees`,

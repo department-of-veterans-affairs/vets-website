@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import * as UseVirtualAgentTokenModule from '../../hooks/useVirtualAgentToken';
+import * as useChatbotTokenModule from '../../hooks/useChatbotToken';
 import * as UseWebChatFrameworkModule from '../../hooks/useWebChatFramework';
 import * as CombingLoadingStatusModule from '../../utils/loadingStatus';
 import useWebChat from '../../hooks/useWebChat';
@@ -18,7 +18,7 @@ describe('useWebChat', () => {
   });
 
   describe('useWebChat', () => {
-    it('should return the correct token, webChatFramework, loadingStatus, apiSession', () => {
+    it('should return the correct token, webChatFramework and loadingStatus', () => {
       const webChatFramework = {
         webChatFramework: 'framework',
         loadingStatus: 'frameworkStatus',
@@ -27,8 +27,8 @@ describe('useWebChat', () => {
         .stub(UseWebChatFrameworkModule, 'default')
         .returns(webChatFramework);
 
-      const token = { token: 'token', apiSession: 'apiSession' };
-      sandbox.stub(UseVirtualAgentTokenModule, 'default').returns(token);
+      const token = { token: 'token', code: 'code' };
+      sandbox.stub(useChatbotTokenModule, 'default').returns(token);
 
       sandbox
         .stub(CombingLoadingStatusModule, 'combineLoadingStatus')
@@ -54,8 +54,8 @@ describe('useWebChat', () => {
         .stub(UseWebChatFrameworkModule, 'default')
         .returns(webChatFramework);
 
-      const token = { token: 'token', apiSession: 'apiSession' };
-      sandbox.stub(UseVirtualAgentTokenModule, 'default').returns(token);
+      const token = { token: 'token' };
+      sandbox.stub(useChatbotTokenModule, 'default').returns(token);
 
       const combineLoadingStatusStub = sandbox
         .stub(CombingLoadingStatusModule, 'combineLoadingStatus')
@@ -77,8 +77,8 @@ describe('useWebChat', () => {
         .stub(UseWebChatFrameworkModule, 'default')
         .returns(webChatFramework);
 
-      const token = { token: 'token', apiSession: 'apiSession' };
-      sandbox.stub(UseVirtualAgentTokenModule, 'default').returns(token);
+      const token = { token: 'token' };
+      sandbox.stub(useChatbotTokenModule, 'default').returns(token);
 
       const combineLoadingStatusStub = sandbox
         .stub(CombingLoadingStatusModule, 'combineLoadingStatus')

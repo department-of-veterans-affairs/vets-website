@@ -2,7 +2,7 @@ import formConfig from '../../../../config/form';
 import {
   unassociatedIncomePages,
   options,
-} from '../../../../config/chapters/03-unassociated-incomes/unassociatedIncomePages';
+} from '../../../../config/chapters/02-unassociated-incomes/unassociatedIncomePages';
 import { incomeTypeLabels } from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';
@@ -11,12 +11,12 @@ import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json
 import {
   testOptionsIsItemIncomplete,
   testOptionsIsItemIncompleteWithZeroes,
-  testOptionsTextGetItemName,
+  testOptionsTextGetItemNameRecurringIncome,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -35,24 +35,30 @@ describe('unassociated income list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    testOptionsTextGetItemName(options);
+    testOptionsTextGetItemNameRecurringIncome(options);
   });
 
   describe('text cardDescription function', () => {
+    /* eslint-disable no-unused-vars */
     const {
-      // eslint-disable-next-line no-unused-vars
       recipientRelationship,
+      recipientName,
+      payer,
       ...baseItem
     } = testData.data.unassociatedIncomes[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, incomeTypeLabels);
   });
 
   describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
     const {
-      // eslint-disable-next-line no-unused-vars
       recipientRelationship,
+      recipientName,
+      payer,
       ...baseItem
-    } = testDataZeroes.data.unassociatedIncomes[0];
+    } = testData.data.unassociatedIncomes[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, incomeTypeLabels);
   });
 
@@ -65,11 +71,13 @@ describe('unassociated income list and loop pages', () => {
       { 'va-radio': 1 },
       'summary page',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Are you or your dependents receiving or expecting to receive any income in the next 12 months from sources not related to an account or your assets?"]',
+      ],
       'summary page',
     );
     testSubmitsWithoutErrors(
@@ -97,11 +105,11 @@ describe('unassociated income list and loop pages', () => {
       { 'va-radio': 1 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-radio[name="root_recipientRelationship"]'],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -133,14 +141,17 @@ describe('unassociated income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 1 },
+      { 'va-text-input': 3 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-text-input[label="Income recipient’s first name"]',
+        'va-text-input[label="Income recipient’s last name"]',
+      ],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -148,9 +159,7 @@ describe('unassociated income list and loop pages', () => {
       schema,
       uiSchema,
       'recipient',
-      {
-        recipientName: 'Jane Doe',
-      },
+      testData.data.unassociatedIncomes[0],
       { loggedIn: true },
     );
   });
@@ -170,11 +179,15 @@ describe('unassociated income list and loop pages', () => {
       { 'va-radio': 1, 'va-text-input': 2 },
       'income type',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      3,
+      [
+        'va-radio[label="What is the type of income?"]',
+        'va-text-input[label="Gross monthly income"]',
+        'va-text-input[label="Income payer name"]',
+      ],
       'income type',
     );
     testSubmitsWithoutErrors(

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -43,11 +43,6 @@ describe('ITFBanner', () => {
     }).to.throw();
   });
 
-  it('should navigate back from error', () => {
-    const router = { push: sinon.spy() };
-    const { container } = render(<ITFBanner status="error" router={router} />);
-    fireEvent.click($('a', container)); // back
-  });
   it('should navigate back from ITF found page', () => {
     const router = { push: sinon.spy() };
     const { container } = render(

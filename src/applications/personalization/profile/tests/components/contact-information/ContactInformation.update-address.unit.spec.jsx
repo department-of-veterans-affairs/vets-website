@@ -1,9 +1,9 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import { waitForElementToBeRemoved } from '@testing-library/react';
+import { fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
+import { setupServer } from 'platform/testing/unit/msw-adapter';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -30,24 +30,16 @@ const ui = (
 let view;
 let server;
 
-function getEditButton(addressName) {
-  let editButton = view.queryByText(new RegExp(`add.*${addressName}`, 'i'), {
-    selector: 'button',
-  });
-  if (!editButton) {
-    // Need to use `queryByRole` since the visible label is simply `Edit`, but
-    // the aria-label is more descriptive
-    editButton = view.queryByRole('button', {
-      name: new RegExp(`edit.*${addressName}`, 'i'),
-    });
-  }
-  return editButton;
+// helper function that returns the Edit va-button
+// since RTL doesn't support getByRole/getByText queries for web components
+function getEditVaButton(addressName) {
+  return view.container.querySelector(`va-button[label="Edit ${addressName}"]`);
 }
 
 function updateAddress(addressName) {
   localStorage.setItem('hasSession', 'true');
 
-  userEvent.click(getEditButton(addressName));
+  userEvent.click(getEditVaButton(addressName));
   const { container } = view;
 
   const countryDropdown = $('va-select[label="Country"]', container);
@@ -55,7 +47,7 @@ function updateAddress(addressName) {
   const cityInput = $('va-text-input[label="City"]', container);
   const stateDropdown = $('va-select[label="State"]', container);
   const zipCodeInput = $('va-text-input[label="Zip code"]', container);
-  const submitButton = view.getByText(/save/i, { selector: 'button' });
+  const submitButton = view.getByTestId('save-edit-button');
 
   // input the address info (can't type into web components using RTL)
   countryDropdown.__events.vaSelect({ target: { value: 'USA' } });
@@ -65,6 +57,10 @@ function updateAddress(addressName) {
   zipCodeInput.value = '94105';
 
   userEvent.click(submitButton);
+
+  // manually submit the form since va-button sets submit="prevent"
+  const form = submitButton.closest('form');
+  fireEvent.submit(form);
 
   return { cityInput };
 }
@@ -83,16 +79,7 @@ async function testQuickSuccess(addressName) {
   expect(view.getAllByText(/San Francisco, CA 94105/i).length).to.equal(2);
 
   // and the edit address button should exist
-  expect(
-    view.getByRole('button', { name: new RegExp(`edit.*${addressName}`, 'i') }),
-  ).to.exist;
-
-  // the add address button should not exist
-  expect(
-    view.queryByText(new RegExp(`add.*${addressName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).not.to.exist;
+  expect(getEditVaButton(addressName)).to.exist;
 }
 
 // When the update happens but not until after the Edit View has exited and the
@@ -120,16 +107,7 @@ async function testSlowSuccess(addressName) {
   expect(view.getAllByText(/San Francisco, CA 94105/i).length).to.equal(2);
 
   // and the edit address button should exist
-  expect(
-    view.getByRole('button', { name: new RegExp(`edit.*${addressName}`, 'i') }),
-  ).to.exist;
-
-  // the add address button should not exist
-  expect(
-    view.queryByText(new RegExp(`add.*${addressName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).not.to.exist;
+  expect(getEditVaButton(addressName)).to.exist;
 }
 
 async function testAddressValidation500(addressName) {
@@ -144,8 +122,7 @@ async function testAddressValidation500(addressName) {
   // make sure that edit mode is not automatically exited
   await wait(75);
   expect(view.getByTestId('edit-error-alert')).to.exist;
-  const editButton = getEditButton();
-  expect(editButton).to.not.exist;
+  expect(getEditVaButton(addressName)).to.not.exist;
 }
 
 // When the initial transaction creation request fails
@@ -161,8 +138,7 @@ async function testTransactionCreationFails(addressName) {
   // make sure that edit mode is not automatically exited
   await wait(75);
   expect(view.getByTestId('edit-error-alert')).to.exist;
-  const editButton = getEditButton();
-  expect(editButton).to.not.exist;
+  expect(getEditVaButton(addressName)).to.not.exist;
 }
 
 // When the update fails while the Edit View is still active
@@ -178,8 +154,7 @@ async function testQuickFailure(addressName) {
   // make sure that edit mode is not automatically exited
   await wait(75);
   expect(view.getByTestId('edit-error-alert')).to.exist;
-  const editButton = getEditButton();
-  expect(editButton).to.not.exist;
+  expect(getEditVaButton(addressName)).to.not.exist;
 }
 
 // When the update fails but not until after the Edit View has exited and the
@@ -209,8 +184,8 @@ async function testSlowFailure(addressName) {
     ),
   ).to.exist;
 
-  // and the add/edit button should be back
-  expect(getEditButton(addressName)).to.exist;
+  // and the edit button should be back
+  expect(getEditVaButton(addressName)).to.exist;
 }
 
 describe('Updating', () => {

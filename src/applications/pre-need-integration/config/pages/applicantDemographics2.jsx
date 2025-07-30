@@ -52,7 +52,7 @@ export const schema = {
               raceComment: {
                 type: 'string',
                 maxLength: 100,
-                pattern: /^(?!\s+$).*/,
+                pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
               },
             },
           ),

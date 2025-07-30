@@ -40,3 +40,9 @@ fieldset.schemaform-field-template.schemaform-first-field {
 .custom-classname{
   display: block !important;
 }
+.need-help-container{
+  width: 642px;
+  @media (max-width: $small-screen){
+    width: 100%;
+  }
+}

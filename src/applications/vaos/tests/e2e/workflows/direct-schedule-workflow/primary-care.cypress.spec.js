@@ -1,7 +1,10 @@
 // @ts-check
 import { addMonths } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
-import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
@@ -35,8 +38,9 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 
-const { cceType } = getTypeOfCareById(PRIMARY_CARE);
-const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.PRIMARY_CARE,
+);
 
 describe('VAOS direct schedule flow - Primary care', () => {
   describe('When veteran is not CC eligible', () => {
@@ -60,7 +64,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
           id: 'mock1',
           localStartTime: new Date(),
           status: APPOINTMENT_STATUS.booked,
-          serviceType: 'primaryCare',
           future: true,
         });
 
@@ -115,10 +118,12 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ClinicChoicePageObject.assertUrl()
+            .assertClinicChoiceValidationErrors()
             .selectClinic({ selection: /Clinic 1/i })
             .clickNextButton();
 
           PreferredDatePageObject.assertUrl()
+            .assertPreferredDateValidationErrors()
             .typeDate()
             .clickNextButton();
 
@@ -394,7 +399,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
           id: 'mock1',
           localStartTime: new Date(),
           status: APPOINTMENT_STATUS.booked,
-          serviceType: 'primaryCare',
           future: true,
         });
 
@@ -606,7 +610,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
         id: 'mock1',
         localStartTime: new Date(),
         status: APPOINTMENT_STATUS.booked,
-        serviceType: 'primaryCare',
         future: true,
       });
       mockAppointmentGetApi({

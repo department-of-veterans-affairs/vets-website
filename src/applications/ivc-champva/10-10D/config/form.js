@@ -6,7 +6,6 @@ import {
   checkboxGroupUI,
   fullNameSchema,
   fullNameUI,
-  ssnOrVaFileNumberSchema,
   addressSchema,
   addressUI,
   phoneSchema,
@@ -31,11 +30,14 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { flattenApplicantSSN } from './migrations';
+import { CustomApplicantSSNPage } from '../../shared/components/CustomApplicantSSNPage';
+import {
+  flattenApplicantSSN,
+  flattenSponsorSSN,
+  migrateCardUploadKeys,
+  removeOtherRelationshipSpecification,
+} from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
-
-import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
-
 import transformForSubmit from './submitTransformer';
 import prefillTransformer from './prefillTransformer';
 import manifest from '../manifest.json';
@@ -52,10 +54,14 @@ import {
 import {
   certifierNameValidation,
   certifierAddressValidation,
+} from '../helpers/validations';
+import {
   sponsorAddressCleanValidation,
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
-} from '../helpers/validations';
+  validateSponsorSsnIsUnique,
+  validateApplicantSsnIsUnique,
+} from '../../shared/validations';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
@@ -128,6 +134,7 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
+import { singleFileSchema } from '../../shared/components/fileUploads/upload';
 
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any required files have not been uploaded
@@ -181,8 +188,13 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 1,
-  migrations: [flattenApplicantSSN],
+  version: 4,
+  migrations: [
+    flattenApplicantSSN,
+    migrateCardUploadKeys,
+    removeOtherRelationshipSpecification,
+    flattenSponsorSSN,
+  ],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
@@ -388,7 +400,7 @@ const formConfig = {
             <>
               <span className="dd-privacy-hidden">
                 {sponsorWording(formData)}
-              </span>
+              </span>{' '}
               identification information
             </>
           ),
@@ -401,14 +413,15 @@ const formConfig = {
                 identification information
               </>
             )),
-            ssn: ssnOrVaFileNumberCustomUI(),
+            ssn: ssnUI(),
+            'ui:validations': [validateSponsorSsnIsUnique],
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
               titleSchema,
-              ssn: ssnOrVaFileNumberSchema,
+              ssn: ssnSchema,
             },
           },
         },
@@ -510,7 +523,7 @@ const formConfig = {
             <>
               <span className="dd-privacy-hidden">
                 {sponsorWording(formData)}
-              </span>
+              </span>{' '}
               mailing address
             </>
           ),
@@ -559,8 +572,7 @@ const formConfig = {
           path: 'sponsor-contact-info',
           title: formData => (
             <>
-              <span>{sponsorWording(formData)}</span>
-              contact information
+              <span>{sponsorWording(formData)}</span> contact information
             </>
           ),
           depends: formData => !get('sponsorIsDeceased', formData),
@@ -668,9 +680,9 @@ const formConfig = {
                   ),
                   ({ formData }) => (
                     <>
-                      Next we’ll ask more questions about
+                      Next we’ll ask more questions about{' '}
                       <span className="dd-privacy-hidden">
-                        {applicantWording(formData, undefined, false)}
+                        {applicantWording(formData, false, false)}
                       </span>
                       . This includes social security number, mailing address,
                       contact information, relationship to the sponsor, and
@@ -697,6 +709,9 @@ const formConfig = {
               identification information
             </>
           ),
+          CustomPage: CustomApplicantSSNPage,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           showPagePerItem: true,
           uiSchema: {
             applicants: {
@@ -718,6 +733,7 @@ const formConfig = {
                   </>
                 )),
                 applicantSSN: ssnUI(),
+                'ui:validations': [validateApplicantSsnIsUnique],
               },
             },
           },
@@ -760,7 +776,7 @@ const formConfig = {
             <>
               <span className="dd-privacy-hidden">
                 {applicantWording(item)}
-              </span>
+              </span>{' '}
               mailing address
             </>
           ),
@@ -773,7 +789,7 @@ const formConfig = {
                     <>
                       <span className="dd-privacy-hidden">
                         {applicantWording(formData)}
-                      </span>
+                      </span>{' '}
                       mailing address
                     </>
                   ),
@@ -816,7 +832,7 @@ const formConfig = {
             <>
               <span className="dd-privacy-hidden">
                 {applicantWording(item)}
-              </span>
+              </span>{' '}
               contact information
             </>
           ),
@@ -906,7 +922,7 @@ const formConfig = {
             `${applicantWording(item)} relationship to the sponsor`,
           CustomPage: ApplicantRelationshipPage,
           CustomPageReview: ApplicantRelationshipReviewPage,
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantRelationshipToSponsor'], {
             applicantRelationshipToSponsor: {
               type: 'object',
               properties: {
@@ -1334,10 +1350,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartAPartBCardsConfig.schema,
-            applicantMedicarePartAPartBCard: fileWithMetadataSchema(
-              acceptableFiles.medicareABCert,
-              2,
-            ),
+            applicantMedicarePartAPartBCardFront: singleFileSchema,
+            applicantMedicarePartAPartBCardBack: singleFileSchema,
           }),
         },
         page20b: {
@@ -1348,7 +1362,7 @@ const formConfig = {
             <>
               <span className="dd-privacy-hidden">
                 {applicantWording(item)}
-              </span>
+              </span>{' '}
               Medicare Part D card
             </>
           ),
@@ -1372,10 +1386,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartDCardsConfig.schema,
-            applicantMedicarePartDCard: fileWithMetadataSchema(
-              acceptableFiles.medicareDCert,
-              2,
-            ),
+            applicantMedicarePartDCardFront: singleFileSchema,
+            applicantMedicarePartDCardBack: singleFileSchema,
           }),
         },
         // If the user is ineligible for Medicare and over 65 years,
@@ -1469,10 +1481,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantOhiCardsConfig.schema,
-            applicantOhiCard: fileWithMetadataSchema(
-              acceptableFiles.healthInsCert,
-              2,
-            ),
+            applicantOhiCardFront: singleFileSchema,
+            applicantOhiCardBack: singleFileSchema,
           }),
         },
         page22: {

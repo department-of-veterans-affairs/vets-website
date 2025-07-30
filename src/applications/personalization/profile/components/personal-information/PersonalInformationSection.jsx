@@ -10,8 +10,7 @@ import { renderDOB } from '@@vap-svc/util/personal-information/personalInformati
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { getMessagingSignature } from 'platform/user/profile/actions';
-import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { ProfileInfoCard } from '../ProfileInfoCard';
+import { ProfileInfoSection } from '../ProfileInfoSection';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
 import MessagingSignature from './MessagingSignature';
@@ -36,12 +35,6 @@ const LegalNameDescription = () => (
 const PersonalInformationSection = ({ dob }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const messagingSignatureEnabled = useSelector(
-    state =>
-      state.featureToggles[
-        featureFlagNames.mhvSecureMessagingSignatureSettings
-      ],
-  );
   const userServices = useSelector(state => state.user.profile.services);
   const isMessagingServiceEnabled = userServices.includes(
     backendServices.MESSAGING,
@@ -55,19 +48,10 @@ const PersonalInformationSection = ({ dob }) => {
 
   useEffect(
     () => {
-      if (
-        messagingSignatureEnabled &&
-        isMessagingServiceEnabled &&
-        messagingSignature == null
-      )
+      if (isMessagingServiceEnabled && messagingSignature == null)
         dispatch(getMessagingSignature());
     },
-    [
-      dispatch,
-      isMessagingServiceEnabled,
-      messagingSignature,
-      messagingSignatureEnabled,
-    ],
+    [dispatch, isMessagingServiceEnabled, messagingSignature],
   );
 
   useEffect(
@@ -111,7 +95,7 @@ const PersonalInformationSection = ({ dob }) => {
         },
       ];
 
-      if (messagingSignatureEnabled && isMessagingServiceEnabled) {
+      if (isMessagingServiceEnabled) {
         const signaturePresent =
           messagingSignature?.signatureName?.trim() &&
           messagingSignature?.signatureTitle?.trim();
@@ -138,7 +122,6 @@ const PersonalInformationSection = ({ dob }) => {
       dob,
       hasMessagingSignatureError,
       isMessagingServiceEnabled,
-      messagingSignatureEnabled,
       messagingSignature,
     ],
   );
@@ -181,7 +164,7 @@ const PersonalInformationSection = ({ dob }) => {
           </div>
         </va-additional-info>
       </div>
-      <ProfileInfoCard data={updatedCardFields} level={1} />
+      <ProfileInfoSection data={updatedCardFields} level={1} />
     </div>
   );
 };

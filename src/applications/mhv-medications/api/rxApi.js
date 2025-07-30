@@ -2,12 +2,7 @@ import {
   apiRequest,
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
-import {
-  INCLUDE_IMAGE_ENDPOINT,
-  filterOptions,
-  rxListSortingOptions,
-  tooltipNames,
-} from '../util/constants';
+import { tooltipNames } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 const headers = {
@@ -59,116 +54,6 @@ export const testableApiRequestWithRetry = (
   }
 
   return response;
-};
-
-/**
- * Recursive function that will continue polling the provided API endpoint if it sends a 404 response.
- * At this time, we will only get a 404 if the patient record has not yet been created.
- * @param {String} path the API endpoint
- * @param {Object} options headers, method, etc.
- * @param {number} endTime the cutoff time to stop polling the path and simply return the error
- * @returns
- */
-const apiRequestWithRetry = async (path, options, endTime) => {
-  return testableApiRequestWithRetry(2000, apiRequest)(path, options, endTime);
-};
-
-export const getAllergies = async () => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/allergies`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
-};
-
-export const getDocumentation = id => {
-  return apiRequest(`${apiBasePath}/prescriptions/${id}/documentation`, {
-    method: 'GET',
-    headers,
-  });
-};
-
-// **Remove once filter feature is developed and live.**
-export const getPaginatedSortedList = (
-  pageNumber = 1,
-  sortEndpoint = '',
-  perPage = 10,
-) => {
-  return apiRequest(
-    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=${perPage}${sortEndpoint}`,
-    { headers },
-  );
-};
-
-export const getFilteredList = (
-  pageNumber = 1,
-  filterOption = '',
-  sortEndpoint = '',
-  perPage = 10,
-) => {
-  return apiRequest(
-    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=${perPage}${filterOption}${sortEndpoint}`,
-    { headers },
-  );
-};
-
-/**
- * get full list of recently requested medications to identify those running late
- */
-export const getRecentlyRequestedList = () => {
-  return apiRequest(
-    `${apiBasePath}/prescriptions?${filterOptions.RECENTLY_REQUESTED.url}${
-      rxListSortingOptions.alphabeticalOrder.API_ENDPOINT
-    }`,
-    { headers },
-  );
-};
-
-export const getRefillablePrescriptionList = () => {
-  return apiRequest(
-    `${apiBasePath}/prescriptions/list_refillable_prescriptions`,
-    { headers },
-  );
-};
-
-export const getPrescriptionImage = cmopNdcNumber => {
-  return apiRequest(
-    `${apiBasePath}/prescriptions/get_prescription_image/${cmopNdcNumber}`,
-    { headers },
-  );
-};
-
-export const getPrescriptionSortedList = (
-  sortEndpoint,
-  includeImage = false,
-) => {
-  return apiRequest(
-    `${apiBasePath}/prescriptions?${sortEndpoint}${
-      includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
-    }`,
-    { headers },
-  );
-};
-
-export const getPrescription = id => {
-  return apiRequest(`${apiBasePath}/prescriptions/${id}`, { headers });
-};
-
-export const fillRx = id => {
-  return apiRequest(`${apiBasePath}/prescriptions/${id}/refill`, {
-    method: 'PATCH',
-    headers,
-  });
-};
-
-export const fillRxs = ids => {
-  const idParams = ids.map(id => `ids[]=${id}`).join('&');
-  const url = `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`;
-  const requestOptions = {
-    method: 'PATCH',
-    headers,
-  };
-  return apiRequest(url, requestOptions);
 };
 
 /**
@@ -224,4 +109,27 @@ export const incrementTooltipCounter = async tooltipId => {
       headers: getHeadersWithInflection(),
     },
   );
+};
+
+/**
+ * Posts an activity log when user lands medications details page
+ */
+export const landMedicationDetailsAal = prescription => {
+  return apiRequest(`${apiBasePath}/aal`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      aal: {
+        activityType: 'RxRefill',
+        action: 'View Medication Detail Page',
+        detailValue: `RX #: ${prescription.prescriptionNumber} RX Name: ${
+          prescription.prescriptionName
+        }`,
+        performerType: 'Self',
+        status: '1',
+      },
+      product: 'rx',
+      oncePerSession: true,
+    }),
+  });
 };

@@ -1,4 +1,4 @@
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import {
   yesNoUI,
   yesNoSchema,
@@ -7,23 +7,23 @@ import {
   privateRecordsChoiceHelp,
   patientAcknowledgmentTitle,
   patientAcknowledgmentText,
+  patientAcknowledgmentError,
 } from '../content/privateMedicalRecords';
+import { standardTitle } from '../content/form0781';
+
+const isNotUploadingPrivateRecords = data =>
+  data?.['view:hasPrivateRecordsToUpload'] === false;
 
 export const uiSchema = {
+  'ui:title': standardTitle('Private medical records'),
   'ui:description':
     'Now we’ll ask you about your private medical records for your condition.',
-  'view:aboutPrivateMedicalRecords': {
-    'ui:title': 'About private medical records',
-    'ui:description': `If you have your private medical records, you can upload them to your
-      application. If you want us to get them for you, you’ll need to
-      authorize their release.`,
-  },
   'view:uploadPrivateRecordsQualifier': {
     'view:hasPrivateRecordsToUpload': yesNoUI({
       title: 'Do you want to upload your private medical records?',
       labels: {
         Y: 'Yes',
-        N: 'No, please get my records from my doctor.',
+        N: 'No, please get my records from my provider.',
       },
     }),
     'view:privateRecordsChoiceHelp': {
@@ -34,32 +34,39 @@ export const uiSchema = {
     'ui:title': patientAcknowledgmentTitle,
     'ui:options': {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
-      expandUnderCondition: data =>
-        data?.['view:hasPrivateRecordsToUpload'] === false,
-      showFieldLabel: false,
-      // forceDivWrapper: true,
+      expandUnderCondition: isNotUploadingPrivateRecords,
+      showFieldLabel: true,
     },
+    'ui:validations': [
+      (errors, fieldData, formData) => {
+        const shouldValidate =
+          formData?.['view:uploadPrivateRecordsQualifier']?.[
+            'view:hasPrivateRecordsToUpload'
+          ] === false;
+
+        if (shouldValidate) {
+          return validateBooleanGroup(errors, fieldData, null, null, {
+            atLeastOne: patientAcknowledgmentError,
+          });
+        }
+
+        return errors;
+      },
+    ],
     'view:acknowledgement': {
       'ui:title': 'I acknowledge and authorize this release of information',
-      'ui:webComponentField': VaCheckboxField,
       'ui:options': {
         useDlWrap: true,
       },
     },
-    'view:helpText': {
-      'ui:title': ' ',
-      'ui:description': patientAcknowledgmentText,
-      'ui:options': {
-        forceDivWrapper: true,
-      },
+  },
+  'view:patientAcknowledgmentHelp': {
+    'ui:description': patientAcknowledgmentText,
+    'ui:options': {
+      expandUnder: 'view:uploadPrivateRecordsQualifier',
+      expandUnderCondition: isNotUploadingPrivateRecords,
+      forceDivWrapper: true,
     },
-    'ui:validations': [
-      (errors, item) => {
-        if (!item['view:acknowledgement']) {
-          errors.addError('You must accept the acknowledgment');
-        }
-      },
-    ],
   },
 };
 
@@ -90,13 +97,13 @@ export const schema = {
       properties: {
         'view:acknowledgement': {
           type: 'boolean',
-          default: true,
-        },
-        'view:helpText': {
-          type: 'object',
-          properties: {},
+          default: false,
         },
       },
+    },
+    'view:patientAcknowledgmentHelp': {
+      type: 'object',
+      properties: {},
     },
   },
 };

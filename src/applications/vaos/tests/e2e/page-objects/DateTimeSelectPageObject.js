@@ -1,14 +1,15 @@
-import moment from 'moment';
+import { endOfMonth } from 'date-fns';
+import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import PageObject from './PageObject';
 
-export class DateTimeSelectPageObject extends PageObject {
+class DateTimeSelectPageObject extends PageObject {
   assertDateSelected(date, facilityId = 983) {
     const timezone = getTimezoneByFacilityId(facilityId);
-    const d = moment(date).tz(timezone);
+    const d = zonedTimeToUtc(date, timezone);
 
     cy.findByRole('radio', {
-      name: `${d.format('h:mm')} ${d.format('A')} option selected`,
+      name: `${formatInTimeZone(d, timezone, 'h:mm a..aa')} option selected`,
     });
 
     return this;
@@ -32,11 +33,8 @@ export class DateTimeSelectPageObject extends PageObject {
   }
 
   clickNextMonth() {
-    const todayDate = moment().date();
-    const endOfMonthDate = moment()
-      .clone()
-      .endOf('month')
-      .date();
+    const todayDate = new Date().getDate();
+    const endOfMonthDate = endOfMonth(todayDate).getDate();
 
     cy.contains('button', 'Next')
       .as('button')
@@ -65,7 +63,6 @@ export class DateTimeSelectPageObject extends PageObject {
   }
 
   selectDate(date) {
-    // console.log(typeof date, date instanceof moment)
     cy.get(
       `.vaos-calendar__calendars button[id^="date-cell-${date.format(
         'YYYY-MM-DD',

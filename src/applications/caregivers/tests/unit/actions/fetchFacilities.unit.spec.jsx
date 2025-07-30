@@ -13,6 +13,7 @@ import content from '../../../locales/en/content.json';
 
 // declare error message content
 const ERROR_MSG_NO_RESULTS = content['error--no-results-found'];
+const ERROR_MSG_GENERIC = content['error--facilities--generic'];
 
 describe('CG fetchFacilities action', () => {
   const buildExpectedBody = ({
@@ -119,7 +120,7 @@ describe('CG fetchFacilities action', () => {
       const response = await fetchFacilities({ long, lat });
       expect(response).to.deep.eq({
         type: 'SEARCH_FAILED',
-        errorMessage: 'There was an error fetching the health care facilities.',
+        errorMessage: ERROR_MSG_GENERIC,
       });
       sinon.assert.calledOnce(apiRequestStub);
     });
@@ -134,7 +135,7 @@ describe('CG fetchFacilities action', () => {
       const response = await fetchFacilities({ long, lat });
       expect(response).to.deep.eq({
         type: 'SEARCH_FAILED',
-        errorMessage: 'There was an error fetching the health care facilities.',
+        errorMessage: ERROR_MSG_GENERIC,
       });
       expect(localStorage.getItem('csrfToken')).to.be.null;
       sinon.assert.calledOnce(apiRequestStub);

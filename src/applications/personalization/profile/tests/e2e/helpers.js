@@ -78,20 +78,20 @@ export function nameTagRendersWithDisabilityRating() {
   nameTagRenders();
   cy.findByText('Your disability rating:').should('exist');
   cy.findByText('90% service connected').should('exist');
-  cy.findByText(/View disability rating/i).should('not.exist');
+  cy.findByText(/Review your disability rating/i).should('not.exist');
 }
 
 export function nameTagRendersWithFallbackLink() {
   nameTagRenders();
   cy.findByText('Your disability rating:').should('not.exist');
-  cy.findByText(/View disability rating/i).should('exist');
+  cy.findByText(/Review your disability rating/i).should('exist');
   cy.findByText(/service connected/i).should('not.exist');
 }
 
 export function nameTagRendersWithoutDisabilityRating() {
   nameTagRenders();
   cy.findByText('Your disability rating:').should('not.exist');
-  cy.findByText(/View disability rating/i).should('not.exist');
+  cy.findByText(/Review your disability rating/i).should('not.exist');
   cy.findByText(/service connected/i).should('not.exist');
 }
 

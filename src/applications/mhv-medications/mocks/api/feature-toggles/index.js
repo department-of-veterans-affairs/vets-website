@@ -2,9 +2,7 @@ const generateFeatureToggles = (toggles = {}) => {
   const {
     mhvLandingPagePersonalization = true,
     mhvMedicationsToVaGovRelease = true,
-    mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
-    mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
     mhvMedicationsDisplayPendingMeds = true,
     mhvMedicationsDisplayRefillProgress = true,
@@ -27,16 +25,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsToVaGovRelease,
         },
         {
-          name: 'mhv_medications_display_refill_content',
-          value: mhvMedicationsDisplayRefillContent,
-        },
-        {
           name: 'mhv_medications_display_documentation_content',
           value: mhvMedicationsDisplayDocumentationContent,
-        },
-        {
-          name: 'mhv_medications_display_filter',
-          value: mhvMedicationsDisplayFilter,
         },
         {
           name: 'mhv_medications_display_grouping',

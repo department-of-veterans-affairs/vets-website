@@ -24,7 +24,7 @@ import {
 } from './config/enums';
 
 const NonVeteranUpdateAlert = () => (
-  <VaAlert status="warning" visible>
+  <VaAlert status="warning" visible className="vads-u-margin-bottom--2">
     <h3 slot="headline">
       You can’t update direct deposit information online right now
     </h3>

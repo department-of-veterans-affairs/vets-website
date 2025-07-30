@@ -21,13 +21,21 @@ const ratedDisabilityPage = {
         'Select which of your service-connected disabilities have worsened.',
       hint:
         'Choose one, you will return to this screen if you need to add more.',
-      updateUiSchema: (_formData, fullData) => ({
-        'ui:options': {
-          descriptions: createRatedDisabilityDescriptions(fullData),
-        },
-      }),
-      updateSchema: (_formData, _schema, _uiSchema, _index, _path, fullData) =>
-        radioSchema(Object.keys(createRatedDisabilitySchema(fullData))),
+
+      updateSchema: (_formData, _schema, uiSchema, _index, _path, fullData) => {
+        const options = Object.keys(createRatedDisabilitySchema(fullData));
+        const descriptions = createRatedDisabilityDescriptions(fullData);
+
+        // Inject descriptions directly into uiSchema at schema update time
+        // Temporary eslint fix to address the form system’s dynamic schema injection pattern
+        // eslint-disable-next-line no-param-reassign
+        uiSchema['ui:options'] = {
+          ...(uiSchema['ui:options'] || {}),
+          descriptions,
+        };
+
+        return radioSchema(options);
+      },
     }),
   },
   schema: {

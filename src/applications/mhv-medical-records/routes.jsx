@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
 import AppRoute from './components/shared/AppRoute';
@@ -191,7 +191,7 @@ const routes = (
           <DownloadFileType />
         </AppRoute>
         <Route>
-          <PageNotFound />
+          <MhvPageNotFound />
         </Route>
       </Switch>
     </Suspense>

@@ -12,13 +12,15 @@ import {
   getLocations,
   getLocationsByTypeOfCareAndSiteIds,
 } from '.';
-import { createMockFacility } from '../../tests/mocks/data';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockFacilitiesApi,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
 } from '../../tests/mocks/mockApis';
-import { VHA_FHIR_ID } from '../../utils/constants';
+import { VHA_FHIR_ID, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import ccProviders from '../mocks/v2/cc_providers.json';
 import facilityDetails from '../mocks/v2/facilities.json';
 
@@ -106,30 +108,35 @@ describe('VAOS Services: Location ', () => {
       mockFacilitiesApi({
         children: true,
         response: [
-          createMockFacility({
-            id: '983',
-            name: 'Cheyenne VA Medical Center',
+          new MockFacilityResponse(),
+          new MockFacilityResponse({ id: '984' }),
+        ],
+      });
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+                directEnabled: true,
+              }),
+            ],
           }),
-          createMockFacility({
-            id: '984',
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+              }),
+            ],
           }),
         ],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-        }),
-      ]);
 
       data = await getLocationsByTypeOfCareAndSiteIds({
-        typeOfCareId: '323',
+        typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
         siteIds: ['983', '984'],
       });
 
@@ -141,8 +148,14 @@ describe('VAOS Services: Location ', () => {
       );
       expect(data[0].resourceType).to.equal('Location');
       expect(data[0].name).to.equal('Cheyenne VA Medical Center');
-      expect(data[0].legacyVAR.settings['323'].request.enabled).to.be.true;
-      expect(data[0].legacyVAR.settings['323'].direct.enabled).to.be.true;
+      expect(
+        data[0].legacyVAR.settings[TYPE_OF_CARE_IDS.PRIMARY_CARE].request
+          .enabled,
+      ).to.be.true;
+      expect(
+        data[0].legacyVAR.settings[TYPE_OF_CARE_IDS.PRIMARY_CARE].direct
+          .enabled,
+      ).to.be.true;
     });
 
     it('should return OperationOutcome error', async () => {
@@ -154,7 +167,7 @@ describe('VAOS Services: Location ', () => {
       let error;
       try {
         data = await getLocationsByTypeOfCareAndSiteIds({
-          typeOfCareId: '323',
+          typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
           siteIds: ['983', '984'],
         });
       } catch (e) {

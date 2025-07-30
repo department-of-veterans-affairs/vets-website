@@ -4,15 +4,12 @@ import { connect } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import {
-  HelpTextOptions,
-  HelpTextGeneral,
-  HelpTextModalities,
-} from '../../HelpText';
+import { HelpTextOptions, HelpTextModalities } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
 import {
   recordSmocButtonClick,
@@ -86,10 +83,6 @@ const AddressPage = ({
           />
         </va-alert>
         <HelpTextModalities />
-        <h2 className="vads-u-font-size--h4">
-          How can I get help with my claim?
-        </h2>
-        <HelpTextGeneral />
         <br />
         <va-button
           back
@@ -108,6 +101,11 @@ const AddressPage = ({
         value={yesNo.address}
         error={requiredAlert}
         label={title}
+        description={`Answer “yes” if you traveled from the address listed here and you confirm that it’s not a Post Office box. Home address. ${
+          address.addressLine1
+        } ${address.addressLine2 ?? ''} ${address.addressLine3 ?? ''} ${
+          address.city
+        }, ${address.stateCode} ${address.zipCode}`}
         onValueChange={e => {
           setYesNo({ ...yesNo, address: e.detail.value });
         }}
@@ -143,6 +141,7 @@ const AddressPage = ({
         </div>
       </SmocRadio>
       <HelpTextOptions
+        dataTestId="address-help-text"
         trigger="If you didn't travel from your home address"
         headline="If you traveled from a different address, you can’t file a claim in this tool right now."
       />

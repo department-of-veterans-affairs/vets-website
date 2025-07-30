@@ -174,6 +174,7 @@ export const certifierRelationshipSchema = {
       'ui:title': `Describe your relationship to the beneficiary`,
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
+        classNames: ['dd-privacy-hidden'],
         expandUnder: 'certifierRelationship',
         expandUnderCondition: 'other',
         expandedContentFocus: true,
@@ -212,6 +213,33 @@ export const certifierRelationshipSchema = {
       certifierOtherRelationship: {
         type: 'string',
       },
+    },
+  },
+};
+
+export const certifierClaimStatusSchema = {
+  uiSchema: {
+    ...titleUI(({ formData }) => {
+      return `${
+        formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+      } CHAMPVA claim status`;
+    }),
+    claimStatus: radioUI({
+      type: 'radio',
+      title: 'Is this a new claim or a resubmission for an existing claim?',
+      required: () => true,
+      labels: {
+        new: 'A new claim',
+        resubmission: 'A resubmission for an existing claim',
+      },
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['claimStatus'],
+    properties: {
+      titleSchema,
+      claimStatus: radioSchema(['new', 'resubmission']),
     },
   },
 };

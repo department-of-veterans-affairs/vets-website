@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
+import { privWrapper } from '../../shared/utilities';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -38,14 +38,14 @@ export class ConfirmationPage extends React.Component {
         </VaAlert>
 
         <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
+          <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
             Your submission information
-          </h3>
+          </h2>
           {data.statementOfTruthSignature && (
             <p>
               <strong>Who submitted this form</strong>
               <br />
-              {data.statementOfTruthSignature}
+              {privWrapper(data.statementOfTruthSignature)}
               <br />
             </p>
           )}

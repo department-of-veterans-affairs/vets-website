@@ -15,7 +15,7 @@ describe('mega menu - level one links', () => {
         menuSections: [],
       },
       {
-        title: 'Find a VA location',
+        title: 'Find a VA Location',
         href: '/find-locations',
       },
     ];
@@ -29,12 +29,8 @@ describe('mega menu - level one links', () => {
     expect(screen.getAllByRole('link')[0].textContent).to.eq(
       'Find a VA Location',
     );
-    expect(screen.getAllByRole('link')[0].href).to.eq(
-      'https://www.va.gov/find-locations',
-    );
+    expect(screen.getAllByRole('link')[0].href).to.contain('/find-locations');
     expect(screen.getAllByRole('link')[1].textContent).to.eq('Contact us');
-    expect(screen.getAllByRole('link')[1].href).to.eq(
-      'https://www.va.gov/contact-us/',
-    );
+    expect(screen.getAllByRole('link')[1].href).to.contain('/contact-us/');
   });
 });

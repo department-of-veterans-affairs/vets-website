@@ -6,6 +6,7 @@ import configureStore from 'redux-mock-store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
+import { isValidStudentRatio } from '../../utilities';
 
 const mockStore = configureStore([]);
 
@@ -19,7 +20,7 @@ const renderWithStore = (state = {}) => {
     form: { data: state },
   });
 
-  return render(
+  const providerRender = render(
     <Provider store={store}>
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -28,17 +29,32 @@ const renderWithStore = (state = {}) => {
       />
     </Provider>,
   );
+  const validateDate =
+    uiSchema.studentRatioCalcChapter.dateOfCalculation['ui:validations'][0];
+  const validateNumOfStudents =
+    uiSchema.studentRatioCalcChapter.numOfStudent['ui:validations'][0];
+  const validateRatio =
+    uiSchema.studentRatioCalcChapter.beneficiaryStudent['ui:validations'][0];
+
+  return {
+    ...providerRender,
+    validateDate,
+    validateNumOfStudents,
+    validateRatio,
+  };
 };
 
 describe('Student Ratio Calculation page', () => {
-  it('Renders the page with the correct number of inputs', () => {
+  it('Renders the page with the correct number of inputs', async () => {
     const { container, getByRole } = renderWithStore({});
 
     expect($$('va-text-input', container).length).to.equal(2);
     expect($$('va-memorable-date', container).length).to.equal(1);
     expect($$('va-alert', container).length).to.equal(1);
     getByRole('button', { name: /submit/i }).click();
-    expect($$('va-memorable-date[error]', container).length).to.equal(1);
+    await waitFor(() => {
+      expect($$('va-memorable-date[error]', container).length).to.equal(1);
+    });
   });
   it('Shows correct date validation message when date more than 30 days from term start date', async () => {
     const data = {
@@ -114,10 +130,10 @@ describe('Student Ratio Calculation page', () => {
     waitFor(() => {
       expect($$('va-text-input[error]', container).length).to.equal(1);
       expect(input.error).to.contain(
-        'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this is an error, contact your ELR',
+        'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this calculation is an error, contact your ELR',
       );
       expect(errors.messages).to.contain(
-        'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this is an error, contact your ELR',
+        'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this calculation is an error, contact your ELR',
       );
       expect($('va-alert[status="error"]', container)).to.exist;
     });
@@ -162,5 +178,81 @@ describe('Student Ratio Calculation page', () => {
         'Number of VA beneficiaries cannot surpass the total number of students',
       );
     });
+  });
+  it('returns true when beneficiary ≤ total (and both ≥ 0)', () => {
+    const formData = {
+      studentRatioCalcChapter: { beneficiaryStudent: 20, numOfStudent: 100 },
+    };
+    expect(isValidStudentRatio(formData)).to.equal(true);
+  });
+
+  it('adds an error when date is > 30 days after termStartDate', () => {
+    const { validateDate } = renderWithStore();
+    const errors = { messages: [], addError: m => errors.messages.push(m) };
+    const formData = { institutionDetails: { termStartDate: '2025-01-01' } };
+
+    validateDate(errors, '2025-02-05', formData);
+
+    expect(errors.messages).to.contain(
+      'Please enter a date within 30 calendar days of the term start date',
+    );
+  });
+
+  it('does NOT add an error when date is within 30 days of termStartDate', () => {
+    const { validateDate } = renderWithStore();
+    const errors = { messages: [], addError: m => errors.messages.push(m) };
+    const formData = { institutionDetails: { termStartDate: '2025-01-01' } };
+
+    validateDate(errors, '2025-01-30', formData);
+
+    expect(errors.messages).to.be.empty;
+  });
+
+  it('adds an error when total students < beneficiaries', () => {
+    const { validateNumOfStudents } = renderWithStore();
+    const errors = { messages: [], addError: m => errors.messages.push(m) };
+    const formData = { studentRatioCalcChapter: { beneficiaryStudent: 100 } };
+
+    validateNumOfStudents(errors, '25', formData);
+
+    expect(errors.messages).to.contain(
+      'Number of VA beneficiaries cannot surpass the total number of students',
+    );
+  });
+
+  it('does NOT add an error when total students ≥ beneficiaries', () => {
+    const { validateNumOfStudents } = renderWithStore();
+    const errors = { messages: [], addError: m => errors.messages.push(m) };
+    const formData = { studentRatioCalcChapter: { beneficiaryStudent: 25 } };
+
+    validateNumOfStudents(errors, '100', formData);
+
+    expect(errors.messages).to.be.empty;
+  });
+
+  it('adds an error when the ratio exceeds 35%', () => {
+    const { validateRatio } = renderWithStore();
+    const errors = { messages: [], addError: m => errors.messages.push(m) };
+    const formData = {
+      studentRatioCalcChapter: { beneficiaryStudent: 36, numOfStudent: 100 },
+    };
+
+    validateRatio(errors, '36', formData);
+
+    expect(errors.messages).to.contain(
+      'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this calculation is an error, contact your ELR',
+    );
+  });
+
+  it('does NOT add an error when the ratio is 35% or below', () => {
+    const { validateRatio } = renderWithStore();
+    const errors = { messages: [], addError: m => errors.messages.push(m) };
+    const formData = {
+      studentRatioCalcChapter: { beneficiaryStudent: 35, numOfStudent: 100 },
+    };
+
+    validateRatio(errors, '35', formData);
+
+    expect(errors.messages).to.be.empty;
   });
 });

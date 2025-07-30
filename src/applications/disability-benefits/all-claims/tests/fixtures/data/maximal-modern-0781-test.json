@@ -201,10 +201,6 @@
         {
           "from": "2016-01-01",
           "to": "2017-01-01"
-        },
-        {
-          "from": "2017-01-06",
-          "to": "2017-04-01"
         }
       ],
       "powDisabilities": {
@@ -329,7 +325,7 @@
     "skip781ForCombatReason": false,
     "view:ptsdCombatBypassAdditionalInfo": {},
     "view:mentalHealthSupportAlert": {},
-    "view:mentalHealthWorkflowChoice": "optForOnlineForm0781",
+    "mentalHealthWorkflowChoice": "optForOnlineForm0781",
     "eventTypes": {
       "combat": true,
       "mst": true,
@@ -379,8 +375,8 @@
       "socialEconomic": true,
       "unlisted": true
     },
-    "view:noneCheckbox": {
-      "view:noBehaviorChanges": false
+    "noBehavioralChange": {
+      "noChange": false
     },
     "treatmentReceivedNonVaProvider": {
       "nonVa": true,

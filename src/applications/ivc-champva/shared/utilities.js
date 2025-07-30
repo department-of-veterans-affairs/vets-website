@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 /**
@@ -166,18 +168,19 @@ export function concatStreets(addr, newLines = false) {
 }
 
 /**
- * Retrieves an array of objects containing the property 'attachmentId'
+ * Retrieves an array of objects containing the property name specified
  * from the given object.
  *
- * @param {Object} obj - The input object to search for objects with 'attachmentId'.
+ * @param {Object} obj - The input object to search for objects with keyname.
+ * @param {String} [keyname="attachmentId"] - The keyname to search for within input obj
  * @returns {Array} - An array containing objects with the 'attachmentId' property.
  */
-export function getObjectsWithAttachmentId(obj) {
+export function getObjectsWithAttachmentId(obj, keyname = 'attachmentId') {
   const objectsWithAttachmentId = [];
   _.forEach(obj, value => {
     if (_.isArray(value)) {
       _.forEach(value, item => {
-        if (_.isObject(item) && _.has(item, 'attachmentId')) {
+        if (_.isObject(item) && _.has(item, keyname)) {
           objectsWithAttachmentId.push(item);
         }
       });
@@ -186,3 +189,84 @@ export function getObjectsWithAttachmentId(obj) {
 
   return objectsWithAttachmentId;
 }
+
+/**
+ * Produces a simple (non secure) hash of the passed in string.
+ * See https://stackoverflow.com/a/8831937
+ * @param {string} val string to be hashed
+ * @returns hash of input string
+ */
+export function toHash(val) {
+  const str = val ?? '';
+  let hash = 0;
+  Object.keys(str).forEach(i => {
+    const chr = str.charCodeAt(i);
+    hash = hash * 32 - hash + chr;
+    hash = Math.floor(hash);
+  });
+  return hash.toString(16);
+}
+
+/**
+ * Converts date string in YYYY-MM-DD fmt to MM/DD/YYYY
+ * @param {String} date date in format YYYY-MM-DD
+ * @returns d reformatted as MM/DD/YYYY
+ */
+export function fmtDate(date) {
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return '';
+  }
+  const [year, month, day] = date.split('-');
+  return `${month}/${day}/${year}`;
+}
+
+/**
+ * Wraps input in a <span> with dd-privacy-hidden class applied
+ * @param {JSX|String} children JSX or string to wrap in a privacy class
+ * @returns JSX
+ */
+export function privWrapper(children) {
+  return <span className="dd-privacy-hidden">{children}</span>;
+}
+
+/**
+ * Displays a standard ui:objectViewField but with individual keys/values
+ * wrapped in the `dd-privacy-hidden` class to prevent PII entering RUM replays.
+ * Helpful for cleaning up review page PII when setting classNames in `ui:options`
+ * doesn't work (typically because of an `updateUiSchema` being used)
+ * @param {Object} props Props passed to standard ui:objectViewField
+ * @returns
+ */
+export function PrivWrappedReview(props) {
+  // IMPORTANT: props.title could have PII, so exercise caution. Override
+  // with an explicit `itemAriaLabel` as needed.
+  const title = typeof props.title === 'function' ? props.title() : props.title;
+  const ariaLabel = props?.uiSchema?.['ui:options']?.itemAriaLabel() ?? title;
+  const editAriaLabel = `Edit ${ariaLabel}`;
+
+  return (
+    <div className="form-review-panel-page">
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          {privWrapper(title)}
+        </h4>
+        <div className="vads-u-justify-content--flex-end">
+          {props.defaultEditButton({ label: editAriaLabel })}
+        </div>
+      </div>
+      <dl className="review dd-privacy-hidden">
+        {props.renderedProperties.map(p => {
+          return p;
+        })}
+      </dl>
+    </div>
+  );
+}
+
+PrivWrappedReview.propTypes = {
+  defaultEditButton: PropTypes.any,
+  formData: PropTypes.object,
+  renderedProperties: PropTypes.any,
+  title: PropTypes.string,
+  uiSchema: PropTypes.object,
+};

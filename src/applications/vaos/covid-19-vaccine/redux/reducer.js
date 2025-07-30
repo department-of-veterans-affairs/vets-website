@@ -38,9 +38,12 @@ import {
   VACCINE_FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
 
-import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
+import {
+  FACILITY_SORT_METHODS,
+  FETCH_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../utils/constants';
 import { distanceBetween } from '../../utils/address';
-import { TYPE_OF_CARE_ID } from '../utils';
 
 const initialState = {
   newBooking: {
@@ -203,7 +206,8 @@ export default function covid19VaccineReducer(state = initialState, action) {
 
       const typeOfCareFacilities = facilities.filter(
         facility =>
-          facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
+          facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]?.direct
+            .enabled,
       );
 
       let { data } = state.newBooking;

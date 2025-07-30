@@ -129,6 +129,20 @@ Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
   }
 });
 
+Cypress.Commands.add('fillVaTelephoneInput', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-telephone-input[name="${field}"]`)
+        : cy.wrap(field);
+    element.shadow().within(() => {
+      cy.get('va-text-input').then($contact => {
+        cy.fillVaTextInput($contact, value.contact);
+      });
+    });
+  }
+});
+
 function fillVaDateFields(year, month, day, monthYearOnly) {
   cy.get('@currentElement')
     .shadow()
@@ -306,6 +320,11 @@ Cypress.Commands.add('enterWebComponentData', field => {
       break;
     }
 
+    case 'VA-TELEPHONE-INPUT': {
+      cy.fillVaTelephoneInput(field.key, field.data);
+      break;
+    }
+
     case 'VA-MEMORABLE-DATE': {
       cy.fillVaMemorableDate(field.key, field.data);
       break;
@@ -337,5 +356,117 @@ Cypress.Commands.add(
     if (!isLastItem) {
       cy.get('button.va-growable-add-btn').click();
     }
+  },
+);
+
+/**
+ * Custom command to check if the current page uses web components.
+ *
+ * @example
+ * cy.checkWebComponent(hasWebComponents => {
+ *   if (hasWebComponents) {
+ *     // Handle web components case
+ *   } else {
+ *     // Handle traditional form elements
+ *   }
+ * });
+ */
+Cypress.Commands.add('checkWebComponent', callback => {
+  // Check for common VA web component prefixes
+  const webComponentSelectors = [
+    'va-text-input',
+    'va-textarea',
+    'va-select',
+    'va-checkbox',
+    'va-radio-option',
+    'va-date',
+    'va-memorable-date',
+    'va-button',
+    'va-card',
+  ];
+
+  cy.document().then(document => {
+    const hasWebComponents = webComponentSelectors.some(
+      selector => document.querySelector(selector) !== null,
+    );
+
+    // Execute the callback with the result
+    callback(hasWebComponents);
+  });
+});
+
+Cypress.Commands.add(
+  'fillAddressWebComponentPattern',
+  (fieldName, addressObject) => {
+    if (!addressObject) {
+      return;
+    }
+    cy.selectVaCheckbox(
+      `root_${fieldName}_isMilitary`,
+      addressObject.isMilitary,
+    );
+
+    if (addressObject.city) {
+      if (addressObject.isMilitary) {
+        cy.get('body').then(body => {
+          if (body.find(`va-radio[name="root_${fieldName}_city"]`).length > 0) {
+            cy.selectVaRadioOption(
+              `root_${fieldName}_city`,
+              addressObject.city,
+            );
+          } else {
+            cy.selectVaSelect(`root_${fieldName}_city`, addressObject.city);
+          }
+        });
+      } else {
+        cy.fillVaTextInput(`root_${fieldName}_city`, addressObject.city);
+      }
+    }
+
+    cy.selectVaSelect(`root_${fieldName}_country`, addressObject.country);
+    cy.fillVaTextInput(`root_${fieldName}_street`, addressObject.street);
+    cy.fillVaTextInput(`root_${fieldName}_street2`, addressObject.street2);
+    cy.fillVaTextInput(`root_${fieldName}_street3`, addressObject.street3);
+
+    cy.get('body').then(body => {
+      const stateField = `root_${fieldName}_state`;
+
+      if (
+        addressObject.isMilitary &&
+        body.find(`va-radio[name="${stateField}"]`).length
+      ) {
+        cy.selectVaRadioOption(stateField, addressObject.state);
+      } else if (body.find(`va-select[name="${stateField}"]`).length) {
+        cy.selectVaSelect(stateField, addressObject.state);
+      } else if (body.find(`va-text-input[name="${stateField}"]`).length) {
+        cy.fillVaTextInput(stateField, addressObject.state);
+      }
+    });
+
+    cy.fillVaTextInput(
+      `root_${fieldName}_postalCode`,
+      addressObject.postalCode,
+    );
+  },
+);
+
+Cypress.Commands.add(
+  'fillVaStatementOfTruth',
+  (field, { fullName, checked } = {}) => {
+    if (!fullName && typeof checked !== 'boolean') return;
+
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-statement-of-truth[name="${field}"]`)
+        : cy.wrap(field);
+
+    element.shadow().within(() => {
+      if (fullName) {
+        cy.get('va-text-input').then($el => cy.fillVaTextInput($el, fullName));
+      }
+      if (checked) {
+        cy.get('va-checkbox').then($el => cy.selectVaCheckbox($el, checked));
+      }
+    });
   },
 );

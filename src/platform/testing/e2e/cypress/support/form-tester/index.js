@@ -9,7 +9,7 @@ const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 const FIELD_SELECTOR = 'input, select, textarea';
 const WEB_COMPONENT_SELECTORS =
-  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-date, va-memorable-date';
+  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-date, va-memorable-date, va-telephone-input';
 
 const LOADING_SELECTOR = 'va-loading-indicator';
 
@@ -157,7 +157,13 @@ const getFieldSelectors = () => {
  * @param {string} pathname - The pathname of the page to run the page hook on.
  */
 const performPageActions = (pathname, _13647Exception = false) => {
-  cy.axeCheck('main', { _13647Exception });
+  cy.axeCheck('main', {
+    _13647Exception,
+    // Ignore heading order from the first axe check because headers
+    // may be in the shadow dom which may not be loaded yet.
+    // There is another axe check below which DOES check heading order.
+    headingOrder: false,
+  });
 
   cy.execHook(pathname).then(({ hookExecuted, postHook }) => {
     const shouldAutofill = !pathname.match(
@@ -219,7 +225,7 @@ const defaultPostHook = pathname => {
         }
       });
 
-      cy.findByText(/submit/i, { selector: 'button' }).click(FORCE_OPTION);
+      cy.clickFormContinue();
     };
   }
 
@@ -230,12 +236,7 @@ const defaultPostHook = pathname => {
 
   // Everything else should click on the 'Continue' button.
   return () => {
-    cy.findByText(/continue/i, {
-      selector: 'button',
-      timeout: 30000,
-    })
-      .should('be.visible')
-      .click(FORCE_OPTION);
+    cy.clickFormContinue();
   };
 };
 

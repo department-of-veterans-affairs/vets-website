@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import {
   getCovid19VaccineFormPageInfo,
   selectCovid19VaccineFormData,
 } from '../redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { openFormPage, updateFormData } from '../redux/actions';
 import {
@@ -45,11 +43,7 @@ const uiSchema = {
 const pageKey = 'receivedDoseScreener';
 const pageTitle = 'Have you received a COVID-19 vaccine?';
 
-export default function ReceivedDoseScreenerPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-
+export default function ReceivedDoseScreenerPage() {
   const { schema, data, selectPageChangeInProgress } = useSelector(
     state => getCovid19VaccineFormPageInfo(state, pageKey),
     shallowEqual,
@@ -61,9 +55,6 @@ export default function ReceivedDoseScreenerPage({ changeCrumb }) {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
   }, []);
 
   return (
@@ -95,7 +86,3 @@ export default function ReceivedDoseScreenerPage({ changeCrumb }) {
     </div>
   );
 }
-
-ReceivedDoseScreenerPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

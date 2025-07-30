@@ -327,7 +327,7 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
-    cy.get(Locators.BUTTONS.CONTINUE).click();
+    cy.findByTestId(Locators.BUTTONS.CONTINUE).click();
   };
 
   navigateToComposePage = (checkFocusOnVcl = false) => {
@@ -357,7 +357,9 @@ class PatientInboxPage {
   navigateToComposePageByKeyboard = () => {
     cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE);
     cy.realPress(['Enter']);
-    cy.tabToElement(Locators.BUTTONS.CONTINUE);
+    cy.findByTestId(Locators.BUTTONS.CONTINUE).then($el => {
+      cy.tabToElement($el);
+    });
     cy.realPress(['Enter']);
   };
 
@@ -388,15 +390,6 @@ class PatientInboxPage {
   navigateReply = () => {
     cy.tabToElement(Locators.BUTTONS.REPLY);
     cy.realPress(['Enter']);
-  };
-
-  loadLandingPageByTabbingAndEnterKey = () => {
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE +
-        Paths.FOLDERS}/0/messages?per_page=-1&useCache=false`,
-      mockFolders,
-    ).as('folders');
   };
 
   selectAdvancedSearchCategoryCustomFolder = () => {

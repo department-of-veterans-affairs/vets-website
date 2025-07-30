@@ -56,4 +56,18 @@ describe('PensionsApp', () => {
       expect($('va-loading-indicator', container)).to.not.exist;
     });
   });
+
+  it('should render the ITF wrapper on first page', async () => {
+    const mockStore = store({ loading: false, pensionFormEnabled: false });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <PensionsApp
+          location={{ ...pensionLocation, pathname: '/inside-form' }}
+        />
+      </Provider>,
+    );
+    await waitFor(() => {
+      expect($('.itf-wrapper', container)).to.not.exist;
+    });
+  });
 });

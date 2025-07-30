@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import { getAlert, getFormNumber, onClickContinue } from '../helpers';
 
 export const emptyObjectSchema = {
@@ -9,13 +9,54 @@ export const emptyObjectSchema = {
   properties: {},
 };
 
+const formNumber = getFormNumber();
+export const form686cBcList = [
+  { href: '/representative', label: 'VA.gov/representative home' },
+  { href: '/representative/submissions', label: 'Submissions' },
+  {
+    href: `/representative/representative-form-upload/${formNumber}/introduction`,
+    label: `Submit VA Form ${formNumber}`,
+  },
+];
+
+export const uploadTitleAndDescription = {
+  'view:uploadTitle': {
+    'ui:description': Object.freeze(
+      <h3>{`Upload VA Form ${getFormNumber()}`}</h3>,
+    ),
+  },
+  'view:uploadDescription': {
+    'ui:description': Object.freeze(
+      <>
+        <span className="vads-u-font-weight--bold">Note:</span> After you upload
+        your file, you’ll need to continue to the next screen to submit it. If
+        you leave before you submit it, you’ll need to upload it again.
+      </>,
+    ),
+  },
+};
+
 export const claimantTitleAndDescription = {
   'view:claimantTitle': {
     'ui:title': 'Claimant information',
   },
   'view:claimantDescription': {
-    'ui:description':
-      "Note: If the claimant's information here doesn't match the uploaded PDF, it will cause processing delays",
+    'ui:description': Object.freeze(
+      <>
+        <span className="vads-u-font-weight--bold">Note:</span> If the
+        claimant’s information here doesn’t match the uploaded PDF, it will
+        cause processing delays.
+      </>,
+    ),
+  },
+};
+
+export const supportingEvidenceTitleAndDescription = {
+  'view:supportingEvidenceTitle': {
+    'ui:title': 'Upload supporting evidence',
+  },
+  'view:supportingEvidenceDescription': {
+    'ui:description': 'Select supporting documents to upload.',
   },
 };
 
@@ -24,31 +65,18 @@ export const veteranTitleAndDescription = {
     'ui:title': 'Veteran identification information',
   },
   'view:veteranDescription': {
-    'ui:description':
-      "Note: If the veteran's information here doesn't match the uploaded PDF, it will cause processing delays",
-  },
-};
-
-export const representativeTitleAndDescription = {
-  'view:representativeTitle': {
-    'ui:title': 'Representative contact information',
-  },
-  'view:representativeDescription': {
-    'ui:description':
-      "Note: Changes to information here won't apply to your VA Office of General Counsel (OGC) profile.",
+    'ui:description': Object.freeze(
+      <div className="veteran-note">
+        <span className="vads-u-font-weight--bold">Note:</span> If the veteran’s
+        information here doesn’t match the uploaded PDF, it will cause
+        processing delays.
+      </div>,
+    ),
   },
 };
 
 export const CustomTopContent = () => {
-  const formNumber = getFormNumber();
-  const breadcrumbs = [
-    { href: '/representative', label: 'ARP home' },
-    {
-      href: `/representative/representative-form-upload/${formNumber}/introduction`,
-      label: `Upload form ${formNumber}`,
-    },
-  ];
-  const bcString = JSON.stringify(breadcrumbs);
+  const bcString = JSON.stringify(form686cBcList);
   return (
     <va-breadcrumbs
       className="breadcrumbs-container"

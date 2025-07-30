@@ -109,8 +109,9 @@ describe('Schemaform ReviewFieldTemplate', () => {
       </ReviewFieldTemplate>,
     );
 
-    expect(tree.everySubTree('.review-row')).to.be.empty;
-    expect(tree.everySubTree('.test-child').length).to.equal(1);
+    expect(tree.subTree('dl').props.className).to.exist;
+    expect(tree.subTree('dt').text()).to.equal('Test');
+    expect(tree.everySubTree('.test-child').length).to.equal(0);
   });
 
   const hideEmptyUiSchema = {
@@ -127,7 +128,7 @@ describe('Schemaform ReviewFieldTemplate', () => {
         <StringField
           schema={schema}
           uiSchema={hideEmptyUiSchema}
-          formData={'1234'}
+          formData="1234"
         />
       </ReviewFieldTemplate>,
     );
@@ -140,11 +141,7 @@ describe('Schemaform ReviewFieldTemplate', () => {
     const schema = { type: 'string' };
     const tree = SkinDeep.shallowRender(
       <ReviewFieldTemplate schema={schema} uiSchema={hideEmptyUiSchema}>
-        <StringField
-          schema={schema}
-          uiSchema={hideEmptyUiSchema}
-          formData={''}
-        />
+        <StringField schema={schema} uiSchema={hideEmptyUiSchema} formData="" />
       </ReviewFieldTemplate>,
     );
 
@@ -181,7 +178,7 @@ describe('Schemaform ReviewFieldTemplate', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ReviewFieldTemplate schema={schema} uiSchema={uiSchema}>
-        <StringField schema={schema} uiSchema={uiSchema} formData={''} />
+        <StringField schema={schema} uiSchema={uiSchema} formData="" />
       </ReviewFieldTemplate>,
     );
 

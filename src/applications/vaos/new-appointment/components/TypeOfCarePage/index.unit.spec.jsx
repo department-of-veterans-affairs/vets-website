@@ -9,7 +9,8 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import set from 'platform/utilities/data/set';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import moment from 'moment';
+import { addDays, format, subDays } from 'date-fns';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 
 import {
   createTestStore,
@@ -18,12 +19,11 @@ import {
 import TypeOfCarePage from './index';
 
 import { NewAppointment } from '../..';
-import { createMockFacility } from '../../../tests/mocks/data';
 import {
+  mockFacilitiesApi,
   mockV2CommunityCareEligibility,
-  mockVAOSParentSites,
 } from '../../../tests/mocks/mockApis';
-import { FLOW_TYPES } from '../../../utils/constants';
+import { DATE_FORMATS, FLOW_TYPES } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -45,14 +45,13 @@ describe('VAOS Page: TypeOfCarePage', () => {
   beforeEach(() => mockFetch());
 
   it('should open facility type page when CC eligible and has a supported parent site', async () => {
-    mockVAOSParentSites(
-      ['983'],
-      [
-        createMockFacility({ id: '983', isParent: true }),
-        createMockFacility({ id: '983GC', isParent: true }),
+    mockFacilitiesApi({
+      ids: ['983'],
+      response: [
+        new MockFacilityResponse({ isParent: true }),
+        new MockFacilityResponse({ id: '983GC', isParent: true }),
       ],
-      true,
-    );
+    });
     mockV2CommunityCareEligibility({
       parentSites: ['983', '983GC'],
       supportedSites: ['983GC'],
@@ -66,21 +65,18 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-facility-type',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('facility-type'),
     );
   });
 
   it('should skip facility type page if eligible for CC but no supported sites', async () => {
-    mockVAOSParentSites(
-      ['983'],
-      [
-        createMockFacility({ id: '983', isParent: true }),
-        createMockFacility({ id: '983GC', isParent: true }),
+    mockFacilitiesApi({
+      ids: ['983'],
+      response: [
+        new MockFacilityResponse({ isParent: true }),
+        new MockFacilityResponse({ id: '983GC', isParent: true }),
       ],
-      true,
-    );
+    });
     mockV2CommunityCareEligibility({
       parentSites: ['983', '983GC'],
       supportedSites: [],
@@ -94,9 +90,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('location'),
     );
   });
 
@@ -159,9 +153,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
-      ),
+      expect(screen.history.push.lastCall.args[0]).to.equal('location'),
     );
   });
 
@@ -178,9 +170,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
-      ),
+      expect(screen.history.push.lastCall.args[0]).to.equal('location'),
     );
     await cleanup();
 
@@ -234,6 +224,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
       careType: 'PrimaryCare',
       eligible: false,
     });
+    mockFacilitiesApi({ ids: ['983'] });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
     fireEvent.click(await screen.findByLabelText(/podiatry/i));
@@ -265,9 +256,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/eye care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-eye-care',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('eye-care'),
     );
   });
 
@@ -281,9 +270,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/sleep/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-sleep-care',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('sleep-care'),
     );
   });
 
@@ -401,10 +388,16 @@ describe('VAOS Page: TypeOfCarePage', () => {
             id: '139',
             type: 'maintenance_windows',
             attributes: {
-              externalService: 'vaosWarning',
+              externalService: 'vaoswarning',
               description: 'My description',
-              startTime: moment.utc().subtract('1', 'days'),
-              endTime: moment.utc().add('1', 'days'),
+              startTime: format(
+                subDays(new Date(), '1'),
+                DATE_FORMATS.ISODateTimeUTC,
+              ),
+              endTime: format(
+                addDays(new Date(), '1'),
+                DATE_FORMATS.ISODateTimeUTC,
+              ),
             },
           },
         ],
@@ -424,7 +417,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     const store = createTestStore(state);
     const screen = renderWithStoreAndRouter(<NewAppointment />, {
       store,
-      path: '/new-appointment',
+      path: '/type-of-care',
     });
 
     expect(
@@ -447,9 +440,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-appointment',
-      ),
+      expect(screen.history.push.lastCall.args[0]).to.equal('covid-vaccine/'),
     );
   });
 });

@@ -1,7 +1,6 @@
 import { getSelected, hasDuplicates, hasSomeSelected } from '../utils/issues';
-import { noneSelected } from '../content/contestableIssues';
+import { NONE_SELECTED_ERROR, MAX_LENGTH } from '../constants';
 import errorMessages from '../content/errorMessages';
-import { MAX_LENGTH } from '../constants';
 
 export const selectionRequired = (
   errors,
@@ -17,7 +16,7 @@ export const selectionRequired = (
   // Fall back to formData for unit testing
   const data = Object.keys(appStateData || {}).length ? appStateData : formData;
   if (errors && !hasSomeSelected(data)) {
-    errors.addError(noneSelected);
+    errors.addError(NONE_SELECTED_ERROR);
   }
 };
 

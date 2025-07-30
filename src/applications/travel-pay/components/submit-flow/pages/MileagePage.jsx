@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
@@ -62,6 +63,11 @@ const MileagePage = ({
         value={yesNo.mileage}
         label={title}
         error={requiredAlert}
+        description={`For your appointment on ${formattedDate} at ${formattedTime} ${
+          data.location?.attributes?.name
+            ? `at ${data.location.attributes.name}`
+            : ''
+        }, ${data.reasonForAppointment ?? ''}`}
         onValueChange={e => {
           setYesNo({ ...yesNo, mileage: e.detail.value });
         }}

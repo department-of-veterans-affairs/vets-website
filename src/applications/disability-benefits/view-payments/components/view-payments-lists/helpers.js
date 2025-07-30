@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { format, isValid, parseISO } from 'date-fns';
+import { BANK_NAME_PATTERNS } from '../../constants';
 
 export const isValidDate = dateString => {
   const parsedDate = parseISO(dateString);
@@ -160,20 +161,77 @@ export const reformatPaymentDates = payments => {
   });
 };
 
-export const alertMessage = (
-  <va-alert close-btn-aria-label="Close notification" status="warning" visible>
-    <h3 slot="headline">We’re working to improve what we display here</h3>
-    <p className="vads-u-margin-y--0">
-      If you receive education benefits, we’ll be removing information about
-      payments we send directly to your school. After making this update, your
-      list of payments will only include payments sent to you.
-    </p>
-    <p className="vads-u-margin-y--1">
-      Some education benefit payments may appear as "C&P Hardship" or something
-      similar. We’re working to fix this.
-    </p>
-  </va-alert>
-);
+// Normalize payment data to fix misaligned fields
+export const normalizePaymentData = payments => {
+  const expectedFields = {
+    payCheckDt: null,
+    payCheckAmount: null,
+    payCheckType: null,
+    paymentMethod: null,
+    bankName: null,
+    accountNumber: null,
+  };
+
+  return payments.map(payment => {
+    if (!payment) {
+      return { ...expectedFields };
+    }
+
+    if (Array.isArray(payment)) {
+      const fieldKeys = Object.keys(expectedFields);
+      const mappedPayment = {};
+      fieldKeys.forEach((key, index) => {
+        mappedPayment[key] = payment[index] || null;
+      });
+      return mappedPayment;
+    }
+
+    // Detect misaligned data
+    const hasAccountInDateField =
+      payment.payCheckDt &&
+      typeof payment.payCheckDt === 'string' &&
+      payment.payCheckDt.includes('*');
+
+    const hasBankNameInDateField =
+      payment.payCheckDt &&
+      typeof payment.payCheckDt === 'string' &&
+      new RegExp(BANK_NAME_PATTERNS.join('|'), 'i').test(payment.payCheckDt);
+
+    const hasAmountInTypeField =
+      payment.payCheckType &&
+      typeof payment.payCheckType === 'string' &&
+      payment.payCheckType.includes('$');
+
+    if (
+      hasAccountInDateField ||
+      hasBankNameInDateField ||
+      hasAmountInTypeField
+    ) {
+      // Realign shifted data
+      return {
+        payCheckDt: null,
+        payCheckAmount: payment.payCheckType || null,
+        payCheckType: payment.paymentMethod || null,
+        paymentMethod: payment.bankName || null,
+        bankName: payment.accountNumber || null,
+        accountNumber: hasAccountInDateField ? payment.payCheckDt : null,
+      };
+    }
+
+    const normalizedPayment = { ...expectedFields };
+
+    Object.keys(expectedFields).forEach(field => {
+      if (payment && Object.prototype.hasOwnProperty.call(payment, field)) {
+        normalizedPayment[field] = payment[field];
+      }
+    });
+
+    return {
+      ...payment,
+      ...normalizedPayment,
+    };
+  });
+};
 
 export const useResizeObserver = callbackFn => {
   const ref = useRef(null);

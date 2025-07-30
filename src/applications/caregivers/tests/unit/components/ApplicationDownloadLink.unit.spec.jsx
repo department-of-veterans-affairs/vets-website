@@ -8,17 +8,29 @@ import * as recordEventModule from 'platform/monitoring/record-event';
 import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink';
 import content from '../../../locales/en/content.json';
 
+// declare static content
+const ERR_MSG_GENERIC = content['alert-download-message--generic'];
+
+// declare static events
+const DOWNLOAD_FAILED_EVENT = { event: 'caregivers-pdf-download--failure' };
+const DOWNLOAD_SUCCESS_EVENT = { event: 'caregivers-pdf-download--success' };
+
 describe('CG <ApplicationDownloadLink>', () => {
-  const mockStore = {
-    getState: () => ({
-      form: {
-        data: { veteranFullName: { first: 'John', last: 'Smith' } },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-  const subject = () => {
+  const subject = ({ veteranInformation } = {}) => {
+    const expectedVeteranInformation = veteranInformation ?? {
+      veteranFullName: { first: 'John', last: 'Smith' },
+    };
+    const mockStore = {
+      getState: () => ({
+        form: {
+          data: {
+            'view:veteranInformation': expectedVeteranInformation,
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
     const { container } = render(
       <Provider store={mockStore}>
         <ApplicationDownloadLink formConfig={{}} />
@@ -47,97 +59,113 @@ describe('CG <ApplicationDownloadLink>', () => {
     sinon.restore();
   });
 
-  context('default behavior', () => {
-    it('should render a download file button', () => {
-      const { selectors } = subject();
-      const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
-      expect(vaLink).to.exist;
-      expect(vaAlert).to.not.exist;
-      expect(vaLoadingIndicator).to.not.exist;
-    });
-  });
-
   context('when the download button has been clicked', () => {
     const triggerError = ({ link, status = '503' }) => {
       apiRequestStub.rejects({ errors: [{ status }] });
       fireEvent.click(link);
     };
 
-    it('should record the correct event when the request succeeds', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      const event = 'caregivers-pdf-download--success';
-
+    const triggerSuccess = ({ link, ok = true }) => {
       apiRequestStub.resolves({
+        ok,
         blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
       });
       fireEvent.click(link);
+    };
 
-      await waitFor(() => {
-        const { vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
-      });
-      await waitFor(() => {
-        const { vaLink } = selectors();
-        expect(vaLink).to.exist;
-      });
+    context('on success', () => {
+      it('should record the correct event when the request succeeds', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+        triggerSuccess({ link });
 
-      sinon.assert.calledWithExactly(recordEventStub, { event });
-    });
+        await waitFor(() => {
+          const { vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.exist;
+        });
 
-    it('should record the correct event when the request fails', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      const event = 'caregivers-pdf-download--failure';
+        await waitFor(() => {
+          const { vaLink } = selectors();
+          expect(vaLink).to.exist;
+        });
 
-      triggerError({ link });
-
-      await waitFor(() => {
-        const { vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
-      });
-      await waitFor(() => {
-        const { vaAlert } = selectors();
-        expect(vaAlert).to.exist;
+        sinon.assert.calledWithExactly(recordEventStub, DOWNLOAD_SUCCESS_EVENT);
       });
 
-      sinon.assert.calledWithExactly(recordEventStub, { event });
-    });
+      it('should still succeed when no veteranInformation is set', async () => {
+        const { selectors } = subject({ veteranInformation: {} });
+        const { vaLink: link } = selectors();
+        triggerSuccess({ link });
 
-    it('should display `downtime` error message when error has status of `5xx`', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      const error = content['alert-download-message--500'];
+        await waitFor(() => {
+          const { vaLink, vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.exist;
+          expect(vaLink).to.not.exist;
+        });
 
-      triggerError({ link });
+        await waitFor(() => {
+          const { vaLink, vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.not.exist;
+          expect(vaLink).to.exist;
+        });
 
-      await waitFor(() => {
-        const { vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
-      });
-
-      await waitFor(() => {
-        const { vaAlert } = selectors();
-        expect(vaAlert).to.exist;
-        expect(vaAlert).to.contain.text(error);
+        sinon.assert.calledWithExactly(recordEventStub, DOWNLOAD_SUCCESS_EVENT);
       });
     });
 
-    it('should display `generic` error message when error has status of anything other than `5xx`', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      const error = content['alert-download-message--generic'];
+    context('on error', () => {
+      it('should display `generic` error message when response is an error', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+        triggerError({ link });
 
-      triggerError({ link, status: '403' });
+        await waitFor(() => {
+          const { vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.exist;
+        });
 
-      await waitFor(() => {
-        const { vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
+        await waitFor(() => {
+          const { vaAlert, vaLink } = selectors();
+          expect(vaAlert).to.exist;
+          expect(vaAlert).to.contain.text(ERR_MSG_GENERIC);
+          expect(vaLink).to.exist;
+        });
+
+        sinon.assert.calledWithExactly(recordEventStub, DOWNLOAD_FAILED_EVENT);
       });
-      await waitFor(() => {
-        const { vaAlert } = selectors();
-        expect(vaAlert).to.exist;
-        expect(vaAlert).to.contain.text(error);
+
+      it('should display `generic` error message when any other error occurs not in the request response', async () => {
+        // Stub createObjectURL throwing an error
+        URL.createObjectURL.restore();
+        sinon.stub(URL, 'createObjectURL').throws(new Error('Blob failed'));
+
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+        triggerSuccess({ link });
+
+        await waitFor(() => {
+          const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.not.exist;
+          expect(vaLink).to.exist;
+          expect(vaAlert).to.exist;
+          expect(vaAlert).to.contain.text(ERR_MSG_GENERIC);
+        });
+
+        sinon.assert.calledWithExactly(recordEventStub, DOWNLOAD_FAILED_EVENT);
+      });
+
+      it('should throw and trigger error handling if `response.ok` is `false`', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+        triggerSuccess({ link, ok: false });
+
+        await waitFor(() => {
+          const { vaAlert } = selectors();
+          expect(vaAlert).to.exist;
+          expect(vaAlert).to.contain.text(ERR_MSG_GENERIC);
+        });
+
+        sinon.assert.calledWithExactly(recordEventStub, DOWNLOAD_FAILED_EVENT);
       });
     });
   });

@@ -3,7 +3,8 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import mockDraftsResponse from './fixtures/draftPageResponses/draft-threads-response.json';
+import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 
 describe('save draft feature tests', () => {
   const currentDate = GeneralFunctionsPage.getDateFormat();
@@ -46,6 +47,40 @@ describe('save draft feature tests', () => {
       'contain',
       `message was saved on ${currentDate}`,
     );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify data updates after each rendering', () => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+
+    PatientMessageDraftsPage.loadDrafts();
+    PatientMessageDraftsPage.loadSingleDraft();
+
+    PatientComposePage.selectCategory('COVID');
+    PatientComposePage.getMessageSubjectField().type(`-updated`, {
+      force: true,
+    });
+
+    PatientMessageDraftsPage.saveExistingDraft(
+      'COVID',
+      'newSavedDraft-updated',
+    );
+
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
+      mockDraftsResponse,
+    ).as('reFetchResponse');
+
+    cy.get(Locators.LINKS.CRUMBS_BACK).click();
+    cy.wait('@reFetchResponse').then(interception => {
+      expect(interception.response.statusCode).to.equal(200);
+    });
+
+    cy.get(`@reFetchResponse.all`).should(`have.length.at.least`, 1);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

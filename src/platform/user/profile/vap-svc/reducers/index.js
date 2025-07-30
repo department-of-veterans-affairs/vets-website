@@ -20,13 +20,18 @@ import {
   VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED,
   VAP_SERVICE_TRANSACTION_UPDATE_FAILED,
   VAP_SERVICE_NO_CHANGES_DETECTED,
+  VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_ERROR,
   ADDRESS_VALIDATION_RESET,
   UPDATE_SELECTED_ADDRESS,
   ADDRESS_VALIDATION_INITIALIZE,
   ADDRESS_VALIDATION_UPDATE,
+  ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY,
+  ADDRESS_VALIDATION_SET_VALIDATION_KEY,
   COPY_ADDRESS_MODAL,
+  OPEN_INTL_MOBILE_CONFIRM_MODAL,
+  CLOSE_INTL_MOBILE_CONFIRM_MODAL,
 } from '../actions';
 
 const initialAddressValidationState = {
@@ -48,6 +53,13 @@ const initialAddressValidationState = {
   selectedAddressId: null,
 };
 
+const initialIntlMobileConfirmModalState = {
+  isOpen: false,
+  countryCode: null,
+  phoneNumber: null,
+  confirmFn: null,
+};
+
 const initialState = {
   hasUnsavedEdits: false,
   initialFormFields: {},
@@ -64,6 +76,9 @@ const initialState = {
     ...initialAddressValidationState,
   },
   copyAddressModal: null,
+  intlMobileConfirmModal: {
+    ...initialIntlMobileConfirmModalState,
+  },
 };
 
 export default function vapService(state = initialState, action) {
@@ -130,6 +145,33 @@ export default function vapService(state = initialState, action) {
       };
     }
 
+    case VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE: {
+      return {
+        ...state,
+        formFields: {
+          ...state.formFields,
+          [action.fieldName]: {
+            ...state.formFields[action.fieldName],
+            value: action.payload,
+          },
+        },
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.fieldName]: {
+            isPending: false,
+            isFailed: false,
+            error: null,
+            formOnlyUpdate: true,
+          },
+        },
+        hasUnsavedEdits: false,
+        initialFormFields: pickBy(
+          state.initialFormFields,
+          (_, key) => key !== action.fieldName,
+        ),
+      };
+    }
+
     case VAP_SERVICE_NO_CHANGES_DETECTED: {
       return {
         ...state,
@@ -190,7 +232,7 @@ export default function vapService(state = initialState, action) {
     }
 
     case VAP_SERVICE_TRANSACTION_UPDATE_FAILED: {
-      const { transactionId } = action.transaction.data.attributes;
+      const transactionId = action.transaction?.data?.attributes?.transactionId;
       return {
         ...state,
         transactionsAwaitingUpdate: state.transactionsAwaitingUpdate?.filter(
@@ -386,6 +428,24 @@ export default function vapService(state = initialState, action) {
         addressValidation: { ...initialAddressValidationState },
       };
 
+    case ADDRESS_VALIDATION_SET_VALIDATION_KEY:
+      return {
+        ...state,
+        addressValidation: {
+          ...state.addressValidation,
+          validationKey: action.validationKey,
+        },
+      };
+
+    case ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY:
+      return {
+        ...state,
+        addressValidation: {
+          ...state.addressValidation,
+          validationKey: null,
+        },
+      };
+
     case ADDRESS_VALIDATION_UPDATE:
       return {
         ...state,
@@ -409,6 +469,25 @@ export default function vapService(state = initialState, action) {
       return {
         ...state,
         copyAddressModal: action?.value,
+      };
+
+    case OPEN_INTL_MOBILE_CONFIRM_MODAL:
+      return {
+        ...state,
+        intlMobileConfirmModal: {
+          isOpen: true,
+          countryCode: action.countryCode,
+          phoneNumber: action.phoneNumber,
+          confirmFn: action.confirmFn,
+        },
+      };
+
+    case CLOSE_INTL_MOBILE_CONFIRM_MODAL:
+      return {
+        ...state,
+        intlMobileConfirmModal: {
+          ...initialIntlMobileConfirmModalState,
+        },
       };
 
     default:

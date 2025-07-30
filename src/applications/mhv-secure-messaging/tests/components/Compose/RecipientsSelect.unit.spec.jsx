@@ -138,12 +138,12 @@ describe('RecipientsSelect', () => {
   });
 
   it('displays the CantFindYourTeam component', () => {
-    const { getByText } = setup({});
-    const cantFindYourTeam = document.querySelector(
-      'va-additional-info[trigger="If you can\'t find your team"]',
+    const { getByText, container } = setup({});
+    const cantFindYourTeam = container.querySelector(`va-additional-info`);
+    expect(cantFindYourTeam).to.have.attribute(
+      'trigger',
+      "If you can't find your team",
     );
-    expect(cantFindYourTeam).to.exist;
-
     const showMoreTeamsLink = getByText('Show more teams in your contact list');
 
     expect(showMoreTeamsLink).to.exist;

@@ -3,7 +3,7 @@ import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 import { WIZARD_STATUS } from '../../wizard/constants';
 
-describe(`Fetch Debts Successfully and Filter Out Invalid Debt`, () => {
+describe(`Fetch Debts Successfully`, () => {
   Cypress.config({ requestTimeout: 10000 });
 
   before(() => {
@@ -62,32 +62,6 @@ describe(`Fetch Debts Successfully and Filter Out Invalid Debt`, () => {
             {
               date: '10/18/2020',
               letterCode: '100',
-              description:
-                'First Demand Letter - Inactive Benefits - Due Process',
-            },
-          ],
-        },
-        {
-          fileNumber: '796104437',
-          payeeNumber: '00',
-          personEntitled: 'AJHONS',
-          deductionCode: '00', // Not approved code, this record will be filtered out of displayed results
-          benefitType: 'CH33 Housing EDU',
-          diaryCode: '608',
-          diaryCodeDescription: 'Full C&P Benefit Offset Notifi',
-          amountOverpaid: 0,
-          amountWithheld: 100.01,
-          originalAr: 321.76,
-          currentAr: 227.42,
-          debtHistory: [
-            {
-              date: '08/11/2018',
-              letterCode: 608,
-              description: 'Full C&P Benefit Offset Notifi',
-            },
-            {
-              date: '07/15/2018',
-              letterCode: 100,
               description:
                 'First Demand Letter - Inactive Benefits - Due Process',
             },

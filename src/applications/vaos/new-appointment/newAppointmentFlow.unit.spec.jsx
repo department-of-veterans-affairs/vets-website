@@ -3,15 +3,16 @@ import sinon from 'sinon';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
-import { createMockFacility } from '../tests/mocks/data';
-import { getSchedulingConfigurationMock } from '../tests/mocks/mock';
+import MockFacilityResponse from '../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockFacilitiesApi,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
-  mockVAOSParentSites,
 } from '../tests/mocks/mockApis';
-import { FACILITY_TYPES } from '../utils/constants';
+import { FACILITY_TYPES, TYPE_OF_CARE_IDS } from '../utils/constants';
 import getNewAppointmentFlow from './newAppointmentFlow';
 
 const userState = {
@@ -39,22 +40,22 @@ describe('VAOS newAppointmentFlow', () => {
         mockFacilitiesApi({
           children: true,
           ids: ['983'],
+          response: [new MockFacilityResponse()],
+        });
+        mockSchedulingConfigurationsApi({
+          isCCEnabled: true,
           response: [
-            createMockFacility({
-              id: '983',
+            new MockSchedulingConfigurationResponse({
+              facilityId: '983',
+              services: [
+                new MockServiceConfiguration({
+                  typeOfCareId: 'primaryCare',
+                  requestEnabled: true,
+                }),
+              ],
             }),
           ],
         });
-        mockSchedulingConfigurations(
-          [
-            getSchedulingConfigurationMock({
-              id: '983',
-              typeOfCareId: 'primaryCare',
-              requestEnabled: true,
-            }),
-          ],
-          true,
-        );
 
         const state = {
           user: {
@@ -69,7 +70,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: '323',
+              typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
             },
           },
         };
@@ -86,6 +87,16 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be vaFacility page if CC check has an error', async () => {
         mockFetch();
+        mockFacilitiesApi({
+          ids: ['983', '984'],
+          response: [new MockFacilityResponse({ id: '1' })],
+        });
+        mockSchedulingConfigurationsApi({
+          facilityIds: ['1'],
+          isCCEnabled: true,
+          response: [],
+        });
+
         const state = {
           ...userState,
           featureToggles: {
@@ -95,7 +106,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: '323',
+              typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
             },
           },
         };
@@ -112,6 +123,16 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be typeOfCare page if CC check has an error and podiatry chosen', async () => {
         mockFetch();
+        mockFacilitiesApi({
+          ids: ['983', '984'],
+          response: [new MockFacilityResponse({ id: '1' })],
+        });
+        mockSchedulingConfigurationsApi({
+          facilityIds: ['1'],
+          isCCEnabled: true,
+          response: [],
+        });
+
         const state = {
           ...userState,
           featureToggles: {
@@ -121,7 +142,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: 'tbd-podiatry',
+              typeOfCareId: TYPE_OF_CARE_IDS.PODIATRY_ID,
             },
           },
         };
@@ -137,40 +158,33 @@ describe('VAOS newAppointmentFlow', () => {
       });
 
       it('should be the current page if no CC support and typeOfCare is podiatry', async () => {
-        const siteIds = ['983'];
+        const ids = ['983'];
 
         mockFetch();
-        mockVAOSParentSites(
-          siteIds,
-          [
-            createMockFacility({
-              id: '983',
-              name: 'Cheyenne VA Medical Center',
-              isParent: true,
-            }),
-          ],
-          true,
-        );
+        mockFacilitiesApi({
+          ids,
+          response: [new MockFacilityResponse({ isParent: true })],
+        });
         mockFacilitiesApi({
           children: true,
           ids: ['983', '984'],
+          response: [new MockFacilityResponse()],
+        });
+        mockSchedulingConfigurationsApi({
+          isCCEnabled: true,
           response: [
-            createMockFacility({
-              id: '983',
+            new MockSchedulingConfigurationResponse({
+              facilityId: '983',
+              services: [
+                new MockServiceConfiguration({
+                  typeOfCareId: '411',
+                  requestEnabled: true,
+                  communityCare: false,
+                }),
+              ],
             }),
           ],
         });
-        mockSchedulingConfigurations(
-          [
-            getSchedulingConfigurationMock({
-              id: '983',
-              typeOfCareId: '411',
-              requestEnabled: true,
-              communityCare: false,
-            }),
-          ],
-          true,
-        );
         mockV2CommunityCareEligibility({
           parentSites: [],
           careType: 'Podiatry',
@@ -190,7 +204,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: 'tbd-podiatry',
+              typeOfCareId: TYPE_OF_CARE_IDS.PODIATRY_ID,
             },
           },
         };
@@ -211,23 +225,23 @@ describe('VAOS newAppointmentFlow', () => {
         mockFacilitiesApi({
           children: true,
           ids: ['983', '984'],
+          response: [new MockFacilityResponse()],
+        });
+        mockSchedulingConfigurationsApi({
+          isCCEnabled: true,
           response: [
-            createMockFacility({
-              id: '983',
+            new MockSchedulingConfigurationResponse({
+              facilityId: '983',
+              services: [
+                new MockServiceConfiguration({
+                  typeOfCareId: '411',
+                  requestEnabled: true,
+                  communityCare: true,
+                }),
+              ],
             }),
           ],
         });
-        mockSchedulingConfigurations(
-          [
-            getSchedulingConfigurationMock({
-              id: '983',
-              typeOfCareId: '411',
-              requestEnabled: true,
-              communityCare: true,
-            }),
-          ],
-          true,
-        );
         mockV2CommunityCareEligibility({
           parentSites: [],
           careType: 'Podiatry',
@@ -241,7 +255,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: 'tbd-podiatry',
+              typeOfCareId: TYPE_OF_CARE_IDS.PODIATRY_ID,
             },
           },
         };
@@ -267,7 +281,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: 'SLEEP',
+              typeOfCareId: TYPE_OF_CARE_IDS.SLEEP_MEDICINE_ID,
             },
           },
         };
@@ -284,20 +298,23 @@ describe('VAOS newAppointmentFlow', () => {
         mockFacilitiesApi({
           children: true,
           ids: ['983', '984'],
-          response: [
-            createMockFacility({
-              id: '983',
-            }),
-          ],
+          response: [new MockFacilityResponse()],
         });
-        mockSchedulingConfigurations(
-          [
-            getSchedulingConfigurationMock({
-              id: '983',
-              typeOfCareId: 'primaryCare',
-              requestEnabled: true,
-            }),
-          ],
+        mockSchedulingConfigurationsApi(
+          {
+            isCCEnabled: true,
+            response: [
+              new MockSchedulingConfigurationResponse({
+                facilityId: '983',
+                services: [
+                  new MockServiceConfiguration({
+                    typeOfCareId: 'primaryCare',
+                    requestEnabled: true,
+                  }),
+                ],
+              }),
+            ],
+          },
           true,
         );
         mockV2CommunityCareEligibility({
@@ -314,7 +331,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: '323',
+              typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
             },
           },
         };
@@ -338,7 +355,7 @@ describe('VAOS newAppointmentFlow', () => {
           newAppointment: {
             data: {
               facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-              typeOfCareId: '203',
+              typeOfCareId: TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
             },
           },
         };
@@ -376,7 +393,7 @@ describe('VAOS newAppointmentFlow', () => {
           newAppointment: {
             data: {
               facilityType: 'va',
-              typeOfCareId: '203',
+              typeOfCareId: TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
             },
           },
           featureToggles: {
@@ -401,7 +418,7 @@ describe('VAOS newAppointmentFlow', () => {
       },
       newAppointment: {
         data: {
-          typeOfCareId: '323',
+          typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
           vaParent: '983',
           vaFacility: '983',
           facilityType: undefined,
@@ -464,7 +481,7 @@ describe('VAOS newAppointmentFlow', () => {
               loading: false,
               data: {
                 ehrDataByVhaId: {
-                  '692': {
+                  692: {
                     vhaId: '692',
                     vamcFacilityName: 'White City VA Medical Center',
                     vamcSystemName: 'VA Southern Oregon health care',
@@ -487,10 +504,10 @@ describe('VAOS newAppointmentFlow', () => {
           newAppointment: {
             data: {
               vaFacility: '692',
-              typeOfCareId: '123',
+              typeOfCareId: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
             },
             facilities: {
-              '123': [
+              123: [
                 {
                   id: '692',
                 },
@@ -699,7 +716,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            typeOfCareId: 'EYE',
+            typeOfCareId: TYPE_OF_CARE_IDS.EYE_CARE_ID,
           },
         },
       };
@@ -715,22 +732,22 @@ describe('VAOS newAppointmentFlow', () => {
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
+        response: [new MockFacilityResponse()],
+      });
+      mockSchedulingConfigurationsApi({
+        isCCEnabled: true,
         response: [
-          createMockFacility({
-            id: '983',
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: '4088',
+                requestEnabled: true,
+              }),
+            ],
           }),
         ],
       });
-      mockSchedulingConfigurations(
-        [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'Optometry',
-            requestEnabled: true,
-          }),
-        ],
-        true,
-      );
       mockV2CommunityCareEligibility({
         parentSites: [],
         careType: 'Optometry',
@@ -744,8 +761,8 @@ describe('VAOS newAppointmentFlow', () => {
         },
         newAppointment: {
           data: {
-            typeOfCareId: 'EYE',
-            typeOfEyeCareId: '408',
+            typeOfCareId: TYPE_OF_CARE_IDS.EYE_CARE_ID,
+            typeOfEyeCareId: TYPE_OF_CARE_IDS.OPTOMETRY_ID,
           },
         },
       };
@@ -771,8 +788,8 @@ describe('VAOS newAppointmentFlow', () => {
         },
         newAppointment: {
           data: {
-            typeOfCareId: 'EYE',
-            typeOfEyeCareId: '407',
+            typeOfCareId: TYPE_OF_CARE_IDS.EYE_CARE_ID,
+            typeOfEyeCareId: TYPE_OF_CARE_IDS.OPHTHALMOLOGY_ID,
           },
         },
       };

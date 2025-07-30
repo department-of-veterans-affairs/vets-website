@@ -7,7 +7,7 @@ import {
   VaModal,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { scrollToFirstError, scrollAndFocus } from 'platform/utilities/ui';
+import { scrollToFirstError, scrollAndFocus } from 'platform/utilities/scroll';
 
 import {
   behaviorListDescription,
@@ -56,7 +56,7 @@ const BehaviorListPage = ({
     null,
   );
   const [selectedNoBehaviors, setSelectedNoBehaviors] = useState(
-    data?.['view:noneCheckbox'],
+    data?.noBehavioralChange,
     null,
   );
 
@@ -103,7 +103,7 @@ const BehaviorListPage = ({
         return selectedHealthBehaviors;
       case 'otherBehaviors':
         return selectedOtherBehaviors;
-      case 'view:noneCheckbox':
+      case 'noBehavioralChange':
         return selectedNoBehaviors;
       default:
         return null;
@@ -121,7 +121,7 @@ const BehaviorListPage = ({
       case 'otherBehaviors':
         setSelectedOtherBehaviors(updatedData);
         break;
-      case 'view:noneCheckbox':
+      case 'noBehavioralChange':
         setSelectedNoBehaviors(updatedData);
         break;
       default:
@@ -307,12 +307,13 @@ const BehaviorListPage = ({
       {contentAfterButtons}
     </>
   ) : (
-    <va-button
-      text="Update page"
-      onClick={handlers.onUpdatePage}
-      label="Update page"
-      class="usa-button-primary"
-    />
+    <button
+      className="usa-button-primary"
+      type="button"
+      onClick={event => handlers.onUpdatePage(event)}
+    >
+      Update page
+    </button>
   );
 
   return (
@@ -452,12 +453,9 @@ const BehaviorListPage = ({
           <va-checkbox
             key="none"
             label={behaviorListNoneLabel}
-            value="view:noBehaviorChanges"
+            value="noChange"
             checked={
-              !!(
-                data?.['view:noneCheckbox'] &&
-                data['view:noneCheckbox']['view:noBehaviorChanges']
-              )
+              !!(data?.noBehavioralChange && data.noBehavioralChange.noChange)
             }
             uswds
           />
@@ -475,7 +473,7 @@ BehaviorListPage.propTypes = {
     workBehaviors: PropTypes.object,
     healthBehaviors: PropTypes.object,
     otherBehaviors: PropTypes.object,
-    'view:noneCheckbox': PropTypes.object,
+    noBehavioralChange: PropTypes.object,
     behaviorsDetails: PropTypes.object,
   }),
   goBack: PropTypes.func,

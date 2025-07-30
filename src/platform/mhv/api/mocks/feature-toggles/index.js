@@ -1,8 +1,10 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     mhvLandingPagePersonalization = true,
+    mhvBypassDowntimeNotification = false,
+
+    // medications
     mhvMedicationsToVaGovRelease = true,
-    mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
@@ -11,6 +13,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
+    mhvMedicationsRemoveLandingPage = true,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -24,13 +27,22 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
-    mhvSecureMessagingTriageGroupPlainLanguage = false,
-    mhvSecureMessagingRecipientOptGroups = true,
+
+    // OH integration work
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
-    mhvIntegrationMedicalRecordsToPhase1 = true,
-    mhvMedicationsRemoveLandingPage = true,
+    mhvAcceleratedDeliveryVaccinesEnabled = false,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
+
+    mhvMedicalRecordsMilestoneTwo = false,
+
+    // secure messaging
+    mhvSecureMessagingTriageGroupPlainLanguage = false,
+    mhvSecureMessagingRecipientOptGroups = true,
+    mhvSecureMessagingRecipientCombobox = true,
+    mhvSecureMessagingCernerPilot = true,
+    mhvSecureMessagingLargeAttachments = true,
   } = toggles;
 
   return {
@@ -42,6 +54,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: true,
         },
         {
+          name: 'mhv_bypass_downtime_notification',
+          value: mhvBypassDowntimeNotification,
+        },
+        {
           name: 'mhv_accelerated_delivery_enabled',
           value: mhvAcceleratedDeliveryEnabled,
         },
@@ -50,8 +66,16 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvAcceleratedDeliveryAllergiesEnabled,
         },
         {
+          name: 'mhv_accelerated_delivery_vaccines_enabled',
+          value: mhvAcceleratedDeliveryVaccinesEnabled,
+        },
+        {
           name: 'mhv_accelerated_delivery_vital_signs_enabled',
           value: mhvAcceleratedDeliveryVitalSignsEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_labs_and_tests_enabled',
+          value: mhvAcceleratedDeliveryLabsAndTestsEnabled,
         },
         {
           name: 'mhv_landing_page_personalization',
@@ -60,10 +84,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_to_va_gov_release',
           value: mhvMedicationsToVaGovRelease,
-        },
-        {
-          name: 'mhv_medications_display_refill_content',
-          value: mhvMedicationsDisplayRefillContent,
         },
         {
           name: 'mhv_medications_display_documentation_content',
@@ -103,10 +123,6 @@ const generateFeatureToggles = (toggles = {}) => {
         },
 
         // medical records
-        {
-          name: 'mhv_integration_medical_records_to_phase_1',
-          value: mhvIntegrationMedicalRecordsToPhase1,
-        },
         {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
@@ -156,6 +172,12 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsMarch17Updates,
         },
         {
+          name: 'mhv_medical_records_milestone_two',
+          value: mhvMedicalRecordsMilestoneTwo,
+        },
+
+        // secure messaging
+        {
           name: 'mhv_secure_messaging_triage_group_plain_language',
           value: mhvSecureMessagingTriageGroupPlainLanguage,
         },
@@ -164,8 +186,16 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvSecureMessagingRecipientOptGroups,
         },
         {
-          name: 'mhv_secure_messaging_remove_landing_page',
-          value: true,
+          name: 'mhv_secure_messaging_recipient_combobox',
+          value: mhvSecureMessagingRecipientCombobox,
+        },
+        {
+          name: 'mhv_secure_messaging_cerner_pilot',
+          value: mhvSecureMessagingCernerPilot,
+        },
+        {
+          name: 'mhv_secure_messaging_large_attachments',
+          value: mhvSecureMessagingLargeAttachments,
         },
       ],
     },

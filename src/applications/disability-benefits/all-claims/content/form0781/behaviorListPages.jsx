@@ -13,13 +13,13 @@ export const behaviorPageTitle = 'Behavioral changes';
 export const behaviorIntroDescription = (
   <>
     <p>
-      The next few questions are about behavioral changes you experienced after
+      The next few questions are about behavioral changes that happened after
       your traumatic experiences.
     </p>
     <p>
       These questions are optional. Any information you provide will help us
       understand your situation and identify evidence to support your claim. You
-      can provide only details you’re comfortable sharing.
+      only need to provide details you’re comfortable sharing.
     </p>
     <h4>Information we’ll ask you for</h4>
     <p>
@@ -38,8 +38,8 @@ export const behaviorIntroDescription = (
     <h4>You can take a break at any time</h4>
     <p>
       We understand that some of the questions may be difficult to answer. You
-      can take a break at any time and come back to continue your application
-      later. We’ll save the information you’ve entered so far.
+      can take a break at any time. We’ll save the information you enter so you
+      can finish your application later.
     </p>
   </>
 );
@@ -99,7 +99,7 @@ export const conflictingBehaviorErrorMessage =
  * @returns {boolean}
  */
 function hasSelectedNoneCheckbox(formData) {
-  return Object.values(formData['view:noneCheckbox'] || {}).some(
+  return Object.values(formData.noBehavioralChange || {}).some(
     selected => selected === true,
   );
 }
@@ -168,7 +168,7 @@ export function validateBehaviorSelections(errors, formData) {
 
   // add error message to none checkbox if conflict exists
   if (isConflicting === true) {
-    errors['view:noneCheckbox'].addError(
+    errors.noBehavioralChange.addError(
       'If you select no behavioral changes to include, unselect other behavioral changes before continuing.',
     );
   }
@@ -263,7 +263,7 @@ function getDescriptionForBehavior(selectedBehaviors, behaviorDetails) {
           ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
           : allBehaviorDescriptions[behaviorType];
       newObject[behaviorDescription] =
-        behaviorDetails[behaviorType] || 'Optional description not provided.';
+        behaviorDetails?.[behaviorType] || 'Optional description not provided.';
     }
   });
   return newObject;

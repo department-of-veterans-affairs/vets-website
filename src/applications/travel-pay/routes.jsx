@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Navigate, Routes } from 'react-router-dom-v5-compat';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 
 import TravelPayStatusApp from './containers/TravelPayStatusApp';
 import TravelClaimDetails from './components/TravelClaimDetails';
@@ -27,7 +27,7 @@ const routes = (
       <Route path="/file-new-claim/:apptId" element={<SubmitFlowWrapper />} />
       <Route path="/claims/:id" element={<TravelClaimDetails />} />
     </Route>
-    <Route path="*" element={<PageNotFound />} />
+    <Route path="*" element={<MhvPageNotFound />} />
   </Routes>
 );
 

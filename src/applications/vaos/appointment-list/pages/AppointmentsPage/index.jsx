@@ -16,7 +16,7 @@ import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedApp
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 // import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { routeToCCPage } from '../../../referral-appointments/flow';
-import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPilot';
+import { useIsInPilotUserStations } from '../../../referral-appointments/hooks/useIsInPilotUserStations';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import AppointmentListNavigation from '../../components/AppointmentListNavigation';
 import PageLayout from '../../components/PageLayout';
@@ -44,8 +44,8 @@ export default function AppointmentsPage() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
-  let [pageTitle] = useState('VA online scheduling');
-  const { isInCCPilot } = useIsInCCPilot();
+  let [pageTitle] = useState('VA appointments');
+  const { isInPilotUserStations } = useIsInPilotUserStations();
 
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
@@ -133,7 +133,6 @@ export default function AppointmentsPage() {
       >
         {pageTitle}
       </h1>
-      {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
       <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
       {/* {featureBookingExclusion && (
         <CernerTransitionAlert
@@ -142,7 +141,7 @@ export default function AppointmentsPage() {
         />
       )} */}
       <DowntimeNotification
-        appTitle="VA online scheduling tool"
+        appTitle="appointments tool"
         isReady
         dependencies={[externalServices.vaosWarning]}
         render={renderWarningNotification()}
@@ -150,11 +149,11 @@ export default function AppointmentsPage() {
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
 
-      {/* TODO: Add this back in when VeText adds support for a 
+      {/* TODO: Add this back in when VeText adds support for a
       referral id in the url sent to the veteran  */}
       {/* {isInCCPilot && <ReferralTaskCardWithReferral />} */}
 
-      {isInCCPilot && (
+      {isInPilotUserStations && (
         <div
           className={classNames(
             'vads-u-padding-y--3',
@@ -169,14 +168,14 @@ export default function AppointmentsPage() {
           <va-link
             calendar
             href="/my-health/appointments/referrals-requests"
-            text="Review requests and referrals"
+            text="Review referrals and requests"
             data-testid="review-requests-and-referrals"
             onClick={handleCCLinkClick}
           />
         </div>
       )}
       <AppointmentListNavigation
-        hidePendingTab={isInCCPilot}
+        hidePendingTab={isInPilotUserStations}
         count={count}
         callback={setHasTypeChanged}
       />

@@ -36,6 +36,8 @@ describe('VAOS Component: VARequestLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
+        type: 'REQUEST',
+        modality: 'vaInPerson',
         reasonForAppointment: 'This is a test',
         patientComments: 'Additional information:colon',
         created: new Date().toISOString(),
@@ -64,11 +66,20 @@ describe('VAOS Component: VARequestLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: true,
           isUpcomingAppointment: false,
+          isCerner: false,
           apiData: {
             serviceType: 'primaryCare',
           },
         },
         status: 'proposed',
+      };
+      const nullAttributes = {
+        type: 'REQUEST',
+        modality: 'vaInPerson',
+        isCerner: false,
+        'fields-load-success':
+          'type-of-care,facility-id,facility-details,facility-phone',
+        'fields-load-fail': '',
       };
 
       // Act
@@ -170,34 +181,8 @@ describe('VAOS Component: VARequestLayout', () => {
       ).to.be.null;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-any',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-id',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-id',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
+        ...nullAttributes,
       });
     });
   });
@@ -239,6 +224,7 @@ describe('VAOS Component: VARequestLayout', () => {
           },
         },
         status: 'cancelled',
+        showScheduleLink: true,
       };
 
       // Act
@@ -258,10 +244,10 @@ describe('VAOS Component: VARequestLayout', () => {
       );
       expect(
         screen.container.querySelector(
-          'va-link[text="Schedule a new appointment"]',
+          'va-link[text="Request a new appointment"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Facility canceled this appointment/i));
+      expect(screen.getByText(/Facility canceled this request/i));
       expect(
         screen.getByRole('heading', {
           level: 2,

@@ -5,12 +5,26 @@ import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import { NeedHelp } from '../../components/NeedHelp';
+import * as dictionary from '../../utils/evidenceDictionary';
 
+const getStore = (cstFriendlyEvidenceRequests = true) =>
+  createStore(() => ({
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      cst_friendly_evidence_requests: cstFriendlyEvidenceRequests,
+    },
+  }));
 describe('<NeedHelp>', () => {
   it('should render', () => {
-    const { container } = render(<NeedHelp />);
+    const { container } = render(
+      <Provider store={getStore()}>
+        <NeedHelp />
+      </Provider>,
+    );
     expect($('va-need-help', container)).to.exist;
     expect($$('va-telephone', container).length).to.equal(2);
   });
@@ -34,7 +48,11 @@ describe('<NeedHelp>', () => {
         documents: '[]',
         date: '2024-03-07',
       };
-      const { container } = render(<NeedHelp item={item} />);
+      const { container } = render(
+        <Provider store={getStore()}>
+          <NeedHelp item={item} />
+        </Provider>,
+      );
       expect($('va-need-help', container)).to.exist;
       expect($$('va-telephone', container).length).to.equal(2);
       const alias = container.querySelector('.vads-u-font-weight--bold');
@@ -43,11 +61,50 @@ describe('<NeedHelp>', () => {
     it('should render aliases with commas and "or" correctly', () => {
       const item = {
         supportAliases: ['Alias1', 'Alias2', 'Alias3', 'Alias4'],
+        friendlyName: 'Friendly name',
       };
 
-      const { queryAllByText } = render(<NeedHelp item={item} />);
+      const { container } = render(
+        <Provider store={getStore()}>
+          <NeedHelp item={item} />
+        </Provider>,
+      );
 
-      expect(queryAllByText('"Alias1", "Alias2", "Alias3" or "Alias4"'));
+      expect(container.textContent).to.include(
+        '“Alias1”, “Alias2”, “Alias3” or “Alias4.”',
+      );
+    });
+    it('should preserve casing if friendlyName is a proper noun', () => {
+      const item = {
+        displayName: 'displayKey',
+        supportAliases: ['Alias1'],
+        friendlyName: 'Friendly Name',
+      };
+
+      dictionary.evidenceDictionary.displayKey = { isProperNoun: true };
+
+      const { container } = render(
+        <Provider store={getStore()}>
+          <NeedHelp item={item} />
+        </Provider>,
+      );
+      expect(container.textContent).to.include('Friendly Name');
+    });
+    it('should lowercase friendlyName if not a proper noun', () => {
+      const item = {
+        displayName: 'displayKey',
+        supportAliases: ['Alias1'],
+        friendlyName: 'Friendly Name',
+      };
+
+      dictionary.evidenceDictionary.displayKey = { isProperNoun: false };
+
+      const { container } = render(
+        <Provider store={getStore()}>
+          <NeedHelp item={item} />
+        </Provider>,
+      );
+      expect(container.textContent).to.include('friendly Name');
     });
   });
 });

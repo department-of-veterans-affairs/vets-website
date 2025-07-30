@@ -2,7 +2,6 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-export const externalLinkText = '(opens in new tab)';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 /**

@@ -3,12 +3,11 @@ export const SUBTITLE = '';
 export const YOUR_INFORMATION_CHAPTER_CONSTANTS = Object.freeze({
   personalInformationPageTitle: 'Personal information',
   educationPageTitle: 'Education',
-  yearsOfCollegeOrGraduateStudiesPageTitle: 'Education',
 });
 
 export const CONTACT_INFORMATION_CHAPTER_CONSTANTS = Object.freeze({
-  mainMailingAddressPageTitle: 'Mailing address',
+  veteranAddressPageTitle: 'Mailing address',
   movingYesNoPageTitle: 'Moving',
-  newMailingAddressPageTitle: 'New mailing address',
+  newAddressPageTitle: 'New mailing address',
   phoneAndEmailPageTitle: 'Contact information',
 });

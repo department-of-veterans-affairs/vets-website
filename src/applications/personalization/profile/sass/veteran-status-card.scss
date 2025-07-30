@@ -1,0 +1,43 @@
+.veteran-status-card {
+  position: relative;
+  width: 29rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+  h2 {
+    border-radius: 1rem 1rem 0 0;
+  }
+  h3 {
+    font-family: "Source Sans Pro";
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0;
+    margin: 16px 0 0 0;
+  }
+  p {
+    font-family: "Source Sans Pro";
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0;
+    margin: 0;
+  }
+  img {
+    position: absolute;
+    top: 1.3rem;
+    right: 1rem;
+    width: 4.75rem;
+  }
+  .veteran-status-card-title {
+    font-family: "Source Sans Pro";
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 26px;
+    letter-spacing: 0;
+  }
+  .veteran-status-card-row {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    margin-bottom: 16px;
+  }
+}

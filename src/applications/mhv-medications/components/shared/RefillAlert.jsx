@@ -1,43 +1,40 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom-v5-compat';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import { getRefillAlertList } from '../../actions/prescriptions';
 
 const RefillAlert = props => {
-  const { dataDogActionName } = props;
-  const dispatch = useDispatch();
+  const { dataDogActionName, refillStatus, refillAlertList } = props;
 
-  const refillAlertList = useSelector(
-    state => state.rx.prescriptions?.refillAlertList,
-  );
-
-  const refillNotification = useSelector(
-    state => state.rx.prescriptions?.refillNotification,
-  );
-
-  useEffect(() => {
-    if (!refillAlertList) {
-      dispatch(getRefillAlertList());
-    }
-  }, []);
+  // Don't display the alert when refills are in progress or completed
+  const hideAlert =
+    refillStatus === 'inProgress' || refillStatus === 'finished';
 
   return (
     <VaAlert
       status="warning"
-      visible={!!refillAlertList?.length && !refillNotification}
+      visible={!!refillAlertList?.length && !hideAlert}
       uswds
       className={refillAlertList?.length ? 'vads-u-margin-bottom--3' : ''}
       data-testid="alert-banner"
+      data-dd-privacy="mask"
     >
       <h2 slot="headline" data-testid="rxDelay-alert-message">
         Some refills are taking longer than expected
       </h2>
       <p>Go to your medication details to find out what to do next:</p>
-      {refillAlertList?.map(rx => {
-        return (
-          <p className="vads-u-margin-bottom--0" key={rx.prescriptionId}>
+      {[...(refillAlertList || [])]
+        ?.sort((rxA, rxB) => {
+          const nameA = rxA.prescriptionName || rxA.orderableItem || '';
+          const nameB = rxB.prescriptionName || rxB.orderableItem || '';
+          return nameA.localeCompare(nameB);
+        })
+        .map(rx => (
+          <p
+            className="vads-u-margin-bottom--0"
+            key={rx.prescriptionId}
+            data-dd-privacy="mask"
+          >
             <Link
               id={`refill-alert-link-${rx.prescriptionId}`}
               data-dd-privacy="mask"
@@ -49,14 +46,20 @@ const RefillAlert = props => {
               {rx.prescriptionName}
             </Link>
           </p>
-        );
-      })}
+        ))}
     </VaAlert>
   );
 };
 
 RefillAlert.propTypes = {
   dataDogActionName: PropTypes.string,
+  refillAlertList: PropTypes.arrayOf(
+    PropTypes.shape({
+      prescriptionId: PropTypes.number.isRequired,
+      prescriptionName: PropTypes.string.isRequired,
+    }),
+  ),
+  refillStatus: PropTypes.string,
 };
 
 export default RefillAlert;

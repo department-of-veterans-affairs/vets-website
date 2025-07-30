@@ -5,6 +5,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { merge } from 'lodash';
+import { MedallionsDescription } from '../components/MedallionsDescription';
 
 /** @type {PageSchema} */
 export default {
@@ -13,6 +14,7 @@ export default {
       'Your organization’s mailing address',
       'We’ll mail information about this application to the organization’s address you provide here.',
     ),
+    'ui:description': formContext => MedallionsDescription(formContext),
     address: merge(
       {},
       addressNoMilitaryUI({

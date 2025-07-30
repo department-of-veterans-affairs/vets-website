@@ -1,28 +1,23 @@
-import {
-  VaButton,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState } from 'react';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { datadogRum } from '@datadog/browser-rum';
+import { useSelector } from 'react-redux';
 import { rxListSortingOptions } from '../../util/constants';
-import {
-  selectFilterFlag,
-  selectRefillContentFlag,
-} from '../../util/selectors';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const MedicationsListSort = props => {
-  const { value, sortRxList } = props;
-  const history = useHistory();
-  const showRefillContent = useSelector(selectRefillContentFlag);
-  const showFilterContent = useSelector(selectFilterFlag);
-  const [sortListOption, setSortListOption] = useState(value);
+  const { sortRxList } = props;
+  const navigate = useNavigate();
+
+  const selectedSortOption = useSelector(
+    state => state.rx.preferences.sortOption,
+  );
 
   const rxSortingOptions = Object.keys(rxListSortingOptions);
+
   return (
     <div className="medications-list-sort">
       <div className="vads-u-margin-bottom--0p5">
@@ -35,21 +30,19 @@ const MedicationsListSort = props => {
             dataDogActionNames.medicationsListPage
               .SHOW_MEDICATIONS_IN_ORDER_SELECT
           }
-          value={sortListOption}
+          value={selectedSortOption}
           onVaSelect={e => {
-            // clean after filter flag is removed
-            if (showFilterContent) {
-              sortRxList(e.detail.value);
-              history.push(`/?page=1`);
-              waitForRenderThenFocus(
-                "[data-testid='page-total-info']",
-                document,
-                500,
-              );
-            } else {
-              setSortListOption(e.detail.value);
-            }
-            const capitalizedOption = e.detail.value
+            const newSortOption = e.detail.value;
+            sortRxList(null, newSortOption);
+            navigate(`/?page=1`, {
+              replace: true,
+            });
+            waitForRenderThenFocus(
+              "[data-testid='page-total-info']",
+              document,
+              500,
+            );
+            const capitalizedOption = newSortOption
               .replace(/([a-z])([A-Z])/g, '$1 $2')
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -69,39 +62,12 @@ const MedicationsListSort = props => {
           })}
         </VaSelect>
       </div>
-      {/* clean after filter flag is removed */}
-      {!showFilterContent && (
-        <div className="sort-button">
-          <VaButton
-            data-dd-action-name={
-              dataDogActionNames.medicationsListPage.SORT_MEDICATIONS_BUTTON
-            }
-            uswds
-            className="va-button"
-            secondary={showRefillContent}
-            data-testid="sort-button"
-            text="Sort"
-            onClick={() => {
-              if (sortListOption) {
-                sortRxList(sortListOption);
-                history.push(`/?page=1`);
-                waitForRenderThenFocus(
-                  "[data-testid='page-total-info']",
-                  document,
-                  500,
-                );
-              }
-            }}
-          />
-        </div>
-      )}
     </div>
   );
 };
 
 MedicationsListSort.propTypes = {
   sortRxList: PropTypes.func,
-  value: PropTypes.string,
 };
 
 export default MedicationsListSort;

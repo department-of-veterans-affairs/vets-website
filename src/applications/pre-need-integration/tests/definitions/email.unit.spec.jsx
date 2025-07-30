@@ -34,10 +34,7 @@ describe('Pre-need Schemaform definition: email', () => {
   it('should include all required error messages', () => {
     const schema = emailUiSchema();
     expect(schema['ui:errorMessages'].format).to.include(
-      'Enter a valid email address',
-    );
-    expect(schema['ui:errorMessages'].pattern).to.include(
-      'Enter a valid email address',
+      'Enter a valid email address using the format email@domain.com.',
     );
     expect(schema['ui:errorMessages'].required).to.include(
       'Please enter an email address',

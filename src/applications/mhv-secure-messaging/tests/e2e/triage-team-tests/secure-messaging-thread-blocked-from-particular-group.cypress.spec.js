@@ -101,7 +101,9 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
       cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
         waitForAnimations: true,
       });
-      cy.get(Locators.BUTTONS.CONTINUE).click({ waitForAnimations: true });
+      cy.findByTestId(Locators.BUTTONS.CONTINUE).click({
+        waitForAnimations: true,
+      });
       cy.get(Locators.ALERTS.REPT_SELECT).should(
         'not.contain',
         mockBlockedRecipients.data[3].attributes.name,

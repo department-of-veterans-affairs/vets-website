@@ -1,5 +1,7 @@
 {
   "data": {
+    "isLoggedIn": true,
+    "dateReceivedByVa": false,
     "incomeNetWorthDateRange": {
       "from": "2023-07-01",
       "to": "2024-01-01"
@@ -8,18 +10,23 @@
       "first": "John",
       "last": "Doe"
     },
-    "veteranSocialSecurityNumber": "321654987",
-    "view:applicantIsVeteran": false,
+    "otherVeteranFullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "otherVeteranSocialSecurityNumber": "987654321",
     "claimantFullName": {
       "first": "Jane",
       "last": "Doe"
     },
     "claimantSocialSecurityNumber": "321654987",
     "claimantType": "SPOUSE",
+    "email": "test.user@example.com",
     "view:isAddingUnassociatedIncomes": true,
     "unassociatedIncomes": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "incomeType": "SOCIAL_SECURITY",
         "grossMonthlyIncome": 2500,
         "payer": "Business name"
@@ -29,6 +36,7 @@
     "associatedIncomes": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "incomeType": "INTEREST",
         "grossMonthlyIncome": 500,
         "accountValue": 50000,
@@ -39,7 +47,7 @@
     "ownedAssets": [
       {
         "recipientRelationship": "SPOUSE",
-        "recipientName": "Recipient name",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "grossMonthlyIncome": 2500,
         "ownedPortionValue": 100000,
         "assetType": "BUSINESS"
@@ -49,6 +57,7 @@
     "royaltiesAndOtherProperties": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "canBeSold": true,
         "fairMarketValue": 25000,
         "grossMonthlyIncome": 1200,
@@ -116,6 +125,7 @@
     "discontinuedIncomes": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "payer": "Social Security Administration",
         "incomeType": "Social Security",
         "incomeFrequency": "RECURRING",
@@ -127,6 +137,7 @@
     "incomeReceiptWaivers": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "payer": "Social Security Administration",
         "expectedIncome": 2000.0,
         "view:paymentsWillResume": true,

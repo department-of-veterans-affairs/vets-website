@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 
-import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
-import { scrollToFirstError } from 'platform/utilities/ui';
+import { Element, scrollToFirstError } from 'platform/utilities/scroll';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
@@ -16,7 +15,7 @@ import UnsupportedClaimTypePage from '../components/submit-flow/pages/Unsupporte
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 
 import { selectAppointment } from '../redux/selectors';
-import { HelpTextManage } from '../components/HelpText';
+import { HelpTextGeneral } from '../components/HelpText';
 import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
 import { stripTZOffset } from '../util/dates';
 import {
@@ -204,7 +203,7 @@ const SubmitFlowWrapper = () => {
           <div className="vads-u-margin-top--4">
             <va-need-help>
               <div slot="content">
-                <HelpTextManage />
+                <HelpTextGeneral />
               </div>
             </va-need-help>
           </div>

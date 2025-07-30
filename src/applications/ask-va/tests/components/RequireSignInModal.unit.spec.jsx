@@ -26,7 +26,6 @@ describe('RequireSignInModal Component', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     originalLocation = window.location;
-    delete window.location;
     window.location = { href: '' };
   });
 

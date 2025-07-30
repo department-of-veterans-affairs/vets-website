@@ -1,13 +1,13 @@
-# VA Online Scheduling
+# Appointments
 
-This is the front end source for the VAOS application. Veterans can schedule, request, and view appointments through this application.
+This is the front end source for the Appointments application. Veterans can schedule, request, and view appointments through this application.
 
 It is a React/Redux application that makes heavy use of MomentJS. Tests are written with React Testing Library and Cypress.
 
 ## Quick start
 
 1. Clone vets-website locally and run `yarn install`
-2. Run `yarn watch`
+2. Run `yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=vaos`
 3. In a separate terminal run `yarn mock-api --responses src/applications/vaos/services/mocks/index.js`
 4. Open http://localhost:3001 and type `localStorage.setItem('hasSession', true)` into the dev console
 5. Open http://localhost:3001/my-health/appointments/
@@ -42,7 +42,7 @@ npx nodemon --exec "yarn jsdoc -c src/applications/vaos/jsdoc.json" --watch src/
 
 ## Organization
 
-The application has three major sections
+The application has four major sections
 
 - /appointment-list
   - The code for the appointment list and detail pages
@@ -50,6 +50,8 @@ The application has three major sections
   - The code for the new appointment and request flows
 - /covid-19-vaccine
   - In progress vaccine appointment scheduling MVP
+- /referral-appointments
+  - The code for the referrals and requests and scheduling a Commnunity Care referral appointment
 
 Application sections are generally organized into three folders:
 
@@ -86,3 +88,8 @@ Local development of the application requires use of the [mock API](https://gith
 ```
 yarn mock-api --responses src/applications/vaos/services/mocks/index.js
 ```
+### Mock scenarios for Referrals and Requests
+
+- http://localhost:3001/my-health/appointments/schedule-referral?id=error
+  - Should show a generic referral error indicating that vets-api returned any error status code when fetching that referral.
+

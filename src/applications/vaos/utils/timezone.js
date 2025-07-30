@@ -14,12 +14,21 @@ const TIMEZONE_LABELS = {
   AT: 'Atlantic time',
 };
 
-export function stripDST(abbr) {
-  if (/^[PMCEHSA][DS]T$|^AK[DS]T$|^ChST$/.test(abbr)) {
-    return abbr?.replace('ST', 'T').replace('DT', 'T');
+export function stripDST(stringWithAbbr) {
+  // Extract timezone abbreviations from the string
+  const matches = stringWithAbbr.match(/([PMCEHSA][DS]T|AK[DS]T|ChST)/g);
+
+  if (matches && matches.length > 0) {
+    // Process each timezone abbreviation in the string
+    let result = stringWithAbbr;
+    matches.forEach(match => {
+      const stripped = match.replace('ST', 'T').replace('DT', 'T');
+      result = result.replace(match, stripped);
+    });
+    return result;
   }
 
-  return abbr;
+  return stringWithAbbr;
 }
 
 export function getTimezoneByFacilityId(id) {

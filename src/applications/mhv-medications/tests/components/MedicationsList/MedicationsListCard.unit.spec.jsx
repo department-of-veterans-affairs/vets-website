@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/dom';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import MedicationsListCard from '../../../components/MedicationsList/MedicationsListCard';
@@ -8,8 +8,7 @@ import reducers from '../../../reducers';
 
 describe('Medication card component', () => {
   const setup = (rx = prescriptionsListItem, initialState = {}) => {
-    return renderWithStoreAndRouter(<MedicationsListCard rx={rx} />, {
-      path: '/',
+    return renderWithStoreAndRouterV6(<MedicationsListCard rx={rx} />, {
       state: initialState,
       reducers,
     });
@@ -56,21 +55,6 @@ describe('Medication card component', () => {
     );
     fireEvent.click(medicationName);
     expect(screen);
-  });
-
-  it('fill/refill button no longer appears when refill flag is true', () => {
-    const initialState = {
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_content: true,
-      },
-    };
-    const screen = setup({
-      prescriptionsListItem,
-      initialState,
-    });
-    const medicationName = screen.queryByTestId('refill-request-button');
-    expect(medicationName).to.be.null;
   });
 
   it('shows shipped on information when available', () => {

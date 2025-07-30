@@ -74,8 +74,8 @@
                 "sig": "TAKE ONE TABLET BY MOUTH DAILY FOR 30 DAYS AUTO TEST --TAKE WITH FOOD--",
                 "cmopDivisionPhone": null,
                 "userId": 17621060,
-                "providerFirstName": "MOHAMMAD",
-                "providerLastName": "ISLAM",
+                "providerFirstName": "",
+                "providerLastName": "",
                 "remarks": null,
                 "divisionName": "DAYTON",
                 "modifiedDate": "2023-10-04T20:16:11.000Z",
@@ -97,7 +97,7 @@
                         "rxNumber": "2720604",
                         "carrier": "FEDEX",
                         "trackingNumber": "77298036368890000006962",
-                        "completeDateTime": "Feb, 24 Sep 2024 04:39:11 EDT",
+                        "completeDateTime": "Feb, 24 2024 04:39:11 EDT",
                         "divisionPhone": "(410)636-6899",
                         "ndc": "00113002239",
                         "dateLoaded": "Tue, 26 Sep 2023 16:20:00 EDT",
@@ -180,7 +180,7 @@
                 "dispensedDate": null,
                 "stationNumber": "989",
                 "isRefillable": true,
-                "isTrackable": false,
+                "isTrackable": true,
                 "cmopNdcNumber": null,
                 "inCernerTransition": false,
                 "notRefillableDisplayMessage": "A refill request cannot be submitted at this time. Please review the prescription status and fill date. If you need more of this medication, please call the pharmacy phone number on your prescription label.",
@@ -193,7 +193,7 @@
                 "divisionName": "DAYTON",
                 "modifiedDate": "2023-08-11T15:56:58.000Z",
                 "institutionId": null,
-                "dialCmopDivisionPhone": "",
+                "dialCmopDivisionPhone": "410-636-6899",
                 "dispStatus": "Active: Submitted",
                 "ndc": "00015-0508-42",
                 "reason": null,
@@ -210,7 +210,7 @@
                         "rxNumber": "2720604",
                         "carrier": "FEDEX",
                         "trackingNumber": "77298036368890000006962",
-                        "completeDateTime": "Feb, 24 Sep 2024 04:39:11 EDT",
+                        "completeDateTime": "Wed, 30 Sep 2024 04:39:11 EDT",
                         "divisionPhone": "(410)636-6899",
                         "ndc": "00113002239",
                         "dateLoaded": "Tue, 26 Sep 2023 16:20:00 EDT",
@@ -220,7 +220,7 @@
                     }
                 ],
                 "rxRfRecords": [],
-                "tracking": false
+                "tracking": true
             },
             "links": {
                 "self": "http://127.0.0.1:3000/my_health/v1/prescriptions/22377955"
@@ -774,7 +774,22 @@
                 "indicationForUse": null,
                 "indicationForUseFlag": null,
                 "category": "Rx Medication",
-                "trackingList": [],
+                "trackingList": [
+                    {
+                        "id": 49049,
+                        "stationNumber": "989",
+                        "rxNumber": "2720542",
+                        "carrier": "FEDEX",
+                        "trackingNumber": "77298036368890000006962",
+                        "completeDateTime": "Sun, 24 Sept 2023 04:39:11 EDT",
+                        "divisionPhone": "(410)636-6899",
+                        "ndc": "00113002239",
+                        "dateLoaded": "Tue, 26 Sep 2023 16:20:00 EDT",
+                        "isLocalTracking": false,
+                        "othersInSamePackage": false,
+                        "viewImageDisplayed": true
+                    }
+                ],
                 "rxRfRecords": [
                     {
                         "refillStatus": "suspended",
@@ -820,7 +835,7 @@
                         "tracking": false
                     }
                 ],
-                "tracking": false,
+                "tracking": true,
                 "sortedDispensedDate": "2025-03-15T04:00:00.000Z"
             },
             "links": {
@@ -1192,7 +1207,7 @@
                         "expirationDate": null,
                         "prescriptionNumber": "2720848",
                         "prescriptionName": "ALUMINUM HYDROXIDE GEL 320MG/5ML SUSP",
-                        "dispensedDate": "Mon, 18 Mar 2024 00:00:00 EDT",
+                        "dispensedDate": "Fri, 22 Mar 2024 00:00:00 EDT",
                         "stationNumber": "989",
                         "inCernerTransition": false,
                         "notRefillableDisplayMessage": null,

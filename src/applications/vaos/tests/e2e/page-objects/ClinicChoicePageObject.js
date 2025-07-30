@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class ClinicChoicePageObject extends PageObject {
+class ClinicChoicePageObject extends PageObject {
   assertSingleClinic() {
     cy.get('va-radio').contains('Would you like to make an appointment at');
     return this;
@@ -10,6 +10,12 @@ export class ClinicChoicePageObject extends PageObject {
     cy.url().should('include', '/clinic', { timeout: 5000 });
     cy.axeCheckBestPractice();
 
+    return this;
+  }
+
+  assertClinicChoiceValidationErrors() {
+    this.clickNextButton();
+    this.assertValidationError('You must provide a response');
     return this;
   }
 

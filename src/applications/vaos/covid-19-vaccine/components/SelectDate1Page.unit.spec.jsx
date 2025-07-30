@@ -3,7 +3,16 @@ import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import moment from 'moment';
+import {
+  addDays,
+  addMonths,
+  endOfMonth,
+  format,
+  isSameDay,
+  setDay,
+  startOfDay,
+  startOfMonth,
+} from 'date-fns';
 import React from 'react';
 import {
   createTestStore,
@@ -12,12 +21,13 @@ import {
   setVaccineFacility,
 } from '../../tests/mocks/setup';
 
-import { createMockClinic } from '../../tests/mocks/data';
+import MockClinicResponse from '../../tests/fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 import {
-  mockAppointmentSlotFetch,
+  mockAppointmentSlotApi,
   mockEligibilityFetches,
 } from '../../tests/mocks/mockApis';
-import { TYPE_OF_CARE_ID } from '../utils';
+import { DATE_FORMATS, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import SelectDate1Page from './SelectDate1Page';
 
 const initialState = {
@@ -32,18 +42,12 @@ const initialState = {
 };
 
 describe('VAOS vaccine flow: SelectDate1Page', () => {
-  const clinic1 = createMockClinic({
-    id: '308',
-    stationId: '983',
-    friendlyName: 'Green team clinic',
+  const clinics = MockClinicResponse.createResponses({
+    clinics: [
+      { id: '308', name: 'Green team clinic' },
+      { id: '309', name: 'Red team clinic' },
+    ],
   });
-
-  const clinic2 = createMockClinic({
-    id: '309',
-    stationId: '983',
-    friendlyName: 'Red team clinic',
-  });
-  const clinics = [clinic1, clinic2];
 
   beforeEach(() => {
     mockFetch();
@@ -52,13 +56,13 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it('should not submit form with validation error', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
-    const preferredDate = moment();
+    const preferredDate = new Date();
 
-    mockAppointmentSlotFetch({
+    mockAppointmentSlotApi({
       facilityId: '983',
       clinicId: '308',
       response: [],
@@ -67,7 +71,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -97,22 +101,22 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   });
 
   it('should display error message if slots call fails', async () => {
-    const preferredDate = moment();
+    const preferredDate = new Date();
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
-    mockAppointmentSlotFetch({
+    mockAppointmentSlotApi({
       clinicId: '308',
       facilityId: '983',
       preferredDate,
-      withError: true,
+      responseCode: true,
     });
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -145,23 +149,16 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it('should allow a user to choose available slot and fetch new slots after changing clinics', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
-    const slot308Date = moment()
-      .day(9)
-      .hour(9)
-      .minute(0)
-      .second(0);
-    const slot309Date = moment()
-      .day(11)
-      .hour(13)
-      .minute(0)
-      .second(0);
-    const preferredDate = moment();
+    // Slot dates are in UTC
+    const slot308Date = new Date(setDay(new Date(), 9).setHours(15, 0, 0));
+    const slot309Date = new Date(setDay(new Date(), 11).setHours(19, 0, 0));
+    const preferredDate = new Date();
 
-    mockAppointmentSlotFetch({
+    mockAppointmentSlotApi({
       facilityId: '983',
       clinicId: '308',
       response: [
@@ -169,28 +166,28 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
-            end: slot308Date
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ssZ'),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(
+              new Date(new Date(slot308Date).setMinutes(20)),
+              DATE_FORMATS.ISODateTime,
+            ),
           },
         },
         {
           id: '309',
           type: 'slots',
           attributes: {
-            start: slot309Date.format('YYYY-MM-DDTHH:mm:ssZ'),
-            end: slot309Date
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ssZ'),
+            start: format(slot309Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(
+              new Date(new Date(slot309Date).setMinutes(20)),
+              DATE_FORMATS.ISODateTime,
+            ),
           },
         },
       ],
       preferredDate,
     });
-    mockAppointmentSlotFetch({
+    mockAppointmentSlotApi({
       facilityId: '983',
       clinicId: '309',
       response: [
@@ -198,11 +195,11 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '309',
           type: 'slots',
           attributes: {
-            start: slot309Date.format('YYYY-MM-DDTHH:mm:ssZ'),
-            end: slot309Date
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ssZ'),
+            start: format(slot309Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(
+              new Date(new Date(slot309Date).setMinutes(20)),
+              DATE_FORMATS.ISODateTime,
+            ),
           },
         },
       ],
@@ -211,7 +208,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -229,13 +226,13 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     // 2. Simulate user selecting a date
     let button = screen.queryByLabelText(
-      new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+      new RegExp(format(slot308Date, 'EEEE, MMMM do'), 'i'),
     );
 
     if (!button) {
       userEvent.click(screen.getByText(/^Next/));
       button = await screen.findByLabelText(
-        new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+        new RegExp(format(slot308Date, 'EEEE, MMMM do'), 'i'),
       );
     }
 
@@ -266,7 +263,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     // 4. Simulate user selecting a date
     button = screen.queryByLabelText(
-      new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
+      new RegExp(format(slot309Date, 'EEEE, MMMM do'), 'i'),
     );
 
     if (!button) {
@@ -279,7 +276,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
       }
 
       button = await screen.findByLabelText(
-        new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
+        new RegExp(format(slot309Date, 'EEEE, MMMM do'), 'i'),
       );
     }
 
@@ -292,12 +289,12 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it('should show validation error if no date selected', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
-    const preferredDate = moment();
-    mockAppointmentSlotFetch({
+    const preferredDate = new Date();
+    mockAppointmentSlotApi({
       facilityId: '983',
       clinicId: '308',
       response: [],
@@ -306,7 +303,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     const screen = renderWithStoreAndRouter(<SelectDate1Page />, {
@@ -329,29 +326,21 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it.skip('should fetch slots when moving between months', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
-    const preferredDate = moment();
-    const isLastDayOfMonth = preferredDate.isSame(
-      preferredDate.clone().endOf('month'),
-      'day',
+    const preferredDate = new Date();
+    const isLastDayOfMonth = isSameDay(
+      preferredDate,
+      endOfMonth(preferredDate, 'month'),
     );
-    const slot308Date = preferredDate
-      .clone()
-      .add(1, 'day')
-      .hour(9)
-      .minute(0)
-      .second(0);
-    const secondSlotDate = slot308Date
-      .clone()
-      .add(isLastDayOfMonth ? 1 : 2, 'month')
-      .hour(10)
-      .minute(0)
-      .second(0);
+    const slot308Date = new Date(addDays(preferredDate, 1).setHours(9, 0, 0));
+    const secondSlotDate = new Date(
+      addMonths(slot308Date, isLastDayOfMonth ? 1 : 2).setHours(10, 0, 0),
+    );
 
-    mockAppointmentSlotFetch({
+    mockAppointmentSlotApi({
       facilityId: '983',
       clinicId: '308',
       response: [
@@ -359,17 +348,17 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
-            end: slot308Date
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ssZ'),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(
+              new Date(new Date(slot308Date).setMinutes(20)),
+              DATE_FORMATS.ISODateTimeUTC,
+            ),
           },
         },
       ],
       preferredDate,
     });
-    mockAppointmentSlotFetch({
+    mockAppointmentSlotApi({
       facilityId: '983',
       clinicId: '308',
       response: [
@@ -377,24 +366,21 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: secondSlotDate.format('YYYY-MM-DDTHH:mm:ssZ'),
-            end: secondSlotDate
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ssZ'),
+            start: format(secondSlotDate, DATE_FORMATS.ISODateTimeUTC),
+            end: format(
+              new Date(new Date(secondSlotDate).setMinutes(20)),
+              DATE_FORMATS.ISODateTimeUTC,
+            ),
           },
         },
       ],
-      preferredDate: secondSlotDate.clone().startOf('month'),
-      endDate: secondSlotDate
-        .clone()
-        .endOf('month')
-        .startOf('day'),
+      preferredDate: startOfMonth(secondSlotDate),
+      endDate: endOfMonth(startOfDay(secondSlotDate)),
     });
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /Green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -413,12 +399,12 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     }
 
     let dayOfMonthButton = screen.getByLabelText(
-      new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+      new RegExp(format(slot308Date, 'EEEE, MMMM do'), 'i'),
     );
     userEvent.click(dayOfMonthButton);
     userEvent.click(
       await screen.findByRole('radio', {
-        id: `dateTime_${slot308Date.format('YYYY-MM-DD')}_0`,
+        id: `dateTime_${format(slot308Date, 'yyyy-MM-dd')}_0`,
       }),
     );
 
@@ -435,13 +421,13 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     }
 
     dayOfMonthButton = await screen.findByLabelText(
-      new RegExp(secondSlotDate.format('dddd, MMMM Do'), 'i'),
+      new RegExp(format(secondSlotDate, 'EEEE, MMMM do'), 'i'),
     );
     userEvent.click(dayOfMonthButton);
 
     userEvent.click(
       await screen.findByRole('radio', {
-        id: `dateTime_${secondSlotDate.format('YYYY-MM-DD')}_0`,
+        id: `dateTime_${format(secondSlotDate, 'YYYY-MM-DD')}_0`,
       }),
     );
 
@@ -454,12 +440,12 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     }
 
     dayOfMonthButton = screen.getByLabelText(
-      new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+      new RegExp(format(slot308Date, 'EEEE, MMMM do'), 'i'),
     );
     userEvent.click(dayOfMonthButton);
     userEvent.click(
       await screen.findByRole('radio', {
-        id: `dateTime_${slot308Date.format('YYYY-MM-DD')}_0`,
+        id: `dateTime_${format(slot308Date, 'yyyy-MM-dd')}_0`,
       }),
     );
 

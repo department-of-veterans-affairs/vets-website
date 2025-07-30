@@ -15,17 +15,15 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import { FACILITY_TYPES } from '../../../utils/constants';
+import { FACILITY_TYPES, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 
 import ReviewPage from '.';
-import { mockAppointmentSubmit } from '../../../tests/mocks/mockApis';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
+import { mockAppointmentSubmitApi } from '../../../tests/mocks/mockApis';
 
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingVAOSServiceRequests: true,
   },
 };
 
@@ -52,7 +50,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       pages: {},
       data: {
         facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-        typeOfCareId: '323',
+        typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
         phoneNumber: '1234567890',
         email: 'joeblow@gmail.com',
         reasonAdditionalInfo: 'I need an appt',
@@ -121,11 +119,8 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
   it('should submit successfully', async () => {
     store = createTestStore(defaultState);
 
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -137,7 +132,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
     userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/pending/fake_id?confirmMsg=true',
       );
     });
 
@@ -212,11 +207,8 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       },
     });
 
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -228,7 +220,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
     userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/pending/fake_id?confirmMsg=true',
       );
     });
 
@@ -273,10 +265,13 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
 
     userEvent.click(screen.getByText(/Submit request/i));
 
-    await screen.findByText('We can’t submit your request');
+    await screen.findByText('We can’t submit your request right now');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
+      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+    );
+    expect(screen.baseElement).contain.text(
+      'If you need to schedule now, call your VA facility.',
     );
 
     expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');

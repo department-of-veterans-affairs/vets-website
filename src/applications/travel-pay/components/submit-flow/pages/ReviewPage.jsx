@@ -6,7 +6,8 @@ import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
@@ -105,13 +106,16 @@ const ReviewPage = ({
       </p>
 
       <va-card background>
-        <h3 className="vad-u-margin-bottom--2 vads-u-margin-top--0">
+        <h3 className="vads-u-margin-bottom--2 vads-u-margin-top--0">
           Beneficiary travel agreement
         </h3>
-        <p>
-          <strong>Penalty statement:</strong> There are severe criminal and
-          civil penalties, including a fine, imprisonment, or both, for
-          knowingly submitting a false, fictitious, or fraudulent claim.
+        <h4 className="vads-u-font-family--sans vads-u-display--inline">
+          Penalty statement:
+        </h4>{' '}
+        <p className="vads-u-display--inline">
+          There are severe criminal and civil penalties, including a fine,
+          imprisonment, or both, for knowingly submitting a false, fictitious,
+          or fraudulent claim.
         </p>
         <p>
           By submitting this claim, you agree to the beneficiary travel
@@ -139,7 +143,7 @@ const ReviewPage = ({
         className="vads-u-margin-top--2"
         continue
         disable-analytics
-        rightButtonText="File claim"
+        rightButtonText="Submit claim"
         leftButtonText="Start over"
         onPrimaryClick={onSubmit}
         onSecondaryClick={onBack}

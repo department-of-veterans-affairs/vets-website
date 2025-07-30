@@ -1,25 +1,26 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .poa-request {
-  max-width: 660px;
+  max-width: 627px;
+
+  va-pagination {
+    padding: 0;
+    border: 0;
+  }
 
   &__search-header {
-    margin: 0 0 24px;
+    margin-bottom: 8px;
   }
   &__copy {
-    margin: 0 0 16px 0;
+    margin: 0 0 24px 0;
   }
   &__tabs {
-    margin: 60px 0 24px;
+    margin: 32px 0;
     background-color: $vads-color-base-lighter;
     border: 2px solid $vads-color-base-lighter;
     border-radius: 6px;
     display: flex;
     max-width: 320px;
-
-    @media (min-width: $small-desktop-screen) {
-      margin: 24px 0;
-    }
   }
 
   &__tab-heading {
@@ -78,21 +79,27 @@
       margin-left: 16px;
     }
   }
+  &__meta {
+    margin-bottom: 32px;
+    @media (min-width: $small-desktop-screen) {
+      margin: 32px 0;
+    }
+  }
   &__list {
     list-style-type: none;
     padding: 0;
     display: block;
+    margin: 0;
+
+    li {
+      margin-bottom: 16px;
+      max-width: 100%;
+    }
   }
 
   &__card {
-    margin-bottom: 20px;
-
     > a {
       display: flex;
-    }
-
-    @media (min-width: $small-desktop-screen) {
-      max-width: 660px;
     }
 
     &-icon {
@@ -117,7 +124,7 @@
       &--request {
         display: flex;
         align-items: center;
-        margin-top: 8px;
+        margin-bottom: 12px;
         flex-wrap: wrap;
       }
 
@@ -133,14 +140,32 @@
           color: $vads-color-error;
         }
         [icon] {
-          margin-right: 6px;
+          margin-right: 4px;
         }
       }
 
       &--label {
         font-weight: 700;
-        margin-bottom: 0;
-        margin-right: 5px;
+        margin: 0 5px 0 0;
+
+        .poa-search & {
+          width: 100%;
+          @media (min-width: $small-desktop-screen) {
+            width: auto;
+          }
+        }
+
+        span {
+          font-weight: normal;
+          display: block;
+          @media (min-width: $small-desktop-screen) {
+            display: inline;
+          }
+        }
+      }
+
+      &--org {
+        margin-top: 12px;
       }
 
       &--expiry {

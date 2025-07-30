@@ -1,0 +1,21 @@
+steps:
+  - action: exists
+    target: header
+    value: Your mailing address
+  - action: select
+    target: COUNTRY
+    value: USA
+  - action: typeTextInput
+    target: STREET_ADDRESS
+    value: 1600 Pennsylvania Avenue NW
+  - action: typeTextInput
+    target: CITY
+    value: Washington
+  - action: select
+    target: STATE
+    value: DC
+  - action: typeTextInput
+    target: POSTAL_CODE
+    value: 20500
+  - action: click
+    target: call-to-action

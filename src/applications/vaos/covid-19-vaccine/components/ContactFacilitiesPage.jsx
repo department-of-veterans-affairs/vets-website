@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { openContactFacilitiesPage } from '../redux/actions';
 import { selectContactFacilitiesPageInfo } from '../redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   FACILITY_SORT_METHODS,
   FETCH_STATUS,
@@ -25,11 +23,7 @@ import { routeToPreviousAppointmentPage } from '../flow';
 
 const pageKey = 'contactFacilities';
 
-export default function ContactFacilitiesPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-
+export default function ContactFacilitiesPage() {
   const dispatch = useDispatch();
   const {
     facilitiesStatus,
@@ -56,9 +50,6 @@ export default function ContactFacilitiesPage({ changeCrumb }) {
   useEffect(
     () => {
       scrollAndFocus();
-      if (featureBreadcrumbUrlUpdate) {
-        changeCrumb(pageTitle);
-      }
     },
     [facilitiesStatus],
   );
@@ -179,7 +170,3 @@ export default function ContactFacilitiesPage({ changeCrumb }) {
     </div>
   );
 }
-
-ContactFacilitiesPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

@@ -1,6 +1,7 @@
 import React from 'react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
@@ -31,7 +32,6 @@ import * as categoriesActions from '../../../actions/categories';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   getProps,
-  inputVaTextInput,
   selectVaRadio,
   selectVaSelect,
   checkVaCheckbox,
@@ -40,6 +40,19 @@ import {
 import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
 describe('Compose form component', () => {
+  let stub;
+  afterEach(() => {
+    if (stub) {
+      stub.restore();
+      stub = null;
+    }
+  });
+  const stubUseFeatureToggles = value => {
+    const useFeatureToggles = require('../../../hooks/useFeatureToggles');
+    stub = sinon.stub(useFeatureToggles, 'default').returns(value);
+    return stub;
+  };
+
   const initialState = {
     sm: {
       triageTeams: { triageTeams },
@@ -121,32 +134,6 @@ describe('Compose form component', () => {
     expect(body).to.exist;
   });
 
-  it('displays Edit List modal if path is /new-message', async () => {
-    const screen = setup(initialState, Paths.COMPOSE);
-
-    const editListLink = await screen.getByTestId('edit-preferences-button', {
-      selector: 'button',
-      exact: true,
-    });
-    expect(
-      document.querySelector('#edit-list').getAttribute('visible'),
-    ).to.equal('false');
-
-    fireEvent.click(editListLink);
-    const modalContent = await screen.getByText(
-      Prompts.Compose.EDIT_PREFERENCES_CONTENT,
-    );
-
-    expect(
-      document.querySelector('#edit-list').getAttribute('visible'),
-    ).to.equal('true');
-    expect(
-      document.querySelector('.vads-c-action-link--green').getAttribute('href'),
-    ).to.equal('https://mhv-syst.myhealth.va.gov/mhv-portal-web/preferences');
-    expect(modalContent).to.exist;
-    fireEvent.click(document.querySelector('.vads-c-action-link--green'));
-  });
-
   it('displays compose action buttons if path is /new-message', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
@@ -189,7 +176,7 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        draftDetails: { customDraftMessage },
+        threadDetails: { customDraftMessage },
       },
     };
 
@@ -223,7 +210,10 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        draftDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
       },
     };
 
@@ -252,7 +242,10 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        draftDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
       },
     };
 
@@ -263,7 +256,48 @@ describe('Compose form component', () => {
     expect(screen.queryByTestId('sending-indicator')).to.equal(null);
     fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
-      expect(screen.getByTestId('sending-indicator')).to.exist;
+      expect(screen.getByTestId('sending-indicator')).to.have.attribute(
+        'message',
+        'Sending message...',
+      );
+    });
+  });
+
+  it('renders sending message spinner without errors with largeAttachmentsEnabled feature flag ', async () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: true,
+    });
+    useFeatureTogglesStub;
+
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
+      },
+    };
+
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+    expect(screen.queryByTestId('sending-indicator')).to.equal(null);
+    fireEvent.click(screen.getByTestId('send-button'));
+    await waitFor(() => {
+      expect(screen.getByTestId('sending-indicator')).to.have.attribute(
+        'message',
+        'Do not refresh the page. Sending message...',
+      );
     });
   });
 
@@ -289,7 +323,10 @@ describe('Compose form component', () => {
         ...initialState.sm,
         triageTeams: { triageTeams },
         categories: { categories },
-        draftDetails: {},
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: {},
+        },
         preferences: signatureReducers.signatureEnabled,
       },
     };
@@ -335,7 +372,10 @@ describe('Compose form component', () => {
         ...initialState.sm,
         triageTeams: { triageTeams },
         categories: { categories },
-        draftDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
         preferences: signatureReducers.signatureEnabled,
       },
       featureToggles: {},
@@ -514,7 +554,10 @@ describe('Compose form component', () => {
         ...draftState.sm,
         triageTeams: { triageTeams },
         categories: { categories },
-        draftDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
       },
     };
 
@@ -552,7 +595,10 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        draftDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
       },
     };
 
@@ -1052,20 +1098,31 @@ describe('Compose form component', () => {
   });
 
   it('should display an error message when a file is a duplicate', async () => {
-    const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
+    // Create a 1MB file with actual content
+    const oneMB = 1024 * 1024;
+    const fileContent = new Uint8Array(oneMB);
+    fileContent.fill(1);
+    const file = new File([fileContent], 'test.png', {
+      type: 'image/png',
+      lastModified: new Date().getTime(),
+    });
+
     const customDraftMessage = {
       ...draftMessage,
       recipientId: 1013155,
       recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
       triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      attachments: [file],
+      attachments: [],
     };
 
     const customState = {
       ...draftState,
       sm: {
         ...draftState.sm,
-        draftDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
       },
     };
 
@@ -1081,6 +1138,13 @@ describe('Compose form component', () => {
       },
     );
     const uploader = screen.getByTestId('attach-file-input');
+    // Attach the file once
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file] },
+      }),
+    );
+    // Try to attach the same file again (should trigger duplicate error)
     await waitFor(() =>
       fireEvent.change(uploader, {
         target: { files: [file] },
@@ -1091,11 +1155,20 @@ describe('Compose form component', () => {
   });
 
   it('should display an error message when a file with the same name but different size is a duplicate', async () => {
-    const oneAttachment = { name: 'test.png', size: 100, type: 'image/png' };
-
-    const file = new File(['(⌐□_□)'], 'test.png', {
+    const oneMB = 1024 * 1024;
+    // First file: 1MB, name test.png
+    const file1Content = new Uint8Array(oneMB);
+    file1Content.fill(1); // Fill with data to ensure actual size
+    const file1 = new File([file1Content], 'test.png', {
       type: 'image/png',
-      size: 200,
+      lastModified: new Date().getTime(),
+    });
+    // Second file: 2MB, name test.png (different size)
+    const file2Content = new Uint8Array(2 * oneMB);
+    file2Content.fill(2);
+    const file2 = new File([file2Content], 'test.png', {
+      type: 'image/png',
+      lastModified: new Date().getTime(),
     });
 
     const customDraftMessage = {
@@ -1103,14 +1176,17 @@ describe('Compose form component', () => {
       recipientId: 1013155,
       recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
       triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      attachments: [oneAttachment],
+      attachments: [],
     };
 
     const customState = {
       ...draftState,
       sm: {
         ...draftState.sm,
-        draftDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
       },
     };
 
@@ -1128,9 +1204,16 @@ describe('Compose form component', () => {
 
     const uploader = screen.getByTestId('attach-file-input');
 
+    // Attach the first file
     await waitFor(() =>
       fireEvent.change(uploader, {
-        target: { files: [file] },
+        target: { files: [file1] },
+      }),
+    );
+    // Attach the second file with same name but different size
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file2] },
       }),
     );
 
@@ -1142,16 +1225,15 @@ describe('Compose form component', () => {
 
   it('should display an error message when a file is over 6MB', async () => {
     const largeFileSizeInBytes = 7 * 1024 * 1024; // 7MB
-
-    const largeFileBuffer = new ArrayBuffer(largeFileSizeInBytes);
-    const largeFileBlob = new Blob([largeFileBuffer], {
-      type: 'application/octet-stream',
-    });
-
-    const largeFile = new File([largeFileBlob], 'large_file.txt', {
+    // Use Uint8Array to ensure the file is truly 7MB
+    const largeFileContent = new Uint8Array(largeFileSizeInBytes);
+    largeFileContent.fill(1);
+    const largeFile = new File([largeFileContent], 'large_file.txt', {
       type: 'application/octet-stream',
       lastModified: new Date().getTime(),
     });
+
+    expect(largeFile.size).to.equal(largeFileSizeInBytes);
 
     const screen = setup(initialState, Paths.COMPOSE);
     const uploader = screen.getByTestId('attach-file-input');
@@ -1166,23 +1248,127 @@ describe('Compose form component', () => {
     );
   });
 
-  it(' should display an error message when attaching a new file increases total attachments size over 10MB', async () => {
+  it('should display an error message when attaching a new file increases total attachments size over 10MB', async () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: false,
+    });
+
+    const oneMB = 1024 * 1024;
+
+    // Create first 4MB file with actual content
+    const file1Content = new Uint8Array(4 * oneMB);
+    file1Content.fill(1); // Fill with data to ensure actual size
+    const file1 = new File([file1Content], 'test1.png', {
+      type: 'image/png',
+      lastModified: new Date().getTime(),
+    });
+
+    // Create second 4MB file with actual content
+    const file2Content = new Uint8Array(4 * oneMB);
+    file2Content.fill(2); // Fill with data to ensure actual size
+    const file2 = new File([file2Content], 'test2.png', {
+      type: 'image/png',
+      lastModified: new Date().getTime(),
+    });
+
+    // Create third 3MB file with actual content (this will exceed 10MB limit)
+    const file3Content = new Uint8Array(3 * oneMB);
+    file3Content.fill(3); // Fill with data to ensure actual size
+    const file3 = new File([file3Content], 'test3.txt', {
+      type: 'application/octet-stream',
+      lastModified: new Date().getTime(),
+    });
+
+    // Verify the files have the correct sizes
+    expect(file1.size).to.equal(4 * oneMB);
+    expect(file2.size).to.equal(4 * oneMB);
+    expect(file3.size).to.equal(3 * oneMB);
+
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      attachments: [],
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm
+        draft={customDraftMessage}
+        recipients={customState.sm.recipients}
+      />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/draft/${draftMessage.id}`,
+      },
+    );
+
+    const uploader = screen.getByTestId('attach-file-input');
+
+    // Upload first 4MB file
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file1] },
+      }),
+    );
+
+    // Upload second 4MB file
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file2] },
+      }),
+    );
+
+    // Upload third 3MB file - this should trigger the error (total: 11MB > 10MB)
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file3] },
+      }),
+    );
+    // Check that error message appears
+    await waitFor(() => {
+      screen.getByTestId('file-input-error-message');
+    });
+    expect(screen.getByTestId('file-input-error-message').textContent).to.equal(
+      ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
+    );
+
+    useFeatureTogglesStub.restore();
+  });
+
+  it('should display an error message when attaching a new file increases total attachments size over 25MB with largeAttachmentsEnabled feature flag', async () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: true,
+    });
+    useFeatureTogglesStub;
     const oneMB = 1024 * 1024;
     const customAttachments = [
       { name: 'test1.png', size: 4 * oneMB, type: 'image/png' },
       { name: 'test2.png', size: 4 * oneMB, type: 'image/png' },
+      { name: 'test3.png', size: 4 * oneMB, type: 'image/png' },
+      { name: 'test4.png', size: 11 * oneMB, type: 'image/png' },
     ];
-    const largeFileSizeInBytes = 3 * oneMB; // 7MB
-
-    const largeFileBuffer = new ArrayBuffer(largeFileSizeInBytes);
-    const largeFileBlob = new Blob([largeFileBuffer], {
-      type: 'application/octet-stream',
-    });
-
-    const largeFile = new File([largeFileBlob], 'large_file.txt', {
+    const largeFileSizeInBytes = 3 * oneMB; // 3MB
+    // Use Uint8Array to ensure the file is actually 3MB
+    const largeFileContent = new Uint8Array(largeFileSizeInBytes);
+    largeFileContent.fill(1);
+    const largeFile = new File([largeFileContent], 'large_file.txt', {
       type: 'application/octet-stream',
       lastModified: new Date().getTime(),
     });
+    expect(largeFile.size).to.equal(largeFileSizeInBytes);
 
     const customDraftMessage = {
       ...draftMessage,
@@ -1196,7 +1382,10 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        draftDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
       },
     };
 
@@ -1227,7 +1416,6 @@ describe('Compose form component', () => {
   it('should contain Edit Signature Link', () => {
     const customState = { ...initialState, featureToggles: { loading: false } };
     // eslint-disable-next-line camelcase
-    customState.featureToggles.mhv_secure_messaging_signature_settings = true;
     customState.sm.preferences.signature.includeSignature = true;
     const screen = setup(customState, Paths.COMPOSE);
     expect(screen.getByText('Edit signature for all messages')).to.exist;

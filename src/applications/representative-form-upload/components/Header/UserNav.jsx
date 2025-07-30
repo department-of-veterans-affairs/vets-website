@@ -1,6 +1,6 @@
 import React from 'react';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import { SIGN_OUT_URL } from '../../constants/index';
+import { SIGN_OUT_URL } from '../../constants';
 import NavDropdown from './NavDropdown';
 
 const UserHelpLinks = () => {
@@ -14,10 +14,10 @@ const UserHelpLinks = () => {
             <a
               data-testid="user-nav-poa-search-link"
               className="vads-u-color--white"
-              href="/poa-search"
+              href="/representative/claimant-search"
             >
               <va-icon icon="search" size={2} className="people-search-icon" />
-              Search People
+              Find Claimant
             </a>
           </li>
         </Toggler.Enabled>
@@ -26,11 +26,28 @@ const UserHelpLinks = () => {
         <a
           data-testid="user-nav-poa-requests-link"
           className="vads-u-color--white"
-          href="/poa-requests"
+          href="/representative/poa-requests"
         >
-          Power of Attorney Requests
+          Representation Requests
         </a>
       </li>
+      <Toggler
+        toggleName={
+          Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
+        }
+      >
+        <Toggler.Enabled>
+          <li>
+            <a
+              data-testid="submissions-link"
+              className="vads-u-color--white"
+              href="/representative/submissions"
+            >
+              Submissions
+            </a>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
       <li className="vads-u-display--none">
         <a
           data-testid="user-nav-profile-link"

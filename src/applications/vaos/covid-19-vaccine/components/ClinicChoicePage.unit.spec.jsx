@@ -9,10 +9,11 @@ import {
   renderWithStoreAndRouter,
   setVaccineFacility,
 } from '../../tests/mocks/setup';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 
-import { createMockClinic } from '../../tests/mocks/data';
+import MockClinicResponse from '../../tests/fixtures/MockClinicResponse';
 import { mockEligibilityFetches } from '../../tests/mocks/mockApis';
-import { TYPE_OF_CARE_ID } from '../utils';
+import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 import ClinicChoicePage from './ClinicChoicePage';
 
 const initialState = {
@@ -27,42 +28,21 @@ const initialState = {
 };
 
 describe('VAOS vaccine flow: ClinicChoicePage', () => {
-  const clinic1 = createMockClinic({
-    id: '308',
-    stationId: '983',
-    friendlyName: 'Green team clinic',
+  const clinics = MockClinicResponse.createResponses({
+    clinics: [{ name: 'Green team clinic' }, { name: 'Red team clinic' }],
   });
-  const clinic2 = createMockClinic({
-    id: '309',
-    stationId: '983',
-    friendlyName: 'Red team clinic',
-  });
-  const clinics = [clinic1, clinic2];
 
   beforeEach(() => mockFetch());
   it('should display multiple clinics and require one to be chosen', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983', {
-      name: 'Cheyenne VA Medical Center',
-      address: {
-        physical: {
-          zip: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          address1: '2360 East Pershing Boulevard',
-        },
-      },
-      phone: {
-        main: '307-778-7550',
-      },
-    });
+    await setVaccineFacility(store, new MockFacilityResponse());
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
@@ -92,22 +72,20 @@ describe('VAOS vaccine flow: ClinicChoicePage', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-appointment/select-date',
-      ),
+      expect(screen.history.push.firstCall.args[0]).to.equal('date-time'),
     );
   });
 
   it('should retain form data after page changes', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
 
     let screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,

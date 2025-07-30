@@ -1,10 +1,16 @@
 import PageObject from './PageObject';
 
-export class AudiologyPageObject extends PageObject {
+class AudiologyPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', 'audiology-care');
     cy.axeCheckBestPractice();
 
+    return this;
+  }
+
+  assertAudiologyValidationErrors() {
+    this.clickNextButton();
+    this.assertValidationError('You must provide a response');
     return this;
   }
 

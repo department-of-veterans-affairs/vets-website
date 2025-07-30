@@ -22,7 +22,6 @@ describe('<NotificationSettings />', () => {
       initialState: {
         featureToggles: {
           loading: false,
-          [featureFlagNames.profileShowPaymentsNotificationSetting]: true,
           [featureFlagNames.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
           [featureFlagNames.profileShowMhvNotificationSettingsNewSecureMessaging]: true,
           [featureFlagNames.profileShowMhvNotificationSettingsEmailRxShipment]: true,
@@ -78,7 +77,6 @@ describe('<NotificationSettings />', () => {
       initialState: {
         featureToggles: {
           loading: false,
-          [featureFlagNames.profileShowPaymentsNotificationSetting]: true,
           [featureFlagNames.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
           [featureFlagNames.profileShowMhvNotificationSettingsNewSecureMessaging]: true,
           [featureFlagNames.profileShowMhvNotificationSettingsEmailRxShipment]: true,

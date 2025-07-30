@@ -1,25 +1,18 @@
 import { expect } from 'chai';
 import React from 'react';
 
-import {
-  mockFetch,
-  setFetchJSONFailure,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import {
-  createMockClinic,
-  createMockFacility,
-} from '../../../tests/mocks/data';
-import {
-  getSchedulingConfigurationMock,
-  getV2ClinicMock,
-} from '../../../tests/mocks/mock';
+import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockEligibilityFetches,
+  mockEligibilityRequestApi,
   mockFacilitiesApi,
-  mockSchedulingConfigurations,
-  mockVAOSParentSites,
+  mockSchedulingConfigurationsApi,
 } from '../../../tests/mocks/mockApis';
 import {
   createTestStore,
@@ -41,48 +34,38 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         },
       },
     };
-    const siteIds = ['983'];
+    const ids = ['983'];
 
     beforeEach(() => {
       mockFetch();
 
-      mockVAOSParentSites(
-        siteIds,
-        [
-          createMockFacility({
+      mockFacilitiesApi({
+        ids,
+        response: [
+          new MockFacilityResponse({
             id: '983',
             name: 'San Diego VA Medical Center',
             isParent: true,
-          }),
-        ],
-        true,
-      );
-      mockFacilitiesApi({
-        response: [
-          createMockFacility({
-            id: '442',
-            name: 'San Diego VA Medical Center',
-            address: {
-              line: ['2360 East Pershing Boulevard'],
-              city: 'San Diego',
-              state: 'CA',
-              postalCode: '92128',
-            },
-            phone: '858-779-0338',
           }),
         ],
       });
     });
 
     it('should show no clinics message when direct is supported, no clinics available, requests not supported', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-          requestEnabled: false,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+                requestEnabled: false,
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'amputation',
@@ -103,28 +86,34 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     });
 
     it('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'outpatientMentalHealth',
-          directEnabled: false,
-          requestEnabled: true,
-          patientHistoryRequired: 'Yes',
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: false,
+                requestEnabled: true,
+                patientHistoryRequired: 'Yes',
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [
-          createMockClinic({
+          new MockClinicResponse({
             id: '308',
-            stationId: '983',
-            friendlyName: 'Green team clinic',
+            locationId: '983',
+            name: 'Green team clinic',
           }),
-          createMockClinic({
+          new MockClinicResponse({
             id: '309',
-            stationId: '983',
-            friendlyName: 'Red team clinic',
+            locationId: '983',
+            name: 'Red team clinic',
           }),
         ],
         requestPastVisits: false,
@@ -146,22 +135,28 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     });
 
     it('should show request limits message when not eligible for direct, requests are supported, over request limit', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          directEnabled: false,
-          requestEnabled: true,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         clinics: [
-          createMockClinic({
+          new MockClinicResponse({
             id: '308',
-            stationId: '983',
-            friendlyName: 'Green team clinic',
+            locationId: '983',
+            name: 'Green team clinic',
           }),
         ],
         limit: false,
@@ -190,14 +185,29 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: false,
+                requestEnabled: true,
+                patientHistoryRequired: 'Yes',
+              }),
+            ],
+          }),
+        ],
+        responseCode: 500,
+      });
+
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
       expect(
-        await screen.findByText(
-          /You can.t schedule an appointment online right now/,
-        ),
+        await screen.findByText(/We can’t schedule your appointment right now/),
       ).to.exist;
 
       // expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
@@ -209,7 +219,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       featureToggles: {
         vaOnlineSchedulingCommunityCare: false,
         vaOnlineSchedulingDirect: true,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
       },
       user: {
         profile: {
@@ -222,19 +231,12 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     };
 
     const facilityIds = ['983', '984'];
-    const facilities = facilityIds.map((id, index) =>
-      createMockFacility({
-        id,
-        name: `Fake facility name ${index + 1}`,
-        lat: Math.random() * 90,
-        long: Math.random() * 180,
-        address: {
-          line: [],
-          state: 'fake',
-          postalCode: 'fake',
-          city: `Fake city ${index + 1}`,
-        },
-      }),
+    const facilities = facilityIds.map(
+      (id, index) =>
+        new MockFacilityResponse({
+          id,
+          name: `Fake facility name ${index + 1}`,
+        }),
     );
 
     beforeEach(() => {
@@ -247,44 +249,59 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     });
 
     it('should show clinics message when direct is supported, has past visits, no matching clinics, requests not supported', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'socialWork',
-          directEnabled: true,
-          requestEnabled: false,
-          patientHistoryRequired: true,
-          patientHistoryDuration: 365,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'socialWork',
-          directEnabled: true,
-          requestEnabled: false,
-          patientHistoryRequired: true,
-          patientHistoryDuration: 365,
-        }),
-      ]);
+      // Arrange
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'socialWork',
+                directEnabled: true,
+                requestEnabled: false,
+                patientHistoryRequired: true,
+                patientHistoryDuration: 365,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'socialWork',
+                directEnabled: true,
+                requestEnabled: false,
+                patientHistoryRequired: true,
+                patientHistoryDuration: 365,
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'socialWork',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /social work/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
-      await screen.findAllByText(/Select a VA facility/i);
+      // Assert
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -307,28 +324,39 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     });
 
     it('should show past visits message when direct is supported, no past visits, requests not supported', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'amputation',
-          directEnabled: true,
-          requestEnabled: false,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'amputation',
-          directEnabled: true,
-          requestEnabled: false,
-        }),
-      ]);
+      // Arrange
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'amputation',
+                directEnabled: true,
+                requestEnabled: false,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'amputation',
+                directEnabled: true,
+                requestEnabled: false,
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'amputation',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: true,
@@ -339,11 +367,15 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /amputation care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
-      await screen.findAllByText(/Select a VA facility/i);
+      // Assert
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -365,27 +397,38 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     });
 
     it('should show no clinics message when direct is supported, no available clinics, requests not supported', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'amputation',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'amputation',
-          directEnabled: true,
-        }),
-      ]);
+      // Arrange
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'amputation',
+                directEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'amputation',
+                directEnabled: true,
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'amputation',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
@@ -393,11 +436,15 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /amputation care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
-      await screen.findAllByText(/Select a VA facility/i);
+      // Assert
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -417,27 +464,38 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     });
 
     it('should continue when primary care, direct is supported, clinics available, no matching clinics, requests not supported', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-      ]);
+      // Arrange
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
@@ -445,43 +503,58 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
-      await screen.findAllByText(/Select a VA facility/i);
+      // Assert
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/clinics',
+          '/schedule/clinic',
         );
       });
     });
 
     it('should continue when mental health, direct is supported, clinics available, no matching clinics, requests not supported', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'outpatientMentalHealth',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'outpatientMentalHealth',
-          directEnabled: true,
-        }),
-      ]);
+      // Arrange
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: true,
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
@@ -489,34 +562,49 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /mental health/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
-      await screen.findAllByText(/Select a VA facility/i);
+      // Assert
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/clinics',
+          '/schedule/clinic',
         );
       });
     });
 
     it('should show eligibility modal again when user closes it out and hits continue with the same facility', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-      ]);
+      // Arrange
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
@@ -527,11 +615,15 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
-      await screen.findAllByText(/Select a VA facility/i);
+      // Assert
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -544,39 +636,47 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     });
 
     it('should show error message when eligibility calls fail', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          directEnabled: false,
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          directEnabled: false,
-          requestEnabled: true,
-        }),
-      ]);
+      // Arrange
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
+          }),
+        ],
+      });
       // Fail eligibility calls
-      setFetchJSONFailure(
-        global.fetch.withArgs(
-          `${
-            environment.API_URL
-          }/vaos/v2/eligibility?facility_id=983&clinical_service_id=primaryCare&type=request`,
-          {
-            errors: [],
-          },
-        ),
-      );
+      mockEligibilityRequestApi({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        responseCode: 404,
+      });
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
       expect(
@@ -587,29 +687,40 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     });
 
     it('should show request limit message when current appt is over the request limit', async () => {
+      // Arrange
       // Given the user is requesting an appointment
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          directEnabled: false,
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          directEnabled: false,
-          requestEnabled: true,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: false,
@@ -620,11 +731,13 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       // And the facitility page is presented
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       await expect(screen.findByLabelText(/Fake facility name 1/i)).to.exist;
       // When the user selects the facility
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -639,29 +752,40 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     });
 
     it('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'outpatientMentalHealth',
-          directEnabled: false,
-          requestEnabled: true,
-          patientHistoryDuration: 1095,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'outpatientMentalHealth',
-          directEnabled: false,
-          requestEnabled: true,
-        }),
-      ]);
+      // Arrange
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: false,
+                requestEnabled: true,
+                patientHistoryDuration: 1095,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: true,
@@ -672,10 +796,12 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /mental health/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
       await screen.findByTestId('eligibilityModal');
@@ -693,28 +819,39 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     });
 
     it('should continue to requests if direct is supported but disabled by feature toggle', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'outpatientMentalHealth',
-          directEnabled: true,
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'outpatientMentalHealth',
-          directEnabled: true,
-          requestEnabled: true,
-        }),
-      ]);
+      // Arrange
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: true,
+                requestEnabled: true,
+              }),
+            ],
+          }),
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: true,
+                requestEnabled: true,
+              }),
+            ],
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: true,
@@ -728,17 +865,17 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
       await setTypeOfCare(store, /mental health/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
 
       await waitFor(() =>
-        expect(screen.history.push.firstCall.args[0]).to.equal(
-          '/new-appointment/request-date',
-        ),
+        expect(screen.history.push.firstCall.args[0]).to.equal('va-request/'),
       );
     });
   });

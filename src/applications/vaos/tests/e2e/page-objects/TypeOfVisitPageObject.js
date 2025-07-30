@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class TypeOfVisitPageObject extends PageObject {
+class TypeOfVisitPageObject extends PageObject {
   assertHeading({ name }) {
     return this.assertShadow({
       element: 'va-radio',
@@ -11,6 +11,13 @@ export class TypeOfVisitPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/preferred-method');
     cy.axeCheckBestPractice();
+
+    return this;
+  }
+
+  assertTypeOfVisitValidationErrors() {
+    this.clickNextButton();
+    this.assertValidationError('Select an option');
 
     return this;
   }

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { selectProfile } from '~/platform/user/selectors';
@@ -31,7 +31,7 @@ export const ConfirmationDecisionReviews = ({
       if (alertRef?.current) {
         scrollTo('topScrollElement');
         // delay focus for Safari
-        waitForRenderThenFocus('#main h2', alertRef.current);
+        waitForRenderThenFocus('va-alert h2', alertRef.current);
       }
     },
     [alertRef],
@@ -55,12 +55,12 @@ export const ConfirmationDecisionReviews = ({
         <h2 className="vads-u-margin-top--0">{pageTitle}</h2>
       </div>
 
-      <va-alert status="success" ref={alertRef} uswds>
+      <va-alert status="success" ref={alertRef}>
         <h2 slot="headline">{alertTitle}</h2>
         <p>{alertContent}</p>
       </va-alert>
 
-      <va-summary-box uswds class="vads-u-margin-top--2">
+      <va-summary-box class="vads-u-margin-top--2">
         <h3 slot="headline" className="vads-u-margin-top--0">
           Your information for this {appType}
         </h3>

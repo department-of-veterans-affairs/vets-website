@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const MessageThreadMeta = props => {
-  const {
-    message,
-    isSent,
-    replyMessage,
-    activeReplyDraftMessage,
-    draftMessageHistoryItem,
-    forPrint,
-  } = props;
+  const { message, isSent, forPrint } = props;
+
+  const { readReceiptsEnabled } = useFeatureToggles();
   const {
     recipientName,
     senderName,
@@ -18,11 +14,13 @@ const MessageThreadMeta = props => {
     suggestedNameDisplay,
     messageId,
     sentDate,
-  } =
-    message ||
-    replyMessage ||
-    activeReplyDraftMessage ||
-    draftMessageHistoryItem;
+    readReceipt,
+  } = message;
+
+  const readReceiptMessage =
+    readReceipt === null
+      ? 'Not yet opened by your care team'
+      : 'Opened by your care team';
 
   return (
     <div className="message-thread-meta">
@@ -44,35 +42,33 @@ const MessageThreadMeta = props => {
         >
           <>From: </>
           <span data-dd-privacy="mask">
-            {draftMessageHistoryItem
-              ? `${draftMessageHistoryItem[0]?.senderName} ${
-                  !isSent ? draftMessageHistoryItem[0]?.triageGroupName : ''
-                }`
-              : `${senderName} ${
-                  !isSent ? `(${suggestedNameDisplay || triageGroupName})` : ''
-                }`}
+            {`${senderName}${
+              !isSent ? ` (${suggestedNameDisplay || triageGroupName})` : ''
+            }`}
           </span>
         </p>
         <p
           className="vads-u-padding-right--2 vads-u-margin-y--0p5"
-          data-testid={!forPrint && !draftMessageHistoryItem ? 'to' : 'draftTo'}
+          data-testid={!forPrint ? 'to' : 'draftTo'}
         >
           <>To: </>
           <span data-dd-privacy="mask">
-            {(isSent && suggestedNameDisplay) ||
-              recipientName ||
-              draftMessageHistoryItem[0]?.recipientName}
+            {(isSent && suggestedNameDisplay) || recipientName}
           </span>
         </p>
-        <p
-          className="vads-u-margin-y--0p5"
-          data-testid={!forPrint ? 'message-id' : ''}
-        >
-          <>Message ID: </>
-          <span data-dd-privacy="mask">
-            {messageId || draftMessageHistoryItem[0]?.messageId}
-          </span>
-        </p>
+        {readReceiptsEnabled ? (
+          isSent && (
+            <p className="vads-u-font-weight--bold">{readReceiptMessage}</p>
+          )
+        ) : (
+          <p
+            className="vads-u-margin-y--0p5"
+            data-testid={!forPrint ? 'message-id' : ''}
+          >
+            <>Message ID: </>
+            <span data-dd-privacy="mask">{messageId}</span>
+          </p>
+        )}
       </div>
     </div>
   );

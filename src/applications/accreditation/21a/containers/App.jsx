@@ -3,33 +3,42 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import Footer from '../components/common/Footer/Footer';
 import Header from '../components/common/Header/Header';
-import { SIGN_IN_URL } from '../constants';
+import { SIGN_IN_URL, isProduction } from '../constants';
 import { fetchUser } from '../actions/user';
 import { selectIsUserLoading } from '../selectors/user';
 import { selectShouldGoToSignIn } from '../selectors/navigation';
+import { removeDefaultHeaders } from '../utilities/helpers';
+
+import { wrapWithBreadcrumb } from '../components/common/Breadcrumbs/Breadcrumbs';
 
 const App = ({ children }) => {
   const {
-    TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },
+    TOGGLE_NAMES,
     useToggleLoadingValue,
     useToggleValue,
   } = useFeatureToggle();
 
-  const isAppEnabled = useToggleValue(appToggleKey);
-  const isProduction = window.Cypress || environment.isProduction();
+  const isAppEnabled = useToggleValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
+  );
+  const isForm21Enabled = useToggleValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalForm21a,
+  );
   const shouldExitApp = isProduction && !isAppEnabled;
-
-  const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
+  const isAppToggleLoading = useToggleLoadingValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
+  );
   const shouldGoToSignIn = useSelector(selectShouldGoToSignIn);
   const isUserLoading = useSelector(selectIsUserLoading);
 
   const dispatch = useDispatch();
   useEffect(() => dispatch(fetchUser()), [dispatch]);
+
+  useEffect(() => removeDefaultHeaders(), []);
 
   if (isAppToggleLoading) {
     return (
@@ -44,6 +53,11 @@ const App = ({ children }) => {
     return null;
   }
 
+  if (!isForm21Enabled) {
+    window.location.replace('/representative');
+    return null;
+  }
+
   if (shouldGoToSignIn) {
     window.location.assign(SIGN_IN_URL);
     return null;
@@ -52,13 +66,13 @@ const App = ({ children }) => {
   const content = isUserLoading ? (
     <VaLoadingIndicator message="Loading user information..." />
   ) : (
-    children
+    <div data-testid="form21a-content">{children}</div>
   );
 
   return (
     <div className="container">
       <Header />
-      {content}
+      {wrapWithBreadcrumb(content)}
       <Footer />
     </div>
   );

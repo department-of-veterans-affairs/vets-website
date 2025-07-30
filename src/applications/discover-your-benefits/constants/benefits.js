@@ -1,3 +1,5 @@
+import { URLS } from './urls';
+
 const categories = {
   BURIALS: 'Burials and memorials',
   EDUCATION: 'Education',
@@ -43,7 +45,7 @@ export const goalTypeLabels = Object.freeze({
   PLAN: "Plan for my and my family's future",
 });
 
-export const militaryServiceTimeServedLabels = Object.freeze({
+export const timeServedLabels = Object.freeze({
   UP_TO_3_MONTHS: '0 to 3 months',
   UP_TO_6_MONTHS: '4 to 6 months',
   UP_TO_1_YEAR: '7 months to 1 year',
@@ -52,7 +54,7 @@ export const militaryServiceTimeServedLabels = Object.freeze({
   OVER_3_YEARS: '3+ years',
 });
 
-export const militaryServiceTimeServedTypes = Object.freeze({
+export const timeServedTypes = Object.freeze({
   UP_TO_3_MONTHS: 'UP_TO_3_MONTHS',
   UP_TO_6_MONTHS: 'UP_TO_6_MONTHS',
   UP_TO_1_YEAR: 'UP_TO_1_YEAR',
@@ -86,9 +88,9 @@ export const militaryBranchComponentTypes = Object.freeze({
 });
 
 export const militaryBranchComponentTypeLabels = Object.freeze({
-  ACTIVE_DUTY: 'Active Duty',
-  NATIONAL_GUARD_SERVICE: 'National Guard Service',
-  RESERVE_SERVICE: 'Reserve Service',
+  ACTIVE_DUTY: 'Active-duty service',
+  NATIONAL_GUARD_SERVICE: 'National Guard service',
+  RESERVE_SERVICE: 'Reserve service',
 });
 
 export const expectedSeparationLabels = Object.freeze({
@@ -172,8 +174,10 @@ export const mappingTypes = {
   SEPARATION: 'separation',
   CHARACTER_OF_DISCHARGE: 'characterOfDischarge',
   DISABILITY_RATING: 'disabilityRating',
+  BRANCH_COMPONENT: 'branchComponents',
+  LENGTH_OF_TITLE_TEN_SERVICE: 'titleTenTimeServed',
+  TITLE_TEN_ACTIVE_DUTY: 'titleTenActiveDuty',
 };
-
 export const BENEFITS_LIST = [
   {
     name: 'GI Bill benefits',
@@ -185,6 +189,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.SCHOOL],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -196,8 +201,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
+    learnMoreURL: URLS.GIB_LEARN,
+    applyNowURL: URLS.GIB_APPLY,
   },
   {
     name: 'DOD SkillBridge program',
@@ -213,6 +218,7 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -225,7 +231,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://skillbridge.osd.mil/program-overview.htm',
+    learnMoreURL: URLS.DBP_LEARN,
     applyNowURL: '',
   },
   {
@@ -243,17 +249,18 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.BRANCH_COMPONENT]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [
         expectedSeparationTypes.UP_TO_3_MONTHS,
         expectedSeparationTypes.MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS,
-        blankType.BLANK,
       ],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
+        separationTypes.UP_TO_3_MONTHS,
         separationTypes.UP_TO_6_MONTHS,
         separationTypes.UP_TO_1_YEAR,
-        blankType.BLANK,
       ],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
@@ -265,16 +272,18 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    extraConditions: {
-      oneIsNotBlank: [
-        mappingTypes.EXPECTED_SEPARATION,
-        mappingTypes.SEPARATION,
-      ],
+    isQualified: responses => {
+      return (
+        responses[mappingTypes.GOALS] &&
+        (responses[mappingTypes.BRANCH_COMPONENT] ||
+          responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY]) &&
+        (responses[mappingTypes.EXPECTED_SEPARATION] ||
+          responses[mappingTypes.SEPARATION]) &&
+        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
+      );
     },
-    learnMoreURL:
-      'https://www.va.gov/careers-employment/education-and-career-counseling',
-    applyNowURL:
-      'https://www.va.gov/careers-employment/education-and-career-counseling/apply-career-guidance-form-25-8832/introduction',
+    learnMoreURL: URLS.ECC_LEARN,
+    applyNowURL: URLS.ECC_APPLY,
   },
   {
     name: "Veterans' Preference in federal hiring",
@@ -290,6 +299,7 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -302,7 +312,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.opm.gov/fedshirevets/',
+    learnMoreURL: URLS.FHV_LEARN,
     applyNowURL: '',
   },
   {
@@ -315,6 +325,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -322,8 +333,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://www.va.gov/careers-employment/veteran-owned-business-support/',
+    learnMoreURL: URLS.SVC_LEARN,
     applyNowURL: '',
   },
   {
@@ -336,6 +346,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -343,7 +354,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.dodtap.mil/dodtap/app/home',
+    learnMoreURL: URLS.TAP_LEARN,
     applyNowURL: '',
   },
   {
@@ -356,6 +367,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -374,10 +386,8 @@ export const BENEFITS_LIST = [
         disabilityTypes.STARTED,
       ],
     },
-    learnMoreURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation/',
-    applyNowURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply',
+    learnMoreURL: URLS.VRE_LEARN,
+    applyNowURL: URLS.VRE_APPLY,
   },
   {
     name: 'VetSuccess on Campus (VSOC)',
@@ -393,6 +403,7 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -407,7 +418,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/careers-employment/vetsuccess-on-campus/',
+    learnMoreURL: URLS.VSC_LEARN,
     applyNowURL: '',
   },
   {
@@ -424,6 +435,7 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -438,10 +450,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://www.va.gov/housing-assistance/disability-housing-grants/',
-    applyNowURL:
-      'https://www.va.gov/housing-assistance/disability-housing-grants/how-to-apply/',
+    learnMoreURL: URLS.DHS_LEARN,
+    applyNowURL: URLS.DHS_APPLY,
   },
   {
     name: 'Veterans Pension',
@@ -457,12 +467,14 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [
-        militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
-        militaryServiceTimeServedTypes.UP_TO_1_YEAR,
-        militaryServiceTimeServedTypes.UP_TO_2_YEARS,
-        militaryServiceTimeServedTypes.UP_TO_3_YEARS,
-        militaryServiceTimeServedTypes.OVER_3_YEARS,
+        timeServedTypes.UP_TO_6_MONTHS,
+        timeServedTypes.UP_TO_1_YEAR,
+        timeServedTypes.UP_TO_2_YEARS,
+        timeServedTypes.UP_TO_3_YEARS,
+        timeServedTypes.OVER_3_YEARS,
       ],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.BRANCH_COMPONENT]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -477,8 +489,17 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/pension/eligibility/',
-    applyNowURL: 'https://www.va.gov/pension/how-to-apply/',
+    isQualified: responses => {
+      return (
+        responses[mappingTypes.GOALS] &&
+        ((responses[mappingTypes.BRANCH_COMPONENT] &&
+          responses[mappingTypes.LENGTH_OF_SERVICE]) ||
+          responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY]) &&
+        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
+      );
+    },
+    learnMoreURL: URLS.VAP_LEARN,
+    applyNowURL: URLS.VAP_APPLY,
   },
   {
     name: 'VA mental health services',
@@ -490,6 +511,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -497,6 +519,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
@@ -504,8 +527,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://www.va.gov/health-care/health-needs-conditions/mental-health/',
+    learnMoreURL: URLS.MHC_LEARN,
     applyNowURL: '',
   },
   {
@@ -518,6 +540,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -525,6 +548,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
@@ -535,9 +559,8 @@ export const BENEFITS_LIST = [
         disabilityTypes.STARTED,
       ],
     },
-    learnMoreURL: 'https://www.va.gov/health-care/foreign-medical-program/',
-    applyNowURL:
-      'https://www.va.gov/health-care/foreign-medical-program/register-form-10-7959f-1/introduction',
+    learnMoreURL: URLS.FMP_LEARN,
+    applyNowURL: URLS.FMP_APPLY,
   },
   {
     name: "Veterans' Group Life Insurance (VGLI)",
@@ -553,6 +576,7 @@ export const BENEFITS_LIST = [
         goalTypes.PLAN,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -565,7 +589,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/life-insurance/options-eligibility/vgli',
+    learnMoreURL: URLS.VGL_LEARN,
     applyNowURL: '',
   },
   {
@@ -582,6 +606,7 @@ export const BENEFITS_LIST = [
         goalTypes.PLAN,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -600,9 +625,8 @@ export const BENEFITS_LIST = [
         disabilityTypes.APPLIED_AND_RECEIVED,
       ],
     },
-    learnMoreURL:
-      'https://www.va.gov/life-insurance/options-eligibility/valife',
-    applyNowURL: 'https://insurance.va.gov/VALIFE/Fiduciary/',
+    learnMoreURL: URLS.VAL_LEARN,
+    applyNowURL: URLS.VAL_APPLY,
   },
   {
     name: 'Disability compensation',
@@ -619,6 +643,8 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.BRANCH_COMPONENT]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -634,8 +660,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/disability/',
-    applyNowURL: 'https://www.va.gov/disability/how-to-file-a-claim',
+    learnMoreURL: URLS.DIS_LEARN,
+    applyNowURL: URLS.DIS_APPLY,
   },
   {
     name: 'VA-backed home loans',
@@ -647,11 +673,22 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [
-        militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
-        militaryServiceTimeServedTypes.UP_TO_1_YEAR,
-        militaryServiceTimeServedTypes.UP_TO_2_YEARS,
-        militaryServiceTimeServedTypes.UP_TO_3_YEARS,
-        militaryServiceTimeServedTypes.OVER_3_YEARS,
+        timeServedTypes.UP_TO_6_MONTHS,
+        timeServedTypes.UP_TO_1_YEAR,
+        timeServedTypes.UP_TO_2_YEARS,
+        timeServedTypes.UP_TO_3_YEARS,
+        timeServedTypes.OVER_3_YEARS,
+      ],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
+      [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [
+        timeServedTypes.UP_TO_6_MONTHS,
+        timeServedTypes.UP_TO_1_YEAR,
+        timeServedTypes.UP_TO_2_YEARS,
+        timeServedTypes.UP_TO_3_YEARS,
+        timeServedTypes.OVER_3_YEARS,
       ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -668,9 +705,18 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/housing-assistance/home-loans/',
-    applyNowURL:
-      'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/',
+    isQualified: responses => {
+      return (
+        responses[mappingTypes.GOALS] &&
+        ((responses[mappingTypes.BRANCH_COMPONENT] &&
+          responses[mappingTypes.LENGTH_OF_SERVICE]) ||
+          (responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY] &&
+            responses[mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE])) &&
+        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
+      );
+    },
+    learnMoreURL: URLS.COE_LEARN,
+    applyNowURL: URLS.COE_APPLY,
   },
   {
     name: 'VA health care',
@@ -686,6 +732,8 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.BRANCH_COMPONENT]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -701,8 +749,16 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/health-care/',
-    applyNowURL: 'https://www.va.gov/health-care/how-to-apply/',
+    isQualified: responses => {
+      return (
+        responses[mappingTypes.GOALS] &&
+        (responses[mappingTypes.BRANCH_COMPONENT] ||
+          responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY]) &&
+        mappingTypes.CHARACTER_OF_DISCHARGE
+      );
+    },
+    learnMoreURL: URLS.VAH_LEARN,
+    applyNowURL: URLS.VAH_APPLY,
   },
   {
     name: 'VA national cemetery burial',
@@ -712,8 +768,14 @@ export const BENEFITS_LIST = [
       'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Find out if you, or a person you’re planning a burial for, can get this benefit.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.PLAN],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+        militaryBranchComponentTypes.NATIONAL_GUARD,
+        militaryBranchComponentTypes.RESERVE,
+      ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -729,8 +791,58 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/burials-memorials/eligibility/',
-    applyNowURL: 'https://www.va.gov/burials-memorials/pre-need-eligibility/',
+    isQualified: responses => {
+      return (
+        responses[mappingTypes.GOALS] &&
+        (responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY] ||
+          responses[mappingTypes.BRANCH_COMPONENT]) &&
+        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
+      );
+    },
+    learnMoreURL: URLS.BUR_LEARN,
+    applyNowURL: URLS.BUR_APPLY,
+  },
+  {
+    name: 'VA national cemetery burial',
+    category: categories.BURIALS,
+    id: 'BRG',
+    description:
+      'Reserves or National Guard members that became disabled or dies from an injury or certain cardiovascular disorders caused - or made worse - by their service during a period of inactive-duty training may qualify for burial in a VA National Cemetery. Click the learn more link below for more information.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.PLAN],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.NO],
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.NATIONAL_GUARD,
+        militaryBranchComponentTypes.RESERVE,
+      ],
+      [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+    },
+    isQualified: responses => {
+      return (
+        responses[mappingTypes.GOALS] &&
+        (responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY] ||
+          responses[mappingTypes.BRANCH_COMPONENT]) &&
+        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
+      );
+    },
+    learnMoreURL: URLS.BUR_LEARN,
+    applyNowURL: URLS.BUR_APPLY,
   },
   {
     name: 'Transfer your GI Bill benefits',
@@ -742,6 +854,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -752,8 +865,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/',
+    learnMoreURL: URLS.TGI_LEARN,
     applyNowURL: '',
   },
   {
@@ -766,6 +878,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [anyType.ANY],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -779,7 +892,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/discharge-upgrade-instructions/',
+    learnMoreURL: URLS.DCU_LEARN,
     applyNowURL: '',
   },
   {
@@ -792,6 +905,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [anyType.ANY],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -799,8 +913,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://discover.va.gov/external-resources/?_resource_type=state-veterans-affairs-office',
+    learnMoreURL: URLS.SVB_LEARN,
     applyNowURL: '',
   },
 ];

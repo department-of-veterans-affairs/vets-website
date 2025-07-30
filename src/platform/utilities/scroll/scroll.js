@@ -1,9 +1,8 @@
 import { getScrollOptions, getElementPosition } from './utils';
-
 import { focusElement, focusByOrder, defaultFocusSelector } from '../ui/focus';
 import { ERROR_ELEMENTS, SCROLL_ELEMENT_SUFFIX } from '../constants';
 
-// Let form system controll scroll behavior
+// Let the form system control scroll behavior
 window.history.scrollRestoration = 'manual';
 
 /**
@@ -73,48 +72,78 @@ export const scrollToTop = async (
  * Find first error and scroll it to the top of the page, then focus on it
  * @param {ScrollOptions & scrollToFirstErrorOptions} options
  */
-export const scrollToFirstError = async options => {
-  const { focusOnAlertRole } = options || {};
-
+export const scrollToFirstError = async (options = {}) => {
   return new Promise(resolve => {
-    setTimeout(() => {
-      // [error] will focus any web-components with an error message
-      const errorEl = document.querySelector(ERROR_ELEMENTS.join(','));
-      if (errorEl) {
-        const position = getElementPosition(errorEl);
-        // Don't animate the scrolling if there is an open modal on the page. This
-        // prevents the page behind the modal from scrolling if there is an error in
-        // modal's form.
+    const { focusOnAlertRole = false } = options;
+    const selectors = ERROR_ELEMENTS.join(',');
+    const timeout = 500;
+    const observerConfig = { childList: true, subtree: true };
+    const rootEl = document.querySelector('#react-root') || document.body;
+    let fallbackTimer;
+    let observer;
 
-        // We have to search the shadow root of web components that have a slotted va-modal
-        const isShadowRootModalOpen = Array.from(
-          document.querySelectorAll('va-omb-info'),
-        ).some(ombInfo =>
-          ombInfo.shadowRoot?.querySelector(
-            'va-modal[visible]:not([visible="false"])',
-          ),
-        );
+    const runCleanup = el => {
+      // eslint-disable-next-line no-console
+      if (!el) console.warn('scrollToFirstError: Error element not found', el);
+      clearTimeout(fallbackTimer);
+      observer?.disconnect();
+      resolve();
+    };
 
-        const isModalOpen =
-          document.body.classList.contains('modal-open') ||
-          document.querySelector('va-modal[visible]:not([visible="false"])') ||
-          isShadowRootModalOpen;
+    const scrollAndFocus = el => {
+      // check for any modals that would interfere with scrolling
+      const isShadowRootModalOpen = Array.from(
+        document.querySelectorAll('va-omb-info'),
+      ).some(({ shadowRoot }) =>
+        shadowRoot?.querySelector('va-modal[visible]:not([visible="false"])'),
+      );
+      const isModalOpen =
+        document.body.classList.contains('modal-open') ||
+        document.querySelector('va-modal[visible]:not([visible="false"])') ||
+        isShadowRootModalOpen;
 
-        if (!isModalOpen) {
-          scrollTo(position - 10, options);
+      // prevent page scroll if there is an open modal, as the error could
+      // be within the modal itself
+      if (!isModalOpen) {
+        const position = getElementPosition(el);
+        scrollTo(position - 10, options);
 
-          if (focusOnAlertRole && errorEl.tagName.startsWith('VA-')) {
-            focusElement('[role="alert"]', {}, errorEl.shadowRoot);
-          } else {
-            focusElement(errorEl);
+        if (focusOnAlertRole && el.tagName.startsWith('VA-')) {
+          focusElement('[role="alert"]', {}, el.shadowRoot);
+        } else {
+          focusElement(el);
+        }
+      }
+
+      runCleanup(true);
+    };
+
+    const queryForErrors = () => {
+      const el = document.querySelector(selectors);
+      if (el) scrollAndFocus(el);
+    };
+
+    // use MutationObserver to only watch `addedNodes` for the selectors
+    observer = new MutationObserver(mutations => {
+      for (const { addedNodes } of mutations) {
+        for (const node of Array.from(addedNodes)) {
+          if (
+            node.nodeType === Node.ELEMENT_NODE &&
+            (node.matches?.(selectors) || node.querySelector?.(selectors))
+          ) {
+            queryForErrors();
+            return;
           }
         }
-      } else {
-        // eslint-disable-next-line no-console
-        console.warn('scrollToFirstError: No error found', errorEl);
       }
-      resolve();
     });
+    if (rootEl) observer.observe(rootEl, observerConfig);
+
+    // don't let the observer run forever
+    fallbackTimer = setTimeout(() => runCleanup(false), timeout);
+
+    // run an initial check for any existing elements
+    queryForErrors();
   });
 };
 

@@ -48,7 +48,7 @@ const ApplicantIdentityView = ({ userFullName, dateOfBirth }) => {
         </a>{' '}
         on file with VA.
       </p>
-      <h4>Your Personal Information</h4>
+      <h4>Your personal information</h4>
       <p className="va-address-block">
         {userFullName.first} {userFullName.middle} {userFullName.last}
         <br />

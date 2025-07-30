@@ -6,9 +6,10 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
-import initialData from '../initialData.js';
+} from 'platform/testing/unit/schemaform-utils';
+import { waitFor } from '@testing-library/dom';
+import formConfig from '../../config/form';
+import initialData from '../initialData';
 
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
@@ -34,7 +35,7 @@ describe("Doctor's care unemployability", () => {
     form.unmount();
   });
 
-  it('successfully submits when at least one doctor is entered', () => {
+  it('successfully submits when at least one doctor is entered', async () => {
     const doctorName = 'dr. acula';
     const onSubmit = sinon.spy();
     const form = mount(
@@ -95,14 +96,16 @@ describe("Doctor's care unemployability", () => {
         .text(),
     ).to.contain(doctorName);
 
-    form.find('form').simulate('submit');
+    await waitFor(() => {
+      form.find('form').simulate('submit');
 
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 
-  it('should allow submission with no doctors', () => {
+  it('should allow submission with no doctors', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -116,9 +119,11 @@ describe("Doctor's care unemployability", () => {
     expect(form.find('input').length).to.equal(6);
     expect(form.find('textarea').length).to.equal(1);
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 });

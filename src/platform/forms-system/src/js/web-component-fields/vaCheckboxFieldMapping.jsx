@@ -7,12 +7,12 @@ export default function vaCheckboxFieldMapping(props) {
     description,
     textDescription,
     DescriptionField,
-    uiOptions,
+    uiOptions = {},
     index,
     childrenProps,
   } = props;
 
-  return {
+  const checkboxProps = {
     ...commonFieldMapping(props),
     description: textDescription,
     checked:
@@ -23,15 +23,38 @@ export default function vaCheckboxFieldMapping(props) {
       const newVal = value ?? event.target.checked ?? undefined;
       childrenProps.onChange(newVal);
     },
+    indeterminate: uiOptions.indeterminate,
+    tile: uiOptions.tile,
+    hint: uiOptions.hint,
+    checkboxDescription: uiOptions.checkboxDescription,
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
-    children: (
-      <div slot="description">
+  };
+
+  const children = [];
+
+  if (textDescription || DescriptionField || description) {
+    children.push(
+      <div slot="description" key="description">
         {textDescription && <p>{textDescription}</p>}
         {DescriptionField && (
           <DescriptionField options={uiOptions} index={index} />
         )}
         {!textDescription && !DescriptionField && description}
-      </div>
-    ),
-  };
+      </div>,
+    );
+  }
+
+  if (uiOptions.internalDescription) {
+    children.push(
+      <div slot="internal-description" key="internal-description">
+        <p>{uiOptions.internalDescription}</p>
+      </div>,
+    );
+  }
+
+  if (children.length) {
+    checkboxProps.children = <>{children}</>;
+  }
+
+  return checkboxProps;
 }

@@ -15,7 +15,10 @@ import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
@@ -39,13 +42,13 @@ import MPIConnectionError from '~/applications/personalization/components/MPICon
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
-import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
+import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
-import BenefitPayments from './benefit-payments/BenefitPayments';
+import BenefitPaymentsLegacy from './benefit-payments/BenefitPaymentsLegacy';
 import Debts from './debts/Debts';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
@@ -54,6 +57,8 @@ import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntime
 import BenefitApplications from './benefit-application-drafts/BenefitApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
+import FormsAndApplications from './benefit-application-drafts/FormsAndApplications';
+import PaymentsAndDebts from './benefit-payments/PaymentsAndDebts';
 
 const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -145,16 +150,39 @@ const LOA1Content = ({
   return (
     <>
       <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+        <div className="small-screen:vads-l-col--12 medium-screen:vads-l-col--10">
           <IdentityNotVerified />
         </div>
       </div>
 
       <ClaimsAndAppeals isLOA1={isLOA1} />
 
-      <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
-      <EducationAndTraining isLOA1={isLOA1} />
-      <BenefitApplications />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
+        </Toggler.Disabled>
+      </Toggler>
+
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          <EducationAndTraining isLOA1={isLOA1} />
+        </Toggler.Disabled>
+      </Toggler>
+
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          <BenefitApplications />
+        </Toggler.Disabled>
+        <Toggler.Enabled>
+          <FormsAndApplications />
+        </Toggler.Enabled>
+      </Toggler>
+
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Enabled>
+          <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
+        </Toggler.Enabled>
+      </Toggler>
 
       {showWelcomeToMyVaMessage &&
         userIsNew && (
@@ -298,16 +326,22 @@ const Dashboard = ({
         {showLoader && <RequiredLoginLoader />}
         {!showLoader && (
           <div className="dashboard">
-            {showNameTag && (
-              <div id="name-tag">
-                <NameTag
-                  totalDisabilityRating={props.totalDisabilityRating}
-                  totalDisabilityRatingServerError={
-                    props.totalDisabilityRatingServerError
-                  }
-                />
-              </div>
-            )}
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                {showNameTag && (
+                  <div id="name-tag">
+                    <NameTag
+                      totalDisabilityRating={props.totalDisabilityRating}
+                      totalDisabilityRatingError={
+                        props.totalDisabilityRatingError
+                      }
+                    />
+                  </div>
+                )}
+              </Toggler.Disabled>
+            </Toggler>
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <DashboardHeader
                 isLOA3={isLOA3}
@@ -354,17 +388,105 @@ const Dashboard = ({
                 </DowntimeNotification>
               )}
               {isLOA3 && (
-                <>
-                  <HealthCare isVAPatient={isVAPatient} />
-                  <Debts />
-                  <BenefitPayments
-                    payments={payments}
-                    showNotifications={showNotifications}
-                  />
-                  <EducationAndTraining />
-                  <BenefitApplications />
-                </>
+                <Toggler
+                  toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+                >
+                  <Toggler.Disabled>
+                    <HealthCare isVAPatient={isVAPatient} />
+                    <Debts />
+                    <BenefitPaymentsLegacy
+                      payments={payments}
+                      showNotifications={showNotifications}
+                    />
+                    <EducationAndTraining />
+                    <BenefitApplications />
+                  </Toggler.Disabled>
+                  <Toggler.Enabled>
+                    <FormsAndApplications />
+                    <HealthCare isVAPatient={isVAPatient} />
+                    <PaymentsAndDebts
+                      payments={payments}
+                      showNotifications={showNotifications}
+                    />
+                  </Toggler.Enabled>
+                </Toggler>
               )}
+
+              <Toggler
+                toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+              >
+                <Toggler.Enabled>
+                  <div className="vads-u-margin-top--6 vads-u-padding-y--1 vads-u-padding-x--3">
+                    <h2 className="vads-u-font-size--h3 vads-u-margin--0 vads-u-margin-bottom--1 vads-u-padding-top--1 vads-u-padding-bottom--0p5 vads-u-border-bottom--2px vads-u-border-color--primary">
+                      Common tasks
+                    </h2>
+                    <ul className="usa-unstyled-list">
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/records/download-va-letters/letters"
+                          text="Download your VA letters and documents (including DD 214)"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/health-care/file-travel-pay-reimbursement"
+                          text="File for travel reimbursement"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/education/gi-bill/post-9-11/ch-33-benefit/status"
+                          text="Check your Post-9/11 GI Bill benefits"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/view-change-dependents/view"
+                          text="View or change VA dependents"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/rates"
+                          text="Get current Chapter 35 rates for survivors and dependents"
+                        />
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="vads-u-margin-top--6 vads-u-padding-y--1 vads-u-padding-x--3 vads-u-background-color--gray-lightest">
+                    <h2 className="vads-u-font-size--h3 vads-u-margin--0 vads-u-margin-bottom--1 vads-u-padding-top--1 vads-u-padding-bottom--0p5 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+                      Get Help
+                    </h2>
+                    <ul className="usa-unstyled-list">
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/resources/helpful-va-phone-numbers"
+                          text="Find helpful VA phone numbers"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/contact-us/ask-va/introduction"
+                          text="Ask VA"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/get-help-from-accredited-representative"
+                          text="Get help from a VA accredited representative or VSO"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/find-locations"
+                          text="Find a VA location"
+                        />
+                      </li>
+                    </ul>
+                  </div>
+                </Toggler.Enabled>
+              </Toggler>
             </div>
           </div>
         )}
@@ -450,7 +572,7 @@ const mapStateToProps = state => {
     showNameTag,
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
-    totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
+    totalDisabilityRatingError: hasTotalDisabilityError(state),
     user: state.user,
     showMPIConnectionError,
     showNotInMPIError,
@@ -491,7 +613,7 @@ Dashboard.propTypes = {
   showNotifications: PropTypes.bool,
   showValidateIdentityAlert: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
-  totalDisabilityRatingServerError: PropTypes.bool,
+  totalDisabilityRatingError: PropTypes.bool,
   user: PropTypes.object,
 };
 

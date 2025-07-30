@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import {
   VaAlert,
@@ -10,7 +10,7 @@ import {
   VaLinkAction,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { REQUIRED_FILES, OPTIONAL_FILES } from '../config/constants';
+import { REQUIRED_FILES } from '../config/constants';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 import {
   ConfirmationPagePropTypes,
@@ -39,13 +39,6 @@ const requiredWarningHeading = (
       We can’t review your application until we receive copies of these
       documents.
     </p>
-  </>
-);
-
-const optionalWarningHeading = (
-  <>
-    {heading}
-    <p>You can still send us these optional documents for faster processing:</p>
   </>
 );
 
@@ -80,13 +73,13 @@ export function ConfirmationPage(props) {
     heading,
     showRequirementHeaders: false,
     requiredDescription: '',
-    optionalWarningHeading: <>{optionalWarningHeading}</>,
     requiredWarningHeading: <>{requiredWarningHeading}</>,
+    dropUploaded: true,
     showMail: true,
     mailPreamble,
     faxNum: CHAMPVA_FAX_NUMBER,
     allPages: form.pages,
-    fileNameMap: { ...REQUIRED_FILES, ...OPTIONAL_FILES },
+    fileNameMap: { ...REQUIRED_FILES },
     requiredFiles: REQUIRED_FILES,
   });
 
@@ -109,7 +102,9 @@ export function ConfirmationPage(props) {
       {OverviewComp}
 
       <div className="inset">
-        <h3 className="vads-u-margin-top--0">Your submission information</h3>
+        <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
+          Your submission information
+        </h2>
         {data.statementOfTruthSignature && (
           <span className="veterans-full-name">
             <strong>Who submitted this form</strong>

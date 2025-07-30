@@ -25,19 +25,22 @@ const GuestVerifiedInformation = ({ user }) => {
   return (
     <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
       <p>Confirm your information before you continue.</p>
-      <va-card data-testid="hca-guest-card" background>
+      <va-card data-testid="hca-guest-card">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+          Personal Information
+        </h2>
         <ul className="hca-list-style-none">
-          <li>
-            <span className="vads-u-visibility--screen-reader">Full name:</span>{' '}
+          <li className="vads-u-margin-y--1">
+            <strong>Full name:</strong>{' '}
             <span
-              className="vads-u-font-weight--bold vads-u-margin-bottom--1 dd-privacy-mask"
+              className="dd-privacy-mask"
               data-dd-action-name="Veteran name"
             >
               {veteranName}
             </span>
           </li>
-          <li className="vads-u-margin--0">
-            <span>Date of birth:</span>{' '}
+          <li className="vads-u-margin-y--1">
+            <strong>Date of birth:</strong>{' '}
             <span
               className="dd-privacy-mask"
               data-dd-action-name="Date of birth"
@@ -46,7 +49,7 @@ const GuestVerifiedInformation = ({ user }) => {
             </span>
           </li>
           <li>
-            <span>Social Security number:</span>{' '}
+            <strong>Social Security number:</strong>{' '}
             <span
               className="dd-privacy-mask"
               data-dd-action-name="Social Security number"

@@ -1,20 +1,34 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { fieldsMustMatchValidation } from '../../../helpers/validations';
 import {
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
   validFieldCharsOnly,
   validObjectCharsOnly,
+  noDash,
+  validateApplicantSsnIsUnique,
+  validateSponsorSsnIsUnique,
 } from '../../../../shared/validations';
 
 const REVIEW_PATH =
   'http://localhost:3001/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d/review-and-submit';
 
 function stubWindowLocation(url) {
-  const originalHref = window.location.href;
-  delete window.location;
-  window.location = { href: url };
-  return originalHref;
+  const originalLocation = window.location;
+
+  // Use defineProperty instead of direct assignment
+  Object.defineProperty(window, 'location', {
+    writable: true,
+    value: { href: url },
+  });
+
+  return () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: originalLocation,
+    });
+  };
 }
 
 describe('fieldsMustMatchValidation helper', () => {
@@ -33,7 +47,7 @@ describe('fieldsMustMatchValidation helper', () => {
   it('should add error message when certifierPhone does not match applicantPhone', () => {
     // Set window.location.href to be review-and-submit since this validation
     // only fires on review page:
-    const hrefBeforeMock = stubWindowLocation(REVIEW_PATH);
+    const restoreLocation = stubWindowLocation(REVIEW_PATH);
 
     expect(errorMessage[0]).to.be.undefined;
 
@@ -59,7 +73,7 @@ describe('fieldsMustMatchValidation helper', () => {
     expect(errorMessage.length > 0).to.be.true;
 
     // Restore original href
-    window.location = { href: hrefBeforeMock };
+    restoreLocation();
   });
 
   it('should add error message when certifierName does not match veteransFullName', () => {
@@ -349,5 +363,159 @@ describe('validObjectCharsOnly validator', () => {
     );
 
     expect(errorMessage.length === 0).to.be.true;
+  });
+});
+
+describe('SSN validation helpers', () => {
+  describe('noDash', () => {
+    it('should remove dashes from a string', () => {
+      expect(noDash('123-45-6789')).to.equal('123456789');
+    });
+
+    it('should handle strings without dashes', () => {
+      expect(noDash('123456789')).to.equal('123456789');
+    });
+
+    it('should handle null or undefined inputs', () => {
+      expect(noDash(null)).to.equal(undefined);
+      expect(noDash(undefined)).to.equal(undefined);
+    });
+  });
+
+  describe('validateSponsorSsnIsUnique', () => {
+    let errors;
+
+    beforeEach(() => {
+      errors = {
+        ssn: {
+          addError: sinon.spy(),
+        },
+      };
+    });
+
+    it('should add an error when applicant SSN matches sponsor SSN', () => {
+      const page = {
+        ssn: '123-45-6789',
+        applicants: [
+          { applicantSSN: '123456789' },
+          { applicantSSN: '987-65-4321' },
+        ],
+      };
+
+      validateSponsorSsnIsUnique(errors, page);
+      expect(errors.ssn.addError.calledOnce).to.be.true;
+      expect(
+        errors.ssn.addError.calledWith(
+          'This Social Security number is in use elsewhere in the form. SSNs must be unique.',
+        ),
+      ).to.be.true;
+    });
+
+    it('should not add an error when all SSNs are unique', () => {
+      const page = {
+        ssn: '123-45-6789',
+        applicants: [
+          { applicantSSN: '234-56-7890' },
+          { applicantSSN: '987-65-4321' },
+        ],
+      };
+
+      validateSponsorSsnIsUnique(errors, page);
+      expect(errors.ssn.addError.called).to.be.false;
+    });
+
+    it('should handle empty applicants array', () => {
+      const page = {
+        ssn: '123-45-6789',
+        applicants: [],
+      };
+
+      validateSponsorSsnIsUnique(errors, page);
+      expect(errors.ssn.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateApplicantSsnIsUnique', () => {
+    let errors;
+
+    beforeEach(() => {
+      errors = {
+        applicantSSN: {
+          addError: sinon.spy(),
+        },
+      };
+    });
+
+    it('should add an error when applicant SSN matches sponsor SSN', () => {
+      const page = {
+        applicantSSN: '123-45-6789',
+        'view:sponsorSSN': '123456789',
+        'view:pagePerItemIndex': 0,
+        'view:applicantSSNArray': ['123-45-6789', '987-65-4321'],
+      };
+
+      validateApplicantSsnIsUnique(errors, page);
+      expect(errors.applicantSSN.addError.calledOnce).to.be.true;
+    });
+
+    it('should add an error when applicant SSN matches another applicant SSN', () => {
+      const page = {
+        applicantSSN: '987-65-4321',
+        'view:sponsorSSN': '123-45-6789',
+        'view:pagePerItemIndex': 0,
+        'view:applicantSSNArray': ['987-65-4321', '987654321'],
+      };
+
+      validateApplicantSsnIsUnique(errors, page);
+      expect(errors.applicantSSN.addError.calledOnce).to.be.true;
+    });
+
+    it('should not add an error when all SSNs are unique', () => {
+      const page = {
+        applicantSSN: '987-65-4321',
+        'view:sponsorSSN': '123-45-6789',
+        'view:pagePerItemIndex': 0,
+        'view:applicantSSNArray': ['987-65-4321', '234-56-7890'],
+      };
+
+      validateApplicantSsnIsUnique(errors, page);
+      expect(errors.applicantSSN.addError.called).to.be.false;
+    });
+
+    it('should ignore the current applicant when checking for duplicates', () => {
+      const page = {
+        applicantSSN: '987-65-4321',
+        'view:sponsorSSN': '123-45-6789',
+        'view:pagePerItemIndex': 0,
+        'view:applicantSSNArray': ['987-65-4321', '234-56-7890'],
+      };
+
+      validateApplicantSsnIsUnique(errors, page);
+      expect(errors.applicantSSN.addError.called).to.be.false;
+    });
+
+    it('should return undefined when `view:pagePerItemIndex` is undefined', () => {
+      const page = {
+        applicantSSN: '987-65-4321',
+        'view:sponsorSSN': '123-45-6789',
+        'view:applicantSSNArray': ['987-65-4321', '234-56-7890'],
+      };
+
+      const res = validateApplicantSsnIsUnique(errors, page);
+      expect(errors.applicantSSN.addError.called).to.be.false;
+      expect(res).to.be.undefined;
+    });
+
+    it('should return undefined when `view:applicantSSNArray` is undefined', () => {
+      const page = {
+        applicantSSN: '987-65-4321',
+        'view:sponsorSSN': '123-45-6789',
+        'view:applicantSSNArray': ['987-65-4321', '234-56-7890'],
+      };
+
+      const res = validateApplicantSsnIsUnique(errors, page);
+      expect(errors.applicantSSN.addError.called).to.be.false;
+      expect(res).to.be.undefined;
+    });
   });
 });

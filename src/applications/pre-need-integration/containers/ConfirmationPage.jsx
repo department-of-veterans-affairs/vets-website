@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 
 class ConfirmationPage extends React.Component {
@@ -18,9 +18,9 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">
+        <h2 className="confirmation-page-title">
           You’ve submitted your application
-        </h3>
+        </h2>
         <p>
           You’ll receive a confirmation email shortly. We’ll let you know by
           mail or phone if we need more details.

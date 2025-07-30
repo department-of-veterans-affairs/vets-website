@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { scrollTo, focusElement } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 import recordEvent from 'platform/monitoring/record-event';
 
 const SubmissionError = ({ form }) => {
@@ -33,7 +34,6 @@ const SubmissionError = ({ form }) => {
       id="submission-error"
       status="error"
       class="vads-u-margin-y--2"
-      uswds
     >
       <h3 slot="headline">Your decision review request didn’t go through</h3>
       <p>

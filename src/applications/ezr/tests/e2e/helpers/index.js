@@ -4,9 +4,13 @@ import maxTestData from '../fixtures/data/maximal-test.json';
 const { data: testData } = maxTestData;
 
 // navigation helpers
-export const goToNextPage = pagePath => {
+export const goToNextPage = (pagePath, isArrayBuilderEditPage = false) => {
   // clicks Continue button, and optionally checks destination path.
-  cy.findAllByText(/continue/i, { selector: 'button' }).click();
+  if (isArrayBuilderEditPage) {
+    cy.get('va-button[text="continue"]').click();
+  } else {
+    cy.findAllByText(/continue/i, { selector: 'button' }).click();
+  }
   if (pagePath) {
     cy.location('pathname').should('include', pagePath);
   }
@@ -60,28 +64,6 @@ export const selectRadioWebComponent = (fieldName, value) => {
 export const selectYesNoWebComponent = (fieldName, value) => {
   const selection = value ? 'Y' : 'N';
   selectRadioWebComponent(fieldName, selection);
-};
-
-// pattern fill helpers
-export const fillAddressWebComponentPattern = (fieldName, addressObject) => {
-  selectCheckboxWebComponent(
-    `${fieldName}_isMilitary`,
-    addressObject.isMilitary,
-  );
-  if (addressObject.city) {
-    if (addressObject.isMilitary) {
-      // there is a select dropdown instead when military is checked
-      selectDropdownWebComponent(`${fieldName}_city`, addressObject.city);
-    } else {
-      fillTextWebComponent(`${fieldName}_city`, addressObject.city);
-    }
-  }
-  selectDropdownWebComponent(`${fieldName}_country`, addressObject.country);
-  fillTextWebComponent(`${fieldName}_street`, addressObject.street);
-  fillTextWebComponent(`${fieldName}_street2`, addressObject.street2);
-  fillTextWebComponent(`${fieldName}_street3`, addressObject.street3);
-  selectDropdownWebComponent(`${fieldName}_state`, addressObject.state);
-  fillTextWebComponent(`${fieldName}_postalCode`, addressObject.postalCode);
 };
 
 export const fillDateWebComponentPattern = (fieldName, value) => {
@@ -206,6 +188,13 @@ export const fillNameWithKeyboard = (fieldName, value) => {
   }
 };
 
+export const fillPhoneNumberWithKeyboard = (fieldName, value) => {
+  cy.tabToElement(`va-text-input[name="root_${fieldName}"]`)
+    .shadow()
+    .find('input')
+    .realType(value);
+};
+
 export const fillDateWithKeyboard = (fieldName, value) => {
   const [year, , day] = value
     .split('-')
@@ -232,4 +221,28 @@ export const selectRadioWithKeyboard = (fieldName, value) => {
 export const selectDropdownWithKeyboard = (fieldName, value) => {
   cy.tabToElement(`[name="root_${fieldName}"]`);
   cy.chooseSelectOptionUsingValue(value);
+};
+
+export const clearVeteranIncome = () => {
+  cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').clear();
+  cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').clear();
+  cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').clear();
+};
+
+export const clearSpousalIncome = () => {
+  cy.get('[name="root_view:spouseGrossIncome_spouseGrossIncome"]').clear();
+  cy.get('[name="root_view:spouseNetIncome_spouseNetIncome"]').clear();
+  cy.get('[name="root_view:spouseOtherIncome_spouseOtherIncome"]').clear();
+};
+
+export const clearDeductibleExpenses = () => {
+  cy.get(
+    '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses"',
+  ).clear();
+  cy.get(
+    '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses"',
+  ).clear();
+  cy.get(
+    '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses"',
+  ).clear();
 };

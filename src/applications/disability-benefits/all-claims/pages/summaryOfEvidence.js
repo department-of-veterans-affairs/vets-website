@@ -1,7 +1,8 @@
 import { summaryOfEvidenceDescription } from '../content/summaryOfEvidence';
+import { standardTitle } from '../content/form0781';
 
 export const uiSchema = {
-  'ui:title': 'Summary of evidence',
+  'ui:title': standardTitle('Summary of evidence'),
   'ui:description': summaryOfEvidenceDescription,
 };
 

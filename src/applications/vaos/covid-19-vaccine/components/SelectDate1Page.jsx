@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { addDays, addMonths, lastDayOfMonth, startOfMonth } from 'date-fns';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import FormButtons from '../../components/FormButtons';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import CalendarWidget from '../../components/calendar/CalendarWidget';
-import { FETCH_STATUS } from '../../utils/constants';
-import { getDateTimeSelect } from '../redux/selectors';
-import { getRealFacilityId } from '../../utils/appointment';
-import NewTabAnchor from '../../components/NewTabAnchor';
-import InfoAlert from '../../components/InfoAlert';
-import useIsInitialLoad from '../../hooks/useIsInitialLoad';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import { getAppointmentSlots, onCalendarChange } from '../redux/actions';
+import { useHistory } from 'react-router-dom';
+import CalendarWidget from '../../components/calendar/CalendarWidget';
+import FormButtons from '../../components/FormButtons';
+import InfoAlert from '../../components/InfoAlert';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import useIsInitialLoad from '../../hooks/useIsInitialLoad';
+import { getRealFacilityId } from '../../utils/appointment';
+import { FETCH_STATUS } from '../../utils/constants';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { getDateTimeSelect } from '../redux/selectors';
+
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../flow';
+import { getAppointmentSlots, onCalendarChange } from '../redux/actions';
 
 const pageKey = 'selectDate1';
 const pageTitle = 'Choose a date and time';
@@ -79,7 +79,7 @@ function goForward({
   }
 }
 
-export default function SelectDate1Page({ changeCrumb }) {
+export default function SelectDate1Page() {
   const {
     appointmentSlotsStatus,
     availableSlots,
@@ -99,28 +99,17 @@ export default function SelectDate1Page({ changeCrumb }) {
     appointmentSlotsStatus === FETCH_STATUS.loading ||
     appointmentSlotsStatus === FETCH_STATUS.notStarted;
   const isInitialLoad = useIsInitialLoad(loadingSlots);
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
 
-  useEffect(() => {
-    dispatch(
-      getAppointmentSlots(
-        moment()
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment()
-          .add(1, 'months')
-          .endOf('month')
-          .format('YYYY-MM-DD'),
-        true,
-      ),
-    );
-    document.title = `${pageTitle} | Veterans Affairs`;
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-  }, []);
+  useEffect(
+    () => {
+      const now = new Date();
+      const startDateObj = startOfMonth(now);
+      const endDateObj = lastDayOfMonth(addMonths(now, 1));
+      dispatch(getAppointmentSlots(startDateObj, endDateObj, true));
+      document.title = `${pageTitle} | Veterans Affairs`;
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -139,7 +128,7 @@ export default function SelectDate1Page({ changeCrumb }) {
     },
     // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
     // determines which update is made
-    [loadingSlots, appointmentSlotsStatus],
+    [loadingSlots, appointmentSlotsStatus, isInitialLoad],
   );
 
   useEffect(
@@ -185,7 +174,9 @@ export default function SelectDate1Page({ changeCrumb }) {
             id="dateTime"
             timezone={timezone}
             disabled={loadingSlots}
+            hideWhileDisabled
             disabledMessage={
+              // eslint-disable-next-line react/jsx-wrap-multilines
               <va-loading-indicator
                 data-testid="loadingIndicator"
                 set-focus
@@ -196,16 +187,14 @@ export default function SelectDate1Page({ changeCrumb }) {
               validate({ dates, setValidationError });
               dispatch(onCalendarChange(dates, pageKey));
             }}
-            onNextMonth={(...args) => dispatch(getAppointmentSlots(...args))}
+            onNextMonth={(...args) => {
+              dispatch(getAppointmentSlots(...args));
+            }}
             onPreviousMonth={(...args) =>
               dispatch(getAppointmentSlots(...args))
             }
-            minDate={moment()
-              .add(1, 'days')
-              .format('YYYY-MM-DD')}
-            maxDate={moment()
-              .add(395, 'days')
-              .format('YYYY-MM-DD')}
+            minDate={addDays(new Date(), 1)}
+            maxDate={addDays(new Date(), 395)}
             validationError={submitted ? validationError : null}
             required
             requiredMessage="Please choose your preferred date and time for your appointment"
@@ -236,7 +225,3 @@ export default function SelectDate1Page({ changeCrumb }) {
     </div>
   );
 }
-
-SelectDate1Page.propTypes = {
-  changeCrumb: PropTypes.func,
-};

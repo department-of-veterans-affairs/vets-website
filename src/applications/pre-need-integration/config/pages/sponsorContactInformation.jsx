@@ -1,6 +1,8 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 import { merge } from 'lodash';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import phoneUI from '../../components/Phone';
 import emailUI from '../../definitions/email';
 import * as address from '../../definitions/address';
@@ -11,14 +13,26 @@ import {
   sponsorContactInfoDescription,
   bottomPadding,
 } from '../../utils/helpers';
+import { SponsorContactDetailsTitle } from '../../components/PreparerHelpers';
 
 // Import veteran properties from schema
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
-// Component for state title
-export const sponsorMailingAddressStateTitleWrapper = (
-  <MailingAddressStateTitle elementPath="application.veteran.address.country" />
-);
+export function DynamicStateSelectFieldSponsor(props) {
+  const formData = useSelector(state => state.form.data || {});
+
+  const dynamicLabel = MailingAddressStateTitle({
+    elementPath: 'application.veteran.address.country',
+    formData,
+  });
+
+  const modifiedProps = {
+    ...props,
+    label: dynamicLabel,
+  };
+
+  return <VaSelectField {...modifiedProps} />;
+}
 
 // Validation function
 export const isRequired = formData => {
@@ -38,7 +52,7 @@ export const uiSchema = {
       address: merge(
         {},
         address.uiSchema(
-          'Sponsor mailing address',
+          SponsorContactDetailsTitle,
           'You can choose to enter your sponsor’s mailing address. This is optional. We’ll confirm this address with the U.S. Postal Service.',
           false,
           isRequired,
@@ -46,6 +60,12 @@ export const uiSchema = {
           ['street', 'city', 'postalCode'],
         ),
         {
+          country: {
+            'ui:webComponentField': VaSelectField,
+            'ui:options': {
+              classNames: 'selectNonImposter',
+            },
+          },
           street: {
             'ui:title': 'Street address',
           },
@@ -53,9 +73,10 @@ export const uiSchema = {
             'ui:title': 'Street address line 2',
           },
           state: {
-            'ui:title': sponsorMailingAddressStateTitleWrapper,
+            'ui:webComponentField': DynamicStateSelectFieldSponsor,
             'ui:options': {
               hideIf: formData => !sponsorMailingAddressHasState(formData),
+              classNames: 'selectNonImposter',
             },
           },
         },

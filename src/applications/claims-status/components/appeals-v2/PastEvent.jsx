@@ -7,7 +7,7 @@ const PastEvent = ({ title, date, description, hideSeparator }) => {
 
   return (
     <li className="process-step section-complete">
-      <h3>{title}</h3>
+      <h2 className="vads-u-font-size--h3">{title}</h2>
       <div className="appeal-event-date">on {date}</div>
       <p>{description}</p>
       {separator}

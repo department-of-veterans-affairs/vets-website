@@ -1,4 +1,4 @@
-import { formatISO, subYears, addMonths } from 'date-fns';
+import { subYears, addMonths, startOfDay, endOfDay } from 'date-fns';
 import {
   getLabsAndTests,
   getNotes,
@@ -14,6 +14,7 @@ import {
   getAppointments,
 } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
+import { getAppointmentsDateRange } from '../util/helpers';
 
 export const clearFailedList = domain => dispatch => {
   dispatch({ type: Actions.BlueButtonReport.CLEAR_FAILED, payload: domain });
@@ -42,34 +43,30 @@ export const getBlueButtonReportData = (
     .filter(([key]) => options[key]) // Only include enabled fetches
     .map(([key, fetchFn]) => {
       if (key === 'appointments') {
-        let fromDate;
-        let toDate;
-        const currentDate = new Date();
-        if (dateFilter.option === 'any') {
-          // Set fromDate to be two years in the past
-          const dateTwoYearsAgo = subYears(currentDate, 2);
-          // Set toDate to be 13 months in the future
-          const dateThirteenMonthsAhead = addMonths(currentDate, 13);
-          fromDate = formatISO(dateTwoYearsAgo);
-          toDate = formatISO(dateThirteenMonthsAhead);
-        } else {
-          // Use the provided dates but clamp them to allowed boundaries
-          let providedFromDate = new Date(dateFilter.fromDate);
-          let providedToDate = new Date(dateFilter.toDate);
-          const earliestAllowedFromDate = subYears(currentDate, 2);
-          const latestAllowedToDate = addMonths(currentDate, 13);
-          if (providedFromDate < earliestAllowedFromDate) {
-            providedFromDate = earliestAllowedFromDate;
-          }
-          if (providedToDate > latestAllowedToDate) {
-            providedToDate = latestAllowedToDate;
-          }
-          fromDate = formatISO(providedFromDate);
-          toDate = formatISO(providedToDate);
+        const { startDate, endDate } = getAppointmentsDateRange(
+          dateFilter.option === 'any' ? null : dateFilter.fromDate,
+          dateFilter.option === 'any' ? null : dateFilter.toDate,
+        );
+
+        // Checking if selected date range is within the 2 years/13 months for appointments
+        const now = new Date();
+        const earliest = startOfDay(subYears(now, 2));
+        const latest = endOfDay(addMonths(now, 13));
+        if (
+          dateFilter.option !== 'any' &&
+          (new Date(dateFilter.toDate) < earliest ||
+            latest < new Date(dateFilter.fromDate))
+        ) {
+          return {
+            key: 'appointments',
+            response: new Response([], { status: 200 }),
+          };
         }
 
-        return fetchFn(fromDate, toDate)
-          .then(response => ({ key, response }))
+        return fetchFn(startDate, endDate)
+          .then(response => {
+            return { key, response };
+          })
           .catch(error => {
             const newError = new Error(error);
             newError.key = key;

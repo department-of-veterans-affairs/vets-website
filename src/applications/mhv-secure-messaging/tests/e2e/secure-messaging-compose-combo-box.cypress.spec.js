@@ -16,6 +16,7 @@ describe('SM MESSAGING COMBO BOX', () => {
     SecureMessagingSite.login(updatedFeatureToggles);
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('verify drop down list behavior', () => {

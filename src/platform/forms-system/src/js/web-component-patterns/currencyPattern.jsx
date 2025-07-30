@@ -1,10 +1,12 @@
-import CurrencyField from '../web-component-fields/CurrencyField';
+import CurrencyField, {
+  CURRENCY_PATTERN,
+} from '../web-component-fields/CurrencyField';
 import CurrencyWidget from '../review/CurrencyWidget';
 
 import { minMaxValidation } from './numberPattern';
 
 /**
- * Web component v3 uiSchema for currency based input which uses VaTextInputField
+ * uiSchema for currency based input which uses VaTextInputField
  *
  * Used for simple number amounts containing only digits
  *
@@ -40,15 +42,20 @@ import { minMaxValidation } from './numberPattern';
  * @returns {UISchemaOptions}
  */
 export const currencyUI = options => {
-  const { title, description, errorMessages, min, max, ...uiOptions } =
-    typeof options === 'object' ? options : { title: options };
+  const {
+    title,
+    description,
+    errorMessages,
+    min = 0,
+    // large numbers converted to scientific notation; so add limit
+    max = 999999999,
+    validations = [],
+    ...uiOptions
+  } = typeof options === 'object' ? options : { title: options };
 
-  let validations = {};
-
-  if (min !== undefined || max !== undefined) {
-    validations = {
-      'ui:validations': [minMaxValidation(min, max)],
-    };
+  // if the title is a string, set it to the title property
+  if (min !== null || max !== null) {
+    validations.push(minMaxValidation(min, max));
   }
 
   return {
@@ -60,18 +67,23 @@ export const currencyUI = options => {
     // the input for a11y reasons, one of which is that its easy to accidentally
     // scroll on
     'ui:webComponentField': CurrencyField,
-    'ui:options': uiOptions,
+    'ui:options': { ...uiOptions, min, max },
     'ui:errorMessages': {
       required: 'Enter an amount',
       pattern: 'Enter a valid dollar amount',
+      // error shows when CurrencyField is expecting a number & gets a string
+      type: 'Enter a valid dollar amount',
+      min: min !== null ? `Enter a number greater than or equal to ${min}` : '',
+      max: max !== null ? `Enter a number less than or equal to ${max}` : '',
       ...errorMessages,
     },
     'ui:reviewWidget': CurrencyWidget,
-    ...validations,
+    'ui:validations': validations,
   };
 };
 
 /**
+ * schema for currencyUI with type number
  * ```js
  * schema: {
  *    exampleIncome: numberSchema
@@ -80,10 +92,13 @@ export const currencyUI = options => {
  */
 export const currencySchema = {
   type: 'number',
-  pattern: '^\\d+(\\.\\d{1,2})?$',
+  pattern: CURRENCY_PATTERN,
 };
 
+/**
+ * schema for currencyUI with type string
+ */
 export const currencyStringSchema = {
   type: 'string',
-  pattern: '^\\d+(\\.\\d{1,2})?$',
+  pattern: CURRENCY_PATTERN,
 };

@@ -1,43 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { CustomPageNavButtons } from '../CustomPageNavButtons';
 import { applicantWording } from '../../utilities';
 
-export function ApplicantAddressCopyPage({
-  contentBeforeButtons,
-  contentAfterButtons,
-  customAddressKey, // optional override of `applicantAddress` so we can target arbitrary addresses in the form
-  data,
-  setFormData,
-  goBack,
-  goForward,
-  pagePerItemIndex,
-  updatePage,
-  onReviewPage,
-  customTitle,
-  customDescription,
-  customSelectText,
-  positivePrefix,
-  negativePrefix,
-}) {
+export function ApplicantAddressCopyPage(props) {
+  const {
+    contentBeforeButtons,
+    contentAfterButtons,
+    customAddressKey, // optional override of `applicantAddress` so we can target arbitrary addresses in the form
+    data,
+    fullData,
+    setFormData,
+    goForward,
+    pagePerItemIndex,
+    updatePage,
+    onReviewPage,
+    customTitle,
+    customDescription,
+    customSelectText,
+    positivePrefix,
+    negativePrefix,
+  } = props;
   const addressKey = customAddressKey ?? 'applicantAddress';
   // Get the current applicant from list, OR if we don't have a list of
   // applicants, just treat the whole form data object as a single applicant
-  const currentApp =
+  let currentApp =
     pagePerItemIndex && data?.applicants
       ? data?.applicants?.[pagePerItemIndex]
       : data;
+
+  // If currentApp is undefined just use empty object to prevent
+  // array builder error when clicking "cancel" on first applicant
+  if (!currentApp) currentApp = {};
+
   const [selectValue, setSelectValue] = useState(currentApp?.sharesAddressWith);
   const [address, setAddress] = useState(
-    data[addressKey] ?? currentApp?.[addressKey],
+    data?.[addressKey] ?? currentApp?.[addressKey],
   );
   // const [radioError, setRadioError] = useState(undefined);
   const [selectError, setSelectError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+
+  const navButtons = CustomPageNavButtons(props);
 
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
@@ -76,27 +83,32 @@ export function ApplicantAddressCopyPage({
   // (if available), as well as any addresses belonging to other
   // applicants so we can display in <select> down below
   function getSelectOptions() {
+    // fullData is present when this component is used inside the Array Builder
+    const fullOrItemData = fullData ?? data;
+
     const allAddresses = [];
-    if (data.certifierAddress?.street && data.certifierName)
+    if (fullOrItemData.certifierAddress?.street && fullOrItemData.certifierName)
       allAddresses.push({
-        originatorName: fullName(data.certifierName),
-        originatorAddress: data.certifierAddress,
-        displayText: `${data.certifierAddress.street} ${data.certifierAddress
-          ?.state ?? ''}`,
+        originatorName: fullName(fullOrItemData.certifierName),
+        originatorAddress: fullOrItemData.certifierAddress,
+        displayText: `${fullOrItemData.certifierAddress.street} ${fullOrItemData
+          .certifierAddress?.state ?? ''}`,
       });
     if (
-      data.sponsorAddress?.street &&
-      (data.veteransFullName ?? data.sponsorName)
+      fullOrItemData.sponsorAddress?.street &&
+      (fullOrItemData.veteransFullName ?? fullOrItemData.sponsorName)
     )
       allAddresses.push({
-        originatorName: fullName(data.veteransFullName ?? data.sponsorName),
-        originatorAddress: data.sponsorAddress,
-        displayText: `${data.sponsorAddress.street} ${data.sponsorAddress
-          ?.state ?? ''}`,
+        originatorName: fullName(
+          fullOrItemData.veteransFullName ?? fullOrItemData.sponsorName,
+        ),
+        originatorAddress: fullOrItemData.sponsorAddress,
+        displayText: `${fullOrItemData.sponsorAddress.street} ${fullOrItemData
+          .sponsorAddress?.state ?? ''}`,
       });
 
-    if (data?.applicants)
-      data.applicants.filter(app => isValidOrigin(app)).forEach(app =>
+    if (fullOrItemData?.applicants)
+      fullOrItemData.applicants.filter(app => isValidOrigin(app)).forEach(app =>
         allAddresses.push({
           originatorName: fullName(app.applicantName),
           originatorAddress: app?.[addressKey],
@@ -143,10 +155,12 @@ export function ApplicantAddressCopyPage({
     onGoForward: event => {
       event.preventDefault();
       if (!handlers.validate()) return;
-      const tmpVal = { ...data };
+      // fullData is present when in Array Builder flows
+      const fullOrItemData = fullData ?? data;
+      const tmpVal = { ...fullOrItemData };
       // Either use the current list loop applicant, or treat whole form data as an applicant
       const tmpApp =
-        pagePerItemIndex && data?.applicants
+        pagePerItemIndex && fullOrItemData?.applicants
           ? tmpVal?.applicants[pagePerItemIndex]
           : tmpVal;
       tmpApp.sharesAddressWith = selectValue;
@@ -155,7 +169,7 @@ export function ApplicantAddressCopyPage({
       }
       setFormData(tmpVal);
       if (onReviewPage) updatePage();
-      goForward(data);
+      goForward({ formData: data });
     },
   };
 
@@ -188,22 +202,21 @@ export function ApplicantAddressCopyPage({
 
   return (
     <>
-      {
-        titleUI(
-          customTitle ?? (
-            <>
-              <span className="dd-privacy-hidden">
-                {applicantWording(currentApp)}
-              </span>{' '}
-              address selection
-            </>
-          ),
-          customDescription ??
-            'We’ll send any important information about your application to this address.',
-        )['ui:title']
-      }
-
       <form onSubmit={handlers.onGoForward}>
+        {
+          titleUI(
+            customTitle ?? (
+              <>
+                <span className="dd-privacy-hidden">
+                  {applicantWording(currentApp)}
+                </span>{' '}
+                address selection
+              </>
+            ),
+            customDescription ??
+              'We’ll send any important information about your application to this address.',
+          )['ui:title']
+        }
         <VaSelect
           onVaSelect={handlers.selectUpdate}
           error={selectError}
@@ -238,6 +251,7 @@ export function ApplicantAddressCopyPage({
 }
 
 ApplicantAddressCopyPage.propTypes = {
+  arrayBuilder: PropTypes.object,
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   customAddressKey: PropTypes.string,
@@ -245,8 +259,8 @@ ApplicantAddressCopyPage.propTypes = {
   customSelectText: PropTypes.string,
   customTitle: PropTypes.string,
   data: PropTypes.object,
+  fullData: PropTypes.object,
   genOp: PropTypes.func,
-  goBack: PropTypes.func,
   goForward: PropTypes.func,
   keyname: PropTypes.string,
   negativePrefix: PropTypes.string,

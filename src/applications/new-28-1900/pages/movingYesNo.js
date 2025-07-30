@@ -8,7 +8,7 @@ import { CONTACT_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 export default {
   uiSchema: {
     ...titleUI(CONTACT_INFORMATION_CHAPTER_CONSTANTS.movingYesNoPageTitle),
-    movingYesNo: yesNoUI({
+    isMoving: yesNoUI({
       title: 'Are you moving in the next 30 days?',
       errorMessages: {
         required: 'Select yes or no',
@@ -18,8 +18,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      movingYesNo: yesNoSchema,
+      isMoving: yesNoSchema,
     },
-    required: ['movingYesNo'],
+    required: ['isMoving'],
   },
 };

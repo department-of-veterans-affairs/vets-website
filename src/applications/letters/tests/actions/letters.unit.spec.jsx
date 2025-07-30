@@ -22,6 +22,11 @@ import {
   GET_LETTERS_FAILURE,
   LETTER_ELIGIBILITY_ERROR,
   LETTER_TYPES,
+  GET_ENHANCED_LETTERS_DOWNLOADING,
+  GET_ENHANCED_LETTERS_SUCCESS,
+  GET_ENHANCED_LETTERS_FAILURE,
+  INVALID_ADDRESS_PROPERTY,
+  UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
 } from '../../utils/constants';
 
 import {
@@ -29,6 +34,9 @@ import {
   getLetterListAndBSLOptions,
   getBenefitSummaryOptions,
   getLetterPdf,
+  getLetterBlobUrl,
+  getSingleLetterPDFLink,
+  updateBenefitSummaryRequestOption,
 } from '../../actions/letters';
 
 /**
@@ -100,7 +108,10 @@ describe('getLettersList', () => {
   });
 
   it('dispatches GET_LETTERS_FAILURE when GET fails with generic error', done => {
-    setFetchJSONFailure(global.fetch.onCall(0), Promise.reject('error'));
+    setFetchJSONFailure(
+      global.fetch.onCall(0),
+      Promise.reject(new Error('error')),
+    );
     const dispatch = sinon.spy();
     getLetterList(dispatch, migrationOptions)
       .then(() => {
@@ -123,6 +134,7 @@ describe('getLettersList', () => {
     403: BACKEND_AUTHENTICATION_ERROR,
     502: LETTER_ELIGIBILITY_ERROR,
     500: GET_LETTERS_FAILURE,
+    422: INVALID_ADDRESS_PROPERTY,
   };
 
   Object.keys(lettersErrors).forEach(code => {
@@ -151,6 +163,36 @@ describe('getLettersList', () => {
         })
         .then(done, done);
     });
+  });
+  it('calls the discrepancies endpoint when shouldUseLettersDiscrepancies is true', done => {
+    setFetchJSONResponse(global.fetch.onCall(0), { data: { attributes: {} } });
+
+    const discrepancyCall = sinon.stub().resolves({});
+    const originalApiRequest = require('../../utils/helpers').apiRequest;
+    const helpers = require('../../utils/helpers');
+
+    sinon.stub(helpers, 'apiRequest').callsFake(url => {
+      if (url === '/v0/letters_discrepancy') {
+        return discrepancyCall(url);
+      }
+      return originalApiRequest(url);
+    });
+
+    const dispatch = sinon.spy();
+    getLetterList(dispatch, migrationOptions, true)
+      .then(() => {
+        expect(discrepancyCall.calledOnce).to.be.true;
+        expect(discrepancyCall.firstCall.args[0]).to.equal(
+          '/v0/letters_discrepancy',
+        );
+
+        helpers.apiRequest.restore();
+        done();
+      })
+      .catch(error => {
+        helpers.apiRequest.restore();
+        done(error);
+      });
   });
 });
 
@@ -235,7 +277,10 @@ describe('getBenefitSummaryOptions', () => {
   });
 
   it('dispatches FAILURE action when GET fails', done => {
-    setFetchBlobFailure(global.fetch.onCall(0), Promise.reject('error'));
+    setFetchBlobFailure(
+      global.fetch.onCall(0),
+      Promise.reject(new Error('error')),
+    );
     const dispatch = sinon.spy();
 
     getBenefitSummaryOptions(dispatch, migrationOptions)
@@ -337,29 +382,6 @@ describe('getLetterPdf', () => {
       .then(done, done);
   });
 
-  it('dispatches SUCCESS action when fetch succeeds on IE10', done => {
-    const ieDownloadSpy = sinon.spy();
-    const blobObj = { test: '123 testing' };
-    global.window.navigator.msSaveOrOpenBlob = ieDownloadSpy; // fakes IE
-    setFetchBlobResponse(global.fetch.onCall(0), blobObj);
-    const { letterType, letterName, letterOptions } = civilSLetter;
-    const thunk = getLetterPdf(
-      letterType,
-      letterName,
-      letterOptions,
-      migrationOptions,
-    );
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.secondCall.args[0];
-        const msBlobArgs = ieDownloadSpy.firstCall.args;
-        expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
-        expect(msBlobArgs).to.have.members([blobObj, `${letterName}.pdf`]);
-      })
-      .then(done, done);
-  });
-
   it('dispatches FAILURE action if download fails', done => {
     setFetchJSONFailure(global.fetch.onCall(0), new Error('Oops, this failed'));
     const { letterType, letterName, letterOptions } = benefitSLetter;
@@ -376,5 +398,137 @@ describe('getLetterPdf', () => {
         expect(action.type).to.equal(GET_LETTER_PDF_FAILURE);
       })
       .then(done, done);
+  });
+});
+
+describe('getSingleLetterPDFLink', () => {
+  let stubCreateObjectUrl;
+
+  beforeEach(() => {
+    setup();
+    // Stub URL.createObjectURL
+    stubCreateObjectUrl = sinon.stub(window.URL, 'createObjectURL');
+  });
+
+  afterEach(() => {
+    stubCreateObjectUrl.restore();
+  });
+
+  const letterType = LETTER_TYPES.proofOfService;
+
+  it('dispatches downloading and success actions with the correct blob URL', async () => {
+    const dispatch = sinon.spy();
+    const mockUrl = 'http://fake-site.com/letter.pdf';
+    stubCreateObjectUrl.onCall(0).returns(mockUrl);
+
+    const blob = new Blob(['PDF content'], { type: 'application/pdf' });
+    const response = new Response(blob, {
+      status: 200,
+      headers: { 'Content-Type': 'application/pdf' },
+    });
+    setFetchBlobResponse(global.fetch.onCall(0), response);
+
+    await getSingleLetterPDFLink(
+      dispatch,
+      letterType,
+      migrationOptions,
+      getState,
+    );
+
+    const action1 = dispatch.getCall(0).args[0];
+    const action2 = dispatch.getCall(1).args[0];
+
+    expect(action1.type).to.equal(GET_ENHANCED_LETTERS_DOWNLOADING);
+    expect(action1.letterType).to.equal(letterType);
+
+    expect(action2.type).to.equal(GET_ENHANCED_LETTERS_SUCCESS);
+    expect(action2.data).to.deep.equal([
+      {
+        letterType,
+        downloadUrl: mockUrl,
+      },
+    ]);
+  });
+
+  it('dispatches failure action if blob fetch fails', async () => {
+    const dispatch = sinon.spy();
+
+    setFetchJSONFailure(global.fetch, Promise.reject(new Error('error')));
+
+    await getSingleLetterPDFLink(
+      dispatch,
+      letterType,
+      migrationOptions,
+      getState,
+    );
+
+    const action1 = dispatch.getCall(0).args[0];
+    const action2 = dispatch.getCall(2).args[0];
+
+    expect(action1.type).to.equal(GET_ENHANCED_LETTERS_DOWNLOADING);
+    expect(action2.type).to.equal(GET_ENHANCED_LETTERS_FAILURE);
+    expect(action2.letterType).to.equal(letterType);
+  });
+});
+describe('getLetterBlobUrl', () => {
+  let stubCreateObjectUrl;
+
+  beforeEach(() => {
+    setup();
+    stubCreateObjectUrl = sinon.stub(window.URL, 'createObjectURL');
+  });
+
+  afterEach(() => {
+    stubCreateObjectUrl.restore();
+  });
+
+  it('should return the blob URL string', done => {
+    const dispatch = sinon.spy();
+    const mockBlob = () => Promise.resolve(Buffer.from('PDF file content'));
+    setFetchJSONResponse(global.fetch.onCall(0), { blob: mockBlob });
+
+    stubCreateObjectUrl.onCall(0).returns('blob:http://example.com/letter.pdf');
+
+    getLetterBlobUrl(dispatch, LETTER_TYPES.civilService, migrationOptions)
+      .then(() => {
+        expect(stubCreateObjectUrl.called).to.be.true;
+        expect(stubCreateObjectUrl.returnValues.length).to.equal(1);
+        expect(stubCreateObjectUrl.returnValues[0]).to.equal(
+          'blob:http://example.com/letter.pdf',
+        );
+      })
+      .then(done, done);
+  });
+
+  it('should dispatch an error if something goes wrong', done => {
+    const dispatch = sinon.spy();
+    setFetchJSONFailure(
+      global.fetch.onCall(0),
+      Promise.reject(new Error('error')),
+    );
+
+    getLetterBlobUrl(dispatch, LETTER_TYPES.civilService, migrationOptions)
+      .catch(() => {
+        const action1 = dispatch.getCall(0).args[0];
+        expect(dispatch.called).to.be.true;
+        expect(action1.type).to.equal(GET_LETTER_PDF_FAILURE);
+        expect(action1.data).to.equal(LETTER_TYPES.civilService);
+      })
+      .then(done, done);
+  });
+});
+
+describe('updateBenefitSummaryRequestOption', () => {
+  it('returns the correct action object', () => {
+    const propertyPath = 'serviceInfo.includesServiceBefore1978';
+    const value = true;
+
+    const action = updateBenefitSummaryRequestOption(propertyPath, value);
+
+    expect(action).to.eql({
+      type: UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
+      propertyPath,
+      value,
+    });
   });
 });

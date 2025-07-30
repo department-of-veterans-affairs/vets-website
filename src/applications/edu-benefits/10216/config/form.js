@@ -6,7 +6,6 @@ import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import manifest from '../manifest.json';
-import { validateFacilityCode } from '../utilities';
 import { transform } from './submit-transformer';
 
 // Components
@@ -74,7 +73,7 @@ const formConfig = {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
   },
-  title: 'Request exemption from the 85/15 Rule reporting requirements',
+  title: 'Request exemption from the 85/15 rule reporting requirements',
   subTitle,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
@@ -91,6 +90,7 @@ const formConfig = {
     },
   },
   transformForSubmit: transform,
+  useCustomScrollAndFocus: true,
   chapters: {
     institutionDetailsChapter: {
       title: 'Identifying details',
@@ -108,10 +108,9 @@ const formConfig = {
         institutionDetails: {
           path: 'identifying-details-1',
           title: 'Institution details',
-          onNavForward: async ({ formData, goPath }) => {
-            const isAccredited = await validateFacilityCode(formData);
-            localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
-            if (isAccredited) {
+          onNavForward: ({ _formData, goPath }) => {
+            const isAccredited = localStorage.getItem('isAccredited');
+            if (isAccredited === 'true') {
               goPath('/student-ratio-calculation');
             } else {
               goPath('/additional-form');
