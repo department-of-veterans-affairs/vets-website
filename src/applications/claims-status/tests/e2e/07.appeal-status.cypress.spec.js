@@ -30,19 +30,27 @@ describe('Appeals page test', () => {
 
     cy.get('h1').should('contain', 'Appeal received August 2017');
     cy.get('#tabv2status[aria-current="page"]').should('be.visible');
-
-    cy.get('.view-events-button')
-      .shadow()
-      .find('button')
-      .should('contain', 'Reveal past events')
-      .click();
-
-    cy.get('#appeal-timeline li:nth-of-type(4)').should(
+    cy.get('.appeal-past-events li').should('have.length.at.least', 3);
+    cy.get('.appeal-past-events li:nth-of-type(1)').should(
       'contain',
       'sent you a Statement of the Case',
     );
 
     cy.get('.alerts-list li').should('contain', 'Return VA Form 9 by');
+    cy.injectAxe();
+    cy.checkA11y(null, null, violations => {
+      if (violations.length) {
+        violations.forEach(v => {
+          cy.log(`A11y violation: ${v.id}`);
+          cy.log(`  Description: ${v.description}`);
+          cy.log(`  Impact: ${v.impact}`);
+          cy.log(`  Help: ${v.helpUrl}`);
+        });
+      }
+
+      // This line is still useful to make sure we don't silently ignore unexpected issues
+      expect(violations.length, 'a11y violations').to.equal(0);
+    });
     cy.injectAxeThenAxeCheck();
   });
 
