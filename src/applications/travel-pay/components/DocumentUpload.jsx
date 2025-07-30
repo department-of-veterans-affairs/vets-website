@@ -1,45 +1,20 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 // import PropTypes from 'prop-types';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import {
   VaProgressBar,
   VaFileInputMultiple,
+  VaAlert,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import { uploadScannedForm as uploadFile } from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldHelpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 const DocumentUpload = () => {
-  const dispatch = useDispatch();
   const [progress, setProgress] = useState(0);
   const [uploadInProgress, setUploadInProgress] = useState(false);
-
-  function updateProgress(percent) {
-    setUploadInProgress(true);
-    setProgress(percent);
-  }
-
-  function handleChange(e) {
-    setUploadInProgress(true);
-    console.log('e --- ', e);
-
-    // Mock API call that waits for 2 seconds
-    const mockUpload = async () => {
-      // Simulate progress updates
-      updateProgress(25);
-      await new Promise(resolve => setTimeout(resolve, 200));
-      updateProgress(50);
-      await new Promise(resolve => setTimeout(resolve, 200));
-      updateProgress(75);
-      await new Promise(resolve => setTimeout(resolve, 200));
-      updateProgress(100);
-      await new Promise(resolve => setTimeout(resolve, 200));
-      setUploadInProgress(false);
-    };
-
-    mockUpload();
-  }
+  const [uploadError, setUploadError] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const acceptedFileTypes = [
     'pdf',
@@ -54,8 +29,215 @@ const DocumentUpload = () => {
     'docx',
   ];
 
+  function deleteDocument(documentId, fileName) {
+    const deleteUrl = `${
+      environment.API_URL
+    }/travel_pay/v0/claims/12345/documents/${documentId}`;
+
+    const performDelete = async () => {
+      try {
+        setUploadInProgress(true);
+        setProgress(0);
+        setUploadError(''); // Clear any previous errors
+
+        // Simulate progress for delete operation
+        setProgress(50);
+
+        await apiRequest(deleteUrl, {
+          method: 'DELETE',
+        });
+
+        setProgress(100);
+
+        // Remove the file from the uploaded files list
+        setUploadedFiles(prev =>
+          prev.filter(file => file.documentId !== documentId),
+        );
+
+        // eslint-disable-next-line no-console
+        console.log('File deleted:', fileName);
+
+        setUploadInProgress(false);
+        setProgress(0);
+      } catch (error) {
+        let errorMessage = 'Delete failed. Please try again.';
+
+        if (error.errors && error.errors[0]?.detail) {
+          errorMessage = error.errors[0].detail;
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+
+        setUploadError(errorMessage);
+        setUploadInProgress(false);
+        setProgress(0);
+      }
+    };
+
+    performDelete();
+  }
+
+  function handleChange(e) {
+    setUploadError(''); // Clear any previous errors
+    // eslint-disable-next-line no-console
+    console.log('e --- ', e);
+    // eslint-disable-next-line no-console
+    console.log('e.detail --- ', e.detail);
+
+    const { action, file, state } = e.detail || {};
+    // eslint-disable-next-line no-console
+    console.log('action --- ', action);
+    // eslint-disable-next-line no-console
+    console.log('file --- ', file);
+    // eslint-disable-next-line no-console
+    console.log('state --- ', state);
+
+    // Handle file removal
+    if (action === 'FILE_REMOVED' && file) {
+      // Find the uploaded file that matches this file
+      const uploadedFile = uploadedFiles.find(
+        uploadedFileItem =>
+          uploadedFileItem.name === file.name &&
+          uploadedFileItem.size === file.size,
+      );
+
+      if (uploadedFile) {
+        deleteDocument(uploadedFile.documentId, uploadedFile.name);
+      }
+      return;
+    }
+
+    // Handle file addition
+    if (action !== 'FILE_ADDED' || !file) {
+      // eslint-disable-next-line no-console
+      console.error('No file found or action is not FILE_ADDED');
+      return;
+    }
+
+    setUploadInProgress(true);
+
+    // Custom upload functionality that doesn't depend on forms-system Redux
+    const fileUploadUrl = `${
+      environment.API_URL
+    }/travel_pay/v0/claims/12345/documents/form-data`; // Using mock claim ID
+
+    // Validate file type
+    const isValidFileType = acceptedFileTypes.some(fileType =>
+      file.name.toLowerCase().endsWith(`.${fileType.toLowerCase()}`),
+    );
+
+    if (!isValidFileType) {
+      const allowedTypes = acceptedFileTypes.reduce(
+        (accumulator, fileType, index, array) => {
+          if (index === 0) return `.${fileType}`;
+          const separator = index < array.length - 1 ? ',' : ', or';
+          return `${accumulator}${separator} .${fileType}`;
+        },
+        '',
+      );
+
+      const fileTypeErrorMessage = `We couldn't upload your file because we can't accept this type of file. Please make sure the file is a ${allowedTypes} file and try again.`;
+
+      setUploadError(fileTypeErrorMessage);
+      setUploadInProgress(false);
+      return;
+    }
+
+    // Validate file size
+    const maxSize = 5000000; // 5MB
+    if (file.size > maxSize) {
+      const fileSizeText = `${Math.round(maxSize / 1024 / 1024)}MB`;
+      const fileTooBigErrorMessage = `We couldn't upload your file because it's too large. File size must be less than ${fileSizeText}.`;
+
+      setUploadError(fileTooBigErrorMessage);
+      setUploadInProgress(false);
+      return;
+    }
+
+    // Create FormData payload
+    const formData = new FormData();
+    formData.append('file', file);
+
+    // Upload using apiRequest
+    const performUpload = async () => {
+      try {
+        const response = await apiRequest(fileUploadUrl, {
+          method: 'POST',
+          body: formData,
+        });
+
+        // Parse successful response
+        const uploadedFile = {
+          name: file.name,
+          size: file.size,
+          documentId: response.data?.documentId || 'unknown',
+          confirmationCode: response.data?.documentId || 'unknown',
+          guid: response.data?.documentId || 'unknown',
+          uploading: false,
+          uploadedAt: response.data?.uploadedAt || new Date().toISOString(),
+        };
+
+        // Add to uploaded files list
+        setUploadedFiles(prev => [...prev, uploadedFile]);
+
+        // eslint-disable-next-line no-console
+        console.log('File uploaded:', uploadedFile);
+        setUploadError(''); // Clear error on success
+        setUploadInProgress(false);
+      } catch (error) {
+        let errorMessage = 'Upload failed. Please try again.';
+
+        if (error.errors && error.errors[0]?.detail) {
+          errorMessage = error.errors[0].detail;
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+
+        setUploadError(errorMessage);
+        setUploadInProgress(false);
+      }
+    };
+
+    // Start the upload
+    performUpload();
+  }
+
   return (
     <>
+      {uploadError && (
+        <VaAlert status="error" class="vads-u-margin-top--2">
+          <h2 slot="headline">File upload error</h2>
+          <p>{uploadError}</p>
+        </VaAlert>
+      )}
+
+      {/* Display uploaded files */}
+      {uploadedFiles.length > 0 && (
+        <div className="vads-u-margin-bottom--3">
+          <h3>Uploaded documents</h3>
+          {uploadedFiles.map(file => (
+            <div
+              key={file.documentId}
+              className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--1 vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center"
+            >
+              <div>
+                <strong>{file.name}</strong>
+                <div className="vads-u-color--gray-medium">
+                  {Math.round(file.size / 1024)} KB • Uploaded on{' '}
+                  {new Date(file.uploadedAt).toLocaleDateString()}
+                </div>
+              </div>
+              <VaButton
+                secondary
+                onClick={() => deleteDocument(file.documentId, file.name)}
+                text="Delete"
+                aria-label={`Delete ${file.name}`}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
       <VaFileInputMultiple
         accept={acceptedFileTypes.map(type => `.${type}`).join(',')}
         multiple="multiple"
@@ -70,7 +252,7 @@ const DocumentUpload = () => {
         onVaMultipleChange={handleChange}
       />
       {uploadInProgress ? (
-        <VaProgressBar percent={progress} label="Uploading file" />
+        <VaProgressBar percent={progress} label="Processing..." />
       ) : (
         <></>
       )}
