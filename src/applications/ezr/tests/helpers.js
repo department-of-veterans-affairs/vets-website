@@ -68,7 +68,7 @@ export const setMockStoreData = data => ({
   },
 });
 
-// This can be used for rendering components that need the redux store
+// This can be used for rendering components that need the redux store.
 export const renderProviderWrappedComponent = (storeData, component) => {
   const { mockStore } = setMockStoreData(storeData);
   return render(<Provider store={mockStore}>{component}</Provider>);

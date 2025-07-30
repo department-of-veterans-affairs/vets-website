@@ -33,7 +33,7 @@ describe('ezr MaritalStatusPage', () => {
     },
   });
 
-  const mockStoreData = {
+  const defaultState = {
     form: { prefillStatus: '' },
     user: { login: { currentlyLoggedIn: false } },
     onReviewPage: false,
@@ -46,7 +46,7 @@ describe('ezr MaritalStatusPage', () => {
       expect(props.name).to.equal('maritalStatusInformation');
       expect(props.title).to.equal('Marital Status');
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       expect(container).to.exist;
@@ -55,7 +55,7 @@ describe('ezr MaritalStatusPage', () => {
     it('should render the marital status dropdown field.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       const maritalStatusField = container.querySelector(
@@ -68,7 +68,7 @@ describe('ezr MaritalStatusPage', () => {
     it('should render navigation buttons.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       // Check for actual navigation buttons with their CSS classes and text
@@ -83,7 +83,7 @@ describe('ezr MaritalStatusPage', () => {
     it('should render continue button when no form data is present.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       expect(container).to.exist;
@@ -103,7 +103,7 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       expect(container).to.exist;
@@ -124,7 +124,7 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       expect(container).to.exist;
@@ -143,7 +143,7 @@ describe('ezr MaritalStatusPage', () => {
     it('should render in review mode.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        { ...mockStoreData, onReviewPage: true },
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       expect(container).to.exist;
@@ -156,7 +156,7 @@ describe('ezr MaritalStatusPage', () => {
     it('should pass correct props to SchemaForm.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       expect(container).to.exist;
@@ -180,6 +180,18 @@ describe('ezr MaritalStatusPage', () => {
 
   // NavButtons is mocked, so we only check rendering, not button clicks.
   context('when the Continue button is clicked', () => {
+    it('should render continue button when no form data is present.', () => {
+      const { props } = getData();
+      const { container } = renderProviderWrappedComponent(
+        defaultState,
+        <MaritalStatusPage {...props} />,
+      );
+      expect(container).to.exist;
+      const continueButton = container.querySelector('.usa-button-primary');
+      expect(continueButton).to.exist;
+      expect(continueButton.textContent).to.include('Continue');
+    });
+
     it('should not call goForward when the continue button is clicked.', () => {
       const { props } = getData({
         data: {
@@ -189,7 +201,7 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       expect(container).to.exist;
@@ -208,7 +220,7 @@ describe('ezr MaritalStatusPage', () => {
     it('should call goBack when the back button is clicked.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       expect(container).to.exist;
@@ -226,7 +238,7 @@ describe('ezr MaritalStatusPage', () => {
     it('should fire the onChange spy when marital status field changes.', () => {
       const { props } = getData();
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       // Simulate a change event on the marital status field.
@@ -254,7 +266,7 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       // Simulate changing to divorced status.
@@ -281,7 +293,7 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       // Trigger modal by changing to divorced status.
@@ -310,7 +322,7 @@ describe('ezr MaritalStatusPage', () => {
         },
       });
       const { container } = renderProviderWrappedComponent(
-        mockStoreData,
+        defaultState,
         <MaritalStatusPage {...props} />,
       );
       // Trigger modal by changing to divorced status.
