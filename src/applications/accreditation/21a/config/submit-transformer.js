@@ -12,13 +12,6 @@ import {
   INSTITUTION_TYPE_ENUM,
 } from './enums';
 
-const today = new Date();
-const year = today.getFullYear();
-const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-const day = String(today.getDate()).padStart(2, '0');
-
-const todaysDate = `${year}-${month}-${day}`;
-
 const build21aPayload = data => {
   return {
     // Unique Identifiers and fields needed by GCLAWS
@@ -55,7 +48,7 @@ const build21aPayload = data => {
     homeEmail: data.email,
 
     // Chapter 1 - Home Address
-    homeAddressIsMilitary: !!data.homeAddress?.view?.militaryBaseDescription,
+    homeAddressIsMilitary: !!data.homeAddress?.isMilitary,
     homeAddressLine1: data.homeAddress?.street,
     homeAddressLine2: data.homeAddress?.street2 || null,
     homeAddressLine3: null, // v5 field - not currently setting this field
@@ -68,7 +61,7 @@ const build21aPayload = data => {
     primaryMailingAddress: data.primaryMailingAddress,
 
     // Chapter 1 - Other Addresses
-    otherAddressIsMilitary: !!data.otherAddress?.view?.militaryBaseDescription,
+    otherAddressIsMilitary: !!data.otherAddress?.isMilitary,
     otherAddressLine1: data.otherAddress?.street || null,
     otherAddressLine2: data.otherAddress?.street2 || null,
     otherAddressLine3: null, // v5 field - not currently setting this field
@@ -78,7 +71,7 @@ const build21aPayload = data => {
     otherAddressCountry: data.otherAddress?.country || null,
 
     // Chapter 2 - Military Service
-    servedInMilitary: !!data.view?.isAVeteran,
+    servedInMilitary: !!data.militaryServiceExperiences?.length > 0,
 
     // Chapter 2 - Military Service: Branch and Dates
     militaryServices:
@@ -109,7 +102,7 @@ const build21aPayload = data => {
         positionTitle: e.positionTitle,
         supervisorName: e.supervisorName,
         supervisorEmail: null, // v5 field - not currently setting this field
-        addressIsMilitary: !!e.address?.view?.militaryBaseDescription,
+        addressIsMilitary: !!e.address?.isMilitary,
         addressLine1: e.address?.street || null,
         addressLine2: e.address?.street2 || null,
         addressLine3: null, // v5 field - not currently setting this field
@@ -119,16 +112,13 @@ const build21aPayload = data => {
         addressCountry: e.address?.country || null,
         phoneTypeId: PHONE_TYPE_ENUM.WORK,
         phoneNumber: `${e.phone.callingCode}${e.phone.contact}`,
-        phoneExtension: null,
+        phoneExtension: e.extension,
         startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
         // Not using `currentlyEmployed` so if it exists we set `endDate` to null
-        // Adding a day here since GCLAWS requires it
-        // Bug on GCLAWS side currently requires an enddate so hard codeing to todaysDate
-        // one this is fixed we can set it back to null
         endDate:
           !!e.currentlyEmployed && e.dateRange?.to
             ? `${e.dateRange?.to}-01`
-            : todaysDate,
+            : null,
       })) || [],
 
     // Chapter 3 - Employment Activities
@@ -148,11 +138,11 @@ const build21aPayload = data => {
       data.educationalInstitutions?.map(e => ({
         name: e.name,
         startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
-        endDate: `${e.dateRange?.to}-01` || null, // adding a day here since GCLAWS requires it
+        endDate: e.dateRange?.to ? `${e.dateRange.to}-01` : null, // adding a day here since GCLAWS requires it
         wasDegreeReceived: !!e.degreeReceived,
         major: e.major,
         degreeTypeId: DEGREE_TYPE_ENUM[e.degree],
-        addressIsMilitary: !!e.address?.view?.militaryBaseDescription,
+        addressIsMilitary: !!e.address?.isMilitary,
         addressLine1: e.address?.street || null,
         addressLine2: e.address?.street2 || null,
         addressLine3: null, // v5 field - not currently setting this field
@@ -164,7 +154,7 @@ const build21aPayload = data => {
       })) || [],
 
     // Chapter 5 - Jurisdictions and Summary
-    // hasJurisdiction: !!data.view?.hasJurisdictions, // v5 field - not currently setting this field
+    // hasJurisdiction: !!data.jurisdictions?.length > 0, // v5 field - not currently setting this field
     jurisdictions:
       data.jurisdictions?.map(j => ({
         admittedName: j.jurisdiction,
@@ -178,7 +168,7 @@ const build21aPayload = data => {
     // jurisdictionDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 5 - Agencies and Courts Summary
-    admittedToPracticeAgency: !!data.view?.hasAgenciesOrCourts,
+    admittedToPracticeAgency: !!data.agenciesOrCourts?.length > 0,
     agencies:
       data.agenciesOrCourts?.map(a => ({
         admittedName: a.agencyOrCourt,
@@ -317,7 +307,7 @@ const build21aPayload = data => {
         middleName: r.fullName?.middle || null,
         lastName: r.fullName?.last,
         suffix: r.fullName?.suffix || null,
-        addressIsMilitary: !!r.address?.view?.militaryBaseDescription,
+        addressIsMilitary: !!r.address?.isMilitary,
         addressLine1: r.address?.street || null,
         addressLine2: r.address?.street2 || null,
         addressLine3: null, // v5 field - not currently setting this field
