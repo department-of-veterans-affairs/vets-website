@@ -724,6 +724,47 @@ describe('Schemaform validations', () => {
       const form = {
         data: {
           privacyAgreementAccepted: true,
+          testArray: ['test', 3],
+        },
+        pages: {
+          testPage: {
+            schema: {
+              type: 'object',
+              properties: {
+                testArray: {
+                  type: 'array',
+                  items: {
+                    type: 'string',
+                  },
+                },
+              },
+            },
+            uiSchema: {},
+            itemFilter: (item, index) => index < 1,
+            showPagePerItem: true,
+            arrayPath: 'testArray',
+          },
+        },
+      };
+      const pageList = [
+        {
+          pageKey: 'testPage',
+          chapterKey: 'testChapter',
+        },
+      ];
+
+      const result = isValidForm(form, pageList, true);
+      expect(result.isValid).to.be.true;
+      expect(result.formData.testArray).to.deep.equal(['test']);
+      // schema is _not_ modified since it isn't an array
+      expect(
+        form.pages.testPage.schema.properties.testArray.items,
+      ).to.deep.equal({ type: 'string' });
+    });
+    it('should filter items based on index function', () => {
+      const form = {
+        data: {
+          privacyAgreementAccepted: true,
           testArray: ['test', 'test2', 'anotherTest'],
         },
         pages: {
