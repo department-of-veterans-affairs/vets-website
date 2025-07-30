@@ -5,8 +5,6 @@ import { format } from 'date-fns-tz';
 
 import {
   addDays,
-  addMinutes,
-  areIntervalsOverlapping,
   differenceInDays,
   endOfMonth,
   isAfter,
@@ -46,7 +44,6 @@ import { getSlots } from '../../services/slot';
 import { getCommunityCareV2 } from '../../services/vaos/index';
 import { getPreciseLocation } from '../../utils/address';
 import {
-  APPOINTMENT_STATUS,
   DATE_FORMATS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
@@ -716,44 +713,11 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
   };
 }
 
-export function onCalendarChange(
-  selectedDates,
-  maxSelections,
-  upcomingAppointments,
-  availableSlots,
-) {
-  let isSame = false;
-  if (maxSelections === 1 && selectedDates?.length > 0 && availableSlots) {
-    const selectedSlot = availableSlots?.find(
-      slot => slot.start === selectedDates[0],
-    );
-    if (selectedSlot) {
-      const key = format(new Date(selectedSlot.start), DATE_FORMATS.yearMonth);
-      const appointments = upcomingAppointments[key];
-
-      isSame = appointments?.some(appointment => {
-        // Use UTC timestamps for conflict detection. This avoids timezone conversion issues.
-        const slotInterval = {
-          start: new Date(selectedSlot.start),
-          end: new Date(selectedSlot.end),
-        };
-        const appointmentInterval = {
-          start: appointment.start,
-          end: addMinutes(appointment.start, appointment.minutesDuration),
-        };
-
-        return (
-          appointment.status !== APPOINTMENT_STATUS.cancelled &&
-          areIntervalsOverlapping(slotInterval, appointmentInterval)
-        );
-      });
-    }
-  }
-
+export function onCalendarChange(selectedDates, hasConflict = false) {
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
     selectedDates,
-    isAppointmentSelectionError: isSame,
+    isAppointmentSelectionError: hasConflict,
   };
 }
 
