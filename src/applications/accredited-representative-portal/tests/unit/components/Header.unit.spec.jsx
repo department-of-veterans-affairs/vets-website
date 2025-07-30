@@ -19,6 +19,8 @@ const getStore = () =>
   createStore(() => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
+      accredited_representative_portal_custom_login: true,
+      // eslint-disable-next-line camelcase
       accredited_representative_portal_search: true,
       // eslint-disable-next-line camelcase
       accredited_representative_portal_help: true,
@@ -28,12 +30,20 @@ const getStore = () =>
   }));
 describe('Header', () => {
   it('renders header', () => {
-    const { getByTestId } = renderTestComponent(<Header />);
+    const { getByTestId } = renderTestComponent(
+      <Provider store={getStore()}>
+        <Header />
+      </Provider>,
+    );
     expect(getByTestId('arp-header')).to.exist;
   });
 
   it('renders sign in', () => {
-    const { getByTestId } = renderTestComponent(<Header />);
+    const { getByTestId } = renderTestComponent(
+      <Provider store={getStore()}>
+        <Header />
+      </Provider>,
+    );
     expect(getByTestId('user-nav-sign-in-link')).to.exist;
   });
 

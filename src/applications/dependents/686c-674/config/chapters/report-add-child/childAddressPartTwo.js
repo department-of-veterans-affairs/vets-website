@@ -10,6 +10,17 @@ export const childAddressPartTwo = {
       title: 'Who does this child live with?',
     }),
     livingWith: fullNameNoSuffixUI(),
+    'ui:options': {
+      updateSchema: (formData, formSchema, _uiSchema, index) => {
+        if (formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === false) {
+          return {
+            ...formSchema,
+            required: ['livingWith'],
+          };
+        }
+        return formSchema;
+      },
+    },
   },
   schema: {
     type: 'object',
