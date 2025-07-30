@@ -16,7 +16,6 @@ const AuthorizationOldContent = ({ data, handlers }) => (
     aria-describedby="authorize-text"
     required
     enable-analytics
-    uswds
   >
     <div slot="description">
       <>
