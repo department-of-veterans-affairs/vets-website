@@ -57,7 +57,7 @@ describe('Pre-need burial benefits', () => {
       </Provider>,
     );
 
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('va-text-input').length).to.equal(2);
     form.unmount();
   });
 
@@ -76,7 +76,18 @@ describe('Pre-need burial benefits', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a first name"]')
+        .length,
+    ).to.equal(2);
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a middle name"]')
+        .length,
+    ).to.equal(0);
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a last name"]')
+        .length,
+    ).to.equal(2);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

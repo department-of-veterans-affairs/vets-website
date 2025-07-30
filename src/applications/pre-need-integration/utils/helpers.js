@@ -781,21 +781,19 @@ export function transform(formConfig, form) {
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {
-  first: {
-    'ui:title': 'First name',
-  },
+  first: { 'ui:title': 'First name', 'ui:webComponentField': VaTextInputField },
   middle: {
     'ui:title': 'Middle name',
+    'ui:webComponentField': VaTextInputField,
   },
-  last: {
-    'ui:title': 'Last name',
-  },
+  last: { 'ui:title': 'Last name', 'ui:webComponentField': VaTextInputField },
   suffix: {
     'ui:webComponentField': VaSelectField,
     'ui:options': { classNames: 'form-select-medium' },
   },
   maiden: {
     'ui:title': 'Maiden name',
+    'ui:webComponentField': VaTextInputField,
   },
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
@@ -824,7 +822,9 @@ export const preparerDateOfBirthUI = currentOrPastDateUI(
 );
 
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = ssnUI;
+export const ssnDashesUI = merge({}, ssnUI, {
+  'ui:webComponentField': VaTextInputField,
+});
 
 export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
   'ui:title': 'Applicant’s Social Security number',
