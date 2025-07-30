@@ -148,6 +148,7 @@ export const Hub = () => {
             content="Preferred ways to get VA communications and documents"
           >
             <ProfileLink
+              className="vads-u-display--block vads-u-margin-bottom--2"
               text="Manage email and text notification settings"
               href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
             />
