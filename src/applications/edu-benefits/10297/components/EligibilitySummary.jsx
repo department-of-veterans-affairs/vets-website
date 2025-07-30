@@ -112,7 +112,7 @@ const EligibilitySummary = ({ goBack, goForward }) => {
               of benefits for eligible applicants.
             </p>
             <va-link-action
-              href="/"
+              href="/education/other-va-education-benefits/high-technology-program/"
               text="Exit application"
               type="primary"
               data-testid="exit-button"

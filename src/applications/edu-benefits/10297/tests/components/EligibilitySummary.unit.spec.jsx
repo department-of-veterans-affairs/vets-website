@@ -76,6 +76,7 @@ describe('<EligibilitySummary />', () => {
     );
     // Check for footer content including "error" message
     expect(getByTestId('failed-requirements-message')).to.exist;
+    expect(queryByTestId('exit-button')).to.exist;
     expect(getByTestId('back-button')).to.exist;
     expect(queryByTestId('continue-button')).not.to.exist;
   });
@@ -113,6 +114,7 @@ describe('<EligibilitySummary />', () => {
     );
     // Check for footer content including "error" message
     expect(queryByTestId('failed-requirements-message')).not.to.exist;
+    expect(queryByTestId('exit-button')).not.to.exist;
     expect(getByTestId('back-button')).to.exist;
     expect(getByTestId('continue-button')).to.exist;
   });
