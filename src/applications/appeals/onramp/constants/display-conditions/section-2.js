@@ -46,9 +46,10 @@ export const section2DCs = Object.freeze({
   Q_2_H_2_NEW_EVIDENCE: {
     Q_1_1_CLAIM_DECISION: YES,
     Q_1_2_CLAIM_DECISION: YES,
-    Q_1_3_CLAIM_CONTESTED: NO,
-    Q_2_0_CLAIM_TYPE: HLR,
-    Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+    ONE_OF: {
+      Q_1_3A_FEWER_60_DAYS: YES,
+      Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+    },
   },
   Q_2_H_2A_JUDGE_HEARING: {
     Q_1_1_CLAIM_DECISION: YES,
