@@ -38,12 +38,18 @@ export default function App({ location, children }) {
 
   useEffect(
     () => {
-      if (!hasSession && !isIntroPage) {
+      if (!hasSession) {
         window.location.replace(`${manifest.rootUrl}/introduction`);
       }
     },
-    [hasSession, isIntroPage],
+    [hasSession],
   );
+
+  useEffect(() => {
+    if (!isIntroPage) {
+      window.location.replace(`${manifest.rootUrl}/introduction`);
+    }
+  }, []);
 
   let content;
 
