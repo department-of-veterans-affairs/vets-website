@@ -448,13 +448,6 @@ export class ConfirmationPage extends React.Component {
                         text="Go back and review your entries"
                       />
                     </p>
-                    <p className="start-over-link-container">
-                      <va-link
-                        data-testid="start-over-link"
-                        href="/discover-your-benefits/goals"
-                        text="Start over"
-                      />
-                    </p>
                   </>
                 )}
 
