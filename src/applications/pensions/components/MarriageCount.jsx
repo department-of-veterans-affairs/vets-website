@@ -100,6 +100,7 @@ const MarriageCount = props => {
       buttonText="Update page"
       buttonClass="usa-button-primary"
       ariaLabel="Update marriage information"
+      useWebComponents
     />
   );
 
@@ -110,6 +111,7 @@ const MarriageCount = props => {
           <Title title="Marriage history" />
         </legend>
         <va-text-input
+          class="vads-u-margin-bottom--4"
           label="How many times have you been married?"
           inputmode="numeric"
           id="root_marriage_count_value"
