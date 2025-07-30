@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Element } from 'platform/utilities/scroll';
+import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import classNames from 'classnames';
 import get from '../../../../utilities/data/get';
@@ -455,7 +456,11 @@ class ReviewCollapsibleChapter extends React.Component {
           bordered
           uswds
         >
-          <h3 slot="headline">{chapterTitle}</h3>
+          {isMinimalHeaderApp() ? (
+            <h2 slot="headline">{chapterTitle}</h2>
+          ) : (
+            <h3 slot="headline">{chapterTitle}</h3>
+          )}
           {this.props.hasUnviewedPages && (
             <va-icon slot="icon" icon="error" class="vads-u-color--secondary" />
           )}
