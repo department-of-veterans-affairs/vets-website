@@ -2,6 +2,7 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
+import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
@@ -41,6 +42,20 @@ export const ensureValidCSRFToken = async () => {
   }
 };
 
+export async function deleteInProgressForm(formId) {
+  return removeFormApi(formId)
+    .then(() => {
+      recordEvent({
+        event: 'dependents-verification-delete-in-progress-form-success',
+      });
+    })
+    .catch(() => {
+      recordEvent({
+        event: 'dependents-verification-delete-in-progress-form-failure',
+      });
+    });
+}
+
 export async function submit(form, formConfig) {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
@@ -51,7 +66,7 @@ export async function submit(form, formConfig) {
     mode: 'cors',
   };
 
-  const onSuccess = resp => {
+  const onSuccess = async resp => {
     window.dataLayer.push({
       event: `${formConfig.trackingPrefix}-submission-successful`,
     });
