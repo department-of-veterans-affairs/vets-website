@@ -198,20 +198,6 @@ export const mentalHealthSupportAlert = () => {
       status="info"
       trigger="Get mental health and military sexual trauma support anytime"
     >
-      {/* <p>
-        We understand that some of the questions may be difficult to answer. If
-        you need to take a break and come back to your application, your
-        information will be saved.
-      </p>
-      <br />
-      <p>
-        If you’re a Veteran in crisis or concerned about one, connect with our
-        caring, qualified Veterans Crisis Line responders for confidential help.
-        Many of them are Veterans themselves. This service is private, free, and
-        available 24/7.
-      </p>
-      <br />
-      {mentalHealthSupportResources} */}
       <p>
         We can connect you with free, confidential support for mental health
         care or military sexual trauma anytime. We can connect you with support

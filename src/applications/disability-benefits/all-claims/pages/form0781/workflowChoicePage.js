@@ -27,9 +27,6 @@ export default {
     'view:traumaticEventsInfo': {
       'ui:description': traumaticEventsExamples,
     },
-    // 'view:mstAlertInfo': {
-    //   'ui:description': mstAlert,
-    // },
   },
 
   schema: {
@@ -46,10 +43,6 @@ export default {
         type: 'object',
         properties: {},
       },
-      // 'view:mstAlertInfo': {
-      //   type: 'object',
-      //   properties: {},
-      // },
     },
   },
 };
