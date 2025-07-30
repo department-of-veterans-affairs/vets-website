@@ -17,6 +17,8 @@ describe('VAOS Utils: timezone', () => {
       expect(getTimezoneAbbrByFacilityId(570)).to.equal('PT'); // America/Los_Angeles
       expect(getTimezoneAbbrByFacilityId(463)).to.equal('AKT'); // America/Anchorage
       expect(getTimezoneAbbrByFacilityId(459)).to.equal('HT'); // Pacific/Honolulu
+      expect(getTimezoneAbbrByFacilityId('459GE')).to.equal('ChT'); // Pacific/Guam
+      expect(getTimezoneAbbrByFacilityId('459GF')).to.equal('ST'); // Pacific/Pago_Pago
       expect(getTimezoneAbbrByFacilityId(672)).to.equal('AT'); // America/Puerto_Rico
       expect(getTimezoneAbbrByFacilityId('672GA')).to.equal('AT'); // America/St_Thomas
     });
@@ -85,6 +87,16 @@ describe('VAOS Utils: timezone', () => {
       expect(getTimezoneDescByFacilityId('570')).to.equal('Pacific time (PT)');
       expect(getTimezoneDescByFacilityId('649')).to.equal('Mountain time (MT)');
       expect(getTimezoneDescByFacilityId('672')).to.equal('Atlantic time (AT)');
+      expect(getTimezoneDescByFacilityId('672A')).to.equal(
+        'Atlantic time (AT)',
+      );
+      expect(getTimezoneDescByFacilityId('459GE')).to.equal(
+        'Chamorro time (ChT)',
+      );
+      expect(getTimezoneDescByFacilityId('459GF')).to.equal('Samoa time (ST)');
+      expect(getTimezoneDescByFacilityId('459GH')).to.equal(
+        'Chamorro time (ChT)',
+      );
     });
     it('should return the correct description', () => {
       expect(getTimezoneDescByFacilityId('4022')).to.equal('Eastern time (ET)');
@@ -138,11 +150,36 @@ describe('VAOS Utils: timezone', () => {
           timezone: 'America/Puerto_Rico',
         }),
       ).to.equal('AT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Asia/Manila',
+        }),
+      ).to.equal('PT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Pacific/Guam',
+        }),
+      ).to.equal('ChT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Pacific/Pago_Pago',
+        }),
+      ).to.equal('ST');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Pacific/Saipan',
+        }),
+      ).to.equal('ChT');
     });
   });
 
   describe('getTimezoneByFacilityId', () => {
     it('should return the correct IANA timezone', () => {
+      expect(getTimezoneByFacilityId('358')).to.equal('Asia/Manila');
       expect(getTimezoneByFacilityId(402)).to.equal('America/New_York');
       expect(getTimezoneByFacilityId(437)).to.equal('America/Chicago');
       expect(getTimezoneByFacilityId(442)).to.equal('America/Denver');
@@ -151,6 +188,7 @@ describe('VAOS Utils: timezone', () => {
       expect(getTimezoneByFacilityId(459)).to.equal('Pacific/Honolulu');
       expect(getTimezoneByFacilityId('459GE')).to.equal('Pacific/Guam');
       expect(getTimezoneByFacilityId('459GF')).to.equal('Pacific/Pago_Pago');
+      expect(getTimezoneByFacilityId('459GH')).to.equal('Pacific/Saipan');
       expect(getTimezoneByFacilityId(672)).to.equal('America/Puerto_Rico');
       expect(getTimezoneByFacilityId('672GA')).to.equal('America/St_Thomas');
     });

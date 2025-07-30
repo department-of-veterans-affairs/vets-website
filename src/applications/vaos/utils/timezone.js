@@ -14,6 +14,12 @@ const TIMEZONE_LABELS = {
   AT: 'Atlantic time',
 };
 
+const GMT_TABLE_MAPPING = {
+  'GMT+8': 'PT', // Asia/Manila
+  'GMT-11': 'ST', // Pacific/Pago_Pago
+  'GMT+10': 'ChT', // Pacific/Guam, Pacific/Saipan
+};
+
 /**
  * Function to strip out the middle character in timezone abbreviations
  *
@@ -70,6 +76,10 @@ export function getTimezoneAbbrFromApi(appointment) {
     ? formatInTimeZone(new Date(), appointmentTZ, 'z')
     : null;
 
+  if (timeZoneAbbr?.startsWith('GMT')) {
+    return GMT_TABLE_MAPPING[timeZoneAbbr];
+  }
+
   // Strip out middle char in abbreviation so we can ignore DST
   if (
     appointmentTZ?.includes('America') ||
@@ -95,6 +105,7 @@ export function getTimezoneAbbrByFacilityId(id) {
   }
 
   let abbreviation = formatInTimeZone(new Date(), matchingZone, 'z');
+  if (abbreviation?.startsWith('GMT')) return GMT_TABLE_MAPPING[abbreviation];
 
   // Strip out middle char in abbreviation so we can ignore DST
   if (matchingZone.includes('America') || matchingZone.includes('Pacific')) {
