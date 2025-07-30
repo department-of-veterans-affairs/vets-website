@@ -8,7 +8,7 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import set from 'platform/utilities/data/set';
 import { getInactivePages } from 'platform/forms/helpers';
-import { includeHouseholdInformationWithV2Prefill } from './form-config';
+import { unwrapSingleItem } from './array-builder';
 
 const setContactTypesOnContacts = (
   formData,
@@ -38,40 +38,6 @@ const setContactTypesOnContacts = (
  */
 export function submitTransformer(formConfig, form) {
   const { data: formData, loadedData } = form;
-  let financialInformation;
-
-  /*
-  due to how the ArrayBuilder works, we need to take the first item in
-  the 'financialInformation' array and flatten it so only the key/value pairs
-  are left
-  */
-  if (
-    includeHouseholdInformationWithV2Prefill(formData) &&
-    formData.financialInformation?.length > 0
-  ) {
-    // clone the original data to avoid mutating it directly
-    const clonedFormData = { ...formData };
-    const flattenedFinancialInformation = {};
-    const data = clonedFormData.financialInformation[0];
-
-    Object.keys(data).forEach(financialInfoKey => {
-      const value = Object.values(data[financialInfoKey])[0];
-      // remove the view prefix from the key
-      const keyWithoutViewPrefix = financialInfoKey.replace(/^view:/, '');
-      flattenedFinancialInformation[keyWithoutViewPrefix] = value;
-      /*
-      due to the feature toggle and still having V1 financial pages, we need
-      to delete the V1 view fields from the form data
-      */
-      delete formData[financialInfoKey];
-    });
-
-    delete formData.financialInformation;
-
-    // wrap in a data object
-    financialInformation = flattenedFinancialInformation;
-  }
-
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     formData,
@@ -83,7 +49,11 @@ export function submitTransformer(formConfig, form) {
     activePages,
     form,
   );
-  let withoutViewFields = filterViewFields(withoutInactivePages);
+  // Flatten data for V2/confirmation flows using ArrayBuilder.
+  const unwrappedData = unwrapSingleItem(withoutInactivePages);
+
+  let withoutViewFields = filterViewFields(unwrappedData);
+
   let gaClientId;
 
   // set veteran data fields to loaded profile data if its removed in filterInactivePageData
@@ -133,11 +103,6 @@ export function submitTransformer(formConfig, form) {
     'Primary Next of Kin',
     'Other Next of Kin',
   );
-
-  // add the financial information
-  if (financialInformation) {
-    withoutViewFields = { ...withoutViewFields, ...financialInformation };
-  }
 
   const newData = JSON.stringify(withoutViewFields, (key, value) => {
     // dont let dependents be removed in the normal empty value clean up
