@@ -104,6 +104,12 @@ CalendarRow.propTypes = {
   handleSelectOption: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   rowNumber: PropTypes.number.isRequired,
+  availableSlots: PropTypes.arrayOf(
+    PropTypes.shape({
+      start: PropTypes.string,
+      end: PropTypes.string,
+    }),
+  ),
   currentlySelectedDate: PropTypes.string,
   disabled: PropTypes.bool,
   hasError: PropTypes.bool,
