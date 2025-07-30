@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Navigate } from 'react-router-dom-v5-compat';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { focusElement } from 'platform/utilities/ui';
 import { Element, scrollTo } from 'platform/utilities/scroll';
@@ -40,13 +39,15 @@ const ClaimStatusExplainerPage = () => {
   }
 
   if (!appEnabled) {
-    return <Navigate replace to="/" />;
+    window.location.replace('/');
+    return null;
   }
 
   // TODO: Once claimsMgmtToggle is on permanently, this page can be
   // removed along wth its route definition
   if (claimsMgmtToggle) {
-    return <Navigate replace to="/claims/" />;
+    window.location.replace('/my-health/travel-pay/claims/');
+    return null;
   }
 
   return (
