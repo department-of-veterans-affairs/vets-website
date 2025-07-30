@@ -6,7 +6,6 @@ import {
   traumaticEventsExamples,
   workflowChoicePageDescription,
   workflowChoicePageTitle,
-  mstAlert,
 } from '../../content/form0781/workflowChoicePage';
 
 import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
@@ -28,9 +27,9 @@ export default {
     'view:traumaticEventsInfo': {
       'ui:description': traumaticEventsExamples,
     },
-    'view:mstAlertInfo': {
-      'ui:description': mstAlert,
-    },
+    // 'view:mstAlertInfo': {
+    //   'ui:description': mstAlert,
+    // },
   },
 
   schema: {
@@ -47,10 +46,10 @@ export default {
         type: 'object',
         properties: {},
       },
-      'view:mstAlertInfo': {
-        type: 'object',
-        properties: {},
-      },
+      // 'view:mstAlertInfo': {
+      //   type: 'object',
+      //   properties: {},
+      // },
     },
   },
 };
