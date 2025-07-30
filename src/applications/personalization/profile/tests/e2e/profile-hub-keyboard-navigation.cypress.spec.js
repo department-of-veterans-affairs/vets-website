@@ -13,10 +13,10 @@ const PROFILE_HREFS = [
   PROFILE_PATHS.DIRECT_DEPOSIT,
   '/va-payment-history/payments/',
   PROFILE_PATHS.NOTIFICATION_SETTINGS,
+  PROFILE_PATHS.PAPERLESS_DELIVERY,
   PROFILE_PATHS.ACCOUNT_SECURITY,
   'https://wallet.id.me/settings',
   PROFILE_PATHS.CONNECTED_APPLICATIONS,
-  PROFILE_PATHS.PAPERLESS_DELIVERY,
 ];
 
 describe('Profile - Hub page, Keyboard navigation', () => {
