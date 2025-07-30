@@ -112,7 +112,7 @@ export const militarySexualTraumaSupportTextBlob = (
 
 export const rememberTextBlob = (
   <p>
-    <strong>Remember:</strong>
+    <strong>Remember: </strong>
     Any information you provide will help us understand your situation and
     identify evidence to support your claim. But you can skip questions you
     can’t or don’t want to answer. And you can save your in-progress online form
@@ -196,7 +196,7 @@ export const mentalHealthSupportAlert = () => {
   return (
     <va-alert-expandable
       status="info"
-      trigger="Get mental and health and military sexual trauma support anytime"
+      trigger="Get mental health and military sexual trauma support anytime"
     >
       {/* <p>
         We understand that some of the questions may be difficult to answer. If
