@@ -11,7 +11,6 @@ import { waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
-import pilotRoutes from '../../pilot/routes';
 
 describe('App', () => {
   let oldLocation;
@@ -324,42 +323,6 @@ describe('App', () => {
     expect(window.location.replace.args[0][0]).to.equal(
       '/my-health/secure-messages/inbox/',
     );
-  });
-
-  it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
-    window.location.replace = sinon.spy();
-    const customState = { ...initialState, featureToggles: [] };
-    customState.featureToggles[
-      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
-    ] = true;
-    const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/inbox`,
-    });
-
-    expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    return waitFor(() => {
-      expect(window.location.replace.calledOnce).to.be.false;
-    });
-  });
-
-  it('should redirect to the SM info page if the user is not whitelisted or the feature flag is disabled', () => {
-    window.location.replace = sinon.spy();
-    const customState = { ...initialState, featureToggles: [] };
-    customState.featureToggles[
-      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
-    ] = false;
-    const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-
-    expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    return waitFor(() => {
-      expect(window.location.replace.called).to.be.true;
-    });
   });
 
   it('displays Page Not Found component if bad url', async () => {

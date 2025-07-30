@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -47,24 +47,20 @@ describe('VeteranContactInformationReviewPage', () => {
     expect(container.textContent).to.include('CA');
     expect(getAllByText('Postal code')[0]).to.exist;
     expect(container.textContent).to.include('90210');
-
     expect(getAllByText('Email address').length).to.be.greaterThan(1);
-
     expect(container.querySelector('va-telephone')).to.exist;
     expect(
       container.querySelector('va-telephone').getAttribute('contact'),
     ).to.equal('8005551212');
-
     expect(
       getByRole('heading', { level: 4, name: /International phone number/i }),
     ).to.exist;
     expect(container.textContent).to.include('441234567890');
-
     const editButtons = container.querySelectorAll('va-button[text="Edit"]');
     expect(editButtons.length).to.equal(4);
   });
 
-  it('clicking Mailing Address Edit calls goToPath and sets sessionStorage', () => {
+  it('clicking Mailing Address Edit calls goToPath and sets sessionStorage', async () => {
     goToPathSpy = sinon.spy();
     const { container } = render(
       <VeteranContactInformationReviewPage
@@ -72,21 +68,21 @@ describe('VeteranContactInformationReviewPage', () => {
         goToPath={goToPathSpy}
       />,
     );
-
     const editBtn = Array.from(container.querySelectorAll('va-button')).find(
       btn => btn.getAttribute('label') === 'Edit mailing address',
     );
-    fireEvent.click(editBtn);
-
-    expect(sessionStorage.getItem('onReviewPage')).to.equal('true');
-    expect(goToPathSpy.calledOnce).to.be.true;
-    expect(goToPathSpy.firstCall.args[0]).to.equal(
-      '/veteran-contact-information/mailing-address',
-    );
-    expect(goToPathSpy.firstCall.args[1]).to.deep.equal({ force: true });
+    await waitFor(() => {
+      fireEvent.click(editBtn);
+      expect(sessionStorage.getItem('onReviewPage')).to.equal('true');
+      expect(goToPathSpy.calledOnce).to.be.true;
+      expect(goToPathSpy.firstCall.args[0]).to.equal(
+        '/veteran-contact-information/mailing-address',
+      );
+      expect(goToPathSpy.firstCall.args[1]).to.deep.equal({ force: true });
+    });
   });
 
-  it('clicking Email Edit calls goToPath and sets sessionStorage', () => {
+  it('clicking Email Edit calls goToPath and sets sessionStorage', async () => {
     goToPathSpy = sinon.spy();
     const { container } = render(
       <VeteranContactInformationReviewPage
@@ -94,21 +90,21 @@ describe('VeteranContactInformationReviewPage', () => {
         goToPath={goToPathSpy}
       />,
     );
-
     const editBtn = Array.from(container.querySelectorAll('va-button')).find(
       btn => btn.getAttribute('label') === 'Edit email address',
     );
-    fireEvent.click(editBtn);
-
-    expect(sessionStorage.getItem('onReviewPage')).to.equal('true');
-    expect(goToPathSpy.calledOnce).to.be.true;
-    expect(goToPathSpy.firstCall.args[0]).to.equal(
-      'veteran-contact-information/email',
-    );
-    expect(goToPathSpy.firstCall.args[1]).to.deep.equal({ force: true });
+    await waitFor(() => {
+      fireEvent.click(editBtn);
+      expect(sessionStorage.getItem('onReviewPage')).to.equal('true');
+      expect(goToPathSpy.calledOnce).to.be.true;
+      expect(goToPathSpy.firstCall.args[0]).to.equal(
+        'veteran-contact-information/email',
+      );
+      expect(goToPathSpy.firstCall.args[1]).to.deep.equal({ force: true });
+    });
   });
 
-  it('clicking Phone Edit calls goToPath and sets sessionStorage', () => {
+  it('clicking Phone Edit calls goToPath and sets sessionStorage', async () => {
     goToPathSpy = sinon.spy();
     const { container } = render(
       <VeteranContactInformationReviewPage
@@ -116,21 +112,21 @@ describe('VeteranContactInformationReviewPage', () => {
         goToPath={goToPathSpy}
       />,
     );
-
     const editBtn = Array.from(container.querySelectorAll('va-button')).find(
       btn => btn.getAttribute('label') === 'Edit homne phone number',
     );
-    fireEvent.click(editBtn);
-
-    expect(sessionStorage.getItem('onReviewPage')).to.equal('true');
-    expect(goToPathSpy.calledOnce).to.be.true;
-    expect(goToPathSpy.firstCall.args[0]).to.equal(
-      'veteran-contact-information/phone',
-    );
-    expect(goToPathSpy.firstCall.args[1]).to.deep.equal({ force: true });
+    await waitFor(() => {
+      fireEvent.click(editBtn);
+      expect(sessionStorage.getItem('onReviewPage')).to.equal('true');
+      expect(goToPathSpy.calledOnce).to.be.true;
+      expect(goToPathSpy.firstCall.args[0]).to.equal(
+        'veteran-contact-information/phone',
+      );
+      expect(goToPathSpy.firstCall.args[1]).to.deep.equal({ force: true });
+    });
   });
 
-  it('clicking International Phone Edit calls goToPath and sets sessionStorage', () => {
+  it('clicking International Phone Edit calls goToPath and sets sessionStorage', async () => {
     goToPathSpy = sinon.spy();
     const { container } = render(
       <VeteranContactInformationReviewPage
@@ -138,21 +134,21 @@ describe('VeteranContactInformationReviewPage', () => {
         goToPath={goToPathSpy}
       />,
     );
-
     const editBtn = Array.from(container.querySelectorAll('va-button')).find(
       btn => btn.getAttribute('label') === 'Edit international phone number',
     );
-    fireEvent.click(editBtn);
-
-    expect(sessionStorage.getItem('onReviewPage')).to.equal('true');
-    expect(goToPathSpy.calledOnce).to.be.true;
-    expect(goToPathSpy.firstCall.args[0]).to.equal(
-      'veteran-contact-information/international-phone',
-    );
-    expect(goToPathSpy.firstCall.args[1]).to.deep.equal({ force: true });
+    await waitFor(() => {
+      fireEvent.click(editBtn);
+      expect(sessionStorage.getItem('onReviewPage')).to.equal('true');
+      expect(goToPathSpy.calledOnce).to.be.true;
+      expect(goToPathSpy.firstCall.args[0]).to.equal(
+        'veteran-contact-information/international-phone',
+      );
+      expect(goToPathSpy.firstCall.args[1]).to.deep.equal({ force: true });
+    });
   });
 
-  it('renders error message if fields are missing', () => {
+  it('renders error message if fields are missing', async () => {
     goToPathSpy = sinon.spy();
     const errorData = {
       address: {},
@@ -166,17 +162,17 @@ describe('VeteranContactInformationReviewPage', () => {
         goToPath={goToPathSpy}
       />,
     );
-
-    const errors = container.querySelectorAll('.usa-input-error-message');
-
-    expect(errors.length).to.be.at.least(6);
-
-    expect(container.textContent).to.include('Missing country');
-    expect(container.textContent).to.include('Missing street address line 1');
-    expect(container.textContent).to.include('Missing city');
-    expect(container.textContent).to.include('Missing province');
-    expect(container.textContent).to.include('Missing postal code');
-    expect(container.textContent).to.include('Missing email address');
+    // Wrap in waitFor to ensure error messages appear if async
+    await waitFor(() => {
+      const errors = container.querySelectorAll('.usa-input-error-message');
+      expect(errors.length).to.be.at.least(6);
+      expect(container.textContent).to.include('Missing country');
+      expect(container.textContent).to.include('Missing street address line 1');
+      expect(container.textContent).to.include('Missing city');
+      expect(container.textContent).to.include('Missing province');
+      expect(container.textContent).to.include('Missing postal code');
+      expect(container.textContent).to.include('Missing email address');
+    });
   });
 
   it('renders "Province" label for non-USA address', () => {
@@ -195,7 +191,6 @@ describe('VeteranContactInformationReviewPage', () => {
         goToPath={goToPathSpy}
       />,
     );
-
     expect(getByText('Province')).to.exist;
   });
 
@@ -212,7 +207,6 @@ describe('VeteranContactInformationReviewPage', () => {
         goToPath={goToPathSpy}
       />,
     );
-
     const noneProvided = getAllByText('None provided');
     expect(noneProvided.length).to.equal(2);
   });

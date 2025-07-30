@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -13,8 +13,24 @@ export default function App({ location, children }) {
     TOGGLE_NAMES.incomeAndAssetsFormEnabled,
   );
 
+  const incomeAndAssetsContentUpdates = useToggleValue(
+    TOGGLE_NAMES.incomeAndAssetsContentUpdates,
+  );
+
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading ?? false,
+  );
+
+  useEffect(
+    () => {
+      if (!isLoadingFeatures) {
+        window.sessionStorage.setItem(
+          'showUpdatedContent',
+          !!incomeAndAssetsContentUpdates,
+        );
+      }
+    },
+    [isLoadingFeatures, incomeAndAssetsContentUpdates],
   );
 
   if (isLoadingFeatures) {

@@ -5,10 +5,8 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons, {
-  FormNavButtonContinue,
-} from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
+import { CustomPageNavButtons } from '../CustomPageNavButtons';
 
 import { ADDITIONAL_FILES_HINT } from '../../constants';
 import { applicantWording } from '../../utilities';
@@ -158,22 +156,22 @@ export function ApplicantRelationshipReviewPage(props) {
   ) : null;
 }
 
-export default function ApplicantRelationshipPage({
-  contentAfterButtons,
-  data,
-  fullData,
-  genOp,
-  setFormData,
-  goBack,
-  goForward,
-  keyname = KEYNAME,
-  primary = PRIMARY,
-  secondary = SECONDARY,
-  pagePerItemIndex,
-  updatePage,
-  onReviewPage,
-  customWording,
-}) {
+export default function ApplicantRelationshipPage(props) {
+  const {
+    data,
+    fullData,
+    genOp,
+    setFormData,
+    goForward,
+    keyname = KEYNAME,
+    primary = PRIMARY,
+    secondary = SECONDARY,
+    pagePerItemIndex,
+    updatePage,
+    onReviewPage,
+    customWording,
+  } = props;
+
   // fulldata is present in array builder pages:
   const fullOrItemData = fullData ?? data;
   const relationshipStructure = {
@@ -190,13 +188,8 @@ export default function ApplicantRelationshipPage({
 
   const radioRef = useRef(null); // Used to set focus when in error state
 
-  const useTopBackLink =
-    contentAfterButtons?.props?.formConfig?.useTopBackLink ?? false;
-  const navButtons = useTopBackLink ? (
-    <FormNavButtonContinue submitToContinue />
-  ) : (
-    <FormNavButtons goBack={goBack} submitToContinue />
-  );
+  const navButtons = CustomPageNavButtons(props);
+
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
   const genOps = genOp || generateOptions;
