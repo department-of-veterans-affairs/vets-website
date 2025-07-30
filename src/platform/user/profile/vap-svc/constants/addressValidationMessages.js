@@ -88,10 +88,11 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
   },
   [ADDRESS_VALIDATION_TYPES.SYSTEM_ERROR]: {
     ModalText: () => (
-      <p className="vads-u-margin-y--0">
+      <p>
         We can’t update your address information right now. Refresh this page or
         try again later.
       </p>
     ),
+    slim: true,
   },
 });
