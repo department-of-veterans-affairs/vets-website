@@ -1,6 +1,6 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { QUESTION_MAP } from '../constants/question-data-map';
+import { QUESTION_CONTENT } from '../constants/question-data-map';
 
 const Breadcrumbs = () => {
   return (
@@ -18,7 +18,7 @@ const Breadcrumbs = () => {
         },
         {
           href: '/onramp-to-dr',
-          label: QUESTION_MAP.HOME,
+          label: QUESTION_CONTENT.HOME.h1,
         },
       ]}
     />
