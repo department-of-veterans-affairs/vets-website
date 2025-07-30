@@ -98,7 +98,7 @@ const createReferralById = (
       stationId: '659BY',
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-      referralNumber: 'VA0000007241',
+      referralNumber: uuid.includes('error') ? uuid : 'VA0000007241',
       categoryOfCare,
       referralConsultId: '984_646907',
       hasAppointments: false,

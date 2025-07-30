@@ -1,8 +1,5 @@
 import {
   SET_FORM_CURRENT_PAGE,
-  CREATE_REFERRAL_APPOINTMENT,
-  CREATE_REFERRAL_APPOINTMENT_FAILED,
-  CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
   FETCH_REFERRAL_APPOINTMENT_INFO,
   FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
   FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
@@ -34,21 +31,6 @@ function ccAppointmentReducer(state = initialState, action) {
       return {
         ...state,
         currentPage: action.payload,
-      };
-    case CREATE_REFERRAL_APPOINTMENT:
-      return {
-        ...state,
-        appointmentCreateStatus: FETCH_STATUS.loading,
-      };
-    case CREATE_REFERRAL_APPOINTMENT_SUCCEEDED:
-      return {
-        ...state,
-        appointmentCreateStatus: FETCH_STATUS.succeeded,
-      };
-    case CREATE_REFERRAL_APPOINTMENT_FAILED:
-      return {
-        ...state,
-        appointmentCreateStatus: FETCH_STATUS.failed,
       };
     case FETCH_REFERRAL_APPOINTMENT_INFO:
       return {

@@ -2,6 +2,7 @@ import React from 'react';
 import {
   bankAccountUI,
   bankAccountSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { isValidRoutingNumber } from 'platform/forms/validations';
 
@@ -29,26 +30,27 @@ const bankInfoHelpText = (
   </va-additional-info>
 );
 
-const DirectDepositDescription = () => (
-  <div className="vads-u-margin-y--2">
-    <p>
-      Direct deposit information is not required to determine eligibility.
-      However, benefits cannot be paid without this information per U.S.
-      Treasury regulation 31 C.F.R. § 208.3.
-    </p>
+const EligibilityRegulationNote = () => (
+  <p>
+    Direct deposit information is not required to determine eligibility.
+    However, benefits cannot be paid without this information per U.S. Treasury
+    regulation 31 C.F.R. § 208.3.
+  </p>
+);
 
+const CheckGuideDetails = () => (
+  <>
     <img
       src="/img/direct-deposit-check-guide.svg"
       alt="On a personal check, the bank’s 9-digit routing number is at bottom left; your account number follows it."
     />
-
     <p>
       Your bank’s routing number is listed along the bottom-left edge of a
       personal check. Your account number is listed to the right of that.
       Routing numbers must be nine digits and account numbers can be up to 17
       digits.
     </p>
-  </div>
+  </>
 );
 
 export default function createDirectDepositPage() {
@@ -62,6 +64,7 @@ export default function createDirectDepositPage() {
         required: baseSchema.required,
         properties: {
           ...baseSchema.properties,
+          'view:checkGuideDetails': { type: 'object', properties: {} },
           'view:bankInfoHelpText': { type: 'object', properties: {} },
         },
       },
@@ -73,12 +76,13 @@ export default function createDirectDepositPage() {
   delete baseUIWithoutDesc['ui:description'];
 
   const uiSchema = {
-    'ui:title': 'Direct deposit',
-    'ui:description': DirectDepositDescription,
+    ...titleUI('Direct deposit'),
+    'ui:description': <EligibilityRegulationNote />,
     bankAccount: {
       ...baseUIWithoutDesc,
       'ui:order': [
         'accountType',
+        'view:checkGuideDetails',
         'routingNumber',
         'accountNumber',
         'view:bankInfoHelpText',
@@ -87,6 +91,11 @@ export default function createDirectDepositPage() {
         ...baseUIWithoutDesc.accountType,
         'ui:errorMessages': { required: 'Select an account type' },
       },
+
+      'view:checkGuideDetails': {
+        'ui:description': <CheckGuideDetails />,
+      },
+
       routingNumber: {
         ...baseUIWithoutDesc.routingNumber,
         'ui:title': 'Bank’s 9-digit routing number',

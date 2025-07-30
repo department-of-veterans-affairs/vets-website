@@ -18,16 +18,10 @@ export const medicationsUrls = {
   MHV_HOME: '/../../my-health',
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
-  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
-  MEDICATIONS_ABOUT: '/my-health/medications/about',
-  MEDICATIONS_ABOUT_ACCORDION_RENEW:
-    '/my-health/medications/about#accordion-renew-rx',
   MEDICATIONS_REFILL: '/my-health/medications/refill',
   PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
   subdirectories: {
     BASE: '/',
-    // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
-    ABOUT: '/about',
     REFILL: '/refill',
     DETAILS: '/prescription',
     DOCUMENTATION: '/documentation',

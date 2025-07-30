@@ -1,0 +1,15 @@
+{
+    "id": "4a08cec2-19d9-486a-815d-fe5262d05535",
+    "meta": {
+        "lastUpdated": "2023-09-29T19:29:06.153-04:00"
+    },
+    "type": "searchset",
+    "total": 0,
+    "link": [
+        {
+            "relation": "self",
+            "url": "https://mhv-sysb-api.myhealth.va.gov/fhir/AllergyIntolerance?_count=9999&patient=3261"
+        }
+    ],
+    "resourceType": "Bundle"
+}

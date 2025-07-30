@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { CustomPageNavButtons } from './CustomPageNavButtons';
 
 /*
 The purpose of this component is to wrap the applicant SSN input page
@@ -20,6 +20,8 @@ export function CustomApplicantSSNPage(props) {
     </button>
   );
 
+  const navButtons = CustomPageNavButtons(props);
+
   const customSetFormData = args => {
     // Update current applicant without losing all form data
     const newData = { ...props.data };
@@ -31,9 +33,13 @@ export function CustomApplicantSSNPage(props) {
 
   // Depending on if we're in the form flow or on review page this value
   // should be different:
-  let pageData = props.data.applicants
-    ? props.data.applicants?.[props?.pagePerItemIndex]
+  let pageData = props.data?.applicants
+    ? props.data?.applicants?.[props?.pagePerItemIndex]
     : props.data;
+
+  // If pageData is undefined just use empty object to prevent
+  // array builder error when clicking "cancel" on first applicant
+  if (!pageData) pageData = {};
 
   // Add some view values useful in the validator func (since full form
   // data isn't available within validator funcs in list loop V1)
@@ -63,11 +69,7 @@ export function CustomApplicantSSNPage(props) {
       <>
         {/* contentBeforeButtons = save-in-progress links */}
         {props.contentBeforeButtons}
-        {props.onReviewPage ? (
-          updateButton
-        ) : (
-          <FormNavButtons goBack={props.goBack} submitToContinue />
-        )}
+        {props.onReviewPage ? updateButton : navButtons}
         {props.contentAfterButtons}
       </>
     </SchemaForm>

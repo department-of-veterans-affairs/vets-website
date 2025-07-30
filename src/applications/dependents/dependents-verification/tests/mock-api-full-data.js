@@ -34,7 +34,7 @@ const submission = {
 };
 
 const mockSipGet = {
-  formData: mockMaxData.data,
+  formData: mockMaxData,
   metadata: {
     version: 1,
     prefill: true,

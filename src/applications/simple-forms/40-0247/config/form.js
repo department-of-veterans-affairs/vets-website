@@ -133,15 +133,11 @@ const formConfig = {
       },
     },
     applicantPersonalInfoChapter: {
-      title: environment.isProduction()
-        ? 'Your personal information'
-        : 'Applicant information',
+      title: 'Applicant information',
       pages: {
         applicantPersonalInfoPage: {
           path: 'applicant-personal-information',
-          title: environment.isProduction()
-            ? 'Your personal information'
-            : 'Applicant information',
+          title: 'Applicant information',
           uiSchema: appPersInfoPg.uiSchema,
           schema: appPersInfoPg.schema,
           pageClass: 'applicant-personal-information',

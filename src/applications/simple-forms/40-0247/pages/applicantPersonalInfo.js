@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import {
   titleUI,
   fullNameNoSuffixSchema,
@@ -9,7 +8,7 @@ import {
 export default {
   uiSchema: {
     ...titleUI(
-      environment.isProduction() ? 'Tell us about yourself' : 'Your details',
+      'Your details',
       'We’ll use this information in case we need to follow up with you about the request.',
     ),
     applicantFullName: fullNameNoSuffixUI(),

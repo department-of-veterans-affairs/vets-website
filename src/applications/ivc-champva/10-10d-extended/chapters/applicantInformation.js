@@ -751,9 +751,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-address-selection/:index',
       title: 'Address selection',
       ...applicantAddressSelectionPage,
-      CustomPage: props => {
-        return ApplicantAddressCopyPage(props);
-      },
+      CustomPage: ApplicantAddressCopyPage,
       depends: (formData, index) => page15aDepends(formData, index),
     }),
     page15: pageBuilder.itemPage({

@@ -265,16 +265,16 @@ export const pageHooks = (cy, testOptions) => ({
           'view:isTitle10Activated'
         ]
       ) {
-        const todayPlus120 = format(
-          add(new Date(), { days: 120 }),
-          'yyyy-M-d',
-        ).split('-');
+        const futureDate = add(new Date(), { days: 120 });
+        const year = format(futureDate, 'yyyy');
+        const month = format(futureDate, 'M'); // Single digit month (1-12)
+        const day = format(futureDate, 'd'); // Single digit day (1-31)
+
         // active title 10 activation puts this into BDD flow
-        cy.get('select[name$="SeparationDateMonth"]').select(todayPlus120[1]);
-        cy.get('select[name$="SeparationDateDay"]').select(todayPlus120[2]);
-        cy.get('input[name$="SeparationDateYear"]')
-          .clear()
-          .type(todayPlus120[0]);
+        cy.get('select[name$="SeparationDateMonth"]').select(month);
+        cy.get('select[name$="SeparationDateDay"]').select(day);
+        cy.get('input[name$="SeparationDateYear"]').clear();
+        cy.get('input[name$="SeparationDateYear"]').type(year);
       }
     });
   },

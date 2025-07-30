@@ -120,11 +120,11 @@ const formConfig = {
     },
 
     dependents: {
-      title: 'Dependents on your VA benefits',
+      title: 'Review your dependents',
       pages: {
         dependents: {
           path: 'dependents',
-          title: 'Dependents on your VA benefits',
+          // title: 'Dependents on your VA benefits',
           CustomPage: DependentsInformation,
           CustomPageReview: DependentsInformationReview,
           uiSchema: dependents.uiSchema,
