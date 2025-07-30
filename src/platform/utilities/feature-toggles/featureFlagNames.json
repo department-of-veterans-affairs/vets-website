@@ -125,6 +125,7 @@
   "hcaRegOnlyEnabled": "hca_reg_only_enabled",
   "hlrBrowserMonitoringEnabled": "hlr_browser_monitoring_enabled",
   "incomeAndAssetsFormEnabled": "income_and_assets_form_enabled",
+  "incomeAndAssetsContentUpdates": "income_and_assets_content_updates",
   "intentToFileLighthouseEnabled": "intent_to_file_lighthouse_enabled",
   "intentToFileSynchronousEnabled": "intent_to_file_synchronous_enabled",
   "lettersCheckDiscrepancies": "letters_check_discrepancies",
