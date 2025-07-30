@@ -8,7 +8,7 @@ import { validateTrainingProviderStartDate } from '../helpers';
 
 const uiSchema = {
   ...titleUI('Do you have a start date for the program you wish to enroll in?'),
-  trainingStartDate: {
+  plannedStartDate: {
     ...currentOrPastDateUI({
       title: `You can leave this blank if you haven't chosen a program yet.`,
       errorMessages: { pattern: 'Please enter a valid date' },
@@ -21,7 +21,7 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    trainingStartDate: currentOrPastDateSchema,
+    plannedStartDate: currentOrPastDateSchema,
   },
   required: [],
 };

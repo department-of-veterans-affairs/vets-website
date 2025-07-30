@@ -92,16 +92,19 @@ export const getCardDescription = item => {
   return item ? (
     <>
       <div className=" vads-u-margin-y--2" data-testid="card-street">
-        <p>{item?.address?.street}</p>
+        <p>{item?.providerAddress?.street}</p>
         <p data-testid="card-address">
-          {`${item?.address?.city}${
-            item?.address?.state || item?.address?.postalCode !== 'NA'
+          {`${item?.providerAddress?.city}${
+            item?.providerAddress?.state ||
+            item?.providerAddress?.postalCode !== 'NA'
               ? ','
               : ''
           }`}
-          {item?.address?.state ? ` ${item?.address?.state}` : ''}
-          {item?.address?.postalCode !== 'NA'
-            ? ` ${item?.address?.postalCode}`
+          {item?.providerAddress?.state
+            ? ` ${item?.providerAddress?.state}`
+            : ''}
+          {item?.providerAddress?.postalCode !== 'NA'
+            ? ` ${item?.providerAddress?.postalCode}`
             : ''}
         </p>
       </div>
@@ -110,23 +113,23 @@ export const getCardDescription = item => {
 };
 
 export const trainingProviderArrayOptions = {
-  arrayPath: 'trainingProvider',
+  arrayPath: 'trainingProviders',
   nounSingular: 'training provider',
   nounPlural: 'training providers',
   required: false,
   isItemIncomplete: item => {
     return (
-      !item?.name ||
-      !item?.address?.street ||
-      !item?.address?.city ||
-      !item?.address?.country ||
-      !item?.address?.postalCode
+      !item?.providerName ||
+      !item?.providerAddress?.street ||
+      !item?.providerAddress?.city ||
+      !item?.providerAddress?.country ||
+      !item?.providerAddress?.postalCode
     );
   },
   maxItems: 4,
   text: {
     getItemName: item =>
-      item?.name ? `${item?.name}`.trim() : 'training provider',
+      item?.providerName ? `${item?.providerName}`.trim() : 'training provider',
     cardDescription: item => getCardDescription(item),
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',

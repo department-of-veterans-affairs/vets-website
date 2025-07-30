@@ -75,8 +75,8 @@ describe('10297 Helpers', () => {
   describe('trainingProvierArrayOptions', () => {
     it('should return correct isItemComplete', () => {
       const item = {
-        name: 'Training Provider Example',
-        address: {
+        providerName: 'Training Provider Example',
+        providerAddress: {
           country: 'USA',
           street: '123 Main St',
           city: 'Anytown',
@@ -95,7 +95,7 @@ describe('10297 Helpers', () => {
 
     it('should return correct card title using getItemName', () => {
       const item = {
-        name: 'Training Provider Example',
+        providerName: 'Training Provider Example',
       };
       const emptyItem = {};
       expect(trainingProviderArrayOptions.text.getItemName(item)).to.equal(
@@ -124,7 +124,7 @@ describe('10297 Helpers', () => {
   describe('getCardDescription', () => {
     it('should return a full description of details from the given card details', () => {
       const card = {
-        address: {
+        providerAddress: {
           country: 'USA',
           street: '123 Main St',
           city: 'Anytown',
