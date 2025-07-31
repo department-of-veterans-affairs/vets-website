@@ -249,10 +249,7 @@ export const medicalClaimUploadSchema = {
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
       // schema for LLM message
-      'view:fileClaim': {
-        type: 'object',
-        properties: {},
-      },
+      'view:fileClaim': blankSchema,
       medicalUpload: {
         type: 'array',
         minItems: 1,
@@ -360,10 +357,7 @@ export const eobUploadSchema = isPrimary => {
         'view:fileUploadBlurb': blankSchema,
         'view:notes': blankSchema,
         // schema for LLM message
-        'view:fileClaim': {
-          type: 'object',
-          properties: {},
-        },
+        'view:fileClaim': blankSchema,
         [keyName]: {
           type: 'array',
           minItems: 1,
@@ -462,10 +456,7 @@ export const pharmacyClaimUploadSchema = {
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
       // schema for LLM message
-      'view:fileClaim': {
-        type: 'object',
-        properties: {},
-      },
+      'view:fileClaim': blankSchema,
       pharmacyUpload: {
         type: 'array',
         minItems: 1,

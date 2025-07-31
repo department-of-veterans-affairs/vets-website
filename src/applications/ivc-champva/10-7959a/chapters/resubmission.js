@@ -219,10 +219,8 @@ export const medicalUploadSupportingDocs = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
-      'view:fileClaim': {
-        type: 'object',
-        properties: {},
-      },
+      // schema for LLM message
+      'view:fileClaim': blankSchema,
       medicalUpload: {
         type: 'array',
         minItems: 1,
@@ -306,11 +304,8 @@ export const pharmacyClaimUploadDocs = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
-      // for LLM message
-      'view:fileClaim': {
-        type: 'object',
-        properties: {},
-      },
+      // schema for LLM message
+      'view:fileClaim': blankSchema,
       pharmacyUpload: {
         type: 'array',
         minItems: 1,
