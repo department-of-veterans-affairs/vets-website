@@ -119,6 +119,7 @@ const formConfig = {
           title: 'Active duty status',
           uiSchema: activeDutyStatus.uiSchema,
           schema: activeDutyStatus.schema,
+          depends: formData => formData?.dutyRequirement !== 'atLeast3Years',
         },
         directDeposit: createDirectDepositPage(),
       },
