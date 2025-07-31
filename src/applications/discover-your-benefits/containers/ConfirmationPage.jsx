@@ -5,7 +5,10 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
-import { VaSearchFilter } from '@department-of-veterans-affairs/web-components/react-bindings';
+import {
+  VaSearchFilter,
+  VaSelect,
+} from '@department-of-veterans-affairs/web-components/react-bindings';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
@@ -29,7 +32,7 @@ export class ConfirmationPage extends React.Component {
       filterOptions: [
         {
           id: 1,
-          label: 'Benefit Type',
+          label: 'Benefit type',
           category: [
             { id: 'All', label: 'All' },
             { id: 'Burials', label: 'Burials and memorials' },
@@ -41,15 +44,6 @@ export class ConfirmationPage extends React.Component {
             { id: 'Life Insurance', label: 'Life insurance' },
             { id: 'Support', label: 'More support' },
             { id: 'Pension', label: 'Pension' },
-            { id: 'isTimeSensitive', label: 'Time-sensitive' },
-          ],
-        },
-        {
-          id: 2,
-          label: 'Sort',
-          category: [
-            { id: 'alphabetical', label: 'Alphabetical' },
-            { id: 'category', label: 'Type' },
             { id: 'isTimeSensitive', label: 'Time-sensitive' },
           ],
         },
@@ -118,7 +112,7 @@ export class ConfirmationPage extends React.Component {
       category: 'category',
       isTimeSensitive: 'isTimeSensitive',
     };
-    this.setState({ sortValue: sortStrings[key] });
+    this.setState({ sortValue: sortStrings[key] }, this.sortBenefits);
   };
 
   sortBenefitObj = (benefitObj, sortKey) => {
@@ -193,7 +187,7 @@ export class ConfirmationPage extends React.Component {
       });
 
       const selectedFilterFacet = activeFilters.find(
-        f => f.label === 'Benefit Type',
+        f => f.label === 'Benefit type',
       );
       const selectedSortFacet = activeFilters.find(f => f.label === 'Sort');
 
@@ -393,12 +387,6 @@ export class ConfirmationPage extends React.Component {
           </p>
         </va-alert>
 
-        <h2 className="vads-u-font-size--h3">
-          {this.props.location.query.allBenefits
-            ? 'All benefits'
-            : 'Recommended benefits for you'}
-        </h2>
-
         <div id="results-container" className="vads-l-grid-container">
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
             {!this.props.location.query.allBenefits && (
@@ -442,6 +430,30 @@ export class ConfirmationPage extends React.Component {
               id="results-section"
               className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9"
             >
+              <h2 className="vads-u-font-size--h2 vads-u-margin-top--0">
+                {this.props.location.query.allBenefits
+                  ? 'All benefits'
+                  : 'Recommended benefits for you'}
+              </h2>
+              <VaSelect
+                enableAnalytics
+                aria-label="Sort Benefits"
+                label="Sort"
+                name="sort-benefits"
+                value={this.state.sortValue}
+                onVaSelect={this.handleSortSelect}
+              >
+                <option key="alphabetical" value="alphabetical">
+                  Name (A-Z)
+                </option>
+                <option key="type" value="category">
+                  Type of benefit (A-Z)
+                </option>
+                <option key="isTimeSensitive" value="isTimeSensitive">
+                  Time-sensitive
+                </option>
+              </VaSelect>
+              <br />
               {this.state.filterText && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}

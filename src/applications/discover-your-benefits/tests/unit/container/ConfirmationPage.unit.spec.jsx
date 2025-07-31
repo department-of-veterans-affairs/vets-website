@@ -238,14 +238,8 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     const wrapper = subject({ mockStore, props });
     const { container } = wrapper;
 
-    const filterComponent = container.querySelector('va-search-filter');
-
-    dispatchFilterApply(filterComponent, [
-      {
-        label: 'Sort',
-        category: [{ id: 'alphabetical', label: 'Alphabetical' }],
-      },
-    ]);
+    const sortSelect = container.querySelector('[name="sort-benefits"]');
+    sortSelect.__events.vaSelect({ target: { value: 'alphabetical' } });
 
     const benefitNames = wrapper
       .getAllByRole('listitem')
@@ -264,7 +258,7 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
 
     dispatchFilterApply(filterComponent, [
       {
-        label: 'Benefit Type',
+        label: 'Benefit type',
         category: [{ id: 'Careers', label: 'Careers and employment' }],
       },
     ]);
