@@ -1197,7 +1197,7 @@ const formConfig = {
       pages: {
         applicantInformation: {
           path: 'veteran-or-service-member-information',
-          title: 'Review veteran or service member information',
+          title: 'Review Veteran or service member information',
           uiSchema: {
             relationshipToMember: {
               'ui:title':
