@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   titleUI,
   textUI,
@@ -207,12 +206,32 @@ export const studentIncomePage = {
 export const studentAddressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s address'),
-    address: addressUI({
-      labels: {
-        militaryCheckbox:
-          'The student receives mail outside of the United States on a U.S. military base.',
+    address: {
+      ...addressUI({
+        title: '',
+        labels: {
+          militaryCheckbox:
+            'The student receives mail outside of the United States on a U.S. military base.',
+        },
+      }),
+      city: {
+        ...addressUI().city,
+        'ui:validations': [
+          (errors, city, formData) => {
+            const address = formData?.address;
+            const cityStr = city?.trim().toUpperCase();
+
+            if (
+              address &&
+              ['APO', 'FPO', 'DPO'].includes(cityStr) &&
+              address.isMilitary !== true
+            ) {
+              errors.addError('Enter a valid city name');
+            }
+          },
+        ],
       },
-    }),
+    },
   },
   schema: {
     type: 'object',
