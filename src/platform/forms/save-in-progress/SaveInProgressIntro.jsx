@@ -120,6 +120,7 @@ class SaveInProgressIntro extends React.Component {
         if (!isExpired) {
           const lastSavedDateTime =
             savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa");
+          const timezone = savedAt && format(savedAt, 'z');
 
           const ContinueMsg = (
             <p>
@@ -134,7 +135,7 @@ class SaveInProgressIntro extends React.Component {
             <va-alert status="info" uswds visible>
               <Header slot="headline">
                 {inProgressMessage} {savedAt && 'and was last saved on '}
-                {lastSavedDateTime} {getTimezoneAbbreviation()}
+                {lastSavedDateTime} {getTimezoneAbbreviation(timezone)}
               </Header>
               <div className="saved-form-metadata-container">
                 <div className="expires-container">
