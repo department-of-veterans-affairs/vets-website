@@ -111,7 +111,7 @@ export function FileFieldCustom(props) {
   );
 }
 
-// Stripped down verision of FileFieldCustom that doesn't include the
+// Stripped down version of FileFieldCustom that doesn't include the
 // missing file overview logic + related customizations. This is useful
 // for accessing full form data in sub components on upload pages like
 // description components (such as is done in LLM_UPLOAD_WARNING)
