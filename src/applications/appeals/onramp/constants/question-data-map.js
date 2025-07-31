@@ -72,7 +72,7 @@ const LAW_POLICY_CHANGE = {
       </ul>
       <va-link
         external
-        href="/resources/the-pact-act-and-your-va-benefits/"
+        href="/resources/the-pact-act-and-your-va-benefits"
         text="Learn how the PACT Act may affect your VA benefits and care"
       />
     </>
@@ -128,9 +128,9 @@ const JUDGE_HEARING = {
   hintText: null,
   questionText: `Do you want to have a hearing with a Veterans Law Judge?`,
   responses: [
-    { [YES]: `I want a hearing with a Veterans Law Judge.` },
+    { [YES]: `I want a hearing with a Veterans Law Judge` },
     {
-      [NO]: `A Veterans Law Judge can review my claim and make a decision without a hearing. I will submit my new evidence with my claim or within 90 days.`,
+      [NO]: `A Veterans Law Judge can review my claim and make a decision without a hearing`,
     },
   ],
 };
@@ -199,8 +199,8 @@ export const QUESTION_CONTENT = Object.freeze({
     hintText: null,
     questionText: `Is the claim you want us to review contested?`,
     responses: [
-      { [YES]: `This claim is contested` },
-      { [NO]: `This claim is not contested` },
+      { [YES]: `My claim is contested` },
+      { [NO]: `My claim is not contested` },
     ],
   },
   Q_1_3A_FEWER_60_DAYS: {

@@ -10,8 +10,6 @@ import { QUESTION_CONTENT } from '../constants/question-data-map';
 
 /**
  * Produces a set of 2-3 radio options
- * @param {string} formValue - The response for this question in the Redux store
- * @param {array[string]} responses - The responses available for this question
  * @param {string} shortName - Question short name (SNAKE_CASE)
  */
 const RadioQuestion = ({ shortName }) => {
