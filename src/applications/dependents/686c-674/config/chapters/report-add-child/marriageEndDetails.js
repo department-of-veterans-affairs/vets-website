@@ -40,7 +40,7 @@ export const marriageEndDetails = {
       },
       'ui:options': {
         expandUnder: 'marriageEndReason',
-        expandUnderCondition: 'other',
+        expandUnderCondition: 'Other',
         expandedContentFocus: true,
         preserveHiddenData: true,
       },
@@ -70,10 +70,10 @@ export const marriageEndDetails = {
     properties: {
       marriageEndDate: currentOrPastDateSchema,
       marriageEndReason: radioSchema([
-        'death',
-        'divorce',
-        'annulment',
-        'other',
+        'Death',
+        'Divorce',
+        'Annulment',
+        'Other',
       ]),
       marriageEndDescription: {
         type: 'string',

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { CustomPageNavButtons } from '../CustomPageNavButtons';
 import MissingFileOverview, { hasReq } from './MissingFileOverview';
 
 export function FileFieldCustom(props) {
@@ -81,7 +81,7 @@ export function FileFieldCustom(props) {
     }
   }
 
-  const navButtons = <FormNavButtons goBack={onGoBack} submitToContinue />;
+  const navButtons = CustomPageNavButtons({ ...props, goBack: onGoBack });
 
   return (
     <>
