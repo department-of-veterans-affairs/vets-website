@@ -334,7 +334,11 @@ describe('674 Add students: Student address ', () => {
           uiSchema={uiSchema}
           data={{
             ...formData(),
-            address: { city: 'APO', isMilitary: undefined },
+            studentInformation: [
+              {
+                address: { city: 'APO', isMilitary: false },
+              },
+            ],
           }}
           arrayPath={arrayPath}
           pagePerItemIndex={0}
@@ -350,8 +354,6 @@ describe('674 Add students: Student address ', () => {
         'va-text-input[name*="address_city"]',
       );
       expect(cityInput).to.exist;
-      // Debug
-      // console.log('ERROR ATTR:', cityInput.getAttribute('error'));
       expect(cityInput.getAttribute('error')).to.equal(
         'Enter a valid city name',
       );
