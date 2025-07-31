@@ -1,5 +1,9 @@
 import { isBefore, subYears, isWithinInterval } from 'date-fns';
-import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
+import {
+  DEPENDENT_VIEW_FIELDS,
+  INSURANCE_VIEW_FIELDS,
+  MAX_DEPENDENTS,
+} from '../constants';
 
 /**
  * Helper that determines if the form data is missing the Veteran's date of birth
@@ -252,8 +256,10 @@ export function spouseAddressDoesNotMatchVeterans(formData) {
  * @returns {Boolean} - true if viewfield is set to `false`
  */
 export function includeDependentInformation(formData) {
+  const hasMaxDependents = formData.dependents.length >= MAX_DEPENDENTS;
   return (
     includeHouseholdInformation(formData) &&
+    !hasMaxDependents &&
     !formData[DEPENDENT_VIEW_FIELDS.skip]
   );
 }

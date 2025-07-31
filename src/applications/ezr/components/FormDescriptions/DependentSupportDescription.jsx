@@ -2,8 +2,8 @@ import React from 'react';
 
 const DependentSupportDescription = (
   <>
-    <p className="usa-hint">
-      Next we’ll ask you questions about your dependent’s financial support.
+    <p>
+      Next, we’ll ask about any financial support you provide to your dependent.
     </p>
     <va-additional-info
       trigger="What we consider dependent financial support"
