@@ -88,6 +88,7 @@ const TernaryRadios = ({
           label={response}
           name="group"
           value={response}
+          tile
           uswds
         />
       );

@@ -12,10 +12,10 @@ export const SHORT_NAME_MAP = Object.freeze({
 export const RESPONSES = Object.freeze({
   BOARD: 'Board Appeal',
   HLR: 'Higher-Level Review decision',
-  INIT: 'Initial Claim',
+  INIT: 'Initial claim or claim for increase',
   IS: 'Initial/Supplemental Claim',
   NO: 'No',
-  SC: 'Supplemental Claim',
+  SC: 'Supplemental claim',
   YES: 'Yes',
 });
 
@@ -214,28 +214,17 @@ export const QUESTION_CONTENT = Object.freeze({
     ],
   },
   Q_2_0_CLAIM_TYPE: {
-    descriptionText: (
-      <>
-        <p>
-          You can find the type of claim on your decision letter or by checking
-          your My VA page.
-        </p>
-        <va-link
-          external
-          href="/claim-or-appeal-status"
-          text="Check Claim Status Tool"
-        />
-      </>
-    ),
     h1: `Claim type`,
     hintText: null,
-    questionText: `What type of claim is the one you want us to review?`,
+    questionText: `What type of claim decision is the one you want us to review?`,
     responses: [
-      { [INIT]: `You used VA Form 21-526EZ to apply for a new benefit` },
-      { [SC]: `You submitted new evidence after a previous decision` },
-      { [HLR]: `A senior reviewer reviewed your previous claim` },
       {
-        [BOARD]: `A Veterans Law Judge at the Board of Veterans’ Appeals reviewed your claim`,
+        [INIT]: `I filed a disability claim using VA Form 21-526EZ for a new condition or to increase my disability rating for a condition that got worse`,
+      },
+      { [SC]: `I submitted new evidence after a previous decision` },
+      { [HLR]: `A senior reviewer reviewed my previous claim decision` },
+      {
+        [BOARD]: `A Veterans Law Judge at the Board of Veterans’ Appeals reviewed my case`,
       },
     ],
   },
@@ -244,7 +233,7 @@ export const QUESTION_CONTENT = Object.freeze({
       <>
         <p>
           A service-connected condition is a disability or illness that was
-          caused or made worse by your military service. This could mean:
+          caused—or made worse—by your military service. This could mean:
         </p>
         <ul>
           <li>
@@ -267,12 +256,12 @@ export const QUESTION_CONTENT = Object.freeze({
         />
       </>
     ),
-    h1: `Did VA decide that this condition is service-connected?`,
+    h1: `Did VA decide that your condition is service connected?`,
     hintText: null,
-    questionText: `Did VA decide that this condition is service-connected?`,
+    questionText: `Did VA decide that your condition is service connected?`,
     responses: [
-      { [YES]: `VA decided this condition is service-connected` },
-      { [NO]: `VA denied service connection for this condition` },
+      { [YES]: `VA said my condition is service connected` },
+      { [NO]: `VA said my condition isn’t service connected` },
     ],
   },
   Q_2_IS_1A_LAW_POLICY_CHANGE: {
