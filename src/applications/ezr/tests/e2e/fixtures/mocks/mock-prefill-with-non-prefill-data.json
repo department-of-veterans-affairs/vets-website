@@ -26,35 +26,6 @@
       "first": "Mary",
       "last": "Bishop"
     },
-    "dependents": [{
-      "fullName": {
-        "first": "John",
-        "middle": "Sam",
-        "last": "Doe"
-      },
-      "dependentRelation":"Son",
-      "socialSecurityNumber":"187982837",
-      "dateOfBirth":"1990-01-01",
-      "becameDependent":"1990-01-01",
-      "disabledBefore":false,
-      "cohabitedLastYear":false,
-      "view:dependentIncome":false,
-      "receivedSupportLastYear":false
-    },{
-      "fullName": {
-        "first": "John",
-        "middle": "Sam",
-        "last": "Doe"
-      },
-      "dependentRelation":"Son",
-      "socialSecurityNumber":"187982837",
-      "dateOfBirth":"1990-01-01",
-      "becameDependent":"1990-01-01",
-      "disabledBefore":false,
-      "cohabitedLastYear":false,
-      "view:dependentIncome":false,
-      "receivedSupportLastYear":false
-    }],
     "providers": [
       {
         "insuranceName": "Big Insurance Co",
@@ -73,7 +44,7 @@
     "spouseDateOfBirth": "1971-09-11",
     "dateOfMarriage": "1995-02-22",
     "cohabitedLastYear": true,
-    "maritalStatus": "Never Married",
+    "maritalStatus": "Married",
     "nonPrefill": {
       "previousFinancialInfo": {
         "veteranFinancialInfo": {
