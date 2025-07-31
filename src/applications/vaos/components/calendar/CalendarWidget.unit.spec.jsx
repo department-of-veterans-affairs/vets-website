@@ -30,20 +30,12 @@ describe('VAOS Component: CalendarWidget', () => {
     const slot2 = addMinutes(nowUTC, 120);
     const availableSlots = [
       {
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
         start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeLocal),
-        end: formatInTimeZone(
-          addMinutes(nowUTC, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeLocal,
-        ),
       },
       {
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
         start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeLocal),
-        end: formatInTimeZone(
-          addMinutes(slot2, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeLocal,
-        ),
       },
     ];
     const startMonth = nowUTC;
@@ -140,12 +132,8 @@ describe('VAOS Component: CalendarWidget', () => {
     nowUTC.setHours(12, 0, 0, 0);
     const availableSlots = [
       {
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
         start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        end: formatInTimeZone(
-          addMinutes(nowUTC, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
       },
     ];
     const startMonth = nowUTC;
@@ -232,20 +220,12 @@ describe('VAOS Component: CalendarWidget', () => {
     const slot2 = addDays(nowUTC, 1);
     const availableSlots = [
       {
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
         start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        end: formatInTimeZone(
-          addMinutes(nowUTC, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
       },
       {
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
         start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        end: formatInTimeZone(
-          addMinutes(slot2, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
       },
     ];
     const startMonth = nowUTC;
@@ -341,11 +321,7 @@ describe('VAOS Component: CalendarWidget', () => {
     const availableSlots = [
       {
         start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        end: formatInTimeZone(
-          addMinutes(nowUTC, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
       },
       {
         start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeUTC),
