@@ -1,5 +1,12 @@
 .remove-bullets {
   list-style: none;
   padding-left: 0;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+.review-row {
+  dd {
+    word-break: break-word;
+    overflow-wrap: anywhere; /* newer browsers */
+  }
 }

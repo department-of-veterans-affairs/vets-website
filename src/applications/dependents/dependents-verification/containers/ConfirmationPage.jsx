@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
@@ -6,6 +6,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { selectProfile } from 'platform/user/selectors';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import { getFullName } from '../../shared/utils';
 
@@ -15,6 +16,10 @@ export const ConfirmationPage = props => {
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || Date.now();
   const confirmationNumber = submission?.response?.confirmationNumber || '';
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
 
   const alertContent = (
     <>
@@ -71,6 +76,11 @@ export const ConfirmationPage = props => {
       </va-summary-box>
       <ConfirmationView.WhatsNextProcessList item1Content={step1Content} />
       <ConfirmationView.HowToContact />
+      <p>
+        <strong>If you don’t hear back from us about your claim,</strong> don’t
+        file another claim. Contact us online or call us instead.
+      </p>
+
       <ConfirmationView.GoBackLink text="Go back to VA.gov" />
 
       <va-need-help class="vads-u-margin-y--6">

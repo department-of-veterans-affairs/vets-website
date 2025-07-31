@@ -111,13 +111,15 @@ export const householdChildInfoPage = {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
     },
-    birthDate: {
-      ...currentOrPastDateUI('Child’s date of birth'),
-      'ui:required': () => true,
-    },
+    birthDate: currentOrPastDateUI({
+      title: 'Child’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'ssn', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
@@ -139,6 +141,7 @@ export const veteranSupportsChildPage = {
   },
   schema: {
     type: 'object',
+    required: ['supportingStepchild'],
     properties: {
       supportingStepchild: yesNoSchema,
     },
@@ -205,6 +208,7 @@ export const childAddressPage = {
     properties: {
       address: addressSchema(),
     },
+    required: ['address'],
   },
 };
 
@@ -223,5 +227,6 @@ export const parentOrGuardianPage = {
     properties: {
       whoDoesTheStepchildLiveWith: fullNameNoSuffixSchema,
     },
+    required: ['whoDoesTheStepchildLiveWith'],
   },
 };

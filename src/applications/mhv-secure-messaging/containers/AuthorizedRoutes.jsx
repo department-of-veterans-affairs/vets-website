@@ -1,10 +1,7 @@
 import React from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
-import pilotManifest from '../pilot/manifest.json';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 import Folders from './Folders';
@@ -18,6 +15,7 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
 import SelectHealthCareSystem from './SelectHealthCareSystem';
+import featureToggles from '../hooks/useFeatureToggles';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
 const AppRoute = ({ children, ...rest }) => {
@@ -37,19 +35,10 @@ const { Paths } = Constants;
 
 const AuthorizedRoutes = () => {
   const location = useLocation();
-  const isPilot = useSelector(state => state.sm.app.isPilot);
-
-  const cernerPilotSmFeatureFlag = useSelector(
-    state =>
-      state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
-  );
+  const { cernerPilotSmFeatureFlag } = featureToggles();
 
   if (location.pathname === `/`) {
-    const basePath = `${
-      cernerPilotSmFeatureFlag && isPilot
-        ? pilotManifest.rootUrl
-        : manifest.rootUrl
-    }${Paths.INBOX}`;
+    const basePath = `${manifest.rootUrl}${Paths.INBOX}`;
     window.location.replace(basePath);
     return <></>;
   }
@@ -99,7 +88,7 @@ const AuthorizedRoutes = () => {
           <EditContactList />
         </AppRoute>
 
-        {isPilot && (
+        {cernerPilotSmFeatureFlag && (
           <AppRoute
             exact
             path={`${Paths.COMPOSE}${Paths.START_MESSAGE}`}
@@ -108,7 +97,7 @@ const AuthorizedRoutes = () => {
             <Compose skipInterstitial />
           </AppRoute>
         )}
-        {isPilot && (
+        {cernerPilotSmFeatureFlag && (
           <AppRoute
             exact
             path={`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`}
@@ -117,12 +106,12 @@ const AuthorizedRoutes = () => {
             <SelectHealthCareSystem />
           </AppRoute>
         )}
-        {isPilot && (
+        {cernerPilotSmFeatureFlag && (
           <AppRoute exact path={Paths.COMPOSE} key="InterstitialPage">
             <InterstitialPage />
           </AppRoute>
         )}
-        {!isPilot && (
+        {!cernerPilotSmFeatureFlag && (
           <AppRoute exact path={Paths.COMPOSE} key="Compose">
             <Compose />
           </AppRoute>

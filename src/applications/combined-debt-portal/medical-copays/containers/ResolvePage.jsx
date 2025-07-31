@@ -15,8 +15,10 @@ const ResolvePage = ({ match }) => {
   const statements = combinedPortalData.mcp.statements ?? [];
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
   const title = `Copay bill for ${selectedCopay?.station.facilityName}`;
+
   const acctNum =
     selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
+  const amtDue = selectedCopay?.pHAmtDueOutput.replace(/&nbsp;/g, '');
 
   useHeaderPageTitle(title);
 
@@ -53,7 +55,11 @@ const ResolvePage = ({ match }) => {
           {title}
         </h1>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
-        <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
+        <HowToPay
+          acctNum={acctNum}
+          facility={selectedCopay?.station}
+          amtDue={amtDue}
+        />
         <FinancialHelp />
         <DisputeCharges />
         <va-need-help id="needHelp">

@@ -2,7 +2,8 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import { addDays, format, subDays } from 'date-fns';
+import { addDays, subDays } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import MockDate from 'mockdate';
 import React from 'react';
 import {
@@ -187,8 +188,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Upcoming Video Appointment At An ATLAS Location On ${format(
-              today,
+            `Upcoming Video Appointment At An ATLAS Location On ${formatInTimeZone(
+              responses[0].attributes.start,
+              'America/Denver',
               DATE_FORMATS.friendlyWeekdayDate,
             )} | Veterans Affairs`,
           );
@@ -221,8 +223,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Past Video Appointment At An ATLAS Location On ${format(
-              yesterday,
+            `Past Video Appointment At An ATLAS Location On ${formatInTimeZone(
+              responses[0].attributes.start,
+              'America/Denver',
               DATE_FORMATS.friendlyWeekdayDate,
             )} | Veterans Affairs`,
           );
@@ -255,8 +258,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Canceled Video Appointment At An ATLAS Location On ${format(
-              today,
+            `Canceled Video Appointment At An ATLAS Location On ${formatInTimeZone(
+              responses[0].attributes.start,
+              'America/Denver',
               DATE_FORMATS.friendlyWeekdayDate,
             )} | Veterans Affairs`,
           );
@@ -288,8 +292,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Upcoming Video Appointment On ${format(
-              today,
+            `Upcoming Video Appointment On ${formatInTimeZone(
+              responses[0].attributes.start,
+              'America/Denver',
               DATE_FORMATS.friendlyWeekdayDate,
             )} | Veterans Affairs`,
           );
@@ -322,8 +327,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Past Video Appointment On ${format(
-              yesterday,
+            `Past Video Appointment On ${formatInTimeZone(
+              responses[0].attributes.start,
+              'America/Denver',
               DATE_FORMATS.friendlyWeekdayDate,
             )} | Veterans Affairs`,
           );
@@ -356,8 +362,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Canceled Video Appointment On ${format(
-              today,
+            `Canceled Video Appointment On ${formatInTimeZone(
+              responses[0].attributes.start,
+              'America/Denver',
               DATE_FORMATS.friendlyWeekdayDate,
             )} | Veterans Affairs`,
           );
@@ -389,8 +396,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Upcoming Video Appointment At A VA Location On ${format(
-              today,
+            `Upcoming Video Appointment At A VA Location On ${formatInTimeZone(
+              responses[0].attributes.start,
+              'America/Denver',
               DATE_FORMATS.friendlyWeekdayDate,
             )} | Veterans Affairs`,
           );
@@ -423,8 +431,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Past Video Appointment At A VA Location On ${format(
-              yesterday,
+            `Past Video Appointment At A VA Location On ${formatInTimeZone(
+              responses[0].attributes.start,
+              'America/Denver',
               DATE_FORMATS.friendlyWeekdayDate,
             )} | Veterans Affairs`,
           );
@@ -457,8 +466,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         // Assert
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            `Canceled Video Appointment At A VA Location On ${format(
-              today,
+            `Canceled Video Appointment At A VA Location On ${formatInTimeZone(
+              responses[0].attributes.start,
+              'America/Denver',
               DATE_FORMATS.friendlyWeekdayDate,
             )} | Veterans Affairs`,
           );
@@ -493,8 +503,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
           // Assert
           await waitFor(() => {
             expect(global.document.title).to.equal(
-              `Canceled Phone Appointment On ${format(
-                yesterday,
+              `Canceled Phone Appointment On ${formatInTimeZone(
+                responses[0].attributes.start,
+                'America/Denver',
                 DATE_FORMATS.friendlyWeekdayDate,
               )} | Veterans Affairs`,
             );
@@ -527,8 +538,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
           // Assert
           await waitFor(() => {
             expect(global.document.title).to.equal(
-              `Canceled Community Care Appointment On ${format(
-                yesterday,
+              `Canceled Community Care Appointment On ${formatInTimeZone(
+                responses[0].attributes.start,
+                'America/Denver',
                 DATE_FORMATS.friendlyWeekdayDate,
               )} | Veterans Affairs`,
             );
@@ -561,7 +573,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         expect(
           screen.getByRole('heading', {
             level: 1,
-            name: 'We’re sorry. We’ve run into a problem',
+            name: 'We can’t access your appointment details right now',
           }),
         ).to.be.ok;
       });

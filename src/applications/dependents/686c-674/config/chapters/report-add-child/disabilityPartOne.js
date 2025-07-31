@@ -18,6 +18,7 @@ export const disabilityPartOne = {
   },
   schema: {
     type: 'object',
+    required: ['doesChildHaveDisability'],
     properties: {
       doesChildHaveDisability: yesNoSchema,
     },

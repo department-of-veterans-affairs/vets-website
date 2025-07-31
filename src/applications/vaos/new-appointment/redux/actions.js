@@ -2,12 +2,10 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import * as Sentry from '@sentry/browser';
 import { format } from 'date-fns-tz';
-import moment from 'moment';
 
 import {
   addDays,
-  addMinutes,
-  areIntervalsOverlapping,
+  differenceInDays,
   endOfMonth,
   isAfter,
   isDate,
@@ -17,14 +15,11 @@ import {
 } from 'date-fns';
 import {
   selectFeatureCommunityCare,
-  selectFeatureConvertSlotsToUtc,
   selectFeatureDirectScheduling,
-  selectFeatureFeSourceOfTruthModality,
-  selectFeatureFeSourceOfTruthTelehealth,
+  selectFeatureMentalHealthHistoryFiltering,
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
-  selectFeatureMentalHealthHistoryFiltering,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -49,7 +44,6 @@ import { getSlots } from '../../services/slot';
 import { getCommunityCareV2 } from '../../services/vaos/index';
 import { getPreciseLocation } from '../../utils/address';
 import {
-  APPOINTMENT_STATUS,
   DATE_FORMATS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
@@ -265,6 +259,7 @@ export function getPatientRelationships() {
     const typeOfCare = getTypeOfCare(newAppointment.data);
     const typeOfCareId = typeOfCare;
     const facilityId = newAppointment.data.vaFacility;
+    const hasAvailabilityBefore = addDays(new Date(), 395);
 
     dispatch({
       type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
@@ -274,6 +269,7 @@ export function getPatientRelationships() {
       patientProviderRelationships = await fetchPatientRelationships(
         facilityId,
         typeOfCareId,
+        hasAvailabilityBefore,
       );
     } catch (error) {
       dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
@@ -318,12 +314,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-      state,
-    );
-    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
-      state,
-    );
 
     // Retrieves flipper state for mental health history filtering
     // Only used in NON-Cerner checks
@@ -346,8 +336,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
             location,
             typeOfCare,
             directSchedulingEnabled,
-            useFeSourceOfTruthModality,
-            useFeSourceOfTruthTelehealth,
             isCerner: true,
           });
 
@@ -381,8 +369,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          useFeSourceOfTruthModality,
-          useFeSourceOfTruthTelehealth,
           usePastVisitMHFilter,
         });
 
@@ -642,7 +628,6 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
-    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUtc(state);
 
     let startDate = start;
     let endDate = end;
@@ -690,7 +675,6 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
-          convertToUtc: featureConvertSlotsToUTC,
         });
         const tomorrow = startOfDay(
           addDays(new Date(new Date().toISOString()), 1),
@@ -729,45 +713,11 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
   };
 }
 
-export function onCalendarChange(
-  selectedDates,
-  maxSelections,
-  upcomingAppointments,
-  availableSlots,
-) {
-  let isSame = false;
-  if (maxSelections === 1 && selectedDates?.length > 0 && availableSlots) {
-    const selectedSlot = availableSlots?.find(
-      slot => slot.start === selectedDates[0],
-    );
-    if (selectedSlot) {
-      const key = format(new Date(selectedSlot.start), DATE_FORMATS.yearMonth);
-      const appointments = upcomingAppointments[key];
-
-      isSame = appointments?.some(appointment => {
-        // Use UTC timestamps for conflict detection. This avoids timezone conversion issues.
-        const slotInterval = {
-          start: new Date(selectedSlot.start),
-          end: new Date(selectedSlot.end),
-        };
-        const appointmentStart = new Date(appointment.startUtc);
-        const appointmentInterval = {
-          start: appointmentStart,
-          end: addMinutes(appointmentStart, appointment.minutesDuration),
-        };
-
-        return (
-          appointment.status !== APPOINTMENT_STATUS.cancelled &&
-          areIntervalsOverlapping(slotInterval, appointmentInterval)
-        );
-      });
-    }
-  }
-
+export function onCalendarChange(selectedDates, hasConflict = false) {
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
     selectedDates,
-    isAppointmentSelectionError: isSame,
+    isAppointmentSelectionError: hasConflict,
   };
 }
 
@@ -849,12 +799,6 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
-      state,
-    );
-    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
-      state,
-    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -880,8 +824,6 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
-          useFeSourceOfTruthModality,
-          useFeSourceOfTruthTelehealth,
         });
 
         dispatch({
@@ -921,11 +863,11 @@ export function submitAppointmentOrRequest(history) {
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
-      const today = moment().format('YYYYMMDD');
+      const today = new Date();
       const daysFromPreference = ['null', 'null', 'null'];
 
       const diffDays = Object.values(data.selectedDates).map(item =>
-        moment(item, 'YYYYMMDD').diff(today, 'days'),
+        differenceInDays(new Date(item), today),
       );
 
       // takes daysFromPreference array then replace those values from diffDays array
@@ -969,8 +911,6 @@ export function submitAppointmentOrRequest(history) {
 
         const requestData = await createAppointment({
           appointment: requestBody,
-          useFeSourceOfTruthModality,
-          useFeSourceOfTruthTelehealth,
         });
 
         dispatch({

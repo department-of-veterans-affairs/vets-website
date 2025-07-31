@@ -102,14 +102,20 @@ async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
  * @async
  * @param {TypeOfCare} params.typeOfCare Type of care object for which to check patient relationships
  * @param {string} params.facilityId of facility to check for relationships
+ * @param {Date} params.hasAvailabilityBefore A date object for determining how long into the future to look for appointment availability
  * @returns {Array<PatientProviderRelationship>} Returns an array of PatientProviderRelationship objects
  */
 
-export async function fetchPatientRelationships(facilityId, typeOfCare) {
+export async function fetchPatientRelationships(
+  facilityId,
+  typeOfCare,
+  hasAvailabilityBefore,
+) {
   try {
     const data = await getPatientRelationships({
       locationId: facilityId,
       typeOfCareId: typeOfCare.idV2,
+      hasAvailabilityBefore,
     });
 
     return transformPatientRelationships(data || []);
@@ -234,8 +240,6 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
-  useFeSourceOfTruthModality = false,
-  useFeSourceOfTruthTelehealth = false,
   usePastVisitMHFilter = false,
   isCerner = false,
 }) {
@@ -269,10 +273,9 @@ export async function fetchFlowEligibilityAndClinics({
       directTypeOfCareSettings.patientHistoryRequired === true;
 
     if (isDirectAppointmentHistoryRequired) {
-      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
-        useFeSourceOfTruthModality,
-        useFeSourceOfTruthTelehealth,
-      ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
+      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
+        createErrorHandler('direct-no-matching-past-clinics-error'),
+      );
     }
   }
 

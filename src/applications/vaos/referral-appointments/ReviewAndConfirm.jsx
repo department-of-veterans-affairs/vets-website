@@ -2,25 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   getAppointmentCreateStatus,
-  getDraftAppointmentInfo,
-  getSelectedSlot,
+  getSelectedSlotStartTime,
 } from './redux/selectors';
-import { FETCH_STATUS } from '../utils/constants';
 import {
-  createReferralAppointment,
-  createDraftReferralAppointment,
-  setFormCurrentPage,
-  setSelectedSlot,
-} from './redux/actions';
+  POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
+  POST_REFERRAL_REQUEST_CACHE,
+} from '../utils/constants';
+import { setFormCurrentPage, setSelectedSlotStartTime } from './redux/actions';
+import {
+  usePostDraftReferralAppointmentMutation,
+  usePostReferralAppointmentMutation,
+} from '../redux/api/vaosApi';
+
 import ReferralLayout from './components/ReferralLayout';
 import {
   routeToPreviousReferralPage,
   routeToCCPage,
   routeToNextReferralPage,
 } from './flow';
+
 import { getReferralSlotKey } from './utils/referrals';
 import { getSlotByDate } from './utils/provider';
 import { stripDST } from '../utils/timezone';
@@ -31,11 +34,19 @@ const ReviewAndConfirm = props => {
   const { attributes: currentReferral } = props.currentReferral;
   const dispatch = useDispatch();
   const history = useHistory();
-  const selectedSlot = useSelector(state => getSelectedSlot(state));
-  const { draftAppointmentInfo, draftAppointmentCreateStatus } = useSelector(
-    state => getDraftAppointmentInfo(state),
-    shallowEqual,
-  );
+  const selectedSlot = useSelector(state => getSelectedSlotStartTime(state));
+  const [
+    postDraftReferralAppointment,
+    {
+      data: draftAppointmentInfo,
+      isError: isDraftError,
+      isLoading: isDraftLoading,
+      isUninitialized: isDraftUninitialized,
+      isSuccess: isDraftSuccess,
+    },
+  ] = usePostDraftReferralAppointmentMutation({
+    fixedCacheKey: POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
+  });
 
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const [loading, setLoading] = useState(true);
@@ -49,7 +60,17 @@ const ReviewAndConfirm = props => {
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.uuid),
   );
-
+  const [
+    postReferralAppointment,
+    {
+      data: appointmentInfo,
+      isError: isAppointmentError,
+      isLoading: isAppointmentLoading,
+      isSuccess: isAppointmentSuccess,
+    },
+  ] = usePostReferralAppointmentMutation({
+    fixedCacheKey: POST_REFERRAL_REQUEST_CACHE,
+  });
   useEffect(
     () => {
       dispatch(setFormCurrentPage('reviewAndConfirm'));
@@ -67,27 +88,28 @@ const ReviewAndConfirm = props => {
 
   useEffect(
     () => {
-      if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-        dispatch(
-          createDraftReferralAppointment(currentReferral.referralNumber),
-        );
-      } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
+      if (isDraftUninitialized) {
+        postDraftReferralAppointment(currentReferral.referralNumber);
+      } else if (isDraftSuccess) {
         setLoading(false);
-      } else if (draftAppointmentCreateStatus === FETCH_STATUS.failed) {
+      } else if (isDraftError) {
         setLoading(false);
         setFailed(true);
       }
     },
-    [currentReferral.referralNumber, dispatch, draftAppointmentCreateStatus],
+    [
+      currentReferral.referralNumber,
+      dispatch,
+      isDraftError,
+      isDraftSuccess,
+      isDraftUninitialized,
+      postDraftReferralAppointment,
+    ],
   );
 
   useEffect(
     () => {
-      if (
-        !selectedSlot &&
-        savedSelectedSlot &&
-        draftAppointmentCreateStatus === FETCH_STATUS.succeeded
-      ) {
+      if (!selectedSlot && savedSelectedSlot && isDraftSuccess) {
         const savedSlot = getSlotByDate(
           draftAppointmentInfo?.attributes?.slots,
           savedSelectedSlot,
@@ -95,7 +117,7 @@ const ReviewAndConfirm = props => {
         if (!savedSlot) {
           routeToCCPage(history, 'scheduleReferral');
         } else {
-          dispatch(setSelectedSlot(savedSlot.start));
+          dispatch(setSelectedSlotStartTime(savedSlot.start));
         }
       }
     },
@@ -104,8 +126,8 @@ const ReviewAndConfirm = props => {
       savedSelectedSlot,
       draftAppointmentInfo,
       history,
-      draftAppointmentCreateStatus,
       selectedSlot,
+      isDraftSuccess,
     ],
   );
 
@@ -122,14 +144,11 @@ const ReviewAndConfirm = props => {
   // or show error message if the appointment creation failed
   useEffect(
     () => {
-      if (appointmentCreateStatus === FETCH_STATUS.loading) {
+      if (isAppointmentLoading) {
         setCreateLoading(true);
         setCreateFailed(false);
       }
-      if (
-        appointmentCreateStatus === FETCH_STATUS.succeeded &&
-        draftAppointmentInfo?.id
-      ) {
+      if (isAppointmentSuccess && draftAppointmentInfo?.id) {
         setCreateLoading(false);
         routeToNextReferralPage(
           history,
@@ -138,24 +157,28 @@ const ReviewAndConfirm = props => {
           draftAppointmentInfo.id,
         );
       } else if (
-        appointmentCreateStatus === FETCH_STATUS.failed &&
+        isAppointmentError &&
         draftAppointmentInfo?.id &&
-        draftAppointmentCreateStatus === FETCH_STATUS.succeeded
+        isDraftSuccess
       ) {
         setCreateLoading(false);
         setCreateFailed(true);
       }
     },
     [
+      isAppointmentSuccess,
+      isAppointmentLoading,
+      isAppointmentError,
       appointmentCreateStatus,
+      appointmentInfo?.id,
       draftAppointmentInfo?.id,
       currentReferral.uuid,
-      draftAppointmentCreateStatus,
+      isDraftSuccess,
       history,
     ],
   );
 
-  if (loading) {
+  if (loading || isDraftLoading) {
     return (
       <ReferralLayout
         hasEyebrow
@@ -177,6 +200,7 @@ const ReviewAndConfirm = props => {
     >
       <div>
         <hr className="vads-u-margin-y--2" />
+        {isAppointmentSuccess && <p data-testid="success-text">success</p>}
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
             <div className="vads-l-col">
@@ -271,17 +295,14 @@ const ReviewAndConfirm = props => {
             uswds
             onClick={e => {
               e.preventDefault();
-              dispatch(
-                createReferralAppointment({
-                  draftApppointmentId: draftAppointmentInfo.id,
-                  referralNumber: currentReferral.referralNumber,
-                  slotId: slotDetails.id,
-                  networkId:
-                    draftAppointmentInfo.attributes.provider.networkIds[0],
-                  providerServiceId:
-                    draftAppointmentInfo.attributes.provider.id,
-                }),
-              );
+              postReferralAppointment({
+                draftApppointmentId: draftAppointmentInfo.id,
+                referralNumber: currentReferral.referralNumber,
+                slotId: slotDetails.id,
+                networkId:
+                  draftAppointmentInfo.attributes.provider.networkIds[0],
+                providerServiceId: draftAppointmentInfo.attributes.provider.id,
+              });
             }}
           />
         </div>

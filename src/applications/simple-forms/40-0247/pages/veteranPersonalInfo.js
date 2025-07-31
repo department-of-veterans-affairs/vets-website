@@ -7,24 +7,34 @@ import {
   fullNameNoSuffixUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import environment from 'platform/utilities/environment';
 
 import { dateOfDeathValidation } from '../helpers';
 
 /** @type {PageSchema} */
+const dateOfBirthUISchema = {
+  ...dateOfBirthUI(),
+  'ui:options': {
+    ...dateOfBirthUI()['ui:options'],
+    customYearErrorMessage: `Please enter a year between 1900 and ${new Date().getFullYear()}`,
+  },
+};
+
+const dateOfDeathUISchema = {
+  ...dateOfDeathUI(),
+  'ui:options': {
+    ...dateOfDeathUI()['ui:options'],
+    customYearErrorMessage: `Please enter a year between 1900 and ${new Date().getFullYear()}`,
+  },
+};
 export default {
   uiSchema: {
-    ...(environment.isProduction()
-      ? titleUI(
-          'Tell us who you’re requesting a Presidential Memorial Certificate for',
-        )
-      : titleUI(
-          'Veteran or Reservist’s details',
-          'Tell us who you’re requesting a Presidential Memorial Certificate for.',
-        )),
+    ...titleUI(
+      'Veteran or Reservist’s details',
+      'Tell us who you’re requesting a Presidential Memorial Certificate for.',
+    ),
     veteranFullName: fullNameNoSuffixUI(),
-    veteranDateOfBirth: dateOfBirthUI(),
-    veteranDateOfDeath: dateOfDeathUI(),
+    veteranDateOfBirth: dateOfBirthUISchema,
+    veteranDateOfDeath: dateOfDeathUISchema,
     // can't move this validation to Forms-Library web-component-patterns
     // since one pattern can't detect presence of the other
     'ui:validations': [dateOfDeathValidation],

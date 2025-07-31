@@ -47,7 +47,9 @@ export default function AccordionItem({
           className="usa-accordion-button vads-u-margin--0"
         >
           {isProductionOrTestProdEnv() ? (
-            <h5 className="section-button-span">{button}</h5>
+            <h3 className="section-button-span vads-u-font-size--h5">
+              {button}
+            </h3>
           ) : (
             <span className="section-button-span">{button}</span>
           )}

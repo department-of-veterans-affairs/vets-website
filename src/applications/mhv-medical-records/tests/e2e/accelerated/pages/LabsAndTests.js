@@ -61,6 +61,13 @@ class LabsAndTests {
     cy.get('[data-testid="lab-name"]').should('be.visible');
     cy.get('[data-testid="lab-name"]').contains(labName);
   };
+
+  loadVAPaginationNext = () => {
+    cy.get('va-pagination')
+      .shadow()
+      .find('[class="usa-pagination__link usa-pagination__next-page"]')
+      .click({ waitForAnimations: true });
+  };
 }
 
 export default new LabsAndTests();

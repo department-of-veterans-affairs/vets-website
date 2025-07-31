@@ -141,14 +141,9 @@ const editAddress = (labels, fields) => {
 };
 
 const updateWithoutChanges = () => {
-  cy.findByRole('button', { name: /^save$/i }).should(
-    'not.have.attr',
-    'disabled',
-  );
-  cy.findByRole('button', { name: /^save$/i }).click({
-    force: true,
-  });
-  cy.findByRole('button', { name: /^save$/i, timeout: 10 }).should('not.exist');
+  cy.findByTestId('save-edit-button').should('not.have.attr', 'disabled');
+  cy.findByTestId('save-edit-button').click({ force: true });
+  cy.findByTestId('save-edit-button', { timeout: 10000 }).should('not.exist');
 };
 
 const validateFocusedElement = element => {
@@ -166,8 +161,8 @@ const validateFocusedElement = element => {
 };
 
 class AddressPage {
-  loadPage = config => {
-    setUp(config);
+  loadPage = (config, toggles = {}) => {
+    setUp(config, toggles);
     Cypress.config({
       force: true,
       waitForAnimations: true,
@@ -301,7 +296,10 @@ class AddressPage {
   };
 
   editAddress = (labels, fields) => {
-    cy.findByText('Edit address').click();
+    cy.findByTestId('edit-address-button').click({
+      force: true,
+      waitForAnimations: true,
+    });
     this.confirmAddressFields(labels, fields);
     cy.findByTestId('save-edit-button').click({
       force: true,
@@ -314,16 +312,9 @@ class AddressPage {
   };
 
   updateWithoutChanges = () => {
-    cy.findByRole('button', { name: /^save$/i }).should(
-      'not.have.attr',
-      'disabled',
-    );
-    cy.findByRole('button', { name: /^save$/i }).click({
-      force: true,
-    });
-    cy.findByRole('button', { name: /^save$/i, timeout: 10 }).should(
-      'not.exist',
-    );
+    cy.findByTestId('save-edit-button').should('not.have.attr', 'disabled');
+    cy.findByTestId('save-edit-button').click({ force: true });
+    cy.findByTestId('save-edit-button', { timeout: 10000 }).should('not.exist');
   };
 
   validateFocusedElement = element => {

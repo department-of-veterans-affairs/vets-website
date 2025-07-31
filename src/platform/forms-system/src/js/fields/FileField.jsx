@@ -221,7 +221,6 @@ const FileField = props => {
   );
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
-  const [initialized, setInitialized] = useState(false);
   const [deletedFileAlerts, setDeletedFileAlerts] = useState(false);
 
   const previousValue = usePreviousValue(formData);
@@ -313,9 +312,6 @@ const FileField = props => {
         'vads-u-display--none',
         !checkUploadVisibility(),
       );
-      if (initialized && files.length !== prevFiles.length) {
-        focusAddAnotherButton();
-      }
 
       const hasUploading = files.some(file => file.uploading);
       const wasUploading = prevFiles.some(file => file.uploading);
@@ -343,7 +339,6 @@ const FileField = props => {
       if (newData.length !== files.length) {
         onChange(newData);
       }
-      setInitialized(true);
     },
     [files, onChange],
   );
@@ -392,7 +387,7 @@ const FileField = props => {
       }
 
       if (
-        currentFile.name?.endsWith('pdf') &&
+        currentFile.name?.toLowerCase().endsWith('pdf') &&
         !password &&
         checkResults.checkIsEncryptedPdf
       ) {
@@ -621,7 +616,7 @@ const FileField = props => {
                 const passwordInput = $(`[name="get_password_${index}"]`);
                 if (passwordInput) {
                   focusElement('input', {}, passwordInput?.shadowRoot);
-                  scrollTo(`get_password_${index}"]`);
+                  scrollTo(`get_password_${index}`);
                 }
               }, 100);
             }

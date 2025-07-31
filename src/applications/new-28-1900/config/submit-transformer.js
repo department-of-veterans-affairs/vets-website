@@ -7,7 +7,18 @@ export default function transformForSubmit(formConfig, form) {
     }),
   );
 
-  const { fullName, dob, ...otherFields } = baseData;
+  const normalizedData = Object.entries(baseData).reduce(
+    (acc, [key, value]) => {
+      acc[key] =
+        typeof value === 'string' && key.toLowerCase().includes('phone')
+          ? value.replace(/-/g, '')
+          : value;
+      return acc;
+    },
+    {},
+  );
+
+  const { fullName, dob, internationalPhone, ...otherFields } = normalizedData;
 
   const payload = {
     ...otherFields,
@@ -16,6 +27,14 @@ export default function transformForSubmit(formConfig, form) {
       dob,
     },
   };
+
+  if (internationalPhone.contact) {
+    payload.internationalPhone = `${internationalPhone.callingCode}${
+      internationalPhone.contact
+    }`;
+  }
+
+  delete payload.checkBoxGroup;
 
   return JSON.stringify({
     veteranReadinessEmploymentClaim: {

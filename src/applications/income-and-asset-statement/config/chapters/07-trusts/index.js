@@ -1,6 +1,6 @@
 import { trustPages } from './trustPages';
 
 export default {
-  title: 'Trusts information',
+  title: 'Trusts',
   pages: trustPages,
 };

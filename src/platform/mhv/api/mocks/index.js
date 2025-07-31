@@ -33,6 +33,7 @@ const healthConditions = require('./medical-records/health-conditions');
 const allergies = require('./medical-records/allergies');
 const acceleratedAllergies = require('./medical-records/allergies/full-example');
 const vaccines = require('./medical-records/vaccines');
+const acceleratedVaccines = require('./medical-records/vaccines/accelerated');
 const vitals = require('./medical-records/vitals');
 const downloads = require('./medical-records/downloads');
 
@@ -72,11 +73,10 @@ const responses = {
   ...commonResponses,
   'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
-    mhvMedicationsToVaGovRelease: true,
-    mhvMedicationsDisplayRefillContent: true,
     mhvAcceleratedDeliveryEnabled: true,
     mhvAcceleratedDeliveryAllergiesEnabled: true,
     mhvAcceleratedDeliveryVitalSignsEnabled: true,
+    mhvAcceleratedDeliveryVaccinesEnabled: true,
     mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
   }),
 
@@ -162,7 +162,7 @@ const responses = {
   'GET /my_health/v1/medical_records/labs_and_tests': labsAndTests.all,
   'GET /my_health/v1/medical_records/labs_and_tests/:id': labsAndTests.single,
   'GET /my_health/v2/medical_records/labs_and_tests':
-    acceleratedLabsAndTests.sample,
+    acceleratedLabsAndTests.staging,
   'GET /my_health/v1/medical_records/radiology': mhvRadiology.empty,
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
@@ -186,7 +186,10 @@ const responses = {
     return allergies.single(req, res);
   },
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
+  'GET /my_health/v2/medical_records/immunizations': acceleratedVaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
+  'GET /my_health/v2/medical_records/immunizations/:id':
+    acceleratedVaccines.single,
   'GET /my_health/v1/medical_records/ccd/generate': downloads.generateCCD,
   'GET /my_health/v1/medical_records/ccd/download': downloads.downloadCCD,
   'GET /my_health/v1/medical_records/vitals': (req, res) => {
@@ -262,6 +265,22 @@ const responses = {
   'GET /my_health/v1/tooltips': (_req, res) => {
     return res.json(getMockTooltips());
   },
+
+  'POST /my_health/v1/aal': (_req, res) => {
+    return res.json({
+      aal: {
+        activityType: 'Medical Records Activity',
+        action: 'View',
+        performerType: 'Self',
+        detailValue: null,
+        status: 1,
+      },
+      product: 'mr',
+      oncePerSession: true,
+    });
+  },
+
+  'POST /v0/datadog_action': {},
 };
 
 module.exports = delay(responses, 750);

@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 131,
+  "totalApplications": 134,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -44,6 +44,12 @@
       "appName": "Request for Higher-Level Review",
       "entryName": "0996-higher-level-review",
       "rootUrl": "/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996"
+    },
+    {
+      "directoryPath": "src/applications/appeals/onramp",
+      "appName": "Decision Reviews Onramp Tool",
+      "entryName": "onramp",
+      "rootUrl": "/decision-reviews/onramp-to-dr"
     },
     {
       "directoryPath": "src/applications/appeals/testing/download",
@@ -250,10 +256,16 @@
       "rootUrl": "/education/other-va-education-benefits/ibm-skillsbuild-program/apply-form-22-10282"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/10297",
+      "appName": "10297",
+      "entryName": "10297-edu-benefits",
+      "rootUrl": "/education/other-va-education-benefits/high-technology-program/apply-for-high-technology-program-form-22-10297"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/1919",
       "appName": "Conflicting Interests Certification For Proprietary Schools",
       "entryName": "1919-edu-benefits",
-      "rootUrl": "/education/apply-for-education-benefits/application/1919"
+      "rootUrl": "/school-administrators/report-conflicting-interests"
     },
     {
       "directoryPath": "src/applications/edu-benefits/1995",
@@ -265,7 +277,7 @@
       "directoryPath": "src/applications/edu-benefits/8794",
       "appName": "Designation Of Certifying Official(S)",
       "entryName": "8794-edu-benefits",
-      "rootUrl": "/education/apply-for-education-benefits/application/8794"
+      "rootUrl": "/school-administrators/update-certifying-officials"
     },
     {
       "directoryPath": "src/applications/edu-benefits/feedback-tool",
@@ -470,6 +482,12 @@
       "appName": "New 28-1900 Veteran Readiness",
       "entryName": "new-28-1900-chapter-31",
       "rootUrl": "/temporary/apply-vre-form-28-1900"
+    },
+    {
+      "directoryPath": "src/applications/new-chapter-36-form",
+      "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
+      "entryName": "new-chapter-36-form",
+      "rootUrl": "/temporary/apply-career-guidance-form-27-8832"
     },
     {
       "directoryPath": "src/applications/office-directory",
@@ -743,7 +761,7 @@
     },
     {
       "directoryPath": "src/applications/vaos",
-      "appName": "VA Online Scheduling",
+      "appName": "Appointments",
       "entryName": "vaos",
       "rootUrl": "/my-health/appointments"
     },

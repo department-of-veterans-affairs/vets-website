@@ -22,15 +22,14 @@ import NeedHelp from '../components/NeedHelp';
 import { dependents } from './chapters/dependents/dependents';
 import { DependentsInformation } from '../components/DependentsInformation';
 import { DependentsInformationReview } from '../components/DependentsInformationReview';
-import { ExitPageComponent } from '../components/ExitPageComponent.jsx';
+import { submit } from '../util';
+import { ExitForm } from '../components/ExitForm';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit,
   trackingPrefix: '0538-dependents-verification-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -57,6 +56,9 @@ const formConfig = {
   prefillTransformer,
   verifyRequiredPrefill: true,
   formId: VA_FORM_IDS.FORM_21_0538,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -78,7 +80,7 @@ const formConfig = {
   additionalRoutes: [
     {
       path: 'exit-form',
-      component: ExitPageComponent,
+      component: ExitForm,
       pageKey: 'exitForm',
       depends: () => false,
     },
@@ -122,7 +124,7 @@ const formConfig = {
       pages: {
         dependents: {
           path: 'dependents',
-          title: 'Dependents on your VA benefits',
+          // title: 'Dependents on your VA benefits',
           CustomPage: DependentsInformation,
           CustomPageReview: DependentsInformationReview,
           uiSchema: dependents.uiSchema,

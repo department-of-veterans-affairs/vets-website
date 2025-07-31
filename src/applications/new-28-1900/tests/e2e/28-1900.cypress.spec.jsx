@@ -10,7 +10,6 @@ import minimalFlow from '../fixtures/data/minimalFlow.json';
 import maximalFlow from '../fixtures/data/maximalFlow.json';
 import militaryAddressFlow from '../fixtures/data/militaryAddressFlow.json';
 import { selectCheckboxWebComponent } from './utilities';
-import { normalizeFullName } from '../../utils';
 
 const testConfig = createTestConfig(
   {
@@ -25,11 +24,13 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
+          cy.injectAxeThenAxeCheck();
           cy.get('a.vads-c-action-link--green').click();
         });
       },
       'veteran-address': ({ afterHook }) => {
         afterHook(() => {
+          cy.injectAxeThenAxeCheck();
           cy.get('@testData').then(data => {
             if (data.checkBoxGroup?.checkForMailingAddress) {
               selectCheckboxWebComponent(
@@ -48,6 +49,7 @@ const testConfig = createTestConfig(
       },
       'new-address': ({ afterHook }) => {
         afterHook(() => {
+          cy.injectAxeThenAxeCheck();
           cy.get('@testData').then(data => {
             cy.fillAddressWebComponentPattern('newAddress', data.newAddress);
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -55,15 +57,10 @@ const testConfig = createTestConfig(
         });
       },
       'review-and-submit': () => {
-        cy.get('@testData').then(testData => {
-          cy.get('[data-testid="privacy-agreement-checkbox"]').then($el =>
-            cy.selectVaCheckbox($el, true),
-          );
-          cy.get('.signature-input').then($el => {
-            cy.fillVaTextInput($el, normalizeFullName(testData.fullName, true));
-          });
-          cy.get('.signature-checkbox').then($el =>
-            cy.selectVaCheckbox($el, true),
+        cy.injectAxeThenAxeCheck();
+        cy.get('@testData').then(data => {
+          cy.get('[id="checkbox"]').then($el =>
+            cy.selectVaCheckbox($el, data.privacyAgreementAccepted),
           );
         });
       },

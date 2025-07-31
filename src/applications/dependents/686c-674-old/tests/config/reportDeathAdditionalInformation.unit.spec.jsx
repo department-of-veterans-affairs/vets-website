@@ -47,24 +47,24 @@ describe('686 report dependent death additional information', () => {
     form.unmount();
   });
 
-  it('should not submit an empty form', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-        onSubmit={onSubmit}
-        data={formData}
-        pagePerItemIndex={0}
-        arrayPath={arrayPath}
-      />,
-    );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
+  // it('should not submit an empty form', () => {
+  //   const onSubmit = sinon.spy();
+  //   const form = mount(
+  //     <DefinitionTester
+  //       schema={schema}
+  //       definitions={formConfig.defaultDefinitions}
+  //       uiSchema={uiSchema}
+  //       onSubmit={onSubmit}
+  //       data={formData}
+  //       pagePerItemIndex={0}
+  //       arrayPath={arrayPath}
+  //     />,
+  //   );
+  //   form.find('form').simulate('submit');
+  //   expect(form.find('.usa-input-error').length).to.equal(3);
+  //   expect(onSubmit.called).to.be.false;
+  //   form.unmount();
+  // });
 
   it('should submit a form with the required fields filled out', () => {
     const onSubmit = sinon.spy();

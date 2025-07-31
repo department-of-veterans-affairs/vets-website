@@ -11,7 +11,7 @@ export const emptyObjectSchema = {
 
 const formNumber = getFormNumber();
 export const form686cBcList = [
-  { href: '/representative', label: 'Representative.va.gov home' },
+  { href: '/representative', label: 'VA.gov/representative home' },
   { href: '/representative/submissions', label: 'Submissions' },
   {
     href: `/representative/representative-form-upload/${formNumber}/introduction`,

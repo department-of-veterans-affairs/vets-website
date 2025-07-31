@@ -18,11 +18,11 @@ export const VeteranInformation = ({ formData }) => {
   return (
     <>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h3>We’ve prefilled some information for you</h3>
+        <h2>We’ve prefilled some information for you</h2>
         <p>
-          Since you’re signed in, we’ve prefilled part of your application based
-          on your profile details. You can also save your application in
-          progress and come back later to finish filling it out.
+          Since you’re signed in, we’ve prefilled part of your form based on
+          your profile details. You can also save your progress and come back
+          later to finish filling it out.
         </p>
       </va-alert>
       <h3>Your personal information</h3>
@@ -41,7 +41,7 @@ export const VeteranInformation = ({ formData }) => {
             </dt>
             <dd
               className="name dd-privacy-hidden"
-              data-dd-action-name="Veteran's name"
+              data-dd-action-name="Veteran’s name"
             >
               {getFullName(userFullName)}
             </dd>
@@ -53,7 +53,7 @@ export const VeteranInformation = ({ formData }) => {
               </dt>
               <dd
                 className="dd-privacy-mask"
-                data-dd-action-name="Veteran's SSN"
+                data-dd-action-name="Veteran’s SSN"
               >
                 {maskID(ssnLastFour, '')}
               </dd>
@@ -65,7 +65,7 @@ export const VeteranInformation = ({ formData }) => {
             </dt>
             <dd
               className="dob dd-privacy-mask"
-              data-dd-action-name="Veteran's date of birth"
+              data-dd-action-name="Veteran’s date of birth"
             >
               {dobDate}
             </dd>

@@ -11,15 +11,24 @@ import * as personalInformationActions from '@@vap-svc/actions/personalInformati
 // TODO: use setFetchJSONFailure to test network failure
 
 describe('actions/personalInformation', () => {
+  let sandbox;
   let actionCreator;
   let dispatch;
   let recordEventSpy;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   describe('fetchPersonalInformation SUCCESS', () => {
     beforeEach(() => {
       mockFetch();
 
-      recordEventSpy = sinon.spy();
+      recordEventSpy = sandbox.spy();
 
       setFetchJSONResponse(
         global.fetch.onFirstCall(),
@@ -30,7 +39,7 @@ describe('actions/personalInformation', () => {
         recordEventSpy,
       );
 
-      dispatch = sinon.spy();
+      dispatch = sandbox.spy();
     });
 
     it('calls fetch to `GET profile/personal_information`', async () => {
@@ -60,9 +69,20 @@ describe('actions/personalInformation', () => {
         personalInformationActions.FETCH_PERSONAL_INFORMATION_SUCCESS,
       );
 
-      expect(dispatch.secondCall.args[0].personalInformation).to.deep.equal(
-        mockPersonalInfo.basicUserPersonalInfo.data.attributes,
-      );
+      const actualData = dispatch.secondCall.args[0].personalInformation;
+      const mockData = mockPersonalInfo.basicUserPersonalInfo.data.attributes;
+
+      // The action transforms genderIdentity.code from null to '' so we need to account for that
+      // @see src/platform/user/profile/vap-svc/actions/personalInformation.js:110-120
+      const expectedData = {
+        ...mockData,
+        genderIdentity: {
+          ...mockData.genderIdentity,
+          code: '',
+        },
+      };
+
+      expect(actualData).to.deep.equal(expectedData);
     });
 
     it('reports success to platform/monitoring/recordEvent', async () => {
@@ -86,7 +106,7 @@ describe('actions/personalInformation', () => {
     beforeEach(() => {
       mockFetch();
 
-      recordEventSpy = sinon.spy();
+      recordEventSpy = sandbox.spy();
 
       setFetchJSONResponse(
         global.fetch.onFirstCall(),
@@ -97,7 +117,7 @@ describe('actions/personalInformation', () => {
         recordEventSpy,
       );
 
-      dispatch = sinon.spy();
+      dispatch = sandbox.spy();
     });
 
     it('calls fetch to `GET profile/personal_information`', async () => {
@@ -150,7 +170,7 @@ describe('actions/personalInformation', () => {
       beforeEach(() => {
         mockFetch();
 
-        recordEventSpy = sinon.spy();
+        recordEventSpy = sandbox.spy();
 
         setFetchJSONResponse(
           global.fetch.onFirstCall(),
@@ -166,7 +186,7 @@ describe('actions/personalInformation', () => {
           value: { preferredName: 'George' },
           recordAnalyticsEvent: recordEventSpy,
         });
-        dispatch = sinon.spy();
+        dispatch = sandbox.spy();
       });
 
       it('calls fetch to `PUT profile/preferred_names`', async () => {
@@ -254,7 +274,7 @@ describe('actions/personalInformation', () => {
       beforeEach(() => {
         mockFetch();
 
-        recordEventSpy = sinon.spy();
+        recordEventSpy = sandbox.spy();
 
         setFetchJSONResponse(
           global.fetch.onFirstCall(),
@@ -270,7 +290,7 @@ describe('actions/personalInformation', () => {
           value: { preferredName: 'George' },
           recordAnalyticsEvent: recordEventSpy,
         });
-        dispatch = sinon.spy();
+        dispatch = sandbox.spy();
       });
 
       it('calls fetch to `PUT profile/preferred_names`', async () => {

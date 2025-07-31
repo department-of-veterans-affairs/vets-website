@@ -29,13 +29,14 @@
 }
 //overriding default classes set at the forms level to match figma
 .form-686c {
-  .columns {
+  .usa-width-two-thirds {
     max-width: 627px;
+    padding: 0;
+    margin: 0 0.5859375rem;
   }
-  va-alert {
-    max-width: 608px;
+  va-alert[visible="false"] {
+    margin: 0;
   }
-
   .small-6.medium-5 {
     width: unset;
     padding-right: 0;
@@ -55,10 +56,6 @@
   fieldset.vads-u-margin-y--2.rjsf-object-field {
     margin-top: 0 !important;
     margin-bottom: 8px !important;
-  }
-
-  form div fieldset.vads-u-margin-y--2.rjsf-object-field {
-    margin-top: 32px !important;
   }
   .schemaform-block-title.schemaform-block-subtitle {
     font-size: 1.25rem !important;
@@ -101,7 +98,7 @@
   }
   #root_supportingDocuments_add_label {
     margin: 0;
-    padding: 0;
+    padding: 0 0 40px;
   }
   .schemaform-file-upload {
     margin-top: 32px !important;
@@ -120,6 +117,26 @@
   }
   #root_supportingDocuments-label {
     font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 1.25rem !important;
+    strong {
+      font-weight: 700;
+    }
+  }
+  .schemaform-title {
+    margin-bottom: 32px;
+  }
+
+  .schemaform-block-title.schemaform-block-subtitle {
+    padding-top: 32px;
+  }
+
+  .schemaform-title > .schemaform-subtitle {
+    font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 20px;
+    line-height: 34px;
+  }
+  &__alert {
+    margin-bottom: 32px;
   }
 
   @media screen and (min-width: 768px) {
@@ -127,10 +144,46 @@
       max-width: unset;
     }
   }
+  .schemaform-title>.schemaform-subtitle {
+    font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 1.25rem !important;
+  }
+  dl.review {
+    border-bottom: none;
+  }
+  va-accordion > va-accordion-item:last-child {
+    .form-review-panel-page > div {
+      border-bottom: 1px solid var(--vads-color-base-light);
+      &:only-child {
+        border-bottom: none;
+      }
+    }
+  }
 
   va-link-action[href="/"] {
     display: none;
   }
+
+  .review .review-row {
+    padding: 20px 0 !important;
+  }
+
+  [name="uploadPageScrollElement"] {
+    display: none;
+  }
+  .rjsf {
+    div.vads-u-margin-y--2:first-child {
+      margin-top: 0 !important;
+      [id="root_view:claimantTitle__title"]  {
+        padding: 0;
+      }
+    }
+  }
+
+  [id="root_view:veteranTitle__title"] {
+    padding-top: 32px;
+  }
+
 }
 .form-review-panel-page-representative-form-upload {
   margin-bottom: 0;
@@ -143,10 +196,4 @@
 
 .vads-u-margin-y--2.rjsf-object-field:has(> .veteran-note) {
   margin-top: 0 !important;
-}
-
-.form-review-panel-page {
-  va-button[text="Edit"] {
-    display: none;
-  }
 }

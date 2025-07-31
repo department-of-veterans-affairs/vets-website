@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { Provider } from 'react-redux';
@@ -41,7 +41,7 @@ const mockData = {
 describe('Additional certifying official training page', () => {
   const { schema, uiSchema } = additionalOfficialTraining;
 
-  it('Renders the page with the correct number of inputs', () => {
+  it('Renders the page with the correct number of inputs', async () => {
     const store = mockStore({ form: { data: mockData } });
     const { container, getByRole } = render(
       <Provider store={store}>
@@ -56,8 +56,12 @@ describe('Additional certifying official training page', () => {
 
     expect($$('va-memorable-date', container).length).to.equal(1);
     expect($$('va-checkbox', container).length).to.equal(1);
-    getByRole('button', { name: /submit/i }).click();
-    expect($$('va-memorable-date[error]', container).length).to.equal(1);
+
+    fireEvent.click(getByRole('button', { name: /submit/i }));
+
+    await waitFor(() => {
+      expect($$('va-memorable-date[error]', container).length).to.equal(1);
+    });
   });
   it('Renders the page with the correct required inputs when training exempt is false in adding mode', () => {
     const formData = {

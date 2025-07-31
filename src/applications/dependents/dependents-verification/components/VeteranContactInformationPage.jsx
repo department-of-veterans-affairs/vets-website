@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectUser } from '~/platform/user/selectors';
@@ -19,10 +19,17 @@ const VeteranContactInformationPage = ({
 }) => {
   const alertRef = useRef(null);
   const { profile } = useSelector(selectUser);
-  const { email, phone, address, internationalPhone } = data;
-
-  const { email: profileEmail, vapContactInfo } = profile || {};
   const {
+    email,
+    phone,
+    address,
+    internationalPhone,
+    electronicCorrespondence,
+  } = data;
+
+  const { vapContactInfo } = profile || {};
+  const {
+    email: profileEmail,
     mailingAddress: profileMailingAddress,
     homePhone: profileHomePhone,
     mobilePhone: profileMobilePhone,
@@ -30,8 +37,8 @@ const VeteranContactInformationPage = ({
 
   const [hasMissingEmail, setHasMissingEmail] = useState(null);
   const [hasMissingAddress, setHasMissingAddress] = useState(null);
-  const [prefillAlert, setPrefillAlert] = useState(null);
-  const [alert, setAlert] = useState(null);
+  const [showPrefillAlert, setShowPrefillAlert] = useState(null);
+  const [showAlert, setShowAlert] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   // Mobile > Home - see
   // https://www.figma.com/design/bvj72inycD0iZkuCbjYTWL/Dependent-Verification-MVP?node-id=3283-112583&t=AQOdcM9NR0aEb8CC-4
@@ -61,30 +68,24 @@ const VeteranContactInformationPage = ({
     profileInternationalPhone = convertPhoneObjectToString(profileMobilePhone);
   }
 
-  const checkErrors = () => {
-    // Show error alert if no email or mailing address
-    const missingEmail = !email;
-    setHasMissingEmail(missingEmail);
-    const missingAddress = !address?.street || !address?.city;
-    setHasMissingAddress(missingAddress);
-    if (missingEmail || missingAddress) {
-      const missingInfo = [
-        email ? '' : 'email address',
-        missingAddress ? 'mailing address' : '',
-      ].join(' and ');
-      setAlert(
-        <va-alert ref={alertRef} status="error" visible>
-          Your {missingInfo} is required before you continue. Provide a valid
-          {missingInfo}.
-        </va-alert>,
-      );
-      return true;
-    }
-    setHasMissingEmail(null);
-    setHasMissingAddress(null);
-    setAlert(null);
-    return false;
-  };
+  const checkErrors = useCallback(
+    () => {
+      // Show error alert if no email or mailing address
+      const missingEmail = !email;
+      setHasMissingEmail(missingEmail);
+      const missingAddress = !address?.street || !address?.city;
+      setHasMissingAddress(missingAddress);
+      if (missingEmail || missingAddress) {
+        setShowAlert(true);
+        return true;
+      }
+      setHasMissingEmail(null);
+      setHasMissingAddress(null);
+      setShowAlert(null);
+      return false;
+    },
+    [email, address],
+  );
 
   useEffect(() => {
     let newAddress = {};
@@ -106,7 +107,7 @@ const VeteranContactInformationPage = ({
     }
 
     updateContactInfo({
-      email: email || profileEmail || '',
+      email: email || profileEmail?.emailAddress || '',
       phone:
         phone ||
         convertPhoneObjectToString(profileHomePhone) ||
@@ -123,27 +124,14 @@ const VeteranContactInformationPage = ({
       // Show no email or mailing address prefill alert
       if (
         (!profileMailingAddress?.city && !address?.city) ||
-        (!email && !profileEmail)
+        (!email && !profileEmail?.emailAddress)
       ) {
-        const missingInfo = [
-          profileEmail ? '' : 'email address',
-          profileMailingAddress?.city ? '' : 'mailing address',
-        ].join(' and ');
-        const article = !email ? 'an' : 'a';
-
-        setPrefillAlert(
-          <va-alert status="warning" visible>
-            We could not prefill this form with your {missingInfo}. Provide{' '}
-            {article} {missingInfo}.
-          </va-alert>,
-        );
+        setShowPrefillAlert(true);
       } else {
-        setPrefillAlert(null);
+        setShowPrefillAlert(null);
       }
-
       checkErrors();
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [email, address, profileEmail, profileMailingAddress],
   );
 
@@ -152,7 +140,7 @@ const VeteranContactInformationPage = ({
       event.preventDefault();
       if (checkErrors()) {
         setSubmitted(true);
-        setPrefillAlert(null); // Hide prefill alert if there are errors
+        setShowPrefillAlert(null); // Hide prefill alert if there are errors
         setTimeout(() => {
           scrollAndFocus('va-alert[status="error"]');
         });
@@ -168,24 +156,51 @@ const VeteranContactInformationPage = ({
     },
   };
 
+  const alertMissingInfo = [
+    hasMissingEmail ? 'email' : '',
+    hasMissingAddress ? 'mailing' : '',
+  ]
+    .filter(Boolean)
+    .join(' and ');
+
+  const prefillMissingInfo = [
+    profileEmail?.emailAddress ? '' : 'email',
+    profileMailingAddress?.city ? '' : 'mailing',
+  ]
+    .filter(Boolean)
+    .join(' and ');
+  const article = !email ? 'an' : 'a';
+
+  const agreementMessage = electronicCorrespondence
+    ? 'I agree to receive electronic correspondence from the VA about my claim at this email address'
+    : 'I do not agree to receive electronic correspondence from the VA about my claim at this email address';
+
   return (
     <>
       <h3 className="vads-u-margin-y--2">
         Confirm the contact information we have on file for you
       </h3>
-      {prefillAlert}
-      {submitted && alert}
+      {!submitted && showPrefillAlert ? (
+        <va-alert status="warning" visible>
+          We could not prefill this form with your {prefillMissingInfo} address.
+          Provide {article} {prefillMissingInfo} address.
+        </va-alert>
+      ) : null}
+      {submitted && showAlert ? (
+        <va-alert ref={alertRef} status="error" visible>
+          Your {alertMissingInfo} address{' '}
+          {alertMissingInfo.includes(' and ') ? 'are' : 'is'} required before
+          you continue. Provide a valid {alertMissingInfo} address.
+        </va-alert>
+      ) : null}
       <p>
         If you notice any errors, correct them now.{' '}
-        <strong>
-          Any updates you make will change the information on this application
-          only
-        </strong>
-        . If you need to update your address with VA, go to your profile to make
-        any changes.
+        <strong>Changes made here apply only to this application.</strong> If
+        you want to update your contact information in our system, go to your VA
+        profile.
       </p>
       <va-link
-        text="Update your contact information in your profile"
+        text="Update your contact information in your VA profile"
         external
         href="/profile/contact-information"
       />
@@ -269,7 +284,18 @@ const VeteranContactInformationPage = ({
                 className="dd-privacy-hidden"
                 data-dd-action-name="Veteran's email"
               >
-                {email}
+                <div
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="Veteran's email"
+                >
+                  {email}
+                </div>
+                <div
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="Electronic correspondence"
+                >
+                  {agreementMessage}
+                </div>
               </span>
             ) : (
               <>
@@ -359,6 +385,7 @@ const VeteranContactInformationPage = ({
         goBack={goBack}
         goForward={handlers.onSubmit}
         submitToContinue
+        useWebComponents
       />
       {contentAfterButtons}
     </>
@@ -388,6 +415,7 @@ VeteranContactInformationPage.propTypes = {
       country: PropTypes.string,
     }),
     internationalPhone: PropTypes.string,
+    electronicCorrespondence: PropTypes.bool,
   }),
 };
 
