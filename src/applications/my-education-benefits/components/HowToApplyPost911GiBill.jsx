@@ -44,7 +44,7 @@ export const HowToApplyPost911GiBill = ({
           <br />
           <strong>Montgomery GI Bill® Active Duty</strong> (Chapter 30)
           <br />
-          <strong>Montgomery GI Bill® Selective Reserve</strong> (Chapter 1606)
+          <strong>Montgomery GI Bill® Selected Reserve</strong> (Chapter 1606)
           <br />
         </p>
       )}

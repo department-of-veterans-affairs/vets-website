@@ -50,7 +50,7 @@ const UnderReviewChapter1606 = ({
       <h2>What happens next?</h2>
       <ul>
         <li>
-          We’ll review your eligibility for the Montgomery GI Bill Selective
+          We’ll review your eligibility for the Montgomery GI Bill Selected
           Reserve (MGIB-SR).
         </li>
         <li>We may reach out with questions about your application.</li>
