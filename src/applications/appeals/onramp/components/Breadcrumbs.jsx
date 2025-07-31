@@ -14,7 +14,7 @@ const Breadcrumbs = () => {
         },
         {
           href: '/decision-reviews',
-          label: 'Decision Reviews',
+          label: 'Decision Review tool',
         },
         {
           href: '/onramp-to-dr',

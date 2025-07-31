@@ -79,7 +79,7 @@ const RadioQuestion = ({ shortName }) => {
   } else {
     radios = (
       <>
-        <h1>{h1}</h1>
+        <h1 className="vads-u-margin-bottom--3">{h1}</h1>
         <VaRadio
           class="vads-u-margin-top--0"
           data-testid={shortName}
