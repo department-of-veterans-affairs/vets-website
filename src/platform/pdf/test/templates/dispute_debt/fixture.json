@@ -2,19 +2,19 @@
   "selectedDebts": [
     {
       "label": "Education debt for period from January 1, 2020 to December 31, 2020",
-      "disputeReason": "I believe this debt is incorrect",
+      "disputeReason": "I don't think I owe this debt to VA",
       "supportStatement": "I was not enrolled in school during this period and should not have received these benefits.",
       "deductionCode": "41"
     },
     {
       "label": "Compensation and pension overpayment",
-      "disputeReason": "Medical records were not properly reviewed",
+      "disputeReason": "I don't think the amount is correct on this debt",
       "supportStatement": "My medical condition was misdiagnosed and the compensation amount should be higher.",
       "deductionCode": "30"
     }
   ],
   "submissionDetails": {
-    "submissionDateTime": "2024-01-15T14:30:00.000Z"
+    "submissionDateTime": "2025-07-31T17:28:07.551Z"
   },
   "veteran": {
     "dob": "1985-03-15",
