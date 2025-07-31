@@ -45,9 +45,11 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
           'usa-input-error-label': error,
         })}
       >
-        {!hasList
-          ? content['household-dependent-report-question']
-          : content['household-dependent-report-question-addtl']}
+        <h3 className="vads-u-color--gray-dark">
+          {!hasList
+            ? content['household-dependent-report-question']
+            : content['household-dependent-report-question-addtl']}
+        </h3>
         <span className="schemaform-required-span">
           {content['validation-required-label']}
         </span>
