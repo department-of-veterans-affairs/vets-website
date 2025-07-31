@@ -236,7 +236,7 @@ export const submissionForm = {
                             _owner: null,
                             _store: {},
                           },
-                          ' If you are eligible for both the Fry Scholarship and Survivors’ and Dependents’ Educational Assistance benefits, you’ll need to choose which one to use. Once you make this choice, you can’t switch to the other program.',
+                          ' If you are eligible for both the Fry Scholarship and Survivors’ and Dependents Educational Assistance benefits, you’ll need to choose which one to use. Once you make this choice, you can’t switch to the other program.',
                         ],
                       },
                       _owner: null,
@@ -449,7 +449,7 @@ export const submissionForm = {
                         className:
                           'vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2',
                         children:
-                          "Survivors' and Dependents' Educational Assistance",
+                          "Survivors' and Dependents Educational Assistance",
                       },
                       _owner: null,
                       _store: {},
@@ -626,7 +626,7 @@ export const submissionForm = {
             labels: {
               fry: 'Fry Scholarship (Chapter 33)',
               dea:
-                'Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)',
+                'Survivors’ and Dependents Educational Assistance (DEA, Chapter 35)',
             },
             widgetProps: {
               fry: {

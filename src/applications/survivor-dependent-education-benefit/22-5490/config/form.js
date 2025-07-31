@@ -164,7 +164,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-5490',
-  title: 'Survivors’ and Dependents’ Educational Assistance Benefits',
+  title: 'Survivors’ and Dependents Educational Assistance Benefits',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS  application (22-5490) is in progress.',
@@ -210,7 +210,7 @@ const formConfig = {
                     <h3>Choose the benefit you’d like to apply for:</h3>
                     <p>
                       <strong>Note:</strong> If you are eligible for both the
-                      Fry Scholarship and Survivors' and Dependents' Educational
+                      Fry Scholarship and Survivors' and Dependents Educational
                       Assistance benefits, you’ll need to choose which one to
                       use. Once you make this choice, you can’t switch to the
                       other program.
@@ -282,7 +282,7 @@ const formConfig = {
                       DEA, CHAPTER 35
                     </h5>
                     <h4 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
-                      Survivors' and Dependents' Educational Assistance
+                      Survivors' and Dependents Educational Assistance
                     </h4>
 
                     <h4 className="vads-u-font-size--h5 vads-u-margin-top--0 vads-u-margin-bottom--2">
@@ -342,7 +342,7 @@ const formConfig = {
                 labels: {
                   fry: 'Fry Scholarship (Chapter 33)',
                   dea:
-                    "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
+                    "Survivors' and Dependents Educational Assistance (DEA, Chapter 35)",
                 },
                 widgetProps: {
                   fry: { 'data-info': 'fry' },

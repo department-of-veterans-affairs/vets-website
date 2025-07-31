@@ -20,14 +20,14 @@ export const IntroductionPage = ({
     <article className="schemaform-intro">
       <FormTitle
         title="Apply for education benefits as an eligible dependent"
-        subTitle="Form 22-5490 (Dependent's Application for VA Education Benefits)"
+        subTitle="Form 22-5490 (Dependents Application for VA Education Benefits)"
       />
       <p>
         Use VA Form 22-5490 if you are a spouse or dependent applying for
         educational benefits under
         <strong>
           {' '}
-          Chapter 35 Survivors' and Dependents' Education Assistance (DEA){' '}
+          Chapter 35 Survivors' and Dependents Education Assistance (DEA){' '}
         </strong>{' '}
         or <strong>Chapter 33 Fry Scholarship.</strong>
       </p>
@@ -86,7 +86,7 @@ export const IntroductionPage = ({
             </ul>
           </va-additional-info>
 
-          <va-additional-info trigger="What are the Survivors' and Dependents' Educational Assistance (DEA, Chapter 35) eligibility requirements?">
+          <va-additional-info trigger="What are the Survivors' and Dependents Educational Assistance (DEA, Chapter 35) eligibility requirements?">
             <p>
               <strong>
                 You may be eligible to get these benefits if both you and the
