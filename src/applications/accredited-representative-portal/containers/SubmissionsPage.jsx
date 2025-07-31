@@ -77,19 +77,42 @@ const SubmissionsPage = title => {
             Start here to submit VA forms for your claimants.
           </p>
           <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
-            Submit a new Form 21-686c
+            Form 21-686c
           </h2>
           <p className="submissions__form-description vads-u-font-size--h4 vads-u-font-family--serif">
             Application Request to Add and/or Remove Dependents
           </p>
           <p className="submissions__subtext submissions__subtext">
-            Upload a completed Form 21-686c. VA Central Mail will process the
-            form after submission.
+            The form will be processed by VA Centralized Mail after you submit
+            it.
           </p>
           <va-link-action
             href="/representative/representative-form-upload/21-686c"
             text="Upload and submit VA Form 21-686c"
           />
+          <Toggler
+            toggleName={
+              Toggler.TOGGLE_NAMES.accreditedRepresentativePortalForm526ez
+            }
+          >
+            <Toggler.Enabled>
+              <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
+                Form 21-526EZ
+              </h2>
+              <p className="submissions__form-description vads-u-font-size--h4 vads-u-font-family--serif">
+                Application for Disability Compensation and Related Compensation
+                Benefits
+              </p>
+              <p className="submissions__subtext submissions__subtext">
+                The form will be processed by VA Centralized Mail after you
+                submit it.
+              </p>
+              <va-link-action
+                href="/representative/representative-form-upload/21-526EZ"
+                text="Upload and submit VA Form 21-526EZ"
+              />
+            </Toggler.Enabled>
+          </Toggler>
           <hr />
 
           <h2 className="submissions__search-header">Recent Submissions</h2>

@@ -86,5 +86,52 @@ describe('Accredited Representative Portal', () => {
       cy.contains('Anderson, Montgomery').should('be.visible');
       cy.contains('Fahey, Isias').should('be.visible');
     });
+
+    it('Allows the user to visit 686c form from Submissions', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get(
+        "va-link-action[href='/representative/representative-form-upload/21-686c']",
+      ).click();
+
+      cy.location('pathname').should(
+        'eq',
+        '/representative/representative-form-upload/21-686c/introduction',
+      );
+    });
+
+    context('526ez feature flag is off', () => {
+      it('does not allow the user to visit 526ez form from Submissions', () => {
+        cy.injectAxeThenAxeCheck();
+        cy.get('body').should('not.have.text', '526EZ');
+      });
+    });
+  });
+
+  context('526ez feature flag is on', () => {
+    beforeEach(() => {
+      setSubmissions();
+      cy.loginArpUser();
+      setUpInterceptsAndVisit(
+        {
+          isAppEnabled: true,
+          isInPilot: true,
+          isSubmissionsEnabled: true,
+          is526ezEnabled: true,
+        },
+        SUBMISSIONS_PAGE,
+      );
+    });
+
+    it('Allows the user to visit 526ez form from Submissions', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get(
+        "va-link-action[href='/representative/representative-form-upload/21-526EZ']",
+      ).click();
+
+      cy.location('pathname').should(
+        'eq',
+        '/representative/representative-form-upload/21-526ez/introduction',
+      );
+    });
   });
 });
