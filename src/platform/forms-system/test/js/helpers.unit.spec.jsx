@@ -1254,7 +1254,6 @@ describe('Schemaform helpers:', () => {
       expect(newPageList[0].path).to.equal('test');
     });
   });
-
   describe('formatReviewDate', () => {
     it('should format full date', () => {
       expect(formatReviewDate('2010-01-01')).to.equal('01/01/2010');
