@@ -15,6 +15,7 @@ import {
   inProgressMessage as getInProgressMessage,
 } from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
 import environment from 'platform/utilities/environment';
+import { getTimezoneAbbreviation } from '~/platform/utilities/date/index';
 import recordEvent from '~/platform/monitoring/record-event';
 
 import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
@@ -118,7 +119,7 @@ class SaveInProgressIntro extends React.Component {
 
         if (!isExpired) {
           const lastSavedDateTime =
-            savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa 'ET'");
+            savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa");
 
           const ContinueMsg = (
             <p>
@@ -133,7 +134,7 @@ class SaveInProgressIntro extends React.Component {
             <va-alert status="info" uswds visible>
               <Header slot="headline">
                 {inProgressMessage} {savedAt && 'and was last saved on '}
-                {lastSavedDateTime}
+                {lastSavedDateTime} {getTimezoneAbbreviation()}
               </Header>
               <div className="saved-form-metadata-container">
                 <div className="expires-container">

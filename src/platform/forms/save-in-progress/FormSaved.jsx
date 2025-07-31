@@ -8,6 +8,7 @@ import { format } from 'date-fns-tz';
 import { scrollToTop } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from '~/platform/utilities/ui';
 import { savedMessage } from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
+import { getTimezoneAbbreviation } from '~/platform/utilities/date/index';
 
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
@@ -65,7 +66,8 @@ const FormSaved = props => {
               <div className="saved-form-metadata-container">
                 <span className="saved-form-metadata">
                   We saved your application on{' '}
-                  {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa 'ET'")}.
+                  {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa ")}
+                  {getTimezoneAbbreviation()}.
                 </span>
                 {expirationMessage || (
                   <p className="expires-container">

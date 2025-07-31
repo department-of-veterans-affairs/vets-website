@@ -227,3 +227,18 @@ export const formatDowntime = (dateTime, dayPattern = 'd') => {
     { timeZone },
   );
 };
+
+/**
+ * Returns the timezone abbreviation based on the user's current timezone.
+ * @returns {string} The timezone abbreviation, e.g., 'ET', 'CT', 'MT', 'PT', or 'local time'.
+ */
+export const getTimezoneAbbreviation = () => {
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+  if (timeZone.includes('New_York') || timeZone.includes('Eastern'))
+    return 'ET';
+  if (timeZone.includes('Chicago') || timeZone.includes('Central')) return 'CT';
+  if (timeZone.includes('Denver') || timeZone.includes('Mountain')) return 'MT';
+  if (timeZone.includes('Los_Angeles') || timeZone.includes('Pacific'))
+    return 'PT';
+  return 'local time';
+};
