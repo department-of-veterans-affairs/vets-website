@@ -13,6 +13,7 @@ import {
   is5103Notice,
   getShowEightPhases,
   renderDefaultThirdPartyMessage,
+  getDisplayFriendlyName,
 } from '../../utils/helpers';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
@@ -72,7 +73,8 @@ export default function RecentActivity({ claim }) {
 
     trackedItems.forEach(item => {
       const updatedDisplayName = cstFriendlyEvidenceRequests
-        ? item.friendlyName || item.displayName
+        ? (item.friendlyName && getDisplayFriendlyName(item)) ||
+          item.displayName
         : item.displayName;
       const displayName =
         cst5103UpdateEnabled && is5103Notice(item.displayName)
