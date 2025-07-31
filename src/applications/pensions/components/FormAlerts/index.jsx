@@ -206,7 +206,7 @@ export const SchoolAttendanceAlert = () => (
 
 export const SpecialMonthlyPensionEvidenceAlert = () => (
   <RequestFormAlert
-    title="Examination for Household Status or Permanent
+    title="Examination for Housebound Status or Permanent
     Need for Regular Aid and Attendance"
     formName="VA Form 21-2680"
     formLink="https://www.va.gov/find-forms/about-form-21-2680/"
