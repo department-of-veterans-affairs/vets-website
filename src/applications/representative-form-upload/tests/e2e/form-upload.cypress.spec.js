@@ -79,6 +79,8 @@ describe('Representative Form Upload', () => {
         const flag = win.sessionStorage.getItem('formIncompleteARP');
         expect(flag).to.equal('true');
       });
+      cy.injectAxe();
+      cy.axeCheck();
     });
 
     it('allows veteran claimant submission', () => {
@@ -87,6 +89,8 @@ describe('Representative Form Upload', () => {
         'eq',
         '/representative/representative-form-upload/21-686c/introduction',
       );
+      cy.injectAxe();
+      cy.axeCheck();
     });
 
     ['21-686c', '21-526ez'].forEach(formId => {
@@ -130,7 +134,9 @@ describe('Representative Form Upload', () => {
           fillTextWebComponent('address_postalCode', data.address.postalCode);
           cy.get('input[name="root_veteranSsn"]').type(data.ssn);
 
-          cy.get('select[name="root_veteranDateOfBirthMonth"]').select('February');
+          cy.get('select[name="root_veteranDateOfBirthMonth"]').select(
+            'February',
+          );
           cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
           cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
           cy.axeCheck();
