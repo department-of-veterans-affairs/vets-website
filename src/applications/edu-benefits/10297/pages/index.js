@@ -1,3 +1,4 @@
+import eligibilityQuestions from './eligibilityQuestions';
 import * as applicantFullname from './applicantFullname';
 import * as mailingAddress from './mailingAddress';
 import * as phoneAndEmail from './phoneAndEmail';
@@ -11,6 +12,7 @@ import * as trainingProviderSummary from './trainingProviderSummary';
 import * as trainingProviderDetails from './trainingProviderDetails';
 
 export {
+  eligibilityQuestions,
   applicantFullname,
   mailingAddress,
   phoneAndEmail,
