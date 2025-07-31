@@ -520,7 +520,7 @@ export function getCalendarData({ appointment, facility }) {
       text: `A provider will call you at ${formatInTimeZone(
         appointment.start,
         appointment.timezone,
-        'h:mm aaa',
+        'h:mm aaaa',
       )}`,
       phone: getFacilityPhone(facility),
       additionalText: [signinText],
