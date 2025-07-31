@@ -88,10 +88,16 @@ export const reviewEntry = (description, key, uiSchema, label, data) => {
     );
   }
 
+  // WIP fix to resolve "Objects are not valid as a React child (found: object with keys {none})"
+  const displayData =
+    typeof data === 'object' && data !== null && !React.isValidElement(data)
+      ? JSON.stringify(data)
+      : data;
+
   return (
     <li key={keyString} className={className}>
       <div className="vads-u-color--gray">{label}</div>
-      <div>{data}</div>
+      <div>{displayData}</div>
     </li>
   );
 };
