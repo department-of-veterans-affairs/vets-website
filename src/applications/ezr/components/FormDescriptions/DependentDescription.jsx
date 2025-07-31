@@ -5,11 +5,11 @@ const DependentDescription = () => (
   <>
     <p>
       Next we’ll ask you questions about dependents. You can add up to{' '}
-      {MAX_DEPENDENTS} people as your dependent.
+      {MAX_DEPENDENTS} dependents.
     </p>
     <va-additional-info
       trigger="Who we consider a dependent"
-      class="vads-u-margin-bottom--4 hydrated"
+      class="hydrated"
       uswds
     >
       <div>
@@ -19,7 +19,8 @@ const DependentDescription = () => (
         <ul>
           <li>A spouse (we recognize same-sex and common-law marriages)</li>
           <li>
-            An unmarried child (including adopted children or stepchildren)
+            An unmarried child (including an adopted child or stepchild) who
+            meets the requirements listed here
           </li>
         </ul>
         <p>
