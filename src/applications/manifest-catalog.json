@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 133,
+  "totalApplications": 132,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -476,12 +476,6 @@
       "appName": "28-1900 Veteran Readiness",
       "entryName": "28-1900-chapter-31",
       "rootUrl": "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900"
-    },
-    {
-      "directoryPath": "src/applications/new-28-1900-bak",
-      "appName": "New 28-1900 Veteran Readiness",
-      "entryName": "28-1900-chapter-31",
-      "rootUrl": "/temporary/apply-vre-form-28-1900"
     },
     {
       "directoryPath": "src/applications/new-chapter-36-form",
