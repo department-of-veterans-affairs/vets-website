@@ -12,12 +12,35 @@ const {
 } = require('date-fns');
 const {
   getMockConfirmedAppointments,
+  findNextBusinessDay,
 } = require('./utils/confirmedAppointments');
+const { getMockSlots } = require('./utils/slots');
+
+// v2
 const ccProviders = require('./v2/cc_providers.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
-const appointmentSlotsV2 = require('./v2/slots.json');
+// Generate dynamic slots with conflicts based on confirmed appointments
+const confirmedAppointmentsv3 = getMockConfirmedAppointments();
+// Find appointments scheduled for the next business day to force conflicts
+const nextBusinessDay = findNextBusinessDay();
+const nextBusinessDayString = nextBusinessDay.toISOString().split('T')[0]; // Get YYYY-MM-DD format
+
+const nextBusinessDayAppointments = confirmedAppointmentsv3.data.filter(
+  appointment => {
+    const appointmentDate = appointment.attributes.start.split('T')[0];
+    return appointmentDate === nextBusinessDayString;
+  },
+);
+const appointmentSlotsV2 = getMockSlots({
+  existingAppointments: confirmedAppointmentsv3.data,
+  futureMonths: 6,
+  pastMonths: 1,
+  slotsPerDay: 10,
+  conflictRate: 0.4, // 40% of days with appointments will have conflicts
+  forceConflictWithAppointments: nextBusinessDayAppointments,
+});
 const clinicsV2 = require('./v2/clinics.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
 const recentLocations = require('./v2/recent_locations.json');
@@ -28,8 +51,6 @@ const vamcEhr = require('./v2/vamc_ehr.json');
 // confirmed_null_states.json
 // const confirmedV2 = require('./v2/confirmed.json');
 // const confirmedV2 = require('./v2/confirmed_null_states.json');
-
-const confirmedAppointmentsv3 = getMockConfirmedAppointments();
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of requests.json and uncomment the inclusion of
@@ -492,6 +513,17 @@ const responses = {
       3,
       referralNumber,
     );
+
+    if (referralNumber !== 'draft-no-slots-error') {
+      draftAppointment.attributes.slots = getMockSlots({
+        existingAppointments: confirmedAppointmentsv3.data,
+        futureMonths: 2,
+        pastMonths: 0,
+        slotsPerDay: 3,
+        conflictRate: 0,
+        forceConflictWithAppointments: nextBusinessDayAppointments,
+      }).data.map(slot => slot.attributes);
+    }
 
     return res.json({
       data: draftAppointment,

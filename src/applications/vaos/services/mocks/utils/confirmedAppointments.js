@@ -1,3 +1,21 @@
+/* eslint-disable no-plusplus */
+const { startOfDay } = require('date-fns');
+
+// Helper function to find the next business day (Monday-Friday)
+const findNextBusinessDay = (fromDate = new Date()) => {
+  const date = new Date(fromDate);
+
+  // Start from the next day
+  date.setDate(date.getDate() + 1);
+
+  // Keep advancing until we hit a weekday (Monday = 1, Friday = 5)
+  while (date.getDay() === 0 || date.getDay() === 6) {
+    date.setDate(date.getDate() + 1);
+  }
+
+  return date;
+};
+
 // Helper function to generate random IDs
 const generateRandomId = (prefix = '') => {
   const chars =
@@ -24,12 +42,15 @@ const generateRandomBusinessDate = monthsOffset => {
   // Random business hour (8 AM - 5 PM)
   const randomHour = Math.floor(Math.random() * 9) + 8;
 
+  // Random 15-minute interval (0, 15, 30, 45)
+  const randomMinuteInterval = Math.floor(Math.random() * 4) * 15;
+
   return new Date(
     targetMonth.getFullYear(),
     targetMonth.getMonth(),
     randomDay,
     randomHour,
-    0, // Minutes
+    randomMinuteInterval, // Minutes in 15-minute intervals
     0, // Seconds
   );
 };
@@ -582,6 +603,9 @@ const getMockConfirmedAppointments = (options = {}) => {
       'covid',
     ],
     locationId = '983',
+    requiredAppointmentDates = [
+      startOfDay(findNextBusinessDay()).toISOString(),
+    ],
   } = options;
 
   const appointments = [];
@@ -612,6 +636,31 @@ const getMockConfirmedAppointments = (options = {}) => {
     appointments.push(appointment);
   }
 
+  // Generate required appointments for specific dates
+  requiredAppointmentDates.forEach(dateString => {
+    const appointmentDate = new Date(dateString);
+
+    // Set to a business hour with 15-minute interval
+    const randomHour = Math.floor(Math.random() * 9) + 8; // 8 AM - 4 PM
+    const randomMinuteInterval = Math.floor(Math.random() * 4) * 15; // 0, 15, 30, 45
+    appointmentDate.setHours(randomHour, randomMinuteInterval, 0, 0);
+
+    // Randomly select appointment type and service type for required appointments
+    const appointmentType =
+      appointmentTypes[Math.floor(Math.random() * appointmentTypes.length)];
+    const serviceType =
+      requestedServiceTypes[
+        Math.floor(Math.random() * requestedServiceTypes.length)
+      ];
+
+    // Generate the required appointment using the appropriate template
+    const requiredAppointment = appointmentTemplates[
+      appointmentType
+    ].getTemplate(serviceType, appointmentDate, locationId);
+
+    appointments.push(requiredAppointment);
+  });
+
   // Sort appointments by date (past first, then future)
   appointments.sort((a, b) => {
     const dateA = new Date(a.attributes.start);
@@ -626,4 +675,5 @@ const getMockConfirmedAppointments = (options = {}) => {
 
 module.exports = {
   getMockConfirmedAppointments,
+  findNextBusinessDay,
 };
