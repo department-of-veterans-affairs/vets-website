@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { deleteInProgressForm } from '../util';
 
 export const form686Url = getAppUrl('686C-674');
 
@@ -16,7 +18,8 @@ export const ExitForm = ({ router }) => {
     goBack: () => {
       router.push('/dependents');
     },
-    goTo686: () => {
+    goTo686: async () => {
+      await deleteInProgressForm(VA_FORM_IDS.FORM_21_0538);
       window.location.assign(form686Url);
     },
   };
