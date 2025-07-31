@@ -1,64 +1,118 @@
-import path from 'path';
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import formConfig from '../../config/form';
-import manifest from '../../manifest.json';
-import user from './user.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
-Cypress.config('waitForAnimations', true);
+import mockUser from './user.json';
+import mockDependents from './fixtures/mocks/mock-dependents.json';
+import maximalTestData from './fixtures/data/maximal-test.json';
 
-const testConfig = createTestConfig(
-  {
-    dataPrefix: 'data',
-    dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['minimal-test'],
+const FORM_ID = '21-0538';
+const STOP_PAGE = getAppUrl('686C-674');
 
-    setupPerTest: () => {
-      cy.intercept('GET', '/v0/feature_toggles?*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: 'vaDependentsVerification',
-              value: true,
-            },
-          ],
+const cypressSetup = (user = mockUser) => {
+  Cypress.config('waitForAnimations', true);
+  Cypress.config('scrollBehavior', 'nearest');
+
+  cy.intercept('GET', '/v0/dependents_applications/show', mockDependents);
+  cy.intercept('GET', '/v0/feature_toggles?*', {
+    data: {
+      type: 'feature_toggles',
+      features: [{ name: 'vaDependentsVerification', value: true }],
+    },
+  });
+  cy.intercept('GET', '/v0/user', user);
+
+  cy.intercept('GET', `/v0/in_progress_forms/${FORM_ID}`, {
+    body: {
+      formData: maximalTestData,
+      metadata: {},
+    },
+  });
+
+  cy.intercept('POST', '/dependents_verification/v0/claims', {
+    statusCode: 200,
+    body: {
+      data: {
+        attributes: {
+          formSubmissionId: '123fake-submission-id-567',
+          timestamp: '2023-11-01',
         },
-      });
-      cy.intercept('GET', '/v0/user', user);
-      cy.intercept('POST', formConfig.submitUrl, { status: 200 });
-      cy.login(user);
-    },
-
-    pageHooks: {
-      introduction: ({ afterHook }) => {
-        afterHook(() => {
-          cy.clickStartForm();
-        });
-      },
-
-      'review-and-submit': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-text-input')
-            .shadow()
-            .find('input')
-            .type('John Doe');
-
-          cy.get('va-checkbox')
-            .shadow()
-            .find('input[type="checkbox"]')
-            .check({ force: true });
-
-          cy.clickFormContinue();
-        });
       },
     },
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
-  },
-  manifest,
-  formConfig,
-);
+  });
 
-testForm(testConfig);
+  cy.login(user);
+};
+
+describe('Dependents Verification 0538', () => {
+  it('should navigate through the form to the confirmation page', () => {
+    cypressSetup();
+
+    cy.visit('/view-change-dependents/verify-dependents-form-21-0538');
+    cy.injectAxeThenAxeCheck();
+
+    cy.url().should('include', '/introduction');
+    cy.clickStartForm();
+
+    cy.url().should('include', '/veteran-information');
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-alert[status="info"]').should(
+      'contain.text',
+      'we’ve prefilled part of your form',
+    );
+    cy.clickFormContinue();
+
+    cy.url().should('include', '/veteran-contact-information');
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-card').should('contain.text', 'Mailing address');
+    cy.clickFormContinue();
+
+    cy.url().should('include', '/dependents');
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-card').should('contain.text', 'SUE BROOKS');
+    // No updates needed
+    cy.get('va-radio-option[value="N"]').click();
+    cy.clickFormContinue();
+
+    cy.url().should('include', '/review-and-submit');
+    cy.injectAxeThenAxeCheck();
+    cy.clickFormContinue();
+
+    cy.url().should('include', '/confirmation');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('should navigate through the form to the exit page and then to 686c-674 intro page', () => {
+    cypressSetup();
+
+    cy.visit('/view-change-dependents/verify-dependents-form-21-0538');
+    cy.injectAxeThenAxeCheck();
+
+    cy.url().should('include', '/introduction');
+    cy.clickStartForm();
+
+    cy.url().should('include', '/veteran-information');
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-alert[status="info"]').should(
+      'contain.text',
+      'we’ve prefilled part of your form',
+    );
+    cy.clickFormContinue();
+
+    cy.url().should('include', '/veteran-contact-information');
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-card').should('contain.text', 'Mailing address');
+    cy.clickFormContinue();
+
+    cy.url().should('include', '/dependents');
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-card').should('contain.text', 'SUE BROOKS');
+    // Updates needed, go to exit page then to 686c-674 intro page
+    cy.get('va-radio-option[value="Y"]').click();
+    cy.clickFormContinue();
+
+    cy.url().should('include', '/exit-form');
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-button[continue]').click();
+
+    cy.location('pathname').should('eq', `${STOP_PAGE}/introduction`);
+  });
+});

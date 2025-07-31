@@ -31,13 +31,11 @@ describe('Medications <App>', () => {
       }),
     );
   };
-  const initialStateFeatureFlag = (loading = true, flag = true) => {
+  const initialStateFeatureFlag = (loading = true) => {
     return {
       initialState: {
         featureToggles: {
           loading,
-          // eslint-disable-next-line camelcase
-          mhv_medications_to_va_gov_release: flag,
         },
         user: {
           login: {
@@ -82,22 +80,12 @@ describe('Medications <App>', () => {
     expect(screenFeatureToggle.queryByText('unit test paragraph')).to.be.null;
   });
 
-  it('feature flag set to false', () => {
-    const screenFeatureToggle = renderWithStoreAndRouterV6(
-      <App>
-        <p data-testid="app-unit-test-p">unit test paragraph</p>
-      </App>,
-      initialStateFeatureFlag(false, false),
-    );
-    expect(screenFeatureToggle.queryByText('unit test paragraph')).to.be.null;
-  });
-
   it('feature flag set to true', async () => {
     const screenFeatureToggle = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
-      initialStateFeatureFlag(false, true),
+      initialStateFeatureFlag(false),
     );
     await waitFor(() => {
       expect(screenFeatureToggle.getByText('unit test paragraph')).to.exist;
@@ -113,8 +101,6 @@ describe('Medications <App>', () => {
         initialState: {
           featureToggles: {
             loading: false,
-            // eslint-disable-next-line camelcase
-            mhv_medications_to_va_gov_release: true,
           },
           user: {
             login: {
@@ -159,8 +145,6 @@ describe('Medications <App>', () => {
         initialState: {
           featureToggles: {
             loading: false,
-            // eslint-disable-next-line camelcase
-            mhv_medications_to_va_gov_release: true,
           },
           user: {
             login: {
@@ -206,8 +190,6 @@ describe('Medications <App>', () => {
           featureToggles: {
             loading: false,
             // eslint-disable-next-line camelcase
-            mhv_medications_to_va_gov_release: true,
-            // eslint-disable-next-line camelcase
             mhv_bypass_downtime_notification: true,
           },
           user: {
@@ -247,8 +229,6 @@ describe('Medications <App>', () => {
         initialState: {
           featureToggles: {
             loading: false,
-            // eslint-disable-next-line camelcase
-            mhv_medications_to_va_gov_release: true,
           },
           user: {
             login: {
@@ -293,8 +273,6 @@ describe('Medications <App>', () => {
         initialState: {
           featureToggles: {
             loading: false,
-            // eslint-disable-next-line camelcase
-            mhv_medications_to_va_gov_release: true,
           },
           user: {
             login: {
@@ -339,8 +317,6 @@ describe('Medications <App>', () => {
         initialState: {
           featureToggles: {
             loading: false,
-            // eslint-disable-next-line camelcase
-            mhv_medications_to_va_gov_release: true,
           },
           user: {
             login: {
@@ -383,8 +359,6 @@ describe('Medications <App>', () => {
         initialState: {
           featureToggles: {
             loading: false,
-            // eslint-disable-next-line camelcase
-            mhv_medications_to_va_gov_release: true,
           },
           user: {
             login: {
