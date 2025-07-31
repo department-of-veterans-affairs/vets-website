@@ -12,7 +12,7 @@ import {
 export default {
   uiSchema: {
     ...titleUI(
-      "Answer the questions below to check if you're eligible for this program",
+      'Answer these questions to see if you may be eligible for the program',
     ),
     dutyRequirement: radioUI({
       title: 'Which of these statements applies to you?',
