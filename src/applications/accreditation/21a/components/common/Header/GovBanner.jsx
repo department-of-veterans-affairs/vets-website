@@ -69,13 +69,13 @@ export const GovBanner = () => {
           className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--1p5 vads-u-padding-y--2"
           id="official-govt-site-explanation"
         >
-          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-start">
+          <div className="usa-media-block">
             <img
               alt="Dot gov"
-              className="usa-banner-icon usa-media_block-img"
+              className="usa-banner-icon usa-media-block__img"
               src="https://www.va.gov/img/icon-dot-gov.svg"
             />
-            <p className="vads-u-margin-top--0">
+            <p className="usa-media-block__body">
               <strong>The .gov means it’s official.</strong>
               <br />
               Federal government websites often end in .gov or .mil. Before
@@ -83,13 +83,13 @@ export const GovBanner = () => {
               government site.
             </p>
           </div>
-          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-start vads-u-margin-top--2">
+          <div className="usa-media-block vads-u-margin-top--2">
             <img
               alt="SSL"
-              className="usa-banner-icon usa-media_block-img"
+              className="usa-banner-icon usa-media-block__img"
               src="https://www.va.gov/img/icon-https.svg"
             />
-            <p className="vads-u-margin-top--0">
+            <p className="usa-media-block__body">
               <strong>The site is secure.</strong>
               <br /> The <strong>https://</strong> ensures that you’re
               connecting to the official website and that any information you
