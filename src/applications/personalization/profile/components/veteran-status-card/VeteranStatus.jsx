@@ -45,7 +45,6 @@ const VeteranStatus = ({
     useToggleValue,
     useToggleLoadingValue,
   } = useFeatureToggle();
-  const vetStatusCardToggle = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
 
   const userAgent =
     mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;
@@ -167,7 +166,6 @@ const VeteranStatus = ({
         url: '/img/scissors-black.png',
       },
     },
-    vetStatusCardToggle,
   };
 
   useBrowserMonitoring();
