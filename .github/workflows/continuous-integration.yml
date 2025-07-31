@@ -898,6 +898,84 @@ jobs:
           path: cypress/results
           retention-days: 1
 
+  node-22-compatibility-check:
+    name: Node 22 Compatibility Check For Unit Tests
+    runs-on: ubuntu-latest
+    needs: [tests-prep, unit-tests]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      # Need to figure out whether or not to modify the install action to accept a specific node version instead of letting it pick up .nvmrc
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      # - name: Init Dashboard Data Repo
+      #   uses: ./.github/workflows/init-data-repo
+
+      # - name: Set Up BigQuery Creds
+      #   uses: ./.github/workflows/configure-bigquery
+
+      # - name: Fetch Unit Test Stability Allow List
+      #   run: yarn get-allow-list
+      #   working-directory: qa-standards-dashboard-data
+      #   env:
+      #     TEST_TYPE: unit_test
+      
+      - name: Check for newly added disallowed tests
+        run: node script/github-actions/double-check-allow-list.js
+        env:
+          TEST_TYPE: unit_test
+          TESTS: ${{ env.DISALLOWED_TESTS }}
+          TESTS_PROPERTY: 'DISALLOWED_TESTS'
+          
+      - name: Create test results folder
+        run: mkdir -p test-results
+
+      - name: Run unit tests
+        id: run-tests
+        run: |
+          if [[ -n "$APP_FOLDERS" ]]; then
+            yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+          else
+            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+          fi
+          
+        env:
+          MOCHA_FILE: test-results/unit-tests.xml
+          CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
+          APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
+          IS_STRESS_TEST: false
+
+      - name: Archive unit test results
+        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-report
+          path: mocha/results
+
   update-e2e-allow-list:
     name: Update E2E Test Stability Allow List
     runs-on: ubuntu-22.04
@@ -1935,24 +2013,6 @@ jobs:
     needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
-      - name: Get Slack channel
-        id: get-slack-channel
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          output-type: 'slack_channel'
-
-      - name: Determine Slack channel
-        id: determine-channel
-        shell: bash
-        run: |
-          entries="${{ needs.build.outputs.entry_names }}"
-          channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
-          if [[ "$entries" == *","* ]]; then
-            echo "channel=" >> $GITHUB_OUTPUT
-          else
-            echo "channel=$channel" >> $GITHUB_OUTPUT
-          fi
-
       - name: Dispatch Event to Next Workflow
         run: |
           curl -X POST \
@@ -1962,8 +2022,7 @@ jobs:
           -d "$(jq -n --arg sha "${{ github.sha }}" \
           --arg ref "${{ github.ref }}" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
-          --arg channel "${{ steps.determine-channel.outputs.channel }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $channel}}')"
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry}}')"
                          
   notify-failure:
     name: Notify Failure
