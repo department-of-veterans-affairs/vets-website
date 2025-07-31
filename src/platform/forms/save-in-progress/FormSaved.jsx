@@ -65,7 +65,7 @@ const FormSaved = props => {
               <div className="saved-form-metadata-container">
                 <span className="saved-form-metadata">
                   We saved your application on{' '}
-                  {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa z")}.
+                  {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa 'ET'")}.
                 </span>
                 {expirationMessage || (
                   <p className="expires-container">

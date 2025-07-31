@@ -118,7 +118,7 @@ class SaveInProgressIntro extends React.Component {
 
         if (!isExpired) {
           const lastSavedDateTime =
-            savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
+            savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa 'ET'");
 
           const ContinueMsg = (
             <p>
