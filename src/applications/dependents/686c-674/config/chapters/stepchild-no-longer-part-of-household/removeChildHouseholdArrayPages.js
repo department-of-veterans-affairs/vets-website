@@ -23,25 +23,74 @@ import {
 import { CancelButton } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
 
+function isFieldMissing(value) {
+  return value === undefined || value === null || value === '';
+}
+
+function isObjectEmpty(obj) {
+  return (
+    typeof obj !== 'object' || obj === null || Object.keys(obj).length === 0
+  );
+}
+
+function isAddressIncomplete(address) {
+  if (isObjectEmpty(address)) return true;
+  if (!address.country) return true;
+  if (!address.street) return true;
+  if (!address.city) return true;
+  if (address.country === 'USA' && !address.state) return true;
+  if (!address.postalCode) return true;
+  return false;
+}
+
+function isSupportInfoIncomplete(item) {
+  return (
+    item.supportingStepchild === true && isFieldMissing(item.livingExpensesPaid)
+  );
+}
+
+function isLivingWithInfoIncomplete(item) {
+  return (
+    isFieldMissing(item.whoDoesTheStepchildLiveWith?.first) ||
+    isFieldMissing(item.whoDoesTheStepchildLiveWith?.last)
+  );
+}
+
+function isItemIncomplete(item) {
+  const errors = [];
+
+  const fail = (condition, msg) => {
+    if (condition) errors.push(msg);
+  };
+
+  fail(isFieldMissing(item?.fullName?.first), 'Missing child first name');
+  fail(isFieldMissing(item?.fullName?.last), 'Missing child last name');
+  fail(isFieldMissing(item?.birthDate), 'Missing birth date');
+  fail(isFieldMissing(item?.ssn), 'Missing SSN');
+  fail(
+    isSupportInfoIncomplete(item),
+    'Missing living expenses paid amount when supporting stepchild',
+  );
+  fail(
+    isLivingWithInfoIncomplete(item),
+    'Missing parent or guardian name information',
+  );
+  fail(isAddressIncomplete(item?.address), 'Incomplete address information');
+
+  // if (errors.length > 0) {
+  //   console.log('Remove child household item incomplete:', errors);
+  // }
+
+  return errors.length > 0;
+}
+
 /** @type {ArrayBuilderOptions} */
 export const removeChildHouseholdOptions = {
   arrayPath: 'stepChildren',
   nounSingular: 'child',
   nounPlural: 'children',
   required: true,
-  isItemIncomplete: item =>
-    !item?.fullName?.first ||
-    !item?.fullName?.last ||
-    !item?.birthDate ||
-    !item?.ssn ||
-    (item?.supportingStepchild && !item?.livingExpensesPaid) ||
-    !item?.whoDoesTheStepchildLiveWith?.first ||
-    !item?.whoDoesTheStepchildLiveWith?.last ||
-    !item?.address?.country ||
-    !item?.address?.street ||
-    !item?.address?.city ||
-    !item?.address?.state ||
-    !item?.address?.postalCode,
+  isItemIncomplete,
   maxItems: 20,
   text: {
     summaryTitle: 'Review your stepchildren who have left your household',
