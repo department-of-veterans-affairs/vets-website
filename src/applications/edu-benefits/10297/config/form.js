@@ -6,8 +6,14 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+// Components
+import EligibilitySummary from '../components/EligibilitySummary';
+
+// Pages
 import {
+  eligibilityQuestions,
   applicantFullname,
+  mailingAddress,
   phoneAndEmail,
   identificationInformation,
   employmentStatus,
@@ -55,14 +61,40 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
+    eligibilityChapter: {
+      title: 'Check eligibility',
+      pages: {
+        eligibilityQuestions: {
+          path: 'eligibility-questions',
+          title: 'Eligibility questions',
+          uiSchema: eligibilityQuestions.uiSchema,
+          schema: eligibilityQuestions.schema,
+        },
+        eligibilitySummary: {
+          path: 'eligibility-summary',
+          title: 'Eligibility summary',
+          CustomPage: EligibilitySummary,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          hideOnReview: true,
+        },
+      },
+    },
     identificationChapter: {
-      title: 'Veteran’s information',
+      title: 'Your information',
       pages: {
         applicantFullName: {
           path: 'applicant-fullname',
           title: 'Enter your full name',
           uiSchema: applicantFullname.uiSchema,
           schema: applicantFullname.schema,
+        },
+        mailingAddress: {
+          path: 'mailing-address',
+          title: 'Mailing address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
         },
         phoneAndEmail: {
           path: 'phone-and-email',

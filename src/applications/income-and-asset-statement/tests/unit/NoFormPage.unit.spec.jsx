@@ -21,7 +21,7 @@ describe('No Form Page', () => {
     );
     await waitFor(() => {
       expect($('h1', container).textContent).to.eql(
-        '21P-0969 Income and Asset Statement Form',
+        '21P-0969 Pension or DIC Income and Asset Statement Form',
       );
       expect($$('p', container)[0].textContent).to.eql(
         'Please check back later.',

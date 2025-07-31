@@ -1,12 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
 import sinon from 'sinon';
+import { render } from '@testing-library/react';
 import {
   ConfirmationGoBackLink,
   ConfirmationPrintThisPage,
   ConfirmationSubmissionAlert,
   ConfirmationWhatsNextProcessList,
+  getAgeInYears,
+  getEligibilityStatus,
   trainingProviderArrayOptions,
   getCardDescription,
   validateWithin180Days,
@@ -69,6 +71,78 @@ describe('10297 Helpers', () => {
         'text',
         'Go back to VA.gov',
       );
+    });
+  });
+
+  describe('#getAgeInYears', () => {
+    let clock;
+
+    beforeEach(() => {
+      // Mock Date.now() to always return a fixed value in 2024
+      const fixedTimestamp = new Date('2024-12-31T00:00:00Z').getTime();
+      clock = sinon.useFakeTimers({ now: fixedTimestamp, toFake: ['Date'] });
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it('should return the age in years based on the given birthDate', () => {
+      expect(getAgeInYears('1963-01-01')).to.equal(61);
+      expect(getAgeInYears('1962-12-31')).to.equal(62);
+    });
+  });
+
+  describe('#getEligibilityStatus', () => {
+    let clock;
+
+    beforeEach(() => {
+      // Mock Date.now() to always return a fixed value in 2024
+      const fixedTimestamp = new Date('2024-12-31T00:00:00Z').getTime();
+      clock = sinon.useFakeTimers({ now: fixedTimestamp, toFake: ['Date'] });
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it('should handle when the formData is empty', () => {
+      expect(getEligibilityStatus(undefined)).to.deep.equal({
+        isDutyEligible: false,
+        isDobEligible: false,
+        isDischargeEligible: false,
+        isFullyEligible: false,
+      });
+    });
+
+    it('should handle when the formData fields fail requirements', () => {
+      const formData = {
+        dutyRequirement: 'none',
+        dateOfBirth: '1950-07-01',
+        otherThanDishonorableDischarge: false,
+      };
+
+      expect(getEligibilityStatus(formData)).to.deep.equal({
+        isDutyEligible: false,
+        isDobEligible: false,
+        isDischargeEligible: false,
+        isFullyEligible: false,
+      });
+    });
+
+    it('should handle when the formData fields pass requirements', () => {
+      const formData = {
+        dutyRequirement: 'byDischarge',
+        dateOfBirth: '1990-07-01',
+        otherThanDishonorableDischarge: true,
+      };
+
+      expect(getEligibilityStatus(formData)).to.deep.equal({
+        isDutyEligible: true,
+        isDobEligible: true,
+        isDischargeEligible: true,
+        isFullyEligible: true,
+      });
     });
   });
 
