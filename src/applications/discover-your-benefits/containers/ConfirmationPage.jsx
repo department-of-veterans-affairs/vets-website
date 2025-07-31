@@ -262,7 +262,7 @@ export class ConfirmationPage extends React.Component {
     focusElement('#filter-text');
   }
 
-  titeParagraph = () => {
+  titleParagraph = () => {
     return (
       <>
         {window.history.length > 2 ? (
@@ -313,7 +313,7 @@ export class ConfirmationPage extends React.Component {
                 </p>
               </>
             ) : (
-              this.titeParagraph()
+              this.titleParagraph()
             )}
           </div>
         </article>
@@ -433,13 +433,13 @@ export class ConfirmationPage extends React.Component {
                 <div className="all-benefits">
                   <span>
                     If you'd like to explore all of the benefits that this tool
-                    can recommend, select the link below.
+                    can recommend, select the link below.&nbsp;
                   </span>
                   <va-link
                     href="/discover-your-benefits/confirmation?allBenefits=true"
                     external
                     message-aria-describedby="Show every benefit in this tool"
-                    text="Show every benefit&#10;in this tool"
+                    text="Show every benefit in this tool"
                     data-testid="show-all-benefits"
                     type="secondary"
                     className=""
