@@ -216,6 +216,9 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
     // multi page array data
     addMarginIfNewIndex(key, index);
+
+    // WIP fix to resolve "Cannot convert undefined or null to object"
+    if (!uiSchema?.items) return null;
     return Object.entries(uiSchema?.items).flatMap(([arrKey, arrVal]) => {
       return fieldEntries(
         arrKey,
