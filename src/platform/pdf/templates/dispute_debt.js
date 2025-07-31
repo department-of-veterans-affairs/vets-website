@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { formatDateLong } from 'platform/utilities/date';
 import { MissingFieldsException } from '../utils/exceptions/MissingFieldsException';
 import {
   createAccessibleDoc,
@@ -259,25 +260,28 @@ const generate = async (data = {}, config = defaultConfig) => {
   // =====================================
   // * VA Logo Fetch logo as base64 *
   // =====================================
-  const response = await fetch('/img/design/logo/logo-black-and-white.png');
-  const arrayBuffer = await response.arrayBuffer();
-  const base64Image = `data:image/png;base64,${Buffer.from(
-    arrayBuffer,
-  ).toString('base64')}`;
+  const { logoUrl } = submissionDetails;
+  if (logoUrl) {
+    const response = await fetch(logoUrl);
+    const arrayBuffer = await response.arrayBuffer();
+    const base64Image = `data:image/png;base64,${Buffer.from(
+      arrayBuffer,
+    ).toString('base64')}`;
 
-  // right align logo
-  const logoWidth = 150;
-  const logoX = config.margins.left;
-  wrapper.add(
-    doc.struct(
-      'Figure',
-      { alt: 'VA U.S Department of Veteran Affairs' },
-      () => {
-        doc.image(base64Image, logoX, doc.y, { width: logoWidth });
-      },
-    ),
-  );
-  doc.moveDown();
+    // right align logo
+    const logoWidth = 150;
+    const logoX = config.margins.left;
+    wrapper.add(
+      doc.struct(
+        'Figure',
+        { alt: 'VA U.S Department of Veteran Affairs' },
+        () => {
+          doc.image(base64Image, logoX, doc.y, { width: logoWidth });
+        },
+      ),
+    );
+    doc.moveDown();
+  }
 
   // =====================================
   // * Submission details *
@@ -368,9 +372,8 @@ const generate = async (data = {}, config = defaultConfig) => {
   });
 
   // veteran dob
-  const formattedDob = dob
-    ? format(new Date(dob), 'MMMM d, yyyy')
-    : 'Not provided';
+  const formattedDob = dob ? formatDateLong(dob) : 'Not provided';
+
   veteranPersonalInformation.add(
     doc.struct('P', () => {
       doc
