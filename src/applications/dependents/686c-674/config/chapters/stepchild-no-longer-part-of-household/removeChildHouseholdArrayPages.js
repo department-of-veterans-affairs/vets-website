@@ -68,6 +68,10 @@ function isItemIncomplete(item) {
   fail(isFieldMissing(item?.birthDate), 'Missing birth date');
   fail(isFieldMissing(item?.ssn), 'Missing SSN');
   fail(
+    isFieldMissing(item?.dateStepchildLeftHousehold),
+    'Missing date stepchild left household',
+  );
+  fail(
     isSupportInfoIncomplete(item),
     'Missing living expenses paid amount when supporting stepchild',
   );
@@ -76,10 +80,6 @@ function isItemIncomplete(item) {
     'Missing parent or guardian name information',
   );
   fail(isAddressIncomplete(item?.address), 'Incomplete address information');
-
-  // if (errors.length > 0) {
-  //   console.log('Remove child household item incomplete:', errors);
-  // }
 
   return errors.length > 0;
 }
@@ -173,6 +173,26 @@ export const householdChildInfoPage = {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
       birthDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+export const stepchildLeftHouseholdDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'When did your stepchild leave your household?',
+    ),
+    dateStepchildLeftHousehold: currentOrPastDateUI({
+      title: 'Date stepchild left your household',
+      required: () => true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['dateStepchildLeftHousehold'],
+    properties: {
+      dateStepchildLeftHousehold: currentOrPastDateSchema,
     },
   },
 };
