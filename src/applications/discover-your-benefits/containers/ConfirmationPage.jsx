@@ -5,28 +5,55 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
-import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaSearchFilter } from '@department-of-veterans-affairs/web-components/react-bindings';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import GetFormHelp from '../components/GetFormHelp';
 import CopyResultsModal from '../components/CopyResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
-import Benfits from './components/Benefits';
+import Benefits from './components/Benefits';
 
 export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      hasResults: false,
       resultsCount: 0,
       benefitIds: {},
       sortValue: 'alphabetical',
-      filterValue: 'All',
+      filterValues: ['All'],
       filterText: '',
       benefits: [],
       benefitsList: BENEFITS_LIST,
+      filterOptions: [
+        {
+          id: 1,
+          label: 'Benefit Type',
+          category: [
+            { id: 'All', label: 'All' },
+            { id: 'Burials', label: 'Burials and memorials' },
+            { id: 'Careers', label: 'Careers and employment' },
+            { id: 'Disability', label: 'Disability' },
+            { id: 'Education', label: 'Education' },
+            { id: 'Health Care', label: 'Health care' },
+            { id: 'Housing', label: 'Housing assistance' },
+            { id: 'Life Insurance', label: 'Life insurance' },
+            { id: 'Support', label: 'More support' },
+            { id: 'Pension', label: 'Pension' },
+            { id: 'isTimeSensitive', label: 'Time-sensitive' },
+          ],
+        },
+        {
+          id: 2,
+          label: 'Sort',
+          category: [
+            { id: 'alphabetical', label: 'Alphabetical' },
+            { id: 'category', label: 'Type' },
+            { id: 'isTimeSensitive', label: 'Time-sensitive' },
+          ],
+        },
+      ],
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
@@ -141,15 +168,79 @@ export class ConfirmationPage extends React.Component {
     );
   };
 
-  handleFilterSelect = e => {
-    const key = e.target.value;
+  handleFilterApply = event => {
+    const activeFilters = event.detail;
 
-    this.setState(() => ({ filterValue: key }));
+    this.setState(prevState => {
+      const updatedFilterOptions = prevState.filterOptions.map(facet => {
+        const activeFacet = activeFilters.find(af => af.label === facet.label);
+        if (!activeFacet) {
+          return {
+            ...facet,
+            category: facet.category.map(cat => ({ ...cat, active: false })),
+          };
+        }
+
+        return {
+          ...facet,
+          category: facet.category.map(cat => {
+            const isActive = activeFacet.category.some(
+              activeCat => activeCat.id === cat.id,
+            );
+            return { ...cat, active: isActive };
+          }),
+        };
+      });
+
+      const selectedFilterFacet = activeFilters.find(
+        f => f.label === 'Benefit Type',
+      );
+      const selectedSortFacet = activeFilters.find(f => f.label === 'Sort');
+
+      const selectedFilter =
+        selectedFilterFacet?.category?.length > 0
+          ? selectedFilterFacet.category.map(cat => cat.id)
+          : ['All'];
+
+      const selectedSort =
+        selectedSortFacet?.category?.[0]?.id || 'alphabetical';
+
+      return {
+        filterValues: selectedFilter,
+        sortValue: selectedSort,
+        filterOptions: updatedFilterOptions,
+      };
+    }, this.filterAndSort);
+  };
+
+  handleFilterClearAll = () => {
+    this.setState(prevState => {
+      const resetFilterOptions = prevState.filterOptions.map(facet => ({
+        ...facet,
+        category: facet.category.map(cat => ({ ...cat, active: false })),
+      }));
+
+      return {
+        filterValues: ['All'],
+        sortValue: 'alphabetical',
+        filterOptions: resetFilterOptions,
+      };
+    }, this.filterAndSort);
+  };
+
+  matchesFilters = (benefit, keys) => {
+    return keys.some(
+      key =>
+        key === 'isTimeSensitive'
+          ? benefit.isTimeSensitive
+          : benefit.category.includes(key),
+    );
   };
 
   filterBenefits = sortingCallback => {
-    const key = this.state.filterValue;
-    if (key === 'All') {
+    const keys = this.state.filterValues;
+
+    if (keys.includes('All')) {
       this.setState(
         () => ({
           benefits: this.props.results.data,
@@ -161,23 +252,13 @@ export class ConfirmationPage extends React.Component {
       return;
     }
 
-    let filteredBenefitsList;
-    let filteredBenefits;
-    if (key === 'isTimeSensitive') {
-      filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
-        return benefit.isTimeSensitive;
-      });
-      filteredBenefits = this.props.results.data.filter(benefit => {
-        return benefit.isTimeSensitive;
-      });
-    } else {
-      filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
-        return benefit.category.includes(key);
-      });
-      filteredBenefits = this.props.results.data.filter(benefit => {
-        return benefit.category.includes(key);
-      });
-    }
+    const filteredBenefits = this.props.results.data.filter(benefit =>
+      this.matchesFilters(benefit, keys),
+    );
+
+    const filteredBenefitsList = BENEFITS_LIST.filter(benefit =>
+      this.matchesFilters(benefit, keys),
+    );
 
     this.setState(() => {
       return {
@@ -204,10 +285,11 @@ export class ConfirmationPage extends React.Component {
 
   createFilterText() {
     const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
-    const filterValue =
-      this.state.filterValue === 'isTimeSensitive'
-        ? 'time-sensitive'
-        : this.state.filterValue;
+    const filterLabels = this.state.filterOptions[0].category
+      .filter(cat => this.state.filterValues.includes(cat.id))
+      .map(cat => cat.label);
+    const filterValues = filterLabels.join(', ') || 'All';
+
     let sortValue;
     if (this.state.sortValue === 'alphabetical') {
       sortValue = 'alphabetically by benefit name';
@@ -224,7 +306,7 @@ export class ConfirmationPage extends React.Component {
     return (
       <>
         Showing {count} {resultsText}, filtered to show{' '}
-        <b>{filterValue} results</b>, sorted {sortValue}
+        <b>{filterValues} results</b>, sorted {sortValue}
       </>
     );
   }
@@ -238,24 +320,19 @@ export class ConfirmationPage extends React.Component {
   }
 
   applyInitialSort() {
-    const hasResults = !!this.props.results.data;
-    const resultsCount = hasResults ? this.props.results.data.length : 0;
-    const benefitIds = hasResults
-      ? this.props.results.data.reduce((acc, curr) => {
-          acc[curr.id] = true;
-          return acc;
-        }, {})
-      : {};
+    const resultsCount = this.props.results.data.length || 0;
+    const benefitIds =
+      this.props.results.data?.reduce((acc, curr) => {
+        acc[curr.id] = true;
+        return acc;
+      }, {}) || {};
 
-    this.setState(
-      {
-        hasResults,
-        resultsCount,
-        benefitIds,
-        benefits: this.props.results.data,
-      },
-      () => this.setState(() => ({ filterText: this.createFilterText() })),
-    );
+    this.setState({
+      resultsCount,
+      benefitIds,
+      benefits: this.props.results.data,
+      filterText: this.createFilterText(),
+    });
   }
 
   filterAndSort() {
@@ -337,80 +414,11 @@ export class ConfirmationPage extends React.Component {
                 'large-screen:vads-l-col--3': true,
               })}
             >
-              <span>
-                <b>Filters</b>
-              </span>
-              <VaSelect
-                enableAnalytics
-                aria-label="Filter Benefits"
-                label="Filter by benefit type"
-                name="filter-benefits"
-                value={this.state.filterValue}
-                onVaSelect={this.handleFilterSelect}
-                className="filter-benefits"
-              >
-                <option key="All" value="All">
-                  All
-                </option>
-                <option key="Burials" value="Burials">
-                  Burials and memorials
-                </option>
-                <option key="Careers" value="Careers">
-                  Careers and employment
-                </option>
-                <option key="Disability" value="Disability">
-                  Disability
-                </option>
-                <option key="Education" value="Education">
-                  Education
-                </option>
-                <option key="Health Care" value="Health Care">
-                  Health care
-                </option>
-                <option key="Housing" value="Housing">
-                  Housing assistance
-                </option>
-                <option key="Life Insurance" value="Life Insurance">
-                  Life insurance
-                </option>
-                <option key="Support" value="Support">
-                  More support
-                </option>
-                <option key="Pension" value="Pension">
-                  Pension
-                </option>
-                <option key="isTimeSensitive" value="isTimeSensitive">
-                  Time-sensitive
-                </option>
-              </VaSelect>
-              <br />
-              <span>
-                <b>Sort</b>
-              </span>
-              <VaSelect
-                enableAnalytics
-                aria-label="Sort Benefits"
-                label="Sort results by"
-                name="sort-benefits"
-                value={this.state.sortValue}
-                onVaSelect={this.handleSortSelect}
-              >
-                <option key="alphabetical" value="alphabetical">
-                  Alphabetical
-                </option>
-                <option key="type" value="category">
-                  Type
-                </option>
-                <option key="isTimeSensitive" value="isTimeSensitive">
-                  Time-sensitive
-                </option>
-              </VaSelect>
-              <br />
-              <va-button
-                id="update-results"
-                message-aria-describedby="Update Results"
-                text="Update Results"
-                onClick={this.filterAndSort}
+              <VaSearchFilter
+                filterOptions={this.state.filterOptions}
+                header="Filters"
+                onVaFilterApply={this.handleFilterApply}
+                onVaFilterClearAll={this.handleFilterClearAll}
               />
               {!this.props.location.query.allBenefits && (
                 <div className="all-benefits">
@@ -458,7 +466,7 @@ export class ConfirmationPage extends React.Component {
                   </>
                 )}
 
-              <Benfits
+              <Benefits
                 results={this.props.results}
                 benefits={this.state.benefits}
                 benefitsList={this.state.benefitsList}
