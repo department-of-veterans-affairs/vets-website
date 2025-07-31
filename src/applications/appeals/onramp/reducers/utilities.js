@@ -1,7 +1,7 @@
 // Creates form object with basic structure
 // Example:
 // {
-//   CLAIM_DECISION_1_1: null,
+//   Q_1_1_CLAIM_DECISION: null,
 //   CLAIM_TIMELINE_1_2: null,
 // }
 export const createFormStore = shortNameMap => {
