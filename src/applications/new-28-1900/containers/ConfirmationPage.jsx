@@ -16,7 +16,7 @@ export const getFullName = (nameObj = {}) => {
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
   const form = useSelector(state => state.form || {});
-  const { submission, formId, data = {} } = form;
+  const { submission, data = {} } = form;
 
   // Get the submitted name and format it for display
   const { fullName } = data;
@@ -42,7 +42,6 @@ export const ConfirmationPage = () => {
 
   return (
     <div>
-      <div className="form-id vads-u-font-size--lg">VA Form {formId}</div>
       <div className="print-only">
         <img
           src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
