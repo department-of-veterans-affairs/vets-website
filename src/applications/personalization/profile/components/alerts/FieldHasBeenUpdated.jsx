@@ -9,11 +9,14 @@ export const FieldHasBeenUpdated = ({ history = window.history, slim }) => {
 
   // on chrome if you don't clear out browser history state, it will show the
   // alert after refresh. this useEffect clears the state after alert is shown
-  useEffect(() => {
-    if (location.state?.fieldInfo) {
-      history.replaceState(null, '');
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (location.state?.fieldInfo) {
+        history.replaceState(null, '');
+      }
+    },
+    [history, location.state?.fieldInfo],
+  );
 
   const text = `We saved your ${fieldInfo?.title?.toLowerCase() ||
     `information`} to your profile.`;
