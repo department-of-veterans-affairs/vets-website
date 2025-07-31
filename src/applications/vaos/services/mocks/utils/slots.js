@@ -69,6 +69,7 @@ const generateSlotsForDay = (date, options) => {
 
     // Don't create slots that go beyond business hours
     if (endTime.getHours() <= businessHours.end) {
+      // Demo fake slot id "5vuTac8v-practitioner-11-role-3|533f98bd-d9cd-4e3e-895c-706ae44df8d0|2025-08-06T13:00:00Z|30m0s|1753991495613|ov"
       const slotId = generateSlotId(roundedStartTime, endTime);
       slots.push({
         id: slotId,
@@ -76,7 +77,7 @@ const generateSlotsForDay = (date, options) => {
         attributes: {
           id: slotId,
           start: formatSlotDate(roundedStartTime),
-          end: formatSlotDate(endTime),
+          // end: formatSlotDate(endTime),
         },
       });
     }
