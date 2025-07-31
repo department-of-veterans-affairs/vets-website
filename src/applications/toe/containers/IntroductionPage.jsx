@@ -55,7 +55,7 @@ export const IntroductionPage = ({
                 href="https://www.va.gov/education/other-va-education-benefits"
                 rel="noreferrer"
               >
-                Learn more about other other education benefits
+                Learn more about other education benefits
               </a>
             </div>
           </va-alert>
