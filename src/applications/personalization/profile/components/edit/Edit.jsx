@@ -76,6 +76,7 @@ export const Edit = () => {
 
   const returnPath = returnRouteInfo?.path;
   const returnPathName = returnRouteInfo?.name;
+  const formattedReturnPathName = returnPathName.toUpperCase();
 
   const hasVAPServiceError = useSelector(state =>
     hasVAPServiceConnectionError(state),
@@ -206,7 +207,9 @@ export const Edit = () => {
               {`Back to ${returnPathName}`}
             </EditBreadcrumb>
 
-            <p className="vads-u-margin-bottom--0p5">NOTIFICATION SETTINGS</p>
+            <p className="vads-u-margin-bottom--0p5">
+              {formattedReturnPathName}
+            </p>
 
             <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
               {editPageHeadingString}
