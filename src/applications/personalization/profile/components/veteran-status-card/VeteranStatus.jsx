@@ -178,11 +178,13 @@ const VeteranStatus = ({
     isLoadingFeatureFlags === false && monitorPdfGeneration === true;
 
   const createPdf = async () => {
-    const pdfTemplate = monitoringEnabled
-      ? 'fakeTemplateName'
-      : 'veteranStatusNew';
     try {
-      await generatePdf(pdfTemplate, 'Veteran status card', pdfData, !isMobile);
+      await generatePdf(
+        'veteranStatusNew',
+        'Veteran status card',
+        pdfData,
+        !isMobile,
+      );
     } catch (error) {
       setPdfError(true);
       if (monitoringEnabled) {
